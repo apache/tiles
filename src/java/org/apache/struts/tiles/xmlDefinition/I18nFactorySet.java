@@ -448,7 +448,7 @@ public class I18nFactorySet extends FactorySet {
      * @return XmlDefinitionsSet The definitions set created or passed as parameter.
      * @throws DefinitionsFactoryException On errors parsing file.
      */
-    private XmlDefinitionsSet parseXmlFiles(
+    protected XmlDefinitionsSet parseXmlFiles(
         ServletContext servletContext,
         String postfix,
         XmlDefinitionsSet xmlDefinitions)
@@ -480,7 +480,7 @@ public class I18nFactorySet extends FactorySet {
      * @return XmlDefinitionsSet The definitions set created or passed as parameter.
      * @throws DefinitionsFactoryException On errors parsing file.
      */
-    private XmlDefinitionsSet parseXmlFile(
+    protected XmlDefinitionsSet parseXmlFile(
         ServletContext servletContext,
         String filename,
         XmlDefinitionsSet xmlDefinitions)
