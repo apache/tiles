@@ -71,7 +71,7 @@
             &lt;tiles:put name="body"   value="/basic/helloBody.jsp" /&gt;
           &lt;/tiles:insert&gt;</code></pre>
     </info>
-    <tagclass>org.apache.struts.taglib.tiles.InsertTag</tagclass>
+    <tagclass>org.apache.struts.tiles.taglib.InsertTag</tagclass>
     <bodycontent>JSP</bodycontent>
 
     <attribute>
@@ -248,7 +248,7 @@
     The new definition can extends a definition described in factory (XML file), and overload
     any previously defined parameters.
     </info>
-        <tagclass>org.apache.struts.taglib.tiles.DefinitionTag</tagclass>
+        <tagclass>org.apache.struts.tiles.taglib.DefinitionTag</tagclass>
         <bodycontent>JSP</bodycontent>
 
     <attribute>
@@ -329,7 +329,7 @@
       <p>If 'type' attribute is not specified, content is 'untyped', unless it comes from a typed bean.</p>
       <p>Note that using 'direct="true"' is equivalent to 'type="string"'.</p>
     </info>
-    <tagclass>org.apache.struts.taglib.tiles.PutTag</tagclass>
+    <tagclass>org.apache.struts.tiles.taglib.PutTag</tagclass>
     <bodycontent>JSP</bodycontent>
 
     <attribute>
@@ -447,7 +447,7 @@
       List elements are added using the tag 'add'.
       This tag can only be used inside 'insert' or 'definition' tag.
     </info>
-    <tagclass>org.apache.struts.taglib.tiles.PutListTag</tagclass>
+    <tagclass>org.apache.struts.tiles.taglib.PutListTag</tagclass>
     <bodycontent>JSP</bodycontent>
 
     <attribute>
@@ -472,7 +472,7 @@
        Value can come from a direct assignment (value="aValue") or from a bean.
        One of 'value' or 'beanName' must be present.
     </info>
-    <tagclass>org.apache.struts.taglib.tiles.AddTag</tagclass>
+    <tagclass>org.apache.struts.tiles.taglib.AddTag</tagclass>
     <bodycontent>JSP</bodycontent>
 
     <attribute>
@@ -578,7 +578,7 @@
     Gets the content from request scope that was put there by a
     put tag.
     </summary>
-    <tagclass>org.apache.struts.taglib.tiles.GetTag</tagclass>
+    <tagclass>org.apache.struts.tiles.taglib.GetTag</tagclass>
     <bodycontent>empty</bodycontent>
     <info>
     <p>Retrieve content from tile context and include it.</p>
@@ -636,7 +636,7 @@
       The usual toString() conversions is applied on found value.
       <p>Throw a JSPException if named value is not found.</p>
     </info>
-    <tagclass>org.apache.struts.taglib.tiles.GetAttributeTag</tagclass>
+    <tagclass>org.apache.struts.tiles.taglib.GetAttributeTag</tagclass>
     <bodycontent>empty</bodycontent>
     <attribute>
       <name>name</name>
@@ -684,8 +684,8 @@
       specified.
       </p>
     </info>
-    <tagclass>org.apache.struts.taglib.tiles.UseAttributeTag</tagclass>
-    <teiclass>org.apache.struts.taglib.tiles.UseAttributeTei</teiclass>
+    <tagclass>org.apache.struts.tiles.taglib.UseAttributeTag</tagclass>
+    <teiclass>org.apache.struts.tiles.taglib.UseAttributeTei</teiclass>
     <bodycontent>empty</bodycontent>
     <attribute>
       <name>id</name>
@@ -744,7 +744,7 @@
       attributes are imported in page scope.
       Once imported, an attribute can be used as any other beans from jsp contexts.
     </info>
-    <tagclass>org.apache.struts.taglib.tiles.ImportAttributeTag</tagclass>
+    <tagclass>org.apache.struts.tiles.taglib.ImportAttributeTag</tagclass>
     <bodycontent>empty</bodycontent>
     <attribute>
       <name>name</name>
@@ -793,7 +793,7 @@
       are ignored (tag checks existence of the factory.
       </p>
     </info>
-    <tagclass>org.apache.struts.taglib.tiles.InitDefinitionsTag</tagclass>
+    <tagclass>org.apache.struts.tiles.taglib.InitDefinitionsTag</tagclass>
     <bodycontent>empty</bodycontent>
     <attribute>
       <name>file</name>
