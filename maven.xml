@@ -22,4 +22,12 @@
                         
 	</goal>
 	
+    <postGoal name="clean">
+        <maven:reactor  basedir="${basedir}"
+                        includes="*/project.xml"
+                        goals="clean"
+                        banner="Cleaning Struts apps"
+                        ignoreFailures="false"/>
+    </postGoal>
+    
 </project>
