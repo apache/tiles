@@ -40,21 +40,8 @@
     <url>http://svn.apache.org/repos/asf/struts/tiles/trunk</url>
   </repository>
   <versions>
-    <!--
-    <version>
-      <id>rel_0_5</id>
-      <name>rel_0_5</name>
-      <tag>rel_0_5</tag>
-    </version>
-    -->
+
   </versions>
-<!--
-  <branches>
-  	<branch>
-  	  <tag></tag>
-  	</branch>
-  </branches>
--->  
   <mailingLists>
     <mailingList>
       <name>Struts User List</name>
@@ -82,6 +69,12 @@
 		<id>germuska</id>
         <organization></organization>
      </developer>
+     <developer>
+        <name>James Mitchell</name>
+        <email>jmitchell at apache.org</email>
+		<id>jmitchell</id>
+        <organization>EdgeTech, Inc.</organization>
+     </developer>
 </developers>
 
 
@@ -97,14 +90,13 @@
       <groupId>struts</groupId>
       <artifactId>struts</artifactId>
       <version>1.3.0-dev</version>
-      <url>http://jakarta.apache.org/struts/</url>
+      <url>http://struts.apache.org/</url>
       <properties>
         <war.bundle>true</war.bundle>
         <cactus.bundle>true</cactus.bundle>
       </properties>
     </dependency>
-    
-    
+
 	<!-- Standard dependencies -->  
 
     <dependency>
@@ -235,8 +227,8 @@
 		<report>maven-linkcheck-plugin</report>
 		<report>maven-tasklist-plugin </report>
 		<report>maven-changes-plugin</report>
-		<report>maven-file-activity-plugin</report>
 <!--
+		<report>maven-file-activity-plugin</report>
 		<report>maven-changelog-plugin</report>
 		<report>maven-developer-activity-plugin</report>
 		<report>maven-license-plugin</report>
