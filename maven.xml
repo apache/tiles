@@ -4,31 +4,6 @@
             xmlns:j="jelly:core"
             xmlns:ant="jelly:ant"
             xmlns:maven="jelly:maven">
-            
-    <goal name="war">
-	
-		<ant:echo>==============================================</ant:echo>
-		<ant:echo>                                              </ant:echo>
-		<ant:echo>  Building: ${pom.artifactId}                 </ant:echo>
-		<ant:echo>                                              </ant:echo>
-		<ant:echo>                                              </ant:echo>
-		<ant:echo>==============================================</ant:echo>
-		
-		        <maven:reactor  basedir="${basedir}"
-                        includes="*/project.xml"
-                        goals="war"
-                        banner="Building default mailreader app"
-                        ignoreFailures="false"/>
-                        
-	</goal>
-	
-    <postGoal name="clean">
-        <maven:reactor  basedir="${basedir}"
-                        includes="*/project.xml"
-                        goals="clean"
-                        banner="Cleaning Struts apps"
-                        ignoreFailures="false"/>
-    </postGoal>
 
   <!-- Prepare additional Jar resources -->
   <postGoal name="java:jar-resources">
