@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles tutorial - German Version -->
+
+<tiles-definitions>
+
+  <!-- Main Layout Definition description  -->
+  <definition name="mainLayout">
+    <put name="title"  value="World Financial Online - Deutsche Version" />
+    <!--<put name="header" value="/tutorial/common/header.jsp"/>-->
+    <put name="footer" value="/tutorial/de/common/footer.jsp" />
+    <!--<put name="menu" value="menu.main"/>
+    <put name="body" value="main.portal.body"/>-->
+  </definition>
+  
+  <!-- select language menu -->
+<definition name="menu.lang" path="/common/submenu.jsp" >
+  <put name="title" value="Sprache" />
+  <putList name="items" >
+    <add value="Englisch" />
+    <add value="Französisch" />
+  </putList>
+  <putList name="links" >
+    <add value="/tutorial/lang.do?language=UK" />
+    <add value="/tutorial/lang.do?language=FR" />
+  </putList>
+</definition>
+
+
+</tiles-definitions>

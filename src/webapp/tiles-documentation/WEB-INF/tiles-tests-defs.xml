@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles quick tests  -->
+
+<tiles-definitions>
+
+  <!-- Test instances -->
+<definition name="test.home.page" extends="doc.mainLayout" >
+  <put name="title"  value="Tiles: test page" />
+  <put name="body"   value="/test/testAll.jsp" />
+</definition>
+
+  <!-- Test menu definition -->
+<definition name="test.menu.links" path="/layouts/menu.jsp" >
+  <put name="title" value="Tests" />
+    <putList name="items" >
+      <item value="All in one"     link="/test/index.jsp"  />
+      <item value="Basic" link="/test/testBasic.jsp" />
+      <item value="Ignore attribute"  link="/test/testIgnore.jsp"   />
+      <item value="Definition"  link="/test/testDefinitions.jsp"    />
+      <item value="Role" link="/test/testRole.jsp"      />
+      <item value="Struts action"  link="/test/testStrutsAction.jsp"   />
+      <item value="Controller"    link="/test/testController.jsp"     />
+    </putList>
+</definition>
+
+  <!-- Test instances -->
+<definition name="test.layout.test1" path="/test/layout.jsp" >
+  <put name="title"  value="Test definition from factory : basic" />
+  <put name="header" value="header.jsp" />
+  <put name="body"   value="body.jsp" />
+</definition>
+
+  <!-- Test instances -->
+<definition name="test.layout.test2" path="/test/layout.jsp" >
+  <put name="title"  value="Test definition from factory : specify types"   type="string" />
+  <put name="header" value="header.jsp" type="page"   />
+  <put name="body"   value="body.jsp"   type="page"   />
+</definition>
+
+  <!-- Test instances -->
+<definition name="test.layout.test3" path="/test/layout.jsp" >
+  <put name="title"  value="Test definition from factory : Test with a tag body (to do)" />
+  <put name="header" value="This is a header" direct="true"/>
+  <put name="body"   value="body.jsp"/>
+</definition>
+
+  <!-- Test backward compatibility -->
+<definition name="test.layout.test4" path="/test/layout.jsp" >
+    <put name="title"  value="Test definition from factory: backward compatibility"
+         direct="true"/>
+  <put name="header" value="header.jsp"/>
+  <put name="body"   value="body.jsp" direct="false" />
+</definition>
+
+  <!-- Test Struts Action and Tiles integration -->
+<definition name="test.struts.action" path="/test/layout.jsp" >
+    <put name="title"  value="Test Struts Action and Tiles integration: default title"
+         direct="true"/>
+  <put name="header" value="header.jsp"/>
+  <put name="body"   value="body.jsp" direct="false" />
+</definition>
+
+  <!-- Test Struts Action and Tiles integration -->
+<definition name="test.struts.action.fail" path="/test/failpage.jsp" >
+  <put name="title"  value="Test fail" direct="true" />
+</definition>
+
+  <!-- Test Tiles Controller -->
+  <definition name="test.struts.controller"
+              path="/test/layout.jsp"
+      controllerClass="org.apache.struts.webapp.tiles.test.TestTileController" >
+  <put name="title"  value="Test Tile Controller : call to Controller" />
+  <put name="header" value="header.jsp"/>
+  <put name="body"   value="body.jsp" />
+</definition>
+
+  <!-- Test body for put tag -->
+<definition name="test.body" path="/test/failpage.jsp" >
+  <put name="title"  direct="true">first body : title</put>
+  <put name="body"  direct="true">second body : body</put>
+</definition>
+
+  <!-- Test instances -->
+<definition name="test.action.noforward" path="/test/layout.jsp" >
+  <put name="title"  value="Test Action with No Forward" />
+  <put name="header" value="header.jsp" />
+  <put name="body"   value="showRequestUri.jsp" />
+</definition>
+
+
+</tiles-definitions>
