@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+  "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app>
+	<display-name>Struts Tiles Documentation</display-name>
+
+  <!-- Action Servlet Configuration -->
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class> 
+
+    <!--
+    Tiles config files are now declared with each TilesPlugin in struts-config.xml.
+    Declaring a tiles config file here makes it available to *all* TilesPlugins.
+    This is useful to have common declarations.
+    <init-param>
+       <param-name>definitions-config</param-name>
+       <param-value>/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-tests-defs.xml,
+                    /WEB-INF/tiles-tutorial-defs.xml,
+                    /WEB-INF/tiles-examples-defs.xml</param-value>
+    </init-param>
+    -->
+
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>config/examples</param-name>
+      <param-value>/WEB-INF/struts-examples-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>config/test</param-name>
+      <param-value>/WEB-INF/struts-tests-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>config/tutorial</param-name>
+      <param-value>/WEB-INF/struts-tutorial-config.xml</param-value>
+    </init-param>
+    <!-- 
+    <init-param>
+      <param-name>config/doc</param-name>
+      <param-value>/WEB-INF/struts-doc-config.xml</param-value>
+    </init-param>
+    -->
+    <init-param>
+      <param-name>validate</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+
+  <!-- Action Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+
+  <!-- The Welcome File List -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <!-- Struts Tag Library Descriptor -->
+  <taglib>
+    <taglib-uri>/WEB-INF/struts-tiles.tld</taglib-uri>
+    <taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
+  </taglib>
+
+   <!-- Security for role testing -->
+    <security-constraint>
+      <web-resource-collection>
+         <web-resource-name>Protected Area</web-resource-name>
+	 <!-- Define the context-relative URL(s) to be protected -->
+         <url-pattern>/test/testRole.jsp</url-pattern>
+      <!-- If you list HTTP methods, only those methods are protected -->
+	 <http-method>DELETE</http-method>
+         <http-method>GET</http-method>
+         <http-method>POST</http-method>
+	 <http-method>PUT</http-method>
+      </web-resource-collection>
+      <auth-constraint>
+         <!-- Anyone with one of the listed roles may access this area -->
+         <role-name>tomcat</role-name>
+	     <role-name>role1</role-name>
+      </auth-constraint>
+    </security-constraint>
+
+    <!-- Default login configuration uses BASIC authentication -->
+    <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>Example Basic Authentication Area</realm-name>
+    </login-config>
+
+    <!-- Define security roles used in this application -->
+    <security-role>
+        <role-name>role1</role-name>
+    </security-role>
+    <security-role>
+        <role-name>tomcat</role-name>
+    </security-role>
+ 
+</web-app>

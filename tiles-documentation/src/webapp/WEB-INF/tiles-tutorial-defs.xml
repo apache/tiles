@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles tutorial -->
+
+<tiles-definitions>
+
+  <!-- Definition description  -->
+  <definition name="myFirstDefinition" path="/tutorial/layout/classicLayout.jsp">
+	  <put name="title"  value="My First Definition Page" />
+	  <!-- <put name="title" >My First Definition Page</put> -->
+	  <put name="header" value="/tutorial/common/header.jsp" />
+	  <put name="footer" value="/tutorial/common/footer.jsp" />
+	  <put name="menu"   value="/tutorial/common/menu.jsp" />
+	  <put name="body"   value="/tutorial/basic/helloBody.jsp" />
+  </definition>
+
+  <!-- Main Layout Definition description  -->
+  <definition name="mainLayout" path="/tutorial/layout/classicLayout.jsp">
+	  <put name="title"  value="World Financial Online" />
+	  <put name="header" value="/tutorial/common/header.jsp" />
+	  <put name="footer" value="/tutorial/common/footer.jsp" />
+	  <put name="menu"   value="menu.main" />
+	  <put name="body"   value="main.portal.body" />
+  </definition>
+  
+    <!-- Portal Body declaration-->
+  <definition name="main.portal.body" path="/layout/columnsLayout.jsp">
+	  <put name="numCols" value="2" />
+	  <putList name="list0" >
+	    <add value="/tutorial/portal/login.jsp" />
+	    <add value="/tutorial/portal/messages.jsp" />
+	    <add value="/tutorial/portal/newsFeed.jsp" />
+	    <add value="/tutorial/portal/advert2.jsp" />
+	  </putList>
+	  <putList name="list1" >
+	    <add value="/tutorial/portal/advert3.jsp" />
+	    <add value="/tutorial/portal/stocks.jsp" />
+	    <add value="/tutorial/portal/whatsNew.jsp" />
+	    <add value="/tutorial/portal/personalLinks.jsp" />
+	    <add value="/tutorial/portal/search.jsp" />
+	  </putList>
+  </definition>
+
+  <!-- Main menu definition -->
+<definition name="menu.main" path="/layout/vboxLayout.jsp" >
+  <putList name="componentsList" >
+    <add value="menu.logo" />
+    <add value="menu.documentation" />
+    <add value="menu.links" />
+    <add value="menu.lang" />
+    <add value="menu.src" />
+  </putList>
+</definition>
+
+  <!-- menu logo definition -->
+<definition name="menu.logo" path="/tutorial/common/menu/menuLogo.jsp" />
+  
+  <!-- Documentation menu -->
+  <!-- Old style menu. Check module 'examples' for new style -->
+<definition name="menu.documentation" path="/common/submenu.jsp" >
+  <put name="title" value="Tiles" />
+  <putList name="items" >
+    <add value="Home" />
+  </putList>
+  <putList name="links" >
+    <add value="/index.jsp" />
+  </putList>
+</definition>
+
+  <!-- menu logo definition -->
+<definition name="menu.links" path="/common/submenu.jsp" >
+  <put name="title" value="Tutorial" />
+  <putList name="items" >
+    <add value="Home" />
+    <add value="Basic Page" />
+	<add value="First Portal" />
+    <add value="First Definition" />
+    <add value="Overloaded Definition" />
+    <add value="Extended Definition" />
+    <add value="Dynamic Portal" />
+    <add value="Dynamic Portal Prefs" />
+    <add value="Struts Forward" />
+    <add value="Definition Tag" />
+    <add value="Extended Definition Tag" />
+    <add value="Dynamic Definition" />
+    <add value="Frame Example" />
+    <add value="Invoice" />
+  </putList>
+  <putList name="links" >
+    <add value="/tutorial/index.jsp" />
+    <add value="/tutorial/basicPage.jsp" />
+    <add value="/tutorial/portalPage.jsp" />
+    <add value="/tutorial/firstDefinition.jsp" />
+    <add value="/tutorial/overloadDefinitionParameters.jsp" />
+    <add value="/tutorial/extendedDefinition.jsp" />
+    <add value="/tutorial/dynPortal/index.jsp" />
+    <add value="/tutorial/dynPortal/myPortalPrefs.jsp" />
+    <add value="/tutorial/strutsForward.jsp" />
+    <add value="/tutorial/definitionTag.jsp" />
+    <add value="/tutorial/extendedDefinitionTag.jsp" />
+    <add value="/tutorial/dynTemplate.do" />
+    <add value="/tutorial/basicFramesetPage.jsp" />
+    <add value="/tutorial/invoice/index.jsp" />
+  </putList>
+</definition>
+
+  <!-- Menu sources definition -->
+<definition name="menu.src" path="/tutorial/common/menuViewSrc.jsp" >
+  <putList name="list" >
+    <add value="/tutorial/index.jsp" />
+    <add value="/tutorial/basicPage.jsp" />
+    <add value="/tutorial/portalPage.jsp" />
+    <add value="/tutorial/firstDefinition.jsp" />
+    <add value="/tutorial/overloadDefinitionParameters.jsp" />
+    <add value="/tutorial/extendedDefinition.jsp" />
+    <add value="/tutorial/definitionTag.jsp" />
+    <add value="/tutorial/extendedDefinitionTag.jsp" />
+    <add value="/tutorial/basicFramesetPage.jsp" />
+    <add value="/tutorial/WEB-INF/templateDefinitions.xml" />
+
+    <add value="/tutorial/basic/myLayout.jsp" />
+    <add value="/tutorial/basic/hello.jsp" />
+    <add value="/tutorial/basic/menu.jsp" />
+    <add value="/tutorial/portal/portalBody.jsp" />
+
+    <add value="/tutorial/common/footer.jsp" />
+    <add value="/tutorial/common/menu.jsp" />
+    <add value="/tutorial/common/submenu.jsp" />
+    <add value="/tutorial/common/menuViewSrc.jsp" />
+    <add value="/tutorial/common/viewSrc.jsp" />
+    <add value="/tutorial/common/viewSrcBody.jsp" />
+	
+    <add value="/tutorial/common/menu/menuLogo.jsp" />
+    <add value="/tutorial/common/menu/menuLinks.jsp" />
+    <add value="/tutorial/common/menu/menuSrc.jsp" />
+
+    <add value="/tutorial/layout/classicLayout.jsp" />
+    <add value="/tutorial/layout/columnsLayout.jsp" />
+    <add value="/tutorial/layout/vboxLayout.jsp" />
+	
+    <add value="/tutorial/invoice/editAddress.jsp" />
+    <add value="/tutorial/invoice/editInvoice.jsp" />
+    <add value="/tutorial/invoice/index.jsp" />
+  </putList>
+</definition>
+
+  <!-- select language menu -->
+<definition name="menu.lang" path="/common/submenu.jsp" >
+  <put name="title" value="Language" />
+  <putList name="items" >
+    <add value="Français" />
+    <add value="English" />
+    <add value="Deutsch" />
+  </putList>
+  <putList name="links" >
+    <add value="/tutorial/lang.do?language=FR" />
+    <add value="/tutorial/lang.do?language=UK" />
+    <add value="/tutorial/lang.do?language=DE" />
+  </putList>
+</definition>
+
+  <!-- Extended definition example -->
+<definition name="extended.definition.example" extends="mainLayout" >
+  <put name="title" value="Extended Definition" />
+  <put name="body"  value="/tutorial/portal/newsFeed.jsp" />
+</definition>
+
+  <!-- Struts forward definition example -->
+<definition name="forward.example.choice.page" extends="mainLayout" >
+  <put name="title" value="Struts Forward Test" />
+  <put name="body"  value="/tutorial/forward/forwardBody.jsp" />
+</definition>
+
+  <!-- Struts forward definition example -->
+<definition name="forward.example.success.page" extends="mainLayout" >
+  <put name="title" value="Struts Forward to 'success'" />
+  <put name="body"  value="/tutorial/forward/successBody.jsp" />
+</definition>
+
+  <!-- Struts forward definition example -->
+<definition name="forward.example.failure.page" extends="mainLayout" >
+  <put name="title" value="Struts Forward to 'failure'" />
+  <put name="body"  value="/tutorial/forward/failureBody.jsp" />
+</definition>
+
+  <!-- =======================================================  -->
+  <!-- Rss Channels definitions  -->
+  <!-- =======================================================  -->
+
+  <!-- Dynamic portal main page (uses common layout) -->
+<definition name="rssChannelTile" path="/tutorial/actions/rssChannel.do" >
+      <putList name="urls" >
+  <!-- 
+	    <add value="http://www.newsforge.com/newsforge.rss" />
+    -->
+	    <add value="http://xmlhack.com/rss.php" />
+	    <add value="http://lwn.net/headlines/rss" />
+	  </putList>
+</definition>
+
+  <!-- Dynamic portal main page (uses common layout) -->
+<definition name="rssLocalChannelTile"  path="/tutorial/actions/rssChannel.do" >
+      <putList name="urls" >
+	    <add value="/examples/rssFeed/rss-example.xml" />
+	    <add value="/examples/rssFeed/apacheweek-headlines.xml" />
+	  </putList>
+</definition>
+
+  <!-- Dynamic portal main page (uses common layout) -->
+<definition name="test.rssChannel.page" extends="mainLayout" >
+  <put name="title" value="Rss Channel" />
+  <put name="body"  value="rssChannelTile" />
+</definition>
+
+
+  <!-- =======================================================  -->
+  <!-- Dynamic portal definitions  -->
+  <!-- =======================================================  -->
+  
+    <!-- Dynamic portal body (Define default list) -->
+<definition name="dynamic.portal.body" path="/tutorial/actions/myPortal.do" >
+	  <put name="numCols" value="2" />
+	  <putList name="list0" >
+	    <add value="/tutorial/portal/login.jsp" />
+	    <add value="/tutorial/portal/messages.jsp" />
+	    <add value="/tutorial/portal/newsFeed.jsp" />
+	    <add value="/tutorial/portal/advert2.jsp" />
+	    <add value="rssChannelTile" />
+	  </putList>
+	  <putList name="list1" >
+	    <add value="/tutorial/portal/advert3.jsp" />
+	    <add value="rssLocalChannelTile" />
+	    <add value="/tutorial/portal/stocks.jsp" />
+	    <add value="/tutorial/portal/whatsNew.jsp" />
+	    <add value="/tutorial/portal/personalLinks.jsp" />
+	    <add value="/tutorial/portal/search.jsp" />
+	  </putList>
+</definition>
+
+    <!-- Dynamic portal main page (use common layout) -->
+<definition name="myDynamicPortal" extends="mainLayout" >
+  <put name="title" value="My Portal" />
+  <put name="body"  value="dynamic.portal.body" />
+</definition>
+
+    <!-- Dynamic portal preferences page (use common layout) -->
+<definition name="myDynamicPortalPreferences" extends="mainLayout" >
+  <put name="title" value="My Portal Settings" />
+  <put name="body"  value="dynamic.portal.prefs.body" />
+</definition>
+
+    <!-- Dynamic portal preferences body (extends portal.body to inherit default list) -->
+  <definition name="dynamic.portal.prefs.body"
+              path="/tutorial/actions/myPortalPrefs.tile.do"
+              extends="dynamic.portal.body">
+</definition>
+
+</tiles-definitions>

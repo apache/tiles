@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<!-- 
+  Definitions for Tiles
+  This file contains definitions common to all Struts modules.
+  In particular, it contains the main layout and the common menus.
+  There is also the main page as a portal.
+-->
+
+<tiles-definitions>
+
+  <!-- =======================================================  -->
+  <!-- Master definition  									-->
+  <!-- =======================================================  -->
+
+  <!-- Doc index page description  -->
+  <definition name="doc.mainLayout" path="/layout/classicLayout.jsp">
+	  <put name="title"  value="Tiles Library Documentation" />
+	  <put name="header" value="/common/header.jsp" />
+	  <put name="menu"   value="doc.menu.main" />
+	  <put name="footer" value="/common/footer.jsp" />
+	  <put name="body"   value="doc.portal.body" />
+  </definition>
+
+  <!-- =======================================================  -->
+  <!-- Main page body definitions  									-->
+  <!-- =======================================================  -->
+
+  <definition name="doc.portal.body" path="/layout/columnsLayout.jsp">
+    <put name="numCols" value="2" />
+    <putList name="list0" >
+      <add value="/doc/portal/welcome.jsp" />
+      <add value="/doc/portal/features.jsp" />
+      <!--<add value="/doc/portal/todo.jsp" /> -->
+      <add value="/doc/portal/documentation.jsp" />
+    </putList>
+    <putList name="list1" >
+      <add value="/doc/portal/news.jsp" />
+      <add value="/doc/portal/download.jsp" />
+      <add value="/doc/portal/tilesCompsTemplates.jsp" />
+      <add value="/doc/portal/strutsIntegration.jsp" />
+      <add value="/doc/portal/comments.jsp" />
+      <add value="/doc/portal/revisions.jsp" />
+    </putList>
+  </definition>
+  
+  <!-- =======================================================  -->
+  <!-- Menus definitions  									-->
+  <!-- =======================================================  -->
+
+  <!-- Menu bar definition -->
+<definition name="doc.menu.main" path="/layouts/vboxLayout.jsp" >
+  <putList name="list" >
+    <add value="common.menu.home" />
+    <add value="common.menu.examples" />
+    <add value="common.menu.doc" />
+    <!-- <add value="common.menu.printer.friendly" /> -->
+  </putList>
+</definition>
+
+  <!-- The home menu definition -->
+<definition name="common.menu.home" path="/layouts/menu.jsp" >
+  <put name="title" value="Tiles" />
+  <putList name="items" >
+    <item value="Tiles Home"     link="/index.jsp" />
+  </putList>
+</definition>
+
+  <!-- Printer friendly menu definition -->
+<definition name="common.menu.examples" path="/layouts/menu.jsp" >
+  <put name="title" value="Examples" />
+  <putList name="items" >
+    <item value="Home"     link="/examples/index.jsp" />
+  </putList>
+</definition>
+
+  <!-- Documentation menu definition v1.1-->
+<definition name="common.menu.doc" path="/layouts/menu.jsp" >
+  <put name="title" value="Documentation" />
+    <putList name="items" >
+      <item value="Home"           link="/doc/index.jsp"  />
+      <item value="Live Examples"  link="/examples/index.jsp"  />
+      <item value="Quick overview" link="/test/quickOverview.jsp"  />
+      <!--
+      <item value="Tutorial"              link="/doc/tutorial.jsp"  />
+      -->
+      <item value="Tutorial Live Examples" link="/tutorial/index.jsp" />
+	  <!--
+      <item value="Tiles Tags"     link="/doc/tilesTags.jsp" />
+      <item value="Download"       link="/doc/download.jsp" />
+      <item value="Installation"   link="/doc/installation.jsp" />
+      <item value="User Guide"	   link="/doc/userGuide.jsp" />
+      <item value="Javadoc"        link="/api/index.html" />
+      <item value="Struts Home"            link="http://www.apache.org"
+            icon="/images/struts-power.gif" />
+	  -->
+    </putList>
+</definition>
+
+  <!-- Printer friendly menu definition -->
+<definition name="common.menu.printer.friendly" path="/layouts/menu.jsp" >
+  <put name="title" value="Printer Versions" />
+  <putList name="items" >
+    <item value="Quick Overview"     link="/test/testAll.jsp" />
+    <item value="Tutorial"           link="/doc/tutorialBody.html" />
+    <item value="User Guide"         link="/doc/userGuideBody.html" />
+    <item value="Overview (old)"  	 link="/doc/overviewBody.html" />
+  </putList>
+</definition>
+
+</tiles-definitions>

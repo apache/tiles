@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+<body>
+<table width="100%">
+<tr>
+<th bgcolor="aqua"><h4>History (con't)</h4></th>
+</tr>
+<tr>
+<td><strong> 27 Dec. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li>Add commented examples portal</li>
+		<li>Allow controller to be associated to a Tile</li>
+		<li>Allow beans set in &lt;put&gt; and &lt;putList&gt; tags</li>
+		<li>Add a reload action, and a reloadable factory wrapper</li>
+		<li>Move NoOpAction to actions subdirectory</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 02&nbsp;nov. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Correct another bug with Orion : "importAttribute	not working when reused"</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 29&nbsp;oct. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Allow body	content in tag &lt;put&gt; and &lt;add&gt; in	xml files </li>
+		<li>Correct bug with Orion : "insert tag attribute not	reset when ignore=true".</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 08&nbsp;oct. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Correct bug&nbsp;"path overloaded when	inheriting definition". </li>
+		<li> Add	example "dynamic portal" </li>
+		<li>Add Tile Rss Channel (Thanks Ted	Husted)</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 27&nbsp;sept. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Correct	bug&nbsp;preventing definitions file to be loaded when using latest
+		commons-digester.jar. </li>
+		<li>Remove component-config.tld	(replaced by tiles-config.tld). </li>
+		<li>Add a tilesForStruts1.0.jar file, intended for	Struts1.0</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 13 sept. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li>Correct bug&nbsp;in	getAsString.&nbsp;Nothing is written when ignore=true
+		and no attribute	is found.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 09 sept. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Modify ComponentActionServlet. It now allows	to :
+		<ul>
+				  <li> use a Struts action as the page attribute of an &lt;insert&gt; or &lt;definition&gt; </li>
+				  <li>modify tile attributes inside action </li>
+				  <li>associate an action with a tile, and this for each tile.</li>
+		  </ul>
+		</li>
+		<li>Update and modify the "invoice" example. </li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 30 jul. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Merge&nbsp;Documentation and tutorial in one	war file.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 25 jul. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Now use commons.Digester, according to new	Struts policy.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 19 jul. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Components	become Tiles. </li>
+		<li>Start	integration in Struts </li>
+		<li>Change code	package names accordingly</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 04 jul. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Add flush	attribute to get </li>
+		<li>Update	tutorial </li>
+		<li>Add a DTD for configuration file. However, DTD is not used (yet) for	validation. </li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 02 jul. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li>Tested successfully on Tomcat-3.2.1, Tomcat-4.0b5, Orion-1.4.5,	Resin-2.0.0 </li>
+		<li>Correct the	release() bug preventing framework to run on Resin-2.0.0
+		<ul>
+				  <li>Remove calls to release() in doEndTag(), call to releaseInternal()
+				  instead. </li>
+		  </ul>
+		</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 17 jun. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Remove backward compatibility with deprecated tags. Update webapps	accordingly </li>
+		<li> Release	multi-channels example.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 20 may. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li>Change	definition factory implementation.&nbsp; This simplify design and
+		usage of others implementations. A 'multi-channel' implementation is in	study. </li>
+		<li>Allow to insert an 'action URL' as well as a 'definition' or a 'jsp'. This
+		implies a check in ActionServlet just before doing effective forward or	include.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 29 apr. 2001</strong><strong>Stable version</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li>Role	attribute is taken into account. </li>
+		<li>PutList	accept nested putList. </li>
+		<li>Clearly	separate definition factory.
+		<ul>
+				  <li>Possibility to implement others definition factory </li>
+				  <li>Can provide definition factory class name as servlet attribute </li>
+		  </ul>
+		</li>
+		<li>Change nested tags implementation (PutTag, PutListTag, AddTag, InsertTag,
+		DefinitionTag).</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 19 apr. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Correct a bug preventing Components to run on Orion 1.4.5. Call release()
+		at the end	of insert tag.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 08 apr. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Add attribute	'ignore' to tags &lt;get&gt; &lt;insert&gt;. </li>
+		<li>Add	tag&nbsp;&lt;getAsString&gt; to replace &lt;getAttribute&gt; </li>
+		<li> Change tests	suite in comps-doc</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 02 apr. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Use word "definition" instead of "instance". Concretely, a lot of class
+		names and	tag names change. Have replaced a lot of word "instance" by "definition.
+		Old tags still exist for backward compatibility. </li>
+		<li> Can define a "definition" in XML file, in an Action, or by using tag &lt;definition&gt;</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 14 feb. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Added role attribute in tags. Components are again fully compatible with
+		JSP	Templates.</li>
+</ul>
+</td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+<td><strong> 07 feb. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Modification of 'ActionComponentServlet.java' to be compliant with latest
+		Struts servlet implementation. Import the right html.Constant	class.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 11 jan. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+<li>Modification of 'ActionComponentServlet.java' to be compliant with new Struts
+servlet implementation. New classes are not compatible with Struts prior to 010108 </li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 08 apr. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Add attribute	'ignore' to tags &lt;get&gt; &lt;insert&gt;. </li>
+		<li>Add	tag&nbsp;&lt;getAsString&gt; to replace &lt;getAttribute&gt; </li>
+		<li> Change tests	suite in comps-doc </li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><strong> 02 apr. 2001</strong> </td>
+</tr>
+<tr>
+<td>
+<ul>
+		<li> Use word "definition" instead of "instance". Concretely, a lot of class
+		names and	tag names change. Have replaced a lot of word "instance" by "definition.
+		Old tags still exist for backward compatibility. </li>
+		<li> Can define a "definition" in XML file, in an Action, or by using tag &lt;definition&gt;</li>
+</ul>
+</td>
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>Components : Backward Compatibility Changes</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+
+<body>
+<h1 align="center">Backward Compatibility Changes </h1>
+
+
+<table  border="2">
+  <tr>
+    <td>
+      <p align="center" style="text-align: center"><b>Deprecated</b></p></td>
+    <td>
+      <p align="center" style="text-align: center"><b>New usage</b></p></td></tr
+      >
+  <tr>
+    <td>
+      &lt;include &gt;</td>
+    <td>
+      &lt;insert &gt;</td></tr>
+  <tr>
+    <td>
+      &lt;putAttribute &gt;</td>
+    <td>
+      &lt;getAsString &gt;</td></tr>
+  <tr>
+    <td>
+      &lt;getAttribute &gt;</td>
+    <td>
+      &lt;getAsString &gt;</td></tr>
+  <tr>
+    <td>&lt; instance= &gt; <br />
+  (in tag &lt;insert &gt; or &lt;include &gt;)</td>
+    <td>
+      &lt; definition= &gt; <br />
+  (in tag &lt;insert &gt;)&lt;  </td></tr>
+  <tr>
+    <td>
+      <p align="left">Default definitions file name : </p>
+
+      <ul>
+        <li>
+        <div align="left">componentInstances.xml </div>
+        </li>
+        <li>
+        <div align="left">templateDefinitions.xml </div> </li></ul></td>
+    <td>
+      Several possibilities :
+      <ul>
+        <li>Keep same name and set it in xml-config.xml:
+</li></ul>
+      <div align="center">
+<table  border="2">
+<tr>
+    <td>
+      <p>
+       &lt;init-param&gt;<br />
+      &nbsp;&nbsp;&nbsp; &lt;param-name&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; definitions-config<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/param-name&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param-value&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /WEB-
+      INF/templateDefinitions.xml<br />&nbsp;&nbsp;
+
+      &nbsp;&nbsp; &lt;/param-value&gt;<br />
+    &nbsp;&lt;/init-param&gt;</p>
+	</td>
+</tr>
+</table></div>
+      <ul>
+        <li>Change name to new default
+        (componentDefinitions.xml) </li></ul></td></tr>
+  <tr>
+    <td>
+      Components parameter names in web.xml:
+      <ul>
+        <li>instances-config        </li>
+        <li>instances-debug </li></ul></td>
+    <td>
+      &nbsp;
+      Use new names :
+      <ul>
+        <li>definitions-config        </li>
+        <li>definitions-debug
+</li></ul></td></tr></table>
+To update your web site, replace all deprecated tags with new
+tags.
+<br />
+You can use replacement
+tools to search for <strong>:include </strong>to be replaced by
+<strong>:insert
+</strong>
+
+</body>
+</html>
