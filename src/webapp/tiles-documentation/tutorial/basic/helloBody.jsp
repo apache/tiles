@@ -1,1 +1,0 @@
-<div align="center"><font size="+1"><b>Hello the World</b></font></div>
