@@ -1,7 +1,5 @@
 /*
- * \$Header\$
- * \$Revision\$
- * \$Date\$
+ * $Id$
  *
  * Copyright 2004 The Apache Software Foundation.
  * 
@@ -28,10 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.chain.Command;
 import org.apache.commons.chain.Context;
-import org.apache.commons.chain.web.servlet.ServletWebContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.chain.Constants;
 import org.apache.struts.chain.contexts.ServletActionContext;
 import org.apache.struts.config.ForwardConfig;
 import org.apache.struts.tiles.ComponentContext;
@@ -73,68 +69,6 @@ public class TilesPreProcessor implements Command
 
     private static final Log log = LogFactory.getLog(TilesPreProcessor.class);
 
-    private String forwardConfigKey = Constants.FORWARD_CONFIG_KEY;
-
-    private String includeKey = Constants.INCLUDE_KEY;
-
-    private String moduleConfigKey = Constants.MODULE_CONFIG_KEY;
-
-
-    // -------------------------------------------------------------- Properties
-
-
-    /**
-     * <p>Return the context attribute key under which the
-     * <code>ForwardConfig</code> for the currently selected application
-     * action is stored.</p>
-     */
-    public String getForwardConfigKey() {
-
-        return (this.forwardConfigKey);
-
-    }
-
-
-    /**
-     * <p>Set the context attribute key under which the
-     * <code>ForwardConfig</code> for the currently selected application
-     * action is stored.</p>
-     *
-     * @param forwardConfigKey The new context attribute key
-     */
-    public void setForwardConfigKey(String forwardConfigKey) {
-
-        this.forwardConfigKey = forwardConfigKey;
-
-    }
-
-
-    /**
-     * <p>Return the context attribute key under which the
-     * include uri for the currently selected application
-     * action is stored.</p>
-     */
-    public String getIncludeKey() {
-
-        return (this.includeKey);
-
-    }
-
-
-    /**
-     * <p>Set the context attribute key under which the
-     * include uri for the currently selected application
-     * action is stored.</p>
-     *
-     * @param includeKey The new context attribute key
-     */
-    public void setIncludeKey(String includeKey) {
-
-        this.includeKey = includeKey;
-
-    }
-
-
     // ---------------------------------------------------------- Public Methods
 
 
@@ -160,15 +94,14 @@ public class TilesPreProcessor implements Command
     public boolean execute(Context context) throws Exception {
 
         // Is there a Tiles Definition to be processed?
-        ForwardConfig forwardConfig = (ForwardConfig)
-                                      context.get(getForwardConfigKey());
+        ServletActionContext sacontext = (ServletActionContext) context;
+        ForwardConfig forwardConfig = sacontext.getForwardConfig();
         if (forwardConfig == null || forwardConfig.getPath() == null)
         {
             log.debug("No forwardConfig or no path, so pass to next command.");
             return (false);
         }
 
-        ServletActionContext sacontext = (ServletActionContext) context;
 
         ComponentDefinition definition = null;
         try
@@ -278,7 +211,7 @@ public class TilesPreProcessor implements Command
             log.info("Tiles process complete; forward to " + uri);
             // :FIXME: How do we need to coordinate the "context-relative" value
             // with other places it might be set.  For now, hardcode to true.
-            context.put(getForwardConfigKey(), new ForwardConfig("tiles-chain", uri, false, true));
+            sacontext.setForwardConfig( new ForwardConfig("tiles-chain", uri, false, true) );
             return (false);
         }
     }
