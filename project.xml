@@ -58,14 +58,6 @@
       <url>http://struts.apache.org/</url>
 	</dependency>
 
-	<dependency>
-	  <groupId>struts</groupId>
-	  <artifactId>struts-mock</artifactId>
-	  <version>1.3.0-dev</version>
-      <url>http://struts.apache.org/</url>
-	</dependency>
-
-
   </dependencies>
   
   <build>
