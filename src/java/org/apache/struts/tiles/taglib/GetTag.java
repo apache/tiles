@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.struts.taglib.tiles;
+package org.apache.struts.tiles.taglib;
 
 /**
  * This is the tag handler for &lt;tiles:get&gt;, which gets

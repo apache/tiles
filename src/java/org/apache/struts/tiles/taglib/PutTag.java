@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.taglib.tiles;
+package org.apache.struts.tiles.taglib;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -24,7 +24,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.struts.taglib.tiles.util.TagUtils;
+import org.apache.struts.tiles.taglib.util.TagUtils;
 import org.apache.struts.tiles.AttributeDefinition;
 import org.apache.struts.tiles.DefinitionNameAttribute;
 import org.apache.struts.tiles.DirectStringAttribute;

@@ -28,7 +28,7 @@ import java.util.Set;
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.PageContext;
 
-import org.apache.struts.taglib.tiles.ComponentConstants;
+import org.apache.struts.tiles.taglib.ComponentConstants;
 
 /**
  * Component context.

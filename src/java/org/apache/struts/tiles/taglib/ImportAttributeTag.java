@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.struts.taglib.tiles;
+package org.apache.struts.tiles.taglib;
 
 import java.util.Iterator;
 
@@ -25,7 +25,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.struts.taglib.tiles.util.TagUtils;
+import org.apache.struts.tiles.taglib.util.TagUtils;
 import org.apache.struts.tiles.ComponentContext;
 
 

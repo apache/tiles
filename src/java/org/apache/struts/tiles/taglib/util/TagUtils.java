@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.taglib.tiles.util;
+package org.apache.struts.tiles.taglib.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -27,7 +27,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.Globals;
-import org.apache.struts.taglib.tiles.ComponentConstants;
+import org.apache.struts.tiles.taglib.ComponentConstants;
 import org.apache.struts.tiles.ComponentContext;
 import org.apache.struts.tiles.ComponentDefinition;
 import org.apache.struts.tiles.DefinitionsFactoryException;

@@ -1,4 +1,4 @@
-package org.apache.struts.actions;
+package org.apache.struts.tiles;
 
 import javax.servlet.ServletException;
 

@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.struts.taglib.tiles;
+package org.apache.struts.tiles.taglib;
 
 import javax.servlet.jsp.JspException;
 

@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package org.apache.struts.taglib.tiles;
+package org.apache.struts.tiles.taglib;
 
 import javax.servlet.jsp.JspException;
 
-import org.apache.struts.taglib.tiles.util.TagUtils;
+import org.apache.struts.tiles.taglib.util.TagUtils;
 import org.apache.struts.tiles.AttributeDefinition;
 import org.apache.struts.tiles.ComponentDefinition;
 import org.apache.struts.tiles.UntypedAttribute;

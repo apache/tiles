@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.taglib.tiles;
+package org.apache.struts.tiles.taglib;
 
 import org.apache.struts.Globals;
 

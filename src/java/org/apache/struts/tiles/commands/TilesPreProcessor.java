@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.struts.chain.commands.servlet;
+package org.apache.struts.tiles.commands;
 
 import java.io.IOException;
 
@@ -31,16 +31,14 @@ import org.apache.commons.chain.Context;
 import org.apache.commons.chain.web.servlet.ServletWebContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.apache.struts.chain.Constants;
 import org.apache.struts.config.ForwardConfig;
 import org.apache.struts.tiles.ComponentContext;
 import org.apache.struts.tiles.ComponentDefinition;
 import org.apache.struts.tiles.Controller;
-import org.apache.struts.tiles.FactoryNotFoundException;
 import org.apache.struts.tiles.DefinitionsUtil;
+import org.apache.struts.tiles.FactoryNotFoundException;
 import org.apache.struts.tiles.TilesUtil;
-
 import org.apache.struts.upload.MultipartRequestWrapper;
 
 

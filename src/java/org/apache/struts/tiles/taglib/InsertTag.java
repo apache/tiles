@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.taglib.tiles;
+package org.apache.struts.tiles.taglib;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +32,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.Globals;
-import org.apache.struts.taglib.tiles.util.TagUtils;
+import org.apache.struts.tiles.taglib.util.TagUtils;
 import org.apache.struts.tiles.AttributeDefinition;
 import org.apache.struts.tiles.ComponentContext;
 import org.apache.struts.tiles.ComponentDefinition;
