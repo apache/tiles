@@ -55,6 +55,7 @@
 	  <properties>
 		<war.bundle>true</war.bundle>
 	  </properties>
+      <url>http://struts.apache.org/</url>
 	</dependency>
 
 	<dependency>
@@ -64,6 +65,7 @@
 	  <properties>
 		<war.bundle>true</war.bundle>
 	  </properties>
+      <url>http://struts.apache.org/</url>
 	</dependency>
 
 
