@@ -95,7 +95,7 @@
 
     <dependency>
       <groupId>struts</groupId>
-      <artifactId>struts-core</artifactId>
+      <artifactId>struts</artifactId>
       <version>1.3.0-dev</version>
       <url>http://jakarta.apache.org/struts/</url>
       <properties>
