@@ -188,9 +188,9 @@ public class TilesPreProcessor implements Command
         ComponentContext tileContext = null;
 
         // Get current tile context if any.
-        // If context exists, we will do an include
+        // If context exists, or if the response has already been committed we will do an include
         tileContext = ComponentContext.getContext(swcontext.getRequest());
-        doInclude = (tileContext != null);
+        doInclude = (tileContext != null || swcontext.getResponse().isCommitted());
 
         // Controller associated to a definition, if any
         Controller controller = null;
