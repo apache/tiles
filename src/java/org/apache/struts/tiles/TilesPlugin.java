@@ -354,7 +354,7 @@ public class TilesPlugin implements PlugIn {
 
         // Check to see if request processor uses struts-chain.  If so,
         // no need to replace the request processor.
-        if (configProcessorClass.isAssignableFrom(ComposableRequestProcessor.class)) {
+        if (ComposableRequestProcessor.class.isAssignableFrom(configProcessorClass)) {
             return;
         }    
 
