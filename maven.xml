@@ -5,6 +5,12 @@
             xmlns:ant="jelly:ant"
             xmlns:maven="jelly:maven">
 
+
+  <postGoal name="dist">
+    <attainGoal name="jar:install"/>
+  </postGoal>
+  
+  
   <!-- Prepare additional Jar resources -->
   <postGoal name="java:jar-resources">
 

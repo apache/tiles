@@ -12,7 +12,7 @@
     <url>http://struts.apache.org/tiles/</url>
     <logo />
   </organization>
-  <logo>http://struts.apache.org/struts/images/struts.gif</logo>
+  <logo>http://struts.apache.org/images/struts.gif</logo>
   <inceptionYear>2003</inceptionYear>
   <package>org.apache.struts.tiles</package>
   <packageGroups>
