@@ -32,6 +32,7 @@ import org.apache.commons.chain.web.servlet.ServletWebContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.chain.Constants;
+import org.apache.struts.chain.contexts.ServletActionContext;
 import org.apache.struts.config.ForwardConfig;
 import org.apache.struts.tiles.ComponentContext;
 import org.apache.struts.tiles.ComponentDefinition;
@@ -167,14 +168,14 @@ public class TilesPreProcessor implements Command
             return (false);
         }
 
-        ServletWebContext swcontext = (ServletWebContext) context;
+        ServletActionContext sacontext = (ServletActionContext) context;
 
         ComponentDefinition definition = null;
         try
         {
             definition = TilesUtil.getDefinition(forwardConfig.getPath(),
-                    swcontext.getRequest(),
-                    swcontext.getContext());
+                    sacontext.getRequest(),
+                    sacontext.getContext());
         }
         catch (FactoryNotFoundException ex)
         {
@@ -189,8 +190,8 @@ public class TilesPreProcessor implements Command
 
         // Get current tile context if any.
         // If context exists, or if the response has already been committed we will do an include
-        tileContext = ComponentContext.getContext(swcontext.getRequest());
-        doInclude = (tileContext != null || swcontext.getResponse().isCommitted());
+        tileContext = ComponentContext.getContext(sacontext.getRequest());
+        doInclude = (tileContext != null || sacontext.getResponse().isCommitted());
 
         // Controller associated to a definition, if any
         Controller controller = null;
@@ -209,7 +210,7 @@ public class TilesPreProcessor implements Command
             if (tileContext == null) {
                 tileContext =
                         new ComponentContext(definition.getAttributes());
-                ComponentContext.setContext(tileContext, swcontext.getRequest());
+                ComponentContext.setContext(tileContext, sacontext.getRequest());
 
             } else {
                 tileContext.addMissing(definition.getAttributes());
@@ -221,7 +222,7 @@ public class TilesPreProcessor implements Command
         // may augment the tileContext with additional attributes.
         // :FIXME: the class DefinitionsUtil is deprecated, but I can't find
         // the intended alternative to use.
-        definition = DefinitionsUtil.getActionDefinition(swcontext.getRequest());
+        definition = DefinitionsUtil.getActionDefinition(sacontext.getRequest());
         if (definition != null) { // We have a definition.
                 // We use it to complete missing attribute in context.
                 // We also overload uri and controller if set in definition.
@@ -241,7 +242,7 @@ public class TilesPreProcessor implements Command
                 if (tileContext == null) {
                         tileContext =
                                 new ComponentContext(definition.getAttributes());
-                        ComponentContext.setContext(tileContext, swcontext.getRequest());
+                        ComponentContext.setContext(tileContext, sacontext.getRequest());
                 } else {
                         tileContext.addMissing(definition.getAttributes());
                 }
@@ -258,9 +259,9 @@ public class TilesPreProcessor implements Command
             log.trace("Execute controller: " + controller);
             controller.execute(
                     tileContext,
-                    swcontext.getRequest(),
-                    swcontext.getResponse(),
-                    swcontext.getContext());
+                    sacontext.getRequest(),
+                    sacontext.getResponse(),
+                    sacontext.getContext());
         }
 
         // If request comes from a previous Tile, do an include.
@@ -268,7 +269,7 @@ public class TilesPreProcessor implements Command
 
         if (doInclude) {
             log.info("Tiles process complete; doInclude with " + uri);
-            doInclude(swcontext, uri);
+            doInclude(sacontext, uri);
             return (true);
         } else {
             // create an "instant" forward config which can be used
@@ -288,23 +289,23 @@ public class TilesPreProcessor implements Command
     /**
      * <p>Do an include of specified URI using a <code>RequestDispatcher</code>.</p>
      *
-     * @param swcontext a chain servlet/web context
+     * @param context a chain servlet/web context
      * @param uri Context-relative URI to include
      */
     protected void doInclude(
-        ServletWebContext swcontext,
+        ServletActionContext context,
         String uri)
         throws IOException, ServletException {
 
-        HttpServletRequest request = swcontext.getRequest();
+        HttpServletRequest request = context.getRequest();
 
         // Unwrap the multipart request, if there is one.
         if (request instanceof MultipartRequestWrapper) {
             request = ((MultipartRequestWrapper) request).getRequest();
         }
 
-        HttpServletResponse response = swcontext.getResponse();
-        RequestDispatcher rd = swcontext.getContext().getRequestDispatcher(uri);
+        HttpServletResponse response = context.getResponse();
+        RequestDispatcher rd = context.getContext().getRequestDispatcher(uri);
         if (rd == null) {
             response.sendError(
                 HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
