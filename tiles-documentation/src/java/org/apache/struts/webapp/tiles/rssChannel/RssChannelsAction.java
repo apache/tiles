@@ -24,8 +24,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.digester.rss.Channel;
-import org.apache.commons.digester.rss.RSSDigester;
+//import org.apache.commons.digester.rss.Channel;
+//import org.apache.commons.digester.rss.RSSDigester;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -112,31 +112,31 @@ public final class RssChannelsAction extends TilesAction {
 
         // -- Loop through channels --
         List channelBeans = new ArrayList(channels.size());
-        try {
-            for (int i = 0; i < channels.size(); i++) {
-                RSSDigester digester = new RSSDigester();
-                String url = (String) channels.get(i);
-                // Add application path if needed
-                if (url.startsWith("/")) {
-                    url = toFullUrl(request, url);
-                }
-
-                log.debug("Channel url=" + url);
-
-                Channel obj = (Channel) digester.parse(url);
-
-                log.debug("Channel:" + obj);
-
-                channelBeans.add(obj);
-            }
-            
-        } catch (Throwable t) {
-            errors.add(
-                ActionMessages.GLOBAL_MESSAGE,
-                new ActionMessage("rss.access.error"));
-
-            servlet.log(t.toString());
-        }
+//        try {
+//            for (int i = 0; i < channels.size(); i++) {
+//                RSSDigester digester = new RSSDigester();
+//                String url = (String) channels.get(i);
+//                // Add application path if needed
+//                if (url.startsWith("/")) {
+//                    url = toFullUrl(request, url);
+//                }
+//
+//                log.debug("Channel url=" + url);
+//
+//                Channel obj = (Channel) digester.parse(url);
+//
+//                log.debug("Channel:" + obj);
+//
+//                channelBeans.add(obj);
+//            }
+//            
+//        } catch (Throwable t) {
+//            errors.add(
+//                ActionMessages.GLOBAL_MESSAGE,
+//                new ActionMessage("rss.access.error"));
+//
+//            servlet.log(t.toString());
+//        }
 
         // -- Handle Errors ---
         if (!errors.isEmpty()) {

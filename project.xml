@@ -2,8 +2,9 @@
 <project>
   <pomVersion>3</pomVersion>
   <id>struts-tiles</id>
-  <groupId>struts</groupId>
+
   <name>Struts Tiles</name>
+  <groupId>struts</groupId>
   <currentVersion>1.3.0-dev</currentVersion>
   
   <organization>
