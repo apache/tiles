@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright 2004 The Apache Software Foundation.
+ * Copyright 2004-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ import org.apache.struts.tiles.ComponentDefinition;
 import org.apache.struts.tiles.Controller;
 import org.apache.struts.tiles.DefinitionsUtil;
 import org.apache.struts.tiles.FactoryNotFoundException;
+import org.apache.struts.tiles.NoSuchDefinitionException;
 import org.apache.struts.tiles.TilesUtil;
 import org.apache.struts.upload.MultipartRequestWrapper;
 
@@ -115,6 +116,11 @@ public class TilesPreProcessor implements Command
             // this is not a serious error, so log at low priority
             log.debug("Tiles DefinitionFactory not found, so pass to next command.");
             return false;
+        }
+        catch (NoSuchDefinitionException ex)
+        {
+            // ignore not found
+            log.debug("NoSuchDefinitionException " + ex.getMessage());
         }
 
         // Do we do a forward (original behavior) or an include ?

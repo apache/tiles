@@ -1,7 +1,7 @@
 /*
  * $Id$ 
  *
- * Copyright 1999-2004 The Apache Software Foundation.
+ * Copyright 1999-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -142,18 +142,22 @@ public class TilesRequestProcessor extends RequestProcessor {
 			// If context exist, we will do an include
 			tileContext = ComponentContext.getContext(request);
 			doInclude = (tileContext != null);
-			ComponentDefinition definition;
+			ComponentDefinition definition = null;
 
 			// Process tiles definition names only if a definition factory exist,
 			// and definition is found.
 			if (definitionsFactory != null) {
 				// Get definition of tiles/component corresponding to uri.
-				definition =
-					definitionsFactory.getDefinition(
-						definitionName,
-						request,
-						getServletContext());
-
+				try {
+					definition =
+						definitionsFactory.getDefinition(
+							definitionName,
+							request,
+							getServletContext());
+				} catch (NoSuchDefinitionException ex) {
+					// Ignore not found
+					log.debug("NoSuchDefinitionException " + ex.getMessage());
+				}
 				if (definition != null) { // We have a definition.
 					// We use it to complete missing attribute in context.
 					// We also get uri, controller.
