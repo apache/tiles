@@ -748,12 +748,13 @@ public class InsertTag
 	 * This method is used internally to do all includes from this class. It delegates
 	 * the include call to the TilesUtil.doInclude().
 	 * @param page The page that will be included
+     * @param flush If the writer should be flushed before the include
 	 * @throws ServletException - Thrown by call to pageContext.include()
 	 * @throws IOException - Thrown by call to pageContext.include()
 	 */
-	protected void doInclude(String page)
+	protected void doInclude(String page, boolean flush)
 		throws ServletException, IOException {
-		TilesUtil.doInclude(page, pageContext);
+		TilesUtil.doInclude(page, pageContext, flush);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -885,7 +886,7 @@ public class InsertTag
 					pageContext.getOut().flush();
 				}
 
-				doInclude(page);
+				doInclude(page, flush);
 
 			} catch (IOException e) {
 				String msg =

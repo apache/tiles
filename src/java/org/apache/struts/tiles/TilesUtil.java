@@ -132,7 +132,21 @@ public class TilesUtil {
      */
     public static void doInclude(String uri, PageContext pageContext)
         throws IOException, ServletException {
-        tilesUtilImpl.doInclude(uri, pageContext);
+        doInclude(uri, pageContext, true);
+    }
+    
+    /**
+     * Do an include using PageContext.include().
+     *
+     * This method is used by the Tiles package when an include is required.
+     * The Tiles package can use indifferently any form of this method.
+     * @param uri Uri or Definition name to forward.
+     * @param flush If the writer should be flushed before the include
+     * @param pageContext Current page context.
+     */
+    public static void doInclude(String uri, PageContext pageContext, boolean flush)
+        throws IOException, ServletException {
+        tilesUtilImpl.doInclude(uri, pageContext, flush);
     }
 
     /**

@@ -21,6 +21,9 @@ package org.apache.struts.tiles;
 import java.io.IOException;
 import java.io.Serializable;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -41,11 +44,32 @@ import org.apache.struts.util.RequestUtils;
 public class TilesUtilImpl implements Serializable {
     
     /** Commons Logging instance.*/
-    protected Log log = LogFactory.getLog(TilesUtil.class);
+    protected static final Log log = LogFactory.getLog(TilesUtil.class);
 
     /** Constant name used to store factory in servlet context */
     public static final String DEFINITIONS_FACTORY =
         "org.apache.struts.tiles.DEFINITIONS_FACTORY";
+        
+    /**
+     * JSP 2.0 include method to use which supports configurable flushing.
+     */
+    private static Method include = null;    
+    
+    /**
+     * Initialize the include variable with the
+     * JSP 2.0 method if available.
+     */
+    static {
+
+        try {
+            // get version of include method with flush argument
+            Class[] args = new Class[]{String.class, boolean.class};
+            include = PageContext.class.getMethod("include", args);
+        } catch (NoSuchMethodException e) {
+            log.debug("Could not find JSP 2.0 include method.  Using old one that doesn't support " +
+                      "configurable flushing.", e);
+        }
+    }
 
     /**
      * Do a forward using request dispatcher.
@@ -92,9 +116,21 @@ public class TilesUtilImpl implements Serializable {
      * The Tiles package can use indifferently any form of this method.
      * @param uri Uri or Definition name to forward.
      * @param pageContext Current page context.
+     * @param flush If the writer should be flushed before the include
      */
-    public void doInclude(String uri, PageContext pageContext)
+    public void doInclude(String uri, PageContext pageContext, boolean flush)
         throws IOException, ServletException {
+        try {
+            // perform include with new JSP 2.0 method that supports flushing
+            if (include != null) {
+                include.invoke(pageContext, new Object[]{uri, Boolean.valueOf(flush)});
+                return;
+            } 
+        } catch (IllegalAccessException e) {
+            log.debug("Could not find JSP 2.0 include method.  Using old one.", e);
+        } catch (InvocationTargetException e) {
+            log.debug("Unable to execute JSP 2.0 include method.  Trying old one.", e);
+        }
             
         pageContext.include(uri);
     }
