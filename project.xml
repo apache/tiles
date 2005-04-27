@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-<!-- 
+    <!-- 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  * 
@@ -17,58 +17,51 @@
  * limitations under the License.
  */
  -->
-
-
-  <extend>build/project.xml</extend>
-  <id>struts-tiles</id>
-  <name>Struts Tiles</name>
-  
-  <inceptionYear>2003</inceptionYear>
-  <package>org.apache.struts.tiles</package>
-  <packageGroups>
-    <packageGroup>
-      <title>Struts Tiles</title>
-      <packages>org.apache.struts.tiles</packages>
-    </packageGroup>
-  </packageGroups>
-
-  <shortDescription>Tiles library for defining view components.</shortDescription>
-
-  <description>
-    Tiles can be used to simply define reusable layout components for multiple Servlet "view"
-    technologies.  This library has been extracted from the Struts core.
-  </description>
-    
-  <url>http://struts.apache.org/tiles</url>
-  <repository>
-    <connection>scm|svn|http|//svn.apache.org/repos/asf/struts/tiles/trunk</connection>
-    <developerConnection>scm|svn|https|//svn.apache.org/repos/asf/struts/tiles/trunk</developerConnection>
-    <url>http://svn.apache.org/repos/asf/struts/tiles/trunk</url>
-  </repository>
-  
-  <dependencies>
-  
-	<dependency>
-	  <groupId>struts</groupId>
-	  <artifactId>struts-core</artifactId>
-	  <version>1.3.0-dev</version>
-	  <properties>
-		<war.bundle>true</war.bundle>
-	  </properties>
-      <url>http://struts.apache.org/</url>
-	</dependency>
-
-  </dependencies>
-  
-  <build>
-    <nagEmailAddress/>
-    <sourceDirectory>src/java</sourceDirectory>
-
-  </build>
-
-  <reports>
-    <!-- put tiles specific reports here -->
-    
-  </reports>
-
+    <extend>build/project.xml</extend>
+    <pomVersion>3</pomVersion>
+    <id>struts-tiles:struts-tiles</id>
+    <artifactId>struts-tiles</artifactId>
+    <name>Struts Tiles</name>
+    <groupId>struts-tiles</groupId>
+    <inceptionYear>2003</inceptionYear>
+    <package>org.apache.struts.tiles</package>
+    <packageGroups>
+        <packageGroup>
+            <title>Struts Tiles</title>
+            <packages>org.apache.struts.tiles</packages>
+        </packageGroup>
+    </packageGroups>
+    <shortDescription>Tiles library for defining view components.</shortDescription>
+    <description>Tiles can be used to simply define reusable layout components for multiple Servlet "view"
+    technologies.  This library has been extracted from the Struts core.</description>
+    <url>http://struts.apache.org/tiles</url>
+    <repository>
+        <connection>scm|svn|http|//svn.apache.org/repos/asf/struts/tiles/trunk</connection>
+        <developerConnection>scm|svn|https|//svn.apache.org/repos/asf/struts/tiles/trunk</developerConnection>
+        <url>http://svn.apache.org/repos/asf/struts/tiles/trunk</url>
+    </repository>
+    <dependencies>
+        <dependency>
+            <groupId>struts</groupId>
+            <artifactId>struts-core</artifactId>
+            <version>1.3.0-dev</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+            <url>http://struts.apache.org/</url>
+        </dependency>
+    </dependencies>
+    <build>
+        <sourceDirectory>src/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/resource</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
 </project>
+
