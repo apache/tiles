@@ -1,7 +1,7 @@
 /*
  * $Id$ 
  *
- * Copyright 1999-2004 The Apache Software Foundation.
+ * Copyright 1999-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -420,6 +420,10 @@ public class InsertTag
 	 * Handlers also contain sub-component context.
 	 */
 	public int doStartTag() throws JspException {
+
+            // Additional fix for Bug 20034 (2005-04-28)
+            cachedCurrentContext = null;
+
 		// Check role immediatly to avoid useless stuff.
 		// In case of insertion of a "definition", definition's role still checked later.
 		// This lead to a double check of "role" ;-(
