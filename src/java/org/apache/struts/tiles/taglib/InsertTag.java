@@ -405,7 +405,7 @@ public class InsertTag
 				controllerType);
 
 		} catch (InstantiationException ex) {
-			throw new JspException(ex.getMessage());
+			throw new JspException(ex);
 		}
 	}
 
@@ -571,7 +571,7 @@ public class InsertTag
 			throw new JspException(
 				"Error -  Tag Insert : Can't get definition '"
 					+ definitionName
-					+ "'. Check if this name exist in definitions factory.");
+					+ "'. Check if this name exist in definitions factory.", ex);
 
 		} catch (FactoryNotFoundException ex) {
 			throw new JspException(ex.getMessage());
@@ -586,7 +586,7 @@ public class InsertTag
 				Globals.EXCEPTION_KEY,
 				ex,
 				PageContext.REQUEST_SCOPE);
-			throw new JspException(ex.getMessage());
+			throw new JspException(ex);
 		}
 	}
 
@@ -632,7 +632,7 @@ public class InsertTag
 				controller);
 
 		} catch (InstantiationException ex) {
-			throw new JspException(ex.getMessage());
+			throw new JspException(ex);
 		}
 	}
 
@@ -908,7 +908,7 @@ public class InsertTag
 							+ e.getMessage();
 
 					log.error(msg, e);
-					throw new JspException(msg);
+					throw new JspException(msg,e);
 				}
 
 			} catch (ServletException e) {
@@ -921,7 +921,7 @@ public class InsertTag
 					"ServletException in '" + page + "': " + cause.getMessage();
 
 				log.error(msg, e);
-				throw new JspException(msg);
+				throw new JspException(msg,e);
 
 			} finally {
 				// restore old context only if currentContext not null 
@@ -967,7 +967,7 @@ public class InsertTag
 					ComponentConstants.EXCEPTION_KEY,
 					ex,
 					PageContext.REQUEST_SCOPE);
-				throw new JspException(msg);
+				throw new JspException(msg,ioex);
 			}
 		}
 	}
@@ -1043,7 +1043,7 @@ public class InsertTag
 					PageContext.REQUEST_SCOPE);
 
 				throw new JspException(
-					"Can't write string '" + value + "' : " + ex.getMessage());
+					"Can't write string '" + value + "' : " + ex.getMessage(), ex);
 			}
 
 			return EVAL_PAGE;

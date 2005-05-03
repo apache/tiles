@@ -396,7 +396,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
                     + "' in scope '"
                     + beanScope
                     + "'. (exception : "
-                    + ex.getMessage());
+                    + ex.getMessage(), ex);
 
         } catch (InvocationTargetException ex) {
             throw new JspException(
@@ -407,7 +407,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
                     + "' in scope '"
                     + beanScope
                     + "'. (exception : "
-                    + ex.getMessage());
+                    + ex.getMessage(), ex);
 
         } catch (IllegalAccessException ex) {
             throw new JspException(
@@ -418,7 +418,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
                     + "' in scope '"
                     + beanScope
                     + "'. (exception : "
-                    + ex.getMessage());
+                    + ex.getMessage(), ex);
         }
     }
 
@@ -492,7 +492,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
             return parent;
 
         } catch (ClassCastException ex) {
-            throw new JspException("Error - tag put : enclosing tag doesn't accept 'put' tag.");
+            throw new JspException("Error - tag put : enclosing tag doesn't accept 'put' tag.", ex);
         }
     }
 

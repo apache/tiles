@@ -61,7 +61,7 @@ public class AddTag extends PutTag {
       }
      catch( ClassCastException ex )
       {
-      throw new JspException( "Error - tag add : enclosing tag doesn't accept 'add' tag." );
+      throw new JspException( "Error - tag add : enclosing tag doesn't accept 'add' tag." , ex);
       }
   }
 }

@@ -243,7 +243,7 @@ public class TagUtils {
                     + "' in scope '"
                     + beanScope
                     + "'. (exception : "
-                    + ex.getMessage());
+                    + ex.getMessage(), ex);
                     
         } catch (InvocationTargetException ex) {
             throw new JspException(
@@ -254,7 +254,7 @@ public class TagUtils {
                     + "' in scope '"
                     + beanScope
                     + "'. (exception : "
-                    + ex.getMessage());
+                    + ex.getMessage(), ex);
                     
         } catch (IllegalAccessException ex) {
             throw new JspException(
@@ -265,7 +265,7 @@ public class TagUtils {
                     + "' in scope '"
                     + beanScope
                     + "'. (exception : "
-                    + ex.getMessage());
+                    + ex.getMessage(), ex);
         }
     }
 
@@ -346,16 +346,16 @@ public class TagUtils {
             throw new JspException(
                 "Error : Can't get component definition for '"
                     + name
-                    + "'. Check if this name exist in component definitions.");
+                    + "'. Check if this name exist in component definitions.",ex);
         } catch (FactoryNotFoundException ex) { // factory not found.
-            throw new JspException(ex.getMessage());
+            throw new JspException(ex);
             
         } catch (DefinitionsFactoryException ex) {
             if (debug)
                 ex.printStackTrace();
             // Save exception to be able to show it later
             saveException(pageContext, ex);
-            throw new JspException(ex.getMessage());
+            throw new JspException(ex);
         }
     }
 

@@ -86,7 +86,7 @@ public class InitDefinitionsTag extends TagSupport implements ComponentConstants
    catch( DefinitionsFactoryException ex )
       {
       ex.printStackTrace();
-      throw new JspException( ex.getMessage() + " See console for details" );
+      throw new JspException( ex );
       }
   return SKIP_BODY;
   }

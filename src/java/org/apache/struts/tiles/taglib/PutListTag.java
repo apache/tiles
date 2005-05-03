@@ -205,7 +205,7 @@ public class PutListTag
             return parent;
             
         } catch (ClassCastException ex) {
-            throw new JspException("Error - tag putList : enclosing tag doesn't accept 'putList' tag.");
+            throw new JspException("Error - tag putList : enclosing tag doesn't accept 'putList' tag.", ex);
         }
     }
 

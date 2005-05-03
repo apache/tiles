@@ -171,7 +171,7 @@ public class GetAttributeTag extends TagSupport implements ComponentConstants {
      catch( IOException ex )
       {
       ex.printStackTrace();
-      throw new JspException ( "Error - tag.getProperty : IOException ");
+      throw new JspException ( "Error - tag.getProperty : IOException ", ex);
       }
 
     return EVAL_PAGE;
