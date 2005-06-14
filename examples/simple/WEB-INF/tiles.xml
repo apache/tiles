@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+  "http://jakarta.apache.org/struts/dtds/tiles-config.dtd">
+
+<tiles-definitions>
+   <definition name="header-footer-sidebar"
+	            path="/header-footer-sidebar-layout.jsp">
+		<put name="header"  value="/header.jsp"/>
+		<put name="sidebar" value="/sidebar.jsp"/>
+		<put name="content"/>
+		<put name="footer"  value="/footer.jsp"/>
+   </definition>
+
+	<definition name="login-tile" extends="header-footer-sidebar">
+		<put name="content" value="/loginContent.jsp"/>
+	</definition>
+
+	<definition name="preferences-tile" extends="header-footer-sidebar">
+		<put name="content" value="/preferencesContent.jsp"/>
+	</definition>
+</tiles-definitions>

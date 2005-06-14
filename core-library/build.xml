@@ -1,0 +1,297 @@
+<!--
+
+ Copyright 2004-2005 The Apache Software Foundation.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+ $Id: build.xml 54942 2004-10-16 22:39:25Z craigmcc $
+
+-->
+
+
+<project name="Tiles Core Library" default="library" basedir=".">
+
+
+  <!-- ===================== Initialize Property Values ==================== -->
+
+
+  <!-- Initialize property values -->
+  <property file="build.properties"/>
+  <property file="../build.properties"/>
+  <property file="../../build.properties"/>
+  <property file="${user.home}/build.properties"/>
+
+
+  <!-- Build Defaults -->
+  <property name="build.home"              value="${basedir}/target"/>
+  <property name="dist.home"               value="${basedir}/dist"/>
+  <property name="project.name"            value="Tiles Core Library"/>
+  <property name="project.package"         value="org.apache.tiles"/>
+  <property name="project.version"         value="0.1-dev"/>
+
+
+  <!-- Dependency library defaults -->
+  <property name="commons-beanutils.jar" value="${beanutils.home}/commons-beanutils.jar"/>
+  <property name="commons-digester.jar" value="${digester.home}/commons-digester.jar"/>
+  <property name="commons-logging.jar" value="${logging.home}/commons-logging.jar"/>
+  <property name="jsp-api.jar"      value="${server.home}/common/lib/jsp-api.jar"/>
+  <property name="jsf-impl.jar"     value="${jsf.home}/lib/jsf-impl.jar"/>
+  <property name="jsf-api.jar"      value="${jsf.home}/lib/jsf-api.jar"/>
+  <property name="junit.jar"        value="${junit.home}/junit.jar"/>
+  <property name="servlet-api.jar"  value="${server.home}/common/lib/servlet-api.jar"/>
+
+
+  <!-- Compile Defaults -->
+  <property name="compile.debug"           value="true"/>
+  <property name="compile.deprecation"     value="false"/>
+  <property name="compile.optimize"        value="true"/>
+
+
+  <!-- Unit Test Defaults -->
+  <property name="test.haltonerror"        value="true"/>
+  <property name="test.haltonfailure"      value="true"/>
+  <property name="test.runner"             value="junit.textui.TestRunner"/>
+
+
+  <!-- Compile Classpath -->
+  <path id="compile.classpath">
+    <pathelement location="${commons-beanutils.jar}"/>
+    <pathelement location="${commons-digester.jar}"/>
+    <pathelement location="${commons-logging.jar}"/>
+    <pathelement location="${jsf-api.jar}"/>
+    <pathelement location="${jsf-impl.jar}"/>
+    <pathelement location="${jsp-api.jar}"/>
+    <pathelement location="${servlet-api.jar}"/>
+    <pathelement location="${build.home}/classes"/>
+  </path>
+
+
+  <!-- Findbugs Classpath -->
+  <path id="findbugs.classpath">
+    <pathelement location="${commons-beanutils.jar}"/>
+    <pathelement location="${commons-digester.jar}"/>
+    <pathelement location="${commons-logging.jar}"/>
+    <pathelement location="${jsf-api.jar}"/>
+    <pathelement location="${jsp-api.jar}"/>
+    <pathelement location="${servlet-api.jar}"/>
+  </path>
+
+
+  <!-- Test Classpath -->
+  <path id="test.classpath">
+    <pathelement location="${commons-beanutils.jar}"/>
+    <pathelement location="${commons-digester.jar}"/>
+    <pathelement location="${jsf-api.jar}"/>
+    <pathelement location="${jsp-api.jar}"/>
+    <pathelement location="${junit.jar}"/>
+    <pathelement location="${servlet-api.jar}"/>
+    <pathelement location="${build.home}/classes"/>
+    <pathelement location="${build.home}/test-classes"/>
+  </path>
+
+
+  <!-- ==================== Maintenance Targets ============================ -->
+
+
+  <target     name="clean"
+       description="Clean all build directories">
+    <delete    dir="${build.home}"/>
+    <delete    dir="${dist.home}"/>
+  </target>
+
+
+  <target     name="init">
+    <echo  message="---------- ${project.name} ${project.version} -----------"/>
+    <filter  token="name"     value="${project.name}"/>
+    <filter  token="package"  value="${project.package}"/>
+    <filter  token="state"    value="${systest.state.saving}"/>
+    <filter  token="version"  value="${project.version}"/>
+    <echo  message="commons-beanutils.jar =  ${commons-beanutils.jar}"/>
+    <echo  message="commons-digester.jar =   ${commons-digester.jar}"/>
+    <echo  message="commons-logging.jar =    ${commons-logging.jar}"/>
+    <echo  message="jsf-api.jar =            ${jsf-api.jar}"/>
+    <echo  message="jsf-impl.jar =           ${jsf-impl.jar}"/>
+    <echo  message="jsp-api.jar =            ${jsp-api.jar}"/>
+    <echo  message="servlet-api.jar =        ${servlet-api.jar}"/>
+  </target>
+
+
+  <target     name="prepare" depends="init">
+    <mkdir     dir="${build.home}"/>
+    <mkdir     dir="${build.home}/classes"/>
+    <mkdir     dir="${build.home}/classes/META-INF"/>
+    <mkdir     dir="${build.home}/conf"/>
+    <mkdir     dir="${build.home}/lib"/>
+    <mkdir     dir="${dist.home}"/>
+    <mkdir     dir="${dist.home}/docs"/>
+    <mkdir     dir="${dist.home}/docs/api"/>
+  </target>
+
+
+  <target     name="static" depends="prepare">
+    <tstamp/>
+    <copy    todir="${build.home}/conf"
+         filtering="on">
+      <fileset dir="src/conf"
+          includes="*.MF"/>
+    </copy>
+    <copy    todir="${build.home}/classes/META-INF">
+      <fileset dir="src/conf"
+          includes="tiles-core.tld"/>
+    </copy>
+  </target>
+
+
+  <!-- =================== Compile Library Components ====================== -->
+
+
+  <target         name="compile" depends="static"
+           description="Compile core library">
+
+    <!-- Compile Java Sources -->
+    <javac      srcdir="src/java"
+               destdir="${build.home}/classes"
+                 debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+              optimize="${compile.optimize}">
+      <classpath refid="compile.classpath" />
+    </javac>
+
+    <!-- Copy non-Java Sources -->
+    <copy        todir="${build.home}/classes">
+      <fileset     dir="src/java">
+        <exclude  name="**/*.java"/>
+      </fileset>
+    </copy>
+
+    <!-- Copy license and notice files -->
+    <copy       tofile="${build.home}/classes/META-INF/LICENSE.txt"
+                  file="LICENSE.txt"/>
+    <copy       tofile="${build.home}/classes/META-INF/NOTICE.txt"
+                  file="NOTICE.txt"/>
+
+  </target>
+
+
+  <target         name="library" depends="compile"
+           description="Package core library">
+
+    <jar       jarfile="${build.home}/lib/tiles-core.jar"
+               basedir="${build.home}/classes"/>
+  </target>
+
+
+  <!-- ===================== Generate Documentation ======================== -->
+
+
+  <target         name="docs" depends="library"
+           description="Create generated documentation and JavaDocs">
+
+    <javadoc
+            sourcepath="src/java"
+               destdir="${dist.home}/docs/api"
+                author="false"
+               private="true"
+               version="true"
+          packagenames="org.apache.tiles.*"
+           windowtitle="${project.name} (Version ${project.version})"
+              doctitle="${project.name} (Version ${project.version})"
+                bottom="Copyright &#169; 2004-2005 - The Apache Software Foundation">
+      <classpath refid="compile.classpath"/>
+    </javadoc>
+
+  </target>
+
+
+  <!-- ==================== Create Binary Distribution ==================== -->
+
+
+  <target name="dist" depends="docs"
+   description="Create binary distribution">
+
+    <mkdir     dir="${dist.home}"/>
+    <copy    todir="${dist.home}">
+      <fileset dir="${basedir}" includes="*.txt build.*"
+                                excludes="build.properties"/>
+    </copy>
+<!--
+    <mkdir     dir="${dist.home}/conf"/>
+    <copy    todir="${dist.home}/conf">
+      <fileset dir="${build.home}/conf" includes="*.tld"/>
+    </copy>
+-->
+    <mkdir     dir="${dist.home}/lib"/>
+    <copy    todir="${dist.home}/lib">
+      <fileset dir="${build.home}/lib" includes="*.jar"/>
+    </copy>
+
+    <mkdir     dir="${dist.home}/src"/>
+    <copy    todir="${dist.home}/src">
+      <fileset dir="src" excludes="**/.svn/**"/>
+    </copy>
+
+  </target>
+
+
+  <!-- ========================= Unit Tests ================================ -->
+
+
+  <target         name="test:compile" depends="library"
+           description="Compile library unit tests">
+
+    <mkdir         dir="${build.home}/test-classes"/>
+
+    <!-- Compile Java Sources -->
+    <javac      srcdir="src/test"
+               destdir="${build.home}/test-classes"
+                 debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+              optimize="${compile.optimize}">
+      <classpath refid="test.classpath" />
+    </javac>
+
+    <!-- Copy non-Java Sources -->
+    <copy        todir="${build.home}/test-classes">
+      <fileset     dir="src/test">
+        <exclude  name="**/*.java"/>
+      </fileset>
+    </copy>
+
+  </target>
+
+
+  <target         name="test" depends="test:compile"
+           description="Execute library unit tests">
+	    <classpath>
+		    <pathelement location="/Developer/Java/Tools/apache/apache-ant-1.6.2/junit.jar"/>
+	    </classpath>
+
+    <junit        fork="yes"
+           haltonerror="${test.haltonerror}"
+         haltonfailure="${test.haltonfailure}"
+          printSummary="no">
+
+      <classpath refid="test.classpath"/>
+      <formatter  type="plain"
+               usefile="false"/>
+      <batchtest  fork="yes">
+        <fileset   dir="${build.home}/test-classes"
+              includes="org/apache/tiles/*/*TestCase.class"/>
+      </batchtest>
+
+    </junit>
+
+  </target>
+
+
+</project>
