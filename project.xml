@@ -17,12 +17,13 @@
  * limitations under the License.
  */
  -->
+
+
     <extend>build/project.xml</extend>
-    <pomVersion>3</pomVersion>
     <id>struts-tiles</id>
-    <artifactId>struts-tiles</artifactId>
+
     <name>Struts Tiles</name>
-    <groupId>struts-tiles</groupId>
+
     <inceptionYear>2003</inceptionYear>
     <package>org.apache.struts.tiles</package>
     <packageGroups>
