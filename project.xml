@@ -19,7 +19,7 @@
  -->
     <extend>build/project.xml</extend>
     <pomVersion>3</pomVersion>
-    <id>struts-tiles:struts-tiles</id>
+    <id>struts-tiles</id>
     <artifactId>struts-tiles</artifactId>
     <name>Struts Tiles</name>
     <groupId>struts-tiles</groupId>
