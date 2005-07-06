@@ -294,9 +294,9 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
             // It is possible to avoid creation of a new structure, but this need
             // imply writing all Map interface.
 				System.out.println("Iterating over servlet parameters");
-            Enumeration enum = config.getInitParameterNames();
-            while (enum.hasMoreElements()) {
-                String key = (String) enum.nextElement();
+            Enumeration names = config.getInitParameterNames();
+            while (names.hasMoreElements()) {
+                String key = (String) names.nextElement();
                 put(key, config.getInitParameter(key));
 				    System.out.println("Storing key " + key);
             }
