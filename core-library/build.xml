@@ -272,10 +272,6 @@
 
   <target         name="test" depends="test:compile"
            description="Execute library unit tests">
-	    <classpath>
-		    <pathelement location="/Developer/Java/Tools/apache/apache-ant-1.6.2/junit.jar"/>
-	    </classpath>
-
     <junit        fork="yes"
            haltonerror="${test.haltonerror}"
          haltonfailure="${test.haltonfailure}"
