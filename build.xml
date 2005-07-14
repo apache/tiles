@@ -170,7 +170,8 @@
            description="Package core library">
 
     <jar       jarfile="${build.home}/lib/tiles-core.jar"
-               basedir="${build.home}/classes"/>
+               basedir="${build.home}/classes"
+              manifest="${build.home}/conf/MANIFEST.MF"/>
   </target>
 
 
