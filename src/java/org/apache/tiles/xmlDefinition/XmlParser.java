@@ -48,7 +48,9 @@ public class XmlParser
      */
     protected String registrations[] = {
         "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN",
-        "/org/apache/struts/resources/tiles-config_1_1.dtd",
+        "/org/apache/tiles/resources/tiles-config_1_1.dtd",
+        "-//Apache Software Foundation//DTD Tiles Configuration 1.2//EN",
+        "/org/apache/tiles/resources/tiles-config_1_2.dtd",
     };
 
      /**
