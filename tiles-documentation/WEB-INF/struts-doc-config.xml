@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<!--
+     This is the Struts configuration file for the example application,
+     using the proposed new syntax.
+
+     NOTE:  You would only flesh out the details in the "form-bean"
+     declarations if you had a generator tool that used them to create
+     the corresponding Java classes for you.  Otherwise, you would
+     need only the "form-bean" element itself, with the corresponding
+     "name" and "type" attributes.
+-->
+
+
+<struts-config>
+
+  <!-- =======================================================  -->
+  <!-- Tiles Documentation module								-->
+  <!-- =======================================================  -->
+
+  
+			   
+  <action-mappings/>
+
+  
+  <!-- ========== Tiles plug-in setting settings =================== -->
+  <!-- Here we specified the tiles plug-in.
+       This plug-in register appropriate Request Processor -->
+  <!--  <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"  />  -->
+
+  <!-- ========== Associated Messages Ressource settings =================== -->
+  <!-- Not used by tiles or this website, but needed due to a bug in actual Struts version -->
+  <message-resources parameter="org.apache.struts.webapp.tiles.dev1-1.ApplicationResources" null="false" />
+
+  
+  <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+    <set-property property="definitions-config" 
+                        value="/WEB-INF/tiles-defs.xml, /WEB-INF/tiles-doc-defs.xml" />
+    <set-property property="moduleAware" value="true" />
+  </plug-in>
+
+</struts-config>

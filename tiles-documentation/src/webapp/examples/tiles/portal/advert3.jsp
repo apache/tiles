@@ -1,0 +1,1 @@
+<IMG src='<%=request.getContextPath()%>/tutorial/images/banner1b.gif' border=0>

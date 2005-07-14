@@ -1,3 +1,0 @@
-2,/^END/{
-  /org.apache.struts.tiles/s//org.apache.tiles/g
-}

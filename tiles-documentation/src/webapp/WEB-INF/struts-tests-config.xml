@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<!--
+     This is the Struts configuration file for the example application,
+     using the proposed new syntax.
+
+     NOTE:  You would only flesh out the details in the "form-bean"
+     declarations if you had a generator tool that used them to create
+     the corresponding Java classes for you.  Otherwise, you would
+     need only the "form-bean" element itself, with the corresponding
+     "name" and "type" attributes.
+-->
+
+
+<struts-config>
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+    <!-- Main page url entry. 
+	     This action is used to map an URL to an internal jsp.
+	     A side effect is that the struts module is switched to the module 
+		 associated to this config file  -->
+    <action    path="/quickOverview"
+               type="org.apache.struts.actions.ForwardAction"
+               parameter="test.home.page"/>
+
+  <!-- =======================================================  -->
+  <!-- Test actions  -->
+  <!-- =======================================================  -->
+  
+    <!-- Test Struts action and Tiles integration -->
+  <action     path="/testAction"
+       		  type="org.apache.struts.webapp.tiles.test.TestActionTileAction">
+      <forward  name="success"        path="test.struts.action"/>
+      <forward  name="failure"        path="test.struts.action.fail"/>
+  </action>
+
+    <!-- Test Struts Forwardintegration -->
+  <action     path="/testForward"
+       		  type="org.apache.struts.webapp.tiles.test.TestActionTileAction"
+			  forward="test.struts.action"/>
+
+    <!-- Test Struts action and Tiles integration -->
+  <action     path="/testActionForwardJsp"
+       		  type="org.apache.struts.webapp.tiles.test.TestActionTileAction">
+      <forward  name="success"        path="/layout.jsp"/>
+      <forward  name="failure"        path="test.struts.action.fail"/>
+  </action>
+
+  <action     path="/dispatch"
+                type="org.apache.struts.tiles.actions.DefinitionDispatcherAction"
+				parameter="def">
+	 <forward  name="success" path="anything" />
+	 <forward  name="error"   path="anything" />
+  </action>
+  
+    <!-- Test Struts action and Tiles integration -->
+  <action     path="/showRequestURI"
+       		  type="org.apache.struts.webapp.tiles.test.NoForward">
+      <forward  name="success"        path="test.action.noforward"/>
+  </action>
+
+    <!-- The standard administrative actions available with Struts -->
+    <!-- These would be either omitted or protected by security -->
+    <!-- in a real application deployment -->
+     <action    path="/admin/viewdef"
+               type="org.apache.struts.tiles.actions.ViewDefinitionsAction"/>
+  </action-mappings>
+
+  
+  <!-- ========== Tiles plug-in setting settings =================== -->
+  <!-- Here we specified the tiles plug-in.
+       This plug-in register appropriate Request Processor -->
+  <!--  <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"  />  -->
+
+  <!-- ========== Associated Messages Ressource settings =================== -->
+  <!-- Not used by tiles or this website, but needed due to a bug in actual Struts version -->
+  <message-resources parameter="org.apache.struts.webapp.tiles.dev1-1.ApplicationResources" null="false" />
+
+  
+  <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+    <set-property property="definitions-config" 
+	                 value="/WEB-INF/tiles-defs.xml,
+                            /WEB-INF/tiles-tests-defs.xml" />
+    <set-property property="moduleAware" value="true" />
+  </plug-in>
+
+</struts-config>

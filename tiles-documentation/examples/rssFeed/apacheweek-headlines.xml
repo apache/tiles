@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE rss PUBLIC "-//Netscape Communications//DTD RSS 0.91//EN" "http://my.netscape.com/publish/formats/rss-0.91.dtd">
+<rss version="0.91">
+  <channel>
+    <title>Apache Week 262</title>
+    <description>The essential resource for anyone running an Apache server, or anyone responsible for running Apache-based services.</description>
+    <language>en-gb</language>
+    <link>http://www.apacheweek.com/</link>
+    <copyright>Copyright 2001, Red Hat Europe</copyright>
+    <managingEditor>editors@apacheweek.com (Mark Cox)</managingEditor>
+    <webMaster>webadmin@apacheweek.com (Mark Cox)</webMaster>
+    <lastBuildDate>20010907</lastBuildDate>
+    <pubDate>20010907</pubDate>
+    <image>
+      <title>Apache Week</title>
+      <url>http://www.apacheweek.com/img/apacheweek_channel.gif</url>
+      <link>http://www.apacheweek.com/</link>
+      <width>88</width>
+      <height>31</height>
+      <description>Apache Week</description>
+    </image>
+    <item>
+      <title>Under development</title>
+      <link>http://www.apacheweek.com/issues/01-09-07#dev</link>
+      <description>
+Controversy over a gzip content compression module for 2.0
+</description>
+    </item>
+    <item>
+      <title>In the news</title>
+      <link>http://www.apacheweek.com/issues/01-09-07#news</link>
+      <description>
+New web server surveys this month agree that Apache is still in 
+use on around 60% of all sites
+</description>
+    </item>
+    <item>
+      <title>Featured articles</title>
+      <link>http://www.apacheweek.com/issues/01-09-07#featured</link>
+      <description>
+Analysing Apache logs with Webalizer; improving your Apache server performance
+</description>
+    </item>
+  </channel>
+</rss>
