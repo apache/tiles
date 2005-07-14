@@ -34,20 +34,17 @@
   <!-- Build Defaults -->
   <property name="build.home"              value="${basedir}/target"/>
   <property name="dist.home"               value="${basedir}/dist"/>
+  <property name="lib.home"                value="${basedir}/lib"/>
   <property name="project.name"            value="Tiles Core Library"/>
   <property name="project.package"         value="org.apache.tiles"/>
   <property name="project.version"         value="0.2-dev"/>
 
 
+  <!-- Dependency Defaults -->
+  <property name="maven.repo"              value="http://www.ibiblio.org/maven"/>
+
   <!-- Dependency library defaults -->
-  <property name="commons-beanutils.jar" value="${beanutils.home}/commons-beanutils.jar"/>
-  <property name="commons-digester.jar" value="${digester.home}/commons-digester.jar"/>
-  <property name="commons-logging.jar" value="${logging.home}/commons-logging.jar"/>
-  <property name="jsp-api.jar"      value="${server.home}/common/lib/jsp-api.jar"/>
-  <property name="jsf-impl.jar"     value="${jsf.home}/lib/jsf-impl.jar"/>
-  <property name="jsf-api.jar"      value="${jsf.home}/lib/jsf-api.jar"/>
   <property name="junit.jar"        value="${junit.home}/junit.jar"/>
-  <property name="servlet-api.jar"  value="${server.home}/common/lib/servlet-api.jar"/>
 
 
   <!-- Compile Defaults -->
@@ -62,28 +59,27 @@
   <property name="test.runner"             value="junit.textui.TestRunner"/>
 
 
+  <!-- External Dependency Declarations -->
+  <fileset             id="external.libs"
+                      dir="${lib.home}">
+    <include         name="*.jar"/>
+    <exclude         name="junit.jar"/>
+  </fileset>
+  <path                id="external.path">
+    <fileset        refid="external.libs"/>
+  </path>
+
   <!-- Compile Classpath -->
-  <path id="compile.classpath">
-    <pathelement location="${commons-beanutils.jar}"/>
-    <pathelement location="${commons-digester.jar}"/>
-    <pathelement location="${commons-logging.jar}"/>
-    <pathelement location="${jsf-api.jar}"/>
-    <pathelement location="${jsf-impl.jar}"/>
-    <pathelement location="${jsp-api.jar}"/>
-    <pathelement location="${servlet-api.jar}"/>
+  <path                id="compile.classpath">
+    <path           refid="external.path"/>
     <pathelement location="${build.home}/classes"/>
   </path>
 
 
   <!-- Test Classpath -->
-  <path id="test.classpath">
-    <pathelement location="${commons-beanutils.jar}"/>
-    <pathelement location="${commons-digester.jar}"/>
-    <pathelement location="${jsf-api.jar}"/>
-    <pathelement location="${jsp-api.jar}"/>
-    <pathelement location="${junit.jar}"/>
-    <pathelement location="${servlet-api.jar}"/>
-    <pathelement location="${build.home}/classes"/>
+  <path                id="test.classpath">
+    <path           refid="external.path"/>
+    <pathelement location="${lib.home}/junit.jar"/>
     <pathelement location="${build.home}/test-classes"/>
   </path>
 
@@ -102,15 +98,7 @@
     <echo  message="---------- ${project.name} ${project.version} -----------"/>
     <filter  token="name"     value="${project.name}"/>
     <filter  token="package"  value="${project.package}"/>
-    <filter  token="state"    value="${systest.state.saving}"/>
     <filter  token="version"  value="${project.version}"/>
-    <echo  message="commons-beanutils.jar =  ${commons-beanutils.jar}"/>
-    <echo  message="commons-digester.jar =   ${commons-digester.jar}"/>
-    <echo  message="commons-logging.jar =    ${commons-logging.jar}"/>
-    <echo  message="jsf-api.jar =            ${jsf-api.jar}"/>
-    <echo  message="jsf-impl.jar =           ${jsf-impl.jar}"/>
-    <echo  message="jsp-api.jar =            ${jsp-api.jar}"/>
-    <echo  message="servlet-api.jar =        ${servlet-api.jar}"/>
   </target>
 
 
@@ -135,7 +123,7 @@
     </copy>
     <copy    todir="${build.home}/classes/META-INF">
       <fileset dir="src/conf"
-          includes="tiles-core.tld"/>
+          includes="*.tld"/>
     </copy>
   </target>
 
@@ -282,6 +270,47 @@
       </batchtest>
 
     </junit>
+
+  </target>
+
+
+  <!-- ===================== Dependency Targets ============================ -->
+
+
+  <target        name="download-dependencies"
+          description="Doanload freely available dependencies">
+
+    <mkdir        dir="${lib.home}"/>
+
+    <get         dest="${lib.home}/commons-beanutils.jar"
+         ignoreerrors="true"
+                  src="${maven.repo}/commons-beanutils/jars/commons-beanutils-1.7.0.jar"
+         usetimestamp="true"/>
+
+    <get         dest="${lib.home}/commons-digester.jar"
+         ignoreerrors="true"
+                  src="${maven.repo}/commons-digester/jars/commons-digester-1.7.jar"
+         usetimestamp="true"/>
+
+    <get         dest="${lib.home}/commons-logging.jar"
+         ignoreerrors="true"
+                  src="${maven.repo}/commons-logging/jars/commons-logging-1.0.4.jar"
+         usetimestamp="true"/>
+
+    <get         dest="${lib.home}/jsp-api.jar"
+         ignoreerrors="true"
+                  src="${maven.repo}/jspapi/jars/jsp-api-2.0.jar"
+         usetimestamp="true"/>
+
+    <get         dest="${lib.home}/junit.jar"
+         ignoreerrors="true"
+                  src="${maven.repo}/junit/jars/junit-3.8.1.jar"
+         usetimestamp="true"/>
+
+    <get         dest="${lib.home}/servlet-api.jar"
+         ignoreerrors="true"
+                  src="${maven.repo}/servletapi/jars/servletapi-2.4.jar"
+         usetimestamp="true"/>
 
   </target>
 

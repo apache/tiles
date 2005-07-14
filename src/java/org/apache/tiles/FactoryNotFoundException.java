@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.struts.tiles;
+package org.apache.tiles;
 
   /**
    * Exception thrown when definitions factory is not found.

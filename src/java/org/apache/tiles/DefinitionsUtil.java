@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles;
+package org.apache.tiles;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
@@ -29,7 +29,7 @@ import javax.servlet.ServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.tiles.taglib.ComponentConstants;
+import org.apache.tiles.taglib.ComponentConstants;
 
 /**
  * Utilities class for definitions factory.
@@ -71,14 +71,14 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * Constant name used to store factory in context. 
      */
     public static final String DEFINITIONS_FACTORY =
-        "org.apache.struts.tiles.DEFINITIONS_FACTORY";
+        "org.apache.tiles.DEFINITIONS_FACTORY";
 
     /** 
      * Constant name used to store definition in jsp context.
      * Used to pass definition from a Struts action to servlet forward. 
      */
     public static final String ACTION_DEFINITION =
-        "org.apache.struts.tiles.ACTION_DEFINITION";
+        "org.apache.tiles.ACTION_DEFINITION";
 
     /**
      * Create Definition factory.

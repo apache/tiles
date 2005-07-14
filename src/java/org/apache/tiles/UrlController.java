@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles;
+package org.apache.tiles;
 
 import java.io.IOException;
 
@@ -71,7 +71,7 @@ public class UrlController implements Controller {
 	}
 
 	/**
-	 * @see org.apache.struts.tiles.Controller#execute(org.apache.struts.tiles.ComponentContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.ServletContext)
+	 * @see org.apache.tiles.Controller#execute(org.apache.tiles.ComponentContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.ServletContext)
 	 */
 	public void execute(
 		ComponentContext tileContext,

@@ -18,18 +18,16 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.Globals;
-
 /**
  * Constants used by Tiles/Components.
  */
 public interface ComponentConstants {
 
     /** Name used to store Tile/Component context. */
-    public static final String COMPONENT_CONTEXT = "org.apache.tiles.taglib.CompContext";
+    public static final String COMPONENT_CONTEXT = "org.apache.tiles.CompContext";
 
     public static final int COMPONENT_SCOPE = 8;
-    public static final String LOCALE_KEY = Globals.LOCALE_KEY;
-    public static final String EXCEPTION_KEY = Globals.EXCEPTION_KEY;
+    public static final String LOCALE_KEY = "org.apache.tiles.LOCALE";
+    public static final String EXCEPTION_KEY = "org.apache.tiles.EXCEPTION";
 
 }

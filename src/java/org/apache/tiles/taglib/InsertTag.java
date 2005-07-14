@@ -31,7 +31,6 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.Globals;
 import org.apache.tiles.taglib.util.TagUtils;
 import org.apache.tiles.AttributeDefinition;
 import org.apache.tiles.ComponentContext;
@@ -583,7 +582,7 @@ public class InsertTag
 
 			// Save exception to be able to show it later
 			pageContext.setAttribute(
-				Globals.EXCEPTION_KEY,
+				ComponentConstants.EXCEPTION_KEY,
 				ex,
 				PageContext.REQUEST_SCOPE);
 			throw new JspException(ex);

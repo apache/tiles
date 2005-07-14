@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles;
+package org.apache.tiles;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -24,8 +24,8 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.tiles.xmlDefinition.XmlDefinition;
-import org.apache.struts.util.RequestUtils;
+import org.apache.tiles.xmlDefinition.XmlDefinition;
+import org.apache.tiles.util.RequestUtils;
 
 /**
  * Definition of a template / component attributes.

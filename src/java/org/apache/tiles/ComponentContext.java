@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles;
+package org.apache.tiles;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -28,7 +28,7 @@ import java.util.Set;
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.PageContext;
 
-import org.apache.struts.tiles.taglib.ComponentConstants;
+import org.apache.tiles.taglib.ComponentConstants;
 
 /**
  * Component context.

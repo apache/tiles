@@ -30,7 +30,7 @@ import org.apache.tiles.DefinitionsFactory;
 import org.apache.tiles.DefinitionsFactoryConfig;
 import org.apache.tiles.DefinitionsFactoryException;
 import org.apache.tiles.NoSuchDefinitionException;
-import org.apache.util.RequestUtils;
+import org.apache.tiles.util.RequestUtils;
 
 /**
  * Wrapper from new definition factory interface to old interface.

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles;
+package org.apache.tiles;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -33,8 +33,8 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.tiles.definition.ComponentDefinitionsFactoryWrapper;
-import org.apache.struts.util.RequestUtils;
+import org.apache.tiles.definition.ComponentDefinitionsFactoryWrapper;
+import org.apache.tiles.util.RequestUtils;
 
 /**
  * Default implementation of TilesUtil.
@@ -48,7 +48,7 @@ public class TilesUtilImpl implements Serializable {
 
     /** Constant name used to store factory in servlet context */
     public static final String DEFINITIONS_FACTORY =
-        "org.apache.struts.tiles.DEFINITIONS_FACTORY";
+        "org.apache.tiles.DEFINITIONS_FACTORY";
         
     /**
      * JSP 2.0 include method to use which supports configurable flushing.

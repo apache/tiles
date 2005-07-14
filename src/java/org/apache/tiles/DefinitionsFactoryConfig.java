@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles;
+package org.apache.tiles;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -39,10 +39,10 @@ public class DefinitionsFactoryConfig implements Serializable {
     /**
      * Fully qualified classname of the factory to create.
      * If no classname is set, a default factory is created
-     * (of class "org.apache.struts.tiles.xmlDefinition.I18nFactorySet").
+     * (of class "org.apache.tiles.xmlDefinition.I18nFactorySet").
      */
     protected String factoryClassname =
-        "org.apache.struts.tiles.xmlDefinition.I18nFactorySet";
+        "org.apache.tiles.xmlDefinition.I18nFactorySet";
 
     /**
      * Specifies whether the parser will validate configuration files.
@@ -220,7 +220,7 @@ public class DefinitionsFactoryConfig implements Serializable {
           map.put(PARSER_DETAILS_PARAMETER_NAME, Integer.toString(getParserDebugLevel()) );
           map.put(PARSER_VALIDATE_PARAMETER_NAME, new Boolean(getParserValidate()).toString() );
         
-          if( ! "org.apache.struts.tiles.xmlDefinition.I18nFactorySet".equals(getFactoryClassname()) )
+          if( ! "org.apache.tiles.xmlDefinition.I18nFactorySet".equals(getFactoryClassname()) )
           map.put(FACTORY_CLASSNAME_PARAMETER_NAME, getFactoryClassname());
         */
         return map;

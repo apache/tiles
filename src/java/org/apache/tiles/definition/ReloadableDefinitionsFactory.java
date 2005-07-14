@@ -32,7 +32,7 @@ import org.apache.tiles.ComponentDefinitionsFactory;
 import org.apache.tiles.DefinitionsFactoryException;
 import org.apache.tiles.FactoryNotFoundException;
 import org.apache.tiles.xmlDefinition.I18nFactorySet;
-import org.apache.util.RequestUtils;
+import org.apache.tiles.util.RequestUtils;
 
 /**
  * A reloadable factory.

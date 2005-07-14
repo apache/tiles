@@ -26,7 +26,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.Globals;
 import org.apache.tiles.taglib.ComponentConstants;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentDefinition;
@@ -324,7 +323,7 @@ public class TagUtils {
      * @param exception The exception to be saved.
      */
     public static void saveException(PageContext pageContext, Throwable exception) {
-        pageContext.setAttribute(Globals.EXCEPTION_KEY, exception, PageContext.REQUEST_SCOPE);
+        pageContext.setAttribute(ComponentConstants.EXCEPTION_KEY, exception, PageContext.REQUEST_SCOPE);
     }
 
     /**
