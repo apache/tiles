@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.taglib;
+package org.apache.tiles.taglib;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.struts.tiles.AttributeDefinition;
-import org.apache.struts.tiles.UntypedAttribute;
+import org.apache.tiles.AttributeDefinition;
+import org.apache.tiles.UntypedAttribute;
 
 /**
  * PutList tag implementation.

@@ -17,15 +17,15 @@
  */
 
 
-package org.apache.struts.tiles.taglib;
+package org.apache.tiles.taglib;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.struts.tiles.DefinitionsFactory;
-import org.apache.struts.tiles.DefinitionsFactoryConfig;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.TilesUtil;
+import org.apache.tiles.DefinitionsFactory;
+import org.apache.tiles.DefinitionsFactoryConfig;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.TilesUtil;
 
   /**
    * Init definitions factory.

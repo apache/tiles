@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.taglib;
+package org.apache.tiles.taglib;
 
 import javax.servlet.jsp.JspException;
 
-import org.apache.struts.tiles.taglib.util.TagUtils;
-import org.apache.struts.tiles.AttributeDefinition;
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.UntypedAttribute;
+import org.apache.tiles.taglib.util.TagUtils;
+import org.apache.tiles.AttributeDefinition;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.UntypedAttribute;
 
 /**
  * This is the tag handler for &lt;tiles:definition&gt;, which defines

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.taglib;
+package org.apache.tiles.taglib;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,19 +31,19 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.Globals;
-import org.apache.struts.tiles.taglib.util.TagUtils;
-import org.apache.struts.tiles.AttributeDefinition;
-import org.apache.struts.tiles.ComponentContext;
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.Controller;
-import org.apache.struts.tiles.DefinitionAttribute;
-import org.apache.struts.tiles.DefinitionNameAttribute;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.DirectStringAttribute;
-import org.apache.struts.tiles.FactoryNotFoundException;
-import org.apache.struts.tiles.NoSuchDefinitionException;
-import org.apache.struts.tiles.TilesUtil;
+import org.apache.Globals;
+import org.apache.tiles.taglib.util.TagUtils;
+import org.apache.tiles.AttributeDefinition;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.Controller;
+import org.apache.tiles.DefinitionAttribute;
+import org.apache.tiles.DefinitionNameAttribute;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.DirectStringAttribute;
+import org.apache.tiles.FactoryNotFoundException;
+import org.apache.tiles.NoSuchDefinitionException;
+import org.apache.tiles.TilesUtil;
 
 /**
  * This is the tag handler for &lt;tiles:insert&gt;, which includes

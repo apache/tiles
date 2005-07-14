@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.definition;
+package org.apache.tiles.definition;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,13 +24,13 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.ComponentDefinitionsFactory;
-import org.apache.struts.tiles.DefinitionsFactory;
-import org.apache.struts.tiles.DefinitionsFactoryConfig;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.NoSuchDefinitionException;
-import org.apache.struts.util.RequestUtils;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.ComponentDefinitionsFactory;
+import org.apache.tiles.DefinitionsFactory;
+import org.apache.tiles.DefinitionsFactoryConfig;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.NoSuchDefinitionException;
+import org.apache.util.RequestUtils;
 
 /**
  * Wrapper from new definition factory interface to old interface.

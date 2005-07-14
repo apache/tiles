@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.taglib.util;
+package org.apache.tiles.taglib.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -26,14 +26,14 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.struts.Globals;
-import org.apache.struts.tiles.taglib.ComponentConstants;
-import org.apache.struts.tiles.ComponentContext;
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.FactoryNotFoundException;
-import org.apache.struts.tiles.NoSuchDefinitionException;
-import org.apache.struts.tiles.TilesUtil;
+import org.apache.Globals;
+import org.apache.tiles.taglib.ComponentConstants;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.FactoryNotFoundException;
+import org.apache.tiles.NoSuchDefinitionException;
+import org.apache.tiles.TilesUtil;
 
 /**
  * Collection of utilities.

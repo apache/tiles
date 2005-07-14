@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.taglib;
+package org.apache.tiles.taglib;
 
-import org.apache.struts.Globals;
+import org.apache.Globals;
 
 /**
  * Constants used by Tiles/Components.
@@ -26,7 +26,7 @@ import org.apache.struts.Globals;
 public interface ComponentConstants {
 
     /** Name used to store Tile/Component context. */
-    public static final String COMPONENT_CONTEXT = "org.apache.struts.taglib.tiles.CompContext";
+    public static final String COMPONENT_CONTEXT = "org.apache.tiles.taglib.CompContext";
 
     public static final int COMPONENT_SCOPE = 8;
     public static final String LOCALE_KEY = Globals.LOCALE_KEY;

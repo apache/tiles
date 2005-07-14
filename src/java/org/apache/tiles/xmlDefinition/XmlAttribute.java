@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.xmlDefinition;
+package org.apache.tiles.xmlDefinition;
 
-import org.apache.struts.tiles.DefinitionNameAttribute;
-import org.apache.struts.tiles.DirectStringAttribute;
-import org.apache.struts.tiles.PathAttribute;
-import org.apache.struts.tiles.UntypedAttribute;
+import org.apache.tiles.DefinitionNameAttribute;
+import org.apache.tiles.DirectStringAttribute;
+import org.apache.tiles.PathAttribute;
+import org.apache.tiles.UntypedAttribute;
 
 /**
  * A property key-value pair.  This class is used to read configuration files.

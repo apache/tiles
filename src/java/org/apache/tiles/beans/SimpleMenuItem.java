@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.beans;
+package org.apache.tiles.beans;
 
 import java.io.Serializable;
 

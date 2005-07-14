@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.definition;
+package org.apache.tiles.definition;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -27,21 +27,18 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.ComponentDefinitionsFactory;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.FactoryNotFoundException;
-import org.apache.struts.tiles.xmlDefinition.I18nFactorySet;
-import org.apache.struts.util.RequestUtils;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.ComponentDefinitionsFactory;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.FactoryNotFoundException;
+import org.apache.tiles.xmlDefinition.I18nFactorySet;
+import org.apache.util.RequestUtils;
 
 /**
  * A reloadable factory.
  * This factory is the main entrance to any factory implementation. It takes in
  * charge real implementation instance, and allows reloading by creating a new
  * instance.
- *
- * @since Struts 1.1
- * @version $Rev$ $Date$
  */
 public class ReloadableDefinitionsFactory implements ComponentDefinitionsFactory {
 

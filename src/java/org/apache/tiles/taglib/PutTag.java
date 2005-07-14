@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.taglib;
+package org.apache.tiles.taglib;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -24,11 +24,11 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.struts.tiles.taglib.util.TagUtils;
-import org.apache.struts.tiles.AttributeDefinition;
-import org.apache.struts.tiles.DefinitionNameAttribute;
-import org.apache.struts.tiles.DirectStringAttribute;
-import org.apache.struts.tiles.PathAttribute;
+import org.apache.tiles.taglib.util.TagUtils;
+import org.apache.tiles.AttributeDefinition;
+import org.apache.tiles.DefinitionNameAttribute;
+import org.apache.tiles.DirectStringAttribute;
+import org.apache.tiles.PathAttribute;
 
 /**
  * Put an attribute in enclosing attribute container tag.

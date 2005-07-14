@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.struts.tiles.xmlDefinition;
+package org.apache.tiles.xmlDefinition;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,9 +36,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.tiles.taglib.ComponentConstants;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.FactoryNotFoundException;
+import org.apache.tiles.taglib.ComponentConstants;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.FactoryNotFoundException;
 import org.xml.sax.SAXException;
 
 /**

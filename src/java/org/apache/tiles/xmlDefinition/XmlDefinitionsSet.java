@@ -17,13 +17,13 @@
  */
 
 
-package org.apache.struts.tiles.xmlDefinition;
+package org.apache.tiles.xmlDefinition;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.struts.tiles.NoSuchDefinitionException;
+import org.apache.tiles.NoSuchDefinitionException;
 
 /**
  * A set of definitions read from XML definitions file.

@@ -1,4 +1,4 @@
-/*
+str/*
  * $Id$ 
  *
  * Copyright 1999-2004 The Apache Software Foundation.
@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.struts.tiles.xmlDefinition;
+package org.apache.tiles.xmlDefinition;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,11 +26,11 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.ComponentDefinitionsFactory;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.FactoryNotFoundException;
-import org.apache.struts.tiles.NoSuchDefinitionException;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.ComponentDefinitionsFactory;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.FactoryNotFoundException;
+import org.apache.tiles.NoSuchDefinitionException;
 
 /**
  * Component Definitions factory.

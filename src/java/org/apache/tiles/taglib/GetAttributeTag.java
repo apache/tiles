@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.struts.tiles.taglib;
+package org.apache.tiles.taglib;
 
 import java.io.IOException;
 
@@ -26,7 +26,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.struts.tiles.ComponentContext;
+import org.apache.tiles.ComponentContext;
 
   /**
    * Retrieve the value of the specified component/template attribute property,

@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.struts.tiles.xmlDefinition;
+package org.apache.tiles.xmlDefinition;
 
 import java.util.ArrayList;
 import java.util.List;

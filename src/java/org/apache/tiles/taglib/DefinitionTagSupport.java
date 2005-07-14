@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.struts.tiles.taglib;
+package org.apache.tiles.taglib;
 
 import java.io.Serializable;
 import javax.servlet.jsp.tagext.TagSupport;

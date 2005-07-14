@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.struts.tiles.xmlDefinition;
+package org.apache.tiles.xmlDefinition;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -27,9 +27,9 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.NoSuchDefinitionException;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.NoSuchDefinitionException;
 
 /**
  * A factory for definitions.

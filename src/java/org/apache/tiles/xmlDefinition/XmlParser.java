@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.struts.tiles.xmlDefinition;
+package org.apache.tiles.xmlDefinition;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -92,7 +92,7 @@ public class XmlParser
   private void initDigesterForComponentsDefinitionsSyntax( Digester digester )
   {
 	 // Common constants
-  String PACKAGE_NAME = "org.apache.struts.tiles.xmlDefinition";
+  String PACKAGE_NAME = "org.apache.tiles.xmlDefinition";
   String DEFINITION_TAG = "component-definitions/definition";
   String definitionHandlerClass = PACKAGE_NAME + ".XmlDefinition";
 
@@ -134,7 +134,7 @@ public class XmlParser
   private void initDigesterForTilesDefinitionsSyntax( Digester digester )
   {
 	 // Common constants
-  String PACKAGE_NAME = "org.apache.struts.tiles.xmlDefinition";
+  String PACKAGE_NAME = "org.apache.tiles.xmlDefinition";
   String DEFINITION_TAG = "tiles-definitions/definition";
   String definitionHandlerClass = PACKAGE_NAME + ".XmlDefinition";
 
@@ -188,14 +188,14 @@ public class XmlParser
   //String ADD_WILDCARD = LIST_TAG + "/addItem";
   // non String ADD_WILDCARD = LIST_TAG + "/addx*";
   String ADD_WILDCARD = "*/item";
-  String menuItemDefaultClass = "org.apache.struts.tiles.beans.SimpleMenuItem";
+  String menuItemDefaultClass = "org.apache.tiles.beans.SimpleMenuItem";
 	digester.addObjectCreate(  ADD_WILDCARD, menuItemDefaultClass, "classtype");
 	digester.addSetNext(       ADD_WILDCARD, "add", "java.lang.Object");
 	digester.addSetProperties( ADD_WILDCARD);
 
     // bean elements rules
   String BEAN_TAG = "*/bean";
-  String beanDefaultClass = "org.apache.struts.tiles.beans.SimpleMenuItem";
+  String beanDefaultClass = "org.apache.tiles.beans.SimpleMenuItem";
 	digester.addObjectCreate(  BEAN_TAG, beanDefaultClass, "classtype");
 	digester.addSetNext(       BEAN_TAG, "add", "java.lang.Object");
 	digester.addSetProperties( BEAN_TAG);
@@ -213,7 +213,7 @@ public class XmlParser
   private void initDigesterForInstancesSyntax( Digester digester )
   {
     	// Build a digester to process our configuration resource
-  String PACKAGE_NAME = "org.apache.struts.tiles.xmlDefinition";
+  String PACKAGE_NAME = "org.apache.tiles.xmlDefinition";
   String INSTANCE_TAG = "component-instances/instance";
   String instanceHandlerClass = PACKAGE_NAME + ".XmlDefinition";
 

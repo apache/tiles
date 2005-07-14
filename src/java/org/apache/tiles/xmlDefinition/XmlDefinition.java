@@ -17,14 +17,14 @@
  */
 
 
-package org.apache.struts.tiles.xmlDefinition;
+package org.apache.tiles.xmlDefinition;
 
 import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.NoSuchDefinitionException;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.NoSuchDefinitionException;
 
 /**
   *A definition read from an XML definitions file.
