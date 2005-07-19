@@ -279,7 +279,7 @@
 
 
   <target        name="download-dependencies"
-          description="Doanload freely available dependencies">
+          description="Download freely available dependencies">
 
     <mkdir        dir="${lib.home}"/>
 
