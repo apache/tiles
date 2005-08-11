@@ -80,6 +80,7 @@
   <path                id="test.classpath">
     <path           refid="external.path"/>
     <pathelement location="${lib.home}/junit.jar"/>
+    <pathelement location="${build.home}/classes"/>
     <pathelement location="${build.home}/test-classes"/>
   </path>
 
@@ -267,7 +268,7 @@
                usefile="false"/>
       <batchtest  fork="yes">
         <fileset   dir="${build.home}/test-classes"
-              includes="org/apache/tiles/*/*TestCase.class"/>
+              includes="org/apache/tiles/**/Test*.class"/>
       </batchtest>
 
     </junit>
