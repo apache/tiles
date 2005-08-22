@@ -2,7 +2,7 @@
 <project>
     <!-- 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,17 @@
  -->
 
 
-    <extend>build/project.xml</extend>
     <id>tiles-core</id>
     <groupId>tiles</groupId>
     <name>Tiles Core Library</name>
 
+    <organization>
+      <name>The Apache Software Foundation</name>
+      <url>http://www.apache.org/</url>
+      <logo>http://www.apache.org/images/asf-logo.gif</logo>
+    </organization>
+    <logo>http://struts.apache.org/images/struts.gif</logo>
+    <gumpRepositoryId>struts-svn</gumpRepositoryId>
     <inceptionYear>2003</inceptionYear>
     <package>org.apache.tiles</package>
     <currentVersion>0.2-dev</currentVersion>
@@ -42,17 +48,98 @@
         <developerConnection>scm|svn|https|//svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</developerConnection>
         <url>http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</url>
     </repository>
+    
+    <dependencies>
+
+    <dependency>
+      <groupId>servletapi</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4</version>
+      <url>http://java.sun.com/products/servlet/</url>
+    </dependency>
+
+    <dependency>
+      <groupId>jspapi</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <url>http://java.sun.com/products/jsp/</url>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+      <url>http://jakarta.apache.org/commons/logging/</url>
+      <properties>
+       <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+      
+    <dependency>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+      <version>1.7</version>
+      <url>http://jakarta.apache.org/commons/digester/</url>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.7.0</version>
+      <url>http://jakarta.apache.org/commons/beanutils/</url>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    </dependencies>
+
     <build>
         <sourceDirectory>src/java</sourceDirectory>
         <resources>
             <resource>
-                <directory>src/resource</directory>
+                <directory>src/conf</directory>
                 <includes>
-                    <include>**/*.xml</include>
+                  <include>**/*.dtd</include>
                 </includes>
-                <filtering>false</filtering>
+                <targetPath>org/apache/tiles/resources</targetPath>
+             </resource>
+            <resource>
+                <directory>src/conf</directory>
+                <includes>
+                    <include>**/*.tld</include>
+                </includes>
+                <targetPath>META-INF</targetPath>
             </resource>
         </resources>
+    
+        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+        <unitTest>
+          <includes>
+            <include>**/Test*.java</include>
+          </includes>
+          <resources>
+            <resource>
+              <directory>src/conf</directory>
+              <targetPath>org/apache/tiles/resources</targetPath>
+              <includes>
+                <include>**/*.dtd</include>
+              </includes>
+            </resource>
+            <resource>
+              <directory>src/test</directory>
+              <includes>
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>
+              </includes>
+            </resource>
+          </resources>
+        </unitTest>
+
     </build>
+    <reports/>
 </project>
 
