@@ -20,10 +20,13 @@ package org.apache.tiles;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.xmlDefinition.XmlAttribute;
 import org.apache.tiles.xmlDefinition.XmlDefinition;
 import org.apache.tiles.util.RequestUtils;
 
@@ -34,6 +37,11 @@ import org.apache.tiles.util.RequestUtils;
  */
 public class ComponentDefinition implements Serializable {
 
+    /**
+     * Extends attribute value.
+     */
+    private String inherit;
+    
     /**
      * Commons Logging instance. 
      */
@@ -67,6 +75,11 @@ public class ComponentDefinition implements Serializable {
      * Can be CONTROLLER, ACTION or URL, or null. 
      */
     protected String controllerType = null;
+
+    /**
+     * Used for resolving inheritance.
+     */
+    private boolean isVisited=false;
 
     /** 
      * Controller name type. 
@@ -541,4 +554,192 @@ public class ComponentDefinition implements Serializable {
         }
     }
 
+  /**
+   * Add an attribute to this component.
+   *
+   * @param attribute Attribute to add.
+   */
+  public void addAttribute( XmlAttribute attribute)
+    {
+    putAttribute( attribute.getName(), attribute.getValue() );
+    }
+
+  /**
+   * Set extends.
+   *
+   * @param name Name of the extended definition.
+   */
+  public void setExtends(String name)
+    {
+    inherit = name;
+    }
+
+  /**
+   * Get extends.
+   *
+   * @return Name of the extended definition.
+   */
+  public String getExtends()
+    {
+    return inherit;
+    }
+
+  /**
+   * Get extends flag.
+   *
+   */
+  public boolean isExtending( )
+    {
+    return inherit!=null;
+    }
+
+  /**
+   * Set isVisited.
+   *
+   */
+  public void setIsVisited( boolean isVisited )
+    {
+    this.isVisited = isVisited;
+    }
+
+    /**
+     * Resolve inheritance.
+     * First, resolve parent's inheritance, then set path to the parent's path.
+     * Also copy attributes setted in parent, and not set in child
+     * If instance doesn't extend anything, do nothing.
+     * @throws NoSuchDefinitionException If an inheritance can not be solved.
+     */
+  public void resolveInheritance( ComponentDefinitions definitionsSet )
+    throws NoSuchDefinitionException
+    {
+      // Already done, or not needed ?
+    if( isVisited || !isExtending() )
+      return;
+
+    if(log.isDebugEnabled())
+      log.debug( "Resolve definition for child name='" + getName()
+              + "' extends='" + getExtends() + "'.");
+
+      // Set as visited to avoid endless recurisvity.
+    setIsVisited( true );
+
+      // Resolve parent before itself.
+    ComponentDefinition parent = definitionsSet.getDefinition( getExtends() );
+    if( parent == null )
+      { // error
+      String msg = "Error while resolving definition inheritance: child '"
+                           + getName() +    "' can't find its ancestor '"
+                           + getExtends() + "'. Please check your description file.";
+      log.error( msg );
+        // to do : find better exception
+      throw new NoSuchDefinitionException( msg );
+      }
+
+    parent.resolveInheritance( definitionsSet );
+
+      // Iterate on each parent's attribute and add it if not defined in child.
+    Iterator parentAttributes = parent.getAttributes().keySet().iterator();
+    while( parentAttributes.hasNext() )
+      {
+      String name = (String)parentAttributes.next();
+      if( !getAttributes().containsKey(name) )
+        putAttribute( name, parent.getAttribute(name) );
+      }
+      // Set path and role if not setted
+    if( path == null )
+      setPath( parent.getPath() );
+    if( role == null )
+      setRole( parent.getRole() );
+    if( controller==null )
+      {
+      setController( parent.getController());
+      setControllerType( parent.getControllerType());
+      }
+    }
+
+    /**
+     * Resolve locale-specific inheritance.
+     * First, resolve parent's inheritance, then set path to the parent's path.
+     * Also copy attributes setted in parent, and not set in child
+     * If instance doesn't extend anything, do nothing.
+     * @throws NoSuchDefinitionException If an inheritance can not be solved.
+     */
+  public void resolveInheritance( ComponentDefinitions definitionsSet, Locale locale)
+    throws NoSuchDefinitionException
+    {
+      // Already done, or not needed ?
+    if( isVisited || !isExtending() )
+      return;
+
+    if(log.isDebugEnabled())
+      log.debug( "Resolve definition for child name='" + getName()
+              + "' extends='" + getExtends() + "'.");
+
+      // Set as visited to avoid endless recurisvity.
+    setIsVisited( true );
+
+      // Resolve parent before itself.
+    ComponentDefinition parent = definitionsSet.getDefinition( getExtends(), 
+            locale );
+    if( parent == null )
+      { // error
+      String msg = "Error while resolving definition inheritance: child '"
+                           + getName() +    "' can't find its ancestor '"
+                           + getExtends() + "'. Please check your description file.";
+      log.error( msg );
+        // to do : find better exception
+      throw new NoSuchDefinitionException( msg );
+      }
+
+    parent.resolveInheritance( definitionsSet, locale );
+
+      // Iterate on each parent's attribute and add it if not defined in child.
+    Iterator parentAttributes = parent.getAttributes().keySet().iterator();
+    while( parentAttributes.hasNext() )
+      {
+      String name = (String)parentAttributes.next();
+      if( !getAttributes().containsKey(name) )
+        putAttribute( name, parent.getAttribute(name) );
+      }
+      // Set path and role if not setted
+    if( path == null )
+      setPath( parent.getPath() );
+    if( role == null )
+      setRole( parent.getRole() );
+    if( controller==null )
+      {
+      setController( parent.getController());
+      setControllerType( parent.getControllerType());
+      }
+    }
+
+  /**
+   * Overload this definition with passed child.
+   * All attributes from child are copied to this definition. Previous attributes with
+   * same name are disguarded.
+   * Special attribute 'path','role' and 'extends' are overloaded if defined in child.
+   * @param child Child used to overload this definition.
+   */
+  public void overload( ComponentDefinition child )
+    {
+    if( child.getPath() != null )
+      {
+      path = child.getPath();
+      }
+    if( child.getExtends() != null )
+      {
+      inherit = child.getExtends();
+      }
+    if( child.getRole() != null )
+      {
+      role = child.getRole();
+      }
+    if( child.getController()!=null )
+      {
+      controller = child.getController();
+      controllerType =  child.getControllerType();
+      }
+      // put all child attributes in parent.
+    attributes.putAll( child.getAttributes());
+    }
 }

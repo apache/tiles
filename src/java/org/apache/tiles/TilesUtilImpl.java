@@ -23,6 +23,11 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -49,6 +54,10 @@ public class TilesUtilImpl implements Serializable {
     /** Constant name used to store factory in servlet context */
     public static final String DEFINITIONS_FACTORY =
         "org.apache.tiles.DEFINITIONS_FACTORY";
+    
+    /** Constant used to store ComponentDefinitions graph. */
+    public static final String DEFINITIONS_OBJECT = 
+            "org.apache.tiles.ComponentDefinitions";
         
     /**
      * JSP 2.0 include method to use which supports configurable flushing.
@@ -165,17 +174,71 @@ public class TilesUtilImpl implements Serializable {
         DefinitionsFactoryConfig factoryConfig)
         throws DefinitionsFactoryException {
             
+        // FIXME:  Pull from servlet context.
+        String factoryClassName = "org.apache.tiles.definition.UrlDefinitionsFactory";
+        
         // Create configurable factory
         DefinitionsFactory factory =
-            createDefinitionFactoryInstance(factoryConfig.getFactoryClassname());
-            
-        factory.init(factoryConfig, servletContext);
+            createDefinitionFactoryInstance(factoryClassName);
+
+        Map params = factoryConfig.getAttributes();
+        
+        factory.init(params);
+
+        String configFiles = factoryConfig.getDefinitionConfigFiles();
+        List filenames = getFilenames(configFiles);
+        
+        try {
+            for (int i = 0; i < filenames.size(); i++) {
+                String filename = (String) filenames.get(i);
+                factory.addSource(servletContext.getResource(filename));
+            }
+        } catch (MalformedURLException e) {
+            throw new DefinitionsFactoryException("Problem with filename URL: ", e);
+        }
+        
+        ComponentDefinitions definitions = factory.readDefinitions();
         
         // Make factory accessible from jsp tags (push it in appropriate context)
         makeDefinitionsFactoryAccessible(factory, servletContext);
+        makeDefinitionsAccessible(definitions, servletContext);
+        
         return factory;
     }
 
+    public ComponentDefinition getDefinition(String definitionName,
+            ServletRequest request,
+            ServletContext servletContext) 
+            throws FactoryNotFoundException, DefinitionsFactoryException {
+        
+        try {
+            DefinitionsFactory factory = getDefinitionsFactory(request, servletContext);
+            ComponentDefinitions definitions = (ComponentDefinitions) 
+                servletContext.getAttribute(TilesUtilImpl.DEFINITIONS_OBJECT);
+            ComponentDefinition definition = definitions.getDefinition(
+                    definitionName, request.getLocale());
+            
+            if (definition == null) {
+                if (!factory.isLocaleProcessed(request.getLocale())) {
+                    // FIXME This will modify the factory as well as the definitions
+                    // but we are only locking the definitions.
+                    // 
+                    // We'll have to refactor again to remove this issue.
+                    synchronized (definitions) {
+                        factory.addDefinitions(definitions, request.getLocale());
+                    }
+                }
+                
+                definition = definitions.getDefinition(
+                    definitionName, request.getLocale());
+            }
+            
+            return definition;
+        } catch (NullPointerException ex) { // Factory not found in context
+            throw new FactoryNotFoundException("Can't get definitions factory from context.");
+        }
+    }
+    
     /**
      * Create Definition factory of specified classname.
      * Factory class must extend the {@link DefinitionsFactory} class.
@@ -205,7 +268,7 @@ public class TilesUtilImpl implements Serializable {
             throw new DefinitionsFactoryException(
                 "Error - createDefinitionsFactory : Factory class '"
                     + classname
-                    + " must implement 'TilesDefinitionsFactory'.",
+                    + " must implement 'DefinitionsFactory'.",
                 ex);
                 
         } catch (ClassNotFoundException ex) { // Bad classname
@@ -236,4 +299,30 @@ public class TilesUtilImpl implements Serializable {
         servletContext.setAttribute(DEFINITIONS_FACTORY, factory);
     }
 
+    /**
+     * Make definition factory accessible to Tags.
+     * Factory is stored in servlet context.
+     * @param definitions Definition factory to be made accessible
+     * @param servletContext Current servlet context.
+     */
+    protected void makeDefinitionsAccessible(
+        ComponentDefinitions definitions,
+        ServletContext servletContext) {
+            
+        servletContext.setAttribute(DEFINITIONS_OBJECT, definitions);
+    }
+
+    /**
+     * Parses a comma-delimited string for a list of config filenames.
+     */
+    protected List getFilenames(String filenameString) {
+        // Init list of filenames
+        StringTokenizer tokenizer = new StringTokenizer(filenameString, ",");
+        List filenames = new ArrayList(tokenizer.countTokens());
+        while (tokenizer.hasMoreTokens()) {
+            filenames.add(tokenizer.nextToken().trim());
+        }
+        
+        return filenames;
+    }
 }

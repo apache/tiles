@@ -37,7 +37,7 @@ import org.apache.tiles.util.RequestUtils;
  * This class provides mapping from the old interface's life cycle to the new life cycle.
  * @since 20020708
  */
-public class ComponentDefinitionsFactoryWrapper implements DefinitionsFactory {
+public class ComponentDefinitionsFactoryWrapper /*FIXME: implements DefinitionsFactory*/ {
 
     /** 
      * The underlying factory. 

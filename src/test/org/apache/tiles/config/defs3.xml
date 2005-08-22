@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+
+  <!-- =======================================================  -->
+  <!-- Master definition  									-->
+  <!-- =======================================================  -->
+
+  <!-- Doc index page description  -->
+  <definition name="test.def3" path="/test.jsp">
+	  <put name="title"  value="Tiles Library Documentation" />
+	  <put name="header" value="/common/header.jsp" />
+	  <put name="menu"   value="doc.menu.main" />
+	  <put name="footer" value="/common/footer.jsp" />
+	  <put name="body"   value="doc.portal.body" />
+  </definition>
+
+</tiles-definitions>

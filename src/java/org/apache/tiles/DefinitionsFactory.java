@@ -16,81 +16,95 @@
  * limitations under the License.
  */
 
-
 package org.apache.tiles;
 
-import java.io.Serializable;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
+import java.util.Locale;
+import java.util.Map;
 
 /**
- * Tiles Definition factory.
- * This interface replace old ComponentDefinitionsFactory.
- * Main method getDefinition() is exactly the same. Initialization method change.
- * This interface allows to retrieve a definition by its name, independently of
- * the factory implementation.
- * Object life cycle is as follow:
- * <ul>
- * <li>Constructor: create object</li>
- * <li>setConfig: set config and initialize factory. After first call to this
- * method, factory is operational.</li>
- * <li>destroy: factory is being shutdown.</li>
- * </ul>
- * Implementation must be Serializable, in order to be compliant with web Container
- * having this constraint (Weblogic 6.x).
+ * Interface for creating a {@link ComponentDefinitions} object and managing
+ * its contents.
+ *
+ * <p>DefinitionsFactory implementations are responsible for maintaining the data
+ * sources of Tiles configuration data and using the data to create 
+ * ComponentDefinitions sets.  Implementations also know how to append
+ * locale-specific configuration data to an existing ComponentDefinitions set.</p>
+ *
+ *
+ * @version $Rev$ $Date$ 
  */
-public interface DefinitionsFactory extends Serializable
-{
-
-   /**
-     * Get a definition by its name.
-     * @param name Name of requested definition.
-     * @param request Current servelet request
-     * @param servletContext current servlet context
-     * @throws DefinitionsFactoryException An error occur while getting definition.
-     * @throws NoSuchDefinitionException No definition found for specified name
-     * Implementation can throw more accurate exception as a subclass of this exception
-   */
-   public ComponentDefinition getDefinition(String name, ServletRequest request, ServletContext servletContext)
-     throws NoSuchDefinitionException,DefinitionsFactoryException;
-
-   /**
-    * Init definition factory.
-    * This method is called immediately after factory creation, and prior any call
-    * to setConfig().
-    *
-    * @param config Configuration object used to set factory configuration.
-    * @param servletContext Servlet Context passed to factory.
-    * @throws DefinitionsFactoryException An error occur during initialization.
-    */
-   public void init(DefinitionsFactoryConfig config, ServletContext servletContext)
-     throws DefinitionsFactoryException;
+public interface DefinitionsFactory {
+    
+    /**
+     * Property name that specifies the implementation of the DefinitionsReader.
+     */
+    public static final String READER_IMPL_PROPERTY =
+            "org.apache.tiles.DefinitionsReader";
+    /**
+     * Property name that specifies the implementation of ComponentDefinitions.
+     */
+    public static final String DEFINITIONS_IMPL_PROPERTY =
+            "org.apache.tiles.ComponentDefinitions";
+    
+    /**
+     * Initializes the DefinitionsFactory and its subcomponents.
+     *
+     * Implementations may support configuration properties to be passed in via
+     * the params Map.
+     *
+     * @param params The Map of configuration properties.
+     * @throws DefinitionsFactoryException if an initialization error occurs.
+     */
+    public void init(Map params) throws DefinitionsFactoryException;
+    
+    /**
+     * Adds a source where ComponentDefinition objects are stored.
+     * 
+     * Implementations should publish what type of source object they expect.
+     * The source should contain enough information to resolve a configuration
+     * source containing definitions.  The source should be a "base" source for
+     * configurations.  Internationalization and Localization properties will be
+     * applied by implementations to discriminate the correct data sources based
+     * on locale.
+     * 
+     * @param source The configuration source for definitions.
+     * @throws DefinitionsFactoryException if an invalid source is passed in or
+     *      an error occurs resolving the source to an actual data store.
+     */
+    public void addSource(Object source) throws DefinitionsFactoryException;
+    
+    /**
+     * Creates and returns a {@link ComponentDefinitions} set by reading 
+     * configuration data from the applied sources.
+     *
+     * @throws DefinitionsFactoryException if an error occurs reading the 
+     *      sources.
+     */
+    public ComponentDefinitions readDefinitions() 
+            throws DefinitionsFactoryException;
 
     /**
-     * <p>Receive notification that the factory is being
-     * shut down.</p>
+     * Appends locale-specific {@link ComponentDefinition} objects to an existing
+     * {@link ComponentDefinitions} set by reading locale-specific versions of
+     * the applied sources.
+     *
+     * @param definitions The ComponentDefinitions object to append to.
+     * @param locale The requested locale.
+     * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
-    public void destroy();
-
-   /**
-    * Set factory configuration.
-    * This method is used to change factory configuration.
-    * This method is optional, and can send an exception if implementation
-    * doesn't allow change in configuration.
-    *
-    * @param config Configuration object used to set factory configuration.
-    * @param servletContext Servlet Context passed to factory.
-    * @throws DefinitionsFactoryException An error occur during initialization.
-    */
-   public void setConfig(DefinitionsFactoryConfig config, ServletContext servletContext)
-     throws DefinitionsFactoryException;
-
-   /**
-    * Get factory configuration.
-    * @return TilesConfig
-    */
-   public DefinitionsFactoryConfig getConfig();
-
-
+    public void addDefinitions(ComponentDefinitions definitions, Locale locale) 
+            throws DefinitionsFactoryException;
+    
+    /**
+     * Indicates whether a given locale has been processed or not.
+     * 
+     * This method can be used to avoid unnecessary synchronization of the
+     * DefinitionsFactory in multi-threaded situations.  Check the return of
+     * isLoacaleProcessed before synchronizing the object and reading 
+     * locale-specific definitions.
+     *
+     * @param locale The locale to check.
+     * @return true if the given lcoale has been processed and false otherwise.
+     */
+    public boolean isLocaleProcessed(Locale locale);
 }

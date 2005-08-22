@@ -187,8 +187,6 @@ public class TilesServlet extends HttpServlet {
 	 * <i>definitions-config</i> context param was not
 	 * specified, Tiles assumes that your Tiles definition
 	 * file is <code>/WEB-INF/tiles.xml</code>.
-	 *
-	 * @param config The servlet config
 	 */
 	protected DefinitionsFactoryConfig readFactoryConfig() 
 		throws ServletException {
@@ -243,7 +241,7 @@ public class TilesServlet extends HttpServlet {
 	 * if an exception is thrown when the tiles:insert tag is
 	 * activated.
 	 *
-	 * @param servletContext The servlet context
+	 * @param config The servlet configuration
 	 * @param ex An exception
 	 */
 	private void saveExceptionMessage(ServletConfig config, Exception ex) {

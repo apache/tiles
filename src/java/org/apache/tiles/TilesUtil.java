@@ -196,15 +196,7 @@ public class TilesUtil {
         ServletContext servletContext)
         throws FactoryNotFoundException, DefinitionsFactoryException {
             
-        try {
-            return getDefinitionsFactory(request, servletContext).getDefinition(
-                definitionName,
-                (HttpServletRequest) request,
-                servletContext);
-                
-        } catch (NullPointerException ex) { // Factory not found in context
-            throw new FactoryNotFoundException("Can't get definitions factory from context.");
-        }
+        return tilesUtilImpl.getDefinition(definitionName, request, servletContext);
     }
 
     /**
