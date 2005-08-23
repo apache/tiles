@@ -69,8 +69,21 @@ public class TestReloadableDefinitionsFactory extends TestCase {
             // Set up multiple data sources.
             URL url = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/temp-defs.xml");
-	    URI uri = new URI(url.toExternalForm());
             
+            URI uri = null;
+            String urlPath = null;
+
+            // The following madness is necessary b/c of the way Windows hanndles URLs.
+            // We must add a slash to the protocol if Windows does not.  But we cannot
+            // add a slash to Unix paths b/c they already have one.
+            if (url.getPath().startsWith("/")) {
+                urlPath = "file:" + url.getPath();
+	        uri = new URI(urlPath);
+            } else {
+                urlPath = "file:/" + url.getPath();
+	        uri = new URI(urlPath);
+            }
+
             String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
              "<!DOCTYPE tiles-definitions PUBLIC " +
                    "\"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN\" " +
