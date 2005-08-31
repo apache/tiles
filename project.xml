@@ -32,7 +32,7 @@
     <gumpRepositoryId>struts-svn</gumpRepositoryId>
     <inceptionYear>2003</inceptionYear>
     <package>org.apache.tiles</package>
-    <currentVersion>0.2-dev</currentVersion>
+    <currentVersion>SNAPSHOT</currentVersion>
     <packageGroups>
         <packageGroup>
             <title>Tiles Core Library</title>
@@ -107,6 +107,13 @@
                 </includes>
                 <targetPath>META-INF</targetPath>
             </resource>
+            <resource>
+                <includes>
+                    <include>NOTICE.txt</include>
+                </includes>
+                <targetPath>META-INF</targetPath>
+            </resource>
+
         </resources>
     
         <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
