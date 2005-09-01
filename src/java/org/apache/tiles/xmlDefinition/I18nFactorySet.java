@@ -1,7 +1,7 @@
 /*
  * $Id$ 
  *
- * Copyright 1999-2004 The Apache Software Foundation.
+ * Copyright 1999-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,12 +86,6 @@ public class I18nFactorySet extends FactorySet {
             "/WEB-INF/tileDefinitions.xml",
             "/WEB-INF/componentDefinitions.xml",
             "/WEB-INF/instanceDefinitions.xml" };
-
-    /**
-     * Maximum length of one branch of the resource search path tree.
-     * Used in getBundle().
-     */
-    private static final int MAX_BUNDLES_SEARCHED = 2;
 
     /** 
      * Default filenames extension. 
@@ -332,7 +326,7 @@ public class I18nFactorySet extends FactorySet {
         }
 
         // Build possible postfixes
-        List possiblePostfixes = calculatePostixes("", (Locale) key);
+        List possiblePostfixes = calculateSuffixes((Locale) key);
 
         // Search last postix corresponding to a config file to load.
         // First check if something is loaded for this postfix.
@@ -387,50 +381,37 @@ public class I18nFactorySet extends FactorySet {
     }
 
     /**
-     * Calculate the postixes along the search path from the base bundle to the
-     * bundle specified by baseName and locale.
-     * Method copied from java.util.ResourceBundle
-     * @param baseName the base bundle name
+     * Calculate the suffixes based on the locale.
      * @param locale the locale
      */
-    private static List calculatePostixes(String baseName, Locale locale) {
-        final List result = new ArrayList(MAX_BUNDLES_SEARCHED);
-        final String language = locale.getLanguage();
-        final int languageLength = language.length();
-        final String country = locale.getCountry();
-        final int countryLength = country.length();
-        final String variant = locale.getVariant();
-        final int variantLength = variant.length();
+    private List calculateSuffixes(Locale locale) {
 
-        if (languageLength + countryLength + variantLength == 0) {
-            //The locale is "", "", "".
-            return result;
+        List suffixes = new ArrayList(3);
+        String language = locale.getLanguage();
+        String country  = locale.getCountry();
+        String variant  = locale.getVariant();
+
+        StringBuffer suffix = new StringBuffer();
+        suffix.append('_');
+        suffix.append(language);
+        if (language.length() > 0) {
+            suffixes.add(suffix.toString());
         }
 
-        final StringBuffer temp = new StringBuffer(baseName);
-        temp.append('_');
-        temp.append(language);
-
-        if (languageLength > 0)
-            result.add(temp.toString());
-
-        if (countryLength + variantLength == 0)
-            return result;
-
-        temp.append('_');
-        temp.append(country);
-
-        if (countryLength > 0)
-            result.add(temp.toString());
-
-        if (variantLength == 0) {
-            return result;
-        } else {
-            temp.append('_');
-            temp.append(variant);
-            result.add(temp.toString());
-            return result;
+        suffix.append('_');
+        suffix.append(country);
+        if (country.length() > 0) {
+            suffixes.add(suffix.toString());
         }
+
+        suffix.append('_');
+        suffix.append(variant);
+        if (variant.length() > 0) {
+            suffixes.add(suffix.toString());
+        }
+
+        return suffixes;
+
     }
 
     /**
