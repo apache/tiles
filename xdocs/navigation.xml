@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Standalone Tiles">
     <body>
+    
+        <menu name="Taglib Reference">
+            <item 
+                    name="Tiles" 
+                    href="tagreference-tiles-core.html"/>    
+        </menu>
         <menu name="Quick Links">
             <item
                     name="Struts"

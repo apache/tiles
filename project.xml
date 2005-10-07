@@ -88,6 +88,14 @@
       </properties>
     </dependency>
 
+    <dependency>
+      <groupId>maven-taglib</groupId>
+      <artifactId>maven-taglib-plugin</artifactId>
+      <version>1.4</version>
+      <type>plugin</type>
+      <url>http://maven-taglib.sourceforge.net</url>
+    </dependency>
+
     </dependencies>
 
     <build>
@@ -142,6 +150,7 @@
     </build>
     
   <reports>
+    <report>taglib</report>
     <report>maven-checkstyle-plugin</report>
     <report>maven-changelog-plugin</report>
     <report>maven-changes-plugin</report>
