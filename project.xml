@@ -32,7 +32,7 @@
     <gumpRepositoryId>struts-svn</gumpRepositoryId>
     <inceptionYear>2003</inceptionYear>
     <package>org.apache.tiles</package>
-    <currentVersion>SNAPSHOT</currentVersion>
+    <currentVersion>0.2-dev</currentVersion>
     <packageGroups>
         <packageGroup>
             <title>Tiles Core Library</title>
