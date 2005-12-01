@@ -24,9 +24,6 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.tiles.AttributeDefinition;
-import org.apache.tiles.UntypedAttribute;
-
 /**
  * PutList tag implementation.
  */
@@ -133,9 +130,12 @@ public class PutListTag
         Object attributeValue = nestedTag.getList();
 
         if (nestedTag.getRole() != null) {
+            // FIXME - What to do here?
+            /*
             AttributeDefinition def = new UntypedAttribute(attributeValue);
             def.setRole(nestedTag.getRole());
             attributeValue = def;
+            */
         }
         
         // now add attribute to enclosing parent (i.e. : this object)
@@ -154,9 +154,11 @@ public class PutListTag
         // If role is set, add it in attribute definition if any.
         // If no attribute definition, create untyped one, and set role.
         Object attributeValue = nestedTag.getRealValue();
-        AttributeDefinition def;
+//        AttributeDefinition def;
 
         if (nestedTag.getRole() != null) {
+            /*
+             FIXME - What to do here?
             try {
                 def = ((AttributeDefinition) attributeValue);
             } catch (ClassCastException ex) {
@@ -164,6 +166,7 @@ public class PutListTag
             }
             def.setRole(nestedTag.getRole());
             attributeValue = def;
+            */
         }
         
         // now add attribute to enclosing parent (i.e. : this object)

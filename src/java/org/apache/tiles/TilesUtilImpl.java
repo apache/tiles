@@ -38,7 +38,6 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.definition.ComponentDefinitionsFactoryWrapper;
 import org.apache.tiles.util.RequestUtils;
 
 /**
@@ -242,8 +241,6 @@ public class TilesUtilImpl implements Serializable {
     /**
      * Create Definition factory of specified classname.
      * Factory class must extend the {@link DefinitionsFactory} class.
-     * The factory is wrapped appropriately with {@link ComponentDefinitionsFactoryWrapper}
-     * if it is an instance of the deprecated ComponentDefinitionsFactory class.
      * @param classname Class name of the factory to create.
      * @return newly created factory.
      * @throws DefinitionsFactoryException If an error occur while initializing factory
@@ -255,13 +252,6 @@ public class TilesUtilImpl implements Serializable {
             Class factoryClass = RequestUtils.applicationClass(classname);
             Object factory = factoryClass.newInstance();
 
-            // Backward compatibility : if factory classes implements old interface,
-            // provide appropriate wrapper
-            if (factory instanceof ComponentDefinitionsFactory) {
-                factory =
-                    new ComponentDefinitionsFactoryWrapper(
-                        (ComponentDefinitionsFactory) factory);
-            }
             return (DefinitionsFactory) factory;
             
         } catch (ClassCastException ex) { // Bad classname

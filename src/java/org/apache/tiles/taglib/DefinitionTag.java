@@ -21,9 +21,8 @@ package org.apache.tiles.taglib;
 import javax.servlet.jsp.JspException;
 
 import org.apache.tiles.taglib.util.TagUtils;
-import org.apache.tiles.AttributeDefinition;
 import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.UntypedAttribute;
+import org.apache.tiles.ComponentAttribute;
 
 /**
  * This is the tag handler for &lt;tiles:definition&gt;, which defines
@@ -84,7 +83,7 @@ public class DefinitionTag
      * Content is already typed by caller.
      */
     public void putAttribute(String name, Object content) {
-        definition.putAttribute(name, content);
+        definition.putAttribute(name, new ComponentAttribute(content));
     }
 
     /**
@@ -99,9 +98,10 @@ public class DefinitionTag
         // If role is set, add it in attribute definition if any.
         // If no attribute definition, create untyped one and set role.
         Object attributeValue = nestedTag.getRealValue();
-        AttributeDefinition def;
+//        AttributeDefinition def;
 
         if (nestedTag.getRole() != null) {
+        /* FIXME
             try {
                 def = ((AttributeDefinition) attributeValue);
             } catch (ClassCastException ex) {
@@ -109,10 +109,11 @@ public class DefinitionTag
             }
             def.setRole(nestedTag.getRole());
             attributeValue = def;
+         */
         }
 
         // now add attribute to enclosing parent (i.e. : this object)
-        putAttribute(nestedTag.getName(), attributeValue);
+        putAttribute(nestedTag.getName(), new ComponentAttribute(attributeValue));
     }
 
     /**
@@ -129,9 +130,11 @@ public class DefinitionTag
         Object attributeValue = nestedTag.getList();
 
         if (nestedTag.getRole() != null) {
+        /* FIXME
             AttributeDefinition def = new UntypedAttribute(attributeValue);
             def.setRole(nestedTag.getRole());
             attributeValue = def;
+         */
         }
 
         // Check if a name is defined
@@ -140,7 +143,7 @@ public class DefinitionTag
         }
 
         // now add attribute to enclosing parent (i.e. : this object).
-        putAttribute(nestedTag.getName(), attributeValue);
+        putAttribute(nestedTag.getName(), new ComponentAttribute(attributeValue));
     }
 
     /**

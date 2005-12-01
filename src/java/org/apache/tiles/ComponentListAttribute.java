@@ -1,5 +1,5 @@
 /*
- * $Id$ 
+ * $Id$
  *
  * Copyright 1999-2004 The Apache Software Foundation.
  * 
@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.tiles.xmlDefinition;
+package org.apache.tiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,10 @@ import java.util.List;
  * property name.
  * Elements in list are retrieved using List methods.
  * This class is used to read configuration files.
+ *
+ * @version $Rev$ $Date$
  */
-public class XmlListAttribute extends XmlAttribute
-{
+public class ComponentListAttribute extends ComponentAttribute {
     /** List.
      * We declare a List to avoid cast.
      * Parent "value" property points to the same list.
@@ -41,60 +42,52 @@ public class XmlListAttribute extends XmlAttribute
     /**
      * Constructor.
      */
-  public XmlListAttribute()
-    {
+  public ComponentListAttribute() {
     list = new ArrayList();
     setValue(list);
-    }
+  }
 
     /**
      * Constructor.
      * @param name Name.
      * @param value List.
      */
-  public XmlListAttribute( String name, List value)
-    {
+  public ComponentListAttribute( String name, List value) {
     super( name, value );
     list = value;
-    }
+  }
 
     /**
      * Add an element in list.
      * We use a property to avoid rewriting a new class.
      * @param element XmlAttribute to add.
      */
-  public void add( XmlAttribute element )
-    {
+  public void add( ComponentAttribute element ) {
     list.add( element.getValue() );
-    }
+  }
 
     /**
      * Add an element in list.
      * @param value Object to add.
      */
-  public void add( Object value )
-    {
+  public void add( Object value ) {
     //list.add( value );
       // To correct a bug in digester, we need to check the object type
       // Digester doesn't call correct method according to object type ;-(
-    if(value instanceof XmlAttribute)
-      {
-      add((XmlAttribute)value);
+    if(value instanceof ComponentAttribute) {
+      add((ComponentAttribute)value);
       return;
-      }
-     else
+    } else {
       list.add( value );
     }
+  }
 
     /**
      * Add an element in list.
      * @param value Object to add.
      */
-  public void addObject( Object value )
-    {
+  public void addObject( Object value ) {
     list.add( value );
-    }
-
-
+  }
 
 }

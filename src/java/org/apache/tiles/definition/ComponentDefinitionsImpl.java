@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentDefinition;
 import org.apache.tiles.ComponentDefinitions;
 import org.apache.tiles.NoSuchDefinitionException;
@@ -65,6 +66,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     public void addDefinitions(Map defsMap) throws NoSuchDefinitionException {
         this.baseDefinitions.putAll(defsMap);
+        resolveAttributeDependencies();
         resolveInheritances();
     }
 
@@ -77,6 +79,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     public void addDefinitions(Map defsMap, Locale locale) throws NoSuchDefinitionException {
         localeSpecificDefinitions.put(locale, defsMap);
+        resolveAttributeDependencies();
         resolveInheritances(locale);
     }
     
@@ -142,5 +145,25 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     public Map getBaseDefinitions() {
         return this.baseDefinitions;
+    }
+    
+    public void resolveAttributeDependencies() {
+        Iterator i = this.baseDefinitions.values().iterator();
+        
+        // FIXME:  Need to repeat the following for locale-specific defs.
+        while (i.hasNext()) {
+            ComponentDefinition def = (ComponentDefinition) i.next();
+            Map attributes = def.getAttributes();
+            Iterator j = attributes.values().iterator();
+            while (j.hasNext()) {
+                ComponentAttribute attr = (ComponentAttribute) j.next();
+                if (attr.getType() != null && 
+                    (attr.getType().equalsIgnoreCase("definition") ||
+                     attr.getType().equalsIgnoreCase("instance")) ) {
+                        ComponentDefinition subDef = this.getDefinition((String) attr.getValue());
+                        attr.setValue(subDef);
+                }
+            }
+        }
     }
 }

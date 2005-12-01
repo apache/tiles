@@ -32,14 +32,10 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.taglib.util.TagUtils;
-import org.apache.tiles.AttributeDefinition;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentDefinition;
 import org.apache.tiles.Controller;
-import org.apache.tiles.DefinitionAttribute;
-import org.apache.tiles.DefinitionNameAttribute;
 import org.apache.tiles.DefinitionsFactoryException;
-import org.apache.tiles.DirectStringAttribute;
 import org.apache.tiles.FactoryNotFoundException;
 import org.apache.tiles.NoSuchDefinitionException;
 import org.apache.tiles.TilesUtil;
@@ -496,6 +492,7 @@ public class InsertTag
 	 */
 	public TagHandler processObjectValue(Object value) throws JspException {
 		// First, check if value is one of the Typed Attribute
+            /* FIXME
 		if (value instanceof AttributeDefinition) {
 			// We have a type => return appropriate IncludeType
 			return processTypedAttribute((AttributeDefinition) value);
@@ -503,6 +500,7 @@ public class InsertTag
 		} else if (value instanceof ComponentDefinition) {
 			return processDefinition((ComponentDefinition) value);
 		}
+             */
 
 		// Value must denote a valid String
 		return processAsDefinitionOrURL(value.toString());
@@ -728,6 +726,7 @@ public class InsertTag
 	 * @return appropriate TagHandler.
 	 * @throws JspException - Throws by underlying nested call to processDefinitionName()
 	 */
+        /* FIXME
 	public TagHandler processTypedAttribute(AttributeDefinition value)
 		throws JspException {
 		if (value instanceof DirectStringAttribute) {
@@ -745,6 +744,7 @@ public class InsertTag
 			role,
 			getController());
 	}
+        */
 
 	/**
 	 * Do an include of specified page.

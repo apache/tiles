@@ -26,8 +26,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.xmlDefinition.XmlAttribute;
-import org.apache.tiles.xmlDefinition.XmlDefinition;
 import org.apache.tiles.util.RequestUtils;
 
 /**
@@ -123,25 +121,6 @@ public class ComponentDefinition implements Serializable {
         this.controllerInstance = definition.getControllerInstance();
         this.controller = definition.getController();
         this.controllerType = definition.getControllerType();
-    }
-
-    /**
-     * Constructor.
-     * Create a new definition initialized from a RawDefinition.
-     * Raw definitions are used to read definition from a data source (xml file, db, ...).
-     * A RawDefinition mainly contains properties of type String, while Definition
-     * contains more complex type (ex : Controller).
-     * Do a shallow copy : attributes are shared between objects, but not the Map
-     * containing attributes.
-     * OO Design issues : Actually RawDefinition (XmlDefinition) extends ComponentDefinition.
-     * This must not be the case. I have do it because I am lazy.
-     * @throws InstantiationException if an error occur while instanciating Controller :
-     * (classname can't be instanciated, Illegal access with instanciated class,
-     * Error while instanciating class, classname can't be instanciated.
-     */
-    public ComponentDefinition(XmlDefinition definition) {
-
-        this((ComponentDefinition) definition);
     }
 
     /**
@@ -259,7 +238,12 @@ public class ComponentDefinition implements Serializable {
      * @return   requested attribute or null if not found
      */
     public Object getAttribute(String key) {
-        return attributes.get(key);
+        ComponentAttribute attribute = (ComponentAttribute) attributes.get(key);
+        if (attribute != null) {
+            return attribute.getValue();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -268,7 +252,7 @@ public class ComponentDefinition implements Serializable {
      * @param key String key for attribute
      * @param value Attibute value.
      */
-    public void putAttribute(String key, Object value) {
+    public void putAttribute(String key, ComponentAttribute value) {
         attributes.put(key, value);
     }
 
@@ -322,30 +306,7 @@ public class ComponentDefinition implements Serializable {
         // Is there a type set ?
         // First check direct attribute, and translate it to a valueType.
         // Then, evaluate valueType, and create requested typed attribute.
-        AttributeDefinition attribute = null;
-
-        if (content != null
-            && type != null
-            && !(content instanceof AttributeDefinition)) {
-
-            String strValue = content.toString();
-            if (type.equalsIgnoreCase("string")) {
-                attribute = new DirectStringAttribute(strValue);
-
-            } else if (type.equalsIgnoreCase("page")) {
-                attribute = new PathAttribute(strValue);
-
-            } else if (type.equalsIgnoreCase("template")) {
-                attribute = new PathAttribute(strValue);
-
-            } else if (type.equalsIgnoreCase("instance")) {
-                attribute = new DefinitionNameAttribute(strValue);
-
-            } else if (type.equalsIgnoreCase("definition")) {
-                attribute = new DefinitionNameAttribute(strValue);
-            }
-        }
-
+        ComponentAttribute attribute = new ComponentAttribute(content, role, type);
         putAttribute(name, attribute);
     }
 
@@ -557,11 +518,13 @@ public class ComponentDefinition implements Serializable {
   /**
    * Add an attribute to this component.
    *
+   * This method is used by Digester to load definitions.
+   * 
    * @param attribute Attribute to add.
    */
-  public void addAttribute( XmlAttribute attribute)
+  public void addAttribute( ComponentAttribute attribute)
     {
-    putAttribute( attribute.getName(), attribute.getValue() );
+    putAttribute( attribute.getName(), attribute );
     }
 
   /**
@@ -643,7 +606,7 @@ public class ComponentDefinition implements Serializable {
       {
       String name = (String)parentAttributes.next();
       if( !getAttributes().containsKey(name) )
-        putAttribute( name, parent.getAttribute(name) );
+        put( name, parent.getAttribute(name) );
       }
       // Set path and role if not setted
     if( path == null )
@@ -699,7 +662,7 @@ public class ComponentDefinition implements Serializable {
       {
       String name = (String)parentAttributes.next();
       if( !getAttributes().containsKey(name) )
-        putAttribute( name, parent.getAttribute(name) );
+        put( name, parent.getAttribute(name) );
       }
       // Set path and role if not setted
     if( path == null )

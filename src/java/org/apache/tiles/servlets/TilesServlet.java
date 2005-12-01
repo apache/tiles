@@ -173,7 +173,7 @@ public class TilesServlet extends HttpServlet {
 		}
 		catch(Exception ex) {
 			saveExceptionMessage(config, ex);
-			throw new ServletException(ex.getMessage());
+                    throw new ServletException(ex.getMessage(), ex);
 		}
 	}
 
@@ -229,8 +229,8 @@ public class TilesServlet extends HttpServlet {
 			definitionFactory = DefinitionsUtil.createDefinitionsFactory(
 											servletContext, factoryConfig);
 		} catch (DefinitionsFactoryException ex) {
-			saveExceptionMessage(getServletConfig(), ex);
-			throw new ServletException(ex.getMessage());
+                    ex.printStackTrace();
+			throw new ServletException(ex.getMessage(), ex);
 		}
 	}
 

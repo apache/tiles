@@ -25,7 +25,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.definition.ComponentDefinitionsImpl;
-import org.apache.tiles.xmlDefinition.XmlAttribute;
 
 /**
  * Tests the ComponentDefinitionsImpl class.
@@ -66,7 +65,7 @@ public class TestComponentDefinitions extends TestCase {
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
         def.setPath("/test1.jsp");
-        XmlAttribute attr = new XmlAttribute();
+        ComponentAttribute attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("value1");
         def.addAttribute(attr);
@@ -75,7 +74,7 @@ public class TestComponentDefinitions extends TestCase {
         def = new ComponentDefinition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
-        attr = new XmlAttribute();
+        attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("New value");
         def.addAttribute(attr);
@@ -111,7 +110,7 @@ public class TestComponentDefinitions extends TestCase {
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
         def.setPath("/test1.jsp");
-        XmlAttribute attr = new XmlAttribute();
+        ComponentAttribute attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("value1");
         def.addAttribute(attr);
@@ -120,7 +119,7 @@ public class TestComponentDefinitions extends TestCase {
         def = new ComponentDefinition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
-        attr = new XmlAttribute();
+        attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("New value");
         def.addAttribute(attr);
@@ -130,7 +129,7 @@ public class TestComponentDefinitions extends TestCase {
         def = new ComponentDefinition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
-        attr = new XmlAttribute();
+        attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("US Value");
         def.addAttribute(attr);
@@ -182,7 +181,7 @@ public class TestComponentDefinitions extends TestCase {
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
         def.setPath("/test1.jsp");
-        XmlAttribute attr = new XmlAttribute();
+        ComponentAttribute attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("value1");
         def.addAttribute(attr);
@@ -191,7 +190,7 @@ public class TestComponentDefinitions extends TestCase {
         def = new ComponentDefinition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
-        attr = new XmlAttribute();
+        attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("New value");
         def.addAttribute(attr);
@@ -210,5 +209,48 @@ public class TestComponentDefinitions extends TestCase {
         definitions.reset();
         assertNull("Definitions should be null.", 
                 definitions.getDefinition("parent.def1"));
+    }
+    
+    /**
+     * Verifies that attribute dependencies are resolved.
+     *
+     * A Component (tile) can have an attribute that points to another component.
+     * This test verifies that the <code>resolveAttributes</code> method is
+     * executed and attribute dependencies are calculated.
+     */
+    public void testResolveAttributeDependencies() {
+        Map defs = new HashMap();
+        
+        ComponentDefinition def = new ComponentDefinition();
+        def.setName("parent.def1");
+        def.setPath("/test1.jsp");
+        ComponentAttribute attr = new ComponentAttribute();
+        attr.setName("attr1");
+        attr.setValue("tiles.def2");
+        attr.setType("definition");
+        def.addAttribute(attr);
+        defs.put(def.getName(), def);
+        
+        def = new ComponentDefinition();
+        def.setName("tiles.def2");
+        defs.put(def.getName(), def);
+        
+        ComponentDefinitions definitions = new ComponentDefinitionsImpl();
+        try {
+            definitions.addDefinitions(defs);
+        } catch (NoSuchDefinitionException e) {
+            fail("Test failure: " + e);
+        }
+        
+        ComponentDefinition newDef = definitions.getDefinition("parent.def1");
+        assertNotNull("Parent definition not found.", newDef);
+        
+        Object newAttr = newDef.getAttribute("attr1");
+        assertNotNull("Dependent attribute not found.", newAttr);
+        assertTrue("Dependent attribute incorrect type.", 
+                newAttr instanceof ComponentDefinition);
+        
+        assertEquals("Incorrect dependent attribute name.", "tiles.def2",
+                ((ComponentDefinition) newAttr).getName());
     }
 }

@@ -6,7 +6,7 @@
 
      <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration 1.2//EN"
-       "http://apache.org/dtds/tiles-config_1_2.dtd">
+       "http://struts.apache.org/dtds/tiles-config_1_2.dtd">
 
 -->
 

@@ -25,10 +25,6 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.tiles.taglib.util.TagUtils;
-import org.apache.tiles.AttributeDefinition;
-import org.apache.tiles.DefinitionNameAttribute;
-import org.apache.tiles.DirectStringAttribute;
-import org.apache.tiles.PathAttribute;
 
 /**
  * Put an attribute in enclosing attribute container tag.
@@ -346,25 +342,25 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
             }
         }
 
+        // FIXME - How to handle this now?
         if (realValue != null
-            && valueType != null
-            && !(value instanceof AttributeDefinition)) {
+            && valueType != null) {
 
             String strValue = realValue.toString();
             if (valueType.equalsIgnoreCase("string")) {
-                realValue = new DirectStringAttribute(strValue);
+//                realValue = new DirectStringAttribute(strValue);
 
             } else if (valueType.equalsIgnoreCase("page")) {
-                realValue = new PathAttribute(strValue);
+//                realValue = new PathAttribute(strValue);
 
             } else if (valueType.equalsIgnoreCase("template")) {
-                realValue = new PathAttribute(strValue);
+//                realValue = new PathAttribute(strValue);
 
             } else if (valueType.equalsIgnoreCase("instance")) {
-                realValue = new DefinitionNameAttribute(strValue);
+//                realValue = new DefinitionNameAttribute(strValue);
 
             } else if (valueType.equalsIgnoreCase("definition")) {
-                realValue = new DefinitionNameAttribute(strValue);
+//                realValue = new DefinitionNameAttribute(strValue);
 
             } else { // bad type
                 throw new JspException(

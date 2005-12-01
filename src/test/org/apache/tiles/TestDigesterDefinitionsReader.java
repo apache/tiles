@@ -77,6 +77,13 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertNotNull("Definitions not returned.", definitions);
             assertNotNull("Couldn't find doc.mainLayout tile.", 
                     (ComponentDefinition) definitions.get("doc.mainLayout"));
+            assertNotNull("Couldn't Find title attribute.",
+                    ((ComponentDefinition) definitions.get("doc.mainLayout"))
+                    .getAttribute("title"));
+            assertEquals("Incorrect Find title attribute.",
+                    "Tiles Library Documentation",
+                    ((ComponentDefinition) definitions.get("doc.mainLayout"))
+                    .getAttribute("title"));
             
         } catch (Exception e) {
             fail("Exception reading configuration." + e);

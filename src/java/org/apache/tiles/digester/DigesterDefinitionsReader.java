@@ -99,7 +99,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
         // Register our local copy of the DTDs that we can find
         for (int i = 0; i < registrations.length; i += 2) {
-            URL url = this.getClass().getClassLoader().getResource(
+            URL url = this.getClass().getResource(
                     registrations[i+1]);
             if (url != null) {
                 digester.register(registrations[i], url.toString());
@@ -197,15 +197,16 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      */
     private void initDigesterForComponentsDefinitionsSyntax( Digester digester ) {
         // Common constants
-        String PACKAGE_NAME = "org.apache.tiles.xmlDefinition";
+        String PACKAGE_NAME = "org.apache.tiles";
         String DEFINITION_TAG = "component-definitions/definition";
-        String definitionHandlerClass = PACKAGE_NAME + ".XmlDefinition";
+        String definitionHandlerClass = PACKAGE_NAME + ".ComponentDefinition";
 
         String PUT_TAG  = DEFINITION_TAG + "/put";
-        String putAttributeHandlerClass = PACKAGE_NAME + ".XmlAttribute";
+        String putAttributeHandlerClass = PACKAGE_NAME + ".ComponentAttribute";
 
         String LIST_TAG = DEFINITION_TAG + "/putList";
-        String listHandlerClass     = PACKAGE_NAME + ".XmlListAttribute";
+        
+        String listHandlerClass     = PACKAGE_NAME + ".ComponentListAttribute";
 
         String ADD_LIST_ELE_TAG = LIST_TAG + "/add";
 
@@ -238,18 +239,19 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      */
     private void initDigesterForTilesDefinitionsSyntax( Digester digester ) {
         // Common constants
-        String PACKAGE_NAME = "org.apache.tiles.xmlDefinition";
+        String PACKAGE_NAME = "org.apache.tiles";
         String DEFINITION_TAG = "tiles-definitions/definition";
-        String definitionHandlerClass = PACKAGE_NAME + ".XmlDefinition";
+        String definitionHandlerClass = PACKAGE_NAME + ".ComponentDefinition";
 
         String PUT_TAG  = DEFINITION_TAG + "/put";
-        String putAttributeHandlerClass = PACKAGE_NAME + ".XmlAttribute";
+        String putAttributeHandlerClass = PACKAGE_NAME + ".ComponentAttribute";
 
         //String LIST_TAG = DEFINITION_TAG + "/putList";
         // List tag value
         String LIST_TAG = "putList";
         String DEF_LIST_TAG = DEFINITION_TAG + "/" + LIST_TAG;
-        String listHandlerClass     = PACKAGE_NAME + ".XmlListAttribute";
+        
+        String listHandlerClass     = PACKAGE_NAME + ".ComponentListAttribute";
         // Tag value for adding an element in a list
         String ADD_LIST_ELE_TAG = "*/" + LIST_TAG + "/add";
 
@@ -263,8 +265,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // SetNext and CallMethod use rule.end() method. So, placing SetNext in
         // first position ensure it will be called last (sic).
         digester.addObjectCreate(  PUT_TAG, putAttributeHandlerClass);
-        digester.addSetNext(       PUT_TAG, "addAttribute", putAttributeHandlerClass);
         digester.addSetProperties( PUT_TAG);
+        digester.addSetNext(       PUT_TAG, "addAttribute", putAttributeHandlerClass);
         digester.addCallMethod(    PUT_TAG, "setBody", 0);
         // Definition level list rules
         // This is rules for lists nested in a definition
@@ -275,8 +277,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // We use Attribute class to avoid rewriting a new class.
         // Name part can't be used in listElement attribute.
         digester.addObjectCreate(  ADD_LIST_ELE_TAG, putAttributeHandlerClass);
-        digester.addSetNext(       ADD_LIST_ELE_TAG, "add", putAttributeHandlerClass);
         digester.addSetProperties( ADD_LIST_ELE_TAG);
+        digester.addSetNext(       ADD_LIST_ELE_TAG, "add", putAttributeHandlerClass);
         digester.addCallMethod(    ADD_LIST_ELE_TAG, "setBody", 0);
 
         // nested list elements rules
@@ -301,8 +303,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         String BEAN_TAG = "*/bean";
         String beanDefaultClass = "org.apache.tiles.beans.SimpleMenuItem";
         digester.addObjectCreate(  BEAN_TAG, beanDefaultClass, "classtype");
-        digester.addSetNext(       BEAN_TAG, "add", "java.lang.Object");
         digester.addSetProperties( BEAN_TAG);
+        digester.addSetNext(       BEAN_TAG, "add", "java.lang.Object");
 
         // Set properties to surrounding element
         digester.addSetProperty(BEAN_TAG+ "/set-property", "property", "value");
@@ -316,16 +318,17 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      */
     private void initDigesterForInstancesSyntax( Digester digester ) {
         // Build a digester to process our configuration resource
-        String PACKAGE_NAME = "org.apache.tiles.xmlDefinition";
+        String PACKAGE_NAME = "org.apache.tiles";
         String INSTANCE_TAG = "component-instances/instance";
-        String instanceHandlerClass = PACKAGE_NAME + ".XmlDefinition";
+        String instanceHandlerClass = PACKAGE_NAME + ".ComponentDefinition";
 
         String PUT_TAG = INSTANCE_TAG + "/put";
         String PUTATTRIBUTE_TAG = INSTANCE_TAG + "/putAttribute";
-        String putAttributeHandlerClass = PACKAGE_NAME + ".XmlAttribute";
+        String putAttributeHandlerClass = PACKAGE_NAME + ".ComponentAttribute";
 
         String LIST_TAG     = INSTANCE_TAG + "/putList";
-        String listHandlerClass     = PACKAGE_NAME + ".XmlListAttribute";
+        
+        String listHandlerClass     = PACKAGE_NAME + ".ComponentListAttribute";
 
         String ADD_LIST_ELE_TAG = LIST_TAG + "/add";
 

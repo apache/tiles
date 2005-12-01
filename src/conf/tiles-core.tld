@@ -6,7 +6,7 @@
    <tlib-version>0.2</tlib-version>
    <jsp-version>1.2</jsp-version>
    <short-name>tiles</short-name>
-   <uri>http://jakarta.apache.org/tiles</uri>
+   <uri>http://struts.apache.org/tags-tiles</uri>
    <tag>
       <name>insert</name>
       <tag-class>org.apache.tiles.taglib.InsertTag</tag-class>

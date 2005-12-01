@@ -308,6 +308,10 @@
          ignoreerrors="true"
                   src="${maven.repo}/servletapi/jars/servletapi-2.3.jar"
          usetimestamp="true"/>
+     <get         dest="${lib.home}/strutstestcase-2.1.2-1.1-2.3.jar"
+         ignoreerrors="true"
+                  src="${maven.repo}/strutstestcase/jars/strutstestcase-2.1.2-1.1-2.3.jar"
+         usetimestamp="true"/>
 
   </target>
 
