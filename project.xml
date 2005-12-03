@@ -32,7 +32,7 @@
     <gumpRepositoryId>struts-svn</gumpRepositoryId>
     <inceptionYear>2003</inceptionYear>
     <package>org.apache.tiles</package>
-    <currentVersion>0.2-dev</currentVersion>
+    <currentVersion>0.2-SNAPSHOT</currentVersion>
     <packageGroups>
         <packageGroup>
             <title>Tiles Core Library</title>
@@ -106,6 +106,13 @@
       <url>http://maven-taglib.sourceforge.net</url>
     </dependency>
 
+    <dependency>
+      <groupId>maven</groupId>
+      <artifactId>maven-artifact-plugin</artifactId>
+      <version>1.5.1</version>
+      <type>plugin</type>
+    </dependency>
+    
     </dependencies>
 
     <build>
