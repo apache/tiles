@@ -19,8 +19,8 @@
  -->
 
 
-    <id>tiles-core</id>
     <groupId>tiles</groupId>
+    <artifactId>tiles-core</artifactId>
     <name>Tiles Core Library</name>
 
     <organization>
@@ -42,7 +42,7 @@
     <shortDescription>Tiles library for defining view components.</shortDescription>
     <description>Tiles can be used to simply define reusable layout components for multiple Servlet "view"
     technologies.  This library has been extracted from the Struts core.</description>
-    <url>http://struts.apache.org/tiles</url>
+    <url>http://struts.apache.org</url>
     <repository>
         <connection>scm|svn|http|//svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</connection>
         <developerConnection>scm|svn|https|//svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</developerConnection>
@@ -52,10 +52,13 @@
     <dependencies>
 
     <dependency>
-      <groupId>servletapi</groupId>
-      <artifactId>servletapi</artifactId>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
       <version>2.3</version>
       <url>http://java.sun.com/products/servlet/</url>
+      <properties>
+        <scope>provided</scope>
+      </properties>
     </dependency>
 
     <dependency>
@@ -95,13 +98,14 @@
      <url>http://ibiblio.org/maven/strutstestcase/</url>
      <properties>
        <war.bundle>false</war.bundle>
+       <scope>test</scope>
      </properties>
     </dependency>
 
     <dependency>
       <groupId>maven-taglib</groupId>
       <artifactId>maven-taglib-plugin</artifactId>
-      <version>1.4</version>
+      <version>1.4.2</version>
       <type>plugin</type>
       <url>http://maven-taglib.sourceforge.net</url>
     </dependency>
@@ -109,8 +113,9 @@
     <dependency>
       <groupId>maven</groupId>
       <artifactId>maven-artifact-plugin</artifactId>
-      <version>1.5.1</version>
+      <version>1.5.2</version>
       <type>plugin</type>
+      <url>http://maven.apache.org/maven-1.x/reference/plugins/artifact</url>
     </dependency>
     
     </dependencies>

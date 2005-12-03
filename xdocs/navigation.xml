@@ -7,6 +7,10 @@
                     name="Tiles" 
                     href="tagreference-tiles-core.html"/>    
         </menu>
+        <menu name="Download">
+            <item   name="Nightly Builds"
+                    href="http://svn.apache.org/builds/struts/nightly/sandbox/tiles-core/"/>
+        </menu>
         <menu name="Quick Links">
             <item
                     name="Struts"
