@@ -42,7 +42,7 @@ public class DefinitionsFactoryConfig implements Serializable {
      * (of class "org.apache.tiles.xmlDefinition.I18nFactorySet").
      */
     protected String factoryClassname =
-        "org.apache.tiles.xmlDefinition.I18nFactorySet";
+        "org.apache.tiles.definition.UrlDefinitionsFactory";
 
     /**
      * Specifies whether the parser will validate configuration files.

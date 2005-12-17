@@ -173,8 +173,12 @@ public class TilesUtilImpl implements Serializable {
         DefinitionsFactoryConfig factoryConfig)
         throws DefinitionsFactoryException {
             
-        // FIXME:  Pull from servlet context.
-        String factoryClassName = "org.apache.tiles.definition.UrlDefinitionsFactory";
+        // FIXME:  Do you think it is correct to pull it from ServletConfig?
+        String factoryClassName = factoryConfig.getFactoryClassname();
+        
+        if (factoryClassName == null) {
+        	factoryClassName = "org.apache.tiles.definition.UrlDefinitionsFactory";
+        }
         
         // Create configurable factory
         DefinitionsFactory factory =

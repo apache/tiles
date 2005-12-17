@@ -18,6 +18,7 @@
 
 package org.apache.tiles.servlets;
 
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -164,7 +165,7 @@ public class TilesServlet extends HttpServlet {
 
 		try {
 			// Create factory config object
-			DefinitionsFactoryConfig fconfig = readFactoryConfig();
+			DefinitionsFactoryConfig fconfig = readFactoryConfig(config);
 			fconfig.setModuleAware(false);
 
 			ServletContext context = config.getServletContext();
@@ -188,7 +189,7 @@ public class TilesServlet extends HttpServlet {
 	 * specified, Tiles assumes that your Tiles definition
 	 * file is <code>/WEB-INF/tiles.xml</code>.
 	 */
-	protected DefinitionsFactoryConfig readFactoryConfig() 
+	protected DefinitionsFactoryConfig readFactoryConfig(ServletConfig config) 
 		throws ServletException {
 		DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
 		Map map = new HashMap();
@@ -204,6 +205,7 @@ public class TilesServlet extends HttpServlet {
 			   map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
 			}
 
+			populateConfigParameterMap(config, map);
 			factoryConfig.populate(map);
 		} 
 		catch (Exception ex) {
@@ -249,5 +251,24 @@ public class TilesServlet extends HttpServlet {
 	   logger.warning(ex.getMessage());
 	   logger.warning(ex.toString());
 	   //config.getServletContext().setAttribute(Globals.TILES_INIT_EXCEPTION, ex.getMessage());
+	}
+	
+	/**
+	 * Populates a map with the parameters contained in the servlet configuration.
+	 * 
+	 * @param config The servlet configuration
+	 * @param paramMap The map to fill
+	 */
+	private void populateConfigParameterMap(ServletConfig config, Map paramMap) {
+		Enumeration enumeration;
+		String paramName;
+		
+		enumeration = config.getInitParameterNames();
+		while (enumeration.hasMoreElements()) {
+			paramName = (String) enumeration.nextElement();
+			if (!paramMap.containsKey(paramName)) {
+				paramMap.put(paramName, config.getInitParameter(paramName));
+			}
+		}
 	}
 }
