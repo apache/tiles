@@ -34,7 +34,6 @@ import org.apache.tiles.TilesUtil;
 import org.apache.tiles.TilesUtilImpl;
 
 /**
- * @author mraible
  * @version $Rev$ $Date$
  */
 public class TilesListener implements ServletContextListener {
