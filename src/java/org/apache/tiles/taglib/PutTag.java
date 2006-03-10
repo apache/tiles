@@ -342,32 +342,6 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
             }
         }
 
-        // FIXME - How to handle this now?
-        if (realValue != null
-            && valueType != null) {
-
-            String strValue = realValue.toString();
-            if (valueType.equalsIgnoreCase("string")) {
-//                realValue = new DirectStringAttribute(strValue);
-
-            } else if (valueType.equalsIgnoreCase("page")) {
-//                realValue = new PathAttribute(strValue);
-
-            } else if (valueType.equalsIgnoreCase("template")) {
-//                realValue = new PathAttribute(strValue);
-
-            } else if (valueType.equalsIgnoreCase("instance")) {
-//                realValue = new DefinitionNameAttribute(strValue);
-
-            } else if (valueType.equalsIgnoreCase("definition")) {
-//                realValue = new DefinitionNameAttribute(strValue);
-
-            } else { // bad type
-                throw new JspException(
-                    "Warning - Tag put : Bad type '" + valueType + "'.");
-            }
-        }
-
     }
 
     /**
