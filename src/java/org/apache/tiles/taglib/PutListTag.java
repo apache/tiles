@@ -23,6 +23,7 @@ import java.util.List;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
+import org.apache.tiles.ComponentAttribute;
 
 /**
  * PutList tag implementation.
@@ -130,12 +131,9 @@ public class PutListTag
         Object attributeValue = nestedTag.getList();
 
         if (nestedTag.getRole() != null) {
-            // FIXME - What to do here?
-            /*
-            AttributeDefinition def = new UntypedAttribute(attributeValue);
+            ComponentAttribute def = new ComponentAttribute(attributeValue);
             def.setRole(nestedTag.getRole());
             attributeValue = def;
-            */
         }
         
         // now add attribute to enclosing parent (i.e. : this object)
@@ -154,19 +152,22 @@ public class PutListTag
         // If role is set, add it in attribute definition if any.
         // If no attribute definition, create untyped one, and set role.
         Object attributeValue = nestedTag.getRealValue();
-//        AttributeDefinition def;
+        ComponentAttribute def;
 
         if (nestedTag.getRole() != null) {
-            /*
-             FIXME - What to do here?
             try {
-                def = ((AttributeDefinition) attributeValue);
+                def = ((ComponentAttribute) attributeValue);
             } catch (ClassCastException ex) {
-                def = new UntypedAttribute(attributeValue);
+                def = new ComponentAttribute(attributeValue);
             }
-            def.setRole(nestedTag.getRole());
+            
+            if (def != null) {
+                def.setRole(nestedTag.getRole());
+            } else {
+                // what now?  Is this an exception?
+            }
+            
             attributeValue = def;
-            */
         }
         
         // now add attribute to enclosing parent (i.e. : this object)

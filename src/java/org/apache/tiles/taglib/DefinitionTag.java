@@ -98,18 +98,22 @@ public class DefinitionTag
         // If role is set, add it in attribute definition if any.
         // If no attribute definition, create untyped one and set role.
         Object attributeValue = nestedTag.getRealValue();
-//        AttributeDefinition def;
+        ComponentAttribute def = null;
 
         if (nestedTag.getRole() != null) {
-        /* FIXME
             try {
-                def = ((AttributeDefinition) attributeValue);
+                def = ((ComponentAttribute) attributeValue);
             } catch (ClassCastException ex) {
-                def = new UntypedAttribute(attributeValue);
+                def = new ComponentAttribute(attributeValue);
             }
-            def.setRole(nestedTag.getRole());
+            
+            if (def != null) {
+                def.setRole(nestedTag.getRole());
+            } else {
+                // now what?  Is this an exception?
+            }
+            
             attributeValue = def;
-         */
         }
 
         // now add attribute to enclosing parent (i.e. : this object)
@@ -130,11 +134,9 @@ public class DefinitionTag
         Object attributeValue = nestedTag.getList();
 
         if (nestedTag.getRole() != null) {
-        /* FIXME
-            AttributeDefinition def = new UntypedAttribute(attributeValue);
+            ComponentAttribute def = new ComponentAttribute(attributeValue);
             def.setRole(nestedTag.getRole());
             attributeValue = def;
-         */
         }
 
         // Check if a name is defined
