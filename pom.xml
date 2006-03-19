@@ -22,7 +22,7 @@
       xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
    <modelVersion>4.0.0</modelVersion>
-   <groupId>org.apache.tiles</groupId>
+   <groupId>org.apache.struts.tiles</groupId>
    <artifactId>tiles-core</artifactId>
    <packaging>jar</packaging>
    <version>0.2-SNAPSHOT</version>

@@ -20,7 +20,7 @@
  -->
 
 
-    <groupId>tiles</groupId>
+    <groupId>org.apache.struts.tiles</groupId>
     <artifactId>tiles-core</artifactId>
     <name>Tiles Core Library</name>
 
