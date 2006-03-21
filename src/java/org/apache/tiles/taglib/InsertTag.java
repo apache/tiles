@@ -31,6 +31,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.taglib.util.TagUtils;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentDefinition;
@@ -492,15 +493,13 @@ public class InsertTag
 	 */
 	public TagHandler processObjectValue(Object value) throws JspException {
 		// First, check if value is one of the Typed Attribute
-            /* FIXME
-		if (value instanceof AttributeDefinition) {
+		if (value instanceof ComponentAttribute) {
 			// We have a type => return appropriate IncludeType
-			return processTypedAttribute((AttributeDefinition) value);
+			return processTypedAttribute((ComponentAttribute) value);
 
 		} else if (value instanceof ComponentDefinition) {
 			return processDefinition((ComponentDefinition) value);
 		}
-             */
 
 		// Value must denote a valid String
 		return processAsDefinitionOrURL(value.toString());
@@ -726,25 +725,29 @@ public class InsertTag
 	 * @return appropriate TagHandler.
 	 * @throws JspException - Throws by underlying nested call to processDefinitionName()
 	 */
-        /* FIXME
-	public TagHandler processTypedAttribute(AttributeDefinition value)
+	public TagHandler processTypedAttribute(ComponentAttribute value)
 		throws JspException {
-		if (value instanceof DirectStringAttribute) {
-			return new DirectStringHandler((String) value.getValue());
+            
+            if (value == null) {
+                // FIXME.
+                return null;
+            } 
+            
+            String type = value.getType();
+            if (type == null) {
+                // FIXME
+                return null;
+            }
+            
+            if (type.equalsIgnoreCase("string")) {
+		return new DirectStringHandler((String) value.getValue());
+            } else if (type.equalsIgnoreCase("definition")) {
+		return processDefinition((ComponentDefinition) value.getValue());
+            } 
 
-		} else if (value instanceof DefinitionAttribute) {
-			return processDefinition((ComponentDefinition) value.getValue());
-
-		} else if (value instanceof DefinitionNameAttribute) {
-			return processDefinitionName((String) value.getValue());
-		}
-
-		return new InsertHandler(
-			(String) value.getValue(),
-			role,
-			getController());
+            return new InsertHandler((String) value.getValue(),
+			role, getController());
 	}
-        */
 
 	/**
 	 * Do an include of specified page.
