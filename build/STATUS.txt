@@ -1,0 +1,443 @@
+APACHE STRUTS PROJECT STATUS:
+
+Web site: http://struts.apache.org/
+Wiki: http://wiki.apache.org/struts/
+Mailing Lists: http://struts.apache.org/mail.html
+Issue Tracking: http://issues.apache.org/bugzilla/
+Source Code: http://svn.apache.org/viewcvs.cgi/struts/
+Announcements: http://struts.apache.org/announce.html
+
+PMC Members
+
+    * Craig R. McClanahan  (craigmcc at apache.org)
+    * Ted Husted (husted at apache.org)
+    * Cedric Dumoulin (cedric.dumoulin at lifl.fr)
+    * Martin Cooper, Vice President and Chair (martinc at apache.org)
+    * James Holmes (jholmes at apache.org)
+    * David M. Karr (dmkarr at apache.org)
+    * David Graham (dgraham at apache.org)
+    * James Mitchell (jmitchell at apache.org)
+    * Steve Raeburn (sraeburn at apache.org)
+    * Don Brown (mrdon at apache.org)
+    * Joe Germuska (germuska at apache.org)
+    * Niall Pemberton (niallp at apache.org)
+    * Hubert Rabago (hrabago at apache.org)
+    * Wendy Smoak (wsmoak at apache.org)
+    * Gary VanMatre (gvanmatre at apache.org)
+
+Other Active Committers
+
+    * Eddie Bush  (ekbush at apache.org)
+    * James Turner (turner at blackbear.com)
+    * David Geary (dgeary at apache.org)
+    * Sean Schofield (schof at apache.org)
+    * Greg Reddin (greddin at apache.org)
+    * Laurie Harper (laurieh at apache.org)
+    * Richard Feit  (rich at apache.org)
+    * Jason Carreira (jcarreira at apache.org)
+    * Patrick Lightbody (plightbo at apache.org)
+    * Alexandru Popescu (apopescu at apache.org)
+    * Rene Gielen (rgielen at apache.org)
+    * Rainer Hermanns (hermanns at apache.org)
+    * Toby Jee (TBD)
+    * Ian Roughley (roughley at apache.org)
+
+Emeritus Committers 
+
+    * Luis Arias
+    * Pierre Delilse
+    * Michael Schachter
+    * Vincent Massol
+    * David Winterfeldt
+    * Oleg Alexeev
+    * Rob Leland
+    * Arron Bates
+    * Steve Raeburn
+    * James Turner
+
+----
+
+2006 Board Reports 
+
+
+January 2006
+
+The last quarter has been an eventful one in the Struts community. In
+terms of releases, we released Struts 1.2.8, primarily to fix an XSS
+vulnerability; Struts Scripting 1.0.1 is the first GA release of this
+component; and Struts Shale 1.0.0 is the first Alpha release of our newest
+framework.
+
+In the wake of the web framework "unification" discussions mentioned in
+our last board report, the Struts team and the WebWork team have agreed to
+join forces. There have been numerous interactions between the teams, and
+the team members, for some time now, and we are confident that the merger
+will work well. The plan is for WebWork to come to the ASF, and for it to
+provide the underpinnings for a Struts Action Framework 2.0. We anticipate
+that the IP clearance process will begin shortly, now that WebWork 2.2 has
+been released.
+
+On the people front, we added Wendy Smoak as a PMC member, and Rich Feit,
+Patrick Lightbody and Jason Carreira have joined us as committers. Also, a
+record seven Struts committers managed to be in the same place at the same
+time at ApacheCon in December, leading to some very fruitful discussions.
+
+
+----
+
+2005 BOARD REPORTS
+
+
+October 2005 
+
+The Struts community continues to make steady progress toward the 1.3.0 
+release of "Struts Classic" and the 1.0.0 release of "Struts Shale", our 
+offering for JavaServer Faces developers (JSR-127). We've added three new 
+committers: Greg Reddin, Laurie Harper and Sean Schofield. Greg has been 
+working on Standalone Tiles, Laurie has been working with on the Struts 
+Classic release, and Sean is an Apache MyFaces committer who also been 
+working on Struts Shale. We've moved our website and development 
+infrastructure to Maven as our primary build, and the initial draft of our 
+Mavenized website is online at struts.apache.org. Our nightly builds are 
+now running on our Solaris 10 zone on helios. Active development is also 
+taking place on our Standalone Tiles and Struts Ti efforts in the sandbox, 
+including a substantial contribution to Struts Ti from the Beehive PageFlow 
+folks.
+
+Members of our community have also been invited to particpate in two Java 
+web framework working groups. One group, "Clarity", would like to create a
+best-of-breed framework that combines the features of Spring MVC, Struts 
+Classic, Struts Ti, Beehive and WebWork. The "Java Web Alignment Group" has 
+a similar charter, but they are trying to involve a broader range of 
+frameworks. Both groups are still at the "hand waving" stage, and there is 
+nothing concrete to report. The groups are already intermixing, and we hope 
+the consolidation efforts will themselves consolidate. :)
+
+The underlying issue is that there is not a clear migration path to JSR-127 
+from frameworks like Struts Classic. Since many teams have several years of 
+development vested in "classic" frameworks, it may be some time before the 
+new formal standard displaces the entrenched de facto standard. These 
+working groups would like to consolidate the classic frameworks so as to 
+clear the road toward "next generation" web applications.
+
+Despite these "interesting times", the Struts community remains united and 
+amicable. Some of us are "scouting ahead" with Strut Shale and Struts Ti, 
+while others trudge along with Struts Classic, but we all share the same 
+path.
+
+--
+
+July 2005 
+
+This has been another busy quarter in the Struts community. Progress is
+being made towards a 1.3 release of Struts "Classic", and work is
+continuing on Struts Shale. The Tiles component is in the process of being
+transformed into a Struts-independent package.
+
+On the people front, Wendy Smoak has joined us as a committer, and we are
+in the process of adding Gary VanMatre. We are also in the process of
+adding Hubert Rabago as a new PMC member, being in the 72 hour waiting
+period at the time of writing.
+
+--
+
+April 2005 
+
+This has been a busy quarter in the Struts community. We have completed
+the refactoring of the Subversion repository into subprojects, and added a
+new master build system using Maven. Two new subprojects have joined the
+fold; Struts Shale is an alternative approach to web applications based on
+JSF, and Struts Flow allows complex workflows to be implemented using
+JavaScript. Our first proposal for a Struts subproject written in C#,
+named OverDrive, has been introduced in our sandbox area.
+
+On the people front, in addition to the change of PMC chair, one new
+committer, Hubert Rabago, accepted an invitation to join us, and we
+welcome back David Geary from emeritus to active status.
+
+--
+
+January 2005 
+
+The last three months have seen renewed interest and vigor about
+moving Struts forward in technology terms.  Now that we have moved
+our source code repository to Subversion, we are leveraging the new
+capabilities to reorganize our source code into separately deliverable
+artifacts (rather than one large "wad-o-stuff"), to be managed
+as subprojects which can be released on their own schedules.  This
+will enable us to be more responsive to the user community's desire
+for timely releases, without having to coordinate one monster release.
+In addition, work is underway to rationalize the build architecture
+around Maven.
+
+Technically, Struts 1.x  continues to evolve in a manner that is
+fundamentally backwards compatible, but which leverages new internal
+techniques (such as the Chain of Responsibility design pattern) that
+will make customization and specialization much easier.  At the same time,
+experimental development around a fresh look at web application
+architectures is also taking place in the form of "Shale", a
+JSF-based framework, being proposed as an alternative to Struts 1.x.
+
+----
+
+2006 PROJECT VOTES
+
+Struts Shale v1.0.2 Quality
+* [23 Mar 2006] (Pending) Tally +2 alpha (binding)
+
+Struts Shale v1.0.1 Quality
+* [19 Mar 2006] Tally +1 alpha (binding); -1 alpha (binding)
+
+Struts 1.2.9 Quality
+* [16 Mar 2006] Tally 3 +1 (binding) 2 +1 (non-binding)
+
+Nominate Gary VanMatre as a PMC member
+* [27 Feb 2006] Tally 10 +1
+
+Confirm the Struts Action Library 1.3.0 release plan  
+* [11 Feb 2006] Tally 7 +1 (binding); 3 +1 (non-binding)
+
+Accept WebWork 2 Merger Incubator Proposal  
+* [24 Jan 2006] Tally: 10 +1 (binding); 4 +1 (non-binding)
+
+----
+
+2005 PROJECT VOTES
+
+Struts Scripting 1.0.1 Quality
+* [17 Dec 2005 DEV] Tally: 3 +1 GA.
+
+Confirm the Struts Scripting 1.0.1 release plan
+* [7 Dec 2005] Tally: 4 +1
+
+Invite Richard Feit as a Struts Committer
+* [14 Dec 2005 DEV] Tally:7 +1 (binding); 3 +1 (non-binding)
+
+Nominate Wendy Smoak as a PMC member
+* [14 Dec 2005] Tally: 7 +1
+
+Confirm Shale 1.0.0 Test Build Release Plan
+* [1 Dec 2005] Tally: 12 +1
+
+Confirm the Struts BSF/Scripting 1.0.0 release plan  
+* [21 Nov 2005] Tally:3 +1
+
+Confirm the Struts Action Library 1.3.0 release plan
+* [21 Nov 2005] Tally: 1 +1; 1 -1.
+
+Struts 1.2.8 Quality
+* [16 Nov 2005] Tally: 4 +1 GA
+
+Greg Reddin for Committer
+* [19 Sep 2005 DEV] Tally: 6 +1
+
+Gary VanMatre for committer, Hubert Rabago for PMC
+* [21 Jul 2005 PMC] Tally: 5 +1
+
+Hubert Rabago for PMC
+* [21 Jul 2005 PMC] Tally: 
+
+Wendy Smoak for Committer
+* [29 May 2005 PMC] Tally: 7 +1, 2 +0.
+
+Struts 1.2.7 Quality
+* [22 May 2005 DEV] Tally: 3 +1 GA
+
+Hubert Rabago as committer?
+* [14 Feb 2005 PMC] Tally: 7 +1
+
+Nomination for Struts PMC Chair
+* [18 Jan 2005 PMC] Tally: 6 +1 Martin Cooper
+
+Accept Shale as a subproject
+* [12 Jan 2005 PMC] Tally: 9 +1
+
+----
+
+2004 BOARD REPORTS
+
+October 2004
+
+The Struts community has recently released Struts 1.2.4 as the latest
+stable version, focused on cleaning up deprecations from previous versions,
+refactoring utility classes to improve separability of the core framework
+from view tier dependencies, and incorporating the latest Commons libraries
+on which we are dependent.
+
+We recently completed a migration of our source code repository from
+CVS to Subversion, and are leveraging its capabilities to refactor the
+source code into separately releaseable components.  The first such
+separate release is likely to be the Struts-Faces integration library
+(an adapter between Struts and JavaServer Faces).
+
+The community is busy planning an evolutionary path that focuses on
+fundamentally backwards compatible improvements, and a revolutionary
+("Struts 2") path that will leverage the industry wide lessons in how
+web application frameworks should architected in the four years
+since Struts was created.  The discussions are proceeding harmoniously
+and productively.
+
+July 2004 
+
+We have started a reorganization of our repository. The goals of the refactoring 
+are to better support subprojects  with their own release cycles and building 
+Struts with Apache Maven. 
+
+An initial draft of the reorganization is being done under Subversion on a 
+private server, with all discussions taking place on the public DEV list. We will 
+be ready to move the work to an Apache server soon, now that we have a 
+consensus in favor of Subversion and Maven. 
+
+We completed a draft of Apache Struts bylaws and developer guidelines, which 
+is available at <http://struts.apache.org/bylaws.html>.
+
+There was a discussion on the DEV list regarding the "bar" for Committership. 
+The consensus is to keep the bar set fairly high and wait until a contributor has 
+submitted a good number of useful patches directly to Struts. 
+
+Our latest stable release is still 1.1 (29 June 2003). We issued a 1.2.1 release 
+on 11 July 2004, which is currently catagorized as a beta. We anticipate 1.2.1 
+(or a 1.2.2) being promoted to GA over the next 30 days. 
+
+
+June 2004
+
+-PMC Actions-
+
+* Niall Pemberton is elected as a Struts Committer.
+
+* Two new subprojects (our first) are approved. One that utilizes BSF
+  so that "Actions" can be scripted rather than expressed as Java
+  code. Another is a port of Cocoon's Control Flow to
+  Struts. Infrastructure details are being addressed. The initial code
+  for both projects were developed by a Struts PMC member, Don Brown,
+  who is filing a code grant to the ASF. Both codebases are ready for
+  release testing.
+
+-Significant threads-
+
+* Compiling Struts from source and running the Cactus tests continues
+  to be a challenge for some developers. Completing the move to Maven
+  should help.
+
+-Releases-
+
+* Stable release: 1.1 (29 June 2003).
+
+* Next anticipated release: 1.2.1
+
+* Anticipated time-frame (if any): Awaiting stable release of a
+  dependency (Commons Validator).
+
+-Roadmap-
+
+* Struts 1.x will remain based on Servlet 1.2/JSP 1.1 (evolution).
+
+* Struts 1.3.x will introduce the "Struts Chain" request
+  processor. Some packages, like the taglibs, will be released as
+  separate subprojects.
+
+* Struts 2.x will be based on Servlet 2.4/JSP 2.0 (revolution).
+
+* The Apache Struts repository will be rationalized to accomodate
+  subprojects and Maven once a stable Struts 1.2.x release is available.
+  Subprojects will be the unit of release. Each subproject will be a
+  distinct Maven "artifact". Pending this step, the website and
+  repository remain under jakarta.apache.org.
+
+* For more see <http://jakarta.apache.org/struts/status.html>.
+
+-Mailing list Subscriptions-
+
+* User 1851
+* User digest: 874
+* Dev: 713
+* PMC: 14
+
+-Wiki Posts-
+
+* 103 new posts; 175 total (since Apr 8)
+
+-CVS Activity-
+
+* Timeframe: 38 days, Total Commits: 25 Total Number of Files Changed: 57.
+
+-Showstoppers-
+
+* A stable 1.1.3 release of the Commons Validator.
+
+----
+
+Special Order of the ASF Board of Directors
+March 2005 
+http://apache.org/foundation/records/minutes/2004/board_minutes_2004_03_17.txt
+
+Establish Apache Struts PMC
+
+        WHEREAS, the Board of Directors deems it to be in the best
+        interests of the Foundation and consistent with the
+        Foundation's purpose to establish a Project Management
+        Committee charged with the creation and maintenance of
+        open-source software related to the Apache Struts framework,
+        for distribution at no charge to the public.
+
+        NOW, THEREFORE, BE IT RESOLVED, that a Project Management
+        Committee (PMC), to be known as the "Apache Struts PMC", be and
+        hereby is established pursuant to Bylaws of the Foundation; and
+        be it further
+
+        RESOLVED, that the Apache Struts PMC be and hereby is
+        responsible for the creation and maintenance of software for
+        Apache Struts and for related software components, based on
+        software licensed to the Foundation; and be it further
+
+        RESOLVED, that the office of "Vice President, Apache Struts" be
+        and hereby is created, the person holding such office to serve
+        at the direction of the Board of Directors as the chair of the
+        Apache Struts PMC, and to have primary responsibility for
+        management of the projects within the scope of responsibility
+        of the Apache Struts PMC; and be it further
+
+        RESOLVED, that the persons listed immediately below be and
+        hereby are appointed to serve as the initial members of the
+        Apache Struts PMC:
+
+         Craig R. McClanahan
+         Ted Husted
+         Rob Leland
+         Cedric Dumoulin
+         Martin Cooper
+         Arron Bates
+         James Holmes
+         David M. Karr
+         David Graham
+         James Mitchell
+         Steve Raeburn
+         Don Brown
+         Joe Germuska
+
+        NOW, THEREFORE, BE IT FURTHER RESOLVED, that Craig
+        R. McClanahan be and hereby is appointed to the office of Vice
+        President, Apache Struts, to serve in accordance with and
+        subject to the direction of the Board of Directors and the
+        Bylaws of the Foundation until death, resignation, retirement,
+        removal or disqualification, or until a successor is appointed;
+        and be it further
+
+        RESOLVED, that the initial Apache Struts PMC be and hereby is
+        tasked with the creation of a set of bylaws intended to
+        encourage open development and increased participation of
+        the Apache Struts Project, in the Java language as well as
+        others, and be it further
+
+        RESOLVED, that the initial Apache Struts PMC be and hereby is
+        tasked with the migration and rationalization of the Jakarta
+        PMC Struts subproject, and be it further
+
+        RESOLVED, that all responsibility pertaining to the Jakarta
+        Struts sub-project and encumbered upon the Jakarta PMC are
+        hereafter discharged.
+
+       Approved by Unanimous Vote.
+
+####

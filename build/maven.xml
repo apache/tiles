@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+
+<project default="build-all"
+         xmlns:j="jelly:core"
+         xmlns:ant="jelly:ant"
+         xmlns:maven="jelly:maven">
+
+    <tstamp>
+        <format property="today" pattern="yyyyMMdd"/>
+    </tstamp>
+
+    <preGoal name="xdoc:jelly-transform">
+      <attainGoal name="faq"/>
+    </preGoal>
+
+    <goal name="nightly">
+        <ant:delete dir="nightly"/>
+        <ant:mkdir dir="nightly/"/>
+        <ant:mkdir dir="nightly/logs/"/>
+        <ant:mkdir dir="nightly/struts-apps/"/>
+        <ant:mkdir dir="nightly/struts-core/"/>
+        <ant:mkdir dir="nightly/struts-el/"/>
+        <ant:mkdir dir="nightly/struts-extras/"/>
+        <ant:mkdir dir="nightly/struts-taglib/"/>
+
+        <attainGoal name="clean-all"/>
+        <attainGoal name="build-all"/>
+
+        <ant:mkdir dir="nightly/struts-apps/"/>
+
+        <ant:copy tofile="nightly/struts-apps/struts-blank-${today}.war">
+            <ant:fileset dir="../apps/blank/target/">
+                <ant:include name="struts-blank.war"/>
+            </ant:fileset>
+        </ant:copy>
+
+        <ant:copy tofile="nightly/struts-apps/struts-cookbook-${today}.war">
+            <ant:fileset dir="../apps/cookbook/target/">
+                <ant:include name="struts-cookbook.war"/>
+            </ant:fileset>
+        </ant:copy>
+
+        <ant:copy tofile="nightly/struts-apps/struts-mailreader-${today}.war">
+            <ant:fileset dir="../apps/mailreader/target/">
+                <ant:include name="struts-mailreader.war"/>
+            </ant:fileset>
+        </ant:copy>
+
+        <ant:copy tofile="nightly/struts-apps/struts-examples-${today}.war">
+            <ant:fileset dir="../apps/examples/target/">
+                <ant:include name="struts-examples.war"/>
+            </ant:fileset>
+        </ant:copy>
+
+        <ant:copy
+                tofile="nightly/struts-el/strutsel-exercise-taglib-${today}.war">
+            <ant:fileset dir="../el/target/">
+                <ant:include name="strutsel-exercise-taglib.war"/>
+            </ant:fileset>
+        </ant:copy>
+
+    </goal>
+
+
+    <goal name="build-all">
+
+        <maven:reactor
+                basedir="../"
+                includes="*/project.xml"
+                excludes="../build/project.xml"
+                goals="dist"
+                banner="Building nightlies"
+                ignoreFailures="true"/>
+
+        <maven:reactor
+                basedir="../"
+                includes="*/project.xml"
+                excludes="../build/project.xml"
+                goals="copy-distribution"
+                banner="Building nightlies"
+                ignoreFailures="true"/>
+
+    </goal>
+
+
+    <goal name="clean-all">
+        <maven:reactor
+                basedir="../"
+                includes="*/project.xml"
+                excludes="../build/project.xml"
+                goals="clean"
+                banner="Building nightlies"
+                ignoreFailures="true"/>
+
+    </goal>
+
+    <postGoal name="dist">
+        <attainGoal name="jar:install"/>
+    </postGoal>
+
+    <postGoal name="dist:prepare-bin-filesystem">
+        <!-- Copy Instructions and Readmes -->
+        <ant:copy todir="${maven.dist.bin.assembly.dir}">
+            <ant:fileset dir="../build/">
+                <ant:include name="README*"/>
+                <ant:include name="LICENSE.txt"/>
+                <ant:include name="STATUS*"/>
+                <ant:include name="INSTALL*"/>
+                <ant:include name="NOTICE*"/>
+            </ant:fileset>
+        </ant:copy>
+
+    </postGoal>
+
+    <postGoal name="dist:prepare-src-filesystem">
+
+        <!-- Copy Instructions and Readmes -->
+        <ant:copy todir="${maven.dist.src.assembly.dir}">
+            <ant:fileset dir="../build">
+                <ant:include name="README*"/>
+                <ant:include name="LICENSE.txt"/>
+                <ant:include name="STATUS*"/>
+                <ant:include name="INSTALL*"/>
+                <ant:include name="NOTICE*"/>
+            </ant:fileset>
+        </ant:copy>
+
+        <!-- Copy Maven Control files -->
+        <ant:copy todir="${maven.dist.src.assembly.dir}/build">
+            <ant:fileset dir="../build">
+                <ant:include name="project.*"/>
+                <ant:include name="*.xml"/>
+                <ant:include name="*.jsl"/>
+                <ant:include name="LICENSE*"/>
+                <ant:include name="NOTICE*"/>
+            </ant:fileset>
+        </ant:copy>
+    </postGoal>
+
+    <goal name="copy-artifacts">
+
+        <maven:reactor
+                basedir="../"
+                includes="*/project.xml"
+                excludes="../build/project.xml"
+                goals="copy-distribution"
+                banner="Copy nightly artifacts"
+                ignoreFailures="false"/>
+
+    </goal>
+
+    <goal name="copy-distribution">
+        <!--
+            <ant:copy todir="../build/${today}/${pom.artifactId}-${pom.currentVersion}">
+              <ant:fileset dir="${maven.build.dir}/distributions">
+                <ant:include name="*"/>
+              </ant:fileset>
+            </ant:copy>
+        -->
+
+        <ant:mkdir dir="../build/nightly/${pom.artifactId}/"/>
+
+        <ant:copy
+                tofile="../build/nightly/${pom.artifactId}/${pom.artifactId}-${pom.currentVersion}-${today}.tar.gz">
+            <ant:fileset dir="${maven.build.dir}/distributions">
+                <ant:include
+                        name="${pom.artifactId}-${pom.currentVersion}.tar.gz"/>
+            </ant:fileset>
+        </ant:copy>
+
+        <ant:copy
+                tofile="../build/nightly/${pom.artifactId}/${pom.artifactId}-${pom.currentVersion}-${today}.zip">
+            <ant:fileset dir="${maven.build.dir}/distributions">
+                <ant:include
+                        name="${pom.artifactId}-${pom.currentVersion}.zip"/>
+            </ant:fileset>
+        </ant:copy>
+
+        <ant:copy
+                tofile="../build/nightly/${pom.artifactId}/${pom.artifactId}-${pom.currentVersion}-${today}-src.tar.gz">
+            <ant:fileset dir="${maven.build.dir}/distributions">
+                <ant:include
+                        name="${pom.artifactId}-${pom.currentVersion}-src.tar.gz"/>
+            </ant:fileset>
+        </ant:copy>
+
+        <ant:copy
+                tofile="../build/nightly/${pom.artifactId}/${pom.artifactId}-${pom.currentVersion}-${today}-src.zip">
+            <ant:fileset dir="${maven.build.dir}/distributions">
+                <ant:include
+                        name="${pom.artifactId}-${pom.currentVersion}-src.zip"/>
+            </ant:fileset>
+        </ant:copy>
+
+    </goal>
+
+
+</project>

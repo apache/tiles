@@ -1,0 +1,515 @@
+<?xml version="1.0"?>
+<!-- 
+/*
+ * Copyright 2001-2005 The Apache Software Foundation.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+
+
+<!--
+   This file represents the top level (or root) descriptor file
+   for the entire Apache Struts project.
+   
+   This file lays out a "lowest common denominator" scheme for 
+   building all or any portion of this project and it's subprojects.
+   
+     (this example assumes you already have the source locally
+      either by downloading a source distribution or have checked
+      out the source via svn client)
+   
+   To build the entire Struts distribution with Maven, go to the 
+   command line and execute:
+   
+    (this is just an example)
+    
+   Windows:
+     C:\path\to\svn\struts\current\build>maven dist
+
+    *nix/cygwin:
+    
+    $path/to/svn/struts/current/build/maven dist
+    
+
+    For complete details on how to read and use this document
+    and how it relates to the entire project.  See the Maven 
+    documentation here:
+    
+        http://maven.apache.org/reference/project-descriptor.html
+
+  -->
+
+
+<project>
+    <pomVersion>3</pomVersion>
+    <artifactId>struts-build</artifactId>
+    <name>Struts common build</name>
+    <groupId>org.apache.struts.action</groupId>
+    <currentVersion>1.3.2-SNAPSHOT</currentVersion>
+
+
+    <!-- ################################################################ -->
+    <!--        Project management section                                -->
+    <!-- ################################################################ -->
+
+
+    <organization>
+        <name>The Apache Software Foundation</name>
+        <url>http://www.apache.org/</url>
+        <logo>http://www.apache.org/images/asf-logo.gif</logo>
+    </organization>
+    <logo>http://struts.apache.org/images/struts.gif</logo>
+    <inceptionYear>2000</inceptionYear>
+    <package>org.apache.struts</package>
+    <logo>http://struts.apache.org/images/struts.gif</logo>
+    <gumpRepositoryId>struts-svn</gumpRepositoryId>
+
+    <description>
+        The goal of the Apache Struts project is to encourage application
+        architectures based on the "Model 2" approach, a variation of the
+        classic Model-View-Controller (MVC) design paradigm.
+        Under Model 2,
+        a servlet (or equivalent) manages business logic execution,
+        and presentation logic resides mainly in server pages.
+
+        The Apache Struts project encourages Model 2 designs in two ways.
+        First, by providing open source frameworks and toolkits
+        that help developers build applications for the web.
+        Second, by providing friendly and honest mailing lists
+        where both newcomers and veterans discuss how to use Struts software
+        in their own Model 2 applications.
+    </description>
+
+    <shortDescription>MVC Web Application Framework</shortDescription>
+    <url>http://struts.apache.org/index.html</url>
+    <issueTrackingUrl>http://issues.apache.org/bugzilla/</issueTrackingUrl>
+    <siteAddress>struts.apache.org</siteAddress>
+    <siteDirectory>/www/struts.apache.org/</siteDirectory>
+    <distributionSite>struts.apache.org</distributionSite>
+    <distributionDirectory>/www/www.apache.org/builds/</distributionDirectory>
+    <!--  <distributionDirectory>/www/www.apache.org/dist/java-repository/</distributionDirectory>-->
+
+    <mailingLists>
+        <mailingList>
+            <name>Struts User List</name>
+            <subscribe>user-subscribe@struts.apache.org</subscribe>
+            <unsubscribe>user-unsubscribe@struts.apache.org</unsubscribe>
+            <archive>
+                http://mail-archives.apache.org/eyebrowse/SummarizeList?listId=42</archive>
+        </mailingList>
+        <mailingList>
+            <name>Struts Developer List</name>
+            <subscribe>dev-subscribe@struts.apache.org</subscribe>
+            <unsubscribe>dev-unsubscribe@struts.apache.org</unsubscribe>
+            <archive>
+                http://mail-archives.apache.org/eyebrowse/SummarizeList?listId=41</archive>
+        </mailingList>
+    </mailingLists>
+
+    <repository>
+        <connection>
+            scm|svn|http://svn.apache.org/repos/asf/struts/current</connection>
+        <developerConnection>
+            scm|svn|https://svn.apache.org/repos/asf/struts/current</developerConnection>
+        <url>http://svn.apache.org/repos/asf/struts/site/trunk</url>
+    </repository>
+
+    <developers>
+        <developer>
+            <name>Craig R. McClanahan</name>
+            <id>craigmcc</id>
+            <email>craigmcc at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Ted Husted</name>
+            <id>husted</id>
+            <email>husted at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Rob Leland</name>
+            <id>rleland</id>
+            <email>rleland at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Cedric Dumoulin</name>
+            <id>cedric</id>
+            <email>cedric.dumoulin at lifl.fr</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Martin Cooper</name>
+            <id>martinc</id>
+            <email>martinc at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Arron Bates</name>
+            <id>arron</id>
+            <email>arron at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>James Holmes</name>
+            <id>jholmes</id>
+            <email>jholmes at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>David M. Karr</name>
+            <id>dmkarr</id>
+            <email>dmkarr at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Eddie Bush</name>
+            <id>ekbush</id>
+            <email>ekbush at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>David Graham</name>
+            <id>dgraham</id>
+            <email>dgraham at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>James Mitchell</name>
+            <id>jmitchell</id>
+            <email>jmitchell at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>James Turner</name>
+            <id>turner</id>
+            <email>turner at blackbear.com</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Steve Raeburn</name>
+            <id>sraeburn</id>
+            <email>sraeburn at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Don Brown</name>
+            <id>mrdon</id>
+            <email>mrdon at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Joe Germuska</name>
+            <id>germuska</id>
+            <email>germuska at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Niall Pemberton</name>
+            <id>niallp</id>
+            <email>niallp at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Hubert Rabago</name>
+            <id>hrabago</id>
+            <email>hrabago at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>David Geary</name>
+            <id>dgeary</id>
+            <email>dgeary at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Wendy Smoak</name>
+            <id>wsmoak</id>
+            <email>wsmoak at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Gary VanMatre</name>
+            <id>gvanmatre</id>
+            <email>gvanmatre at apache.org</email>
+        </developer>
+
+        <developer>
+            <name>Sean Schofield</name>
+            <id>schof</id>
+            <email>schof at apache.org</email>
+        </developer>
+
+        <developer>
+            <name>Greg Reddin</name>
+            <id>greddin</id>
+            <email>greddin at apache.org</email>
+        </developer>
+
+        <developer>
+            <name>Laurie Harper</name>
+            <id>laurieh</id>
+            <email>laurieh at apache.org</email>
+            <organization></organization>
+        </developer>
+
+        <developer>
+            <name>Richard Feit</name>
+            <id>rich</id>
+            <email>rich at apache.org</email>
+        </developer>
+
+        <developer>
+            <name>Jason Carreira</name>
+            <id>jcarreira</id>
+            <email>jcarreira at apache.org</email>
+        </developer>
+
+        <developer>
+            <name>Patrick Lightbody</name>
+            <id>plightbo</id>
+            <email>plightbo at apache.org</email>
+        </developer>
+        
+    </developers>
+
+    <contributors/>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <!-- ################################################################ -->
+    <!--        Project dependency section                                -->
+    <!-- ################################################################ -->
+
+    <dependencies>
+
+        <!-- Standard dependencies -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.3</version>
+            <url>http://java.sun.com/products/servlet/</url>
+            <properties>
+                <scope>provided</scope>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.7.0</version>
+            <url>http://jakarta.apache.org/commons/beanutils/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-chain</groupId>
+            <artifactId>commons-chain</artifactId>
+            <version>1.0</version>
+            <url>http://jakarta.apache.org/commons/chain/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <version>1.6</version>
+            <url>http://jakarta.apache.org/commons/digester/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.1</version>
+            <url>http://jakarta.apache.org/commons/fileupload/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.1</version>
+            <url>http://jakarta.apache.org/commons/io/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.0.4</version>
+            <url>http://jakarta.apache.org/commons/logging/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.2.0</version>
+            <url>http://jakarta.apache.org/commons/validator/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>oro</groupId>
+            <artifactId>oro</artifactId>
+            <version>2.0.8</version>
+            <url>http://jakarta.apache.org/oro/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>2.7.2</version>
+            <url>http://www.antlr.org/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+
+        <!-- for unit tests -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <url>http://www.junit.org/</url>
+            <properties>
+                <scope>test</scope>
+            </properties>
+        </dependency>
+
+    </dependencies>
+
+
+    <!-- ################################################################ -->
+    <!--        Project build and reports section                         -->
+    <!-- ################################################################ -->
+
+    <build>
+        <nagEmailAddress>struts-dev@struts.apache.org</nagEmailAddress>
+        <sourceDirectory>src/java</sourceDirectory>
+        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+
+        <unitTest>
+            <includes>
+                <include>**/Test*.java</include>
+            </includes>
+            <resources>
+                <resource>
+                    <directory>${basedir}/conf/share</directory>
+                    <targetPath>org/apache/struts/resources</targetPath>
+                    <includes>
+                        <include>**/*.xml</include>
+                        <include>**/*.dtd</include>
+                    </includes>
+                </resource>
+                <resource>
+                    <directory>${basedir}/src/test</directory>
+                    <includes>
+                        <include>**/*.xml</include>
+                        <include>**/*.properties</include>
+                    </includes>
+                </resource>
+            </resources>
+        </unitTest>
+
+        <!-- J A R  R E S O U R C E S -->
+        <!-- Resources that are packaged up inside the JAR file -->
+        <!--
+            <resources>
+              <resource>
+                <directory>${basedir}/src/share</directory>
+                <includes>
+                  <include>**/*.properties</include>
+                </includes>
+              </resource>
+            </resources>
+        -->
+
+    </build>
+
+    <reports>
+        <!--
+         |
+         | These should all be completely self contained. You should be able
+         | to generate each of them individually without needing the final
+         | xdoc transformation.
+         |
+         | Each report plugin with it's POM and plugin.jelly logic should
+         | contain everything needed to produced the report.
+         |
+        -->
+
+        <report>maven-checkstyle-plugin</report>
+        <report>maven-changelog-plugin</report>
+        <report>maven-changes-plugin</report>
+        <report>maven-developer-activity-plugin</report>
+        <report>maven-file-activity-plugin</report>
+        <report>maven-javadoc-plugin</report>
+        <report>maven-jdepend-plugin</report>
+        <report>maven-junit-report-plugin</report>
+        <report>maven-jxr-plugin</report>
+        <!--report>maven-linkcheck-plugin</report-->
+        <report>maven-pmd-plugin</report>
+        <report>maven-simian-plugin</report>
+        <report>maven-tasklist-plugin</report>
+        <report>maven-jcoverage-plugin</report>
+        <!--report>maven-findbugs-plugin</report-->
+
+    </reports>
+</project>

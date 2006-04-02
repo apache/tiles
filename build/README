@@ -1,0 +1,36 @@
+$Id$
+
+Struts Build
+============
+
+This subproject provides common build components for use across multiple Struts
+subprojects. While it is a subproject in and of itself, it is better thought of
+as a shared directory linked into each individual subproject.
+
+IMPORTANT:
+If you are reading this in the 'build' directory of another subproject, what
+you are seeing is a "window" into the build subproject. All of the files in
+this directory are actually maintained in the common build subproject, and so
+any changes made here will be made for *all* subprojects.
+
+
+
+STRUTS
+======
+
+Introduction
+------------
+
+This subproject contains the source code for the "Struts" application support
+package, consisting of the following major components:
+
+- Controller servlet with action mapping technology, implementing the Model-
+  View-Controller (MVC) design pattern for web applications commonly called
+  "Model 2", with a servlet as the "front component".
+
+- Comprehensive custom tag library for building internationalized JSP pages
+  that have HTML forms which interact with JavaBeans that are managed
+  automatically by the controller servlet.
+
+For help with installing and using Struts, see the Struts User Guide.
+
