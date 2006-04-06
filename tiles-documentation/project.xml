@@ -2,7 +2,7 @@
 
 <project>
   <extend>${basedir}/../project.xml</extend>
-  <id>tiles-documentation</id>
+  <artifactId>tiles-documentation</artifactId>
   <name>Tiles documentation web application</name>
   <package>org.apache.struts.webapp.tiles.*</package>
 
