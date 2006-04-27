@@ -38,7 +38,7 @@ For more information, see:  http://wiki.apache.org/struts/StrutsMaven2Plan
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.struts.action</groupId>
     <artifactId>struts-build</artifactId>
-    <version>1.3.2-SNAPSHOT</version>
+    <version>1.3.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Apache Struts</name>
     <url>http://struts.apache.org</url>
