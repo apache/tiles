@@ -93,7 +93,7 @@
 
     <shortDescription>MVC Web Application Framework</shortDescription>
     <url>http://struts.apache.org/index.html</url>
-    <issueTrackingUrl>http://issues.apache.org/bugzilla/</issueTrackingUrl>
+    <issueTrackingUrl>http://issues.apache.org/JIRA/</issueTrackingUrl>
     <siteAddress>struts.apache.org</siteAddress>
     <siteDirectory>/www/struts.apache.org/</siteDirectory>
     <distributionSite>struts.apache.org</distributionSite>

@@ -46,8 +46,8 @@ For more information, see:  http://wiki.apache.org/struts/StrutsMaven2Plan
     <inceptionYear>2000</inceptionYear>
 
     <issueManagement>
-        <system>Bugzilla</system>
-        <url>http://issues.apache.org/bugzilla</url>
+        <system>JIRA</system>
+        <url>http://issues.apache.org/JIRA</url>
     </issueManagement>
 
     <ciManagement/>
