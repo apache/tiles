@@ -18,6 +18,10 @@
 
 package org.apache.tiles;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -50,7 +54,7 @@ public interface TilesContext {
      * Return an immutable Map that maps context application initialization 
      * parameters to their values.
      */
-    public Map getInitParmas();
+    public Map getInitParams();
     
     /**
      * Return an immutable Map that maps request parameter names to the first 
@@ -75,4 +79,24 @@ public interface TilesContext {
      * values.
      */
     public Map getSessionScope();
+    
+    /**
+     * Dispatches the request to a specified path.
+     */
+    public void dispatch(String path) throws IOException, Exception;
+    
+    /**
+     * Includes the response from the specified URL in the current response output.
+     */
+    public void include(String path) throws IOException, Exception;
+    
+    /**
+     * Return a URL for the application resource mapped to the specified path.
+     */
+    public URL getResource(String path) throws MalformedURLException;
+    
+    /**
+     * Return the preferred Locale in which the client will accept content.
+     */
+    public Locale getRequestLocale();
 }

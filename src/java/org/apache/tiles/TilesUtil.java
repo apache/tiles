@@ -20,11 +20,6 @@ package org.apache.tiles;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
@@ -88,18 +83,14 @@ public class TilesUtil {
      *
      * This method is used by the Tiles package anytime a forward is required.
      * @param uri Uri or Definition name to forward.
-     * @param request Current page request.
-     * @param response Current page response.
-     * @param servletContext Current servlet context.
+     * @param tilesContext Current Tiles application context.
      */
     public static void doForward(
         String uri,
-        HttpServletRequest request,
-        HttpServletResponse response,
-        ServletContext servletContext)
-        throws IOException, ServletException {
+        TilesContext tilesContext)
+        throws IOException, Exception {
             
-        tilesUtilImpl.doForward(uri, request, response, servletContext);
+        tilesUtilImpl.doForward(uri, tilesContext);
     }
 
     /**
@@ -108,18 +99,14 @@ public class TilesUtil {
      * This method is used by the Tiles package when an include is required.
      * The Tiles package can use indifferently any form of this method.
      * @param uri Uri or Definition name to forward.
-     * @param request Current page request.
-     * @param response Current page response.
-     * @param servletContext Current servlet context.
+     * @param tilesContext Current Tiles application context.
      */
     public static void doInclude(
         String uri,
-        HttpServletRequest request,
-        HttpServletResponse response,
-        ServletContext servletContext)
-        throws IOException, ServletException {
+        TilesContext tilesContext)
+        throws IOException, Exception {
             
-        tilesUtilImpl.doInclude(uri, request, response, servletContext);
+        tilesUtilImpl.doInclude(uri, tilesContext);
     }
 
     /**
@@ -131,7 +118,7 @@ public class TilesUtil {
      * @param pageContext Current page context.
      */
     public static void doInclude(String uri, PageContext pageContext)
-        throws IOException, ServletException {
+        throws IOException, Exception {
         doInclude(uri, pageContext, true);
     }
     
@@ -145,7 +132,7 @@ public class TilesUtil {
      * @param pageContext Current page context.
      */
     public static void doInclude(String uri, PageContext pageContext, boolean flush)
-        throws IOException, ServletException {
+        throws IOException, Exception {
         tilesUtilImpl.doInclude(uri, pageContext, flush);
     }
 
@@ -154,9 +141,8 @@ public class TilesUtil {
      * @return Definitions factory or <code>null</code> if not found.
      */
     public static DefinitionsFactory getDefinitionsFactory(
-        ServletRequest request,
-        ServletContext servletContext) {
-        return tilesUtilImpl.getDefinitionsFactory(request, servletContext);
+        TilesContext tilesContext) {
+        return tilesUtilImpl.getDefinitionsFactory(tilesContext);
     }
 
     /**
@@ -167,16 +153,16 @@ public class TilesUtil {
      * <p>
      * Fallback of several factory creation methods.
      *
-     * @param servletContext Servlet Context passed to newly created factory.
+     * @param tilesContext Current Tiles application context.
      * @param factoryConfig Configuration object passed to factory.
      * @return newly created factory of type ConfigurableDefinitionsFactory.
      * @throws DefinitionsFactoryException If an error occur while initializing factory
      */
     public static DefinitionsFactory createDefinitionsFactory(
-        ServletContext servletContext,
+        TilesContext tilesContext,
         DefinitionsFactoryConfig factoryConfig)
         throws DefinitionsFactoryException {
-        return tilesUtilImpl.createDefinitionsFactory(servletContext, factoryConfig);
+        return tilesUtilImpl.createDefinitionsFactory(tilesContext, factoryConfig);
     }
 
     /**
@@ -184,19 +170,17 @@ public class TilesUtil {
      * First, retrieve definition factory and then get requested definition.
      * Throw appropriate exception if definition or definition factory is not found.
      * @param definitionName Name of requested definition.
-     * @param request Current servelet request.
-     * @param servletContext current servlet context.
+     * @param tilesContext Current Tiles application context.
      * @throws FactoryNotFoundException Can't find definition factory.
      * @throws DefinitionsFactoryException General error in factory while getting definition.
      * @throws NoSuchDefinitionException No definition found for specified name
      */
     public static ComponentDefinition getDefinition(
         String definitionName,
-        ServletRequest request,
-        ServletContext servletContext)
+        TilesContext tilesContext)
         throws FactoryNotFoundException, DefinitionsFactoryException {
             
-        return tilesUtilImpl.getDefinition(definitionName, request, servletContext);
+        return tilesUtilImpl.getDefinition(definitionName, tilesContext);
     }
 
     /**

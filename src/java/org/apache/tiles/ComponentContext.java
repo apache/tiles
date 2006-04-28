@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.tiles.taglib.ComponentConstants;
@@ -177,26 +176,26 @@ public class ComponentContext implements Serializable {
 
     /**
      * Get component context from request.
-     * @param request ServletRequest.
+     * @param tilesContext current Tiles application context.
      * @return ComponentContext or null if context is not found or an
      * jspException is present in the request.
      */
-    static public ComponentContext getContext(ServletRequest request) {
-       if (request.getAttribute("javax.servlet.jsp.jspException") != null) {
+    static public ComponentContext getContext(TilesContext tilesContext) {
+       if (tilesContext.getRequestScope().get("javax.servlet.jsp.jspException") != null) {
            return null;
-        }        return (ComponentContext) request.getAttribute(
+        }        return (ComponentContext) tilesContext.getRequestScope().get(
             ComponentConstants.COMPONENT_CONTEXT);
     }
 
     /**
      * Store component context into request.
      * @param context ComponentContext to store.
-     * @param request Request to store ComponentContext.
+     * @param tilesContext current Tiles application context.
      */
     static public void setContext(
         ComponentContext context,
-        ServletRequest request) {
+        TilesContext tilesContext) {
             
-        request.setAttribute(ComponentConstants.COMPONENT_CONTEXT, context);
+        tilesContext.getRequestScope().put(ComponentConstants.COMPONENT_CONTEXT, context);
     }
 }

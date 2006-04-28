@@ -30,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.tiles.*;
+import org.apache.tiles.context.TilesContextFactory;
 
 /**
  * This is the entry point for Tiles. The <code>TilesServlet</code> initializes
@@ -223,13 +224,14 @@ public class TilesServlet extends HttpServlet {
 	 * @param factoryConfig The definitions factory config
 	 */
    private void initDefinitionsFactory(ServletContext servletContext,
-        											DefinitionsFactoryConfig factoryConfig)
-        											throws ServletException {
+        DefinitionsFactoryConfig factoryConfig)
+        throws ServletException {
 		logger.info("initializing definitions factory...");
 		// Create configurable factory
 		try {
+                    TilesContext tilesContext = TilesContextFactory.getInstance(servletContext);
 			definitionFactory = DefinitionsUtil.createDefinitionsFactory(
-											servletContext, factoryConfig);
+                                tilesContext, factoryConfig);
 		} catch (DefinitionsFactoryException ex) {
                     ex.printStackTrace();
 			throw new ServletException(ex.getMessage(), ex);

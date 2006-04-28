@@ -26,6 +26,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.tiles.TilesContext;
+import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.taglib.ComponentConstants;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentDefinition;
@@ -170,7 +172,8 @@ public class TagUtils {
      * @return Requested bean or <code>null</code> if not found.
      */
     public static Object findAttribute(String beanName, PageContext pageContext) {
-        ComponentContext compContext = ComponentContext.getContext(pageContext.getRequest());
+        TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+        ComponentContext compContext = ComponentContext.getContext(tilesContext);
         
         if (compContext != null) {
             Object attribute = compContext.findAttribute(beanName, pageContext);
@@ -193,7 +196,8 @@ public class TagUtils {
      */
     public static Object getAttribute(String beanName, int scope, PageContext pageContext) {
         if (scope == ComponentConstants.COMPONENT_SCOPE) {
-            ComponentContext compContext = ComponentContext.getContext(pageContext.getRequest());
+            TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+            ComponentContext compContext = ComponentContext.getContext(tilesContext);
             return compContext.getAttribute(beanName);
         }
         return pageContext.getAttribute(beanName, scope);
@@ -336,10 +340,9 @@ public class TagUtils {
         throws JspException {
             
         try {
+            TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
             return TilesUtil.getDefinition(
-                name,
-                pageContext.getRequest(),
-                pageContext.getServletContext());
+                name, tilesContext);
                 
         } catch (NoSuchDefinitionException ex) {
             throw new JspException(

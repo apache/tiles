@@ -28,8 +28,10 @@ import javax.servlet.ServletResponse;
 import org.apache.tiles.ComponentDefinitions;
 import org.apache.tiles.DefinitionsFactory;
 import org.apache.tiles.ReloadableDefinitionsFactory;
+import org.apache.tiles.TilesContext;
 import org.apache.tiles.TilesUtil;
 import org.apache.tiles.TilesUtilImpl;
+import org.apache.tiles.context.TilesContextFactory;
 
 /**
  * Processes Reloadable Tiles Definitions.
@@ -64,8 +66,9 @@ public class TilesFilter implements Filter {
             throws IOException, ServletException {
         
         try {
-            DefinitionsFactory factory = TilesUtil.getDefinitionsFactory(request, 
-                    filterConfig.getServletContext());
+            TilesContext tilesContext = TilesContextFactory.getInstance(
+                    request, filterConfig.getServletContext());
+            DefinitionsFactory factory = TilesUtil.getDefinitionsFactory(tilesContext);
             
             if (factory instanceof ReloadableDefinitionsFactory) {
                 if (((ReloadableDefinitionsFactory) factory).refreshRequired()) {

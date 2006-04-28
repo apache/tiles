@@ -29,11 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
@@ -84,17 +79,14 @@ public class TilesUtilImpl implements Serializable {
      *
      * This method is used by the Tiles package anytime a forward is required.
      * @param uri Uri or Definition name to forward.
-     * @param request Current page request.
-     * @param servletContext Current servlet context.
+     * @param tilesContext Current Tiles application context.
      */
     public void doForward(
         String uri,
-        HttpServletRequest request,
-        HttpServletResponse response,
-        ServletContext servletContext)
-        throws IOException, ServletException {
+        TilesContext tilesContext)
+        throws IOException, Exception {
             
-        request.getRequestDispatcher(uri).forward(request, response);
+        tilesContext.dispatch(uri);
     }
 
     /**
@@ -103,18 +95,14 @@ public class TilesUtilImpl implements Serializable {
      * This method is used by the Tiles package when an include is required.
      * The Tiles package can use indifferently any form of this method.
      * @param uri Uri or Definition name to forward.
-     * @param request Current page request.
-     * @param response Current page response.
-     * @param servletContext Current servlet context.
+     * @param tilesContext Current Tiles application context.
      */
     public void doInclude(
         String uri,
-        HttpServletRequest request,
-        HttpServletResponse response,
-        ServletContext servletContext)
-        throws IOException, ServletException {
+        TilesContext tilesContext)
+        throws IOException, Exception {
             
-        request.getRequestDispatcher(uri).include(request, response);
+        tilesContext.include(uri);
     }
 
     /**
@@ -127,7 +115,7 @@ public class TilesUtilImpl implements Serializable {
      * @param flush If the writer should be flushed before the include
      */
     public void doInclude(String uri, PageContext pageContext, boolean flush)
-        throws IOException, ServletException {
+        throws IOException, Exception {
         try {
             // perform include with new JSP 2.0 method that supports flushing
             if (include != null) {
@@ -148,10 +136,9 @@ public class TilesUtilImpl implements Serializable {
      * @return Definitions factory or <code>null</code> if not found.
      */
     public DefinitionsFactory getDefinitionsFactory(
-        ServletRequest request,
-        ServletContext servletContext) {
+            TilesContext tilesContext) {
             
-        return (DefinitionsFactory) servletContext.getAttribute(DEFINITIONS_FACTORY);
+        return (DefinitionsFactory) tilesContext.getApplicationScope().get(DEFINITIONS_FACTORY);
     }
 
     /**
@@ -163,13 +150,13 @@ public class TilesUtilImpl implements Serializable {
      * Factory creation is done by {@link #createDefinitionFactoryInstance(String)}.
      * <p>
      *
-     * @param servletContext Servlet Context passed to newly created factory.
+     * @param tilesContext current Tiles application context.
      * @param factoryConfig Configuration object passed to factory.
      * @return newly created factory of type specified in the config object.
      * @throws DefinitionsFactoryException If an error occur while initializing factory
      */
     public DefinitionsFactory createDefinitionsFactory(
-        ServletContext servletContext,
+        TilesContext tilesContext,
         DefinitionsFactoryConfig factoryConfig)
         throws DefinitionsFactoryException {
             
@@ -194,7 +181,7 @@ public class TilesUtilImpl implements Serializable {
         try {
             for (int i = 0; i < filenames.size(); i++) {
                 String filename = (String) filenames.get(i);
-                factory.addSource(servletContext.getResource(filename));
+                factory.addSource(tilesContext.getResource(filename));
             }
         } catch (MalformedURLException e) {
             throw new DefinitionsFactoryException("Problem with filename URL: ", e);
@@ -203,37 +190,36 @@ public class TilesUtilImpl implements Serializable {
         ComponentDefinitions definitions = factory.readDefinitions();
         
         // Make factory accessible from jsp tags (push it in appropriate context)
-        makeDefinitionsFactoryAccessible(factory, servletContext);
-        makeDefinitionsAccessible(definitions, servletContext);
+        makeDefinitionsFactoryAccessible(factory, tilesContext);
+        makeDefinitionsAccessible(definitions, tilesContext);
         
         return factory;
     }
 
     public ComponentDefinition getDefinition(String definitionName,
-            ServletRequest request,
-            ServletContext servletContext) 
+            TilesContext tilesContext) 
             throws FactoryNotFoundException, DefinitionsFactoryException {
         
         try {
-            DefinitionsFactory factory = getDefinitionsFactory(request, servletContext);
+            DefinitionsFactory factory = getDefinitionsFactory(tilesContext);
             ComponentDefinitions definitions = (ComponentDefinitions) 
-                servletContext.getAttribute(TilesUtilImpl.DEFINITIONS_OBJECT);
+                tilesContext.getApplicationScope().get(TilesUtilImpl.DEFINITIONS_OBJECT);
             ComponentDefinition definition = definitions.getDefinition(
-                    definitionName, request.getLocale());
+                    definitionName, tilesContext.getRequestLocale());
             
             if (definition == null) {
-                if (!factory.isLocaleProcessed(request.getLocale())) {
+                if (!factory.isLocaleProcessed(tilesContext.getRequestLocale())) {
                     // FIXME This will modify the factory as well as the definitions
                     // but we are only locking the definitions.
                     // 
                     // We'll have to refactor again to remove this issue.
                     synchronized (definitions) {
-                        factory.addDefinitions(definitions, request.getLocale());
+                        factory.addDefinitions(definitions, tilesContext.getRequestLocale());
                     }
                 }
                 
                 definition = definitions.getDefinition(
-                    definitionName, request.getLocale());
+                    definitionName, tilesContext.getRequestLocale());
             }
             
             return definition;
@@ -284,26 +270,26 @@ public class TilesUtilImpl implements Serializable {
      * Make definition factory accessible to Tags.
      * Factory is stored in servlet context.
      * @param factory Factory to be made accessible.
-     * @param servletContext Current servlet context.
+     * @param tilesContext Current application context.
      */
     protected void makeDefinitionsFactoryAccessible(
         DefinitionsFactory factory,
-        ServletContext servletContext) {
+        TilesContext tilesContext) {
             
-        servletContext.setAttribute(DEFINITIONS_FACTORY, factory);
+        tilesContext.getApplicationScope().put(DEFINITIONS_FACTORY, factory);
     }
 
     /**
      * Make definition factory accessible to Tags.
      * Factory is stored in servlet context.
      * @param definitions Definition factory to be made accessible
-     * @param servletContext Current servlet context.
+     * @param tilesContext current Tiles application context.
      */
     protected void makeDefinitionsAccessible(
         ComponentDefinitions definitions,
-        ServletContext servletContext) {
+        TilesContext tilesContext) {
             
-        servletContext.setAttribute(DEFINITIONS_OBJECT, definitions);
+        tilesContext.getApplicationScope().put(DEFINITIONS_OBJECT, definitions);
     }
 
     /**

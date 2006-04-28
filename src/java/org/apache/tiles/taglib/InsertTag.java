@@ -32,6 +32,8 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.TilesContext;
+import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.taglib.util.TagUtils;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentDefinition;
@@ -550,40 +552,39 @@ public class InsertTag
 	protected TagHandler processDefinitionName(String name)
 		throws JspException {
 
-		try {
-			ComponentDefinition definition =
-				TilesUtil.getDefinition(
-					name,
-					(HttpServletRequest) pageContext.getRequest(),
-					pageContext.getServletContext());
+            try {
+                TilesContext tilesContext = TilesContextFactory.getInstance(
+                        pageContext);
+                ComponentDefinition definition = TilesUtil.getDefinition(
+                        name, tilesContext);
 
-			if (definition == null) { // is it possible ?
-				throw new NoSuchDefinitionException();
-			}
+                if (definition == null) { // is it possible ?
+                    throw new NoSuchDefinitionException();
+                }
 
-			return processDefinition(definition);
+                return processDefinition(definition);
 
-		} catch (NoSuchDefinitionException ex) {
-			throw new JspException(
-				"Error -  Tag Insert : Can't get definition '"
-					+ definitionName
-					+ "'. Check if this name exist in definitions factory.", ex);
+            } catch (NoSuchDefinitionException ex) {
+                throw new JspException(
+                        "Error -  Tag Insert : Can't get definition '"
+                        + definitionName
+                        + "'. Check if this name exist in definitions factory.", ex);
 
-		} catch (FactoryNotFoundException ex) {
-			throw new JspException(ex.getMessage());
+            } catch (FactoryNotFoundException ex) {
+                throw new JspException(ex.getMessage());
 
-		} catch (DefinitionsFactoryException ex) {
-			if (log.isDebugEnabled()) {
-				ex.printStackTrace();
-			}
+            } catch (DefinitionsFactoryException ex) {
+                if (log.isDebugEnabled()) {
+                    ex.printStackTrace();
+                }
 
-			// Save exception to be able to show it later
-			pageContext.setAttribute(
-				ComponentConstants.EXCEPTION_KEY,
-				ex,
-				PageContext.REQUEST_SCOPE);
-			throw new JspException(ex);
-		}
+                // Save exception to be able to show it later
+                pageContext.setAttribute(
+                    ComponentConstants.EXCEPTION_KEY,
+                    ex,
+                    PageContext.REQUEST_SCOPE);
+                throw new JspException(ex);
+            }
 	}
 
 	/**
@@ -700,23 +701,22 @@ public class InsertTag
 	 */
 	public TagHandler processAsDefinitionOrURL(String name)
 		throws JspException {
-		try {
-			ComponentDefinition definition =
-				TilesUtil.getDefinition(
-					name,
-					pageContext.getRequest(),
-					pageContext.getServletContext());
+            
+            try {
+                TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+                ComponentDefinition definition =
+                        TilesUtil.getDefinition(name, tilesContext);
 
-			if (definition != null) {
-				return processDefinition(definition);
-			}
+                if (definition != null) {
+                    return processDefinition(definition);
+                }
 
-		} catch (DefinitionsFactoryException ex) {
-			// silently failed, because we can choose to not define a factory.
-		}
+            } catch (DefinitionsFactoryException ex) {
+                // silently failed, because we can choose to not define a factory.
+            }
 
-		// no definition found, try as url
-		return processUrl(name);
+            // no definition found, try as url
+            return processUrl(name);
 	}
 
 	/**
@@ -759,7 +759,7 @@ public class InsertTag
 	 * @throws IOException - Thrown by call to pageContext.include()
 	 */
 	protected void doInclude(String page, boolean flush)
-		throws ServletException, IOException {
+		throws Exception, IOException {
 		TilesUtil.doInclude(page, pageContext, flush);
 	}
 
@@ -853,90 +853,85 @@ public class InsertTag
 		 * Include requested page.
 		 */
 		public int doEndTag() throws JspException {
-			// Check role
-			HttpServletRequest request =
-				(HttpServletRequest) pageContext.getRequest();
+                    // Check role
+                    HttpServletRequest request =
+                            (HttpServletRequest) pageContext.getRequest();
 
-			if (role != null && !request.isUserInRole(role)) {
-				return EVAL_PAGE;
-			}
+                    if (role != null && !request.isUserInRole(role)) {
+                        return EVAL_PAGE;
+                    }
 
-			try {
-				if (log.isDebugEnabled()) {
-					log.debug("insert page='" + page + "'.");
-				}
+                    try {
+                        if (log.isDebugEnabled()) {
+                            log.debug("insert page='" + page + "'.");
+                        }
 
-				// set new context for included component.
-				pageContext.setAttribute(
-					ComponentConstants.COMPONENT_CONTEXT,
-					subCompContext,
-					PageContext.REQUEST_SCOPE);
+                        // set new context for included component.
+                        pageContext.setAttribute(
+                                ComponentConstants.COMPONENT_CONTEXT,
+                                subCompContext,
+                                PageContext.REQUEST_SCOPE);
 
-				// Call controller if any
-				if (controller != null) {
-					try {
-						controller.execute(
-							subCompContext,
-							(HttpServletRequest) pageContext.getRequest(),
-							(HttpServletResponse) pageContext.getResponse(),
-							pageContext.getServletContext());
-                            
-					} catch (Exception e) {
-						throw new ServletException(e);
-					}
+                        // Call controller if any
+                        if (controller != null) {
+                            try {
+                                TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+                                controller.execute(tilesContext, subCompContext);
+                            } catch (Exception e) {
+                                throw new ServletException(e);
+                            }
 
-				}
+                        }
 
-				// include requested component.
-				if (flush) {
-					pageContext.getOut().flush();
-				}
+                        // include requested component.
+                        if (flush) {
+                            pageContext.getOut().flush();
+                        }
 
-				doInclude(page, flush);
+                        doInclude(page, flush);
 
-			} catch (IOException e) {
-				String msg =
-					"Can't insert page '" + page + "' : " + e.getMessage();
-				log.error(msg, e);
-				throw new JspException(msg);
+                    } catch (IOException e) {
+                        String msg =
+                                "Can't insert page '" + page + "' : " + e.getMessage();
+                        log.error(msg, e);
+                        throw new JspException(msg);
 
-			} catch (IllegalArgumentException e) {
-				// Can't resolve page uri, should we ignore it?
-				if (!(page == null && isErrorIgnored)) {
-					String msg =
-						"Can't insert page '"
-							+ page
-							+ "'. Check if it exists.\n"
-							+ e.getMessage();
+                    } catch (IllegalArgumentException e) {
+                        // Can't resolve page uri, should we ignore it?
+                        if (!(page == null && isErrorIgnored)) {
+                            String msg =
+                                    "Can't insert page '" + page
+                                    + "'. Check if it exists.\n"
+                                    + e.getMessage();
 
-					log.error(msg, e);
-					throw new JspException(msg,e);
-				}
+                            log.error(msg, e);
+                            throw new JspException(msg,e);
+                        }
 
-			} catch (ServletException e) {
-				Throwable cause = e;
-				if (e.getRootCause() != null) {
-					cause = e.getRootCause();
-				}
+                    } catch (Exception e) {
+                        Throwable cause = e;
+                        if (e.getCause() != null) {
+                            cause = e.getCause();
+                        }
 
-				String msg =
-					"ServletException in '" + page + "': " + cause.getMessage();
+                        String msg =
+                                "Exception in '" + page + "': " + cause.getMessage();
 
-				log.error(msg, e);
-				throw new JspException(msg,e);
+                        log.error(msg, e);
+                        throw new JspException(msg,e);
 
-			} finally {
-				// restore old context only if currentContext not null 
-				// (bug with Silverstream ?; related by Arvindra Sehmi 20010712)
-				if (currentContext != null) {
-					pageContext.setAttribute(
-						ComponentConstants.COMPONENT_CONTEXT,
-						currentContext,
-						PageContext.REQUEST_SCOPE);
-				}
-			}
+                    } finally {
+                        // restore old context only if currentContext not null 
+                        // (bug with Silverstream ?; related by Arvindra Sehmi 20010712)
+                        if (currentContext != null) {
+                            pageContext.setAttribute(
+                                        ComponentConstants.COMPONENT_CONTEXT,
+                                        currentContext,
+                                        PageContext.REQUEST_SCOPE);
+                        }
+                    }
 
-			return EVAL_PAGE;
+                    return EVAL_PAGE;
 		}
 
 		/**

@@ -20,11 +20,6 @@ package org.apache.tiles;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * Basic implementation of Controller.  Implementations can extend this class
  * to insulate themselves from changes in the <code>Controller</code> 
@@ -32,34 +27,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ControllerSupport implements Controller {
 
-	/**
-	 * Method associated to a tile and called immediately before tile is 
-	 * included. This implementation does nothing.
-	 * @param tileContext Current tile context.
-	 * @param request Current request
-	 * @param response Current response
-	 * @param servletContext Current servlet context
-       * @deprecated Use execute() instead.  This will be removed after 
-       * Struts 1.2.
-	 */
-	public void perform(
-		ComponentContext tileContext,
-		HttpServletRequest request,
-		HttpServletResponse response,
-		ServletContext servletContext)
-		throws ServletException, IOException {
-	}
-
-	/**
-	 * @see org.apache.tiles.Controller#execute(org.apache.tiles.ComponentContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.ServletContext)
-	 */
-	public void execute(
-		ComponentContext tileContext,
-		HttpServletRequest request,
-		HttpServletResponse response,
-		ServletContext servletContext)
-		throws Exception {
-
-            perform(tileContext, request, response, servletContext);
-	}
+    /**
+     * Stubs out controller method.
+     */
+    public void execute(TilesContext tilesContext, 
+            ComponentContext componentContext) throws Exception {
+    }
 }

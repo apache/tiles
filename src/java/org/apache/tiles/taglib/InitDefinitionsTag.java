@@ -25,7 +25,9 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.apache.tiles.DefinitionsFactory;
 import org.apache.tiles.DefinitionsFactoryConfig;
 import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.TilesContext;
 import org.apache.tiles.TilesUtil;
+import org.apache.tiles.context.TilesContextFactory;
 
   /**
    * Init definitions factory.
@@ -69,26 +71,25 @@ public class InitDefinitionsTag extends TagSupport implements ComponentConstants
     /**
      * Do start tag.
      */
-  public int doStartTag() throws JspException
-  {
-  DefinitionsFactory factory = TilesUtil.getDefinitionsFactory(pageContext.getRequest(),pageContext.getServletContext());
-  if(factory != null )
-    return SKIP_BODY;
-
-  DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
-  factoryConfig.setFactoryClassname( classname );
-  factoryConfig.setDefinitionConfigFiles( filename );
-
-  try
-    {
-    factory = TilesUtil.createDefinitionsFactory(pageContext.getServletContext(), factoryConfig);
-    }
-   catch( DefinitionsFactoryException ex )
-      {
-      ex.printStackTrace();
-      throw new JspException( ex );
+  public int doStartTag() throws JspException {
+      TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+      DefinitionsFactory factory = TilesUtil.getDefinitionsFactory(tilesContext);
+      if(factory != null ) {
+        return SKIP_BODY;
       }
-  return SKIP_BODY;
+
+      DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
+      factoryConfig.setFactoryClassname( classname );
+      factoryConfig.setDefinitionConfigFiles( filename );
+
+      try {
+        factory = TilesUtil.createDefinitionsFactory(tilesContext, factoryConfig);
+      } catch( DefinitionsFactoryException ex ) {
+          ex.printStackTrace();
+          throw new JspException( ex );
+      }
+    
+      return SKIP_BODY;
   }
 
     /**

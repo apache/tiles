@@ -30,8 +30,10 @@ import javax.servlet.UnavailableException;
 import org.apache.tiles.DefinitionsFactory;
 import org.apache.tiles.DefinitionsFactoryConfig;
 import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.TilesContext;
 import org.apache.tiles.TilesUtil;
 import org.apache.tiles.TilesUtilImpl;
+import org.apache.tiles.context.TilesContextFactory;
 
 /**
  * @version $Rev$ $Date$
@@ -151,8 +153,9 @@ public class TilesListener implements ServletContextListener {
         logger.info("initializing definitions factory...");
         // Create configurable factory
         try {
+            TilesContext tilesContext = TilesContextFactory.getInstance(servletContext);
             definitionFactory = TilesUtil.createDefinitionsFactory(
-                                            servletContext, factoryConfig);
+                                            tilesContext, factoryConfig);
         } catch (DefinitionsFactoryException ex) {
                     ex.printStackTrace();
             throw new ServletException(ex.getMessage(), ex);
