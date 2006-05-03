@@ -37,23 +37,9 @@
 
    <build>
 
-      <sourceDirectory>src/java</sourceDirectory>
-      <testSourceDirectory>src/test</testSourceDirectory>
-
       <resources>
          <resource>
-            <directory>src/conf</directory>
-            <includes>
-               <include>**/*.dtd</include>
-            </includes>
-            <targetPath>org/apache/tiles/resources</targetPath>
-         </resource>
-         <resource>
-            <directory>src/conf</directory>
-            <includes>
-               <include>**/*.tld</include>
-            </includes>
-            <targetPath>META-INF</targetPath>
+            <directory>src/main/resources</directory>
          </resource>
          <resource>
             <directory>.</directory>
@@ -67,14 +53,7 @@
 
       <testResources>
          <testResource>
-            <directory>src/conf</directory>
-            <targetPath>org/apache/tiles/resources</targetPath>
-            <includes>
-               <include>**/*.dtd</include>
-            </includes>
-         </testResource>
-         <testResource>
-            <directory>src/test</directory>
+            <directory>src/test/java</directory>
             <includes>
                <include>**/*.xml</include>
                <include>**/*.properties</include>

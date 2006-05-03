@@ -1,3 +1,0 @@
-
-maven.repo.apache.username=yourid
-maven.repo.apache.privatekey=/path/to/.ssh/id_dsa
