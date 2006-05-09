@@ -20,8 +20,17 @@ package org.apache.tiles.context;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import javax.portlet.PortletContext;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+
 import org.apache.tiles.TilesContext;
+import org.apache.tiles.context.portlet.PortletTilesContext;
+import org.apache.tiles.context.servlet.ServletTilesContext;
 
 /**
  * Creates an instance of the appropriate TilesContext implementation.
@@ -33,17 +42,48 @@ public class TilesContextFactory {
     /**
      * Creates a TilesContext from parameters found in the Servlet environment.
      */
-    public static TilesContext getInstance(ServletRequest request, 
-            ServletContext servletContext) {
-        return new ServletTilesContext(servletContext, request);
+    public static TilesContext getInstance(Object context, 
+            Object request) {
+        
+        if (context instanceof ServletContext) {
+            return new ServletTilesContext((ServletContext) context,
+                                           (HttpServletRequest) request);
+        } else if (context instanceof PortletContext) {
+            return new PortletTilesContext((PortletContext) context,
+                                           (PortletRequest) request);
+        } else {
+            throw new IllegalArgumentException("Invalid context specified. " 
+                    + context.getClass().getName());
+        }
     }
 
-    public static TilesContext getInstance(ServletContext servletContext) {
-        return new ServletTilesContext(servletContext);
+    public static TilesContext getInstance(Object context, Object request,
+            Object response) {
+        
+        if (context instanceof ServletContext) {
+            return new ServletTilesContext((ServletContext) context,
+                                           (HttpServletRequest) request,
+                                           (HttpServletResponse) response);
+        } else if (context instanceof PortletContext) {
+            return new PortletTilesContext((PortletContext) context,
+                                           (PortletRequest) request,
+                                           (PortletResponse) response);
+        } else {
+            throw new IllegalArgumentException("Invalid context specified. " 
+                    + context.getClass().getName());
+        }
     }
 
-    public static TilesContext getInstance(PageContext pageContext) {
-        return new ServletTilesContext(pageContext.getServletContext(), 
-                pageContext.getRequest(), pageContext.getResponse());
+    public static TilesContext getInstance(Object context) {
+        
+        if (context instanceof ServletContext) {
+            return new ServletTilesContext((ServletContext)context);
+        } else if (context instanceof PortletContext) {
+            return new PortletTilesContext((PortletContext)context);
+        } else {
+            throw new IllegalArgumentException("Invalid context specified. " 
+                    + context.getClass().getName());
+        }
     }
+
 }

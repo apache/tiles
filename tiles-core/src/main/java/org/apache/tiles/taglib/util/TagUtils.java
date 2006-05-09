@@ -172,7 +172,9 @@ public class TagUtils {
      * @return Requested bean or <code>null</code> if not found.
      */
     public static Object findAttribute(String beanName, PageContext pageContext) {
-        TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+        TilesContext tilesContext = TilesContextFactory.getInstance(
+              pageContext.getServletContext(),
+              pageContext.getRequest(), pageContext.getResponse());
         ComponentContext compContext = ComponentContext.getContext(tilesContext);
         
         if (compContext != null) {
@@ -196,7 +198,9 @@ public class TagUtils {
      */
     public static Object getAttribute(String beanName, int scope, PageContext pageContext) {
         if (scope == ComponentConstants.COMPONENT_SCOPE) {
-            TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+            TilesContext tilesContext = TilesContextFactory.getInstance(
+                  pageContext.getServletContext(),
+                  pageContext.getRequest(), pageContext.getResponse());
             ComponentContext compContext = ComponentContext.getContext(tilesContext);
             return compContext.getAttribute(beanName);
         }
@@ -340,7 +344,9 @@ public class TagUtils {
         throws JspException {
             
         try {
-            TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+            TilesContext tilesContext = TilesContextFactory.getInstance(
+                  pageContext.getServletContext(),
+                  pageContext.getRequest(), pageContext.getResponse());
             return TilesUtil.getDefinition(
                 name, tilesContext);
                 

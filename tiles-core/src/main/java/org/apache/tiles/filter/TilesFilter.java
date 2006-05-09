@@ -67,7 +67,7 @@ public class TilesFilter implements Filter {
         
         try {
             TilesContext tilesContext = TilesContextFactory.getInstance(
-                    request, filterConfig.getServletContext());
+                    filterConfig.getServletContext(), request);
             DefinitionsFactory factory = TilesUtil.getDefinitionsFactory(tilesContext);
             
             if (factory instanceof ReloadableDefinitionsFactory) {

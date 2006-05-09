@@ -553,8 +553,9 @@ public class InsertTag
 		throws JspException {
 
             try {
-                TilesContext tilesContext = TilesContextFactory.getInstance(
-                        pageContext);
+              TilesContext tilesContext = TilesContextFactory.getInstance(
+                      pageContext.getServletContext(),
+                      pageContext.getRequest(), pageContext.getResponse());
                 ComponentDefinition definition = TilesUtil.getDefinition(
                         name, tilesContext);
 
@@ -703,7 +704,9 @@ public class InsertTag
 		throws JspException {
             
             try {
-                TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+              TilesContext tilesContext = TilesContextFactory.getInstance(
+                      pageContext.getServletContext(),
+                      pageContext.getRequest(), pageContext.getResponse());
                 ComponentDefinition definition =
                         TilesUtil.getDefinition(name, tilesContext);
 
@@ -875,7 +878,9 @@ public class InsertTag
                         // Call controller if any
                         if (controller != null) {
                             try {
-                                TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+                              TilesContext tilesContext = TilesContextFactory.getInstance(
+                                      pageContext.getServletContext(),
+                                      pageContext.getRequest(), pageContext.getResponse());
                                 controller.execute(tilesContext, subCompContext);
                             } catch (Exception e) {
                                 throw new ServletException(e);

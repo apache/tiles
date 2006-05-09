@@ -72,7 +72,8 @@ public class InitDefinitionsTag extends TagSupport implements ComponentConstants
      * Do start tag.
      */
   public int doStartTag() throws JspException {
-      TilesContext tilesContext = TilesContextFactory.getInstance(pageContext);
+      TilesContext tilesContext = TilesContextFactory.getInstance(pageContext.getServletContext(),
+              pageContext.getRequest(), pageContext.getResponse());
       DefinitionsFactory factory = TilesUtil.getDefinitionsFactory(tilesContext);
       if(factory != null ) {
         return SKIP_BODY;
