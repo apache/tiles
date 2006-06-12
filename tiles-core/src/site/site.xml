@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Apache Struts - Standalone Tiles - Core">
+    <body>
+
+        <menu name="Documentation">
+            <item
+                    name="Javadoc"
+                    href="/apidocs/index.html"/>
+            <item
+                    name="Taglibdoc"
+                    href="/tlddoc/index.html"/>
+            <item
+                    name="Taglib Reference"
+                    href="/tagreference.html"/>
+
+        </menu>
+        <menu name="Quick Links">
+            <item
+                    name="Struts"
+                    href="http://struts.apache.org/"/>
+            <item
+                    name="Struts Sandbox"
+                    href="http://struts.apache.org/struts-sandbox"/>
+        </menu>
+
+        ${reports}
+
+    </body>
+</project>

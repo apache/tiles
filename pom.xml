@@ -118,7 +118,14 @@
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <aggregate>true</aggregate>
+                    <!--aggregate>true</aggregate-->
+                    <links>
+                        <link>http://java.sun.com/j2se/1.4.2/docs/api</link>
+                        <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
+                        <link>http://jakarta.apache.org/commons/chain/apidocs</link>
+                        <link>http://jakarta.apache.org/commons/digester/commons-digester-1.6/docs/api</link>
+                        <link>http://jakarta.apache.org/commons/logging/commons-logging-1.0.4/docs/apidocs</link>
+                    </links>
                 </configuration>
             </plugin>
             <plugin>

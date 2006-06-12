@@ -67,7 +67,17 @@
 
    </build>
 
-   <dependencies>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>net.sourceforge.maven-taglib</groupId>
+                <artifactId>maven-taglib-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
+
+
+    <dependencies>
 
       <dependency>
          <groupId>commons-beanutils</groupId>

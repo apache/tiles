@@ -1,23 +1,47 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Standalone Tiles">
+<project name="Apache Struts - Standalone Tiles">
+    <bannerLeft>
+        <name>Apache Software Foundation</name>
+        <src>http://www.apache.org/images/asf-logo.gif</src>
+        <href>http://www.apache.org</href>
+    </bannerLeft>
+    <bannerRight>
+        <name>Apache Struts</name>
+        <src>http://struts.apache.org/images/struts.gif</src>
+        <href>http://struts.apache.org</href>
+    </bannerRight>
     <body>
-    
-        <menu name="Taglib Reference">
-            <item 
-                    name="Tiles" 
-                    href="tagreference-tiles-core.html"/>    
-        </menu>
-        <menu name="Download">
-            <item   name="Nightly Builds"
-                    href="http://svn.apache.org/builds/struts/nightly/sandbox/tiles-core/"/>
+
+        <links>
+            <item name="Apache" href="http://www.apache.org" />
+            <item name="Action" href="http://struts.apache.org/struts-action" />
+            <item name="Action 2" href="http://struts.apache.org/struts-action2" />
+            <item name="Shale" href="http://struts.apache.org/struts-shale" />
+        </links>
+
+        <menu name="Documentation">
+            <item
+                    name="Javadoc"
+                    href="/tiles-core/apidocs/index.html"/>
+            <item
+                    name="Taglibdoc"
+                    href="/tiles-core/tlddoc/index.html"/>
+            <item
+                    name="Taglib Reference"
+                    href="/tiles-core/tagreference.html"/>
+
         </menu>
         <menu name="Quick Links">
             <item
                     name="Struts"
-                    href="../../index.html"/>
+                    href="http://struts.apache.org/"/>
             <item
                     name="Struts Sandbox"
-                    href="../index.html"/>
+                    href="http://struts.apache.org/struts-sandbox"/>
         </menu>
+
+        ${modules}
+        ${reports}
+
     </body>
 </project>

@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<document>
+
+    <properties>
+        <title>Apache Struts - Standalone Tiles</title>
+    </properties>
+
+    <body>
+
+        <section name="Standalone Tiles">
+
+            <a name="background"/>
+            <subsection name="Background">
+
+                <p>Standalone Tiles is an effort to extract the Tiles library
+                from Struts Action. It is currently housed in the Sandbox area
+                of the Apache Struts Subversion repository.</p>
+
+                <p>Much of the <a
+                href="http://struts.apache.org/struts-action/struts-tiles">
+                Struts Tiles</a> documentation will also be useful in
+                understanding how to use Standalone Tiles.</p>
+
+            </subsection>
+
+            <a name="downloads"/>
+            <subsection name="Downloads">
+
+                <p>As a sandbox project, Standalone Tiles has no formal
+                releases.  However, snapshots are occasionally published to
+                Apache's Maven 2 snapshot repository, which can be accessed with
+                the following configuration:</p>
+
+                <source><![CDATA[
+                  <repository>
+                      <id>apache.snapshots</id>
+                      <name>Apache Maven Snapshot Repository</name>
+                      <url>http://people.apache.org/maven-snapshot-repository</url>
+                  </repository>
+          ]]>
+          </source>
+
+                <p>After configuring the repository, declare a dependency on
+                Standalone Tiles:</p>
+
+                <source><![CDATA[
+                  <dependency>
+                      <groupId>org.apache.struts.tiles</groupId>
+                      <artifactId>tiles-core</artifactId>
+                      <version>0.3-SNAPSHOT</version>
+                  </dependency>
+           ]]>
+           </source>
+
+            <p>If you are not using Maven 2, you can find a recent development
+            snapshot of tiles-core.jar <a
+            href="http://people.apache.org/maven-snapshot-repository/org/apache/struts/tiles/tiles-core/">
+            here</a>.</p>
+
+            </subsection>
+
+            <a name="requirements"/>
+            <subsection name="Requirements">
+
+                <ul>
+                    <li>Java Runtime Environment (JRE) 1.4 or later.</li>
+                    <li>Servlet API 2.3 or later.</li>
+                    <li>JavaServer Pages 1.2 or later.</li>
+                </ul>
+
+            </subsection>
+
+        </section>
+
+        <section name="Mailing Lists">
+            <a name="mail"/>
+
+            <p>Standalone Tiles is being developed by the Apache Struts
+            community, and shares the <i>dev at struts.apache.org</i> mailing
+            list. Subscription information can be found <a
+            href="http://struts.apache.org/mail.html">here</a>.</p>
+
+            <p>When posting to the list, please prefix your subject lines with
+            "[tiles]" so that list members can filter messages as desired.</p>
+
+        </section>
+
+        <section name="Issue Tracking">
+            <a name="issue"/>
+
+            <p>Please report any bugs or enhancement requests in the <a
+            href="issue-tracking.html">Apache Struts Issue Tracking System</a>,
+            using project <code>Sandbox</code> and component <code>Standalone
+            Tiles</code>.</p>
+
+        </section>
+
+    </body>
+
+</document>
