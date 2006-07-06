@@ -81,21 +81,6 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
     private String valueType = null;
 
     /** 
-     * Bean name attribute. 
-     */
-    private String beanName = null;
-
-    /** 
-     * Bean property attribute. 
-     */
-    private String beanProperty = null;
-
-    /** 
-     * Bean scope attribute. 
-     */
-    private String beanScope = null;
-
-    /** 
      * Role attribute. 
      */
     private String role = null;
@@ -130,9 +115,6 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
         valueType = null;
         direct = null;
         value = null;
-        beanName = null;
-        beanProperty = null;
-        beanScope = null;
         role = null;
         body = null;
     }
@@ -191,22 +173,6 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
 
     /**
      * Set content.
-     * Method added to satisfy Tomcat (bug ?).
-     */
-    public void setContent(String value) {
-        this.value = value;
-    }
-
-    /**
-     * Get content.
-     * Method added to satisfy Tomcat (bug ?).
-     */
-    public String getContent() {
-        return (String) value;
-    }
-
-    /**
-     * Set content.
      */
     public void setContent(Object value) {
         this.value = value;
@@ -232,48 +198,6 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
      */
     public String getType() {
         return this.valueType;
-    }
-
-    /**
-     * Set bean name.
-     */
-    public void setBeanName(String value) {
-        this.beanName = value;
-    }
-
-    /**
-     * Get bean name.
-     */
-    public String getBeanName() {
-        return beanName;
-    }
-
-    /**
-     * Set bean property.
-     */
-    public void setBeanProperty(String value) {
-        this.beanProperty = value;
-    }
-
-    /**
-     * Get bean property.
-     */
-    public String getBeanProperty() {
-        return beanProperty;
-    }
-
-    /**
-     * Set bean scope.
-     */
-    public void setBeanScope(String value) {
-        this.beanScope = value;
-    }
-
-    /**
-     * Get bean scope.
-     */
-    public String getBeanScope() {
-        return beanScope;
     }
 
     /**
@@ -315,19 +239,13 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
         realValue = value;
 
         // If realValue is not set, value must come from body
-        if (value == null && beanName == null) {
+        if (value == null) {
             // Test body content in case of empty body.
             if (body != null) {
                 realValue = body;
             } else {
                 realValue = "";
             }
-        }
-
-        // Does value comes from a bean ?
-        if (realValue == null && beanName != null) {
-            getRealValueFromBean();
-            return;
         }
 
         // Is there a type set ?
@@ -348,6 +266,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
      * Extract real value from specified bean.
      * @throws JspException If something goes wrong while getting value from bean.
      */
+    /* - GDR - Commenting out in case someone wants to add feature back.
     protected void getRealValueFromBean() throws JspException {
         try {
             Object bean = TagUtils.retrieveBean(beanName, beanScope, pageContext);
@@ -391,7 +310,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
                     + ex.getMessage(), ex);
         }
     }
-
+     */
     /**
      * Do start tag.
      */
@@ -401,12 +320,12 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
         body = null;
 
         // Do we need to evaluate body ?
-        if (value == null && beanName == null) {
+        if (value == null) {
             return EVAL_BODY_TAG;
+        } else {
+            // Value is set, don't evaluate body.
+            return SKIP_BODY;
         }
-
-        // Value is set, don't evaluate body.
-        return SKIP_BODY;
     }
 
     /**

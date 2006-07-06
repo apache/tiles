@@ -17,44 +17,9 @@
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <name>component</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>page</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>definition</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>attribute</name>
-         <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
-      </attribute>
-      <attribute>
          <name>name</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>beanName</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>beanProperty</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>beanScope</name>
-         <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
       </attribute>
       <attribute>
          <name>flush</name>
@@ -74,12 +39,7 @@
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <name>controllerUrl</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>controllerClass</name>
+         <name>type</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
@@ -89,7 +49,7 @@
       <tag-class>org.apache.tiles.taglib.DefinitionTag</tag-class>
       <body-content>JSP</body-content>
       <attribute>
-         <name>id</name>
+         <name>name</name>
          <required>true</required>
          <rtexprvalue>false</rtexprvalue>
       </attribute>
@@ -100,11 +60,6 @@
       </attribute>
       <attribute>
          <name>template</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>page</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
@@ -134,32 +89,12 @@
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <name>content</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
          <name>direct</name>
          <required>false</required>
          <rtexprvalue>false</rtexprvalue>
       </attribute>
       <attribute>
          <name>type</name>
-         <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>beanName</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>beanProperty</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>beanScope</name>
          <required>false</required>
          <rtexprvalue>false</rtexprvalue>
       </attribute>
@@ -189,32 +124,12 @@
          <rtexprvalue>false</rtexprvalue>
       </attribute>
       <attribute>
-         <name>content</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
          <name>direct</name>
          <required>false</required>
          <rtexprvalue>false</rtexprvalue>
       </attribute>
       <attribute>
          <name>type</name>
-         <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>beanName</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>beanProperty</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>beanScope</name>
          <required>false</required>
          <rtexprvalue>false</rtexprvalue>
       </attribute>

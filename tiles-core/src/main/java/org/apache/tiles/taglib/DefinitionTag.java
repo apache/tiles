@@ -39,7 +39,7 @@ public class DefinitionTag
     /**
      * Definition identifier.
      */
-    private String id = null;
+    private String name = null;
 
     /**
      * Scope into which definition will be saved.
@@ -63,8 +63,8 @@ public class DefinitionTag
      */
     public void release() {
         super.release();
-        id = null;
-        page = null;
+        name = null;
+        template = null;
         scope = null;
         role = null;
         extendsDefinition = null;
@@ -152,16 +152,17 @@ public class DefinitionTag
      * Get the ID.
      * @return ID
      */
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     /**
      * Set the ID.
-     * @param id New ID.
+     * 
+     * @param name New ID.
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String id) {
+        this.name = id;
     }
 
     /**
@@ -213,8 +214,8 @@ public class DefinitionTag
         }
 
         // Set definitions attributes
-        if (page != null) {
-            definition.setTemplate(page);
+        if (template != null) {
+            definition.setTemplate(template);
         }
 
         if (role != null) {
@@ -229,7 +230,7 @@ public class DefinitionTag
      * @throws JspException On errors processing tag.
      */
     public int doEndTag() throws JspException {
-        TagUtils.setAttribute(pageContext, id, definition, scope);
+        TagUtils.setAttribute(pageContext, name, definition, scope);
 
         releaseInternal();
         return EVAL_PAGE;

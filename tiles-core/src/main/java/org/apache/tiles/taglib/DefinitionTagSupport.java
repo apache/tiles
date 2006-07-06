@@ -38,10 +38,11 @@ public class DefinitionTagSupport extends TagSupport implements Serializable {
      * Role associated to definition.
      */
     protected String role;
+    
     /**
-     * Uri of page assoicated to this definition.
+     * JSP page that implements the definition.
      */
-    protected String page;
+    protected String template;
 
     /**
      * Release class properties.
@@ -51,7 +52,6 @@ public class DefinitionTagSupport extends TagSupport implements Serializable {
         controllerType = null;
         controllerName = null;
         role = null;
-        page = null;
     }
 
     /**
@@ -151,41 +151,22 @@ public class DefinitionTagSupport extends TagSupport implements Serializable {
         this.role = role;
     }
 
-    /**
-     * Set the page.
-     *
-     * @param page Page.
-     */
-    public void setPage(String page) {
-        this.page = page;
-    }
-
-    /**
-     * Get the page.
-     *
-     * @return Page.
-     */
-    public String getPage() {
-        return page;
-    }
 
     /**
      * Get the template.
-     * Same as getPage().
      *
      * @return Template.
      */
     public String getTemplate() {
-        return page;
+        return template;
     }
 
     /**
      * Set the template.
-     * Same as setPage().
      *
      * @param template Template.
      */
     public void setTemplate(String template) {
-        this.page = template;
+        this.template = template;
     }
 }

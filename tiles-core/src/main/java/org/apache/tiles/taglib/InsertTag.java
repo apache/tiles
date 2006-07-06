@@ -78,26 +78,6 @@ public class InsertTag
 	protected String name = null;
 
 	/**
-	 * Name of attribute from which to read page name to include. 
-	 */
-	protected String attribute = null;
-
-	/** 
-	 * Name of bean used as entity to include. 
-	 */
-	protected String beanName = null;
-
-	/** 
-	 * Name of bean property, if any. 
-	 */
-	protected String beanProperty = null;
-
-	/** 
-	 * Scope of bean, if any. 
-	 */
-	protected String beanScope = null;
-
-	/**
 	 * Are errors ignored. This is the property for attribute 'ignore'.
 	 * Default value is false, which throw an exception.
 	 * Only 'attribute not found' errors are ignored.
@@ -109,6 +89,12 @@ public class InsertTag
 	 */
 	protected String definitionName = null;
 
+        /**
+         * Optional attribute to explicitly specify whether the thing being 
+         * inserted is a(n) definition, attribute, or template.
+         */
+        private String type = null;
+        
 	/* Internal properties */
 	/**
 	 * Does the end tag need to be processed.
@@ -138,17 +124,14 @@ public class InsertTag
 	public void release() {
 
 		super.release();
-		attribute = null;
-		beanName = null;
-		beanProperty = null;
-		beanScope = null;
 
 		definitionName = null;
 		flush = true;
 		name = null;
-		page = null;
+		template = null;
 		role = null;
 		isErrorIgnored = false;
+                type = null;
 
 		releaseInternal();
 	}
@@ -196,73 +179,10 @@ public class InsertTag
 	}
 
 	/**
-	 * Set component.
-	 */
-	public void setComponent(String name) {
-		this.page = name;
-	}
-
-	/**
-	 * Set definition.
-	 */
-	public void setDefinition(String name) {
-		this.definitionName = name;
-	}
-
-	/**
 	 * Get definition name.
 	 */
 	public String getDefinitionName() {
 		return definitionName;
-	}
-
-	/**
-	 * Set attribute.
-	 */
-	public void setAttribute(String value) {
-		this.attribute = value;
-	}
-
-	/**
-	 * Set bean name.
-	 */
-	public void setBeanName(String value) {
-		this.beanName = value;
-	}
-
-	/**
-	 * Get bean name.
-	 */
-	public String getBeanName() {
-		return beanName;
-	}
-
-	/**
-	 * Set bean property.
-	 */
-	public void setBeanProperty(String value) {
-		this.beanProperty = value;
-	}
-
-	/**
-	 * Get bean property.
-	 */
-	public String getBeanProperty() {
-		return beanProperty;
-	}
-
-	/**
-	 * Set bean scope.
-	 */
-	public void setBeanScope(String value) {
-		this.beanScope = value;
-	}
-
-	/**
-	 * Get bean scope.
-	 */
-	public String getBeanScope() {
-		return beanScope;
 	}
 
 	/**
@@ -465,46 +385,41 @@ public class InsertTag
 
 	/**
 	 * Process tag attribute and create corresponding tag handler.
+         *
+         * Supported types include <code>string</code>, <code>definition</code>,
+         * <code>atribute</code>, and <code>template</code>  If type is string, 
+         * the attribute value passed in will be printed directly to the PrintWriter.  If 
+         * type is definition the value will be processed as a Tiles definition.
+         * If type is attribute, the value will be processed as an attribute of 
+         * the current definition.  If type is template, the value will be a 
+         * JSP include.
+         *
 	 */
 	public TagHandler createTagHandler() throws JspException {
-		// Check each tag attribute.
-		// page Url attribute must be the last checked  because it can appears concurrently
-		// with others attributes.
-		if (definitionName != null) {
-			return processDefinitionName(definitionName);
-		} else if (attribute != null) {
-			return processAttribute(attribute);
-		} else if (beanName != null) {
-			return processBean(beanName, beanProperty, beanScope);
-		} else if (name != null) {
+            
+            if (type != null && type.length() > 0) {
+                // Type is specified.  Process accordingly.
+                if (type.equalsIgnoreCase("string")) {
+                    return new DirectStringHandler(name);
+                } else if (type.equalsIgnoreCase("definition")) {
+                    return processDefinitionName(name);
+                } else if (type.equalsIgnoreCase("attribute")) {
+                    return processAttribute(name);
+                } else if (type.equalsIgnoreCase("template")) {
+                    return processUrl(name);
+                } else {
+                    throw new JspException("Error - Incorrect type value \"" + type + "\"passed in.");
+                }
+            } else {
+                // Type is not specified.  Try to determine.
+		if (name != null) {
 			return processName(name);
-		} else if (page != null) {
-			return processUrl(page);
+		} else if (template != null) {
+			return processUrl(template);
 		} else {
-			throw new JspException("Error - Tag Insert : At least one of the following attribute must be defined : template|page|attribute|definition|name|beanName. Check tag syntax");
+			throw new JspException("Error - Tag Insert : At least one of the following attribute must be defined : template|name. Check tag syntax");
 		}
-	}
-
-	/**
-	 * Process an object retrieved as a bean or attribute.
-	 * Object can be a typed attribute, a String, or anything else.
-	 * If typed attribute, use associated type.
-	 * Otherwise, apply toString() on object, and use returned string as a name.
-	 * @throws JspException - Throws by underlying nested call to 
-	 * processDefinitionName()
-	 */
-	public TagHandler processObjectValue(Object value) throws JspException {
-		// First, check if value is one of the Typed Attribute
-		if (value instanceof ComponentAttribute) {
-			// We have a type => return appropriate IncludeType
-			return processTypedAttribute((ComponentAttribute) value);
-
-		} else if (value instanceof ComponentDefinition) {
-			return processDefinition((ComponentDefinition) value);
-		}
-
-		// Value must denote a valid String
-		return processAsDefinitionOrURL(value.toString());
+            }
 	}
 
 	/**
@@ -524,11 +439,11 @@ public class InsertTag
 	public TagHandler processName(String name) throws JspException {
 		Object attrValue = getCurrentContext().getAttribute(name);
 
-		if (attrValue != null) {
-			return processObjectValue(attrValue);
-		}
-
-		return processAsDefinitionOrURL(name);
+		if (attrValue != null && attrValue instanceof ComponentAttribute) {
+                    return processTypedAttribute((ComponentAttribute) attrValue);
+		} else {
+                    return processDefinitionName(name);
+                }
 	}
 
 	/**
@@ -569,7 +484,7 @@ public class InsertTag
                 throw new JspException(
                         "Error -  Tag Insert : Can't get definition '"
                         + definitionName
-                        + "'. Check if this name exist in definitions factory.", ex);
+                        + "'. Check if this name exists in definitions factory.", ex);
 
             } catch (FactoryNotFoundException ex) {
                 throw new JspException(ex.getMessage());
@@ -600,7 +515,7 @@ public class InsertTag
 		throws JspException {
 		// Declare local variable in order to not change Tag attribute values.
 		String role = this.role;
-		String page = this.page;
+		String page = this.template;
 		Controller controller = null;
 
 		try {
@@ -635,44 +550,6 @@ public class InsertTag
 	}
 
 	/**
-	 * Process a bean.
-	 * Get bean value, eventually using property and scope. Found value is process by processObjectValue().
-	 * @param beanName Name of the bean
-	 * @param beanProperty Property in the bean, or null.
-	 * @param beanScope bean scope, or null.
-	 * @return Appropriate TagHandler.
-	 * @throws JspException - NoSuchDefinitionException No value associated to bean.
-	 * @throws JspException an error occur while reading bean, or no definition found.
-	 * @throws JspException - Throws by underlying nested call to processDefinitionName()
-	 */
-	protected TagHandler processBean(
-		String beanName,
-		String beanProperty,
-		String beanScope)
-		throws JspException {
-
-		Object beanValue =
-			TagUtils.getRealValueFromBean(
-				beanName,
-				beanProperty,
-				beanScope,
-				pageContext);
-
-		if (beanValue == null) {
-			throw new JspException(
-				"Error - Tag Insert : No value defined for bean '"
-					+ beanName
-					+ "' with property '"
-					+ beanProperty
-					+ "' in scope '"
-					+ beanScope
-					+ "'.");
-		}
-
-		return processObjectValue(beanValue);
-	}
-
-	/**
 	 * Process tag attribute "attribute".
 	 * Get value from component attribute.
 	 * Found value is process by processObjectValue().
@@ -682,48 +559,23 @@ public class InsertTag
 	 * @throws JspException - Throws by underlying nested call to processDefinitionName()
 	 */
 	public TagHandler processAttribute(String name) throws JspException {
-		Object attrValue = getCurrentContext().getAttribute(name);
+            Object attrValue = getCurrentContext().getAttribute(name);
 
-		if (attrValue == null) {
-			throw new JspException(
-				"Error - Tag Insert : No value found for attribute '"
-					+ name
-					+ "'.");
-		}
-
-		return processObjectValue(attrValue);
-	}
-
-	/**
-	 * Try to process name as a definition, or as an URL if not found.
-	 * @param name Name to process.
-	 * @return appropriate TagHandler
-	 * @throws JspException InstantiationException Can't create requested controller
-	 */
-	public TagHandler processAsDefinitionOrURL(String name)
-		throws JspException {
-            
-            try {
-              TilesContext tilesContext = TilesContextFactory.getInstance(
-                      pageContext.getServletContext(),
-                      pageContext.getRequest(), pageContext.getResponse());
-                ComponentDefinition definition =
-                        TilesUtil.getDefinition(name, tilesContext);
-
-                if (definition != null) {
-                    return processDefinition(definition);
-                }
-
-            } catch (DefinitionsFactoryException ex) {
-                // silently failed, because we can choose to not define a factory.
+            if (attrValue == null) {
+                    throw new JspException(
+                            "Error - Tag Insert : No value found for attribute '"
+                                    + name
+                                    + "'.");
+            } else if (attrValue instanceof ComponentAttribute) {
+                return processTypedAttribute((ComponentAttribute) attrValue);
+            } else {
+                throw new JspException("Invalid attribute type: " + attrValue.getClass().getName());
             }
-
-            // no definition found, try as url
-            return processUrl(name);
 	}
 
 	/**
-	 * Process typed attribute according to its type.
+	 * Process typed attribute explicitly according to its type.
+         *
 	 * @param value Typed attribute to process.
 	 * @return appropriate TagHandler.
 	 * @throws JspException - Throws by underlying nested call to processDefinitionName()
@@ -746,10 +598,10 @@ public class InsertTag
 		return new DirectStringHandler((String) value.getValue());
             } else if (type.equalsIgnoreCase("definition")) {
 		return processDefinition((ComponentDefinition) value.getValue());
-            } 
-
-            return new InsertHandler((String) value.getValue(),
+            } else {
+                return new InsertHandler((String) value.getValue(),
 			role, getController());
+            }
 	}
 
 	/**
@@ -1051,4 +903,12 @@ public class InsertTag
 			return EVAL_PAGE;
 		}
 	}
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
