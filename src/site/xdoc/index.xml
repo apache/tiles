@@ -9,9 +9,6 @@
 
         <section name="Tiles 2">
 
-            <a name="background"/>
-            <subsection name="Background">
-
                 <p><strong>Tiles 2</strong> is an effort to extract the Tiles library
                 from Struts. It is currently housed in the Sandbox area
                 of the Apache Struts Subversion repository.</p>
@@ -20,8 +17,6 @@
                 href="http://struts.apache.org/struts-action/struts-tiles">
                 Struts Tiles</a> documentation will also be useful in
                 understanding how to use Tiles 2.</p>
-
-            </subsection>
 
             <a name="downloads"/>
             <subsection name="Downloads">
