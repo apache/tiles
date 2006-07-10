@@ -31,7 +31,6 @@
    <artifactId>tiles-core</artifactId>
    <packaging>jar</packaging>
    <name>Tiles - Core Library</name>
-   <url>http://struts.apache.org/struts-sandbox/tiles-core</url>
 
    <scm>
       <connection>svm:svn:http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</connection>
