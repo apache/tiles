@@ -2,31 +2,31 @@
 <document>
 
     <properties>
-        <title>Apache Struts - Standalone Tiles</title>
+        <title>Apache Struts - Tiles 2</title>
     </properties>
 
     <body>
 
-        <section name="Standalone Tiles">
+        <section name="Tiles 2">
 
             <a name="background"/>
             <subsection name="Background">
 
-                <p>Standalone Tiles is an effort to extract the Tiles library
-                from Struts Action. It is currently housed in the Sandbox area
+                <p><strong>Tiles 2</strong> is an effort to extract the Tiles library
+                from Struts. It is currently housed in the Sandbox area
                 of the Apache Struts Subversion repository.</p>
 
                 <p>Much of the <a
                 href="http://struts.apache.org/struts-action/struts-tiles">
                 Struts Tiles</a> documentation will also be useful in
-                understanding how to use Standalone Tiles.</p>
+                understanding how to use Tiles 2.</p>
 
             </subsection>
 
             <a name="downloads"/>
             <subsection name="Downloads">
 
-                <p>As a sandbox project, Standalone Tiles has no formal
+                <p>As a sandbox project, Tiles 2 has no formal
                 releases.  However, snapshots are occasionally published to
                 Apache's Maven 2 snapshot repository, which can be accessed with
                 the following configuration:</p>
@@ -37,20 +37,20 @@
                       <name>Apache Maven Snapshot Repository</name>
                       <url>http://people.apache.org/maven-snapshot-repository</url>
                   </repository>
-          ]]>
-          </source>
+                ]]>
+                </source>
 
                 <p>After configuring the repository, declare a dependency on
-                Standalone Tiles:</p>
+                Tiles 2:</p>
 
                 <source><![CDATA[
                   <dependency>
                       <groupId>org.apache.struts.tiles</groupId>
                       <artifactId>tiles-core</artifactId>
-                      <version>0.3-SNAPSHOT</version>
+                      <version>2.0-SNAPSHOT</version>
                   </dependency>
-           ]]>
-           </source>
+                ]]>
+                </source>
 
             <p>If you are not using Maven 2, you can find a recent development
             snapshot of tiles-core.jar <a
@@ -75,7 +75,7 @@
         <section name="Mailing Lists">
             <a name="mail"/>
 
-            <p>Standalone Tiles is being developed by the Apache Struts
+            <p>Tiles 2 is being developed by the Apache Struts
             community, and shares the <i>dev at struts.apache.org</i> mailing
             list. Subscription information can be found <a
             href="http://struts.apache.org/mail.html">here</a>.</p>
@@ -90,8 +90,8 @@
 
             <p>Please report any bugs or enhancement requests in the <a
             href="issue-tracking.html">Apache Struts Issue Tracking System</a>,
-            using project <code>Sandbox</code> and component <code>Standalone
-            Tiles</code>.</p>
+            using project <code>Sandbox</code> and component
+            <code>Tiles</code>.</p>
 
         </section>
 

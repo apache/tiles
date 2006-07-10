@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Apache Struts - Standalone Tiles">
+<project name="Apache Struts - Tiles 2">
     <bannerLeft>
         <name>Apache Software Foundation</name>
         <src>http://www.apache.org/images/asf-logo.gif</src>
@@ -14,9 +14,9 @@
 
         <links>
             <item name="Apache" href="http://www.apache.org" />
-            <item name="Action" href="http://struts.apache.org/struts-action" />
-            <item name="Action 2" href="http://struts.apache.org/struts-action2" />
-            <item name="Shale" href="http://struts.apache.org/struts-shale" />
+            <item name="Struts 1" href="http://struts.apache.org/1.x" />
+            <item name="Struts 2" href="http://struts.apache.org/2.0" />
+            <item name="Tiles 2" href="http://struts.apache.org/struts-sandbox/tiles" />
         </links>
 
         <menu name="Documentation">
@@ -38,6 +38,9 @@
             <item
                     name="Struts Sandbox"
                     href="http://struts.apache.org/struts-sandbox"/>
+            <item
+                    name="Tiles 2"
+                    href="http://struts.apache.org/struts-sandbox/tiles"/>
         </menu>
 
         ${modules}

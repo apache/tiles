@@ -91,7 +91,7 @@ can also define multiple configuration files like this:
  * <p/>
  * When Tiles was bundled with Struts it reliably produced the same error message if anything
  * was amiss in your Tiles configuration file: <i>Can't find definitions config file.</i>
- * Standalone Tiles, OTOH, will display explicit error messages, such as <i>Error while parsing file
+ * Tiles 2, OTOH, will display explicit error messages, such as <i>Error while parsing file
  * '/WEB-INF/tiles.xml'. The element type "tiles-definitions" must be terminated by the matching 
  * end-tag tiles-definitions".</i> The following explains how it works.
  * <p/>
@@ -103,7 +103,7 @@ can also define multiple configuration files like this:
  * <i>Cant find definitions config file</i> message. It was up to you to dig through 
  * the servlet container's log to find out what really went wrong.
  *
- * The standalone Tiles servlet, OTOH, places the exception's message in application scope
+ * The Tiles 2 servlet, OTOH, places the exception's message in application scope
  * and retrieves it when tiles:insert blows up. It throws an exception with the original error 
  * message, which is subsequently displayed in the browser, saving you the trouble of looking
  * at the log file.
