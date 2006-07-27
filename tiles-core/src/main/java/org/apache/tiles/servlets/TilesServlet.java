@@ -161,6 +161,7 @@ public class TilesServlet extends HttpServlet {
 	 */
 	public void init(ServletConfig config) 
 		throws javax.servlet.ServletException {
+		super.init(config);
 		logger.info("Initializing TilesServlet");
 		configFiles = config.getInitParameter("definitions-config");
 
