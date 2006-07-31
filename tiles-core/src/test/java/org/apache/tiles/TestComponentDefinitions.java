@@ -232,12 +232,23 @@ public class TestComponentDefinitions extends TestCase {
         defs.put(def.getName(), def);
         
         def = new ComponentDefinition();
+        def.setName("parent.notype.def1");
+        def.setPath("/test1.jsp");
+        attr = new ComponentAttribute();
+        attr.setName("attr1");
+        attr.setValue("tiles.def2");
+        // Don't set the type
+        def.addAttribute(attr);
+        defs.put(def.getName(), def);
+        
+        def = new ComponentDefinition();
         def.setName("tiles.def2");
         defs.put(def.getName(), def);
         
         ComponentDefinitions definitions = new ComponentDefinitionsImpl();
         try {
             definitions.addDefinitions(defs);
+            definitions.addDefinitions(defs, Locale.ITALIAN);
         } catch (NoSuchDefinitionException e) {
             fail("Test failure: " + e);
         }
@@ -246,6 +257,35 @@ public class TestComponentDefinitions extends TestCase {
         assertNotNull("Parent definition not found.", newDef);
         
         Object newAttr = newDef.getAttribute("attr1");
+        assertNotNull("Dependent attribute not found.", newAttr);
+        assertTrue("Dependent attribute incorrect type.", 
+                newAttr instanceof ComponentDefinition);
+        
+        newDef = definitions.getDefinition("parent.notype.def1");
+        assertNotNull("Parent definition not found.", newDef);
+        
+        newAttr = newDef.getAttribute("attr1");
+        assertNotNull("Dependent attribute not found.", newAttr);
+        assertTrue("Dependent attribute incorrect type.", 
+                newAttr instanceof ComponentDefinition);
+        
+        assertEquals("Incorrect dependent attribute name.", "tiles.def2",
+                ((ComponentDefinition) newAttr).getName());
+        
+        // Part of the test for locale-specific definitions.
+        newDef = definitions.getDefinition("parent.def1", Locale.ITALIAN);
+        assertNotNull("Parent definition not found.", newDef);
+        
+        newAttr = newDef.getAttribute("attr1");
+        assertNotNull("Dependent attribute not found.", newAttr);
+        assertTrue("Dependent attribute incorrect type.", 
+                newAttr instanceof ComponentDefinition);
+        
+        newDef = definitions.getDefinition("parent.notype.def1",
+        		Locale.ITALIAN);
+        assertNotNull("Parent definition not found.", newDef);
+        
+        newAttr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", newAttr);
         assertTrue("Dependent attribute incorrect type.", 
                 newAttr instanceof ComponentDefinition);
