@@ -79,7 +79,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     public void addDefinitions(Map defsMap, Locale locale) throws NoSuchDefinitionException {
         localeSpecificDefinitions.put(locale, defsMap);
-        resolveAttributeDependencies();
+        resolveAttributeDependencies(locale);
         resolveInheritances(locale);
     }
     
@@ -157,13 +157,98 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
             Iterator j = attributes.values().iterator();
             while (j.hasNext()) {
                 ComponentAttribute attr = (ComponentAttribute) j.next();
-                if (attr.getType() != null && 
-                    (attr.getType().equalsIgnoreCase("definition") ||
-                     attr.getType().equalsIgnoreCase("instance")) ) {
-                        ComponentDefinition subDef = this.getDefinition((String) attr.getValue());
+                if (attr.getType() != null) {
+                    if (attr.getType().equalsIgnoreCase("definition") ||
+                            attr.getType().equalsIgnoreCase("instance")) {
+                    	ComponentDefinition subDef =
+                                getDefinitionByAttribute(attr);
                         attr.setValue(subDef);
+                    }
+                } else {
+                    ComponentDefinition subDef = getDefinitionByAttribute(attr);
+                    if (subDef != null) {
+                        attr.setValue(subDef);
+                    }
                 }
             }
         }
+    }
+    
+    public void resolveAttributeDependencies(Locale locale) {
+        resolveAttributeDependencies(); // FIXME Is it necessary?
+        Map defsMap = (Map) localeSpecificDefinitions.get(locale);
+        if (defsMap == null) {
+            return;
+        }
+        
+        Iterator i = defsMap.values().iterator();
+        
+        while (i.hasNext()) {
+            ComponentDefinition def = (ComponentDefinition) i.next();
+            Map attributes = def.getAttributes();
+            Iterator j = attributes.values().iterator();
+            while (j.hasNext()) {
+                ComponentAttribute attr = (ComponentAttribute) j.next();
+                if (attr.getType() != null) {
+                    if (attr.getType().equalsIgnoreCase("definition") ||
+                            attr.getType().equalsIgnoreCase("instance")) {
+                        ComponentDefinition subDef = getDefinitionByAttribute(
+                                attr, locale);
+                        attr.setValue(subDef);
+                    }
+                } else {
+                    ComponentDefinition subDef = getDefinitionByAttribute(attr,
+                            locale);
+                    if (subDef != null) {
+                        attr.setValue(subDef);
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Searches for a definition specified as an attribute.
+     * 
+     * @param attr The attribute to use.
+     * @return The required definition if found, otherwise it returns
+     * <code>null</code>.
+     */
+    private ComponentDefinition getDefinitionByAttribute(
+            ComponentAttribute attr) {
+        ComponentDefinition retValue;
+        
+        Object attrValue = attr.getValue();
+        if (attrValue instanceof ComponentDefinition) {
+            retValue = (ComponentDefinition) attrValue;
+        } else { // It must be a string
+            retValue = this.getDefinition((String) attr
+                    .getValue());
+        }
+        
+        return retValue;
+    }
+    
+    /**
+     * Searches for a definition specified as an attribute.
+     * 
+     * @param attr The attribute to use.
+     * @param locale The locale to search into.
+     * @return The required definition if found, otherwise it returns
+     * <code>null</code>.
+     */
+    private ComponentDefinition getDefinitionByAttribute(
+            ComponentAttribute attr, Locale locale) {
+        ComponentDefinition retValue;
+        
+        Object attrValue = attr.getValue();
+        if (attrValue instanceof ComponentDefinition) {
+            retValue = (ComponentDefinition) attrValue;
+        } else { // It must be a string
+            retValue = this.getDefinition((String) attr
+                    .getValue(), locale);
+        }
+        
+        return retValue;
     }
 }
