@@ -28,8 +28,21 @@ import org.apache.tiles.ComponentDefinitions;
  */
 public class MockComponentDefinitions implements ComponentDefinitions {
     
+    /**
+     * Hokey way to verify that this was created.
+     */
+    private static int instanceCount = 0;
+    
+    /**
+     * Hokey way to verify that this class was created.
+     */
+    public static int getInstanceCount() {
+        return instanceCount;
+    }
+    
     /** Creates a new instance of MockComponentDefinitions */
     public MockComponentDefinitions() {
+        instanceCount++;
     }
 
     /**
