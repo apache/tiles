@@ -216,12 +216,12 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     private ComponentDefinition getDefinitionByAttribute(
             ComponentAttribute attr) {
-        ComponentDefinition retValue;
+        ComponentDefinition retValue = null;
         
         Object attrValue = attr.getValue();
         if (attrValue instanceof ComponentDefinition) {
             retValue = (ComponentDefinition) attrValue;
-        } else { // It must be a string
+        } else if (attrValue instanceof String) {
             retValue = this.getDefinition((String) attr
                     .getValue());
         }
@@ -239,12 +239,12 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     private ComponentDefinition getDefinitionByAttribute(
             ComponentAttribute attr, Locale locale) {
-        ComponentDefinition retValue;
+        ComponentDefinition retValue = null;
         
         Object attrValue = attr.getValue();
         if (attrValue instanceof ComponentDefinition) {
             retValue = (ComponentDefinition) attrValue;
-        } else { // It must be a string
+        } else if (attrValue instanceof String) {
             retValue = this.getDefinition((String) attr
                     .getValue(), locale);
         }
