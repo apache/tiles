@@ -259,6 +259,7 @@ public class DefinitionsFactoryConfig implements Serializable {
 
         // link old parameter names for backward compatibility
         linkOldPropertyNames(properties);
+        populateExtraAttributes(properties);
         BeanUtils.populate(this, properties);
     }
 
@@ -309,5 +310,18 @@ public class DefinitionsFactoryConfig implements Serializable {
      */
     public void setFactoryName(String factoryName) {
         this.factoryName = factoryName;
+    }
+    
+    /**
+     * Adds all implementation-specific extra attributes from the configuration.
+     * 
+     * @param properties Map keyed by property name, with the
+     *  corresponding (String or String[]) value(s) to be set.
+     */
+    protected void populateExtraAttributes(Map properties) {
+        setAttribute(DefinitionsFactory.READER_IMPL_PROPERTY,
+                properties.get(DefinitionsFactory.READER_IMPL_PROPERTY));
+        setAttribute(DefinitionsFactory.DEFINITIONS_IMPL_PROPERTY,
+                properties.get(DefinitionsFactory.DEFINITIONS_IMPL_PROPERTY));
     }
 }
