@@ -24,6 +24,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import servletunit.ServletConfigSimulator;
 import servletunit.ServletContextSimulator;
+
+import org.apache.tiles.mock.MockComponentDefinitions;
+import org.apache.tiles.mock.MockDefinitionsReader;
 import org.apache.tiles.servlets.TilesServlet;
 
 /**
@@ -68,7 +71,40 @@ public class TestTilesServlet extends TestCase {
             TilesServlet servlet = new TilesServlet();
             servlet.init(servletConfig);
         } catch (Exception e) {
-            fail("Eception initializing servlet: " + e);
+            fail("Exception initializing servlet: " + e);
+        }
+    }
+
+    /**
+     * Executes the servlet init() method with a custom definitions reader and
+     * a custom component definitions.
+     */
+    public void testCustomizedInitTilesServlet() {
+        int readerInstanceCount = MockDefinitionsReader.getInstanceCount();
+        int defsInstanceCount = MockComponentDefinitions.getInstanceCount();
+        
+        try {
+            ServletConfigSimulator servletConfig = new ServletConfigSimulator();
+            servletConfig.setInitParameter("definitions-config", 
+                    "org/apache/tiles/config/tiles-defs.xml");
+            servletConfig.setInitParameter(
+                    DefinitionsFactory.READER_IMPL_PROPERTY,
+                    "org.apache.tiles.mock.MockDefinitionsReader");
+            servletConfig.setInitParameter(
+                    DefinitionsFactory.DEFINITIONS_IMPL_PROPERTY,
+                    "org.apache.tiles.mock.MockComponentDefinitions");
+            
+            TilesServlet servlet = new TilesServlet();
+            servlet.init(servletConfig);
+            
+            assertEquals("MockDefinitionsReader not used.",  
+                    readerInstanceCount + 1,
+                    MockDefinitionsReader.getInstanceCount());
+            assertEquals("MockComponentDefinitions not used.",  
+                    defsInstanceCount + 1,
+                    MockDefinitionsReader.getInstanceCount());
+        } catch (Exception e) {
+            fail("Exception initializing servlet: " + e);
         }
     }
 }
