@@ -100,9 +100,15 @@ public class TestTilesServlet extends TestCase {
             assertEquals("MockDefinitionsReader not used.",  
                     readerInstanceCount + 1,
                     MockDefinitionsReader.getInstanceCount());
+            
+            // The reason of the "+ 2" is that MockComponentDefinitions is
+            // created twice, one in UrlDefinitionsFactory.init (that checks if
+            // the specific ComponentDefinitions implementation can be
+            // instantiated), the other in UrlDefinitionsFactory.readDefinitions
+            // (where the instance is really used).
             assertEquals("MockComponentDefinitions not used.",  
-                    defsInstanceCount + 1,
-                    MockDefinitionsReader.getInstanceCount());
+                    defsInstanceCount + 2,
+                    MockComponentDefinitions.getInstanceCount());
         } catch (Exception e) {
             fail("Exception initializing servlet: " + e);
         }
