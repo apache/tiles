@@ -29,6 +29,9 @@
             <item
                     name="Taglib Reference"
                     href="/tiles-core/tagreference.html"/>
+            <item
+                    name="DTD Doc"
+                    href="/tiles-core/dtddoc/index.html"/>
 
         </menu>
         <menu name="Quick Links">

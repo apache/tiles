@@ -72,6 +72,13 @@
                 <groupId>net.sourceforge.maven-taglib</groupId>
                 <artifactId>maven-taglib-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>net.sf.dtddoc</groupId>
+                <artifactId>dtddoc-maven-plugin</artifactId>
+                <configuration>
+                  <sourceDirectory>${basedir}/src/main/resources</sourceDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </reporting>
 
@@ -126,4 +133,17 @@
 
    </dependencies>
 
+   <repositories>
+      <repository>
+         <id>dtddoc</id>
+          <url>http://dtddoc.sf.net/maven2</url>
+      </repository>
+   </repositories>
+   <pluginRepositories>
+      <pluginRepository>
+         <id>dtddoc</id>
+         <url>http://dtddoc.sf.net/maven2</url>
+      </pluginRepository>
+   </pluginRepositories>
+   
 </project>
