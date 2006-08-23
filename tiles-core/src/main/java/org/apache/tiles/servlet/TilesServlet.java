@@ -16,7 +16,7 @@
  * $Id$
  */
 
-package org.apache.tiles.servlets;
+package org.apache.tiles.servlet;
 
 import java.util.Enumeration;
 import java.util.Iterator;

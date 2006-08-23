@@ -8,23 +8,15 @@
   <display-name>Tiles 2 Test Application</display-name>
   
   <!-- Standard Action Servlet Configuration -->
-<!--
   <servlet>
     <servlet-name>tiles</servlet-name>
     <servlet-class>org.apache.tiles.servlet.TilesServlet</servlet-class>
     <init-param>
-      <param-name>config</param-name>
-      <param-value>/WEB-INF/struts-config.xml</param-value>
+      <param-name>definitions-config</param-name>
+      <param-value>/WEB-INF/tiles-defs.xml</param-value>
     </init-param>
     <load-on-startup>2</load-on-startup>
  </servlet>
-
-
-  <servlet-mapping>
-    <servlet-name>action</servlet-name>
-    <url-pattern>*.do</url-pattern>
-  </servlet-mapping>
--->
 
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

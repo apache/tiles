@@ -27,7 +27,7 @@ import servletunit.ServletContextSimulator;
 
 import org.apache.tiles.mock.MockComponentDefinitions;
 import org.apache.tiles.mock.MockDefinitionsReader;
-import org.apache.tiles.servlets.TilesServlet;
+import org.apache.tiles.servlet.TilesServlet;
 
 /**
  * Verifies the functionality of the TilesServlet
