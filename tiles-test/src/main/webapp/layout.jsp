@@ -5,9 +5,9 @@
     <td  bgcolor="Blue"><strong><tiles:getAsString name="title"/></strong></td>
   </tr>
   <tr>
-    <td><tiles:insert attribute="header"/></td>
+    <td><tiles:insert name="header"/></td>
   </tr>
   <tr>
-    <td><tiles:insert attribute="body"/></td>
+    <td><tiles:insert name="body"/></td>
   </tr>
 </table>           
