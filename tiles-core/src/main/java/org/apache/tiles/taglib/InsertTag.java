@@ -590,8 +590,22 @@ public class InsertTag
             
             String type = value.getType();
             if (type == null) {
-                // FIXME
-                return null;
+                Object valueContent = value.getValue();
+                if (valueContent instanceof String) {
+                    String valueString = (String) valueContent;
+                    if (valueString.startsWith("/")) {
+                        type = "template";
+                    } else {
+                        type = "string";
+                    }
+                } else if (valueContent instanceof ComponentDefinition) {
+                    type = "definition";
+                }
+            }
+            
+            if (type == null) {
+                throw new JspException("Unrecognized type for attribute value "
+                + value.getValue());
             }
             
             if (type.equalsIgnoreCase("string")) {
