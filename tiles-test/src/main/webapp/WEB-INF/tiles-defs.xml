@@ -20,5 +20,11 @@
 	  <put name="footer" value="/common/footer.jsp" />
 	  <put name="body"   value="doc.portal.body" />
   </definition>
+  
+  <definition name="test.definition" template="/layout.jsp">
+      <put name="title"  value="This is the title."/>
+      <put name="header" value="/header.jsp"/>
+      <put name="body"   value="/body.jsp"/>
+  </definition>
 
 </tiles-definitions>
