@@ -30,7 +30,7 @@
                   <repository>
                       <id>apache.snapshots</id>
                       <name>Apache Maven Snapshot Repository</name>
-                      <url>http://people.apache.org/maven-snapshot-repository</url>
+                      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
                   </repository>
                 ]]>
                 </source>
@@ -50,7 +50,8 @@
             <p>If you are not using Maven 2, you can find a recent development
             snapshot of tiles-core.jar <a
             href="http://people.apache.org/maven-snapshot-repository/org/apache/struts/tiles/tiles-core/">
-            here</a>.</p>
+            here</a>, or a nightly build, <a
+            href="http://people.apache.org/builds/struts/nightlies/tiles/">here</a>.</p>
 
             </subsection>
 
