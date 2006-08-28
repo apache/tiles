@@ -437,7 +437,12 @@ public class InsertTag
 	 * processDefinitionName()
 	 */
 	public TagHandler processName(String name) throws JspException {
-		Object attrValue = getCurrentContext().getAttribute(name);
+        Object attrValue = null;
+        ComponentContext context = getCurrentContext();
+        
+        if (context != null) {
+            attrValue = context.getAttribute(name);
+        }
 
 		if (attrValue != null && attrValue instanceof ComponentAttribute) {
                     return processTypedAttribute((ComponentAttribute) attrValue);
@@ -559,7 +564,12 @@ public class InsertTag
 	 * @throws JspException - Throws by underlying nested call to processDefinitionName()
 	 */
 	public TagHandler processAttribute(String name) throws JspException {
-            Object attrValue = getCurrentContext().getAttribute(name);
+            Object attrValue = null;
+            ComponentContext context = getCurrentContext();
+            
+            if (context != null) {
+                attrValue = context.getAttribute(name);
+            }
 
             if (attrValue == null) {
                     throw new JspException(
