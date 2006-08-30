@@ -75,9 +75,6 @@
             <plugin>
                 <groupId>net.sf.dtddoc</groupId>
                 <artifactId>dtddoc-maven-plugin</artifactId>
-                <configuration>
-                  <sourceDirectory>${basedir}/src/main/resources</sourceDirectory>
-                </configuration>
             </plugin>
         </plugins>
     </reporting>
