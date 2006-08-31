@@ -247,7 +247,9 @@ public class InsertTag
 			return;
 		}
 
-		putAttribute(nestedTag.getName(), nestedTag.getRealValue());
+        putAttribute(nestedTag.getName(), new ComponentAttribute(
+                nestedTag.getRealValue(), nestedTag.getRole(),
+                nestedTag.getType()));
 	}
 
 	/**
