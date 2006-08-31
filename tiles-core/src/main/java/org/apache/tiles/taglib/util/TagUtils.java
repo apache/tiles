@@ -342,13 +342,37 @@ public class TagUtils {
      */
     public static ComponentDefinition getComponentDefinition(String name, PageContext pageContext)
         throws JspException {
+        return getComponentDefinition(name, pageContext, null);
+    }
+            
+
+    /**
+     * Get component definition by its name.
+     * @param name Definition name.
+     * @param pageContext The PageContext for the current page.
+     * @param tilesContext The TilesContext for the current request. If it is
+     * null, it will be created.
+     * @throws JspException -
+     */
+    public static ComponentDefinition getComponentDefinition(String name,
+            PageContext pageContext, TilesContext tilesContext)
+        throws JspException {
             
         try {
-            TilesContext tilesContext = TilesContextFactory.getInstance(
-                  pageContext.getServletContext(),
-                  pageContext.getRequest(), pageContext.getResponse());
-            return TilesUtil.getDefinition(
-                name, tilesContext);
+            ComponentDefinition definition;
+            Object definitionCandidate = findAttribute(name, pageContext);
+            if (definitionCandidate != null
+                    && definitionCandidate instanceof ComponentDefinition) {
+                definition = (ComponentDefinition) definitionCandidate;
+            } else {
+                if (tilesContext == null) {
+                    tilesContext = TilesContextFactory.getInstance(
+                          pageContext.getServletContext(),
+                          pageContext.getRequest(), pageContext.getResponse());
+                }
+                definition = TilesUtil.getDefinition(name, tilesContext);
+            }
+            return definition;
                 
         } catch (NoSuchDefinitionException ex) {
             throw new JspException(

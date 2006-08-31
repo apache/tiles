@@ -83,7 +83,11 @@ public class DefinitionTag
      * Content is already typed by caller.
      */
     public void putAttribute(String name, Object content) {
-        definition.putAttribute(name, new ComponentAttribute(content));
+        if (content instanceof ComponentAttribute) {
+            definition.putAttribute(name, (ComponentAttribute) content);
+        } else {
+            definition.putAttribute(name, new ComponentAttribute(content));
+        }
     }
 
     /**
@@ -100,24 +104,19 @@ public class DefinitionTag
         Object attributeValue = nestedTag.getRealValue();
         ComponentAttribute def = null;
 
-        if (nestedTag.getRole() != null) {
-            try {
-                def = ((ComponentAttribute) attributeValue);
-            } catch (ClassCastException ex) {
-                def = new ComponentAttribute(attributeValue);
-            }
-            
-            if (def != null) {
+        if (attributeValue != null
+                && attributeValue instanceof ComponentAttribute) {
+            def = ((ComponentAttribute) attributeValue);
+            if (nestedTag.getRole() != null) {
                 def.setRole(nestedTag.getRole());
-            } else {
-                // now what?  Is this an exception?
             }
-            
-            attributeValue = def;
+        } else {
+            def = new ComponentAttribute(attributeValue, nestedTag.getRole(),
+                    nestedTag.getType());
         }
 
         // now add attribute to enclosing parent (i.e. : this object)
-        putAttribute(nestedTag.getName(), new ComponentAttribute(attributeValue));
+        putAttribute(nestedTag.getName(), def);
     }
 
     /**

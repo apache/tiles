@@ -478,8 +478,9 @@ public class InsertTag
               TilesContext tilesContext = TilesContextFactory.getInstance(
                       pageContext.getServletContext(),
                       pageContext.getRequest(), pageContext.getResponse());
-                ComponentDefinition definition = TilesUtil.getDefinition(
-                        name, tilesContext);
+                ComponentDefinition definition = null;
+                definition = TagUtils.getComponentDefinition(name, pageContext,
+                        tilesContext);
 
                 if (definition == null) { // is it possible ?
                     throw new NoSuchDefinitionException();
@@ -492,9 +493,6 @@ public class InsertTag
                         "Error -  Tag Insert : Can't get definition '"
                         + definitionName
                         + "'. Check if this name exists in definitions factory.", ex);
-
-            } catch (FactoryNotFoundException ex) {
-                throw new JspException(ex.getMessage());
 
             } catch (DefinitionsFactoryException ex) {
                 if (log.isDebugEnabled()) {
