@@ -26,7 +26,7 @@
    <parent>
       <groupId>org.apache.struts</groupId>
       <artifactId>struts-master</artifactId>
-      <version>3</version>
+      <version>4-SNAPSHOT</version>
    </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -53,11 +53,6 @@
 
     <ciManagement/>
     <distributionManagement>
-        <repository>
-           <id>apache-maven-test-builds</id>
-           <name>Apache Maven Repository (Test Builds)</name>
-           <url>scp://people.apache.org/www/cvs.apache.org/maven-snapshot-repository</url>
-        </repository>
         <site>
             <id>apache-site</id>
             <url>scp://people.apache.org/www/struts.apache.org/struts-sandbox/tiles</url>
