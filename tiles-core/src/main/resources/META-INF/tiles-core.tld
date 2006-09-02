@@ -9,11 +9,7 @@
    <uri>http://struts.apache.org/tags-tiles</uri>
    <description>
    <![CDATA[
-   <p>This tag library provides tiles tags.Tiles were previously called 
-   Components. For historical reasons, names, pages, components and templates
-   are used indifferently to design a tile. Also, a lot of tags and attribute 
-   names are left for backward compatibility.To know more about tags defined
-   in this library, check the associated documentation: tiles-doc.</p>
+   <p>This tag library provides Tiles tags.</p>
    ]]>
    </description>
    <tag>
@@ -22,8 +18,8 @@
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
-      <p><strong>Insert a tiles/component/template.</strong></p>
-      <p>Insert a tiles/component/template with the possibility to pass 
+      <p><strong>Insert a template.</strong></p>
+      <p>Insert a template with the possibility to pass 
       parameters (called attribute).
       A tile can be seen as a procedure that can take parameters or attributes.
       <code>&lt;tiles:insert&gt;</code> allows to define these attributes 
@@ -34,13 +30,8 @@
       <p>You must specify one of this tag attribute :</p>
       <ul>
         
-        <li><code>template</code>, for inserting a tiles/component/template
+        <li><code>template</code>, for inserting a template
         page,</li>
-        
-        <li><code>component</code>, for inserting a tiles/component/template 
-        page, (same as template)</li>
-        
-        <li><code>page</code> for inserting a JSP page, (same as template)</li>
         
         <li><code>definition</code>, for inserting a definition from 
         definitions factory</li>
@@ -51,12 +42,9 @@
                      
         <li><code>name</code>, to let 'insert' determine the type of entities
         to insert. In this later case, search is done in this order : 
-        definitions, tiles/components/templates, pages.</li>
+        definitions, templates, pages.</li>
       </ul>
      
-      <p>In fact, Page, component and template, are equivalent as a tile, 
-      component or template are jsp page.</p>
-      
       <p><strong>Example : </strong></p>
       <pre>
         <code>
@@ -79,8 +67,6 @@
          <![CDATA[
          <p>A string representing the URI of a tile or template (a JSP page).
          </p>
-         <p>'page', 'component' and 'template' are synonyms : they have 
-         exactly the same behavior.</p>
          ]]>
          </description>
       </attribute>
@@ -91,7 +77,7 @@
          <description>
          <![CDATA[
          <p>Name of an entity to insert. Search is done in this order : 
-         definition, attribute, [tile/component/template/page].</p>
+         definition, attribute, template.</p>
          ]]>
          </description>
       </attribute>
@@ -144,9 +130,9 @@
       <body-content>JSP</body-content>
       <description>
          <![CDATA[
-         <p><strong>Create a tile /component / template definition bean.
+         <p><strong>Create a template definition bean.
          </strong></p>
-         <p>Create a tile/component/template definition as a bean.
+         <p>Create a template definition as a bean.
          Newly created bean will be saved under specified "id", in the requested "scope".
          Definition tag has same syntax as <code>insert</code></p>
          ]]>
@@ -180,7 +166,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>A string representing the URI of a tile/component/template 
+         <p>A string representing the URI of a template 
          (a JSP page).</p>
          ]]>
          </description>
@@ -215,9 +201,9 @@
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
-      <p><strong>Put an attribute into tile/component/template context.
+      <p><strong>Put an attribute into template context.
       </strong></p>
-      <p>Define an attribute to pass to tile/component/template.
+      <p>Define an attribute to pass to template.
       This tag can only be used inside 'insert' or 'definition' tag.
       Value (or content) is specified using attribute 'value' (or 'content'), 
       or using the tag body.
@@ -407,7 +393,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>The name of the content to get from tile/component scope.</p>
+         <p>The name of the content to get from template scope.</p>
          ]]>
          </description>
       </attribute>
@@ -457,10 +443,10 @@
       <description>
       <![CDATA[
       <p><strong>
-      Render the value of the specified tile/component/template attribute to the current JspWriter
+      Render the value of the specified template attribute to the current JspWriter
       </strong></p>
           
-      <p>Retrieve the value of the specified tile/component/template attribute 
+      <p>Retrieve the value of the specified template attribute 
       property, and render it to the current JspWriter as a String.
       The usual toString() conversions is applied on found value.</p>
       <p>Throw a JSPException if named value is not found.</p>
