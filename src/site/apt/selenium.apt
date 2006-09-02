@@ -100,7 +100,7 @@ mvn package cargo:start -P selenium -Dcargo.tomcat5x.home=/path/to/tomcat5
 
   The Selenium IDE Firefox plugin is the easiest way to edit tests. With the
   example app running, open the HTML file (src/test/selenium/TestSomething.html)
-  from your svn checkout of Shale. Use the IDE to edit and run the test, and
+  from your svn checkout of Tiles 2. Use the IDE to edit and run the test, and
   save your changes.
 
   <<Note>>: Your changes will not be visible to the TestRunner in the deployed
