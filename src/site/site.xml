@@ -38,7 +38,9 @@
             <item
                     name="DTD Doc"
                     href="/tiles-core/dtddoc/index.html"/>
-
+            <item
+                    name="Selenium Testing"
+                    href="/selenium.html"/>
         </menu>
         <menu name="Quick Links">
             <item
