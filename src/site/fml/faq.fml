@@ -18,7 +18,7 @@ limitations under the License.
 -->
 <faqs title="Tiles 2 FAQ">
     <part id="changes">
-        <faq id="attribute">
+        <faq id="name">
             <question>What happened to 'attribute' and 'definition'?</question>
             <answer>
                 <p>The 'attribute' and 'definition' tag attributes were removed.
@@ -26,13 +26,36 @@ limitations under the License.
                 </p>
             </answer>
         </faq>
-        <faq id="bean">
-            <question>What happened to 'beanName' and 'beanProperty'?</question>
+        <faq id="template">
+            <question>What happened to 'page' and 'component'?</question>
             <answer>
-                <p>The 'beanName' and 'beanProperty' tag attributes were removed
-                    with no replacement. Use EL instead. For example:
+                <p>The 'page' and 'component' tag attributes were removed.
+                    Use 'template' instead.
+                </p>
+            </answer>
+        </faq>
+        <faq id="bean">
+            <question>What happened to beanName, beanProperty and beanScope?
+            </question>
+            <answer>
+                <p>The 'beanName', 'beanProperty', and 'beanScope' tag attributes
+                    were removed with no replacement. Use EL instead. For example:
                 </p>
                 <code>&lt;tiles:put name="foo" value="${foo.bar}"/&gt;</code>
+            </answer>
+        </faq>
+        <faq id="todo1">
+            <question>What happened to controllerURL and controllerClass?
+            </question>
+            <answer>
+                <p>TODO - Did this change to 'type'?</p>
+            </answer>
+        </faq>
+        <faq id="todo2">
+            <question>What happened to the 'id' attribute of DefinitionTag?
+            </question>
+            <answer>
+                <p>TODO - Did this change to 'name'?</p>
             </answer>
         </faq>
     </part>
