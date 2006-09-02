@@ -21,6 +21,12 @@
 
         <menu name="Documentation">
             <item
+                   name="Welcome"
+                   href="/index.html"/>
+            <item
+                   name="FAQ"
+                   href="/faq.html"/>
+            <item
                     name="Javadoc"
                     href="/tiles-core/apidocs/index.html"/>
             <item
@@ -43,7 +49,7 @@
                     href="http://struts.apache.org/struts-sandbox"/>
             <item
                     name="Tiles 2"
-                    href="http://struts.apache.org/struts-sandbox/tiles"/>
+                    href="/index.html"/>
         </menu>
 
         ${modules}
