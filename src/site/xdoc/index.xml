@@ -53,6 +53,10 @@
             here</a>, or a nightly build, <a
             href="http://people.apache.org/builds/struts/nightlies/tiles/">here</a>.</p>
 
+           <p>You can see Tiles 2 in action by downloading a snapshot of the 'tiles-test' webapp,
+           <a href="http://people.apache.org/repo/m2-snapshot-repository/org/apache/struts/tiles/tiles-test/2.0-SNAPSHOT/">
+           here</a>.</p>
+
             </subsection>
 
             <a name="requirements"/>
