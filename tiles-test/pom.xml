@@ -68,4 +68,71 @@
      <finalName>${pom.artifactId}</finalName>
    </build>
 
+    <profiles>
+        <profile>
+            <id>selenium</id>
+            <activation>
+                <property>
+                    <name>selenium</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>dependency-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack-selenium</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.openqa.selenium.core</groupId>
+                                            <artifactId>selenium-core</artifactId>
+                                            <version>0.7.0</version>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}/selenium</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-selenium</id>
+                                <phase>process-resources</phase>
+                                <configuration>
+                                    <tasks>
+                                        <copy todir="${project.build.directory}/${artifactId}/selenium/core">
+                                            <fileset dir="${project.build.directory}/selenium/core"/>
+                                        </copy>
+                                        <copy todir="${project.build.directory}/${artifactId}/selenium/tests">
+                                            <fileset dir="src/test/selenium"/>
+                                        </copy>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <repositories>
+                <repository>
+                    <id>OpenQA</id>
+                    <url>http://maven.openqa.org</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+
 </project>
