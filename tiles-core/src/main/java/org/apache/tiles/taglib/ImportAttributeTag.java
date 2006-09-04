@@ -26,6 +26,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.tiles.taglib.util.TagUtils;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;
 
 
@@ -152,11 +153,14 @@ public int doStartTag() throws JspException
       {
       Object value = compContext.getAttribute(name);
         // Check if value exist and if we must send a runtime exception
-      if( value == null )
+      if( value == null ) {
         if(!isErrorIgnored)
           throw new JspException ( "Error - tag importAttribute : property '"+  name + "' not found in context. Check tag syntax" );
          else
           return SKIP_BODY;
+      } else if (value instanceof ComponentAttribute) {
+        value = ((ComponentAttribute) value).getValue();
+      }
 
       pageContext.setAttribute(name, value, scope);
       }
@@ -180,6 +184,8 @@ public int doStartTag() throws JspException
             throw new JspException ( "Error - tag importAttribute : property '"+ name + "' has a value of 'null'" );
           else
             return SKIP_BODY;
+        } else if (value instanceof ComponentAttribute) {
+          value = ((ComponentAttribute) value).getValue();
         }
         pageContext.setAttribute(name, value, scope);
         } // end loop
