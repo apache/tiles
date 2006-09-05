@@ -26,5 +26,14 @@
       <put name="header" value="/header.jsp"/>
       <put name="body"   value="/body.jsp"/>
   </definition>
+  
+  <definition name="test.putAttributes" template="/putattributeslayout.jsp">
+    <put name="stringTest" value="This is a string" type="string" />
+    <putList name="list">
+      <add value="valueOne" type="string" />
+      <add value="valueTwo" type="string" />
+      <add value="valueThree" type="string" />
+    </putList>
+  </definition>
 
 </tiles-definitions>

@@ -31,6 +31,7 @@
     <a href="testinsertdefinition_override.jsp">Test Insert Configured Definition with an overridden content</a><br/>
     <a href="testinsertdefinition_inline.jsp">Test Insert Configured Definition with an inline content</a><br/>
     <a href="testput.jsp">Test Put Tag</a><br/>
+    <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
     
     <h2>Currently not working tests</h2>
     Currently all the tests work.
