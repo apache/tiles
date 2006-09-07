@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -78,10 +79,22 @@ public class TestReloadableDefinitionsFactory extends TestCase {
             // add a slash to Unix paths b/c they already have one.
             if (url.getPath().startsWith("/")) {
                 urlPath = "file:" + url.getPath();
-	        uri = new URI(urlPath);
             } else {
                 urlPath = "file:/" + url.getPath();
-	        uri = new URI(urlPath);
+            }
+            
+            // The following second madness is necessary b/c sometimes spaces
+            // are encoded as '%20', sometimes they are not. For example in
+            // Windows 2000 under Eclipse they are encoded, under the prompt of
+            // Windows 2000 they are not.
+            // It seems to be in the different behaviour of
+            // sun.misc.Launcher$AppClassLoader (called under Eclipse) and
+            // java.net.URLClassLoader (under maven).
+            // And an URL accepts spaces while URIs need '%20'.
+            try {
+                uri = new URI(urlPath);
+            } catch (URISyntaxException e) {
+                uri = new URI(urlPath.replaceAll(" ", "%20"));
             }
 
             String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
