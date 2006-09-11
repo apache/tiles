@@ -63,6 +63,19 @@
             </includes>
          </testResource>
       </testResources>
+       <plugins>
+           <plugin>
+               <artifactId>maven-jar-plugin</artifactId>
+               <configuration>
+                   <archive>
+                       <manifest>
+                           <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                           <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                       </manifest>
+                   </archive>
+               </configuration>
+           </plugin>
+       </plugins>
 
    </build>
 
