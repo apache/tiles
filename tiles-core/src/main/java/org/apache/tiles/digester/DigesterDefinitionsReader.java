@@ -83,6 +83,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         "/org/apache/tiles/resources/tiles-config_1_1.dtd",
         "-//Apache Software Foundation//DTD Tiles Configuration 1.2//EN",
         "/org/apache/tiles/resources/tiles-config_1_2.dtd",
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
+        "/org/apache/tiles/resources/tiles-config_2_0.dtd"
     };
     
     /**
