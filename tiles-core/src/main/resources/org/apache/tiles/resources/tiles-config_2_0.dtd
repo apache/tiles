@@ -66,9 +66,6 @@
 <!-- ========== Top Level Elements ======================================== -->
 
 
-  <!-- deprecated: use tiles-definitions instead.-->
-<!ELEMENT component-definitions (definition+)>
-
 <!-- The "tiles-definitions" element is the root of the configuration file
      hierarchy, and contains nested elements for all of the other
      configuration settings.

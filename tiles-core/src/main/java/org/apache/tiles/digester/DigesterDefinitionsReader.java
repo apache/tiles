@@ -183,60 +183,14 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
             }
         }
 
-        
         initDigesterForTilesDefinitionsSyntax( digester );
-        initDigesterForComponentsDefinitionsSyntax( digester );
-        initDigesterForInstancesSyntax( digester );
-        
+
         inited = true;
     }
     
     
     /**
-     * Init digester for components syntax.
-     * This is an old set of rules, left for backward compatibility.
-     * @param digester Digester instance to use.
-     */
-    private void initDigesterForComponentsDefinitionsSyntax( Digester digester ) {
-        // Common constants
-        String PACKAGE_NAME = "org.apache.tiles";
-        String DEFINITION_TAG = "component-definitions/definition";
-        String definitionHandlerClass = PACKAGE_NAME + ".ComponentDefinition";
-
-        String PUT_TAG  = DEFINITION_TAG + "/put";
-        String putAttributeHandlerClass = PACKAGE_NAME + ".ComponentAttribute";
-
-        String LIST_TAG = DEFINITION_TAG + "/putList";
-        
-        String listHandlerClass     = PACKAGE_NAME + ".ComponentListAttribute";
-
-        String ADD_LIST_ELE_TAG = LIST_TAG + "/add";
-
-        // syntax rules
-        digester.addObjectCreate(  DEFINITION_TAG, definitionHandlerClass );
-        digester.addSetProperties( DEFINITION_TAG);
-        digester.addSetNext(       DEFINITION_TAG, "addDefinition", definitionHandlerClass);
-        // put / putAttribute rules
-        digester.addObjectCreate(  PUT_TAG, putAttributeHandlerClass);
-        digester.addSetNext(       PUT_TAG, "addAttribute", putAttributeHandlerClass);
-        digester.addSetProperties( PUT_TAG);
-        digester.addCallMethod(    PUT_TAG, "setBody", 0);
-        // list rules
-        digester.addObjectCreate(  LIST_TAG, listHandlerClass);
-        digester.addSetProperties( LIST_TAG);
-        digester.addSetNext(       LIST_TAG, "addAttribute", putAttributeHandlerClass);
-        // list elements rules
-        // We use Attribute class to avoid rewriting a new class.
-        // Name part can't be used in listElement attribute.
-        digester.addObjectCreate(  ADD_LIST_ELE_TAG, putAttributeHandlerClass);
-        digester.addSetNext(       ADD_LIST_ELE_TAG, "add", putAttributeHandlerClass);
-        digester.addSetProperties( ADD_LIST_ELE_TAG);
-        digester.addCallMethod(    ADD_LIST_ELE_TAG, "setBody", 0);
-    }
-
-    /**
-     * Init digester for Tiles syntax.
-     * Same as components, but with first element = tiles-definitions
+     * Init digester for Tiles syntax with first element = tiles-definitions
      * @param digester Digester instance to use.
      */
     private void initDigesterForTilesDefinitionsSyntax( Digester digester ) {
@@ -312,52 +266,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.addSetProperty(BEAN_TAG+ "/set-property", "property", "value");
     }
 
-    /**
-     * Init digester in order to parse instances definition file syntax.
-     * Instances is an old name for "definition". This method is left for
-     * backwards compatibility.
-     * @param digester Digester instance to use.
-     */
-    private void initDigesterForInstancesSyntax( Digester digester ) {
-        // Build a digester to process our configuration resource
-        String PACKAGE_NAME = "org.apache.tiles";
-        String INSTANCE_TAG = "component-instances/instance";
-        String instanceHandlerClass = PACKAGE_NAME + ".ComponentDefinition";
-
-        String PUT_TAG = INSTANCE_TAG + "/put";
-        String PUTATTRIBUTE_TAG = INSTANCE_TAG + "/putAttribute";
-        String putAttributeHandlerClass = PACKAGE_NAME + ".ComponentAttribute";
-
-        String LIST_TAG     = INSTANCE_TAG + "/putList";
-        
-        String listHandlerClass     = PACKAGE_NAME + ".ComponentListAttribute";
-
-        String ADD_LIST_ELE_TAG = LIST_TAG + "/add";
-
-        // component instance rules
-        digester.addObjectCreate(  INSTANCE_TAG, instanceHandlerClass );
-        digester.addSetProperties( INSTANCE_TAG);
-        digester.addSetNext(       INSTANCE_TAG, "addDefinition", instanceHandlerClass);
-        // put / putAttribute rules
-        digester.addObjectCreate(  PUTATTRIBUTE_TAG, putAttributeHandlerClass);
-        digester.addSetProperties( PUTATTRIBUTE_TAG);
-        digester.addSetNext(       PUTATTRIBUTE_TAG, "addAttribute", putAttributeHandlerClass);
-        // put / putAttribute rules
-        digester.addObjectCreate(  PUT_TAG, putAttributeHandlerClass);
-        digester.addSetProperties( PUT_TAG);
-        digester.addSetNext(       PUT_TAG, "addAttribute", putAttributeHandlerClass);
-        // list rules
-        digester.addObjectCreate(  LIST_TAG, listHandlerClass);
-        digester.addSetProperties( LIST_TAG);
-        digester.addSetNext(       LIST_TAG, "addAttribute", putAttributeHandlerClass);
-        // list elements rules
-        // We use Attribute class to avoid rewriting a new class.
-        // Name part can't be used in listElement attribute.
-        digester.addObjectCreate(  ADD_LIST_ELE_TAG, putAttributeHandlerClass);
-        digester.addSetProperties( ADD_LIST_ELE_TAG);
-        digester.addSetNext(       ADD_LIST_ELE_TAG, "add", putAttributeHandlerClass);
-    }
-    
     /**
      * Adds a new <code>ComponentDefinition</code> to the internal Map or replaces
      * an existing one.
