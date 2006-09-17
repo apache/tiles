@@ -17,7 +17,8 @@ limitations under the License.
 // ======================================================================== 78
 -->
 <faqs title="Tiles 2 FAQ">
-    <part id="changes">
+    <part id="taglib-faq">
+        <title>Tiles 2 Taglib</title>
         <faq id="name">
             <question>What happened to 'attribute' and 'definition'?</question>
             <answer>
@@ -44,18 +45,40 @@ limitations under the License.
                 <code>&lt;tiles:put name="foo" value="${foo.bar}"/&gt;</code>
             </answer>
         </faq>
-        <faq id="todo1">
+        <faq id="insert-type">
+            <question>Is the insert tag's 'type' attribute required?
+            </question>
+            <answer>
+                <p>The "type" attribute should not be required: it is useful only to
+                distinguish between "definition" and "attribute" in the case that we
+                have a definition and an attribute with the same name.</p>
+                <p>However, we've seen reports of errors if it is not used.
+                Please comment on <a href="http://issues.apache.org/struts/browse/SB-46">SB-46</a>
+                if you have more information.</p>
+            </answer>
+        </faq>
+        <faq id="controller">
             <question>What happened to controllerURL and controllerClass?
             </question>
             <answer>
-                <p>TODO - Did this change to 'type'?</p>
+                <p>TODO</p>
             </answer>
         </faq>
-        <faq id="todo2">
+        <faq id="definition-id">
             <question>What happened to the 'id' attribute of DefinitionTag?
             </question>
             <answer>
                 <p>TODO - Did this change to 'name'?</p>
+            </answer>
+        </faq>
+    </part>
+    <part id="dtd-faq">
+        <title>Tiles 2 DTD</title>
+        <faq id="todo">
+            <question>What happened to ... ?</question>
+            <answer>
+                <p>TODO
+                </p>
             </answer>
         </faq>
     </part>
