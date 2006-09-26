@@ -140,7 +140,7 @@
       <attribute>
          <name>name</name>
          <required>true</required>
-         <rtexprvalue>false</rtexprvalue>
+         <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
          <p>Specifies the name under which the newly created definition bean 
@@ -220,7 +220,7 @@
       <attribute>
          <name>name</name>
          <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
+         <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
          <p>Name of the attribute.</p>
@@ -297,7 +297,7 @@
       <attribute>
          <name>name</name>
          <required>true</required>
-         <rtexprvalue>false</rtexprvalue>
+         <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
          <p>Name of the list.</p>
@@ -323,7 +323,7 @@
       <attribute>
          <name>value</name>
          <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
+         <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
          <p>Element value. Can be a String or Object.</p>
@@ -508,7 +508,7 @@
       <attribute>
          <name>id</name>
          <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
+         <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
          <p>Declared attribute and variable name.</p>
@@ -518,7 +518,7 @@
       <attribute>
          <name>classname</name>
          <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
+         <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
          <p>Class of the declared variable.</p>
@@ -631,7 +631,7 @@
       <attribute>
          <name>file</name>
          <required>true</required>
-         <rtexprvalue>false</rtexprvalue>
+         <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
          <p>Definition file name.</p>
@@ -641,7 +641,7 @@
       <attribute>
          <name>classname</name>
          <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
+         <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
          <p>If specified, classname of the factory to create and initialized.</p>
