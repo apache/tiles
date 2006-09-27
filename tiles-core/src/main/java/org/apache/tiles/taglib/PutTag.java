@@ -234,13 +234,6 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
                 realValue = "";
             }
         }
-
-        // Is there a type set ?
-        // If valueType is not set, defaults to "template".
-        if (valueType == null) {
-            valueType = "template";
-        }
-
     }
 
     /**
