@@ -37,7 +37,7 @@ import org.apache.tiles.taglib.util.TagUtils;
  * <ul>type : value type. Only valid if value is a String and is set by
  * value="something" or by a bean.
  * Possible type are : string (value is used as direct string),
- * page | template (value is used as a page url to insert),
+ * template (value is used as a page url to insert),
  * definition (value is used as a definition name to insert)</ul>
  * <ul>direct : Specify if value is to be used as a direct string or as a
  * page url to insert. This is another way to specify the type. It only apply
@@ -236,9 +236,9 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
         }
 
         // Is there a type set ?
-        // If valueType is not set, defaults to "page".
+        // If valueType is not set, defaults to "template".
         if (valueType == null) {
-            valueType = "page";
+            valueType = "template";
         }
 
     }
