@@ -45,6 +45,14 @@ limitations under the License.
                 <code>&lt;tiles:put name="foo" value="${foo.bar}"/&gt;</code>
             </answer>
         </faq>
+        <faq id="put-add-direct">
+            <question>What happened to the 'direct' attribute of PutTag and AddTag?
+            </question>
+            <answer>
+                <p>It has been removed since you can specify the "direct"
+                inclusion using <code>type="string"</code></p>
+            </answer>
+        </faq>
         <faq id="insert-type">
             <question>Is the insert tag's 'type' attribute required?
             </question>
