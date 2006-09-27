@@ -71,11 +71,6 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
     private Object value = null;
 
     /** 
-     * JSP Template compatibility. 
-     */
-    private String direct = null;
-
-    /** 
      * Requested type for the value. 
      */
     private String valueType = null;
@@ -113,7 +108,6 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
 
         attributeName = null;
         valueType = null;
-        direct = null;
         value = null;
         role = null;
         body = null;
@@ -179,14 +173,6 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
     }
 
     /**
-     * Set direct.
-     * Method added for compatibility with JSP1.1.
-     */
-    public void setDirect(String isDirect) {
-        this.direct = isDirect;
-    }
-
-    /**
      * Set type.
      */
     public void setType(String value) {
@@ -243,21 +229,16 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
             // Test body content in case of empty body.
             if (body != null) {
                 realValue = body;
+                valueType = "string";
             } else {
                 realValue = "";
             }
         }
 
         // Is there a type set ?
-        // First check direct attribute, and translate it to a valueType.
-        // Then, evaluate valueType, and create requested typed attribute.
-        // If valueType is not set, use the value "as is".
-        if (valueType == null && direct != null) {
-            if (Boolean.valueOf(direct).booleanValue() == true) {
-                valueType = "string";
-            } else {
-                valueType = "page";
-            }
+        // If valueType is not set, defaults to "page".
+        if (valueType == null) {
+            valueType = "page";
         }
 
     }
@@ -321,7 +302,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
 
         // Do we need to evaluate body ?
         if (value == null) {
-            return EVAL_BODY_TAG;
+            return EVAL_BODY_BUFFERED;
         } else {
             // Value is set, don't evaluate body.
             return SKIP_BODY;

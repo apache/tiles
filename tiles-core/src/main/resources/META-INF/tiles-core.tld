@@ -240,17 +240,6 @@
          </description>
       </attribute>
       <attribute>
-         <name>direct</name>
-         <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>Determines how content is handled: true means content is
-         printed <em>direct</em></p>
-         ]]>
-         </description>
-      </attribute>
-      <attribute>
          <name>type</name>
          <required>false</required>
          <rtexprvalue>false</rtexprvalue>
@@ -329,19 +318,6 @@
          <p>Element value. Can be a String or Object.</p>
          ]]>
       </description>
-      </attribute>
-      <attribute>
-         <name>direct</name>
-         <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>
-         Determines how content is handled: true means content is
-         printed <em>direct</em>
-         </p>
-         ]]>
-         </description>
       </attribute>
       <attribute>
          <name>type</name>
