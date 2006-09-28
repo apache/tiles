@@ -8,6 +8,6 @@
 <tiles:definition name="test.composite.definition.tags" template="/layout.jsp">
     <tiles:put name="title"  value="This is a composite definition with tags."/>
     <tiles:put name="header" value="/header.jsp"/>
-    <tiles:put name="body"   value="test.inner.definition"/>
+    <tiles:put name="body"   value="test.inner.definition.tags"/>
 </tiles:definition>
 <tiles:insert name="test.composite.definition.tags" type="definition" />
