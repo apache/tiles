@@ -21,10 +21,22 @@
 	  <put name="body"   value="doc.portal.body" />
   </definition>
   
+  <definition name="test.inner.definition" template="/layout.jsp">
+      <put name="title"  value="This is an inner definition."/>
+      <put name="header" value="/header.jsp"/>
+      <put name="body"   value="/body.jsp"/>
+  </definition>
+  
   <definition name="test.definition" template="/layout.jsp">
       <put name="title"  value="This is the title."/>
       <put name="header" value="/header.jsp"/>
       <put name="body"   value="/body.jsp"/>
+  </definition>
+    
+  <definition name="test.composite.definition" template="/layout.jsp">
+      <put name="title"  value="This is a composite definition."/>
+      <put name="header" value="/header.jsp"/>
+      <put name="body"   value="test.inner.definition"/>
   </definition>
   
   <definition name="test.putAttributes" template="/putattributeslayout.jsp">
