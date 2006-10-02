@@ -31,12 +31,14 @@
     <a href="testinsertdefinition_override.jsp">Test Insert Configured Definition with an overridden content</a><br/>
     <a href="testinsertdefinition_inline.jsp">Test Insert Configured Definition with an inline content</a><br/>
     <a href="testinsertdefinition_composite.jsp">Test Insert Configured Definition that contains another definition inside</a><br/>
+    <a href="testinsertdefinition_composite_tags_includes_configured.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags</a><br/>
+    <a href="testinsertdefinition_composite_tags_includes_configured_notype.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags without types</a><br/>
+    <a href="testinsertdefinition_composite_tags.jsp">Test Insert Definition that contains another definition inside using JSP tags</a><br/>
+    <a href="testinsertdefinition_composite_tags_notype.jsp">Test Insert Definition that contains another definition inside using JSP tags without types</a><br/>
     <a href="testput.jsp">Test Put Tag</a><br/>
     <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
     
     <h2>Currently not working tests</h2>
-    <a href="testinsertdefinition_composite_tags.jsp">Test Insert Definition that contains another definition inside using JSP tags</a><br/>
-    <a href="testinsertdefinition_composite_tags_notype.jsp">Test Insert Definition that contains another definition inside using JSP tags without types</a><br/>
 </body>
 
 </html>
