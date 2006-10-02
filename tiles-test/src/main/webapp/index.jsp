@@ -39,6 +39,7 @@
     <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
     
     <h2>Currently not working tests</h2>
+    Currently all the tests work.
 </body>
 
 </html>
