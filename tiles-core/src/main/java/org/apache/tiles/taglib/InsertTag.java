@@ -598,20 +598,11 @@ public class InsertTag
                 return null;
             } 
             
+            // FIXME Currently this call executes with every attribute, even
+            // those that do not need to be preprocessed, like attributes from
+            // Tiles definitions files. Fix it to improve performances.
+            preprocessAttribute(value);
             String type = value.getType();
-            if (type == null) {
-                Object valueContent = value.getValue();
-                if (valueContent instanceof String) {
-                    String valueString = (String) valueContent;
-                    if (valueString.startsWith("/")) {
-                        type = "template";
-                    } else {
-                        type = "string";
-                    }
-                } else if (valueContent instanceof ComponentDefinition) {
-                    type = "definition";
-                }
-            }
             
             if (type == null) {
                 throw new JspException("Unrecognized type for attribute value "
@@ -641,6 +632,57 @@ public class InsertTag
 		throws Exception, IOException {
 		TilesUtil.doInclude(page, pageContext, flush);
 	}
+    
+    /**
+     * Preprocess an attribute before using it. It guesses the type of the
+     * attribute if it is missing, and gets the right definition if a definition
+     * name has been specified.
+     * @param value The attribute to preprocess.
+     * @throws JspException If something goes wrong during definition
+     * resolution.
+     */
+    protected void preprocessAttribute(ComponentAttribute value)
+        throws JspException {
+        String type = value.getType();
+        if (type == null) {
+            Object valueContent = value.getValue();
+            if (valueContent instanceof String) {
+                String valueString = (String) valueContent;
+                if (valueString.startsWith("/")) {
+                    type = "template";
+                } else {
+                    ComponentDefinition definition = TagUtils
+                            .getComponentDefinition(valueString,
+                                    pageContext);
+                    if (definition != null) {
+                        type = "definition";
+                        value.setValue(definition);
+                    } else {
+                        type = "string";
+                    }
+                }
+            } else if (valueContent instanceof ComponentDefinition) {
+                type = "definition";
+            }
+            if (type == null) {
+                throw new JspException("Unrecognized type for attribute value "
+                        + value.getValue());
+            }
+            value.setType(type);
+        } else if (type.equalsIgnoreCase("definition")) {
+            Object valueContent = value.getValue();
+            if (valueContent instanceof String) {
+                ComponentDefinition definition = TagUtils
+                    .getComponentDefinition((String) valueContent,
+                            pageContext);
+                if (definition == null) {
+                    throw new JspException("Cannot find any definition named '"
+                            + valueContent + "'");
+                }
+                value.setValue(definition);
+            }
+        }
+    }
 
 	/////////////////////////////////////////////////////////////////////////////
 
