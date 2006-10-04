@@ -17,9 +17,24 @@
     </init-param>
     <load-on-startup>2</load-on-startup>
  </servlet>
+  
+  <!-- Standard Action Servlet Configuration -->
+  <servlet>
+    <servlet-name>layoutServlet</servlet-name>
+    <servlet-class>org.apache.tiles.test.servlet.IncludingServlet</servlet-class>
+    <init-param>
+      <param-name>include</param-name>
+      <param-value>/layout.jsp</param-value>
+    </init-param>
+ </servlet>
 
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet-mapping>
+    <servlet-name>layoutServlet</servlet-name>
+    <url-pattern>/servlets/layoutServlet</url-pattern>
+  </servlet-mapping>
 
 </web-app>

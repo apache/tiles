@@ -36,6 +36,7 @@
     <a href="testinsertdefinition_composite_tags.jsp">Test Insert Definition that contains another definition inside using JSP tags</a><br/>
     <a href="testinsertdefinition_composite_tags_notype.jsp">Test Insert Definition that contains another definition inside using JSP tags without types</a><br/>
     <a href="testput.jsp">Test Put Tag</a><br/>
+    <a href="testput_servlet.jsp">Test Put Tag using a servlet mapping as a template</a><br/>
     <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
     
     <h2>Currently not working tests</h2>
