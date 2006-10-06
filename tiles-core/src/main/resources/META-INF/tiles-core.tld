@@ -351,68 +351,6 @@
       </attribute>
    </tag>
    <tag>
-      <name>get</name>
-      <tag-class>org.apache.tiles.taglib.GetTag</tag-class>
-      <body-content>empty</body-content>
-      <description>
-      <![CDATA[
-      <p><strong>
-      Gets the content from request scope that was put there by a
-      put tag.</strong></p>
-      <p>Retrieve content from tile context and include it.</p>
-      <p>Take into account the 'type' attribute.</p>
-      ]]>
-      </description>
-      <attribute>
-         <name>name</name>
-         <required>true</required>
-         <rtexprvalue>true</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>The name of the content to get from template scope.</p>
-         ]]>
-         </description>
-      </attribute>
-      <attribute>
-         <name>ignore</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-         <type>boolean</type>
-         <description>
-         <![CDATA[
-         <p>
-         If this attribute is set to true, and the attribute specified by the name
-         does not exist, simply return without writing anything. The default value is false, which will
-         cause a runtime exception to be thrown.
-         </p>
-         ]]>
-         </description>
-      </attribute>
-      <attribute>
-         <name>flush</name>
-         <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
-         <type>boolean</type>
-         <description>
-         <![CDATA[
-         <p>True or false. If true, current page  out stream is flushed before 
-         insertion.</p>
-         ]]>
-         </description>
-      </attribute>
-      <attribute>
-         <name>role</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>If the user is in the specified role, the tag is taken into account;
-         otherwise, the tag is ignored (skipped).</p>
-         ]]>
-         </description>
-      </attribute>
-   </tag>
-   <tag>
       <name>getAsString</name>
       <tag-class>org.apache.tiles.taglib.GetAttributeTag</tag-class>
       <body-content>empty</body-content>

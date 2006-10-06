@@ -19,6 +19,18 @@ limitations under the License.
 <faqs title="Tiles 2 FAQ">
     <part id="taglib-faq">
         <title>Tiles 2 Taglib</title>
+        <faq id="get">
+            <question>What happened to <code>&amp;lt;tiles:get&amp;gt;</code> tag?
+            </question>
+            <answer>
+                <p>The <code>&amp;lt;tiles:get&amp;gt;</code> has been removed,
+                    along with its class GetTag. Use
+                    <code>&amp;lt;tiles:insert&amp;gt;</code> instead,
+                    eventually specifiying <code>ignore="true"</code>, that was
+                    the default in <code>&amp;lt;tiles:get&amp;gt;</code>.
+                </p>
+            </answer>
+        </faq>
         <faq id="name">
             <question>What happened to 'attribute' and 'definition'?</question>
             <answer>
