@@ -352,7 +352,7 @@
    </tag>
    <tag>
       <name>getAsString</name>
-      <tag-class>org.apache.tiles.taglib.GetAttributeTag</tag-class>
+      <tag-class>org.apache.tiles.taglib.GetAsStringTag</tag-class>
       <body-content>empty</body-content>
       <description>
       <![CDATA[

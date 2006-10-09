@@ -33,7 +33,7 @@ import org.apache.tiles.ComponentContext;
    * and render it to the current JspWriter as a String.
    * The usual toString() conversion is applied on the found value.
    */
-public class GetAttributeTag extends TagSupport implements ComponentConstants {
+public class GetAsStringTag extends TagSupport implements ComponentConstants {
 
   private String attribute = null;
     /** Role attribute */
@@ -47,7 +47,7 @@ public class GetAttributeTag extends TagSupport implements ComponentConstants {
   /**
    * Default constructor.
    */
-  public GetAttributeTag() {
+  public GetAsStringTag() {
     super();
   }
 
