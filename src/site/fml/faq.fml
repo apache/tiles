@@ -31,6 +31,16 @@ limitations under the License.
                 </p>
             </answer>
         </faq>
+        <faq id="get-attribute-tag">
+            <question>What happened to <code>GetAttributeTag</code> class?
+            </question>
+            <answer>
+                <p>The <code>GetAttributeTag</code> class has been renamed to
+                    <code>GetAsStringTag</code> to conform to conventions on tag
+                    libraries.
+                </p>
+            </answer>
+        </faq>
         <faq id="name">
             <question>What happened to 'attribute' and 'definition'?</question>
             <answer>
