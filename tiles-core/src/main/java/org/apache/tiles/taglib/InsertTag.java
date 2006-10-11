@@ -25,7 +25,6 @@ import java.util.StringTokenizer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
@@ -38,8 +37,6 @@ import org.apache.tiles.taglib.util.TagUtils;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentDefinition;
 import org.apache.tiles.Controller;
-import org.apache.tiles.DefinitionsFactoryException;
-import org.apache.tiles.FactoryNotFoundException;
 import org.apache.tiles.NoSuchDefinitionException;
 import org.apache.tiles.TilesUtil;
 
@@ -84,11 +81,6 @@ public class InsertTag
 	 */
 	protected boolean isErrorIgnored = false;
 
-	/**
-	 * Name of component instance to include.
-	 */
-	protected String definitionName = null;
-
         /**
          * Optional attribute to explicitly specify whether the thing being 
          * inserted is a(n) definition, attribute, or template.
@@ -125,7 +117,6 @@ public class InsertTag
 
 		super.release();
 
-		definitionName = null;
 		flush = true;
 		name = null;
 		template = null;
@@ -176,13 +167,6 @@ public class InsertTag
 	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * Get definition name.
-	 */
-	public String getDefinitionName() {
-		return definitionName;
 	}
 
 	/**
@@ -483,22 +467,15 @@ public class InsertTag
                         tilesContext);
 
                 if (definition == null) { // is it possible ?
-                    throw new NoSuchDefinitionException();
+                    throw new NoSuchDefinitionException(
+                            "Error -  Tag Insert : Can't get definition '"
+                            + name
+                            + "'. Check if this name exists in definitions factory.");
                 }
 
                 return processDefinition(definition);
 
             } catch (NoSuchDefinitionException ex) {
-                throw new JspException(
-                        "Error -  Tag Insert : Can't get definition '"
-                        + definitionName
-                        + "'. Check if this name exists in definitions factory.", ex);
-
-            } catch (DefinitionsFactoryException ex) {
-                if (log.isDebugEnabled()) {
-                    ex.printStackTrace();
-                }
-
                 // Save exception to be able to show it later
                 pageContext.setAttribute(
                     ComponentConstants.EXCEPTION_KEY,
