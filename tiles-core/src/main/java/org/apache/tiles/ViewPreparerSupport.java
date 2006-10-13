@@ -21,14 +21,14 @@ package org.apache.tiles;
 import java.io.IOException;
 
 /**
- * Basic implementation of Controller.  Implementations can extend this class
- * to insulate themselves from changes in the <code>Controller</code> 
+ * Basic implementation of ViewPreparer.  Implementations can extend this class
+ * to insulate themselves from changes in the <code>ViewPreparer</code> 
  * interface.
  */
-public class ControllerSupport implements Controller {
+public class ViewPreparerSupport implements ViewPreparer {
 
     /**
-     * Stubs out controller method.
+     * Stubs out preparer method.
      */
     public void execute(TilesContext tilesContext, 
             ComponentContext componentContext) throws Exception {

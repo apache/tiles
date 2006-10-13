@@ -76,14 +76,14 @@
      page. This definition is identified by its logical name. A definition allows
      to define all the attributes that can be set in <insert> tag from a jsp page.
 
-     controllerClass The fully qualified Java class name of the controller
+     preparerClass The fully qualified Java class name of the preparer
                      subclass to call immediately before the tiles is inserted.
-                     Only one of controllerClass or controllerUrl should be
+                     Only one of preparerClass or preparerUrl should be
                      specified.
 
-     controllerUrl   The context-relative path to the resource used as controller
+     preparerUrl   The context-relative path to the resource used as preparer
                      called immediately before the tiles is inserted.
-                     Only one of controllerClass or controllerUrl should be
+                     Only one of preparerClass or preparerUrl should be
                      specified.
 
      extends         Name of a definition that is used as ancestor of this definition.
@@ -107,8 +107,8 @@
 -->
 <!ELEMENT definition (icon?, display-name?, description?, put*, putList*)>
 <!ATTLIST definition       id               ID               #IMPLIED>
-<!ATTLIST definition       controllerClass  %ClassName;      #IMPLIED>
-<!ATTLIST definition       controllerUrl    %RequestPath;    #IMPLIED>
+<!ATTLIST definition       preparerClass  %ClassName;      #IMPLIED>
+<!ATTLIST definition       preparerUrl    %RequestPath;    #IMPLIED>
 <!ATTLIST definition       extends          %DefinitionName; #IMPLIED>
 <!ATTLIST definition       name             %DefinitionName; #REQUIRED>
 <!ATTLIST definition       page             %RequestPath;    #IMPLIED>

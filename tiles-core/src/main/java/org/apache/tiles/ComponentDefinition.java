@@ -65,14 +65,14 @@ public class ComponentDefinition implements Serializable {
      */
     protected String role = null;
 
-    /** Associated Controller URL or classname, if defined */
-    protected String controller = null;
+    /** Associated ViewPreparer URL or classname, if defined */
+    protected String preparer = null;
 
     /** 
-     * Associated Controller typename, if controllerName defined.
-     * Can be CONTROLLER, ACTION or URL, or null. 
+     * Associated ViewPreparer typename, if preparerName defined.
+     * Can be PREPARER, ACTION or URL, or null. 
      */
-    protected String controllerType = null;
+    protected String preparerType = null;
 
     /**
      * Used for resolving inheritance.
@@ -80,25 +80,25 @@ public class ComponentDefinition implements Serializable {
     private boolean isVisited=false;
 
     /** 
-     * Controller name type. 
+     * ViewPreparer name type. 
      */
     public static final String URL = "url";
 
     /** 
-     * Controller name type. 
+     * ViewPreparer name type. 
      */
-    public static final String CONTROLLER = "controller";
+    public static final String PREPARER = "preparer";
 
     /** 
-     * Controller name type. 
+     * ViewPreparer name type. 
      */
     public static final String ACTION = "action";
 
     /**
-     * Controller associated to Definition.
+     * ViewPreparer associated to Definition.
      * Lazy creation : only on first request
      */
-    private Controller controllerInstance = null;
+    private ViewPreparer preparerInstance = null;
 
     /**
      * Constructor.
@@ -118,9 +118,9 @@ public class ComponentDefinition implements Serializable {
         this.name = definition.getName();
         this.path = definition.getPath();
         this.role = definition.getRole();
-        this.controllerInstance = definition.getControllerInstance();
-        this.controller = definition.getController();
-        this.controllerType = definition.getControllerType();
+        this.preparerInstance = definition.getPreparerInstance();
+        this.preparer = definition.getPreparer();
+        this.preparerType = definition.getPreparerType();
     }
 
     /**
@@ -320,171 +320,171 @@ public class ComponentDefinition implements Serializable {
             + path
             + ", role="
             + role
-            + ", controller="
-            + controller
-            + ", controllerType="
-            + controllerType
-            + ", controllerInstance="
-            + controllerInstance
+            + ", preparer="
+            + preparer
+            + ", preparerType="
+            + preparerType
+            + ", preparerInstance="
+            + preparerInstance
             + ", attributes="
             + attributes
             + "}\n";
     }
 
     /**
-     * Get associated controller type.
+     * Get associated preparer type.
      * Type denote a fully qualified classname.
      */
-    public String getControllerType() {
-        return controllerType;
+    public String getPreparerType() {
+        return preparerType;
     }
 
     /**
-     * Set associated controller type.
+     * Set associated preparer type.
      * Type denote a fully qualified classname.
-     * @param controllerType Typeof associated controller
+     * @param preparerType Typeof associated preparer
      */
-    public void setControllerType(String controllerType) {
-        this.controllerType = controllerType;
+    public void setPreparerType(String preparerType) {
+        this.preparerType = preparerType;
     }
 
     /**
-     * Set associated controller name as an url, and controller
+     * Set associated preparer name as an url, and preparer
      * type as "url".
      * Name must be an url (not checked).
      * Convenience method.
-     * @param controller Controller url
+     * @param preparer ViewPreparer url
      */
-    public void setControllerUrl(String controller) {
-        setController(controller);
-        setControllerType("url");
+    public void setPreparerUrl(String preparer) {
+        setPreparer(preparer);
+        setPreparerType("url");
     }
 
     /**
-     * Set associated controller name as a classtype, and controller
+     * Set associated preparer name as a classtype, and preparer
      * type as "classname".
      * Name denote a fully qualified classname
      * Convenience method.
-     * @param controller Controller classname.
+     * @param preparer ViewPreparer classname.
      */
-    public void setControllerClass(String controller) {
-        setController(controller);
-        setControllerType("classname");
+    public void setPreparerClass(String preparer) {
+        setPreparer(preparer);
+        setPreparerType("classname");
     }
 
     /**
-     * Get associated controller local URL.
+     * Get associated preparer local URL.
      * URL should be local to webcontainer in order to allow request context followup.
      * URL comes as a string.
      */
-    public String getController() {
-        return controller;
+    public String getPreparer() {
+        return preparer;
     }
 
     /**
-     * Set associated controller URL.
+     * Set associated preparer URL.
      * URL should be local to webcontainer in order to allow request context followup.
      * URL is specified as a string.
      * @param url Url called locally
      */
-    public void setController(String url) {
-        this.controller = url;
+    public void setPreparer(String url) {
+        this.preparer = url;
     }
 
     /**
-     * Get controller instance.
-     * @return controller instance.
+     * Get preparer instance.
+     * @return preparer instance.
      */
-    public Controller getControllerInstance() {
-        return controllerInstance;
+    public ViewPreparer getPreparerInstance() {
+        return preparerInstance;
     }
 
     /**
-     * Get or create controller.
-     * Get controller, create it if necessary.
-     * @return controller if controller or controllerType is set, null otherwise.
-     * @throws InstantiationException if an error occur while instanciating Controller :
+     * Get or create preparer.
+     * Get preparer, create it if necessary.
+     * @return preparer if preparer or preparerType is set, null otherwise.
+     * @throws InstantiationException if an error occur while instanciating ViewPreparer :
      * (classname can't be instanciated, Illegal access with instanciated class,
      * Error while instanciating class, classname can't be instanciated.
      */
-    public Controller getOrCreateController() throws InstantiationException {
+    public ViewPreparer getOrCreatePreparer() throws InstantiationException {
 
-        if (controllerInstance != null) {
-            return controllerInstance;
+        if (preparerInstance != null) {
+            return preparerInstance;
         }
 
-        // Do we define a controller ?
-        if (controller == null && controllerType == null) {
+        // Do we define a preparer ?
+        if (preparer == null && preparerType == null) {
             return null;
         }
 
         // check parameters
-        if (controllerType != null && controller == null) {
-            throw new InstantiationException("Controller name should be defined if controllerType is set");
+        if (preparerType != null && preparer == null) {
+            throw new InstantiationException("ViewPreparer name should be defined if preparerType is set");
         }
 
-        controllerInstance = createController(controller, controllerType);
+        preparerInstance = createPreparer(preparer, preparerType);
 
-        return controllerInstance;
+        return preparerInstance;
     }
 
     /**
-     * Set controller.
+     * Set preparer.
      */
-    public void setControllerInstance(Controller controller) {
-        this.controllerInstance = controller;
+    public void setPreparerInstance(ViewPreparer preparer) {
+        this.preparerInstance = preparer;
     }
 
     /**
-     * Create a new instance of controller named in parameter.
-     * If controllerType is specified, create controller accordingly.
+     * Create a new instance of preparer named in parameter.
+     * If preparerType is specified, create preparer accordingly.
      * Otherwise, if name denote a classname, create an instance of it. If class is
-     *  subclass of org.apache.struts.action.Action, wrap controller
+     *  subclass of org.apache.struts.action.Action, wrap preparer
      * appropriately.
      * Otherwise, consider name as an url.
-     * @param name Controller name (classname, url, ...)
-     * @param controllerType Expected Controller type
-     * @return org.apache.struts.tiles.Controller
-     * @throws InstantiationException if an error occur while instanciating Controller :
+     * @param name ViewPreparer name (classname, url, ...)
+     * @param preparerType Expected ViewPreparer type
+     * @return org.apache.struts.tiles.ViewPreparer
+     * @throws InstantiationException if an error occur while instanciating ViewPreparer :
      * (classname can't be instanciated, Illegal access with instanciated class,
      * Error while instanciating class, classname can't be instanciated.
      */
-    public static Controller createController(String name, String controllerType)
+    public static ViewPreparer createPreparer(String name, String preparerType)
         throws InstantiationException {
 
         if (log.isDebugEnabled()) {
-            log.debug("Create controller name=" + name + ", type=" + controllerType);
+            log.debug("Create preparer name=" + name + ", type=" + preparerType);
         }
 
-        Controller controller = null;
+        ViewPreparer preparer = null;
 
-        if (controllerType == null) { // first try as a classname
+        if (preparerType == null) { // first try as a classname
             try {
-                return createControllerFromClassname(name);
+                return createPreparerFromClassname(name);
 
             } catch (InstantiationException ex) { // ok, try something else
-                controller = new UrlController(name);
+                preparer = new UrlViewPreparer(name);
             }
 
-        } else if ("url".equalsIgnoreCase(controllerType)) {
-            controller = new UrlController(name);
+        } else if ("url".equalsIgnoreCase(preparerType)) {
+            preparer = new UrlViewPreparer(name);
 
-        } else if ("classname".equalsIgnoreCase(controllerType)) {
-            controller = createControllerFromClassname(name);
+        } else if ("classname".equalsIgnoreCase(preparerType)) {
+            preparer = createPreparerFromClassname(name);
         }
 
-        return controller;
+        return preparer;
     }
 
     /**
-     * Create a controller from specified classname
-     * @param classname Controller classname.
-     * @return org.apache.struts.tiles.Controller
-     * @throws InstantiationException if an error occur while instanciating Controller :
+     * Create a preparer from specified classname
+     * @param classname ViewPreparer classname.
+     * @return org.apache.struts.tiles.ViewPreparer
+     * @throws InstantiationException if an error occur while instanciating ViewPreparer :
      * (classname can't be instanciated, Illegal access with instanciated class,
      * Error while instanciating class, classname can't be instanciated.
      */
-    public static Controller createControllerFromClassname(String classname)
+    public static ViewPreparer createPreparerFromClassname(String classname)
         throws InstantiationException {
 
         try {
@@ -492,9 +492,9 @@ public class ComponentDefinition implements Serializable {
             Object instance = requestedClass.newInstance();
 
             if (log.isDebugEnabled()) {
-                log.debug("Controller created : " + instance);
+                log.debug("ViewPreparer created : " + instance);
             }
-            return (Controller) instance;
+            return (ViewPreparer) instance;
 
         } catch (java.lang.ClassNotFoundException ex) {
             throw new InstantiationException(
@@ -509,9 +509,9 @@ public class ComponentDefinition implements Serializable {
 
         } catch (java.lang.ClassCastException ex) {
             throw new InstantiationException(
-                "Controller of class '"
+                "ViewPreparer of class '"
                     + classname
-                    + "' should implements 'Controller' or extends 'Action'");
+                    + "' should implements 'ViewPreparer' or extends 'Action'");
         }
     }
 
@@ -613,10 +613,10 @@ public class ComponentDefinition implements Serializable {
       setPath( parent.getPath() );
     if( role == null )
       setRole( parent.getRole() );
-    if( controller==null )
+    if( preparer==null )
       {
-      setController( parent.getController());
-      setControllerType( parent.getControllerType());
+      setPreparer( parent.getPreparer());
+      setPreparerType( parent.getPreparerType());
       }
     }
 
@@ -669,10 +669,10 @@ public class ComponentDefinition implements Serializable {
       setPath( parent.getPath() );
     if( role == null )
       setRole( parent.getRole() );
-    if( controller==null )
+    if( preparer==null )
       {
-      setController( parent.getController());
-      setControllerType( parent.getControllerType());
+      setPreparer( parent.getPreparer());
+      setPreparerType( parent.getPreparerType());
       }
     }
 
@@ -697,10 +697,10 @@ public class ComponentDefinition implements Serializable {
       {
       role = child.getRole();
       }
-    if( child.getController()!=null )
+    if( child.getPreparer()!=null )
       {
-      controller = child.getController();
-      controllerType =  child.getControllerType();
+      preparer = child.getPreparer();
+      preparerType =  child.getPreparerType();
       }
       // put all child attributes in parent.
     attributes.putAll( child.getAttributes());

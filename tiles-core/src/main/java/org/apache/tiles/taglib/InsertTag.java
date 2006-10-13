@@ -36,7 +36,7 @@ import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.taglib.util.TagUtils;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.Controller;
+import org.apache.tiles.ViewPreparer;
 import org.apache.tiles.NoSuchDefinitionException;
 import org.apache.tiles.TilesUtil;
 
@@ -293,20 +293,20 @@ public class InsertTag
 	}
 
 	/**
-	 * Get instantiated Controller.
-	 * Return controller denoted by controllerType, or <code>null</code> if controllerType
+	 * Get instantiated ViewPreparer.
+	 * Return preparer denoted by preparerType, or <code>null</code> if preparerType
 	 * is null.
-	 * @throws JspException If controller can't be created.
+	 * @throws JspException If preparer can't be created.
 	 */
-	private Controller getController() throws JspException {
-		if (controllerType == null) {
+	private ViewPreparer getPreparer() throws JspException {
+		if (preparerType == null) {
 			return null;
 		}
 
 		try {
-			return ComponentDefinition.createController(
-				controllerName,
-				controllerType);
+			return ComponentDefinition.createPreparer(
+				preparerName,
+				preparerType);
 
 		} catch (InstantiationException ex) {
 			throw new JspException(ex);
@@ -439,10 +439,10 @@ public class InsertTag
 
 	/**
 	 * Process the url.
-	 * @throws JspException If failed to create controller
+	 * @throws JspException If failed to create preparer
 	 */
 	public TagHandler processUrl(String url) throws JspException {
-		return new InsertHandler(url, role, getController());
+		return new InsertHandler(url, role, getPreparer());
 	}
 
 	/**
@@ -453,7 +453,7 @@ public class InsertTag
 	 * @throws JspException- NoSuchDefinitionException No Definition  found for name.
 	 * @throws JspException- FactoryNotFoundException Can't find Definitions factory.
 	 * @throws JspException- DefinedComponentFactoryException General error in factory.
-	 * @throws JspException InstantiationException Can't create requested controller
+	 * @throws JspException InstantiationException Can't create requested preparer
 	 */
 	protected TagHandler processDefinitionName(String name)
 		throws JspException {
@@ -491,17 +491,17 @@ public class InsertTag
 	 * Then, create appropriate tag handler.
 	 * @param definition Definition to process.
 	 * @return Appropriate TagHandler.
-	 * @throws JspException InstantiationException Can't create requested controller
+	 * @throws JspException InstantiationException Can't create requested preparer
 	 */
 	protected TagHandler processDefinition(ComponentDefinition definition)
 		throws JspException {
 		// Declare local variable in order to not change Tag attribute values.
 		String role = this.role;
 		String page = this.template;
-		Controller controller = null;
+		ViewPreparer preparer = null;
 
 		try {
-			controller = definition.getOrCreateController();
+			preparer = definition.getOrCreatePreparer();
 
 			// Overload definition with tag's template and role.
 			if (role == null) {
@@ -512,11 +512,11 @@ public class InsertTag
 				page = definition.getTemplate();
 			}
 
-			if (controllerName != null) {
-				controller =
-					ComponentDefinition.createController(
-						controllerName,
-						controllerType);
+			if (preparerName != null) {
+				preparer =
+					ComponentDefinition.createPreparer(
+						preparerName,
+						preparerType);
 			}
 
 			// Can check if page is set
@@ -524,7 +524,7 @@ public class InsertTag
 				definition.getAttributes(),
 				page,
 				role,
-				controller);
+				preparer);
 
 		} catch (InstantiationException ex) {
 			throw new JspException(ex);
@@ -592,7 +592,7 @@ public class InsertTag
 		return processDefinition((ComponentDefinition) value.getValue());
             } else {
                 return new InsertHandler((String) value.getValue(),
-			role, getController());
+			role, getPreparer());
             }
 	}
 
@@ -693,7 +693,7 @@ public class InsertTag
 		protected ComponentContext currentContext;
 		protected ComponentContext subCompContext;
 		protected String role;
-		protected Controller controller;
+		protected ViewPreparer preparer;
 
 		/**
 		 * Constructor.
@@ -703,11 +703,11 @@ public class InsertTag
 			Map attributes,
 			String page,
 			String role,
-			Controller controller) {
+			ViewPreparer preparer) {
 
 			this.page = page;
 			this.role = role;
-			this.controller = controller;
+			this.preparer = preparer;
 			subCompContext = new ComponentContext(attributes);
 		}
 
@@ -715,10 +715,10 @@ public class InsertTag
 		 * Constructor.
 		 * Create insert handler to insert page at specified location.
 		 */
-		public InsertHandler(String page, String role, Controller controller) {
+		public InsertHandler(String page, String role, ViewPreparer preparer) {
 			this.page = page;
 			this.role = role;
-			this.controller = controller;
+			this.preparer = preparer;
 			subCompContext = new ComponentContext();
 		}
 
@@ -770,13 +770,13 @@ public class InsertTag
                                 subCompContext,
                                 PageContext.REQUEST_SCOPE);
 
-                        // Call controller if any
-                        if (controller != null) {
+                        // Call preparer if any
+                        if (preparer != null) {
                             try {
                               TilesContext tilesContext = TilesContextFactory.getInstance(
                                       pageContext.getServletContext(),
                                       pageContext.getRequest(), pageContext.getResponse());
-                                controller.execute(tilesContext, subCompContext);
+                                preparer.execute(tilesContext, subCompContext);
                             } catch (Exception e) {
                                 throw new ServletException(e);
                             }

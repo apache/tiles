@@ -27,13 +27,13 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 public class DefinitionTagSupport extends TagSupport implements Serializable {
     /**
-     * Associated Controller type
+     * Associated ViewPreparer type
      */
-    protected String controllerType;
+    protected String preparerType;
     /**
-     * Associated Controller name (classname or url)
+     * Associated ViewPreparer name (classname or url)
      */
-    protected String controllerName;
+    protected String preparerName;
     /**
      * Role associated to definition.
      */
@@ -49,88 +49,88 @@ public class DefinitionTagSupport extends TagSupport implements Serializable {
      */
     public void release() {
         super.release();
-        controllerType = null;
-        controllerName = null;
+        preparerType = null;
+        preparerName = null;
         role = null;
     }
 
     /**
-     * Get controller type.
+     * Get preparer type.
      * Type can be 'classname', 'url'.
      *
-     * @return Controller type.
+     * @return ViewPreparer type.
      */
-    public String getControllerType() {
-        return controllerType;
+    public String getPreparerType() {
+        return preparerType;
     }
 
     /**
-     * Get controller name.
+     * Get preparer name.
      * Name denotes a fully qualified classname, or an url.
-     * Exact type can be specified with {@link #setControllerType}.
+     * Exact type can be specified with {@link #setPreparerType}.
      *
-     * @return Controller name.
+     * @return ViewPreparer name.
      */
-    public String getControllerName() {
-        return controllerName;
+    public String getPreparerName() {
+        return preparerName;
     }
 
     /**
-     * Set associated controller type.
+     * Set associated preparer type.
      * Type denotes a fully qualified classname.
      *
-     * @param controllerType Type of associated controller.
+     * @param preparerType Type of associated preparer.
      */
-    public void setControllerType(String controllerType) {
-        this.controllerType = controllerType;
+    public void setPreparerType(String preparerType) {
+        this.preparerType = preparerType;
     }
 
     /**
-     * Set associated controller name.
+     * Set associated preparer name.
      * Name denotes a fully qualified classname, or an url.
-     * Exact type can be specified with {@link #setControllerType}.
+     * Exact type can be specified with {@link #setPreparerType}.
      *
-     * @param controller Controller classname or url.
+     * @param preparer ViewPreparer classname or url.
      */
-    public void setController(String controller) {
-        setControllerName(controller);
+    public void setPreparer(String preparer) {
+        setPreparerName(preparer);
     }
 
     /**
-     * Set associated controller name.
+     * Set associated preparer name.
      * Name denote a fully qualified classname, or an url.
-     * Exact type can be specified with setControllerType.
+     * Exact type can be specified with setPreparerType.
      *
-     * @param controller Controller classname or url
+     * @param preparer ViewPreparer classname or url
      */
-    public void setControllerName(String controller) {
-        this.controllerName = controller;
+    public void setPreparerName(String preparer) {
+        this.preparerName = preparer;
     }
 
     /**
-     * Set associated controller name as an url, and controller
+     * Set associated preparer name as an url, and preparer
      * type as "url".
      * Name must be an url (not checked).
      * Convenience method.
      *
-     * @param controller Controller url
+     * @param preparer ViewPreparer url
      */
-    public void setControllerUrl(String controller) {
-        setControllerName(controller);
-        setControllerType("url");
+    public void setPreparerUrl(String preparer) {
+        setPreparerName(preparer);
+        setPreparerType("url");
     }
 
     /**
-     * Set associated controller name as a classtype and controller
+     * Set associated preparer name as a classtype and preparer
      * type as "classname".
      * Name denotes a fully qualified classname.
      * Convenience method.
      *
-     * @param controller Controller classname.
+     * @param preparer ViewPreparer classname.
      */
-    public void setControllerClass(String controller) {
-        setControllerName(controller);
-        setControllerType("classname");
+    public void setPreparerClass(String preparer) {
+        setPreparerName(preparer);
+        setPreparerType("classname");
     }
 
     /**

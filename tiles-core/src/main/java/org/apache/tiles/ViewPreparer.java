@@ -18,14 +18,12 @@
 
 package org.apache.tiles;
 
-import java.io.IOException;
-
 /**
- * A controller is a piece of code called before rendering a jsp page.
- * A controller can be associated to a tile. See &lt;insert&gt; or 
+ * A preparer is a piece of code called before rendering a jsp page.
+ * A preparer can be associated to a tile. See &lt;insert&gt; or 
  * &lt;definition&gt; for association syntax.
  */
-public interface Controller {
+public interface ViewPreparer {
 
     /**
      * Method associated to a tile and called immediately before the tile 

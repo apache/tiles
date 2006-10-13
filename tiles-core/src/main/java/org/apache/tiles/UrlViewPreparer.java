@@ -21,12 +21,12 @@ package org.apache.tiles;
 import java.io.IOException;
 
 /**
- * Tiles controller including a local URL.
+ * Tiles preparer including a local URL.
  */
-public class UrlController implements Controller {
+public class UrlViewPreparer implements ViewPreparer {
 
     /** 
-     * URL associated with this controller. 
+     * URL associated with this preparer. 
      */
     protected String url = null;
 
@@ -34,12 +34,12 @@ public class UrlController implements Controller {
      * Constructor.
      * @param url URL.
      */
-    public UrlController(String url) {
+    public UrlViewPreparer(String url) {
             this.url = url;
     }
 
     /**
-     * @see org.apache.tiles.Controller#execute(org.apache.tiles.TilesContext, org.apache.tiles.ComponentContext)
+     * @see org.apache.tiles.ViewPreparer#execute(org.apache.tiles.TilesContext, org.apache.tiles.ComponentContext)
      */
     public void execute(TilesContext tilesContext, 
             ComponentContext componentContext) 
