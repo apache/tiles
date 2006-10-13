@@ -88,10 +88,15 @@ limitations under the License.
             </answer>
         </faq>
         <faq id="controller">
-            <question>What happened to controllerURL and controllerClass?
+            <question>What happened to controllerUrl and controllerClass and the
+                      <code>Controller</code> Java class?
             </question>
             <answer>
-                <p>TODO</p>
+                <p>The "controller" concept has been replaced with "preparer",
+                to avoid confusion with "controller" as in MVC model.
+                <code>Controller</code> class has been renamed to
+                <code>ViewPreparer</code>, while the attributes have been
+                renamed to "preparerUrl" and "preparerClass".</p>
             </answer>
         </faq>
         <faq id="definition-id">
