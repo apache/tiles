@@ -123,6 +123,16 @@
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+         <name>preparerUrl</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>preparerClass</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
    </tag>
    <tag>
       <name>definition</name>
