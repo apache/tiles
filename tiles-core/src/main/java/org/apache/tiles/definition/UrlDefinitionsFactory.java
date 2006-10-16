@@ -36,6 +36,8 @@ import org.apache.tiles.DefinitionsFactory;
 import org.apache.tiles.DefinitionsFactoryException;
 import org.apache.tiles.DefinitionsReader;
 import org.apache.tiles.ReloadableDefinitionsFactory;
+import org.apache.tiles.TilesContext;
+import org.apache.tiles.TilesUtilImpl;
 import org.apache.tiles.digester.DigesterDefinitionsReader;
 
 /**
@@ -54,15 +56,15 @@ public class UrlDefinitionsFactory
     /**
      * Contains the URL objects identifying where configuration data is found.
      */
-    private List sources;
+    protected List sources;
     /**
      * Reader used to get definitions from the sources.
      */
-    private DefinitionsReader reader;
+    protected DefinitionsReader reader;
     /**
      * Contains the dates that the URL sources were last modified.
      */
-    private Map lastModifiedDates;
+    protected Map lastModifiedDates;
     /**
      * Contains a list of locales that have been processed.
      */
@@ -127,6 +129,42 @@ public class UrlDefinitionsFactory
     }
 
     /**
+     * Returns a ComponentDefinition object that matches the given name and
+     * Tiles context
+     *
+     * @param name The name of the ComponentDefinition to return.
+     * @param tilesContext The Tiles context to use to resolve the definition.
+     * @return the ComponentDefinition matching the given name or null if none
+     *  is found.
+     * @throws DefinitionsFactoryException if an error occurs reading definitions.
+     */
+    public ComponentDefinition getDefinition(String name,
+            TilesContext tilesContext) throws DefinitionsFactoryException {
+        ComponentDefinitions definitions = (ComponentDefinitions) 
+                tilesContext.getApplicationScope().get(
+                        TilesUtilImpl.DEFINITIONS_OBJECT);
+        ComponentDefinition definition = definitions.getDefinition(
+                name, tilesContext.getRequestLocale());
+        
+        if (definition == null) {
+            if (!isContextProcessed(tilesContext)) {
+                // FIXME This will modify the factory as well as the definitions
+                // but we are only locking the definitions.
+                // 
+                // We'll have to refactor again to remove this issue.
+                synchronized (definitions) {
+                    addDefinitions(definitions, tilesContext);
+                }
+            }
+            
+            definition = definitions.getDefinition(name,
+                    tilesContext.getRequestLocale());
+        }
+        
+        return definition;
+    }
+
+    /**
      * Adds a source where ComponentDefinition objects are stored.
      * 
      * Implementations should publish what type of source object they expect.
@@ -160,19 +198,20 @@ public class UrlDefinitionsFactory
      * the applied sources.
      * 
      * @param definitions The ComponentDefinitions object to append to.
-     * @param locale The requested locale.
+     * @param tilesContext The requested locale.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
-    public void addDefinitions(ComponentDefinitions definitions, Locale locale) 
+    protected void addDefinitions(ComponentDefinitions definitions, TilesContext tilesContext) 
             throws DefinitionsFactoryException {
         
+        Locale locale = tilesContext.getRequestLocale();
         List postfixes = calculatePostixes(locale);
         
-	if (isLocaleProcessed(locale)) {
-	    return;
-	} else {
-	    processedLocales.add(locale);
-	}
+        if (isContextProcessed(tilesContext)) {
+            return;
+        } else {
+            processedLocales.add(locale);
+        }
 
         for (int i = 0; i < sources.size(); i++) {
             URL url = (URL) sources.get(i);
@@ -184,10 +223,11 @@ public class UrlDefinitionsFactory
                     URL newUrl = new URL(newPath);
                     URLConnection connection = newUrl.openConnection();
                     connection.connect();
-		    lastModifiedDates.put(newUrl.toExternalForm(), 
-				new Long(connection.getLastModified()));
+                    lastModifiedDates.put(newUrl.toExternalForm(), 
+                            new Long(connection.getLastModified()));
                     Map defsMap = reader.read(connection.getInputStream());
-                    definitions.addDefinitions(defsMap, locale);
+                    definitions.addDefinitions(defsMap,
+                            tilesContext.getRequestLocale());
                 } catch (FileNotFoundException e) {
                     // File not found. continue.
                 } catch (IOException e) {
@@ -215,7 +255,7 @@ public class UrlDefinitionsFactory
                 URL source = (URL) sources.get(i);
                 URLConnection connection = source.openConnection();
                 connection.connect();
-		lastModifiedDates.put(source.toExternalForm(), 
+                lastModifiedDates.put(source.toExternalForm(), 
 				new Long(connection.getLastModified()));
                 Map defsMap = reader.read(connection.getInputStream());
                 definitions.addDefinitions(defsMap);
@@ -234,11 +274,11 @@ public class UrlDefinitionsFactory
      * isLoacaleProcessed before synchronizing the object and reading 
      * locale-specific definitions.
      *
-     * @param locale The locale to check.
+     * @param tilesContext The Tiles context to check.
      * @return true if the given lcoale has been processed and false otherwise.
      */
-    public boolean isLocaleProcessed(Locale locale) {
-	if (processedLocales.contains(locale)) {
+    protected boolean isContextProcessed(TilesContext tilesContext) {
+	if (processedLocales.contains(tilesContext.getRequestLocale())) {
 	    return true;
 	} else {
 	    return false;
@@ -253,7 +293,7 @@ public class UrlDefinitionsFactory
      * @param postfix Postfix to add.
      * @return Concatenated filename.
      */
-    private String concatPostfix(String name, String postfix) {
+    protected String concatPostfix(String name, String postfix) {
         if (postfix == null) {
             return name;
         }
@@ -277,7 +317,7 @@ public class UrlDefinitionsFactory
      * Method copied from java.util.ResourceBundle
      * @param locale the locale
      */
-    private static List calculatePostixes(Locale locale) {
+    protected static List calculatePostixes(Locale locale) {
         final List result = new ArrayList();
         final String language = locale.getLanguage();
         final int languageLength = language.length();

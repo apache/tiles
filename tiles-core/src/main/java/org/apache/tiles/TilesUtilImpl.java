@@ -202,27 +202,7 @@ public class TilesUtilImpl implements Serializable {
         
         try {
             DefinitionsFactory factory = getDefinitionsFactory(tilesContext);
-            ComponentDefinitions definitions = (ComponentDefinitions) 
-                tilesContext.getApplicationScope().get(TilesUtilImpl.DEFINITIONS_OBJECT);
-            ComponentDefinition definition = definitions.getDefinition(
-                    definitionName, tilesContext.getRequestLocale());
-            
-            if (definition == null) {
-                if (!factory.isLocaleProcessed(tilesContext.getRequestLocale())) {
-                    // FIXME This will modify the factory as well as the definitions
-                    // but we are only locking the definitions.
-                    // 
-                    // We'll have to refactor again to remove this issue.
-                    synchronized (definitions) {
-                        factory.addDefinitions(definitions, tilesContext.getRequestLocale());
-                    }
-                }
-                
-                definition = definitions.getDefinition(
-                    definitionName, tilesContext.getRequestLocale());
-            }
-            
-            return definition;
+            return factory.getDefinition(definitionName, tilesContext);
         } catch (NullPointerException ex) { // Factory not found in context
             throw new FactoryNotFoundException("Can't get definitions factory from context.");
         }

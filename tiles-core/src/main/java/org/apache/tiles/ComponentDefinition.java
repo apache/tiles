@@ -557,12 +557,24 @@ public class ComponentDefinition implements Serializable {
     }
 
   /**
-   * Set isVisited.
+   * Sets the visit flag, used during inheritance resolution.
+   * 
+   * @param isVisited <code>true</code> is the definition has been visited.
    *
    */
   public void setIsVisited( boolean isVisited )
     {
     this.isVisited = isVisited;
+    }
+  
+  /**
+   * Returns the visit flag, used during inheritance resolution.
+   * 
+   * @return isVisited <code>true</code> is the definition has been visited.
+   */
+  public boolean isIsVisited()
+    {
+    return isVisited;
     }
 
     /**
@@ -571,6 +583,8 @@ public class ComponentDefinition implements Serializable {
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
+     * @deprecated Each {@link ComponentDefinitions} should provide its own
+     * strategy to resolve inheritances.
      */
   public void resolveInheritance( ComponentDefinitions definitionsSet )
     throws NoSuchDefinitionException
@@ -626,6 +640,8 @@ public class ComponentDefinition implements Serializable {
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
+     * @deprecated Each {@link ComponentDefinitions} should provide its own
+     * strategy to resolve inheritances.
      */
   public void resolveInheritance( ComponentDefinitions definitionsSet, Locale locale)
     throws NoSuchDefinitionException

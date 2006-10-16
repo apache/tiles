@@ -58,6 +58,19 @@ public interface DefinitionsFactory {
     public void init(Map params) throws DefinitionsFactoryException;
     
     /**
+     * Returns a ComponentDefinition object that matches the given name and
+     * Tiles context
+     *
+     * @param name The name of the ComponentDefinition to return.
+     * @param tilesContext The Tiles context to use to resolve the definition.
+     * @return the ComponentDefinition matching the given name or null if none
+     *  is found.
+     * @throws DefinitionsFactoryException if an error occurs reading definitions.
+     */
+    public ComponentDefinition getDefinition(String name,
+            TilesContext tilesContext) throws DefinitionsFactoryException;
+    
+    /**
      * Adds a source where ComponentDefinition objects are stored.
      * 
      * Implementations should publish what type of source object they expect.
@@ -82,29 +95,4 @@ public interface DefinitionsFactory {
      */
     public ComponentDefinitions readDefinitions() 
             throws DefinitionsFactoryException;
-
-    /**
-     * Appends locale-specific {@link ComponentDefinition} objects to an existing
-     * {@link ComponentDefinitions} set by reading locale-specific versions of
-     * the applied sources.
-     *
-     * @param definitions The ComponentDefinitions object to append to.
-     * @param locale The requested locale.
-     * @throws DefinitionsFactoryException if an error occurs reading definitions.
-     */
-    public void addDefinitions(ComponentDefinitions definitions, Locale locale) 
-            throws DefinitionsFactoryException;
-    
-    /**
-     * Indicates whether a given locale has been processed or not.
-     * 
-     * This method can be used to avoid unnecessary synchronization of the
-     * DefinitionsFactory in multi-threaded situations.  Check the return of
-     * isLoacaleProcessed before synchronizing the object and reading 
-     * locale-specific definitions.
-     *
-     * @param locale The locale to check.
-     * @return true if the given lcoale has been processed and false otherwise.
-     */
-    public boolean isLocaleProcessed(Locale locale);
 }

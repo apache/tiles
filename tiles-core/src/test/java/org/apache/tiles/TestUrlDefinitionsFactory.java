@@ -27,7 +27,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.tiles.mock.MockComponentDefinitions;
+import org.apache.tiles.mock.MockPublicUrlDefinitionsFactory;
 import org.apache.tiles.mock.MockDefinitionsReader;
+import org.apache.tiles.mock.MockOnlyLocaleTilesContext;
 
 /**
  * Tests the UrlDefinitionsFactory component.
@@ -117,7 +119,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
      */
     public void testReadByLocale() {
         try {
-            DefinitionsFactory factory = new UrlDefinitionsFactory();
+            MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
 
             // Set up multiple data sources.
             URL url1 = this.getClass().getClassLoader().getResource(
@@ -137,8 +139,10 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
             // Parse files.
             ComponentDefinitions definitions = factory.readDefinitions();
-            factory.addDefinitions(definitions, Locale.US);
-            factory.addDefinitions(definitions, Locale.FRENCH);
+            factory.addDefinitions(definitions,
+                    new MockOnlyLocaleTilesContext(Locale.US));
+            factory.addDefinitions(definitions,
+                    new MockOnlyLocaleTilesContext(Locale.FRENCH));
             
             assertNotNull("test.def1 definition not found.", definitions.getDefinition("test.def1"));
             assertNotNull("test.def1 US definition not found.", definitions.getDefinition("test.def1", Locale.US));
@@ -164,7 +168,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
      */
     public void testIsLocaleProcessed() {
         try {
-            DefinitionsFactory factory = new UrlDefinitionsFactory();
+            MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
 
             // Set up multiple data sources.
             URL url1 = this.getClass().getClassLoader().getResource(
@@ -176,12 +180,14 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
             // Parse files.
             ComponentDefinitions definitions = factory.readDefinitions();
+            TilesContext tilesContext =
+                    new MockOnlyLocaleTilesContext(Locale.US);
             assertFalse("Locale should not be processed.", 
-                    factory.isLocaleProcessed(Locale.US));
+                    factory.isContextProcessed(tilesContext));
             
-            factory.addDefinitions(definitions, Locale.US);
-            assertTrue("Locale should be processed.", 
-                    factory.isLocaleProcessed(Locale.US));
+            factory.addDefinitions(definitions, tilesContext);
+            assertTrue("Locale should be processed.",
+                    factory.isContextProcessed(tilesContext));
             
         } catch (Exception e) {
             fail("Error running test: " + e);

@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentDefinition;
 import org.apache.tiles.ComponentDefinitions;
@@ -32,6 +35,12 @@ import org.apache.tiles.NoSuchDefinitionException;
  * @version $Rev$ $Date$ 
  */
 public class ComponentDefinitionsImpl implements ComponentDefinitions {
+    
+    /**
+     * Commons Logging instance. 
+     */
+    private static Log log = LogFactory.getLog(ComponentDefinitionsImpl.class);
+    
     /**
      * The base set of ComponentDefinition objects not discriminated by locale.
      */
@@ -112,7 +121,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
         Iterator i = baseDefinitions.values().iterator();
         while( i.hasNext() ) {
             ComponentDefinition definition = (ComponentDefinition)i.next();
-            definition.resolveInheritance( this );
+            resolveInheritance( definition );
         }  // end loop
     }
     
@@ -127,7 +136,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
             Iterator i = map.values().iterator();
             while( i.hasNext() ) {
                 ComponentDefinition definition = (ComponentDefinition)i.next();
-                definition.resolveInheritance( this, locale );
+                resolveInheritance( definition, locale );
             }  // end loop
         }
     }
@@ -150,7 +159,6 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     public void resolveAttributeDependencies() {
         Iterator i = this.baseDefinitions.values().iterator();
         
-        // FIXME:  Need to repeat the following for locale-specific defs.
         while (i.hasNext()) {
             ComponentDefinition def = (ComponentDefinition) i.next();
             Map attributes = def.getAttributes();
@@ -250,5 +258,113 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
         }
         
         return retValue;
+    }
+    
+    /**
+     * Resolve inheritance.
+     * First, resolve parent's inheritance, then set path to the parent's path.
+     * Also copy attributes setted in parent, and not set in child
+     * If instance doesn't extend anything, do nothing.
+     * @throws NoSuchDefinitionException If an inheritance can not be solved.
+     */
+    protected void resolveInheritance(ComponentDefinition definition)
+            throws NoSuchDefinitionException {
+        // Already done, or not needed ?
+        if (definition.isIsVisited() || !definition.isExtending())
+            return;
+
+        if (log.isDebugEnabled())
+            log.debug("Resolve definition for child name='"
+                    + definition.getName()
+                    + "' extends='" + definition.getExtends() + "'.");
+
+        // Set as visited to avoid endless recurisvity.
+        definition.setIsVisited(true);
+
+        // Resolve parent before itself.
+        ComponentDefinition parent = getDefinition(definition.getExtends());
+        if (parent == null) { // error
+            String msg = "Error while resolving definition inheritance: child '"
+                    + definition.getName()
+                    + "' can't find its ancestor '"
+                    + definition.getExtends()
+                    + "'. Please check your description file.";
+            log.error(msg);
+            // to do : find better exception
+            throw new NoSuchDefinitionException(msg);
+        }
+
+        resolveInheritance(parent);
+
+        overload(parent, definition);
+    }
+    
+    /**
+     * Resolve locale-specific inheritance.
+     * First, resolve parent's inheritance, then set path to the parent's path.
+     * Also copy attributes setted in parent, and not set in child
+     * If instance doesn't extend anything, do nothing.
+     * @throws NoSuchDefinitionException If an inheritance can not be solved.
+     */
+    protected void resolveInheritance(ComponentDefinition definition,
+            Locale locale) throws NoSuchDefinitionException {
+        // Already done, or not needed ?
+        if (definition.isIsVisited() || !definition.isExtending())
+            return;
+
+        if (log.isDebugEnabled())
+            log.debug("Resolve definition for child name='"
+                    + definition.getName()
+                    + "' extends='" + definition.getExtends() + "'.");
+
+        // Set as visited to avoid endless recurisvity.
+        definition.setIsVisited(true);
+
+        // Resolve parent before itself.
+        ComponentDefinition parent = getDefinition(definition.getExtends(),
+                locale);
+        if (parent == null) { // error
+            String msg = "Error while resolving definition inheritance: child '"
+                    + definition.getName()
+                    + "' can't find its ancestor '"
+                    + definition.getExtends()
+                    + "'. Please check your description file.";
+            log.error(msg);
+            // to do : find better exception
+            throw new NoSuchDefinitionException(msg);
+        }
+
+        resolveInheritance(definition, locale);
+
+        overload(parent, definition);
+    }
+    
+    /**
+     * Overloads a child definition with a given parent.
+     * All attributes present in child are kept. All missing attributes are
+     * copied from the parent.
+     * Special attribute 'path','role' and 'extends' are overloaded in child if
+     * not defined
+     * @param parent The parent definition.
+     * @param child The child that will be overloaded.
+     */
+    protected void overload(ComponentDefinition parent,
+            ComponentDefinition child) {
+        // Iterate on each parent's attribute and add it if not defined in child.
+        Iterator parentAttributes = parent.getAttributes().keySet().iterator();
+        while (parentAttributes.hasNext()) {
+            String name = (String) parentAttributes.next();
+            if (!child.getAttributes().containsKey(name))
+                child.put(name, parent.getAttribute(name));
+        }
+        // Set path and role if not setted
+        if (child.getPath() == null)
+            child.setPath(parent.getPath());
+        if (child.getRole() == null)
+            child.setRole(parent.getRole());
+        if (child.getPreparer() == null) {
+            child.setPreparer(parent.getPreparer());
+            child.setPreparerType(parent.getPreparerType());
+        }
     }
 }
