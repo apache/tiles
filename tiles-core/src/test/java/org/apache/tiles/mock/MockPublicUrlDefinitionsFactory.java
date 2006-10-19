@@ -1,5 +1,5 @@
 /*
- * $Id: MockPublicUrlDefinitionsFactory.java 350273 2005-12-01 16:50:58Z greddin $
+ * $Id$
  *
  * Copyright 1999-2006 The Apache Software Foundation.
  * 
@@ -27,7 +27,7 @@ import org.apache.tiles.definition.UrlDefinitionsFactory;
  * Mock implementation of UrlDefinitionsFactory that exposes two of its methods
  * as public instead of protected.
  * 
- * @version $Rev: 307013 $ $Date: 2005-10-07 06:49:50 +0200 (ven, 07 ott 2005) $
+ * @version $Rev$ $Date$
  */
 public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
 

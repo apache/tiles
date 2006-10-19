@@ -1,5 +1,5 @@
 /*
- * $Id: ComponentDefinitions.java 307013 2005-10-07 04:49:50Z wsmoak $
+ * $Id$
  *
  * Copyright 1999-2006 The Apache Software Foundation.
  * 
@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  * Sample servlet that includes a page specified by the <code>include</code>
  * init parameter.
  * 
- * @version $Rev: 307013 $ $Date: 2005-10-07 06:49:50 +0200 (ven, 07 ott 2005) $ 
+ * @version $Rev$ $Date$ 
  */
 public class IncludingServlet extends HttpServlet {
 

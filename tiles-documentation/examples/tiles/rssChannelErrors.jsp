@@ -3,7 +3,7 @@
  * Summarize channels errors as unadorned HTML.
  *
  * @parameters errors
- * @version $Revision: 1.2 $ $Date$
+ * @version $Revision$ $Date$
  */
 --%>
 <%@ page language="java" %>

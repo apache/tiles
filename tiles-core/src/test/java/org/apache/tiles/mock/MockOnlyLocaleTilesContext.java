@@ -1,5 +1,5 @@
 /*
- * $Id: MockOnlyLocaleTilesContext.java 350273 2005-12-01 16:50:58Z greddin $
+ * $Id$
  *
  * Copyright 1999-2006 The Apache Software Foundation.
  * 
@@ -29,7 +29,7 @@ import org.apache.tiles.TilesContext;
 /**
  * Creates a TilesContext that contains only a Locale
  * 
- * @version $Rev: 350273 $ $Date: 2005-12-01 17:50:58 +0100 (gio, 01 dic 2005) $
+ * @version $Rev$ $Date$
  */
 public class MockOnlyLocaleTilesContext implements TilesContext {
 
