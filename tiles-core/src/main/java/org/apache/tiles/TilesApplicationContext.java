@@ -1,5 +1,5 @@
 /*
- * $Id$ 
+ * $Id$
  *
  * Copyright 1999-2004 The Apache Software Foundation.
  * 
@@ -18,34 +18,32 @@
 
 package org.apache.tiles;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
 
 /**
- * Tiles preparer including a local URL.
+ * Contains hooks to the application execution environment.
+ *
+ * @version $Rev: 397992 $ $Date$
  */
-public class UrlViewPreparer implements ViewPreparer {
-
-    /** 
-     * URL associated with this preparer. 
+public interface TilesApplicationContext {
+    
+    /**
+     * Returns a mutable Map that maps application scope attribute names to 
+     * their values.
      */
-    protected String url = null;
+    public Map getApplicationScope();
 
     /**
-     * Constructor.
-     * @param url URL.
+     * Return an immutable Map that maps context application initialization 
+     * parameters to their values.
      */
-    public UrlViewPreparer(String url) {
-            this.url = url;
-    }
+    public Map getInitParams();
 
     /**
-     * @see org.apache.tiles.ViewPreparer#execute(org.apache.tiles.TilesRequestContext, org.apache.tiles.ComponentContext)
+     * Return a URL for the application resource mapped to the specified path.
      */
-    public void execute(TilesRequestContext tilesContext,
-            ComponentContext componentContext) 
-            throws Exception {
-        
-        tilesContext.include(url);
-    }
+    public URL getResource(String path) throws MalformedURLException;
 
 }

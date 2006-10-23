@@ -24,14 +24,14 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.TilesContext;
+import org.apache.tiles.TilesRequestContext;
 
 /**
- * Creates a TilesContext that contains only a Locale
+ * Creates a TilesApplicationContext that contains only a Locale
  * 
  * @version $Rev$ $Date$
  */
-public class MockOnlyLocaleTilesContext implements TilesContext {
+public class MockOnlyLocaleTilesContext implements TilesRequestContext {
 
     /**
      * The locale object.
@@ -49,7 +49,7 @@ public class MockOnlyLocaleTilesContext implements TilesContext {
     /**
      * Returns the locale specified in the constructor.
      * 
-     * @see org.apache.tiles.TilesContext#getRequestLocale()
+     * @see org.apache.tiles.TilesRequestContext#getRequestLocale()
      */
     public Locale getRequestLocale() {
         return locale;
@@ -58,7 +58,7 @@ public class MockOnlyLocaleTilesContext implements TilesContext {
     // The rest of the implemented methods has a "dummy" behaviour, doing
     // nothing or returning null, because they are not needed at all in tests
     // that use this class.
-    
+
     public void dispatch(String path) throws IOException, Exception {
     }
 

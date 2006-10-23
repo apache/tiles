@@ -68,7 +68,7 @@ public interface DefinitionsFactory {
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
     public ComponentDefinition getDefinition(String name,
-            TilesContext tilesContext) throws DefinitionsFactoryException;
+            TilesRequestContext tilesContext) throws DefinitionsFactoryException;
     
     /**
      * Adds a source where ComponentDefinition objects are stored.

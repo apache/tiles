@@ -19,19 +19,16 @@
 package org.apache.tiles.filter;
 
 import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
+
 import org.apache.tiles.ComponentDefinitions;
 import org.apache.tiles.DefinitionsFactory;
 import org.apache.tiles.ReloadableDefinitionsFactory;
-import org.apache.tiles.TilesContext;
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesUtil;
 import org.apache.tiles.TilesUtilImpl;
 import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.context.BasicTilesContextFactory;
 
 /**
  * Processes Reloadable Tiles Definitions.
@@ -40,17 +37,17 @@ import org.apache.tiles.context.TilesContextFactory;
  */
 
 public class TilesFilter implements Filter {
-    
+
     /**
      * The filter configuration object we are associated with.  If
      * this value is null, this filter instance is not currently
      * configured.
      */
     private FilterConfig filterConfig = null;
-    
+
     public TilesFilter() {
     }
-    
+
     /**
      * Checks whether Tiles Definitions need to be reloaded.
      *
@@ -62,25 +59,26 @@ public class TilesFilter implements Filter {
      * @exception ServletException if a servlet error occurs
      */
     public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
+                         FilterChain chain)
             throws IOException, ServletException {
-        
+
         try {
-            TilesContext tilesContext = TilesContextFactory.getInstance(
-                    filterConfig.getServletContext(), request);
+            ServletContext servletContext = filterConfig.getServletContext();
+            TilesContextFactory contextFactory = new BasicTilesContextFactory();
+            TilesApplicationContext tilesContext = contextFactory.createApplicationContext(servletContext);
             DefinitionsFactory factory = TilesUtil.getDefinitionsFactory(tilesContext);
-            
+
             if (factory instanceof ReloadableDefinitionsFactory) {
                 if (((ReloadableDefinitionsFactory) factory).refreshRequired()) {
                     if (debug) {
                         log("Updating Tiles definitions.");
                     }
-                    
+
                     ComponentDefinitions newDefs = null;
                     synchronized (factory) {
                          newDefs = factory.readDefinitions();
                     }
-                    
+
                     ComponentDefinitions definitions = (ComponentDefinitions)
                             filterConfig.getServletContext().getAttribute(
                             TilesUtilImpl.DEFINITIONS_OBJECT);
@@ -90,54 +88,54 @@ public class TilesFilter implements Filter {
                     }
                 }
             }
-            
+
             chain.doFilter(request, response);
-            
+
         } catch(Exception e) {
             throw new ServletException("Error processing request.", e);
         }
     }
-    
-    
+
+
     /**
      * Return the filter configuration object for this filter.
      */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
     }
-    
-    
+
+
     /**
      * Set the filter configuration object for this filter.
      *
      * @param filterConfig The filter configuration object
      */
     public void setFilterConfig(FilterConfig filterConfig) {
-        
+
         this.filterConfig = filterConfig;
     }
-    
+
     /**
      * Destroy method for this filter
      */
     public void destroy() {
     }
-    
-    
+
+
     /**
      * Init method for this filter
      */
     public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
-        
+
         if (debug) {
             log("TilesFilter:Initializing filter");
         }
     }
-    
+
     public void log(String msg) {
         filterConfig.getServletContext().log(msg);
     }
-    
+
     private static final boolean debug = true;
 }

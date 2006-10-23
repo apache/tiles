@@ -2,13 +2,13 @@
  * $Id$
  *
  * Copyright 1999-2006 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,41 +19,23 @@
 package org.apache.tiles.context.portlet;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import javax.portlet.ActionRequest;
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import org.apache.tiles.TilesContext;
+import org.apache.tiles.TilesRequestContext;
 
 /**
- * Portlet-based TilesContext implementation.
+ * Portlet-based TilesApplicationContext implementation.
  *
- * @version $Rev$ $Date$
+ * @version $Rev: 405486 $ $Date$
  */
-public class PortletTilesContext implements TilesContext {
-    
-   /**
-     * <p>The lazily instantiated <code>Map</code> of application scope
-     * attributes.</p>
-     */
-    private Map applicationScope = null;
-
-
-    /**
-     * <p>The <code>PortletContext</code> for this web application.</p>
-     */
-    protected PortletContext context = null;
+public class PortletTilesRequestContext extends PortletTilesApplicationContext implements TilesRequestContext {
 
 
     /**
@@ -68,27 +50,6 @@ public class PortletTilesContext implements TilesContext {
      * combinations (immutable).</p>
      */
     private Map headerValues = null;
-
-
-    /**
-     * <p>The lazily instantiated <code>Map</code> of context initialization
-     * parameters.</p>
-     */
-    private Map initParam = null;
-
-
-    /**
-     * <p>The lazily instantiated <code>Map</code> of request
-     * parameter name-value.</p>
-     */
-    private Map param = null;
-
-
-    /**
-     * <p>The lazily instantiated <code>Map</code> of request
-     * parameter name-values.</p>
-     */
-    private Map paramValues = null;
 
 
     /**
@@ -116,41 +77,40 @@ public class PortletTilesContext implements TilesContext {
      */
     private Map sessionScope = null;
 
-    
+
     /**
      * <p>Indicates whether the request is an ActionRequest or RenderRequest.
      */
     private boolean isRenderRequest;
+    /**
+     * <p>The lazily instantiated <code>Map</code> of request
+     * parameter name-value.</p>
+     */
+    protected Map param = null;
+    /**
+     * <p>The lazily instantiated <code>Map</code> of request
+     * parameter name-values.</p>
+     */
+    protected Map paramValues = null;
 
-       
-    /** Creates a new instance of PortletTilesContext */
-    public PortletTilesContext(PortletContext context) {
-        initialize(context, null, null);
-    }
 
-    public PortletTilesContext(PortletContext context, PortletRequest request) {
-        initialize(context, request, null);
-    }
-
-    public PortletTilesContext(PortletContext context, PortletRequest request, 
-            PortletResponse response) {
-        initialize(context, request, response);
+    /** Creates a new instance of PortletTilesRequestContext */
+    public PortletTilesRequestContext(PortletContext context, PortletRequest request,
+                                      PortletResponse response) {
+        super(context);
+        initialize(request, response);
     }
 
     /**
-     * <p>Initialize (or reinitialize) this {@link PortletWebContext} instance
+     * <p>Initialize (or reinitialize) this {@link PortletTilesRequestContext} instance
      * for the specified Portlet API objects.</p>
      *
-     * @param context The <code>PortletContext</code> for this web application
      * @param request The <code>PortletRequest</code> for this request
      * @param response The <code>PortletResponse</code> for this request
      */
-    public void initialize(PortletContext context,
-                           PortletRequest request,
+    public void initialize(PortletRequest request,
                            PortletResponse response) {
-
         // Save the specified Portlet API object references
-        this.context = context;
         this.request = request;
         this.response = response;
 
@@ -163,7 +123,7 @@ public class PortletTilesContext implements TilesContext {
         }
 
     }
-    
+
     /**
      * <p>Release references to allocated resources acquired in
      * <code>initialize()</code> of via subsequent processing.  After this
@@ -173,10 +133,8 @@ public class PortletTilesContext implements TilesContext {
     public void release() {
 
         // Release references to allocated collections
-        applicationScope = null;
         header = null;
         headerValues = null;
-        initParam = null;
         param = null;
         paramValues = null;
         requestScope = null;
@@ -186,14 +144,8 @@ public class PortletTilesContext implements TilesContext {
         context = null;
         request = null;
         response = null;
+        super.release();
 
-    }
-    
-    /**
-     * <p>Return the {@link PortletContext} for this context.</p>
-     */
-    public PortletContext getContext() {
-        return (this.context);
     }
 
     /**
@@ -209,14 +161,6 @@ public class PortletTilesContext implements TilesContext {
     public PortletResponse getResponse() {
         return (this.response);
     }
-    
-    public Map getApplicationScope() {
-        if ((applicationScope == null) && (context != null)) {
-            applicationScope = new PortletApplicationScopeMap(context);
-        }
-        return (applicationScope);
-
-    }
 
     public Map getHeader() {
         if ((header == null) && (request != null)) {
@@ -230,14 +174,6 @@ public class PortletTilesContext implements TilesContext {
             headerValues = Collections.EMPTY_MAP;
         }
         return (headerValues);
-    }
-
-    public Map getInitParams() {
-        if ((initParam == null) && (context != null)) {
-            initParam = new PortletInitParamMap(context);
-        }
-        return (initParam);
-
     }
 
     public Map getParam() {
@@ -275,13 +211,9 @@ public class PortletTilesContext implements TilesContext {
 
     public void include(String path) throws IOException, Exception {
         if (isRenderRequest) {
-            context.getRequestDispatcher(path).include((RenderRequest) request, 
+            context.getRequestDispatcher(path).include((RenderRequest) request,
                     (RenderResponse) response);
         }
-    }
-
-    public URL getResource(String path) throws MalformedURLException {
-        return context.getResource(path);
     }
 
     public Locale getRequestLocale() {
@@ -291,5 +223,5 @@ public class PortletTilesContext implements TilesContext {
             return null;
         }
     }
-    
+
 }

@@ -87,7 +87,7 @@ public class TilesUtil {
      */
     public static void doForward(
         String uri,
-        TilesContext tilesContext)
+        TilesRequestContext tilesContext)
         throws IOException, Exception {
             
         tilesUtilImpl.doForward(uri, tilesContext);
@@ -103,7 +103,7 @@ public class TilesUtil {
      */
     public static void doInclude(
         String uri,
-        TilesContext tilesContext)
+        TilesRequestContext tilesContext)
         throws IOException, Exception {
             
         tilesUtilImpl.doInclude(uri, tilesContext);
@@ -141,7 +141,7 @@ public class TilesUtil {
      * @return Definitions factory or <code>null</code> if not found.
      */
     public static DefinitionsFactory getDefinitionsFactory(
-        TilesContext tilesContext) {
+        TilesApplicationContext tilesContext) {
         return tilesUtilImpl.getDefinitionsFactory(tilesContext);
     }
 
@@ -159,7 +159,7 @@ public class TilesUtil {
      * @throws DefinitionsFactoryException If an error occur while initializing factory
      */
     public static DefinitionsFactory createDefinitionsFactory(
-        TilesContext tilesContext,
+        TilesApplicationContext tilesContext,
         DefinitionsFactoryConfig factoryConfig)
         throws DefinitionsFactoryException {
         return tilesUtilImpl.createDefinitionsFactory(tilesContext, factoryConfig);
@@ -177,9 +177,8 @@ public class TilesUtil {
      */
     public static ComponentDefinition getDefinition(
         String definitionName,
-        TilesContext tilesContext)
+        TilesRequestContext tilesContext)
         throws FactoryNotFoundException, DefinitionsFactoryException {
-            
         return tilesUtilImpl.getDefinition(definitionName, tilesContext);
     }
 

@@ -30,14 +30,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.tiles.util.RequestUtils;
-import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.ComponentDefinitions;
-import org.apache.tiles.DefinitionsFactory;
-import org.apache.tiles.DefinitionsFactoryException;
-import org.apache.tiles.DefinitionsReader;
-import org.apache.tiles.ReloadableDefinitionsFactory;
-import org.apache.tiles.TilesContext;
-import org.apache.tiles.TilesUtilImpl;
+import org.apache.tiles.*;
 import org.apache.tiles.digester.DigesterDefinitionsReader;
 
 /**
@@ -139,7 +132,7 @@ public class UrlDefinitionsFactory
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
     public ComponentDefinition getDefinition(String name,
-            TilesContext tilesContext) throws DefinitionsFactoryException {
+            TilesRequestContext tilesContext) throws DefinitionsFactoryException {
         ComponentDefinitions definitions = (ComponentDefinitions) 
                 tilesContext.getApplicationScope().get(
                         TilesUtilImpl.DEFINITIONS_OBJECT);
@@ -201,7 +194,7 @@ public class UrlDefinitionsFactory
      * @param tilesContext The requested locale.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
-    protected void addDefinitions(ComponentDefinitions definitions, TilesContext tilesContext) 
+    protected void addDefinitions(ComponentDefinitions definitions, TilesRequestContext tilesContext)
             throws DefinitionsFactoryException {
         
         Locale locale = tilesContext.getRequestLocale();
@@ -277,7 +270,7 @@ public class UrlDefinitionsFactory
      * @param tilesContext The Tiles context to check.
      * @return true if the given lcoale has been processed and false otherwise.
      */
-    protected boolean isContextProcessed(TilesContext tilesContext) {
+    protected boolean isContextProcessed(TilesRequestContext tilesContext) {
 	if (processedLocales.contains(tilesContext.getRequestLocale())) {
 	    return true;
 	} else {

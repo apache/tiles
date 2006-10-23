@@ -32,7 +32,7 @@ public interface ViewPreparer {
      * @param componentContext Current tile context.
      */
     public void execute(
-            TilesContext tilesContext, 
+            TilesRequestContext tilesContext, 
             ComponentContext componentContext)
             throws Exception;
 }

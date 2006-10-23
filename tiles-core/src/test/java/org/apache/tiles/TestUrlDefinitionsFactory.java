@@ -180,7 +180,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
             // Parse files.
             ComponentDefinitions definitions = factory.readDefinitions();
-            TilesContext tilesContext =
+            TilesRequestContext tilesContext =
                     new MockOnlyLocaleTilesContext(Locale.US);
             assertFalse("Locale should not be processed.", 
                     factory.isContextProcessed(tilesContext));

@@ -30,15 +30,8 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.TilesContext;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.taglib.util.TagUtils;
-import org.apache.tiles.ComponentContext;
-import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.ViewPreparer;
-import org.apache.tiles.NoSuchDefinitionException;
-import org.apache.tiles.TilesUtil;
+import org.apache.tiles.*;
 
 /**
  * This is the tag handler for &lt;tiles:insert&gt;, which includes
@@ -48,341 +41,341 @@ import org.apache.tiles.TilesUtil;
  * @version $Rev$ $Date$
  */
 public class InsertTag
-	extends DefinitionTagSupport
-	implements PutTagParent, ComponentConstants, PutListTagParent {
+    extends DefinitionTagSupport
+    implements PutTagParent, ComponentConstants, PutListTagParent {
 
-	/** 
-	 * The role delimiter. 
-	 * @deprecated This will be removed in a release after Struts 1.2.
-	 */
-	public static final String ROLE_DELIMITER = ",";
+    /**
+     * The role delimiter.
+     * @deprecated This will be removed in a release after Struts 1.2.
+     */
+    public static final String ROLE_DELIMITER = ",";
 
-	/** 
-	 * Commons Logging instance. 
-	 */
-	protected static Log log = LogFactory.getLog(InsertTag.class);
+    /**
+     * Commons Logging instance.
+     */
+    protected static Log log = LogFactory.getLog(InsertTag.class);
 
-	/* JSP Tag attributes */
+    /* JSP Tag attributes */
 
-	/** 
-	 * Flush attribute value. 
-	 */
-	protected boolean flush = true;
+    /**
+     * Flush attribute value.
+     */
+    protected boolean flush = true;
 
-	/** 
-	 * Name to insert. 
-	 */
-	protected String name = null;
+    /**
+     * Name to insert.
+     */
+    protected String name = null;
 
-	/**
-	 * Are errors ignored. This is the property for attribute 'ignore'.
-	 * Default value is false, which throw an exception.
-	 * Only 'attribute not found' errors are ignored.
-	 */
-	protected boolean isErrorIgnored = false;
+    /**
+     * Are errors ignored. This is the property for attribute 'ignore'.
+     * Default value is false, which throw an exception.
+     * Only 'attribute not found' errors are ignored.
+     */
+    protected boolean isErrorIgnored = false;
 
         /**
-         * Optional attribute to explicitly specify whether the thing being 
+         * Optional attribute to explicitly specify whether the thing being
          * inserted is a(n) definition, attribute, or template.
          */
         private String type = null;
-        
-	/* Internal properties */
-	/**
-	 * Does the end tag need to be processed.
-	 * Default value is true. Boolean set in case of ignored errors.
-	 */
-	protected boolean processEndTag = true;
 
-	/** 
-	 * Current component context. 
-	 */
-	protected ComponentContext cachedCurrentContext;
+    /* Internal properties */
+    /**
+     * Does the end tag need to be processed.
+     * Default value is true. Boolean set in case of ignored errors.
+     */
+    protected boolean processEndTag = true;
 
-	/** 
-	 * Final handler of tag methods. 
-	 */
-	protected TagHandler tagHandler = null;
+    /**
+     * Current component context.
+     */
+    protected ComponentContext cachedCurrentContext;
 
-	/** 
-	 * Trick to allows inner classes to access pageContext. 
-	 */
-	protected PageContext pageContext = null;
+    /**
+     * Final handler of tag methods.
+     */
+    protected TagHandler tagHandler = null;
 
-	/**
-	 * Reset member values for reuse. This method calls super.release(),
-	 * which invokes TagSupport.release(), which typically does nothing.
-	 */
-	public void release() {
+    /**
+     * Trick to allows inner classes to access pageContext.
+     */
+    protected PageContext pageContext = null;
 
-		super.release();
+    /**
+     * Reset member values for reuse. This method calls super.release(),
+     * which invokes TagSupport.release(), which typically does nothing.
+     */
+    public void release() {
 
-		flush = true;
-		name = null;
-		template = null;
-		role = null;
-		isErrorIgnored = false;
+        super.release();
+
+        flush = true;
+        name = null;
+        template = null;
+        role = null;
+        isErrorIgnored = false;
                 type = null;
 
-		releaseInternal();
-	}
+        releaseInternal();
+    }
 
-	/**
-	 * Reset internal member values for reuse.
-	 */
-	protected void releaseInternal() {
-		cachedCurrentContext = null;
-		processEndTag = true;
-		// pageContext = null;  // orion doesn't set it between two tags
-		tagHandler = null;
-	}
+    /**
+     * Reset internal member values for reuse.
+     */
+    protected void releaseInternal() {
+        cachedCurrentContext = null;
+        processEndTag = true;
+        // pageContext = null;  // orion doesn't set it between two tags
+        tagHandler = null;
+    }
 
-	/**
-	 * Set the current page context.
-	 * Called by the page implementation prior to doStartTag().
-	 * <p>
-	 * Needed to allow inner classes to access pageContext.
-	 */
-	public void setPageContext(PageContext pc) {
-		this.pageContext = pc;
-		super.setPageContext(pc);
-	}
+    /**
+     * Set the current page context.
+     * Called by the page implementation prior to doStartTag().
+     * <p>
+     * Needed to allow inner classes to access pageContext.
+     */
+    public void setPageContext(PageContext pc) {
+        this.pageContext = pc;
+        super.setPageContext(pc);
+    }
 
-	/**
-	 * Get the pageContext property.
-	 */
-	public PageContext getPageContext() {
-		return pageContext;
-	}
+    /**
+     * Get the pageContext property.
+     */
+    public PageContext getPageContext() {
+        return pageContext;
+    }
 
-	/**
-	 * Set name.
-	 */
-	public void setName(String value) {
-		this.name = value;
-	}
+    /**
+     * Set name.
+     */
+    public void setName(String value) {
+        this.name = value;
+    }
 
-	/**
-	 * Get name.
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Get name.
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Set flush.
-	 */
-	public void setFlush(boolean flush) {
-		this.flush = flush;
-	}
+    /**
+     * Set flush.
+     */
+    public void setFlush(boolean flush) {
+        this.flush = flush;
+    }
 
-	/**
-	 * Get flush.
-	 */
-	public boolean getFlush() {
-		return flush;
-	}
+    /**
+     * Get flush.
+     */
+    public boolean getFlush() {
+        return flush;
+    }
 
-	/**
-	 * Set flush.
-	 * Method added for compatibility with JSP1.1
-	 */
-	public void setFlush(String flush) {
-		this.flush = (Boolean.valueOf(flush).booleanValue());
-	}
+    /**
+     * Set flush.
+     * Method added for compatibility with JSP1.1
+     */
+    public void setFlush(String flush) {
+        this.flush = (Boolean.valueOf(flush).booleanValue());
+    }
 
-	/**
-	 * Set ignore.
-	 */
-	public void setIgnore(boolean ignore) {
-		this.isErrorIgnored = ignore;
-	}
+    /**
+     * Set ignore.
+     */
+    public void setIgnore(boolean ignore) {
+        this.isErrorIgnored = ignore;
+    }
 
-	/**
-	 * Get ignore.
-	 */
-	public boolean getIgnore() {
-		return isErrorIgnored;
-	}
+    /**
+     * Get ignore.
+     */
+    public boolean getIgnore() {
+        return isErrorIgnored;
+    }
 
-	/////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Add a body attribute.
-	 * Erase any attribute with same name previously set.
-	 */
-	public void putAttribute(String name, Object value) {
-		tagHandler.putAttribute(name, value);
-	}
+    /**
+     * Add a body attribute.
+     * Erase any attribute with same name previously set.
+     */
+    public void putAttribute(String name, Object value) {
+        tagHandler.putAttribute(name, value);
+    }
 
-	/**
-	 * Process nested &lg;put&gt; tag.
-	 * Method calls by nested &lg;put&gt; tags.
-	 * Nested list is added to current list.
-	 * If role is defined, it is checked immediately.
-	 */
-	public void processNestedTag(PutTag nestedTag) throws JspException {
-		// Check role
-		HttpServletRequest request =
-			(HttpServletRequest) pageContext.getRequest();
-		String role = nestedTag.getRole();
-		if (role != null && !request.isUserInRole(role)) {
-			// not allowed : skip attribute
-			return;
-		}
+    /**
+     * Process nested &lg;put&gt; tag.
+     * Method calls by nested &lg;put&gt; tags.
+     * Nested list is added to current list.
+     * If role is defined, it is checked immediately.
+     */
+    public void processNestedTag(PutTag nestedTag) throws JspException {
+        // Check role
+        HttpServletRequest request =
+            (HttpServletRequest) pageContext.getRequest();
+        String role = nestedTag.getRole();
+        if (role != null && !request.isUserInRole(role)) {
+            // not allowed : skip attribute
+            return;
+        }
 
         putAttribute(nestedTag.getName(), new ComponentAttribute(
                 nestedTag.getRealValue(), nestedTag.getRole(),
                 nestedTag.getType()));
-	}
+    }
 
-	/**
-	 * Process nested &lg;putList&gt; tag.
-	 * Method calls by nested &lg;putList&gt; tags.
-	 * Nested list is added to sub-component attributes
-	 * If role is defined, it is checked immediately.
-	 */
-	public void processNestedTag(PutListTag nestedTag) throws JspException {
-		// Check role
-		HttpServletRequest request =
-			(HttpServletRequest) pageContext.getRequest();
-		String role = nestedTag.getRole();
-		if (role != null && !request.isUserInRole(role)) {
-			// not allowed : skip attribute
-			return;
-		}
+    /**
+     * Process nested &lg;putList&gt; tag.
+     * Method calls by nested &lg;putList&gt; tags.
+     * Nested list is added to sub-component attributes
+     * If role is defined, it is checked immediately.
+     */
+    public void processNestedTag(PutListTag nestedTag) throws JspException {
+        // Check role
+        HttpServletRequest request =
+            (HttpServletRequest) pageContext.getRequest();
+        String role = nestedTag.getRole();
+        if (role != null && !request.isUserInRole(role)) {
+            // not allowed : skip attribute
+            return;
+        }
 
-		// Check if a name is defined
-		if (nestedTag.getName() == null) {
-			throw new JspException("Error - PutList : attribute name is not defined. It is mandatory as the list is added as attribute of 'insert'.");
-		}
+        // Check if a name is defined
+        if (nestedTag.getName() == null) {
+            throw new JspException("Error - PutList : attribute name is not defined. It is mandatory as the list is added as attribute of 'insert'.");
+        }
 
-		// now add attribute to enclosing parent (i.e. : this object).
-		putAttribute(nestedTag.getName(), nestedTag.getList());
-	}
+        // now add attribute to enclosing parent (i.e. : this object).
+        putAttribute(nestedTag.getName(), nestedTag.getList());
+    }
 
-	/**
-	 * Method calls by nested &lg;putList&gt; tags.
-	 * A new list is added to current insert object.
-	 */
-	public void putAttribute(PutListTag nestedTag) throws JspException {
-		// Check role
-		HttpServletRequest request =
-			(HttpServletRequest) pageContext.getRequest();
-		String role = nestedTag.getRole();
-		if (role != null && !request.isUserInRole(role)) {
-			// not allowed : skip attribute
-			return;
-		}
+    /**
+     * Method calls by nested &lg;putList&gt; tags.
+     * A new list is added to current insert object.
+     */
+    public void putAttribute(PutListTag nestedTag) throws JspException {
+        // Check role
+        HttpServletRequest request =
+            (HttpServletRequest) pageContext.getRequest();
+        String role = nestedTag.getRole();
+        if (role != null && !request.isUserInRole(role)) {
+            // not allowed : skip attribute
+            return;
+        }
 
-		putAttribute(nestedTag.getName(), nestedTag.getList());
-	}
+        putAttribute(nestedTag.getName(), nestedTag.getList());
+    }
 
-	/**
-	 * Get current component context.
-	 */
-	private ComponentContext getCurrentContext() {
-		if (cachedCurrentContext == null) {
-			cachedCurrentContext =
-				(ComponentContext) pageContext.getAttribute(
-					ComponentConstants.COMPONENT_CONTEXT,
-					PageContext.REQUEST_SCOPE);
-		}
+    /**
+     * Get current component context.
+     */
+    private ComponentContext getCurrentContext() {
+        if (cachedCurrentContext == null) {
+            cachedCurrentContext =
+                (ComponentContext) pageContext.getAttribute(
+                    ComponentConstants.COMPONENT_CONTEXT,
+                    PageContext.REQUEST_SCOPE);
+        }
 
-		return cachedCurrentContext;
-	}
+        return cachedCurrentContext;
+    }
 
-	/**
-	 * Get instantiated ViewPreparer.
-	 * Return preparer denoted by preparerType, or <code>null</code> if preparerType
-	 * is null.
-	 * @throws JspException If preparer can't be created.
-	 */
-	private ViewPreparer getPreparer() throws JspException {
-		if (preparerType == null) {
-			return null;
-		}
+    /**
+     * Get instantiated ViewPreparer.
+     * Return preparer denoted by preparerType, or <code>null</code> if preparerType
+     * is null.
+     * @throws JspException If preparer can't be created.
+     */
+    private ViewPreparer getPreparer() throws JspException {
+        if (preparerType == null) {
+            return null;
+        }
 
-		try {
-			return ComponentDefinition.createPreparer(
-				preparerName,
-				preparerType);
+        try {
+            return ComponentDefinition.createPreparer(
+                preparerName,
+                preparerType);
 
-		} catch (InstantiationException ex) {
-			throw new JspException(ex);
-		}
-	}
+        } catch (InstantiationException ex) {
+            throw new JspException(ex);
+        }
+    }
 
-	/**
-	 * Process the start tag by checking tag's attributes and creating appropriate handler.
-	 * Possible handlers :
-	 * <ul>
-	 * <li> URL
-	 * <li> definition
-	 * <li> direct String
-	 * </ul>
-	 * Handlers also contain sub-component context.
-	 */
-	public int doStartTag() throws JspException {
+    /**
+     * Process the start tag by checking tag's attributes and creating appropriate handler.
+     * Possible handlers :
+     * <ul>
+     * <li> URL
+     * <li> definition
+     * <li> direct String
+     * </ul>
+     * Handlers also contain sub-component context.
+     */
+    public int doStartTag() throws JspException {
 
             // Additional fix for Bug 20034 (2005-04-28)
             cachedCurrentContext = null;
 
-		// Check role immediatly to avoid useless stuff.
-		// In case of insertion of a "definition", definition's role still checked later.
-		// This lead to a double check of "role" ;-(
-		HttpServletRequest request =
-			(HttpServletRequest) pageContext.getRequest();
-		if (role != null && !request.isUserInRole(role)) {
-			processEndTag = false;
-			return SKIP_BODY;
-		}
+        // Check role immediatly to avoid useless stuff.
+        // In case of insertion of a "definition", definition's role still checked later.
+        // This lead to a double check of "role" ;-(
+        HttpServletRequest request =
+            (HttpServletRequest) pageContext.getRequest();
+        if (role != null && !request.isUserInRole(role)) {
+            processEndTag = false;
+            return SKIP_BODY;
+        }
 
-		try {
-			tagHandler = createTagHandler();
+        try {
+            tagHandler = createTagHandler();
 
-		} catch (JspException e) {
-			if (isErrorIgnored) {
-				processEndTag = false;
-				return SKIP_BODY;
-			} else {
-				throw e;
-			}
-		}
+        } catch (JspException e) {
+            if (isErrorIgnored) {
+                processEndTag = false;
+                return SKIP_BODY;
+            } else {
+                throw e;
+            }
+        }
 
-		return tagHandler.doStartTag();
-	}
+        return tagHandler.doStartTag();
+    }
 
-	/**
-	 * Process the end tag by including the template.
-	 * Simply call the handler doEndTag
-	 */
-	public int doEndTag() throws JspException {
-		if (!processEndTag) {
-			releaseInternal();
-			return EVAL_PAGE;
-		}
+    /**
+     * Process the end tag by including the template.
+     * Simply call the handler doEndTag
+     */
+    public int doEndTag() throws JspException {
+        if (!processEndTag) {
+            releaseInternal();
+            return EVAL_PAGE;
+        }
 
-		int res = tagHandler.doEndTag();
-		// Reset properties used by object, in order to be able to reuse object.
-		releaseInternal();
-		return res;
-	}
+        int res = tagHandler.doEndTag();
+        // Reset properties used by object, in order to be able to reuse object.
+        releaseInternal();
+        return res;
+    }
 
-	/**
-	 * Process tag attribute and create corresponding tag handler.
+    /**
+     * Process tag attribute and create corresponding tag handler.
          *
          * Supported types include <code>string</code>, <code>definition</code>,
-         * <code>atribute</code>, and <code>template</code>  If type is string, 
-         * the attribute value passed in will be printed directly to the PrintWriter.  If 
+         * <code>atribute</code>, and <code>template</code>  If type is string,
+         * the attribute value passed in will be printed directly to the PrintWriter.  If
          * type is definition the value will be processed as a Tiles definition.
-         * If type is attribute, the value will be processed as an attribute of 
-         * the current definition.  If type is template, the value will be a 
+         * If type is attribute, the value will be processed as an attribute of
+         * the current definition.  If type is template, the value will be a
          * JSP include.
          *
-	 */
-	public TagHandler createTagHandler() throws JspException {
-            
+     */
+    public TagHandler createTagHandler() throws JspException {
+
             if (type != null && type.length() > 0) {
                 // Type is specified.  Process accordingly.
                 if (type.equalsIgnoreCase("string")) {
@@ -398,70 +391,72 @@ public class InsertTag
                 }
             } else {
                 // Type is not specified.  Try to determine.
-		if (name != null) {
-			return processName(name);
-		} else if (template != null) {
-			return processUrl(template);
-		} else {
-			throw new JspException("Error - Tag Insert : At least one of the following attribute must be defined : template|name. Check tag syntax");
-		}
+        if (name != null) {
+            return processName(name);
+        } else if (template != null) {
+            return processUrl(template);
+        } else {
+            throw new JspException("Error - Tag Insert : At least one of the following attribute must be defined : template|name. Check tag syntax");
+        }
             }
-	}
+    }
 
-	/**
-	 * Process name.
-	 * Search in following order :
-	 * <ul>
-	 * <li>Component context -  if found, process it as value.</li>
-	 * <li>definitions factory</li>
-	 * <li>URL</li>
-	 * <li></li>
-	 * </ul>
-	 *
-	 * @return appropriate tag handler.
-	 * @throws JspException - Throws by underlying nested call to 
-	 * processDefinitionName()
-	 */
-	public TagHandler processName(String name) throws JspException {
+    /**
+     * Process name.
+     * Search in following order :
+     * <ul>
+     * <li>Component context -  if found, process it as value.</li>
+     * <li>definitions factory</li>
+     * <li>URL</li>
+     * <li></li>
+     * </ul>
+     *
+     * @return appropriate tag handler.
+     * @throws JspException - Throws by underlying nested call to
+     * processDefinitionName()
+     */
+    public TagHandler processName(String name) throws JspException {
         Object attrValue = null;
         ComponentContext context = getCurrentContext();
-        
+
         if (context != null) {
             attrValue = context.getAttribute(name);
         }
 
-		if (attrValue != null && attrValue instanceof ComponentAttribute) {
+        if (attrValue != null && attrValue instanceof ComponentAttribute) {
                     return processTypedAttribute((ComponentAttribute) attrValue);
-		} else {
+        } else {
                     return processDefinitionName(name);
                 }
-	}
+    }
 
-	/**
-	 * Process the url.
-	 * @throws JspException If failed to create preparer
-	 */
-	public TagHandler processUrl(String url) throws JspException {
-		return new InsertHandler(url, role, getPreparer());
-	}
+    /**
+     * Process the url.
+     * @throws JspException If failed to create preparer
+     */
+    public TagHandler processUrl(String url) throws JspException {
+        return new InsertHandler(url, role, getPreparer());
+    }
 
-	/**
-	 * Process tag attribute "definition".
-	 * First, search definition in the factory, then create handler from this definition.
-	 * @param name Name of the definition.
-	 * @return Appropriate TagHandler.
-	 * @throws JspException- NoSuchDefinitionException No Definition  found for name.
-	 * @throws JspException- FactoryNotFoundException Can't find Definitions factory.
-	 * @throws JspException- DefinedComponentFactoryException General error in factory.
-	 * @throws JspException InstantiationException Can't create requested preparer
-	 */
-	protected TagHandler processDefinitionName(String name)
-		throws JspException {
+    /**
+     * Process tag attribute "definition".
+     * First, search definition in the factory, then create handler from this definition.
+     * @param name Name of the definition.
+     * @return Appropriate TagHandler.
+     * @throws JspException- NoSuchDefinitionException No Definition  found for name.
+     * @throws JspException- FactoryNotFoundException Can't find Definitions factory.
+     * @throws JspException- DefinedComponentFactoryException General error in factory.
+     * @throws JspException InstantiationException Can't create requested preparer
+     */
+    protected TagHandler processDefinitionName(String name)
+        throws JspException {
 
             try {
-              TilesContext tilesContext = TilesContextFactory.getInstance(
-                      pageContext.getServletContext(),
-                      pageContext.getRequest(), pageContext.getResponse());
+                TilesRequestContext tilesContext =
+                    TagUtils.getTilesRequestContext(
+                        pageContext.getServletContext(),
+                        pageContext.getRequest(),
+                        pageContext.getResponse());
                 ComponentDefinition definition = null;
                 definition = TagUtils.getComponentDefinition(name, pageContext,
                         tilesContext);
@@ -483,67 +478,67 @@ public class InsertTag
                     PageContext.REQUEST_SCOPE);
                 throw new JspException(ex);
             }
-	}
+    }
 
-	/**
-	 * End of Process tag attribute "definition".
-	 * Overload definition with tag attributes "template" and "role".
-	 * Then, create appropriate tag handler.
-	 * @param definition Definition to process.
-	 * @return Appropriate TagHandler.
-	 * @throws JspException InstantiationException Can't create requested preparer
-	 */
-	protected TagHandler processDefinition(ComponentDefinition definition)
-		throws JspException {
-		// Declare local variable in order to not change Tag attribute values.
-		String role = this.role;
-		String page = this.template;
-		ViewPreparer preparer = null;
+    /**
+     * End of Process tag attribute "definition".
+     * Overload definition with tag attributes "template" and "role".
+     * Then, create appropriate tag handler.
+     * @param definition Definition to process.
+     * @return Appropriate TagHandler.
+     * @throws JspException InstantiationException Can't create requested preparer
+     */
+    protected TagHandler processDefinition(ComponentDefinition definition)
+        throws JspException {
+        // Declare local variable in order to not change Tag attribute values.
+        String role = this.role;
+        String page = this.template;
+        ViewPreparer preparer = null;
 
-		try {
-			preparer = definition.getOrCreatePreparer();
+        try {
+            preparer = definition.getOrCreatePreparer();
 
-			// Overload definition with tag's template and role.
-			if (role == null) {
-				role = definition.getRole();
-			}
+            // Overload definition with tag's template and role.
+            if (role == null) {
+                role = definition.getRole();
+            }
 
-			if (page == null) {
-				page = definition.getTemplate();
-			}
+            if (page == null) {
+                page = definition.getTemplate();
+            }
 
-			if (preparerName != null) {
-				preparer =
-					ComponentDefinition.createPreparer(
-						preparerName,
-						preparerType);
-			}
+            if (preparerName != null) {
+                preparer =
+                    ComponentDefinition.createPreparer(
+                        preparerName,
+                        preparerType);
+            }
 
-			// Can check if page is set
-			return new InsertHandler(
-				definition.getAttributes(),
-				page,
-				role,
-				preparer);
+            // Can check if page is set
+            return new InsertHandler(
+                definition.getAttributes(),
+                page,
+                role,
+                preparer);
 
-		} catch (InstantiationException ex) {
-			throw new JspException(ex);
-		}
-	}
+        } catch (InstantiationException ex) {
+            throw new JspException(ex);
+        }
+    }
 
-	/**
-	 * Process tag attribute "attribute".
-	 * Get value from component attribute.
-	 * Found value is process by processObjectValue().
-	 * @param name Name of the attribute.
-	 * @return Appropriate TagHandler.
-	 * @throws JspException - NoSuchDefinitionException No Definition  found for name.
-	 * @throws JspException - Throws by underlying nested call to processDefinitionName()
-	 */
-	public TagHandler processAttribute(String name) throws JspException {
+    /**
+     * Process tag attribute "attribute".
+     * Get value from component attribute.
+     * Found value is process by processObjectValue().
+     * @param name Name of the attribute.
+     * @return Appropriate TagHandler.
+     * @throws JspException - NoSuchDefinitionException No Definition  found for name.
+     * @throws JspException - Throws by underlying nested call to processDefinitionName()
+     */
+    public TagHandler processAttribute(String name) throws JspException {
             Object attrValue = null;
             ComponentContext context = getCurrentContext();
-            
+
             if (context != null) {
                 attrValue = context.getAttribute(name);
             }
@@ -558,58 +553,58 @@ public class InsertTag
             } else {
                 throw new JspException("Invalid attribute type: " + attrValue.getClass().getName());
             }
-	}
+    }
 
-	/**
-	 * Process typed attribute explicitly according to its type.
+    /**
+     * Process typed attribute explicitly according to its type.
          *
-	 * @param value Typed attribute to process.
-	 * @return appropriate TagHandler.
-	 * @throws JspException - Throws by underlying nested call to processDefinitionName()
-	 */
-	public TagHandler processTypedAttribute(ComponentAttribute value)
-		throws JspException {
-            
+     * @param value Typed attribute to process.
+     * @return appropriate TagHandler.
+     * @throws JspException - Throws by underlying nested call to processDefinitionName()
+     */
+    public TagHandler processTypedAttribute(ComponentAttribute value)
+        throws JspException {
+
             if (value == null) {
                 // FIXME.
                 return null;
-            } 
-            
+            }
+
             // FIXME Currently this call executes with every attribute, even
             // those that do not need to be preprocessed, like attributes from
             // Tiles definitions files. Fix it to improve performances.
             preprocessAttribute(value);
             String type = value.getType();
-            
+
             if (type == null) {
                 throw new JspException("Unrecognized type for attribute value "
                 + value.getValue());
             }
-            
+
             if (type.equalsIgnoreCase("string")) {
-		return new DirectStringHandler((String) value.getValue());
+        return new DirectStringHandler((String) value.getValue());
             } else if (type.equalsIgnoreCase("definition")) {
-		return processDefinition((ComponentDefinition) value.getValue());
+        return processDefinition((ComponentDefinition) value.getValue());
             } else {
                 return new InsertHandler((String) value.getValue(),
-			role, getPreparer());
+            role, getPreparer());
             }
-	}
+    }
 
-	/**
-	 * Do an include of specified page.
-	 * This method is used internally to do all includes from this class. It delegates
-	 * the include call to the TilesUtil.doInclude().
-	 * @param page The page that will be included
+    /**
+     * Do an include of specified page.
+     * This method is used internally to do all includes from this class. It delegates
+     * the include call to the TilesUtil.doInclude().
+     * @param page The page that will be included
      * @param flush If the writer should be flushed before the include
-	 * @throws ServletException - Thrown by call to pageContext.include()
-	 * @throws IOException - Thrown by call to pageContext.include()
-	 */
-	protected void doInclude(String page, boolean flush)
-		throws Exception, IOException {
-		TilesUtil.doInclude(page, pageContext, flush);
-	}
-    
+     * @throws ServletException - Thrown by call to pageContext.include()
+     * @throws IOException - Thrown by call to pageContext.include()
+     */
+    protected void doInclude(String page, boolean flush)
+        throws Exception, IOException {
+        TilesUtil.doInclude(page, pageContext, flush);
+    }
+
     /**
      * Preprocess an attribute before using it. It guesses the type of the
      * attribute if it is missing, and gets the right definition if a definition
@@ -661,96 +656,96 @@ public class InsertTag
         }
     }
 
-	/////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Inner Interface.
-	 * Sub handler for tag.
-	 */
-	protected interface TagHandler {
-		/**
-		 * Create ComponentContext for type depicted by implementation class.
-		 */
-		public int doStartTag() throws JspException;
-		/**
-		 * Do include for type depicted by implementation class.
-		 */
-		public int doEndTag() throws JspException;
-		/**
-		 * Add a component parameter (attribute) to subContext.
-		 */
-		public void putAttribute(String name, Object value);
-	} // end inner interface
+    /**
+     * Inner Interface.
+     * Sub handler for tag.
+     */
+    protected interface TagHandler {
+        /**
+         * Create ComponentContext for type depicted by implementation class.
+         */
+        public int doStartTag() throws JspException;
+        /**
+         * Do include for type depicted by implementation class.
+         */
+        public int doEndTag() throws JspException;
+        /**
+         * Add a component parameter (attribute) to subContext.
+         */
+        public void putAttribute(String name, Object value);
+    } // end inner interface
 
-	/////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Real handler, after attribute resolution.
-	 * Handle include sub-component.
-	 */
-	protected class InsertHandler implements TagHandler {
-		protected String page;
-		protected ComponentContext currentContext;
-		protected ComponentContext subCompContext;
-		protected String role;
-		protected ViewPreparer preparer;
+    /**
+     * Real handler, after attribute resolution.
+     * Handle include sub-component.
+     */
+    protected class InsertHandler implements TagHandler {
+        protected String page;
+        protected ComponentContext currentContext;
+        protected ComponentContext subCompContext;
+        protected String role;
+        protected ViewPreparer preparer;
 
-		/**
-		 * Constructor.
-		 * Create insert handler using Component definition.
-		 */
-		public InsertHandler(
-			Map attributes,
-			String page,
-			String role,
-			ViewPreparer preparer) {
+        /**
+         * Constructor.
+         * Create insert handler using Component definition.
+         */
+        public InsertHandler(
+            Map attributes,
+            String page,
+            String role,
+            ViewPreparer preparer) {
 
-			this.page = page;
-			this.role = role;
-			this.preparer = preparer;
-			subCompContext = new ComponentContext(attributes);
-		}
+            this.page = page;
+            this.role = role;
+            this.preparer = preparer;
+            subCompContext = new ComponentContext(attributes);
+        }
 
-		/**
-		 * Constructor.
-		 * Create insert handler to insert page at specified location.
-		 */
-		public InsertHandler(String page, String role, ViewPreparer preparer) {
-			this.page = page;
-			this.role = role;
-			this.preparer = preparer;
-			subCompContext = new ComponentContext();
-		}
+        /**
+         * Constructor.
+         * Create insert handler to insert page at specified location.
+         */
+        public InsertHandler(String page, String role, ViewPreparer preparer) {
+            this.page = page;
+            this.role = role;
+            this.preparer = preparer;
+            subCompContext = new ComponentContext();
+        }
 
-		/**
-		 * Create a new empty context.
-		 */
-		public int doStartTag() throws JspException {
-			// Check role
-			HttpServletRequest request =
-				(HttpServletRequest) pageContext.getRequest();
+        /**
+         * Create a new empty context.
+         */
+        public int doStartTag() throws JspException {
+            // Check role
+            HttpServletRequest request =
+                (HttpServletRequest) pageContext.getRequest();
 
-			if (role != null && !request.isUserInRole(role)) {
-				return SKIP_BODY;
-			}
+            if (role != null && !request.isUserInRole(role)) {
+                return SKIP_BODY;
+            }
 
-			// save current context
-			this.currentContext = getCurrentContext();
-			return EVAL_BODY_INCLUDE;
-		}
+            // save current context
+            this.currentContext = getCurrentContext();
+            return EVAL_BODY_INCLUDE;
+        }
 
-		/**
-		 * Add attribute to sub context.
-		 * Do nothing.
-		 */
-		public void putAttribute(String name, Object value) {
-			subCompContext.putAttribute(name, value);
-		}
+        /**
+         * Add attribute to sub context.
+         * Do nothing.
+         */
+        public void putAttribute(String name, Object value) {
+            subCompContext.putAttribute(name, value);
+        }
 
-		/**
-		 * Include requested page.
-		 */
-		public int doEndTag() throws JspException {
+        /**
+         * Include requested page.
+         */
+        public int doEndTag() throws JspException {
                     // Check role
                     HttpServletRequest request =
                             (HttpServletRequest) pageContext.getRequest();
@@ -773,9 +768,11 @@ public class InsertTag
                         // Call preparer if any
                         if (preparer != null) {
                             try {
-                              TilesContext tilesContext = TilesContextFactory.getInstance(
-                                      pageContext.getServletContext(),
-                                      pageContext.getRequest(), pageContext.getResponse());
+                               TilesRequestContext tilesContext =
+                                   TagUtils.getTilesRequestContext(
+                                       pageContext.getServletContext(),
+                                       pageContext.getRequest(),
+                                       pageContext.getResponse());
                                 preparer.execute(tilesContext, subCompContext);
                             } catch (Exception e) {
                                 throw new ServletException(e);
@@ -821,7 +818,7 @@ public class InsertTag
                         throw new JspException(msg,e);
 
                     } finally {
-                        // restore old context only if currentContext not null 
+                        // restore old context only if currentContext not null
                         // (bug with Silverstream ?; related by Arvindra Sehmi 20010712)
                         if (currentContext != null) {
                             pageContext.setAttribute(
@@ -832,120 +829,120 @@ public class InsertTag
                     }
 
                     return EVAL_PAGE;
-		}
+        }
 
-		/**
-		 * Process an exception.
-		 * Depending of debug attribute, print full exception trace or only
-		 * its message in output page.
-		 * @param ex Exception
-		 * @param msg An additional message to show in console and to propagate if we can't output exception.
-		 * @deprecated This method will be removed in a release after Struts 1.2.
-		 */
-		protected void processException(Throwable ex, String msg)
-			throws JspException {
+        /**
+         * Process an exception.
+         * Depending of debug attribute, print full exception trace or only
+         * its message in output page.
+         * @param ex Exception
+         * @param msg An additional message to show in console and to propagate if we can't output exception.
+         * @deprecated This method will be removed in a release after Struts 1.2.
+         */
+        protected void processException(Throwable ex, String msg)
+            throws JspException {
 
-			try {
-				if (msg == null) {
-					msg = ex.getMessage();
-				}
+            try {
+                if (msg == null) {
+                    msg = ex.getMessage();
+                }
 
-				if (log.isDebugEnabled()) { // show full trace
-					log.debug(msg, ex);
-					pageContext.getOut().println(msg);
-					ex.printStackTrace(
-						new PrintWriter(pageContext.getOut(), true));
-				} else { // show only message
-					pageContext.getOut().println(msg);
-				}
+                if (log.isDebugEnabled()) { // show full trace
+                    log.debug(msg, ex);
+                    pageContext.getOut().println(msg);
+                    ex.printStackTrace(
+                        new PrintWriter(pageContext.getOut(), true));
+                } else { // show only message
+                    pageContext.getOut().println(msg);
+                }
 
-			} catch (IOException ioex) { // problems. Propagate original exception
-				pageContext.setAttribute(
-					ComponentConstants.EXCEPTION_KEY,
-					ex,
-					PageContext.REQUEST_SCOPE);
-				throw new JspException(msg,ioex);
-			}
-		}
-	}
+            } catch (IOException ioex) { // problems. Propagate original exception
+                pageContext.setAttribute(
+                    ComponentConstants.EXCEPTION_KEY,
+                    ex,
+                    PageContext.REQUEST_SCOPE);
+                throw new JspException(msg,ioex);
+            }
+        }
+    }
 
-	/**
-	 * Parse the list of roles and return <code>true</code> or <code>false</code> based on whether
-	 * the user has that role or not.
-	 * @param role Comma-delimited list of roles.
-	 * @param request The request.
-	 */
-	static public boolean userHasRole(
-		HttpServletRequest request,
-		String role) {
-		StringTokenizer st = new StringTokenizer(role, ",");
-		while (st.hasMoreTokens()) {
-			if (request.isUserInRole(st.nextToken())) {
-				return true;
-			}
-		}
+    /**
+     * Parse the list of roles and return <code>true</code> or <code>false</code> based on whether
+     * the user has that role or not.
+     * @param role Comma-delimited list of roles.
+     * @param request The request.
+     */
+    static public boolean userHasRole(
+        HttpServletRequest request,
+        String role) {
+        StringTokenizer st = new StringTokenizer(role, ",");
+        while (st.hasMoreTokens()) {
+            if (request.isUserInRole(st.nextToken())) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Handle insert direct string.
-	 */
-	protected class DirectStringHandler implements TagHandler {
-		/** Object to print as a direct string */
-		private Object value;
+    /**
+     * Handle insert direct string.
+     */
+    protected class DirectStringHandler implements TagHandler {
+        /** Object to print as a direct string */
+        private Object value;
 
-		/**
-		 * Constructor.
-		 */
-		public DirectStringHandler(Object value) {
-			this.value = value;
-		}
+        /**
+         * Constructor.
+         */
+        public DirectStringHandler(Object value) {
+            this.value = value;
+        }
 
-		/**
-		 * Do nothing, there is no context for a direct string.
-		 */
-		public int doStartTag() throws JspException {
-			return SKIP_BODY;
-		}
+        /**
+         * Do nothing, there is no context for a direct string.
+         */
+        public int doStartTag() throws JspException {
+            return SKIP_BODY;
+        }
 
-		/**
-		 * Add attribute to sub context.
-		 * Do nothing.
-		 */
-		public void putAttribute(String name, Object value) {
-		}
+        /**
+         * Add attribute to sub context.
+         * Do nothing.
+         */
+        public void putAttribute(String name, Object value) {
+        }
 
-		/**
-		 * Print String in page output stream.
-		 */
-		public int doEndTag() throws JspException {
-			try {
-				if (flush) {
-					pageContext.getOut().flush();
-				}
+        /**
+         * Print String in page output stream.
+         */
+        public int doEndTag() throws JspException {
+            try {
+                if (flush) {
+                    pageContext.getOut().flush();
+                }
 
-				pageContext.getOut().print(value);
+                pageContext.getOut().print(value);
 
-			} catch (IOException ex) {
-				if (log.isDebugEnabled()) {
-					log.debug("Can't write string '" + value + "' : ", ex);
-				}
+            } catch (IOException ex) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Can't write string '" + value + "' : ", ex);
+                }
 
-				pageContext.setAttribute(
-					ComponentConstants.EXCEPTION_KEY,
-					ex,
-					PageContext.REQUEST_SCOPE);
+                pageContext.setAttribute(
+                    ComponentConstants.EXCEPTION_KEY,
+                    ex,
+                    PageContext.REQUEST_SCOPE);
 
-				throw new JspException(
-					"Can't write string '" + value + "' : " + ex.getMessage(), ex);
-			}
+                throw new JspException(
+                    "Can't write string '" + value + "' : " + ex.getMessage(), ex);
+            }
 
-			return EVAL_PAGE;
-		}
-	}
+            return EVAL_PAGE;
+        }
+    }
 
     public String getType() {
         return type;

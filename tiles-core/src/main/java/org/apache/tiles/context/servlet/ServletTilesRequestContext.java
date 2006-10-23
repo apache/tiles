@@ -2,13 +2,13 @@
  * $Id$
  *
  * Copyright 1999-2006 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,10 +19,6 @@
 package org.apache.tiles.context.servlet;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -32,26 +28,18 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.tiles.TilesContext;
+import org.apache.tiles.TilesRequestContext;
 
 /**
- * Servlet-bsed implementation of the TilesContext interface.
+ * Servlet-bsed implementation of the TilesApplicationContext interface.
  *
- * @version $Rev$ $Date$
+ * @version $Rev: 405486 $ $Date$
  */
-public class ServletTilesContext implements TilesContext {
+public class ServletTilesRequestContext extends ServletTilesApplicationContext implements TilesRequestContext {
 
-    private ServletContext servletContext;
-    
     private HttpServletRequest request;
-    
+
     private HttpServletResponse response;
-    
-    /**
-     * <p>The lazily instantiated <code>Map</code> of application scope
-     * attributes.</p>
-     */
-    private Map applicationScope = null;
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -65,13 +53,6 @@ public class ServletTilesContext implements TilesContext {
      * combinations (immutable).</p>
      */
     private Map headerValues = null;
-
-
-    /**
-     * <p>The lazily instantiated <code>Map</code> of context initialization
-     * parameters.</p>
-     */
-    private Map initParam = null;
 
 
     /**
@@ -92,7 +73,7 @@ public class ServletTilesContext implements TilesContext {
      * attributes.</p>
      */
     private Map requestScope = null;
-    
+
     /**
      * <p>The lazily instantiated <code>Map</code> of session scope
      * attributes.</p>
@@ -100,31 +81,12 @@ public class ServletTilesContext implements TilesContext {
     private Map sessionScope = null;
 
 
-    /** Creates a new instance of ServletTilesContext */
-    public ServletTilesContext(ServletContext servletContext) {
-        initialize(servletContext, null, null);
-    }
-
-    /** Creates a new instance of ServletTilesContext */
-    public ServletTilesContext(ServletContext servletContext, 
-            HttpServletRequest request) {
-        initialize(servletContext, request, null);
-    }
-
-    /** Creates a new instance of ServletTilesContext */
-    public ServletTilesContext(ServletContext servletContext, 
-            HttpServletRequest request,
-            HttpServletResponse response) {
-        initialize(servletContext, request, response);
-    }
-
-    public Map getApplicationScope() {
-
-        if ((applicationScope == null) && (servletContext != null)) {
-            applicationScope = new ServletApplicationScopeMap(servletContext);
-        }
-        return (applicationScope);
-
+    /** Creates a new instance of ServletTilesRequestContext */
+    public ServletTilesRequestContext(ServletContext servletContext,
+                                      HttpServletRequest request,
+                                      HttpServletResponse response) {
+        super(servletContext);
+        initialize(request, response);
     }
 
 
@@ -144,16 +106,6 @@ public class ServletTilesContext implements TilesContext {
             headerValues = new ServletHeaderValuesMap(request);
         }
         return (headerValues);
-
-    }
-
-
-    public Map getInitParams() {
-
-        if ((initParam == null) && (servletContext != null)) {
-            initParam = new ServletInitParamMap(servletContext);
-        }
-        return (initParam);
 
     }
 
@@ -196,7 +148,7 @@ public class ServletTilesContext implements TilesContext {
         return (sessionScope);
 
     }
-    
+
     public void dispatch(String path) throws IOException, Exception {
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
@@ -215,45 +167,33 @@ public class ServletTilesContext implements TilesContext {
         }
     }
 
-    public URL getResource(String path) throws MalformedURLException {
-        return servletContext.getResource(path);
-    }
-
     public Locale getRequestLocale() {
         return request.getLocale();
     }
 
-    public ServletContext getServletContext() {
-        return servletContext;
-    }
-    
     public ServletRequest getRequest() {
         return request;
     }
-    
+
     public ServletResponse getResponse() {
         return response;
     }
-    
+
     /**
-     * <p>Initialize (or reinitialize) this {@link ServletWebContext} instance
+     * <p>Initialize (or reinitialize) this {@link ServletTilesRequestContext} instance
      * for the specified Servlet API objects.</p>
      *
-     * @param context The <code>ServletContext</code> for this web application
+
      * @param request The <code>HttpServletRequest</code> for this request
      * @param response The <code>HttpServletResponse</code> for this request
      */
-    public void initialize(ServletContext context,
-                           HttpServletRequest request,
+    public void initialize(HttpServletRequest request,
                            HttpServletResponse response) {
 
         // Save the specified Servlet API object references
-        this.servletContext = context;
         this.request = request;
         this.response = response;
-
         // Perform other setup as needed
-
     }
 
 
@@ -264,21 +204,18 @@ public class ServletTilesContext implements TilesContext {
      * <code>initialize()</code> will return undefined results.</p>
      */
     public void release() {
-
         // Release references to allocated collections
-        applicationScope = null;
         header = null;
         headerValues = null;
-        initParam = null;
         param = null;
         paramValues = null;
         requestScope = null;
         sessionScope = null;
 
         // Release references to Servlet API objects
-        servletContext = null;
         request = null;
         response = null;
+        super.release();
 
-    }    
+    }
 }

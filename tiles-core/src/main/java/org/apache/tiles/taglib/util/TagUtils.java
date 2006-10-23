@@ -24,17 +24,15 @@ import java.util.HashMap;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.tiles.TilesContext;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.taglib.ComponentConstants;
-import org.apache.tiles.ComponentContext;
-import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.DefinitionsFactoryException;
-import org.apache.tiles.FactoryNotFoundException;
-import org.apache.tiles.NoSuchDefinitionException;
-import org.apache.tiles.TilesUtil;
+import org.apache.tiles.*;
+import org.apache.tiles.context.BasicTilesContextFactory;
+import org.apache.tiles.context.TilesContextAccess;
 
 /**
  * Collection of utilities.
@@ -47,7 +45,7 @@ public class TagUtils {
 
     /** Debug flag */
     public static final boolean debug = true;
-    
+
     /**
      * Maps lowercase JSP scope names to their PageContext integer constant
      * values.
@@ -65,6 +63,17 @@ public class TagUtils {
         scopes.put("application", new Integer(PageContext.APPLICATION_SCOPE));
     }
 
+    public static TilesApplicationContext getTilesContext(ServletContext context) {
+        return TilesContextAccess.getApplicationContext(context);
+    }
+
+    public static TilesRequestContext getTilesRequestContext(
+            ServletContext context,
+            ServletRequest request,
+            ServletResponse response) {
+        return new BasicTilesContextFactory().createRequestContext(context, request, response);
+    }
+
 
     /**
     * Get scope value from string value
@@ -77,16 +86,16 @@ public class TagUtils {
         if (scopeName == null) {
             return defaultValue;
         }
-        
+
         if (scopeName.equalsIgnoreCase("component")) {
             return ComponentConstants.COMPONENT_SCOPE;
-            
+
         } else if (scopeName.equalsIgnoreCase("template")) {
             return ComponentConstants.COMPONENT_SCOPE;
-            
+
         } else if (scopeName.equalsIgnoreCase("tile")) {
             return ComponentConstants.COMPONENT_SCOPE;
-            
+
         } else {
             return getScope(scopeName);
         }
@@ -130,14 +139,14 @@ public class TagUtils {
      * @deprecated Use PropertyUtils.getProperty() directly.  This will be removed
      * after Struts 1.2.
      */
-	public static Object getProperty(Object bean, String name)
-		throws
-			IllegalAccessException,
-			InvocationTargetException,
-			NoSuchMethodException {
+    public static Object getProperty(Object bean, String name)
+        throws
+            IllegalAccessException,
+            InvocationTargetException,
+            NoSuchMethodException {
 
-		return PropertyUtils.getProperty(bean, name);
-	}
+        return PropertyUtils.getProperty(bean, name);
+    }
 
     /**
      * Retrieve bean from page context, using specified scope.
@@ -152,14 +161,14 @@ public class TagUtils {
      */
     public static Object retrieveBean(String beanName, String scopeName, PageContext pageContext)
         throws JspException {
-        
+
         if (scopeName == null) {
             return findAttribute(beanName, pageContext);
         }
 
         // Default value doesn't matter because we have already check it
         int scope = getScope(scopeName, PageContext.PAGE_SCOPE);
-        
+
         //return pageContext.getAttribute( beanName, scope );
         return getAttribute(beanName, scope, pageContext);
     }
@@ -172,11 +181,12 @@ public class TagUtils {
      * @return Requested bean or <code>null</code> if not found.
      */
     public static Object findAttribute(String beanName, PageContext pageContext) {
-        TilesContext tilesContext = TilesContextFactory.getInstance(
+        TilesRequestContext tilesContext = getTilesRequestContext(
               pageContext.getServletContext(),
-              pageContext.getRequest(), pageContext.getResponse());
+              pageContext.getRequest(),
+              pageContext.getResponse());
         ComponentContext compContext = ComponentContext.getContext(tilesContext);
-        
+
         if (compContext != null) {
             Object attribute = compContext.findAttribute(beanName, pageContext);
             if (attribute != null) {
@@ -198,9 +208,10 @@ public class TagUtils {
      */
     public static Object getAttribute(String beanName, int scope, PageContext pageContext) {
         if (scope == ComponentConstants.COMPONENT_SCOPE) {
-            TilesContext tilesContext = TilesContextFactory.getInstance(
+            TilesRequestContext tilesContext = getTilesRequestContext(
                   pageContext.getServletContext(),
-                  pageContext.getRequest(), pageContext.getResponse());
+                  pageContext.getRequest(),
+                  pageContext.getResponse());
             ComponentContext compContext = ComponentContext.getContext(tilesContext);
             return compContext.getAttribute(beanName);
         }
@@ -230,7 +241,7 @@ public class TagUtils {
         String beanScope,
         PageContext pageContext)
         throws JspException {
-            
+
         try {
             Object realValue;
             Object bean = retrieveBean(beanName, beanScope, pageContext);
@@ -240,7 +251,7 @@ public class TagUtils {
                 realValue = bean; // value can be null
             }
             return realValue;
-            
+
         } catch (NoSuchMethodException ex) {
             throw new JspException(
                 "Error - component.PutAttributeTag : Error while retrieving value from bean '"
@@ -251,7 +262,7 @@ public class TagUtils {
                     + beanScope
                     + "'. (exception : "
                     + ex.getMessage(), ex);
-                    
+
         } catch (InvocationTargetException ex) {
             throw new JspException(
                 "Error - component.PutAttributeTag : Error while retrieving value from bean '"
@@ -262,7 +273,7 @@ public class TagUtils {
                     + beanScope
                     + "'. (exception : "
                     + ex.getMessage(), ex);
-                    
+
         } catch (IllegalAccessException ex) {
             throw new JspException(
                 "Error - component.PutAttributeTag : Error while retrieving value from bean '"
@@ -294,7 +305,7 @@ public class TagUtils {
         Object value,
         String scope)
         throws JspException {
-            
+
         if (scope == null)
             pageContext.setAttribute(name, value, PageContext.REQUEST_SCOPE);
         else if (scope.equalsIgnoreCase("page"))
@@ -344,20 +355,21 @@ public class TagUtils {
         throws JspException {
         return getComponentDefinition(name, pageContext, null);
     }
-            
+
 
     /**
      * Get component definition by its name.
      * @param name Definition name.
      * @param pageContext The PageContext for the current page.
-     * @param tilesContext The TilesContext for the current request. If it is
+     * @param tilesContext The TilesApplicationContext for the current request. If it is
      * null, it will be created.
      * @throws JspException -
      */
     public static ComponentDefinition getComponentDefinition(String name,
-            PageContext pageContext, TilesContext tilesContext)
+                                                             PageContext pageContext,
+                                                             TilesRequestContext tilesContext)
         throws JspException {
-            
+
         try {
             ComponentDefinition definition;
             Object definitionCandidate = findAttribute(name, pageContext);
@@ -366,14 +378,16 @@ public class TagUtils {
                 definition = (ComponentDefinition) definitionCandidate;
             } else {
                 if (tilesContext == null) {
-                    tilesContext = TilesContextFactory.getInstance(
+                    tilesContext = getTilesRequestContext(
                           pageContext.getServletContext(),
-                          pageContext.getRequest(), pageContext.getResponse());
+                          pageContext.getRequest(),
+                          pageContext.getResponse()
+                    );
                 }
                 definition = TilesUtil.getDefinition(name, tilesContext);
             }
             return definition;
-                
+
         } catch (NoSuchDefinitionException ex) {
             throw new JspException(
                 "Error : Can't get component definition for '"
@@ -381,7 +395,7 @@ public class TagUtils {
                     + "'. Check if this name exist in component definitions.",ex);
         } catch (FactoryNotFoundException ex) { // factory not found.
             throw new JspException(ex);
-            
+
         } catch (DefinitionsFactoryException ex) {
             if (debug)
                 ex.printStackTrace();

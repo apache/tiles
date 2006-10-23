@@ -20,7 +20,7 @@ package org.apache.tiles.mock;
 
 import org.apache.tiles.ComponentDefinitions;
 import org.apache.tiles.DefinitionsFactoryException;
-import org.apache.tiles.TilesContext;
+import org.apache.tiles.TilesRequestContext;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 
 /**
@@ -36,10 +36,10 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
      * <code>UrlDefinitionsFactory</code>
      * 
      * @see org.apache.tiles.definition.UrlDefinitionsFactory#addDefinitions(org.apache.tiles.ComponentDefinitions,
-     *      org.apache.tiles.TilesContext)
+     *      org.apache.tiles.TilesRequestContext)
      */
     public void addDefinitions(ComponentDefinitions definitions,
-            TilesContext tilesContext) throws DefinitionsFactoryException {
+            TilesRequestContext tilesContext) throws DefinitionsFactoryException {
         super.addDefinitions(definitions, tilesContext);
     }
 
@@ -48,9 +48,9 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
      * Exposes the <code>isContextProcessed</code> method of
      * <code>UrlDefinitionsFactory</code>
      * 
-     * @see org.apache.tiles.definition.UrlDefinitionsFactory#isContextProcessed(org.apache.tiles.TilesContext)
+     * @see org.apache.tiles.definition.UrlDefinitionsFactory#isContextProcessed(org.apache.tiles.TilesRequestContext)
      */
-    public boolean isContextProcessed(TilesContext tilesContext) {
+    public boolean isContextProcessed(TilesRequestContext tilesContext) {
         return super.isContextProcessed(tilesContext);
     }
 }

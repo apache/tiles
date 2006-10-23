@@ -180,7 +180,7 @@ public class ComponentContext implements Serializable {
      * @return ComponentContext or null if context is not found or an
      * jspException is present in the request.
      */
-    static public ComponentContext getContext(TilesContext tilesContext) {
+    static public ComponentContext getContext(TilesRequestContext tilesContext) {
        if (tilesContext.getRequestScope().get("javax.servlet.jsp.jspException") != null) {
            return null;
         }        return (ComponentContext) tilesContext.getRequestScope().get(
@@ -194,7 +194,7 @@ public class ComponentContext implements Serializable {
      */
     static public void setContext(
         ComponentContext context,
-        TilesContext tilesContext) {
+        TilesRequestContext tilesContext) {
             
         tilesContext.getRequestScope().put(ComponentConstants.COMPONENT_CONTEXT, context);
     }

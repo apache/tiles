@@ -19,7 +19,6 @@
 package org.apache.tiles;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,7 +31,7 @@ import org.apache.tiles.taglib.ComponentConstants;
 /**
  * Utilities class for definitions factory.
  * Also define userDebugLevel property (TODO to be moved from this class ?).
- * @deprecated Use {@link TilesUtil#createDefinitionsFactory(ServletContext, DefinitionsFactoryConfig)}
+ * @deprecated Use {@link TilesUtil#createDefinitionsFactory(TilesApplicationContext, DefinitionsFactoryConfig)}
  */
 public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
 
@@ -90,7 +89,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * @deprecated Use createDefinitionsFactory(ServletContext servletContext, ServletConfig servletConfig)
      */
     public static DefinitionsFactory createDefinitionsFactory(
-        TilesContext tilesContext,
+        TilesApplicationContext tilesContext,
         Map properties,
         String classname)
         throws DefinitionsFactoryException {
@@ -123,7 +122,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * @throws DefinitionsFactoryException If an error occur while initializing factory
      */
     public static DefinitionsFactory createDefinitionsFactory(
-        TilesContext tilesContext,
+        TilesApplicationContext tilesContext,
         Map properties)
         throws DefinitionsFactoryException {
 
@@ -142,7 +141,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * @throws DefinitionsFactoryException If an error occur while initializing factory
      */
     public static DefinitionsFactory createDefinitionsFactory(
-        TilesContext tilesContext)
+        TilesApplicationContext tilesContext)
         throws DefinitionsFactoryException {
 
         DefinitionsFactoryConfig factoryConfig = readFactoryConfig(tilesContext);
@@ -163,14 +162,13 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * Convenience method. Calls createDefinitionsFactory(ServletContext servletContext, DefinitionsFactoryConfig factoryConfig)
      *
      * @param tilesContext The current Tiles application context.
-     * @param servletConfig Servlet config containing parameters to be passed to factory configuration object.
      * @param checkIfExist Check if factory already exist. If true and factory exist, return it.
      * If true and factory doesn't exist, create it. If false, create it in all cases.
      * @return newly created factory of type ConfigurableDefinitionsFactory.
      * @throws DefinitionsFactoryException If an error occur while initializing factory
      */
     public static DefinitionsFactory createDefinitionsFactory(
-        TilesContext tilesContext,
+        TilesApplicationContext tilesContext,
         boolean checkIfExist)
         throws DefinitionsFactoryException {
 
@@ -189,10 +187,10 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      *
      * @param tilesContext the current Tiles application context.
      * @return Definitions factory or null if not found.
-     * @deprecated Use {@link TilesUtil#getDefinitionsFactory(ServletRequest, ServletContext)}
+     * @deprecated Use {@link TilesUtil#getDefinitionsFactory(TilesApplicationContext)
      * @since 20020708
      */
-    public static DefinitionsFactory getDefinitionsFactory(TilesContext tilesContext) {
+    public static DefinitionsFactory getDefinitionsFactory(TilesApplicationContext tilesContext) {
         return (DefinitionsFactory) tilesContext.getApplicationScope().get(DEFINITIONS_FACTORY);
     }
 
@@ -200,7 +198,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * Get Definition stored in jsp context by an action.
      * @return ComponentDefinition or null if not found.
      */
-    public static ComponentDefinition getActionDefinition(TilesContext tilesContext) {
+    public static ComponentDefinition getActionDefinition(TilesRequestContext tilesContext) {
         return (ComponentDefinition) tilesContext.getRequestScope().get(ACTION_DEFINITION);
     }
 
@@ -209,7 +207,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * Mainly used by Struts to pass a definition defined in an Action to the forward.
      */
     public static void setActionDefinition(
-        TilesContext tilesContext,
+        TilesRequestContext tilesContext,
         ComponentDefinition definition) {
 
         tilesContext.getRequestScope().put(ACTION_DEFINITION, definition);
@@ -220,7 +218,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * Mainly used by Struts to pass a definition defined in an Action to the forward.
      */
     public static void removeActionDefinition(
-        TilesContext tilesContext,
+        TilesRequestContext tilesContext,
         ComponentDefinition definition) {
 
         tilesContext.getRequestScope().remove(ACTION_DEFINITION);
@@ -239,7 +237,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      */
     public static void populateDefinitionsFactoryConfig(
         DefinitionsFactoryConfig factoryConfig,
-        TilesContext tilesContext)
+        TilesApplicationContext tilesContext)
         throws IllegalAccessException, InvocationTargetException {
 
         Map properties = new DefinitionsUtil.ServletPropertiesMap(tilesContext);
@@ -253,7 +251,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * @exception DefinitionsFactoryException if this <code>PlugIn</code> cannot
      *  be successfully initialized
      */
-    protected static DefinitionsFactoryConfig readFactoryConfig(TilesContext tilesContext)
+    protected static DefinitionsFactoryConfig readFactoryConfig(TilesApplicationContext tilesContext)
         throws DefinitionsFactoryException {
 
         // Create tiles definitions config object
@@ -285,7 +283,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
         /**
          * Constructor.
          */
-        ServletPropertiesMap(TilesContext tilesContext) {
+        ServletPropertiesMap(TilesApplicationContext tilesContext) {
             // This implementation is very simple.
             // It is possible to avoid creation of a new structure, but this need
             // imply writing all Map interface.

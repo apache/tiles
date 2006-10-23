@@ -19,18 +19,17 @@
 package org.apache.tiles.servlet;
 
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import java.util.HashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.tiles.*;
 import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.context.BasicTilesContextFactory;
 
 /**
  * This is the entry point for Tiles. The <code>TilesServlet</code> initializes
@@ -111,167 +110,168 @@ can also define multiple configuration files like this:
  * @author David Geary
  */
 public class TilesServlet extends HttpServlet {
-	 
 
-	/**
-	 * The logger for this class
-	*/
+
+    /**
+     * The logger for this class
+    */
    protected static Logger logger = Logger.getLogger(TilesServlet.class.
-																	  getName());
-	 
+                                                                      getName());
 
-	/**
-	 * The default name of a context init parameter that specifies the Tiles configuration file
-	*/
-	private static final String DEFAULT_CONFIG_FILE_PARAM = "definitions-config";
-	 
 
-	/**
-	 * The default name of the Tiles configuration file
-	*/
-	private static final String DEFAULT_CONFIG_FILE = "/WEB-INF/tiles.xml";
-	 
+    /**
+     * The default name of a context init parameter that specifies the Tiles configuration file
+    */
+    private static final String DEFAULT_CONFIG_FILE_PARAM = "definitions-config";
 
-	/**
-	 * An error message stating that something went wrong during initialization
-	*/
-	private static final String CANT_POPULATE_FACTORY_ERROR = 
-		 "CAN'T POPULATE TILES DEFINITION FACTORY";
-	 
 
-	/**
-	 * The Tiles definition factory
-	*/
+    /**
+     * The default name of the Tiles configuration file
+    */
+    private static final String DEFAULT_CONFIG_FILE = "/WEB-INF/tiles.xml";
+
+
+    /**
+     * An error message stating that something went wrong during initialization
+    */
+    private static final String CANT_POPULATE_FACTORY_ERROR =
+         "CAN'T POPULATE TILES DEFINITION FACTORY";
+
+
+    /**
+     * The Tiles definition factory
+    */
    protected DefinitionsFactory definitionFactory = null;
-	 
 
-	/**
-	 * A comma-separated list of filenames representing the 
-	 * application's Tiles configuration files.
-	*/
-	private String configFiles = null;
-	 
 
-	/**
-	 * Initializes the servlet by creating the Tiles definition
-	 * factory and placing that factory in application scope. The
-	 * Tiles tags will subsequently access that factory.
-	 *
-	 * @param config The servlet config
-	 */
-	public void init(ServletConfig config) 
-		throws javax.servlet.ServletException {
-		super.init(config);
-		logger.info("Initializing TilesServlet");
-		configFiles = config.getInitParameter("definitions-config");
+    /**
+     * A comma-separated list of filenames representing the
+     * application's Tiles configuration files.
+    */
+    private String configFiles = null;
 
-		try {
-			// Create factory config object
-			DefinitionsFactoryConfig fconfig = readFactoryConfig(config);
-			fconfig.setModuleAware(false);
 
-			ServletContext context = config.getServletContext();
-			TilesUtil.setTilesUtil(new TilesUtilImpl());
-			initDefinitionsFactory(context, fconfig);
-		}
-		catch(Exception ex) {
-			saveExceptionMessage(config, ex);
+    /**
+     * Initializes the servlet by creating the Tiles definition
+     * factory and placing that factory in application scope. The
+     * Tiles tags will subsequently access that factory.
+     *
+     * @param config The servlet config
+     */
+    public void init(ServletConfig config)
+        throws javax.servlet.ServletException {
+        super.init(config);
+        logger.info("Initializing TilesServlet");
+        configFiles = config.getInitParameter("definitions-config");
+
+        try {
+            // Create factory config object
+            DefinitionsFactoryConfig fconfig = readFactoryConfig(config);
+            fconfig.setModuleAware(false);
+
+            ServletContext context = config.getServletContext();
+            TilesUtil.setTilesUtil(new TilesUtilImpl());
+            initDefinitionsFactory(context, fconfig);
+        }
+        catch(Exception ex) {
+            saveExceptionMessage(config, ex);
                     throw new ServletException(ex.getMessage(), ex);
-		}
-	}
+        }
+    }
 
 
-	/**
-	 * Populates the tiles factory configuration. If a
-	 * context init param named <i>definitions-config</i>
-	 * was defined, that param's value is assumed to be
-	 * a comma-separated list of configuration file names,
-	 * all of which are processed. If a 
-	 * <i>definitions-config</i> context param was not
-	 * specified, Tiles assumes that your Tiles definition
-	 * file is <code>/WEB-INF/tiles.xml</code>.
-	 */
-	protected DefinitionsFactoryConfig readFactoryConfig(ServletConfig config) 
-		throws ServletException {
-		DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
-		Map map = new HashMap();
-
-		try {
-			if(configFiles != null) { 
-				logger.info("CONFIG FILES DEFINED IN WEB.XML");
-			   map.put(DEFAULT_CONFIG_FILE_PARAM, configFiles);
-		   }
-			else {
-				logger.info("CONFIG FILES WERE NOT DEFINED IN WEB.XML, " +
-						      "LOOKING FOR " + DEFAULT_CONFIG_FILE);
-			   map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
-			}
-
-			populateConfigParameterMap(config, map);
-			factoryConfig.populate(map);
-		} 
-		catch (Exception ex) {
-			saveExceptionMessage(getServletConfig(), ex);
-		   throw new UnavailableException(CANT_POPULATE_FACTORY_ERROR + ex.getMessage());
-		}
-		return factoryConfig;
-	}
-
-
-	/**
-	 * Initializes the Tiles definitions factory.
-	 *
-	 * @param servletContext The servlet context
-	 * @param factoryConfig The definitions factory config
-	 */
-   private void initDefinitionsFactory(ServletContext servletContext,
-        DefinitionsFactoryConfig factoryConfig)
+    /**
+     * Populates the tiles factory configuration. If a
+     * context init param named <i>definitions-config</i>
+     * was defined, that param's value is assumed to be
+     * a comma-separated list of configuration file names,
+     * all of which are processed. If a
+     * <i>definitions-config</i> context param was not
+     * specified, Tiles assumes that your Tiles definition
+     * file is <code>/WEB-INF/tiles.xml</code>.
+     */
+    protected DefinitionsFactoryConfig readFactoryConfig(ServletConfig config)
         throws ServletException {
-		logger.info("initializing definitions factory...");
-		// Create configurable factory
-		try {
-                    TilesContext tilesContext = TilesContextFactory.getInstance(servletContext);
-			definitionFactory = DefinitionsUtil.createDefinitionsFactory(
+        DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
+        Map map = new HashMap();
+
+        try {
+            if(configFiles != null) {
+                logger.info("CONFIG FILES DEFINED IN WEB.XML");
+               map.put(DEFAULT_CONFIG_FILE_PARAM, configFiles);
+           }
+            else {
+                logger.info("CONFIG FILES WERE NOT DEFINED IN WEB.XML, " +
+                              "LOOKING FOR " + DEFAULT_CONFIG_FILE);
+               map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
+            }
+
+            populateConfigParameterMap(config, map);
+            factoryConfig.populate(map);
+        }
+        catch (Exception ex) {
+            saveExceptionMessage(getServletConfig(), ex);
+           throw new UnavailableException(CANT_POPULATE_FACTORY_ERROR + ex.getMessage());
+        }
+        return factoryConfig;
+    }
+
+
+    /**
+     * Initializes the Tiles definitions factory.
+     *
+     * @param servletContext The servlet context
+     * @param factoryConfig The definitions factory config
+     */
+   private void initDefinitionsFactory(ServletContext servletContext,
+                                       DefinitionsFactoryConfig factoryConfig)
+        throws ServletException {
+        logger.info("initializing definitions factory...");
+        // Create configurable factory
+        try {
+            TilesContextFactory factory = new BasicTilesContextFactory();
+            TilesApplicationContext tilesContext = factory.createApplicationContext(servletContext);
+            definitionFactory = DefinitionsUtil.createDefinitionsFactory(
                                 tilesContext, factoryConfig);
-		} catch (DefinitionsFactoryException ex) {
+        } catch (DefinitionsFactoryException ex) {
                     ex.printStackTrace();
-			throw new ServletException(ex.getMessage(), ex);
-		}
-	}
+            throw new ServletException(ex.getMessage(), ex);
+        }
+    }
 
 
-	/**
-	 * Stores the message associated with any exception thrown in this
-	 * servlet in application scope. Tiles later accesses that message
-	 * if an exception is thrown when the tiles:insert tag is
-	 * activated.
-	 *
-	 * @param config The servlet configuration
-	 * @param ex An exception
-	 */
-	private void saveExceptionMessage(ServletConfig config, Exception ex) {
-	   logger.warning("Caught exception when initializing definitions factory");
-	   logger.warning(ex.getMessage());
-	   logger.warning(ex.toString());
-	   //config.getServletContext().setAttribute(Globals.TILES_INIT_EXCEPTION, ex.getMessage());
-	}
-	
-	/**
-	 * Populates a map with the parameters contained in the servlet configuration.
-	 * 
-	 * @param config The servlet configuration
-	 * @param paramMap The map to fill
-	 */
-	private void populateConfigParameterMap(ServletConfig config, Map paramMap) {
-		Enumeration enumeration;
-		String paramName;
-		
-		enumeration = config.getInitParameterNames();
-		while (enumeration.hasMoreElements()) {
-			paramName = (String) enumeration.nextElement();
-			if (!paramMap.containsKey(paramName)) {
-				paramMap.put(paramName, config.getInitParameter(paramName));
-			}
-		}
-	}
+    /**
+     * Stores the message associated with any exception thrown in this
+     * servlet in application scope. Tiles later accesses that message
+     * if an exception is thrown when the tiles:insert tag is
+     * activated.
+     *
+     * @param config The servlet configuration
+     * @param ex An exception
+     */
+    private void saveExceptionMessage(ServletConfig config, Exception ex) {
+       logger.warning("Caught exception when initializing definitions factory");
+       logger.warning(ex.getMessage());
+       logger.warning(ex.toString());
+       //config.getServletContext().setAttribute(Globals.TILES_INIT_EXCEPTION, ex.getMessage());
+    }
+
+    /**
+     * Populates a map with the parameters contained in the servlet configuration.
+     *
+     * @param config The servlet configuration
+     * @param paramMap The map to fill
+     */
+    private void populateConfigParameterMap(ServletConfig config, Map paramMap) {
+        Enumeration enumeration;
+        String paramName;
+
+        enumeration = config.getInitParameterNames();
+        while (enumeration.hasMoreElements()) {
+            paramName = (String) enumeration.nextElement();
+            if (!paramMap.containsKey(paramName)) {
+                paramMap.put(paramName, config.getInitParameter(paramName));
+            }
+        }
+    }
 }

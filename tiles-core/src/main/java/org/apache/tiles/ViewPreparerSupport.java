@@ -30,7 +30,7 @@ public class ViewPreparerSupport implements ViewPreparer {
     /**
      * Stubs out preparer method.
      */
-    public void execute(TilesContext tilesContext, 
+    public void execute(TilesRequestContext tilesContext, 
             ComponentContext componentContext) throws Exception {
     }
 }

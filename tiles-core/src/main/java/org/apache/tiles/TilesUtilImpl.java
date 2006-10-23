@@ -83,7 +83,7 @@ public class TilesUtilImpl implements Serializable {
      */
     public void doForward(
         String uri,
-        TilesContext tilesContext)
+        TilesRequestContext tilesContext)
         throws IOException, Exception {
             
         tilesContext.dispatch(uri);
@@ -99,7 +99,7 @@ public class TilesUtilImpl implements Serializable {
      */
     public void doInclude(
         String uri,
-        TilesContext tilesContext)
+        TilesRequestContext tilesContext)
         throws IOException, Exception {
             
         tilesContext.include(uri);
@@ -136,7 +136,7 @@ public class TilesUtilImpl implements Serializable {
      * @return Definitions factory or <code>null</code> if not found.
      */
     public DefinitionsFactory getDefinitionsFactory(
-            TilesContext tilesContext) {
+            TilesApplicationContext tilesContext) {
             
         return (DefinitionsFactory) tilesContext.getApplicationScope().get(DEFINITIONS_FACTORY);
     }
@@ -146,7 +146,7 @@ public class TilesUtilImpl implements Serializable {
      * Create an instance of the factory with the class specified in the config
      * object. Then, initialize this factory and finally store the factory in
      * appropriate context by calling
-     * {@link #makeDefinitionsFactoryAccessible(DefinitionsFactory, ServletContext)}.
+     * {@link #makeDefinitionsFactoryAccessible(DefinitionsFactory, TilesApplicationContext)}.
      * Factory creation is done by {@link #createDefinitionFactoryInstance(String)}.
      * <p>
      *
@@ -156,7 +156,7 @@ public class TilesUtilImpl implements Serializable {
      * @throws DefinitionsFactoryException If an error occur while initializing factory
      */
     public DefinitionsFactory createDefinitionsFactory(
-        TilesContext tilesContext,
+        TilesApplicationContext tilesContext,
         DefinitionsFactoryConfig factoryConfig)
         throws DefinitionsFactoryException {
             
@@ -197,7 +197,7 @@ public class TilesUtilImpl implements Serializable {
     }
 
     public ComponentDefinition getDefinition(String definitionName,
-            TilesContext tilesContext) 
+            TilesRequestContext tilesContext)
             throws FactoryNotFoundException, DefinitionsFactoryException {
         
         try {
@@ -254,7 +254,7 @@ public class TilesUtilImpl implements Serializable {
      */
     protected void makeDefinitionsFactoryAccessible(
         DefinitionsFactory factory,
-        TilesContext tilesContext) {
+        TilesApplicationContext tilesContext) {
             
         tilesContext.getApplicationScope().put(DEFINITIONS_FACTORY, factory);
     }
@@ -267,7 +267,7 @@ public class TilesUtilImpl implements Serializable {
      */
     protected void makeDefinitionsAccessible(
         ComponentDefinitions definitions,
-        TilesContext tilesContext) {
+        TilesApplicationContext tilesContext) {
             
         tilesContext.getApplicationScope().put(DEFINITIONS_OBJECT, definitions);
     }
