@@ -13,42 +13,26 @@
    ]]>
    </description>
    <tag>
-      <name>insert</name>
-      <tag-class>org.apache.tiles.taglib.InsertTag</tag-class>
+      <name>insertTemplate</name>
+      <tag-class>org.apache.tiles.taglib.InsertTemplateTag</tag-class>
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
       <p><strong>Insert a template.</strong></p>
       <p>Insert a template with the possibility to pass 
-      parameters (called attribute).
-      A tile can be seen as a procedure that can take parameters or attributes.
-      <code>&lt;tiles:insert&gt;</code> allows to define these attributes 
+      parameters (called attributes).
+      A template can be seen as a procedure that can take parameters or attributes.
+      <code>&lt;tiles:insertTemplate&gt;</code> allows to define these attributes 
       and pass them to the inserted jsp page, called template.
       Attributes are defined using nested tag <code>&lt;tiles:put&gt;</code> or
       <code>&lt;tiles:putList&gt;</code>.
       </p>
-      <p>You must specify one of this tag attribute :</p>
-      <ul>
-        
-        <li><code>template</code>, for inserting a template
-        page,</li>
-        
-        <li><code>definition</code>, for inserting a definition from 
-        definitions factory</li>
-        
-        <li><code>attribute</code>, surrounding tiles's attribute name whose 
-        value is used.<br/>If attribute is associated to 'direct' flag 
-        (see put), and flag is true, write attribute value (no insertion).</li>
-                     
-        <li><code>name</code>, to let 'insert' determine the type of entities
-        to insert. In this later case, search is done in this order : 
-        definitions, templates, pages.</li>
-      </ul>
+      <p>You must specify <li><code>template</code> attribute, for inserting a template</p>
      
       <p><strong>Example : </strong></p>
       <pre>
         <code>
-          &lt;tiles:insert page="/basic/myLayout.jsp" flush="true">
+          &lt;tiles:insertTemplate template="/basic/myLayout.jsp" flush="true">
              &lt;tiles:put name="title" value="My first page" />
              &lt;tiles:put name="header" value="/common/header.jsp" />
              &lt;tiles:put name="footer" value="/common/footer.jsp" />
@@ -61,23 +45,13 @@
       </description>
       <attribute>
          <name>template</name>
-         <required>false</required>
+         <required>true</required>
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>A string representing the URI of a tile or template (a JSP page).
+         <p>A string representing the URI of a template (for example, a JSP
+         page).
          </p>
-         ]]>
-         </description>
-      </attribute>
-      <attribute>
-         <name>name</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>Name of an entity to insert. Search is done in this order : 
-         definition, attribute, template.</p>
          ]]>
          </description>
       </attribute>
@@ -119,9 +93,206 @@
          </description>
       </attribute>
       <attribute>
-         <name>type</name>
+         <name>preparerUrl</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>preparerClass</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
+   <tag>
+      <name>insertDefinition</name>
+      <tag-class>org.apache.tiles.taglib.InsertDefinitionTag</tag-class>
+      <body-content>JSP</body-content>
+      <description>
+      <![CDATA[
+      <p><strong>Insert a definition.</strong></p>
+      <p>Insert a definition with the possibility to override and specify 
+      parameters (called attributes).
+      A definition can be seen as a (partially or totally) filled template that
+      can override or complete attribute values.
+      <code>&lt;tiles:insertDefinition&gt;</code> allows to define these attributes 
+      and pass them to the inserted jsp page, called template.
+      Attributes are defined using nested tag <code>&lt;tiles:put&gt;</code> or
+      <code>&lt;tiles:putList&gt;</code>.
+      </p>
+      <p>You must specify <code>name</code> tag attribute, for inserting a definition from 
+        definitions factory.</p>
+      <p><strong>Example : </strong></p>
+      <pre>
+        <code>
+          &lt;tiles:insertDefinition name=".my.tiles.defininition flush="true">
+             &lt;tiles:put name="title" value="My first page" />
+             &lt;tiles:put name="header" value="/common/header.jsp" />
+             &lt;tiles:put name="footer" value="/common/footer.jsp" />
+             &lt;tiles:put name="menu" value="/basic/menu.jsp" />
+             &lt;tiles:put name="body" value="/basic/helloBody.jsp" />
+          &lt;/tiles:insertDefinition>
+        </code>
+      </pre>
+      ]]>
+      </description>
+      <attribute>
+         <name>template</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+         <![CDATA[
+         <p>A string representing the URI of a tile or template, to override the
+         one specified in Tiles configuration file or in a
+         &lt;tiles:definition&gt; tag.
+         </p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>name</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+         <![CDATA[
+         <p>Name of the definition to insert.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>flush</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>boolean</type>
+         <description>
+         <![CDATA[
+         <p>True or false. If true, current page out stream is flushed 
+         before insertion.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>ignore</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>boolean</type>
+         <description>
+         <![CDATA[
+         <p>If this attribute is set to true, and the attribute specified by the
+         name does not exist, simply return without writing anything. The
+         default value is false, which will cause a runtime exception to be
+         thrown.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>role</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+         <![CDATA[
+         <p>If the user is in the specified role, the tag is taken into account;
+         otherwise, the tag is ignored (skipped).</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>preparerUrl</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>preparerClass</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
+   <tag>
+      <name>attribute</name>
+      <tag-class>org.apache.tiles.taglib.AttributeTag</tag-class>
+      <body-content>JSP</body-content>
+      <description>
+      <![CDATA[
+      <p><strong>Defines an attribute.</strong></p>
+      <p>An attribute can be seen as a parameter in a method signature. You can
+      define attributes in "template" pages. You can then insert template pages
+      by:</p>
+      <ul>
+        <li>using &lt;tiles:insertTemplate&gt; and specifying the template page
+        in the <code>template</code> attribute,</li>
+        <li>defining a definition in a Tiles configuration file, or via the
+        &lt;tiles:definition&gt; tag and then using
+        &lt;tiles:insertDefinition&gt;.</li>
+      </ul>
+      <p>You must specify <code>name</code> tag attribute, surrounding tiles's
+        attribute name whose value is used.</p>
+     
+      <p><strong>Example : </strong></p>
+      <pre>
+        <code>
+          &lt;tiles:attribute name="body">
+        </code>
+      </pre>
+      ]]>
+      </description>
+      <attribute>
+         <name>template</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+         <![CDATA[
+         <p>A string representing the URI of a template. It is useful only if
+         the attribute value is a definition, to override the template specified
+         by definition itself.
+         </p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>name</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+         <![CDATA[
+         <p>Name of the attribute to define.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>flush</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>boolean</type>
+         <description>
+         <![CDATA[
+         <p>True or false. If true, current page out stream is flushed 
+         before insertion.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>ignore</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>boolean</type>
+         <description>
+         <![CDATA[
+         <p>If this attribute is set to true, and the attribute specified by the
+         name does not exist, simply return without writing anything. The
+         default value is false, which will cause a runtime exception to be
+         thrown.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>role</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+         <![CDATA[
+         <p>If the user is in the specified role, the tag is taken into account;
+         otherwise, the tag is ignored (skipped).</p>
+         ]]>
+         </description>
       </attribute>
       <attribute>
          <name>preparerUrl</name>
