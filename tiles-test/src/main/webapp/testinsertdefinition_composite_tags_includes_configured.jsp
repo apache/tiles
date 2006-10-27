@@ -10,4 +10,4 @@
     <tiles:put name="header" value="/header.jsp"/>
     <tiles:put name="body"   value="test.inner.definition" type="definition"/>
 </tiles:definition>
-<tiles:insert name="test.composite.definition.tags" type="definition" />
+<tiles:insertDefinition name="test.composite.definition.tags" />

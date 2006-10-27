@@ -5,4 +5,4 @@
   <tiles:put name="header" value="/header.jsp" />
   <tiles:put name="body"   value="/body.jsp" />
 </tiles:definition>
-<tiles:insert name="templateDefinition" />
+<tiles:insertDefinition name="templateDefinition" />
