@@ -19,6 +19,25 @@ limitations under the License.
 <faqs title="Tiles 2 FAQ">
     <part id="taglib-faq">
         <title>Tiles 2 Taglib</title>
+        <faq id="insert">
+            <question>What happened to <code>&amp;lt;tiles:insert&amp;gt;</code> tag?
+            </question>
+            <answer>
+                <p>The <code>&amp;lt;tiles:insert&amp;gt;</code> has been split
+                into three tags:</p>
+                <ul>
+                  <li><code>&amp;lt;tiles:insertTemplate&amp;gt;</code>, to
+                  insert a template,</li>
+                  <li><code>&amp;lt;tiles:insertDefinition&amp;gt;</code>, to
+                  insert a definition,</li>
+                  <li><code>&amp;lt;tiles:attribute&amp;gt;</code>, to define an
+                  attribute.</li>
+                </ul>
+                <p>Notice that the <code>type</code> attribute is not present in
+                any of these tags: it was removed because the type is implicit
+                in tags themselves.</p>
+            </answer>
+        </faq>
         <faq id="get">
             <question>What happened to <code>&amp;lt;tiles:get&amp;gt;</code> tag?
             </question>
