@@ -31,7 +31,7 @@ import java.util.Map;
 public interface TilesContextFactory {
 
     /**
-     * Initialize the factory
+     * Initialize the impl
      */
     void init(Map configurationParameters);
 
@@ -51,5 +51,5 @@ public interface TilesContextFactory {
      * @param response
      * @return  TilesRequestContext
      */
-    TilesRequestContext createRequestContext(Object context, Object request, Object response);
+    TilesRequestContext createRequestContext(TilesApplicationContext context, Object request, Object response);
 }

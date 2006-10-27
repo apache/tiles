@@ -31,7 +31,6 @@ import javax.servlet.ServletResponse;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.tiles.taglib.ComponentConstants;
 import org.apache.tiles.*;
-import org.apache.tiles.context.BasicTilesContextFactory;
 import org.apache.tiles.context.TilesContextAccess;
 
 /**
@@ -68,10 +67,9 @@ public class TagUtils {
     }
 
     public static TilesRequestContext getTilesRequestContext(
-            ServletContext context,
             ServletRequest request,
             ServletResponse response) {
-        return new BasicTilesContextFactory().createRequestContext(context, request, response);
+        return TilesUtil.createRequestContext(request, response);
     }
 
 
@@ -182,8 +180,7 @@ public class TagUtils {
      */
     public static Object findAttribute(String beanName, PageContext pageContext) {
         TilesRequestContext tilesContext = getTilesRequestContext(
-              pageContext.getServletContext(),
-              pageContext.getRequest(),
+                pageContext.getRequest(),
               pageContext.getResponse());
         ComponentContext compContext = ComponentContext.getContext(tilesContext);
 
@@ -209,8 +206,7 @@ public class TagUtils {
     public static Object getAttribute(String beanName, int scope, PageContext pageContext) {
         if (scope == ComponentConstants.COMPONENT_SCOPE) {
             TilesRequestContext tilesContext = getTilesRequestContext(
-                  pageContext.getServletContext(),
-                  pageContext.getRequest(),
+                    pageContext.getRequest(),
                   pageContext.getResponse());
             ComponentContext compContext = ComponentContext.getContext(tilesContext);
             return compContext.getAttribute(beanName);
@@ -379,8 +375,7 @@ public class TagUtils {
             } else {
                 if (tilesContext == null) {
                     tilesContext = getTilesRequestContext(
-                          pageContext.getServletContext(),
-                          pageContext.getRequest(),
+                            pageContext.getRequest(),
                           pageContext.getResponse()
                     );
                 }
@@ -393,7 +388,7 @@ public class TagUtils {
                 "Error : Can't get component definition for '"
                     + name
                     + "'. Check if this name exist in component definitions.",ex);
-        } catch (FactoryNotFoundException ex) { // factory not found.
+        } catch (FactoryNotFoundException ex) { // impl not found.
             throw new JspException(ex);
 
         } catch (DefinitionsFactoryException ex) {

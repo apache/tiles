@@ -34,6 +34,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.util.RequestUtils;
+import org.apache.tiles.context.BasicTilesContextFactory;
 
 /**
  * Default implementation of TilesUtil.
@@ -41,23 +42,23 @@ import org.apache.tiles.util.RequestUtils;
  * is intended to be used without Struts.
  */
 public class TilesUtilImpl implements Serializable {
-    
+
     /** Commons Logging instance.*/
     protected static final Log log = LogFactory.getLog(TilesUtil.class);
 
-    /** Constant name used to store factory in servlet context */
+    /** Constant name used to store impl in servlet context */
     public static final String DEFINITIONS_FACTORY =
         "org.apache.tiles.DEFINITIONS_FACTORY";
-    
+
     /** Constant used to store ComponentDefinitions graph. */
-    public static final String DEFINITIONS_OBJECT = 
+    public static final String DEFINITIONS_OBJECT =
             "org.apache.tiles.ComponentDefinitions";
-        
+
     /**
      * JSP 2.0 include method to use which supports configurable flushing.
      */
-    private static Method include = null;    
-    
+    private static Method include = null;
+
     /**
      * Initialize the include variable with the
      * JSP 2.0 method if available.
@@ -74,7 +75,21 @@ public class TilesUtilImpl implements Serializable {
         }
     }
 
-    /**
+    private TilesApplicationContext applicationContext;
+
+    public TilesUtilImpl(TilesApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+   public TilesApplicationContext getApplicationContext() {
+       return applicationContext;
+   }
+
+    public TilesRequestContext createRequestContext(Object request, Object response) {
+        return new BasicTilesContextFactory().createRequestContext(applicationContext, request, response);
+    }
+
+   /**
      * Do a forward using request dispatcher.
      *
      * This method is used by the Tiles package anytime a forward is required.
@@ -85,7 +100,7 @@ public class TilesUtilImpl implements Serializable {
         String uri,
         TilesRequestContext tilesContext)
         throws IOException, Exception {
-            
+
         tilesContext.dispatch(uri);
     }
 
@@ -101,7 +116,7 @@ public class TilesUtilImpl implements Serializable {
         String uri,
         TilesRequestContext tilesContext)
         throws IOException, Exception {
-            
+
         tilesContext.include(uri);
     }
 
@@ -121,155 +136,148 @@ public class TilesUtilImpl implements Serializable {
             if (include != null) {
                 include.invoke(pageContext, new Object[]{uri, Boolean.valueOf(flush)});
                 return;
-            } 
+            }
         } catch (IllegalAccessException e) {
             log.debug("Could not find JSP 2.0 include method.  Using old one.", e);
         } catch (InvocationTargetException e) {
             log.debug("Unable to execute JSP 2.0 include method.  Trying old one.", e);
         }
-            
+
         pageContext.include(uri);
     }
 
     /**
-     * Get definition factory from appropriate servlet context.
-     * @return Definitions factory or <code>null</code> if not found.
+     * Get definition impl from appropriate servlet context.
+     * @return Definitions impl or <code>null</code> if not found.
      */
-    public DefinitionsFactory getDefinitionsFactory(
-            TilesApplicationContext tilesContext) {
-            
-        return (DefinitionsFactory) tilesContext.getApplicationScope().get(DEFINITIONS_FACTORY);
+    public DefinitionsFactory getDefinitionsFactory() {
+
+        return (DefinitionsFactory) applicationContext.getApplicationScope().get(DEFINITIONS_FACTORY);
     }
 
     /**
-     * Create Definition factory from specified configuration object.
-     * Create an instance of the factory with the class specified in the config
-     * object. Then, initialize this factory and finally store the factory in
+     * Create Definition impl from specified configuration object.
+     * Create an instance of the impl with the class specified in the config
+     * object. Then, initialize this impl and finally store the impl in
      * appropriate context by calling
-     * {@link #makeDefinitionsFactoryAccessible(DefinitionsFactory, TilesApplicationContext)}.
+     * {@link #makeDefinitionsFactoryAccessible(DefinitionsFactory)}.
      * Factory creation is done by {@link #createDefinitionFactoryInstance(String)}.
      * <p>
      *
-     * @param tilesContext current Tiles application context.
-     * @param factoryConfig Configuration object passed to factory.
-     * @return newly created factory of type specified in the config object.
-     * @throws DefinitionsFactoryException If an error occur while initializing factory
+     * @param factoryConfig Configuration object passed to impl.
+     * @return newly created impl of type specified in the config object.
+     * @throws DefinitionsFactoryException If an error occur while initializing impl
      */
     public DefinitionsFactory createDefinitionsFactory(
-        TilesApplicationContext tilesContext,
         DefinitionsFactoryConfig factoryConfig)
         throws DefinitionsFactoryException {
-            
+
         // FIXME:  Do you think it is correct to pull it from ServletConfig?
         String factoryClassName = factoryConfig.getFactoryClassname();
-        
+
         if (factoryClassName == null) {
-        	factoryClassName = "org.apache.tiles.definition.UrlDefinitionsFactory";
+            factoryClassName = "org.apache.tiles.definition.UrlDefinitionsFactory";
         }
-        
-        // Create configurable factory
+
+        // Create configurable impl
         DefinitionsFactory factory =
             createDefinitionFactoryInstance(factoryClassName);
 
         Map params = factoryConfig.getAttributes();
-        
+
         factory.init(params);
 
         String configFiles = factoryConfig.getDefinitionConfigFiles();
         List filenames = getFilenames(configFiles);
-        
+
         try {
             for (int i = 0; i < filenames.size(); i++) {
                 String filename = (String) filenames.get(i);
-                factory.addSource(tilesContext.getResource(filename));
+                factory.addSource(applicationContext.getResource(filename));
             }
         } catch (MalformedURLException e) {
             throw new DefinitionsFactoryException("Problem with filename URL: ", e);
         }
-        
+
         ComponentDefinitions definitions = factory.readDefinitions();
-        
-        // Make factory accessible from jsp tags (push it in appropriate context)
-        makeDefinitionsFactoryAccessible(factory, tilesContext);
-        makeDefinitionsAccessible(definitions, tilesContext);
-        
+
+        // Make impl accessible from jsp tags (push it in appropriate context)
+        makeDefinitionsFactoryAccessible(factory);
+        makeDefinitionsAccessible(definitions);
+
         return factory;
     }
 
     public ComponentDefinition getDefinition(String definitionName,
-            TilesRequestContext tilesContext)
+                                             TilesRequestContext tilesContext)
             throws FactoryNotFoundException, DefinitionsFactoryException {
-        
+
         try {
-            DefinitionsFactory factory = getDefinitionsFactory(tilesContext);
+            DefinitionsFactory factory = getDefinitionsFactory();
             return factory.getDefinition(definitionName, tilesContext);
         } catch (NullPointerException ex) { // Factory not found in context
-            throw new FactoryNotFoundException("Can't get definitions factory from context.");
+            throw new FactoryNotFoundException("Can't get definitions impl from context.");
         }
     }
-    
+
     /**
-     * Create Definition factory of specified classname.
+     * Create Definition impl of specified classname.
      * Factory class must extend the {@link DefinitionsFactory} class.
-     * @param classname Class name of the factory to create.
-     * @return newly created factory.
-     * @throws DefinitionsFactoryException If an error occur while initializing factory
+     * @param classname Class name of the impl to create.
+     * @return newly created impl.
+     * @throws DefinitionsFactoryException If an error occur while initializing impl
      */
     protected DefinitionsFactory createDefinitionFactoryInstance(String classname)
         throws DefinitionsFactoryException {
-            
+
         try {
             Class factoryClass = RequestUtils.applicationClass(classname);
             Object factory = factoryClass.newInstance();
 
             return (DefinitionsFactory) factory;
-            
+
         } catch (ClassCastException ex) { // Bad classname
             throw new DefinitionsFactoryException(
                 "Error - createDefinitionsFactory : Factory class '"
                     + classname
                     + " must implement 'DefinitionsFactory'.",
                 ex);
-                
+
         } catch (ClassNotFoundException ex) { // Bad classname
             throw new DefinitionsFactoryException(
                 "Error - createDefinitionsFactory : Bad class name '"
                     + classname
                     + "'.",
                 ex);
-                
+
         } catch (InstantiationException ex) { // Bad constructor or error
             throw new DefinitionsFactoryException(ex);
-            
+
         } catch (IllegalAccessException ex) {
             throw new DefinitionsFactoryException(ex);
         }
     }
-    
+
     /**
-     * Make definition factory accessible to Tags.
+     * Make definition impl accessible to Tags.
      * Factory is stored in servlet context.
      * @param factory Factory to be made accessible.
-     * @param tilesContext Current application context.
      */
     protected void makeDefinitionsFactoryAccessible(
-        DefinitionsFactory factory,
-        TilesApplicationContext tilesContext) {
-            
-        tilesContext.getApplicationScope().put(DEFINITIONS_FACTORY, factory);
+        DefinitionsFactory factory) {
+
+        applicationContext.getApplicationScope().put(DEFINITIONS_FACTORY, factory);
     }
 
     /**
-     * Make definition factory accessible to Tags.
+     * Make definition impl accessible to Tags.
      * Factory is stored in servlet context.
-     * @param definitions Definition factory to be made accessible
-     * @param tilesContext current Tiles application context.
+     * @param definitions Definition impl to be made accessible
      */
     protected void makeDefinitionsAccessible(
-        ComponentDefinitions definitions,
-        TilesApplicationContext tilesContext) {
-            
-        tilesContext.getApplicationScope().put(DEFINITIONS_OBJECT, definitions);
+        ComponentDefinitions definitions) {
+
+        applicationContext.getApplicationScope().put(DEFINITIONS_OBJECT, definitions);
     }
 
     /**
@@ -282,7 +290,9 @@ public class TilesUtilImpl implements Serializable {
         while (tokenizer.hasMoreTokens()) {
             filenames.add(tokenizer.nextToken().trim());
         }
-        
+
         return filenames;
     }
+
+
 }

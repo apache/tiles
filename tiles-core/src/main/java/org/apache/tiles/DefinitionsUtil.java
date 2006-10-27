@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.taglib.ComponentConstants;
 
 /**
- * Utilities class for definitions factory.
+ * Utilities class for definitions impl.
  * Also define userDebugLevel property (TODO to be moved from this class ?).
  * @deprecated Use {@link TilesUtil#createDefinitionsFactory(TilesApplicationContext, DefinitionsFactoryConfig)}
  */
@@ -59,13 +59,13 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
         "definitions-debug";
 
     /** 
-     * Name of init property carrying factory class name. 
+     * Name of init property carrying impl class name.
      */
     public static final String DEFINITIONS_FACTORY_CLASSNAME =
-        "definitions-factory-class";
+        "definitions-impl-class";
 
     /** 
-     * Constant name used to store factory in context. 
+     * Constant name used to store impl in context.
      */
     public static final String DEFINITIONS_FACTORY =
         "org.apache.tiles.DEFINITIONS_FACTORY";
@@ -78,14 +78,14 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
         "org.apache.tiles.ACTION_DEFINITION";
 
     /**
-     * Create Definition factory.
-     * If a factory class name is provided, a factory of this class is created. Otherwise,
-     * default factory is created.
-     * @param classname Class name of the factory to create.
+     * Create Definition impl.
+     * If a impl class name is provided, a impl of this class is created. Otherwise,
+     * default impl is created.
+     * @param classname Class name of the impl to create.
      * @param tilesContext The current Tiles application context.
-     * @param properties Map of name/property used to initialize factory configuration object.
-     * @return newly created factory.
-     * @throws DefinitionsFactoryException If an error occur while initializing factory
+     * @param properties Map of name/property used to initialize impl configuration object.
+     * @return newly created impl.
+     * @throws DefinitionsFactoryException If an error occur while initializing impl
      * @deprecated Use createDefinitionsFactory(ServletContext servletContext, ServletConfig servletConfig)
      */
     public static DefinitionsFactory createDefinitionsFactory(
@@ -110,16 +110,16 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
         if (classname != null)
             factoryConfig.setFactoryClassname(classname);
 
-        // Create factory using config object
-        return createDefinitionsFactory(tilesContext, factoryConfig);
+        // Create impl using config object
+        return createDefinitionsFactory(factoryConfig);
     }
 
     /**
-     * Create default Definition factory.
+     * Create default Definition impl.
      * @param tilesContext The current Tiles application context.
-     * @param properties Map of name/property used to initialize factory configuration object.
-     * @return newly created factory of type ConfigurableDefinitionsFactory.
-     * @throws DefinitionsFactoryException If an error occur while initializing factory
+     * @param properties Map of name/property used to initialize impl configuration object.
+     * @return newly created impl of type ConfigurableDefinitionsFactory.
+     * @throws DefinitionsFactoryException If an error occur while initializing impl
      */
     public static DefinitionsFactory createDefinitionsFactory(
         TilesApplicationContext tilesContext,
@@ -130,15 +130,15 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
     }
 
     /**
-     * Create Definition factory.
+     * Create Definition impl.
      * Create configuration object from servlet web.xml file, then create
      * ConfigurableDefinitionsFactory and initialized it with object.
      * <p>
      * Convenience method. Calls createDefinitionsFactory(ServletContext servletContext, DefinitionsFactoryConfig factoryConfig)
      *
      * @param tilesContext The current Tiles application context.
-     * @return newly created factory of type ConfigurableDefinitionsFactory.
-     * @throws DefinitionsFactoryException If an error occur while initializing factory
+     * @return newly created impl of type ConfigurableDefinitionsFactory.
+     * @throws DefinitionsFactoryException If an error occur while initializing impl
      */
     public static DefinitionsFactory createDefinitionsFactory(
         TilesApplicationContext tilesContext)
@@ -146,26 +146,26 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
 
         DefinitionsFactoryConfig factoryConfig = readFactoryConfig(tilesContext);
 
-        return createDefinitionsFactory(tilesContext, factoryConfig);
+        return createDefinitionsFactory(factoryConfig);
     }
 
     /**
-     * Create Definition factory.
+     * Create Definition impl.
      * Create configuration object from servlet web.xml file, then create
      * ConfigurableDefinitionsFactory and initialized it with object.
      * <p>
-     * If checkIfExist is true, start by checking if factory already exist. If yes,
+     * If checkIfExist is true, start by checking if impl already exist. If yes,
      * return it. If no, create a new one.
      * <p>
-     * If checkIfExist is false, factory is always created.
+     * If checkIfExist is false, impl is always created.
      * <p>
      * Convenience method. Calls createDefinitionsFactory(ServletContext servletContext, DefinitionsFactoryConfig factoryConfig)
      *
      * @param tilesContext The current Tiles application context.
-     * @param checkIfExist Check if factory already exist. If true and factory exist, return it.
-     * If true and factory doesn't exist, create it. If false, create it in all cases.
-     * @return newly created factory of type ConfigurableDefinitionsFactory.
-     * @throws DefinitionsFactoryException If an error occur while initializing factory
+     * @param checkIfExist Check if impl already exist. If true and impl exist, return it.
+     * If true and impl doesn't exist, create it. If false, create it in all cases.
+     * @return newly created impl of type ConfigurableDefinitionsFactory.
+     * @throws DefinitionsFactoryException If an error occur while initializing impl
      */
     public static DefinitionsFactory createDefinitionsFactory(
         TilesApplicationContext tilesContext,
@@ -183,10 +183,10 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
     }
 
     /**
-     * Get definition factory from appropriate servlet context.
+     * Get definition impl from appropriate servlet context.
      *
      * @param tilesContext the current Tiles application context.
-     * @return Definitions factory or null if not found.
+     * @return Definitions impl or null if not found.
      * @deprecated Use {@link TilesUtil#getDefinitionsFactory(TilesApplicationContext)
      * @since 20020708
      */

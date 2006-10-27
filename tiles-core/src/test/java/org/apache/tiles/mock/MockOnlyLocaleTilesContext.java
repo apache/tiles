@@ -62,6 +62,11 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     public void dispatch(String path) throws IOException, Exception {
     }
 
+
+    public String getDefinitionName() {
+        return null;
+    }
+
     public Map getApplicationScope() {
         return null;
     }

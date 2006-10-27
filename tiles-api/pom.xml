@@ -28,15 +28,9 @@
    </parent>
 
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>tiles-core</artifactId>
+   <artifactId>tiles-api</artifactId>
    <packaging>jar</packaging>
-   <name>Tiles - Core Library</name>
-
-   <scm>
-      <connection>svm:svn:http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</connection>
-      <developerConnection>scm:svn:https://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</developerConnection>
-      <url>http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</url>
-   </scm>
+   <name>Tiles - API </name>
 
    <build>
 
@@ -63,6 +57,7 @@
             </includes>
          </testResource>
       </testResources>
+
        <plugins>
            <plugin>
                <artifactId>maven-jar-plugin</artifactId>
@@ -77,45 +72,7 @@
 
    </build>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>net.sourceforge.maven-taglib</groupId>
-                <artifactId>maven-taglib-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>net.sf.dtddoc</groupId>
-                <artifactId>dtddoc-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </reporting>
-
-
     <dependencies>
-      <dependency>
-         <groupId>org.apache.struts.tiles</groupId>
-         <artifactId>tiles-api</artifactId>
-         <version>${pom.version}</version>
-      </dependency>
-
-
-      <dependency>
-         <groupId>commons-beanutils</groupId>
-         <artifactId>commons-beanutils</artifactId>
-         <version>1.7.0</version>
-      </dependency>
-
-      <dependency>
-         <groupId>commons-digester</groupId>
-         <artifactId>commons-digester</artifactId>
-         <version>1.7</version>
-      </dependency>
-
-      <dependency>
-         <groupId>commons-logging</groupId>
-         <artifactId>commons-logging</artifactId>
-         <version>1.0.4</version>
-      </dependency>
 
       <dependency>
          <groupId>javax.servlet</groupId>
@@ -137,27 +94,5 @@
          <version>3.8.1</version>
          <scope>test</scope>
       </dependency>
-
-      <dependency>
-         <groupId>strutstestcase</groupId>
-         <artifactId>strutstestcase</artifactId>
-         <version>2.1.2-1.1-2.3</version>
-         <scope>test</scope>
-      </dependency>
-
    </dependencies>
-
-   <repositories>
-      <repository>
-         <id>dtddoc</id>
-          <url>http://dtddoc.sf.net/maven2</url>
-      </repository>
-   </repositories>
-   <pluginRepositories>
-      <pluginRepository>
-         <id>dtddoc</id>
-         <url>http://dtddoc.sf.net/maven2</url>
-      </pluginRepository>
-   </pluginRepositories>
-   
 </project>

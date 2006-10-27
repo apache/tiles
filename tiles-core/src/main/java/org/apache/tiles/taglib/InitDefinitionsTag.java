@@ -26,7 +26,7 @@ import org.apache.tiles.*;
 import org.apache.tiles.context.TilesContextAccess;
 
 /**
- * Init definitions factory.
+ * Init definitions impl.
  */
 public class InitDefinitionsTag extends TagSupport implements ComponentConstants {
 
@@ -70,7 +70,7 @@ public void setClassname(String classname){
 public int doStartTag() throws JspException {
     TilesApplicationContext tilesContext =
         TilesContextAccess.getApplicationContext(pageContext.getServletContext());
-    DefinitionsFactory factory = TilesUtil.getDefinitionsFactory(tilesContext);
+    DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
     if(factory != null ) {
       return SKIP_BODY;
     }
@@ -80,7 +80,7 @@ public int doStartTag() throws JspException {
     factoryConfig.setDefinitionConfigFiles( filename );
 
     try {
-      factory = TilesUtil.createDefinitionsFactory(tilesContext, factoryConfig);
+      factory = TilesUtil.createDefinitionsFactory(factoryConfig);
     } catch( DefinitionsFactoryException ex ) {
         ex.printStackTrace();
         throw new JspException( ex );

@@ -523,10 +523,9 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
                 if (preparer != null) {
                     try {
                         TilesRequestContext tilesContext = TagUtils
-                                .getTilesRequestContext(pageContext
-                                        .getServletContext(), pageContext
-                                        .getRequest(), pageContext
-                                        .getResponse());
+                                .getTilesRequestContext(
+                                        pageContext.getRequest(),
+                                        pageContext.getResponse());
                         preparer.execute(tilesContext, subCompContext);
                     } catch (Exception e) {
                         throw new ServletException(e);

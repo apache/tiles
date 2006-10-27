@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 
 /**
- * Tests the reloadable definitions factory.
+ * Tests the reloadable definitions impl.
  *
  * @version $Rev$ $Date$ 
  */
@@ -61,7 +61,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
     }
 
     /**
-     * Tests reloading definitions factory.
+     * Tests reloading definitions impl.
      */
     public void testReloadableDefinitionsFactory() {
         try {

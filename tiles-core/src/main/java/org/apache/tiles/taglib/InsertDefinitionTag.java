@@ -98,7 +98,7 @@ public class InsertDefinitionTag extends BaseInsertTag {
         
         try {
             TilesRequestContext tilesContext = TagUtils.getTilesRequestContext(
-                    pageContext.getServletContext(), pageContext.getRequest(),
+                    pageContext.getRequest(),
                     pageContext.getResponse());
             ComponentDefinition definition = null;
             definition = TagUtils.getComponentDefinition(name, pageContext,

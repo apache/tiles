@@ -60,7 +60,9 @@
     </distributionManagement>
 
     <modules>
+        <module>tiles-api</module>
         <module>tiles-core</module>
+        <module>tiles-factory</module>
         <module>tiles-test</module>
     </modules>
 

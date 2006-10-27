@@ -37,6 +37,8 @@ import org.apache.tiles.TilesRequestContext;
  */
 public class PortletTilesRequestContext extends PortletTilesApplicationContext implements TilesRequestContext {
 
+    private String definitionName;
+
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -146,6 +148,15 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         response = null;
         super.release();
 
+    }
+
+
+    public String getDefinitionName() {
+        return definitionName;
+    }
+
+    public void setDefinitionName(String definitionName) {
+        this.definitionName = definitionName;
     }
 
     /**

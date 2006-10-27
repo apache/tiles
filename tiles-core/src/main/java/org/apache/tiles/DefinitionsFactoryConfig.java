@@ -29,7 +29,7 @@ import org.apache.commons.beanutils.BeanUtils;
 
 /**
  * A TilesFactoryConfig object hold configuration attributes for a tile
- * definition factory.
+ * definition impl.
  *
  * @since Struts 1.1
  * @version $Rev$ $Date$
@@ -37,8 +37,8 @@ import org.apache.commons.beanutils.BeanUtils;
 public class DefinitionsFactoryConfig implements Serializable {
 
     /**
-     * Fully qualified classname of the factory to create.
-     * If no classname is set, a default factory is created
+     * Fully qualified classname of the impl to create.
+     * If no classname is set, a default impl is created
      * (of class "org.apache.tiles.xmlDefinition.I18nFactorySet").
      */
     protected String factoryClassname =
@@ -56,14 +56,14 @@ public class DefinitionsFactoryConfig implements Serializable {
     protected String definitionConfigFiles = null;
 
     /**
-     * Specifies whether the factory is "module-aware".
+     * Specifies whether the impl is "module-aware".
      */
     protected boolean moduleAware = true;
 
     /**
-     * The name associated to this factory.
+     * The name associated to this impl.
      * <br>
-     * With Struts 1.1, this name is the module name to which this factory
+     * With Struts 1.1, this name is the module name to which this impl
      * belong. It is set by the system.
      * <br>
      * In prior versions, this property is not used.
@@ -84,10 +84,10 @@ public class DefinitionsFactoryConfig implements Serializable {
         "definitions-parser-validate";
 
     /** 
-     * Alternate name for factory classname properties in configuration file. 
+     * Alternate name for impl classname properties in configuration file.
      */
     public static final String FACTORY_CLASSNAME_PARAMETER_NAME =
-        "definitions-factory-class";
+        "definitions-impl-class";
 
     /** 
      * Alternate name for definition files properties in configuration file. 
@@ -126,23 +126,23 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Get the module aware flag.
-     * @return <code>true</code>: user wants a single factory instance,
-     * <code>false</code>: user wants multiple factory instances (one per module with Struts)
+     * @return <code>true</code>: user wants a single impl instance,
+     * <code>false</code>: user wants multiple impl instances (one per module with Struts)
      */
     public boolean isModuleAware() {
         return moduleAware;
     }
     /**
      * Set the module aware flag.
-     * @param moduleAware <code>true</code>: user wants a single factory instance,
-     * <code>false</code>: user wants multiple factory instances (one per module with Struts)
+     * @param moduleAware <code>true</code>: user wants a single impl instance,
+     * <code>false</code>: user wants multiple impl instances (one per module with Struts)
      */
     public void setModuleAware(boolean moduleAware) {
         this.moduleAware = moduleAware;
     }
 
     /**
-     * Get the classname of the factory.
+     * Get the classname of the impl.
      * @return Classname.
      */
     public String getFactoryClassname() {
@@ -150,8 +150,8 @@ public class DefinitionsFactoryConfig implements Serializable {
     }
 
     /**
-     * Set the classname of the factory..
-     * @param aFactoryClassname Classname of the factory.
+     * Set the classname of the impl..
+     * @param aFactoryClassname Classname of the impl.
      */
     public void setFactoryClassname(String aFactoryClassname) {
         factoryClassname = aFactoryClassname;
@@ -299,14 +299,14 @@ public class DefinitionsFactoryConfig implements Serializable {
     }
 
     /**
-     * Get the factory name.
+     * Get the impl name.
      */
     public String getFactoryName() {
         return factoryName;
     }
     /**
-     * Set the factory name.
-     * @param factoryName Name of the factory.
+     * Set the impl name.
+     * @param factoryName Name of the impl.
      */
     public void setFactoryName(String factoryName) {
         this.factoryName = factoryName;

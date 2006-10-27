@@ -56,6 +56,7 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
         initialize(servletContext);
     }
 
+
     public Map getApplicationScope() {
 
         if ((applicationScope == null) && (servletContext != null)) {
@@ -80,6 +81,9 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
         return servletContext.getResource(path);
     }
 
+    public URL[] getResources(String path) throws MalformedURLException {
+        return new URL[] { servletContext.getResource(path) };
+    }
 
     public ServletContext getServletContext() {
         return servletContext;

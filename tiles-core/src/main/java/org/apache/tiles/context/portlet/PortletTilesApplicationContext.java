@@ -95,7 +95,7 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
     /**
      * <p>Return the {@link PortletContext} for this context.</p>
      */
-    public PortletContext getContext() {
+    public PortletContext getPortletContext() {
         return (this.context);
     }
 
@@ -121,6 +121,9 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
         return context.getResource(path);
     }
 
+    public URL[] getResources(String path) throws MalformedURLException {
+        return new URL[] { context.getResource(path) };
+    }
 
     public TilesRequestContext createRequestContext(Object request, Object response) {
         if (request instanceof PortletRequest && response instanceof PortletResponse) {
@@ -133,5 +136,7 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
                     + context.getClass().getName());
         }
     }
+    
+    
 
 }

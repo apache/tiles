@@ -33,7 +33,7 @@ import org.apache.tiles.context.BasicTilesContextFactory;
 
 /**
  * This is the entry point for Tiles. The <code>TilesServlet</code> initializes
- * Tiles by creating a factory of tile definitions.
+ * Tiles by creating a impl of tile definitions.
  * <p/>
  * <strong>Using the Tiles Servlet</strong>
  * <p/>
@@ -53,7 +53,7 @@ import org.apache.tiles.context.BasicTilesContextFactory;
  * this servlet does everything when it's loaded. After that, it does not
  * service requests. This is not a front-controller servlet, like the Struts or JSF servlets.<br/><br/>
  * TilesServlet reads through your Tiles configuration file(s) and stores
- * tile definitions in a factory. That factory is accessed by the Tiles
+ * tile definitions in a impl. That impl is accessed by the Tiles
  * tag libraries. You can specify a configuration file like this:
  * <p/>
  * <pre>&lt;web-app&gt;
@@ -98,7 +98,7 @@ can also define multiple configuration files like this:
  * problems are found with your configuration files, the Tiles servlet of yesteryear would 
  * throw a <code>FactoryNotFound</code> exception and log the error message to the servlet 
  * container's log. Subsequently, when the <code>tiles:insert</code> tag blows up because 
- * there's no definition factory, Tiles would throw an exception with the familiar 
+ * there's no definition impl, Tiles would throw an exception with the familiar
  * <i>Cant find definitions config file</i> message. It was up to you to dig through 
  * the servlet container's log to find out what really went wrong.
  *
@@ -139,7 +139,7 @@ public class TilesServlet extends HttpServlet {
 
 
     /**
-     * The Tiles definition factory
+     * The Tiles definition impl
     */
    protected DefinitionsFactory definitionFactory = null;
 
@@ -153,8 +153,8 @@ public class TilesServlet extends HttpServlet {
 
     /**
      * Initializes the servlet by creating the Tiles definition
-     * factory and placing that factory in application scope. The
-     * Tiles tags will subsequently access that factory.
+     * impl and placing that impl in application scope. The
+     * Tiles tags will subsequently access that impl.
      *
      * @param config The servlet config
      */
@@ -165,12 +165,14 @@ public class TilesServlet extends HttpServlet {
         configFiles = config.getInitParameter("definitions-config");
 
         try {
-            // Create factory config object
+            // Create impl config object
             DefinitionsFactoryConfig fconfig = readFactoryConfig(config);
             fconfig.setModuleAware(false);
 
             ServletContext context = config.getServletContext();
-            TilesUtil.setTilesUtil(new TilesUtilImpl());
+            TilesContextFactory factory = new BasicTilesContextFactory();
+            TilesApplicationContext tilesContext = factory.createApplicationContext(context);
+            TilesUtil.setTilesUtil(new TilesUtilImpl(tilesContext));
             initDefinitionsFactory(context, fconfig);
         }
         catch(Exception ex) {
@@ -181,7 +183,7 @@ public class TilesServlet extends HttpServlet {
 
 
     /**
-     * Populates the tiles factory configuration. If a
+     * Populates the tiles impl configuration. If a
      * context init param named <i>definitions-config</i>
      * was defined, that param's value is assumed to be
      * a comma-separated list of configuration file names,
@@ -218,21 +220,20 @@ public class TilesServlet extends HttpServlet {
 
 
     /**
-     * Initializes the Tiles definitions factory.
+     * Initializes the Tiles definitions impl.
      *
      * @param servletContext The servlet context
-     * @param factoryConfig The definitions factory config
+     * @param factoryConfig The definitions impl config
      */
    private void initDefinitionsFactory(ServletContext servletContext,
                                        DefinitionsFactoryConfig factoryConfig)
         throws ServletException {
-        logger.info("initializing definitions factory...");
-        // Create configurable factory
+        logger.info("initializing definitions impl...");
+        // Create configurable impl
         try {
-            TilesContextFactory factory = new BasicTilesContextFactory();
-            TilesApplicationContext tilesContext = factory.createApplicationContext(servletContext);
+
             definitionFactory = DefinitionsUtil.createDefinitionsFactory(
-                                tilesContext, factoryConfig);
+                                factoryConfig);
         } catch (DefinitionsFactoryException ex) {
                     ex.printStackTrace();
             throw new ServletException(ex.getMessage(), ex);
@@ -250,7 +251,7 @@ public class TilesServlet extends HttpServlet {
      * @param ex An exception
      */
     private void saveExceptionMessage(ServletConfig config, Exception ex) {
-       logger.warning("Caught exception when initializing definitions factory");
+       logger.warning("Caught exception when initializing definitions impl");
        logger.warning(ex.getMessage());
        logger.warning(ex.toString());
        //config.getServletContext().setAttribute(Globals.TILES_INIT_EXCEPTION, ex.getMessage());

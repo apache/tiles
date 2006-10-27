@@ -65,15 +65,18 @@ public class BasicTilesContextFactory implements TilesContextFactory {
         }
     }
 
-    public TilesRequestContext createRequestContext(Object context,
+    public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object request,
                                                     Object response) {
-        if (context instanceof ServletContext) {
-            return new ServletTilesRequestContext((ServletContext)context,
+        if (context instanceof ServletTilesApplicationContext) {
+            ServletTilesApplicationContext app = (ServletTilesApplicationContext)context;
+            
+            return new ServletTilesRequestContext(app.getServletContext(),
                                                   (HttpServletRequest)request,
                                                   (HttpServletResponse)response);
         } else if (context instanceof PortletContext) {
-            return new PortletTilesRequestContext((PortletContext)context,
+            PortletTilesApplicationContext app = (PortletTilesApplicationContext)context;
+            return new PortletTilesRequestContext(app.getPortletContext(),
                                                   (PortletRequest)request,
                                                   (PortletResponse)response);
                 } else {
@@ -81,5 +84,4 @@ public class BasicTilesContextFactory implements TilesContextFactory {
                     + context.getClass().getName());
         }
     }
-
 }

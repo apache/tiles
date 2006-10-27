@@ -20,7 +20,7 @@
 package org.apache.tiles;
 
   /**
-   * Exception thrown when an error occurs while the factory tries to
+   * Exception thrown when an error occurs while the impl tries to
    * create a new instance mapper.
    */
 public class DefinitionsFactoryException extends TilesException

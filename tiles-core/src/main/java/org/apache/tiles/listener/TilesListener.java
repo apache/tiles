@@ -68,7 +68,7 @@ public class TilesListener implements ServletContextListener {
 
 
     /**
-     * The Tiles definition factory
+     * The Tiles definition impl
     */
    protected DefinitionsFactory definitionFactory = null;
 
@@ -86,11 +86,13 @@ public class TilesListener implements ServletContextListener {
         try {
             ServletContext context = event.getServletContext();
 
-            // Create factory config object
+            // Create impl config object
             DefinitionsFactoryConfig fconfig = readFactoryConfig(context);
             fconfig.setModuleAware(false);
 
-            TilesUtil.setTilesUtil(new TilesUtilImpl());
+            TilesContextFactory factory = new BasicTilesContextFactory();
+            TilesApplicationContext tilesContext = factory.createApplicationContext(context);
+            TilesUtil.setTilesUtil(new TilesUtilImpl(tilesContext));
             initDefinitionsFactory(context, fconfig);
         }
         catch(Exception ex) {
@@ -106,7 +108,7 @@ public class TilesListener implements ServletContextListener {
 
 
     /**
-     * Populates the tiles factory configuration. If a
+     * Populates the tiles impl configuration. If a
      * context init param named <i>definitions-config</i>
      * was defined, that param's value is assumed to be
      * a comma-separated list of configuration file names,
@@ -143,22 +145,20 @@ public class TilesListener implements ServletContextListener {
 
 
     /**
-     * Initializes the Tiles definitions factory.
+     * Initializes the Tiles definitions impl.
      *
      * @param servletContext The servlet context
-     * @param factoryConfig The definitions factory config
+     * @param factoryConfig The definitions impl config
      */
    private void initDefinitionsFactory(ServletContext servletContext,
                                        DefinitionsFactoryConfig factoryConfig)
                                                     throws ServletException {
-        logger.info("initializing definitions factory...");
-        // Create configurable factory
+        logger.info("initializing definitions impl...");
+        // Create configurable impl
         try {
             // Eventually this can be made dynamic
-            TilesContextFactory factory = new BasicTilesContextFactory();
-            TilesApplicationContext tilesContext = factory.createApplicationContext(servletContext);
-            definitionFactory = TilesUtil.createDefinitionsFactory(
-                                            tilesContext, factoryConfig);
+
+            definitionFactory = TilesUtil.createDefinitionsFactory(factoryConfig);
         } catch (DefinitionsFactoryException ex) {
                     ex.printStackTrace();
             throw new ServletException(ex.getMessage(), ex);
@@ -176,7 +176,7 @@ public class TilesListener implements ServletContextListener {
      * @param ex An exception
      */
     private void saveExceptionMessage(ServletContext context, Exception ex) {
-       logger.warning("Caught exception when initializing definitions factory");
+       logger.warning("Caught exception when initializing definitions impl");
        logger.warning(ex.getMessage());
        logger.warning(ex.toString());
        context.setAttribute("TILES_INIT_EXCEPTION", ex.getMessage());

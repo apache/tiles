@@ -133,15 +133,15 @@ public class UrlDefinitionsFactory
      */
     public ComponentDefinition getDefinition(String name,
             TilesRequestContext tilesContext) throws DefinitionsFactoryException {
-        ComponentDefinitions definitions = (ComponentDefinitions) 
-                tilesContext.getApplicationScope().get(
-                        TilesUtilImpl.DEFINITIONS_OBJECT);
+        Map appScoped = TilesUtil.getTilesUtil().getApplicationContext().getApplicationScope();
+        ComponentDefinitions definitions = (ComponentDefinitions)
+                appScoped.get(TilesUtilImpl.DEFINITIONS_OBJECT);
         ComponentDefinition definition = definitions.getDefinition(
                 name, tilesContext.getRequestLocale());
         
         if (definition == null) {
             if (!isContextProcessed(tilesContext)) {
-                // FIXME This will modify the factory as well as the definitions
+                // FIXME This will modify the impl as well as the definitions
                 // but we are only locking the definitions.
                 // 
                 // We'll have to refactor again to remove this issue.

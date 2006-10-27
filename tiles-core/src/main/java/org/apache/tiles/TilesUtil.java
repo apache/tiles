@@ -37,12 +37,12 @@ import org.apache.commons.logging.LogFactory;
  * if the underlying implementation doesn't support the operation.
  */
 public class TilesUtil {
-    
+
     /** Commons Logging instance.*/
     protected static Log log = LogFactory.getLog(TilesUtil.class);
 
     /** The implementation of tilesUtilImpl */
-    protected static TilesUtilImpl tilesUtilImpl = new TilesUtilImpl();
+    protected static TilesUtilImpl tilesUtilImpl;
 
     /**
      * Get the real implementation.
@@ -78,6 +78,14 @@ public class TilesUtil {
     /** Flag to know if internal implementation has been set by the setter method */
     private static boolean implAlreadySet = false;
 
+    public static TilesApplicationContext getApplicationContext() {
+        return tilesUtilImpl.getApplicationContext();
+    }
+
+    public static TilesRequestContext createRequestContext(Object request, Object response) {
+        return tilesUtilImpl.createRequestContext(request, response);
+    }
+
     /**
      * Do a forward using request dispatcher.
      *
@@ -89,7 +97,7 @@ public class TilesUtil {
         String uri,
         TilesRequestContext tilesContext)
         throws IOException, Exception {
-            
+
         tilesUtilImpl.doForward(uri, tilesContext);
     }
 
@@ -105,7 +113,7 @@ public class TilesUtil {
         String uri,
         TilesRequestContext tilesContext)
         throws IOException, Exception {
-            
+
         tilesUtilImpl.doInclude(uri, tilesContext);
     }
 
@@ -121,7 +129,7 @@ public class TilesUtil {
         throws IOException, Exception {
         doInclude(uri, pageContext, true);
     }
-    
+
     /**
      * Do an include using PageContext.include().
      *
@@ -137,42 +145,39 @@ public class TilesUtil {
     }
 
     /**
-     * Get definition factory from appropriate servlet context.
-     * @return Definitions factory or <code>null</code> if not found.
+     * Get definition impl from appropriate servlet context.
+     * @return Definitions impl or <code>null</code> if not found.
      */
-    public static DefinitionsFactory getDefinitionsFactory(
-        TilesApplicationContext tilesContext) {
-        return tilesUtilImpl.getDefinitionsFactory(tilesContext);
+    public static DefinitionsFactory getDefinitionsFactory() {
+        return tilesUtilImpl.getDefinitionsFactory();
     }
 
     /**
-     * Create Definition factory from specified configuration object.
+     * Create Definition impl from specified configuration object.
      * Create a ConfigurableDefinitionsFactory and initialize it with the configuration
-     * object. This later can contain the factory classname to use.
+     * object. This later can contain the impl classname to use.
      * Factory is made accessible from tags.
      * <p>
-     * Fallback of several factory creation methods.
+     * Fallback of several impl creation methods.
      *
-     * @param tilesContext Current Tiles application context.
-     * @param factoryConfig Configuration object passed to factory.
-     * @return newly created factory of type ConfigurableDefinitionsFactory.
-     * @throws DefinitionsFactoryException If an error occur while initializing factory
+     * @param factoryConfig Configuration object passed to impl.
+     * @return newly created impl of type ConfigurableDefinitionsFactory.
+     * @throws DefinitionsFactoryException If an error occur while initializing impl
      */
     public static DefinitionsFactory createDefinitionsFactory(
-        TilesApplicationContext tilesContext,
         DefinitionsFactoryConfig factoryConfig)
         throws DefinitionsFactoryException {
-        return tilesUtilImpl.createDefinitionsFactory(tilesContext, factoryConfig);
+        return tilesUtilImpl.createDefinitionsFactory(factoryConfig);
     }
 
     /**
      * Get a definition by its name.
-     * First, retrieve definition factory and then get requested definition.
-     * Throw appropriate exception if definition or definition factory is not found.
+     * First, retrieve definition impl and then get requested definition.
+     * Throw appropriate exception if definition or definition impl is not found.
      * @param definitionName Name of requested definition.
      * @param tilesContext Current Tiles application context.
-     * @throws FactoryNotFoundException Can't find definition factory.
-     * @throws DefinitionsFactoryException General error in factory while getting definition.
+     * @throws FactoryNotFoundException Can't find definition impl.
+     * @throws DefinitionsFactoryException General error in impl while getting definition.
      * @throws NoSuchDefinitionException No definition found for specified name
      */
     public static ComponentDefinition getDefinition(
@@ -188,7 +193,7 @@ public class TilesUtil {
      */
     protected static void testReset() {
         implAlreadySet = false;
-        tilesUtilImpl = new TilesUtilImpl();
+        tilesUtilImpl = new TilesUtilImpl(null);
     }
 
 }

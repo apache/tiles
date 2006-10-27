@@ -63,10 +63,7 @@ public class TilesFilter implements Filter {
             throws IOException, ServletException {
 
         try {
-            ServletContext servletContext = filterConfig.getServletContext();
-            TilesContextFactory contextFactory = new BasicTilesContextFactory();
-            TilesApplicationContext tilesContext = contextFactory.createApplicationContext(servletContext);
-            DefinitionsFactory factory = TilesUtil.getDefinitionsFactory(tilesContext);
+            DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
 
             if (factory instanceof ReloadableDefinitionsFactory) {
                 if (((ReloadableDefinitionsFactory) factory).refreshRequired()) {
