@@ -47,6 +47,6 @@ public interface TilesContainer {
      *
      * @param request
      */
-    void render(TilesRequestContext request) throws TilesException;
+    void render(TilesRequestContext request, String definition) throws TilesException;
 
 }

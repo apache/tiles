@@ -41,8 +41,6 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
 
     private HttpServletResponse response;
 
-    private String definitionName;
-
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
      * combinations (immutable).</p>
@@ -91,14 +89,6 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         initialize(request, response);
     }
 
-
-    public String getDefinitionName() {
-        return definitionName;
-    }
-
-    public void setDefinitionName(String definitionName) {
-        this.definitionName = definitionName;
-    }
 
     public Map getHeader() {
 

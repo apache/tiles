@@ -29,12 +29,6 @@ import java.util.Locale;
 public interface TilesRequestContext {
 
     /**
-     * The definition currently being requested.
-     * @return
-     */
-    String getDefinitionName();
-
-    /**
      * Return an immutable Map that maps header names to the first (or only)
      * header value (as a String).
      */

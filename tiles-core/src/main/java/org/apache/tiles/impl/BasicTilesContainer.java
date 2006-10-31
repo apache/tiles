@@ -149,9 +149,8 @@ public class BasicTilesContainer implements TilesContainer {
      * @param request the TilesRequestContext
      * @throws TilesException
      */
-    public void render(TilesRequestContext request)
+    public void render(TilesRequestContext request, String definitionName)
             throws TilesException {
-        String definitionName = request.getDefinitionName();
         ComponentDefinition definition =
                 definitionsFactory.getDefinition(definitionName, request);
 
