@@ -22,6 +22,7 @@ package org.apache.tiles;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import junit.textui.TestRunner;
 import servletunit.ServletConfigSimulator;
 import servletunit.ServletContextSimulator;
 
@@ -47,7 +48,7 @@ public class TestTilesServlet extends TestCase {
      * @param theArgs the arguments. Not used
      */
     public static void main(String[] theArgs) {
-        junit.awtui.TestRunner.main(
+        TestRunner.main(
             new String[] { TestTilesServlet.class.getName()});
     }
 

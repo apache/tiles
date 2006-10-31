@@ -44,7 +44,7 @@ public class TestComponentDefinitions extends TestCase {
      * @param theArgs the arguments. Not used
      */
     public static void main(String[] theArgs) {
-        junit.awtui.TestRunner.main(
+        junit.textui.TestRunner.main(
             new String[] { TestComponentDefinitions.class.getName()});
     }
 

@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.apache.tiles.*;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.BasicTilesContextFactory;
 
@@ -172,6 +173,7 @@ public class TilesServlet extends HttpServlet {
             ServletContext context = config.getServletContext();
             TilesContextFactory factory = new BasicTilesContextFactory();
             TilesApplicationContext tilesContext = factory.createApplicationContext(context);
+            TilesAccess.setApplicationContext(context, tilesContext);
             TilesUtil.setTilesUtil(new TilesUtilImpl(tilesContext));
             initDefinitionsFactory(context, fconfig);
         }

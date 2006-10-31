@@ -50,15 +50,11 @@ public class BasicTilesContextFactory implements TilesContextFactory {
     public TilesApplicationContext createApplicationContext(Object context) {
         if (context instanceof ServletContext) {
             ServletContext servletContext = (ServletContext)context;
-            TilesApplicationContext ctx = new ServletTilesApplicationContext(servletContext);
-            TilesContextAccess.registerApplicationContext(servletContext, ctx);
-            return ctx;
+            return new ServletTilesApplicationContext(servletContext);
 
         } else if (context instanceof PortletContext) {
             PortletContext portletContext = (PortletContext)context;
-            TilesApplicationContext ctx = new PortletTilesApplicationContext(portletContext);
-            TilesContextAccess.registerApplicationContext(portletContext, ctx);
-            return ctx;
+            return new PortletTilesApplicationContext(portletContext);
         } else {
             throw new IllegalArgumentException("Invalid context specified. "
                     + context.getClass().getName());

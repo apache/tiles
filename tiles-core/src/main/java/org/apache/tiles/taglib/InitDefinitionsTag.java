@@ -23,7 +23,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.tiles.*;
-import org.apache.tiles.context.TilesContextAccess;
+import org.apache.tiles.access.TilesAccess;
 
 /**
  * Init definitions impl.
@@ -69,7 +69,7 @@ public void setClassname(String classname){
    */
 public int doStartTag() throws JspException {
     TilesApplicationContext tilesContext =
-        TilesContextAccess.getApplicationContext(pageContext.getServletContext());
+        TilesAccess.getApplicationContext(pageContext.getServletContext());
     DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
     if(factory != null ) {
       return SKIP_BODY;

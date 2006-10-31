@@ -27,12 +27,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
-import org.apache.tiles.DefinitionsFactory;
-import org.apache.tiles.DefinitionsFactoryConfig;
-import org.apache.tiles.DefinitionsFactoryException;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesUtil;
-import org.apache.tiles.TilesUtilImpl;
+
+import org.apache.tiles.*;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.context.BasicTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 
@@ -92,6 +89,7 @@ public class TilesListener implements ServletContextListener {
 
             TilesContextFactory factory = new BasicTilesContextFactory();
             TilesApplicationContext tilesContext = factory.createApplicationContext(context);
+            TilesAccess.setApplicationContext(context, tilesContext);
             TilesUtil.setTilesUtil(new TilesUtilImpl(tilesContext));
             initDefinitionsFactory(context, fconfig);
         }
@@ -104,6 +102,10 @@ public class TilesListener implements ServletContextListener {
 
     public void contextDestroyed(ServletContextEvent event) {
         this.definitionFactory = null;
+        try {
+            TilesAccess.setApplicationContext(event.getServletContext(), null);
+        } catch (TilesException e) {
+        }
     }
 
 

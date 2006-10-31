@@ -15,21 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.tiles;
+package org.apache.tiles.factory;
 
-import junit.framework.TestCase;
+import org.apache.tiles.TilesException;
 
 /**
  *
+ * 
  */
-public class TilesConfigTest extends TestCase {
+public class ConfigurationNotSupportedException extends TilesException {
 
-    public void testInitParameters() {
-        TilesConfig config = new TilesConfig();
-        config.setInitParameter("one", "oneValue");
+    public ConfigurationNotSupportedException() {
+    }
 
-        assertEquals("oneValue", config.getInitParameter("one"));
-        assertNull(config.getInitParameter("two"));
-        assertEquals(1, config.getInitParameters().size());
+    public ConfigurationNotSupportedException(String string) {
+        super(string);
     }
 }

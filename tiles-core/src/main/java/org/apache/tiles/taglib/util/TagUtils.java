@@ -31,7 +31,7 @@ import javax.servlet.ServletResponse;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.tiles.taglib.ComponentConstants;
 import org.apache.tiles.*;
-import org.apache.tiles.context.TilesContextAccess;
+import org.apache.tiles.access.TilesAccess;
 
 /**
  * Collection of utilities.
@@ -63,7 +63,7 @@ public class TagUtils {
     }
 
     public static TilesApplicationContext getTilesContext(ServletContext context) {
-        return TilesContextAccess.getApplicationContext(context);
+        return TilesAccess.getApplicationContext(context);
     }
 
     public static TilesRequestContext getTilesRequestContext(

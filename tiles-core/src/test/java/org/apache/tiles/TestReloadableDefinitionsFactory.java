@@ -48,7 +48,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
      * @param theArgs the arguments. Not used
      */
     public static void main(String[] theArgs) {
-        junit.awtui.TestRunner.main(
+        junit.textui.TestRunner.main(
             new String[] { TestReloadableDefinitionsFactory.class.getName()});
     }
 

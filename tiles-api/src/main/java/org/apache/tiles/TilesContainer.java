@@ -32,9 +32,10 @@ public interface TilesContainer {
      * Initialize the container with the given
      * configuration.
      * 
-     * @param config
+     * @param context
      */
-    void init(TilesConfig config);
+    void init(TilesApplicationContext context)
+            throws org.apache.tiles.TilesException;
 
     /**
      * Retrieve the containers context.
@@ -46,6 +47,6 @@ public interface TilesContainer {
      *
      * @param request
      */
-    void render(TilesRequestContext request);
+    void render(TilesRequestContext request) throws TilesException;
 
 }

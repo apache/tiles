@@ -19,63 +19,63 @@
  */
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-   <parent>
-      <groupId>org.apache.struts.tiles</groupId>
-      <artifactId>tiles-parent</artifactId>
-      <version>2.0-SNAPSHOT</version>
-   </parent>
+    <parent>
+        <groupId>org.apache.struts.tiles</groupId>
+        <artifactId>tiles-parent</artifactId>
+        <version>2.0-SNAPSHOT</version>
+    </parent>
 
-   <modelVersion>4.0.0</modelVersion>
-   <artifactId>tiles-core</artifactId>
-   <packaging>jar</packaging>
-   <name>Tiles - Core Library</name>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>tiles-core</artifactId>
+    <packaging>jar</packaging>
+    <name>Tiles - Core Library</name>
 
-   <scm>
-      <connection>svm:svn:http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</connection>
-      <developerConnection>scm:svn:https://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</developerConnection>
-      <url>http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</url>
-   </scm>
+    <scm>
+        <connection>svm:svn:http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</developerConnection>
+        <url>http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</url>
+    </scm>
 
-   <build>
+    <build>
 
-      <resources>
-         <resource>
-            <directory>src/main/resources</directory>
-         </resource>
-         <resource>
-            <directory>.</directory>
-            <includes>
-               <include>LICENSE.txt</include>
-               <include>NOTICE.txt</include>
-            </includes>
-            <targetPath>META-INF</targetPath>
-         </resource>
-      </resources>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>.</directory>
+                <includes>
+                    <include>LICENSE.txt</include>
+                    <include>NOTICE.txt</include>
+                </includes>
+                <targetPath>META-INF</targetPath>
+            </resource>
+        </resources>
 
-      <testResources>
-         <testResource>
-            <directory>src/test/java</directory>
-            <includes>
-               <include>**/*.xml</include>
-               <include>**/*.properties</include>
-            </includes>
-         </testResource>
-      </testResources>
-       <plugins>
-           <plugin>
-               <artifactId>maven-jar-plugin</artifactId>
-               <configuration>
-                   <archive>
-                       <manifest>
-                       </manifest>
-                   </archive>
-               </configuration>
-           </plugin>
-       </plugins>
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
 
-   </build>
+    </build>
 
     <reporting>
         <plugins>
@@ -92,72 +92,79 @@
 
 
     <dependencies>
-      <dependency>
-         <groupId>org.apache.struts.tiles</groupId>
-         <artifactId>tiles-api</artifactId>
-         <version>${pom.version}</version>
-      </dependency>
+        <dependency>
+            <groupId>org.apache.struts.tiles</groupId>
+            <artifactId>tiles-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
 
-      <dependency>
-         <groupId>commons-beanutils</groupId>
-         <artifactId>commons-beanutils</artifactId>
-         <version>1.7.0</version>
-      </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.7.0</version>
+        </dependency>
 
-      <dependency>
-         <groupId>commons-digester</groupId>
-         <artifactId>commons-digester</artifactId>
-         <version>1.7</version>
-      </dependency>
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <version>1.7</version>
+        </dependency>
 
-      <dependency>
-         <groupId>commons-logging</groupId>
-         <artifactId>commons-logging</artifactId>
-         <version>1.0.4</version>
-      </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.0.4</version>
+        </dependency>
 
-      <dependency>
-         <groupId>javax.servlet</groupId>
-         <artifactId>servlet-api</artifactId>
-         <version>2.3</version>
-         <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.3</version>
+            <scope>provided</scope>
+        </dependency>
 
-      <dependency>
-         <groupId>javax.portlet</groupId>
-         <artifactId>portlet-api</artifactId>
-         <version>1.0</version>
-         <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
 
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <version>3.8.1</version>
-         <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.0</version>
+            <scope>test</scope>
+        </dependency>
 
-      <dependency>
-         <groupId>strutstestcase</groupId>
-         <artifactId>strutstestcase</artifactId>
-         <version>2.1.2-1.1-2.3</version>
-         <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
 
-   </dependencies>
+        <dependency>
+            <groupId>strutstestcase</groupId>
+            <artifactId>strutstestcase</artifactId>
+            <version>2.1.2-1.1-2.3</version>
+            <scope>test</scope>
+        </dependency>
 
-   <repositories>
-      <repository>
-         <id>dtddoc</id>
-          <url>http://dtddoc.sf.net/maven2</url>
-      </repository>
-   </repositories>
-   <pluginRepositories>
-      <pluginRepository>
-         <id>dtddoc</id>
-         <url>http://dtddoc.sf.net/maven2</url>
-      </pluginRepository>
-   </pluginRepositories>
-   
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>dtddoc</id>
+            <url>http://dtddoc.sf.net/maven2</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>dtddoc</id>
+            <url>http://dtddoc.sf.net/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
+
 </project>
