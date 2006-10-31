@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-    version="2.4">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
 
-  <display-name>Tiles 2 Test Application</display-name>
-  
-  <!-- Standard Action Servlet Configuration -->
-  <servlet>
-    <servlet-name>tiles</servlet-name>
-    <servlet-class>org.apache.tiles.servlet.TilesServlet</servlet-class>
-    <init-param>
-      <param-name>definitions-config</param-name>
-      <param-value>/WEB-INF/tiles-defs.xml</param-value>
-    </init-param>
-    <load-on-startup>2</load-on-startup>
- </servlet>
-  
-  <!-- Standard Action Servlet Configuration -->
-  <servlet>
-    <servlet-name>layoutServlet</servlet-name>
-    <servlet-class>org.apache.tiles.test.servlet.IncludingServlet</servlet-class>
-    <init-param>
-      <param-name>include</param-name>
-      <param-value>/layout.jsp</param-value>
-    </init-param>
- </servlet>
+    <display-name>Tiles 2 Test Application</display-name>
 
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
-  
-  <servlet-mapping>
-    <servlet-name>layoutServlet</servlet-name>
-    <url-pattern>/servlets/layoutServlet</url-pattern>
-  </servlet-mapping>
+    <context-param>
+        <param-name>org.apache.tiles.CONTEXT_FACTORY</param-name>
+        <param-value>org.apache.tiles.context.BasicTilesContextFactory</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.apache.tiles.listener.TilesContainerListener</listener-class>
+    </listener>
+
+    <!-- Standard Action Servlet Configuration -->
+    <servlet>
+        <servlet-name>layoutServlet</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.IncludingServlet</servlet-class>
+        <init-param>
+            <param-name>include</param-name>
+            <param-value>/layout.jsp</param-value>
+        </init-param>
+    </servlet>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet-mapping>
+        <servlet-name>layoutServlet</servlet-name>
+        <url-pattern>/servlets/layoutServlet</url-pattern>
+    </servlet-mapping>
 
 </web-app>

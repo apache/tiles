@@ -35,22 +35,34 @@ public interface TilesApplicationContext {
     /**
      * Returns a mutable Map that maps application scope attribute names to
      * their values.
+     *
+     * @return Map of key value pairs.
      */
-    public Map getApplicationScope();
+    Map<String, Object> getApplicationScope();
 
     /**
      * Return an immutable Map that maps context application initialization
      * parameters to their values.
+     *
+     * @return initialization parameters
      */
-    public Map getInitParams();
+    Map<String, String> getInitParams();
 
     /**
      * Return a URL for the application resource mapped to the specified path.
+     *
+     * @param path to the desired resource.
+     * @return the first located resource which matches the given path.
+     * @throws java.net.MalformedURLException if the path is malformed
      */
-    public URL getResource(String path) throws MalformedURLException;
+    URL getResource(String path) throws MalformedURLException;
 
     /**
      * Return a URL for the application resource mapped to the specified path.
+     *
+     * @param path to the desired resource.
+     * @return all resources which match the given path.
+     * @throws java.net.MalformedURLException if the url is illegal
      */
-    public URL[] getResources(String path) throws MalformedURLException;
+    URL[] getResources(String path) throws MalformedURLException;
 }

@@ -19,11 +19,14 @@ package org.apache.tiles.impl;
 
 import org.apache.tiles.*;
 import org.apache.tiles.context.TilesContextFactory;
-import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
 import java.util.Map;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.net.MalformedURLException;
 
 /**
  * Basic implementation of the tiles container interface.
@@ -31,11 +34,23 @@ import java.util.Map;
  * injecting customized services, not necessarily by
  * override the container
  *
- * @since 2.0
  * @version $Rev$
- *
+ * @since 2.0
  */
 public class BasicTilesContainer implements TilesContainer {
+
+    /**
+     * Constant representing the configuration parameter
+     * used to define the tiles definition resources.
+     */
+    public static final String DEFINITIONS_CONFIG = "tiles-definitions-config";
+
+    /**
+     * Compatibility constant.
+     *
+     * @deprecated use {@link #DEFINITIONS_CONFIG} to avoid namespace collisions.
+     */
+    private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
 
     /**
      * Log instance for all BasicTilesContainer
@@ -51,7 +66,7 @@ public class BasicTilesContainer implements TilesContainer {
     /**
      * Initialize the Container with the given configuration.
      *
-     * @param context
+     * @param context application context for this container
      * @throws TilesException
      */
     public void init(TilesApplicationContext context) throws TilesException {
@@ -59,6 +74,19 @@ public class BasicTilesContainer implements TilesContainer {
         this.context = context;
         contextFactory.init(context.getInitParams());
         definitionsFactory.init(context.getInitParams());
+
+        //Everything is now initialized.  We will populate
+        // our definitions
+        String resourceString = getResourceString();
+        List<String> resources = getResourceNames(resourceString);
+        try {
+            for(String resource : resources) {
+                definitionsFactory.addSource(context.getResource(resource));
+            }
+        } catch (MalformedURLException e) {
+            throw new DefinitionsFactoryException("Unable to parse definitions from "
+                    +resourceString, e);
+        }
     }
 
     /**
@@ -66,16 +94,18 @@ public class BasicTilesContainer implements TilesContainer {
      * initialized. Utility method used for methods which
      * can not be invoked after the container has been
      * started.
-     * @throws  IllegalStateException if the container has already been initialized.
+     *
+     * @throws IllegalStateException if the container has already been initialized.
      */
     private void checkInit() {
-        if(context != null) {
+        if (context != null) {
             throw new IllegalStateException("Container allready initialized");
         }
     }
 
     /**
      * Standard Getter
+     *
      * @return the application context for this container.
      */
     public TilesApplicationContext getApplicationContext() {
@@ -85,6 +115,7 @@ public class BasicTilesContainer implements TilesContainer {
 
     /**
      * Standard Getter
+     *
      * @return the definitions factory used by this container.
      */
     public DefinitionsFactory getDefinitionsFactory() {
@@ -93,6 +124,7 @@ public class BasicTilesContainer implements TilesContainer {
 
     /**
      * Standard Setter
+     *
      * @param definitionsFactory the definitions factory for this instance.
      */
     public void setDefinitionsFactory(DefinitionsFactory definitionsFactory) {
@@ -124,7 +156,7 @@ public class BasicTilesContainer implements TilesContainer {
                 definitionsFactory.getDefinition(definitionName, request);
 
         if (definition == null) {
-            if(LOG.isWarnEnabled()) {
+            if (LOG.isWarnEnabled()) {
                 String message = "Unable to find the definition '" + definitionName + "'";
                 LOG.warn(message);
             }
@@ -165,6 +197,42 @@ public class BasicTilesContainer implements TilesContainer {
             context.addMissing(definition.getAttributes());
         }
         return context;
+    }
+
+    /**
+     * Derive the resource string from the initialization parameters.
+     * If no parameter {@link #DEFINITIONS_CONFIG} is available, attempts
+     * to retrieve {@link #LEGACY_DEFINITIONS_CONFIG}.  If niether are
+     * available, returns "/WEB-INF/tiles.xml".
+     *
+     * @return resource string to be parsed.
+     */
+    protected String getResourceString() {
+        Map<String, String> parms = context.getInitParams();
+        String resourceStr = parms.get(DEFINITIONS_CONFIG);
+        if (resourceStr == null) {
+            resourceStr = parms.get(LEGACY_DEFINITIONS_CONFIG);
+        }
+        if (resourceStr == null) {
+            resourceStr = "/WEB-INF/tiles.xml";
+        }
+        return resourceStr;
+    }
+
+    /**
+     * Parse the resourceString into a list of resource paths
+     * which can be loaded by the application context.
+     *
+     * @param resourceString comma seperated resources
+     * @return parsed resources
+     */
+    protected List<String> getResourceNames(String resourceString) {
+        StringTokenizer tokenizer = new StringTokenizer(resourceString, ",");
+        List<String> filenames = new ArrayList<String>(tokenizer.countTokens());
+        while (tokenizer.hasMoreTokens()) {
+            filenames.add(tokenizer.nextToken().trim());
+        }
+        return filenames;
     }
 
 }

@@ -30,6 +30,8 @@ import org.apache.tiles.impl.BasicTilesContainer;
 
 import java.util.Map;
 import java.util.Vector;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 
 public class TilesContainerFactoryTest extends TestCase {
@@ -65,11 +67,13 @@ public class TilesContainerFactoryTest extends TestCase {
         }
     }
 
-    public void testCreateContainer() throws TilesException {
+    public void testCreateContainer() throws TilesException, MalformedURLException {
+        URL url = getClass().getResource("test-defs.xml");
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
+        EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
         EasyMock.replay(context);
 
         TilesContainerFactory factory = TilesContainerFactory.getFactory(context);
