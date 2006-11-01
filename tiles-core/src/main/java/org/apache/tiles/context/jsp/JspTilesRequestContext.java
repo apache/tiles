@@ -43,25 +43,7 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
     private static final Log LOG =
         LogFactory.getLog(JspTilesRequestContext.class);
 
-    /**
-     * JSP 2.0 include method to use which supports configurable flushing.
-     */
-    private static Method include = null;
 
-    /**
-     * Initialize the include variable with the
-     * JSP 2.0 method if available.
-     */
-    static {
-        try {
-            // get version of include method with flush argument
-            Class[] args = new Class[]{String.class, boolean.class};
-            include = PageContext.class.getMethod("include", args);
-        } catch (NoSuchMethodException e) {
-            LOG.debug("Could not find JSP 2.0 include method.  Using old one that doesn't support " +
-                    "configurable flushing.", e);
-        }
-    }
 
     private PageContext pageContext;
 
@@ -96,20 +78,7 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
      * @throws java.io.IOException      - Thrown by call to pageContext.include()
      */
     public void include(String path, boolean flush) throws IOException, ServletException {
-
-        try {
-            // perform include with new JSP 2.0 method that supports flushing
-            if (include != null) {
-                include.invoke(pageContext, path, flush);
-                return;
-            }
-        } catch (IllegalAccessException e) {
-            LOG.debug("Could not find JSP 2.0 include method.  Using old one.", e);
-        } catch (InvocationTargetException e) {
-            LOG.debug("Unable to execute JSP 2.0 include method.  Trying old one.", e);
-        }
-
-        pageContext.include(path);
+         JspUtil.doInclude(pageContext, path, flush);
     }
 
 
