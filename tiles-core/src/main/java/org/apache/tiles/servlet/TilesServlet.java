@@ -25,12 +25,13 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import org.apache.tiles.*;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.BasicTilesContextFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This is the entry point for Tiles. The <code>TilesServlet</code> initializes
@@ -117,8 +118,7 @@ public class TilesServlet extends HttpServlet {
     /**
      * The LOG for this class
      */
-    protected static Logger logger = Logger.getLogger(TilesServlet.class.
-            getName());
+    protected static final Log LOG = LogFactory.getLog(TilesServlet.class);
 
 
     /**
@@ -163,7 +163,7 @@ public class TilesServlet extends HttpServlet {
     public void init(ServletConfig config)
             throws javax.servlet.ServletException {
         super.init(config);
-        logger.info("Initializing TilesServlet");
+        LOG.info("Initializing TilesServlet");
         configFiles = config.getInitParameter("definitions-config");
 
         try {
@@ -201,10 +201,10 @@ public class TilesServlet extends HttpServlet {
 
         try {
             if (configFiles != null) {
-                logger.info("CONFIG FILES DEFINED IN WEB.XML");
+                LOG.info("CONFIG FILES DEFINED IN WEB.XML");
                 map.put(DEFAULT_CONFIG_FILE_PARAM, configFiles);
             } else {
-                logger.info("CONFIG FILES WERE NOT DEFINED IN WEB.XML, " +
+                LOG.info("CONFIG FILES WERE NOT DEFINED IN WEB.XML, " +
                         "LOOKING FOR " + DEFAULT_CONFIG_FILE);
                 map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
             }
@@ -229,7 +229,7 @@ public class TilesServlet extends HttpServlet {
     private void initDefinitionsFactory(ServletContext servletContext,
                                         DefinitionsFactoryConfig factoryConfig)
             throws ServletException {
-        logger.info("initializing definitions impl...");
+        LOG.info("initializing definitions impl...");
         // Create configurable impl
         try {
 
@@ -252,9 +252,7 @@ public class TilesServlet extends HttpServlet {
      * @param ex     An exception
      */
     private void saveExceptionMessage(ServletConfig config, Exception ex) {
-        logger.warning("Caught exception when initializing definitions impl");
-        logger.warning(ex.getMessage());
-        logger.warning(ex.toString());
+        LOG.warn("Caught exception when initializing definitions impl", ex);
         //config.getServletContext().setAttribute(Globals.TILES_INIT_EXCEPTION, ex.getMessage());
     }
 

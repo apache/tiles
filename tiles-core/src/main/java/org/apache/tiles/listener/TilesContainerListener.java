@@ -32,7 +32,7 @@ public class TilesContainerListener
         implements ServletContextListener {
 
     /**
-     * Logger instance.
+     * Log instance.
      */
     protected static final Log LOG =
             LogFactory.getLog(TilesListener.class);
