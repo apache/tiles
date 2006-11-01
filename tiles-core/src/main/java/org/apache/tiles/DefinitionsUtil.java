@@ -24,21 +24,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.taglib.ComponentConstants;
 
 /**
  * Utilities class for definitions impl.
  * Also define userDebugLevel property (TODO to be moved from this class ?).
- * @deprecated Use {@link TilesUtil#createDefinitionsFactory(TilesApplicationContext, DefinitionsFactoryConfig)}
+ * @deprecated Use {@link TilesUtil#createDefinitionsFactory(DefinitionsFactoryConfig)}
  */
 public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
-
-    /** 
-     * Commons Logging instance. 
-     */
-    protected static Log log = LogFactory.getLog(DefinitionsUtil.class);
 
     /** 
      * Global user defined debug level.
@@ -149,50 +142,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
         return createDefinitionsFactory(factoryConfig);
     }
 
-    /**
-     * Create Definition impl.
-     * Create configuration object from servlet web.xml file, then create
-     * ConfigurableDefinitionsFactory and initialized it with object.
-     * <p>
-     * If checkIfExist is true, start by checking if impl already exist. If yes,
-     * return it. If no, create a new one.
-     * <p>
-     * If checkIfExist is false, impl is always created.
-     * <p>
-     * Convenience method. Calls createDefinitionsFactory(ServletContext servletContext, DefinitionsFactoryConfig factoryConfig)
-     *
-     * @param tilesContext The current Tiles application context.
-     * @param checkIfExist Check if impl already exist. If true and impl exist, return it.
-     * If true and impl doesn't exist, create it. If false, create it in all cases.
-     * @return newly created impl of type ConfigurableDefinitionsFactory.
-     * @throws DefinitionsFactoryException If an error occur while initializing impl
-     */
-    public static DefinitionsFactory createDefinitionsFactory(
-        TilesApplicationContext tilesContext,
-        boolean checkIfExist)
-        throws DefinitionsFactoryException {
 
-        if (checkIfExist) {
-            // Check if already exist in context
-            DefinitionsFactory factory = getDefinitionsFactory(tilesContext);
-            if (factory != null)
-                return factory;
-        }
-
-        return createDefinitionsFactory(tilesContext);
-    }
-
-    /**
-     * Get definition impl from appropriate servlet context.
-     *
-     * @param tilesContext the current Tiles application context.
-     * @return Definitions impl or null if not found.
-     * @deprecated Use {@link TilesUtil#getDefinitionsFactory(TilesApplicationContext)
-     * @since 20020708
-     */
-    public static DefinitionsFactory getDefinitionsFactory(TilesApplicationContext tilesContext) {
-        return (DefinitionsFactory) tilesContext.getApplicationScope().get(DEFINITIONS_FACTORY);
-    }
 
     /**
      * Get Definition stored in jsp context by an action.

@@ -20,8 +20,6 @@ package org.apache.tiles;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -577,120 +575,6 @@ public class ComponentDefinition implements Serializable {
     return isVisited;
     }
 
-    /**
-     * Resolve inheritance.
-     * First, resolve parent's inheritance, then set path to the parent's path.
-     * Also copy attributes setted in parent, and not set in child
-     * If instance doesn't extend anything, do nothing.
-     * @throws NoSuchDefinitionException If an inheritance can not be solved.
-     * @deprecated Each {@link ComponentDefinitions} should provide its own
-     * strategy to resolve inheritances.
-     */
-  public void resolveInheritance( ComponentDefinitions definitionsSet )
-    throws NoSuchDefinitionException
-    {
-      // Already done, or not needed ?
-    if( isVisited || !isExtending() )
-      return;
-
-    if(log.isDebugEnabled())
-      log.debug( "Resolve definition for child name='" + getName()
-              + "' extends='" + getExtends() + "'.");
-
-      // Set as visited to avoid endless recurisvity.
-    setIsVisited( true );
-
-      // Resolve parent before itself.
-    ComponentDefinition parent = definitionsSet.getDefinition( getExtends() );
-    if( parent == null )
-      { // error
-      String msg = "Error while resolving definition inheritance: child '"
-                           + getName() +    "' can't find its ancestor '"
-                           + getExtends() + "'. Please check your description file.";
-      log.error( msg );
-        // to do : find better exception
-      throw new NoSuchDefinitionException( msg );
-      }
-
-    parent.resolveInheritance( definitionsSet );
-
-      // Iterate on each parent's attribute and add it if not defined in child.
-    Iterator parentAttributes = parent.getAttributes().keySet().iterator();
-    while( parentAttributes.hasNext() )
-      {
-      String name = (String)parentAttributes.next();
-      if( !getAttributes().containsKey(name) )
-        put( name, parent.getAttribute(name) );
-      }
-      // Set path and role if not setted
-    if( path == null )
-      setPath( parent.getPath() );
-    if( role == null )
-      setRole( parent.getRole() );
-    if( preparer==null )
-      {
-      setPreparer( parent.getPreparer());
-      setPreparerType( parent.getPreparerType());
-      }
-    }
-
-    /**
-     * Resolve locale-specific inheritance.
-     * First, resolve parent's inheritance, then set path to the parent's path.
-     * Also copy attributes setted in parent, and not set in child
-     * If instance doesn't extend anything, do nothing.
-     * @throws NoSuchDefinitionException If an inheritance can not be solved.
-     * @deprecated Each {@link ComponentDefinitions} should provide its own
-     * strategy to resolve inheritances.
-     */
-  public void resolveInheritance( ComponentDefinitions definitionsSet, Locale locale)
-    throws NoSuchDefinitionException
-    {
-      // Already done, or not needed ?
-    if( isVisited || !isExtending() )
-      return;
-
-    if(log.isDebugEnabled())
-      log.debug( "Resolve definition for child name='" + getName()
-              + "' extends='" + getExtends() + "'.");
-
-      // Set as visited to avoid endless recurisvity.
-    setIsVisited( true );
-
-      // Resolve parent before itself.
-    ComponentDefinition parent = definitionsSet.getDefinition( getExtends(), 
-            locale );
-    if( parent == null )
-      { // error
-      String msg = "Error while resolving definition inheritance: child '"
-                           + getName() +    "' can't find its ancestor '"
-                           + getExtends() + "'. Please check your description file.";
-      log.error( msg );
-        // to do : find better exception
-      throw new NoSuchDefinitionException( msg );
-      }
-
-    parent.resolveInheritance( definitionsSet, locale );
-
-      // Iterate on each parent's attribute and add it if not defined in child.
-    Iterator parentAttributes = parent.getAttributes().keySet().iterator();
-    while( parentAttributes.hasNext() )
-      {
-      String name = (String)parentAttributes.next();
-      if( !getAttributes().containsKey(name) )
-        put( name, parent.getAttribute(name) );
-      }
-      // Set path and role if not setted
-    if( path == null )
-      setPath( parent.getPath() );
-    if( role == null )
-      setRole( parent.getRole() );
-    if( preparer==null )
-      {
-      setPreparer( parent.getPreparer());
-      setPreparerType( parent.getPreparerType());
-      }
-    }
 
   /**
    * Overload this definition with passed child.

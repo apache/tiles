@@ -41,15 +41,15 @@ import org.apache.tiles.context.BasicTilesContextFactory;
  * Add this servlet to your web.xml file,
  * like this:
  * <pre>
-&lt;web-app&gt;
-   ...
-&lt;servlet&gt;
-   &lt;servlet-name&gt;<strong>Tiles Servlet</strong>&lt;/servlet-name&gt;
-   &lt;servlet-class&gt;<strong>org.apache.tiles.servlets.TilesServlet</strong>&lt;/servlet-class&gt;
-   &lt;load-on-startup/&gt;
-&lt;/servlet&gt;
-   ...
-&lt;/web-app&gt;
+ * &lt;web-app&gt;
+ * ...
+ * &lt;servlet&gt;
+ * &lt;servlet-name&gt;<strong>Tiles Servlet</strong>&lt;/servlet-name&gt;
+ * &lt;servlet-class&gt;<strong>org.apache.tiles.servlets.TilesServlet</strong>&lt;/servlet-class&gt;
+ * &lt;load-on-startup/&gt;
+ * &lt;/servlet&gt;
+ * ...
+ * &lt;/web-app&gt;
  * </pre>Notice there are no mappings for this servlet. That's because
  * this servlet does everything when it's loaded. After that, it does not
  * service requests. This is not a front-controller servlet, like the Struts or JSF servlets.<br/><br/>
@@ -58,97 +58,98 @@ import org.apache.tiles.context.BasicTilesContextFactory;
  * tag libraries. You can specify a configuration file like this:
  * <p/>
  * <pre>&lt;web-app&gt;
-   ...
-&lt;servlet&gt;
-   &lt;servlet-name&gt;Tiles Servlet&lt;/servlet-name&gt;
-   &lt;servlet-class&gt;org.apache.tiles.servlets.TilesServlet&lt;/servlet-class&gt;
-   &lt;init-param&gt;
-      &lt;param-name&gt;<strong>definitions-config</strong>&lt;/param-name&gt;
-      &lt;param-value&gt;<strong>/WEB-INF/tiles.xml</strong>&lt;/param-value&gt;
-   &lt;/init-param&gt;
-   &lt;load-on-startup/&gt;
-&lt;/servlet&gt;
-   ...
-&lt;/web-app&gt;</pre>Notice that we didn't specify a config file in the first servlet
-definition. In that case, Tiles assumes the existence of a file named /WEB-INF/tiles.xml. You
-can also define multiple configuration files like this:
-<p/><pre>&lt;web-app&gt;
-   ...
-&lt;servlet&gt;
-   &lt;servlet-name&gt;Tiles Servlet&lt;/servlet-name&gt;
-   &lt;servlet-class&gt;org.apache.tiles.servlets.TilesServlet&lt;/servlet-class&gt;
-   &lt;init-param&gt;
-      &lt;param-name&gt;<strong>definitions-config</strong>&lt;/param-name&gt;
-      &lt;param-value&gt;<strong>/WEB-INF/tile-adaptors.xml, /WEB-INF/tiles.xml</strong>&lt;/param-value&gt;
-   &lt;/init-param&gt;
-   &lt;load-on-startup/&gt;
-&lt;/servlet&gt;
-   ...
-&lt;/web-app&gt;</pre>Here, we've specified two config files for Tiles to process. Both
- * files must exist and each can reference definitions made in the other. 
+ * ...
+ * &lt;servlet&gt;
+ * &lt;servlet-name&gt;Tiles Servlet&lt;/servlet-name&gt;
+ * &lt;servlet-class&gt;org.apache.tiles.servlets.TilesServlet&lt;/servlet-class&gt;
+ * &lt;init-param&gt;
+ * &lt;param-name&gt;<strong>definitions-config</strong>&lt;/param-name&gt;
+ * &lt;param-value&gt;<strong>/WEB-INF/tiles.xml</strong>&lt;/param-value&gt;
+ * &lt;/init-param&gt;
+ * &lt;load-on-startup/&gt;
+ * &lt;/servlet&gt;
+ * ...
+ * &lt;/web-app&gt;</pre>Notice that we didn't specify a config file in the first servlet
+ * definition. In that case, Tiles assumes the existence of a file named /WEB-INF/tiles.xml. You
+ * can also define multiple configuration files like this:
+ * <p/><pre>&lt;web-app&gt;
+ * ...
+ * &lt;servlet&gt;
+ * &lt;servlet-name&gt;Tiles Servlet&lt;/servlet-name&gt;
+ * &lt;servlet-class&gt;org.apache.tiles.servlets.TilesServlet&lt;/servlet-class&gt;
+ * &lt;init-param&gt;
+ * &lt;param-name&gt;<strong>definitions-config</strong>&lt;/param-name&gt;
+ * &lt;param-value&gt;<strong>/WEB-INF/tile-adaptors.xml, /WEB-INF/tiles.xml</strong>&lt;/param-value&gt;
+ * &lt;/init-param&gt;
+ * &lt;load-on-startup/&gt;
+ * &lt;/servlet&gt;
+ * ...
+ * &lt;/web-app&gt;</pre>Here, we've specified two config files for Tiles to process. Both
+ * files must exist and each can reference definitions made in the other.
  * <p/>
  * <strong>Exception Handling</strong>
  * <p/>
  * When Tiles was bundled with Struts it reliably produced the same error message if anything
  * was amiss in your Tiles configuration file: <i>Can't find definitions config file.</i>
  * Tiles 2, OTOH, will display explicit error messages, such as <i>Error while parsing file
- * '/WEB-INF/tiles.xml'. The element type "tiles-definitions" must be terminated by the matching 
+ * '/WEB-INF/tiles.xml'. The element type "tiles-definitions" must be terminated by the matching
  * end-tag tiles-definitions".</i> The following explains how it works.
  * <p/>
- * The Tiles servlet reads your tile configuration file(s) when the Tiles servlet is loaded. If 
- * problems are found with your configuration files, the Tiles servlet of yesteryear would 
- * throw a <code>FactoryNotFound</code> exception and log the error message to the servlet 
- * container's log. Subsequently, when the <code>tiles:insert</code> tag blows up because 
+ * The Tiles servlet reads your tile configuration file(s) when the Tiles servlet is loaded. If
+ * problems are found with your configuration files, the Tiles servlet of yesteryear would
+ * throw a <code>FactoryNotFound</code> exception and log the error message to the servlet
+ * container's log. Subsequently, when the <code>tiles:insert</code> tag blows up because
  * there's no definition impl, Tiles would throw an exception with the familiar
- * <i>Cant find definitions config file</i> message. It was up to you to dig through 
+ * <i>Cant find definitions config file</i> message. It was up to you to dig through
  * the servlet container's log to find out what really went wrong.
- *
+ * <p/>
  * The Tiles 2 servlet, OTOH, places the exception's message in application scope
- * and retrieves it when tiles:insert blows up. It throws an exception with the original error 
+ * and retrieves it when tiles:insert blows up. It throws an exception with the original error
  * message, which is subsequently displayed in the browser, saving you the trouble of looking
  * at the log file.
- * <p>
+ * <p/>
+ *
  * @author David Geary
  */
 public class TilesServlet extends HttpServlet {
 
 
     /**
-     * The logger for this class
-    */
-   protected static Logger logger = Logger.getLogger(TilesServlet.class.
-                                                                      getName());
+     * The LOG for this class
+     */
+    protected static Logger logger = Logger.getLogger(TilesServlet.class.
+            getName());
 
 
     /**
      * The default name of a context init parameter that specifies the Tiles configuration file
-    */
+     */
     private static final String DEFAULT_CONFIG_FILE_PARAM = "definitions-config";
 
 
     /**
      * The default name of the Tiles configuration file
-    */
+     */
     private static final String DEFAULT_CONFIG_FILE = "/WEB-INF/tiles.xml";
 
 
     /**
      * An error message stating that something went wrong during initialization
-    */
+     */
     private static final String CANT_POPULATE_FACTORY_ERROR =
-         "CAN'T POPULATE TILES DEFINITION FACTORY";
+            "CAN'T POPULATE TILES DEFINITION FACTORY";
 
 
     /**
      * The Tiles definition impl
-    */
-   protected DefinitionsFactory definitionFactory = null;
+     */
+    protected DefinitionsFactory definitionFactory = null;
 
 
     /**
      * A comma-separated list of filenames representing the
      * application's Tiles configuration files.
-    */
+     */
     private String configFiles = null;
 
 
@@ -160,7 +161,7 @@ public class TilesServlet extends HttpServlet {
      * @param config The servlet config
      */
     public void init(ServletConfig config)
-        throws javax.servlet.ServletException {
+            throws javax.servlet.ServletException {
         super.init(config);
         logger.info("Initializing TilesServlet");
         configFiles = config.getInitParameter("definitions-config");
@@ -176,10 +177,9 @@ public class TilesServlet extends HttpServlet {
             TilesAccess.setApplicationContext(context, tilesContext);
             TilesUtil.setTilesUtil(new TilesUtilImpl(tilesContext));
             initDefinitionsFactory(context, fconfig);
-        }
-        catch(Exception ex) {
-            saveExceptionMessage(config, ex);
-                    throw new ServletException(ex.getMessage(), ex);
+        } catch (TilesException e) {
+            saveExceptionMessage(config, e);
+            throw new ServletException(e.getMessage(), e);
         }
     }
 
@@ -195,19 +195,18 @@ public class TilesServlet extends HttpServlet {
      * file is <code>/WEB-INF/tiles.xml</code>.
      */
     protected DefinitionsFactoryConfig readFactoryConfig(ServletConfig config)
-        throws ServletException {
+            throws ServletException {
         DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
         Map map = new HashMap();
 
         try {
-            if(configFiles != null) {
+            if (configFiles != null) {
                 logger.info("CONFIG FILES DEFINED IN WEB.XML");
-               map.put(DEFAULT_CONFIG_FILE_PARAM, configFiles);
-           }
-            else {
+                map.put(DEFAULT_CONFIG_FILE_PARAM, configFiles);
+            } else {
                 logger.info("CONFIG FILES WERE NOT DEFINED IN WEB.XML, " +
-                              "LOOKING FOR " + DEFAULT_CONFIG_FILE);
-               map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
+                        "LOOKING FOR " + DEFAULT_CONFIG_FILE);
+                map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
             }
 
             populateConfigParameterMap(config, map);
@@ -215,7 +214,7 @@ public class TilesServlet extends HttpServlet {
         }
         catch (Exception ex) {
             saveExceptionMessage(getServletConfig(), ex);
-           throw new UnavailableException(CANT_POPULATE_FACTORY_ERROR + ex.getMessage());
+            throw new UnavailableException(CANT_POPULATE_FACTORY_ERROR + ex.getMessage());
         }
         return factoryConfig;
     }
@@ -225,19 +224,19 @@ public class TilesServlet extends HttpServlet {
      * Initializes the Tiles definitions impl.
      *
      * @param servletContext The servlet context
-     * @param factoryConfig The definitions impl config
+     * @param factoryConfig  The definitions impl config
      */
-   private void initDefinitionsFactory(ServletContext servletContext,
-                                       DefinitionsFactoryConfig factoryConfig)
-        throws ServletException {
+    private void initDefinitionsFactory(ServletContext servletContext,
+                                        DefinitionsFactoryConfig factoryConfig)
+            throws ServletException {
         logger.info("initializing definitions impl...");
         // Create configurable impl
         try {
 
             definitionFactory = DefinitionsUtil.createDefinitionsFactory(
-                                factoryConfig);
+                    factoryConfig);
         } catch (DefinitionsFactoryException ex) {
-                    ex.printStackTrace();
+            ex.printStackTrace();
             throw new ServletException(ex.getMessage(), ex);
         }
     }
@@ -250,19 +249,19 @@ public class TilesServlet extends HttpServlet {
      * activated.
      *
      * @param config The servlet configuration
-     * @param ex An exception
+     * @param ex     An exception
      */
     private void saveExceptionMessage(ServletConfig config, Exception ex) {
-       logger.warning("Caught exception when initializing definitions impl");
-       logger.warning(ex.getMessage());
-       logger.warning(ex.toString());
-       //config.getServletContext().setAttribute(Globals.TILES_INIT_EXCEPTION, ex.getMessage());
+        logger.warning("Caught exception when initializing definitions impl");
+        logger.warning(ex.getMessage());
+        logger.warning(ex.toString());
+        //config.getServletContext().setAttribute(Globals.TILES_INIT_EXCEPTION, ex.getMessage());
     }
 
     /**
      * Populates a map with the parameters contained in the servlet configuration.
      *
-     * @param config The servlet configuration
+     * @param config   The servlet configuration
      * @param paramMap The map to fill
      */
     private void populateConfigParameterMap(ServletConfig config, Map paramMap) {

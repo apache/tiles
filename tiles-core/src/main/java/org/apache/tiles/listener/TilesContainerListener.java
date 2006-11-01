@@ -21,12 +21,12 @@ import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContext;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 public class TilesContainerListener
         implements ServletContextListener {
@@ -34,8 +34,8 @@ public class TilesContainerListener
     /**
      * Logger instance.
      */
-    protected static final Logger LOG =
-            Logger.getLogger(TilesListener.class.getName());
+    protected static final Log LOG =
+            LogFactory.getLog(TilesListener.class);
 
     /**
      * Initialize the TilesContainer and place it
@@ -49,7 +49,8 @@ public class TilesContainerListener
             TilesContainer container = createContainer(servletContext);
             TilesAccess.setContainer(servletContext, container);
         } catch (TilesException e) {
-            LOG.log(Level.SEVERE, "Unable to retrieve tiles factory.");
+            LOG.fatal("Unable to retrieve tiles factory.",e);
+            throw new IllegalStateException("Unable to instantiate container.");
         }
     }
 
@@ -62,7 +63,7 @@ public class TilesContainerListener
         try {
             TilesAccess.setContainer(servletContext, null);
         } catch (TilesException e) {
-            LOG.log(Level.SEVERE, "Unable to remove tiles container from service.");
+            LOG.warn("Unable to remove tiles container from service.");
         }
     }
 

@@ -15,173 +15,150 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.tiles.definition;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
 import org.apache.tiles.util.RequestUtils;
 import org.apache.tiles.*;
 import org.apache.tiles.digester.DigesterDefinitionsReader;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * {@link org.apache.tiles.DefinitionsFactory DefinitionsFactory} implementation
  * that manages ComponentDefinitions configuration data from URLs.
- *
- * <p>The ComponentDefinition objects are read from the 
+ * <p/>
+ * <p>The ComponentDefinition objects are read from the
  * {@link org.apache.tiles.digester.DigesterDefinitionsReader DigesterDefinitionsReader}
  * class unless another implementation is specified.</p>
  *
- * @version $Rev$ $Date$ 
+ * @version $Rev$ $Date$
  */
-public class UrlDefinitionsFactory 
+public class UrlDefinitionsFactory
         implements DefinitionsFactory, ReloadableDefinitionsFactory {
+
+    /**
+     * LOG instance for all UrlDefinitionsFactory instances.
+     */
+    private static final Log LOG = LogFactory.getLog(UrlDefinitionsFactory.class);
 
     /**
      * Contains the URL objects identifying where configuration data is found.
      */
-    protected List sources;
+    protected List<Object> sources;
+
     /**
      * Reader used to get definitions from the sources.
      */
     protected DefinitionsReader reader;
+
     /**
      * Contains the dates that the URL sources were last modified.
      */
-    protected Map lastModifiedDates;
+    protected Map<String, Long> lastModifiedDates;
+
     /**
      * Contains a list of locales that have been processed.
      */
-    private List processedLocales;
-    
+    private List<Locale> processedLocales;
+
+
+    private ComponentDefinitions definitions;
+
     /**
-     * ComponentDefinitions class name.
+     * Creates a new instance of UrlDefinitionsFactory
      */
-    private String definitionsClassName;
-    
-    /** Creates a new instance of UrlDefinitionsFactory */
     public UrlDefinitionsFactory() {
-        sources = new ArrayList();
-	lastModifiedDates = new HashMap();
-        processedLocales = new ArrayList();
+        sources = new ArrayList<Object>();
+        lastModifiedDates = new HashMap<String, Long>();
+        processedLocales = new ArrayList<Locale>();
     }
 
     /**
      * Initializes the DefinitionsFactory and its subcomponents.
-     * 
+     * <p/>
      * Implementations may support configuration properties to be passed in via
      * the params Map.
-     * 
+     *
      * @param params The Map of configuration properties.
      * @throws DefinitionsFactoryException if an initialization error occurs.
      */
-    public void init(Map params) throws DefinitionsFactoryException {
-        if (params != null) {
-            String readerClassName = (String) params.get(
-                    DefinitionsFactory.READER_IMPL_PROPERTY);
-            if (readerClassName != null) {
-                try {
-                    Class readerClass = 
-                        RequestUtils.applicationClass(readerClassName);
-                    reader = (DefinitionsReader) readerClass.newInstance();
-                } catch (ClassNotFoundException e) {
-                    throw new DefinitionsFactoryException(
-                            "Cannot find reader class.", e);
-                } catch (InstantiationException e) {
-                    throw new DefinitionsFactoryException(
-                            "Unable to instantiate reader class.", e);
-                } catch (IllegalAccessException e) {
-                    throw new DefinitionsFactoryException(
-                            "Unable to access reader class.", e);
-                }
-            }
+    public void init(Map<String, String> params) throws DefinitionsFactoryException {
+        String readerClassName =
+            params.get(DefinitionsFactory.READER_IMPL_PROPERTY);
 
-            definitionsClassName = (String) params.get(
-                    DefinitionsFactory.DEFINITIONS_IMPL_PROPERTY);
-            if (definitionsClassName != null) {
-                // Attempt to create it just to verify.
-                ComponentDefinitions definitions = createDefinitionsImpl(
-                        definitionsClassName);
-            }
-        }
-        
-        if (reader == null) {
+        if (readerClassName != null) {
+            createReader(readerClassName);
+        } else {
             reader = new DigesterDefinitionsReader();
         }
-        
         reader.init(params);
     }
+
+    private ComponentDefinitions getComponentDefinitions()
+    throws DefinitionsFactoryException {
+        if(definitions == null) {
+            definitions = readDefinitions();
+        }
+        return definitions;
+    }
+
 
     /**
      * Returns a ComponentDefinition object that matches the given name and
      * Tiles context
      *
-     * @param name The name of the ComponentDefinition to return.
+     * @param name         The name of the ComponentDefinition to return.
      * @param tilesContext The Tiles context to use to resolve the definition.
      * @return the ComponentDefinition matching the given name or null if none
-     *  is found.
+     *         is found.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
     public ComponentDefinition getDefinition(String name,
-            TilesRequestContext tilesContext) throws DefinitionsFactoryException {
-        Map appScoped = TilesUtil.getTilesUtil().getApplicationContext().getApplicationScope();
-        ComponentDefinitions definitions = (ComponentDefinitions)
-                appScoped.get(TilesUtilImpl.DEFINITIONS_OBJECT);
-        ComponentDefinition definition = definitions.getDefinition(
-                name, tilesContext.getRequestLocale());
-        
-        if (definition == null) {
-            if (!isContextProcessed(tilesContext)) {
-                // FIXME This will modify the impl as well as the definitions
-                // but we are only locking the definitions.
-                // 
-                // We'll have to refactor again to remove this issue.
-                synchronized (definitions) {
-                    addDefinitions(definitions, tilesContext);
-                }
+                                             TilesRequestContext tilesContext)
+            throws DefinitionsFactoryException {
+
+        ComponentDefinitions definitions = getComponentDefinitions();
+        Locale locale = tilesContext.getRequestLocale();
+        if (!isLocaleProcessed(tilesContext)) {
+            synchronized (definitions) {
+                addDefinitions(definitions, tilesContext);
             }
-            
-            definition = definitions.getDefinition(name,
-                    tilesContext.getRequestLocale());
         }
-        
-        return definition;
+
+        return definitions.getDefinition(name, locale);
     }
 
     /**
      * Adds a source where ComponentDefinition objects are stored.
-     * 
+     * <p/>
      * Implementations should publish what type of source object they expect.
      * The source should contain enough information to resolve a configuration
      * source containing definitions.  The source should be a "base" source for
      * configurations.  Internationalization and Localization properties will be
      * applied by implementations to discriminate the correct data sources based
      * on locale.
-     * 
+     *
      * @param source The configuration source for definitions.
      * @throws DefinitionsFactoryException if an invalid source is passed in or
-     *      an error occurs resolving the source to an actual data store.
+     *                                     an error occurs resolving the source to an actual data store.
      */
     public void addSource(Object source) throws DefinitionsFactoryException {
         if (source == null) {
             throw new DefinitionsFactoryException(
                     "Source object must not be null");
         }
-        
+
         if (!(source instanceof URL)) {
             throw new DefinitionsFactoryException(
                     "Source object must be an URL");
         }
-        
+
         sources.add(source);
     }
 
@@ -189,35 +166,36 @@ public class UrlDefinitionsFactory
      * Appends locale-specific {@link ComponentDefinition} objects to an existing
      * {@link ComponentDefinitions} set by reading locale-specific versions of
      * the applied sources.
-     * 
-     * @param definitions The ComponentDefinitions object to append to.
+     *
+     * @param definitions  The ComponentDefinitions object to append to.
      * @param tilesContext The requested locale.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
-    protected void addDefinitions(ComponentDefinitions definitions, TilesRequestContext tilesContext)
+    protected void addDefinitions(ComponentDefinitions definitions,
+                                  TilesRequestContext tilesContext)
             throws DefinitionsFactoryException {
-        
+
         Locale locale = tilesContext.getRequestLocale();
-        List postfixes = calculatePostixes(locale);
-        
-        if (isContextProcessed(tilesContext)) {
+        List<String> postfixes = calculatePostixes(locale);
+
+        if (isLocaleProcessed(tilesContext)) {
             return;
         } else {
             processedLocales.add(locale);
         }
 
-        for (int i = 0; i < sources.size(); i++) {
-            URL url = (URL) sources.get(i);
+        for (Object source : sources) {
+            URL url = (URL) source;
             String path = url.toExternalForm();
 
-            for (int j = 0; j < postfixes.size(); j++) {
-                String newPath = concatPostfix(path, (String) postfixes.get(j));
+            for (Object postfixe : postfixes) {
+                String newPath = concatPostfix(path, (String) postfixe);
                 try {
                     URL newUrl = new URL(newPath);
                     URLConnection connection = newUrl.openConnection();
                     connection.connect();
-                    lastModifiedDates.put(newUrl.toExternalForm(), 
-                            new Long(connection.getLastModified()));
+                    lastModifiedDates.put(newUrl.toExternalForm(),
+                            connection.getLastModified());
                     Map defsMap = reader.read(connection.getInputStream());
                     definitions.addDefinitions(defsMap,
                             tilesContext.getRequestLocale());
@@ -232,24 +210,22 @@ public class UrlDefinitionsFactory
     }
 
     /**
-     * Creates and returns a {@link ComponentDefinitions} set by reading 
+     * Creates and returns a {@link ComponentDefinitions} set by reading
      * configuration data from the applied sources.
-     * 
-     * @throws DefinitionsFactoryException if an error occurs reading the 
-     *      sources.
+     *
+     * @throws DefinitionsFactoryException if an error occurs reading the
+     *                                     sources.
      */
-    public ComponentDefinitions readDefinitions() 
+    public ComponentDefinitions readDefinitions()
             throws DefinitionsFactoryException {
-        
-        ComponentDefinitions definitions = 
-                createDefinitionsImpl(definitionsClassName);
+        ComponentDefinitions definitions = new ComponentDefinitionsImpl();
         try {
-            for (int i = 0; i < sources.size(); i++) {
-                URL source = (URL) sources.get(i);
+            for (Object source1 : sources) {
+                URL source = (URL) source1;
                 URLConnection connection = source.openConnection();
                 connection.connect();
-                lastModifiedDates.put(source.toExternalForm(), 
-				new Long(connection.getLastModified()));
+                lastModifiedDates.put(source.toExternalForm(),
+                        connection.getLastModified());
                 Map defsMap = reader.read(connection.getInputStream());
                 definitions.addDefinitions(defsMap);
             }
@@ -258,31 +234,28 @@ public class UrlDefinitionsFactory
         }
         return definitions;
     }
-    
+
     /**
      * Indicates whether a given locale has been processed or not.
-     * 
+     * <p/>
      * This method can be used to avoid unnecessary synchronization of the
      * DefinitionsFactory in multi-threaded situations.  Check the return of
-     * isLoacaleProcessed before synchronizing the object and reading 
+     * isLoacaleProcessed before synchronizing the object and reading
      * locale-specific definitions.
      *
      * @param tilesContext The Tiles context to check.
      * @return true if the given lcoale has been processed and false otherwise.
      */
-    protected boolean isContextProcessed(TilesRequestContext tilesContext) {
-	if (processedLocales.contains(tilesContext.getRequestLocale())) {
-	    return true;
-	} else {
-	    return false;
-	}
+    protected boolean isLocaleProcessed(TilesRequestContext tilesContext) {
+        return processedLocales.contains(tilesContext.getRequestLocale());
     }
 
     /**
      * Concat postfix to the name. Take care of existing filename extension.
      * Transform the given name "name.ext" to have "name" + "postfix" + "ext".
      * If there is no ext, return "name" + "postfix".
-     * @param name Filename.
+     *
+     * @param name    Filename.
      * @param postfix Postfix to add.
      * @return Concatenated filename.
      */
@@ -303,15 +276,17 @@ public class UrlDefinitionsFactory
         name = name.substring(0, dotIndex);
         return name + postfix + ext;
     }
-    
+
     /**
      * Calculate the postixes along the search path from the base bundle to the
      * bundle specified by baseName and locale.
      * Method copied from java.util.ResourceBundle
+     *
      * @param locale the locale
+     * @return a list of
      */
-    protected static List calculatePostixes(Locale locale) {
-        final List result = new ArrayList();
+    protected static List<String> calculatePostixes(Locale locale) {
+        final List<String> result = new ArrayList<String>();
         final String language = locale.getLanguage();
         final int languageLength = language.length();
         final String country = locale.getCountry();
@@ -350,70 +325,59 @@ public class UrlDefinitionsFactory
         }
     }
 
-    /** 
-     * Creates the ComponentDefinitions instance specified by the initialization
-     * parameter or the default if none is specified.
-     *
-     * @param classname The class of the ComponentDefinitins to create.
-     * @return the instantiated ComponentDefinitions object.
-     * @throws DefinitionsFactoryException if a problem occurs.
-     */
-    protected ComponentDefinitions createDefinitionsImpl(String classname) 
-            throws DefinitionsFactoryException {
-        
-        ComponentDefinitions definitions = null;
-        if (classname != null) {
-            try {
-                Class defsClass = 
-                    RequestUtils.applicationClass(classname);
-                definitions = (ComponentDefinitions) defsClass.newInstance();
-            } catch (ClassNotFoundException e) {
-                throw new DefinitionsFactoryException(
-                        "Cannot find definitions class.", e);
-            } catch (InstantiationException e) {
-                throw new DefinitionsFactoryException(
-                        "Unable to instantiate definitions class.", e);
-            } catch (IllegalAccessException e) {
-                throw new DefinitionsFactoryException(
-                        "Unable to access definitions class.", e);
-            }
+
+    public void refresh() throws DefinitionsFactoryException {
+        LOG.debug("Updating Tiles definitions. . .");
+        synchronized (definitions) {
+            ComponentDefinitions newDefs = readDefinitions();
+            definitions.reset();
+            definitions.addDefinitions(newDefs.getBaseDefinitions());
         }
-        
-        if (definitions == null) {
-            definitions = new ComponentDefinitionsImpl();
-        }
-        
-        return definitions;
     }
+
 
     /**
      * Indicates whether the DefinitionsFactory is out of date and needs to be
      * reloaded.
      */
     public boolean refreshRequired() {
-	boolean status = false;
+        boolean status = false;
 
-	Set urls = lastModifiedDates.keySet();
+        Set<String> urls = lastModifiedDates.keySet();
 
-	try {
-	    Iterator i = urls.iterator();
-	    while (i.hasNext()) {
-		String urlPath = (String) i.next();
-		Long lastModifiedDate = (Long) lastModifiedDates.get(urlPath);
-		URL url = new URL(urlPath);
-		URLConnection connection = url.openConnection();
-		connection.connect();
-		long newModDate = connection.getLastModified();
-		if (newModDate != lastModifiedDate.longValue()) {
-		    status = true;
-		    break;
-		}
-	    }
-	} catch (Exception e) {
-            // Should probably log here.
+        try {
+            for (String urlPath : urls) {
+                Long lastModifiedDate = lastModifiedDates.get(urlPath);
+                URL url = new URL(urlPath);
+                URLConnection connection = url.openConnection();
+                connection.connect();
+                long newModDate = connection.getLastModified();
+                if (newModDate != lastModifiedDate) {
+                    status = true;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            LOG.warn("Exception while monitoring update times.", e);
             return true;
-	}
-	return status;
+        }
+        return status;
     }
-    
+
+    private void createReader(String readerClassName) throws DefinitionsFactoryException {
+        try {
+            Class readerClass =
+                    RequestUtils.applicationClass(readerClassName);
+            reader = (DefinitionsReader) readerClass.newInstance();
+        } catch (ClassNotFoundException e) {
+            throw new DefinitionsFactoryException(
+                    "Cannot find reader class '" + readerClassName + "'.", e);
+        } catch (InstantiationException e) {
+            throw new DefinitionsFactoryException(
+                    "Unable to instantiate reader class '" + readerClassName + "'.", e);
+        } catch (IllegalAccessException e) {
+            throw new DefinitionsFactoryException(
+                    "Unable to access reader class '" + readerClassName + "'.", e);
+        }
+    }
 }

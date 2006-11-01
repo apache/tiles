@@ -22,8 +22,6 @@ import java.io.IOException;
 
 import javax.servlet.jsp.PageContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Class containing utility methods for Tiles.
@@ -37,9 +35,6 @@ import org.apache.commons.logging.LogFactory;
  * if the underlying implementation doesn't support the operation.
  */
 public class TilesUtil {
-
-    /** Commons Logging instance.*/
-    protected static Log log = LogFactory.getLog(TilesUtil.class);
 
     /** The implementation of tilesUtilImpl */
     protected static TilesUtilImpl tilesUtilImpl;

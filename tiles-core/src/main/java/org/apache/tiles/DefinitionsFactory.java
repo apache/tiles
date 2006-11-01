@@ -18,7 +18,6 @@
 
 package org.apache.tiles;
 
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -55,7 +54,7 @@ public interface DefinitionsFactory {
      * @param params The Map of configuration properties.
      * @throws DefinitionsFactoryException if an initialization error occurs.
      */
-    public void init(Map params) throws DefinitionsFactoryException;
+    public void init(Map<String, String> params) throws DefinitionsFactoryException;
     
     /**
      * Returns a ComponentDefinition object that matches the given name and

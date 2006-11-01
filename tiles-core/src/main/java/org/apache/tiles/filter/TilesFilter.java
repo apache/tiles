@@ -21,14 +21,9 @@ package org.apache.tiles.filter;
 import java.io.IOException;
 import javax.servlet.*;
 
-import org.apache.tiles.ComponentDefinitions;
 import org.apache.tiles.DefinitionsFactory;
 import org.apache.tiles.ReloadableDefinitionsFactory;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesUtil;
-import org.apache.tiles.TilesUtilImpl;
-import org.apache.tiles.context.TilesContextFactory;
-import org.apache.tiles.context.BasicTilesContextFactory;
 
 /**
  * Processes Reloadable Tiles Definitions.
@@ -64,30 +59,13 @@ public class TilesFilter implements Filter {
 
         try {
             DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
-
             if (factory instanceof ReloadableDefinitionsFactory) {
-                if (((ReloadableDefinitionsFactory) factory).refreshRequired()) {
-                    if (debug) {
-                        log("Updating Tiles definitions.");
-                    }
-
-                    ComponentDefinitions newDefs = null;
-                    synchronized (factory) {
-                         newDefs = factory.readDefinitions();
-                    }
-
-                    ComponentDefinitions definitions = (ComponentDefinitions)
-                            filterConfig.getServletContext().getAttribute(
-                            TilesUtilImpl.DEFINITIONS_OBJECT);
-                    synchronized (definitions) {
-                        definitions.reset();
-                        definitions.addDefinitions(newDefs.getBaseDefinitions());
-                    }
+                ReloadableDefinitionsFactory rFactory = (ReloadableDefinitionsFactory) factory;
+                if (rFactory.refreshRequired()) {
+                    rFactory.refreshRequired();
                 }
             }
-
             chain.doFilter(request, response);
-
         } catch(Exception e) {
             throw new ServletException("Error processing request.", e);
         }

@@ -21,7 +21,6 @@ package org.apache.tiles.listener;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Enumeration;
-import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -32,6 +31,8 @@ import org.apache.tiles.*;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.context.BasicTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @version $Rev$ $Date$
@@ -39,10 +40,9 @@ import org.apache.tiles.context.TilesContextFactory;
 public class TilesListener implements ServletContextListener {
 
     /**
-     * The logger for this class
+     * The LOG for this class
     */
-   protected static Logger logger = Logger.getLogger(TilesListener.class.
-                                                                      getName());
+   private static final Log LOG = LogFactory.getLog(TilesListener.class);
 
 
     /**
@@ -77,7 +77,7 @@ public class TilesListener implements ServletContextListener {
     private String configFiles = null;
 
     public void contextInitialized(ServletContextEvent event) {
-        logger.info("Initializing TilesListener");
+        LOG.info("Initializing TilesListener");
         configFiles = event.getServletContext().getInitParameter(DEFAULT_CONFIG_FILE_PARAM);
 
         try {
@@ -126,11 +126,11 @@ public class TilesListener implements ServletContextListener {
 
         try {
             if(configFiles != null) {
-                logger.info("CONFIG FILES DEFINED IN WEB.XML");
+                LOG.info("CONFIG FILES DEFINED IN WEB.XML");
                map.put(DEFAULT_CONFIG_FILE_PARAM, configFiles);
            }
             else {
-                logger.info("CONFIG FILES WERE NOT DEFINED IN WEB.XML, " +
+                LOG.info("CONFIG FILES WERE NOT DEFINED IN WEB.XML, " +
                               "LOOKING FOR " + DEFAULT_CONFIG_FILE);
                map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
             }
@@ -155,7 +155,7 @@ public class TilesListener implements ServletContextListener {
    private void initDefinitionsFactory(ServletContext servletContext,
                                        DefinitionsFactoryConfig factoryConfig)
                                                     throws ServletException {
-        logger.info("initializing definitions impl...");
+        LOG.info("initializing definitions impl...");
         // Create configurable impl
         try {
             // Eventually this can be made dynamic
@@ -178,9 +178,9 @@ public class TilesListener implements ServletContextListener {
      * @param ex An exception
      */
     private void saveExceptionMessage(ServletContext context, Exception ex) {
-       logger.warning("Caught exception when initializing definitions impl");
-       logger.warning(ex.getMessage());
-       logger.warning(ex.toString());
+       LOG.warn("Caught exception when initializing definitions impl");
+       LOG.warn(ex.getMessage());
+       LOG.warn(ex.toString());
        context.setAttribute("TILES_INIT_EXCEPTION", ex.getMessage());
     }
 

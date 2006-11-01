@@ -45,12 +45,12 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
 
     /**
      * 
-     * Exposes the <code>isContextProcessed</code> method of
+     * Exposes the <code>isLocaleProcessed</code> method of
      * <code>UrlDefinitionsFactory</code>
      * 
-     * @see org.apache.tiles.definition.UrlDefinitionsFactory#isContextProcessed(org.apache.tiles.TilesRequestContext)
+     * @see org.apache.tiles.definition.UrlDefinitionsFactory#isLocaleProcessed(org.apache.tiles.TilesRequestContext)
      */
-    public boolean isContextProcessed(TilesRequestContext tilesContext) {
-        return super.isContextProcessed(tilesContext);
+    public boolean isLocaleProcessed(TilesRequestContext tilesContext) {
+        return super.isLocaleProcessed(tilesContext);
     }
 }

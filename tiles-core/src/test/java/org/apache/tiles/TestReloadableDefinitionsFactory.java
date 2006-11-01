@@ -18,13 +18,12 @@
 
 package org.apache.tiles;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -33,15 +32,17 @@ import org.apache.tiles.definition.UrlDefinitionsFactory;
 /**
  * Tests the reloadable definitions impl.
  *
- * @version $Rev$ $Date$ 
+ * @version $Rev$ $Date$
  */
 public class TestReloadableDefinitionsFactory extends TestCase {
-    
-    /** Creates a new instance of TestReloadableDefinitionsFactory */
+
+    /**
+     * Creates a new instance of TestReloadableDefinitionsFactory
+     */
     public TestReloadableDefinitionsFactory(String name) {
         super(name);
     }
-  
+
     /**
      * Start the tests.
      *
@@ -49,7 +50,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
      */
     public static void main(String[] theArgs) {
         junit.textui.TestRunner.main(
-            new String[] { TestReloadableDefinitionsFactory.class.getName()});
+                new String[]{TestReloadableDefinitionsFactory.class.getName()});
     }
 
     /**
@@ -63,103 +64,98 @@ public class TestReloadableDefinitionsFactory extends TestCase {
     /**
      * Tests reloading definitions impl.
      */
-    public void testReloadableDefinitionsFactory() {
-        try {
-            DefinitionsFactory factory = new UrlDefinitionsFactory();
+    public void testReloadableDefinitionsFactory() throws Exception {
+        DefinitionsFactory factory = new UrlDefinitionsFactory();
 
-            // Set up multiple data sources.
-            URL url = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/temp-defs.xml");
-            
-            URI uri = null;
-            String urlPath = null;
+        // Set up multiple data sources.
+        URL url = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/temp-defs.xml");
 
-            // The following madness is necessary b/c of the way Windows hanndles URLs.
-            // We must add a slash to the protocol if Windows does not.  But we cannot
-            // add a slash to Unix paths b/c they already have one.
-            if (url.getPath().startsWith("/")) {
-                urlPath = "file:" + url.getPath();
-            } else {
-                urlPath = "file:/" + url.getPath();
-            }
-            
-            // The following second madness is necessary b/c sometimes spaces
-            // are encoded as '%20', sometimes they are not. For example in
-            // Windows 2000 under Eclipse they are encoded, under the prompt of
-            // Windows 2000 they are not.
-            // It seems to be in the different behaviour of
-            // sun.misc.Launcher$AppClassLoader (called under Eclipse) and
-            // java.net.URLClassLoader (under maven).
-            // And an URL accepts spaces while URIs need '%20'.
-            try {
-                uri = new URI(urlPath);
-            } catch (URISyntaxException e) {
-                uri = new URI(urlPath.replaceAll(" ", "%20"));
-            }
+        URI uri = null;
+        String urlPath = null;
 
-            String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
-             "<!DOCTYPE tiles-definitions PUBLIC " +
-                   "\"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN\" " +
-                   "\"http://struts.apache.org/dtds/tiles-config_1_1.dtd\">\n\n" +
-            "<tiles-definitions>" +
-            "<definition name=\"rewrite.test\" path=\"/test.jsp\">" +
-                      "<put name=\"testparm\" value=\"testval\"/>" +
-              "</definition>" +
-            "</tiles-definitions>";
-            
-	    File file = new File(uri);
-	    FileOutputStream fileOut = new FileOutputStream(file);
-	    BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(fileOut)); 
-	    writer.write(xml);
-	    writer.close();
-
-            factory.init(null);
-            factory.addSource(url);
-
-            // Parse files.
-            ComponentDefinitions definitions = factory.readDefinitions();
-            
-            assertNotNull("rewrite.test definition not found.", 
-                    definitions.getDefinition("rewrite.test"));
-            assertEquals("Incorrect initial path value", "/test.jsp",
-			 definitions.getDefinition("rewrite.test").getPath());
-
-	    ReloadableDefinitionsFactory reloadable = (ReloadableDefinitionsFactory) factory;
-	    assertEquals("Factory should be fresh.", false, 
-                    reloadable.refreshRequired());
-
-	    // Make sure the system actually updates the timestamp.
-	    Thread.sleep(30000);
-
-            // Set up multiple data sources.
-            xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
-             "<!DOCTYPE tiles-definitions PUBLIC " +
-                   "\"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN\" " +
-                   "\"http://struts.apache.org/dtds/tiles-config_1_1.dtd\">\n\n" +
-            "<tiles-definitions>" +
-            "<definition name=\"rewrite.test\" path=\"/newtest.jsp\">" +
-                      "<put name=\"testparm\" value=\"testval\"/>" +
-              "</definition>" +
-            "</tiles-definitions>";
-            
-	    file = new File(uri);
-	    fileOut = new FileOutputStream(file);
-	    writer = new BufferedWriter(new OutputStreamWriter(fileOut)); 
-	    writer.write(xml);
-	    writer.close();
-
-
-	    assertEquals("Factory should be stale.", true, 
-                    reloadable.refreshRequired());
-	    definitions = factory.readDefinitions();
-            assertNotNull("rewrite.test definition not found.", 
-                    definitions.getDefinition("rewrite.test"));
-            assertEquals("Incorrect initial path value", "/newtest.jsp",
-			 definitions.getDefinition("rewrite.test").getPath());
-        } catch (Exception e) {
-            fail("Error running test: " + e);
+        // The following madness is necessary b/c of the way Windows hanndles URLs.
+        // We must add a slash to the protocol if Windows does not.  But we cannot
+        // add a slash to Unix paths b/c they already have one.
+        if (url.getPath().startsWith("/")) {
+            urlPath = "file:" + url.getPath();
+        } else {
+            urlPath = "file:/" + url.getPath();
         }
-        
+
+        // The following second madness is necessary b/c sometimes spaces
+        // are encoded as '%20', sometimes they are not. For example in
+        // Windows 2000 under Eclipse they are encoded, under the prompt of
+        // Windows 2000 they are not.
+        // It seems to be in the different behaviour of
+        // sun.misc.Launcher$AppClassLoader (called under Eclipse) and
+        // java.net.URLClassLoader (under maven).
+        // And an URL accepts spaces while URIs need '%20'.
+        try {
+            uri = new URI(urlPath);
+        } catch (URISyntaxException e) {
+            uri = new URI(urlPath.replaceAll(" ", "%20"));
+        }
+
+        String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
+                "<!DOCTYPE tiles-definitions PUBLIC " +
+                "\"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN\" " +
+                "\"http://struts.apache.org/dtds/tiles-config_1_1.dtd\">\n\n" +
+                "<tiles-definitions>" +
+                "<definition name=\"rewrite.test\" path=\"/test.jsp\">" +
+                "<put name=\"testparm\" value=\"testval\"/>" +
+                "</definition>" +
+                "</tiles-definitions>";
+
+        File file = new File(uri);
+        FileOutputStream fileOut = new FileOutputStream(file);
+        BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(fileOut));
+        writer.write(xml);
+        writer.close();
+
+        factory.init(new HashMap());
+        factory.addSource(url);
+
+        // Parse files.
+        ComponentDefinitions definitions = factory.readDefinitions();
+
+        assertNotNull("rewrite.test definition not found.",
+                definitions.getDefinition("rewrite.test"));
+        assertEquals("Incorrect initial path value", "/test.jsp",
+                definitions.getDefinition("rewrite.test").getPath());
+
+        ReloadableDefinitionsFactory reloadable = (ReloadableDefinitionsFactory) factory;
+        assertEquals("Factory should be fresh.", false,
+                reloadable.refreshRequired());
+
+        // Make sure the system actually updates the timestamp.
+        Thread.sleep(30000);
+
+        // Set up multiple data sources.
+        xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
+                "<!DOCTYPE tiles-definitions PUBLIC " +
+                "\"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN\" " +
+                "\"http://struts.apache.org/dtds/tiles-config_1_1.dtd\">\n\n" +
+                "<tiles-definitions>" +
+                "<definition name=\"rewrite.test\" path=\"/newtest.jsp\">" +
+                "<put name=\"testparm\" value=\"testval\"/>" +
+                "</definition>" +
+                "</tiles-definitions>";
+
+        file = new File(uri);
+        fileOut = new FileOutputStream(file);
+        writer = new BufferedWriter(new OutputStreamWriter(fileOut));
+        writer.write(xml);
+        writer.close();
+
+
+        assertEquals("Factory should be stale.", true,
+                reloadable.refreshRequired());
+        definitions = factory.readDefinitions();
+        assertNotNull("rewrite.test definition not found.",
+                definitions.getDefinition("rewrite.test"));
+        assertEquals("Incorrect initial path value", "/newtest.jsp",
+                definitions.getDefinition("rewrite.test").getPath());
     }
 }

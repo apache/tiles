@@ -20,6 +20,8 @@ package org.apache.tiles.mock;
 
 import org.apache.tiles.DefinitionsReader;
 
+import java.util.Collections;
+
 /**
  * Mock Defintions Reader implementation.  Stubs out all functionality.
  *
@@ -45,27 +47,27 @@ public class MockDefinitionsReader implements DefinitionsReader {
     }
 
     /**
-     * Reads <code>{@link ComponentDefinition}</code> objects from a source.
+     * Reads <code>{@link org.apache.tiles.ComponentDefinition}</code> objects from a source.
      * 
      * Implementations should publish what type of source object is expected.
      * 
      * @param source The source from which definitions will be read.
      * @return a Map of <code>ComponentDefinition</code> objects read from
      *  the source.
-     * @throws DefinitionsFactoryException if the source is invalid or
+     * @throws org.apache.tiles.DefinitionsFactoryException if the source is invalid or
      *  an error occurs when reading definitions.
      */
     public java.util.Map read(Object source) throws org.apache.tiles.DefinitionsFactoryException {
-        return null;
+        return Collections.EMPTY_MAP;
     }
 
     /**
      * Initializes the <code>DefinitionsReader</code> object.
      * 
-     * This method must be called before the {@link read} method is called.
+     * This method must be called before the {@link #read} method is called.
      * 
      * @param params A map of properties used to set up the reader.
-     * @throws DefinitionsFactoryException if required properties are not
+     * @throws org.apache.tiles.DefinitionsFactoryException if required properties are not
      *  passed in or the initialization fails.
      */
     public void init(java.util.Map params) throws org.apache.tiles.DefinitionsFactoryException {

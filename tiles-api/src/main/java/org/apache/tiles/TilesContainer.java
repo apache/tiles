@@ -17,6 +17,8 @@
  */
 package org.apache.tiles;
 
+import javax.servlet.jsp.PageContext;
+
 /**
  * An encapsulation of the tiles framework.  This interface is
  * used to expose tiles features to frameworks which leverage
@@ -33,20 +35,45 @@ public interface TilesContainer {
      * configuration.
      * 
      * @param context
+     * @throws TilesException
      */
-    void init(TilesApplicationContext context)
-            throws org.apache.tiles.TilesException;
+    void init(TilesApplicationContext context) throws TilesException;
 
     /**
      * Retrieve the containers context.
+     * @return
      */
     TilesApplicationContext getApplicationContext();
+
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param definition
+     */
+    void prepare(Object request, Object response, String definition) throws TilesException;
+
+    /**
+     * 
+     * @param pageContext
+     * @param definition
+     * @throws TilesException
+     */
+    void prepare(PageContext pageContext, String definition) throws TilesException;
+
 
     /**
      * Render the given tiles request
      *
      * @param request
      */
-    void render(TilesRequestContext request, String definition) throws TilesException;
+    void render(Object request, Object response, String definition) throws TilesException;
 
+    /**
+     *
+     * @param pageContext
+     * @param definition
+     * @throws TilesException
+     */
+    void render(PageContext pageContext, String definition) throws TilesException;
 }

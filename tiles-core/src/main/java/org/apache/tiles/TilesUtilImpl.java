@@ -199,11 +199,7 @@ public class TilesUtilImpl implements Serializable {
             throw new DefinitionsFactoryException("Problem with filename URL: ", e);
         }
 
-        ComponentDefinitions definitions = factory.readDefinitions();
-
-        // Make impl accessible from jsp tags (push it in appropriate context)
         makeDefinitionsFactoryAccessible(factory);
-        makeDefinitionsAccessible(definitions);
 
         return factory;
     }
@@ -269,16 +265,7 @@ public class TilesUtilImpl implements Serializable {
         applicationContext.getApplicationScope().put(DEFINITIONS_FACTORY, factory);
     }
 
-    /**
-     * Make definition impl accessible to Tags.
-     * Factory is stored in servlet context.
-     * @param definitions Definition impl to be made accessible
-     */
-    protected void makeDefinitionsAccessible(
-        ComponentDefinitions definitions) {
 
-        applicationContext.getApplicationScope().put(DEFINITIONS_OBJECT, definitions);
-    }
 
     /**
      * Parses a comma-delimited string for a list of config filenames.

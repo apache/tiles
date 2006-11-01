@@ -66,9 +66,11 @@ public class TagUtils {
         return TilesAccess.getApplicationContext(context);
     }
 
-    public static TilesRequestContext getTilesRequestContext(
-            ServletRequest request,
-            ServletResponse response) {
+    public static TilesRequestContext getTilesRequestContext(PageContext context) {
+        ServletRequest request = context.getRequest();
+        ServletResponse response = context.getResponse();
+        ServletContext ctx = context.getServletContext();
+
         return TilesUtil.createRequestContext(request, response);
     }
 
@@ -179,9 +181,7 @@ public class TagUtils {
      * @return Requested bean or <code>null</code> if not found.
      */
     public static Object findAttribute(String beanName, PageContext pageContext) {
-        TilesRequestContext tilesContext = getTilesRequestContext(
-                pageContext.getRequest(),
-              pageContext.getResponse());
+        TilesRequestContext tilesContext = getTilesRequestContext(pageContext);
         ComponentContext compContext = ComponentContext.getContext(tilesContext);
 
         if (compContext != null) {
@@ -205,9 +205,7 @@ public class TagUtils {
      */
     public static Object getAttribute(String beanName, int scope, PageContext pageContext) {
         if (scope == ComponentConstants.COMPONENT_SCOPE) {
-            TilesRequestContext tilesContext = getTilesRequestContext(
-                    pageContext.getRequest(),
-                  pageContext.getResponse());
+            TilesRequestContext tilesContext = getTilesRequestContext(pageContext);
             ComponentContext compContext = ComponentContext.getContext(tilesContext);
             return compContext.getAttribute(beanName);
         }
@@ -374,10 +372,7 @@ public class TagUtils {
                 definition = (ComponentDefinition) definitionCandidate;
             } else {
                 if (tilesContext == null) {
-                    tilesContext = getTilesRequestContext(
-                            pageContext.getRequest(),
-                          pageContext.getResponse()
-                    );
+                    tilesContext = getTilesRequestContext(pageContext);
                 }
                 definition = TilesUtil.getDefinition(name, tilesContext);
             }

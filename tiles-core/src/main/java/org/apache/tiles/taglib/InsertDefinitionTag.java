@@ -97,9 +97,7 @@ public class InsertDefinitionTag extends BaseInsertTag {
     protected TagHandler processDefinitionName(String name) throws JspException {
         
         try {
-            TilesRequestContext tilesContext = TagUtils.getTilesRequestContext(
-                    pageContext.getRequest(),
-                    pageContext.getResponse());
+            TilesRequestContext tilesContext = TagUtils.getTilesRequestContext(pageContext);
             ComponentDefinition definition = null;
             definition = TagUtils.getComponentDefinition(name, pageContext,
                     tilesContext);

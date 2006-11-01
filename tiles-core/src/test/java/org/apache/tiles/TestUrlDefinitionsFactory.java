@@ -22,11 +22,12 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Collections;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
-import org.apache.tiles.mock.MockComponentDefinitions;
 import org.apache.tiles.mock.MockPublicUrlDefinitionsFactory;
 import org.apache.tiles.mock.MockDefinitionsReader;
 import org.apache.tiles.mock.MockOnlyLocaleTilesContext;
@@ -34,11 +35,13 @@ import org.apache.tiles.mock.MockOnlyLocaleTilesContext;
 /**
  * Tests the UrlDefinitionsFactory component.
  *
- * @version $Rev$ $Date$ 
+ * @version $Rev$ $Date$
  */
 public class TestUrlDefinitionsFactory extends TestCase {
-    
-    /** Creates a new instance of TestUrlDefinitionsFactory */
+
+    /**
+     * Creates a new instance of TestUrlDefinitionsFactory
+     */
     public TestUrlDefinitionsFactory(String name) {
         super(name);
     }
@@ -50,7 +53,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
      */
     public static void main(String[] theArgs) {
         junit.textui.TestRunner.main(
-            new String[] { TestUrlDefinitionsFactory.class.getName()});
+                new String[]{TestUrlDefinitionsFactory.class.getName()});
     }
 
     /**
@@ -64,190 +67,143 @@ public class TestUrlDefinitionsFactory extends TestCase {
     /**
      * Tests the readDefinitions method under normal conditions.
      */
-    public void testReadDefinitions() {
-        try {
-            DefinitionsFactory factory = new UrlDefinitionsFactory();
+    public void testReadDefinitions() throws Exception {
+        DefinitionsFactory factory = new UrlDefinitionsFactory();
 
-            // Set up multiple data sources.
-            URL url1 = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/defs1.xml");
-            assertNotNull("Could not load defs1 file.", url1);
-            URL url2 = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/defs2.xml");
-            assertNotNull("Could not load defs2 file.", url2);
-            URL url3 = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/defs3.xml");
-            assertNotNull("Could not load defs3 file.", url3);
+        // Set up multiple data sources.
+        URL url1 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs1.xml");
+        assertNotNull("Could not load defs1 file.", url1);
+        URL url2 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs2.xml");
+        assertNotNull("Could not load defs2 file.", url2);
+        URL url3 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs3.xml");
+        assertNotNull("Could not load defs3 file.", url3);
 
-            factory.init(null);
-            factory.addSource(url1);
-            factory.addSource(url2);
-            factory.addSource(url3);
+        factory.init(Collections.EMPTY_MAP);
+        factory.addSource(url1);
+        factory.addSource(url2);
+        factory.addSource(url3);
 
-            // Parse files.
-            ComponentDefinitions definitions = factory.readDefinitions();
-            
-            assertNotNull("test.def1 definition not found.", definitions.getDefinition("test.def1"));
-            assertNotNull("test.def2 definition not found.", definitions.getDefinition("test.def1"));
-            assertNotNull("test.def3 definition not found.", definitions.getDefinition("test.def1"));
-        } catch (Exception e) {
-            fail("Error running test: " + e);
-        }
+        // Parse files.
+        ComponentDefinitions definitions = factory.readDefinitions();
+
+        assertNotNull("test.def1 definition not found.", definitions.getDefinition("test.def1"));
+        assertNotNull("test.def2 definition not found.", definitions.getDefinition("test.def1"));
+        assertNotNull("test.def3 definition not found.", definitions.getDefinition("test.def1"));
     }
-    
+
     /**
      * Tests addSource with a bad source object type.
      */
-    public void testBadSourceType() {
+    public void testBadSourceType() throws Exception {
         try {
             DefinitionsFactory factory = new UrlDefinitionsFactory();
 
-            factory.init(null);
+            factory.init(Collections.EMPTY_MAP);
             factory.addSource("Bad object.");
-            
+
             fail("Should've thrown exception.");
         } catch (DefinitionsFactoryException e) {
             // success.
-        } catch (Exception e) {
-            fail("Error running test: " + e);
         }
     }
-    
+
     /**
      * Tests the addDefinitions method under normal
      * circumstances.
      */
-    public void testReadByLocale() {
-        try {
-            MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
+    public void testReadByLocale() throws Exception {
+        MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
 
-            // Set up multiple data sources.
-            URL url1 = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/defs1.xml");
-            assertNotNull("Could not load defs1 file.", url1);
-            URL url2 = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/defs2.xml");
-            assertNotNull("Could not load defs2 file.", url2);
-            URL url3 = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/defs3.xml");
-            assertNotNull("Could not load defs3 file.", url3);
+        // Set up multiple data sources.
+        URL url1 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs1.xml");
+        assertNotNull("Could not load defs1 file.", url1);
+        URL url2 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs2.xml");
+        assertNotNull("Could not load defs2 file.", url2);
+        URL url3 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs3.xml");
+        assertNotNull("Could not load defs3 file.", url3);
 
-            factory.init(null);
-            factory.addSource(url1);
-            factory.addSource(url2);
-            factory.addSource(url3);
+        factory.init(Collections.EMPTY_MAP);
+        factory.addSource(url1);
+        factory.addSource(url2);
+        factory.addSource(url3);
 
-            // Parse files.
-            ComponentDefinitions definitions = factory.readDefinitions();
-            factory.addDefinitions(definitions,
-                    new MockOnlyLocaleTilesContext(Locale.US));
-            factory.addDefinitions(definitions,
-                    new MockOnlyLocaleTilesContext(Locale.FRENCH));
-            
-            assertNotNull("test.def1 definition not found.", definitions.getDefinition("test.def1"));
-            assertNotNull("test.def1 US definition not found.", definitions.getDefinition("test.def1", Locale.US));
-            assertNotNull("test.def1 France definition not found.", definitions.getDefinition("test.def1", Locale.FRENCH));
-            assertNotNull("test.def1 China should return default.", definitions.getDefinition("test.def1", Locale.CHINA));
-            
-            assertEquals("Incorrect default country value", "default",
-                    definitions.getDefinition("test.def1").getAttribute("country"));
-            assertEquals("Incorrect US country value", "US",
-                    definitions.getDefinition("test.def1", Locale.US).getAttribute("country"));
-            assertEquals("Incorrect France country value", "France",
-                    definitions.getDefinition("test.def1", Locale.FRENCH).getAttribute("country"));
-            assertEquals("Incorrect Chinese country value (should default)", "default",
-                    definitions.getDefinition("test.def1", Locale.CHINA).getAttribute("country"));
-        } catch (Exception e) {
-            fail("Error running test: " + e);
-        }
-        
+        // Parse files.
+        ComponentDefinitions definitions = factory.readDefinitions();
+        factory.addDefinitions(definitions,
+                new MockOnlyLocaleTilesContext(Locale.US));
+        factory.addDefinitions(definitions,
+                new MockOnlyLocaleTilesContext(Locale.FRENCH));
+
+        assertNotNull("test.def1 definition not found.", definitions.getDefinition("test.def1"));
+        assertNotNull("test.def1 US definition not found.", definitions.getDefinition("test.def1", Locale.US));
+        assertNotNull("test.def1 France definition not found.", definitions.getDefinition("test.def1", Locale.FRENCH));
+        assertNotNull("test.def1 China should return default.", definitions.getDefinition("test.def1", Locale.CHINA));
+
+        assertEquals("Incorrect default country value", "default",
+                definitions.getDefinition("test.def1").getAttribute("country"));
+        assertEquals("Incorrect US country value", "US",
+                definitions.getDefinition("test.def1", Locale.US).getAttribute("country"));
+        assertEquals("Incorrect France country value", "France",
+                definitions.getDefinition("test.def1", Locale.FRENCH).getAttribute("country"));
+        assertEquals("Incorrect Chinese country value (should default)", "default",
+                definitions.getDefinition("test.def1", Locale.CHINA).getAttribute("country"));
     }
-    
+
     /**
      * Tests the isLocaleProcessed method.
      */
-    public void testIsLocaleProcessed() {
-        try {
-            MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
+    public void testIsLocaleProcessed() throws Exception {
+        MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
 
-            // Set up multiple data sources.
-            URL url1 = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/defs1.xml");
-            assertNotNull("Could not load defs1 file.", url1);
+        // Set up multiple data sources.
+        URL url1 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs1.xml");
+        assertNotNull("Could not load defs1 file.", url1);
 
-            factory.init(null);
-            factory.addSource(url1);
+        factory.init(Collections.EMPTY_MAP);
+        factory.addSource(url1);
 
-            // Parse files.
-            ComponentDefinitions definitions = factory.readDefinitions();
-            TilesRequestContext tilesContext =
-                    new MockOnlyLocaleTilesContext(Locale.US);
-            assertFalse("Locale should not be processed.", 
-                    factory.isContextProcessed(tilesContext));
-            
-            factory.addDefinitions(definitions, tilesContext);
-            assertTrue("Locale should be processed.",
-                    factory.isContextProcessed(tilesContext));
-            
-        } catch (Exception e) {
-            fail("Error running test: " + e);
-        }
+        // Parse files.
+        ComponentDefinitions definitions = factory.readDefinitions();
+        TilesRequestContext tilesContext =
+                new MockOnlyLocaleTilesContext(Locale.US);
+        assertFalse("Locale should not be processed.",
+                factory.isLocaleProcessed(tilesContext));
+
+        factory.addDefinitions(definitions, tilesContext);
+        assertTrue("Locale should be processed.",
+                factory.isLocaleProcessed(tilesContext));
     }
-    
+
     /**
      * Tests the reader init param.
      */
-    public void testReaderParam() {
+    public void testReaderParam() throws Exception {
         Map params = new HashMap();
-        params.put(DefinitionsFactory.READER_IMPL_PROPERTY, 
+        params.put(DefinitionsFactory.READER_IMPL_PROPERTY,
                 "org.apache.tiles.mock.MockDefinitionsReader");
 
         int instanceCount = MockDefinitionsReader.getInstanceCount();
-        
-        try {
-            DefinitionsFactory factory = new UrlDefinitionsFactory();
 
-            // Set up multiple data sources.
-            URL url1 = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/defs1.xml");
-            assertNotNull("Could not load defs1 file.", url1);
+        DefinitionsFactory factory = new UrlDefinitionsFactory();
 
-            factory.init(params);
-            factory.addSource(url1);
+        // Set up multiple data sources.
+        URL url1 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs1.xml");
+        assertNotNull("Could not load defs1 file.", url1);
 
-            assertEquals("MockDefinitionsReader not used.",  
-                    instanceCount + 1,
-                    MockDefinitionsReader.getInstanceCount());
-        } catch (Exception e) {
-            fail("Error running test: " + e);
-        }
+        factory.init(params);
+        factory.addSource(url1);
+
+        assertEquals("MockDefinitionsReader not used.",
+                instanceCount + 1,
+                MockDefinitionsReader.getInstanceCount());
     }
-    
-    /**
-     * Tests the ComponentDefinitions init param.
-     */
-    public void testComponentDefinitionsParam() {
-        Map params = new HashMap();
-        params.put(DefinitionsFactory.DEFINITIONS_IMPL_PROPERTY, 
-                "org.apache.tiles.mock.MockComponentDefinitions");
 
-        try {
-            DefinitionsFactory factory = new UrlDefinitionsFactory();
-
-            // Set up multiple data sources.
-            URL url1 = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/defs1.xml");
-            assertNotNull("Could not load defs1 file.", url1);
-
-            factory.init(params);
-            factory.addSource(url1);
-            ComponentDefinitions defs = factory.readDefinitions();
-
-            assertNotNull("Definitions not read.", defs);
-            assertTrue("Incorrect definitions type.", 
-                    defs instanceof MockComponentDefinitions);
-        } catch (Exception e) {
-            fail("Error running test: " + e);
-        }
-    }
 }
