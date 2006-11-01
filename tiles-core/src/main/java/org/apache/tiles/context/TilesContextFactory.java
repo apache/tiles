@@ -20,6 +20,7 @@ package org.apache.tiles.context;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesRequestContext;
 
+import javax.servlet.jsp.PageContext;
 import java.util.Map;
 
 /**
@@ -46,10 +47,20 @@ public interface TilesContextFactory {
     /**
      * Create a TilesRequestContext for the given context,
      * request, and response.
-     * @param context
-     * @param request
-     * @param response
+     * @param context the associated {@link TilesApplicationContext}
+     * @param request the associated request.  Typically a ServletRequest or PortletRequest.
+     * @param response the associated response.  Typically a ServletResponse or PortletResponse.
      * @return  TilesRequestContext
      */
-    TilesRequestContext createRequestContext(TilesApplicationContext context, Object request, Object response);
+    TilesRequestContext createRequestContext(TilesApplicationContext context,
+                                             Object request, Object response);
+
+    /**
+     * Create a TilesRequestContext for the given tiles and page contexts.
+     * @param context
+     * @param pageContext
+     * @return
+     */
+    TilesRequestContext createRequestContext(TilesApplicationContext context,
+                                             PageContext pageContext);
 }

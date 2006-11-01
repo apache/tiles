@@ -19,6 +19,7 @@
 package org.apache.tiles.context;
 
 import javax.servlet.ServletContext;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.portlet.PortletContext;
@@ -31,7 +32,7 @@ import org.apache.tiles.context.portlet.PortletTilesApplicationContext;
 import org.apache.tiles.context.portlet.PortletTilesRequestContext;
 import org.apache.tiles.context.servlet.ServletTilesApplicationContext;
 import org.apache.tiles.context.servlet.ServletTilesRequestContext;
-import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.context.jsp.JspTilesRequestContext;
 
 import java.util.Map;
 
@@ -79,5 +80,14 @@ public class BasicTilesContextFactory implements TilesContextFactory {
             throw new IllegalArgumentException("Invalid context specified. "
                     + context.getClass().getName());
         }
+    }
+
+    public TilesRequestContext createRequestContext(TilesApplicationContext context,
+                                                    PageContext pageContext) {
+        if (context instanceof ServletTilesApplicationContext) {
+            ServletTilesApplicationContext app = (ServletTilesApplicationContext)context;
+            return new JspTilesRequestContext(app.getServletContext(), pageContext);
+        }
+        throw new IllegalArgumentException("The context/pageContext combination is not supported.");
     }
 }
