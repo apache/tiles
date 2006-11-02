@@ -30,6 +30,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.JspException;
 import java.io.IOException;
 
 /**
@@ -56,9 +57,7 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
     public void include(String path) throws TilesException {
         try {
             include(path, false);
-        } catch (IOException e) {
-            throw new TilesException(e);
-        } catch (ServletException e) {
+        } catch (JspException e) {
             throw new TilesException(e);
         }
     }
@@ -71,10 +70,9 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
      *
      * @param path  Uri or Definition name to forward.
      * @param flush If the writer should be flushed before the include
-     * @throws javax.servlet.ServletException - Thrown by call to pageContext.include()
-     * @throws java.io.IOException            - Thrown by call to pageContext.include()
+     * @throws JspException if the underlying include fails
      */
-    public void include(String path, boolean flush) throws IOException, ServletException {
+    public void include(String path, boolean flush) throws JspException {
         JspUtil.doInclude(pageContext, path, flush);
     }
 

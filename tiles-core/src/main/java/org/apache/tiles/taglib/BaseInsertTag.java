@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.definition.ComponentAttribute;
 import org.apache.tiles.context.ComponentContext;
+import org.apache.tiles.context.jsp.JspUtil;
 import org.apache.tiles.TilesRequestContext;
 import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.preparer.ViewPreparer;
@@ -384,12 +385,10 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
      *
      * @param page  The page that will be included
      * @param flush If the writer should be flushed before the include
-     * @throws ServletException - Thrown by call to pageContext.include()
-     * @throws IOException      - Thrown by call to pageContext.include()
+     * @throws javax.servlet.jsp.JspException
      */
-    protected void doInclude(String page, boolean flush) throws Exception,
-        IOException {
-        TilesUtil.doInclude(page, pageContext, flush);
+    protected void doInclude(String page, boolean flush) throws JspException {
+        JspUtil.doInclude(pageContext, page, flush);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
