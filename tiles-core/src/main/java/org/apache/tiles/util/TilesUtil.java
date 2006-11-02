@@ -22,6 +22,8 @@ package org.apache.tiles.util;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.preparer.PreparerFactory;
+import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.definition.*;
 
 import javax.servlet.jsp.PageContext;
@@ -165,6 +167,13 @@ public class TilesUtil {
     }
 
     /**
+     * Get preparer factory
+     */
+    public static PreparerFactory getPreparerFactory() {
+        return tilesUtilImpl.getPreparerFactory();
+    }
+
+    /**
      * Create Definition impl from specified configuration object.
      * Create a ConfigurableDefinitionsFactory and initialize it with the configuration
      * object. This later can contain the impl classname to use.
@@ -212,4 +221,8 @@ public class TilesUtil {
         tilesUtilImpl = new TilesUtilImpl(null);
     }
 
+    public static void createPreparerFactory() {
+        tilesUtilImpl.createPreparerFactory();
+
+    }
 }

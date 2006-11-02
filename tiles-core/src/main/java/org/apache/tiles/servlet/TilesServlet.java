@@ -29,7 +29,6 @@ import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryConfig;
 import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.util.DefinitionsUtil;
 import org.apache.tiles.util.TilesUtil;
 import org.apache.tiles.util.TilesUtilImpl;
 
@@ -186,6 +185,7 @@ public class TilesServlet extends HttpServlet {
             TilesAccess.setApplicationContext(context, tilesContext);
             TilesUtil.setTilesUtil(new TilesUtilImpl(tilesContext));
             initDefinitionsFactory(context, fconfig);
+            initPreparerFactory();
         } catch (TilesException e) {
             saveExceptionMessage(config, e);
             throw new ServletException(e.getMessage(), e);
@@ -242,12 +242,16 @@ public class TilesServlet extends HttpServlet {
         // Create configurable impl
         try {
 
-            definitionFactory = DefinitionsUtil.createDefinitionsFactory(
+            definitionFactory = TilesUtil.createDefinitionsFactory(
                 factoryConfig);
         } catch (DefinitionsFactoryException ex) {
             ex.printStackTrace();
             throw new ServletException(ex.getMessage(), ex);
         }
+    }
+
+    private void initPreparerFactory() {
+        TilesUtil.createPreparerFactory();
     }
 
 

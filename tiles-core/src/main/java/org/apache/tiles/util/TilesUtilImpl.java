@@ -26,13 +26,14 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesRequestContext;
 import org.apache.tiles.context.BasicTilesContextFactory;
 import org.apache.tiles.definition.*;
+import org.apache.tiles.preparer.BasicPreparerFactory;
+import org.apache.tiles.preparer.PreparerFactory;
 
 import javax.servlet.jsp.PageContext;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,9 @@ public class TilesUtilImpl implements Serializable {
      */
     public static final String DEFINITIONS_FACTORY =
         "org.apache.tiles.DEFINITIONS_FACTORY";
+
+    public static final String PREPARER_FACTORY =
+        "org.apache.tiles.PREPARER_FACTORY";
 
     /**
      * Constant used to store ComponentDefinitions graph.
@@ -168,6 +172,16 @@ public class TilesUtilImpl implements Serializable {
     }
 
     /**
+     * Get preparer factory.
+     *
+     * @return
+     * @throws DefinitionsFactoryException
+     */
+    public PreparerFactory getPreparerFactory() {
+        return (PreparerFactory) applicationContext.getApplicationScope().get(PREPARER_FACTORY);
+    }
+
+    /**
      * Create Definition impl from specified configuration object.
      * Create an instance of the impl with the class specified in the config
      * object. Then, initialize this impl and finally store the impl in
@@ -275,8 +289,11 @@ public class TilesUtilImpl implements Serializable {
      */
     protected void makeDefinitionsFactoryAccessible(
         DefinitionsFactory factory) {
-
         applicationContext.getApplicationScope().put(DEFINITIONS_FACTORY, factory);
+    }
+
+    protected void makePreparerFactoryAccessible(PreparerFactory factory) {
+        applicationContext.getApplicationScope().put(PREPARER_FACTORY, factory);
     }
 
 
@@ -295,4 +312,8 @@ public class TilesUtilImpl implements Serializable {
     }
 
 
+    public void createPreparerFactory() {
+        PreparerFactory preparerFactory = new BasicPreparerFactory();
+        makePreparerFactoryAccessible(preparerFactory);
+    }
 }
