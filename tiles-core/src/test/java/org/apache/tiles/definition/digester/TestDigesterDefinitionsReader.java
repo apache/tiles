@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.definition.digester;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -25,12 +25,13 @@ import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.tiles.digester.DigesterDefinitionsReader;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.DefinitionsReader;
+import org.apache.tiles.definition.ComponentDefinition;
 
 /**
- * Tests the <code>org.apache.tiles.digester.DigesterDefinitionsReader</code> class.
+ * Tests the <code>org.apache.tiles.definition.digester.DigesterDefinitionsReader</code> class.
  *
  * @version $Rev$ $Date$ 
  */

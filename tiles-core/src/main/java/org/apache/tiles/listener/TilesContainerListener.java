@@ -17,25 +17,25 @@
  */
 package org.apache.tiles.listener;
 
-import org.apache.tiles.factory.TilesContainerFactory;
-import org.apache.tiles.TilesException;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.TilesException;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.factory.TilesContainerFactory;
 
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 public class TilesContainerListener
-        implements ServletContextListener {
+    implements ServletContextListener {
 
     /**
      * Log instance.
      */
     protected static final Log LOG =
-            LogFactory.getLog(TilesListener.class);
+        LogFactory.getLog(TilesListener.class);
 
     /**
      * Initialize the TilesContainer and place it
@@ -49,13 +49,14 @@ public class TilesContainerListener
             TilesContainer container = createContainer(servletContext);
             TilesAccess.setContainer(servletContext, container);
         } catch (TilesException e) {
-            LOG.fatal("Unable to retrieve tiles factory.",e);
+            LOG.fatal("Unable to retrieve tiles factory.", e);
             throw new IllegalStateException("Unable to instantiate container.");
         }
     }
 
     /**
      * Remove the tiles container from service.
+     *
      * @param event
      */
     public void contextDestroyed(ServletContextEvent event) {
@@ -70,7 +71,7 @@ public class TilesContainerListener
     protected TilesContainer createContainer(ServletContext context)
         throws TilesException {
         TilesContainerFactory factory =
-                TilesContainerFactory.getFactory(context);
+            TilesContainerFactory.getFactory(context);
         return factory.createContainer(context);
     }
 

@@ -16,38 +16,39 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
+
+import org.apache.tiles.TilesRequestContext;
 
 import java.util.Map;
 
 /**
- * Interface for creating a {@link ComponentDefinitions} object and managing
+ * Interface for creating a {@link org.apache.tiles.definition.ComponentDefinitions} object and managing
  * its contents.
- *
+ * <p/>
  * <p>DefinitionsFactory implementations are responsible for maintaining the data
- * sources of Tiles configuration data and using the data to create 
+ * sources of Tiles configuration data and using the data to create
  * ComponentDefinitions sets.  Implementations also know how to append
  * locale-specific configuration data to an existing ComponentDefinitions set.</p>
  *
- *
- * @version $Rev$ $Date$ 
+ * @version $Rev$ $Date$
  */
 public interface DefinitionsFactory {
-    
+
     /**
      * Property name that specifies the implementation of the DefinitionsReader.
      */
     public static final String READER_IMPL_PROPERTY =
-            "org.apache.tiles.DefinitionsReader";
+        "org.apache.tiles.definition.DefinitionsReader";
     /**
      * Property name that specifies the implementation of ComponentDefinitions.
      */
     public static final String DEFINITIONS_IMPL_PROPERTY =
-            "org.apache.tiles.ComponentDefinitions";
-    
+        "org.apache.tiles.definition.ComponentDefinitions";
+
     /**
      * Initializes the DefinitionsFactory and its subcomponents.
-     *
+     * <p/>
      * Implementations may support configuration properties to be passed in via
      * the params Map.
      *
@@ -55,43 +56,43 @@ public interface DefinitionsFactory {
      * @throws DefinitionsFactoryException if an initialization error occurs.
      */
     public void init(Map<String, String> params) throws DefinitionsFactoryException;
-    
+
     /**
      * Returns a ComponentDefinition object that matches the given name and
      * Tiles context
      *
-     * @param name The name of the ComponentDefinition to return.
+     * @param name         The name of the ComponentDefinition to return.
      * @param tilesContext The Tiles context to use to resolve the definition.
      * @return the ComponentDefinition matching the given name or null if none
-     *  is found.
+     *         is found.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
     public ComponentDefinition getDefinition(String name,
-            TilesRequestContext tilesContext) throws DefinitionsFactoryException;
-    
+                                             TilesRequestContext tilesContext) throws DefinitionsFactoryException;
+
     /**
      * Adds a source where ComponentDefinition objects are stored.
-     * 
+     * <p/>
      * Implementations should publish what type of source object they expect.
      * The source should contain enough information to resolve a configuration
      * source containing definitions.  The source should be a "base" source for
      * configurations.  Internationalization and Localization properties will be
      * applied by implementations to discriminate the correct data sources based
      * on locale.
-     * 
+     *
      * @param source The configuration source for definitions.
      * @throws DefinitionsFactoryException if an invalid source is passed in or
-     *      an error occurs resolving the source to an actual data store.
+     *                                     an error occurs resolving the source to an actual data store.
      */
     public void addSource(Object source) throws DefinitionsFactoryException;
-    
+
     /**
-     * Creates and returns a {@link ComponentDefinitions} set by reading 
+     * Creates and returns a {@link ComponentDefinitions} set by reading
      * configuration data from the applied sources.
      *
-     * @throws DefinitionsFactoryException if an error occurs reading the 
-     *      sources.
+     * @throws DefinitionsFactoryException if an error occurs reading the
+     *                                     sources.
      */
-    public ComponentDefinitions readDefinitions() 
-            throws DefinitionsFactoryException;
+    public ComponentDefinitions readDefinitions()
+        throws DefinitionsFactoryException;
 }

@@ -18,13 +18,8 @@
 
 package org.apache.tiles.taglib;
 
-import java.lang.reflect.InvocationTargetException;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.tiles.taglib.util.TagUtils;
 
 /**
  * Put an attribute in enclosing attribute container tag.
@@ -60,30 +55,30 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
 
     /* JSP Tag attributes */
 
-    /** 
-     * Name of attribute to put in component context. 
+    /**
+     * Name of attribute to put in component context.
      */
     protected String attributeName = null;
 
-    /** 
-     * Associated attribute value. 
+    /**
+     * Associated attribute value.
      */
     private Object value = null;
 
-    /** 
-     * Requested type for the value. 
+    /**
+     * Requested type for the value.
      */
     private String valueType = null;
 
-    /** 
-     * Role attribute. 
+    /**
+     * Role attribute.
      */
     private String role = null;
 
     /* Internal properties */
 
-    /** 
-     * Cached real value computed from tag attributes. 
+    /**
+     * Cached real value computed from tag attributes.
      */
     protected Object realValue = null;
 
@@ -188,6 +183,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
 
     /**
      * Set role attribute.
+     *
      * @param role The role the user must be in to store content.
      */
     public void setRole(String role) {
@@ -196,6 +192,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
 
     /**
      * Get role attribute
+     *
      * @return The role defined in the tag or <code>null</code>.
      */
     public String getRole() {
@@ -205,6 +202,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
     /**
      * Get real value according to tag attribute.
      * Real value is the value computed after attribute processing.
+     *
      * @return Real value.
      * @throws JspException If something goes wrong while getting value from bean.
      */
@@ -218,6 +216,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
 
     /**
      * Compute real value according to tag attributes.
+     *
      * @throws JspException If something goes wrong while getting value from bean.
      */
     protected void computeRealValue() throws JspException {
@@ -305,7 +304,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
     /**
      * Save the body content of this tag (if any)
      *
-     * @exception JspException if a JSP exception has occurred
+     * @throws JspException if a JSP exception has occurred
      */
     public int doAfterBody() throws JspException {
 
@@ -331,6 +330,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
 
     /**
      * Find parent tag which must implement AttributeContainer.
+     *
      * @throws JspException If we can't find an appropriate enclosing tag.
      */
     protected void callParent() throws JspException {
@@ -341,6 +341,7 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
 
     /**
      * Find parent tag which must implement AttributeContainer.
+     *
      * @throws JspException If we can't find an appropriate enclosing tag.
      */
     protected PutTagParent findEnclosingPutTagParent() throws JspException {

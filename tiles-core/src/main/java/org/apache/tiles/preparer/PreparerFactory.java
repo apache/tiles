@@ -17,27 +17,26 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.ViewPreparer;
 import org.apache.tiles.TilesRequestContext;
 
 /**
  * Factory interface used to create/retrieve instances of
  * the {@link ViewPreparer} interface.
- *
+ * <p/>
  * This factory provides an extension point into the default
  * tiles implementation. Implementors wishing to provide
  * per request initialization of the ViewPreparer (for instance)
  * may provide a custom prerparer.
  *
- * @since 2.0
  * @verion $Id$
+ * @since 2.0
  */
 public interface PreparerFactory {
 
     /**
      * Create the named {link ViewPreparer} for the specified context.
      *
-     * @param name ViewPreparer name, commonly the qualified classname.
+     * @param name    ViewPreparer name, commonly the qualified classname.
      * @param context the context within which the preparer will be invoked.
      * @return instance of the ViewPreparer
      * @throws NoSuchPreparerException when the named preparer can not be found.

@@ -24,16 +24,16 @@ import javax.servlet.jsp.PageContext;
  * used to expose tiles features to frameworks which leverage
  * it as a plugin.  It can alternately be used by web applications
  * which would like a programmatic interface.
- * 
- * @since 2.0
+ *
  * @version $Rev$
+ * @since 2.0
  */
 public interface TilesContainer {
 
     /**
      * Initialize the container with the given
      * configuration.
-     * 
+     *
      * @param context
      * @throws TilesException
      */
@@ -41,12 +41,12 @@ public interface TilesContainer {
 
     /**
      * Retrieve the containers context.
+     *
      * @return
      */
     TilesApplicationContext getApplicationContext();
 
     /**
-     * 
      * @param request
      * @param response
      * @param definition
@@ -54,7 +54,6 @@ public interface TilesContainer {
     void prepare(Object request, Object response, String definition) throws TilesException;
 
     /**
-     * 
      * @param pageContext
      * @param definition
      * @throws TilesException
@@ -70,7 +69,6 @@ public interface TilesContainer {
     void render(Object request, Object response, String definition) throws TilesException;
 
     /**
-     *
      * @param pageContext
      * @param definition
      * @throws TilesException

@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
 
 import java.io.Serializable;
 
 /**
- * Common implementation of attribute definition. 
+ * Common implementation of attribute definition.
  *
  * @version $Rev$ $Date$
  */
@@ -31,22 +31,23 @@ public class ComponentAttribute implements Serializable {
      * Role associated to this attribute.
      */
     protected String role = null;
-    
-    protected Object value=null;
-    
+
+    protected Object value = null;
+
     private String type = null;
-    
+
     private String name = null;
 
     /**
      * Constructor.
-     * @param value Object to store.
+     *
      */
     public ComponentAttribute() {
     }
 
     /**
      * Constructor.
+     *
      * @param value Object to store.
      */
     public ComponentAttribute(Object value) {
@@ -55,17 +56,19 @@ public class ComponentAttribute implements Serializable {
 
     /**
      * Constructor.
+     *
      * @param value Object to store.
      */
     public ComponentAttribute(String name, Object value) {
         this.name = name;
         this.value = value;
     }
-    
+
     /**
      * Constructor.
+     *
      * @param value Object to store.
-     * @param role Asociated role.
+     * @param role  Asociated role.
      */
     public ComponentAttribute(Object value, String role) {
         this.value = value;
@@ -74,9 +77,10 @@ public class ComponentAttribute implements Serializable {
 
     /**
      * Constructor.
+     *
      * @param value Object to store.
-     * @param role Asociated role.
-     * @param type Attribute type.
+     * @param role  Asociated role.
+     * @param type  Attribute type.
      */
     public ComponentAttribute(Object value, String role, String type) {
         this.value = value;
@@ -93,6 +97,7 @@ public class ComponentAttribute implements Serializable {
 
     /**
      * Set role.
+     *
      * @param role Associated role.
      */
     public void setRole(String role) {
@@ -108,6 +113,7 @@ public class ComponentAttribute implements Serializable {
 
     /**
      * Set value.
+     *
      * @param value New value.
      */
     public void setValue(Object value) {

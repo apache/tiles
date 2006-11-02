@@ -17,43 +17,38 @@
  */
 package org.apache.tiles.context.jsp;
 
-import org.apache.tiles.TilesRequestContext;
-import org.apache.tiles.TilesException;
-import org.apache.tiles.context.servlet.ServletTilesRequestContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesException;
+import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.servlet.ServletTilesRequestContext;
 
-import javax.servlet.jsp.PageContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import java.io.IOException;
 
 /**
  * Context implementation used for executing tiles within a
  * jsp tag library.
- *
  */
 public class JspTilesRequestContext extends ServletTilesRequestContext
-        implements TilesRequestContext {
+    implements TilesRequestContext {
 
     private static final Log LOG =
         LogFactory.getLog(JspTilesRequestContext.class);
-
 
 
     private PageContext pageContext;
 
     public JspTilesRequestContext(ServletContext context, PageContext pageContext) {
         super(context,
-              (HttpServletRequest)pageContext.getRequest(),
-              (HttpServletResponse)pageContext.getResponse());
+            (HttpServletRequest) pageContext.getRequest(),
+            (HttpServletResponse) pageContext.getResponse());
         this.pageContext = pageContext;
     }
-
 
 
     public void include(String path) throws TilesException {
@@ -66,19 +61,19 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
         }
     }
 
-     /**
+    /**
      * Do an include of specified page using PageContext.include().
      * <p/>
      * This method is used by the Tiles package when an include is required.
      * The Tiles package can use indifferently any form of this method.
      *
-     * @param path   Uri or Definition name to forward.
+     * @param path  Uri or Definition name to forward.
      * @param flush If the writer should be flushed before the include
      * @throws javax.servlet.ServletException - Thrown by call to pageContext.include()
-     * @throws java.io.IOException      - Thrown by call to pageContext.include()
+     * @throws java.io.IOException            - Thrown by call to pageContext.include()
      */
     public void include(String path, boolean flush) throws IOException, ServletException {
-         JspUtil.doInclude(pageContext, path, flush);
+        JspUtil.doInclude(pageContext, path, flush);
     }
 
 

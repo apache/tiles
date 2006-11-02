@@ -17,18 +17,17 @@
  */
 package org.apache.tiles;
 
-import java.util.Map;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
 
 /**
  * Defines a set of methods which tiles use to communicate to
  * the tiles container and runtime environment.  There is only
  * one application context per container.
- * 
- * @since 2.0
- * @version $Rev$
  *
+ * @version $Rev$
+ * @since 2.0
  */
 public interface TilesApplicationContext {
 

@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,60 +33,65 @@ import java.util.List;
  * @version $Rev$ $Date$
  */
 public class ComponentListAttribute extends ComponentAttribute {
-    /** List.
+    /**
+     * List.
      * We declare a List to avoid cast.
      * Parent "value" property points to the same list.
      */
-  private List list;
+    private List list;
 
     /**
      * Constructor.
      */
-  public ComponentListAttribute() {
-    list = new ArrayList();
-    setValue(list);
-  }
+    public ComponentListAttribute() {
+        list = new ArrayList();
+        setValue(list);
+    }
 
     /**
      * Constructor.
-     * @param name Name.
+     *
+     * @param name  Name.
      * @param value List.
      */
-  public ComponentListAttribute( String name, List value) {
-    super( name, value );
-    list = value;
-  }
+    public ComponentListAttribute(String name, List value) {
+        super(name, value);
+        list = value;
+    }
 
     /**
      * Add an element in list.
      * We use a property to avoid rewriting a new class.
+     *
      * @param element XmlAttribute to add.
      */
-  public void add( ComponentAttribute element ) {
-    list.add( element.getValue() );
-  }
-
-    /**
-     * Add an element in list.
-     * @param value Object to add.
-     */
-  public void add( Object value ) {
-    //list.add( value );
-      // To correct a bug in digester, we need to check the object type
-      // Digester doesn't call correct method according to object type ;-(
-    if(value instanceof ComponentAttribute) {
-      add((ComponentAttribute)value);
-      return;
-    } else {
-      list.add( value );
+    public void add(ComponentAttribute element) {
+        list.add(element.getValue());
     }
-  }
 
     /**
      * Add an element in list.
+     *
      * @param value Object to add.
      */
-  public void addObject( Object value ) {
+    public void add(Object value) {
+        //list.add( value );
+        // To correct a bug in digester, we need to check the object type
+        // Digester doesn't call correct method according to object type ;-(
+        if (value instanceof ComponentAttribute) {
+            add((ComponentAttribute) value);
+            return;
+        } else {
+            list.add(value);
+        }
+    }
+
+    /**
+     * Add an element in list.
+     *
+     * @param value Object to add.
+     */
+    public void addObject( Object value ) {
     list.add( value );
   }
 

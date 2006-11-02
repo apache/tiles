@@ -18,21 +18,23 @@
 
 package org.apache.tiles.listener;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Enumeration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletException;
-import javax.servlet.UnavailableException;
-
-import org.apache.tiles.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.context.BasicTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.DefinitionsFactoryConfig;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.util.TilesUtil;
+import org.apache.tiles.util.TilesUtilImpl;
+
+import javax.servlet.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @version $Rev$ $Date$
@@ -41,39 +43,39 @@ public class TilesListener implements ServletContextListener {
 
     /**
      * The LOG for this class
-    */
-   private static final Log LOG = LogFactory.getLog(TilesListener.class);
+     */
+    private static final Log LOG = LogFactory.getLog(TilesListener.class);
 
 
     /**
      * The default name of a context init parameter that specifies the Tiles configuration file
-    */
+     */
     private static final String DEFAULT_CONFIG_FILE_PARAM = "definitions-config";
 
 
     /**
      * The default name of the Tiles configuration file
-    */
+     */
     private static final String DEFAULT_CONFIG_FILE = "/WEB-INF/tiles.xml";
 
 
     /**
      * An error message stating that something went wrong during initialization
-    */
+     */
     private static final String CANT_POPULATE_FACTORY_ERROR =
-         "CAN'T POPULATE TILES DEFINITION FACTORY";
+        "CAN'T POPULATE TILES DEFINITION FACTORY";
 
 
     /**
      * The Tiles definition impl
-    */
-   protected DefinitionsFactory definitionFactory = null;
+     */
+    protected DefinitionsFactory definitionFactory = null;
 
 
     /**
      * A comma-separated list of filenames representing the
      * application's Tiles configuration files.
-    */
+     */
     private String configFiles = null;
 
     public void contextInitialized(ServletContextEvent event) {
@@ -93,9 +95,9 @@ public class TilesListener implements ServletContextListener {
             TilesUtil.setTilesUtil(new TilesUtilImpl(tilesContext));
             initDefinitionsFactory(context, fconfig);
         }
-        catch(Exception ex) {
+        catch (Exception ex) {
             saveExceptionMessage(event.getServletContext(), ex);
-                    throw new RuntimeException(ex.getMessage(), ex);
+            throw new RuntimeException(ex.getMessage(), ex);
         }
 
     }
@@ -125,14 +127,13 @@ public class TilesListener implements ServletContextListener {
         Map map = new HashMap();
 
         try {
-            if(configFiles != null) {
+            if (configFiles != null) {
                 LOG.info("CONFIG FILES DEFINED IN WEB.XML");
-               map.put(DEFAULT_CONFIG_FILE_PARAM, configFiles);
-           }
-            else {
+                map.put(DEFAULT_CONFIG_FILE_PARAM, configFiles);
+            } else {
                 LOG.info("CONFIG FILES WERE NOT DEFINED IN WEB.XML, " +
-                              "LOOKING FOR " + DEFAULT_CONFIG_FILE);
-               map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
+                    "LOOKING FOR " + DEFAULT_CONFIG_FILE);
+                map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
             }
 
             populateConfigParameterMap(context, map);
@@ -140,7 +141,7 @@ public class TilesListener implements ServletContextListener {
         }
         catch (Exception ex) {
             saveExceptionMessage(context, ex);
-           throw new UnavailableException(CANT_POPULATE_FACTORY_ERROR + ex.getMessage());
+            throw new UnavailableException(CANT_POPULATE_FACTORY_ERROR + ex.getMessage());
         }
         return factoryConfig;
     }
@@ -150,11 +151,11 @@ public class TilesListener implements ServletContextListener {
      * Initializes the Tiles definitions impl.
      *
      * @param servletContext The servlet context
-     * @param factoryConfig The definitions impl config
+     * @param factoryConfig  The definitions impl config
      */
-   private void initDefinitionsFactory(ServletContext servletContext,
-                                       DefinitionsFactoryConfig factoryConfig)
-                                                    throws ServletException {
+    private void initDefinitionsFactory(ServletContext servletContext,
+                                        DefinitionsFactoryConfig factoryConfig)
+        throws ServletException {
         LOG.info("initializing definitions impl...");
         // Create configurable impl
         try {
@@ -162,7 +163,7 @@ public class TilesListener implements ServletContextListener {
 
             definitionFactory = TilesUtil.createDefinitionsFactory(factoryConfig);
         } catch (DefinitionsFactoryException ex) {
-                    ex.printStackTrace();
+            ex.printStackTrace();
             throw new ServletException(ex.getMessage(), ex);
         }
     }
@@ -175,19 +176,19 @@ public class TilesListener implements ServletContextListener {
      * activated.
      *
      * @param context The servlet configuration
-     * @param ex An exception
+     * @param ex      An exception
      */
     private void saveExceptionMessage(ServletContext context, Exception ex) {
-       LOG.warn("Caught exception when initializing definitions impl");
-       LOG.warn(ex.getMessage());
-       LOG.warn(ex.toString());
-       context.setAttribute("TILES_INIT_EXCEPTION", ex.getMessage());
+        LOG.warn("Caught exception when initializing definitions impl");
+        LOG.warn(ex.getMessage());
+        LOG.warn(ex.toString());
+        context.setAttribute("TILES_INIT_EXCEPTION", ex.getMessage());
     }
 
     /**
      * Populates a map with the parameters contained in the context configuration.
      *
-     * @param context The servlet context
+     * @param context  The servlet context
      * @param paramMap The map to fill
      */
     private void populateConfigParameterMap(ServletContext context, Map paramMap) {

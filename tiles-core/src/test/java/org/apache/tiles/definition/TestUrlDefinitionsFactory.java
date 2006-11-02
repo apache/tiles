@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -28,9 +28,13 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
-import org.apache.tiles.mock.MockPublicUrlDefinitionsFactory;
-import org.apache.tiles.mock.MockDefinitionsReader;
-import org.apache.tiles.mock.MockOnlyLocaleTilesContext;
+import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.MockPublicUrlDefinitionsFactory;
+import org.apache.tiles.definition.MockDefinitionsReader;
+import org.apache.tiles.definition.MockOnlyLocaleTilesContext;
+import org.apache.tiles.TilesRequestContext;
 
 /**
  * Tests the UrlDefinitionsFactory component.
@@ -187,7 +191,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
     public void testReaderParam() throws Exception {
         Map params = new HashMap();
         params.put(DefinitionsFactory.READER_IMPL_PROPERTY,
-                "org.apache.tiles.mock.MockDefinitionsReader");
+                "org.apache.tiles.definition.MockDefinitionsReader");
 
         int instanceCount = MockDefinitionsReader.getInstanceCount();
 

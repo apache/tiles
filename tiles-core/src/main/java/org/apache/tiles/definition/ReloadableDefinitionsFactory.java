@@ -1,5 +1,5 @@
 /*
- * $Id$ 
+ * $Id$
  *
  * Copyright 1999-2004 The Apache Software Foundation.
  * 
@@ -16,23 +16,19 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+
+package org.apache.tiles.definition;
 
 /**
- * A preparer is a piece of code called before rendering a jsp page.
- * A preparer can be associated to a tile. See &lt;insert&gt; or 
- * &lt;definition&gt; for association syntax.
+ * Indicates support for reloading Tiles configuration when it changes.
+ *
+ * @version $Rev$ $Date$
  */
-public interface ViewPreparer {
+public interface ReloadableDefinitionsFactory {
 
     /**
-     * Method associated to a tile and called immediately before the tile 
-     * is included.
-     * @param tilesContext Current tiles application context.
-     * @param componentContext Current tile context.
+     * Indicates whether the DefinitionsFactory is out of date and needs to be
+     * reloaded.
      */
-    public void execute(
-            TilesRequestContext tilesContext, 
-            ComponentContext componentContext)
-            throws Exception;
+    public boolean refreshRequired();
 }

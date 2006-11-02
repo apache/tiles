@@ -18,31 +18,38 @@
 
 package org.apache.tiles.taglib.util;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-import java.util.HashMap;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.FactoryNotFoundException;
+import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.taglib.ComponentConstants;
+import org.apache.tiles.util.TilesUtil;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.tiles.taglib.ComponentConstants;
-import org.apache.tiles.*;
-import org.apache.tiles.access.TilesAccess;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Collection of utilities.
  * This class also serves as an interface between Components and Struts. If
  * you want to rip away Struts, simply reimplement some methods in this class.
  * You can copy them from Struts.
- * 
  */
 public class TagUtils {
 
-    /** Debug flag */
+    /**
+     * Debug flag
+     */
     public static final boolean debug = true;
 
     /**
@@ -76,12 +83,13 @@ public class TagUtils {
 
 
     /**
-    * Get scope value from string value
-    * @param scopeName Scope as a String.
-    * @param defaultValue Returned default value, if not found.
-    * @return Scope as an <code>int</code>, or <code>defaultValue</code> if scope is <code>null</code>.
-    * @throws JspException Scope name is not recognized as a valid scope.
-    */
+     * Get scope value from string value
+     *
+     * @param scopeName    Scope as a String.
+     * @param defaultValue Returned default value, if not found.
+     * @return Scope as an <code>int</code>, or <code>defaultValue</code> if scope is <code>null</code>.
+     * @throws JspException Scope name is not recognized as a valid scope.
+     */
     public static int getScope(String scopeName, int defaultValue) throws JspException {
         if (scopeName == null) {
             return defaultValue;
@@ -103,8 +111,9 @@ public class TagUtils {
 
     /**
      * Converts the scope name into its corresponding PageContext constant value.
+     *
      * @param scopeName Can be "page", "request", "session", or "application" in any
-     * case.
+     *                  case.
      * @return The constant representing the scope (ie. PageContext.REQUEST_SCOPE).
      * @throws JspException if the scopeName is not a valid name.
      */
@@ -113,12 +122,11 @@ public class TagUtils {
 
         if (scope == null) {
             //throw new JspException(messages.getMessage("lookup.scope", scope));
-            throw new JspException("Unable to retrieve the scope "+scopeName);
+            throw new JspException("Unable to retrieve the scope " + scopeName);
         }
 
         return scope.intValue();
     }
-
 
 
     /**
@@ -128,22 +136,21 @@ public class TagUtils {
      *
      * @param bean Bean whose property is to be extracted.
      * @param name Possibly indexed and/or nested name of the property
-     *  to be extracted.
-     *
-     * @exception IllegalAccessException if the caller does not have
-     *  access to the property accessor method
-     * @exception InvocationTargetException if the property accessor method
-     *  throws an exception
-     * @exception NoSuchMethodException if an accessor method for this
-     *  propety cannot be found.
+     *             to be extracted.
+     * @throws IllegalAccessException    if the caller does not have
+     *                                   access to the property accessor method
+     * @throws InvocationTargetException if the property accessor method
+     *                                   throws an exception
+     * @throws NoSuchMethodException     if an accessor method for this
+     *                                   propety cannot be found.
      * @deprecated Use PropertyUtils.getProperty() directly.  This will be removed
-     * after Struts 1.2.
+     *             after Struts 1.2.
      */
     public static Object getProperty(Object bean, String name)
         throws
-            IllegalAccessException,
-            InvocationTargetException,
-            NoSuchMethodException {
+        IllegalAccessException,
+        InvocationTargetException,
+        NoSuchMethodException {
 
         return PropertyUtils.getProperty(bean, name);
     }
@@ -152,9 +159,9 @@ public class TagUtils {
      * Retrieve bean from page context, using specified scope.
      * If scope is not set, use <code>findAttribute()</code>.
      *
-     * @param beanName Name of bean to retrieve.
-     * @param scopeName Scope or <code>null</code>. If <code>null</code>, bean is searched using
-     *  findAttribute().
+     * @param beanName    Name of bean to retrieve.
+     * @param scopeName   Scope or <code>null</code>. If <code>null</code>, bean is searched using
+     *                    findAttribute().
      * @param pageContext Current pageContext.
      * @return Requested bean or <code>null</code> if not found.
      * @throws JspException Scope name is not recognized as a valid scope.
@@ -176,7 +183,8 @@ public class TagUtils {
     /**
      * Search attribute in different contexts.
      * First, check in component context, then use pageContext.findAttribute().
-     * @param beanName Name of bean to retrieve.
+     *
+     * @param beanName    Name of bean to retrieve.
      * @param pageContext Current pageContext.
      * @return Requested bean or <code>null</code> if not found.
      */
@@ -198,8 +206,9 @@ public class TagUtils {
     /**
      * Get object from requested context. Return <code>null</code> if not found.
      * Context can be "component" or normal JSP contexts.
-     * @param beanName Name of bean to retrieve.
-     * @param scope Scope from which bean must be retrieved.
+     *
+     * @param beanName    Name of bean to retrieve.
+     * @param scope       Scope from which bean must be retrieved.
      * @param pageContext Current pageContext.
      * @return Requested bean or <code>null</code> if not found.
      */
@@ -216,18 +225,17 @@ public class TagUtils {
      * Locate and return the specified property of the specified bean, from
      * an optionally specified scope, in the specified page context.
      *
-     * @param pageContext Page context to be searched.
-     * @param beanName Name of the bean to be retrieved.
+     * @param pageContext  Page context to be searched.
+     * @param beanName     Name of the bean to be retrieved.
      * @param beanProperty Name of the property to be retrieved, or
-     *  <code>null</code> to retrieve the bean itself.
-     * @param beanScope Scope to be searched (page, request, session, application)
-     *  or <code>null</code> to use <code>findAttribute()</code> instead.
-     *
-     * @exception JspException Scope name is not recognized as a valid scope
-     * @exception JspException if the specified bean is not found
-     * @exception JspException if accessing this property causes an
-     *  IllegalAccessException, IllegalArgumentException,
-     *  InvocationTargetException, or NoSuchMethodException
+     *                     <code>null</code> to retrieve the bean itself.
+     * @param beanScope    Scope to be searched (page, request, session, application)
+     *                     or <code>null</code> to use <code>findAttribute()</code> instead.
+     * @throws JspException Scope name is not recognized as a valid scope
+     * @throws JspException if the specified bean is not found
+     * @throws JspException if accessing this property causes an
+     *                      IllegalAccessException, IllegalArgumentException,
+     *                      InvocationTargetException, or NoSuchMethodException
      */
     public static Object getRealValueFromBean(
         String beanName,
@@ -286,12 +294,11 @@ public class TagUtils {
      * If scope is <code>null</code>, save it in REQUEST_SCOPE context.
      *
      * @param pageContext Current pageContext.
-     * @param name Name of the bean.
-     * @param scope Scope under which bean is saved (page, request, session, application)
-     *  or <code>null</code> to store in <code>request()</code> instead.
-     * @param value Bean value to store.
-     *
-     * @exception JspException Scope name is not recognized as a valid scope
+     * @param name        Name of the bean.
+     * @param scope       Scope under which bean is saved (page, request, session, application)
+     *                    or <code>null</code> to store in <code>request()</code> instead.
+     * @param value       Bean value to store.
+     * @throws JspException Scope name is not recognized as a valid scope
      */
     public static void setAttribute(
         PageContext pageContext,
@@ -319,10 +326,9 @@ public class TagUtils {
      * Store bean in REQUEST_SCOPE context.
      *
      * @param pageContext Current pageContext.
-     * @param name Name of the bean.
-     * @param beanValue Bean value to store.
-     *
-     * @exception JspException Scope name is not recognized as a valid scope
+     * @param name        Name of the bean.
+     * @param beanValue   Bean value to store.
+     * @throws JspException Scope name is not recognized as a valid scope
      */
     public static void setAttribute(PageContext pageContext, String name, Object beanValue)
         throws JspException {
@@ -333,7 +339,7 @@ public class TagUtils {
      * Save the specified exception as a request attribute for later use.
      *
      * @param pageContext The PageContext for the current page.
-     * @param exception The exception to be saved.
+     * @param exception   The exception to be saved.
      */
     public static void saveException(PageContext pageContext, Throwable exception) {
         pageContext.setAttribute(ComponentConstants.EXCEPTION_KEY, exception, PageContext.REQUEST_SCOPE);
@@ -341,7 +347,8 @@ public class TagUtils {
 
     /**
      * Get component definition by its name.
-     * @param name Definition name.
+     *
+     * @param name        Definition name.
      * @param pageContext The PageContext for the current page.
      * @throws JspException -
      */
@@ -353,10 +360,11 @@ public class TagUtils {
 
     /**
      * Get component definition by its name.
-     * @param name Definition name.
-     * @param pageContext The PageContext for the current page.
+     *
+     * @param name         Definition name.
+     * @param pageContext  The PageContext for the current page.
      * @param tilesContext The TilesApplicationContext for the current request. If it is
-     * null, it will be created.
+     *                     null, it will be created.
      * @throws JspException -
      */
     public static ComponentDefinition getComponentDefinition(String name,
@@ -368,7 +376,7 @@ public class TagUtils {
             ComponentDefinition definition;
             Object definitionCandidate = findAttribute(name, pageContext);
             if (definitionCandidate != null
-                    && definitionCandidate instanceof ComponentDefinition) {
+                && definitionCandidate instanceof ComponentDefinition) {
                 definition = (ComponentDefinition) definitionCandidate;
             } else {
                 if (tilesContext == null) {
@@ -382,7 +390,7 @@ public class TagUtils {
             throw new JspException(
                 "Error : Can't get component definition for '"
                     + name
-                    + "'. Check if this name exist in component definitions.",ex);
+                    + "'. Check if this name exist in component definitions.", ex);
         } catch (FactoryNotFoundException ex) { // impl not found.
             throw new JspException(ex);
 

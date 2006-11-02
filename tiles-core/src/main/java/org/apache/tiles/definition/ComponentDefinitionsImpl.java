@@ -18,29 +18,25 @@
 
 package org.apache.tiles.definition;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.definition.ComponentAttribute;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.ComponentDefinitions;
-import org.apache.tiles.NoSuchDefinitionException;
-
 /**
- *
- * @version $Rev$ $Date$ 
+ * @version $Rev$ $Date$
  */
 public class ComponentDefinitionsImpl implements ComponentDefinitions {
-    
+
     /**
-     * Commons Logging instance. 
+     * Commons Logging instance.
      */
     private static Log log = LogFactory.getLog(ComponentDefinitionsImpl.class);
-    
+
     /**
      * The base set of ComponentDefinition objects not discriminated by locale.
      */
@@ -49,8 +45,10 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      * The locale-specific set of definitions objects.
      */
     private Map localeSpecificDefinitions;
-    
-    /** Creates a new instance of ComponentDefinitionsImpl */
+
+    /**
+     * Creates a new instance of ComponentDefinitionsImpl
+     */
     public ComponentDefinitionsImpl() {
         baseDefinitions = new HashMap();
         localeSpecificDefinitions = new HashMap();
@@ -58,19 +56,19 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     /**
      * Returns a ComponentDefinition object that matches the given name.
-     * 
+     *
      * @param name The name of the ComponentDefinition to return.
      * @return the ComponentDefinition matching the given name or null if none
-     *  is found.
+     *         is found.
      */
     public ComponentDefinition getDefinition(String name) {
         return (ComponentDefinition) baseDefinitions.get(name);
     }
 
     /**
-     * Adds new ComponentDefinition objects to the internal collection and 
+     * Adds new ComponentDefinition objects to the internal collection and
      * resolves inheritance attraibutes.
-     * 
+     *
      * @param defsMap The new definitions to add.
      */
     public void addDefinitions(Map defsMap) throws NoSuchDefinitionException {
@@ -80,25 +78,25 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     }
 
     /**
-     * Adds new locale-specific ComponentDefinition objects to the internal 
+     * Adds new locale-specific ComponentDefinition objects to the internal
      * collection and resolves inheritance attraibutes.
      *
      * @param defsMap The new definitions to add.
-     * @param locale The locale to add the definitions to.
+     * @param locale  The locale to add the definitions to.
      */
     public void addDefinitions(Map defsMap, Locale locale) throws NoSuchDefinitionException {
         localeSpecificDefinitions.put(locale, defsMap);
         resolveAttributeDependencies(locale);
         resolveInheritances(locale);
     }
-    
+
     /**
      * Returns a ComponentDefinition object that matches the given name and locale.
      *
-     * @param name The name of the ComponentDefinition to return.
+     * @param name   The name of the ComponentDefinition to return.
      * @param locale The locale to use to resolve the definition.
      * @return the ComponentDefinition matching the given name or null if none
-     *  is found.
+     *         is found.
      */
     public ComponentDefinition getDefinition(String name, Locale locale) {
         ComponentDefinition definition = null;
@@ -106,41 +104,41 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
         if (localeSpecificMap != null) {
             definition = (ComponentDefinition) localeSpecificMap.get(name);
         }
-        
+
         if (definition == null) {
             definition = getDefinition(name);
         }
-        
+
         return definition;
     }
-    
+
     /**
      * Resolve extended instances.
      */
     public void resolveInheritances() throws NoSuchDefinitionException {
         Iterator i = baseDefinitions.values().iterator();
-        while( i.hasNext() ) {
-            ComponentDefinition definition = (ComponentDefinition)i.next();
-            resolveInheritance( definition );
+        while (i.hasNext()) {
+            ComponentDefinition definition = (ComponentDefinition) i.next();
+            resolveInheritance(definition);
         }  // end loop
     }
-    
+
     /**
      * Resolve locale-specific extended instances.
      */
     public void resolveInheritances(Locale locale) throws NoSuchDefinitionException {
         resolveInheritances();
-        
+
         Map map = (Map) localeSpecificDefinitions.get(locale);
         if (map != null) {
             Iterator i = map.values().iterator();
-            while( i.hasNext() ) {
-                ComponentDefinition definition = (ComponentDefinition)i.next();
-                resolveInheritance( definition, locale );
+            while (i.hasNext()) {
+                ComponentDefinition definition = (ComponentDefinition) i.next();
+                resolveInheritance(definition, locale);
             }  // end loop
         }
     }
-    
+
     /**
      * Clears definitions.
      */
@@ -155,10 +153,10 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     public Map getBaseDefinitions() {
         return this.baseDefinitions;
     }
-    
+
     public void resolveAttributeDependencies() {
         Iterator i = this.baseDefinitions.values().iterator();
-        
+
         while (i.hasNext()) {
             ComponentDefinition def = (ComponentDefinition) i.next();
             Map attributes = def.getAttributes();
@@ -167,9 +165,9 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
                 ComponentAttribute attr = (ComponentAttribute) j.next();
                 if (attr.getType() != null) {
                     if (attr.getType().equalsIgnoreCase("definition") ||
-                            attr.getType().equalsIgnoreCase("instance")) {
-                    	ComponentDefinition subDef =
-                                getDefinitionByAttribute(attr);
+                        attr.getType().equalsIgnoreCase("instance")) {
+                        ComponentDefinition subDef =
+                            getDefinitionByAttribute(attr);
                         attr.setValue(subDef);
                     }
                 } else {
@@ -181,16 +179,16 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
             }
         }
     }
-    
+
     public void resolveAttributeDependencies(Locale locale) {
         resolveAttributeDependencies(); // FIXME Is it necessary?
         Map defsMap = (Map) localeSpecificDefinitions.get(locale);
         if (defsMap == null) {
             return;
         }
-        
+
         Iterator i = defsMap.values().iterator();
-        
+
         while (i.hasNext()) {
             ComponentDefinition def = (ComponentDefinition) i.next();
             Map attributes = def.getAttributes();
@@ -199,14 +197,14 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
                 ComponentAttribute attr = (ComponentAttribute) j.next();
                 if (attr.getType() != null) {
                     if (attr.getType().equalsIgnoreCase("definition") ||
-                            attr.getType().equalsIgnoreCase("instance")) {
+                        attr.getType().equalsIgnoreCase("instance")) {
                         ComponentDefinition subDef = getDefinitionByAttribute(
-                                attr, locale);
+                            attr, locale);
                         attr.setValue(subDef);
                     }
                 } else {
                     ComponentDefinition subDef = getDefinitionByAttribute(attr,
-                            locale);
+                        locale);
                     if (subDef != null) {
                         attr.setValue(subDef);
                     }
@@ -214,69 +212,70 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
             }
         }
     }
-    
+
     /**
      * Searches for a definition specified as an attribute.
-     * 
+     *
      * @param attr The attribute to use.
      * @return The required definition if found, otherwise it returns
-     * <code>null</code>.
+     *         <code>null</code>.
      */
     private ComponentDefinition getDefinitionByAttribute(
-            ComponentAttribute attr) {
+        ComponentAttribute attr) {
         ComponentDefinition retValue = null;
-        
+
         Object attrValue = attr.getValue();
         if (attrValue instanceof ComponentDefinition) {
             retValue = (ComponentDefinition) attrValue;
         } else if (attrValue instanceof String) {
             retValue = this.getDefinition((String) attr
-                    .getValue());
+                .getValue());
         }
-        
+
         return retValue;
     }
-    
+
     /**
      * Searches for a definition specified as an attribute.
-     * 
-     * @param attr The attribute to use.
+     *
+     * @param attr   The attribute to use.
      * @param locale The locale to search into.
      * @return The required definition if found, otherwise it returns
-     * <code>null</code>.
+     *         <code>null</code>.
      */
     private ComponentDefinition getDefinitionByAttribute(
-            ComponentAttribute attr, Locale locale) {
+        ComponentAttribute attr, Locale locale) {
         ComponentDefinition retValue = null;
-        
+
         Object attrValue = attr.getValue();
         if (attrValue instanceof ComponentDefinition) {
             retValue = (ComponentDefinition) attrValue;
         } else if (attrValue instanceof String) {
             retValue = this.getDefinition((String) attr
-                    .getValue(), locale);
+                .getValue(), locale);
         }
-        
+
         return retValue;
     }
-    
+
     /**
      * Resolve inheritance.
      * First, resolve parent's inheritance, then set path to the parent's path.
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
+     *
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
      */
     protected void resolveInheritance(ComponentDefinition definition)
-            throws NoSuchDefinitionException {
+        throws NoSuchDefinitionException {
         // Already done, or not needed ?
         if (definition.isIsVisited() || !definition.isExtending())
             return;
 
         if (log.isDebugEnabled())
             log.debug("Resolve definition for child name='"
-                    + definition.getName()
-                    + "' extends='" + definition.getExtends() + "'.");
+                + definition.getName()
+                + "' extends='" + definition.getExtends() + "'.");
 
         // Set as visited to avoid endless recurisvity.
         definition.setIsVisited(true);
@@ -285,10 +284,10 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
         ComponentDefinition parent = getDefinition(definition.getExtends());
         if (parent == null) { // error
             String msg = "Error while resolving definition inheritance: child '"
-                    + definition.getName()
-                    + "' can't find its ancestor '"
-                    + definition.getExtends()
-                    + "'. Please check your description file.";
+                + definition.getName()
+                + "' can't find its ancestor '"
+                + definition.getExtends()
+                + "'. Please check your description file.";
             log.error(msg);
             // to do : find better exception
             throw new NoSuchDefinitionException(msg);
@@ -298,37 +297,38 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
         overload(parent, definition);
     }
-    
+
     /**
      * Resolve locale-specific inheritance.
      * First, resolve parent's inheritance, then set path to the parent's path.
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
+     *
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
      */
     protected void resolveInheritance(ComponentDefinition definition,
-            Locale locale) throws NoSuchDefinitionException {
+                                      Locale locale) throws NoSuchDefinitionException {
         // Already done, or not needed ?
         if (definition.isIsVisited() || !definition.isExtending())
             return;
 
         if (log.isDebugEnabled())
             log.debug("Resolve definition for child name='"
-                    + definition.getName()
-                    + "' extends='" + definition.getExtends() + "'.");
+                + definition.getName()
+                + "' extends='" + definition.getExtends() + "'.");
 
         // Set as visited to avoid endless recurisvity.
         definition.setIsVisited(true);
 
         // Resolve parent before itself.
         ComponentDefinition parent = getDefinition(definition.getExtends(),
-                locale);
+            locale);
         if (parent == null) { // error
             String msg = "Error while resolving definition inheritance: child '"
-                    + definition.getName()
-                    + "' can't find its ancestor '"
-                    + definition.getExtends()
-                    + "'. Please check your description file.";
+                + definition.getName()
+                + "' can't find its ancestor '"
+                + definition.getExtends()
+                + "'. Please check your description file.";
             log.error(msg);
             // to do : find better exception
             throw new NoSuchDefinitionException(msg);
@@ -338,18 +338,19 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
         overload(parent, definition);
     }
-    
+
     /**
      * Overloads a child definition with a given parent.
      * All attributes present in child are kept. All missing attributes are
      * copied from the parent.
      * Special attribute 'path','role' and 'extends' are overloaded in child if
      * not defined
+     *
      * @param parent The parent definition.
-     * @param child The child that will be overloaded.
+     * @param child  The child that will be overloaded.
      */
     protected void overload(ComponentDefinition parent,
-            ComponentDefinition child) {
+                            ComponentDefinition child) {
         // Iterate on each parent's attribute and add it if not defined in child.
         Iterator parentAttributes = parent.getAttributes().keySet().iterator();
         while (parentAttributes.hasNext()) {

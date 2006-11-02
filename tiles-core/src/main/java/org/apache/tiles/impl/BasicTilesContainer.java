@@ -17,20 +17,25 @@
  */
 package org.apache.tiles.impl;
 
-import org.apache.tiles.*;
-import org.apache.tiles.preparer.PreparerFactory;
-import org.apache.tiles.preparer.PreparerException;
-import org.apache.tiles.context.TilesContextFactory;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.*;
+import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.preparer.PreparerException;
+import org.apache.tiles.preparer.PreparerFactory;
+import org.apache.tiles.preparer.ViewPreparer;
 
 import javax.servlet.jsp.PageContext;
-import java.util.Map;
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Basic implementation of the tiles container interface.
@@ -61,7 +66,7 @@ public class BasicTilesContainer implements TilesContainer {
      * instances.
      */
     private static final Log LOG =
-            LogFactory.getLog(BasicTilesContainer.class);
+        LogFactory.getLog(BasicTilesContainer.class);
 
     private TilesApplicationContext context;
     private DefinitionsFactory definitionsFactory;
@@ -94,7 +99,7 @@ public class BasicTilesContainer implements TilesContainer {
             }
         } catch (MalformedURLException e) {
             throw new DefinitionsFactoryException("Unable to parse definitions from "
-                    + resourceString, e);
+                + resourceString, e);
         }
     }
 
@@ -123,9 +128,9 @@ public class BasicTilesContainer implements TilesContainer {
 
     public TilesRequestContext getRequestContext(Object request, Object response) {
         return getContextFactory().createRequestContext(
-                getApplicationContext(),
-                request,
-                response
+            getApplicationContext(),
+            request,
+            response
         );
     }
 
@@ -179,19 +184,19 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     public void prepare(Object request, Object response, String preparer)
-            throws TilesException {
+        throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
-                getApplicationContext(),
-                request,
-                response
+            getApplicationContext(),
+            request,
+            response
         );
         prepare(requestContext, preparer);
     }
 
     public void prepare(PageContext context, String preparer)
-            throws TilesException {
+        throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
-                getApplicationContext(), context
+            getApplicationContext(), context
         );
         prepare(requestContext, preparer);
     }
@@ -201,12 +206,11 @@ public class BasicTilesContainer implements TilesContainer {
         ViewPreparer preparer = preparerFactory.getPreparer(preparerName, null);
         ComponentContext componentContext = ComponentContext.getContext(context);
 
-
         // TODO: Temporary while preparer gets refactored to throw a more specific exception.
         try {
             preparer.execute(context, componentContext);
         } catch (Exception e) {
-           throw new PreparerException(e.getMessage(), e); 
+            throw new PreparerException(e.getMessage(), e);
         }
     }
 
@@ -217,27 +221,27 @@ public class BasicTilesContainer implements TilesContainer {
      * @throws TilesException
      */
     public void render(Object request, Object response, String definitionName)
-            throws TilesException {
+        throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
-                getApplicationContext(),
-                request,
-                response
+            getApplicationContext(),
+            request,
+            response
         );
         render(requestContext, definitionName);
     }
 
     public void render(PageContext context, String definitionName)
-            throws TilesException {
+        throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
-                getApplicationContext(), context
+            getApplicationContext(), context
         );
         render(requestContext, definitionName);
     }
 
     private void render(TilesRequestContext request, String definitionName)
-            throws TilesException {
+        throws TilesException {
         ComponentDefinition definition =
-                definitionsFactory.getDefinition(definitionName, request);
+            definitionsFactory.getDefinition(definitionName, request);
 
         if (definition == null) {
             if (LOG.isWarnEnabled()) {

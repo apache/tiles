@@ -18,16 +18,10 @@
 package org.apache.tiles.context.servlet;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.servlet.ServletContext;
 import org.apache.tiles.context.MapEntry;
+
+import javax.servlet.ServletContext;
+import java.util.*;
 
 /**
  * <p>Private implementation of <code>Map</code> for servlet context

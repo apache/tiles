@@ -21,7 +21,7 @@ import org.apache.tiles.TilesException;
 
 /**
  *
- * 
+ *
  */
 public class ConfigurationNotSupportedException extends TilesException {
 

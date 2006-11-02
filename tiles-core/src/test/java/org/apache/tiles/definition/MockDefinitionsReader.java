@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.tiles.mock;
+package org.apache.tiles.definition;
 
-import org.apache.tiles.DefinitionsReader;
+import org.apache.tiles.definition.DefinitionsReader;
+import org.apache.tiles.definition.DefinitionsFactoryException;
 
 import java.util.Collections;
 
@@ -47,17 +48,17 @@ public class MockDefinitionsReader implements DefinitionsReader {
     }
 
     /**
-     * Reads <code>{@link org.apache.tiles.ComponentDefinition}</code> objects from a source.
+     * Reads <code>{@link org.apache.tiles.definition.ComponentDefinition}</code> objects from a source.
      * 
      * Implementations should publish what type of source object is expected.
      * 
      * @param source The source from which definitions will be read.
      * @return a Map of <code>ComponentDefinition</code> objects read from
      *  the source.
-     * @throws org.apache.tiles.DefinitionsFactoryException if the source is invalid or
+     * @throws org.apache.tiles.definition.DefinitionsFactoryException if the source is invalid or
      *  an error occurs when reading definitions.
      */
-    public java.util.Map read(Object source) throws org.apache.tiles.DefinitionsFactoryException {
+    public java.util.Map read(Object source) throws DefinitionsFactoryException {
         return Collections.EMPTY_MAP;
     }
 
@@ -67,10 +68,10 @@ public class MockDefinitionsReader implements DefinitionsReader {
      * This method must be called before the {@link #read} method is called.
      * 
      * @param params A map of properties used to set up the reader.
-     * @throws org.apache.tiles.DefinitionsFactoryException if required properties are not
+     * @throws org.apache.tiles.definition.DefinitionsFactoryException if required properties are not
      *  passed in or the initialization fails.
      */
-    public void init(java.util.Map params) throws org.apache.tiles.DefinitionsFactoryException {
+    public void init(java.util.Map params) throws DefinitionsFactoryException {
     }
     
 }

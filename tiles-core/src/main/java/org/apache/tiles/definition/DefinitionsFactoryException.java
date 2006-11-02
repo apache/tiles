@@ -17,26 +17,19 @@
  */
 
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
 
+import org.apache.tiles.TilesException;
 
 /**
- * Root class for all Tiles-exceptions.
+ * Exception thrown when an error occurs while the impl tries to
+ * create a new instance mapper.
  */
-public class TilesException extends Exception {
-
-
-    /**
-     * Any "wrapped" exception will be exposed when this is serialized.
-     *
-     * @serial
-     */
-    private Exception exception;
-
+public class DefinitionsFactoryException extends TilesException {
     /**
      * Constructor.
      */
-    public TilesException() {
+    public DefinitionsFactoryException() {
         super();
         this.exception = null;
     }
@@ -46,29 +39,29 @@ public class TilesException extends Exception {
      *
      * @param message The error or warning message.
      */
-    public TilesException(String message) {
+    public DefinitionsFactoryException(String message) {
         super(message);
         this.exception = null;
     }
 
 
     /**
-     * Create a new <code>TilesException</code> wrapping an existing exception.
+     * Create a new <code>DefinitionsFactoryException</code> wrapping an existing exception.
      * <p/>
      * <p>The existing exception will be embedded in the new
-     * one, and its message will become the default message for
-     * the TilesException.</p>
+     * one and its message will become the default message for
+     * the DefinitionsFactoryException.</p>
      *
      * @param e The exception to be wrapped.
      */
-    public TilesException(Exception e) {
+    public DefinitionsFactoryException(Exception e) {
         super();
         this.exception = e;
     }
 
 
     /**
-     * Create a new <code>TilesException</code> from an existing exception.
+     * Create a new <code>DefinitionsFactoryException</code> from an existing exception.
      * <p/>
      * <p>The existing exception will be embedded in the new
      * one, but the new exception will have its own message.</p>
@@ -76,7 +69,7 @@ public class TilesException extends Exception {
      * @param message The detail message.
      * @param e       The exception to be wrapped.
      */
-    public TilesException(String message, Exception e) {
+    public DefinitionsFactoryException(String message, Exception e) {
         super(message);
         this.exception = e;
     }
@@ -85,7 +78,7 @@ public class TilesException extends Exception {
     /**
      * Return a detail message for this exception.
      * <p/>
-     * <p>If there is a embedded exception, and if the TilesException
+     * <p>If there is a embedded exception, and if the DefinitionsFactoryException
      * has no detail message of its own, this method will return
      * the detail message from the embedded exception.</p>
      *
@@ -111,4 +104,15 @@ public class TilesException extends Exception {
         return exception;
     }
 
+    //////////////////////////////////////////////////////////////////////
+    // Internal state.
+    //////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Any "wrapped" exception will be exposed when this is serialized.
+     *
+     * @serial
+     */
+    private Exception exception;
 }

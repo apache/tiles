@@ -17,7 +17,7 @@
  */
 
 
-package org.apache.tiles;
+package org.apache.tiles.servlet;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -25,9 +25,10 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 import servletunit.ServletConfigSimulator;
 
-import org.apache.tiles.mock.MockComponentDefinitions;
-import org.apache.tiles.mock.MockDefinitionsReader;
+import org.apache.tiles.definition.MockComponentDefinitions;
+import org.apache.tiles.definition.MockDefinitionsReader;
 import org.apache.tiles.servlet.TilesServlet;
+import org.apache.tiles.definition.DefinitionsFactory;
 
 import javax.servlet.ServletException;
 
@@ -92,7 +93,7 @@ public class TestTilesServlet extends TestCase {
                 "org/apache/tiles/config/tiles-defs.xml");
         servletConfig.setInitParameter(
                 DefinitionsFactory.READER_IMPL_PROPERTY,
-                "org.apache.tiles.mock.MockDefinitionsReader");
+                "org.apache.tiles.definition.MockDefinitionsReader");
 
         TilesServlet servlet = new TilesServlet();
         servlet.init(servletConfig);

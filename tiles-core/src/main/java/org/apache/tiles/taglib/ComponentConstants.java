@@ -23,7 +23,9 @@ package org.apache.tiles.taglib;
  */
 public interface ComponentConstants {
 
-    /** Name used to store Tile/Component context. */
+    /**
+     * Name used to store Tile/Component context.
+     */
     public static final String COMPONENT_CONTEXT = "org.apache.tiles.CompContext";
 
     public static final int COMPONENT_SCOPE = 8;

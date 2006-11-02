@@ -20,11 +20,11 @@ package org.apache.tiles.context.jsp;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.servlet.jsp.PageContext;
 import javax.servlet.ServletException;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
+import javax.servlet.jsp.PageContext;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Utility class for working within a Jsp environment.
@@ -32,7 +32,7 @@ import java.io.IOException;
 public class JspUtil {
 
     private static final Log LOG =
-       LogFactory.getLog(JspUtil.class);
+        LogFactory.getLog(JspUtil.class);
 
     /**
      * JSP 2.0 include method to use which supports configurable flushing.
@@ -50,12 +50,12 @@ public class JspUtil {
             include = PageContext.class.getMethod("include", args);
         } catch (NoSuchMethodException e) {
             LOG.debug("Could not find JSP 2.0 include method.  Using old one that doesn't support " +
-                    "configurable flushing.", e);
+                "configurable flushing.", e);
         }
     }
 
     public static void doInclude(PageContext pageContext, String uri, boolean flush)
-    throws IOException, ServletException {
+        throws IOException, ServletException {
 
         try {
             // perform include with new JSP 2.0 method that supports flushing

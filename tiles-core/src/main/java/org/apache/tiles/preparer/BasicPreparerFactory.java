@@ -17,11 +17,10 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.ViewPreparer;
-import org.apache.tiles.TilesRequestContext;
-import org.apache.tiles.util.RequestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.util.RequestUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +33,7 @@ import java.util.Map;
 public class BasicPreparerFactory implements PreparerFactory {
 
     private static final Log LOG =
-            LogFactory.getLog(BasicPreparerFactory.class);
+        LogFactory.getLog(BasicPreparerFactory.class);
 
     private Map<String, ViewPreparer> preparers;
 
@@ -47,13 +46,13 @@ public class BasicPreparerFactory implements PreparerFactory {
      * Create a new instance of the named preparer.  This factory
      * expects all names to be qualified class names.
      *
-     * @param name the named preparer
+     * @param name    the named preparer
      * @param context
      * @return
      * @throws NoSuchPreparerException
      */
     public ViewPreparer getPreparer(String name, TilesRequestContext context)
-            throws NoSuchPreparerException {
+        throws NoSuchPreparerException {
 
         if (!preparers.containsKey(name)) {
             preparers.put(name, createPreparer(name));
@@ -85,7 +84,7 @@ public class BasicPreparerFactory implements PreparerFactory {
         } catch (java.lang.ClassCastException ex) {
             throw new NoSuchPreparerException(
                 "ViewPreparer of class '" + name
-                 + "' should implements 'ViewPreparer' or extends 'Action'");
+                    + "' should implements 'ViewPreparer' or extends 'Action'");
         } catch (InstantiationException e) {
             throw new NoSuchPreparerException(
                 "Error - Unable to instantiate ViewPreparer '"

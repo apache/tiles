@@ -17,26 +17,25 @@
  */
 
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
 
-  /**
-   * Exception thrown when definitions impl is not found.
-   */
-public class FactoryNotFoundException extends DefinitionsFactoryException
-{
+/**
+ * Exception thrown when definitions impl is not found.
+ */
+public class FactoryNotFoundException extends DefinitionsFactoryException {
     /**
      * Constructor.
      */
-  public FactoryNotFoundException()
-    {
-    super();
+    public FactoryNotFoundException() {
+        super();
     }
+
     /**
      * Constructor.
+     *
      * @param msg Message.
      */
-  public FactoryNotFoundException( String msg )
-    {
-    super(msg);
+    public FactoryNotFoundException(String msg) {
+        super(msg);
     }
 }

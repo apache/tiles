@@ -18,17 +18,17 @@
 
 package org.apache.tiles.filter;
 
-import java.io.IOException;
-import javax.servlet.*;
+import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.ReloadableDefinitionsFactory;
+import org.apache.tiles.util.TilesUtil;
 
-import org.apache.tiles.DefinitionsFactory;
-import org.apache.tiles.ReloadableDefinitionsFactory;
-import org.apache.tiles.TilesUtil;
+import javax.servlet.*;
+import java.io.IOException;
 
 /**
  * Processes Reloadable Tiles Definitions.
  *
- * @version $Rev$ $Date$ 
+ * @version $Rev$ $Date$
  */
 
 public class TilesFilter implements Filter {
@@ -46,16 +46,15 @@ public class TilesFilter implements Filter {
     /**
      * Checks whether Tiles Definitions need to be reloaded.
      *
-     * @param request The servlet request we are processing
+     * @param request  The servlet request we are processing
      * @param response The servlet response we are creating
-     * @param chain The filter chain we are processing
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception ServletException if a servlet error occurs
+     * @param chain    The filter chain we are processing
+     * @throws IOException      if an input/output error occurs
+     * @throws ServletException if a servlet error occurs
      */
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain)
-            throws IOException, ServletException {
+        throws IOException, ServletException {
 
         try {
             DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
@@ -66,7 +65,7 @@ public class TilesFilter implements Filter {
                 }
             }
             chain.doFilter(request, response);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new ServletException("Error processing request.", e);
         }
     }

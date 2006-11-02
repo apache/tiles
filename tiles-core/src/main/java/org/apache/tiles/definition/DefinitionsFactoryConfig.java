@@ -16,7 +16,9 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -25,14 +27,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.beanutils.BeanUtils;
-
 /**
  * A TilesFactoryConfig object hold configuration attributes for a tile
  * definition impl.
  *
- * @since Struts 1.1
  * @version $Rev$ $Date$
+ * @since Struts 1.1
  */
 public class DefinitionsFactoryConfig implements Serializable {
 
@@ -50,8 +50,8 @@ public class DefinitionsFactoryConfig implements Serializable {
      */
     protected boolean parserValidate = true;
 
-    /** 
-     * Definition configuration file specified by user. 
+    /**
+     * Definition configuration file specified by user.
      */
     protected String definitionConfigFiles = null;
 
@@ -70,33 +70,35 @@ public class DefinitionsFactoryConfig implements Serializable {
      */
     protected String factoryName;
 
-    /** 
-     * Alternate name for parser debug details properties in configuration file. 
+    /**
+     * Alternate name for parser debug details properties in configuration file.
+     *
      * @deprecated This will be removed in a release after Struts 1.2.
      */
     public static final String PARSER_DETAILS_PARAMETER_NAME =
         "definitions-parser-details";
 
     /**
-     * Alternate name for parser validate properties in configuration file. 
+     * Alternate name for parser validate properties in configuration file.
      */
     public static final String PARSER_VALIDATE_PARAMETER_NAME =
         "definitions-parser-validate";
 
-    /** 
+    /**
      * Alternate name for impl classname properties in configuration file.
      */
     public static final String FACTORY_CLASSNAME_PARAMETER_NAME =
         "definitions-impl-class";
 
-    /** 
-     * Alternate name for definition files properties in configuration file. 
+    /**
+     * Alternate name for definition files properties in configuration file.
      */
     public static final String DEFINITIONS_CONFIG_PARAMETER_NAME =
         "definitions-config";
 
-    /** 
-     * Alternate name for definition debug details properties in configuration file. 
+    /**
+     * Alternate name for definition debug details properties in configuration file.
+     *
      * @deprecated This will be removed in a release after Struts 1.2.
      */
     public static final String TILES_DETAILS_PARAMETER_NAME = "definitions-debug";
@@ -118,6 +120,7 @@ public class DefinitionsFactoryConfig implements Serializable {
      * Create configuration object, and initialize it with parameters from Map.
      * Parameters corresponding to an attribute are filtered and stored in appropriate
      * attribute.
+     *
      * @param initParameters Map.
      */
     public DefinitionsFactoryConfig(Map initParameters) {
@@ -126,16 +129,19 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Get the module aware flag.
+     *
      * @return <code>true</code>: user wants a single impl instance,
-     * <code>false</code>: user wants multiple impl instances (one per module with Struts)
+     *         <code>false</code>: user wants multiple impl instances (one per module with Struts)
      */
     public boolean isModuleAware() {
         return moduleAware;
     }
+
     /**
      * Set the module aware flag.
+     *
      * @param moduleAware <code>true</code>: user wants a single impl instance,
-     * <code>false</code>: user wants multiple impl instances (one per module with Struts)
+     *                    <code>false</code>: user wants multiple impl instances (one per module with Struts)
      */
     public void setModuleAware(boolean moduleAware) {
         this.moduleAware = moduleAware;
@@ -143,6 +149,7 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Get the classname of the impl.
+     *
      * @return Classname.
      */
     public String getFactoryClassname() {
@@ -151,6 +158,7 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Set the classname of the impl..
+     *
      * @param aFactoryClassname Classname of the impl.
      */
     public void setFactoryClassname(String aFactoryClassname) {
@@ -159,6 +167,7 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Determines if the parser is validating.
+     *
      * @return <code>true<code> when in validating mode.
      */
     public boolean getParserValidate() {
@@ -167,6 +176,7 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Set the validating mode for the parser.
+     *
      * @param aParserValidate <code>true</code> for validation, <code>false</code> otherwise
      */
     public void setParserValidate(boolean aParserValidate) {
@@ -175,6 +185,7 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Get the definition config files.
+     *
      * @return Defition config files.
      */
     public String getDefinitionConfigFiles() {
@@ -183,6 +194,7 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Set the definition config files.
+     *
      * @param aDefinitionConfigFiles Definition config files.
      */
     public void setDefinitionConfigFiles(String aDefinitionConfigFiles) {
@@ -191,7 +203,8 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Set value of an additional attribute.
-     * @param name Name of the attribute.
+     *
+     * @param name  Name of the attribute.
      * @param value Value of the attribute.
      */
     public void setAttribute(String name, Object value) {
@@ -200,6 +213,7 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Get value of an additional attribute.
+     *
      * @param name Name of the attribute.
      * @return Value of the attribute, or null if not found.
      */
@@ -209,6 +223,7 @@ public class DefinitionsFactoryConfig implements Serializable {
 
     /**
      * Get additional attributes as a Map.
+     *
      * @return Map A Map containing attribute name - value pairs.
      */
     public Map getAttributes() {
@@ -230,28 +245,27 @@ public class DefinitionsFactoryConfig implements Serializable {
      * Populate this config object from properties map, based on
      * the specified name/value pairs.  This method uses the populate() method from
      * org.apache.commons.beanutils.BeanUtil.
-     * <p>
+     * <p/>
      * Properties keys are scanned for old property names, and linked to the new name
      * if necessary. This modifies the properties map.
-     * <p>
+     * <p/>
      * The particular setter method to be called for each property is
      * determined using the usual JavaBeans introspection mechanisms.  Thus,
      * you may identify custom setter methods using a BeanInfo class that is
      * associated with the class of the bean itself.  If no such BeanInfo
      * class is available, the standard method name conversion ("set" plus
      * the capitalized name of the property in question) is used.
-     * <p>
+     * <p/>
      * <strong>NOTE</strong>:  It is contrary to the JavaBeans Specification
      * to have more than one setter method (with different argument
      * signatures) for the same property.
      *
      * @param properties Map keyed by property name, with the
-     *  corresponding (String or String[]) value(s) to be set.
-     *
-     * @exception IllegalAccessException if the caller does not have
-     *  access to the property accessor method.
-     * @exception InvocationTargetException if the property accessor method
-     *  throws an exception.
+     *                   corresponding (String or String[]) value(s) to be set.
+     * @throws IllegalAccessException    if the caller does not have
+     *                                   access to the property accessor method.
+     * @throws InvocationTargetException if the property accessor method
+     *                                   throws an exception.
      * @see org.apache.commons.beanutils.BeanUtils
      */
     public void populate(Map properties)
@@ -266,8 +280,9 @@ public class DefinitionsFactoryConfig implements Serializable {
     /**
      * Link old property names to new property names.
      * This modifies the map.
+     *
      * @param properties Map keyed by property name, with the
-     *  corresponding (String or String[]) value(s) to be set.
+     *                   corresponding (String or String[]) value(s) to be set.
      */
     static public void linkOldPropertyNames(Map properties) {
         Set entries = properties.entrySet();
@@ -304,24 +319,26 @@ public class DefinitionsFactoryConfig implements Serializable {
     public String getFactoryName() {
         return factoryName;
     }
+
     /**
      * Set the impl name.
+     *
      * @param factoryName Name of the impl.
      */
     public void setFactoryName(String factoryName) {
         this.factoryName = factoryName;
     }
-    
+
     /**
      * Adds all implementation-specific extra attributes from the configuration.
-     * 
+     *
      * @param properties Map keyed by property name, with the
-     *  corresponding (String or String[]) value(s) to be set.
+     *                   corresponding (String or String[]) value(s) to be set.
      */
     protected void populateExtraAttributes(Map properties) {
         setAttribute(DefinitionsFactory.READER_IMPL_PROPERTY,
-                properties.get(DefinitionsFactory.READER_IMPL_PROPERTY));
+            properties.get(DefinitionsFactory.READER_IMPL_PROPERTY));
         setAttribute(DefinitionsFactory.DEFINITIONS_IMPL_PROPERTY,
-                properties.get(DefinitionsFactory.DEFINITIONS_IMPL_PROPERTY));
+            properties.get(DefinitionsFactory.DEFINITIONS_IMPL_PROPERTY));
     }
 }

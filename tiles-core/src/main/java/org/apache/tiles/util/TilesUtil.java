@@ -16,11 +16,14 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.util;
 
-import java.io.IOException;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.definition.*;
 
 import javax.servlet.jsp.PageContext;
+import java.io.IOException;
 
 
 /**
@@ -36,11 +39,14 @@ import javax.servlet.jsp.PageContext;
  */
 public class TilesUtil {
 
-    /** The implementation of tilesUtilImpl */
+    /**
+     * The implementation of tilesUtilImpl
+     */
     protected static TilesUtilImpl tilesUtilImpl;
 
     /**
      * Get the real implementation.
+     *
      * @return The underlying implementation object.
      */
     static public TilesUtilImpl getTilesUtil() {
@@ -51,6 +57,7 @@ public class TilesUtil {
      * Set the real implementation.
      * This method should be called only once.
      * Successive calls have no effect.
+     *
      * @param tilesUtil The implementaion.
      */
     static public void setTilesUtil(TilesUtilImpl tilesUtil) {
@@ -64,13 +71,16 @@ public class TilesUtil {
     /**
      * Getter to know if the underlying implementation is already set to another
      * value than the default value.
+     *
      * @return <code>true</code> if {@link #setTilesUtil} has already been called.
      */
     static boolean isTilesUtilImplSet() {
         return implAlreadySet;
     }
 
-    /** Flag to know if internal implementation has been set by the setter method */
+    /**
+     * Flag to know if internal implementation has been set by the setter method
+     */
     private static boolean implAlreadySet = false;
 
     public static TilesApplicationContext getApplicationContext() {
@@ -83,9 +93,10 @@ public class TilesUtil {
 
     /**
      * Do a forward using request dispatcher.
-     *
+     * <p/>
      * This method is used by the Tiles package anytime a forward is required.
-     * @param uri Uri or Definition name to forward.
+     *
+     * @param uri          Uri or Definition name to forward.
      * @param tilesContext Current Tiles application context.
      */
     public static void doForward(
@@ -98,10 +109,11 @@ public class TilesUtil {
 
     /**
      * Do an include using request dispatcher.
-     *
+     * <p/>
      * This method is used by the Tiles package when an include is required.
      * The Tiles package can use indifferently any form of this method.
-     * @param uri Uri or Definition name to forward.
+     *
+     * @param uri          Uri or Definition name to forward.
      * @param tilesContext Current Tiles application context.
      */
     public static void doInclude(
@@ -114,10 +126,11 @@ public class TilesUtil {
 
     /**
      * Do an include using PageContext.include().
-     *
+     * <p/>
      * This method is used by the Tiles package when an include is required.
      * The Tiles package can use indifferently any form of this method.
-     * @param uri Uri or Definition name to forward.
+     *
+     * @param uri         Uri or Definition name to forward.
      * @param pageContext Current page context.
      */
     public static void doInclude(String uri, PageContext pageContext)
@@ -127,11 +140,12 @@ public class TilesUtil {
 
     /**
      * Do an include using PageContext.include().
-     *
+     * <p/>
      * This method is used by the Tiles package when an include is required.
      * The Tiles package can use indifferently any form of this method.
-     * @param uri Uri or Definition name to forward.
-     * @param flush If the writer should be flushed before the include
+     *
+     * @param uri         Uri or Definition name to forward.
+     * @param flush       If the writer should be flushed before the include
      * @param pageContext Current page context.
      */
     public static void doInclude(String uri, PageContext pageContext, boolean flush)
@@ -141,6 +155,7 @@ public class TilesUtil {
 
     /**
      * Get definition impl from appropriate servlet context.
+     *
      * @return Definitions impl or <code>null</code> if not found.
      */
     public static DefinitionsFactory getDefinitionsFactory() {
@@ -152,12 +167,13 @@ public class TilesUtil {
      * Create a ConfigurableDefinitionsFactory and initialize it with the configuration
      * object. This later can contain the impl classname to use.
      * Factory is made accessible from tags.
-     * <p>
+     * <p/>
      * Fallback of several impl creation methods.
      *
      * @param factoryConfig Configuration object passed to impl.
      * @return newly created impl of type ConfigurableDefinitionsFactory.
-     * @throws DefinitionsFactoryException If an error occur while initializing impl
+     * @throws org.apache.tiles.definition.DefinitionsFactoryException
+     *          If an error occur while initializing impl
      */
     public static DefinitionsFactory createDefinitionsFactory(
         DefinitionsFactoryConfig factoryConfig)
@@ -169,11 +185,14 @@ public class TilesUtil {
      * Get a definition by its name.
      * First, retrieve definition impl and then get requested definition.
      * Throw appropriate exception if definition or definition impl is not found.
+     *
      * @param definitionName Name of requested definition.
-     * @param tilesContext Current Tiles application context.
+     * @param tilesContext   Current Tiles application context.
      * @throws FactoryNotFoundException Can't find definition impl.
-     * @throws DefinitionsFactoryException General error in impl while getting definition.
-     * @throws NoSuchDefinitionException No definition found for specified name
+     * @throws org.apache.tiles.definition.DefinitionsFactoryException
+     *                                  General error in impl while getting definition.
+     * @throws org.apache.tiles.definition.NoSuchDefinitionException
+     *                                  No definition found for specified name
      */
     public static ComponentDefinition getDefinition(
         String definitionName,

@@ -16,25 +16,25 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.util;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.BasicTilesContextFactory;
+import org.apache.tiles.definition.*;
+
+import javax.servlet.jsp.PageContext;
 import java.io.IOException;
 import java.io.Serializable;
-
-import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import javax.servlet.jsp.PageContext;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.util.RequestUtils;
-import org.apache.tiles.context.BasicTilesContextFactory;
 
 /**
  * Default implementation of TilesUtil.
@@ -43,16 +43,22 @@ import org.apache.tiles.context.BasicTilesContextFactory;
  */
 public class TilesUtilImpl implements Serializable {
 
-    /** Commons Logging instance.*/
+    /**
+     * Commons Logging instance.
+     */
     protected static final Log log = LogFactory.getLog(TilesUtil.class);
 
-    /** Constant name used to store impl in servlet context */
+    /**
+     * Constant name used to store impl in servlet context
+     */
     public static final String DEFINITIONS_FACTORY =
         "org.apache.tiles.DEFINITIONS_FACTORY";
 
-    /** Constant used to store ComponentDefinitions graph. */
+    /**
+     * Constant used to store ComponentDefinitions graph.
+     */
     public static final String DEFINITIONS_OBJECT =
-            "org.apache.tiles.ComponentDefinitions";
+        "org.apache.tiles.definition.ComponentDefinitions";
 
     /**
      * JSP 2.0 include method to use which supports configurable flushing.
@@ -71,7 +77,7 @@ public class TilesUtilImpl implements Serializable {
             include = PageContext.class.getMethod("include", args);
         } catch (NoSuchMethodException e) {
             log.debug("Could not find JSP 2.0 include method.  Using old one that doesn't support " +
-                      "configurable flushing.", e);
+                "configurable flushing.", e);
         }
     }
 
@@ -81,19 +87,20 @@ public class TilesUtilImpl implements Serializable {
         this.applicationContext = applicationContext;
     }
 
-   public TilesApplicationContext getApplicationContext() {
-       return applicationContext;
-   }
+    public TilesApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 
     public TilesRequestContext createRequestContext(Object request, Object response) {
         return new BasicTilesContextFactory().createRequestContext(applicationContext, request, response);
     }
 
-   /**
+    /**
      * Do a forward using request dispatcher.
-     *
+     * <p/>
      * This method is used by the Tiles package anytime a forward is required.
-     * @param uri Uri or Definition name to forward.
+     *
+     * @param uri          Uri or Definition name to forward.
      * @param tilesContext Current Tiles application context.
      */
     public void doForward(
@@ -106,10 +113,11 @@ public class TilesUtilImpl implements Serializable {
 
     /**
      * Do an include using request dispatcher.
-     *
+     * <p/>
      * This method is used by the Tiles package when an include is required.
      * The Tiles package can use indifferently any form of this method.
-     * @param uri Uri or Definition name to forward.
+     *
+     * @param uri          Uri or Definition name to forward.
      * @param tilesContext Current Tiles application context.
      */
     public void doInclude(
@@ -122,12 +130,13 @@ public class TilesUtilImpl implements Serializable {
 
     /**
      * Do an include using PageContext.include().
-     *
+     * <p/>
      * This method is used by the Tiles package when an include is required.
      * The Tiles package can use indifferently any form of this method.
-     * @param uri Uri or Definition name to forward.
+     *
+     * @param uri         Uri or Definition name to forward.
      * @param pageContext Current page context.
-     * @param flush If the writer should be flushed before the include
+     * @param flush       If the writer should be flushed before the include
      */
     public void doInclude(String uri, PageContext pageContext, boolean flush)
         throws IOException, Exception {
@@ -148,6 +157,7 @@ public class TilesUtilImpl implements Serializable {
 
     /**
      * Get definition impl from appropriate servlet context.
+     *
      * @return Definitions impl or <code>null</code> if not found.
      */
     public DefinitionsFactory getDefinitionsFactory() {
@@ -160,9 +170,9 @@ public class TilesUtilImpl implements Serializable {
      * Create an instance of the impl with the class specified in the config
      * object. Then, initialize this impl and finally store the impl in
      * appropriate context by calling
-     * {@link #makeDefinitionsFactoryAccessible(DefinitionsFactory)}.
+     * {@link #makeDefinitionsFactoryAccessible(org.apache.tiles.definition.DefinitionsFactory)}.
      * Factory creation is done by {@link #createDefinitionFactoryInstance(String)}.
-     * <p>
+     * <p/>
      *
      * @param factoryConfig Configuration object passed to impl.
      * @return newly created impl of type specified in the config object.
@@ -206,7 +216,7 @@ public class TilesUtilImpl implements Serializable {
 
     public ComponentDefinition getDefinition(String definitionName,
                                              TilesRequestContext tilesContext)
-            throws FactoryNotFoundException, DefinitionsFactoryException {
+        throws FactoryNotFoundException, DefinitionsFactoryException {
 
         try {
             DefinitionsFactory factory = getDefinitionsFactory();
@@ -219,6 +229,7 @@ public class TilesUtilImpl implements Serializable {
     /**
      * Create Definition impl of specified classname.
      * Factory class must extend the {@link DefinitionsFactory} class.
+     *
      * @param classname Class name of the impl to create.
      * @return newly created impl.
      * @throws DefinitionsFactoryException If an error occur while initializing impl
@@ -257,6 +268,7 @@ public class TilesUtilImpl implements Serializable {
     /**
      * Make definition impl accessible to Tags.
      * Factory is stored in servlet context.
+     *
      * @param factory Factory to be made accessible.
      */
     protected void makeDefinitionsFactoryAccessible(
@@ -264,7 +276,6 @@ public class TilesUtilImpl implements Serializable {
 
         applicationContext.getApplicationScope().put(DEFINITIONS_FACTORY, factory);
     }
-
 
 
     /**

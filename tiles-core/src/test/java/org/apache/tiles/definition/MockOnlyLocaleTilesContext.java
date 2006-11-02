@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.tiles.mock;
+package org.apache.tiles.definition;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

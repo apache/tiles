@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -25,6 +25,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.definition.ComponentDefinitionsImpl;
+import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.ComponentAttribute;
 
 /**
  * Tests the ComponentDefinitionsImpl class.

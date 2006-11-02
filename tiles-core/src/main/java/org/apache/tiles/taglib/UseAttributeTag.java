@@ -19,20 +19,18 @@
 
 package org.apache.tiles.taglib;
 
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.taglib.util.TagUtils;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.tiles.taglib.util.TagUtils;
-import org.apache.tiles.ComponentContext;
-
 
 /**
  * Custom tag exposing a component attribute to page.
- *
  */
 public class UseAttributeTag extends TagSupport {
-
 
     // ----------------------------------------------------- Instance Variables
 
@@ -40,7 +38,7 @@ public class UseAttributeTag extends TagSupport {
     /**
      * Class name of object.
      */
-    private String  classname = null;
+    private String classname = null;
 
 
     /**
@@ -54,7 +52,6 @@ public class UseAttributeTag extends TagSupport {
     private int scope = PageContext.PAGE_SCOPE;
 
 
-
     /**
      * The attribute name to be exposed.
      */
@@ -65,8 +62,7 @@ public class UseAttributeTag extends TagSupport {
      * Default value is <code>false</code>, which throws an exception.
      * Only "attribute not found" - errors are ignored.
      */
-  protected boolean isErrorIgnored = false;
-
+    protected boolean isErrorIgnored = false;
 
     // ------------------------------------------------------------- Properties
 
@@ -82,8 +78,8 @@ public class UseAttributeTag extends TagSupport {
         scope = PageContext.PAGE_SCOPE;
         scopeName = null;
         isErrorIgnored = false;
-          // Parent doesn't clear id, so we do it
-          // bug reported by Heath Chiavettone on 18 Mar 2002
+        // Parent doesn't clear id, so we do it
+        // bug reported by Heath Chiavettone on 18 Mar 2002
         id = null;
     }
 
@@ -92,7 +88,7 @@ public class UseAttributeTag extends TagSupport {
      */
     public String getClassname() {
 
-  return (this.classname);
+        return (this.classname);
 
     }
 
@@ -104,24 +100,23 @@ public class UseAttributeTag extends TagSupport {
      */
     public void setClassname(String name) {
 
-  this.classname = name;
+        this.classname = name;
 
     }
 
     /**
      * Set name.
      */
-  public void setName(String value){
-    this.attributeName = value;
-  }
+    public void setName(String value) {
+        this.attributeName = value;
+    }
 
     /**
      * Get name.
      */
-  public String getName()
-  {
-  return attributeName;
-  }
+    public String getName() {
+        return attributeName;
+    }
 
     /**
      * Set the scope.
@@ -129,32 +124,29 @@ public class UseAttributeTag extends TagSupport {
      * @param scope The new scope.
      */
     public void setScope(String scope) {
-  this.scopeName = scope;
+        this.scopeName = scope;
     }
 
     /**
      * Get scope.
      */
-  public String getScope()
-  {
-  return scopeName;
-  }
+    public String getScope() {
+        return scopeName;
+    }
 
     /**
      * Set ignore.
      */
-  public void setIgnore(boolean ignore)
-    {
-    this.isErrorIgnored = ignore;
+    public void setIgnore(boolean ignore) {
+        this.isErrorIgnored = ignore;
     }
 
     /**
      * Get ignore.
      */
-  public boolean getIgnore()
-  {
-  return isErrorIgnored;
-  }
+    public boolean getIgnore() {
+        return isErrorIgnored;
+    }
 
     // --------------------------------------------------------- Public Methods
 
@@ -162,49 +154,44 @@ public class UseAttributeTag extends TagSupport {
     /**
      * Expose the requested attribute from component context.
      *
-     * @exception JspException if a JSP exception has occurred
+     * @throws JspException if a JSP exception has occurred
      */
-  public int doStartTag() throws JspException
-    {
-      // Do a local copy of id
-    String localId=this.id;
-    if( localId==null )
-      localId=attributeName;
+    public int doStartTag() throws JspException {
+        // Do a local copy of id
+        String localId = this.id;
+        if (localId == null)
+            localId = attributeName;
 
-    ComponentContext compContext = (ComponentContext)pageContext.getAttribute( ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
-    if( compContext == null )
-      throw new JspException ( "Error - tag useAttribute : no tiles context found." );
+        ComponentContext compContext = (ComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
+        if (compContext == null)
+            throw new JspException("Error - tag useAttribute : no tiles context found.");
 
-    Object value = compContext.getAttribute(attributeName);
+        Object value = compContext.getAttribute(attributeName);
         // Check if value exists and if we must send a runtime exception
-    if( value == null )
-      if(!isErrorIgnored)
-        throw new JspException ( "Error - tag useAttribute : attribute '"+ attributeName + "' not found in context. Check tag syntax" );
-       else
+        if (value == null)
+            if (!isErrorIgnored)
+                throw new JspException("Error - tag useAttribute : attribute '" + attributeName + "' not found in context. Check tag syntax");
+            else
+                return SKIP_BODY;
+
+        if (scopeName != null) {
+            scope = TagUtils.getScope(scopeName, PageContext.PAGE_SCOPE);
+            if (scope != ComponentConstants.COMPONENT_SCOPE)
+                pageContext.setAttribute(localId, value, scope);
+        } else
+            pageContext.setAttribute(localId, value);
+
+        // Continue processing this page
         return SKIP_BODY;
-
-    if( scopeName != null )
-      {
-      scope = TagUtils.getScope( scopeName, PageContext.PAGE_SCOPE );
-      if(scope!=ComponentConstants.COMPONENT_SCOPE)
-        pageContext.setAttribute(localId, value, scope);
-      }
-     else
-      pageContext.setAttribute(localId, value);
-
-      // Continue processing this page
-    return SKIP_BODY;
     }
-
-
 
 
     /**
      * Clean up after processing this enumeration.
      *
-     * @exception JspException if a JSP exception has occurred
+     * @throws JspException if a JSP exception has occurred
      */
-  public int doEndTag() throws JspException
+    public int doEndTag() throws JspException
     {
     return (EVAL_PAGE);
     }

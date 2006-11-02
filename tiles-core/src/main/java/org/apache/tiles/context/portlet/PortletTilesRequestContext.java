@@ -18,17 +18,13 @@
 
 package org.apache.tiles.context.portlet;
 
+import org.apache.tiles.TilesRequestContext;
+
+import javax.portlet.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
-import javax.portlet.PortletContext;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import org.apache.tiles.TilesRequestContext;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
@@ -93,7 +89,9 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
     protected Map paramValues = null;
 
 
-    /** Creates a new instance of PortletTilesRequestContext */
+    /**
+     * Creates a new instance of PortletTilesRequestContext
+     */
     public PortletTilesRequestContext(PortletContext context, PortletRequest request,
                                       PortletResponse response) {
         super(context);
@@ -104,7 +102,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
      * <p>Initialize (or reinitialize) this {@link PortletTilesRequestContext} instance
      * for the specified Portlet API objects.</p>
      *
-     * @param request The <code>PortletRequest</code> for this request
+     * @param request  The <code>PortletRequest</code> for this request
      * @param response The <code>PortletResponse</code> for this request
      */
     public void initialize(PortletRequest request,
@@ -199,7 +197,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
     public Map getSessionScope() {
         if ((sessionScope == null) && (request != null)) {
             sessionScope =
-                    new PortletSessionScopeMap(request.getPortletSession());
+                new PortletSessionScopeMap(request.getPortletSession());
         }
         return (sessionScope);
     }
@@ -211,7 +209,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
     public void include(String path) throws IOException, Exception {
         if (isRenderRequest) {
             context.getRequestDispatcher(path).include((RenderRequest) request,
-                    (RenderResponse) response);
+                (RenderResponse) response);
         }
     }
 

@@ -23,11 +23,11 @@ import javax.servlet.jsp.JspException;
 /**
  * This is the tag handler for &lt;tiles:insertTemplate&gt;, which includes a
  * template ready to be filled.
- * 
+ *
  * @version $Rev$ $Date$
  */
 public class InsertTemplateTag extends BaseInsertTag {
-    
+
     /**
      * Processes tag attributes and create corresponding tag handler.<br>
      * This implementation processes the definition name to create an
@@ -36,10 +36,10 @@ public class InsertTemplateTag extends BaseInsertTag {
     public TagHandler createTagHandler() throws JspException {
         return processUrl(template);
     }
-    
+
     /**
      * Process the url.
-     * 
+     *
      * @throws JspException If failed to create preparer
      */
     protected TagHandler processUrl(String url) throws JspException {

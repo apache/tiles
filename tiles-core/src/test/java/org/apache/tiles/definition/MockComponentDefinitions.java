@@ -17,10 +17,12 @@
  */
 
 
-package org.apache.tiles.mock;
+package org.apache.tiles.definition;
 
 import java.util.Locale;
-import org.apache.tiles.ComponentDefinitions;
+import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.definition.ComponentDefinition;
 
 /**
  *
@@ -52,7 +54,7 @@ public class MockComponentDefinitions implements ComponentDefinitions {
      * @return the ComponentDefinition matching the given name or null if none
      *  is found.
      */
-    public org.apache.tiles.ComponentDefinition getDefinition(String name) {
+    public ComponentDefinition getDefinition(String name) {
         return null;
     }
 
@@ -74,7 +76,7 @@ public class MockComponentDefinitions implements ComponentDefinitions {
      * @return the ComponentDefinition matching the given name or null if none
      *  is found.
      */
-    public org.apache.tiles.ComponentDefinition getDefinition(String name, java.util.Locale locale) {
+    public ComponentDefinition getDefinition(String name, java.util.Locale locale) {
         return null;
     }
 
@@ -90,13 +92,13 @@ public class MockComponentDefinitions implements ComponentDefinitions {
     /**
      * Resolves configuration inheritance properties.
      */
-    public void resolveInheritances() throws org.apache.tiles.NoSuchDefinitionException {
+    public void resolveInheritances() throws NoSuchDefinitionException {
     }
 
     /**
      * Resolves configuration inheritance properties.
      */
-    public void resolveInheritances(Locale locale) throws org.apache.tiles.NoSuchDefinitionException {
+    public void resolveInheritances(Locale locale) throws NoSuchDefinitionException {
     }
 
     /**

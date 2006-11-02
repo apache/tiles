@@ -16,27 +16,38 @@
  * limitations under the License.
  */
 
+package org.apache.tiles.preparer;
 
-package org.apache.tiles;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.TilesRequestContext;
 
-  /**
-   * Exception thrown when a definition is not found.
-   */
-public class NoSuchDefinitionException extends DefinitionsFactoryException
-{
+/**
+ * Tiles preparer including a local URL.
+ */
+public class UrlViewPreparer implements ViewPreparer {
+
+    /**
+     * URL associated with this preparer.
+     */
+    protected String url = null;
+
     /**
      * Constructor.
+     *
+     * @param url URL.
      */
-  public NoSuchDefinitionException()
-    {
-    super();
+    public UrlViewPreparer(String url) {
+        this.url = url;
     }
+
     /**
-     * Constructor.
-     * @param msg Message.
+     * @see ViewPreparer#execute(org.apache.tiles.TilesRequestContext,org.apache.tiles.ComponentContext)
      */
-  public NoSuchDefinitionException( String msg )
-    {
-    super(msg);
+    public void execute(TilesRequestContext tilesContext,
+                        ComponentContext componentContext)
+        throws Exception {
+
+        tilesContext.include(url);
     }
+
 }

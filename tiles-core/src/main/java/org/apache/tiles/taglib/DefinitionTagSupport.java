@@ -17,8 +17,8 @@
  */
 package org.apache.tiles.taglib;
 
-import java.io.Serializable;
 import javax.servlet.jsp.tagext.TagSupport;
+import java.io.Serializable;
 
 /**
  * Common base class for tags dealing with Tiles definitions.
@@ -38,7 +38,7 @@ public class DefinitionTagSupport extends TagSupport implements Serializable {
      * Role associated to definition.
      */
     protected String role;
-    
+
     /**
      * JSP page that implements the definition.
      */

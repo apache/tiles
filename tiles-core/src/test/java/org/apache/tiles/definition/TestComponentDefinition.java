@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.apache.tiles.definition.ComponentDefinition;
 
 /**
  * Tests the ComponentDefinition class.

@@ -18,15 +18,15 @@
 
 package org.apache.tiles.context.portlet;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Map;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesRequestContext;
+
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesRequestContext;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
@@ -35,7 +35,7 @@ import org.apache.tiles.TilesRequestContext;
  */
 public class PortletTilesApplicationContext implements TilesApplicationContext {
 
-   /**
+    /**
      * <p>The lazily instantiated <code>Map</code> of application scope
      * attributes.</p>
      */
@@ -48,7 +48,6 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
     protected PortletContext context = null;
 
 
-
     /**
      * <p>The lazily instantiated <code>Map</code> of context initialization
      * parameters.</p>
@@ -56,7 +55,9 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
     private Map initParam = null;
 
 
-    /** Creates a new instance of PortletTilesApplicationContext */
+    /**
+     * Creates a new instance of PortletTilesApplicationContext
+     */
     public PortletTilesApplicationContext(PortletContext context) {
         initialize(context);
     }
@@ -122,21 +123,20 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
     }
 
     public URL[] getResources(String path) throws MalformedURLException {
-        return new URL[] { context.getResource(path) };
+        return new URL[]{context.getResource(path)};
     }
 
     public TilesRequestContext createRequestContext(Object request, Object response) {
         if (request instanceof PortletRequest && response instanceof PortletResponse) {
             return new PortletTilesRequestContext(
-                    context,
-                    (PortletRequest) request,
-                    (PortletResponse) response);
+                context,
+                (PortletRequest) request,
+                (PortletResponse) response);
         } else {
             throw new IllegalArgumentException("Invalid context specified. "
-                    + context.getClass().getName());
+                + context.getClass().getName());
         }
     }
-    
-    
+
 
 }

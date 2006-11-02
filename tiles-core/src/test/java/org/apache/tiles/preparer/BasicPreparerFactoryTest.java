@@ -18,8 +18,8 @@
 package org.apache.tiles.preparer;
 
 import junit.framework.TestCase;
-import org.apache.tiles.ViewPreparerSupport;
-import org.apache.tiles.ViewPreparer;
+import org.apache.tiles.preparer.ViewPreparerSupport;
+import org.apache.tiles.preparer.ViewPreparer;
 
 public class BasicPreparerFactoryTest extends TestCase {
 

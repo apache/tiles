@@ -17,11 +17,11 @@
  */
 package org.apache.tiles.access;
 
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.TilesException;
 
 import java.lang.reflect.Method;
 
@@ -41,29 +41,29 @@ public class TilesAccess {
         "org.apache.tiles.APPLICATION_CONTEXT";
 
     public static TilesContainer getContainer(Object context) {
-        return (TilesContainer)getAttribute(context, CONTAINER_ATTRIBUTE);
+        return (TilesContainer) getAttribute(context, CONTAINER_ATTRIBUTE);
     }
-    
+
     public static void setContainer(Object context, TilesContainer container)
-    throws TilesException {
+        throws TilesException {
         setAttribute(context, CONTAINER_ATTRIBUTE, container);
     }
 
     public static TilesApplicationContext getApplicationContext(Object context) {
         TilesContainer container = getContainer(context);
-        if(container != null) {
+        if (container != null) {
             return container.getApplicationContext();
         }
-        return (TilesApplicationContext)getAttribute(context, CONTEXT_ATTRIBUTE);
+        return (TilesApplicationContext) getAttribute(context, CONTEXT_ATTRIBUTE);
     }
 
     /**
-     * @deprecated temporarily added for backwards compatibility.
      * @param context
      * @param
+     * @deprecated temporarily added for backwards compatibility.
      */
     public static void setApplicationContext(Object context, TilesApplicationContext tilesContext)
-    throws TilesException {
+        throws TilesException {
         setAttribute(context, CONTEXT_ATTRIBUTE, tilesContext);
     }
 
@@ -73,19 +73,19 @@ public class TilesAccess {
             Method attrMethod = contextClass.getMethod("getAttribute", String.class);
             return attrMethod.invoke(context, attributeName);
         } catch (Exception e) {
-            LOG.warn("Unable to retrieve container from specified context: '"+context+"'", e);
+            LOG.warn("Unable to retrieve container from specified context: '" + context + "'", e);
             return null;
         }
     }
 
     private static void setAttribute(Object context, String name, Object value)
-    throws TilesException {
+        throws TilesException {
         try {
             Class contextClass = context.getClass();
             Method attrMethod = contextClass.getMethod("setAttribute", String.class, Object.class);
             attrMethod.invoke(context, name, value);
         } catch (Exception e) {
-            throw new TilesException("Unable to set attribute for specified context: '"+context+"'");
+            throw new TilesException("Unable to set attribute for specified context: '" + context + "'");
         }
     }
 

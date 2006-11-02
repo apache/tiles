@@ -18,12 +18,12 @@
 
 package org.apache.tiles.taglib;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.tiles.definition.ComponentAttribute;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
-import org.apache.tiles.ComponentAttribute;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * PutList tag implementation.
@@ -32,18 +32,18 @@ public class PutListTag
     extends TagSupport
     implements ComponentConstants, AddTagParent, PutListTagParent {
 
-    /** 
-     * Name of this attribute. 
+    /**
+     * Name of this attribute.
      */
     private String attributeName = null;
-    
-    /** 
-     * The list itself. 
+
+    /**
+     * The list itself.
      */
     private List list = null;
-    
-    /** 
-     * Role attribute. 
+
+    /**
+     * Role attribute.
      */
     private String role = null;
 
@@ -86,6 +86,7 @@ public class PutListTag
 
     /**
      * Set role attribute.
+     *
      * @param role The role the user must be in to store content.
      */
     public void setRole(String role) {
@@ -113,7 +114,7 @@ public class PutListTag
         if (list == null) {
             list = new ArrayList();
         }
-        
+
         list.add(value);
     }
 
@@ -135,7 +136,7 @@ public class PutListTag
             def.setRole(nestedTag.getRole());
             attributeValue = def;
         }
-        
+
         // now add attribute to enclosing parent (i.e. : this object)
         addElement(attributeValue);
     }
@@ -160,16 +161,16 @@ public class PutListTag
             } catch (ClassCastException ex) {
                 def = new ComponentAttribute(attributeValue);
             }
-            
+
             if (def != null) {
                 def.setRole(nestedTag.getRole());
             } else {
                 // what now?  Is this an exception?
             }
-            
+
             attributeValue = def;
         }
-        
+
         // now add attribute to enclosing parent (i.e. : this object)
         addElement(attributeValue);
     }
@@ -194,6 +195,7 @@ public class PutListTag
 
     /**
      * Find enclosing parent tag accepting this tag.
+     *
      * @throws JspException If we can't find an appropriate enclosing tag.
      */
     protected PutListTagParent findEnclosingParent() throws JspException {
@@ -201,13 +203,13 @@ public class PutListTag
             PutListTagParent parent =
                 (PutListTagParent) findAncestorWithClass(this,
                     PutListTagParent.class);
-                    
+
             if (parent == null) {
                 throw new JspException("Error - tag putList : enclosing tag doesn't accept 'putList' tag.");
             }
-            
+
             return parent;
-            
+
         } catch (ClassCastException ex) {
             throw new JspException("Error - tag putList : enclosing tag doesn't accept 'putList' tag.", ex);
         }

@@ -19,11 +19,15 @@
 
 package org.apache.tiles.taglib;
 
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.DefinitionsFactoryConfig;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.util.TilesUtil;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import org.apache.tiles.*;
-import org.apache.tiles.access.TilesAccess;
 
 /**
  * Init definitions impl.
@@ -31,69 +35,69 @@ import org.apache.tiles.access.TilesAccess;
 public class InitDefinitionsTag extends TagSupport implements ComponentConstants {
 
 
-private String filename = null;
-private String classname = null;
+    private String filename = null;
+    private String classname = null;
 
-/**
- * Default constructor.
- */
-public InitDefinitionsTag() {
-  super();
-}
-
-  /**
-   * Release all allocated resources.
-   */
-  public void release() {
-
-      super.release();
-      filename = null;
-  }
-
-  /**
-   * Set file.
-   */
-public void setFile(String name){
-  this.filename = name;
-}
-
-  /**
-   * Set classname.
-   */
-public void setClassname(String classname){
-  this.classname = classname;
-}
-
-  /**
-   * Do start tag.
-   */
-public int doStartTag() throws JspException {
-    TilesApplicationContext tilesContext =
-        TilesAccess.getApplicationContext(pageContext.getServletContext());
-    DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
-    if(factory != null ) {
-      return SKIP_BODY;
+    /**
+     * Default constructor.
+     */
+    public InitDefinitionsTag() {
+        super();
     }
 
-    DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
-    factoryConfig.setFactoryClassname( classname );
-    factoryConfig.setDefinitionConfigFiles( filename );
+    /**
+     * Release all allocated resources.
+     */
+    public void release() {
 
-    try {
-      factory = TilesUtil.createDefinitionsFactory(factoryConfig);
-    } catch( DefinitionsFactoryException ex ) {
-        ex.printStackTrace();
-        throw new JspException( ex );
+        super.release();
+        filename = null;
     }
 
-    return SKIP_BODY;
-}
+    /**
+     * Set file.
+     */
+    public void setFile(String name) {
+        this.filename = name;
+    }
 
-  /**
-   * Do end tag.
-   */
-public int doEndTag() throws JspException {
-  return EVAL_PAGE;
+    /**
+     * Set classname.
+     */
+    public void setClassname(String classname) {
+        this.classname = classname;
+    }
+
+    /**
+     * Do start tag.
+     */
+    public int doStartTag() throws JspException {
+        TilesApplicationContext tilesContext =
+            TilesAccess.getApplicationContext(pageContext.getServletContext());
+        DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
+        if (factory != null) {
+            return SKIP_BODY;
+        }
+
+        DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
+        factoryConfig.setFactoryClassname(classname);
+        factoryConfig.setDefinitionConfigFiles(filename);
+
+        try {
+            factory = TilesUtil.createDefinitionsFactory(factoryConfig);
+        } catch (DefinitionsFactoryException ex) {
+            ex.printStackTrace();
+            throw new JspException(ex);
+        }
+
+        return SKIP_BODY;
+    }
+
+    /**
+     * Do end tag.
+     */
+    public int doEndTag() throws JspException {
+        return EVAL_PAGE;
 }
 
 }

@@ -16,73 +16,73 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
 
 import java.util.Locale;
 import java.util.Map;
 
 /**
  * Interface for managing collections of {@link ComponentDefinition} objects.
- *
- * <p>The ComponentDefinitions interface provides a pattern for managing 
+ * <p/>
+ * <p>The ComponentDefinitions interface provides a pattern for managing
  * ComponentDefinition objects.  Implementations will provide a means to append
  * new ComponentDefinitions to the collection, add and retrieve lcale-specific
  * ComponentDefinitions objects, and reset the collections.</p>
- * 
- * @version $Rev$ $Date$ 
+ *
+ * @version $Rev$ $Date$
  */
 public interface ComponentDefinitions {
-    
+
     /**
      * Returns a ComponentDefinition object that matches the given name.
      *
      * @param name The name of the ComponentDefinition to return.
      * @return the ComponentDefinition matching the given name or null if none
-     *  is found.
+     *         is found.
      */
     public ComponentDefinition getDefinition(String name);
-    
+
     /**
-     * Adds new ComponentDefinition objects to the internal collection and 
+     * Adds new ComponentDefinition objects to the internal collection and
      * resolves inheritance attraibutes.
      *
      * @param defsMap The new definitions to add.
      * @throws NoSuchDefinitionException if a ComponentDefinition extends from
-     * one that doesn't exist.
+     *                                   one that doesn't exist.
      */
-    public void addDefinitions(Map defsMap) throws NoSuchDefinitionException ;
+    public void addDefinitions(Map defsMap) throws NoSuchDefinitionException;
 
     /**
-     * Adds new locale-specific ComponentDefinition objects to the internal 
+     * Adds new locale-specific ComponentDefinition objects to the internal
      * collection and resolves inheritance attraibutes.
      *
      * @param defsMap The new definitions to add.
-     * @param locale The locale to add the definitions to.
+     * @param locale  The locale to add the definitions to.
      * @throws NoSuchDefinitionException if a ComponentDefinition extends from
-     * one that doesn't exist.
+     *                                   one that doesn't exist.
      */
-    public void addDefinitions(Map defsMap, Locale locale) throws NoSuchDefinitionException ;
+    public void addDefinitions(Map defsMap, Locale locale) throws NoSuchDefinitionException;
 
     /**
      * Returns a ComponentDefinition object that matches the given name and locale.
      *
-     * @param name The name of the ComponentDefinition to return.
+     * @param name   The name of the ComponentDefinition to return.
      * @param locale The locale to use to resolve the definition.
      * @return the ComponentDefinition matching the given name or null if none
-     *  is found.
+     *         is found.
      */
     public ComponentDefinition getDefinition(String name, Locale locale);
-    
+
     /**
      * Resolves configuration inheritance properties.
      */
     public void resolveInheritances() throws NoSuchDefinitionException;
-    
+
     /**
      * Resolves locale-specific configuration inheritance properties.
      */
     public void resolveInheritances(Locale locale) throws NoSuchDefinitionException;
-    
+
     /**
      * Clears definitions.
      */

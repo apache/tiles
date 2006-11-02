@@ -17,30 +17,30 @@
  */
 package org.apache.tiles.definition;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.apache.tiles.util.RequestUtils;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
-import org.apache.tiles.util.RequestUtils;
-import org.apache.tiles.*;
-import org.apache.tiles.digester.DigesterDefinitionsReader;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
- * {@link org.apache.tiles.DefinitionsFactory DefinitionsFactory} implementation
+ * {@link DefinitionsFactory DefinitionsFactory} implementation
  * that manages ComponentDefinitions configuration data from URLs.
  * <p/>
  * <p>The ComponentDefinition objects are read from the
- * {@link org.apache.tiles.digester.DigesterDefinitionsReader DigesterDefinitionsReader}
+ * {@link org.apache.tiles.definition.digester.DigesterDefinitionsReader DigesterDefinitionsReader}
  * class unless another implementation is specified.</p>
  *
  * @version $Rev$ $Date$
  */
 public class UrlDefinitionsFactory
-        implements DefinitionsFactory, ReloadableDefinitionsFactory {
+    implements DefinitionsFactory, ReloadableDefinitionsFactory {
 
     /**
      * LOG instance for all UrlDefinitionsFactory instances.
@@ -101,8 +101,8 @@ public class UrlDefinitionsFactory
     }
 
     private ComponentDefinitions getComponentDefinitions()
-    throws DefinitionsFactoryException {
-        if(definitions == null) {
+        throws DefinitionsFactoryException {
+        if (definitions == null) {
             definitions = readDefinitions();
         }
         return definitions;
@@ -121,7 +121,7 @@ public class UrlDefinitionsFactory
      */
     public ComponentDefinition getDefinition(String name,
                                              TilesRequestContext tilesContext)
-            throws DefinitionsFactoryException {
+        throws DefinitionsFactoryException {
 
         ComponentDefinitions definitions = getComponentDefinitions();
         Locale locale = tilesContext.getRequestLocale();
@@ -151,12 +151,12 @@ public class UrlDefinitionsFactory
     public void addSource(Object source) throws DefinitionsFactoryException {
         if (source == null) {
             throw new DefinitionsFactoryException(
-                    "Source object must not be null");
+                "Source object must not be null");
         }
 
         if (!(source instanceof URL)) {
             throw new DefinitionsFactoryException(
-                    "Source object must be an URL");
+                "Source object must be an URL");
         }
 
         sources.add(source);
@@ -173,7 +173,7 @@ public class UrlDefinitionsFactory
      */
     protected void addDefinitions(ComponentDefinitions definitions,
                                   TilesRequestContext tilesContext)
-            throws DefinitionsFactoryException {
+        throws DefinitionsFactoryException {
 
         Locale locale = tilesContext.getRequestLocale();
         List<String> postfixes = calculatePostixes(locale);
@@ -195,15 +195,15 @@ public class UrlDefinitionsFactory
                     URLConnection connection = newUrl.openConnection();
                     connection.connect();
                     lastModifiedDates.put(newUrl.toExternalForm(),
-                            connection.getLastModified());
+                        connection.getLastModified());
                     Map defsMap = reader.read(connection.getInputStream());
                     definitions.addDefinitions(defsMap,
-                            tilesContext.getRequestLocale());
+                        tilesContext.getRequestLocale());
                 } catch (FileNotFoundException e) {
                     // File not found. continue.
                 } catch (IOException e) {
                     throw new DefinitionsFactoryException(
-                            "I/O error processing configuration.");
+                        "I/O error processing configuration.");
                 }
             }
         }
@@ -217,7 +217,7 @@ public class UrlDefinitionsFactory
      *                                     sources.
      */
     public ComponentDefinitions readDefinitions()
-            throws DefinitionsFactoryException {
+        throws DefinitionsFactoryException {
         ComponentDefinitions definitions = new ComponentDefinitionsImpl();
         try {
             for (Object source1 : sources) {
@@ -225,7 +225,7 @@ public class UrlDefinitionsFactory
                 URLConnection connection = source.openConnection();
                 connection.connect();
                 lastModifiedDates.put(source.toExternalForm(),
-                        connection.getLastModified());
+                    connection.getLastModified());
                 Map defsMap = reader.read(connection.getInputStream());
                 definitions.addDefinitions(defsMap);
             }
@@ -367,17 +367,17 @@ public class UrlDefinitionsFactory
     private void createReader(String readerClassName) throws DefinitionsFactoryException {
         try {
             Class readerClass =
-                    RequestUtils.applicationClass(readerClassName);
+                RequestUtils.applicationClass(readerClassName);
             reader = (DefinitionsReader) readerClass.newInstance();
         } catch (ClassNotFoundException e) {
             throw new DefinitionsFactoryException(
-                    "Cannot find reader class '" + readerClassName + "'.", e);
+                "Cannot find reader class '" + readerClassName + "'.", e);
         } catch (InstantiationException e) {
             throw new DefinitionsFactoryException(
-                    "Unable to instantiate reader class '" + readerClassName + "'.", e);
+                "Unable to instantiate reader class '" + readerClassName + "'.", e);
         } catch (IllegalAccessException e) {
             throw new DefinitionsFactoryException(
-                    "Unable to access reader class '" + readerClassName + "'.", e);
+                "Unable to access reader class '" + readerClassName + "'.", e);
         }
     }
 }

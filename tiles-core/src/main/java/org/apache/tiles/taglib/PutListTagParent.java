@@ -26,10 +26,11 @@ import javax.servlet.jsp.JspException;
  * This interface defines a method called by nested tags.
  */
 public interface PutListTagParent {
-  /**
-   * Add an attribute to container.
-   * @param nestedTag Nested PutTag defining the attribute.
-   */
-  void processNestedTag(PutListTag nestedTag) throws JspException;
+    /**
+     * Add an attribute to container.
+     *
+     * @param nestedTag Nested PutTag defining the attribute.
+     */
+    void processNestedTag(PutListTag nestedTag) throws JspException;
 
 }

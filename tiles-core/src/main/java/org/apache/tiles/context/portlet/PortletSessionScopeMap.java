@@ -18,15 +18,8 @@
 package org.apache.tiles.context.portlet;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import javax.portlet.PortletSession;
+import java.util.*;
 
 
 /**
@@ -65,7 +58,7 @@ final class PortletSessionScopeMap implements Map {
             return (false);
         }
         Enumeration keys =
-        session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
             Object next = session.getAttribute((String) keys.nextElement());
             if (next == value) {
@@ -79,7 +72,7 @@ final class PortletSessionScopeMap implements Map {
     public Set entrySet() {
         Set set = new HashSet();
         Enumeration keys =
-        session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
             set.add(session.getAttribute((String) keys.nextElement()));
         }
@@ -110,7 +103,7 @@ final class PortletSessionScopeMap implements Map {
     public Set keySet() {
         Set set = new HashSet();
         Enumeration keys =
-        session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -149,7 +142,7 @@ final class PortletSessionScopeMap implements Map {
     public int size() {
         int n = 0;
         Enumeration keys =
-        session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -161,7 +154,7 @@ final class PortletSessionScopeMap implements Map {
     public Collection values() {
         List list = new ArrayList();
         Enumeration keys =
-        session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
             list.add(session.getAttribute((String) keys.nextElement()));
         }

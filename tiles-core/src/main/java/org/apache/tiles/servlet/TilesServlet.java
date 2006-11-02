@@ -18,20 +18,28 @@
 
 package org.apache.tiles.servlet;
 
-import java.util.Enumeration;
-import java.util.Map;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-
-import java.util.HashMap;
-
-import org.apache.tiles.*;
-import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.context.TilesContextFactory;
-import org.apache.tiles.context.BasicTilesContextFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesException;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.context.BasicTilesContextFactory;
+import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.DefinitionsFactoryConfig;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.util.DefinitionsUtil;
+import org.apache.tiles.util.TilesUtil;
+import org.apache.tiles.util.TilesUtilImpl;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.UnavailableException;
+import javax.servlet.http.HttpServlet;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is the entry point for Tiles. The <code>TilesServlet</code> initializes
@@ -137,7 +145,7 @@ public class TilesServlet extends HttpServlet {
      * An error message stating that something went wrong during initialization
      */
     private static final String CANT_POPULATE_FACTORY_ERROR =
-            "CAN'T POPULATE TILES DEFINITION FACTORY";
+        "CAN'T POPULATE TILES DEFINITION FACTORY";
 
 
     /**
@@ -161,7 +169,7 @@ public class TilesServlet extends HttpServlet {
      * @param config The servlet config
      */
     public void init(ServletConfig config)
-            throws javax.servlet.ServletException {
+        throws javax.servlet.ServletException {
         super.init(config);
         LOG.info("Initializing TilesServlet");
         configFiles = config.getInitParameter("definitions-config");
@@ -195,7 +203,7 @@ public class TilesServlet extends HttpServlet {
      * file is <code>/WEB-INF/tiles.xml</code>.
      */
     protected DefinitionsFactoryConfig readFactoryConfig(ServletConfig config)
-            throws ServletException {
+        throws ServletException {
         DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
         Map map = new HashMap();
 
@@ -205,7 +213,7 @@ public class TilesServlet extends HttpServlet {
                 map.put(DEFAULT_CONFIG_FILE_PARAM, configFiles);
             } else {
                 LOG.info("CONFIG FILES WERE NOT DEFINED IN WEB.XML, " +
-                        "LOOKING FOR " + DEFAULT_CONFIG_FILE);
+                    "LOOKING FOR " + DEFAULT_CONFIG_FILE);
                 map.put(DEFAULT_CONFIG_FILE_PARAM, DEFAULT_CONFIG_FILE);
             }
 
@@ -228,13 +236,13 @@ public class TilesServlet extends HttpServlet {
      */
     private void initDefinitionsFactory(ServletContext servletContext,
                                         DefinitionsFactoryConfig factoryConfig)
-            throws ServletException {
+        throws ServletException {
         LOG.info("initializing definitions impl...");
         // Create configurable impl
         try {
 
             definitionFactory = DefinitionsUtil.createDefinitionsFactory(
-                    factoryConfig);
+                factoryConfig);
         } catch (DefinitionsFactoryException ex) {
             ex.printStackTrace();
             throw new ServletException(ex.getMessage(), ex);

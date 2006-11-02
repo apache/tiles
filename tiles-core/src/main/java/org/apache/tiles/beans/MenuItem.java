@@ -22,10 +22,11 @@ import java.io.Serializable;
 
 /**
  * Interface for MenuItems.
+ *
  * @see SimpleMenuItem
  */
 public interface MenuItem extends Serializable {
-    
+
     /**
      * Set value property.
      */

@@ -18,14 +18,15 @@
 
 package org.apache.tiles.context.servlet;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Map;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesRequestContext;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesRequestContext;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
 
 /**
  * Servlet-bsed implementation of the TilesApplicationContext interface.
@@ -51,7 +52,9 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
     private Map initParam = null;
 
 
-    /** Creates a new instance of ServletTilesApplicationContext */
+    /**
+     * Creates a new instance of ServletTilesApplicationContext
+     */
     public ServletTilesApplicationContext(ServletContext servletContext) {
         initialize(servletContext);
     }
@@ -65,7 +68,6 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
         return (applicationScope);
 
     }
-
 
 
     public Map getInitParams() {
@@ -82,13 +84,12 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
     }
 
     public URL[] getResources(String path) throws MalformedURLException {
-        return new URL[] { servletContext.getResource(path) };
+        return new URL[]{servletContext.getResource(path)};
     }
 
     public ServletContext getServletContext() {
         return servletContext;
     }
-
 
 
     /**
@@ -129,9 +130,9 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
                 (HttpServletRequest) request,
                 (HttpServletResponse) response
             );
-        } else  {
+        } else {
             throw new IllegalArgumentException("Invalid context specified. "
-                    + servletContext.getClass().getName());
+                + servletContext.getClass().getName());
         }
     }
 }

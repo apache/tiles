@@ -19,21 +19,20 @@
 
 package org.apache.tiles.taglib;
 
-import java.util.Iterator;
+import org.apache.tiles.definition.ComponentAttribute;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.taglib.util.TagUtils;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import org.apache.tiles.taglib.util.TagUtils;
-import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.ComponentContext;
+import java.util.Iterator;
 
 
 /**
-  *  Import attribute from component to requested scope.
-  *  Attribute name and scope are optional. If not specified, all component
-  *  attributes are imported in page scope.
+ * Import attribute from component to requested scope.
+ * Attribute name and scope are optional. If not specified, all component
+ * attributes are imported in page scope.
  */
 
 public class ImportAttributeTag extends TagSupport {
@@ -41,7 +40,7 @@ public class ImportAttributeTag extends TagSupport {
     /**
      * Class name of object.
      */
-    private String  name = null;
+    private String name = null;
 
 
     /**
@@ -58,7 +57,7 @@ public class ImportAttributeTag extends TagSupport {
      * Default value is <code>false</code>, which throws an exception.
      * Only "attribute not found" - errors are ignored.
      */
-  protected boolean isErrorIgnored = false;
+    protected boolean isErrorIgnored = false;
 
 
     /**
@@ -75,60 +74,60 @@ public class ImportAttributeTag extends TagSupport {
 
     /**
      * Get the name.
+     *
      * @return Name.
      */
-    public String getName()
-     {
-     return (this.name);
-     }
+    public String getName() {
+        return (this.name);
+    }
 
 
     /**
      * Set the name.
+     *
      * @param name The new name
      */
-    public void setName(String name)
-     {
-     this.name = name;
-     }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * Set the scope.
+     *
      * @param scope Scope.
      */
-    public void setScope(String scope)
-      {
-      this.scopeName = scope;
-      }
+    public void setScope(String scope) {
+        this.scopeName = scope;
+    }
 
     /**
      * Get scope.
+     *
      * @return Scope.
      */
-  public String getScope()
-  {
-  return scopeName;
-  }
+    public String getScope() {
+        return scopeName;
+    }
 
     /**
      * Set ignore flag.
+     *
      * @param ignore default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
-     * true</code> to ignore missing attributes silently
+     *               true</code> to ignore missing attributes silently
      */
-  public void setIgnore(boolean ignore)
-    {
-    this.isErrorIgnored = ignore;
+    public void setIgnore(boolean ignore) {
+        this.isErrorIgnored = ignore;
     }
 
     /**
      * Get ignore flag.
+     *
      * @return default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
-     * true</code> to ignore missing attributes silently
+     *         true</code> to ignore missing attributes silently
      */
-  public boolean getIgnore()
-  {
-  return isErrorIgnored;
-  }
+    public boolean getIgnore() {
+        return isErrorIgnored;
+    }
 
     // --------------------------------------------------------- Public Methods
 
@@ -136,71 +135,66 @@ public class ImportAttributeTag extends TagSupport {
     /**
      * Expose the requested property from component context.
      *
-     * @exception JspException On errors processing tag.
+     * @throws JspException On errors processing tag.
      */
-public int doStartTag() throws JspException
-    {
-      // retrieve component context
-    ComponentContext compContext = (ComponentContext)pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
-    if( compContext == null )
-        throw new JspException ( "Error - tag importAttribute : no tiles context found." );
+    public int doStartTag() throws JspException {
+        // retrieve component context
+        ComponentContext compContext = (ComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
+        if (compContext == null)
+            throw new JspException("Error - tag importAttribute : no tiles context found.");
 
-      // set scope
-    scope = TagUtils.getScope( scopeName, PageContext.PAGE_SCOPE );
+        // set scope
+        scope = TagUtils.getScope(scopeName, PageContext.PAGE_SCOPE);
 
-      // push attribute in requested context.
-    if( name != null )
-      {
-      Object value = compContext.getAttribute(name);
-        // Check if value exist and if we must send a runtime exception
-      if( value == null ) {
-        if(!isErrorIgnored)
-          throw new JspException ( "Error - tag importAttribute : property '"+  name + "' not found in context. Check tag syntax" );
-         else
-          return SKIP_BODY;
-      } else if (value instanceof ComponentAttribute) {
-        value = ((ComponentAttribute) value).getValue();
-      }
+        // push attribute in requested context.
+        if (name != null) {
+            Object value = compContext.getAttribute(name);
+            // Check if value exist and if we must send a runtime exception
+            if (value == null) {
+                if (!isErrorIgnored)
+                    throw new JspException("Error - tag importAttribute : property '" + name + "' not found in context. Check tag syntax");
+                else
+                    return SKIP_BODY;
+            } else if (value instanceof ComponentAttribute) {
+                value = ((ComponentAttribute) value).getValue();
+            }
 
-      pageContext.setAttribute(name, value, scope);
-      }
-     else
-      { // set all attributes
-      Iterator names = compContext.getAttributeNames();
-      while(names.hasNext())
-        {
-        String name = (String)names.next();
-        if(name == null ) {
-          if(!isErrorIgnored)
-            throw new JspException ( "Error - tag importAttribute : encountered an attribute with key 'null'" );
-          else
-            return SKIP_BODY;
-        }
+            pageContext.setAttribute(name, value, scope);
+        } else { // set all attributes
+            Iterator names = compContext.getAttributeNames();
+            while (names.hasNext()) {
+                String name = (String) names.next();
+                if (name == null) {
+                    if (!isErrorIgnored)
+                        throw new JspException("Error - tag importAttribute : encountered an attribute with key 'null'");
+                    else
+                        return SKIP_BODY;
+                }
 
-        Object value = compContext.getAttribute(name);
-        // Check if value exist and if we must send a runtime exception
-        if( value == null ) {
-          if(!isErrorIgnored)
-            throw new JspException ( "Error - tag importAttribute : property '"+ name + "' has a value of 'null'" );
-          else
-            return SKIP_BODY;
-        } else if (value instanceof ComponentAttribute) {
-          value = ((ComponentAttribute) value).getValue();
-        }
-        pageContext.setAttribute(name, value, scope);
-        } // end loop
-      } // end else
+                Object value = compContext.getAttribute(name);
+                // Check if value exist and if we must send a runtime exception
+                if (value == null) {
+                    if (!isErrorIgnored)
+                        throw new JspException("Error - tag importAttribute : property '" + name + "' has a value of 'null'");
+                    else
+                        return SKIP_BODY;
+                } else if (value instanceof ComponentAttribute) {
+                    value = ((ComponentAttribute) value).getValue();
+                }
+                pageContext.setAttribute(name, value, scope);
+            } // end loop
+        } // end else
 
-      // Continue processing this page
-    return SKIP_BODY;
+        // Continue processing this page
+        return SKIP_BODY;
     }
 
     /**
      * Clean up after processing this enumeration.
      *
-     * @exception JspException On errors processing tag.
+     * @throws JspException On errors processing tag.
      */
-  public int doEndTag() throws JspException
+    public int doEndTag() throws JspException
     {
     return (EVAL_PAGE);
     }

@@ -18,13 +18,12 @@
 
 package org.apache.tiles.util;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * <p>General purpose utility methods related to processing a servlet request
@@ -34,7 +33,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class RequestUtils {
 
-
     // ------------------------------------------------------- Static Variables
 
 
@@ -42,7 +40,6 @@ public class RequestUtils {
      * <p>Commons Logging instance.</p>
      */
     protected static Log log = LogFactory.getLog(RequestUtils.class);
-
 
     // --------------------------------------------------------- Public Methods
 
@@ -53,14 +50,12 @@ public class RequestUtils {
      * request.</p>
      *
      * @param request The servlet request we are processing
-     * @param path The context-relative path (must start with '/')
-     *
-     * @return  absolute URL based on context-relative path
-     *
-     * @exception MalformedURLException if we cannot create an absolute URL
+     * @param path    The context-relative path (must start with '/')
+     * @return absolute URL based on context-relative path
+     * @throws MalformedURLException if we cannot create an absolute URL
      */
     public static URL absoluteURL(HttpServletRequest request, String path)
-            throws MalformedURLException {
+        throws MalformedURLException {
 
         return (new URL(serverURL(request), request.getContextPath() + path));
 
@@ -73,25 +68,23 @@ public class RequestUtils {
      *
      * @param className Fully qualified class name to be loaded
      * @return Class object
-     *
-     * @exception ClassNotFoundException if the class cannot be found
+     * @throws ClassNotFoundException if the class cannot be found
      */
     public static Class applicationClass(String className) throws ClassNotFoundException {
         return applicationClass(className, null);
     }
 
-   /**
+    /**
      * <p>Return the <code>Class</code> object for the specified fully qualified
      * class name, from this web application's class loader.</p>
      *
-     * @param className Fully qualified class name to be loaded
+     * @param className   Fully qualified class name to be loaded
      * @param classLoader The desired classloader to use
      * @return Class object
-     *
-     * @exception ClassNotFoundException if the class cannot be found
+     * @throws ClassNotFoundException if the class cannot be found
      */
-    public static Class applicationClass(String className, ClassLoader classLoader) 
-            throws ClassNotFoundException {
+    public static Class applicationClass(String className, ClassLoader classLoader)
+        throws ClassNotFoundException {
 
         if (classLoader == null) {
             // Look up the class loader to be used
@@ -99,7 +92,7 @@ public class RequestUtils {
             if (classLoader == null) {
                 classLoader = RequestUtils.class.getClassLoader();
             }
-        }    
+        }
 
         // Attempt to load the specified class
         return (classLoader.loadClass(className));
@@ -114,44 +107,42 @@ public class RequestUtils {
      * constructor.</p>
      *
      * @param className Fully qualified class name to use
-     *
      * @return new instance of class
-     * @exception ClassNotFoundException if the class cannot be found
-     * @exception IllegalAccessException if the class or its constructor
-     *  is not accessible
-     * @exception InstantiationException if this class represents an
-     *  abstract class, an interface, an array class, a primitive type,
-     *  or void
-     * @exception InstantiationException if this class has no
-     *  zero-arguments constructor
+     * @throws ClassNotFoundException if the class cannot be found
+     * @throws IllegalAccessException if the class or its constructor
+     *                                is not accessible
+     * @throws InstantiationException if this class represents an
+     *                                abstract class, an interface, an array class, a primitive type,
+     *                                or void
+     * @throws InstantiationException if this class has no
+     *                                zero-arguments constructor
      */
     public static Object applicationInstance(String className)
-            throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
         return applicationInstance(className, null);
     }
 
-   /**
+    /**
      * <p>Return a new instance of the specified fully qualified class name,
      * after loading the class from this web application's class loader.
      * The specified class <strong>MUST</strong> have a public zero-arguments
      * constructor.</p>
      *
-     * @param className Fully qualified class name to use
+     * @param className   Fully qualified class name to use
      * @param classLoader The desired classloader to use
-     *
      * @return new instance of class
-     * @exception ClassNotFoundException if the class cannot be found
-     * @exception IllegalAccessException if the class or its constructor
-     *  is not accessible
-     * @exception InstantiationException if this class represents an
-     *  abstract class, an interface, an array class, a primitive type,
-     *  or void
-     * @exception InstantiationException if this class has no
-     *  zero-arguments constructor
+     * @throws ClassNotFoundException if the class cannot be found
+     * @throws IllegalAccessException if the class or its constructor
+     *                                is not accessible
+     * @throws InstantiationException if this class represents an
+     *                                abstract class, an interface, an array class, a primitive type,
+     *                                or void
+     * @throws InstantiationException if this class has no
+     *                                zero-arguments constructor
      */
     public static Object applicationInstance(String className, ClassLoader classLoader)
-            throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
         return (applicationClass(className, classLoader).newInstance());
 
@@ -191,9 +182,8 @@ public class RequestUtils {
      * to <code>HttpServletRequest.getRequestURL</code> in Servlet 2.3.</p>
      *
      * @param request The servlet request we are processing
-
      * @return URL representing the current request
-     * @exception MalformedURLException if a URL cannot be created
+     * @throws MalformedURLException if a URL cannot be created
      */
     public static URL requestURL(HttpServletRequest request) throws MalformedURLException {
 
@@ -209,10 +199,9 @@ public class RequestUtils {
      * appending the server-relative path (starting with '/') to this.</p>
      *
      * @param request The servlet request we are processing
-     *
      * @return URL representing the scheme, server, and port number of
-     *     the current request
-     * @exception MalformedURLException if a URL cannot be created
+     *         the current request
+     * @throws MalformedURLException if a URL cannot be created
      */
     public static URL serverURL(HttpServletRequest request) throws MalformedURLException {
 
@@ -228,15 +217,14 @@ public class RequestUtils {
      * appending the server-relative path (starting with '/') to this.</p>
      *
      * @param request The servlet request we are processing
-
      * @return URL representing the scheme, server, and port number of
-     *     the current request
+     *         the current request
      * @since Struts 1.2.0
      */
     public static StringBuffer requestToServerUriStringBuffer(HttpServletRequest request) {
 
-        StringBuffer serverUri = createServerUriStringBuffer(request.getScheme(),request.getServerName(),
-        request.getServerPort(),request.getRequestURI());
+        StringBuffer serverUri = createServerUriStringBuffer(request.getScheme(), request.getServerName(),
+            request.getServerPort(), request.getRequestURI());
         return serverUri;
 
     }
@@ -247,14 +235,13 @@ public class RequestUtils {
      * appending the server-relative path (starting with '/') to this.</p>
      *
      * @param request The servlet request we are processing
-     *
      * @return URL representing the scheme, server, and port number of
-     *     the current request
+     *         the current request
      * @since Struts 1.2.0
      */
     public static StringBuffer requestToServerStringBuffer(HttpServletRequest request) {
 
-        return createServerStringBuffer(request.getScheme(),request.getServerName(),request.getServerPort());
+        return createServerStringBuffer(request.getScheme(), request.getServerName(), request.getServerPort());
 
     }
 
@@ -265,12 +252,11 @@ public class RequestUtils {
      *
      * @param scheme The scheme name to use
      * @param server The server name to use
-     * @param port The port value to use
-     *
+     * @param port   The port value to use
      * @return StringBuffer in the form scheme: server: port
      * @since Struts 1.2.0
      */
-    public static StringBuffer createServerStringBuffer(String scheme,String server,int port) {
+    public static StringBuffer createServerStringBuffer(String scheme, String server, int port) {
 
         StringBuffer url = new StringBuffer();
         if (port < 0) {
@@ -294,15 +280,14 @@ public class RequestUtils {
      *
      * @param scheme The scheme name to use
      * @param server The server name to use
-     * @param port The port value to use
-     * @param uri The uri value to use
-     *
+     * @param port   The port value to use
+     * @param uri    The uri value to use
      * @return StringBuffer in the form scheme: server: port
      * @since Struts 1.2.0
      */
-    public static StringBuffer createServerUriStringBuffer(String scheme,String server,int port,String uri) {
+    public static StringBuffer createServerUriStringBuffer(String scheme, String server, int port, String uri) {
 
-        StringBuffer serverUri = createServerStringBuffer(scheme,server,port);
+        StringBuffer serverUri = createServerStringBuffer(scheme, server, port);
         serverUri.append(uri);
         return serverUri;
 

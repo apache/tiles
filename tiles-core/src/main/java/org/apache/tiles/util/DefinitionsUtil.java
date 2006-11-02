@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.util;
+
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.DefinitionsFactoryConfig;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.taglib.ComponentConstants;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -24,48 +32,49 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.taglib.ComponentConstants;
-
 /**
  * Utilities class for definitions impl.
  * Also define userDebugLevel property (TODO to be moved from this class ?).
+ *
  * @deprecated Use {@link TilesUtil#createDefinitionsFactory(DefinitionsFactoryConfig)}
  */
 public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
 
-    /** 
+    /**
      * Global user defined debug level.
-     * @deprecated This will be removed in a release after Struts 1.2. 
+     *
+     * @deprecated This will be removed in a release after Struts 1.2.
      */
     public static int userDebugLevel = 0;
 
-    /** 
-     * User Debug level. 
-     * @deprecated This will be removed in a release after Struts 1.2. 
+    /**
+     * User Debug level.
+     *
+     * @deprecated This will be removed in a release after Struts 1.2.
      */
     public static final int NO_DEBUG = 0;
 
-    /** 
-     * Name of init property carrying debug level. 
+    /**
+     * Name of init property carrying debug level.
      */
     public static final String DEFINITIONS_CONFIG_USER_DEBUG_LEVEL =
         "definitions-debug";
 
-    /** 
+    /**
      * Name of init property carrying impl class name.
      */
     public static final String DEFINITIONS_FACTORY_CLASSNAME =
         "definitions-impl-class";
 
-    /** 
+    /**
      * Constant name used to store impl in context.
      */
     public static final String DEFINITIONS_FACTORY =
         "org.apache.tiles.DEFINITIONS_FACTORY";
 
-    /** 
+    /**
      * Constant name used to store definition in jsp context.
-     * Used to pass definition from a Struts action to servlet forward. 
+     * Used to pass definition from a Struts action to servlet forward.
      */
     public static final String ACTION_DEFINITION =
         "org.apache.tiles.ACTION_DEFINITION";
@@ -74,9 +83,10 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * Create Definition impl.
      * If a impl class name is provided, a impl of this class is created. Otherwise,
      * default impl is created.
-     * @param classname Class name of the impl to create.
+     *
+     * @param classname    Class name of the impl to create.
      * @param tilesContext The current Tiles application context.
-     * @param properties Map of name/property used to initialize impl configuration object.
+     * @param properties   Map of name/property used to initialize impl configuration object.
      * @return newly created impl.
      * @throws DefinitionsFactoryException If an error occur while initializing impl
      * @deprecated Use createDefinitionsFactory(ServletContext servletContext, ServletConfig servletConfig)
@@ -109,8 +119,9 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
 
     /**
      * Create default Definition impl.
+     *
      * @param tilesContext The current Tiles application context.
-     * @param properties Map of name/property used to initialize impl configuration object.
+     * @param properties   Map of name/property used to initialize impl configuration object.
      * @return newly created impl of type ConfigurableDefinitionsFactory.
      * @throws DefinitionsFactoryException If an error occur while initializing impl
      */
@@ -126,7 +137,7 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * Create Definition impl.
      * Create configuration object from servlet web.xml file, then create
      * ConfigurableDefinitionsFactory and initialized it with object.
-     * <p>
+     * <p/>
      * Convenience method. Calls createDefinitionsFactory(ServletContext servletContext, DefinitionsFactoryConfig factoryConfig)
      *
      * @param tilesContext The current Tiles application context.
@@ -143,9 +154,9 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
     }
 
 
-
     /**
      * Get Definition stored in jsp context by an action.
+     *
      * @return ComponentDefinition or null if not found.
      */
     public static ComponentDefinition getActionDefinition(TilesRequestContext tilesContext) {
@@ -176,12 +187,14 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
 
     /**
      * Populate Definition Factory Config from web.xml properties.
+     *
      * @param factoryConfig Definition Factory Config to populate.
-     * @param tilesContext The current Tiles application context.
-     * @exception IllegalAccessException if the caller does not have
-     *  access to the property accessor method
-     * @exception java.lang.reflect.InvocationTargetException if the property accessor method
-     *  throws an exception
+     * @param tilesContext  The current Tiles application context.
+     * @throws IllegalAccessException if the caller does not have
+     *                                access to the property accessor method
+     * @throws java.lang.reflect.InvocationTargetException
+     *                                if the property accessor method
+     *                                throws an exception
      * @see org.apache.commons.beanutils.BeanUtils
      * @since tiles 20020708
      */
@@ -198,8 +211,8 @@ public class DefinitionsUtil extends TilesUtil implements ComponentConstants {
      * Create FactoryConfig and initialize it from web.xml.
      *
      * @param tilesContext the current Tiles application context.
-     * @exception DefinitionsFactoryException if this <code>PlugIn</code> cannot
-     *  be successfully initialized
+     * @throws DefinitionsFactoryException if this <code>PlugIn</code> cannot
+     *                                     be successfully initialized
      */
     protected static DefinitionsFactoryConfig readFactoryConfig(TilesApplicationContext tilesContext)
         throws DefinitionsFactoryException {

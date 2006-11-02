@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.tiles.mock;
+package org.apache.tiles.definition;
 
-import org.apache.tiles.ComponentDefinitions;
-import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.TilesRequestContext;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 
@@ -35,7 +35,7 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
      * Exposes the <code>addDefinitions</code> method of
      * <code>UrlDefinitionsFactory</code>
      * 
-     * @see org.apache.tiles.definition.UrlDefinitionsFactory#addDefinitions(org.apache.tiles.ComponentDefinitions,
+     * @see org.apache.tiles.definition.UrlDefinitionsFactory#addDefinitions(org.apache.tiles.definition.ComponentDefinitions,
      *      org.apache.tiles.TilesRequestContext)
      */
     public void addDefinitions(ComponentDefinitions definitions,

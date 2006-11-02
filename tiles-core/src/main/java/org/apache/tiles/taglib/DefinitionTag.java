@@ -18,11 +18,11 @@
 
 package org.apache.tiles.taglib;
 
-import javax.servlet.jsp.JspException;
-
+import org.apache.tiles.definition.ComponentAttribute;
+import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.taglib.util.TagUtils;
-import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.ComponentAttribute;
+
+import javax.servlet.jsp.JspException;
 
 /**
  * This is the tag handler for &lt;tiles:definition&gt;, which defines
@@ -105,14 +105,14 @@ public class DefinitionTag
         ComponentAttribute def = null;
 
         if (attributeValue != null
-                && attributeValue instanceof ComponentAttribute) {
+            && attributeValue instanceof ComponentAttribute) {
             def = ((ComponentAttribute) attributeValue);
             if (nestedTag.getRole() != null) {
                 def.setRole(nestedTag.getRole());
             }
         } else {
             def = new ComponentAttribute(attributeValue, nestedTag.getRole(),
-                    nestedTag.getType());
+                nestedTag.getType());
         }
 
         // now add attribute to enclosing parent (i.e. : this object)
@@ -149,6 +149,7 @@ public class DefinitionTag
 
     /**
      * Get the ID.
+     *
      * @return ID
      */
     public String getName() {
@@ -157,15 +158,16 @@ public class DefinitionTag
 
     /**
      * Set the ID.
-     * 
-     * @param name New ID.
+     *
+     * @param name New name.
      */
-    public void setName(String id) {
-        this.name = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
      * Get the scope.
+     *
      * @return Scope.
      */
     public String getScope() {
@@ -174,6 +176,7 @@ public class DefinitionTag
 
     /**
      * Set the scope.
+     *
      * @param aScope Scope.
      */
     public void setScope(String aScope) {
@@ -182,6 +185,7 @@ public class DefinitionTag
 
     /**
      * Set <code>extends</code> (parent) definition name.
+     *
      * @param definitionName Name of parent definition.
      */
     public void setExtends(String definitionName) {
@@ -190,6 +194,7 @@ public class DefinitionTag
 
     /**
      * Get <code>extends</code> (parent) definition name.
+     *
      * @return Name of parent definition.
      */
     public String getExtends() {
@@ -198,6 +203,7 @@ public class DefinitionTag
 
     /**
      * Process the start tag by creating a new definition.
+     *
      * @throws JspException On errors processing tag.
      */
     public int doStartTag() throws JspException {
@@ -226,6 +232,7 @@ public class DefinitionTag
 
     /**
      * Process the end tag by putting the definition in appropriate context.
+     *
      * @throws JspException On errors processing tag.
      */
     public int doEndTag() throws JspException {

@@ -18,13 +18,14 @@
 package org.apache.tiles;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Encapsulation of request information.
- * @since 2.0
+ *
  * @version $Rev$
+ * @since 2.0
  */
 public interface TilesRequestContext {
 

@@ -18,17 +18,14 @@
 
 package org.apache.tiles.context.servlet;
 
+import org.apache.tiles.TilesRequestContext;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.tiles.TilesRequestContext;
 
 /**
  * Servlet-bsed implementation of the TilesApplicationContext interface.
@@ -68,7 +65,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
      */
     private Map paramValues = null;
 
-     /**
+    /**
      * <p>The lazily instantiated <code>Map</code> of request scope
      * attributes.</p>
      */
@@ -81,7 +78,9 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     private Map sessionScope = null;
 
 
-    /** Creates a new instance of ServletTilesRequestContext */
+    /**
+     * Creates a new instance of ServletTilesRequestContext
+     */
     public ServletTilesRequestContext(ServletContext servletContext,
                                       HttpServletRequest request,
                                       HttpServletResponse response) {
@@ -183,8 +182,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
      * <p>Initialize (or reinitialize) this {@link ServletTilesRequestContext} instance
      * for the specified Servlet API objects.</p>
      *
-
-     * @param request The <code>HttpServletRequest</code> for this request
+     * @param request  The <code>HttpServletRequest</code> for this request
      * @param response The <code>HttpServletResponse</code> for this request
      */
     public void initialize(HttpServletRequest request,

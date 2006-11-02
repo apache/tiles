@@ -50,8 +50,8 @@ public class MapEntry implements Map.Entry {
     /**
      * <p>Creates a map entry that can either allow modifications or not.</p>
      *
-     * @param key The entry key
-     * @param value The entry value
+     * @param key        The entry key
+     * @param value      The entry value
      * @param modifiable Whether the entry should allow modification or not
      */
     public MapEntry(Object key, Object value, boolean modifiable) {
@@ -107,10 +107,10 @@ public class MapEntry implements Map.Entry {
      */
     public boolean equals(Object o) {
         if (o != null && o instanceof Map.Entry) {
-            Map.Entry entry = (Map.Entry)o;
+            Map.Entry entry = (Map.Entry) o;
             return (this.getKey() == null ?
-                    entry.getKey() == null : this.getKey().equals(entry.getKey()))  &&
-                   (this.getValue() == null ?
+                entry.getKey() == null : this.getKey().equals(entry.getKey())) &&
+                (this.getValue() == null ?
                     entry.getValue() == null : this.getValue().equals(entry.getValue()));
         }
         return false;
@@ -123,7 +123,7 @@ public class MapEntry implements Map.Entry {
      * @return The and'ed hashcode of the key and value
      */
     public int hashCode() {
-        return (this.getKey() == null   ? 0 : this.getKey().hashCode()) ^
-               (this.getValue() == null ? 0 : this.getValue().hashCode());
+        return (this.getKey() == null ? 0 : this.getKey().hashCode()) ^
+            (this.getValue() == null ? 0 : this.getValue().hashCode());
     }
 }

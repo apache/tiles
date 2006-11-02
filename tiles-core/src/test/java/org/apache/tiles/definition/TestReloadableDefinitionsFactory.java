@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.definition;
 
 import java.io.*;
 import java.net.URI;
@@ -28,6 +28,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
+import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.ReloadableDefinitionsFactory;
 
 /**
  * Tests the reloadable definitions impl.

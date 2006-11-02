@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 
-package org.apache.tiles;
+package org.apache.tiles.preparer;
 
-import java.io.IOException;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.TilesRequestContext;
 
 /**
  * Basic implementation of ViewPreparer.  Implementations can extend this class
- * to insulate themselves from changes in the <code>ViewPreparer</code> 
+ * to insulate themselves from changes in the <code>ViewPreparer</code>
  * interface.
  */
 public class ViewPreparerSupport implements ViewPreparer {
@@ -30,7 +31,7 @@ public class ViewPreparerSupport implements ViewPreparer {
     /**
      * Stubs out preparer method.
      */
-    public void execute(TilesRequestContext tilesContext, 
-            ComponentContext componentContext) throws Exception {
+    public void execute(TilesRequestContext tilesContext,
+                        ComponentContext componentContext) throws Exception {
     }
 }
