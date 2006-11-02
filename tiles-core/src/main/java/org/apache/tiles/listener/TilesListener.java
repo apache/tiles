@@ -95,6 +95,7 @@ public class TilesListener implements ServletContextListener {
             TilesAccess.setApplicationContext(context, tilesContext);
             TilesUtil.setTilesUtil(new TilesUtilImpl(tilesContext));
             initDefinitionsFactory(context, fconfig);
+            initPreparerFactory();
         }
         catch (Exception ex) {
             saveExceptionMessage(event.getServletContext(), ex);
@@ -168,6 +169,11 @@ public class TilesListener implements ServletContextListener {
             throw new ServletException(ex.getMessage(), ex);
         }
     }
+
+    private void initPreparerFactory() {
+        TilesUtil.createPreparerFactory();
+    }
+    
 
 
     /**
