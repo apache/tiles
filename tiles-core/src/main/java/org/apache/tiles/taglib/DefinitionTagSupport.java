@@ -29,13 +29,9 @@ import java.io.Serializable;
  */
 public class DefinitionTagSupport extends TagSupport implements Serializable {
     /**
-     * Associated ViewPreparer type
-     */
-    protected String preparerType;
-    /**
      * Associated ViewPreparer name (classname or url)
      */
-    protected String preparerName;
+    protected String preparer;
     /**
      * Role associated to definition.
      */
@@ -51,88 +47,38 @@ public class DefinitionTagSupport extends TagSupport implements Serializable {
      */
     public void release() {
         super.release();
-        preparerType = null;
-        preparerName = null;
+        preparer = null;
         role = null;
     }
 
     /**
-     * Get preparer type.
+     * Get preparerInstance type.
      * Type can be 'classname', 'url'.
      *
      * @return ViewPreparer type.
      */
-    public String getPreparerType() {
-        return preparerType;
-    }
 
     /**
-     * Get preparer name.
+     * Get preparerInstance name.
      * Name denotes a fully qualified classname, or an url.
-     * Exact type can be specified with {@link #setPreparerType}.
+     * Exact type can be specified with {@link #setPreparer}.
      *
      * @return ViewPreparer name.
      */
-    public String getPreparerName() {
-        return preparerName;
+    public String getPreparer() {
+        return preparer;
     }
 
-    /**
-     * Set associated preparer type.
-     * Type denotes a fully qualified classname.
-     *
-     * @param preparerType Type of associated preparer.
-     */
-    public void setPreparerType(String preparerType) {
-        this.preparerType = preparerType;
-    }
 
     /**
-     * Set associated preparer name.
-     * Name denotes a fully qualified classname, or an url.
-     * Exact type can be specified with {@link #setPreparerType}.
-     *
-     * @param preparer ViewPreparer classname or url.
-     */
-    public void setPreparer(String preparer) {
-        setPreparerName(preparer);
-    }
-
-    /**
-     * Set associated preparer name.
+     * Set associated preparerInstance name.
      * Name denote a fully qualified classname, or an url.
      * Exact type can be specified with setPreparerType.
      *
      * @param preparer ViewPreparer classname or url
      */
-    public void setPreparerName(String preparer) {
-        this.preparerName = preparer;
-    }
-
-    /**
-     * Set associated preparer name as an url, and preparer
-     * type as "url".
-     * Name must be an url (not checked).
-     * Convenience method.
-     *
-     * @param preparer ViewPreparer url
-     */
-    public void setPreparerUrl(String preparer) {
-        setPreparerName(preparer);
-        setPreparerType("url");
-    }
-
-    /**
-     * Set associated preparer name as a classtype and preparer
-     * type as "classname".
-     * Name denotes a fully qualified classname.
-     * Convenience method.
-     *
-     * @param preparer ViewPreparer classname.
-     */
-    public void setPreparerClass(String preparer) {
-        setPreparerName(preparer);
-        setPreparerType("classname");
+    public void setPreparer(String preparer) {
+        this.preparer = preparer;
     }
 
     /**

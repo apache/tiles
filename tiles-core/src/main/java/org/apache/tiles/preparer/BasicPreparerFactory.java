@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * Default implementation of the {@link PreparerFactory}.
  * This factory provides no contextual configuration.  It
- * simply instantiates the named preparer and returns it.
+ * simply instantiates the named preparerInstance and returns it.
  */
 public class BasicPreparerFactory implements PreparerFactory {
 
@@ -45,10 +45,10 @@ public class BasicPreparerFactory implements PreparerFactory {
 
 
     /**
-     * Create a new instance of the named preparer.  This factory
+     * Create a new instance of the named preparerInstance.  This factory
      * expects all names to be qualified class names.
      *
-     * @param name    the named preparer
+     * @param name    the named preparerInstance
      * @param context
      * @return
      * @throws NoSuchPreparerException

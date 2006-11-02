@@ -32,7 +32,6 @@ import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
 
 import javax.servlet.jsp.PageContext;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -170,17 +169,17 @@ public class BasicTilesContainer implements TilesContainer {
     /**
      * Standard Getter
      *
-     * @return return the preparer factory used by this container.
+     * @return return the preparerInstance factory used by this container.
      */
     public PreparerFactory getPreparerFactory() {
         return preparerFactory;
     }
 
     /**
-     * Set the preparer factory.  This method first ensures
+     * Set the preparerInstance factory.  This method first ensures
      * that the container has not yet been initialized.
      *
-     * @param preparerFactory the preparer factory for this conainer.
+     * @param preparerFactory the preparerInstance factory for this conainer.
      */
     public void setPreparerFactory(PreparerFactory preparerFactory) {
         this.preparerFactory = preparerFactory;
@@ -209,7 +208,7 @@ public class BasicTilesContainer implements TilesContainer {
         ViewPreparer preparer = preparerFactory.getPreparer(preparerName, null);
         ComponentContext componentContext = ComponentContext.getContext(context);
 
-        // TODO: Temporary while preparer gets refactored to throw a more specific exception.
+        // TODO: Temporary while preparerInstance gets refactored to throw a more specific exception.
         try {
             preparer.execute(context, componentContext);
         } catch (Exception e) {
@@ -259,13 +258,7 @@ public class BasicTilesContainer implements TilesContainer {
         ComponentContext.setContext(subContext, request);
 
         try {
-            ViewPreparer preparer = definition.getOrCreatePreparer();
-            if (preparer != null) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Executing tiles preparer [" + preparer + "]");
-                }
-                preparer.execute(request, subContext);
-            }
+            prepare(request, definition.getPreparer());
 
             String dispatchPath = definition.getPath();
             request.dispatch(dispatchPath);
@@ -273,7 +266,7 @@ public class BasicTilesContainer implements TilesContainer {
         } catch (TilesException e) {
             throw e;
         } catch (Exception e) {
-            // TODO it would be nice to make the preparer throw a more specific
+            // TODO it would be nice to make the preparerInstance throw a more specific
             // tiles exception so that it doesn't need to be rethrown.
             throw new TilesException(e.getMessage(), e);
         } finally {

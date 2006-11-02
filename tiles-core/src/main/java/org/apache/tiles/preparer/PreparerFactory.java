@@ -39,9 +39,9 @@ public interface PreparerFactory {
      * Create the named {link ViewPreparer} for the specified context.
      *
      * @param name    ViewPreparer name, commonly the qualified classname.
-     * @param context the context within which the preparer will be invoked.
+     * @param context the context within which the preparerInstance will be invoked.
      * @return instance of the ViewPreparer
-     * @throws NoSuchPreparerException when the named preparer can not be found.
+     * @throws NoSuchPreparerException when the named preparerInstance can not be found.
      */
     ViewPreparer getPreparer(String name, TilesRequestContext context)
         throws NoSuchPreparerException;

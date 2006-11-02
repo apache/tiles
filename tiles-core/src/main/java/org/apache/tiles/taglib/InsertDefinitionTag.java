@@ -94,7 +94,7 @@ public class InsertDefinitionTag extends BaseInsertTag {
      * @throws JspException- DefinedComponentFactoryException General error in
      *                       factory.
      * @throws JspException  InstantiationException Can't create requested
-     *                       preparer
+     *                       preparerInstance
      */
     protected TagHandler processDefinitionName(String name) throws JspException {
 

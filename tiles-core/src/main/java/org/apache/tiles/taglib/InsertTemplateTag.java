@@ -42,9 +42,9 @@ public class InsertTemplateTag extends BaseInsertTag {
     /**
      * Process the url.
      *
-     * @throws JspException If failed to create preparer
+     * @throws JspException If failed to create preparerInstance
      */
     protected TagHandler processUrl(String url) throws JspException {
-        return new InsertHandler(url, role, getPreparer());
+        return new InsertHandler(url, role, getPreparerInstance());
     }
 }

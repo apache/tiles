@@ -20,7 +20,7 @@
 package org.apache.tiles.preparer;
 
 /**
- * Thrown when the named preparer can not be found.
+ * Thrown when the named preparerInstance can not be found.
  *
  * @version $Id$
  * @since 2.0

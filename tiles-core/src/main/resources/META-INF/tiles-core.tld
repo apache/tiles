@@ -92,15 +92,14 @@
          ]]>
          </description>
       </attribute>
+
       <attribute>
-         <name>preparerUrl</name>
+         <name>preparer</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>preparerClass</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
+          <description>
+              The fully qualified class name of the preparer.
+          </description>
       </attribute>
    </tag>
    <tag>
@@ -195,15 +194,14 @@
          ]]>
          </description>
       </attribute>
+
       <attribute>
-         <name>preparerUrl</name>
+         <name>preparer</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>preparerClass</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
+          <description>
+              The fully qualified class name of preparer.
+          </description>
       </attribute>
    </tag>
    <tag>
@@ -295,14 +293,12 @@
          </description>
       </attribute>
       <attribute>
-         <name>preparerUrl</name>
+         <name>preparer</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <name>preparerClass</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
+          <description>
+              The fully qualified name of the preparer.
+          </description>
       </attribute>
    </tag>
    <tag>

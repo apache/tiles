@@ -367,7 +367,6 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
             child.setRole(parent.getRole());
         if (child.getPreparer() == null) {
             child.setPreparer(parent.getPreparer());
-            child.setPreparerType(parent.getPreparerType());
         }
     }
 }

@@ -27,6 +27,8 @@ import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesRequestContext;
 import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.preparer.NoSuchPreparerException;
+import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.taglib.util.TagUtils;
 import org.apache.tiles.util.TilesUtil;
 
@@ -253,22 +255,21 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
     }
 
     /**
-     * Get instantiated ViewPreparer. Return preparer denoted by preparerType,
+     * Get instantiated ViewPreparer. Return preparerInstance denoted by preparerType,
      * or <code>null</code> if preparerType is null.
      *
-     * @throws JspException If preparer can't be created.
+     * @throws JspException If preparerInstance can't be created.
      */
-    protected ViewPreparer getPreparer() throws JspException {
-        if (preparerType == null) {
+    protected ViewPreparer getPreparerInstance() throws JspException {
+        if (preparer == null) {
             return null;
         }
 
         try {
-            return ComponentDefinition.createPreparer(preparerName,
-                preparerType);
-
-        } catch (InstantiationException ex) {
-            throw new JspException(ex);
+            PreparerFactory f = TilesUtil.getPreparerFactory();
+            return f.getPreparer(preparer, null);
+        } catch (NoSuchPreparerException e) {
+            throw new JspException(e);
         }
     }
 
@@ -343,17 +344,16 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
      * @param definition Definition to process.
      * @return Appropriate TagHandler.
      * @throws JspException InstantiationException Can't create requested
-     *                      preparer
+     *                      preparerInstance
      */
     protected TagHandler processDefinition(ComponentDefinition definition)
         throws JspException {
         // Declare local variable in order to not change Tag attribute values.
         String role = this.role;
         String page = this.template;
-        ViewPreparer preparer = null;
+        ViewPreparer viewPreparer = null;
 
         try {
-            preparer = definition.getOrCreatePreparer();
 
             // Overload definition with tag's template and role.
             if (role == null) {
@@ -364,17 +364,16 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
                 page = definition.getTemplate();
             }
 
-            if (preparerName != null) {
-                preparer = ComponentDefinition.createPreparer(preparerName,
-                    preparerType);
+            if (preparer != null) {
+                viewPreparer = TilesUtil.getPreparerFactory()
+                    .getPreparer(definition.getPreparer(), null);
             }
 
             // Can check if page is set
             return new InsertHandler(definition.getAttributes(), page, role,
-                preparer);
-
-        } catch (InstantiationException ex) {
-            throw new JspException(ex);
+                viewPreparer);
+        } catch (NoSuchPreparerException e) {
+            throw new JspException(e);
         }
     }
 
@@ -449,7 +448,7 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
 
         protected String role;
 
-        protected ViewPreparer preparer;
+        protected ViewPreparer preparerInstance;
 
         /**
          * Constructor. Create insert handler using Component definition.
@@ -459,7 +458,7 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
 
             this.page = page;
             this.role = role;
-            this.preparer = preparer;
+            this.preparerInstance = preparer;
             subCompContext = new ComponentContext(attributes);
         }
 
@@ -470,7 +469,7 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
         public InsertHandler(String page, String role, ViewPreparer preparer) {
             this.page = page;
             this.role = role;
-            this.preparer = preparer;
+            this.preparerInstance = preparer;
             subCompContext = new ComponentContext();
         }
 
@@ -519,12 +518,12 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
                 pageContext.setAttribute(ComponentConstants.COMPONENT_CONTEXT,
                     subCompContext, PageContext.REQUEST_SCOPE);
 
-                // Call preparer if any
-                if (preparer != null) {
+                // Call preparerInstance if any
+                if (preparerInstance != null) {
                     try {
                         TilesRequestContext tilesContext = TagUtils
                             .getTilesRequestContext(pageContext);
-                        preparer.execute(tilesContext, subCompContext);
+                        preparerInstance.execute(tilesContext, subCompContext);
                     } catch (Exception e) {
                         throw new ServletException(e);
                     }

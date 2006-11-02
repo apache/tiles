@@ -23,12 +23,12 @@ import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesRequestContext;
 
 /**
- * Tiles preparer including a local URL.
+ * Tiles preparerInstance including a local URL.
  */
 public class UrlViewPreparer implements ViewPreparer {
 
     /**
-     * URL associated with this preparer.
+     * URL associated with this preparerInstance.
      */
     protected String url = null;
 

@@ -23,7 +23,6 @@ package org.apache.tiles.util;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesRequestContext;
 import org.apache.tiles.preparer.PreparerFactory;
-import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.definition.*;
 
 import javax.servlet.jsp.PageContext;
@@ -167,7 +166,7 @@ public class TilesUtil {
     }
 
     /**
-     * Get preparer factory
+     * Get preparerInstance factory
      */
     public static PreparerFactory getPreparerFactory() {
         return tilesUtilImpl.getPreparerFactory();

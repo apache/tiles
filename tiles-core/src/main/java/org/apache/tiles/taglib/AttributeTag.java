@@ -146,7 +146,7 @@ public class AttributeTag extends BaseInsertTag {
             return processDefinition((ComponentDefinition) value.getValue());
         } else {
             return new InsertHandler((String) value.getValue(), role,
-                getPreparer());
+                getPreparerInstance());
         }
     }
 

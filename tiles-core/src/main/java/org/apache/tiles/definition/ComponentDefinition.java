@@ -22,10 +22,6 @@ package org.apache.tiles.definition;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.definition.ComponentAttribute;
-import org.apache.tiles.preparer.UrlViewPreparer;
-import org.apache.tiles.preparer.ViewPreparer;
-import org.apache.tiles.util.RequestUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -74,36 +70,9 @@ public class ComponentDefinition implements Serializable {
     protected String preparer = null;
 
     /**
-     * Associated ViewPreparer typename, if preparerName defined.
-     * Can be PREPARER, ACTION or URL, or null.
-     */
-    protected String preparerType = null;
-
-    /**
      * Used for resolving inheritance.
      */
     private boolean isVisited = false;
-
-    /**
-     * ViewPreparer name type.
-     */
-    public static final String URL = "url";
-
-    /**
-     * ViewPreparer name type.
-     */
-    public static final String PREPARER = "preparer";
-
-    /**
-     * ViewPreparer name type.
-     */
-    public static final String ACTION = "action";
-
-    /**
-     * ViewPreparer associated to Definition.
-     * Lazy creation : only on first request
-     */
-    private ViewPreparer preparerInstance = null;
 
     /**
      * Constructor.
@@ -123,9 +92,7 @@ public class ComponentDefinition implements Serializable {
         this.name = definition.getName();
         this.path = definition.getPath();
         this.role = definition.getRole();
-        this.preparerInstance = definition.getPreparerInstance();
         this.preparer = definition.getPreparer();
-        this.preparerType = definition.getPreparerType();
     }
 
     /**
@@ -332,207 +299,27 @@ public class ComponentDefinition implements Serializable {
             + path
             + ", role="
             + role
-            + ", preparer="
-            + preparer
-            + ", preparerType="
-            + preparerType
             + ", preparerInstance="
-            + preparerInstance
+            + preparer
             + ", attributes="
             + attributes
             + "}\n";
     }
 
     /**
-     * Get associated preparer type.
-     * Type denote a fully qualified classname.
-     */
-    public String getPreparerType() {
-        return preparerType;
-    }
-
-    /**
-     * Set associated preparer type.
-     * Type denote a fully qualified classname.
-     *
-     * @param preparerType Typeof associated preparer
-     */
-    public void setPreparerType(String preparerType) {
-        this.preparerType = preparerType;
-    }
-
-    /**
-     * Set associated preparer name as an url, and preparer
-     * type as "url".
-     * Name must be an url (not checked).
-     * Convenience method.
-     *
-     * @param preparer ViewPreparer url
-     */
-    public void setPreparerUrl(String preparer) {
-        setPreparer(preparer);
-        setPreparerType("url");
-    }
-
-    /**
-     * Set associated preparer name as a classtype, and preparer
-     * type as "classname".
-     * Name denote a fully qualified classname
-     * Convenience method.
-     *
-     * @param preparer ViewPreparer classname.
-     */
-    public void setPreparerClass(String preparer) {
-        setPreparer(preparer);
-        setPreparerType("classname");
-    }
-
-    /**
-     * Get associated preparer local URL.
-     * URL should be local to webcontainer in order to allow request context followup.
-     * URL comes as a string.
+     * Get associated preparerInstance
      */
     public String getPreparer() {
         return preparer;
     }
 
     /**
-     * Set associated preparer URL.
-     * URL should be local to webcontainer in order to allow request context followup.
-     * URL is specified as a string.
+     * Set associated preparerInstance URL.
      *
      * @param url Url called locally
      */
     public void setPreparer(String url) {
         this.preparer = url;
-    }
-
-    /**
-     * Get preparer instance.
-     *
-     * @return preparer instance.
-     */
-    public ViewPreparer getPreparerInstance() {
-        return preparerInstance;
-    }
-
-    /**
-     * Get or create preparer.
-     * Get preparer, create it if necessary.
-     *
-     * @return preparer if preparer or preparerType is set, null otherwise.
-     * @throws InstantiationException if an error occur while instanciating ViewPreparer :
-     *                                (classname can't be instanciated, Illegal access with instanciated class,
-     *                                Error while instanciating class, classname can't be instanciated.
-     */
-    public ViewPreparer getOrCreatePreparer() throws InstantiationException {
-
-        if (preparerInstance != null) {
-            return preparerInstance;
-        }
-
-        // Do we define a preparer ?
-        if (preparer == null && preparerType == null) {
-            return null;
-        }
-
-        // check parameters
-        if (preparerType != null && preparer == null) {
-            throw new InstantiationException("ViewPreparer name should be defined if preparerType is set");
-        }
-
-        preparerInstance = createPreparer(preparer, preparerType);
-
-        return preparerInstance;
-    }
-
-    /**
-     * Set preparer.
-     */
-    public void setPreparerInstance(ViewPreparer preparer) {
-        this.preparerInstance = preparer;
-    }
-
-    /**
-     * Create a new instance of preparer named in parameter.
-     * If preparerType is specified, create preparer accordingly.
-     * Otherwise, if name denote a classname, create an instance of it. If class is
-     * subclass of org.apache.struts.action.Action, wrap preparer
-     * appropriately.
-     * Otherwise, consider name as an url.
-     *
-     * @param name         ViewPreparer name (classname, url, ...)
-     * @param preparerType Expected ViewPreparer type
-     * @return org.apache.struts.tiles.ViewPreparer
-     * @throws InstantiationException if an error occur while instanciating ViewPreparer :
-     *                                (classname can't be instanciated, Illegal access with instanciated class,
-     *                                Error while instanciating class, classname can't be instanciated.
-     */
-    public static ViewPreparer createPreparer(String name, String preparerType)
-        throws InstantiationException {
-
-        if (log.isDebugEnabled()) {
-            log.debug("Create preparer name=" + name + ", type=" + preparerType);
-        }
-
-        ViewPreparer preparer = null;
-
-        if (preparerType == null) { // first try as a classname
-            try {
-                return createPreparerFromClassname(name);
-
-            } catch (InstantiationException ex) { // ok, try something else
-                preparer = new UrlViewPreparer(name);
-            }
-
-        } else if ("url".equalsIgnoreCase(preparerType)) {
-            preparer = new UrlViewPreparer(name);
-
-        } else if ("classname".equalsIgnoreCase(preparerType)) {
-            preparer = createPreparerFromClassname(name);
-        }
-
-        return preparer;
-    }
-
-    /**
-     * Create a preparer from specified classname
-     *
-     * @param classname ViewPreparer classname.
-     * @return org.apache.struts.tiles.ViewPreparer
-     * @throws InstantiationException if an error occur while instanciating ViewPreparer :
-     *                                (classname can't be instanciated, Illegal access with instanciated class,
-     *                                Error while instanciating class, classname can't be instanciated.
-     */
-    public static ViewPreparer createPreparerFromClassname(String classname)
-        throws InstantiationException {
-
-        try {
-            Class requestedClass = RequestUtils.applicationClass(classname);
-            Object instance = requestedClass.newInstance();
-
-            if (log.isDebugEnabled()) {
-                log.debug("ViewPreparer created : " + instance);
-            }
-            return (ViewPreparer) instance;
-
-        } catch (java.lang.ClassNotFoundException ex) {
-            throw new InstantiationException(
-                "Error - Class not found :" + ex.getMessage());
-
-        } catch (java.lang.IllegalAccessException ex) {
-            throw new InstantiationException(
-                "Error - Illegal class access :" + ex.getMessage());
-
-        } catch (java.lang.InstantiationException ex) {
-            throw ex;
-
-        } catch (java.lang.ClassCastException ex) {
-            throw new InstantiationException(
-                "ViewPreparer of class '"
-                    + classname
-                    + "' should implements 'ViewPreparer' or extends 'Action'");
-        }
     }
 
     /**
@@ -610,7 +397,6 @@ public class ComponentDefinition implements Serializable {
         }
         if (child.getPreparer() != null) {
             preparer = child.getPreparer();
-            preparerType = child.getPreparerType();
         }
         // put all child attributes in parent.
         attributes.putAll(child.getAttributes());

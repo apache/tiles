@@ -23,8 +23,8 @@ import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesRequestContext;
 
 /**
- * A preparer is a piece of code called before rendering a jsp page.
- * A preparer can be associated to a tile. See &lt;insert&gt; or
+ * A preparerInstance is a piece of code called before rendering a jsp page.
+ * A preparerInstance can be associated to a tile. See &lt;insert&gt; or
  * &lt;definition&gt; for association syntax.
  */
 public interface ViewPreparer {

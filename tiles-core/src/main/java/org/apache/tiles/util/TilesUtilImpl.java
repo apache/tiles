@@ -172,7 +172,7 @@ public class TilesUtilImpl implements Serializable {
     }
 
     /**
-     * Get preparer factory.
+     * Get preparerInstance factory.
      *
      * @return
      * @throws DefinitionsFactoryException

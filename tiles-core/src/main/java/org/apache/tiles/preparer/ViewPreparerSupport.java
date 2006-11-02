@@ -30,7 +30,7 @@ import org.apache.tiles.TilesRequestContext;
 public class ViewPreparerSupport implements ViewPreparer {
 
     /**
-     * Stubs out preparer method.
+     * Stubs out preparerInstance method.
      */
     public void execute(TilesRequestContext tilesContext,
                         ComponentContext componentContext) throws Exception {
