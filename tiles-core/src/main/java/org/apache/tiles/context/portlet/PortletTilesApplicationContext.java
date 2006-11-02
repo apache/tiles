@@ -27,6 +27,8 @@ import javax.portlet.PortletResponse;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
@@ -122,8 +124,10 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
         return context.getResource(path);
     }
 
-    public URL[] getResources(String path) throws MalformedURLException {
-        return new URL[]{context.getResource(path)};
+    public Set<URL> getResources(String path) throws MalformedURLException {
+        HashSet<URL> set = new HashSet<URL>();
+        set.add(getResource(path));
+        return set;
     }
 
     public TilesRequestContext createRequestContext(Object request, Object response) {

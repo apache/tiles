@@ -205,7 +205,7 @@ public class TilesUtilImpl implements Serializable {
                 String filename = (String) filenames.get(i);
                 factory.addSource(applicationContext.getResource(filename));
             }
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
             throw new DefinitionsFactoryException("Problem with filename URL: ", e);
         }
 

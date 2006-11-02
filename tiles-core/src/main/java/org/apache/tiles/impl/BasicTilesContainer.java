@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.io.IOException;
 
 /**
  * Basic implementation of the tiles container interface.
@@ -97,7 +98,7 @@ public class BasicTilesContainer implements TilesContainer {
                     definitionsFactory.addSource(resourceUrl);
                 }
             }
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
             throw new DefinitionsFactoryException("Unable to parse definitions from "
                 + resourceString, e);
         }

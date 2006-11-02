@@ -20,6 +20,8 @@ package org.apache.tiles;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Set;
+import java.io.IOException;
 
 /**
  * Defines a set of methods which tiles use to communicate to
@@ -54,7 +56,7 @@ public interface TilesApplicationContext {
      * @return the first located resource which matches the given path.
      * @throws java.net.MalformedURLException if the path is malformed
      */
-    URL getResource(String path) throws MalformedURLException;
+    URL getResource(String path) throws IOException;
 
     /**
      * Return a URL for the application resource mapped to the specified path.
@@ -63,5 +65,5 @@ public interface TilesApplicationContext {
      * @return all resources which match the given path.
      * @throws java.net.MalformedURLException if the url is illegal
      */
-    URL[] getResources(String path) throws MalformedURLException;
+    Set<URL> getResources(String path) throws IOException;
 }

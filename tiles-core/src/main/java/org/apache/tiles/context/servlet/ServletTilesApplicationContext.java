@@ -27,6 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Servlet-bsed implementation of the TilesApplicationContext interface.
@@ -83,8 +85,10 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
         return servletContext.getResource(path);
     }
 
-    public URL[] getResources(String path) throws MalformedURLException {
-        return new URL[]{servletContext.getResource(path)};
+    public Set<URL> getResources(String path) throws MalformedURLException {
+        HashSet<URL> urls = new HashSet<URL>();
+        urls.add(getResource(path));
+        return urls;
     }
 
     public ServletContext getServletContext() {
