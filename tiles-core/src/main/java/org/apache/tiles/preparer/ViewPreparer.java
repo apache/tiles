@@ -23,9 +23,22 @@ import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesRequestContext;
 
 /**
- * A preparerInstance is a piece of code called before rendering a jsp page.
- * A preparerInstance can be associated to a tile. See &lt;insert&gt; or
- * &lt;definition&gt; for association syntax.
+ * <p>
+ * Executed prior to rendering a view.
+ * </p>
+ *
+ * <p>
+ * A view preparer is typically used to provide last minute
+ * translations of the data within the Component or Tiles Context.
+ * A preparer is not intended to replace the controller within an
+ * MVC architecture.
+ * </p>
+ *
+ * See
+ * <ul>
+ * <li>&lt;insert&gt;</li>
+ * <li>&lt;definition&gt;</li>
+ * <li>
  */
 public interface ViewPreparer {
 

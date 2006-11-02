@@ -21,6 +21,16 @@ package org.apache.tiles.preparer;
 
 import org.apache.tiles.TilesException;
 
+/**
+ * <p>
+ * Thrown when an exception occurs while processing
+ * a prepare request.
+ * </p>
+ *
+ * @since Tiles 2.0
+ * @version $Rev$
+ *
+ */
 public class PreparerException extends TilesException {
 
     public PreparerException(String message) {

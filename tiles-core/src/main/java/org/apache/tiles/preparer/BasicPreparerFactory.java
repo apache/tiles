@@ -31,6 +31,9 @@ import java.util.Map;
  * Default implementation of the {@link PreparerFactory}.
  * This factory provides no contextual configuration.  It
  * simply instantiates the named preparerInstance and returns it.
+ *
+ * @since Tiles 2.0
+ * @version $Rev$
  */
 public class BasicPreparerFactory implements PreparerFactory {
 

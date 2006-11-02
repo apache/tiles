@@ -22,13 +22,17 @@ package org.apache.tiles.preparer;
 import org.apache.tiles.TilesRequestContext;
 
 /**
+ * <p>
  * Factory interface used to create/retrieve instances of
  * the {@link ViewPreparer} interface.
  * <p/>
+ *
+ * <p>
  * This factory provides an extension point into the default
  * tiles implementation. Implementors wishing to provide
  * per request initialization of the ViewPreparer (for instance)
  * may provide a custom prerparer.
+ * </p>
  *
  * @verion $Id$
  * @since 2.0

@@ -26,6 +26,9 @@ import org.apache.tiles.TilesRequestContext;
  * Basic implementation of ViewPreparer.  Implementations can extend this class
  * to insulate themselves from changes in the <code>ViewPreparer</code>
  * interface.
+ *
+ * @since Tiles 2.0
+ * @version $Rev$
  */
 public class ViewPreparerSupport implements ViewPreparer {
 
