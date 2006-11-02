@@ -21,7 +21,7 @@
 package org.apache.tiles.taglib;
 
 import org.apache.tiles.definition.ComponentAttribute;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.context.ComponentContext;
 import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.taglib.util.TagUtils;
 

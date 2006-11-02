@@ -23,7 +23,7 @@ package org.apache.tiles.taglib;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.definition.ComponentAttribute;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.context.ComponentContext;
 import org.apache.tiles.TilesRequestContext;
 import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.preparer.ViewPreparer;

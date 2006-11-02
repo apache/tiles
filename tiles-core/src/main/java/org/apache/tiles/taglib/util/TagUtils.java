@@ -20,7 +20,7 @@
 package org.apache.tiles.taglib.util;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.context.ComponentContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesRequestContext;
 import org.apache.tiles.access.TilesAccess;

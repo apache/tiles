@@ -18,9 +18,10 @@
  *
  */
 
-package org.apache.tiles;
+package org.apache.tiles.context;
 
 import org.apache.tiles.taglib.ComponentConstants;
+import org.apache.tiles.TilesRequestContext;
 
 import javax.servlet.jsp.PageContext;
 import java.io.Serializable;

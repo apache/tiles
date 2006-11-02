@@ -21,7 +21,7 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.context.ComponentContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;

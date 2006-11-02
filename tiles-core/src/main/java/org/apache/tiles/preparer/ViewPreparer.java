@@ -19,7 +19,7 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.context.ComponentContext;
 import org.apache.tiles.TilesRequestContext;
 
 /**
