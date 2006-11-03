@@ -63,7 +63,6 @@
         <module>tiles-api</module>
         <module>tiles-core</module>
         <module>tiles-test</module>
-        <module>tiles-container-test</module>
     </modules>
 
     <licenses>
