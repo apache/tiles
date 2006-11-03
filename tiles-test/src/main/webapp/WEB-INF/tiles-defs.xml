@@ -48,4 +48,10 @@
     </putList>
   </definition>
 
+  <definition name="preparer.definition" template="/layout.jsp">
+      <put name="title"  value="This is the title."/>
+      <put name="header" value="/header.jsp"/>
+  </definition>
+
+
 </tiles-definitions>

@@ -22,6 +22,8 @@ package org.apache.tiles.factory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.preparer.BasicPreparerFactory;
+import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.context.BasicTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
@@ -52,12 +54,16 @@ public class TilesContainerFactory {
     public static final String DEFINITIONS_FACTORY_INIT_PARAM =
         "org.apache.tiles.DEFINITIONS_FACTORY";
 
+    public static final String PREPARER_FACTORY_INIT_PARAM =
+        "org.apache.tiles.PREPARER_FACTORY";
+
     private static final Map DEFAULT_IMPLEMENTATIONS = new HashMap();
 
     static {
         DEFAULT_IMPLEMENTATIONS.put(CONTAINER_FACTORY_INIT_PARAM, TilesContainerFactory.class.getName());
         DEFAULT_IMPLEMENTATIONS.put(CONTEXT_FACTORY_INIT_PARAM, BasicTilesContextFactory.class.getName());
         DEFAULT_IMPLEMENTATIONS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
+        DEFAULT_IMPLEMENTATIONS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
     }
 
     /**
@@ -91,8 +97,12 @@ public class TilesContainerFactory {
         DefinitionsFactory defsFactory =
             (DefinitionsFactory) createFactory(context, DEFINITIONS_FACTORY_INIT_PARAM);
 
+        PreparerFactory prepFactory =
+            (PreparerFactory) createFactory(context, PREPARER_FACTORY_INIT_PARAM);
+
         container.setDefinitionsFactory(defsFactory);
         container.setContextFactory(contextFactory);
+        container.setPreparerFactory(prepFactory);
 
         TilesApplicationContext tilesContext =
             contextFactory.createApplicationContext(context);
