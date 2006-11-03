@@ -19,7 +19,9 @@
  */
 
 
-package org.apache.tiles.definition;
+package org.apache.tiles;
+
+import org.apache.tiles.ComponentAttribute;
 
 import java.util.ArrayList;
 import java.util.List;

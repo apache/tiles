@@ -12,8 +12,13 @@
         <param-value>org.apache.tiles.context.BasicTilesContextFactory</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>org.apache.tiles.DEFINITION_CONFIG</param-name>
+        <param-value>/WEB-INF/tiles-defs.xml</param-value>
+    </context-param>
+
     <listener>
-        <listener-class>org.apache.tiles.listener.TilesContainerListener</listener-class>
+        <listener-class>org.apache.tiles.listener.TilesListener</listener-class>
     </listener>
 
     <!-- Standard Action Servlet Configuration -->

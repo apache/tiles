@@ -22,7 +22,7 @@ package org.apache.tiles.definition;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.definition.ComponentAttribute;
+import org.apache.tiles.ComponentAttribute;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -42,7 +42,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     /**
      * The base set of ComponentDefinition objects not discriminated by locale.
      */
-    private Map baseDefinitions;
+    private Map<String, ComponentDefinition> baseDefinitions;
     /**
      * The locale-specific set of definitions objects.
      */
@@ -52,7 +52,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      * Creates a new instance of ComponentDefinitionsImpl
      */
     public ComponentDefinitionsImpl() {
-        baseDefinitions = new HashMap();
+        baseDefinitions = new HashMap<String, ComponentDefinition>();
         localeSpecificDefinitions = new HashMap();
     }
 
@@ -64,7 +64,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      *         is found.
      */
     public ComponentDefinition getDefinition(String name) {
-        return (ComponentDefinition) baseDefinitions.get(name);
+        return baseDefinitions.get(name);
     }
 
     /**
@@ -72,8 +72,9 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      * resolves inheritance attraibutes.
      *
      * @param defsMap The new definitions to add.
+     * @throws NoSuchDefinitionException
      */
-    public void addDefinitions(Map defsMap) throws NoSuchDefinitionException {
+    public void addDefinitions(Map<String, ComponentDefinition> defsMap) throws NoSuchDefinitionException {
         this.baseDefinitions.putAll(defsMap);
         resolveAttributeDependencies();
         resolveInheritances();
@@ -118,9 +119,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      * Resolve extended instances.
      */
     public void resolveInheritances() throws NoSuchDefinitionException {
-        Iterator i = baseDefinitions.values().iterator();
-        while (i.hasNext()) {
-            ComponentDefinition definition = (ComponentDefinition) i.next();
+        for (ComponentDefinition definition : baseDefinitions.values()) {
             resolveInheritance(definition);
         }  // end loop
     }
@@ -145,7 +144,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      * Clears definitions.
      */
     public void reset() {
-        this.baseDefinitions = new HashMap();
+        this.baseDefinitions = new HashMap<String, ComponentDefinition>();
         this.localeSpecificDefinitions = new HashMap();
     }
 
@@ -153,33 +152,34 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      * Returns base definitions collection;
      */
     public Map getBaseDefinitions() {
-        return this.baseDefinitions;
+        return baseDefinitions;
     }
 
     public void resolveAttributeDependencies() {
-        Iterator i = this.baseDefinitions.values().iterator();
-
-        while (i.hasNext()) {
-            ComponentDefinition def = (ComponentDefinition) i.next();
-            Map attributes = def.getAttributes();
-            Iterator j = attributes.values().iterator();
-            while (j.hasNext()) {
-                ComponentAttribute attr = (ComponentAttribute) j.next();
-                if (attr.getType() != null) {
-                    if (attr.getType().equalsIgnoreCase("definition") ||
-                        attr.getType().equalsIgnoreCase("instance")) {
+        for (ComponentDefinition def: baseDefinitions.values()) {
+            Map<String, ComponentAttribute> attributes = def.getAttributes();
+            for (ComponentAttribute attr: attributes.values()) {
+                if (isDefinitionType(attr)) {
                         ComponentDefinition subDef =
                             getDefinitionByAttribute(attr);
-                        attr.setValue(subDef);
-                    }
-                } else {
-                    ComponentDefinition subDef = getDefinitionByAttribute(attr);
-                    if (subDef != null) {
-                        attr.setValue(subDef);
-                    }
+                        attr.setAttributes(subDef.getAttributes());
                 }
             }
         }
+    }
+
+    private boolean isDefinitionType(ComponentAttribute attr) {
+        boolean explicit = (attr.getType() != null &&
+               (attr.getType().equalsIgnoreCase("definition") ||
+                attr.getType().equalsIgnoreCase("instance")));
+
+        boolean implicit =
+                attr.getType() == null &&
+                attr.getValue() != null &&
+                baseDefinitions.containsKey(attr.getValue().toString());
+
+        return explicit || implicit;
+
     }
 
     public void resolveAttributeDependencies(Locale locale) {

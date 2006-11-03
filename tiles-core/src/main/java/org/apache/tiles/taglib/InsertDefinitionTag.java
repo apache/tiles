@@ -85,7 +85,6 @@ public class InsertDefinitionTag extends BaseInsertTag {
      * Process tag attribute "definition". First, search definition in the
      * factory, then create handler from this definition.
      *
-     * @param name Name of the definition.
      * @return Appropriate TagHandler.
      * @throws JspException- NoSuchDefinitionException No Definition found for
      *                       name.
@@ -96,13 +95,9 @@ public class InsertDefinitionTag extends BaseInsertTag {
      * @throws JspException  InstantiationException Can't create requested
      *                       preparerInstance
      */
-    protected TagHandler processDefinitionName(String name) throws JspException {
+    protected TagHandler processDefinitionName(String definition) throws JspException {
 
         try {
-            TilesRequestContext tilesContext = TagUtils.getTilesRequestContext(pageContext);
-            ComponentDefinition definition = null;
-            definition = TagUtils.getComponentDefinition(name, pageContext,
-                tilesContext);
 
             if (definition == null) { // is it possible ?
                 throw new NoSuchDefinitionException(
@@ -111,7 +106,7 @@ public class InsertDefinitionTag extends BaseInsertTag {
                         + "'. Check if this name exists in definitions factory.");
             }
 
-            return processDefinition(definition);
+            return processDefinition(definition, null);
 
         } catch (NoSuchDefinitionException ex) {
             // Save exception to be able to show it later

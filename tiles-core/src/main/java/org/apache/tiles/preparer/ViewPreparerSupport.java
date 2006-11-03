@@ -19,8 +19,9 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.context.ComponentContext;
+import org.apache.tiles.context.BasicComponentContext;
 import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.ComponentContext;
 
 /**
  * Basic implementation of ViewPreparer.  Implementations can extend this class

@@ -22,6 +22,7 @@ package org.apache.tiles.definition;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.ComponentAttribute;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class ComponentDefinition implements Serializable {
     /**
      * Attributes defined for the component.
      */
-    protected Map attributes = null;
+    protected Map<String, ComponentAttribute> attributes = null;
 
     /**
      * Role associated to definition.
@@ -202,7 +203,7 @@ public class ComponentDefinition implements Serializable {
      *
      * @return the current value of the attributes property
      */
-    public Map getAttributes() {
+    public Map<String, ComponentAttribute> getAttributes() {
         return attributes;
     }
 
@@ -210,10 +211,11 @@ public class ComponentDefinition implements Serializable {
      * Returns the value of the named attribute as an Object, or null if no
      * attribute of the given name exists.
      *
+     * @param key name of the attribute
      * @return requested attribute or null if not found
      */
     public Object getAttribute(String key) {
-        ComponentAttribute attribute = (ComponentAttribute) attributes.get(key);
+        ComponentAttribute attribute = attributes.get(key);
         if (attribute != null) {
             return attribute.getValue();
         } else {
@@ -264,7 +266,7 @@ public class ComponentDefinition implements Serializable {
      * @param role    Determine if content is used by get tag. If user is in role, content is used.
      */
     public void put(String name, Object content, boolean direct, String role) {
-        if (direct == true) { // direct String
+        if (direct) { // direct String
             put(name, content, "string", role);
         } else {
             put(name, content, "template", role);

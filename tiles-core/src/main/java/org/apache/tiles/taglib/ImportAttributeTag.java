@@ -21,8 +21,8 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.definition.ComponentAttribute;
-import org.apache.tiles.context.ComponentContext;
+import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.context.BasicComponentContext;
 import org.apache.tiles.taglib.util.TagUtils;
 
 import javax.servlet.jsp.JspException;
@@ -141,7 +141,7 @@ public class ImportAttributeTag extends TagSupport {
      */
     public int doStartTag() throws JspException {
         // retrieve component context
-        ComponentContext compContext = (ComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
+        BasicComponentContext compContext = (BasicComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
         if (compContext == null)
             throw new JspException("Error - tag importAttribute : no tiles context found.");
 

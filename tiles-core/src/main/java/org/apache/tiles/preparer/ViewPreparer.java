@@ -19,8 +19,9 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.context.ComponentContext;
+import org.apache.tiles.context.BasicComponentContext;
 import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.ComponentContext;
 
 /**
  * <p>
@@ -49,8 +50,7 @@ public interface ViewPreparer {
      * @param tilesContext     Current tiles application context.
      * @param componentContext Current tile context.
      */
-    public void execute(
-        TilesRequestContext tilesContext,
+    public void execute(TilesRequestContext tilesContext,
         ComponentContext componentContext)
         throws Exception;
 }

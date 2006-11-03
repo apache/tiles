@@ -21,7 +21,7 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.context.ComponentContext;
+import org.apache.tiles.context.BasicComponentContext;
 import org.apache.tiles.taglib.util.TagUtils;
 
 import javax.servlet.jsp.JspException;
@@ -164,7 +164,7 @@ public class UseAttributeTag extends TagSupport {
         if (localId == null)
             localId = attributeName;
 
-        ComponentContext compContext = (ComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
+        BasicComponentContext compContext = (BasicComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
         if (compContext == null)
             throw new JspException("Error - tag useAttribute : no tiles context found.");
 

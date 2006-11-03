@@ -20,12 +20,18 @@
 
 package org.apache.tiles.filter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.ReloadableDefinitionsFactory;
-import org.apache.tiles.util.TilesUtil;
+import org.apache.tiles.impl.BasicTilesContainer;
+import org.apache.tiles.servlet.TilesServlet;
 
 import javax.servlet.*;
 import java.io.IOException;
+import java.util.Enumeration;
 
 /**
  * Processes Reloadable Tiles Definitions.
@@ -33,7 +39,9 @@ import java.io.IOException;
  * @version $Rev$ $Date$
  */
 
-public class TilesFilter implements Filter {
+public class TilesFilter extends TilesServlet implements Filter {
+
+    private static final Log LOG = LogFactory.getLog(TilesFilter.class);
 
     /**
      * The filter configuration object we are associated with.  If
@@ -42,8 +50,6 @@ public class TilesFilter implements Filter {
      */
     private FilterConfig filterConfig = null;
 
-    public TilesFilter() {
-    }
 
     /**
      * Checks whether Tiles Definitions need to be reloaded.
@@ -59,19 +65,22 @@ public class TilesFilter implements Filter {
         throws IOException, ServletException {
 
         try {
-            DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
-            if (factory instanceof ReloadableDefinitionsFactory) {
-                ReloadableDefinitionsFactory rFactory = (ReloadableDefinitionsFactory) factory;
-                if (rFactory.refreshRequired()) {
-                    rFactory.refreshRequired();
+            TilesContainer container = TilesAccess.getContainer(getServletContext());
+            if (container instanceof BasicTilesContainer) {
+                BasicTilesContainer basic = (BasicTilesContainer) container;
+                DefinitionsFactory factory = basic.getDefinitionsFactory();
+                if (factory instanceof ReloadableDefinitionsFactory) {
+                    ReloadableDefinitionsFactory rFactory = (ReloadableDefinitionsFactory) factory;
+                    if (rFactory.refreshRequired()) {
+                        rFactory.refreshRequired();
+                    }
                 }
+                chain.doFilter(request, response);
             }
-            chain.doFilter(request, response);
         } catch (Exception e) {
             throw new ServletException("Error processing request.", e);
         }
     }
-
 
     /**
      * Return the filter configuration object for this filter.
@@ -80,13 +89,14 @@ public class TilesFilter implements Filter {
         return (this.filterConfig);
     }
 
-
     /**
      * Set the filter configuration object for this filter.
      *
      * @param filterConfig The filter configuration object
      */
-    public void setFilterConfig(FilterConfig filterConfig) {
+    public void setFilterConfig
+        (FilterConfig
+            filterConfig) {
 
         this.filterConfig = filterConfig;
     }
@@ -94,24 +104,63 @@ public class TilesFilter implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {
+    public void destroy
+        () {
+        super.destroy();
     }
-
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {
+    public void init
+        (FilterConfig
+            filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
+        super.init(createServletConfig());
 
         if (debug) {
             log("TilesFilter:Initializing filter");
         }
     }
 
-    public void log(String msg) {
+    public void log
+        (String
+            msg) {
         filterConfig.getServletContext().log(msg);
     }
 
     private static final boolean debug = true;
+
+    private ServletConfig createServletConfig
+        () {
+        return new ServletConfigAdapter(filterConfig);
+    }
+
+
+    class ServletConfigAdapter implements ServletConfig {
+
+        private FilterConfig config;
+
+
+        public ServletConfigAdapter(FilterConfig config) {
+            this.config = config;
+        }
+
+        public String getServletName() {
+            return config.getFilterName();
+        }
+
+        public ServletContext getServletContext() {
+            return config.getServletContext();
+        }
+
+        public String getInitParameter(String string) {
+            return config.getInitParameter(string);
+        }
+
+        public Enumeration getInitParameterNames() {
+            return config.getInitParameterNames();
+        }
+    }
+
 }

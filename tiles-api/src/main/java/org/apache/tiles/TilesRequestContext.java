@@ -82,4 +82,11 @@ public interface TilesRequestContext {
      * Return the preferred Locale in which the client will accept content.
      */
     Locale getRequestLocale();
+
+    /**
+     * Determine whether or not the specified user is in the given role
+     * @param role
+     * @return
+     */
+    boolean isUserInRole(String role);
 }

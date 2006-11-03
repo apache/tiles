@@ -20,7 +20,7 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.definition.ComponentAttribute;
+import org.apache.tiles.ComponentAttribute;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;

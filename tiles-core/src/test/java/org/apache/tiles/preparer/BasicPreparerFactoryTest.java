@@ -31,19 +31,14 @@ public class BasicPreparerFactoryTest extends TestCase {
         factory = new BasicPreparerFactory();
     }
 
-    public void testGetPreparer() throws NoSuchPreparerException {
+    public void testGetPreparer() throws PreparerException {
         String name = ViewPreparerSupport.class.getName();
         ViewPreparer p = factory.getPreparer(name, null);
         assertNotNull(p);
         assertTrue(p instanceof ViewPreparerSupport);
 
         name = "org.doesnotexist.Class";
-        try {
-            p = factory.getPreparer(name, null);
-            assertNull(p);
-            fail("Exception should have been thrown.");
-        } catch(NoSuchPreparerException n) {
-            //Good!
-        }
+        p = factory.getPreparer(name, null);
+        assertNull(p);
     }
 }

@@ -20,6 +20,8 @@
 package org.apache.tiles.context.servlet;
 
 import org.apache.tiles.TilesRequestContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -34,10 +36,13 @@ import java.util.Map;
  * @version $Rev: 405486 $ $Date$
  */
 public class ServletTilesRequestContext extends ServletTilesApplicationContext implements TilesRequestContext {
+    
+    private static final Log LOG = LogFactory.getLog(ServletTilesRequestContext.class);
 
     private HttpServletRequest request;
 
     private HttpServletResponse response;
+
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -152,9 +157,10 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     public void dispatch(String path) throws IOException, Exception {
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
-            rd.forward(request, response);
+            rd.include(request, response);
         } catch (ServletException ex) {
-            throw new Exception("Error forwarding request.", ex);
+            LOG.error("Error including path '"+path+"'.", ex);
+            throw new Exception("Error including request.", ex);
         }
     }
 
@@ -216,5 +222,10 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         response = null;
         super.release();
 
+    }
+
+
+    public boolean isUserInRole(String role) {
+        return request.isUserInRole(role);
     }
 }

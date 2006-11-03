@@ -18,9 +18,10 @@
  *
  */
 
-package org.apache.tiles.definition;
+package org.apache.tiles;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Common implementation of attribute definition.
@@ -28,6 +29,8 @@ import java.io.Serializable;
  * @version $Rev$ $Date$
  */
 public class ComponentAttribute implements Serializable {
+    
+    public static final String DEFINITION_TYPE = "definition";
 
     /**
      * Role associated to this attribute.
@@ -39,6 +42,8 @@ public class ComponentAttribute implements Serializable {
     private String type = null;
 
     private String name = null;
+
+    private Map<String, ComponentAttribute> attributes;
 
     /**
      * Constructor.
@@ -146,6 +151,15 @@ public class ComponentAttribute implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public Map<String, ComponentAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, ComponentAttribute> attributes) {
+        this.attributes = attributes;
     }
 
     public void setBody(String body) {

@@ -20,12 +20,13 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.definition.ComponentAttribute;
-import org.apache.tiles.context.ComponentContext;
+import org.apache.tiles.context.BasicComponentContext;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.definition.ComponentDefinition;
-import org.apache.tiles.taglib.util.TagUtils;
 
 import javax.servlet.jsp.JspException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is the tag handler for &lt;tiles:attribute&gt;, which defines an
@@ -95,7 +96,7 @@ public class AttributeTag extends BaseInsertTag {
      */
     public TagHandler processAttribute(String name) throws JspException {
         Object attrValue = null;
-        ComponentContext context = getCurrentContext();
+        BasicComponentContext context = getCurrentContext();
 
         if (context != null) {
             attrValue = context.getAttribute(name);
@@ -141,12 +142,13 @@ public class AttributeTag extends BaseInsertTag {
         }
 
         if (type.equalsIgnoreCase("string")) {
-            return new DirectStringHandler((String) value.getValue());
+            return new DirectStringHandler(value.getValue());
         } else if (type.equalsIgnoreCase("definition")) {
-            return processDefinition((ComponentDefinition) value.getValue());
+            Map<String, Object> attrs = new HashMap<String,Object>(value.getAttributes());
+            return processDefinition((String) value.getValue(), attrs);
         } else {
             return new InsertHandler((String) value.getValue(), role,
-                getPreparerInstance());
+                preparer);
         }
     }
 
@@ -169,11 +171,9 @@ public class AttributeTag extends BaseInsertTag {
                 if (valueString.startsWith("/")) {
                     type = "template";
                 } else {
-                    ComponentDefinition definition = TagUtils
-                        .getComponentDefinition(valueString, pageContext);
-                    if (definition != null) {
+                    if (container.isValidDefinition(pageContext, valueString)) {
                         type = "definition";
-                        value.setValue(definition);
+                        value.setValue(valueString);
                     } else {
                         type = "string";
                     }
@@ -189,15 +189,11 @@ public class AttributeTag extends BaseInsertTag {
         } else if (type.equalsIgnoreCase("definition")) {
             Object valueContent = value.getValue();
             if (valueContent instanceof String) {
-                ComponentDefinition definition = TagUtils
-                    .getComponentDefinition((String) valueContent,
-                        pageContext);
-                if (definition == null) {
+                if (!container.isValidDefinition(pageContext, (String) valueContent))
                     throw new JspException("Cannot find any definition named '"
                         + valueContent + "'");
-                }
-                value.setValue(definition);
             }
+            value.setValue(valueContent);
         }
     }
 }

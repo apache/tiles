@@ -107,4 +107,8 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
 
     public void include(String path) throws IOException, Exception {
     }
+
+    public boolean isUserInRole(String role) {
+        return false;
+    }
 }

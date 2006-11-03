@@ -44,21 +44,37 @@ public interface TilesContainer {
     /**
      * Retrieve the containers context.
      *
-     * @return
+     * @return current application context
      */
     TilesApplicationContext getApplicationContext();
 
     /**
-     * @param request
-     * @param response
-     * @param definition
+     * Retrive the component context of the current request.
+     * @param request the current request.
+     * @param response the current reponse.
+     * @return map of the attributes in the current component context.
+     */
+    ComponentContext getComponentContext(Object request, Object response);
+
+    /**
+     * Retrieve the component context of the current request
+     * @param context the current request.
+     * @return map of the attributes in the current component context.
+     */
+    ComponentContext getComponentContext(PageContext context);
+
+    /**
+     * @param request the current request
+     * @param response the current response
+     * @param definition the requested definition
+     * @throws TilesException is processing fails.
      */
     void prepare(Object request, Object response, String definition) throws TilesException;
 
     /**
-     * @param pageContext
-     * @param definition
-     * @throws TilesException
+     * @param pageContext the current pageContext
+     * @param definition the current definition
+     * @throws TilesException is processing fails.
      */
     void prepare(PageContext pageContext, String definition) throws TilesException;
 
@@ -66,14 +82,36 @@ public interface TilesContainer {
     /**
      * Render the given tiles request
      *
-     * @param request
+     * @param request the current request
+     * @param response the current response
+     * @param definition the current definition
+     * @throws TilesException is processing fails.
      */
     void render(Object request, Object response, String definition) throws TilesException;
 
     /**
-     * @param pageContext
-     * @param definition
-     * @throws TilesException
+     * @param pageContext the current pageContext.
+     * @param definition the requested definition.
+     * @throws TilesException is processing fails.
      */
     void render(PageContext pageContext, String definition) throws TilesException;
+
+    /**
+     * Determine whether or not the definition exists.
+     * 
+     * @param pageContext the current page context
+     * @param definition the name of the definition.
+     * @return true if the definition is found.
+     */
+    boolean isValidDefinition(PageContext pageContext, String definition);
+
+    /**
+     * Determine whether or not the definition exists.
+     *
+     * @param request the current request
+     * @param response the current response
+     * @param definition the name of the definition.
+     * @return true if the definition is found.
+     */
+    boolean isValidDefinition(Object request, Object response, String definition);
 }

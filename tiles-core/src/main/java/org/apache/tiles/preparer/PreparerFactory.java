@@ -48,7 +48,7 @@ public interface PreparerFactory {
      * @throws NoSuchPreparerException when the named preparerInstance can not be found.
      */
     ViewPreparer getPreparer(String name, TilesRequestContext context)
-        throws NoSuchPreparerException;
+        throws PreparerException;
 
 
 }

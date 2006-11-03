@@ -20,7 +20,7 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.definition.ComponentAttribute;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.taglib.util.TagUtils;
 
@@ -204,11 +204,14 @@ public class DefinitionTag
     }
 
     /**
+     * TODO revisit.  how do we support random tiles defs in the container environment? Add a mutable container interface?
+     *
      * Process the start tag by creating a new definition.
      *
      * @throws JspException On errors processing tag.
      */
     public int doStartTag() throws JspException {
+/*
         // Do we extend a definition ?
         if (extendsDefinition != null && !extendsDefinition.equals("")) {
             ComponentDefinition parentDef =
@@ -228,6 +231,7 @@ public class DefinitionTag
         if (role != null) {
             definition.setRole(role);
         }
+*/
 
         return EVAL_BODY_INCLUDE;
     }

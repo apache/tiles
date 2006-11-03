@@ -21,7 +21,7 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.context.ComponentContext;
+import org.apache.tiles.context.BasicComponentContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -154,7 +154,7 @@ public class GetAsStringTag extends TagSupport implements ComponentConstants {
         } // end if
 
         // Get context
-        ComponentContext compContext = (ComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
+        BasicComponentContext compContext = (BasicComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
 
         if (compContext == null)
             throw new JspException("Error - tag.getAsString : component context is not defined. Check tag syntax");

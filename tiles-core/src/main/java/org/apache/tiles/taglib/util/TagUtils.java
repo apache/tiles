@@ -20,20 +20,13 @@
 package org.apache.tiles.taglib.util;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.tiles.context.ComponentContext;
+import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.definition.ComponentDefinition;
-import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.definition.FactoryNotFoundException;
-import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.taglib.ComponentConstants;
-import org.apache.tiles.util.TilesUtil;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import java.lang.reflect.InvocationTargetException;
@@ -72,14 +65,6 @@ public class TagUtils {
 
     public static TilesApplicationContext getTilesContext(ServletContext context) {
         return TilesAccess.getApplicationContext(context);
-    }
-
-    public static TilesRequestContext getTilesRequestContext(PageContext context) {
-        ServletRequest request = context.getRequest();
-        ServletResponse response = context.getResponse();
-        ServletContext ctx = context.getServletContext();
-
-        return TilesUtil.createRequestContext(request, response);
     }
 
 
@@ -190,8 +175,8 @@ public class TagUtils {
      * @return Requested bean or <code>null</code> if not found.
      */
     public static Object findAttribute(String beanName, PageContext pageContext) {
-        TilesRequestContext tilesContext = getTilesRequestContext(pageContext);
-        ComponentContext compContext = ComponentContext.getContext(tilesContext);
+        TilesContainer container = TilesAccess.getContainer(pageContext);
+        ComponentContext compContext = container.getComponentContext(pageContext);
 
         if (compContext != null) {
             Object attribute = compContext.findAttribute(beanName, pageContext);
@@ -214,9 +199,11 @@ public class TagUtils {
      * @return Requested bean or <code>null</code> if not found.
      */
     public static Object getAttribute(String beanName, int scope, PageContext pageContext) {
+
         if (scope == ComponentConstants.COMPONENT_SCOPE) {
-            TilesRequestContext tilesContext = getTilesRequestContext(pageContext);
-            ComponentContext compContext = ComponentContext.getContext(tilesContext);
+            TilesContainer container = TilesAccess.getContainer(pageContext);
+            ComponentContext compContext = container.getComponentContext(pageContext);
+
             return compContext.getAttribute(beanName);
         }
         return pageContext.getAttribute(beanName, scope);
@@ -344,64 +331,6 @@ public class TagUtils {
      */
     public static void saveException(PageContext pageContext, Throwable exception) {
         pageContext.setAttribute(ComponentConstants.EXCEPTION_KEY, exception, PageContext.REQUEST_SCOPE);
-    }
-
-    /**
-     * Get component definition by its name.
-     *
-     * @param name        Definition name.
-     * @param pageContext The PageContext for the current page.
-     * @throws JspException -
-     */
-    public static ComponentDefinition getComponentDefinition(String name, PageContext pageContext)
-        throws JspException {
-        return getComponentDefinition(name, pageContext, null);
-    }
-
-
-    /**
-     * Get component definition by its name.
-     *
-     * @param name         Definition name.
-     * @param pageContext  The PageContext for the current page.
-     * @param tilesContext The TilesApplicationContext for the current request. If it is
-     *                     null, it will be created.
-     * @throws JspException -
-     */
-    public static ComponentDefinition getComponentDefinition(String name,
-                                                             PageContext pageContext,
-                                                             TilesRequestContext tilesContext)
-        throws JspException {
-
-        try {
-            ComponentDefinition definition;
-            Object definitionCandidate = findAttribute(name, pageContext);
-            if (definitionCandidate != null
-                && definitionCandidate instanceof ComponentDefinition) {
-                definition = (ComponentDefinition) definitionCandidate;
-            } else {
-                if (tilesContext == null) {
-                    tilesContext = getTilesRequestContext(pageContext);
-                }
-                definition = TilesUtil.getDefinition(name, tilesContext);
-            }
-            return definition;
-
-        } catch (NoSuchDefinitionException ex) {
-            throw new JspException(
-                "Error : Can't get component definition for '"
-                    + name
-                    + "'. Check if this name exist in component definitions.", ex);
-        } catch (FactoryNotFoundException ex) { // impl not found.
-            throw new JspException(ex);
-
-        } catch (DefinitionsFactoryException ex) {
-            if (debug)
-                ex.printStackTrace();
-            // Save exception to be able to show it later
-            saveException(pageContext, ex);
-            throw new JspException(ex);
-        }
     }
 
 }

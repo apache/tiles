@@ -21,13 +21,6 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.definition.DefinitionsFactory;
-import org.apache.tiles.definition.DefinitionsFactoryConfig;
-import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.util.TilesUtil;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -71,24 +64,25 @@ public class InitDefinitionsTag extends TagSupport implements ComponentConstants
     }
 
     /**
+     * TODO Add a MutableContainer so that this can be done?
      * Do start tag.
      */
     public int doStartTag() throws JspException {
-        DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
-        if (factory != null) {
-            return SKIP_BODY;
-        }
-
-        DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
-        factoryConfig.setFactoryClassname(classname);
-        factoryConfig.setDefinitionConfigFiles(filename);
-
-        try {
-            factory = TilesUtil.createDefinitionsFactory(factoryConfig);
-        } catch (DefinitionsFactoryException ex) {
-            ex.printStackTrace();
-            throw new JspException(ex);
-        }
+//        DefinitionsFactory factory = TilesUtil.getDefinitionsFactory();
+//        if (factory != null) {
+//            return SKIP_BODY;
+//        }
+//
+//        DefinitionsFactoryConfig factoryConfig = new DefinitionsFactoryConfig();
+//        factoryConfig.setFactoryClassname(classname);
+//        factoryConfig.setDefinitionConfigFiles(filename);
+//
+//        try {
+//            factory = TilesUtil.createDefinitionsFactory(factoryConfig);
+//        } catch (DefinitionsFactoryException ex) {
+//            ex.printStackTrace();
+//            throw new JspException(ex);
+//        }
 
         return SKIP_BODY;
     }

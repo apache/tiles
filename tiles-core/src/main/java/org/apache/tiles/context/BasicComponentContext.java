@@ -22,6 +22,8 @@ package org.apache.tiles.context;
 
 import org.apache.tiles.taglib.ComponentConstants;
 import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.ComponentAttribute;
 
 import javax.servlet.jsp.PageContext;
 import java.io.Serializable;
@@ -30,17 +32,17 @@ import java.util.*;
 /**
  * Component context.
  */
-public class ComponentContext implements Serializable {
+public class BasicComponentContext implements ComponentContext, Serializable {
 
     /**
      * Component attributes.
      */
-    private Map attributes = null;
+    private Map<String, ComponentAttribute> attributes = null;
 
     /**
      * Constructor.
      */
-    public ComponentContext() {
+    public BasicComponentContext() {
         super();
     }
 
@@ -50,9 +52,19 @@ public class ComponentContext implements Serializable {
      *
      * @param attributes Attributes to initialize context.
      */
-    public ComponentContext(Map attributes) {
+    public BasicComponentContext(Map<String, ComponentAttribute> attributes) {
         if (attributes != null) {
-            this.attributes = new HashMap(attributes);
+            this.attributes = new HashMap<String, ComponentAttribute>(attributes);
+        }
+    }
+
+
+    public BasicComponentContext(ComponentContext context) {
+        this.attributes = new HashMap<String, ComponentAttribute>();
+        Iterator<String> names = context.getAttributeNames();
+        while(names.hasNext()) {
+            String name = names.next();
+            attributes.put(name, context.getAttribute(name));
         }
     }
 
@@ -64,9 +76,9 @@ public class ComponentContext implements Serializable {
      *
      * @param newAttributes Attributes to add.
      */
-    public void addAll(Map newAttributes) {
+    public void addAll(Map<String, ComponentAttribute> newAttributes) {
         if (attributes == null) {
-            attributes = new HashMap(newAttributes);
+            attributes = new HashMap<String, ComponentAttribute>(newAttributes);
             return;
         }
 
@@ -81,20 +93,18 @@ public class ComponentContext implements Serializable {
      *
      * @param defaultAttributes Attributes to add.
      */
-    public void addMissing(Map defaultAttributes) {
+    public void addMissing(Map<String, ComponentAttribute> defaultAttributes) {
         if (defaultAttributes == null) {
             return;
         }
 
         if (attributes == null) {
-            attributes = new HashMap(defaultAttributes);
+            attributes = new HashMap<String, ComponentAttribute>(defaultAttributes);
             return;
         }
 
-        Set entries = defaultAttributes.entrySet();
-        Iterator iterator = entries.iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
+        Set<Map.Entry<String, ComponentAttribute>> entries = defaultAttributes.entrySet();
+        for (Map.Entry<String, ComponentAttribute> entry : entries) {
             if (!attributes.containsKey(entry.getKey())) {
                 attributes.put(entry.getKey(), entry.getValue());
             }
@@ -105,9 +115,9 @@ public class ComponentContext implements Serializable {
      * Get an attribute from context.
      *
      * @param name Name of the attribute.
-     * @return <{Object}>
+     * @return <{ComponentAttribute}>
      */
-    public Object getAttribute(String name) {
+    public ComponentAttribute getAttribute(String name) {
         if (attributes == null) {
             return null;
         }
@@ -118,11 +128,11 @@ public class ComponentContext implements Serializable {
     /**
      * Get names of all attributes.
      *
-     * @return <{Object}>
+     * @return <{ComponentAttribute}>
      */
-    public Iterator getAttributeNames() {
+    public Iterator<String> getAttributeNames() {
         if (attributes == null) {
-            return Collections.EMPTY_LIST.iterator();
+            return new ArrayList<String>().iterator();
         }
 
         return attributes.keySet().iterator();
@@ -134,9 +144,9 @@ public class ComponentContext implements Serializable {
      * @param name  Name of the attribute.
      * @param value Value of the attribute.
      */
-    public void putAttribute(String name, Object value) {
+    public void putAttribute(String name, ComponentAttribute value) {
         if (attributes == null) {
-            attributes = new HashMap();
+            attributes = new HashMap<String, ComponentAttribute>();
         }
 
         attributes.put(name, value);
@@ -150,10 +160,11 @@ public class ComponentContext implements Serializable {
      * @param pageContext Page context.
      * @return Requested bean or <code>null</code> if not found.
      */
-    public Object findAttribute(String beanName, PageContext pageContext) {
-        Object attribute = getAttribute(beanName);
+    public ComponentAttribute findAttribute(String beanName, PageContext pageContext) {
+        ComponentAttribute attribute = getAttribute(beanName);
         if (attribute == null) {
-            attribute = pageContext.findAttribute(beanName);
+            Object attributeValue = pageContext.findAttribute(beanName);
+            attribute = new ComponentAttribute(attributeValue);
         }
 
         return attribute;
@@ -168,7 +179,7 @@ public class ComponentContext implements Serializable {
      * @param pageContext Page context.
      * @return requested bean or <code>null</code> if not found.
      */
-    public Object getAttribute(
+    public ComponentAttribute getAttribute(
         String beanName,
         int scope,
         PageContext pageContext) {
@@ -177,14 +188,20 @@ public class ComponentContext implements Serializable {
             return getAttribute(beanName);
         }
 
-        return pageContext.getAttribute(beanName, scope);
+        Object attributeValue =
+            pageContext.getAttribute(beanName, scope);
+        if(attributeValue != null) {
+            return new ComponentAttribute(attributeValue);
+        }
+
+        return null;
     }
 
     /**
      * Get component context from request.
      *
      * @param tilesContext current Tiles application context.
-     * @return ComponentContext or null if context is not found or an
+     * @return BasicComponentContext or null if context is not found or an
      *         jspException is present in the request.
      */
     static public ComponentContext getContext(TilesRequestContext tilesContext) {
@@ -198,11 +215,10 @@ public class ComponentContext implements Serializable {
     /**
      * Store component context into request.
      *
-     * @param context      ComponentContext to store.
+     * @param context      BasicComponentContext to store.
      * @param tilesContext current Tiles application context.
      */
-    static public void setContext(
-        ComponentContext context,
+    static public void setContext(ComponentContext context,
         TilesRequestContext tilesContext) {
 
         tilesContext.getRequestScope().put(ComponentConstants.COMPONENT_CONTEXT, context);

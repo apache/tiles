@@ -53,6 +53,9 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
         this.pageContext = pageContext;
     }
 
+    public void dispatch(String path) throws TilesException {
+        include(path);
+    }
 
     public void include(String path) throws TilesException {
         try {

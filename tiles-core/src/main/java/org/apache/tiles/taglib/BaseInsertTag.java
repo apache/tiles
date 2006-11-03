@@ -22,24 +22,20 @@ package org.apache.tiles.taglib;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.definition.ComponentAttribute;
-import org.apache.tiles.context.ComponentContext;
+import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.TilesException;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.context.BasicComponentContext;
 import org.apache.tiles.context.jsp.JspUtil;
-import org.apache.tiles.TilesRequestContext;
-import org.apache.tiles.definition.ComponentDefinition;
-import org.apache.tiles.preparer.ViewPreparer;
-import org.apache.tiles.preparer.NoSuchPreparerException;
-import org.apache.tiles.preparer.PreparerFactory;
-import org.apache.tiles.taglib.util.TagUtils;
-import org.apache.tiles.util.TilesUtil;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 /**
  * This is the base abstract class for all Tiles composition JSP tags. The tag's
@@ -81,7 +77,7 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
     /**
      * Current component context.
      */
-    protected ComponentContext cachedCurrentContext;
+    protected BasicComponentContext cachedCurrentContext;
 
     /**
      * Final handler of tag methods.
@@ -92,6 +88,11 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
      * Trick to allows inner classes to access pageContext.
      */
     protected PageContext pageContext = null;
+
+    /**
+     * Container within which we execute.
+     */
+    protected TilesContainer container;
 
     /**
      * Reset member values for reuse. This method calls super.release(), which
@@ -245,9 +246,9 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
     /**
      * Get current component context.
      */
-    protected ComponentContext getCurrentContext() {
+    protected BasicComponentContext getCurrentContext() {
         if (cachedCurrentContext == null) {
-            cachedCurrentContext = (ComponentContext) pageContext.getAttribute(
+            cachedCurrentContext = (BasicComponentContext) pageContext.getAttribute(
                 ComponentConstants.COMPONENT_CONTEXT,
                 PageContext.REQUEST_SCOPE);
         }
@@ -255,24 +256,6 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
         return cachedCurrentContext;
     }
 
-    /**
-     * Get instantiated ViewPreparer. Return preparerInstance denoted by preparerType,
-     * or <code>null</code> if preparerType is null.
-     *
-     * @throws JspException If preparerInstance can't be created.
-     */
-    protected ViewPreparer getPreparerInstance() throws JspException {
-        if (preparer == null) {
-            return null;
-        }
-
-        try {
-            PreparerFactory f = TilesUtil.getPreparerFactory();
-            return f.getPreparer(preparer, null);
-        } catch (NoSuchPreparerException e) {
-            throw new JspException(e);
-        }
-    }
 
     /**
      * Process the start tag by checking tag's attributes and creating
@@ -299,6 +282,8 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
             processEndTag = false;
             return SKIP_BODY;
         }
+
+        container = TilesAccess.getContainer(pageContext.getServletContext());
 
         try {
             tagHandler = createTagHandler();
@@ -347,68 +332,14 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
      * @throws JspException InstantiationException Can't create requested
      *                      preparerInstance
      */
-    protected TagHandler processDefinition(ComponentDefinition definition)
+    protected TagHandler processDefinition(String definition, Map<String, Object> attributes)
         throws JspException {
         // Declare local variable in order to not change Tag attribute values.
         String role = this.role;
-        String page = this.template;
-        ViewPreparer viewPreparer = null;
+        String preparer = this.preparer;
 
-        try {
-
-            // Overload definition with tag's template and role.
-            if (role == null) {
-                role = definition.getRole();
-            }
-
-            if (page == null) {
-                page = definition.getTemplate();
-            }
-
-            if (preparer != null) {
-                viewPreparer = TilesUtil.getPreparerFactory()
-                    .getPreparer(definition.getPreparer(), null);
-            }
-
-            // Can check if page is set
-            return new InsertHandler(definition.getAttributes(), page, role,
-                viewPreparer);
-        } catch (NoSuchPreparerException e) {
-            throw new JspException(e);
-        }
-    }
-
-    /**
-     * Do an include of specified page. This method is used internally to do all
-     * includes from this class. It delegates the include call to the
-     * TilesUtil.doInclude().
-     *
-     * @param page  The page that will be included
-     * @param flush If the writer should be flushed before the include
-     * @throws javax.servlet.jsp.JspException
-     */
-    protected void doInclude(String page, boolean flush) throws JspException {
-        JspUtil.doInclude(pageContext, page, flush);
-    }
-
-    // ///////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Parse the list of roles and return <code>true</code> or
-     * <code>false</code> based on whether the user has that role or not.
-     *
-     * @param role    Comma-delimited list of roles.
-     * @param request The request.
-     */
-    static public boolean userHasRole(HttpServletRequest request, String role) {
-        StringTokenizer st = new StringTokenizer(role, ",");
-        while (st.hasMoreTokens()) {
-            if (request.isUserInRole(st.nextToken())) {
-                return true;
-            }
-        }
-
-        return false;
+        // Can check if page is set
+        return new DefinitionHandler(attributes, definition, role, preparer);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -418,7 +349,7 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
      */
     protected interface TagHandler {
         /**
-         * Create ComponentContext for type depicted by implementation class.
+         * Create BasicComponentContext for type depicted by implementation class.
          */
         public int doStartTag() throws JspException;
 
@@ -441,35 +372,62 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
     protected class InsertHandler implements TagHandler {
         protected String page;
 
-        protected ComponentContext currentContext;
-
-        protected ComponentContext subCompContext;
-
         protected String role;
 
-        protected ViewPreparer preparerInstance;
+        protected String preparer;
+
+        protected Map<String, ComponentAttribute> attributes;
 
         /**
          * Constructor. Create insert handler using Component definition.
+         *
+         * @param attributes custom attributes
+         * @param page       resulting page
+         * @param role       required role
+         * @param preparer   custom preparer
          */
-        public InsertHandler(Map attributes, String page, String role,
-                             ViewPreparer preparer) {
+        public InsertHandler(Map<String, Object> attributes, String page, String role,
+                             String preparer) {
 
             this.page = page;
             this.role = role;
-            this.preparerInstance = preparer;
-            subCompContext = new ComponentContext(attributes);
+            this.preparer = preparer;
+            this.attributes = new HashMap<String, ComponentAttribute>();
+            if (attributes != null) {
+                for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+                    ComponentAttribute attr = null;
+                    if (entry.getValue() instanceof ComponentAttribute) {
+                        attr = (ComponentAttribute) entry.getValue();
+                    } else {
+                        attr = new ComponentAttribute(entry.getValue());
+                    }
+                    this.attributes.put(entry.getKey(), attr);
+                }
+            }
         }
 
         /**
          * Constructor. Create insert handler to insert page at specified
          * location.
+         *
+         * @param page     resulting page
+         * @param role     required role
+         * @param preparer custom preparer
          */
-        public InsertHandler(String page, String role, ViewPreparer preparer) {
+        public InsertHandler(String page, String role, String preparer) {
             this.page = page;
             this.role = role;
-            this.preparerInstance = preparer;
-            subCompContext = new ComponentContext();
+            this.preparer = preparer;
+            this.attributes = new HashMap<String, ComponentAttribute>();
+        }
+
+
+        public void putAttribute(String name, Object value) {
+            if (value instanceof ComponentAttribute) {
+                attributes.put(name, (ComponentAttribute) value);
+            } else {
+                attributes.put(name, new ComponentAttribute(value));
+            }
         }
 
         /**
@@ -485,16 +443,9 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
             }
 
             // save current context
-            this.currentContext = getCurrentContext();
             return EVAL_BODY_INCLUDE;
         }
 
-        /**
-         * Add attribute to sub context. Do nothing.
-         */
-        public void putAttribute(String name, Object value) {
-            subCompContext.putAttribute(name, value);
-        }
 
         /**
          * Include requested page.
@@ -509,24 +460,19 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
             }
 
             try {
+                ComponentContext context = container.getComponentContext(pageContext);
+                for (Map.Entry<String, ComponentAttribute> entry : attributes.entrySet()) {
+                    context.putAttribute(entry.getKey(), entry.getValue());
+                }
+
                 if (log.isDebugEnabled()) {
                     log.debug("insert page='" + page + "'.");
                 }
 
-                // set new context for included component.
-                pageContext.setAttribute(ComponentConstants.COMPONENT_CONTEXT,
-                    subCompContext, PageContext.REQUEST_SCOPE);
-
                 // Call preparerInstance if any
-                if (preparerInstance != null) {
-                    try {
-                        TilesRequestContext tilesContext = TagUtils
-                            .getTilesRequestContext(pageContext);
-                        preparerInstance.execute(tilesContext, subCompContext);
-                    } catch (Exception e) {
-                        throw new ServletException(e);
-                    }
-
+                if (preparer != null) {
+                    container.prepare(request, pageContext.getResponse(),
+                        preparer);
                 }
 
                 // include requested component.
@@ -563,19 +509,51 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
 
                 log.error(msg, e);
                 throw new JspException(msg, e);
-
-            } finally {
-                // restore old context only if currentContext not null
-                // (bug with Silverstream ?; related by Arvindra Sehmi 20010712)
-                if (currentContext != null) {
-                    pageContext.setAttribute(
-                        ComponentConstants.COMPONENT_CONTEXT,
-                        currentContext, PageContext.REQUEST_SCOPE);
-                }
             }
 
             return EVAL_PAGE;
         }
+
+        /**
+         * Do an include of specified page. This method is used internally to do all
+         * includes from this class. It delegates the include call to the
+         * JspUtil.doInclude().
+         *
+         * @param page  The page that will be included
+         * @param flush If the writer should be flushed before the include
+         * @throws javax.servlet.jsp.JspException
+         */
+        protected void doInclude(String page, boolean flush) throws JspException {
+            JspUtil.doInclude(pageContext, page, flush);
+        }
+    }
+
+    protected class DefinitionHandler extends InsertHandler {
+
+        public DefinitionHandler(Map<String, Object> attributes,
+                                 String page,
+                                 String role,
+                                 String preparer) {
+            super(attributes, page, role, preparer);
+        }
+
+        public DefinitionHandler(String page,
+                                 String role,
+                                 String preparer) {
+            super(page, role, preparer);
+        }
+
+        public void doInclude(String page, boolean flush) throws JspException {
+            try {
+
+                container.render(pageContext.getRequest(),
+                    pageContext.getResponse(), page);
+            } catch (TilesException e) {
+                throw new JspException(e);
+            }
+
+        }
+
     }
 
     // ///////////////////////////////////////////////////////////////////////////

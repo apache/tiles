@@ -222,4 +222,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         }
     }
 
+    public boolean isUserInRole(String role) {
+        return request.isUserInRole(role);
+    }
 }

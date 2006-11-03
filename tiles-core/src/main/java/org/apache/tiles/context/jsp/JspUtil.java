@@ -23,8 +23,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletException;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -66,12 +66,17 @@ public class JspUtil {
                 include.invoke(pageContext, uri, flush);
                 return;
             }
-            pageContext.include(uri);
         } catch (IllegalAccessException e) {
             LOG.debug("Could not find JSP 2.0 include method.  Using old one.", e);
         } catch (InvocationTargetException e) {
             LOG.debug("Unable to execute JSP 2.0 include method.  Trying old one.", e);
-        } catch (IOException e) {
+        }
+
+
+        try {
+            pageContext.include(uri);
+        }
+        catch (IOException e) {
             throw new JspException("IOException while including page.", e);
         } catch (ServletException e) {
             throw new JspException("ServletException while including page.", e);

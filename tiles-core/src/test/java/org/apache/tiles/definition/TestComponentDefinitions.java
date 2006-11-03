@@ -30,7 +30,7 @@ import org.apache.tiles.definition.ComponentDefinitionsImpl;
 import org.apache.tiles.definition.ComponentDefinitions;
 import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.definition.ComponentDefinition;
-import org.apache.tiles.definition.ComponentAttribute;
+import org.apache.tiles.ComponentAttribute;
 
 /**
  * Tests the ComponentDefinitionsImpl class.

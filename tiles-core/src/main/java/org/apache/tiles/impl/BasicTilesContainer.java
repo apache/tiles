@@ -22,23 +22,24 @@ package org.apache.tiles.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.*;
+import org.apache.tiles.context.BasicComponentContext;
 import org.apache.tiles.context.TilesContextFactory;
-import org.apache.tiles.context.ComponentContext;
 import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.preparer.NoSuchPreparerException;
 import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
 
 import javax.servlet.jsp.PageContext;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.io.IOException;
 
 /**
  * Basic implementation of the tiles container interface.
@@ -55,7 +56,7 @@ public class BasicTilesContainer implements TilesContainer {
      * Constant representing the configuration parameter
      * used to define the tiles definition resources.
      */
-    public static final String DEFINITIONS_CONFIG = "tiles-definitions-config";
+    public static final String DEFINITIONS_CONFIG = "org.apache.tiles.DEFINITION_CONFIG";
 
     /**
      * Compatibility constant.
@@ -85,6 +86,9 @@ public class BasicTilesContainer implements TilesContainer {
      */
     public void init(TilesApplicationContext context) throws TilesException {
         checkInit();
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Initializing Tiles2 container. . .");
+        }
         this.context = context;
         contextFactory.init(context.getInitParams());
         definitionsFactory.init(context.getInitParams());
@@ -97,12 +101,18 @@ public class BasicTilesContainer implements TilesContainer {
             for (String resource : resources) {
                 URL resourceUrl = context.getResource(resource);
                 if (resourceUrl != null) {
+                    if(LOG.isDebugEnabled()) {
+                        LOG.debug("Adding resource '"+resourceUrl+"' to definitions factory.");
+                    }
                     definitionsFactory.addSource(resourceUrl);
                 }
             }
         } catch (IOException e) {
             throw new DefinitionsFactoryException("Unable to parse definitions from "
                 + resourceString, e);
+        }
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Tiles2 container initialization complete.");
         }
     }
 
@@ -129,11 +139,38 @@ public class BasicTilesContainer implements TilesContainer {
         return context;
     }
 
-    public TilesRequestContext getRequestContext(Object request, Object response) {
+    public ComponentContext getComponentContext(Object request, Object response) {
+        TilesRequestContext tilesContext = getRequestContext(request, response);
+        return getComponentContext(tilesContext);
+
+    }
+
+    public ComponentContext getComponentContext(PageContext pageContext) {
+        TilesRequestContext tilesContext = getRequestContext(pageContext);
+        return getComponentContext(tilesContext);
+    }
+
+    private ComponentContext getComponentContext(TilesRequestContext tilesContext) {
+        ComponentContext context = BasicComponentContext.getContext(tilesContext);
+        if (context == null) {
+            context = new BasicComponentContext();
+            BasicComponentContext.setContext(context, tilesContext);
+        }
+        return context;
+    }
+
+    private TilesRequestContext getRequestContext(Object request, Object response) {
         return getContextFactory().createRequestContext(
             getApplicationContext(),
             request,
             response
+        );
+    }
+
+    private TilesRequestContext getRequestContext(PageContext context) {
+        return getContextFactory().createRequestContext(
+            getApplicationContext(),
+            context
         );
     }
 
@@ -193,7 +230,7 @@ public class BasicTilesContainer implements TilesContainer {
             request,
             response
         );
-        prepare(requestContext, preparer);
+        prepare(requestContext, preparer, false);
     }
 
     public void prepare(PageContext context, String preparer)
@@ -201,13 +238,26 @@ public class BasicTilesContainer implements TilesContainer {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
             getApplicationContext(), context
         );
-        prepare(requestContext, preparer);
+        prepare(requestContext, preparer, false);
     }
 
-    private void prepare(TilesRequestContext context, String preparerName)
+    private void prepare(TilesRequestContext context, String preparerName, boolean ignoreMissing)
         throws TilesException {
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Prepare request recieved for '" + preparerName);
+        }
+
         ViewPreparer preparer = preparerFactory.getPreparer(preparerName, null);
-        ComponentContext componentContext = ComponentContext.getContext(context);
+        if (preparer == null && ignoreMissing) {
+            return;
+        }
+
+        if (preparer == null) {
+            throw new NoSuchPreparerException("Preparer '" + preparerName + " not found");
+        }
+
+        ComponentContext componentContext = BasicComponentContext.getContext(context);
 
         // TODO: Temporary while preparerInstance gets refactored to throw a more specific exception.
         try {
@@ -243,6 +293,11 @@ public class BasicTilesContainer implements TilesContainer {
 
     private void render(TilesRequestContext request, String definitionName)
         throws TilesException {
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Render request recieved for definition '" + definitionName + "'");
+        }
+
         ComponentDefinition definition =
             definitionsFactory.getDefinition(definitionName, request);
 
@@ -254,14 +309,28 @@ public class BasicTilesContainer implements TilesContainer {
             throw new NoSuchDefinitionException(definitionName);
         }
 
-        ComponentContext originalContext = ComponentContext.getContext(request);
-        ComponentContext subContext = new ComponentContext(definition.getAttributes());
-        ComponentContext.setContext(subContext, request);
+        if (!isPermitted(request, definition.getRole())) {
+            LOG.info("Access to definition '" + definitionName +
+                "' denied.  User not in role '" + definition.getRole());
+            return;
+        }
+
+        ComponentContext originalContext = getComponentContext(request);
+        BasicComponentContext subContext = new BasicComponentContext(originalContext);
+        subContext.addMissing(definition.getAttributes());
+        BasicComponentContext.setContext(subContext, request);
 
         try {
-            prepare(request, definition.getPreparer());
+            if(definition.getPreparer() != null) {
+                prepare(request, definition.getPreparer(), true);
+            }
 
             String dispatchPath = definition.getPath();
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Dispatching to definition path '" +
+                    definition.getPath() + " '");
+            }
             request.dispatch(dispatchPath);
 
         } catch (TilesException e) {
@@ -271,8 +340,22 @@ public class BasicTilesContainer implements TilesContainer {
             // tiles exception so that it doesn't need to be rethrown.
             throw new TilesException(e.getMessage(), e);
         } finally {
-            ComponentContext.setContext(originalContext, request);
+            BasicComponentContext.setContext(originalContext, request);
         }
+    }
+
+    private boolean isPermitted(TilesRequestContext request, String role) {
+        if(role == null) {
+            return true;
+        }
+        
+        StringTokenizer st = new StringTokenizer(role, ",");
+        while (st.hasMoreTokens()) {
+            if (request.isUserInRole(st.nextToken())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -311,4 +394,25 @@ public class BasicTilesContainer implements TilesContainer {
         return filenames;
     }
 
+    public boolean isValidDefinition(Object request, Object response, String definitionName) {
+        return isValidDefinition(getRequestContext(request, response), definitionName);
+    }
+
+    public boolean isValidDefinition(PageContext pageContext, String definitionName) {
+        return isValidDefinition(getRequestContext(pageContext), definitionName);
+    }
+
+    private boolean isValidDefinition(TilesRequestContext context, String definitionName) {
+        try {
+            ComponentDefinition definition =
+                definitionsFactory.getDefinition(definitionName, context);
+            return definition != null;
+        }
+        catch (NoSuchDefinitionException nsde) {
+            return false;
+        } catch (DefinitionsFactoryException e) {
+            // TODO, is this the right thing to do?
+            return false;
+        }
+    }
 }

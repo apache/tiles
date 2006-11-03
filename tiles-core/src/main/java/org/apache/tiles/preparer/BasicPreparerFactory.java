@@ -57,7 +57,7 @@ public class BasicPreparerFactory implements PreparerFactory {
      * @throws NoSuchPreparerException
      */
     public ViewPreparer getPreparer(String name, TilesRequestContext context)
-        throws NoSuchPreparerException {
+        throws PreparerException {
 
         if (!preparers.containsKey(name)) {
             preparers.put(name, createPreparer(name));
@@ -66,7 +66,7 @@ public class BasicPreparerFactory implements PreparerFactory {
         return preparers.get(name);
     }
 
-    private ViewPreparer createPreparer(String name) throws NoSuchPreparerException {
+    private ViewPreparer createPreparer(String name) throws PreparerException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Creating ViewPreparer '" + name + "' . . .");
@@ -79,19 +79,21 @@ public class BasicPreparerFactory implements PreparerFactory {
             return (ViewPreparer) instance;
 
         } catch (java.lang.ClassNotFoundException ex) {
-            throw new NoSuchPreparerException(
-                "Error - Class not found :" + ex.getMessage(), ex);
-
+            // upon class not found, we should return null;
+            // the container will determine whether or not to throw
+            // an exception.
+            LOG.warn("Preparer '"+name+"' not found.");
+            return null;
         } catch (java.lang.IllegalAccessException ex) {
-            throw new NoSuchPreparerException(
+            throw new PreparerException(
                 "Error - Illegal class access :" + ex.getMessage(), ex);
 
         } catch (java.lang.ClassCastException ex) {
-            throw new NoSuchPreparerException(
+            throw new PreparerException(
                 "ViewPreparer of class '" + name
                     + "' should implements 'ViewPreparer' or extends 'Action'");
         } catch (InstantiationException e) {
-            throw new NoSuchPreparerException(
+            throw new PreparerException(
                 "Error - Unable to instantiate ViewPreparer '"
                     + name + "'. Does it have a default constructor?", e);
         }
