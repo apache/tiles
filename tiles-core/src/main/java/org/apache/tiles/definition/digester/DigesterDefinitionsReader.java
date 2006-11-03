@@ -214,7 +214,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         String LIST_TAG = "putList";
         String DEF_LIST_TAG = DEFINITION_TAG + "/" + LIST_TAG;
 
-        String listHandlerClass = PACKAGE_NAME + ".ComponentListAttribute";
+        String listHandlerClass = PACKAGE_NAME + ".context.ComponentListAttribute";
         // Tag value for adding an element in a list
         String ADD_LIST_ELE_TAG = "*/" + LIST_TAG + "/add";
 

@@ -21,7 +21,7 @@
 package org.apache.tiles.context;
 
 import org.apache.tiles.taglib.ComponentConstants;
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentAttribute;
 

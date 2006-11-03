@@ -20,7 +20,7 @@
 package org.apache.tiles.context.portlet;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;

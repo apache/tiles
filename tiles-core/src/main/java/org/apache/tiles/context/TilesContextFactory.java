@@ -20,7 +20,7 @@
 package org.apache.tiles.context;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 
 import javax.servlet.jsp.PageContext;
 import java.util.Map;

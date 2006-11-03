@@ -20,7 +20,7 @@
 package org.apache.tiles.context.servlet;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;

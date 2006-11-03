@@ -21,7 +21,7 @@
 package org.apache.tiles.context;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.jsp.JspTilesRequestContext;
 import org.apache.tiles.context.portlet.PortletTilesApplicationContext;
 import org.apache.tiles.context.portlet.PortletTilesRequestContext;

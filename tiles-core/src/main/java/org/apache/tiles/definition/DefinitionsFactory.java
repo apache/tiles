@@ -20,7 +20,7 @@
 
 package org.apache.tiles.definition;
 
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 
 import java.util.Map;
 

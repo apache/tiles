@@ -19,7 +19,7 @@
  */
 package org.apache.tiles.context.servlet;
 
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

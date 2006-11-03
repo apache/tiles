@@ -64,6 +64,7 @@ public class ComponentAttribute implements Serializable {
     /**
      * Constructor.
      *
+     * @param name name of the attribute
      * @param value Object to store.
      */
     public ComponentAttribute(String name, Object value) {
@@ -97,6 +98,7 @@ public class ComponentAttribute implements Serializable {
 
     /**
      * Get role.
+     * @return the name of the required role(s)
      */
     public String getRole() {
         return role;
@@ -113,6 +115,7 @@ public class ComponentAttribute implements Serializable {
 
     /**
      * Get value.
+     * @return the value
      */
     public Object getValue() {
         return value;

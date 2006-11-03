@@ -21,7 +21,7 @@ package org.apache.tiles.preparer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.util.RequestUtils;
 
 import java.util.HashMap;

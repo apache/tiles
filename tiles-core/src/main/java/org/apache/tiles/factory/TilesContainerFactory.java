@@ -57,13 +57,14 @@ public class TilesContainerFactory {
     public static final String PREPARER_FACTORY_INIT_PARAM =
         "org.apache.tiles.PREPARER_FACTORY";
 
-    private static final Map DEFAULT_IMPLEMENTATIONS = new HashMap();
+    private static final Map<String, String> DEFAULTS =
+        new HashMap<String, String>();
 
     static {
-        DEFAULT_IMPLEMENTATIONS.put(CONTAINER_FACTORY_INIT_PARAM, TilesContainerFactory.class.getName());
-        DEFAULT_IMPLEMENTATIONS.put(CONTEXT_FACTORY_INIT_PARAM, BasicTilesContextFactory.class.getName());
-        DEFAULT_IMPLEMENTATIONS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
-        DEFAULT_IMPLEMENTATIONS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
+        DEFAULTS.put(CONTAINER_FACTORY_INIT_PARAM, TilesContainerFactory.class.getName());
+        DEFAULTS.put(CONTEXT_FACTORY_INIT_PARAM, BasicTilesContextFactory.class.getName());
+        DEFAULTS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
+        DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
     }
 
     /**
@@ -76,9 +77,10 @@ public class TilesContainerFactory {
      * the factory will attempt to utilize one of it's internal
      * factories.
      *
-     * @param context
-     * @return
-     * @throws TilesException
+     * @param context the executing applications context.
+     *        Typically a ServletContext or PortletContext
+     * @return a tiles container
+     * @throws TilesException if an error occurs creating the factory.
      */
     public static TilesContainerFactory getFactory(Object context)
         throws TilesException {
@@ -100,22 +102,23 @@ public class TilesContainerFactory {
         PreparerFactory prepFactory =
             (PreparerFactory) createFactory(context, PREPARER_FACTORY_INIT_PARAM);
 
-        container.setDefinitionsFactory(defsFactory);
-        container.setContextFactory(contextFactory);
-        container.setPreparerFactory(prepFactory);
-
         TilesApplicationContext tilesContext =
             contextFactory.createApplicationContext(context);
 
-        container.init(tilesContext);
+        container.setDefinitionsFactory(defsFactory);
+        container.setContextFactory(contextFactory);
+        container.setPreparerFactory(prepFactory);
+        container.setApplicationContext(tilesContext);
+
+        container.init(getInitParameterMap(context));
 
         return container;
     }
 
 
-    public Map getInitParameterMap(Object context)
+    protected Map<String, String> getInitParameterMap(Object context)
         throws TilesException {
-        Map initParameters = new HashMap();
+        Map<String, String> initParameters = new HashMap<String, String>();
         Class contextClass = context.getClass();
         try {
             Method method = contextClass.getMethod("getInitParameterNames");
@@ -124,12 +127,12 @@ public class TilesContainerFactory {
             method = contextClass.getMethod("getInitParameter", String.class);
             while (e.hasMoreElements()) {
                 String key = (String) e.nextElement();
-                initParameters.put(key, method.invoke(context, key));
+                initParameters.put(key, (String)method.invoke(context, key));
             }
         } catch (Exception e) {
             throw new TilesException("Unable to retrieve init parameters." +
                 " Is this context a ServletContext, PortletContext," +
-                " or similar object?");
+                " or similar object?", e);
         }
         return initParameters;
     }
@@ -154,7 +157,7 @@ public class TilesContainerFactory {
     public static String resolveFactoryName(Object context, String parameterName)
         throws TilesException {
 
-        Object factoryName = null;
+        Object factoryName;
         try {
             Class contextClass = context.getClass();
             Method getInitParameterMethod =
@@ -165,7 +168,7 @@ public class TilesContainerFactory {
                 "a ServletContext, PortletContext, or similar?", e);
         }
         return factoryName == null
-            ? DEFAULT_IMPLEMENTATIONS.get(parameterName).toString()
+            ? DEFAULTS.get(parameterName)
             : factoryName.toString();
     }
 }

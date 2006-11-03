@@ -20,10 +20,7 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.TilesRequestContext;
-import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.tiles.taglib.util.TagUtils;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;

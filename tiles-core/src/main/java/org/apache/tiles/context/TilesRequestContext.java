@@ -17,7 +17,7 @@
  * under the License.
  *
  */
-package org.apache.tiles;
+package org.apache.tiles.context;
 
 import java.io.IOException;
 import java.util.Locale;

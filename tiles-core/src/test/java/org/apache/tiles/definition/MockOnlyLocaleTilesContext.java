@@ -26,7 +26,7 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 
 /**
  * Creates a TilesApplicationContext that contains only a Locale
@@ -51,7 +51,7 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     /**
      * Returns the locale specified in the constructor.
      * 
-     * @see org.apache.tiles.TilesRequestContext#getRequestLocale()
+     * @see org.apache.tiles.context.TilesRequestContext#getRequestLocale()
      */
     public Locale getRequestLocale() {
         return locale;

@@ -31,41 +31,41 @@ public interface ComponentContext {
      * Retrieve the named attribute.
      *
      * @param name key name for the attribute.
-     * @return
+     * @return ComponentAttribute associated with the given name.
      */
     ComponentAttribute getAttribute(String name);
 
     /**
      * Iterator of all attribute names.
      *
-     * @return
+     * @return iterator of all names.
      */
     Iterator<String> getAttributeNames();
 
     /**
      * Add the specified attribute.
      *
-     * @param name
-     * @param value
+     * @param name name of the attribute
+     * @param value value of the attribute
      */
     void putAttribute(String name, ComponentAttribute value);
 
     /**
      * Find the attribute
      *
-     * @param beanName
-     * @param pageContext
-     * @return
+     * @param beanName name of the bean
+     * @param pageContext current pageContext.
+     * @return search for the attribute in one of the scopes.
      */
     ComponentAttribute findAttribute(String beanName, PageContext pageContext);
 
     /**
      * Find the named attribute.
      *
-     * @param beanName
-     * @param scope
-     * @param pageContext
-     * @return
+     * @param beanName name of the bean
+     * @param scope scope of the bean
+     * @param pageContext current pageContext
+     * @return component attribute - if found.
      */
     ComponentAttribute getAttribute(
         String beanName,

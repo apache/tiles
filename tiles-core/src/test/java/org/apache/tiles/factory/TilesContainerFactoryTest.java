@@ -32,6 +32,7 @@ import org.apache.tiles.impl.BasicTilesContainer;
 
 import java.util.Map;
 import java.util.Vector;
+import java.util.HashMap;
 import java.net.URL;
 import java.net.MalformedURLException;
 
@@ -71,10 +72,12 @@ public class TilesContainerFactoryTest extends TestCase {
 
     public void testCreateContainer() throws TilesException, MalformedURLException {
         URL url = getClass().getResource("test-defs.xml");
+        Vector enumeration = new Vector();
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
+        EasyMock.expect(context.getInitParameterNames()).andReturn(enumeration.elements());
         EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
         EasyMock.replay(context);
 
@@ -84,7 +87,7 @@ public class TilesContainerFactoryTest extends TestCase {
         assertNotNull(container);
         //now make sure it's initialized
         try {
-            container.init(null);
+            container.init(new HashMap<String, String>());
             fail("Container should have allready been initialized");
         }
         catch (IllegalStateException te) {

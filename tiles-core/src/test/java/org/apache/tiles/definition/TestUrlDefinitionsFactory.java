@@ -36,7 +36,7 @@ import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.MockPublicUrlDefinitionsFactory;
 import org.apache.tiles.definition.MockDefinitionsReader;
 import org.apache.tiles.definition.MockOnlyLocaleTilesContext;
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 
 /**
  * Tests the UrlDefinitionsFactory component.

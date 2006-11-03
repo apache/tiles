@@ -22,7 +22,7 @@ package org.apache.tiles.definition;
 
 import org.apache.tiles.definition.ComponentDefinitions;
 import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 
 /**
@@ -38,7 +38,7 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
      * <code>UrlDefinitionsFactory</code>
      * 
      * @see org.apache.tiles.definition.UrlDefinitionsFactory#addDefinitions(org.apache.tiles.definition.ComponentDefinitions,
-     *      org.apache.tiles.TilesRequestContext)
+     *org.apache.tiles.context.TilesRequestContext)
      */
     public void addDefinitions(ComponentDefinitions definitions,
             TilesRequestContext tilesContext) throws DefinitionsFactoryException {
@@ -50,7 +50,7 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
      * Exposes the <code>isLocaleProcessed</code> method of
      * <code>UrlDefinitionsFactory</code>
      * 
-     * @see org.apache.tiles.definition.UrlDefinitionsFactory#isLocaleProcessed(org.apache.tiles.TilesRequestContext)
+     * @see org.apache.tiles.definition.UrlDefinitionsFactory#isLocaleProcessed(org.apache.tiles.context.TilesRequestContext)
      */
     public boolean isLocaleProcessed(TilesRequestContext tilesContext) {
         return super.isLocaleProcessed(tilesContext);

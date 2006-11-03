@@ -17,15 +17,12 @@
  * under the License.
  *
  */
-
-
-package org.apache.tiles;
+package org.apache.tiles.context;
 
 import org.apache.tiles.ComponentAttribute;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * An attribute as a <code>List</code>.
@@ -42,13 +39,13 @@ public class ComponentListAttribute extends ComponentAttribute {
      * We declare a List to avoid cast.
      * Parent "value" property points to the same list.
      */
-    private List list;
+    private List<Object> list;
 
     /**
      * Constructor.
      */
     public ComponentListAttribute() {
-        list = new ArrayList();
+        list = new ArrayList<Object>();
         setValue(list);
     }
 
@@ -58,7 +55,7 @@ public class ComponentListAttribute extends ComponentAttribute {
      * @param name  Name.
      * @param value List.
      */
-    public ComponentListAttribute(String name, List value) {
+    public ComponentListAttribute(String name, List<Object> value) {
         super(name, value);
         list = value;
     }
@@ -84,7 +81,6 @@ public class ComponentListAttribute extends ComponentAttribute {
         // Digester doesn't call correct method according to object type ;-(
         if (value instanceof ComponentAttribute) {
             add((ComponentAttribute) value);
-            return;
         } else {
             list.add(value);
         }

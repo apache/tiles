@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.*;
 import org.apache.tiles.context.BasicComponentContext;
 import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
@@ -78,20 +79,23 @@ public class BasicTilesContainer implements TilesContainer {
 
     private TilesContextFactory contextFactory;
 
+    private boolean initialized = false;
+
     /**
      * Initialize the Container with the given configuration.
      *
-     * @param context application context for this container
+     * @param initParameters application context for this container
      * @throws TilesException
      */
-    public void init(TilesApplicationContext context) throws TilesException {
+    public void init(Map<String, String> initParameters) throws TilesException {
         checkInit();
+        initialized = true;
         if (LOG.isInfoEnabled()) {
             LOG.info("Initializing Tiles2 container. . .");
         }
-        this.context = context;
-        contextFactory.init(context.getInitParams());
-        definitionsFactory.init(context.getInitParams());
+        
+        contextFactory.init(initParameters);
+        definitionsFactory.init(initParameters);
 
         //Everything is now initialized.  We will populate
         // our definitions
@@ -128,7 +132,7 @@ public class BasicTilesContainer implements TilesContainer {
      * @throws IllegalStateException if the container has already been initialized.
      */
     private void checkInit() {
-        if (context != null) {
+        if (initialized) {
             throw new IllegalStateException("Container allready initialized");
         }
     }
@@ -140,6 +144,10 @@ public class BasicTilesContainer implements TilesContainer {
      */
     public TilesApplicationContext getApplicationContext() {
         return context;
+    }
+
+    public void setApplicationContext(TilesApplicationContext context) {
+        this.context = context;
     }
 
     public ComponentContext getComponentContext(Object request, Object response) {

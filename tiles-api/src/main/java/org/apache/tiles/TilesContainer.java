@@ -20,6 +20,7 @@
 package org.apache.tiles;
 
 import javax.servlet.jsp.PageContext;
+import java.util.Map;
 
 /**
  * An encapsulation of the tiles framework.  This interface is
@@ -36,10 +37,10 @@ public interface TilesContainer {
      * Initialize the container with the given
      * configuration.
      *
-     * @param context
-     * @throws TilesException
+     * @param initParameters application context
+     * @throws TilesException when an initialization error occurs
      */
-    void init(TilesApplicationContext context) throws TilesException;
+    void init(Map<String, String> initParameters) throws TilesException;
 
     /**
      * Retrieve the containers context.
