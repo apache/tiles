@@ -19,19 +19,14 @@
  */
 package org.apache.tiles.taglib.util;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.taglib.ComponentConstants;
 
-import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,11 +59,6 @@ public class TagUtils {
         scopes.put("session", PageContext.SESSION_SCOPE);
         scopes.put("application", PageContext.APPLICATION_SCOPE);
     }
-
-    public static TilesApplicationContext getTilesContext(ServletContext context) {
-        return TilesAccess.getApplicationContext(context);
-    }
-
 
     /**
      * Get scope value from string value
@@ -116,81 +106,6 @@ public class TagUtils {
         return scope;
     }
 
-
-    /**
-     * Return the value of the specified property of the specified bean,
-     * no matter which property reference format is used, with no
-     * type conversions.
-     *
-     * @param bean Bean whose property is to be extracted.
-     * @param name Possibly indexed and/or nested name of the property
-     *             to be extracted.
-     * @throws IllegalAccessException    if the caller does not have
-     *                                   access to the property accessor method
-     * @throws InvocationTargetException if the property accessor method
-     *                                   throws an exception
-     * @throws NoSuchMethodException     if an accessor method for this
-     *                                   propety cannot be found.
-     * @deprecated Use PropertyUtils.getProperty() directly.  This will be removed
-     *             after Struts 1.2.
-     */
-    public static Object getProperty(Object bean, String name)
-        throws
-        IllegalAccessException,
-        InvocationTargetException,
-        NoSuchMethodException {
-
-        return PropertyUtils.getProperty(bean, name);
-    }
-
-    /**
-     * Retrieve bean from page context, using specified scope.
-     * If scope is not set, use <code>findAttribute()</code>.
-     *
-     * @param beanName    Name of bean to retrieve.
-     * @param scopeName   Scope or <code>null</code>. If <code>null</code>, bean is searched using
-     *                    findAttribute().
-     * @param pageContext Current pageContext.
-     * @return Requested bean or <code>null</code> if not found.
-     * @throws JspException Scope name is not recognized as a valid scope.
-     */
-    public static Object retrieveBean(String beanName, String scopeName, PageContext pageContext)
-        throws JspException {
-
-        if (scopeName == null) {
-            return findAttribute(beanName, pageContext);
-        }
-
-        // Default value doesn't matter because we have already check it
-        int scope = getScope(scopeName, PageContext.PAGE_SCOPE);
-
-        //return pageContext.getAttribute( beanName, scope );
-        return getAttribute(beanName, scope, pageContext);
-    }
-
-    /**
-     * Search attribute in different contexts.
-     * First, check in component context, then use pageContext.findAttribute().
-     *
-     * @param beanName    Name of bean to retrieve.
-     * @param pageContext Current pageContext.
-     * @return Requested bean or <code>null</code> if not found.
-     */
-    public static Object findAttribute(String beanName, PageContext pageContext) {
-        TilesContainer container = TilesAccess.getContainer(pageContext);
-        ComponentContext compContext = container.getComponentContext(pageContext);
-
-        if (compContext != null) {
-            ComponentAttribute attribute = compContext.findAttribute(beanName, pageContext);
-            if (attribute != null) {
-                return attribute;
-            }
-        }
-
-        // Search in pageContext scopes
-        return pageContext.findAttribute(beanName);
-    }
-
     /**
      * Get object from requested context. Return <code>null</code> if not found.
      * Context can be "component" or normal JSP contexts.
@@ -212,74 +127,6 @@ public class TagUtils {
     }
 
     /**
-     * Locate and return the specified property of the specified bean, from
-     * an optionally specified scope, in the specified page context.
-     *
-     * @param pageContext  Page context to be searched.
-     * @param beanName     Name of the bean to be retrieved.
-     * @param beanProperty Name of the property to be retrieved, or
-     *                     <code>null</code> to retrieve the bean itself.
-     * @param beanScope    Scope to be searched (page, request, session, application)
-     *                     or <code>null</code> to use <code>findAttribute()</code> instead.
-     * @throws JspException Scope name is not recognized as a valid scope
-     * @throws JspException if the specified bean is not found
-     * @throws JspException if accessing this property causes an
-     *                      IllegalAccessException, IllegalArgumentException,
-     *                      InvocationTargetException, or NoSuchMethodException
-     */
-    public static Object getRealValueFromBean(
-        String beanName,
-        String beanProperty,
-        String beanScope,
-        PageContext pageContext)
-        throws JspException {
-
-        try {
-            Object realValue;
-            Object bean = retrieveBean(beanName, beanScope, pageContext);
-            if (bean != null && beanProperty != null) {
-                realValue = PropertyUtils.getProperty(bean, beanProperty);
-            } else {
-                realValue = bean; // value can be null
-            }
-            return realValue;
-
-        } catch (NoSuchMethodException ex) {
-            throw new JspException(
-                "Error - component.PutAttributeTag : Error while retrieving value from bean '"
-                    + beanName
-                    + "' with property '"
-                    + beanProperty
-                    + "' in scope '"
-                    + beanScope
-                    + "'. (exception : "
-                    + ex.getMessage(), ex);
-
-        } catch (InvocationTargetException ex) {
-            throw new JspException(
-                "Error - component.PutAttributeTag : Error while retrieving value from bean '"
-                    + beanName
-                    + "' with property '"
-                    + beanProperty
-                    + "' in scope '"
-                    + beanScope
-                    + "'. (exception : "
-                    + ex.getMessage(), ex);
-
-        } catch (IllegalAccessException ex) {
-            throw new JspException(
-                "Error - component.PutAttributeTag : Error while retrieving value from bean '"
-                    + beanName
-                    + "' with property '"
-                    + beanProperty
-                    + "' in scope '"
-                    + beanScope
-                    + "'. (exception : "
-                    + ex.getMessage(), ex);
-        }
-    }
-
-    /**
      * Store bean in requested context.
      * If scope is <code>null</code>, save it in REQUEST_SCOPE context.
      *
@@ -290,11 +137,8 @@ public class TagUtils {
      * @param value       Bean value to store.
      * @throws JspException Scope name is not recognized as a valid scope
      */
-    public static void setAttribute(
-        PageContext pageContext,
-        String name,
-        ComponentDefinition value,
-        String scope)
+    public static void setAttribute(PageContext pageContext, String name,
+        ComponentDefinition value, String scope)
         throws JspException {
 
         if (scope == null)
@@ -325,14 +169,5 @@ public class TagUtils {
         pageContext.setAttribute(name, beanValue, PageContext.REQUEST_SCOPE);
     }
 
-    /**
-     * Save the specified exception as a request attribute for later use.
-     *
-     * @param pageContext The PageContext for the current page.
-     * @param exception   The exception to be saved.
-     */
-    public static void saveException(PageContext pageContext, Throwable exception) {
-        pageContext.setAttribute(ComponentConstants.EXCEPTION_KEY, exception, PageContext.REQUEST_SCOPE);
-    }
 
 }

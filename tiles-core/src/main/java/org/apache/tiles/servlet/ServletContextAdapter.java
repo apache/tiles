@@ -26,6 +26,7 @@ import java.net.URL;
 import java.net.MalformedURLException;
 import java.io.InputStream;
 
+@SuppressWarnings("deprecation")
 public class ServletContextAdapter implements ServletContext {
 
     private ServletContext rootContext;
@@ -73,14 +74,17 @@ public class ServletContextAdapter implements ServletContext {
         return rootContext.getNamedDispatcher(string);
     }
 
+    @SuppressWarnings("deprecation")
     public Servlet getServlet(String string) throws ServletException {
         return rootContext.getServlet(string);
     }
 
+    @SuppressWarnings("deprecation")
     public Enumeration getServlets() {
         return rootContext.getServlets();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @SuppressWarnings("deprecation")
     public Enumeration getServletNames() {
         return rootContext.getServletNames();
     }
@@ -89,6 +93,7 @@ public class ServletContextAdapter implements ServletContext {
         rootContext.log(string);
     }
 
+    @SuppressWarnings("deprecation")
     public void log(Exception exception, String string) {
         rootContext.log(exception, string);
     }
