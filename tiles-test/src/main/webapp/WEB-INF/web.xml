@@ -6,6 +6,11 @@
     version="2.4">
 
   <display-name>Tiles 2 Test Application</display-name>
+
+    <context-param>
+        <param-name>org.apache.tiles.CONTEXT_FACTORY</param-name>
+        <param-value>org.apache.tiles.context.enhanced.EnhancedContextFactory</param-value>
+    </context-param>
   
   <!-- Standard Action Servlet Configuration -->
   <servlet>
@@ -13,7 +18,7 @@
     <servlet-class>org.apache.tiles.servlet.TilesServlet</servlet-class>
     <init-param>
       <param-name>definitions-config</param-name>
-      <param-value>/WEB-INF/tiles-defs.xml</param-value>
+      <param-value>/WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml</param-value>
     </init-param>
     <load-on-startup>2</load-on-startup>
  </servlet>

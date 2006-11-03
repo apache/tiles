@@ -57,6 +57,15 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
         this.rootContext = rootContext;
     }
 
+
+    public TilesApplicationContext getRootContext() {
+        return rootContext;
+    }
+
+    public void setRootContext(TilesApplicationContext rootContext) {
+        this.rootContext = rootContext;
+    }
+
     public Map<String, Object> getApplicationScope() {
         return rootContext.getApplicationScope();
     }
@@ -69,6 +78,7 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
         URL rootUrl = rootContext.getResource(path);
         if(rootUrl == null) {
             Set<URL> resources = getResources(path);
+            resources.remove(null);
             if(resources.size() > 0) {
                 rootUrl = resources.toArray(new URL[resources.size()])[0];
             }
@@ -79,11 +89,21 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
     public Set<URL> getResources(String path) throws IOException {
         Set<URL> resources = new HashSet<URL>();
         resources.addAll(rootContext.getResources(path));
+        resources.addAll(getClasspathResources(path));
+        return resources;
+    }
+
+    public Set<URL> getClasspathResources(String path) throws IOException {
+        Set<URL> resources = new HashSet<URL>();
         resources.addAll(searchResources(getClass().getClassLoader(), path));
 
         ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
         if(contextLoader != null) {
             resources.addAll(searchResources(contextLoader, path));
+        }
+
+        if(resources.size() == 0 && path.startsWith("/")) {
+            return getClasspathResources(path.substring(1));
         }
 
         return resources;

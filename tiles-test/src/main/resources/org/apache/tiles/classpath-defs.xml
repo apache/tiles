@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+    "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/tiles-config_2_0.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+    <definition name="classpath.definition" template="/layout.jsp">
+        <put name="title" value="This is the title."/>
+        <put name="header" value="/header.jsp"/>
+        <put name="body" value="/body.jsp"/>
+    </definition>
+</tiles-definitions>

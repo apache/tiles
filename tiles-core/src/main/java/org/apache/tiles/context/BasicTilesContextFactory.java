@@ -67,13 +67,13 @@ public class BasicTilesContextFactory implements TilesContextFactory {
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object request,
                                                     Object response) {
-        if (context instanceof ServletTilesApplicationContext) {
-            ServletTilesApplicationContext app = (ServletTilesApplicationContext) context;
-
-            return new ServletTilesRequestContext(app.getServletContext(),
+        ServletContext servletContext = getServletContext(context);
+        PortletContext portletContext = getPortletContext(context);
+        if (servletContext != null) {
+            return new ServletTilesRequestContext(servletContext,
                 (HttpServletRequest) request,
                 (HttpServletResponse) response);
-        } else if (context instanceof PortletContext) {
+        } else if (portletContext != null) {
             PortletTilesApplicationContext app = (PortletTilesApplicationContext) context;
             return new PortletTilesRequestContext(app.getPortletContext(),
                 (PortletRequest) request,
@@ -86,10 +86,27 @@ public class BasicTilesContextFactory implements TilesContextFactory {
 
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     PageContext pageContext) {
-        if (context instanceof ServletTilesApplicationContext) {
-            ServletTilesApplicationContext app = (ServletTilesApplicationContext) context;
-            return new JspTilesRequestContext(app.getServletContext(), pageContext);
+        ServletContext servletContext = getServletContext(context);
+        if (servletContext != null) {
+            return new JspTilesRequestContext(servletContext, pageContext);
         }
         throw new IllegalArgumentException("The context/pageContext combination is not supported.");
+    }
+
+    protected ServletContext getServletContext(TilesApplicationContext context) {
+        if (context instanceof ServletTilesApplicationContext) {
+            ServletTilesApplicationContext app = (ServletTilesApplicationContext) context;
+            return app.getServletContext();
+        }
+        return null;
+
+    }
+
+    protected PortletContext getPortletContext(TilesApplicationContext context) {
+        if (context instanceof PortletTilesApplicationContext) {
+            PortletTilesApplicationContext app = (PortletTilesApplicationContext) context;
+            return app.getPortletContext();
+        }
+        return null;
     }
 }

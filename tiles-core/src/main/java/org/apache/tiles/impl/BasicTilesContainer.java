@@ -106,6 +106,9 @@ public class BasicTilesContainer implements TilesContainer {
                     }
                     definitionsFactory.addSource(resourceUrl);
                 }
+                else {
+                    LOG.warn("Unable to find configured definition '"+resource+"'");
+                }
             }
         } catch (IOException e) {
             throw new DefinitionsFactoryException("Unable to parse definitions from "
