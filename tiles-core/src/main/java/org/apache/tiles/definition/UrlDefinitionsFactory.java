@@ -23,7 +23,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
-import org.apache.tiles.util.RequestUtils;
+import org.apache.tiles.util.ClassUtil;
+import org.apache.tiles.TilesException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -90,12 +91,12 @@ public class UrlDefinitionsFactory
      * @param params The Map of configuration properties.
      * @throws DefinitionsFactoryException if an initialization error occurs.
      */
-    public void init(Map<String, String> params) throws DefinitionsFactoryException {
+    public void init(Map<String, String> params) throws TilesException {
         String readerClassName =
             params.get(DefinitionsFactory.READER_IMPL_PROPERTY);
 
         if (readerClassName != null) {
-            createReader(readerClassName);
+            reader = (DefinitionsReader) ClassUtil.instantiate(readerClassName);
         } else {
             reader = new DigesterDefinitionsReader();
         }
@@ -364,22 +365,5 @@ public class UrlDefinitionsFactory
             return true;
         }
         return status;
-    }
-
-    private void createReader(String readerClassName) throws DefinitionsFactoryException {
-        try {
-            Class readerClass =
-                RequestUtils.applicationClass(readerClassName);
-            reader = (DefinitionsReader) readerClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new DefinitionsFactoryException(
-                "Cannot find reader class '" + readerClassName + "'.", e);
-        } catch (InstantiationException e) {
-            throw new DefinitionsFactoryException(
-                "Unable to instantiate reader class '" + readerClassName + "'.", e);
-        } catch (IllegalAccessException e) {
-            throw new DefinitionsFactoryException(
-                "Unable to access reader class '" + readerClassName + "'.", e);
-        }
     }
 }

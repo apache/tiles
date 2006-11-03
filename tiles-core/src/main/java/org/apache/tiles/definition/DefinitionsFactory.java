@@ -21,6 +21,7 @@
 package org.apache.tiles.definition;
 
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.TilesException;
 
 import java.util.Map;
 
@@ -57,7 +58,7 @@ public interface DefinitionsFactory {
      * @param params The Map of configuration properties.
      * @throws DefinitionsFactoryException if an initialization error occurs.
      */
-    public void init(Map<String, String> params) throws DefinitionsFactoryException;
+    public void init(Map<String, String> params) throws DefinitionsFactoryException, TilesException;
 
     /**
      * Returns a ComponentDefinition object that matches the given name and

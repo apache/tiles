@@ -22,6 +22,7 @@ package org.apache.tiles.factory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.util.ClassUtil;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.context.BasicTilesContextFactory;
@@ -141,17 +142,7 @@ public class TilesContainerFactory {
     public static Object createFactory(Object context, String initParameterName)
         throws TilesException {
         String factoryName = resolveFactoryName(context, initParameterName);
-        try {
-            Class factoryClass = Class.forName(factoryName);
-            return factoryClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new TilesException("Unable to resolve factory class: '" + factoryName + "'");
-        } catch (IllegalAccessException e) {
-            throw new TilesException("Unable to access factory class: '" + factoryName + "'");
-        } catch (InstantiationException e) {
-            throw new TilesException("Unable to instantiate factory class: '"
-                + factoryName + "'. Make sure that this class has a default constructor");
-        }
+        return ClassUtil.instantiate(factoryName);
     }
 
     public static String resolveFactoryName(Object context, String parameterName)

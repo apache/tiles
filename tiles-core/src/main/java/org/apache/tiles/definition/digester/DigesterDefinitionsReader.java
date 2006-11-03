@@ -144,7 +144,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
             return null;
         }
 
-        InputStream input = null;
+        InputStream input;
         try {
             input = (InputStream) source;
         } catch (ClassCastException e) {
@@ -185,7 +185,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         if (params != null) {
             String value = (String) params.get(PARSER_VALIDATE_PARAMETER_NAME);
             if (value != null) {
-                digester.setValidating(Boolean.valueOf(value).booleanValue());
+                digester.setValidating(Boolean.valueOf(value));
             }
         }
 

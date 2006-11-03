@@ -10,6 +10,6 @@
     <definition name="classpath.definition" template="/layout.jsp">
         <put name="title" value="This is the title."/>
         <put name="header" value="/header.jsp"/>
-        <put name="body" value="/body.jsp"/>
+        <put name="body" value="/classpath.jsp"/>
     </definition>
 </tiles-definitions>

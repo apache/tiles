@@ -156,7 +156,7 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
      * Set flush. Method added for compatibility with JSP1.1
      */
     public void setFlush(String flush) {
-        this.flush = (Boolean.valueOf(flush).booleanValue());
+        this.flush = (Boolean.valueOf(flush));
     }
 
     /**
@@ -395,7 +395,7 @@ public abstract class BaseInsertTag extends DefinitionTagSupport implements
             this.attributes = new HashMap<String, ComponentAttribute>();
             if (attributes != null) {
                 for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-                    ComponentAttribute attr = null;
+                    ComponentAttribute attr;
                     if (entry.getValue() instanceof ComponentAttribute) {
                         attr = (ComponentAttribute) entry.getValue();
                     } else {

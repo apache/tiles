@@ -30,9 +30,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class InitDefinitionsTag extends TagSupport implements ComponentConstants {
 
 
-    private String filename = null;
-    private String classname = null;
-
     /**
      * Default constructor.
      */
@@ -46,21 +43,18 @@ public class InitDefinitionsTag extends TagSupport implements ComponentConstants
     public void release() {
 
         super.release();
-        filename = null;
     }
 
     /**
      * Set file.
      */
     public void setFile(String name) {
-        this.filename = name;
     }
 
     /**
      * Set classname.
      */
     public void setClassname(String classname) {
-        this.classname = classname;
     }
 
     /**

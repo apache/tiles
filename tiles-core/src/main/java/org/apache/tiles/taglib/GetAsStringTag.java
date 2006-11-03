@@ -161,7 +161,7 @@ public class GetAsStringTag extends TagSupport implements ComponentConstants {
 
         Object value = compContext.getAttribute(attribute);
         if (value == null) { // no value : throw error or fail silently according to ignore
-            if (isErrorIgnored == false)
+            if (!isErrorIgnored)
                 throw new JspException("Error - tag.getAsString : attribute '" + attribute + "' not found in context. Check tag syntax");
             else
                 return EVAL_PAGE;

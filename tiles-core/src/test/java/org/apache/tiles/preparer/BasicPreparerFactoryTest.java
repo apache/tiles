@@ -22,6 +22,7 @@ package org.apache.tiles.preparer;
 import junit.framework.TestCase;
 import org.apache.tiles.preparer.ViewPreparerSupport;
 import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.TilesException;
 
 public class BasicPreparerFactoryTest extends TestCase {
 
@@ -31,7 +32,7 @@ public class BasicPreparerFactoryTest extends TestCase {
         factory = new BasicPreparerFactory();
     }
 
-    public void testGetPreparer() throws PreparerException {
+    public void testGetPreparer() throws TilesException {
         String name = ViewPreparerSupport.class.getName();
         ViewPreparer p = factory.getPreparer(name, null);
         assertNotNull(p);

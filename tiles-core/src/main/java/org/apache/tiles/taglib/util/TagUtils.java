@@ -23,6 +23,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.taglib.ComponentConstants;
 
@@ -50,17 +52,17 @@ public class TagUtils {
      * Maps lowercase JSP scope names to their PageContext integer constant
      * values.
      */
-    private static final Map scopes = new HashMap();
+    private static final Map<String, Integer> scopes = new HashMap<String, Integer>();
 
     /**
      * Initialize the scope names map and the encode variable with the
      * Java 1.4 method if available.
      */
     static {
-        scopes.put("page", new Integer(PageContext.PAGE_SCOPE));
-        scopes.put("request", new Integer(PageContext.REQUEST_SCOPE));
-        scopes.put("session", new Integer(PageContext.SESSION_SCOPE));
-        scopes.put("application", new Integer(PageContext.APPLICATION_SCOPE));
+        scopes.put("page", PageContext.PAGE_SCOPE);
+        scopes.put("request", PageContext.REQUEST_SCOPE);
+        scopes.put("session", PageContext.SESSION_SCOPE);
+        scopes.put("application", PageContext.APPLICATION_SCOPE);
     }
 
     public static TilesApplicationContext getTilesContext(ServletContext context) {
@@ -104,14 +106,14 @@ public class TagUtils {
      * @throws JspException if the scopeName is not a valid name.
      */
     public static int getScope(String scopeName) throws JspException {
-        Integer scope = (Integer) scopes.get(scopeName.toLowerCase());
+        Integer scope = scopes.get(scopeName.toLowerCase());
 
         if (scope == null) {
             //throw new JspException(messages.getMessage("lookup.scope", scope));
             throw new JspException("Unable to retrieve the scope " + scopeName);
         }
 
-        return scope.intValue();
+        return scope;
     }
 
 
@@ -179,7 +181,7 @@ public class TagUtils {
         ComponentContext compContext = container.getComponentContext(pageContext);
 
         if (compContext != null) {
-            Object attribute = compContext.findAttribute(beanName, pageContext);
+            ComponentAttribute attribute = compContext.findAttribute(beanName, pageContext);
             if (attribute != null) {
                 return attribute;
             }
@@ -291,7 +293,7 @@ public class TagUtils {
     public static void setAttribute(
         PageContext pageContext,
         String name,
-        Object value,
+        ComponentDefinition value,
         String scope)
         throws JspException {
 

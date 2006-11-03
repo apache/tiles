@@ -57,25 +57,10 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
 
     public void include(String path) throws TilesException {
         try {
-            include(path, false);
+            JspUtil.doInclude(pageContext, path, false);
         } catch (JspException e) {
             throw new TilesException(e);
         }
     }
-
-    /**
-     * Do an include of specified page using PageContext.include().
-     * <p/>
-     * This method is used by the Tiles package when an include is required.
-     * The Tiles package can use indifferently any form of this method.
-     *
-     * @param path  Uri or Definition name to forward.
-     * @param flush If the writer should be flushed before the include
-     * @throws JspException if the underlying include fails
-     */
-    public void include(String path, boolean flush) throws JspException {
-        JspUtil.doInclude(pageContext, path, flush);
-    }
-
 
 }

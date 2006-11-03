@@ -20,6 +20,7 @@
 package org.apache.tiles.preparer;
 
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.TilesException;
 
 /**
  * <p>
@@ -48,7 +49,7 @@ public interface PreparerFactory {
      * @throws NoSuchPreparerException when the named preparerInstance can not be found.
      */
     ViewPreparer getPreparer(String name, TilesRequestContext context)
-        throws PreparerException;
+        throws PreparerException, TilesException;
 
 
 }

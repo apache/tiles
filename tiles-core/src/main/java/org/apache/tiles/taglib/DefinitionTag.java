@@ -104,7 +104,7 @@ public class DefinitionTag
         // If role is set, add it in attribute definition if any.
         // If no attribute definition, create untyped one and set role.
         Object attributeValue = nestedTag.getRealValue();
-        ComponentAttribute def = null;
+        ComponentAttribute def;
 
         if (attributeValue != null
             && attributeValue instanceof ComponentAttribute) {

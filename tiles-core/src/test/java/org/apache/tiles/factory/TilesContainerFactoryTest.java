@@ -116,7 +116,7 @@ public class TilesContainerFactoryTest extends TestCase {
         assertEquals("twoValue", map.get("two"));
     }
 
-    static class TestFactory extends TilesContainerFactory {
+    public static class TestFactory extends TilesContainerFactory {
 
     }
 }

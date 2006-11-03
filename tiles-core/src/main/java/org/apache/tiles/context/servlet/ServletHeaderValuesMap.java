@@ -97,12 +97,12 @@ final class ServletHeaderValuesMap implements Map {
 
 
     public Object get(Object key) {
-        List list = new ArrayList();
-        Enumeration values = request.getHeaders(key(key));
+        List<String> list = new ArrayList<String>();
+        Enumeration<String> values = request.getHeaders(key(key));
         while (values.hasMoreElements()) {
-            list.add((String) values.nextElement());
+            list.add(values.nextElement());
         }
-        return (((String[]) list.toArray(new String[list.size()])));
+        return ((list.toArray(new String[list.size()])));
     }
 
 
@@ -160,9 +160,9 @@ final class ServletHeaderValuesMap implements Map {
             List list1 = new ArrayList();
             Enumeration values = request.getHeaders(key);
             while (values.hasMoreElements()) {
-                list1.add((String) values.nextElement());
+                list1.add(values.nextElement());
             }
-            list.add(((String[]) list1.toArray(new String[list1.size()])));
+            list.add((list1.toArray(new String[list1.size()])));
         }
         return (list);
     }
