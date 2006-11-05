@@ -71,4 +71,9 @@ public interface ComponentContext {
         String beanName,
         int scope,
         PageContext pageContext);
+
+    /**
+     * Clear the attributes
+     */
+    void clear();
 }

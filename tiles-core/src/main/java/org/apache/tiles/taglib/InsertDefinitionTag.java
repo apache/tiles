@@ -20,96 +20,32 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.taglib.RenderTagSupport;
+import org.apache.tiles.TilesException;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 
 /**
  * This is the tag handler for &lt;tiles:insertDefinition&gt;, which includes a
- * definition, eventually overriding or filling attributes of its template.
+ * name, eventually overriding or filling attributes of its template.
  *
  * @version $Rev$ $Date$
  */
-public class InsertDefinitionTag extends BaseInsertTag {
+public class InsertDefinitionTag extends RenderTagSupport {
 
-    /**
-     * Name to insert.
-     */
-    protected String name = null;
+    private String name;
 
-    /**
-     * Set name.
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
 
-    /**
-     * Get name.
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Processes tag attributes and create corresponding tag handler.<br>
-     * This implementation processes the definition name to create an
-     * {@link InsertHandler} with its template page.
-     */
-    public TagHandler createTagHandler() throws JspException {
-        return processDefinitionName(name);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    /**
-     * Reset member values for reuse. This method calls super.release(), which
-     * invokes TagSupport.release(), which typically does nothing.
-     */
-    public void release() {
 
-        super.release();
-
-        flush = true;
-        name = null;
-        template = null;
-        role = null;
-        isErrorIgnored = false;
-
-        releaseInternal();
-    }
-
-    /**
-     * Process tag attribute "definition". First, search definition in the
-     * factory, then create handler from this definition.
-     *
-     * @return Appropriate TagHandler.
-     * @throws JspException- NoSuchDefinitionException No Definition found for
-     *                       name.
-     * @throws JspException- FactoryNotFoundException Can't find Definitions
-     *                       factory.
-     * @throws JspException- DefinedComponentFactoryException General error in
-     *                       factory.
-     * @throws JspException  InstantiationException Can't create requested
-     *                       preparerInstance
-     */
-    protected TagHandler processDefinitionName(String definition) throws JspException {
-
-        try {
-
-            if (definition == null) { // is it possible ?
-                throw new NoSuchDefinitionException(
-                    "Error -  Tag Insert : Can't get definition '"
-                        + name
-                        + "'. Check if this name exists in definitions factory.");
-            }
-
-            return processDefinition(definition, null);
-
-        } catch (NoSuchDefinitionException ex) {
-            // Save exception to be able to show it later
-            pageContext.setAttribute(ComponentConstants.EXCEPTION_KEY, ex,
-                PageContext.REQUEST_SCOPE);
-            throw new JspException(ex);
-        }
+    protected void render() throws JspException, TilesException {
+        container.render(pageContext, name);
     }
 }

@@ -267,9 +267,9 @@ public class ComponentDefinition implements Serializable {
      */
     public void put(String name, Object content, boolean direct, String role) {
         if (direct) { // direct String
-            put(name, content, "string", role);
+            put(name, content, ComponentAttribute.STRING, role);
         } else {
-            put(name, content, "template", role);
+            put(name, content, ComponentAttribute.TEMPLATE, role);
         }
 
     }

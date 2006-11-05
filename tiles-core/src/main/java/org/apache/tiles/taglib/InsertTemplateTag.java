@@ -20,6 +20,10 @@
 
 package org.apache.tiles.taglib;
 
+import org.apache.tiles.context.jsp.JspUtil;
+import org.apache.tiles.taglib.RenderTagSupport;
+import org.apache.tiles.taglib.PutTagParent;
+
 import javax.servlet.jsp.JspException;
 
 /**
@@ -28,23 +32,22 @@ import javax.servlet.jsp.JspException;
  *
  * @version $Rev$ $Date$
  */
-public class InsertTemplateTag extends BaseInsertTag {
+public class InsertTemplateTag extends RenderTagSupport
+    implements PutTagParent {
 
-    /**
-     * Processes tag attributes and create corresponding tag handler.<br>
-     * This implementation processes the definition name to create an
-     * {@link InsertHandler} with the specified template page.
-     */
-    public TagHandler createTagHandler() throws JspException {
-        return processUrl(template);
+    private String template;
+
+    public String getTemplate() {
+        return template;
     }
 
-    /**
-     * Process the url.
-     *
-     * @throws JspException If failed to create preparerInstance
-     */
-    protected TagHandler processUrl(String url) throws JspException {
-        return new InsertHandler(url, role, preparer);
+    public void setTemplate(String template) {
+        this.template = template;
     }
+
+    protected void render() throws JspException {
+        JspUtil.doInclude(pageContext, template, flush);
+    }
+
+
 }

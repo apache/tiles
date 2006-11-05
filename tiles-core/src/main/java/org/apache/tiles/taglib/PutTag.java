@@ -20,8 +20,14 @@
 
 package org.apache.tiles.taglib;
 
+import org.apache.tiles.taglib.ContainerTagSupport;
+import org.apache.tiles.taglib.ComponentConstants;
+import org.apache.tiles.taglib.PutTagParent;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * Put an attribute in enclosing attribute container tag.
@@ -30,7 +36,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  * Put tag can have following atributes :
  * <li>
  * <ul>name : Name of the attribute</ul>
- * <ul>value | content : value to put as attribute</ul>
+ * <ul>value : value to put as attribute</ul>
  * <ul>type : value type. Only valid if value is a String and is set by
  * value="something" or by a bean.
  * Possible type are : string (value is used as direct string),
@@ -53,14 +59,14 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  * value is not set by one of the tag attributes. In this case Attribute type is
  * "string", unless tag body define another type.
  */
-public class PutTag extends BodyTagSupport implements ComponentConstants {
+public class PutTag extends ContainerTagSupport implements ComponentConstants {
 
-    /* JSP Tag attributes */
+    private static final Log LOG = LogFactory.getLog(PutTag.class);
 
     /**
      * Name of attribute to put in component context.
      */
-    protected String attributeName = null;
+    protected String name = null;
 
     /**
      * Associated attribute value.
@@ -70,237 +76,41 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
     /**
      * Requested type for the value.
      */
-    private String valueType = null;
+    private String type = null;
 
-    /**
-     * Role attribute.
-     */
-    private String role = null;
 
-    /* Internal properties */
+    public String getName() {
+        return name;
+    }
 
-    /**
-     * Cached real value computed from tag attributes.
-     */
-    protected Object realValue = null;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    /**
-     * The body content of this tag.
-     */
-    protected String body = null;
+    public Object getValue() {
+        return value;
+    }
 
-    /**
-     * Default constructor.
-     */
-    public PutTag() {
-        super();
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**
      * Release all allocated resources.
      */
     public void release() {
-
         super.release();
-
-        attributeName = null;
-        valueType = null;
+        name = null;
         value = null;
-        role = null;
-        body = null;
-    }
-
-    /**
-     * Release internal properties.
-     */
-    protected void releaseInternal() {
-        realValue = null;
-    }
-
-    /**
-     * Set name.
-     */
-    public void setName(String value) {
-        this.attributeName = value;
-    }
-
-    /**
-     * Get name.
-     */
-    public String getName() {
-        return attributeName;
-    }
-
-    /**
-     * Set value.
-     * Method added to satisfy Tomcat (bug ?).
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * Get value.
-     * Method added to satisfy Tomcat (bug ?).
-     */
-    public String getValue() {
-        return (String) this.value;
-    }
-
-    /**
-     * Set value.
-     */
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    /**
-     * Set property value as an object.
-     * Added because some web containers react badly to value as <code>Object</code>.
-     */
-    public void setObjectValue(Object value) {
-        this.value = value;
-    }
-
-    /**
-     * Set content.
-     */
-    public void setContent(Object value) {
-        this.value = value;
-    }
-
-    /**
-     * Set type.
-     */
-    public void setType(String value) {
-        this.valueType = value;
-    }
-
-    /**
-     * Get type.
-     */
-    public String getType() {
-        return this.valueType;
-    }
-
-    /**
-     * Set role attribute.
-     *
-     * @param role The role the user must be in to store content.
-     */
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    /**
-     * Get role attribute
-     *
-     * @return The role defined in the tag or <code>null</code>.
-     */
-    public String getRole() {
-        return role;
-    }
-
-    /**
-     * Get real value according to tag attribute.
-     * Real value is the value computed after attribute processing.
-     *
-     * @return Real value.
-     * @throws JspException If something goes wrong while getting value from bean.
-     */
-    public Object getRealValue() throws JspException {
-        if (realValue == null) {
-            computeRealValue();
-        }
-
-        return realValue;
-    }
-
-    /**
-     * Compute real value according to tag attributes.
-     *
-     * @throws JspException If something goes wrong while getting value from bean.
-     */
-    protected void computeRealValue() throws JspException {
-        // Compute real value from attributes set.
-        realValue = value;
-
-        // If realValue is not set, value must come from body
-        if (value == null) {
-            // Test body content in case of empty body.
-            if (body != null) {
-                realValue = body;
-                valueType = "string";
-            } else {
-                realValue = "";
-            }
-        }
-    }
-
-    /**
-     * Extract real value from specified bean.
-     * @throws JspException If something goes wrong while getting value from bean.
-     */
-    /* - GDR - Commenting out in case someone wants to add feature back.
-    protected void getRealValueFromBean() throws JspException {
-        try {
-            Object bean = TagUtils.retrieveBean(beanName, beanScope, pageContext);
-            if (bean != null && beanProperty != null) {
-                realValue = PropertyUtils.getProperty(bean, beanProperty);
-            } else {
-                realValue = bean; // value can be null
-            }
-            
-        } catch (NoSuchMethodException ex) {
-            throw new JspException(
-                "Error - component.PutAttributeTag : Error while retrieving value from bean '"
-                    + beanName
-                    + "' with property '"
-                    + beanProperty
-                    + "' in scope '"
-                    + beanScope
-                    + "'. (exception : "
-                    + ex.getMessage(), ex);
-
-        } catch (InvocationTargetException ex) {
-            throw new JspException(
-                "Error - component.PutAttributeTag : Error while retrieving value from bean '"
-                    + beanName
-                    + "' with property '"
-                    + beanProperty
-                    + "' in scope '"
-                    + beanScope
-                    + "'. (exception : "
-                    + ex.getMessage(), ex);
-
-        } catch (IllegalAccessException ex) {
-            throw new JspException(
-                "Error - component.PutAttributeTag : Error while retrieving value from bean '"
-                    + beanName
-                    + "' with property '"
-                    + beanProperty
-                    + "' in scope '"
-                    + beanScope
-                    + "'. (exception : "
-                    + ex.getMessage(), ex);
-        }
-    }
-     */
-    /**
-     * Do start tag.
-     */
-    public int doStartTag() throws JspException {
-
-        // clear body content
-        body = null;
-
-        // Do we need to evaluate body ?
-        if (value == null) {
-            return EVAL_BODY_BUFFERED;
-        } else {
-            // Value is set, don't evaluate body.
-            return SKIP_BODY;
-        }
+        type = null;
     }
 
     /**
@@ -309,57 +119,25 @@ public class PutTag extends BodyTagSupport implements ComponentConstants {
      * @throws JspException if a JSP exception has occurred
      */
     public int doAfterBody() throws JspException {
-
         if (bodyContent != null) {
-            body = bodyContent.getString();
+            value = bodyContent.getString();
+            type = "string";
         }
         return (SKIP_BODY);
-
     }
 
-    /**
-     * Do end tag.
-     */
-    public int doEndTag() throws JspException {
-        // Call parent tag which in turn does what it want
-        callParent();
+    protected void execute() throws JspException {
+        PutTagParent parent = (PutTagParent)
+            TagSupport.findAncestorWithClass(this, PutTagParent.class);
 
-        // clean up tag handler for reuse.
-        releaseInternal();
 
-        return EVAL_PAGE;
-    }
-
-    /**
-     * Find parent tag which must implement AttributeContainer.
-     *
-     * @throws JspException If we can't find an appropriate enclosing tag.
-     */
-    protected void callParent() throws JspException {
-        // Get enclosing parent
-        PutTagParent enclosingParent = findEnclosingPutTagParent();
-        enclosingParent.processNestedTag(this);
-    }
-
-    /**
-     * Find parent tag which must implement AttributeContainer.
-     *
-     * @throws JspException If we can't find an appropriate enclosing tag.
-     */
-    protected PutTagParent findEnclosingPutTagParent() throws JspException {
-        try {
-            PutTagParent parent =
-                (PutTagParent) findAncestorWithClass(this, PutTagParent.class);
-
-            if (parent == null) {
-                throw new JspException("Error - tag put : enclosing tag doesn't accept 'put' tag.");
-            }
-
-            return parent;
-
-        } catch (ClassCastException ex) {
-            throw new JspException("Error - tag put : enclosing tag doesn't accept 'put' tag.", ex);
+        if (parent == null) {
+            String message = "Error: enclosing tag '"
+                +getParent().getClass().getName()+" doesn't accept 'put' tag.";
+            LOG.error(message);
+            throw new JspException(message);
         }
-    }
 
+        parent.processNestedTag(this);
+    }
 }

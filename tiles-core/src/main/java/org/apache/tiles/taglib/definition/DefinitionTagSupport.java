@@ -17,7 +17,7 @@
  * under the License.
  *
  */
-package org.apache.tiles.taglib;
+package org.apache.tiles.taglib.definition;
 
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.Serializable;

@@ -17,16 +17,13 @@
  * under the License.
  *
  */
-
-
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.context.BasicComponentContext;
+import org.apache.tiles.taglib.AttributeTagSupport;
+import org.apache.tiles.taglib.ComponentConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 /**
@@ -34,93 +31,13 @@ import java.io.IOException;
  * and render it to the current JspWriter as a String.
  * The usual toString() conversion is applied on the found value.
  */
-public class GetAsStringTag extends TagSupport implements ComponentConstants {
+public class GetAsStringTag extends AttributeTagSupport implements ComponentConstants {
 
-    private String attribute = null;
-    /**
-     * Role attribute
-     */
     private String role = null;
-    /**
-     * Do we ignore error if attribute is not found.
-     * Default value is <code>false</code>, which will throw an exception.
-     */
-    private boolean isErrorIgnored = false;
 
-    /**
-     * Default constructor.
-     */
-    public GetAsStringTag() {
-        super();
-    }
-
-    /**
-     * Release all allocated resources.
-     */
     public void release() {
-
         super.release();
-        attribute = null;
         role = null;
-        isErrorIgnored = false;
-    }
-
-    /**
-     * Set attribute.
-     *
-     * @param attribute Attribute.
-     */
-    public void setAttribute(String attribute) {
-        this.attribute = attribute;
-    }
-
-    /**
-     * Get attribute.
-     *
-     * @return Attribute.
-     */
-    public String getAttribute() {
-        return attribute;
-    }
-
-    /**
-     * Set Name.
-     * Same as setAttribute().
-     *
-     * @param value Attribute.
-     */
-    public void setName(String value) {
-        this.attribute = value;
-    }
-
-    /**
-     * Get Name.
-     * Set as getAttribute().
-     *
-     * @return Attribute.
-     */
-    public String getName() {
-        return attribute;
-    }
-
-    /**
-     * Set ignoring flag when attribute is not found.
-     *
-     * @param ignore default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
-     *               true</code> to ignore missing attributes silently
-     */
-    public void setIgnore(boolean ignore) {
-        this.isErrorIgnored = ignore;
-    }
-
-    /**
-     * Get ignore flag.
-     *
-     * @return <code>false</code>: Exception is thrown when attribute is not found, set to <code>
-     *         true</code> to ignore missing attributes silently
-     */
-    public boolean getIgnore() {
-        return isErrorIgnored;
     }
 
     /**
@@ -142,40 +59,18 @@ public class GetAsStringTag extends TagSupport implements ComponentConstants {
     }
 
     /**
-     * Close tag.
+     * Print the attribute.
      *
      * @throws JspException On error processing tag.
+     * @throws IOException  if io error occurs.
      */
-    public int doEndTag() throws JspException {
-
-        // Check role
-        if (role != null && !((HttpServletRequest) pageContext.getRequest()).isUserInRole(role)) {
-            return EVAL_PAGE;
-        } // end if
-
-        // Get context
-        BasicComponentContext compContext = (BasicComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
-
-        if (compContext == null)
-            throw new JspException("Error - tag.getAsString : component context is not defined. Check tag syntax");
-
-        Object value = compContext.getAttribute(attribute);
-        if (value == null) { // no value : throw error or fail silently according to ignore
-            if (!isErrorIgnored)
-                throw new JspException("Error - tag.getAsString : attribute '" + attribute + "' not found in context. Check tag syntax");
-            else
-                return EVAL_PAGE;
-        } // end if
-
-
-        try {
-            pageContext.getOut().print(value);
+    public void execute() throws JspException, IOException {
+        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
+        if (role != null && !req.isUserInRole(role)) {
+            return;
         }
-        catch (IOException ex) {
-            ex.printStackTrace();
-            throw new JspException ( "Error - tag.getProperty : IOException ", ex);
-      }
 
-    return EVAL_PAGE;
-  }
+        pageContext.getOut().print(attribute.getValue().toString());
+
+    }
 }

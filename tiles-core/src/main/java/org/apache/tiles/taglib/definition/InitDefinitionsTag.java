@@ -19,7 +19,9 @@
  */
 
 
-package org.apache.tiles.taglib;
+package org.apache.tiles.taglib.definition;
+
+import org.apache.tiles.taglib.ComponentConstants;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;

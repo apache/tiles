@@ -135,19 +135,6 @@
       ]]>
       </description>
       <attribute>
-         <name>template</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>A string representing the URI of a tile or template, to override the
-         one specified in Tiles configuration file or in a
-         &lt;tiles:definition&gt; tag.
-         </p>
-         ]]>
-         </description>
-      </attribute>
-      <attribute>
          <name>name</name>
          <required>true</required>
          <rtexprvalue>true</rtexprvalue>
@@ -303,7 +290,7 @@
    </tag>
    <tag>
       <name>definition</name>
-      <tag-class>org.apache.tiles.taglib.DefinitionTag</tag-class>
+      <tag-class>org.apache.tiles.taglib.definition.DefinitionTag</tag-class>
       <body-content>JSP</body-content>
       <description>
          <![CDATA[
@@ -473,7 +460,13 @@
    </tag>
    <tag>
       <name>add</name>
-      <tag-class>org.apache.tiles.taglib.AddTag</tag-class>
+       <!--
+           Intentionally PutTag, it doubles for the AddTag
+           The only difference between the two is that the name
+           is not used in the Add Tag (and it's only valid within
+           the PutList
+        -->
+      <tag-class>org.apache.tiles.taglib.PutTag</tag-class>
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
@@ -585,7 +578,7 @@
    <tag>
       <name>useAttribute</name>
       <tag-class>org.apache.tiles.taglib.UseAttributeTag</tag-class>
-      <tei-class>org.apache.tiles.taglib.UseAttributeTei</tei-class>
+      <tei-class>org.apache.tiles.taglib.UseAttributeTag$Tei</tei-class>
       <body-content>empty</body-content>
       <description>
       <![CDATA[
@@ -703,7 +696,7 @@
    </tag>
    <tag>
       <name>initComponentDefinitions</name>
-      <tag-class>org.apache.tiles.taglib.InitDefinitionsTag</tag-class>
+      <tag-class>org.apache.tiles.taglib.definition.InitDefinitionsTag</tag-class>
       <body-content>empty</body-content>
       <description>
       <![CDATA[

@@ -17,121 +17,24 @@
  * under the License.
  *
  */
-
-
 package org.apache.tiles.taglib;
 
 import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.context.BasicComponentContext;
-import org.apache.tiles.taglib.util.TagUtils;
+import org.apache.tiles.taglib.AttributeTagSupport;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.TagSupport;
 import java.util.Iterator;
 
 
 /**
- * Import attribute from component to requested scope.
- * Attribute name and scope are optional. If not specified, all component
- * attributes are imported in page scope.
+ * Import attribute(s) into the specified scope.
+ * If not explicitly named, all attributes are imported.
+ * If the scope is not specified, page scope is assumed.
+ *
+ * @version $Rev$
+ * @since Tiles 1.0
  */
-
-public class ImportAttributeTag extends TagSupport {
-
-    /**
-     * Class name of object.
-     */
-    private String name = null;
-
-
-    /**
-     * The scope name.
-     */
-    private String scopeName = null;
-
-    /**
-     * The scope value.
-     */
-    private int scope = PageContext.PAGE_SCOPE;
-    /**
-     * Are errors ignored. This is the property for attribute <code>ignore</code>.
-     * Default value is <code>false</code>, which throws an exception.
-     * Only "attribute not found" - errors are ignored.
-     */
-    protected boolean isErrorIgnored = false;
-
-
-    /**
-     * Release all allocated resources.
-     */
-    public void release() {
-
-        super.release();
-        name = null;
-        scopeName = null;
-        scope = PageContext.PAGE_SCOPE;
-        isErrorIgnored = false;
-    }
-
-    /**
-     * Get the name.
-     *
-     * @return Name.
-     */
-    public String getName() {
-        return (this.name);
-    }
-
-
-    /**
-     * Set the name.
-     *
-     * @param name The new name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Set the scope.
-     *
-     * @param scope Scope.
-     */
-    public void setScope(String scope) {
-        this.scopeName = scope;
-    }
-
-    /**
-     * Get scope.
-     *
-     * @return Scope.
-     */
-    public String getScope() {
-        return scopeName;
-    }
-
-    /**
-     * Set ignore flag.
-     *
-     * @param ignore default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
-     *               true</code> to ignore missing attributes silently
-     */
-    public void setIgnore(boolean ignore) {
-        this.isErrorIgnored = ignore;
-    }
-
-    /**
-     * Get ignore flag.
-     *
-     * @return default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
-     *         true</code> to ignore missing attributes silently
-     */
-    public boolean getIgnore() {
-        return isErrorIgnored;
-    }
-
-    // --------------------------------------------------------- Public Methods
+public class ImportAttributeTag extends AttributeTagSupport {
 
 
     /**
@@ -139,66 +42,32 @@ public class ImportAttributeTag extends TagSupport {
      *
      * @throws JspException On errors processing tag.
      */
-    public int doStartTag() throws JspException {
-        // retrieve component context
-        BasicComponentContext compContext = (BasicComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
-        if (compContext == null)
-            throw new JspException("Error - tag importAttribute : no tiles context found.");
-
-        // set scope
-        scope = TagUtils.getScope(scopeName, PageContext.PAGE_SCOPE);
-
-        // push attribute in requested context.
-        if (name != null) {
-            Object value = compContext.getAttribute(name);
-            // Check if value exist and if we must send a runtime exception
-            if (value == null) {
-                if (!isErrorIgnored)
-                    throw new JspException("Error - tag importAttribute : property '" + name + "' not found in context. Check tag syntax");
-                else
-                    return SKIP_BODY;
-            } else if (value instanceof ComponentAttribute) {
-                value = ((ComponentAttribute) value).getValue();
-            }
-
-            pageContext.setAttribute(name, value, scope);
-        } else { // set all attributes
-            Iterator names = compContext.getAttributeNames();
+    public void execute() throws JspException {
+        if (attribute != null) {
+            pageContext.setAttribute(name, attribute.getValue(), scope);
+        } else {
+            Iterator names = componentContext.getAttributeNames();
             while (names.hasNext()) {
                 String name = (String) names.next();
-                if (name == null) {
-                    if (!isErrorIgnored)
-                        throw new JspException("Error - tag importAttribute : encountered an attribute with key 'null'");
-                    else
-                        return SKIP_BODY;
+
+                if (name == null && !ignore) {
+                    throw new JspException("Error importing attributes. " +
+                        "Attribute with null key found.");
+                } else if (name == null) {
+                    continue;
                 }
 
-                Object value = compContext.getAttribute(name);
-                // Check if value exist and if we must send a runtime exception
-                if (value == null) {
-                    if (!isErrorIgnored)
-                        throw new JspException("Error - tag importAttribute : property '" + name + "' has a value of 'null'");
-                    else
-                        return SKIP_BODY;
-                } else if (value instanceof ComponentAttribute) {
-                    value = ((ComponentAttribute) value).getValue();
+                ComponentAttribute attr = componentContext.getAttribute(name);
+
+                if ( (attr == null || attr.getValue() == null) && !ignore) {
+                    throw new JspException("Error importing attributes. "+
+                        "Attribute '"+name+"' has a null value ");
+                } else if( attr == null || attr.getValue() == null) {
+                    continue;
                 }
-                pageContext.setAttribute(name, value, scope);
-            } // end loop
-        } // end else
 
-        // Continue processing this page
-        return SKIP_BODY;
+                pageContext.setAttribute(name, attr.getValue(), scope);
+            }
+        }
     }
-
-    /**
-     * Clean up after processing this enumeration.
-     *
-     * @throws JspException On errors processing tag.
-     */
-    public int doEndTag() throws JspException
-    {
-    return (EVAL_PAGE);
-    }
-
 }

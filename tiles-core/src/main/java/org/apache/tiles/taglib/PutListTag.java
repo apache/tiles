@@ -21,200 +21,64 @@
 package org.apache.tiles.taglib;
 
 import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.taglib.PutTagParent;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * PutList tag implementation.
+ *
+ * @version $Rev$
+ * @since Tiles 1.0
  */
-public class PutListTag
-    extends TagSupport
-    implements ComponentConstants, AddTagParent, PutListTagParent {
+public class PutListTag extends PutTag
+    implements PutTagParent {
 
-    /**
-     * Name of this attribute.
-     */
-    private String attributeName = null;
 
-    /**
-     * The list itself.
-     */
-    private List list = null;
-
-    /**
-     * Role attribute.
-     */
-    private String role = null;
-
-    /**
-     * Default constructor.
-     */
     public PutListTag() {
-        super();
-    }
-
-    /**
-     * Release all allocated resources.
-     */
-    public void release() {
-        super.release();
-        attributeName = null;
-        role = null;
-    }
-
-    /**
-     * Release all internal resources.
-     */
-    protected void releaseInternal() {
-        list = null;
-    }
-
-    /**
-     * Set property.
-     */
-    public void setName(String name) {
-        this.attributeName = name;
-    }
-
-    /**
-     * Get property.
-     */
-    public String getName() {
-        return attributeName;
-    }
-
-    /**
-     * Set role attribute.
-     *
-     * @param role The role the user must be in to store content.
-     */
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    /**
-     * Get role attribute.
-     */
-    public String getRole() {
-        return role;
+        super.setValue(new ArrayList());
     }
 
     /**
      * Get list defined in tag.
      */
-    public List getList() {
-        return list;
+    public List getValue() {
+        return (List) super.getValue();
+    }
+
+    public void setValue(Object object) {
+        throw new IllegalStateException("The value of the PutListTag must be the originally defined list.");
     }
 
     /**
-     * Set property.
+     * Release the state of this put list by
+     * clearing the contents of the list.
      */
-    public void addElement(Object value) {
-        if (list == null) {
-            list = new ArrayList();
-        }
-
-        list.add(value);
+    public void release() {
+        super.release();
+        getValue().clear();
     }
 
     /**
-     * Process nested &lg;putList&gt; tag.
-     * Method calls by nested &lg;putList&gt; tags.
-     * Nested list is added to current list.
-     * If role is defined, nested attribute is wrapped into an untypped definition
-     * containing attribute value and role.
-     */
-    public void processNestedTag(PutListTag nestedTag) throws JspException {
-        // Get real value and check role
-        // If role is set, add it in attribute definition if any.
-        // If no attribute definition, create untyped one, and set role.
-        Object attributeValue = nestedTag.getList();
-
-        if (nestedTag.getRole() != null) {
-            ComponentAttribute def = new ComponentAttribute(attributeValue);
-            def.setRole(nestedTag.getRole());
-            attributeValue = def;
-        }
-
-        // now add attribute to enclosing parent (i.e. : this object)
-        addElement(attributeValue);
-    }
-
-    /**
-     * Process nested &lg;add&gt; tag.
-     * Method calls by nested &lg;add&gt; tags.
-     * Nested attribute is added to current list.
-     * If role is defined, nested attribute is wrapped into an untypped definition
-     * containing attribute value and role.
-     */
-    public void processNestedTag(AddTag nestedTag) throws JspException {
-        // Get real value and check role
-        // If role is set, add it in attribute definition if any.
-        // If no attribute definition, create untyped one, and set role.
-        Object attributeValue = nestedTag.getRealValue();
-        ComponentAttribute def;
-
-        if (nestedTag.getRole() != null) {
-            try {
-                def = ((ComponentAttribute) attributeValue);
-            } catch (ClassCastException ex) {
-                def = new ComponentAttribute(attributeValue);
-            }
-
-            if (def != null) {
-                def.setRole(nestedTag.getRole());
-            } else {
-                // what now?  Is this an exception?
-            }
-
-            attributeValue = def;
-        }
-
-        // now add attribute to enclosing parent (i.e. : this object)
-        addElement(attributeValue);
-    }
-
-    /**
-     * Do start tag.
-     */
-    public int doStartTag() throws JspException {
-        return EVAL_BODY_INCLUDE;
-    }
-
-    /**
-     * Do end tag.
-     */
-    public int doEndTag() throws JspException {
-        PutListTagParent enclosingParent = findEnclosingParent();
-        enclosingParent.processNestedTag(this);
-        // Clear list to avoid reuse
-        releaseInternal();
-        return EVAL_PAGE;
-    }
-
-    /**
-     * Find enclosing parent tag accepting this tag.
+     * Process nested &lg;put&gt; tag.
+     * <p/>
+     * Places the value of the nested tag within the
+     * {@link org.apache.tiles.ComponentContext}.It is the responsibility
+     * of the descendent to check security.  Tags extending
+     * the {@link org.apache.tiles.taglib.ContainerTagSupport} will automatically provide
+     * the appropriate security.
      *
-     * @throws JspException If we can't find an appropriate enclosing tag.
+     * @param nestedTag the put tag desciendent.
      */
-    protected PutListTagParent findEnclosingParent() throws JspException {
-        try {
-            PutListTagParent parent =
-                (PutListTagParent) findAncestorWithClass(this,
-                    PutListTagParent.class);
+    public void processNestedTag(PutTag nestedTag) {
+        ComponentAttribute attribute = new ComponentAttribute(
+            nestedTag.getValue(), nestedTag.getRole(),
+            nestedTag.getType());
 
-            if (parent == null) {
-                throw new JspException("Error - tag putList : enclosing tag doesn't accept 'putList' tag.");
-            }
-
-            return parent;
-
-        } catch (ClassCastException ex) {
-            throw new JspException("Error - tag putList : enclosing tag doesn't accept 'putList' tag.", ex);
-        }
+        componentContext.putAttribute(
+            nestedTag.getName(),
+            attribute
+        );
     }
-
 }

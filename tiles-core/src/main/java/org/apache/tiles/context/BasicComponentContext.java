@@ -223,4 +223,8 @@ public class BasicComponentContext implements ComponentContext, Serializable {
 
         tilesContext.getRequestScope().put(ComponentConstants.COMPONENT_CONTEXT, context);
     }
+
+    public void clear() {
+        attributes.clear();
+    }
 }

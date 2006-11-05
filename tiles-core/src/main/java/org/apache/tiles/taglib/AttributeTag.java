@@ -20,12 +20,14 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.context.BasicComponentContext;
+import org.apache.tiles.context.jsp.JspUtil;
 import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.TilesException;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.taglib.RenderTagSupport;
 
 import javax.servlet.jsp.JspException;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -35,165 +37,98 @@ import java.util.Map;
  *
  * @version $Rev$ $Date$
  */
-public class AttributeTag extends BaseInsertTag {
+public class AttributeTag extends RenderTagSupport {
 
     /**
      * Name to insert.
      */
-    protected String name = null;
+    protected String name;
 
-    /**
-     * Set name.
-     */
+    protected String template;
+
     public void setName(String value) {
         this.name = value;
     }
 
-    /**
-     * Get name.
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Processes tag attributes and create corresponding tag handler.<br>
-     * This implementation processes the attribute name to create an
-     * {@link InsertHandler} (if the attribute type is "definition" or
-     * "template") or a {@link DirectStringHandler} (if the type is "string").
-     */
-    public TagHandler createTagHandler() throws JspException {
-        return processAttribute(name);
+    public String getTemplate() {
+        return template;
     }
 
-    /**
-     * Reset member values for reuse. This method calls super.release(), which
-     * invokes TagSupport.release(), which typically does nothing.
-     */
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+
     public void release() {
-
         super.release();
-
-        flush = true;
-        name = null;
-        template = null;
-        role = null;
-        isErrorIgnored = false;
-
-        releaseInternal();
+        this.name = null;
+        this.template = null;
     }
 
-    /**
-     * Process tag attribute "attribute". Get value from component attribute.
-     * Found value is process by processObjectValue().
-     *
-     * @param name Name of the attribute.
-     * @return Appropriate TagHandler.
-     * @throws JspException - NoSuchDefinitionException No Definition found for
-     *                      name.
-     * @throws JspException - Throws by underlying nested call to
-     *                      processDefinitionName()
-     */
-    public TagHandler processAttribute(String name) throws JspException {
-        Object attrValue = null;
-        BasicComponentContext context = getCurrentContext();
-
-        if (context != null) {
-            attrValue = context.getAttribute(name);
+    protected void render() throws JspException, TilesException, IOException {
+        ComponentContext context = container.getComponentContext(pageContext);
+        ComponentAttribute attr = context.getAttribute(name);
+        if(attr == null && ignore) {
+            return;
         }
 
-        if (attrValue == null) {
-            throw new JspException(
-                "Error - Tag Insert : No value found for attribute '"
-                    + name + "'.");
-        } else if (attrValue instanceof ComponentAttribute) {
-            return processTypedAttribute((ComponentAttribute) attrValue);
+        if(attr == null) {
+            throw new TilesException("Attribute '"+name+"' not found.");
+        }
+
+        String type = calculateType(attr);
+        if("string".equalsIgnoreCase(type)) {
+            pageContext.getOut().print(attr.getValue());
+
+        } else if(isDefinition(attr)) {
+            if(template != null) {
+                attr.setValue(template);
+            }
+            
+            Map<String, ComponentAttribute> attrs = attr.getAttributes();
+            if(attrs != null) {
+                for(Map.Entry<String, ComponentAttribute> a : attrs.entrySet()) {
+                    context.putAttribute(a.getKey(), a.getValue());
+                }
+            }
+            container.render(pageContext, attr.getValue().toString());
+            
         } else {
-            throw new JspException("Invalid attribute type: "
-                + attrValue.getClass().getName());
+            JspUtil.doInclude(pageContext, attr.getValue().toString(), flush);
         }
     }
 
-    /**
-     * Process typed attribute explicitly according to its type.
-     *
-     * @param value Typed attribute to process.
-     * @return appropriate TagHandler.
-     * @throws JspException - Throws by underlying nested call to
-     *                      processDefinitionName()
-     */
-    public TagHandler processTypedAttribute(ComponentAttribute value)
-        throws JspException {
-
-        if (value == null) {
-            // FIXME.
-            return null;
-        }
-
-        // FIXME Currently this call executes with every attribute, even
-        // those that do not need to be preprocessed, like attributes from
-        // Tiles definitions files. Fix it to improve performances.
-        preprocessAttribute(value);
-        String type = value.getType();
-
-        if (type == null) {
-            throw new JspException("Unrecognized type for attribute value "
-                + value.getValue());
-        }
-
-        if (type.equalsIgnoreCase("string")) {
-            return new DirectStringHandler(value.getValue());
-        } else if (type.equalsIgnoreCase("definition")) {
-            Map<String, Object> attrs = new HashMap<String,Object>(value.getAttributes());
-            return processDefinition((String) value.getValue(), attrs);
-        } else {
-            return new InsertHandler((String) value.getValue(), role,
-                preparer);
-        }
+    private boolean isDefinition(ComponentAttribute attr) {
+        return ComponentAttribute.DEFINITION.equals(attr.getType()) ||
+            container.isValidDefinition(pageContext,
+                attr.getValue().toString());
     }
 
-    /**
-     * Preprocess an attribute before using it. It guesses the type of the
-     * attribute if it is missing, and gets the right definition if a definition
-     * name has been specified.
-     *
-     * @param value The attribute to preprocess.
-     * @throws JspException If something goes wrong during definition
-     *                      resolution.
-     */
-    protected void preprocessAttribute(ComponentAttribute value)
-        throws JspException {
-        String type = value.getType();
+    private String calculateType(ComponentAttribute attr) throws JspException {
+       String type = attr.getType();
         if (type == null) {
-            Object valueContent = value.getValue();
+            Object valueContent = attr.getValue();
             if (valueContent instanceof String) {
                 String valueString = (String) valueContent;
                 if (valueString.startsWith("/")) {
-                    type = "template";
+                    type = ComponentAttribute.TEMPLATE;
                 } else {
                     if (container.isValidDefinition(pageContext, valueString)) {
-                        type = "definition";
-                        value.setValue(valueString);
+                        type = ComponentAttribute.DEFINITION;
                     } else {
-                        type = "string";
+                        type = ComponentAttribute.STRING;
                     }
                 }
-            } else if (valueContent instanceof ComponentDefinition) {
-                type = "definition";
             }
             if (type == null) {
                 throw new JspException("Unrecognized type for attribute value "
-                    + value.getValue());
+                    + attr.getValue());
             }
-            value.setType(type);
-        } else if (type.equalsIgnoreCase("definition")) {
-            Object valueContent = value.getValue();
-            if (valueContent instanceof String) {
-                if (!container.isValidDefinition(pageContext, (String) valueContent))
-                    throw new JspException("Cannot find any definition named '"
-                        + valueContent + "'");
-            }
-            value.setValue(valueContent);
         }
+        return type;
     }
 }

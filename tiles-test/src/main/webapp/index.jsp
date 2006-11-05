@@ -36,7 +36,8 @@
     <a href="testput.jsp">Test Put Tag</a><br/>
     <a href="testput_servlet.jsp">Test Put Tag using a servlet mapping as a template</a><br/>
     <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
-    
+    <a href="testimportattribute_all.jsp">Test importAttribute Tag with not name</a><br/>
+
     <h2>Currently not working tests</h2>
     <a href="testdef.jsp">Test Definition Tag</a><br/>
     <!-- Currently all the tests work.-->

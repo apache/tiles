@@ -29,8 +29,21 @@ import java.util.Map;
  * @version $Rev$ $Date$
  */
 public class ComponentAttribute implements Serializable {
-    
-    public static final String DEFINITION_TYPE = "definition";
+
+    /**
+     * Attribute of type definition.
+     */
+    public static final String DEFINITION = "definition";
+
+    /**
+     * Attribute of type template.
+     */
+    public static final String TEMPLATE = "template";
+
+    /**
+     * Attribute of type string.
+     */
+    public static final String STRING = "string";
 
     /**
      * Role associated to this attribute.

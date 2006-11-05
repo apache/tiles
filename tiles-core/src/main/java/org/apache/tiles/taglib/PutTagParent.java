@@ -21,6 +21,8 @@
 
 package org.apache.tiles.taglib;
 
+import org.apache.tiles.taglib.PutTag;
+
 import javax.servlet.jsp.JspException;
 
 /**

@@ -21,79 +21,46 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.context.BasicComponentContext;
-import org.apache.tiles.taglib.util.TagUtils;
+import org.apache.tiles.taglib.AttributeTagSupport;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.TagSupport;
+import javax.servlet.jsp.tagext.TagData;
+import javax.servlet.jsp.tagext.TagExtraInfo;
+import javax.servlet.jsp.tagext.VariableInfo;
 
 
 /**
- * Custom tag exposing a component attribute to page.
+ * Exposes a component attribute as a scripting variable
+ * within the page.
+ *
+ * @version $Rev$
+ * @since Tiles 1.0
  */
-public class UseAttributeTag extends TagSupport {
-
-    // ----------------------------------------------------- Instance Variables
-
+public class UseAttributeTag extends AttributeTagSupport {
 
     /**
      * Class name of object.
      */
     private String classname = null;
 
-
-    /**
-     * The scope name.
-     */
-    private String scopeName = null;
-
-    /**
-     * The scope value.
-     */
-    private int scope = PageContext.PAGE_SCOPE;
-
-
-    /**
-     * The attribute name to be exposed.
-     */
-    private String attributeName = null;
-
-    /**
-     * Are errors ignored. This is the property for attribute 'ignore'.
-     * Default value is <code>false</code>, which throws an exception.
-     * Only "attribute not found" - errors are ignored.
-     */
-    protected boolean isErrorIgnored = false;
-
-    // ------------------------------------------------------------- Properties
-
-
     /**
      * Release all allocated resources.
      */
     public void release() {
-
         super.release();
-        attributeName = null;
         classname = null;
-        scope = PageContext.PAGE_SCOPE;
-        scopeName = null;
-        isErrorIgnored = false;
-        // Parent doesn't clear id, so we do it
-        // bug reported by Heath Chiavettone on 18 Mar 2002
         id = null;
     }
 
     /**
      * Get class name.
+     *
+     * @return class name
      */
     public String getClassname() {
-
-        return (this.classname);
+        return classname;
 
     }
-
 
     /**
      * Set the class name.
@@ -101,56 +68,8 @@ public class UseAttributeTag extends TagSupport {
      * @param name The new class name.
      */
     public void setClassname(String name) {
-
         this.classname = name;
-
     }
-
-    /**
-     * Set name.
-     */
-    public void setName(String value) {
-        this.attributeName = value;
-    }
-
-    /**
-     * Get name.
-     */
-    public String getName() {
-        return attributeName;
-    }
-
-    /**
-     * Set the scope.
-     *
-     * @param scope The new scope.
-     */
-    public void setScope(String scope) {
-        this.scopeName = scope;
-    }
-
-    /**
-     * Get scope.
-     */
-    public String getScope() {
-        return scopeName;
-    }
-
-    /**
-     * Set ignore.
-     */
-    public void setIgnore(boolean ignore) {
-        this.isErrorIgnored = ignore;
-    }
-
-    /**
-     * Get ignore.
-     */
-    public boolean getIgnore() {
-        return isErrorIgnored;
-    }
-
-    // --------------------------------------------------------- Public Methods
 
 
     /**
@@ -158,44 +77,39 @@ public class UseAttributeTag extends TagSupport {
      *
      * @throws JspException if a JSP exception has occurred
      */
-    public int doStartTag() throws JspException {
-        // Do a local copy of id
-        String localId = this.id;
-        if (localId == null)
-            localId = attributeName;
+    public void execute() throws JspException {
+        pageContext.setAttribute(getScriptingVariable(), attribute.getValue(), scope);
+    }
 
-        BasicComponentContext compContext = (BasicComponentContext) pageContext.getAttribute(ComponentConstants.COMPONENT_CONTEXT, PageContext.REQUEST_SCOPE);
-        if (compContext == null)
-            throw new JspException("Error - tag useAttribute : no tiles context found.");
-
-        Object value = compContext.getAttribute(attributeName);
-        // Check if value exists and if we must send a runtime exception
-        if (value == null)
-            if (!isErrorIgnored)
-                throw new JspException("Error - tag useAttribute : attribute '" + attributeName + "' not found in context. Check tag syntax");
-            else
-                return SKIP_BODY;
-
-        if (scopeName != null) {
-            scope = TagUtils.getScope(scopeName, PageContext.PAGE_SCOPE);
-            if (scope != ComponentConstants.COMPONENT_SCOPE)
-                pageContext.setAttribute(localId, value, scope);
-        } else
-            pageContext.setAttribute(localId, value);
-
-        // Continue processing this page
-        return SKIP_BODY;
+    public String getScriptingVariable() {
+        return id == null ? getName() : id;
     }
 
 
     /**
-     * Clean up after processing this enumeration.
-     *
-     * @throws JspException if a JSP exception has occurred
+     * Implementation of <code>TagExtraInfo</code> which identifies
+     * the scripting object(s) to be made visible.
      */
-    public int doEndTag() throws JspException
-    {
-    return (EVAL_PAGE);
-    }
+    public static class Tei extends TagExtraInfo {
 
+        /**
+         * Return information about the scripting variables to be created.
+         */
+        public VariableInfo[] getVariableInfo(TagData data) {
+            String classname = data.getAttributeString("classname");
+            if (classname == null) {
+                classname = "java.lang.Object";
+            }
+
+            String id = data.getAttributeString("id");
+            if (id == null) {
+                id = data.getAttributeString("name");
+            }
+
+            return new VariableInfo[] {
+                new VariableInfo(id, classname, true, VariableInfo.AT_END)
+            };
+
+        }
+    }
 }
