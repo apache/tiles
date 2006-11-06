@@ -24,7 +24,7 @@
 <!-- A "ContentType" is the content type of an attribute passed to a tile
      component.
 -->
-<!ENTITY % ContentType "(string|page|template|definition)">
+<!ENTITY % ContentType "(string|template|definition)">
 
 <!-- A "ClassName" is the fully qualified name of a Java class that is
      instantiated to provide the functionality of the enclosing element.
@@ -93,17 +93,13 @@
 
      name            The unique identifier for this definition.
 
-     page            Same as path.
-
-     path            The context-relative path to the resource used as tiles to
-                     insert. This tiles will be inserted and a tiles context
-                     containing appropriate attributes will be available.
-
      role            Security role name that is allowed access to this definition
                      object. The definition is inserted only if the role name is
                      allowed.
 
-     template        Same as path. For compatibility with the template tag library.
+     template        The context-relative path to the resource used as tiles to
+                     insert. This tiles will be inserted and a tiles context
+                     containing appropriate attributes will be available.
 -->
 <!ELEMENT definition (icon?, display-name?, description?, put*, putList*)>
 <!ATTLIST definition       id               ID               #IMPLIED>
@@ -111,8 +107,6 @@
 <!ATTLIST definition       preparerUrl    %RequestPath;    #IMPLIED>
 <!ATTLIST definition       extends          %DefinitionName; #IMPLIED>
 <!ATTLIST definition       name             %DefinitionName; #REQUIRED>
-<!ATTLIST definition       page             %RequestPath;    #IMPLIED>
-<!ATTLIST definition       path             %RequestPath;    #IMPLIED>
 <!ATTLIST definition       role             CDATA            #IMPLIED>
 <!ATTLIST definition       template         %RequestPath;    #IMPLIED>
 
@@ -120,11 +114,6 @@
 <!-- The "put" element describes an attribute of a definition. It allows to
      specify the tiles attribute name and its value. The tiles value can be
      specified as an xml attribute, or in the body of the <put> tag.
-
-     content         Same as value. For compatibility with the template tag library.
-
-     direct          Same as type="string". For compatibility with the template
-                     tag library.
 
      name            The unique identifier for this put.
 
@@ -138,8 +127,6 @@
 -->
 <!ELEMENT put (#PCDATA)>
 <!ATTLIST put              id               ID              #IMPLIED>
-<!ATTLIST put              content          CDATA           #IMPLIED>
-<!ATTLIST put              direct           %Boolean;       #IMPLIED>
 <!ATTLIST put              name             CDATA           #REQUIRED>
 <!ATTLIST put              type             %ContentType;   #IMPLIED>
 <!ATTLIST put              value            CDATA           #IMPLIED>
@@ -161,11 +148,6 @@
 <!-- The "add" element describes an element of a list. It is similar to the
      <put> element.
 
-     content         Same as value. For compatibility with the template tag library.
-
-     direct          Same as type="string". For compatibility with the template
-                     tag library.
-
      type            The type of the value. Can be: string, page, template or definition.
                      By default, no type is associated to a value. If a type is
                      associated, it will be used as a hint to process the value
@@ -176,8 +158,6 @@
 -->
 <!ELEMENT add (#PCDATA)>
 <!ATTLIST add              id               ID              #IMPLIED>
-<!ATTLIST add              content          CDATA           #IMPLIED>
-<!ATTLIST add              direct           %Boolean;       #IMPLIED>
 <!ATTLIST add              type             %ContentType;   #IMPLIED>
 <!ATTLIST add              value            CDATA           #IMPLIED>
 

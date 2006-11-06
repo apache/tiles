@@ -69,7 +69,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     /**
      * Stores ComponentDefinition objects.
      */
-    Map definitions;
+    Map<String, ComponentDefinition> definitions;
     /**
      * Should we use a validating XML parser to read the configuration file.
      * Default is <code>false</code>.
@@ -81,10 +81,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * <strong>MUST</strong> be an even number of Strings in this list!
      */
     protected String registrations[] = {
-        "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN",
-        "/org/apache/tiles/resources/tiles-config_1_1.dtd",
-        "-//Apache Software Foundation//DTD Tiles Configuration 1.2//EN",
-        "/org/apache/tiles/resources/tiles-config_1_2.dtd",
         "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
         "/org/apache/tiles/resources/tiles-config_2_0.dtd"
     };
@@ -137,7 +133,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // This is an instance variable instead of a local variable because
         // we want to be able to call the addDefinition method to populate it.
         // But we reset the Map here, which, of course, has threading implications.
-        definitions = new HashMap();
+        definitions = new HashMap<String, ComponentDefinition>();
 
         if (source == null) {
             // Perhaps we should throw an exception here.

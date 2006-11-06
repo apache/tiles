@@ -46,14 +46,14 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     /**
      * The locale-specific set of definitions objects.
      */
-    private Map localeSpecificDefinitions;
+    private Map<Locale, Map> localeSpecificDefinitions;
 
     /**
      * Creates a new instance of ComponentDefinitionsImpl
      */
     public ComponentDefinitionsImpl() {
         baseDefinitions = new HashMap<String, ComponentDefinition>();
-        localeSpecificDefinitions = new HashMap();
+        localeSpecificDefinitions = new HashMap<Locale, Map>();
     }
 
     /**
@@ -145,7 +145,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     public void reset() {
         this.baseDefinitions = new HashMap<String, ComponentDefinition>();
-        this.localeSpecificDefinitions = new HashMap();
+        this.localeSpecificDefinitions = new HashMap<Locale, Map>();
     }
 
     /**
@@ -262,7 +262,8 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     /**
      * Resolve inheritance.
-     * First, resolve parent's inheritance, then set path to the parent's path.
+     * First, resolve parent's inheritance, then set template to the parent's
+     * template.
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
      *
@@ -302,7 +303,8 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     /**
      * Resolve locale-specific inheritance.
-     * First, resolve parent's inheritance, then set path to the parent's path.
+     * First, resolve parent's inheritance, then set template to the parent's
+     * template.
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
      *
@@ -345,8 +347,8 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      * Overloads a child definition with a given parent.
      * All attributes present in child are kept. All missing attributes are
      * copied from the parent.
-     * Special attribute 'path','role' and 'extends' are overloaded in child if
-     * not defined
+     * Special attribute 'template','role' and 'extends' are overloaded in child
+     * if not defined
      *
      * @param parent The parent definition.
      * @param child  The child that will be overloaded.
@@ -360,9 +362,9 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
             if (!child.getAttributes().containsKey(name))
                 child.put(name, parent.getAttribute(name));
         }
-        // Set path and role if not setted
-        if (child.getPath() == null)
-            child.setPath(parent.getPath());
+        // Set template and role if not setted
+        if (child.getTemplate() == null)
+            child.setTemplate(parent.getTemplate());
         if (child.getRole() == null)
             child.setRole(parent.getRole());
         if (child.getPreparer() == null) {

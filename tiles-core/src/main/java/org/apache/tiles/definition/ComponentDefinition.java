@@ -51,9 +51,9 @@ public class ComponentDefinition implements Serializable {
     protected String name = null;
 
     /**
-     * Component / template path (URL).
+     * Template path.
      */
-    protected String path = null;
+    protected String template = null;
 
     /**
      * Attributes defined for the component.
@@ -79,7 +79,7 @@ public class ComponentDefinition implements Serializable {
      * Constructor.
      */
     public ComponentDefinition() {
-        attributes = new HashMap();
+        attributes = new HashMap<String, ComponentAttribute>();
     }
 
     /**
@@ -89,9 +89,10 @@ public class ComponentDefinition implements Serializable {
      * containing attributes.
      */
     public ComponentDefinition(ComponentDefinition definition) {
-        attributes = new HashMap(definition.getAttributes());
+        attributes = new HashMap<String, ComponentAttribute>(
+                definition.getAttributes());
         this.name = definition.getName();
-        this.path = definition.getPath();
+        this.template = definition.getTemplate();
         this.role = definition.getRole();
         this.preparer = definition.getPreparer();
     }
@@ -99,9 +100,10 @@ public class ComponentDefinition implements Serializable {
     /**
      * Constructor.
      */
-    public ComponentDefinition(String name, String path, Map attributes) {
+    public ComponentDefinition(String name, String template,
+            Map<String, ComponentAttribute> attributes) {
         this.name = name;
-        this.path = path;
+        this.template = template;
         this.attributes = attributes;
     }
 
@@ -124,59 +126,21 @@ public class ComponentDefinition implements Serializable {
     }
 
     /**
-     * Access method for the path property.
-     *
-     * @return The current value of the path property.
-     */
-    public String getPage() {
-        return path;
-    }
-
-    /**
-     * Sets the value of the path property.
-     *
-     * @param page the new value of the path property
-     */
-    public void setPage(String page) {
-        path = page;
-    }
-
-    /**
-     * Access method for the path property.
-     *
-     * @return the current value of the path property
-     */
-    public String getPath() {
-        return path;
-    }
-
-    /**
-     * Sets the value of the path property.
-     *
-     * @param aPath the new value of the path property
-     */
-    public void setPath(String aPath) {
-        path = aPath;
-    }
-
-    /**
      * Access method for the template property.
-     * Same as getPath()
      *
      * @return the current value of the template property
      */
     public String getTemplate() {
-        return path;
+        return template;
     }
 
     /**
      * Sets the value of the template property.
-     * Same as setPath()
      *
      * @param template the new value of the path property
      */
     public void setTemplate(String template) {
-        path = template;
+        this.template = template;
     }
 
     /**
@@ -241,37 +205,19 @@ public class ComponentDefinition implements Serializable {
      * @param content Attribute value
      */
     public void put(String name, Object content) {
-        put(name, content, false, null);
+        put(name, content, null);
     }
 
     /**
      * Put an attribute in template definition.
      * Attribute can be used as content for tag get.
-     *
-     * @param name    Attribute name
-     * @param content Attribute value �
-     * @param direct  Determines how content is handled by get tag: true means content is printed directly; false, the default, means content is included
-     */
-    public void put(String name, Object content, boolean direct) {
-        put(name, content, direct, null);
-    }
-
-    /**
-     * Put an attribute in template definition.
-     * Attribute can be used as content for tag get.
-     *
-     * @param name    Attribute name
+     * @param name Attribute name
      * @param content Attribute value
-     * @param direct  Determines how content is handled by get tag: true means content is printed directly; false, the default, means content is included
-     * @param role    Determine if content is used by get tag. If user is in role, content is used.
+     * @param direct Determines how content is handled by get tag: true means content is printed directly; false, the default, means content is included
+     * @param role Determine if content is used by get tag. If user is in role, content is used.
      */
-    public void put(String name, Object content, boolean direct, String role) {
-        if (direct) { // direct String
-            put(name, content, ComponentAttribute.STRING, role);
-        } else {
-            put(name, content, ComponentAttribute.TEMPLATE, role);
-        }
-
+    public void put(String name, Object content, String role) {
+        put(name, content, null, role);
     }
 
     /**
@@ -297,8 +243,8 @@ public class ComponentDefinition implements Serializable {
     public String toString() {
         return "{name="
             + name
-            + ", path="
-            + path
+            + ", template="
+            + template
             + ", role="
             + role
             + ", preparerInstance="
@@ -376,31 +322,5 @@ public class ComponentDefinition implements Serializable {
      */
     public boolean isIsVisited() {
         return isVisited;
-    }
-
-
-    /**
-     * Overload this definition with passed child.
-     * All attributes from child are copied to this definition. Previous attributes with
-     * same name are disguarded.
-     * Special attribute 'path','role' and 'extends' are overloaded if defined in child.
-     *
-     * @param child Child used to overload this definition.
-     */
-    public void overload(ComponentDefinition child) {
-        if (child.getPath() != null) {
-            path = child.getPath();
-        }
-        if (child.getExtends() != null) {
-            inherit = child.getExtends();
-        }
-        if (child.getRole() != null) {
-            role = child.getRole();
-        }
-        if (child.getPreparer() != null) {
-            preparer = child.getPreparer();
-        }
-        // put all child attributes in parent.
-        attributes.putAll(child.getAttributes());
     }
 }

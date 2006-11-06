@@ -336,11 +336,11 @@ public class BasicTilesContainer implements TilesContainer {
                 prepare(request, definition.getPreparer(), true);
             }
 
-            String dispatchPath = definition.getPath();
+            String dispatchPath = definition.getTemplate();
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Dispatching to definition path '" +
-                    definition.getPath() + " '");
+                    definition.getTemplate() + " '");
             }
             request.dispatch(dispatchPath);
 
