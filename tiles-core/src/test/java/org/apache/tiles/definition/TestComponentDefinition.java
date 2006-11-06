@@ -63,7 +63,7 @@ public class TestComponentDefinition extends TestCase{
     public void testPutAttribute() {
         ComponentDefinition def = new ComponentDefinition();
         def.setName("test1");
-        def.setPath("/page1.jsp");
+        def.setTemplate("/page1.jsp");
         def.put("attr1", new ComponentDefinition(), "definition", null);
         
         Object attr1 = def.getAttribute("attr1");

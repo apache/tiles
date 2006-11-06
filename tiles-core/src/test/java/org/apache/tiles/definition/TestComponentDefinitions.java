@@ -70,7 +70,7 @@ public class TestComponentDefinitions extends TestCase {
         
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
-        def.setPath("/test1.jsp");
+        def.setTemplate("/test1.jsp");
         ComponentAttribute attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("value1");
@@ -95,15 +95,15 @@ public class TestComponentDefinitions extends TestCase {
         
         assertNotNull("Couldn't get parent.", 
                 definitions.getDefinition("parent.def1"));
-        assertEquals("Incorrect path value." , "/test1.jsp",
-                definitions.getDefinition("parent.def1").getPath());
+        assertEquals("Incorrect template value." , "/test1.jsp",
+                definitions.getDefinition("parent.def1").getTemplate());
         assertEquals("Incorrect attr1 value", "value1",
                 definitions.getDefinition("parent.def1").getAttribute("attr1"));
         
         assertNotNull("Couldn't get child.", 
                 definitions.getDefinition("child.def1"));
-        assertEquals("Incorrect path value." , "/test1.jsp",
-                definitions.getDefinition("child.def1").getPath());
+        assertEquals("Incorrect template value." , "/test1.jsp",
+                definitions.getDefinition("child.def1").getTemplate());
         assertEquals("Incorrect attr1 value", "New value",
                 definitions.getDefinition("child.def1").getAttribute("attr1"));
     }
@@ -115,7 +115,7 @@ public class TestComponentDefinitions extends TestCase {
         Map defs = new HashMap();
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
-        def.setPath("/test1.jsp");
+        def.setTemplate("/test1.jsp");
         ComponentAttribute attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("value1");
@@ -151,29 +151,29 @@ public class TestComponentDefinitions extends TestCase {
         
         assertNotNull("Couldn't get parent.", 
                 definitions.getDefinition("parent.def1"));
-        assertEquals("Incorrect path value." , "/test1.jsp",
-                definitions.getDefinition("parent.def1").getPath());
+        assertEquals("Incorrect template value." , "/test1.jsp",
+                definitions.getDefinition("parent.def1").getTemplate());
         assertEquals("Incorrect attr1 value", "value1",
                 definitions.getDefinition("parent.def1").getAttribute("attr1"));
         
         assertNotNull("Couldn't get child.", 
                 definitions.getDefinition("child.def1"));
-        assertEquals("Incorrect path value." , "/test1.jsp",
-                definitions.getDefinition("child.def1").getPath());
+        assertEquals("Incorrect template value." , "/test1.jsp",
+                definitions.getDefinition("child.def1").getTemplate());
         assertEquals("Incorrect attr1 value", "New value",
                 definitions.getDefinition("child.def1").getAttribute("attr1"));
         
         assertNotNull("Couldn't get parent.", 
                 definitions.getDefinition("parent.def1", Locale.US));
-        assertEquals("Incorrect path value." , "/test1.jsp",
-                definitions.getDefinition("parent.def1", Locale.US).getPath());
+        assertEquals("Incorrect template value." , "/test1.jsp",
+                definitions.getDefinition("parent.def1", Locale.US).getTemplate());
         assertEquals("Incorrect attr1 value", "value1",
                 definitions.getDefinition("parent.def1", Locale.US).getAttribute("attr1"));
         
         assertNotNull("Couldn't get child.", 
                 definitions.getDefinition("child.def1", Locale.US));
-        assertEquals("Incorrect path value." , "/test1.jsp",
-                definitions.getDefinition("child.def1", Locale.US).getPath());
+        assertEquals("Incorrect template value." , "/test1.jsp",
+                definitions.getDefinition("child.def1", Locale.US).getTemplate());
         assertEquals("Incorrect attr1 value", "US Value",
                 definitions.getDefinition("child.def1", Locale.US).getAttribute("attr1"));
     }
@@ -186,7 +186,7 @@ public class TestComponentDefinitions extends TestCase {
         
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
-        def.setPath("/test1.jsp");
+        def.setTemplate("/test1.jsp");
         ComponentAttribute attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("value1");
@@ -229,7 +229,7 @@ public class TestComponentDefinitions extends TestCase {
         
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
-        def.setPath("/test1.jsp");
+        def.setTemplate("/test1.jsp");
         ComponentAttribute attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("tiles.def2");
@@ -239,7 +239,7 @@ public class TestComponentDefinitions extends TestCase {
         
         def = new ComponentDefinition();
         def.setName("parent.notype.def1");
-        def.setPath("/test1.jsp");
+        def.setTemplate("/test1.jsp");
         attr = new ComponentAttribute();
         attr.setName("attr1");
         attr.setValue("tiles.def2");

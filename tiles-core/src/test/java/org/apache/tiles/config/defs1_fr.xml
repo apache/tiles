@@ -13,7 +13,7 @@
   <!-- =======================================================  -->
 
   <!-- Doc index page description  -->
-  <definition name="test.def1" path="/test.jsp">
+  <definition name="test.def1" template="/test.jsp">
           <put name="country" value="France"/>
 	  <put name="title"  value="Tiles Library Documentation" />
 	  <put name="header" value="/common/header.jsp" />

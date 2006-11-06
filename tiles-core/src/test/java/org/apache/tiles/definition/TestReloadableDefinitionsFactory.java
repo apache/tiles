@@ -107,7 +107,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
                 "\"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN\" " +
                 "\"http://struts.apache.org/dtds/tiles-config_1_1.dtd\">\n\n" +
                 "<tiles-definitions>" +
-                "<definition name=\"rewrite.test\" path=\"/test.jsp\">" +
+                "<definition name=\"rewrite.test\" template=\"/test.jsp\">" +
                 "<put name=\"testparm\" value=\"testval\"/>" +
                 "</definition>" +
                 "</tiles-definitions>";
@@ -127,8 +127,8 @@ public class TestReloadableDefinitionsFactory extends TestCase {
 
         assertNotNull("rewrite.test definition not found.",
                 definitions.getDefinition("rewrite.test"));
-        assertEquals("Incorrect initial path value", "/test.jsp",
-                definitions.getDefinition("rewrite.test").getPath());
+        assertEquals("Incorrect initial template value", "/test.jsp",
+                definitions.getDefinition("rewrite.test").getTemplate());
 
         ReloadableDefinitionsFactory reloadable = (ReloadableDefinitionsFactory) factory;
         assertEquals("Factory should be fresh.", false,
@@ -143,7 +143,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
                 "\"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN\" " +
                 "\"http://struts.apache.org/dtds/tiles-config_1_1.dtd\">\n\n" +
                 "<tiles-definitions>" +
-                "<definition name=\"rewrite.test\" path=\"/newtest.jsp\">" +
+                "<definition name=\"rewrite.test\" template=\"/newtest.jsp\">" +
                 "<put name=\"testparm\" value=\"testval\"/>" +
                 "</definition>" +
                 "</tiles-definitions>";
@@ -160,7 +160,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         definitions = factory.readDefinitions();
         assertNotNull("rewrite.test definition not found.",
                 definitions.getDefinition("rewrite.test"));
-        assertEquals("Incorrect initial path value", "/newtest.jsp",
-                definitions.getDefinition("rewrite.test").getPath());
+        assertEquals("Incorrect initial template value", "/newtest.jsp",
+                definitions.getDefinition("rewrite.test").getTemplate());
     }
 }

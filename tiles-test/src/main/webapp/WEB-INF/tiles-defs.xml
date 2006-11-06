@@ -13,7 +13,7 @@
   <!-- =======================================================  -->
 
   <!-- Doc index page description  -->
-  <definition name="doc.mainLayout" path="/layout/classicLayout.jsp">
+  <definition name="doc.mainLayout" template="/layout/classicLayout.jsp">
 	  <put name="title"  value="Tiles Library Documentation" />
 	  <put name="header" value="/common/header.jsp" />
 	  <put name="menu"   value="doc.menu.main" />
