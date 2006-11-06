@@ -109,7 +109,7 @@ public class AttributeTag extends RenderTagSupport {
     }
 
     private String calculateType(ComponentAttribute attr) throws JspException {
-       String type = attr.getType();
+        String type = attr.getType();
         if (type == null) {
             Object valueContent = attr.getValue();
             if (valueContent instanceof String) {
@@ -119,6 +119,7 @@ public class AttributeTag extends RenderTagSupport {
                 } else {
                     if (container.isValidDefinition(pageContext, valueString)) {
                         type = ComponentAttribute.DEFINITION;
+                        attr.setValue(valueString);
                     } else {
                         type = ComponentAttribute.STRING;
                     }
@@ -128,6 +129,18 @@ public class AttributeTag extends RenderTagSupport {
                 throw new JspException("Unrecognized type for attribute value "
                     + attr.getValue());
             }
+            attr.setType(type);
+        } else if (type.equalsIgnoreCase("definition")) {
+            Object valueContent = attr.getValue();
+            if (valueContent instanceof String) {
+                // FIXME If the value is the name of a definition, the
+                // corresponding definition should be put as the value of the
+                // attribute
+                if (!container.isValidDefinition(pageContext, (String) valueContent))
+                    throw new JspException("Cannot find any definition named '"
+                        + valueContent + "'");
+            }
+            attr.setValue(valueContent);
         }
         return type;
     }
