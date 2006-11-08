@@ -89,7 +89,7 @@
                 <p>The 'beanName', 'beanProperty', and 'beanScope' tag attributes
                     were removed with no replacement. Use EL instead. For example:
                 </p>
-                <code>&lt;tiles:put name="foo" value="${foo.bar}"/&gt;</code>
+                <code>&amp;lt;tiles:put name="foo" value="${foo.bar}"/&amp;gt;</code>
             </answer>
         </faq>
         <faq id="put-add-direct">
@@ -98,18 +98,6 @@
             <answer>
                 <p>It has been removed since you can specify the "direct"
                 inclusion using <code>type="string"</code></p>
-            </answer>
-        </faq>
-        <faq id="insert-type">
-            <question>Is the insert tag's 'type' attribute required?
-            </question>
-            <answer>
-                <p>The "type" attribute should not be required: it is useful only to
-                distinguish between "definition" and "attribute" in the case that we
-                have a definition and an attribute with the same name.</p>
-                <p>However, we've seen reports of errors if it is not used.
-                Please comment on <a href="http://issues.apache.org/struts/browse/SB-46">SB-46</a>
-                if you have more information.</p>
             </answer>
         </faq>
         <faq id="controller">
