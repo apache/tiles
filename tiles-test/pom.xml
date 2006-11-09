@@ -64,6 +64,23 @@
    
    <build>
        <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-war-plugin</artifactId>
+              <version>2.0.2</version>
+              <configuration>
+                  <webResources>
+                      <resource>
+                          <directory>.</directory>
+                          <targetPath>META-INF</targetPath>
+                          <includes>
+                              <include>LICENSE.txt</include>
+                              <include>NOTICE.txt</include>
+                          </includes>
+                      </resource>
+                  </webResources>
+               </configuration>
+           </plugin>
            <plugin>
                <groupId>org.codehaus.cargo</groupId>
                <artifactId>cargo-maven2-plugin</artifactId>
