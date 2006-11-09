@@ -103,9 +103,12 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     public ComponentDefinition getDefinition(String name, Locale locale) {
         ComponentDefinition definition = null;
-        Map localeSpecificMap = (Map) localeSpecificDefinitions.get(locale);
-        if (localeSpecificMap != null) {
-            definition = (ComponentDefinition) localeSpecificMap.get(name);
+
+        if (locale != null) {
+            Map localeSpecificMap = localeSpecificDefinitions.get(locale);
+            if (localeSpecificMap != null) {
+                definition = (ComponentDefinition) localeSpecificMap.get(name);
+            }
         }
 
         if (definition == null) {
@@ -156,13 +159,13 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     }
 
     public void resolveAttributeDependencies() {
-        for (ComponentDefinition def: baseDefinitions.values()) {
+        for (ComponentDefinition def : baseDefinitions.values()) {
             Map<String, ComponentAttribute> attributes = def.getAttributes();
-            for (ComponentAttribute attr: attributes.values()) {
+            for (ComponentAttribute attr : attributes.values()) {
                 if (isDefinitionType(attr)) {
-                        ComponentDefinition subDef =
-                            getDefinitionByAttribute(attr);
-                        attr.setAttributes(subDef.getAttributes());
+                    ComponentDefinition subDef =
+                        getDefinitionByAttribute(attr);
+                    attr.setAttributes(subDef.getAttributes());
                 }
             }
         }
@@ -170,11 +173,11 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     private boolean isDefinitionType(ComponentAttribute attr) {
         boolean explicit = (attr.getType() != null &&
-               (attr.getType().equalsIgnoreCase("definition") ||
+            (attr.getType().equalsIgnoreCase("definition") ||
                 attr.getType().equalsIgnoreCase("instance")));
 
         boolean implicit =
-                attr.getType() == null &&
+            attr.getType() == null &&
                 attr.getValue() != null &&
                 baseDefinitions.containsKey(attr.getValue().toString());
 

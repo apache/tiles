@@ -43,13 +43,12 @@
 
     <h2>Container Management Tags</h2>
     <a href="testinitcontainer.jsp">Test Initialize Container</a><br/>
+    <a href="testdef.jsp">Test Definition Tag</a><br/>
+    <a href="testinsertdefinition_composite_tags_includes_configured.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags</a><br/>
+    <a href="testinsertdefinition_composite_tags.jsp">Test Insert Definition that contains another definition inside using JSP tags</a><br/>
 
     <h2>Currently not working tests</h2>
-    <a href="testdef.jsp">Test Definition Tag</a><br/>
-    <!-- Currently all the tests work.-->
-    <a href="testinsertdefinition_composite_tags_includes_configured.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags</a><br/>
     <a href="testinsertdefinition_composite_tags_includes_configured_notype.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags without types</a><br/>
-    <a href="testinsertdefinition_composite_tags.jsp">Test Insert Definition that contains another definition inside using JSP tags</a><br/>
     <a href="testinsertdefinition_composite_tags_notype.jsp">Test Insert Definition that contains another definition inside using JSP tags without types</a><br/></body>
 
 </html>

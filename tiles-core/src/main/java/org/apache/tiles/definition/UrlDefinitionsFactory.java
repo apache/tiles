@@ -21,16 +21,21 @@ package org.apache.tiles.definition;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.util.ClassUtil;
-import org.apache.tiles.TilesException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation
@@ -127,10 +132,14 @@ public class UrlDefinitionsFactory
         throws DefinitionsFactoryException {
 
         ComponentDefinitions definitions = getComponentDefinitions();
-        Locale locale = tilesContext.getRequestLocale();
-        if (!isLocaleProcessed(tilesContext)) {
-            synchronized (definitions) {
-                addDefinitions(definitions, tilesContext);
+        Locale locale = null;
+
+        if (tilesContext != null) {
+            tilesContext.getRequestLocale();
+            if (!isLocaleProcessed(tilesContext)) {
+                synchronized (definitions) {
+                    addDefinitions(definitions, tilesContext);
+                }
             }
         }
 

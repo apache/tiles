@@ -20,11 +20,10 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.context.jsp.JspUtil;
 import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.taglib.RenderTagSupport;
+import org.apache.tiles.TilesException;
+import org.apache.tiles.context.jsp.JspUtil;
 
 import javax.servlet.jsp.JspException;
 import java.io.IOException;
@@ -72,31 +71,31 @@ public class AttributeTag extends RenderTagSupport {
     protected void render() throws JspException, TilesException, IOException {
         ComponentContext context = container.getComponentContext(pageContext);
         ComponentAttribute attr = context.getAttribute(name);
-        if(attr == null && ignore) {
+        if (attr == null && ignore) {
             return;
         }
 
-        if(attr == null) {
-            throw new TilesException("Attribute '"+name+"' not found.");
+        if (attr == null) {
+            throw new TilesException("Attribute '" + name + "' not found.");
         }
 
         String type = calculateType(attr);
-        if("string".equalsIgnoreCase(type)) {
+        if ("string".equalsIgnoreCase(type)) {
             pageContext.getOut().print(attr.getValue());
 
-        } else if(isDefinition(attr)) {
-            if(template != null) {
+        } else if (isDefinition(attr)) {
+            if (template != null) {
                 attr.setValue(template);
             }
-            
+
             Map<String, ComponentAttribute> attrs = attr.getAttributes();
-            if(attrs != null) {
-                for(Map.Entry<String, ComponentAttribute> a : attrs.entrySet()) {
+            if (attrs != null) {
+                for (Map.Entry<String, ComponentAttribute> a : attrs.entrySet()) {
                     context.putAttribute(a.getKey(), a.getValue());
                 }
             }
             container.render(pageContext, attr.getValue().toString());
-            
+
         } else {
             JspUtil.doInclude(pageContext, attr.getValue().toString(), flush);
         }
@@ -114,33 +113,18 @@ public class AttributeTag extends RenderTagSupport {
             Object valueContent = attr.getValue();
             if (valueContent instanceof String) {
                 String valueString = (String) valueContent;
-                if (valueString.startsWith("/")) {
+                if (container.isValidDefinition(pageContext, valueString)) {
+                    type = ComponentAttribute.DEFINITION;
+                } else if (valueString.startsWith("/")) {
                     type = ComponentAttribute.TEMPLATE;
                 } else {
-                    if (container.isValidDefinition(pageContext, valueString)) {
-                        type = ComponentAttribute.DEFINITION;
-                        attr.setValue(valueString);
-                    } else {
-                        type = ComponentAttribute.STRING;
-                    }
+                    type = ComponentAttribute.STRING;
                 }
             }
             if (type == null) {
                 throw new JspException("Unrecognized type for attribute value "
                     + attr.getValue());
             }
-            attr.setType(type);
-        } else if (type.equalsIgnoreCase("definition")) {
-            Object valueContent = attr.getValue();
-            if (valueContent instanceof String) {
-                // FIXME If the value is the name of a definition, the
-                // corresponding definition should be put as the value of the
-                // attribute
-                if (!container.isValidDefinition(pageContext, (String) valueContent))
-                    throw new JspException("Cannot find any definition named '"
-                        + valueContent + "'");
-            }
-            attr.setValue(valueContent);
         }
         return type;
     }

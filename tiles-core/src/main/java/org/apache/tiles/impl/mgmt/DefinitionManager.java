@@ -42,10 +42,19 @@ public class DefinitionManager {
         return getFactory().getDefinition(definition, request);
     }
 
-    public void addDefinition(ComponentDefinition definition) {
+    public void addDefinition(ComponentDefinition definition)
+        throws DefinitionsFactoryException {
         validate(definition);
 
-        if(definition.getExtends() != null) {
+        if(definition.isExtending()) {
+            this.resolveInheritance(definition);
+        }
+
+        for(ComponentAttribute attr : definition.getAttributes().values()) {
+            if(ComponentAttribute.DEFINITION.equals(attr.getType())) {
+                ComponentDefinition d = getDefinition(attr.getValue().toString(), null);
+                attr.setAttributes(d.getAttributes());
+            }
         }
 
         definitions.put(definition.getName(), definition);
