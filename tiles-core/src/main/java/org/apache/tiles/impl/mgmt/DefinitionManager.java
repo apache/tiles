@@ -51,13 +51,20 @@ public class DefinitionManager {
         }
 
         for(ComponentAttribute attr : definition.getAttributes().values()) {
-            if(ComponentAttribute.DEFINITION.equals(attr.getType())) {
+            if(isDefinition(attr)) {
                 ComponentDefinition d = getDefinition(attr.getValue().toString(), null);
                 attr.setAttributes(d.getAttributes());
             }
         }
 
         definitions.put(definition.getName(), definition);
+    }
+
+    private boolean isDefinition(ComponentAttribute attribute) throws DefinitionsFactoryException {
+        boolean explicit =  ComponentAttribute.DEFINITION.equals(attribute.getType());
+        boolean implicit =  attribute.getType() == null  &&
+                            (getDefinition((String)attribute.getValue(), null) != null);
+        return explicit || implicit;
     }
 
     private void validate(TileDefinition definition) {
