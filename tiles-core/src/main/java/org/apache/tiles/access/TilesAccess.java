@@ -48,6 +48,16 @@ public class TilesAccess {
 
     public static void setContainer(Object context, TilesContainer container)
         throws TilesException {
+
+        if (container == null) {
+            if(LOG.isInfoEnabled()) {
+                LOG.info("Removing TilesContext for context: " + context.getClass().getName());
+            }
+            removeAttribute(context, CONTAINER_ATTRIBUTE);
+        }
+        if (container != null && LOG.isInfoEnabled()) {
+            LOG.info("Publishing TilesContext for context: " + context.getClass().getName());
+        }
         setAttribute(context, CONTAINER_ATTRIBUTE, container);
     }
 
@@ -57,16 +67,6 @@ public class TilesAccess {
             return container.getApplicationContext();
         }
         return (TilesApplicationContext) getAttribute(context, CONTEXT_ATTRIBUTE);
-    }
-
-    /**
-     * @param context
-     * @param
-     * @deprecated temporarily added for backwards compatibility.
-     */
-    public static void setApplicationContext(Object context, TilesApplicationContext tilesContext)
-        throws TilesException {
-        setAttribute(context, CONTEXT_ATTRIBUTE, tilesContext);
     }
 
     private static Object getAttribute(Object context, String attributeName) {
@@ -91,4 +91,14 @@ public class TilesAccess {
         }
     }
 
+    private static void removeAttribute(Object context, String name)
+        throws TilesException {
+        try {
+            Class contextClass = context.getClass();
+            Method attrMethod = contextClass.getMethod("removeAttribute", String.class);
+            attrMethod.invoke(context, name);
+        } catch (Exception e) {
+            throw new TilesException("Unable to remove attribute for specified context: '" + context + "'");
+        }
+    }
 }

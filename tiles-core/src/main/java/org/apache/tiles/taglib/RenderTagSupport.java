@@ -21,27 +21,40 @@ package org.apache.tiles.taglib;
 
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.taglib.PutTag;
 import org.apache.tiles.taglib.PutTagParent;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.TryCatchFinally;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Support for all tags which render (a template, or definition).
  * </p>
  * Properly invokes the defined preparer and invokes the abstract
  * render method upon completion.
+ * </p>
+ * This tag takes special care to ensure that the component context is
+ * reset to it's original state after the execution of the tag is
+ * complete. This ensures that all all included attributes in subsequent
+ * tiles are scoped properly and do not bleed outside their intended
+ * scope.
  *
  * @version $Rev$
  * @since Tiles 2.0
  */
 public abstract class RenderTagSupport extends ContainerTagSupport
-    implements PutTagParent {
+    implements TryCatchFinally, PutTagParent {
 
     protected String preparer;
     protected boolean flush;
     protected boolean ignore;
+
+    private Map<String, ComponentAttribute> originalState;
 
     public String getPreparer() {
         return preparer;
@@ -73,6 +86,21 @@ public abstract class RenderTagSupport extends ContainerTagSupport
         flush = false;
         ignore = false;
         super.release();
+    }
+
+        public int doStartTag() {
+        container = TilesAccess.getContainer(pageContext.getServletContext());
+        componentContext = container.getComponentContext(pageContext);
+        cacheState();
+        return isAccessAllowed() ? EVAL_BODY_BUFFERED : SKIP_BODY;
+    }
+
+    public void doCatch(Throwable throwable) throws Throwable {
+        // noop;
+    }
+
+    public void doFinally() {
+        restoreState();
     }
 
     /**
@@ -120,6 +148,24 @@ public abstract class RenderTagSupport extends ContainerTagSupport
             nestedTag.getName(),
             attribute
         );
+    }
+
+    private void cacheState() {
+        originalState = new HashMap<String, ComponentAttribute>();
+        Iterator<String> i = componentContext.getAttributeNames();
+        while(i.hasNext()) {
+            String name = i.next();
+            ComponentAttribute original = componentContext.getAttribute(name);
+            ComponentAttribute a = new ComponentAttribute(
+                original.getValue(), original.getRole(), original.getType()
+            );
+            originalState.put(name, a);
+        }
+    }
+
+    private void restoreState() {
+        originalState.clear();
+        originalState.putAll(originalState);
     }
 
 }

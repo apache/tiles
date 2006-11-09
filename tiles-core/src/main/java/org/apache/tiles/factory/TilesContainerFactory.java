@@ -22,14 +22,16 @@ package org.apache.tiles.factory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.util.ClassUtil;
-import org.apache.tiles.preparer.BasicPreparerFactory;
-import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.context.BasicTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
+import org.apache.tiles.impl.mgmt.CachingTilesContainer;
+import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.preparer.BasicPreparerFactory;
+import org.apache.tiles.preparer.PreparerFactory;
+import org.apache.tiles.util.ClassUtil;
 
 import java.lang.reflect.Method;
 import java.util.Enumeration;
@@ -49,6 +51,9 @@ public class TilesContainerFactory {
     public static final String CONTAINER_FACTORY_INIT_PARAM =
         "org.apache.tiles.CONTAINER_FACTORY";
 
+    public static final String CONTAINER_FACTORY_MUTABLE_INIT_PARAM =
+        "org.apache.tiles.CONTAINER_FACTORY.mutable";
+
     public static final String CONTEXT_FACTORY_INIT_PARAM =
         "org.apache.tiles.CONTEXT_FACTORY";
 
@@ -57,6 +62,7 @@ public class TilesContainerFactory {
 
     public static final String PREPARER_FACTORY_INIT_PARAM =
         "org.apache.tiles.PREPARER_FACTORY";
+
 
     private static final Map<String, String> DEFAULTS =
         new HashMap<String, String>();
@@ -79,7 +85,7 @@ public class TilesContainerFactory {
      * factories.
      *
      * @param context the executing applications context.
-     *        Typically a ServletContext or PortletContext
+     *                Typically a ServletContext or PortletContext
      * @return a tiles container
      * @throws TilesException if an error occurs creating the factory.
      */
@@ -89,10 +95,32 @@ public class TilesContainerFactory {
             .createFactory(context, CONTAINER_FACTORY_INIT_PARAM);
     }
 
+    public TilesContainer createContainer(Object context) throws TilesException {
+        String value = getInitParameter(context, CONTAINER_FACTORY_MUTABLE_INIT_PARAM);
+        if (Boolean.parseBoolean(value)) {
+            return createMutableTilesContainer(context);
+        } else {
+            return createTilesContainer(context);
+        }
+    }
 
-    public TilesContainer createContainer(Object context)
+    public TilesContainer createTilesContainer(Object context)
         throws TilesException {
         BasicTilesContainer container = new BasicTilesContainer();
+        initializeContainer(context, container);
+        return container;
+    }
+
+    public MutableTilesContainer createMutableTilesContainer(Object context)
+        throws TilesException {
+        CachingTilesContainer container = new CachingTilesContainer();
+        initializeContainer(context, container);
+        return container;
+    }
+
+    public void initializeContainer(Object context,
+                                    BasicTilesContainer container)
+        throws TilesException {
 
         TilesContextFactory contextFactory =
             (TilesContextFactory) createFactory(context, CONTEXT_FACTORY_INIT_PARAM);
@@ -113,7 +141,6 @@ public class TilesContainerFactory {
 
         container.init(getInitParameterMap(context));
 
-        return container;
     }
 
 
@@ -128,7 +155,7 @@ public class TilesContainerFactory {
             method = contextClass.getMethod("getInitParameter", String.class);
             while (e.hasMoreElements()) {
                 String key = (String) e.nextElement();
-                initParameters.put(key, (String)method.invoke(context, key));
+                initParameters.put(key, (String) method.invoke(context, key));
             }
         } catch (Exception e) {
             throw new TilesException("Unable to retrieve init parameters." +
@@ -147,19 +174,24 @@ public class TilesContainerFactory {
 
     public static String resolveFactoryName(Object context, String parameterName)
         throws TilesException {
+        Object factoryName = getInitParameter(context, parameterName);
+        return factoryName == null
+            ? DEFAULTS.get(parameterName)
+            : factoryName.toString();
+    }
 
-        Object factoryName;
+    private static String getInitParameter(Object context, String parameterName)
+        throws TilesException {
+        Object value;
         try {
             Class contextClass = context.getClass();
             Method getInitParameterMethod =
                 contextClass.getMethod("getInitParameter", String.class);
-            factoryName = getInitParameterMethod.invoke(context, parameterName);
+            value = getInitParameterMethod.invoke(context, parameterName);
         } catch (Exception e) {
             throw new TilesException("Unrecognized context.  Is this context" +
                 "a ServletContext, PortletContext, or similar?", e);
         }
-        return factoryName == null
-            ? DEFAULTS.get(parameterName)
-            : factoryName.toString();
+        return value == null ? null : value.toString();
     }
 }

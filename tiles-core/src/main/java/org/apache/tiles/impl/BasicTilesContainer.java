@@ -309,8 +309,7 @@ public class BasicTilesContainer implements TilesContainer {
             LOG.debug("Render request recieved for definition '" + definitionName + "'");
         }
 
-        ComponentDefinition definition =
-            definitionsFactory.getDefinition(definitionName, request);
+        ComponentDefinition definition = getDefinition(definitionName, request);
 
         if (definition == null) {
             if (LOG.isWarnEnabled()) {
@@ -353,6 +352,12 @@ public class BasicTilesContainer implements TilesContainer {
         } finally {
             BasicComponentContext.setContext(originalContext, request);
         }
+    }
+
+    protected ComponentDefinition getDefinition(String definitionName, TilesRequestContext request) throws DefinitionsFactoryException {
+        ComponentDefinition definition =
+            definitionsFactory.getDefinition(definitionName, request);
+        return definition;
     }
 
     private boolean isPermitted(TilesRequestContext request, String role) {
@@ -415,8 +420,7 @@ public class BasicTilesContainer implements TilesContainer {
 
     private boolean isValidDefinition(TilesRequestContext context, String definitionName) {
         try {
-            ComponentDefinition definition =
-                definitionsFactory.getDefinition(definitionName, context);
+            ComponentDefinition definition = getDefinition(definitionName, context);
             return definition != null;
         }
         catch (NoSuchDefinitionException nsde) {

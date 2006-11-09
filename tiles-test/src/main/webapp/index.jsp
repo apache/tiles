@@ -41,6 +41,9 @@
     <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
     <a href="testimportattribute_all.jsp">Test importAttribute Tag with no name</a><br/>
 
+    <h2>Container Management Tags</h2>
+    <a href="testinitcontainer.jsp">Test Initialize Container</a><br/>
+
     <h2>Currently not working tests</h2>
     <a href="testdef.jsp">Test Definition Tag</a><br/>
     <!-- Currently all the tests work.-->

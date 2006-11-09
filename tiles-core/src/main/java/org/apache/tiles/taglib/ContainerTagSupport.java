@@ -41,19 +41,14 @@ import java.util.Iterator;
  * Provides standard support for security, and provides access
  * to the container and component context.
  * </p>
- * This tag takes special care to ensure that the component context is
- * reset to it's original state after the execution of the tag is
- * complete. This ensures that all all included attributes in subsequent
- * tiles are scoped properly and do not bleed outside their intended
- * scope.
+
  *
  * @since Tiles 2.0
  * @version $Rev$
  * 
  */
-public abstract class ContainerTagSupport extends BodyTagSupport
-    implements TryCatchFinally {
-
+public abstract class ContainerTagSupport extends BodyTagSupport {
+    
     /**
      * The log instance for this tag.
      */
@@ -63,8 +58,6 @@ public abstract class ContainerTagSupport extends BodyTagSupport
     protected TilesContainer container;
     protected ComponentContext componentContext;
 
-    private Map<String, ComponentAttribute> originalState;
-
     public String getRole() {
         return role;
     }
@@ -73,12 +66,6 @@ public abstract class ContainerTagSupport extends BodyTagSupport
         this.role = role;
     }
 
-    public int doStartTag() {
-        container = TilesAccess.getContainer(pageContext.getServletContext());
-        componentContext = container.getComponentContext(pageContext);
-        cacheState();
-        return isAccessAllowed() ? EVAL_BODY_BUFFERED : SKIP_BODY;
-    }
 
     public int doEndTag() throws JspException {
         if (isAccessAllowed()) {
@@ -98,20 +85,12 @@ public abstract class ContainerTagSupport extends BodyTagSupport
     }
 
 
-    public void doCatch(Throwable throwable) throws Throwable {
-        // noop;
-    }
-
-    public void doFinally() {
-        restoreState();
-    }
 
     public void release() {
         super.release();
         this.role = null;
         this.container = null;
         this.componentContext = null;
-        originalState = null;
     }
 
     protected abstract void execute() throws TilesException, JspException, IOException;
@@ -121,21 +100,5 @@ public abstract class ContainerTagSupport extends BodyTagSupport
         return (role == null || req.isUserInRole(role));
     }
 
-    private void cacheState() {
-        originalState = new HashMap<String, ComponentAttribute>();
-        Iterator<String> i = componentContext.getAttributeNames();
-        while(i.hasNext()) {
-            String name = i.next();
-            ComponentAttribute original = componentContext.getAttribute(name);
-            ComponentAttribute a = new ComponentAttribute(
-                original.getValue(), original.getRole(), original.getType()
-            );
-            originalState.put(name, a);
-        }
-    }
 
-    private void restoreState() {
-        originalState.clear();
-        originalState.putAll(originalState);
-    }
 }

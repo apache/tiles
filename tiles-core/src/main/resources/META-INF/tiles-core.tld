@@ -19,8 +19,8 @@
  * under the License.
  */
 -->
-<!DOCTYPE taglib PUBLIC 
-    "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" 
+<!DOCTYPE taglib PUBLIC
+    "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
     "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
 <taglib>
    <tlib-version>2.0</tlib-version>
@@ -715,43 +715,43 @@
       </attribute>
    </tag>
    <tag>
-      <name>initComponentDefinitions</name>
-      <tag-class>org.apache.tiles.taglib.definition.InitDefinitionsTag</tag-class>
-      <body-content>empty</body-content>
+      <!-- <name>initComponentDefinitions</name> -->
+       <name>initContainer</name>
+      <tag-class>org.apache.tiles.taglib.definition.InitContainerTag</tag-class>
+      <body-content>JSP</body-content>
       <description>
       <![CDATA[
-      <p><strong>Initialize Tile/Component definitions factory.</strong></p>
+      <p><strong>Initialize the TilesContainer.</strong></p>
       <p>
-      In order to use Tile/Component definitions factory, you need to initialize the factory.
-      This is generally done in a initializing servlet. In particular, it is done in
-      "ComponentActionServlet" if you use it.
-      If you don't initialize factory in a servlet, you can initialize it using this tag. You need
-      to provide the description file name, and optionally the factory classname.
-      Initialization is done only once, at the first call of this tag. Subsequent calls
-      are ignored (tag checks existence of the factory.
+      In order to use the Tiles system, a TilesContainer must be instantiated.
+      This initialization is generally done by the TilesListener (or perhaps the
+      TilesServlet or TilesFilter).
+      </p>
+      <p>
+      If the intialization needs to be dynamic, you can initialize the container using
+      this tag.  Realize however, that this tag MUST be executed prior to invoking
+      any other definitions.  Additionally, the initilization may only be done once,
+      and any subsequent invocations will be ignored.
       </p>
       ]]>
       </description>
       <attribute>
-         <name>file</name>
-         <required>true</required>
-         <rtexprvalue>true</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>Definition file name.</p>
-         ]]>
-         </description>
-      </attribute>
-      <attribute>
-         <name>classname</name>
+         <name>containerFactory</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>If specified, classname of the factory to create and initialized.</p>
-         ]]>
-         </description>
+         <description> <![CDATA[ <p>Container Factory implementation used to instantiate the container.</p> ]]> </description>
       </attribute>
    </tag>
+
+    <tag>
+        <name>destroyContainer</name>
+        <tag-class>org.apache.tiles.taglib.definition.DestroyContainerTag</tag-class>
+        <body-content>empty</body-content>
+        <description>
+            <![CDATA[
+            <p><strong>Destroy the TilesContainer.</strong></p>
+            ]]>
+        </description>
+    </tag>
 </taglib>
 
