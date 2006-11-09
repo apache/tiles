@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 /**
  * Common base class for tags dealing with Tiles definitions.
- * This class defines properties used in Definition Tags.
+ * This class defines properties used in TileDefinition Tags.
  * It also extends TagSupport.
  */
 public class DefinitionTagSupport extends TagSupport implements Serializable {

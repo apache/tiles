@@ -227,7 +227,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.addSetProperties(PUT_TAG);
         digester.addSetNext(PUT_TAG, "addAttribute", putAttributeHandlerClass);
         digester.addCallMethod(PUT_TAG, "setBody", 0);
-        // Definition level list rules
+        // TileDefinition level list rules
         // This is rules for lists nested in a definition
         digester.addObjectCreate(DEF_LIST_TAG, listHandlerClass);
         digester.addSetProperties(DEF_LIST_TAG);

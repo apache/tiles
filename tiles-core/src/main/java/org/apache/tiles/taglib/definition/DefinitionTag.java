@@ -31,7 +31,7 @@ import java.util.HashMap;
 
 /**
  * This is the tag handler for &lt;tiles:definition&gt;, which defines
- * a tiles (or template / component). Definition is put in requested context and can be
+ * a tiles (or template / component). TileDefinition is put in requested context and can be
  * used in &lt;tiles:insert&gt.
  *
  * @version $Rev$ $Date$
@@ -41,7 +41,7 @@ public class DefinitionTag extends DefinitionTagSupport
 
     /* JSP Tag attributes */
     /**
-     * Definition identifier.
+     * TileDefinition identifier.
      */
     private String name = null;
 
