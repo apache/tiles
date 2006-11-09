@@ -20,7 +20,10 @@
 package org.apache.tiles.impl.mgmt;
 
 import org.apache.tiles.TilesException;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.mgmt.TileDefinition;
 import org.apache.tiles.mgmt.MutableTilesContainer;
@@ -44,4 +47,19 @@ public class CachingTilesContainer extends BasicTilesContainer
         mgr.addDefinition(def);
     }
 
+    protected ComponentDefinition getDefinition(String definition,
+                                                TilesRequestContext context)
+        throws DefinitionsFactoryException {
+        return mgr.getDefinition(definition, context);
+    }
+
+
+    public DefinitionsFactory getDefinitionsFactory() {
+        return mgr.getFactory();
+    }
+
+    public void setDefinitionsFactory(DefinitionsFactory definitionsFactory) {
+        super.setDefinitionsFactory(definitionsFactory);
+        mgr.setFactory(definitionsFactory);
+    }
 }

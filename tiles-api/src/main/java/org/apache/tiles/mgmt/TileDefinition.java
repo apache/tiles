@@ -22,6 +22,7 @@ package org.apache.tiles.mgmt;
 import org.apache.tiles.ComponentAttribute;
 
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Data transfer object used for registering new
@@ -57,6 +58,10 @@ public class TileDefinition {
      */
     protected String preparer = null;
 
+
+    public TileDefinition() {
+        attributes = new HashMap<String, ComponentAttribute>();
+    }
 
     /**
      * Access method for the name property.

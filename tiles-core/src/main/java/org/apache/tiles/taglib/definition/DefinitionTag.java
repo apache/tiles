@@ -23,9 +23,13 @@ import org.apache.tiles.taglib.PutTagParent;
 import org.apache.tiles.taglib.PutTag;
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.TilesException;
+import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.mgmt.TileDefinition;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.TagSupport;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -36,33 +40,20 @@ import java.util.HashMap;
  *
  * @version $Rev$ $Date$
  */
-public class DefinitionTag extends DefinitionTagSupport
+public class DefinitionTag extends TagSupport
     implements PutTagParent {
 
-    /* JSP Tag attributes */
-    /**
-     * TileDefinition identifier.
-     */
-    private String name = null;
 
-    /**
-     * Scope into which definition will be saved.
-     */
-    private String scope = null;
+    private String name;
+    private String template;
+    private String extend;
+    private String role;
+    private String preparer;
 
-    /**
-     * Extends attribute value.
-     */
-    private String extendsDefinition = null;
 
-    private TilesContainer container;
-
+    private MutableTilesContainer container;
     private Map<String, ComponentAttribute> attributes;
 
-
-    public DefinitionTag() {
-        attributes = new HashMap<String, ComponentAttribute>();
-    }
 
     public String getName() {
         return name;
@@ -72,24 +63,60 @@ public class DefinitionTag extends DefinitionTagSupport
         this.name = name;
     }
 
-    public String getScope() {
-        return scope;
+    public String getTemplate() {
+        return template;
     }
 
-    public void setScope(String scope) {
-        this.scope = scope;
+    public void setTemplate(String template) {
+        this.template = template;
     }
 
-    public String getExtendsDefinition() {
-        return extendsDefinition;
+    public String getExtends() {
+        return extend;
     }
 
-    public void setExtendsDefinition(String extendsDefinition) {
-        this.extendsDefinition = extendsDefinition;
+    public void setExtends(String extend) {
+        this.extend = extend;
     }
 
-    public int doStartTag() {
-        container = TilesAccess.getContainer(pageContext.getServletContext());
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPreparer() {
+        return preparer;
+    }
+
+    public void setPreparer(String preparer) {
+        this.preparer = preparer;
+    }
+
+    public void release() {
+        super.release();
+        name = null;
+        template = null;
+        extend = null;
+        role = null;
+        preparer = null;
+        attributes.clear();
+    }
+
+    public int doStartTag() throws JspException {
+        attributes = new HashMap<String, ComponentAttribute>();
+
+        TilesContainer c =
+            TilesAccess.getContainer(pageContext.getServletContext());
+
+        if(!(c instanceof MutableTilesContainer)) {
+            throw new JspException("Unable to define definition for a " +
+                "container which does not implement MutableTilesContainer");
+        }
+
+        container = (MutableTilesContainer)c;
         return EVAL_BODY_INCLUDE;
     }
 
@@ -98,9 +125,19 @@ public class DefinitionTag extends DefinitionTagSupport
      *
      * @return
      */
-    public int doEndTag() {
-        for(Map.Entry<String, ComponentAttribute> entry : attributes.entrySet()) {
-//            container.addDefinition(entry.getKey(), entry.getValue());
+    public int doEndTag() throws JspException {
+        TileDefinition d = new TileDefinition();
+        d.setName(name);
+        d.setTemplate(template);
+        d.setExtends(extend);
+        d.setRole(role);
+        d.setPreparer(preparer);
+        d.getAttributes().putAll(attributes);
+        
+        try {
+            container.register(d);
+        } catch (TilesException e) {
+            throw new JspException("Unable to add definition. " ,e);
         }
         return EVAL_PAGE;
     }
@@ -109,17 +146,11 @@ public class DefinitionTag extends DefinitionTagSupport
      * Reset member values for reuse. This method calls super.release(),
      * which invokes TagSupport.release(), which typically does nothing.
      */
-    public void release() {
-        super.release();
-        name = null;
-        scope = null;
-        extendsDefinition = null;
-        attributes.clear();
-    }
 
     public void processNestedTag(PutTag nestedTag) throws JspException {
         ComponentAttribute attr = new ComponentAttribute(nestedTag.getValue(),
             nestedTag.getRole(), nestedTag.getType());
+        attr.setName(nestedTag.getName());
         attributes.put(nestedTag.getName(), attr);
     }
 }
