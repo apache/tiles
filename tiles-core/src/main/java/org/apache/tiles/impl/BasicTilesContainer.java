@@ -21,7 +21,11 @@ package org.apache.tiles.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.*;
+import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.TilesException;
 import org.apache.tiles.context.BasicComponentContext;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
@@ -93,7 +97,7 @@ public class BasicTilesContainer implements TilesContainer {
         if (LOG.isInfoEnabled()) {
             LOG.info("Initializing Tiles2 container. . .");
         }
-        
+
         contextFactory.init(initParameters);
         definitionsFactory.init(initParameters);
 
@@ -105,13 +109,12 @@ public class BasicTilesContainer implements TilesContainer {
             for (String resource : resources) {
                 URL resourceUrl = context.getResource(resource);
                 if (resourceUrl != null) {
-                    if(LOG.isDebugEnabled()) {
-                        LOG.debug("Adding resource '"+resourceUrl+"' to definitions factory.");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Adding resource '" + resourceUrl + "' to definitions factory.");
                     }
                     definitionsFactory.addSource(resourceUrl);
-                }
-                else {
-                    LOG.warn("Unable to find configured definition '"+resource+"'");
+                } else {
+                    LOG.warn("Unable to find configured definition '" + resource + "'");
                 }
             }
         } catch (IOException e) {
@@ -331,7 +334,7 @@ public class BasicTilesContainer implements TilesContainer {
         BasicComponentContext.setContext(subContext, request);
 
         try {
-            if(definition.getPreparer() != null) {
+            if (definition.getPreparer() != null) {
                 prepare(request, definition.getPreparer(), true);
             }
 
@@ -343,15 +346,69 @@ public class BasicTilesContainer implements TilesContainer {
             }
             request.dispatch(dispatchPath);
 
+            // tiles exception so that it doesn't need to be rethrown.
         } catch (TilesException e) {
             throw e;
         } catch (Exception e) {
+            LOG.error("Error rendering tile", e);
             // TODO it would be nice to make the preparerInstance throw a more specific
-            // tiles exception so that it doesn't need to be rethrown.
             throw new TilesException(e.getMessage(), e);
         } finally {
             BasicComponentContext.setContext(originalContext, request);
         }
+    }
+
+    public void render(PageContext pageContext, ComponentAttribute attr)
+        throws TilesException, IOException {
+        ComponentContext context = getComponentContext(pageContext);
+        TilesRequestContext request = getRequestContext(pageContext);
+
+        String type = calculateType(pageContext, attr);
+        if ("string".equalsIgnoreCase(type)) {
+            pageContext.getOut().print(attr.getValue());
+            return;
+
+        }
+
+        Map<String, ComponentAttribute> attrs = attr.getAttributes();
+        if (attrs != null) {
+            for (Map.Entry<String, ComponentAttribute> a : attrs.entrySet()) {
+                context.putAttribute(a.getKey(), a.getValue());
+            }
+        }
+
+        if (isDefinition(pageContext, attr)) {
+            render(request, attr.getValue().toString());
+        } else {
+            request.include(attr.getValue().toString());
+        }
+    }
+
+    private boolean isDefinition(PageContext pageContext, ComponentAttribute attr) {
+        return ComponentAttribute.DEFINITION.equals(attr.getType()) ||
+            isValidDefinition(pageContext, attr.getValue().toString());
+    }
+
+    private String calculateType(PageContext pageContext, ComponentAttribute attr) throws TilesException {
+        String type = attr.getType();
+        if (type == null) {
+            Object valueContent = attr.getValue();
+            if (valueContent instanceof String) {
+                String valueString = (String) valueContent;
+                if (isValidDefinition(pageContext, valueString)) {
+                    type = ComponentAttribute.DEFINITION;
+                } else if (valueString.startsWith("/")) {
+                    type = ComponentAttribute.TEMPLATE;
+                } else {
+                    type = ComponentAttribute.STRING;
+                }
+            }
+            if (type == null) {
+                throw new TilesException("Unrecognized type for attribute value "
+                    + attr.getValue());
+            }
+        }
+        return type;
     }
 
     protected ComponentDefinition getDefinition(String definitionName, TilesRequestContext request) throws DefinitionsFactoryException {
@@ -361,10 +418,10 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     private boolean isPermitted(TilesRequestContext request, String role) {
-        if(role == null) {
+        if (role == null) {
             return true;
         }
-        
+
         StringTokenizer st = new StringTokenizer(role, ",");
         while (st.hasMoreTokens()) {
             if (request.isUserInRole(st.nextToken())) {

@@ -203,14 +203,18 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         return (sessionScope);
     }
 
-    public void dispatch(String path) throws IOException, Exception {
+    public void dispatch(String path) throws IOException {
         include(path);
     }
 
-    public void include(String path) throws IOException, Exception {
+    public void include(String path) throws IOException {
         if (isRenderRequest) {
-            context.getRequestDispatcher(path).include((RenderRequest) request,
-                (RenderResponse) response);
+            try {
+                context.getRequestDispatcher(path).include((RenderRequest) request,
+                    (RenderResponse) response);
+            } catch (PortletException e) {
+                throw new IOException("PortletException while including path '"+path+"'."+e.getMessage());
+            }
         }
     }
 

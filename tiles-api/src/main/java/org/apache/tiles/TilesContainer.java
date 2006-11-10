@@ -21,6 +21,7 @@ package org.apache.tiles;
 
 import javax.servlet.jsp.PageContext;
 import java.util.Map;
+import java.io.IOException;
 
 /**
  * An encapsulation of the tiles framework.  This interface is
@@ -96,6 +97,15 @@ public interface TilesContainer {
      * @throws TilesException is processing fails.
      */
     void render(PageContext pageContext, String definition) throws TilesException;
+
+    /**
+     * Render the given ComponentAttribute.
+     * @param pageContext
+     * @param attribute
+     * @throws TilesException
+     */
+    void render(PageContext pageContext, ComponentAttribute attribute)
+        throws TilesException, IOException;
 
     /**
      * Determine whether or not the definition exists.

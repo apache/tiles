@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.JspException;
+import java.io.IOException;
 
 /**
  * Context implementation used for executing tiles within a
@@ -51,15 +52,16 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
         this.pageContext = pageContext;
     }
 
-    public void dispatch(String path) throws TilesException {
+    public void dispatch(String path) throws IOException {
         include(path);
     }
 
-    public void include(String path) throws TilesException {
+    public void include(String path) throws IOException {
         try {
             JspUtil.doInclude(pageContext, path, false);
         } catch (JspException e) {
-            throw new TilesException(e);
+            LOG.error("JSPException while including path '"+path+"'. ", e);
+            throw new IOException("JSPException while including path '"+path+"'. "+e.getMessage());
         }
     }
 

@@ -154,22 +154,17 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
 
     }
 
-    public void dispatch(String path) throws IOException, Exception {
-        RequestDispatcher rd = request.getRequestDispatcher(path);
-        try {
-            rd.include(request, response);
-        } catch (ServletException ex) {
-            LOG.error("Error including path '"+path+"'.", ex);
-            throw new Exception("Error including request.", ex);
-        }
+    public void dispatch(String path) throws IOException {
+        include(path);
     }
 
-    public void include(String path) throws IOException, Exception {
+    public void include(String path) throws IOException{
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
             rd.include(request, response);
         } catch (ServletException ex) {
-            throw new Exception("Error including path.", ex);
+            LOG.error("Servlet Exception while including path", ex);
+            throw new IOException("Error including path '"+path+"'. " + ex.getMessage());
         }
     }
 
@@ -177,11 +172,11 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         return request.getLocale();
     }
 
-    public ServletRequest getRequest() {
+    public HttpServletRequest getRequest() {
         return request;
     }
 
-    public ServletResponse getResponse() {
+    public HttpServletResponse getResponse() {
         return response;
     }
 

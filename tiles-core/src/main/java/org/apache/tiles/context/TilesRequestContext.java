@@ -59,12 +59,12 @@ public interface TilesRequestContext {
     /**
      * Dispatches the request to a specified path.
      */
-    void dispatch(String path) throws IOException, Exception;
+    void dispatch(String path) throws IOException;
 
     /**
      * Includes the response from the specified URL in the current response output.
      */
-    void include(String path) throws IOException, Exception;
+    void include(String path) throws IOException;
 
     /**
      * Return an immutable Map that maps request parameter names to the first
@@ -89,4 +89,14 @@ public interface TilesRequestContext {
      * @return
      */
     boolean isUserInRole(String role);
+
+    /**
+     * Get the underlying request.
+     */
+    Object getRequest();
+
+    /**
+     * Get the underlying response.
+     */
+    Object getResponse();
 }

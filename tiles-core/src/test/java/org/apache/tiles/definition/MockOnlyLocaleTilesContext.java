@@ -61,7 +61,7 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     // nothing or returning null, because they are not needed at all in tests
     // that use this class.
 
-    public void dispatch(String path) throws IOException, Exception {
+    public void dispatch(String path) throws IOException {
     }
 
 
@@ -105,10 +105,18 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
         return null;
     }
 
-    public void include(String path) throws IOException, Exception {
+    public void include(String path) throws IOException {
     }
 
     public boolean isUserInRole(String role) {
         return false;
+    }
+
+    public Object getRequest() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Object getResponse() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

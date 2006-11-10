@@ -79,53 +79,6 @@ public class AttributeTag extends RenderTagSupport {
             throw new TilesException("Attribute '" + name + "' not found.");
         }
 
-        String type = calculateType(attr);
-        if ("string".equalsIgnoreCase(type)) {
-            pageContext.getOut().print(attr.getValue());
-
-        } else if (isDefinition(attr)) {
-            if (template != null) {
-                attr.setValue(template);
-            }
-
-            Map<String, ComponentAttribute> attrs = attr.getAttributes();
-            if (attrs != null) {
-                for (Map.Entry<String, ComponentAttribute> a : attrs.entrySet()) {
-                    context.putAttribute(a.getKey(), a.getValue());
-                }
-            }
-            container.render(pageContext, attr.getValue().toString());
-
-        } else {
-            JspUtil.doInclude(pageContext, attr.getValue().toString(), flush);
-        }
-    }
-
-    private boolean isDefinition(ComponentAttribute attr) {
-        return ComponentAttribute.DEFINITION.equals(attr.getType()) ||
-            container.isValidDefinition(pageContext,
-                attr.getValue().toString());
-    }
-
-    private String calculateType(ComponentAttribute attr) throws JspException {
-        String type = attr.getType();
-        if (type == null) {
-            Object valueContent = attr.getValue();
-            if (valueContent instanceof String) {
-                String valueString = (String) valueContent;
-                if (container.isValidDefinition(pageContext, valueString)) {
-                    type = ComponentAttribute.DEFINITION;
-                } else if (valueString.startsWith("/")) {
-                    type = ComponentAttribute.TEMPLATE;
-                } else {
-                    type = ComponentAttribute.STRING;
-                }
-            }
-            if (type == null) {
-                throw new JspException("Unrecognized type for attribute value "
-                    + attr.getValue());
-            }
-        }
-        return type;
+        container.render(pageContext, attr);
     }
 }
