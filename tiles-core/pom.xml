@@ -86,6 +86,9 @@
             <plugin>
                 <groupId>net.sf.dtddoc</groupId>
                 <artifactId>dtddoc-maven-plugin</artifactId>
+                <configuration>
+                    <docTitle>Tiles Definition File</docTitle>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>
