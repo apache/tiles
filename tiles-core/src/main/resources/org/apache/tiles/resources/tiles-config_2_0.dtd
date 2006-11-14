@@ -96,13 +96,8 @@
      page. This definition is identified by its logical name. A definition allows
      to define all the attributes that can be set in <insert> tag from a jsp page.
 
-     preparerClass The fully qualified Java class name of the preparer
+     preparer        The fully qualified Java class name of the preparer
                      subclass to call immediately before the tiles is inserted.
-                     Only one of preparerClass or preparerUrl should be
-                     specified.
-
-     preparerUrl   The context-relative path to the resource used as preparer
-                     called immediately before the tiles is inserted.
                      Only one of preparerClass or preparerUrl should be
                      specified.
 
@@ -123,8 +118,7 @@
 -->
 <!ELEMENT definition (icon?, display-name?, description?, put*, putList*)>
 <!ATTLIST definition       id               ID               #IMPLIED>
-<!ATTLIST definition       preparerClass  %ClassName;      #IMPLIED>
-<!ATTLIST definition       preparerUrl    %RequestPath;    #IMPLIED>
+<!ATTLIST definition       preparer         %ClassName;      #IMPLIED>
 <!ATTLIST definition       extends          %DefinitionName; #IMPLIED>
 <!ATTLIST definition       name             %DefinitionName; #REQUIRED>
 <!ATTLIST definition       role             CDATA            #IMPLIED>
