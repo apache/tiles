@@ -84,8 +84,9 @@
 
                 <ul>
                     <li>Java Runtime Environment (JRE) 1.4 or later.</li>
-                    <li>Servlet API 2.3 or later.</li>
-                    <li>JavaServer Pages 1.2 or later.</li>
+                    <li>Servlet API 2.3 or later (suggested 2.4 or later).</li>
+                    <li>JavaServer Pages 1.2 or later, but you need JSP 2.0 or
+                    later to use EL.</li>
                 </ul>
 
             </subsection>
