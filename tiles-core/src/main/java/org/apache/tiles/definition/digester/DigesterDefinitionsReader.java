@@ -152,6 +152,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
             // set first object in stack
             //digester.clear();
             digester.push(this);
+            digester.setEntityResolver(TilesEntityResolver.getInstance());
             // parse
             digester.parse(input);
 

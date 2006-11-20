@@ -44,6 +44,7 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
 
 
     private PageContext pageContext;
+    private JspWriterResponse response;
 
     public JspTilesRequestContext(ServletContext context, PageContext pageContext) {
         super(context,
@@ -63,6 +64,13 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
             LOG.error("JSPException while including path '"+path+"'. ", e);
             throw new IOException("JSPException while including path '"+path+"'. "+e.getMessage());
         }
+    }
+
+    public HttpServletResponse getResponse() {
+        if(response == null) {
+            response = new JspWriterResponse(pageContext);
+        }
+        return response;
     }
 
 }
