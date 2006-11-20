@@ -22,8 +22,8 @@
 -->
 
  <!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
-       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://struts.apache.org/dtds/tiles-config_2_0.dtd">
 
 <!-- Tiles definitions   -->
 
