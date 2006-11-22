@@ -27,11 +27,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-   <parent>
-      <groupId>org.apache.struts</groupId>
-      <artifactId>struts-master</artifactId>
-      <version>4-SNAPSHOT</version>
-   </parent>
+    <parent>
+        <groupId>org.apache.struts</groupId>
+        <artifactId>struts-master</artifactId>
+        <version>4-SNAPSHOT</version>
+    </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.struts.tiles</groupId>
@@ -45,9 +45,9 @@
     <inceptionYear>2000</inceptionYear>
 
     <scm>
-       <connection>scm:svn:http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</connection>
-       <developerConnection>scm:svn:https://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</developerConnection>
-       <url>http://svn.apache.org/viewvc/struts/sandbox/trunk/tiles</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/struts/sandbox/trunk/tiles</developerConnection>
+        <url>http://svn.apache.org/viewvc/struts/sandbox/trunk/tiles</url>
     </scm>
 
     <issueManagement>
@@ -83,6 +83,7 @@
         <url>http://www.apache.org</url>
     </organization>
 
+
     <build>
         <pluginManagement>
             <plugins>
@@ -94,11 +95,31 @@
                         <target>1.5</target>
                     </configuration>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>retrotranslator-maven-plugin</artifactId>
+                    <version>1.0-SNAPSHOT</version>
+                    <executions>
+                        <execution>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>translate</goal>
+                            </goals>
+                            <configuration>
+                                <includes>
+                                    <include>
+                                        <directory>${pom.basedir}/target/classes</directory>
+                                    </include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
-        
+
         <defaultGoal>install</defaultGoal>
-        
     </build>
 
     <reporting>
@@ -106,7 +127,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-             </plugin>
+            </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
@@ -126,7 +147,8 @@
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
-                  <configLocation>http://svn.apache.org/repos/asf/struts/maven/trunk/build/struts_checks.xml</configLocation>
+                    <configLocation>http://svn.apache.org/repos/asf/struts/maven/trunk/build/struts_checks.xml
+                    </configLocation>
                 </configuration>
             </plugin>
             <plugin>
@@ -173,11 +195,15 @@
         </repository>
     </repositories>
     <pluginRepositories>
-    <pluginRepository>
-        <id>apache.snapshots</id>
-        <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
-        <snapshots><enabled>true</enabled></snapshots>
-        <releases><enabled>false</enabled></releases>
-    </pluginRepository>
-    </pluginRepositories> 
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
