@@ -32,7 +32,7 @@ import java.util.*;
  * <p>Private implementation of <code>Map</code> for servlet parameter
  * name-value.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Rev$ $Date$
  */
 
 final class ServletParamMap implements Map {

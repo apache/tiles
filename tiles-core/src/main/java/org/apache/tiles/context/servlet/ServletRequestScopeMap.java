@@ -32,7 +32,7 @@ import java.util.*;
  * <p>Private implementation of <code>Map</code> for servlet request
  * attributes.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Rev$ $Date$
  */
 
 final class ServletRequestScopeMap implements Map {

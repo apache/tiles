@@ -31,7 +31,7 @@ import java.util.*;
  * <p>Private implementation of <code>Map</code> for servlet request
  * name-value.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Rev$ $Date$
  */
 
 final class ServletHeaderMap implements Map {

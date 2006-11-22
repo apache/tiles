@@ -29,7 +29,7 @@ import java.util.Map;
  * <p>Map.Entry implementation that can be constructed to either be read-only
  * or not.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Rev$ $Date$
  */
 
 public class MapEntry implements Map.Entry {

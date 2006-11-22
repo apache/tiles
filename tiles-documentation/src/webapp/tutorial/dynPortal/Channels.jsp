@@ -26,7 +26,7 @@
  * Summarize channels as unadorned HTML.
  *
  * @parameters ListArray CHANNELS
- * @version $Revision$ $Date$
+ * @version $Rev$ $Date$
  */
 --%>
 <%@ page language="java" %>

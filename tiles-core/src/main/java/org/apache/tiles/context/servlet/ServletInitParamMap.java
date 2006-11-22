@@ -31,7 +31,7 @@ import java.util.*;
  * <p>Private implementation of <code>Map</code> for servlet context
  * init parameters.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Rev$ $Date$
  */
 
 final class ServletInitParamMap implements Map {

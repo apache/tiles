@@ -32,7 +32,7 @@ import java.util.*;
  * <p>Private implementation of <code>Map</code> for HTTP session
  * attributes.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Rev$ $Date$
  */
 
 final class ServletSessionScopeMap implements Map {

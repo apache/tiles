@@ -26,7 +26,7 @@
  * Summarize channels as unadorned HTML.
  *
  * @param CHANNELS List of channels
- * @version $Revision$ $Date$
+ * @version $Rev$ $Date$
  */
 --%>
 
