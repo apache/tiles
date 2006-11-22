@@ -28,6 +28,8 @@ import org.apache.tiles.TilesException;
 /**
  * Exception thrown when an error occurs while the impl tries to
  * create a new instance mapper.
+ *
+ * @version $Rev$ $Date$
  */
 public class DefinitionsFactoryException extends TilesException {
     /**

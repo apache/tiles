@@ -32,6 +32,7 @@ import javax.servlet.ServletException;
  * The prefered method of initialization is to use the TilesListener.
  *
  * @see org.apache.tiles.listener.TilesListener
+ * @version $Rev$ $Date$
  */
 public class TilesServlet extends HttpServlet {
 

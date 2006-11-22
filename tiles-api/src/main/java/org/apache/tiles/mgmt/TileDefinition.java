@@ -31,8 +31,7 @@ import java.util.HashMap;
  * definitions with the Container.
  *
  * @since Tiles 2.0
- * @version $Rev$
- *
+ * @version $Rev$ $Date$
  */
 public class TileDefinition {
     /**

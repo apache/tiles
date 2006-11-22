@@ -27,6 +27,9 @@ import org.apache.tiles.access.TilesAccess;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class DestroyContainerTag extends TagSupport {
 
     public int doEndTag() throws JspException {

@@ -31,8 +31,8 @@ import java.io.IOException;
  * it as a plugin.  It can alternately be used by web applications
  * which would like a programmatic interface.
  *
- * @version $Rev$
  * @since 2.0
+ * @version $Rev$ $Date$
  */
 public interface TilesContainer {
 

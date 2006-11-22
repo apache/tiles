@@ -30,8 +30,8 @@ import java.util.Map;
 /**
  * Creates an instance of the appropriate TilesApplicationContext implementation.
  *
- * @version $Id$
  * @since Sep 21, 2006
+ * @version $Rev$ $Date$
  */
 public interface TilesContextFactory {
 

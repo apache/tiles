@@ -28,6 +28,9 @@ import java.io.PrintWriter;
 import java.io.IOException;
 
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class JspWriterResponse extends HttpServletResponseWrapper {
 
     private PageContext context;

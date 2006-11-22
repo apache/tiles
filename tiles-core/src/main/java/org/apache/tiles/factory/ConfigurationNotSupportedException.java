@@ -24,8 +24,7 @@ package org.apache.tiles.factory;
 import org.apache.tiles.TilesException;
 
 /**
- *
- *
+ * @version $Rev$ $Date$
  */
 public class ConfigurationNotSupportedException extends TilesException {
 

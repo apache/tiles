@@ -28,8 +28,8 @@ import java.util.Map;
 /**
  * Encapsulation of request information.
  *
- * @version $Rev$
  * @since 2.0
+ * @version $Rev$ $Date$
  */
 public interface TilesRequestContext {
 

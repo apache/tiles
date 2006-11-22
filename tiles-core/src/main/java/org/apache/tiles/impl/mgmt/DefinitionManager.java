@@ -13,6 +13,9 @@ import org.apache.commons.logging.LogFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class DefinitionManager {
 
     private static final Log LOG =

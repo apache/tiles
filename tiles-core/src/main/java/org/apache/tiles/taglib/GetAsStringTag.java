@@ -32,6 +32,8 @@ import java.io.IOException;
  * Retrieve the value of the specified component/template attribute property,
  * and render it to the current JspWriter as a String.
  * The usual toString() conversion is applied on the found value.
+ *
+ * @version $Rev$ $Date$
  */
 public class GetAsStringTag extends AttributeTagSupport implements ComponentConstants {
 

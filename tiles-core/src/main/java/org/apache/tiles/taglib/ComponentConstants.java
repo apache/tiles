@@ -24,6 +24,8 @@ package org.apache.tiles.taglib;
 
 /**
  * Constants used by Tiles/Components.
+ *
+ * @version $Rev$ $Date$
  */
 public interface ComponentConstants {
 

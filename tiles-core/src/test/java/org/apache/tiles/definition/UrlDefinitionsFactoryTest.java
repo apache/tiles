@@ -27,6 +27,9 @@ import java.util.Locale;
 import java.util.List;
 
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class UrlDefinitionsFactoryTest extends TestCase {
 
     private UrlDefinitionsFactory factory; 

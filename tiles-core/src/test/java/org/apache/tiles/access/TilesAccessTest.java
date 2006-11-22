@@ -30,6 +30,9 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class TilesAccessTest extends TestCase {
 
     private ServletContext context;

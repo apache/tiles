@@ -25,6 +25,8 @@ package org.apache.tiles.definition;
 
 /**
  * Exception thrown when a definition is not found.
+ *
+ * @version $Rev$ $Date$
  */
 public class NoSuchDefinitionException extends DefinitionsFactoryException {
     /**

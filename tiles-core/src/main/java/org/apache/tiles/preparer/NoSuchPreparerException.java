@@ -24,8 +24,8 @@ package org.apache.tiles.preparer;
 /**
  * Thrown when the named preparerInstance can not be found.
  *
- * @version $Id$
  * @since 2.0
+ * @version $Rev$ $Date$
  */
 public class NoSuchPreparerException extends PreparerException {
 

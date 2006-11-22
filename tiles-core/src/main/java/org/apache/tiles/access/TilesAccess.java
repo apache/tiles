@@ -32,6 +32,8 @@ import java.lang.reflect.Method;
 
 /**
  * Provides static access to the tiles container.
+ *
+ * @version $Rev$ $Date$
  */
 public class TilesAccess {
 

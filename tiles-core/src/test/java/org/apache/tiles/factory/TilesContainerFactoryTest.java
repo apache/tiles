@@ -28,9 +28,6 @@ import javax.servlet.ServletContext;
 import org.easymock.EasyMock;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.context.servlet.ServletTilesApplicationContext;
-import org.apache.tiles.context.TilesContextFactory;
-import org.apache.tiles.impl.BasicTilesContainer;
 
 import java.util.Map;
 import java.util.Vector;
@@ -39,6 +36,9 @@ import java.net.URL;
 import java.net.MalformedURLException;
 
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class TilesContainerFactoryTest extends TestCase {
 
     private ServletContext context;

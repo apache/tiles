@@ -29,9 +29,7 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.TilesContainerFactory;
-import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
-import org.apache.tiles.taglib.ComponentConstants;
 import org.apache.tiles.taglib.PutTagParent;
 import org.apache.tiles.taglib.PutTag;
 
@@ -40,7 +38,6 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -52,6 +49,8 @@ import java.util.Set;
 
 /**
  * Init definitions impl.
+ *
+ * @version $Rev$ $Date$
  */
 public class InitContainerTag extends BodyTagSupport
     implements PutTagParent {

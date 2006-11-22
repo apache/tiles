@@ -31,8 +31,8 @@ import java.util.List;
 /**
  * PutList tag implementation.
  *
- * @version $Rev$
  * @since Tiles 1.0
+ * @version $Rev$ $Date$
  */
 public class PutListTag extends PutTag
     implements PutTagParent {

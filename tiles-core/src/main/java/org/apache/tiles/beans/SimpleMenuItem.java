@@ -26,6 +26,8 @@ import java.io.Serializable;
 /**
  * A MenuItem implementation.
  * Used to read menu items in definitions.
+ *
+ * @version $Rev$ $Date$
  */
 public class SimpleMenuItem implements MenuItem, Serializable {
 

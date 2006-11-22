@@ -33,6 +33,9 @@ import java.util.Vector;
 import java.util.HashSet;
 
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class EnhancedTilesApplicationContextTest extends TestCase {
 
     private TilesApplicationContext root;

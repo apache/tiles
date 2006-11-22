@@ -26,6 +26,9 @@ import org.apache.tiles.preparer.ViewPreparerSupport;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.TilesException;
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class BasicPreparerFactoryTest extends TestCase {
 
     private BasicPreparerFactory factory;

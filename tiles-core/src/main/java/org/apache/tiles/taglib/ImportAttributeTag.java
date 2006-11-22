@@ -33,8 +33,8 @@ import java.util.Iterator;
  * If not explicitly named, all attributes are imported.
  * If the scope is not specified, page scope is assumed.
  *
- * @version $Rev$
  * @since Tiles 1.0
+ * @version $Rev$ $Date$
  */
 public class ImportAttributeTag extends AttributeTagSupport {
 

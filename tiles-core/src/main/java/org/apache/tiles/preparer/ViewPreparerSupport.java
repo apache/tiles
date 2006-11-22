@@ -30,7 +30,7 @@ import org.apache.tiles.ComponentContext;
  * interface.
  *
  * @since Tiles 2.0
- * @version $Rev$
+ * @version $Rev$ $Date$
  */
 public class ViewPreparerSupport implements ViewPreparer {
 

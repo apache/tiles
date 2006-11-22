@@ -45,8 +45,7 @@ import java.io.IOException;
  * </ul>
  *
  * @since Tiles 2.0
- * @version $Rev$
- * 
+ * @version $Rev$ $Date$
  */
 public class EnhancedTilesApplicationContext implements TilesApplicationContext {
 

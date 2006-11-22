@@ -43,11 +43,9 @@ import java.util.Iterator;
  * Provides standard support for security, and provides access
  * to the container and component context.
  * </p>
-
  *
  * @since Tiles 2.0
- * @version $Rev$
- * 
+ * @version $Rev$ $Date$
  */
 public abstract class ContainerTagSupport extends BodyTagSupport {
     

@@ -30,8 +30,7 @@ import org.apache.tiles.TilesException;
  * </p>
  *
  * @since Tiles 2.0
- * @version $Rev$
- *
+ * @version $Rev$ $Date$
  */
 public class PreparerException extends TilesException {
 

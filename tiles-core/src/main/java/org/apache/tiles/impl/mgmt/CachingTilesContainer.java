@@ -36,7 +36,7 @@ import org.apache.tiles.mgmt.MutableTilesContainer;
  * will revert back to it's definitions factory.
  *
  * @since Tiles 2.0
- * @version $Rev$
+ * @version $Rev$ $Date$
  */
 public class CachingTilesContainer extends BasicTilesContainer
     implements MutableTilesContainer {

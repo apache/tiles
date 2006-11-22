@@ -29,8 +29,7 @@ import java.util.Iterator;
  * Encapsulation of the current state of execution.
  *
  * @since Tiles 2.0
- * @version $Rev$
- *
+ * @version $Rev$ $Date$
  */
 public interface ComponentContext {
 

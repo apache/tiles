@@ -24,6 +24,8 @@ package org.apache.tiles;
 
 /**
  * Root class for all Tiles-exceptions.
+ *
+ * @version $Rev$ $Date$
  */
 public class TilesException extends Exception {
 

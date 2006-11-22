@@ -23,7 +23,6 @@ package org.apache.tiles.context.jsp;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.servlet.ServletTilesRequestContext;
 
@@ -37,6 +36,8 @@ import java.io.IOException;
 /**
  * Context implementation used for executing tiles within a
  * jsp tag library.
+ *
+ * @version $Rev$ $Date$
  */
 public class JspTilesRequestContext extends ServletTilesRequestContext
     implements TilesRequestContext {

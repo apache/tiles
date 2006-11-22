@@ -54,8 +54,8 @@ import java.util.StringTokenizer;
  * injecting customized services, not necessarily by
  * override the container
  *
- * @version $Rev$
  * @since 2.0
+ * @version $Rev$ $Date$
  */
 public class BasicTilesContainer implements TilesContainer {
 

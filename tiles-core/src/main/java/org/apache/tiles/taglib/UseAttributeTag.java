@@ -35,8 +35,8 @@ import javax.servlet.jsp.tagext.VariableInfo;
  * Exposes a component attribute as a scripting variable
  * within the page.
  *
- * @version $Rev$
  * @since Tiles 1.0
+ * @version $Rev$ $Date$
  */
 public class UseAttributeTag extends AttributeTagSupport {
 

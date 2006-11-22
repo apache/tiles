@@ -33,6 +33,8 @@ import java.util.*;
 
 /**
  * Component context.
+ *
+ * @version $Rev$ $Date$
  */
 public class BasicComponentContext implements ComponentContext, Serializable {
 

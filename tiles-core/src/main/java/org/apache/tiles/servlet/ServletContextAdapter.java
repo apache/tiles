@@ -28,6 +28,9 @@ import java.net.URL;
 import java.net.MalformedURLException;
 import java.io.InputStream;
 
+/**
+ * @version $Rev$ $Date$
+ */
 @SuppressWarnings("deprecation")
 public class ServletContextAdapter implements ServletContext {
 

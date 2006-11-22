@@ -29,7 +29,7 @@ import java.io.IOException;
  * Delegate for ease of customization.
  *
  * @since Tiles 2.0
- * @version $Rev$
+ * @version $Rev$ $Date$
  */
 public class TilesRequestContextWrapper implements TilesRequestContext {
 

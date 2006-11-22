@@ -31,8 +31,8 @@ import java.io.IOException;
  * the tiles container and runtime environment.  There is only
  * one application context per container.
  *
- * @version $Rev$
  * @since 2.0
+ * @version $Rev$ $Date$
  */
 public interface TilesApplicationContext {
 

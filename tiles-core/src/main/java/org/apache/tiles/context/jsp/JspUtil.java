@@ -33,6 +33,8 @@ import java.lang.reflect.Method;
 
 /**
  * Utility class for working within a Jsp environment.
+ *
+ * @version $Rev$ $Date$
  */
 public class JspUtil {
 

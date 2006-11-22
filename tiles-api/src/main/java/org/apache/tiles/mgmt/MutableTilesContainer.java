@@ -28,7 +28,7 @@ import org.apache.tiles.TilesException;
  * Defines a mutable version of the TilesContainer.
  *
  * @since Tiles 2.0
- * @version $Rev$
+ * @version $Rev$ $Date$
  */
 public interface MutableTilesContainer extends TilesContainer {
 

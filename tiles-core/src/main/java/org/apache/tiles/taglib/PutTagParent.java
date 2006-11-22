@@ -30,6 +30,8 @@ import javax.servlet.jsp.JspException;
 /**
  * Tag classes implementing this interface can contain nested PutTag.
  * This interface defines a method called by nested tags.
+ *
+ * @version $Rev$ $Date$
  */
 public interface PutTagParent {
     /**

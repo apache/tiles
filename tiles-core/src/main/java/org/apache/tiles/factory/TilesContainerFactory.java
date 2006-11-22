@@ -45,8 +45,8 @@ import java.util.Map;
  * This factory creates a default implementation of
  * the container, initializes, and puts it into service.
  *
- * @version $Rev$
  * @since 2.0
+ * @version $Rev$ $Date$
  */
 public class TilesContainerFactory {
 

@@ -27,6 +27,7 @@ import java.io.Serializable;
  * Interface for MenuItems.
  *
  * @see SimpleMenuItem
+ * @version $Rev$ $Date$
  */
 public interface MenuItem extends Serializable {
 

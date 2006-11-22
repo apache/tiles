@@ -35,6 +35,8 @@ import java.util.Map;
  * TileDefinition of a template / component attributes.
  * Attributes of a component can be defined with the help of this class.
  * An instance of this class can be used as a bean, and passed to 'insert' tag.
+ *
+ * @version $Rev$ $Date$
  */
 public class ComponentDefinition extends TileDefinition implements Serializable {
 

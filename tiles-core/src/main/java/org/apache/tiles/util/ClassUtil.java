@@ -24,6 +24,9 @@ package org.apache.tiles.util;
 import org.apache.tiles.TilesException;
 
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class ClassUtil {
 
     public static Object instantiate(String className) throws TilesException {

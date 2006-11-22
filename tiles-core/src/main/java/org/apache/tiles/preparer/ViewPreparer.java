@@ -41,6 +41,8 @@ import org.apache.tiles.ComponentContext;
  * <li>&lt;insert&gt;</li>
  * <li>&lt;definition&gt;</li>
  * <li>
+ *
+ * @version $Rev$ $Date$
  */
 public interface ViewPreparer {
 

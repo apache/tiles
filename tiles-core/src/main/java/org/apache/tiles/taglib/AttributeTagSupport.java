@@ -35,6 +35,8 @@ import java.util.Map;
 
 /**
  * Support for Scoped tags.
+ *
+ * @version $Rev$ $Date$
  */
 public abstract class AttributeTagSupport extends TagSupport {
 

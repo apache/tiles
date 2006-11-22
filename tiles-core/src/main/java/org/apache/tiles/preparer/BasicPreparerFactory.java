@@ -35,8 +35,8 @@ import java.util.Map;
  * This factory provides no contextual configuration.  It
  * simply instantiates the named preparerInstance and returns it.
  *
- * @version $Rev$
  * @since Tiles 2.0
+ * @version $Rev$ $Date$
  */
 public class BasicPreparerFactory implements PreparerFactory {
 

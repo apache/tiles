@@ -27,6 +27,9 @@ import org.apache.tiles.context.BasicTilesContextFactory;
 
 import javax.servlet.jsp.PageContext;
 
+/**
+ * @version $Rev$ $Date$
+ */
 public class EnhancedContextFactory extends BasicTilesContextFactory {
 
     public TilesApplicationContext createApplicationContext(Object context) {

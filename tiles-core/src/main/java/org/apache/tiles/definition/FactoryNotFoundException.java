@@ -25,6 +25,8 @@ package org.apache.tiles.definition;
 
 /**
  * Exception thrown when definitions impl is not found.
+ *
+ * @version $Rev$ $Date$
  */
 public class FactoryNotFoundException extends DefinitionsFactoryException {
     /**

@@ -46,8 +46,8 @@ import java.util.Map;
  * tiles are scoped properly and do not bleed outside their intended
  * scope.
  *
- * @version $Rev$
  * @since Tiles 2.0
+ * @version $Rev$ $Date$
  */
 public abstract class RenderTagSupport extends ContainerTagSupport
     implements TryCatchFinally, PutTagParent {

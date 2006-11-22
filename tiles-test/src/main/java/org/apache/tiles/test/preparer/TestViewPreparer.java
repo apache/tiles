@@ -27,7 +27,7 @@ import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentAttribute;
 
 /**
- *
+ * @version $Rev$ $Date$
  */
 public class TestViewPreparer implements ViewPreparer {
 

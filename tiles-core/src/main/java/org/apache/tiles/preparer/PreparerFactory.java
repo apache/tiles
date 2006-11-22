@@ -37,8 +37,9 @@ import org.apache.tiles.TilesException;
  * may provide a custom prerparer.
  * </p>
  *
- * @verion $Id$
  * @since 2.0
+ *
+ * @version $Rev$ $Date$
  */
 public interface PreparerFactory {
 
