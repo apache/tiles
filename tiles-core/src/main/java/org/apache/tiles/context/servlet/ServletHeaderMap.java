@@ -31,7 +31,6 @@ import java.util.*;
  * <p>Private implementation of <code>Map</code> for servlet request
  * name-value.</p>
  *
- * @author Craig R. McClanahan
  * @version $Revision$ $Date$
  */
 

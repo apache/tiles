@@ -32,7 +32,6 @@ import java.util.*;
  * <p>Private implementation of <code>Map</code> for HTTP session
  * attributes.</p>
  *
- * @author Craig R. McClanahan
  * @version $Revision$ $Date$
  */
 
