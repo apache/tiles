@@ -49,6 +49,7 @@ import org.apache.struts.tiles.actions.TilesAction;
    * the default skin is used.
    * This action act for all layouts. A Tile's attribute (skinLayout) is used as a key to
    * know which layouts is concerned.
+   * @version $Rev$ $Date$
    */
 public class LayoutSwitchAction extends TilesAction
 {

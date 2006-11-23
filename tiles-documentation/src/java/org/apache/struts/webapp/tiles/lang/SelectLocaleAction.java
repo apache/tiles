@@ -32,6 +32,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.tiles.taglib.ComponentConstants;
 
+/**
+ * @version $Rev$ $Date$
+ */
 public final class SelectLocaleAction extends Action {
 
 

@@ -39,6 +39,8 @@ import org.apache.struts.tiles.NoSuchDefinitionException;
 
 /**
  * A catalog of available definitions.
+ *
+ * @version $Rev$ $Date$
  */
 public class DefinitionCatalog
 {

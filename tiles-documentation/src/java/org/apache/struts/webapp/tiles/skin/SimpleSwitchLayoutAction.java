@@ -35,9 +35,11 @@ import org.apache.struts.tiles.ComponentContext;
 import org.apache.struts.tiles.DefinitionsFactoryException;
 import org.apache.struts.tiles.actions.TilesAction;
 
-  /**
-   * Simple Switch Layout
-   */
+/**
+ * Simple Switch Layout
+ *
+ * @version $Rev$ $Date$
+ */
 public class SimpleSwitchLayoutAction extends TilesAction
 {
     /** debug flag */

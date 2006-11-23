@@ -32,6 +32,7 @@ import java.util.List;
  * Tiles denote a local URL or a Tile definition name.
  * To check : should be possible to put ComponentDefinition class also.
  *
+ * @version $Rev$ $Date$
  */
 public class PortalCatalog
 {

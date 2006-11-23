@@ -30,6 +30,8 @@ import org.apache.struts.action.ActionForm;
 
 /**
  * Action form used to read data from web page form.
+ *
+ * @version $Rev$ $Date$
  */
 public final class PortalSettingsForm extends ActionForm  {
 

@@ -29,8 +29,8 @@ import org.apache.struts.action.ActionForm;
 
 
 /**
+ * @version $Rev$ $Date$
  */
-
 public final class PortalPrefsForm extends ActionForm  {
 
     /** Validate value */

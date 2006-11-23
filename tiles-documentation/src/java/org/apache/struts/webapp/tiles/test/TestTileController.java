@@ -36,6 +36,7 @@ import org.apache.struts.tiles.ControllerSupport;
   /**
    * Controller example.
    * This controller modify title by adding "ok".
+   * @version $Rev$ $Date$
    */
 public class TestTileController extends ControllerSupport
 {

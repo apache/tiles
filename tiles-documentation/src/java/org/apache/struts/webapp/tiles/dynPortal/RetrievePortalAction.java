@@ -38,6 +38,7 @@ import org.apache.struts.tiles.ComponentContext;
  * Implementation of <strong>Action</strong> that populates an instance of
  * <code>SubscriptionForm</code> from the currently specified subscription.
  *
+ * @version $Rev$ $Date$
  */
 
 public final class RetrievePortalAction extends Action {

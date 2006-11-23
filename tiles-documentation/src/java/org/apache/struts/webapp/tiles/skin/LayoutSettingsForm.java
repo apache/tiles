@@ -26,6 +26,8 @@ import org.apache.struts.action.ActionForm;
 
 /**
  * Struts form
+ *
+ * @version $Rev$ $Date$
  */
 public class LayoutSettingsForm extends ActionForm
 {

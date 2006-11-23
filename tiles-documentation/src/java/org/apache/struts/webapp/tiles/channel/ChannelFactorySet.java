@@ -50,6 +50,8 @@ import org.xml.sax.SAXException;
  * A definition file is loaded using common name extended with locale code 
  * (ex : templateDefinitions_fr.xml). If no file is found under this name, use default 
  * file.
+ *
+ * @version $Rev$ $Date$
  */
 public class ChannelFactorySet extends FactorySet {
 

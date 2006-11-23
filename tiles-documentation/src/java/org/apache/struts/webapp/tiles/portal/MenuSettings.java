@@ -27,6 +27,8 @@ import java.util.List;
 
   /**
    * Objects of this class hold menu settings for one user.
+   *
+   * @version $Rev$ $Date$
    */
    public class MenuSettings
    {

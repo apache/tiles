@@ -26,6 +26,8 @@ import org.apache.struts.action.ActionForm;
 
 /**
  * An invoice.
+ *
+ * @version $Rev$ $Date$
  */
 public class Invoice extends ActionForm
 {

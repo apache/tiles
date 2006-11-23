@@ -32,6 +32,8 @@ import org.apache.struts.tiles.actions.TilesAction;
 
 /**
  * Action used to set user skin.
+ *
+ * @version $Rev$ $Date$
  */
 public class LayoutSettingsAction extends TilesAction
 {

@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *
+ */
 
 package org.apache.struts.webapp.tiles.channel;
 
@@ -30,6 +30,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+/**
+ * @version $Rev$ $Date$
+ */
 public final class SelectChannelAction extends Action {
 
 

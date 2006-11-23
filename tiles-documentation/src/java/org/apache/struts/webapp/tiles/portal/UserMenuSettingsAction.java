@@ -62,6 +62,7 @@ import org.apache.struts.tiles.beans.MenuItem;
  *   <li>userItems : List of user actual menu items</li>
  * </ul>
  *
+ * @version $Rev$ $Date$
  */
 public class UserMenuSettingsAction extends TilesAction {
 

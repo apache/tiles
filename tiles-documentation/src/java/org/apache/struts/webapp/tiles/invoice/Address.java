@@ -24,6 +24,8 @@ package org.apache.struts.webapp.tiles.invoice;
 
 /**
  * An address.
+ *
+ * @version $Rev$ $Date$
  */
 public class Address
 {

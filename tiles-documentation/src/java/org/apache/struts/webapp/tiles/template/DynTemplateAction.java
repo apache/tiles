@@ -31,6 +31,9 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.tiles.ComponentDefinition;
 
 
+/**
+ * @version $Rev$ $Date$
+ */
 public final class DynTemplateAction extends Action {
 
 
