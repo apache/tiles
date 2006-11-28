@@ -67,6 +67,9 @@
         <module>tiles-api</module>
         <module>tiles-core</module>
         <module>tiles-test</module>
+        <!-- Enable when tiles-showcase becomes stable
+        <module>tiles-test</module>
+        -->
     </modules>
 
     <licenses>
