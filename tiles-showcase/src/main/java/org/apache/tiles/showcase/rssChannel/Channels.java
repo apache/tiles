@@ -39,7 +39,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.apache.struts.tiles.ComponentContext;
+import org.apache.tiles.ComponentContext;
 
 /**
  * Read and parse RSS files found at on a given

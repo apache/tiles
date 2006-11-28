@@ -38,12 +38,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.tiles.ComponentContext;
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.Controller;
-import org.apache.struts.tiles.DefinitionsUtil;
-import org.apache.struts.tiles.actions.TilesAction;
-import org.apache.struts.tiles.beans.MenuItem;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.Controller;
+import org.apache.tiles.DefinitionsUtil;
+import org.apache.tiles.actions.TilesAction;
+import org.apache.tiles.beans.MenuItem;
 
 /**
  * This controller load user menu settings and put them in tile context.
@@ -331,7 +331,7 @@ public final class UserMenuAction extends TilesAction implements Controller {
 	}
 
 	/**
-	 * @see org.apache.struts.tiles.Controller#execute(org.apache.struts.tiles.ComponentContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.ServletContext)
+	 * @see org.apache.tiles.Controller#execute(org.apache.tiles.ComponentContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.ServletContext)
 	 */
 	public void execute(
 		ComponentContext tileContext,

@@ -30,7 +30,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.tiles.ComponentContext;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.access.TilesAccess;
 
 
 /**
@@ -73,7 +74,8 @@ public final class SetPortalPrefsAction extends Action {
   PortalPrefsForm prefsForm = (PortalPrefsForm)form;
 
           // Try to retrieve tile context
-    ComponentContext context = ComponentContext.getContext( request );
+    ComponentContext context = TilesAccess.getContainer( request )
+            .getComponentContext(request, response);
     if( context == null )
       {
       throw new ServletException( "This action must be called by a Tile, not directly" );

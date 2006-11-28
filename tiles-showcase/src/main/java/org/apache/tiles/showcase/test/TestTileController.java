@@ -29,8 +29,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.tiles.ComponentContext;
-import org.apache.struts.tiles.ControllerSupport;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.ControllerSupport;
 
 
   /**

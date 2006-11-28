@@ -34,9 +34,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.tiles.ComponentContext;
-import org.apache.struts.tiles.actions.TilesAction;
-import org.apache.struts.tiles.beans.MenuItem;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.actions.TilesAction;
+import org.apache.tiles.beans.MenuItem;
 
 /**
  * Tiles controller as Struts Action.

@@ -31,11 +31,11 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.tiles.ComponentDefinition;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.DefinitionsUtil;
-import org.apache.struts.tiles.FactoryNotFoundException;
-import org.apache.struts.tiles.NoSuchDefinitionException;
+import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.DefinitionsUtil;
+import org.apache.tiles.FactoryNotFoundException;
+import org.apache.tiles.NoSuchDefinitionException;
 
 /**
  * A catalog of available definitions.

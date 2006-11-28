@@ -27,18 +27,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.FactoryNotFoundException;
-import org.apache.struts.tiles.xmlDefinition.DefinitionsFactory;
 import org.apache.struts.tiles.xmlDefinition.FactorySet;
 import org.apache.struts.tiles.xmlDefinition.XmlDefinitionsSet;
 import org.apache.struts.tiles.xmlDefinition.XmlParser;
+import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.FactoryNotFoundException;
 import org.xml.sax.SAXException;
 
 /**

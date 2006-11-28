@@ -31,9 +31,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.tiles.ComponentContext;
-import org.apache.struts.tiles.DefinitionsFactoryException;
-import org.apache.struts.tiles.actions.TilesAction;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.DefinitionsFactoryException;
+import org.apache.tiles.actions.TilesAction;
 
 /**
  * Simple Switch Layout

@@ -31,7 +31,9 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.tiles.ComponentContext;
+import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.ComponentContext;
+import org.apache.tiles.access.TilesAccess;
 
 
 /**
@@ -80,7 +82,8 @@ public final class RetrievePortalAction extends Action {
 	  HttpSession session = request.getSession();
 
           // Try to retrieve tile context
-    ComponentContext context = ComponentContext.getContext( request );
+    ComponentContext context = TilesAccess.getContainer( request )
+            .getComponentContext(request, response);
     if( context == null )
       {
       throw new ServletException( "This action must be called by a Tile, not directly" );
@@ -90,9 +93,11 @@ public final class RetrievePortalAction extends Action {
     PortalSettings settings = getSettings( context, session );
 
       // Set parameters for tiles
-    context.putAttribute( "numCols", Integer.toString(settings.getNumCols()) );
+    context.putAttribute( "numCols", new ComponentAttribute(
+            Integer.toString(settings.getNumCols())));
     for( int i=0; i<settings.getNumCols(); i++ )
-      context.putAttribute( "list"+i, settings.getListAt(i) );
+      context.putAttribute( "list"+i, new ComponentAttribute(
+              settings.getListAt(i) ));
 
     System.out.println("Exit action RetrievePortalAction");
 	  return (mapping.findForward("success"));
@@ -110,7 +115,8 @@ public final class RetrievePortalAction extends Action {
     if( settings == null )
       { // List doesn't exist, create it and initialize it from Tiles parameters
       settings = new PortalSettings();
-      settings.setNumCols( (String)context.getAttribute( PARAM_NUMCOLS ) );
+      settings.setNumCols( (String)context.getAttribute( PARAM_NUMCOLS )
+              .getValue() );
       for( int i=0; i<settings.getNumCols(); i++ )
         {
         List col = (List)context.getAttribute( ((String)PARAM_LIST+i) );
