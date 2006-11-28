@@ -144,7 +144,7 @@
   <!-- Uncomment the following if your webserver complains about a missing resources. -->
   <!-- This resource is not needed by Tiles or this example. It is just a trick to make -->
   <!-- Struts happy with some web server. -->
-  <!-- <message-resources parameter="org.apache.struts.webapp.tiles.dev1-1.ApplicationResources" null="false" /> -->
+  <!-- <message-resources parameter="org.apache.tiles.showcase.dev1-1.ApplicationResources" null="false" /> -->
 
   
  <!-- ========== TilesPlugin settings ===================================== -->
