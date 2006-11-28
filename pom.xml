@@ -68,7 +68,7 @@
         <module>tiles-core</module>
         <module>tiles-test</module>
         <!-- Enable when tiles-showcase becomes stable
-        <module>tiles-test</module>
+        <module>tiles-showcase</module>
         -->
     </modules>
 
