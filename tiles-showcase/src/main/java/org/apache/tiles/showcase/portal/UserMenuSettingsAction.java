@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,9 +35,14 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.tiles.actions.TilesAction;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.actions.TilesAction;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.beans.MenuItem;
+import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.servlet.ServletTilesRequestContext;
 
 /**
  * Tiles controller as Struts Action.
@@ -99,14 +105,24 @@ public class UserMenuSettingsAction extends TilesAction {
         log.debug("Enter action UserMenuSettingsAction");
 
         MenuSettingsForm actionForm = (MenuSettingsForm) form;
+        
+        ServletContext servletContext = request.getSession()
+                .getServletContext();
+        
+        TilesApplicationContext applicationContext = TilesAccess
+                .getApplicationContext(servletContext);
+        
+        TilesRequestContext tilesContext = new ServletTilesRequestContext(
+                servletContext, request, response);
 
         // Load user menu settings and available list of choices
-        MenuSettings settings = UserMenuAction.getUserSettings(request, context);
+        MenuSettings settings = UserMenuAction.getUserSettings(tilesContext,
+                context);
         List catalog =
             UserMenuAction.getCatalog(
                 context,
-                request,
-                getServlet().getServletContext());
+                tilesContext,
+                applicationContext);
 
         // Check if form is submitted
         // If true, read, check and store new values submitted by user.
@@ -123,8 +139,9 @@ public class UserMenuSettingsAction extends TilesAction {
         }
 
         // Prepare data for view tile
-        context.putAttribute("userItems", settings.getItems());
-        context.putAttribute("catalog", catalog);
+        context.putAttribute("userItems", new ComponentAttribute(settings
+                .getItems()));
+        context.putAttribute("catalog", new ComponentAttribute(catalog));
 
         log.debug("Exit action UserMenuSettingsAction");
         return null;

@@ -37,9 +37,10 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;
+import org.apache.tiles.access.TilesAccess;
 
 /**
  * Read and parse RSS files found at on a given
@@ -84,7 +85,9 @@ public final class Channels extends Action {
         log.debug("Enter Rss Channel Action");
 
         // Try to retrieve tile context
-        ComponentContext context = ComponentContext.getContext(request);
+        ComponentContext context = TilesAccess.getContainer(request
+                .getSession().getServletContext()).getComponentContext(request,
+                response);
         if (context == null) {
             throw new ServletException("This action must be called by a Tile, not directly");
         }
@@ -150,7 +153,8 @@ public final class Channels extends Action {
         log.debug("Exit Rss Channel Action");
 
         // Use Tile context to pass channels
-        context.putAttribute(CHANNELS_KEY, channelBeans);
+        context.putAttribute(CHANNELS_KEY, new ComponentAttribute(
+                channelBeans));
 
         return mapping.findForward("continue");
     }

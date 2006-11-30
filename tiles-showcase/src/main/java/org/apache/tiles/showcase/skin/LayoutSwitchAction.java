@@ -28,13 +28,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.tiles.actions.TilesAction;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.DefinitionsFactoryException;
-import org.apache.tiles.actions.TilesAction;
+import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.DefinitionsFactoryException;
 
   /**
    * Customize layouts according to predefined "skin"
@@ -101,7 +102,8 @@ public class LayoutSwitchAction extends TilesAction
     if(debug)
       System.out.println( "EnterLayoutSwitchAction"  );
       // Get attribute value indicating which layout we want
-    String layoutKey = (String)context.getAttribute( LAYOUT_ATTRIBUTE );
+    String layoutKey = (String)context.getAttribute(LAYOUT_ATTRIBUTE)
+            .getValue();
     if(layoutKey==null)
       throw new ServletException( "Error - CustomSkinAction : attribute '"
                                   + LAYOUT_ATTRIBUTE
@@ -146,7 +148,8 @@ public class LayoutSwitchAction extends TilesAction
     return null;
 
     // Retrieve attribute name used to store settings.
-  String userSettingsName = (String)context.getAttribute( USER_SETTINGS_NAME_ATTRIBUTE );
+  String userSettingsName = (String)context.getAttribute(
+          USER_SETTINGS_NAME_ATTRIBUTE).getValue();
   if( userSettingsName == null )
     userSettingsName = DEFAULT_USER_SETTINGS_NAME;
 
@@ -163,7 +166,8 @@ public class LayoutSwitchAction extends TilesAction
   HttpSession session = request.getSession();
 
     // Retrieve attribute name used to store settings.
-  String userSettingsName = (String)context.getAttribute( USER_SETTINGS_NAME_ATTRIBUTE );
+  String userSettingsName = (String)context.getAttribute(
+          USER_SETTINGS_NAME_ATTRIBUTE).getValue();
   if( userSettingsName == null )
     userSettingsName = DEFAULT_USER_SETTINGS_NAME;
 
@@ -195,7 +199,8 @@ public class LayoutSwitchAction extends TilesAction
   {
     // Retrieve name used to store catalog in application context.
     // If not found, use default name
-  String catalogName = (String)context.getAttribute( CATALOG_NAME_ATTRIBUTE );
+  String catalogName = (String)context.getAttribute(CATALOG_NAME_ATTRIBUTE)
+          .getValue();
   if(catalogName == null)
     catalogName = DEFAULT_CATALOG_NAME;
 
@@ -208,7 +213,8 @@ public class LayoutSwitchAction extends TilesAction
       { // create catalog
       if(debug)
         System.out.println( "Create catalog" );
-      String catalogSettings = (String)context.getAttribute( CATALOG_SETTING_ATTRIBUTE );
+      String catalogSettings = (String)context.getAttribute(
+              CATALOG_SETTING_ATTRIBUTE).getValue();
       if(catalogSettings == null)
         throw new ServletException( "Error - CustomSkinAction : attribute '"
                                   + CATALOG_SETTING_ATTRIBUTE

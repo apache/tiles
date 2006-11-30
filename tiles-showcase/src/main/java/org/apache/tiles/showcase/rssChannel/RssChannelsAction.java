@@ -35,10 +35,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.apache.struts.tiles.actions.TilesAction;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.actions.TilesAction;
 
 /**
  * Read and parse RSS files found at on a given
@@ -157,7 +157,8 @@ public final class RssChannelsAction extends TilesAction {
         log.debug("Exit Rss Channel Action");
 
         // Use Tile context to pass channels
-        context.putAttribute(CHANNELS_KEY, channelBeans);
+        context.putAttribute(CHANNELS_KEY, new ComponentAttribute(
+                channelBeans));
 
         return null;
     }

@@ -24,26 +24,25 @@ package org.apache.tiles.showcase.portal;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.tiles.actions.TilesAction;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.Controller;
-import org.apache.tiles.DefinitionsUtil;
-import org.apache.tiles.actions.TilesAction;
-import org.apache.tiles.beans.MenuItem;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.servlet.ServletTilesRequestContext;
+import org.apache.tiles.preparer.ViewPreparer;
 
 /**
  * This controller load user menu settings and put them in tile context.
@@ -71,7 +70,7 @@ import org.apache.tiles.beans.MenuItem;
  *
  * @version $Rev$ $Date$
  */
-public final class UserMenuAction extends TilesAction implements Controller {
+public final class UserMenuAction extends TilesAction implements ViewPreparer {
 
 	/** 
 	 * Commons Logging instance.
@@ -138,12 +137,11 @@ public final class UserMenuAction extends TilesAction implements Controller {
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
+        
+        TilesRequestContext tilesContext = new ServletTilesRequestContext(
+                request.getSession().getServletContext(), request, response);
 
-		this.execute(
-			context,
-			request,
-			response,
-			getServlet().getServletContext());
+		this.execute(tilesContext, context);
 
 		return null;
 	}
@@ -165,10 +163,15 @@ public final class UserMenuAction extends TilesAction implements Controller {
 		log.debug("Enter action UserMenuAction");
 
 		// Load user settings from user context
-		MenuSettings settings = getUserSettings(request, context);
+        
+        TilesRequestContext tilesContext = new ServletTilesRequestContext(
+                request.getSession().getServletContext(), request, response);
+        
+		MenuSettings settings = getUserSettings(tilesContext, context);
 
 		// Set parameters for rendering page
-		context.putAttribute(USER_ITEMS_ATTRIBUTE, settings.getItems());
+		context.putAttribute(USER_ITEMS_ATTRIBUTE, new ComponentAttribute(
+                settings.getItems()));
 
 		log.debug("settings=" + settings);
 		log.debug("Exit action UserMenuAction");
@@ -183,16 +186,14 @@ public final class UserMenuAction extends TilesAction implements Controller {
 	 * If settings are not found, initialized them.
 	 */
 	public static MenuSettings getUserSettings(
-		HttpServletRequest request,
+		TilesRequestContext tilesContext,
 		ComponentContext context)
 		throws ServletException {
 
-		// Get current session.
-		HttpSession session = request.getSession();
-
 		// Retrieve attribute name used to store settings.
 		String userSettingsName =
-			(String) context.getAttribute(USER_SETTINGS_NAME_ATTRIBUTE);
+			(String) context.getAttribute(USER_SETTINGS_NAME_ATTRIBUTE)
+            .getValue();
 
 		if (userSettingsName == null) {
 			userSettingsName = DEFAULT_USER_SETTINGS_NAME;
@@ -200,7 +201,7 @@ public final class UserMenuAction extends TilesAction implements Controller {
 
 		// Get user list from user context
 		MenuSettings settings =
-			(MenuSettings) session.getAttribute(userSettingsName);
+			(MenuSettings) tilesContext.getSessionScope().get(userSettingsName);
 
 		// If settings don't exist, create and initialize them
 		// Initialization is done from context attribute denoted by ITEMS
@@ -215,7 +216,7 @@ public final class UserMenuAction extends TilesAction implements Controller {
 			}
 
 			// Save user settings in session
-			session.setAttribute(userSettingsName, settings);
+			tilesContext.getSessionScope().put(userSettingsName, settings);
 		}
 
 		return settings;
@@ -228,21 +229,23 @@ public final class UserMenuAction extends TilesAction implements Controller {
 	 */
 	public static List getCatalog(
 		ComponentContext context,
-		HttpServletRequest request,
-		ServletContext servletContext)
+		TilesRequestContext tilesContext,
+        TilesApplicationContext applicationContext)
 		throws ServletException {
 
 		// Retrieve name used to store catalog in application context.
 		// If not found, use default name
 		String catalogName =
-			(String) context.getAttribute(MENU_CATALOG_NAME_ATTRIBUTE);
+			(String) context.getAttribute(MENU_CATALOG_NAME_ATTRIBUTE)
+            .getValue();
 
 		if (catalogName == null) {
 			catalogName = DEFAULT_MENU_CATALOG_NAME;
 		}
 
 		// Get catalog from context
-		List catalog = (List) servletContext.getAttribute(catalogName);
+		List catalog = (List) applicationContext.getApplicationScope()
+                .get(catalogName);
 
 		// If not found, initialize it from provided default menu
 		if (catalog == null) {
@@ -255,13 +258,14 @@ public final class UserMenuAction extends TilesAction implements Controller {
 			}
 
 			catalog = new ArrayList();
-			extractItems(catalog, menuBar, request, servletContext);
+			extractItems(catalog, menuBar, context, tilesContext,
+                    applicationContext);
 			if (catalog.size() == 0) {
 				throw new ServletException("Can't initialize menu items catalog");
 			}
 
 			// save it for future use
-			servletContext.setAttribute(catalogName, catalog);
+			applicationContext.getApplicationScope().put(catalogName, catalog);
 		}
 
 		return catalog;
@@ -287,18 +291,17 @@ public final class UserMenuAction extends TilesAction implements Controller {
 	private static void extractItems(
 		List result,
 		Object object,
-		HttpServletRequest request,
-		ServletContext servletContext) {
+        ComponentContext context,
+		TilesRequestContext tilesContext,
+		TilesApplicationContext applicationContext) {
 
 		log.debug("Extract menu item from '" + object + "'");
-
+        
+        // FIXME This method should be completely rewritten. For the moment
+        // I am commenting it.
+/*
 		if (object instanceof String) { // definition name
 			try {
-				ComponentDefinition def =
-					DefinitionsUtil.getDefinition(
-						(String) object,
-						request,
-						servletContext);
 
 				extractItems(result, def, request, servletContext);
 
@@ -327,30 +330,27 @@ public final class UserMenuAction extends TilesAction implements Controller {
 
 		} else if (object instanceof MenuItem) {
 			result.add(object);
-		}
+		} */
 	}
 
 	/**
 	 * @see org.apache.tiles.Controller#execute(org.apache.tiles.ComponentContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.ServletContext)
 	 */
-	public void execute(
-		ComponentContext tileContext,
-		HttpServletRequest request,
-		HttpServletResponse response,
-		ServletContext servletContext)
+	public void execute(TilesRequestContext tilesContext,
+		ComponentContext tileContext)
 		throws Exception {
             
 		log.debug("Enter action UserMenuAction");
 
 		// Load user settings from user context
-		MenuSettings settings = getUserSettings(request, tileContext);
+		MenuSettings settings = getUserSettings(tilesContext, tileContext);
 
 		// Set parameters for rendering page
-		tileContext.putAttribute(USER_ITEMS_ATTRIBUTE, settings.getItems());
+		tileContext.putAttribute(USER_ITEMS_ATTRIBUTE, new ComponentAttribute(
+                settings.getItems()));
 
 		log.debug("settings=" + settings);
 		log.debug("Exit action UserMenuAction");
 
 	}
-
 }

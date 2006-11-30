@@ -32,8 +32,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.tiles.actions.TilesAction;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.actions.TilesAction;
 
 /**
  * This controller load user portal settings and put them in tile context.
@@ -105,10 +106,12 @@ public final class UserPortalAction extends TilesAction {
         PortalSettings settings = getSettings(request, context);
 
         // Set parameters for tiles
-        context.putAttribute("numCols", Integer.toString(settings.getNumCols()));
+        context.putAttribute("numCols", new ComponentAttribute(Integer
+                .toString(settings.getNumCols())));
 
         for (int i = 0; i < settings.getNumCols(); i++) {
-            context.putAttribute("list" + i, settings.getListAt(i));
+            context.putAttribute("list" + i, new ComponentAttribute(settings
+                    .getListAt(i)));
         }
 
         return null;
@@ -127,7 +130,8 @@ public final class UserPortalAction extends TilesAction {
 
         // Retrieve user context id used to store settings
         String userSettingsId =
-            (String) context.getAttribute(USER_SETTINGS_NAME_ATTRIBUTE);
+            (String) context.getAttribute(USER_SETTINGS_NAME_ATTRIBUTE)
+                    .getValue();
 
         if (userSettingsId == null) {
             userSettingsId = DEFAULT_USER_SETTINGS_NAME;
@@ -140,7 +144,8 @@ public final class UserPortalAction extends TilesAction {
         if (settings == null) {
             // List doesn't exist, create it and initialize it from Tiles parameters
             settings = new PortalSettings();
-            settings.setNumCols((String) context.getAttribute(NUMCOLS_ATTRIBUTE));
+            settings.setNumCols((String) context.getAttribute(NUMCOLS_ATTRIBUTE)
+                    .getValue());
 
             for (int i = 0; i < settings.getNumCols(); i++) {
                 List tiles =
@@ -170,7 +175,8 @@ public final class UserPortalAction extends TilesAction {
         if (catalog == null) { // Initialize catalog
             catalog = new PortalCatalog();
             int numCols =
-                Integer.parseInt((String) context.getAttribute(NUMCOLS_ATTRIBUTE));
+                Integer.parseInt((String) context.getAttribute(
+                        NUMCOLS_ATTRIBUTE).getValue());
 
             for (int i = 0; i < numCols; i++) {
                 List tiles =

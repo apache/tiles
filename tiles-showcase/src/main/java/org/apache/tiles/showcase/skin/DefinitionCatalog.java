@@ -31,11 +31,11 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.DefinitionsFactoryException;
-import org.apache.tiles.DefinitionsUtil;
-import org.apache.tiles.FactoryNotFoundException;
-import org.apache.tiles.NoSuchDefinitionException;
+import org.apache.struts.tiles.DefinitionsUtil;
+import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.FactoryNotFoundException;
+import org.apache.tiles.definition.NoSuchDefinitionException;
 
 /**
  * A catalog of available definitions.
@@ -81,7 +81,9 @@ public class DefinitionCatalog
      throws FactoryNotFoundException, DefinitionsFactoryException
    {
      // Get definition containing list of definitions
-   ComponentDefinition catalogDef = DefinitionsUtil.getDefinition( catalogName, request, context);
+     // FIXME Currently I don't know how to get a definition.
+   ComponentDefinition catalogDef = null; 
+//   ComponentDefinition catalogDef = DefinitionsUtil.getDefinition( catalogName, request, context);
    if(debug)
      System.out.println( "Got definition " + catalogDef );
      // Get list of definition names
@@ -91,7 +93,9 @@ public class DefinitionCatalog
      {
      String name = (String)i.next();
      System.out.println( "add " + name );
-     ComponentDefinition def = DefinitionsUtil.getDefinition(name, request, context);
+     ComponentDefinition def = null;
+     // FIXME Currently I don't know how to get a definition.
+//     ComponentDefinition def = DefinitionsUtil.getDefinition(name, request, context);
      if(def==null)
        throw new NoSuchDefinitionException("Can't find definition '" + name + "'" );
      add( name, def );

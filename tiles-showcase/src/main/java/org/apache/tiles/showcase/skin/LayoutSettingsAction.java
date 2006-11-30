@@ -27,8 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.tiles.actions.TilesAction;
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.actions.TilesAction;
 
 /**
  * Action used to set user skin.
@@ -95,8 +96,8 @@ public class LayoutSettingsAction extends TilesAction
       } // end if
 
       // Prepare data for view tile
-    context.putAttribute( "selected", selected );
-    context.putAttribute( "catalog", catalog );
+    context.putAttribute("selected", new ComponentAttribute(selected));
+    context.putAttribute("catalog", new ComponentAttribute(catalog));
 
     if(debug)
       System.out.println("Exit action LayoutSettingAction");
