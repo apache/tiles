@@ -29,8 +29,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.ControllerSupport;
+import org.apache.tiles.preparer.ViewPreparerSupport;
 
 
   /**
@@ -38,7 +39,7 @@ import org.apache.tiles.ControllerSupport;
    * This controller modify title by adding "ok".
    * @version $Rev$ $Date$
    */
-public class TestTileController extends ControllerSupport
+public class TestTileController extends ViewPreparerSupport
 {
 
   public TestTileController()
@@ -60,9 +61,9 @@ public class TestTileController extends ControllerSupport
    System.out.println( "Controller called" );
 
 
-   String title = (String)tileContext.getAttribute("title");
+   String title = (String) tileContext.getAttribute("title").getValue();
    title += "- controller called";
-   tileContext.putAttribute( "title", title);
+   tileContext.putAttribute("title", new ComponentAttribute(title));
    }
 
 

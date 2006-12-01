@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.tiles.ComponentContext;
+import org.apache.tiles.access.TilesAccess;
 
 
 /**
@@ -74,14 +75,9 @@ public final class NoForward extends Action {
                                  HttpServletResponse response)
         throws Exception {
       // Try to retrieve tile context
-    ComponentContext context = ComponentContext.getContext( request );
-    if( context == null )
-      { // Not found, create a context
-        // This context will be detected by the TilesRequestProcessor which will do an include
-        // instead of a forward.
-      ComponentContext tileContext = new ComponentContext( );
-      ComponentContext.setContext( tileContext, request);
-      }
+    
+      ComponentContext context = TilesAccess.getContainer(request.getSession()
+            .getServletContext()).getComponentContext(request, response);;
 	  return (mapping.findForward("success"));
     }
 

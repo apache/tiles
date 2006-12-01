@@ -28,7 +28,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.tiles.ComponentDefinition;
+import org.apache.tiles.definition.ComponentDefinition;
 
 
 /**
@@ -68,12 +68,11 @@ public final class DynTemplateAction extends Action {
     String path = "/tutorial";
       // set definition 'contents'
     //definition.setTemplate( "/tutorial/basic/myFramesetLayout.jsp" );
-    definition.put( "title", "My first dynamic frameset page", true );
-      // using type="string" is the same as direct=true
-    definition.put( "header", path + "/common/header.jsp", "string", null );
-    definition.put( "footer", path + "/common/footer.jsp", true );
-    definition.put( "menu", path + "/basic/menu.jsp", true );
-    definition.put( "body", path + "/basic/helloBody.jsp", true );
+    definition.put("title", "My first dynamic frameset page", "string", null);
+    definition.put("header", path + "/common/header.jsp", "string", null );
+    definition.put("footer", path + "/common/footer.jsp");
+    definition.put("menu", path + "/basic/menu.jsp");
+    definition.put("body", path + "/basic/helloBody.jsp");
 
     System.out.println( "definition=" + definition );
       // Save our definition as a bean :

@@ -24,16 +24,13 @@ package org.apache.tiles.showcase.test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.tiles.ComponentContext;
-import org.apache.tiles.ComponentDefinition;
-import org.apache.tiles.DefinitionsFactoryException;
-import org.apache.tiles.DefinitionsUtil;
-import org.apache.tiles.FactoryNotFoundException;
-import org.apache.tiles.NoSuchDefinitionException;
+import org.apache.tiles.access.TilesAccess;
 
 
 /**
@@ -72,45 +69,42 @@ public final class TestActionTileAction extends Action {
 	throws Exception {
 
       // Try to retrieve tile context
-    ComponentContext context = ComponentContext.getContext( request );
-    if( context == null )
-      {
-      request.setAttribute( "actionError", "Can't get component context.");
-      return (mapping.findForward("failure"));
-      }
+    ComponentContext context = TilesAccess.getContainer(request.getSession()
+            .getServletContext()).getComponentContext(request, response);;
       // Get requested test from tile parameter
     String param;
 
       // Set a definition in this action
-    param = (String)context.getAttribute( "set-definition-name" );
+    param = (String) context.getAttribute("set-definition-name").getValue();
     if( param != null )
       {
-      try
-        {
+        // FIXME Currently I don't know how to get a definition!
+//      try
+//        {
           // Read definition from factory, but we can create it here.
-        ComponentDefinition definition = DefinitionsUtil.getDefinition( param, request, getServlet().getServletContext() );
-        //definition.putAttribute( "attributeName", "aValue" );
-        DefinitionsUtil.setActionDefinition( request, definition);
+//        ComponentDefinition definition = DefinitionsUtil.getDefinition( param, request, getServlet().getServletContext() );
+//        //definition.putAttribute( "attributeName", "aValue" );
+//        DefinitionsUtil.setActionDefinition( request, definition);
         }
-       catch( FactoryNotFoundException ex )
-        {
-        request.setAttribute( "actionError", "Can't get definition factory.");
-        return (mapping.findForward("failure"));
-        }
-       catch( NoSuchDefinitionException ex )
-        {
-        request.setAttribute( "actionError", "Can't get definition '" + param +"'.");
-        return (mapping.findForward("failure"));
-        }
-       catch( DefinitionsFactoryException ex )
-        {
-        request.setAttribute( "actionError", "General error '" + ex.getMessage() +"'.");
-        return (mapping.findForward("failure"));
-        }
-      }
+//       catch( FactoryNotFoundException ex )
+//        {
+//        request.setAttribute( "actionError", "Can't get definition factory.");
+//        return (mapping.findForward("failure"));
+//        }
+//       catch( NoSuchDefinitionException ex )
+//        {
+//        request.setAttribute( "actionError", "Can't get definition '" + param +"'.");
+//        return (mapping.findForward("failure"));
+//        }
+//       catch( DefinitionsFactoryException ex )
+//        {
+//        request.setAttribute( "actionError", "General error '" + ex.getMessage() +"'.");
+//        return (mapping.findForward("failure"));
+//        }
+//      }
 
       // Overload a parameter
-    param = (String)context.getAttribute( "set-attribute" );
+    param = (String) context.getAttribute("set-attribute").getValue();
     if( param != null )
       {
       context.putAttribute( param, context.getAttribute( "set-attribute-value" ));
