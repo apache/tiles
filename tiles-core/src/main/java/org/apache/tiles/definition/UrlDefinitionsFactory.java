@@ -138,7 +138,7 @@ public class UrlDefinitionsFactory
 
         if (tilesContext != null) {
             tilesContext.getRequestLocale();
-            if (!isLocaleProcessed(tilesContext)) {
+            if (!isContextProcessed(tilesContext)) {
                 synchronized (definitions) {
                     addDefinitions(definitions, tilesContext);
                 }
@@ -192,7 +192,7 @@ public class UrlDefinitionsFactory
         Locale locale = tilesContext.getRequestLocale();
         List<String> postfixes = calculatePostixes(locale);
 
-        if (isLocaleProcessed(tilesContext)) {
+        if (isContextProcessed(tilesContext)) {
             return;
         } else {
             processedLocales.add(locale);
@@ -250,17 +250,17 @@ public class UrlDefinitionsFactory
     }
 
     /**
-     * Indicates whether a given locale has been processed or not.
+     * Indicates whether a given context has been processed or not.
      * <p/>
      * This method can be used to avoid unnecessary synchronization of the
      * DefinitionsFactory in multi-threaded situations.  Check the return of
-     * isLoacaleProcessed before synchronizing the object and reading
+     * isContextProcessed before synchronizing the object and reading
      * locale-specific definitions.
      *
      * @param tilesContext The Tiles context to check.
-     * @return true if the given lcoale has been processed and false otherwise.
+     * @return true if the given context has been processed and false otherwise.
      */
-    protected boolean isLocaleProcessed(TilesRequestContext tilesContext) {
+    protected boolean isContextProcessed(TilesRequestContext tilesContext) {
         return processedLocales.contains(tilesContext.getRequestLocale());
     }
 

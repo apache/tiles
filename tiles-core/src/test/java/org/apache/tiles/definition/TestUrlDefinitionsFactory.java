@@ -164,9 +164,9 @@ public class TestUrlDefinitionsFactory extends TestCase {
     }
 
     /**
-     * Tests the isLocaleProcessed method.
+     * Tests the isContextProcessed method.
      */
-    public void testIsLocaleProcessed() throws Exception {
+    public void testIsContextProcessed() throws Exception {
         MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
 
         // Set up multiple data sources.
@@ -182,11 +182,11 @@ public class TestUrlDefinitionsFactory extends TestCase {
         TilesRequestContext tilesContext =
                 new MockOnlyLocaleTilesContext(Locale.US);
         assertFalse("Locale should not be processed.",
-                factory.isLocaleProcessed(tilesContext));
+                factory.isContextProcessed(tilesContext));
 
         factory.addDefinitions(definitions, tilesContext);
         assertTrue("Locale should be processed.",
-                factory.isLocaleProcessed(tilesContext));
+                factory.isContextProcessed(tilesContext));
     }
 
     /**

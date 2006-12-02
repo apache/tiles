@@ -52,9 +52,9 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
      * Exposes the <code>isLocaleProcessed</code> method of
      * <code>UrlDefinitionsFactory</code>
      * 
-     * @see org.apache.tiles.definition.UrlDefinitionsFactory#isLocaleProcessed(org.apache.tiles.context.TilesRequestContext)
+     * @see org.apache.tiles.definition.UrlDefinitionsFactory#isContextProcessed(org.apache.tiles.context.TilesRequestContext)
      */
-    public boolean isLocaleProcessed(TilesRequestContext tilesContext) {
-        return super.isLocaleProcessed(tilesContext);
+    public boolean isContextProcessed(TilesRequestContext tilesContext) {
+        return super.isContextProcessed(tilesContext);
     }
 }
