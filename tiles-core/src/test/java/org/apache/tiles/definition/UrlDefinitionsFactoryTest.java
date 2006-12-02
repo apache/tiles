@@ -41,13 +41,13 @@ public class UrlDefinitionsFactoryTest extends TestCase {
     public void testCalculatePostfixes() {
         Locale locale = Locale.US;
 
-        List<String> posts = UrlDefinitionsFactory.calculatePostixes(locale);
+        List<String> posts = UrlDefinitionsFactory.calculatePostfixes(locale);
         assertEquals(2, posts.size());
         assertTrue(posts.contains("_en_US"));
         assertTrue(posts.contains("_en"));
 
         locale = Locale.ENGLISH;
-        posts = UrlDefinitionsFactory.calculatePostixes(locale);
+        posts = UrlDefinitionsFactory.calculatePostfixes(locale);
         assertEquals(1, posts.size());
         assertTrue(posts.contains("_en"));
     }
