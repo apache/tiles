@@ -201,11 +201,13 @@ public class UrlDefinitionsFactory
 
         processedLocales.add(locale);
         List<String> postfixes = calculatePostfixes(locale);
-        for (Object source : sources) {
-            URL url = (URL) source;
-            String path = url.toExternalForm();
+        Map localeDefsMap = new HashMap();
+        for (Object postfix : postfixes) {
+        	// For each postfix, all the sources must be loaded.
+            for (Object source : sources) {
+                URL url = (URL) source;
+                String path = url.toExternalForm();
 
-            for (Object postfix : postfixes) {
                 String newPath = concatPostfix(path, (String) postfix);
                 try {
                     URL newUrl = new URL(newPath);
@@ -213,9 +215,13 @@ public class UrlDefinitionsFactory
                     connection.connect();
                     lastModifiedDates.put(newUrl.toExternalForm(),
                         connection.getLastModified());
+                    
+                    // Definition must be collected, starting from the base
+                    // source up to the last localized file.
                     Map defsMap = reader.read(connection.getInputStream());
-                    definitions.addDefinitions(defsMap,
-                        tilesContext.getRequestLocale());
+                    if (defsMap != null) {
+                    	localeDefsMap.putAll(defsMap);
+                    }
                 } catch (FileNotFoundException e) {
                     // File not found. continue.
                 } catch (IOException e) {
@@ -224,6 +230,11 @@ public class UrlDefinitionsFactory
                 }
             }
         }
+        
+        // At the end definitions loading, they can be assigned to
+        // ComponentDefinitions implementation, to allow inheritance resolution.
+        definitions.addDefinitions(localeDefsMap,
+        		tilesContext.getRequestLocale());
     }
 
     /**
@@ -311,6 +322,9 @@ public class UrlDefinitionsFactory
         final String variant = locale.getVariant();
         final int variantLength = variant.length();
 
+        // The default configuration file must be loaded to allow correct
+        // definition inheritance.
+        result.add("");
         if (languageLength + countryLength + variantLength == 0) {
             //The locale is "", "", "".
             return result;
