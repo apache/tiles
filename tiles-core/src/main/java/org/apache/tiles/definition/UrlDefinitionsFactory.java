@@ -190,20 +190,23 @@ public class UrlDefinitionsFactory
         throws DefinitionsFactoryException {
 
         Locale locale = tilesContext.getRequestLocale();
-        List<String> postfixes = calculatePostixes(locale);
 
         if (isContextProcessed(tilesContext)) {
             return;
-        } else {
-            processedLocales.add(locale);
+        }
+        
+        if (locale == null) {
+        	return;
         }
 
+        processedLocales.add(locale);
+        List<String> postfixes = calculatePostfixes(locale);
         for (Object source : sources) {
             URL url = (URL) source;
             String path = url.toExternalForm();
 
-            for (Object postfixe : postfixes) {
-                String newPath = concatPostfix(path, (String) postfixe);
+            for (Object postfix : postfixes) {
+                String newPath = concatPostfix(path, (String) postfix);
                 try {
                     URL newUrl = new URL(newPath);
                     URLConnection connection = newUrl.openConnection();
@@ -292,14 +295,14 @@ public class UrlDefinitionsFactory
     }
 
     /**
-     * Calculate the postixes along the search path from the base bundle to the
+     * Calculate the postfixes along the search path from the base bundle to the
      * bundle specified by baseName and locale.
      * Method copied from java.util.ResourceBundle
      *
      * @param locale the locale
      * @return a list of
      */
-    protected static List<String> calculatePostixes(Locale locale) {
+    protected static List<String> calculatePostfixes(Locale locale) {
         final List<String> result = new ArrayList<String>();
         final String language = locale.getLanguage();
         final int languageLength = language.length();
