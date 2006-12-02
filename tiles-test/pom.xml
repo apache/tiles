@@ -171,6 +171,86 @@
                 </repository>
             </repositories>
         </profile>
+        
+        <profile>
+            <id>hostedqa</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.hostedqa</groupId>
+                    <artifactId>hostedqa-remote-ant</artifactId>
+                    <version>1.6.2</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <repositories>
+                <repository>
+                    <id>codehaus</id>
+                    <name>codehaus</name>
+                    <url>http://repository.codehaus.org</url>
+                </repository>
+                <repository>
+                    <id>maven-hostedqa</id>
+                    <name>maven-hostedqa</name>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                        <checksumPolicy>ignore</checksumPolicy>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <url>http://maven.hostedqa.com</url>
+                </repository>
+            </repositories>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <taskdef resource="hostedqatasks" classpathref="maven.plugin.classpath"/>
+                                        <upload file="${project.build.directory}/${project.build.finalName}.war"
+                                                account="tiles"
+                                                email="${tiles.hostedqa.email}"
+                                                password="${tiles.hostedqa.password}"
+                                                resourceId="${hostedqa.resourceId}"/>
+
+                                        <playsuite clientConfigs="${hostedqa.clientConfigs}"
+                                                   appConfigs="${hostedqa.appConfigs}"
+                                                   account="tiles"
+                                                   email="${tiles.hostedqa.email}"
+                                                   password="${tiles.hostedqa.password}">
+                                            <fileSet dir="${basedir}/src/test/selenium"
+                                                     excludes="TestSuite.html"/>
+                                        </playsuite>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.hostedqa</groupId>
+                                <artifactId>hostedqa-remote-ant</artifactId>
+                                <version>1.6.2</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+            <properties>
+                <hostedqa.resourceId>53</hostedqa.resourceId>
+                <hostedqa.clientConfigs>303</hostedqa.clientConfigs>
+                <hostedqa.appConfigs>121</hostedqa.appConfigs>
+            </properties>
+        </profile>
+
     </profiles>
 
 
