@@ -137,7 +137,7 @@ public class UrlDefinitionsFactory
         Locale locale = null;
 
         if (tilesContext != null) {
-            tilesContext.getRequestLocale();
+            locale = tilesContext.getRequestLocale();
             if (!isContextProcessed(tilesContext)) {
                 synchronized (definitions) {
                     addDefinitions(definitions, tilesContext);
