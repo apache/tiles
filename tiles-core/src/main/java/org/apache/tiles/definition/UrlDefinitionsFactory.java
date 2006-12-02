@@ -231,7 +231,7 @@ public class UrlDefinitionsFactory
             }
         }
         
-        // At the end definitions loading, they can be assigned to
+        // At the end of definitions loading, they can be assigned to
         // ComponentDefinitions implementation, to allow inheritance resolution.
         definitions.addDefinitions(localeDefsMap,
         		tilesContext.getRequestLocale());
