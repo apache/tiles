@@ -98,8 +98,59 @@ public class TestUrlDefinitionsFactory extends TestCase {
         ComponentDefinitions definitions = factory.readDefinitions();
 
         assertNotNull("test.def1 definition not found.", definitions.getDefinition("test.def1"));
-        assertNotNull("test.def2 definition not found.", definitions.getDefinition("test.def1"));
-        assertNotNull("test.def3 definition not found.", definitions.getDefinition("test.def1"));
+        assertNotNull("test.def2 definition not found.", definitions.getDefinition("test.def2"));
+        assertNotNull("test.def3 definition not found.", definitions.getDefinition("test.def3"));
+    }
+
+    /**
+     * Tests the getDefinition method.
+     */
+    public void testGetDefinition() throws Exception {
+        DefinitionsFactory factory = new UrlDefinitionsFactory();
+
+        // Set up multiple data sources.
+        URL url1 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs1.xml");
+        assertNotNull("Could not load defs1 file.", url1);
+        URL url2 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs2.xml");
+        assertNotNull("Could not load defs2 file.", url2);
+        URL url3 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs3.xml");
+        assertNotNull("Could not load defs3 file.", url3);
+
+        factory.init(Collections.EMPTY_MAP);
+        factory.addSource(url1);
+        factory.addSource(url2);
+        factory.addSource(url3);
+
+        // Parse files.
+        factory.readDefinitions();
+        
+        TilesRequestContext emptyContext = new MockOnlyLocaleTilesContext(null);
+        TilesRequestContext usContext = new MockOnlyLocaleTilesContext(Locale.US);
+        TilesRequestContext frenchContext = new MockOnlyLocaleTilesContext(Locale.FRENCH);
+        TilesRequestContext chinaContext = new MockOnlyLocaleTilesContext(Locale.CHINA);
+        TilesRequestContext canadaFrenchContext = new MockOnlyLocaleTilesContext(Locale.CANADA_FRENCH);
+
+        assertNotNull("test.def1 definition not found.", factory.getDefinition("test.def1", emptyContext));
+        assertNotNull("test.def2 definition not found.", factory.getDefinition("test.def2", emptyContext));
+        assertNotNull("test.def3 definition not found.", factory.getDefinition("test.def3", emptyContext));
+        assertNotNull("test.common definition not found.", factory.getDefinition("test.common", emptyContext));
+        assertNotNull("test.common definition in US locale not found.", factory.getDefinition("test.common", usContext));
+        assertNotNull("test.common definition in FRENCH locale not found.", factory.getDefinition("test.common", frenchContext));
+        assertNotNull("test.common definition in CHINA locale not found.", factory.getDefinition("test.common", chinaContext));
+        assertNotNull("test.common.french definition in FRENCH locale not found.", factory.getDefinition("test.common.french", frenchContext));
+        assertNotNull("test.common.french definition in CANADA_FRENCH locale not found.", factory.getDefinition("test.common.french", canadaFrenchContext));
+
+        assertEquals("Incorrect default country value", "default",
+                factory.getDefinition("test.def1", emptyContext).getAttribute("country"));
+        assertEquals("Incorrect US country value", "US",
+                factory.getDefinition("test.def1", usContext).getAttribute("country"));
+        assertEquals("Incorrect France country value", "France",
+                factory.getDefinition("test.def1", frenchContext).getAttribute("country"));
+        assertEquals("Incorrect Chinese country value (should be default)", "default",
+                factory.getDefinition("test.def1", chinaContext).getAttribute("country"));
     }
 
     /**

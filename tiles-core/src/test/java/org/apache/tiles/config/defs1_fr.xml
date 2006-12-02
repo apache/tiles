@@ -44,4 +44,13 @@
 	  <put name="body"   value="doc.portal.body" />
   </definition>
 
+  <definition name="test.common.french" template="/test.jsp">
+          <put name="country" value="France"/>
+    <put name="title"  value="Common Definition for French" />
+    <put name="header" value="/common/header.jsp" />
+    <put name="menu"   value="doc.menu.main" />
+    <put name="footer" value="/common/footer.jsp" />
+    <put name="body"   value="doc.portal.body" />
+  </definition>
+
 </tiles-definitions>

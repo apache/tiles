@@ -34,19 +34,9 @@
   <!-- Master definition  									-->
   <!-- =======================================================  -->
 
-  <!-- This definition will remain the same for all locales -->
-  <definition name="test.common" template="/test.jsp">
-      <put name="country" value="none"/>
-	  <put name="title"  value="Common Definition" />
-	  <put name="header" value="/common/header.jsp" />
-	  <put name="menu"   value="doc.menu.main" />
-	  <put name="footer" value="/common/footer.jsp" />
-	  <put name="body"   value="doc.portal.body" />
-  </definition>
-
   <!-- Doc index page description  -->
   <definition name="test.def1" template="/test.jsp">
-          <put name="country" value="default"/>
+          <put name="country" value="Canada"/>
 	  <put name="title"  value="Tiles Library Documentation" />
 	  <put name="header" value="/common/header.jsp" />
 	  <put name="menu"   value="doc.menu.main" />
