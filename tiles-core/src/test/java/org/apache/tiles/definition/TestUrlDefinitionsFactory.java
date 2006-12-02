@@ -142,6 +142,9 @@ public class TestUrlDefinitionsFactory extends TestCase {
         assertNotNull("test.common definition in CHINA locale not found.", factory.getDefinition("test.common", chinaContext));
         assertNotNull("test.common.french definition in FRENCH locale not found.", factory.getDefinition("test.common.french", frenchContext));
         assertNotNull("test.common.french definition in CANADA_FRENCH locale not found.", factory.getDefinition("test.common.french", canadaFrenchContext));
+        assertNotNull("test.def.toextend definition not found.", factory.getDefinition("test.def.toextend", emptyContext));
+        assertNotNull("test.def.overridden definition not found.", factory.getDefinition("test.def.overridden", emptyContext));
+        assertNotNull("test.def.overridden definition in FRENCH locale not found.", factory.getDefinition("test.def.overridden", frenchContext));
 
         assertEquals("Incorrect default country value", "default",
                 factory.getDefinition("test.def1", emptyContext).getAttribute("country"));
@@ -151,6 +154,14 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 factory.getDefinition("test.def1", frenchContext).getAttribute("country"));
         assertEquals("Incorrect Chinese country value (should be default)", "default",
                 factory.getDefinition("test.def1", chinaContext).getAttribute("country"));
+        assertEquals("Incorrect default country value", "default",
+                factory.getDefinition("test.def.overridden", emptyContext).getAttribute("country"));
+        assertEquals("Incorrect default title value", "Definition to be overridden",
+                factory.getDefinition("test.def.overridden", emptyContext).getAttribute("title"));
+        assertEquals("Incorrect France country value", "France",
+                factory.getDefinition("test.def.overridden", frenchContext).getAttribute("country"));
+        assertEquals("Incorrect France title value", "Definition to be extended",
+                factory.getDefinition("test.def.overridden", frenchContext).getAttribute("title"));
     }
 
     /**

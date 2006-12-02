@@ -53,4 +53,8 @@
     <put name="body"   value="doc.portal.body" />
   </definition>
 
+  <definition name="test.def.overridden" extends="test.def.toextend">
+    <put name="country" value="France"/>
+  </definition>
+
 </tiles-definitions>

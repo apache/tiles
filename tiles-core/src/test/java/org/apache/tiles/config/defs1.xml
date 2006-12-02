@@ -54,4 +54,24 @@
 	  <put name="body"   value="doc.portal.body" />
   </definition>
 
+  <!-- This definition will be extended -->
+  <definition name="test.def.toextend" template="/test.jsp">
+    <put name="country" value="default"/>
+    <put name="title"  value="Definition to be extended" />
+    <put name="header" value="/common/header.jsp" />
+    <put name="menu"   value="doc.menu.main" />
+    <put name="footer" value="/common/footer.jsp" />
+    <put name="body"   value="doc.portal.body" />
+  </definition>
+
+  <!-- This definition will be overridden -->
+  <definition name="test.def.overridden" template="/test.jsp">
+    <put name="country" value="default"/>
+    <put name="title"  value="Definition to be overridden" />
+    <put name="header" value="/common/header.jsp" />
+    <put name="menu"   value="doc.menu.main" />
+    <put name="footer" value="/common/footer.jsp" />
+    <put name="body"   value="doc.portal.body" />
+  </definition>
+
 </tiles-definitions>
