@@ -70,7 +70,7 @@ public final class SelectChannelAction extends Action {
       // set in session
     HttpSession session = request.getSession(false);
     if (session != null)
-      session.setAttribute(ChannelFactorySet.FACTORY_SELECTOR_KEY, requested);
+      session.setAttribute(ChannelDefinitionsFactory.FACTORY_SELECTOR_KEY, requested);
     System.out.println( "Set channel to '" + requested + "'" );
 	  return (mapping.findForward("success"));
     }
