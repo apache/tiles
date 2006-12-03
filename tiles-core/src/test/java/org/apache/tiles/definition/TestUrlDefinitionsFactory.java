@@ -24,6 +24,7 @@ package org.apache.tiles.definition;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Collections;
@@ -276,4 +277,32 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 MockDefinitionsReader.getInstanceCount());
     }
 
+    /**
+     * Tests the calculatePostfixes method.
+     */
+    public void testCalculatePostfixes() {
+        Locale locale = Locale.US;
+
+        List<String> posts = UrlDefinitionsFactory.calculatePostfixes(locale);
+        assertEquals(3, posts.size());
+        assertTrue(posts.contains("_en_US"));
+        assertTrue(posts.contains("_en"));
+
+        locale = Locale.ENGLISH;
+        posts = UrlDefinitionsFactory.calculatePostfixes(locale);
+        assertEquals(2, posts.size());
+        assertTrue(posts.contains("_en"));
+    }
+
+    /**
+     * Tests the concatPostfix method.
+     */
+    public void testConcatPostfix() {
+    	UrlDefinitionsFactory factory = new UrlDefinitionsFactory();
+        String postfix = "_en_US";
+        assertEquals("a_en_US", factory.concatPostfix("a", postfix));
+        assertEquals("a_en_US.jsp", factory.concatPostfix("a.jsp", postfix));
+        assertEquals("file_en_US.jsp", factory.concatPostfix("file.jsp", postfix));
+        assertEquals("./path/file_en_US.jsp", factory.concatPostfix("./path/file.jsp", postfix));
+    }
 }
