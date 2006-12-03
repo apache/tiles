@@ -41,7 +41,7 @@
   </definition>
   
   <!-- select language menu -->
-<definition name="menu.lang" path="/common/submenu.jsp" >
+<definition name="menu.lang" template="/common/submenu.jsp" >
   <put name="title" value="Langue" />
   <putList name="items" >
     <add value="English" />

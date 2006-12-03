@@ -36,7 +36,7 @@
   <!-- =======================================================  -->
 
   <!-- Doc index page description  -->
-  <definition name="doc.mainLayout" path="/layout/classicLayout.jsp">
+  <definition name="doc.mainLayout" template="/layout/classicLayout.jsp">
 	  <put name="title"  value="Tiles Library Documentation" />
 	  <put name="header" value="/common/header.jsp" />
 	  <put name="menu"   value="doc.menu.main" />
@@ -48,7 +48,7 @@
   <!-- Main page body definitions  									-->
   <!-- =======================================================  -->
 
-  <definition name="doc.portal.body" path="/layout/columnsLayout.jsp">
+  <definition name="doc.portal.body" template="/layout/columnsLayout.jsp">
     <put name="numCols" value="2" />
     <putList name="list0" >
       <add value="/doc/portal/welcome.jsp" />
@@ -71,7 +71,7 @@
   <!-- =======================================================  -->
 
   <!-- Menu bar definition -->
-<definition name="doc.menu.main" path="/layout/vboxLayout.jsp" >
+<definition name="doc.menu.main" template="/layout/vboxLayout.jsp" >
   <putList name="componentsList" >
     <add value="doc.menu.links" />
     <add value="doc.menu.taglib.references" />
@@ -81,7 +81,7 @@
 </definition>
 
   <!-- Documentation menu definition v1.1-->
-<definition name="doc.menu.links" path="/layouts/menu.jsp" >
+<definition name="doc.menu.links" template="/layouts/menu.jsp" >
   <put name="title" value="Documentation" />
     <putList name="items" >
       <item value="Home"           link="/index.jsp"  />
@@ -107,7 +107,7 @@
 </definition>
 
   <!-- Printer friendly menu definition -->
-<definition name="doc.menu.printer.friendly" path="/layouts/menu.jsp" >
+<definition name="doc.menu.printer.friendly" template="/layouts/menu.jsp" >
   <put name="title" value="Printer Versions" />
   <putList name="items" >
     <item value="Quick Overview"     link="/test/testAll.jsp" />
@@ -118,7 +118,7 @@
 </definition>
 
   <!-- Taglib menu definition -->
-<definition name="doc.menu.taglib.references" path="/layouts/menu.jsp" >
+<definition name="doc.menu.taglib.references" template="/layouts/menu.jsp" >
   <put name="title" value="Tag Library Reference" />
     <putList name="items" >
       <item value="Tiles Tags"     link="/doc/tilesTags.jsp" />
@@ -127,7 +127,7 @@
 </definition>
 
   <!-- Oldies menu definition -->
-<definition name="doc.menu.old.documents" path="/layouts/menu.jsp" >
+<definition name="doc.menu.old.documents" template="/layouts/menu.jsp" >
   <put name="title" value="Old Documents" />
   <putList name="items" >
     <item value="Overview (old)"     link="/doc/overview.jsp" />

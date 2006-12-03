@@ -38,7 +38,7 @@
 </definition>
 
   <!-- Test menu definition -->
-<definition name="test.menu.links" path="/layouts/menu.jsp" >
+<definition name="test.menu.links" template="/layouts/menu.jsp" >
   <put name="title" value="Tests" />
     <putList name="items" >
       <item value="All in one"     link="/test/index.jsp"  />
@@ -52,64 +52,64 @@
 </definition>
 
   <!-- Test instances -->
-<definition name="test.layout.test1" path="/test/layout.jsp" >
+<definition name="test.layout.test1" template="/test/layout.jsp" >
   <put name="title"  value="Test definition from factory : basic" />
   <put name="header" value="header.jsp" />
   <put name="body"   value="body.jsp" />
 </definition>
 
   <!-- Test instances -->
-<definition name="test.layout.test2" path="/test/layout.jsp" >
+<definition name="test.layout.test2" template="/test/layout.jsp" >
   <put name="title"  value="Test definition from factory : specify types"   type="string" />
-  <put name="header" value="header.jsp" type="page"   />
-  <put name="body"   value="body.jsp"   type="page"   />
+  <put name="header" value="header.jsp" type="template"   />
+  <put name="body"   value="body.jsp"   type="template"   />
 </definition>
 
   <!-- Test instances -->
-<definition name="test.layout.test3" path="/test/layout.jsp" >
+<definition name="test.layout.test3" template="/test/layout.jsp" >
   <put name="title"  value="Test definition from factory : Test with a tag body (to do)" />
-  <put name="header" value="This is a header" direct="true"/>
+  <put name="header" value="This is a header" type="string"/>
   <put name="body"   value="body.jsp"/>
 </definition>
 
   <!-- Test backward compatibility -->
-<definition name="test.layout.test4" path="/test/layout.jsp" >
+<definition name="test.layout.test4" template="/test/layout.jsp" >
     <put name="title"  value="Test definition from factory: backward compatibility"
-         direct="true"/>
+         type="string"/>
   <put name="header" value="header.jsp"/>
-  <put name="body"   value="body.jsp" direct="false" />
+  <put name="body"   value="body.jsp" />
 </definition>
 
   <!-- Test Struts Action and Tiles integration -->
-<definition name="test.struts.action" path="/test/layout.jsp" >
+<definition name="test.struts.action" template="/test/layout.jsp" >
     <put name="title"  value="Test Struts Action and Tiles integration: default title"
-         direct="true"/>
+         type="string"/>
   <put name="header" value="header.jsp"/>
-  <put name="body"   value="body.jsp" direct="false" />
+  <put name="body"   value="body.jsp" />
 </definition>
 
   <!-- Test Struts Action and Tiles integration -->
-<definition name="test.struts.action.fail" path="/test/failpage.jsp" >
-  <put name="title"  value="Test fail" direct="true" />
+<definition name="test.struts.action.fail" template="/test/failpage.jsp" >
+  <put name="title"  value="Test fail" type="string" />
 </definition>
 
   <!-- Test Tiles Controller -->
   <definition name="test.struts.controller"
-              path="/test/layout.jsp"
-      controllerClass="org.apache.struts.webapp.tiles.test.TestTileController" >
+              template="/test/layout.jsp"
+      preparer="org.apache.struts.webapp.tiles.test.TestTileController" >
   <put name="title"  value="Test Tile Controller : call to Controller" />
   <put name="header" value="header.jsp"/>
   <put name="body"   value="body.jsp" />
 </definition>
 
   <!-- Test body for put tag -->
-<definition name="test.body" path="/test/failpage.jsp" >
-  <put name="title"  direct="true">first body : title</put>
-  <put name="body"  direct="true">second body : body</put>
+<definition name="test.body" template="/test/failpage.jsp" >
+  <put name="title"  type="string">first body : title</put>
+  <put name="body"  type="string">second body : body</put>
 </definition>
 
   <!-- Test instances -->
-<definition name="test.action.noforward" path="/test/layout.jsp" >
+<definition name="test.action.noforward" template="/test/layout.jsp" >
   <put name="title"  value="Test Action with No Forward" />
   <put name="header" value="header.jsp" />
   <put name="body"   value="showRequestUri.jsp" />

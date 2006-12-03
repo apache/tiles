@@ -41,7 +41,7 @@
   <!-- =======================================================  -->
 
   <!-- Doc index page description  -->
-  <definition name="doc.mainLayout" path="/layout/classicLayout.jsp">
+  <definition name="doc.mainLayout" template="/layout/classicLayout.jsp">
 	  <put name="title"  value="Tiles Library Documentation" />
 	  <put name="header" value="/common/header.jsp" />
 	  <put name="menu"   value="doc.menu.main" />
@@ -53,7 +53,7 @@
   <!-- Main page body definitions  									-->
   <!-- =======================================================  -->
 
-  <definition name="doc.portal.body" path="/layout/columnsLayout.jsp">
+  <definition name="doc.portal.body" template="/layout/columnsLayout.jsp">
     <put name="numCols" value="2" />
     <putList name="list0" >
       <add value="/doc/portal/welcome.jsp" />
@@ -76,7 +76,7 @@
   <!-- =======================================================  -->
 
   <!-- Menu bar definition -->
-<definition name="doc.menu.main" path="/layouts/vboxLayout.jsp" >
+<definition name="doc.menu.main" template="/layouts/vboxLayout.jsp" >
   <putList name="list" >
     <add value="common.menu.home" />
     <add value="common.menu.examples" />
@@ -86,7 +86,7 @@
 </definition>
 
   <!-- The home menu definition -->
-<definition name="common.menu.home" path="/layouts/menu.jsp" >
+<definition name="common.menu.home" template="/layouts/menu.jsp" >
   <put name="title" value="Tiles" />
   <putList name="items" >
     <item value="Tiles Home"     link="/index.jsp" />
@@ -94,7 +94,7 @@
 </definition>
 
   <!-- Printer friendly menu definition -->
-<definition name="common.menu.examples" path="/layouts/menu.jsp" >
+<definition name="common.menu.examples" template="/layouts/menu.jsp" >
   <put name="title" value="Examples" />
   <putList name="items" >
     <item value="Home"     link="/examples/index.jsp" />
@@ -102,7 +102,7 @@
 </definition>
 
   <!-- Documentation menu definition v1.1-->
-<definition name="common.menu.doc" path="/layouts/menu.jsp" >
+<definition name="common.menu.doc" template="/layouts/menu.jsp" >
   <put name="title" value="Documentation" />
     <putList name="items" >
       <item value="Home"           link="/doc/index.jsp"  />
@@ -125,7 +125,7 @@
 </definition>
 
   <!-- Printer friendly menu definition -->
-<definition name="common.menu.printer.friendly" path="/layouts/menu.jsp" >
+<definition name="common.menu.printer.friendly" template="/layouts/menu.jsp" >
   <put name="title" value="Printer Versions" />
   <putList name="items" >
     <item value="Quick Overview"     link="/test/testAll.jsp" />

@@ -36,7 +36,7 @@
   <!-- =======================================================  -->
 
   <!-- Master layout and default tiles used by all pages -->
-  <definition name="examples.masterPage" path="/layouts/classicLayout.jsp">
+  <definition name="examples.masterPage" template="/layouts/classicLayout.jsp">
 	  <put name="title"  value="Tiles 1.1 Examples" />
 	  <put name="header" value="/examples/tiles/header.jsp" />
 	  <put name="menu"   value="examples.menu.bar" />
@@ -51,7 +51,7 @@
   <!-- =======================================================  -->
 
   <!-- Test nested list -->
-<definition name="test.nested.list" path="/layouts/vboxLayout.jsp" >
+<definition name="test.nested.list" template="/layouts/vboxLayout.jsp" >
   <putList name="list" >
     <item value="item1" link="/examples/tabs.jsp"/>
     <item value="item2" link="/examples/tabs.jsp"/>
@@ -77,7 +77,7 @@
 
   <!-- Menu bar definition -->
   <!-- Some definitions come from other definition files (ex : doc.menu.*) -->
-<definition name="examples.menu.bar" path="/layouts/vboxLayout.jsp" >
+<definition name="examples.menu.bar" template="/layouts/vboxLayout.jsp" >
   <putList name="list" >
     <add value="common.menu.home" />
     <add value="examples.userMenu" />
@@ -94,7 +94,7 @@
   It allows to define common attributes in one place.
 	Actually, it only defines the layout used to render menus.
    -->
-<definition name="examples.menu.root" path="/layouts/menu.jsp"  >
+<definition name="examples.menu.root" template="/layouts/menu.jsp"  >
 </definition>
 
   <!--
@@ -103,7 +103,7 @@
   Definition only contains default items.
   -->
 <definition name="examples.userMenu" extends="examples.menu.root"
-            controllerClass="org.apache.struts.webapp.tiles.portal.UserMenuAction"  >
+            preparer="org.apache.struts.webapp.tiles.portal.UserMenuAction"  >
   <put name="catalogSettings" value="examples.myMenu.catalog.settings"/>
   <put name="catalogName" value="examples.portal.menuCatalog"/>
   <put name="title" value="My Menu" />
@@ -169,7 +169,7 @@
   </definition>
 
     <!-- Portal Body declaration-->
-  <definition name="examples.index.portal.body" path="/layouts/columnsLayout.jsp" >
+  <definition name="examples.index.portal.body" template="/layouts/columnsLayout.jsp" >
 	  <put name="numCols" value="2" />
 	  <putList name="list0" >
 	    <add value="/examples/tiles/portalSummary.jsp" />
@@ -199,7 +199,7 @@
   </definition>
 
     <!-- Portal Body declaration-->
-  <definition name="examples.portal.body" path="/layouts/columnsLayout.jsp"
+  <definition name="examples.portal.body" template="/layouts/columnsLayout.jsp"
               controllerUrl="/examples/myPortal.do" >
 	  <put name="numCols" value="2" />
 	  <putList name="list0" >
@@ -243,7 +243,7 @@
     <!-- Portal settings Body declaration-->
 	<!-- Extends portal body to provide the same default set of tiles -->
   <definition name="examples.portal.settings.body"
-              path="/examples/tiles/myPortalSettings.jsp"
+              template="/examples/tiles/myPortalSettings.jsp"
               extends="examples.portal.body"
 			  controllerUrl="/examples/controller/myPortalSettings.do" >
   </definition>
@@ -261,7 +261,7 @@
     <!-- Portal settings Body declaration-->
 	<!-- Extends user menu body to provide the same default parameters -->
   <definition name="examples.userMenu.settings.body"
-              path="/examples/tiles/myMenuSettings.jsp"
+              template="/examples/tiles/myMenuSettings.jsp"
               extends="examples.userMenu"
 			  controllerUrl="/examples/controller/myMenuSettings.do" >
 	  <putList name="defaultChoice" >
@@ -285,7 +285,7 @@
   </definition>
 
 	  <!-- body using tabs -->
-  <definition name="examples.tabs.body" path="/layouts/tabsLayout.jsp" >
+  <definition name="examples.tabs.body" template="/layouts/tabsLayout.jsp" >
 	<put name="selectedIndex"  value="0" />
 	<put name="parameterName"  value="selected" />
     <putList name="tabList" >
@@ -313,7 +313,7 @@
   </definition>
 
 	  <!-- body using tabs -->
-  <definition name="examples.tabs.summaries.body" path="/layouts/tabsLayout.jsp" >
+  <definition name="examples.tabs.summaries.body" template="/layouts/tabsLayout.jsp" >
 	<put name="selectedIndex"  value="0" />
 	<put name="parameterName"  value="selected" />
     <putList name="tabList" >
@@ -343,7 +343,7 @@
     <!-- Rss channel body declaration-->
 	<!-- Example to use when connected (online)-->
   <definition name="examples.rssChannel.body"
-              path="/examples/tiles/rssChannels.jsp"
+              template="/examples/tiles/rssChannels.jsp"
 			  controllerUrl="/examples/controller/rssChannel.do" >
     <putList name="urls" >
 	    <!--<add value="http://www.newsforge.com/newsforge.rss" /> -->
@@ -355,7 +355,7 @@
     <!-- Rss channel body declaration-->
 	<!-- Example whith local feeds (offline)-->
   <definition name="examples.rssChannel.offline.body"
-              path="/examples/tiles/rssChannels.jsp"
+              template="/examples/tiles/rssChannels.jsp"
 			  controllerUrl="/examples/controller/rssChannel.do" >
       <putList name="urls" >
 	    <add value="/examples/rssFeed/rss-example.xml" />
@@ -375,7 +375,7 @@
 
     <!-- Skin body declaration-->
   <definition name="examples.skin.settings.body"
-              path="/examples/tiles/mySkinSettings.jsp"
+              template="/examples/tiles/mySkinSettings.jsp"
 			  controllerUrl="/examples/controller/mySkinSettings.do" >
 	  <put name="userSettingsName"   value="tiles.examples.skin.user.settings" />
 	  <!--<put name="catalogName"   value="tiles.examples.skin.catalog" />-->
@@ -394,7 +394,7 @@
 	   -->
 	<definition name="examples.customizable.layouts.root"
 	            extends="examples.masterPage"
-				path="/examples/controller/layoutSwitch.do"   >
+				template="/examples/controller/layoutSwitch.do"   >
 	  <put name="userSettingsName"   value="tiles.examples.skin.user.settings" />
 	  <!--<put name="catalogName"   value="tiles.examples.skin.catalog" />-->
 	  <put name="catalogSettings"   value="examples.available.skins" />

@@ -32,7 +32,7 @@
 <tiles-definitions>
 
   <!-- Definition description  -->
-  <definition name="myFirstDefinition" path="/tutorial/layout/classicLayout.jsp">
+  <definition name="myFirstDefinition" template="/tutorial/layout/classicLayout.jsp">
 	  <put name="title"  value="My First Definition Page" />
 	  <!-- <put name="title" >My First Definition Page</put> -->
 	  <put name="header" value="/tutorial/common/header.jsp" />
@@ -42,7 +42,7 @@
   </definition>
 
   <!-- Main Layout Definition description  -->
-  <definition name="mainLayout" path="/tutorial/layout/classicLayout.jsp">
+  <definition name="mainLayout" template="/tutorial/layout/classicLayout.jsp">
 	  <put name="title"  value="World Financial Online" />
 	  <put name="header" value="/tutorial/common/header.jsp" />
 	  <put name="footer" value="/tutorial/common/footer.jsp" />
@@ -51,7 +51,7 @@
   </definition>
   
     <!-- Portal Body declaration-->
-  <definition name="main.portal.body" path="/layout/columnsLayout.jsp">
+  <definition name="main.portal.body" template="/layout/columnsLayout.jsp">
 	  <put name="numCols" value="2" />
 	  <putList name="list0" >
 	    <add value="/tutorial/portal/login.jsp" />
@@ -69,7 +69,7 @@
   </definition>
 
   <!-- Main menu definition -->
-<definition name="menu.main" path="/layout/vboxLayout.jsp" >
+<definition name="menu.main" template="/layout/vboxLayout.jsp" >
   <putList name="componentsList" >
     <add value="menu.logo" />
     <add value="menu.documentation" />
@@ -80,11 +80,11 @@
 </definition>
 
   <!-- menu logo definition -->
-<definition name="menu.logo" path="/tutorial/common/menu/menuLogo.jsp" />
+<definition name="menu.logo" template="/tutorial/common/menu/menuLogo.jsp" />
   
   <!-- Documentation menu -->
   <!-- Old style menu. Check module 'examples' for new style -->
-<definition name="menu.documentation" path="/common/submenu.jsp" >
+<definition name="menu.documentation" template="/common/submenu.jsp" >
   <put name="title" value="Tiles" />
   <putList name="items" >
     <add value="Home" />
@@ -95,7 +95,7 @@
 </definition>
 
   <!-- menu logo definition -->
-<definition name="menu.links" path="/common/submenu.jsp" >
+<definition name="menu.links" template="/common/submenu.jsp" >
   <put name="title" value="Tutorial" />
   <putList name="items" >
     <add value="Home" />
@@ -132,7 +132,7 @@
 </definition>
 
   <!-- Menu sources definition -->
-<definition name="menu.src" path="/tutorial/common/menuViewSrc.jsp" >
+<definition name="menu.src" template="/tutorial/common/menuViewSrc.jsp" >
   <putList name="list" >
     <add value="/tutorial/index.jsp" />
     <add value="/tutorial/basicPage.jsp" />
@@ -172,7 +172,7 @@
 </definition>
 
   <!-- select language menu -->
-<definition name="menu.lang" path="/common/submenu.jsp" >
+<definition name="menu.lang" template="/common/submenu.jsp" >
   <put name="title" value="Language" />
   <putList name="items" >
     <add value="Français" />
@@ -215,7 +215,7 @@
   <!-- =======================================================  -->
 
   <!-- Dynamic portal main page (uses common layout) -->
-<definition name="rssChannelTile" path="/tutorial/actions/rssChannel.do" >
+<definition name="rssChannelTile" template="/tutorial/actions/rssChannel.do" >
       <putList name="urls" >
   <!-- 
 	    <add value="http://www.newsforge.com/newsforge.rss" />
@@ -226,7 +226,7 @@
 </definition>
 
   <!-- Dynamic portal main page (uses common layout) -->
-<definition name="rssLocalChannelTile"  path="/tutorial/actions/rssChannel.do" >
+<definition name="rssLocalChannelTile"  template="/tutorial/actions/rssChannel.do" >
       <putList name="urls" >
 	    <add value="/examples/rssFeed/rss-example.xml" />
 	    <add value="/examples/rssFeed/apacheweek-headlines.xml" />
@@ -245,7 +245,7 @@
   <!-- =======================================================  -->
   
     <!-- Dynamic portal body (Define default list) -->
-<definition name="dynamic.portal.body" path="/tutorial/actions/myPortal.do" >
+<definition name="dynamic.portal.body" template="/tutorial/actions/myPortal.do" >
 	  <put name="numCols" value="2" />
 	  <putList name="list0" >
 	    <add value="/tutorial/portal/login.jsp" />
@@ -278,7 +278,7 @@
 
     <!-- Dynamic portal preferences body (extends portal.body to inherit default list) -->
   <definition name="dynamic.portal.prefs.body"
-              path="/tutorial/actions/myPortalPrefs.tile.do"
+              template="/tutorial/actions/myPortalPrefs.tile.do"
               extends="dynamic.portal.body">
 </definition>
 
