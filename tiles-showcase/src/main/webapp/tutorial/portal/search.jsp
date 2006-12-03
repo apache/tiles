@@ -21,8 +21,8 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 
 <div align="center"><font size="+1"><b>
 <TABLE border=0 cellPadding=2 cellSpacing=0 width=190>

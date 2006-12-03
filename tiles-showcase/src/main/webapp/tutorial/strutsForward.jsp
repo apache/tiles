@@ -21,6 +21,6 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
-<tiles:insert definition="forward.example.choice.page" flush="true" />
+<tiles:insertDefinition name="forward.example.choice.page" flush="true" />

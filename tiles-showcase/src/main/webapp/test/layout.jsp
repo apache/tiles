@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 
 
@@ -35,9 +35,9 @@
 <td  bgcolor="Blue"><strong><tiles:getAsString name="title"/></strong></td>
 </tr>
 <tr>
-<td><tiles:insert attribute="header"/></td>
+<td><tiles:insertAttribute name="header"/></td>
 </tr>
 <tr>
-<td><tiles:insert attribute="body"/></td>
+<td><tiles:insertAttribute name="body"/></td>
 </tr>
 </table>

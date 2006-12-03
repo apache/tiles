@@ -21,8 +21,8 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 
 <%-- Layout component 
   parameters : title, header, menu, body, footer 
@@ -41,7 +41,7 @@
   <TR>
     <TD width="120"><tiles:get name="menu" /></TD>
     <TD>
-	  **<tiles:insert name="body" flush='true'/>**
+	  **<tiles:insertAttribute name="body" flush='true'/>**
 	</TD></TR>
   <TR>
     <TD colspan="2"><tiles:get name="footer" /></TD>

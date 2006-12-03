@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <%-- Layout component 
   parameters : title, header, menu, body, footer 
@@ -36,12 +36,12 @@
 <TABLE width="100%">
   
   <TR>
-    <TD colspan="2"><tiles:insert attribute="header" /></TD></TR>
+    <TD colspan="2"><tiles:insertAttribute name="header" /></TD></TR>
   <TR>
-    <TD width="120"><tiles:insert attribute="menu" /></TD>
-    <TD><tiles:insert attribute="body" /></TD></TR>
+    <TD width="120"><tiles:insertAttribute name="menu" /></TD>
+    <TD><tiles:insertAttribute name="body" /></TD></TR>
   <TR>
-    <TD colspan="2"><tiles:insert attribute="footer" /></TD>
+    <TD colspan="2"><tiles:insertAttribute name="footer" /></TD>
   </TR>
 </TABLE>
 

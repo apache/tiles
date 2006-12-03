@@ -21,8 +21,8 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 
 <%-- Layout component 
   parameters : title, header, menu, body, footer 
@@ -38,19 +38,21 @@
   
   <TR>
     <TD colspan="2">
-	  <tiles:insert attribute="header" >
-	    <tiles:put name="body" beanName="body" beanScope="template" />
-	  </tiles:insert>
+	  <tiles:insertAttribute name="header" >
+	    <%-- FIXME It had beanScope="template", check if the definition is taken
+	    from componentContext--%>
+	    <tiles:put name="body" value="${body}" />
+	  </tiles:insertAttribute>
 	</TD></TR>
   <TR>
-    <TD width="120"><tiles:insert attribute="menu" /></TD>
+    <TD width="120"><tiles:insertAttribute name="menu" /></TD>
     <TD>
 	  <tiles:useAttribute name="body" classname="java.lang.String"/>
 	  <bean:insert id="bodyStr" page="<%=body%>" />
 	  <bean:write name="bodyStr" filter="false"/>
 	</TD></TR>
   <TR>
-    <TD colspan="2"><tiles:insert attribute="footer" /></TD>
+    <TD colspan="2"><tiles:insertAttribute name="footer" /></TD>
   </TR>
 </TABLE>
 

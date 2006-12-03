@@ -22,7 +22,7 @@
  */
 --%>
 <%@ page import="java.util.Iterator"%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <%-- Layout component 
   Render a list of tiles in a vertical column
@@ -43,7 +43,7 @@ while( i.hasNext() )
   {
   String name= (String)i.next();
 %>
-<tiles:insert name="<%=name%>" flush="true" />
+<tiles:insertAttribute name="<%=name%>" flush="true" />
 <br>
 
 <%
@@ -58,7 +58,7 @@ while( i.hasNext() )
 <%-- 
 <%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
 <c:forEach var="name" items="${list}">
-  <tiles:insert beanName="name" flush="true" />
+  <tiles:insertDefinition name="${name}" flush="true" />
 <br>
 </c:forEach>
  --%>
@@ -67,9 +67,9 @@ while( i.hasNext() )
   Use struts <iterate> tag. Work on jsp1.2 and greater web container.
  --%>
 <%-- 
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <logic:iterate id="name" name="list" type="java.lang.String">
-  <tiles:insert beanName="name" flush="false" />
+  <tiles:insertDefinition name="${name}" flush="false" />
 <br>
 </logic:iterate>
  --%>

@@ -22,7 +22,7 @@
  */
 --%>
 <%@ page import="java.util.Iterator"%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <%-- Layout component 
   Render a list on severals columns
@@ -38,7 +38,7 @@
   Wait until jsp1.3 
   
 <logic:iterate id="comp" name="list" type="String" >
-  <tiles:insert name="<%=comp%>" flush="false" />
+  <tiles:insertAttribute name="<%=comp%>" flush="false" />
   <br>
 </logic:iterate>  
 --%>
@@ -50,7 +50,7 @@ while( i.hasNext() )
   {
   String comp=(String)i.next();
 %>
-<tiles:insert name="<%=comp%>" flush="true" />
+<tiles:insertAttribute name="<%=comp%>" flush="true" />
 <br>
 
 <%

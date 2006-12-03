@@ -21,9 +21,9 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
   Struts forward to 'success'.
  <br>
-<tiles:insert page="/tutorial/forward/forwardBody.jsp" flush="true" />
+<tiles:insertTemplate template="/tutorial/forward/forwardBody.jsp" flush="true" />
 

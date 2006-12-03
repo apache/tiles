@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <%-- Layout Tiles 
   This layout render a header, left menu, body and footer.
@@ -42,14 +42,14 @@
 <body bgcolor="#ffffff" text="#000000" link="#023264" alink="#023264" vlink="#023264">
 <table border="0" width="100%" cellspacing="5">
 <tr>
-  <td colspan="2"><tiles:insert attribute="header" /></td>
+  <td colspan="2"><tiles:insertAttribute name="header" /></td>
 </tr>
 <tr>
   <td width="140" valign="top">
-    <tiles:insert attribute='menu'/>
+    <tiles:insertAttribute name='menu'/>
   </td>
   <td valign="top"  align="left">
-    <tiles:insert attribute='body' />
+    <tiles:insertAttribute name='body' />
   </td>
 </tr>
 <tr>
@@ -59,7 +59,7 @@
 </tr>
 <tr>
   <td colspan="2">
-    <tiles:insert attribute="footer" />
+    <tiles:insertAttribute name="footer" />
   </td>
 </tr>
 </table>

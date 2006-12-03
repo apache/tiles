@@ -21,8 +21,8 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <%-- Test jsp include in a BodyTag (<iterate>).
 --%>
@@ -70,7 +70,7 @@ int position=0;
   <br>
   include number <%= position++ %>
   <br>
-   <tiles:insert definition="test.layout.test1" flush="false"/>
+   <tiles:insertDefinition name="test.layout.test1" flush="false"/>
  </logic:iterate>
 
 <strong>Done</strong>

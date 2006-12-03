@@ -21,9 +21,9 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 <%@ page import="java.util.Iterator" %>
 
 
@@ -81,7 +81,7 @@
 </table>
 
 <%-- Following are some code example using this submenu
-<tiles:insert page="/common/submenu.jsp" flush="true">
+<tiles:insertTemplate template="/common/submenu.jsp" flush="true">
   <tiles:put name="title" value="Main Menu" />
   <tiles:putList name="items" >
     <tiles:add value="Home" />
@@ -93,9 +93,9 @@
     <tiles:add value="invoice/index.jsp" />
     <tiles:add value="invoice/index.jsp" />
   </tiles:putList>
-</tiles:insert>
+</tiles:insertTemplate>
 
-<tiles:insert definition="mainSubMenu" flush="true">
+<tiles:insertDefinition name="mainSubMenu" flush="true">
   <tiles:put name="selected" value="Home" />
-</tiles:insert>
+</tiles:insertDefinition>
 --%>

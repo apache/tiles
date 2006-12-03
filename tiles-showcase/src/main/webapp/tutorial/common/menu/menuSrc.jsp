@@ -21,9 +21,9 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
-<tiles:insert page="/tutorial/common/menuViewSrc.jsp" flush="true" >
+<tiles:insertTemplate template="/tutorial/common/menuViewSrc.jsp" flush="true" >
   <tiles:putList name="list" >
     <tiles:add value="/tutorial/basicPage.jsp" />
     <tiles:add value="/tutorial/portalPage.jsp" />
@@ -34,4 +34,4 @@
     <tiles:add value="/layout/classicLayout.jsp" />
     <tiles:add value="/layout/vboxLayout.jsp" />
   </tiles:putList>
-</tiles:insert>
+</tiles:insertTemplate>

@@ -21,13 +21,13 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <strong>Example of list usage</strong>
 <%-- Insert a menu component.
   Menu component require two lists : one of items, and one of links.
 --%>
-<tiles:insert component="menu.jsp" >
+<tiles:insertTemplate template="menu.jsp" >
   <tiles:put name="title" value="Test menu" />
   <tiles:putList name="items">
     <tiles:add value="home" />
@@ -41,4 +41,4 @@
     <tiles:add value="/../struts-documentation"/>
     <tiles:add value="/../comps-doc" type="string" />
   </tiles:putList>
-</tiles:insert>
+</tiles:insertTemplate>

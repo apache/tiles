@@ -22,7 +22,7 @@
  */
 --%>
 <%@ page import="org.apache.struts.tiles.ComponentContext"%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <%-- Multi-columns Layout
   This layout render lists of tiles in multi-columns. Each column renders its tiles
@@ -53,9 +53,9 @@ for( int i=0; i<numCols; i++ )
     System.out.println( "list is null for " + i  );
 %>
 <td valign="top">
-  <tiles:insert page="/layouts/vboxLayout.jsp" flush="true" >
-    <tiles:put name="list" beanName="list" beanScope="page" />
-  </tiles:insert>
+  <tiles:insertTemplate template="/layouts/vboxLayout.jsp" flush="true" >
+    <tiles:put name="list" value="${pageContext.list}" />
+  </tiles:insertTemplate>
 </td>
 <%
   } // end loop

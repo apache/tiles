@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 
 <%-- 
@@ -32,5 +32,5 @@
 
 <%@ include file="definitionsConfig.jsp" %>
 
-<tiles:insert beanName="masterLayout" beanScope="request" />
+<tiles:insertDefinition name="${requestScope.masterLayout}" />
 

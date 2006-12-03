@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <tiles:definition id="definitionName" template="/tutorial/basic/myLayout.jsp" >
   <tiles:put name="title"  value="My first page" />
@@ -31,4 +31,4 @@
   <tiles:put name="body"   value="/tutorial/basic/helloBody.jsp" />
 </tiles:definition>
 
-<tiles:insert beanName="definitionName" flush="true" />
+<tiles:insertDefinition name="definitionName" flush="true" />

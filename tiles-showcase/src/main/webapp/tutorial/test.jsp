@@ -21,8 +21,8 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"     %>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld"  prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <html:html>
   <head>
@@ -33,10 +33,10 @@
       <bean:insert id='xout2' page='/testAction.do'/>
       <bean:write name='xout2' filter='true'/>
 
-      <tiles:insert template="/forwardExampleAction.do">
+      <tiles:insertTemplate template="/forwardExampleAction.do">
         <tiles:put name="label"    content="Text:"       direct="true"/>
         <tiles:put name="property" content="contentForm" direct="true"/>
-      </tiles:insert>
+      </tiles:insertTemplate>
 
 	
   </body>

@@ -22,9 +22,9 @@
  */
 --%>
 <%@ page language="java" %>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld"  prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 
 <html:errors/>
 
@@ -66,10 +66,10 @@
 	  <%-- Include an "address editor" component.					--%>
 	  <%-- Pass the component name and component value as parameter	--%>
 	  <%-- Value comes from the form bean --%>
-	  <tiles:insert page="/tutorial/invoice/editAddress.jsp" >
+	  <tiles:insertTemplate template="/tutorial/invoice/editAddress.jsp" >
 	    <tiles:put name="compName" value="shippingAddress" />
-	    <tiles:put name="address" beanName="invoiceForm" beanProperty="shippingAddress" />
-	  </tiles:insert>
+	    <tiles:put name="address" name="${invoiceForm.shippingAddress}" />
+	  </tiles:insertTemplate>
     </td>
   </tr>
 
@@ -83,10 +83,10 @@
   </tr>
   <tr>
     <td align="center" colspan="2">
-  <tiles:insert page="/tutorial/invoice/editAddress.jsp" >
+  <tiles:insertTemplate template="/tutorial/invoice/editAddress.jsp" >
     <tiles:put name="compName" value="billAddress" />
-	<tiles:put name="address" beanName="invoiceForm" beanProperty="billAddress" />
-  </tiles:insert>
+	<tiles:put name="address" value="${invoiceForm.billAddress}" />
+  </tiles:insertTemplate>
     </td>
   </tr>
 

@@ -22,7 +22,7 @@
  */
 --%>
 <%@ page import="org.apache.struts.tiles.ComponentContext"%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <%-- Layout component 
   Render a list in severals columns
@@ -45,9 +45,9 @@ for( int i=0; i<numCols; i++ )
     System.out.println( "list is null for " + i  );
 %>
 <td valign="top">
-  <tiles:insert page="/layout/vboxLayout.jsp" flush="true" >
-    <tiles:put name="componentsList" beanName="list" beanScope="page" />
-  </tiles:insert>
+  <tiles:insertTemplate template="/layout/vboxLayout.jsp" flush="true" >
+    <tiles:put name="componentsList" value="${pageContext.list}" />
+  </tiles:insertTemplate>
 </td>
 <%
   } // end loop

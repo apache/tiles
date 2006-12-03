@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <%-- Test template definitions (from factory) 
 --%>
@@ -34,26 +34,26 @@
 </tiles:definition>
 
 <br>
-<tiles:insert beanName="definition"/>
+<tiles:insertDefinition name="definition"/>
 
 <hr>
 <strong>Insert definition defined in factory</strong>
 <br>
-<tiles:insert definition="test.layout.test1"/>
+<tiles:insertDefinition name="test.layout.test1"/>
 
 <hr>
 <strong>Insert definition defined in factory</strong>
 <br>
-<tiles:insert definition="test.layout.test2"/>
+<tiles:insertDefinition name="test.layout.test2"/>
 
 <hr>
 <strong>Insert definition defined in factory</strong>
 <br>
-<tiles:insert definition="test.layout.test3"/>
+<tiles:insertDefinition name="test.layout.test3"/>
 
 <hr>
 <strong>Insert definition defined in factory : Overload title attribute</strong>
 <br>
-<tiles:insert definition="test.layout.test3">
+<tiles:insertDefinition name="test.layout.test3">
   <tiles:put name="title" value="Test definition : overload attribute 'title'" />
-</tiles:insert>
+</tiles:insertDefinition>

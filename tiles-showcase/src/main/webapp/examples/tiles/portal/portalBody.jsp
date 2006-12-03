@@ -23,7 +23,7 @@
 --%>
 <%@ taglib uri="/WEB-INF/tiles.tld" prefix="tiles" %>
 
-<tiles:insert page="/layout/columnsLayout.jsp" flush="true">
+<tiles:insertTemplate template="layout/columnsLayout.jsp" flush="true">
   <tiles:put name="numCols" value="2" />
   <tiles:putList name="list0" >
     <tiles:add value="/tutorial/portal/login.jsp" />
@@ -38,4 +38,4 @@
     <tiles:add value="/tutorial/portal/personalLinks.jsp" />
     <tiles:add value="/tutorial/portal/search.jsp" />
   </tiles:putList>
-</tiles:insert>
+</tiles:insertTemplate>

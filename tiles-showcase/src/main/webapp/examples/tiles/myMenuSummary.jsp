@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <div align="center"><font size="+1"><b>
 
@@ -48,7 +48,7 @@
 	  <li>Edit user menu entries :
         <BR><a href="<%=request.getContextPath()%>/examples/myMenuSettings.jsp">my Menu</a></li>
 	  <li>Actual user menu :
-        <BR><tiles:insert name="examples.userMenu" flush="true" /></li>
+        <BR><tiles:insertDefinition name="examples.userMenu" flush="true" /></li>
 	</ul>
    </TD>
   </TR>
