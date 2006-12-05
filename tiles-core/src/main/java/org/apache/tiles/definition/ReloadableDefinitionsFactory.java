@@ -35,4 +35,12 @@ public interface ReloadableDefinitionsFactory {
      * reloaded.
      */
     public boolean refreshRequired();
+    
+    /**
+     * Refreshes the stored definitions, reloading them.
+     * 
+     * @throws DefinitionsFactoryException If something goes wrong during
+     * refresh.
+     */
+    public void refresh() throws DefinitionsFactoryException;
 }

@@ -74,11 +74,11 @@ public class TilesFilter extends TilesServlet implements Filter {
                 if (factory instanceof ReloadableDefinitionsFactory) {
                     ReloadableDefinitionsFactory rFactory = (ReloadableDefinitionsFactory) factory;
                     if (rFactory.refreshRequired()) {
-                        rFactory.refreshRequired();
+                        rFactory.refresh();
                     }
                 }
-                chain.doFilter(request, response);
             }
+            chain.doFilter(request, response);
         } catch (Exception e) {
             throw new ServletException("Error processing request.", e);
         }
