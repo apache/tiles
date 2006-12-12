@@ -28,6 +28,7 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.ReloadableDefinitionsFactory;
+import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.servlet.TilesServlet;
 
@@ -67,17 +68,8 @@ public class TilesFilter extends TilesServlet implements Filter {
         throws IOException, ServletException {
 
         try {
-            TilesContainer container = TilesAccess.getContainer(getServletContext());
-            if (container instanceof BasicTilesContainer) {
-                BasicTilesContainer basic = (BasicTilesContainer) container;
-                DefinitionsFactory factory = basic.getDefinitionsFactory();
-                if (factory instanceof ReloadableDefinitionsFactory) {
-                    ReloadableDefinitionsFactory rFactory = (ReloadableDefinitionsFactory) factory;
-                    if (rFactory.refreshRequired()) {
-                        rFactory.refresh();
-                    }
-                }
-            }
+            DefinitionsFactoryUtil.reloadDefinitionsFactory(
+                    getServletContext());
             chain.doFilter(request, response);
         } catch (Exception e) {
             throw new ServletException("Error processing request.", e);
