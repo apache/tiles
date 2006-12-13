@@ -136,7 +136,7 @@ public class TilesDecorationFilter implements Filter {
 
     private String getRequestBase(ServletRequest request) {
         // Included Path
-        String include = (String) request.getAttribute("javax.servlet.include.request_uri");
+        String include = (String) request.getAttribute("javax.servlet.include.servlet_path");
         if (include != null) {
             return include;
         }

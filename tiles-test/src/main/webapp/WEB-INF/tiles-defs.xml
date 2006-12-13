@@ -83,6 +83,8 @@
       <put name="header" value="/header.jsp"/>
   </definition>
 
+    <definition name="testdispatchservlet" extends="test.definition"/>
+
   <definition name="preparer.definition.configured" extends="preparer.definition" preparer="org.apache.tiles.test.preparer.TestViewPreparer" />
 
 </tiles-definitions>

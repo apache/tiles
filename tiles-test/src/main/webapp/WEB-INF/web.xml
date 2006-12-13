@@ -24,11 +24,12 @@
 -->
 
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-    version="2.4">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
 
-  <display-name>Tiles 2 Test Application</display-name>
+    <display-name>Tiles 2 Test Application</display-name>
+    <distributable/>
 
     <context-param>
         <param-name>org.apache.tiles.CONTEXT_FACTORY</param-name>
@@ -58,35 +59,45 @@
         <url-pattern>/testdecorationfilter.jsp</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
-  
-  <!-- Standard Action Servlet Configuration -->
-  <servlet>
-    <servlet-name>tiles</servlet-name>
-    <servlet-class>org.apache.tiles.servlet.TilesServlet</servlet-class>
-    <init-param>
-      <param-name>definitions-config</param-name>
-      <param-value>/WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml</param-value>
-    </init-param>
-    <load-on-startup>2</load-on-startup>
- </servlet>
-  
-  <!-- Standard Action Servlet Configuration -->
-  <servlet>
-    <servlet-name>layoutServlet</servlet-name>
-    <servlet-class>org.apache.tiles.test.servlet.IncludingServlet</servlet-class>
-    <init-param>
-      <param-name>include</param-name>
-      <param-value>/layout.jsp</param-value>
-    </init-param>
- </servlet>
 
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
-  
-  <servlet-mapping>
-    <servlet-name>layoutServlet</servlet-name>
-    <url-pattern>/servlets/layoutServlet</url-pattern>
-  </servlet-mapping>
+    <!-- Standard Action Servlet Configuration -->
+    <servlet>
+        <servlet-name>tiles</servlet-name>
+        <servlet-class>org.apache.tiles.servlet.TilesServlet</servlet-class>
+        <init-param>
+            <param-name>definitions-config</param-name>
+            <param-value>/WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>Tiles Dispatch Servlet</servlet-name>
+        <servlet-class>org.apache.tiles.web.TilesDispatchServlet</servlet-class>
+    </servlet>
+
+    <!-- Standard Action Servlet Configuration -->
+    <servlet>
+        <servlet-name>layoutServlet</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.IncludingServlet</servlet-class>
+        <init-param>
+            <param-name>include</param-name>
+            <param-value>/layout.jsp</param-value>
+        </init-param>
+    </servlet>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet-mapping>
+        <servlet-name>layoutServlet</servlet-name>
+        <url-pattern>/servlets/layoutServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Tiles Dispatch Servlet</servlet-name>
+        <url-pattern>*.tiles</url-pattern>
+    </servlet-mapping>
 
 </web-app>
