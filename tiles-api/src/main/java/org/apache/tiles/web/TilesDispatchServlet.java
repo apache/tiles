@@ -25,9 +25,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.ComponentContext;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,10 +44,28 @@ public class TilesDispatchServlet extends HttpServlet {
     private static final Log LOG =
         LogFactory.getLog(TilesDispatchServlet.class);
 
+    private ComponentContextMutator mutator;
+
+
+    public void init() throws ServletException {
+        super.init();
+        String temp = getInitParameter("mutator");
+        if(temp != null) {
+            try {
+                mutator = (ComponentContextMutator)Class.forName(temp).newInstance();
+            } catch (Exception e) {
+                throw new ServletException("Unable to instantiate specified context mutator.", e);
+            }
+        } else {
+            mutator = new DefaultMutator();
+        }
+    }
+
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
 
         TilesContainer container = TilesAccess.getContainer(getServletContext());
+        mutator.mutate(container.getComponentContext(req, res), req);
         try {
             String definition = getDefinitionName(req);
             if (LOG.isDebugEnabled()) {
@@ -73,5 +93,11 @@ public class TilesDispatchServlet extends HttpServlet {
         throws ServletException, IOException {
         LOG.info("Tiles dispatch request received. Redirecting POST to GET.");
         doGet(req, res);
+    }
+
+    class DefaultMutator implements ComponentContextMutator {
+        public void mutate(ComponentContext context, ServletRequest request) {
+            // noop;
+        }
     }
 }

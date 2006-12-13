@@ -42,32 +42,31 @@ import java.io.IOException;
 /**
  * Decoration Filter.  Intercepts all requests and decorates them
  * with the configured definition.
- *
+ * <p/>
  * For example, given the following config:
  * <xmp>
-    <filter>
-        <filter-name>Tiles Decoration Filter</filter-name>
-        <filter-class>org.apache.tiles.web.TilesDecorationFilter</filter-class>
-        <init-param>
-            <param-name>definition</param-name>
-            <param-value>test.definition</param-value>
-        </init-param>
-        <init-param>
-            <param-name>attribute-name</param-name>
-            <param-value>body</param-value>
-        </init-param>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>Tiles Decoration Filter</filter-name>
-        <url-pattern>/testdecorationfilter.jsp</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
+ * <filter>
+ * <filter-name>Tiles Decoration Filter</filter-name>
+ * <filter-class>org.apache.tiles.web.TilesDecorationFilter</filter-class>
+ * <init-param>
+ * <param-name>definition</param-name>
+ * <param-value>test.definition</param-value>
+ * </init-param>
+ * <init-param>
+ * <param-name>attribute-name</param-name>
+ * <param-value>body</param-value>
+ * </init-param>
+ * </filter>
+ * <p/>
+ * <filter-mapping>
+ * <filter-name>Tiles Decoration Filter</filter-name>
+ * <url-pattern>/testdecorationfilter.jsp</url-pattern>
+ * <dispatcher>REQUEST</dispatcher>
+ * </filter-mapping>
  * </xmp>
  * The filter will intercept all requests to the indicated url pattern
  * store the initial request path as the "body" component attribute
  * and then render the "test.definition" definition.
- *
  */
 public class TilesDecorationFilter implements Filter {
 
@@ -87,6 +86,7 @@ public class TilesDecorationFilter implements Filter {
 
     private String definitionName = "layout";
 
+    private ComponentContextMutator mutator = null;
 
     public FilterConfig getFilterConfig() {
         return filterConfig;
@@ -99,13 +99,24 @@ public class TilesDecorationFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
         filterConfig = config;
         String temp = config.getInitParameter("attribute-name");
-        if(temp != null) {
+        if (temp != null) {
             componentAttributeName = temp;
         }
 
         temp = config.getInitParameter("definition");
-        if(temp != null) {
+        if (temp != null) {
             definitionName = temp;
+        }
+
+        temp = config.getInitParameter("mutator");
+        if(temp != null) {
+            try {
+                mutator = (ComponentContextMutator)Class.forName(temp).newInstance();
+            } catch (Exception e) {
+                throw new ServletException("Unable to instantiate specified context mutator.", e);
+            }
+        } else {
+            mutator = new DefaultMutator();
         }
     }
 
@@ -117,7 +128,7 @@ public class TilesDecorationFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
         throws IOException, ServletException {
         TilesContainer container = TilesAccess.getContainer(getServletContext());
-        prepareComponentAttributes(req, container.getComponentContext(req, res));
+        mutator.mutate(container.getComponentContext(req, res), req);
         try {
             container.render(req, res, definitionName);
         } catch (TilesException e) {
@@ -125,13 +136,6 @@ public class TilesDecorationFilter implements Filter {
         }
     }
 
-    protected void prepareComponentAttributes(ServletRequest req, ComponentContext ctx) {
-        ComponentAttribute attr = new ComponentAttribute();
-        attr.setType(ComponentAttribute.TEMPLATE);
-        attr.setName(componentAttributeName);
-        attr.setValue(getRequestBase(req));
-        ctx.putAttribute(componentAttributeName, attr);
-    }
 
 
     private String getRequestBase(ServletRequest request) {
@@ -144,6 +148,16 @@ public class TilesDecorationFilter implements Filter {
         // As opposed to includes, if a forward occurs, it will update the servletPath property
         // and include the original as the request attribute.
         return ((HttpServletRequest) request).getServletPath();
+    }
+
+    class DefaultMutator implements ComponentContextMutator {
+        public void mutate(ComponentContext ctx, ServletRequest req) {
+            ComponentAttribute attr = new ComponentAttribute();
+            attr.setType(ComponentAttribute.TEMPLATE);
+            attr.setName(componentAttributeName);
+            attr.setValue(getRequestBase(req));
+            ctx.putAttribute(componentAttributeName, attr);
+        }
     }
 
 }
