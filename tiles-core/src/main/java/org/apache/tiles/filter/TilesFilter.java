@@ -24,12 +24,7 @@ package org.apache.tiles.filter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.definition.DefinitionsFactory;
-import org.apache.tiles.definition.ReloadableDefinitionsFactory;
 import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
-import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.servlet.TilesServlet;
 
 import javax.servlet.*;
@@ -113,7 +108,7 @@ public class TilesFilter extends TilesServlet implements Filter {
         super.init(createServletConfig());
 
         if (debug) {
-            log("TilesFilter:Initializing filter");
+            log("TilesDecorationFilter:Initializing filter");
         }
     }
 
