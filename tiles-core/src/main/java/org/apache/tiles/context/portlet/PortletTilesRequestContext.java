@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * Portlet-based TilesApplicationContext implementation.
  *
- * @version $Rev: 405486 $ $Date$
+ * @version $Rev$ $Date$
  */
 public class PortletTilesRequestContext extends PortletTilesApplicationContext implements TilesRequestContext {
 

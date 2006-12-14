@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * Servlet-bsed implementation of the TilesApplicationContext interface.
  *
- * @version $Rev: 405486 $ $Date$
+ * @version $Rev$ $Date$
  */
 public class ServletTilesRequestContext extends ServletTilesApplicationContext implements TilesRequestContext {
     

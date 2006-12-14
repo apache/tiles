@@ -42,7 +42,7 @@ import java.util.Map;
 /**
  * Creates an instance of the appropriate TilesApplicationContext implementation.
  *
- * @version $Rev: 405486 $ $Date$
+ * @version $Rev$ $Date$
  */
 public class BasicTilesContextFactory implements TilesContextFactory {
 
