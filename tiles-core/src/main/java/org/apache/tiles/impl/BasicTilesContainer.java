@@ -101,12 +101,42 @@ public class BasicTilesContainer implements TilesContainer {
         }
 
         contextFactory.init(initParameters);
-        definitionsFactory.init(initParameters);
 
         //Everything is now initialized.  We will populate
         // our definitions
-        String resourceString = getResourceString();
+        initializeDefinitionsFactory(definitionsFactory, getResourceString(),
+        		initParameters);
+    }
+
+    /**
+     * Determine whether or not the container has been
+     * initialized. Utility method used for methods which
+     * can not be invoked after the container has been
+     * started.
+     *
+     * @throws IllegalStateException if the container has already been initialized.
+     */
+    protected void checkInit() {
+        if (initialized) {
+            throw new IllegalStateException("Container allready initialized");
+        }
+    }
+    
+    /**
+     * Initializes a definitions factory.
+     *
+     * @param definitionsFactory The factory to initializes. 
+     * @param resourceString The string containing a comma-separated-list of
+     * resources.
+     * @param initParameters A map containing the initialization parameters.
+     * @throws TilesException If something goes wrong.
+     */
+    protected void initializeDefinitionsFactory(
+    		DefinitionsFactory definitionsFactory, String resourceString,
+    		Map<String, String> initParameters) throws TilesException {
         List<String> resources = getResourceNames(resourceString);
+        definitionsFactory.init(initParameters);
+        
         try {
             for (String resource : resources) {
                 URL resourceUrl = context.getResource(resource);
@@ -125,20 +155,6 @@ public class BasicTilesContainer implements TilesContainer {
         }
         if (LOG.isInfoEnabled()) {
             LOG.info("Tiles2 container initialization complete.");
-        }
-    }
-
-    /**
-     * Determine whether or not the container has been
-     * initialized. Utility method used for methods which
-     * can not be invoked after the container has been
-     * started.
-     *
-     * @throws IllegalStateException if the container has already been initialized.
-     */
-    private void checkInit() {
-        if (initialized) {
-            throw new IllegalStateException("Container allready initialized");
         }
     }
 
@@ -442,7 +458,19 @@ public class BasicTilesContainer implements TilesContainer {
      * @return resource string to be parsed.
      */
     protected String getResourceString() {
-        Map<String, String> parms = context.getInitParams();
+        return getResourceString(context.getInitParams());
+    }
+
+    /**
+     * Derive the resource string from the initialization parameters.
+     * If no parameter {@link #DEFINITIONS_CONFIG} is available, attempts
+     * to retrieve {@link #LEGACY_DEFINITIONS_CONFIG}.  If niether are
+     * available, returns "/WEB-INF/tiles.xml".
+     *
+     * @param parms The initialization parameters.
+     * @return resource string to be parsed.
+     */
+    protected String getResourceString(Map<String, String> parms) {
         String resourceStr = parms.get(DEFINITIONS_CONFIG);
         if (resourceStr == null) {
             resourceStr = parms.get(LEGACY_DEFINITIONS_CONFIG);

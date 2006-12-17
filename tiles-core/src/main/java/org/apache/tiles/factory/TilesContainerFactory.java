@@ -93,8 +93,28 @@ public class TilesContainerFactory {
      */
     public static TilesContainerFactory getFactory(Object context)
         throws TilesException {
+        return getFactory(context, DEFAULTS);
+    }
+
+    /**
+     * Retrieve a factory instance as configured through the
+     * specified context.
+     * <p/>
+     * The context will be queried and if a init parameter
+     * named 'org.apache.tiles.CONTAINER_FACTORY' is discovered
+     * this class will be instantiated and returned. Otherwise,
+     * the factory will attempt to utilize one of it's internal
+     * factories.
+     *
+     * @param context the executing applications context.
+     *                Typically a ServletContext or PortletContext
+     * @return a tiles container
+     * @throws TilesException if an error occurs creating the factory.
+     */
+    public static TilesContainerFactory getFactory(Object context,
+    		Map<String, String> defaults) throws TilesException {
         return (TilesContainerFactory) TilesContainerFactory
-            .createFactory(context, CONTAINER_FACTORY_INIT_PARAM);
+            .createFactory(context, CONTAINER_FACTORY_INIT_PARAM, defaults);
     }
 
     public TilesContainer createContainer(Object context) throws TilesException {
@@ -108,30 +128,44 @@ public class TilesContainerFactory {
 
     public TilesContainer createTilesContainer(Object context)
         throws TilesException {
+        return createTilesContainer(context, DEFAULTS);
+    }
+
+    public TilesContainer createTilesContainer(Object context,
+    		Map<String, String> defaults) throws TilesException {
         BasicTilesContainer container = new BasicTilesContainer();
-        initializeContainer(context, container);
+        initializeContainer(context, container, defaults);
         return container;
     }
 
     public MutableTilesContainer createMutableTilesContainer(Object context)
         throws TilesException {
+    	return createMutableTilesContainer(context, DEFAULTS);
+    }
+
+    public MutableTilesContainer createMutableTilesContainer(Object context,
+    		Map<String, String> defaults) throws TilesException {
         CachingTilesContainer container = new CachingTilesContainer();
-        initializeContainer(context, container);
+        initializeContainer(context, container, defaults);
         return container;
     }
 
-    public void initializeContainer(Object context,
-                                    BasicTilesContainer container)
+    protected void initializeContainer(Object context,
+                                    BasicTilesContainer container,
+                                    Map<String, String> defaults)
         throws TilesException {
 
         TilesContextFactory contextFactory =
-            (TilesContextFactory) createFactory(context, CONTEXT_FACTORY_INIT_PARAM);
+            (TilesContextFactory) createFactory(context,
+            		CONTEXT_FACTORY_INIT_PARAM, defaults);
 
         DefinitionsFactory defsFactory =
-            (DefinitionsFactory) createFactory(context, DEFINITIONS_FACTORY_INIT_PARAM);
+            (DefinitionsFactory) createFactory(context,
+            		DEFINITIONS_FACTORY_INIT_PARAM, defaults);
 
         PreparerFactory prepFactory =
-            (PreparerFactory) createFactory(context, PREPARER_FACTORY_INIT_PARAM);
+            (PreparerFactory) createFactory(context,
+            		PREPARER_FACTORY_INIT_PARAM, defaults);
 
         TilesApplicationContext tilesContext =
             contextFactory.createApplicationContext(context);
@@ -168,15 +202,21 @@ public class TilesContainerFactory {
     }
 
 
-    public static Object createFactory(Object context, String initParameterName)
+    protected static Object createFactory(Object context,
+    		String initParameterName, Map<String, String> defaults)
         throws TilesException {
-        String factoryName = resolveFactoryName(context, initParameterName);
+        String factoryName = resolveFactoryName(context, initParameterName,
+        		defaults);
         return ClassUtil.instantiate(factoryName);
     }
 
-    public static String resolveFactoryName(Object context, String parameterName)
+    protected static String resolveFactoryName(Object context,
+    		String parameterName, Map<String, String> defaults)
         throws TilesException {
         Object factoryName = getInitParameter(context, parameterName);
+        if (factoryName == null && defaults != null) {
+        	factoryName = defaults.get(parameterName);
+        }
         return factoryName == null
             ? DEFAULTS.get(parameterName)
             : factoryName.toString();
