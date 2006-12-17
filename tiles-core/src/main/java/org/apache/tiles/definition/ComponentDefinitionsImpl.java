@@ -48,14 +48,14 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     /**
      * The locale-specific set of definitions objects.
      */
-    private Map<Locale, Map> localeSpecificDefinitions;
+    private Map<Locale, Map<String, ComponentDefinition>> localeSpecificDefinitions;
 
     /**
      * Creates a new instance of ComponentDefinitionsImpl
      */
     public ComponentDefinitionsImpl() {
         baseDefinitions = new HashMap<String, ComponentDefinition>();
-        localeSpecificDefinitions = new HashMap<Locale, Map>();
+        localeSpecificDefinitions = new HashMap<Locale, Map<String, ComponentDefinition>>();
     }
 
     /**
@@ -89,7 +89,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      * @param defsMap The new definitions to add.
      * @param locale  The locale to add the definitions to.
      */
-    public void addDefinitions(Map defsMap, Locale locale) throws NoSuchDefinitionException {
+    public void addDefinitions(Map<String, ComponentDefinition> defsMap, Locale locale) throws NoSuchDefinitionException {
         localeSpecificDefinitions.put(locale, defsMap);
         resolveAttributeDependencies(locale);
         resolveInheritances(locale);
@@ -135,11 +135,9 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     public void resolveInheritances(Locale locale) throws NoSuchDefinitionException {
         resolveInheritances();
 
-        Map map = (Map) localeSpecificDefinitions.get(locale);
+        Map<String, ComponentDefinition> map = localeSpecificDefinitions.get(locale);
         if (map != null) {
-            Iterator i = map.values().iterator();
-            while (i.hasNext()) {
-                ComponentDefinition definition = (ComponentDefinition) i.next();
+            for (ComponentDefinition definition : map.values()) {
                 resolveInheritance(definition, locale);
             }  // end loop
         }
@@ -150,7 +148,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     public void reset() {
         this.baseDefinitions = new HashMap<String, ComponentDefinition>();
-        this.localeSpecificDefinitions = new HashMap<Locale, Map>();
+        this.localeSpecificDefinitions = new HashMap<Locale, Map<String, ComponentDefinition>>();
     }
 
     /**
@@ -168,6 +166,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
                     ComponentDefinition subDef =
                         getDefinitionByAttribute(attr);
                     attr.setAttributes(subDef.getAttributes());
+                    attr.setType("definition");
                 }
             }
         }
@@ -189,32 +188,19 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     public void resolveAttributeDependencies(Locale locale) {
         resolveAttributeDependencies(); // FIXME Is it necessary?
-        Map defsMap = (Map) localeSpecificDefinitions.get(locale);
+        Map<String, ComponentDefinition> defsMap = localeSpecificDefinitions.get(locale);
         if (defsMap == null) {
             return;
         }
 
-        Iterator i = defsMap.values().iterator();
-
-        while (i.hasNext()) {
-            ComponentDefinition def = (ComponentDefinition) i.next();
-            Map attributes = def.getAttributes();
-            Iterator j = attributes.values().iterator();
-            while (j.hasNext()) {
-                ComponentAttribute attr = (ComponentAttribute) j.next();
-                if (attr.getType() != null) {
-                    if (attr.getType().equalsIgnoreCase("definition") ||
-                        attr.getType().equalsIgnoreCase("instance")) {
-                        ComponentDefinition subDef = getDefinitionByAttribute(
-                            attr, locale);
-                        attr.setValue(subDef);
-                    }
-                } else {
-                    ComponentDefinition subDef = getDefinitionByAttribute(attr,
-                        locale);
-                    if (subDef != null) {
-                        attr.setValue(subDef);
-                    }
+        for (ComponentDefinition def : defsMap.values()) {
+            Map<String, ComponentAttribute> attributes = def.getAttributes();
+            for (ComponentAttribute attr : attributes.values()) {
+                if (isDefinitionType(attr)) {
+                    ComponentDefinition subDef =
+                        getDefinitionByAttribute(attr, locale);
+                    attr.setAttributes(subDef.getAttributes());
+                    attr.setType("definition");
                 }
             }
         }

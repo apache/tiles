@@ -266,19 +266,15 @@ public class TestComponentDefinitions extends TestCase {
         
         Object newAttr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", newAttr);
-        assertTrue("Dependent attribute incorrect type.", 
-                newAttr instanceof ComponentDefinition);
         
         newDef = definitions.getDefinition("parent.notype.def1");
         assertNotNull("Parent definition not found.", newDef);
         
         newAttr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", newAttr);
-        assertTrue("Dependent attribute incorrect type.", 
-                newAttr instanceof ComponentDefinition);
         
         assertEquals("Incorrect dependent attribute name.", "tiles.def2",
-                ((ComponentDefinition) newAttr).getName());
+                newAttr);
         
         // Part of the test for locale-specific definitions.
         newDef = definitions.getDefinition("parent.def1", Locale.ITALIAN);
@@ -286,8 +282,6 @@ public class TestComponentDefinitions extends TestCase {
         
         newAttr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", newAttr);
-        assertTrue("Dependent attribute incorrect type.", 
-                newAttr instanceof ComponentDefinition);
         
         newDef = definitions.getDefinition("parent.notype.def1",
         		Locale.ITALIAN);
@@ -295,10 +289,8 @@ public class TestComponentDefinitions extends TestCase {
         
         newAttr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", newAttr);
-        assertTrue("Dependent attribute incorrect type.", 
-                newAttr instanceof ComponentDefinition);
         
         assertEquals("Incorrect dependent attribute name.", "tiles.def2",
-                ((ComponentDefinition) newAttr).getName());
+                newAttr);
     }
 }

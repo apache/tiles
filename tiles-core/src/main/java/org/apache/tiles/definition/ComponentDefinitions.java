@@ -65,7 +65,7 @@ public interface ComponentDefinitions {
      * @throws NoSuchDefinitionException if a ComponentDefinition extends from
      *                                   one that doesn't exist.
      */
-    public void addDefinitions(Map defsMap, Locale locale) throws NoSuchDefinitionException;
+    public void addDefinitions(Map<String, ComponentDefinition> defsMap, Locale locale) throws NoSuchDefinitionException;
 
     /**
      * Returns a ComponentDefinition object that matches the given name and locale.
