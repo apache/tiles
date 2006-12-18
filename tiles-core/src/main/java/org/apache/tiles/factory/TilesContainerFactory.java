@@ -75,6 +75,9 @@ public class TilesContainerFactory {
         DEFAULTS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
         DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
     }
+    
+    private Map<String, String> defaults =
+        new HashMap<String, String>(DEFAULTS);
 
     /**
      * Retrieve a factory instance as configured through the
@@ -113,8 +116,11 @@ public class TilesContainerFactory {
      */
     public static TilesContainerFactory getFactory(Object context,
     		Map<String, String> defaults) throws TilesException {
-        return (TilesContainerFactory) TilesContainerFactory
-            .createFactory(context, CONTAINER_FACTORY_INIT_PARAM, defaults);
+        TilesContainerFactory factory =
+            (TilesContainerFactory) TilesContainerFactory.createFactory(context,
+                    CONTAINER_FACTORY_INIT_PARAM, defaults);
+        factory.setDefaults(defaults);
+        return factory;
     }
 
     public TilesContainer createContainer(Object context) throws TilesException {
@@ -125,34 +131,33 @@ public class TilesContainerFactory {
             return createTilesContainer(context);
         }
     }
+    
+    public void setDefaults(Map<String, String> defaults) {
+        if (defaults != null) {
+            this.defaults.putAll(defaults);
+        }
+    }
+    
+    public void setDefaultValue(String key, String value) {
+        this.defaults.put(key, value);
+    }
 
     public TilesContainer createTilesContainer(Object context)
         throws TilesException {
-        return createTilesContainer(context, DEFAULTS);
-    }
-
-    public TilesContainer createTilesContainer(Object context,
-    		Map<String, String> defaults) throws TilesException {
         BasicTilesContainer container = new BasicTilesContainer();
-        initializeContainer(context, container, defaults);
+        initializeContainer(context, container);
         return container;
     }
 
     public MutableTilesContainer createMutableTilesContainer(Object context)
         throws TilesException {
-    	return createMutableTilesContainer(context, DEFAULTS);
-    }
-
-    public MutableTilesContainer createMutableTilesContainer(Object context,
-    		Map<String, String> defaults) throws TilesException {
         CachingTilesContainer container = new CachingTilesContainer();
-        initializeContainer(context, container, defaults);
+        initializeContainer(context, container);
         return container;
     }
 
     protected void initializeContainer(Object context,
-                                    BasicTilesContainer container,
-                                    Map<String, String> defaults)
+                                    BasicTilesContainer container)
         throws TilesException {
 
         TilesContextFactory contextFactory =
