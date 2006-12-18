@@ -38,6 +38,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Enumeration;
+import java.util.HashMap;
 
 /**
  * Decoration Filter.  Intercepts all requests and decorates them
@@ -86,6 +89,8 @@ public class TilesDecorationFilter implements Filter {
 
     private String definitionName = "layout";
 
+    private Map<String, String> alternateDefinitions;
+
     private ComponentContextMutator mutator = null;
 
     public FilterConfig getFilterConfig() {
@@ -108,6 +113,8 @@ public class TilesDecorationFilter implements Filter {
             definitionName = temp;
         }
 
+        alternateDefinitions = parseAlternateDefinitions();
+
         temp = config.getInitParameter("mutator");
         if(temp != null) {
             try {
@@ -120,6 +127,22 @@ public class TilesDecorationFilter implements Filter {
         }
     }
 
+    protected Map<String, String> parseAlternateDefinitions() {
+        Map<String, String> map = new HashMap<String, String>();
+        Enumeration<String> e = filterConfig.getInitParameterNames();
+        while(e.hasMoreElements()) {
+            String parm = e.nextElement();
+            if(parm.startsWith("definition(") && parm.endsWith("*)")) {
+                String value = filterConfig.getInitParameter(parm);
+                String mask = parm.substring("definition(".length());
+                mask = mask.substring(0, mask.lastIndexOf("*)"));
+                map.put(mask, value);
+                LOG.info("Mapping all requests matching '"+mask+"*' to definition '"+value+"'");
+            }
+        }
+        return map;
+    }
+
     public void destroy() {
         filterConfig = null;
     }
@@ -130,13 +153,25 @@ public class TilesDecorationFilter implements Filter {
         TilesContainer container = TilesAccess.getContainer(getServletContext());
         mutator.mutate(container.getComponentContext(req, res), req);
         try {
+            String definitionName = getDefinitionForRequest(req);
             container.render(req, res, definitionName);
         } catch (TilesException e) {
-            throw new ServletException("Error wrapping jsp with tile definition.", e);
+            throw new ServletException("Error wrapping jsp with tile definition. "+e.getMessage(), e);
         }
     }
 
-
+    private String getDefinitionForRequest(ServletRequest request) {
+        if(alternateDefinitions.size() < 1) {
+            return definitionName;
+        }
+        String base = getRequestBase(request);
+        for(Map.Entry<String, String> pair : alternateDefinitions.entrySet()) {
+            if(base.startsWith(pair.getKey())) {
+                return pair.getValue();
+            }
+        }
+        return definitionName;
+    }
 
     private String getRequestBase(ServletRequest request) {
         // Included Path
