@@ -48,6 +48,10 @@ public class TilesContainerFactoryTest extends TestCase {
     }
 
     public void testGetFactory() throws TilesException {
+        Vector v = new Vector();
+        v.add(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
+
+        EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.replay(context);
         TilesContainerFactory factory = TilesContainerFactory.getFactory(context);
@@ -55,6 +59,7 @@ public class TilesContainerFactoryTest extends TestCase {
         assertEquals(TilesContainerFactory.class, factory.getClass());
 
         EasyMock.reset(context);
+        EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(TestFactory.class.getName());
         EasyMock.replay(context);
         factory = TilesContainerFactory.getFactory(context);
@@ -62,6 +67,7 @@ public class TilesContainerFactoryTest extends TestCase {
         assertEquals(TestFactory.class, factory.getClass());
 
         EasyMock.reset(context);
+        EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn("org.missing.Class");
         EasyMock.replay(context);
         try {
@@ -79,7 +85,7 @@ public class TilesContainerFactoryTest extends TestCase {
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
-        EasyMock.expect(context.getInitParameterNames()).andReturn(enumeration.elements());
+        EasyMock.expect(context.getInitParameterNames()).andReturn(enumeration.elements()).anyTimes();
         EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
         EasyMock.replay(context);
 
@@ -103,7 +109,7 @@ public class TilesContainerFactoryTest extends TestCase {
         keys.add("two");
 
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameterNames()).andReturn(keys.elements());
+        EasyMock.expect(context.getInitParameterNames()).andReturn(keys.elements()).anyTimes();
         EasyMock.expect(context.getInitParameter("one")).andReturn("oneValue");
         EasyMock.expect(context.getInitParameter("two")).andReturn("twoValue");
         EasyMock.replay(context);
