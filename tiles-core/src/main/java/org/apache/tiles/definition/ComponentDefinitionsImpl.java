@@ -329,7 +329,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
             throw new NoSuchDefinitionException(msg);
         }
 
-        resolveInheritance(definition, locale);
+        resolveInheritance(parent, locale);
 
         overload(parent, definition);
     }
