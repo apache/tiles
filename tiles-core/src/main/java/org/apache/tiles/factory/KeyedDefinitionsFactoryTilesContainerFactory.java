@@ -71,8 +71,8 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
                 }
 
                 DefinitionsFactory defsFactory =
-                    (DefinitionsFactory) createFactory(context,
-                            DEFINITIONS_FACTORY_INIT_PARAM, defaults);
+                    (DefinitionsFactory) createFactory(getInitParameterMap(context),
+                            DEFINITIONS_FACTORY_INIT_PARAM);
                 ((KeyedDefinitionsFactoryTilesContainer) container)
                         .setDefinitionsFactory(keys[i], defsFactory,
                                 initParams);

@@ -45,8 +45,8 @@ import java.util.Map;
  * This factory creates a default implementation of
  * the container, initializes, and puts it into service.
  *
- * @since 2.0
  * @version $Rev$ $Date$
+ * @since 2.0
  */
 public class TilesContainerFactory {
 
@@ -75,8 +75,8 @@ public class TilesContainerFactory {
         DEFAULTS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
         DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
     }
-    
-    protected Map<String, String> defaults =
+
+    protected Map<String, String> defaultConfiguration =
         new HashMap<String, String>(DEFAULTS);
 
     /**
@@ -115,11 +115,13 @@ public class TilesContainerFactory {
      * @throws TilesException if an error occurs creating the factory.
      */
     public static TilesContainerFactory getFactory(Object context,
-    		Map<String, String> defaults) throws TilesException {
+                                                   Map<String, String> defaults)
+        throws TilesException {
+        Map<String, String> stuff = getInitParameterMap(context);
         TilesContainerFactory factory =
-            (TilesContainerFactory) TilesContainerFactory.createFactory(context,
-                    CONTAINER_FACTORY_INIT_PARAM, defaults);
-        factory.setDefaults(defaults);
+            (TilesContainerFactory) TilesContainerFactory.createFactory(stuff,
+                CONTAINER_FACTORY_INIT_PARAM);
+        factory.setDefaultConfiguration(defaults);
         return factory;
     }
 
@@ -131,15 +133,15 @@ public class TilesContainerFactory {
             return createTilesContainer(context);
         }
     }
-    
-    public void setDefaults(Map<String, String> defaults) {
-        if (defaults != null) {
-            this.defaults.putAll(defaults);
+
+    public void setDefaultConfiguration(Map<String, String> defaultConfiguration) {
+        if (defaultConfiguration != null) {
+            this.defaultConfiguration.putAll(defaultConfiguration);
         }
     }
-    
+
     public void setDefaultValue(String key, String value) {
-        this.defaults.put(key, value);
+        this.defaultConfiguration.put(key, value);
     }
 
     public TilesContainer createTilesContainer(Object context)
@@ -157,27 +159,27 @@ public class TilesContainerFactory {
     }
 
     protected void initializeContainer(Object context,
-                                    BasicTilesContainer container)
+                                       BasicTilesContainer container)
         throws TilesException {
         storeContainerDependencies(context, container);
         container.init(getInitParameterMap(context));
 
     }
-    
+
     protected void storeContainerDependencies(Object context,
-            BasicTilesContainer container) throws TilesException {
+                                              BasicTilesContainer container) throws TilesException {
 
         TilesContextFactory contextFactory =
-            (TilesContextFactory) createFactory(context,
-            		CONTEXT_FACTORY_INIT_PARAM, defaults);
+            (TilesContextFactory) createFactory(defaultConfiguration,
+                CONTEXT_FACTORY_INIT_PARAM);
 
         DefinitionsFactory defsFactory =
-            (DefinitionsFactory) createFactory(context,
-            		DEFINITIONS_FACTORY_INIT_PARAM, defaults);
+            (DefinitionsFactory) createFactory(defaultConfiguration,
+                DEFINITIONS_FACTORY_INIT_PARAM);
 
         PreparerFactory prepFactory =
-            (PreparerFactory) createFactory(context,
-            		PREPARER_FACTORY_INIT_PARAM, defaults);
+            (PreparerFactory) createFactory(defaultConfiguration,
+                PREPARER_FACTORY_INIT_PARAM);
 
         TilesApplicationContext tilesContext =
             contextFactory.createApplicationContext(context);
@@ -189,7 +191,36 @@ public class TilesContainerFactory {
     }
 
 
-    protected Map<String, String> getInitParameterMap(Object context)
+    protected static Object createFactory(Map<String, String> configuration, String initParameterName)
+        throws TilesException {
+        String factoryName = resolveFactoryName(configuration, initParameterName);
+        return ClassUtil.instantiate(factoryName);
+    }
+
+    protected static String resolveFactoryName(Map<String, String> configuration, String parameterName)
+        throws TilesException {
+        Object factoryName = configuration.get(parameterName);
+        return factoryName == null
+            ? DEFAULTS.get(parameterName)
+            : factoryName.toString();
+    }
+
+    protected static String getInitParameter(Object context,
+                                             String parameterName) throws TilesException {
+        Object value;
+        try {
+            Class contextClass = context.getClass();
+            Method getInitParameterMethod =
+                contextClass.getMethod("getInitParameter", String.class);
+            value = getInitParameterMethod.invoke(context, parameterName);
+        } catch (Exception e) {
+            throw new TilesException("Unrecognized context.  Is this context" +
+                "a ServletContext, PortletContext, or similar?", e);
+        }
+        return value == null ? null : value.toString();
+    }
+
+    protected static Map<String, String> getInitParameterMap(Object context)
         throws TilesException {
         Map<String, String> initParameters = new HashMap<String, String>();
         Class contextClass = context.getClass();
@@ -211,38 +242,4 @@ public class TilesContainerFactory {
     }
 
 
-    protected static Object createFactory(Object context,
-    		String initParameterName, Map<String, String> defaults)
-        throws TilesException {
-        String factoryName = resolveFactoryName(context, initParameterName,
-        		defaults);
-        return ClassUtil.instantiate(factoryName);
-    }
-
-    protected static String resolveFactoryName(Object context,
-    		String parameterName, Map<String, String> defaults)
-        throws TilesException {
-        Object factoryName = getInitParameter(context, parameterName);
-        if (factoryName == null && defaults != null) {
-        	factoryName = defaults.get(parameterName);
-        }
-        return factoryName == null
-            ? DEFAULTS.get(parameterName)
-            : factoryName.toString();
-    }
-
-    protected static String getInitParameter(Object context,
-            String parameterName) throws TilesException {
-        Object value;
-        try {
-            Class contextClass = context.getClass();
-            Method getInitParameterMethod =
-                contextClass.getMethod("getInitParameter", String.class);
-            value = getInitParameterMethod.invoke(context, parameterName);
-        } catch (Exception e) {
-            throw new TilesException("Unrecognized context.  Is this context" +
-                "a ServletContext, PortletContext, or similar?", e);
-        }
-        return value == null ? null : value.toString();
-    }
 }
