@@ -109,9 +109,10 @@ public class TilesContainerFactoryTest extends TestCase {
         keys.add("two");
 
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameterNames()).andReturn(keys.elements()).anyTimes();
-        EasyMock.expect(context.getInitParameter("one")).andReturn("oneValue");
-        EasyMock.expect(context.getInitParameter("two")).andReturn("twoValue");
+        EasyMock.expect(context.getInitParameterNames()).andReturn(keys.elements());
+        EasyMock.expect(context.getInitParameterNames()).andReturn(keys.elements());
+        EasyMock.expect(context.getInitParameter("one")).andReturn("oneValue").anyTimes();
+        EasyMock.expect(context.getInitParameter("two")).andReturn("twoValue").anyTimes();
         EasyMock.replay(context);
 
         TilesContainerFactory factory = TilesContainerFactory.getFactory(context);
