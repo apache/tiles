@@ -34,7 +34,7 @@ import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.mgmt.TileDefinition;
 
-public class CachedKeyedDefinitionsFactoryTilesContainerFactory extends
+public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
         KeyedDefinitionsFactoryTilesContainer implements MutableTilesContainer {
 
     private DefinitionManager mgr = new DefinitionManager();

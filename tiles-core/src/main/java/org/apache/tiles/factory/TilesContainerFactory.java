@@ -76,7 +76,7 @@ public class TilesContainerFactory {
         DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
     }
     
-    private Map<String, String> defaults =
+    protected Map<String, String> defaults =
         new HashMap<String, String>(DEFAULTS);
 
     /**
@@ -159,6 +159,13 @@ public class TilesContainerFactory {
     protected void initializeContainer(Object context,
                                     BasicTilesContainer container)
         throws TilesException {
+        storeContainerDependencies(context, container);
+        container.init(getInitParameterMap(context));
+
+    }
+    
+    protected void storeContainerDependencies(Object context,
+            BasicTilesContainer container) throws TilesException {
 
         TilesContextFactory contextFactory =
             (TilesContextFactory) createFactory(context,
@@ -179,9 +186,6 @@ public class TilesContainerFactory {
         container.setContextFactory(contextFactory);
         container.setPreparerFactory(prepFactory);
         container.setApplicationContext(tilesContext);
-
-        container.init(getInitParameterMap(context));
-
     }
 
 
@@ -227,8 +231,8 @@ public class TilesContainerFactory {
             : factoryName.toString();
     }
 
-    private static String getInitParameter(Object context, String parameterName)
-        throws TilesException {
+    protected static String getInitParameter(Object context,
+            String parameterName) throws TilesException {
         Object value;
         try {
             Class contextClass = context.getClass();
