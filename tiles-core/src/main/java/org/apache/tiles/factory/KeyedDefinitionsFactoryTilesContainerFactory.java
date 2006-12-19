@@ -70,8 +70,11 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
                             param);
                 }
 
+                Map<String, String> config = new HashMap<String, String>(defaultConfiguration);
+                config.putAll(getInitParameterMap(context));
+
                 DefinitionsFactory defsFactory =
-                    (DefinitionsFactory) createFactory(getInitParameterMap(context),
+                    (DefinitionsFactory) createFactory(config,
                             DEFINITIONS_FACTORY_INIT_PARAM);
                 ((KeyedDefinitionsFactoryTilesContainer) container)
                         .setDefinitionsFactory(keys[i], defsFactory,
