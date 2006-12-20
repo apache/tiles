@@ -36,12 +36,13 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
 		TilesContainerFactory {
     
     public static final String CONTAINER_KEYS_INIT_PARAM =
-        "org.apache.tiles.CONTAINER_KEYS";
+        "org.apache.tiles.CONTAINER.keys";
 
     @Override
     public MutableTilesContainer createMutableTilesContainer(Object context) throws TilesException {
         CachingKeyedDefinitionsFactoryTilesContainerFactory container =
             new CachingKeyedDefinitionsFactoryTilesContainerFactory();
+        initializeContainer(context, container);
         return container;
     }
 
@@ -49,6 +50,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
     public TilesContainer createTilesContainer(Object context) throws TilesException {
         KeyedDefinitionsFactoryTilesContainer container =
             new KeyedDefinitionsFactoryTilesContainer();
+        initializeContainer(context, container);
         return container;
     }
     
