@@ -26,29 +26,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.TilesException;
+import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.definition.DefinitionsFactoryException;
 
 public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
+    
+    public static final String DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME =
+        "org.apache.tiles.DEFINITIONS_FACTORY.key";
 	
 	protected Map<String, DefinitionsFactory> key2definitionsFactory;
-	
-	protected Map<String, Map<String, String>> key2initParams;
 
 	public KeyedDefinitionsFactoryTilesContainer() {
 		key2definitionsFactory = new HashMap<String, DefinitionsFactory>();
-		key2initParams = new HashMap<String, Map<String,String>>();
-	}
-
-    @Override
-	public void init(Map<String, String> initParameters) throws TilesException {
-		super.init(initParameters);
-		
-		for (Map.Entry<String, DefinitionsFactory> entry:
-				key2definitionsFactory.entrySet()) {
-			String key = entry.getKey();
-			initializeDefinitionsFactory(entry.getValue(),
-					getResourceString(initParameters), key2initParams.get(key));
-		}
 	}
 
 	/**
@@ -74,16 +65,48 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      * that the container has not yet been initialized.
      *
      * @param definitionsFactory the definitions factory for this instance.
+     * @throws TilesException If something goes wrong during initialization of
+     * the definitions factory.
      */
     public void setDefinitionsFactory(String key,
     		DefinitionsFactory definitionsFactory,
-    		Map<String, String> initParameters) {
+    		Map<String, String> initParameters) throws TilesException {
     	if (key != null) {
-	        checkInit();
 	        key2definitionsFactory.put(key, definitionsFactory);
-	        key2initParams.put(key, initParameters);
+            initializeDefinitionsFactory(definitionsFactory,
+                    getResourceString(initParameters), initParameters);
     	} else {
     		setDefinitionsFactory(definitionsFactory);
     	}
+    }
+
+    @Override
+    protected ComponentDefinition getDefinition(String definitionName,
+            TilesRequestContext request) throws DefinitionsFactoryException {
+        ComponentDefinition retValue = null;
+        String key = getDefinitionsFactoryKey(request);
+        if (key != null) {
+            DefinitionsFactory definitionsFactory =
+                key2definitionsFactory.get(key);
+            if (definitionsFactory != null) {
+                retValue = definitionsFactory.getDefinition(definitionName,
+                        request);
+            }
+        }
+        if (retValue == null) {
+            retValue = super.getDefinition(definitionName, request);
+        }
+        return retValue;
+    }
+    
+    protected String getDefinitionsFactoryKey(TilesRequestContext request) {
+        String retValue = null;
+        Map requestScope = request.getRequestScope();
+        if (requestScope != null) { // Probably the request scope does not exist
+            retValue = (String) requestScope.get(
+                    DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME);
+        }
+        
+        return retValue;
     }
 }

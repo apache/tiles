@@ -52,6 +52,8 @@ public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
     protected ComponentDefinition getDefinition(String definition,
                                                 TilesRequestContext context)
         throws DefinitionsFactoryException {
+        DefinitionManager mgr = getAppropriateDefinitionManager(
+                getDefinitionsFactoryKey(context));
         return mgr.getDefinition(definition, context);
     }
 
@@ -62,12 +64,8 @@ public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
 
     @Override
     public DefinitionsFactory getDefinitionsFactory(String key) {
-        DefinitionsFactory factory = key2definitionsFactory.get(key);
-        if (factory == null) {
-            factory = mgr.getFactory();
-        }
-        
-        return factory;
+        DefinitionManager mgr = getAppropriateDefinitionManager(key);
+        return mgr.getFactory();
     }
 
     @Override
@@ -78,12 +76,30 @@ public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
 
     @Override
     public void setDefinitionsFactory(String key, DefinitionsFactory definitionsFactory, Map<String, String> initParameters) {
+        DefinitionManager mgr = getOrCreateDefinitionManager(key);
+        mgr.setFactory(definitionsFactory);
+    }
+    
+    protected DefinitionManager getOrCreateDefinitionManager(String key) {
         DefinitionManager mgr = key2definitionManager.get(key);
         if (mgr == null) {
             mgr = new DefinitionManager();
             key2definitionManager.put(key, mgr);
         }
-        mgr.setFactory(definitionsFactory);
+        
+        return mgr;
     }
-
+    
+    protected DefinitionManager getAppropriateDefinitionManager(String key) {
+        DefinitionManager mgr = null;
+        
+        if (key != null) {
+            mgr = key2definitionManager.get(key);
+        }
+        if (mgr == null) {
+            mgr = this.mgr;
+        }
+        
+        return mgr;
+    }
 }
