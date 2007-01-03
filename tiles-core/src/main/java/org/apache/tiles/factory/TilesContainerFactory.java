@@ -219,7 +219,7 @@ public class TilesContainerFactory {
             value = getInitParameterMethod.invoke(context, parameterName);
         } catch (Exception e) {
             throw new TilesException("Unrecognized context.  Is this context" +
-                "a ServletContext, PortletContext, or similar?", e);
+                " a ServletContext, PortletContext, or similar?", e);
         }
         return value == null ? null : value.toString();
     }

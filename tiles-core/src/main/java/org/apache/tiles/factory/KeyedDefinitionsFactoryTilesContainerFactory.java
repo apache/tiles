@@ -54,6 +54,20 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
         return container;
     }
     
+    // FIXME Probably we should create some sort of "FactoryUtils" to create
+    // factories dynamically depending on a configuration.
+    // I think this method does not belong here.
+    public DefinitionsFactory createDefinitionsFactory(Object context)
+            throws TilesException {
+        DefinitionsFactory retValue;
+        Map<String, String> config = new HashMap<String, String>(defaultConfiguration);
+        config.putAll(getInitParameterMap(context));
+        retValue = (DefinitionsFactory) createFactory(config,
+                    DEFINITIONS_FACTORY_INIT_PARAM);
+
+        return retValue;
+    }
+
     @Override
     protected void storeContainerDependencies(Object context,
             BasicTilesContainer container) throws TilesException {
@@ -63,17 +77,16 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
         if (keysString != null
                 && container instanceof KeyedDefinitionsFactoryTilesContainer) {
             String[] keys = keysString.split(",");
-            Map<String, String> initParams = new HashMap<String, String>();
+            Map<String, String> config = new HashMap<String, String>(defaultConfiguration);
+            config.putAll(getInitParameterMap(context));
             for (int i=0; i < keys.length; i++) {
+                Map<String, String> initParams = new HashMap<String, String>();
                 String param = getInitParameter(context,
                         BasicTilesContainer.DEFINITIONS_CONFIG + "@" + keys[i]);
                 if (param != null) {
                     initParams.put(BasicTilesContainer.DEFINITIONS_CONFIG,
                             param);
                 }
-
-                Map<String, String> config = new HashMap<String, String>(defaultConfiguration);
-                config.putAll(getInitParameterMap(context));
 
                 DefinitionsFactory defsFactory =
                     (DefinitionsFactory) createFactory(config,

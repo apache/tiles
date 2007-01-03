@@ -61,6 +61,21 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
     }
 
     /**
+     * Standard Getter
+     *
+     * @return the definitions factory used by this container.
+     */
+    public DefinitionsFactory getProperDefinitionsFactory(String key) {
+        DefinitionsFactory retValue = null;
+        
+        if (key != null) {
+            retValue = key2definitionsFactory.get(key);
+        }
+        
+        return retValue;
+    }
+
+    /**
      * Set the definitions factory. This method first ensures
      * that the container has not yet been initialized.
      *

@@ -63,7 +63,7 @@ public class BasicTilesContainer implements TilesContainer {
      * Constant representing the configuration parameter
      * used to define the tiles definition resources.
      */
-    public static final String DEFINITIONS_CONFIG = "org.apache.tiles.DEFINITION_CONFIG";
+    public static final String DEFINITIONS_CONFIG = "org.apache.tiles.DEFINITIONS_CONFIG";
 
     /**
      * Compatibility constant.
@@ -277,7 +277,7 @@ public class BasicTilesContainer implements TilesContainer {
         throws TilesException {
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Prepare request recieved for '" + preparerName);
+            LOG.debug("Prepare request received for '" + preparerName);
         }
 
         ViewPreparer preparer = preparerFactory.getPreparer(preparerName, null);
