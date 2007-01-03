@@ -27,7 +27,7 @@
        "http://struts.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-  <definition name="test.def1" template="/test.jsp">
+  <definition name="test.def.two" template="/test.jsp">
           <put name="country" value="default"/>
 	  <put name="title"  value="Tiles Library Documentation" />
 	  <put name="header" value="/common/header.jsp" />

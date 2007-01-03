@@ -49,6 +49,7 @@ public class TilesContainerFactoryTest extends TestCase {
 
     public void testGetFactory() throws TilesException {
         Vector v = new Vector();
+        Vector emptyVector = new Vector();
         v.add(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
 
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
@@ -63,6 +64,17 @@ public class TilesContainerFactoryTest extends TestCase {
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(TestFactory.class.getName());
         EasyMock.replay(context);
         factory = TilesContainerFactory.getFactory(context);
+        assertNotNull(factory);
+        assertEquals(TestFactory.class, factory.getClass());
+
+        Map<String, String> defaults = new HashMap<String, String>();
+        defaults.put(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
+                TestFactory.class.getName());
+        EasyMock.reset(context);
+        EasyMock.expect(context.getInitParameterNames()).andReturn(emptyVector.elements());
+        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
+        EasyMock.replay(context);
+        factory = TilesContainerFactory.getFactory(context, defaults);
         assertNotNull(factory);
         assertEquals(TestFactory.class, factory.getClass());
 
@@ -96,7 +108,7 @@ public class TilesContainerFactoryTest extends TestCase {
         //now make sure it's initialized
         try {
             container.init(new HashMap<String, String>());
-            fail("Container should have allready been initialized");
+            fail("Container should have already been initialized");
         }
         catch (IllegalStateException te) {
         }
