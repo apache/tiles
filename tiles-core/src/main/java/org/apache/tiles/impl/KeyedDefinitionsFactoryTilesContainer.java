@@ -31,13 +31,29 @@ import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 
+/**
+ * Container that can be used to store multiple {@link DefinitionsFactory}
+ * instances mapped to different keys.
+ *
+ * @version $Rev$ $Date$
+ */
 public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
     
+    /**
+     * Name of the attribute inside the request that will be used to get the key
+     * of the definitions factory to be used.
+     */
     public static final String DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME =
         "org.apache.tiles.DEFINITIONS_FACTORY.key";
 	
+	/**
+	 * Maps definition factories to their keys.
+	 */
 	protected Map<String, DefinitionsFactory> key2definitionsFactory;
 
+	/**
+	 * Constructor.
+	 */
 	public KeyedDefinitionsFactoryTilesContainer() {
 		key2definitionsFactory = new HashMap<String, DefinitionsFactory>();
 	}
@@ -45,7 +61,9 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
 	/**
      * Standard Getter
      *
-     * @return the definitions factory used by this container.
+     * @return the definitions factory used by this container. If the key is not
+     * valid, the default factory will be returned.
+     * @param key The key of the needed definitions factory.
      */
     public DefinitionsFactory getDefinitionsFactory(String key) {
     	DefinitionsFactory retValue = null;
@@ -63,7 +81,9 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
     /**
      * Standard Getter
      *
-     * @return the definitions factory used by this container.
+     * @return the definitions factory used by this container. If the key is not
+     * valid, <code>null</code> will be returned.
+     * @param key The key of the needed definitions factory.
      */
     public DefinitionsFactory getProperDefinitionsFactory(String key) {
         DefinitionsFactory retValue = null;
@@ -114,6 +134,12 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
         return retValue;
     }
     
+    /**
+     * Returns the definitions factory key.
+     *
+     * @param request The request object.
+     * @return The needed factory key.
+     */
     protected String getDefinitionsFactoryKey(TilesRequestContext request) {
         String retValue = null;
         Map requestScope = request.getRequestScope();

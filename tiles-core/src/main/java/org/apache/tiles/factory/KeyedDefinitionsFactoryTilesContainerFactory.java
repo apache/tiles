@@ -32,9 +32,19 @@ import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingKeyedDefinitionsFactoryTilesContainerFactory;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 
+/**
+ * Factory that creates instances of container that will extend the
+ * {@link KeyedDefinitionsFactoryTilesContainer} class.
+ *
+ * @version $Rev$ $Date$
+ */
 public class KeyedDefinitionsFactoryTilesContainerFactory extends
 		TilesContainerFactory {
     
+    /**
+     * The name of the initialization parameter that will contain a
+     * comma-separated list of keys to use.
+     */
     public static final String CONTAINER_KEYS_INIT_PARAM =
         "org.apache.tiles.CONTAINER.keys";
 
@@ -57,6 +67,12 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
     // FIXME Probably we should create some sort of "FactoryUtils" to create
     // factories dynamically depending on a configuration.
     // I think this method does not belong here.
+    /**
+     * Creates a definitions factory.
+     * @param context The context object to use.
+     * @return The newly created definitions factory.
+     * @throws TilesException If something goes wrong.
+     */
     public DefinitionsFactory createDefinitionsFactory(Object context)
             throws TilesException {
         DefinitionsFactory retValue;

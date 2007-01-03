@@ -34,6 +34,14 @@ import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.mgmt.TileDefinition;
 
+/**
+ * Container that can be used to store multiple {@link DefinitionsFactory}
+ * instances mapped to different keys, with the addition of being "mutable",
+ * i.e.  caches (in memory) the definitions registered to it.  If a definition
+ * is not found in cache, it will revert back to it's definitions factory.
+ *
+ * @version $Rev$ $Date$
+ */
 public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
         KeyedDefinitionsFactoryTilesContainer implements MutableTilesContainer {
 
@@ -52,7 +60,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
     protected ComponentDefinition getDefinition(String definition,
                                                 TilesRequestContext context)
         throws DefinitionsFactoryException {
-        DefinitionManager mgr = getAppropriateDefinitionManager(
+        DefinitionManager mgr = getProperDefinitionManager(
                 getDefinitionsFactoryKey(context));
         return mgr.getDefinition(definition, context);
     }
@@ -64,7 +72,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
 
     @Override
     public DefinitionsFactory getDefinitionsFactory(String key) {
-        DefinitionManager mgr = getAppropriateDefinitionManager(key);
+        DefinitionManager mgr = getProperDefinitionManager(key);
         return mgr.getFactory();
     }
 
@@ -80,6 +88,13 @@ public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
         mgr.setFactory(definitionsFactory);
     }
     
+    /**
+     * Returns a definition manager if found, otherwise it will create a new
+     * one.
+     *
+     * @param key The key of the definition manager.
+     * @return The needed definition manager.
+     */
     protected DefinitionManager getOrCreateDefinitionManager(String key) {
         DefinitionManager mgr = key2definitionManager.get(key);
         if (mgr == null) {
@@ -90,7 +105,13 @@ public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
         return mgr;
     }
     
-    protected DefinitionManager getAppropriateDefinitionManager(String key) {
+    /**
+     * Returns a definition manager if found.
+     *
+     * @param key The key of the definition manager.
+     * @return The needed definition manager.
+     */
+    protected DefinitionManager getProperDefinitionManager(String key) {
         DefinitionManager mgr = null;
         
         if (key != null) {
