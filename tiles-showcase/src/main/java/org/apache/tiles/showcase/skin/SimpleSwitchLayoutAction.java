@@ -32,7 +32,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.tiles.actions.TilesAction;
+import org.apache.struts.tiles2.actions.TilesAction;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 

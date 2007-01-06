@@ -31,7 +31,6 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.tiles.DefinitionsUtil;
 import org.apache.tiles.definition.ComponentDefinition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.FactoryNotFoundException;

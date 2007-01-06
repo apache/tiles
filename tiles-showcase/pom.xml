@@ -68,9 +68,14 @@
          <scope>runtime</scope>
       </dependency>
       <dependency>
-        <groupId>struts</groupId>
-        <artifactId>struts</artifactId>
-        <version>1.2.9</version>
+        <groupId>org.apache.struts</groupId>
+        <artifactId>struts-core</artifactId>
+        <version>1.3.6-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.struts</groupId>
+        <artifactId>struts-tiles2</artifactId>
+        <version>1.3.6-SNAPSHOT</version>
       </dependency>
    </dependencies>
    
