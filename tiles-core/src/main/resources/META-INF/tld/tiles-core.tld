@@ -693,6 +693,17 @@
          </description>
       </attribute>
       <attribute>
+         <name>toName</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+         <![CDATA[
+         <p>Name of the destination attribute. If not specified, the name will
+         be the same as specified in <code>name</code> attribute</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
          <name>scope</name>
          <required>false</required>
          <rtexprvalue>false</rtexprvalue>

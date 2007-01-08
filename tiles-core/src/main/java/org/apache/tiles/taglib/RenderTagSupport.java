@@ -21,6 +21,8 @@
  */
 package org.apache.tiles.taglib;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
@@ -51,6 +53,8 @@ import java.util.Map;
  */
 public abstract class RenderTagSupport extends ContainerTagSupport
     implements TryCatchFinally, PutTagParent {
+    
+    private static Log LOG = LogFactory.getLog(RenderTagSupport.class);
 
     protected String preparer;
     protected boolean flush;
@@ -98,7 +102,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     }
 
     public void doCatch(Throwable throwable) throws Throwable {
-        // noop;
+        LOG.error("Error during rendering", throwable);
     }
 
     public void doFinally() {

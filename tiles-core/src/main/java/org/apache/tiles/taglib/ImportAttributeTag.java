@@ -38,6 +38,15 @@ import java.util.Iterator;
  */
 public class ImportAttributeTag extends AttributeTagSupport {
 
+	private String toName;
+
+    public String getToName() {
+        return toName;
+    }
+	
+	public void setToName(String toName) {
+        this.toName = toName;
+    }
 
     /**
      * Expose the requested property from component context.
@@ -46,7 +55,8 @@ public class ImportAttributeTag extends AttributeTagSupport {
      */
     public void execute() throws JspException {
         if (attribute != null) {
-            pageContext.setAttribute(name, attribute.getValue(), scope);
+            pageContext.setAttribute(toName != null? toName : name,
+                    attribute.getValue(), scope);
         } else {
             Iterator names = componentContext.getAttributeNames();
             while (names.hasNext()) {
