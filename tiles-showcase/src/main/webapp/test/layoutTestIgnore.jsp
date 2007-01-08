@@ -33,10 +33,10 @@
 <td  bgcolor="Blue"><strong><tiles:getAsString name="title" ignore="false" /></strong></td>
 </tr>
 <tr>
-<td><tiles:insertAttribute name="header" ignore="true"/></td>
+<td><tiles:attribute name="header" ignore="true"/></td>
 </tr>
 <tr>
-<td><tiles:insertAttribute name="body" ignore="true"/>
+<td><tiles:attribute name="body" ignore="true"/>
 </td>
 </tr>
 </table>

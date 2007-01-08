@@ -38,21 +38,21 @@
   
   <TR>
     <TD colspan="2">
-	  <tiles:insertAttribute name="header" >
+	  <tiles:attribute name="header" >
 	    <%-- FIXME It had beanScope="template", check if the definition is taken
 	    from componentContext--%>
 	    <tiles:put name="body" value="${body}" />
-	  </tiles:insertAttribute>
+	  </tiles:attribute>
 	</TD></TR>
   <TR>
-    <TD width="120"><tiles:insertAttribute name="menu" /></TD>
+    <TD width="120"><tiles:attribute name="menu" /></TD>
     <TD>
 	  <tiles:useAttribute name="body" classname="java.lang.String"/>
 	  <bean:insert id="bodyStr" page="<%=body%>" />
 	  <bean:write name="bodyStr" filter="false"/>
 	</TD></TR>
   <TR>
-    <TD colspan="2"><tiles:insertAttribute name="footer" /></TD>
+    <TD colspan="2"><tiles:attribute name="footer" /></TD>
   </TR>
 </TABLE>
 

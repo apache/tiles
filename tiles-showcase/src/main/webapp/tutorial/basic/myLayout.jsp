@@ -36,12 +36,12 @@
 <TABLE width="100%">
   
   <TR>
-    <TD colspan="2"><tiles:insertAttribute name="header" /></TD></TR>
+    <TD colspan="2"><tiles:attribute name="header" /></TD></TR>
   <TR>
-    <TD width="120"><tiles:insertAttribute name="menu" /></TD>
-    <TD><tiles:insertAttribute name="body" /></TD></TR>
+    <TD width="120"><tiles:attribute name="menu" /></TD>
+    <TD><tiles:attribute name="body" /></TD></TR>
   <TR>
-    <TD colspan="2"><tiles:insertAttribute name="footer" /></TD>
+    <TD colspan="2"><tiles:attribute name="footer" /></TD>
   </TR>
 </TABLE>
 

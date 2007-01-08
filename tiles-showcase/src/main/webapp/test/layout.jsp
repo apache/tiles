@@ -35,9 +35,9 @@
 <td  bgcolor="Blue"><strong><tiles:getAsString name="title"/></strong></td>
 </tr>
 <tr>
-<td><tiles:insertAttribute name="header"/></td>
+<td><tiles:attribute name="header"/></td>
 </tr>
 <tr>
-<td><tiles:insertAttribute name="body"/></td>
+<td><tiles:attribute name="body"/></td>
 </tr>
 </table>

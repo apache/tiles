@@ -104,7 +104,7 @@ These attribute must be passed to the tile.
 <tr>
   <td width="10" bgcolor="<%=selectedColor%>">&nbsp;</td>
   <td>
-  <tiles:insertAttribute name="<%=selectedBody%>" flush="true" />
+  <tiles:attribute name="<%=selectedBody%>" flush="true" />
   </td>
   <td width="10" bgcolor="<%=selectedColor%>">&nbsp;</td>
 </tr>  

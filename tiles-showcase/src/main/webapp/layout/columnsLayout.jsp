@@ -21,7 +21,6 @@
  *
  */
 --%>
-<%@ page import="org.apache.struts.tiles.ComponentContext"%>
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <%-- Layout component 
@@ -36,17 +35,18 @@
 <tr>
 <%
 int numCols = Integer.parseInt(numColsStr);
-ComponentContext context = ComponentContext.getContext( request );
+//ComponentContext context = ComponentContext.getContext( request );
 for( int i=0; i<numCols; i++ )
   {
-  java.util.List list=(java.util.List)context.getAttribute( "list" + i );
-  pageContext.setAttribute("list", list );
-  if(list==null)
-    System.out.println( "list is null for " + i  );
+//  java.util.List list=(java.util.List)context.getAttribute( "list" + i );
+//  pageContext.setAttribute("list", list );
+//  if(list==null)
+//    System.out.println( "list is null for " + i  );
 %>
+<tiles:importAttribute toName="list" name="<%="list" + i %>"/>
 <td valign="top">
   <tiles:insertTemplate template="/layout/vboxLayout.jsp" flush="true" >
-    <tiles:put name="componentsList" value="${pageContext.list}" />
+    <tiles:put name="componentsList" value="${pageScope.list}" />
   </tiles:insertTemplate>
 </td>
 <%

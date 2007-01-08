@@ -43,7 +43,7 @@ while( i.hasNext() )
   {
   String name= (String)i.next();
 %>
-<tiles:insertAttribute name="<%=name%>" flush="true" />
+<tiles:insertDefinition name="<%=name%>" flush="true" />
 <br>
 
 <%

@@ -50,7 +50,7 @@
 </logic:present>
 
 <%-- iterate on items list --%>
-<logic:iterate id="item" name="items" type="org.apache.struts.tiles.beans.MenuItem" >
+<logic:iterate id="item" name="items" type="org.apache.tiles.beans.MenuItem" >
 
 <%  // Add site url if link start with "/"
   String link = item.getLink();

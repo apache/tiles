@@ -34,14 +34,14 @@
 <body bgcolor="#ffffff" text="#000000" link="#023264" alink="#023264" vlink="#023264">
 <table border="0" width="100%" cellspacing="5">
 <tr>
-  <td colspan="2"><tiles:insertAttribute name="header" /></td>
+  <td colspan="2"><tiles:attribute name="header" /></td>
 </tr>
 <tr>
   <td width="140" valign="top">
-    <tiles:insertAttribute name='menu'/>
+    <tiles:attribute name='menu'/>
   </td>
   <td valign="top"  align="left">
-    <tiles:insertAttribute name='body' />
+    <tiles:attribute name='body' />
   </td>
 </tr>
 <tr>
@@ -51,7 +51,7 @@
 </tr>
 <tr>
   <td colspan="2">
-    <tiles:insertAttribute name="footer" />
+    <tiles:attribute name="footer" />
   </td>
 </tr>
 </table>

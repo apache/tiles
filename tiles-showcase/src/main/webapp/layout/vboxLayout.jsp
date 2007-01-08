@@ -39,7 +39,7 @@ while( i.hasNext() )
   {
   String comp=(String)i.next();
 %>
-<tiles:insertAttribute name="<%=comp%>" flush="true" />
+<tiles:insertTemplate template="<%=comp%>" flush="true" />
 <br>
 
 <%

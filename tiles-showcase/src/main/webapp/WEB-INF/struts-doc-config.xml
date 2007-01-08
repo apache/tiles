@@ -59,7 +59,7 @@
   <message-resources parameter="org.apache.tiles.showcase.dev1-1.ApplicationResources" null="false" />
 
   
-  <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+  <plug-in className="org.apache.struts.tiles2.TilesPlugin" >
     <set-property property="definitions-config" 
                         value="/WEB-INF/tiles-defs.xml, /WEB-INF/tiles-doc-defs.xml" />
     <set-property property="moduleAware" value="true" />

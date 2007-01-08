@@ -35,22 +35,22 @@
 
 <table border="0" width="100%" cellspacing="5">
 <tr>
-  <td colspan="3"><tiles:insertAttribute name="header" /></td>
+  <td colspan="3"><tiles:attribute name="header" /></td>
 </tr>
 <tr>
   <td width="140" valign="top">
-    <tiles:insertAttribute name=right ignore='true'/>
+    <tiles:attribute name=right ignore='true'/>
   </td>
   <td valign="top"  align="left">
-    <tiles:insertAttribute name='body' />
+    <tiles:attribute name='body' />
   </td>
   <td valign="top"  align="left">
-    <tiles:insertAttribute name='left' ignore='true'/>
+    <tiles:attribute name='left' ignore='true'/>
   </td>
 </tr>
 <tr>
   <td colspan="3">
-    <tiles:insertAttribute name="footer" />
+    <tiles:attribute name="footer" />
   </td>
 </tr>
 </table>

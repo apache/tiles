@@ -66,7 +66,7 @@
   
  <!-- ========== TilesPlugin settings ===================================== -->
  <!-- You should declare this plugin if you want to use Tiles with an XML definition file. -->
-  <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+  <plug-in className="org.apache.struts.tiles2.TilesPlugin" >
 
     <!-- Path to XML definition file -->
     <set-property property="definitions-config" 

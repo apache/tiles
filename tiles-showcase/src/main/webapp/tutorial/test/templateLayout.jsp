@@ -41,7 +41,7 @@
   <TR>
     <TD width="120"><tiles:get name="menu" /></TD>
     <TD>
-	  **<tiles:insertAttribute name="body" flush='true'/>**
+	  **<tiles:attribute name="body" flush='true'/>**
 	</TD></TR>
   <TR>
     <TD colspan="2"><tiles:get name="footer" /></TD>

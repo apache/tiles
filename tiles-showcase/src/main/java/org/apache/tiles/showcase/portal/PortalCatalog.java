@@ -167,7 +167,7 @@ public class PortalCatalog
         * If a key isn't recognize, it is disguarded from the returned list.
         * If a key correspond to a special key, appropriate 'definition' is created.
         * Returned list contains tiles URL, definition name and definitions suitable
-        * as attribute of <tiles:insertAttribute >.
+        * as attribute of <tiles:attribute >.
         *
         * @keys array of keys to add to list.
         */

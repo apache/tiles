@@ -38,7 +38,7 @@
   Wait until jsp1.3 
   
 <logic:iterate id="comp" name="list" type="String" >
-  <tiles:insertAttribute name="<%=comp%>" flush="false" />
+  <tiles:attribute name="<%=comp%>" flush="false" />
   <br>
 </logic:iterate>  
 --%>
@@ -50,7 +50,7 @@ while( i.hasNext() )
   {
   String comp=(String)i.next();
 %>
-<tiles:insertAttribute name="<%=comp%>" flush="true" />
+<tiles:attribute name="<%=comp%>" flush="true" />
 <br>
 
 <%
