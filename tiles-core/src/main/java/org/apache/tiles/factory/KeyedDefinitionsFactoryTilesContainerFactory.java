@@ -29,8 +29,10 @@ import org.apache.tiles.TilesException;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
+import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor;
 import org.apache.tiles.impl.mgmt.CachingKeyedDefinitionsFactoryTilesContainerFactory;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.util.ClassUtil;
 
 /**
  * Factory that creates instances of container that will extend the
@@ -47,6 +49,9 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
      */
     public static final String CONTAINER_KEYS_INIT_PARAM =
         "org.apache.tiles.CONTAINER.keys";
+    
+    public static final String KEY_EXTRACTOR_CLASS_INIT_PARAM =
+        "org.apache.tiles.CONTAINER.keyExtractor";
 
     @Override
     public MutableTilesContainer createMutableTilesContainer(Object context) throws TilesException {
@@ -86,10 +91,18 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
 
     @Override
     protected void storeContainerDependencies(Object context,
-            BasicTilesContainer container) throws TilesException {
-        super.storeContainerDependencies(context, container);
-        String keysString = getInitParameter(context,
-                CONTAINER_KEYS_INIT_PARAM);
+            Map<String, String> initParameters, Map<String, String> configuration, BasicTilesContainer container) throws TilesException {
+        super.storeContainerDependencies(context, initParameters, configuration, container);
+        
+        String keyExtractorClassName = configuration.get(
+                KEY_EXTRACTOR_CLASS_INIT_PARAM);
+        if (keyExtractorClassName != null
+                && container instanceof KeyedDefinitionsFactoryTilesContainer) {
+            ((KeyedDefinitionsFactoryTilesContainer) container).setKeyExtractor(
+                    (KeyExtractor) ClassUtil.instantiate(keyExtractorClassName));
+        }
+        
+        String keysString = initParameters.get(CONTAINER_KEYS_INIT_PARAM);
         if (keysString != null
                 && container instanceof KeyedDefinitionsFactoryTilesContainer) {
             String[] keys = keysString.split(",");
@@ -97,7 +110,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
             config.putAll(getInitParameterMap(context));
             for (int i=0; i < keys.length; i++) {
                 Map<String, String> initParams = new HashMap<String, String>();
-                String param = getInitParameter(context,
+                String param = initParameters.get(
                         BasicTilesContainer.DEFINITIONS_CONFIG + "@" + keys[i]);
                 if (param != null) {
                     initParams.put(BasicTilesContainer.DEFINITIONS_CONFIG,

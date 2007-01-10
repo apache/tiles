@@ -162,17 +162,19 @@ public class TilesContainerFactory {
     protected void initializeContainer(Object context,
                                        BasicTilesContainer container)
         throws TilesException {
-        storeContainerDependencies(context, container);
-        container.init(getInitParameterMap(context));
-
+        Map <String, String> initParameterMap;
+        
+        initParameterMap = getInitParameterMap(context);
+        Map<String, String> configuration = new HashMap<String, String>(defaultConfiguration);
+        configuration.putAll(initParameterMap);
+        storeContainerDependencies(context, initParameterMap, configuration, container);
+        container.init(initParameterMap);
     }
 
     protected void storeContainerDependencies(Object context,
+                                              Map<String, String> initParameters,
+                                              Map<String, String> configuration,
                                               BasicTilesContainer container) throws TilesException {
-
-        Map<String, String> configuration = new HashMap<String, String>(defaultConfiguration);
-        configuration.putAll(getInitParameterMap(context));
-
         TilesContextFactory contextFactory =
             (TilesContextFactory) createFactory(configuration,
                 CONTEXT_FACTORY_INIT_PARAM);

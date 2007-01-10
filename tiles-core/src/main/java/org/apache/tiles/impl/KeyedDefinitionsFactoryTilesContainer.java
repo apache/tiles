@@ -50,6 +50,8 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
 	 * Maps definition factories to their keys.
 	 */
 	protected Map<String, DefinitionsFactory> key2definitionsFactory;
+    
+    protected KeyExtractor keyExtractor;
 
 	/**
 	 * Constructor.
@@ -57,6 +59,37 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
 	public KeyedDefinitionsFactoryTilesContainer() {
 		key2definitionsFactory = new HashMap<String, DefinitionsFactory>();
 	}
+    
+    public interface KeyExtractor {
+
+        /**
+         * Returns the definitions factory key.
+         *
+         * @param request The request object.
+         * @return The needed factory key.
+         */
+        public String getDefinitionsFactoryKey(TilesRequestContext request);
+    }
+    
+    protected class DefaultKeyExtractor implements KeyExtractor {
+        
+        /**
+         * Returns the definitions factory key.
+         *
+         * @param request The request object.
+         * @return The needed factory key.
+         */
+        public String getDefinitionsFactoryKey(TilesRequestContext request) {
+            String retValue = null;
+            Map requestScope = request.getRequestScope();
+            if (requestScope != null) { // Probably the request scope does not exist
+                retValue = (String) requestScope.get(
+                        DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME);
+            }
+            
+            return retValue;
+        }
+    }
 
 	/**
      * Standard Getter
@@ -114,6 +147,10 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
     		setDefinitionsFactory(definitionsFactory);
     	}
     }
+    
+    public void setKeyExtractor(KeyExtractor keyExtractor) {
+        this.keyExtractor = keyExtractor;
+    }
 
     @Override
     protected ComponentDefinition getDefinition(String definitionName,
@@ -141,13 +178,10 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      * @return The needed factory key.
      */
     protected String getDefinitionsFactoryKey(TilesRequestContext request) {
-        String retValue = null;
-        Map requestScope = request.getRequestScope();
-        if (requestScope != null) { // Probably the request scope does not exist
-            retValue = (String) requestScope.get(
-                    DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME);
-        }
         
-        return retValue;
+        if (keyExtractor == null) {
+            keyExtractor = new DefaultKeyExtractor();
+        }
+        return keyExtractor.getDefinitionsFactoryKey(request);
     }
 }
