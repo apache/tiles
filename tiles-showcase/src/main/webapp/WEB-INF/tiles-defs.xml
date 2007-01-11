@@ -87,7 +87,7 @@
 
   <!-- The home menu definition -->
 <definition name="common.menu.home" template="/layouts/menu.jsp" >
-  <put name="title" value="Tiles" />
+  <put name="sectionTitle" value="Tiles" />
   <putList name="items" >
     <item value="Tiles Home"     link="/index.jsp" />
   </putList>
@@ -95,15 +95,15 @@
 
   <!-- Printer friendly menu definition -->
 <definition name="common.menu.examples" template="/layouts/menu.jsp" >
-  <put name="title" value="Examples" />
+  <put name="sectionTitle" value="Examples" />
   <putList name="items" >
-    <item value="Home"     link="/examples/index.jsp" />
+    <item value="Home"     link="/switch.do?prefix=/examples&amp;page=/index.jsp" />
   </putList>
 </definition>
 
   <!-- Documentation menu definition v1.1-->
 <definition name="common.menu.doc" template="/layouts/menu.jsp" >
-  <put name="title" value="Documentation" />
+  <put name="sectionTitle" value="Documentation" />
     <putList name="items" >
       <item value="Home"           link="/doc/index.jsp"  />
       <item value="Live Examples"  link="/examples/index.jsp"  />
@@ -126,7 +126,7 @@
 
   <!-- Printer friendly menu definition -->
 <definition name="common.menu.printer.friendly" template="/layouts/menu.jsp" >
-  <put name="title" value="Printer Versions" />
+  <put name="sectionTitle" value="Printer Versions" />
   <putList name="items" >
     <item value="Quick Overview"     link="/test/testAll.jsp" />
     <item value="Tutorial"           link="/doc/tutorialBody.html" />

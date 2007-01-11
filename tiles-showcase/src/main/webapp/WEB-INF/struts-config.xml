@@ -45,6 +45,8 @@
                type="org.apache.struts.tiles.actions.ReloadDefinitionsAction"/>
     <action    path="/admin/tiles/view"
                type="org.apache.struts.tiles.actions.ViewDefinitionsAction"/>
+    <action    path="/switch"
+               type="org.apache.struts.actions.SwitchAction"/>
 			   
   </action-mappings>
 

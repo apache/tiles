@@ -78,7 +78,7 @@
       <UL>
         <LI><FONT size=2>tiles.XmlDefinition.XmlParser : enable default value for <item> classtype
 		 attribute
-		 (org.apache.struts.tiles.beans.SimpleMenuItem). As a consequence, all classtype attribute 
+		 (org.apache.tiles.beans.SimpleMenuItem). As a consequence, all classtype attribute 
 		 can be removed in examples</FONT></LI>
         <LI><FONT size=2>tiles.XmlDefinition.I18nFactorySet : Enable serialization (bug reported 
 		by Dan Sykes)</FONT></LI>

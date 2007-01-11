@@ -39,7 +39,7 @@
 
   <!-- Test menu definition -->
 <definition name="test.menu.links" template="/layouts/menu.jsp" >
-  <put name="title" value="Tests" />
+  <put name="sectionTitle" value="Tests" />
     <putList name="items" >
       <item value="All in one"     link="/test/index.jsp"  />
       <item value="Basic" link="/test/testBasic.jsp" />

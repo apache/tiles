@@ -42,11 +42,22 @@ Iterator i=list.iterator();
 while( i.hasNext() )
   {
   String name= (String)i.next();
+  if (name.startsWith("/"))
+    {
+%>
+<tiles:insertTemplate template="<%=name%>" flush="true" />
+<br>
+
+<%
+    }
+  else
+    {
 %>
 <tiles:insertDefinition name="<%=name%>" flush="true" />
 <br>
 
 <%
+    }
   } // end loop
 %>
 

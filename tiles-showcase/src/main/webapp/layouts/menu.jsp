@@ -41,10 +41,10 @@
 <tiles:importAttribute />
 
 <table>
-<logic:present name="title">
+<logic:present name="sectionTitle">
 <tr>
   <th colspan=2>
-    <div align="left"><strong><tiles:getAsString name="title"/></strong></div>
+    <div align="left"><strong><tiles:getAsString name="sectionTitle"/></strong></div>
   </th>
 </tr>
 </logic:present>

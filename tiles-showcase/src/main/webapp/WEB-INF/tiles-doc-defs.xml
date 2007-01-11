@@ -82,14 +82,14 @@
 
   <!-- Documentation menu definition v1.1-->
 <definition name="doc.menu.links" template="/layouts/menu.jsp" >
-  <put name="title" value="Documentation" />
+  <put name="sectionTitle" value="Documentation" />
     <putList name="items" >
       <item value="Home"           link="/index.jsp"  />
       <item value="Live Examples (new)" link="/examples/index.jsp"  />
       <!--
 	  <item> <value>Commented Examples</value> 
 	  		<link>/examples/index.jsp</link>
-			<classtype>org.apache.struts.tiles.beans.SimpleMenuItem</classtype>
+			<classtype>org.apache.tiles.beans.SimpleMenuItem</classtype>
 	  </item>
 	  -->
       <item value="Quick overview" link="/doc/quickOverview.jsp"  />
@@ -102,13 +102,13 @@
       <item value="User Guide"	   link="/doc/userGuide.jsp" />
       <item value="Javadoc"        link="/api/index.html" />
       <item value="Struts Home"    link="http://www.apache.org"   icon="/images/struts-power.gif"        
-			classtype="org.apache.struts.tiles.beans.SimpleMenuItem" />
+			classtype="org.apache.tiles.beans.SimpleMenuItem" />
     </putList>
 </definition>
 
   <!-- Printer friendly menu definition -->
 <definition name="doc.menu.printer.friendly" template="/layouts/menu.jsp" >
-  <put name="title" value="Printer Versions" />
+  <put name="sectionTitle" value="Printer Versions" />
   <putList name="items" >
     <item value="Quick Overview"     link="/test/testAll.jsp" />
     <item value="Tutorial"           link="/doc/tutorialBody.html" />
@@ -119,7 +119,7 @@
 
   <!-- Taglib menu definition -->
 <definition name="doc.menu.taglib.references" template="/layouts/menu.jsp" >
-  <put name="title" value="Tag Library Reference" />
+  <put name="sectionTitle" value="Tag Library Reference" />
     <putList name="items" >
       <item value="Tiles Tags"     link="/doc/tilesTags.jsp" />
       <!-- <item value="Extension Tags (old)"   link="/doc/extensionsTags.jsp" /> -->
@@ -128,7 +128,7 @@
 
   <!-- Oldies menu definition -->
 <definition name="doc.menu.old.documents" template="/layouts/menu.jsp" >
-  <put name="title" value="Old Documents" />
+  <put name="sectionTitle" value="Old Documents" />
   <putList name="items" >
     <item value="Overview (old)"     link="/doc/overview.jsp" />
   </putList>

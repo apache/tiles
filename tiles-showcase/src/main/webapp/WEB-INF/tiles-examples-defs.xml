@@ -56,7 +56,7 @@
     <item value="item1" link="/examples/tabs.jsp"/>
     <item value="item2" link="/examples/tabs.jsp"/>
     <item value="item3" link="/examples/tabs.jsp"/>
-	<bean classtype="org.apache.struts.tiles.beans.SimpleMenuItem">
+	<bean classtype="org.apache.tiles.beans.SimpleMenuItem">
 	  <set-property property="link" value="aLink1"/>
 	  <set-property property="value" value="aValue1"/>
 	</bean>
