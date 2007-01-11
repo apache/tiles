@@ -23,7 +23,7 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.taglib.PutTag;
+import org.apache.tiles.taglib.PutAttributeTag;
 
 import javax.servlet.jsp.JspException;
 
@@ -39,6 +39,6 @@ public interface PutTagParent {
      *
      * @param nestedTag Nested tag to process.
      */
-    void processNestedTag(PutTag nestedTag) throws JspException;
+    void processNestedTag(PutAttributeTag nestedTag) throws JspException;
 
 }

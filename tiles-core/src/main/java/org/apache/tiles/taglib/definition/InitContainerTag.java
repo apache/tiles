@@ -31,7 +31,7 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.taglib.PutTagParent;
-import org.apache.tiles.taglib.PutTag;
+import org.apache.tiles.taglib.PutAttributeTag;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -71,7 +71,7 @@ public class InitContainerTag extends BodyTagSupport
     }
 
 
-    public void processNestedTag(PutTag nestedTag) throws JspException {
+    public void processNestedTag(PutAttributeTag nestedTag) throws JspException {
         initParameters.put(nestedTag.getName(), nestedTag.getValue().toString());
     }
 

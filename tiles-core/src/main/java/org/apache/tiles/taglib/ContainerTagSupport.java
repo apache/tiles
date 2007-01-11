@@ -26,17 +26,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-import javax.servlet.jsp.tagext.TryCatchFinally;
 import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Base tag for the tiles tags which interact with the container.
@@ -66,6 +61,17 @@ public abstract class ContainerTagSupport extends BodyTagSupport {
         this.role = role;
     }
 
+    /**
+     * By default, all ContainerTags evaluate their body.  Subclasses may choose to be more selective.
+     * In any case, children can rely upon the container and componentContext being initialized if they
+     * call <code>super.doStartTag()</code>
+     */
+    public int doStartTag() {
+        container = TilesAccess.getContainer(pageContext.getServletContext());
+        componentContext = container.getComponentContext(pageContext);
+        return EVAL_BODY_BUFFERED;
+    }
+    
 
     public int doEndTag() throws JspException {
         if (isAccessAllowed()) {

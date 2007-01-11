@@ -33,7 +33,7 @@ import javax.servlet.jsp.JspException;
  *
  * @version $Rev$ $Date$
  */
-public class InsertDefinitionTag extends RenderTagSupport {
+public class InsertDefinitionTag extends RenderTagSupport implements PutTagParent {
 
     private String name;
 

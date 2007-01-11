@@ -214,53 +214,35 @@
       </attribute>
    </tag>
    <tag>
-      <name>attribute</name>
-      <tag-class>org.apache.tiles.taglib.AttributeTag</tag-class>
+      <name>insertAttribute</name>
+      <tag-class>org.apache.tiles.taglib.InsertAttributeTag</tag-class>
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
-      <p><strong>Defines an attribute.</strong></p>
-      <p>An attribute can be seen as a parameter in a method signature. You can
-      define attributes in "template" pages. You can then insert template pages
-      by:</p>
-      <ul>
-        <li>using &lt;tiles:insertTemplate&gt; and specifying the template page
-        in the <code>template</code> attribute,</li>
-        <li>defining a definition in a Tiles configuration file, or via the
-        &lt;tiles:definition&gt; tag and then using
-        &lt;tiles:insertDefinition&gt;.</li>
-      </ul>
-      <p>You must specify <code>name</code> tag attribute, surrounding tiles's
-        attribute name whose value is used.</p>
+      <p><strong>Inserts the value of an attribute into the page.</strong></p>
+      <p>This tag can be flexibly used to insert the value of an attribute into a page.
+      As in other usages in Tiles, every attribute can be determined to have a "type", 
+      either set explicitly when it was defined, or "computed".  If the type is not explicit, then
+      if the attribute value is a valid definition, it will be inserted as such.  Otherwise,
+      if it begins with a "/" character, it will be treated as a "template".  Finally, if it 
+      has not otherwise been assigned a type, it will be treated as a String and included without 
+      any special handling.</p>
      
       <p><strong>Example : </strong></p>
       <pre>
         <code>
-          &lt;tiles:attribute name="body">
+          <tiles:insertAttribute name="body">
         </code>
       </pre>
       ]]>
       </description>
-      <attribute>
-         <name>template</name>
-         <required>false</required>
-         <rtexprvalue>true</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>A string representing the URI of a template. It is useful only if
-         the attribute value is a definition, to override the template specified
-         by definition itself.
-         </p>
-         ]]>
-         </description>
-      </attribute>
       <attribute>
          <name>name</name>
          <required>true</required>
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Name of the attribute to define.</p>
+         <p>Name of the attribute to insert.</p>
          ]]>
          </description>
       </attribute>
@@ -382,25 +364,48 @@
       </attribute>
    </tag>
    <tag>
-      <name>put</name>
-      <tag-class>org.apache.tiles.taglib.PutTag</tag-class>
+      <name>putAttribute</name>
+      <tag-class>org.apache.tiles.taglib.PutAttributeTag</tag-class>
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
-      <p><strong>Put an attribute into template context.
-      </strong></p>
-      <p>Define an attribute to pass to template.
-      This tag can only be used inside 'insert' or 'definition' tag.
-      Value (or content) is specified using attribute 'value' (or 'content'), 
-      or using the tag body.
-      It is also possible to specify the type of the value :</p>
-      <ul>
-        <li>string : Content is written directly.</li>
-        <li>page | template : Content is included from specified URL. Name is used as an URL.</li>
-        <li>definition : Content come from specified definition (from factory). Name is used as definition name.</li>
-      </ul>
-      <p>If 'type' attribute is not specified, content is 'untyped', unless it comes from a typed bean.</p>
-      <p>Note that using 'direct="true"' is equivalent to 'type="string"'.</p>
+      <p><strong>Put an attribute in enclosing attribute container tag.</strong></p>
+		<p>
+		Enclosing attribute container tag can be : 
+		<ul>
+		<li>&lt;initContainer&gt;</li> 
+		<li>&lt;definition&gt;</li> 
+		<li>&lt;insertAttribute&gt;</li> 
+		<li>&lt;insertDefinition&gt;</li>
+		<li>&lt;putList&gt;</li>
+		</ul>
+		(or any other tag which implements the <code>{@link PutTagParent}</code> interface.
+		Exception is thrown if no appropriate tag can be found.</p>
+		<p>Put tag can have following atributes :
+		<ul>
+		<li>name : Name of the attribute</li>
+		<li>value : value to put as attribute</li>
+		<li>type : value type. Only valid if value is a String and is set by
+		value="something" or by a bean.
+		Possible type are : string (value is used as direct string),
+		template (value is used as a page url to insert),
+		definition (value is used as a definition name to insert)</li>
+		<li>direct : Specify if value is to be used as a direct string or as a
+		page url to insert. This is another way to specify the type. It only apply
+		if value is set as a string, and type is not present.</li>
+		<li>beanName : Name of a bean used for setting value. Only valid if value is not set.
+		If property is specified, value come from bean's property. Otherwise, bean
+		itself is used for value.</li>
+		<li>beanProperty : Name of the property used for retrieving value.</li>
+		<li>beanScope : Scope containing bean. </li>
+		<li>role : Role to check when 'insert' will be called. If enclosing tag is
+		&lt;insert&gt;, role is checked immediately. If enclosing tag is
+		&lt;definition&gt;, role will be checked when this definition will be
+		inserted.</li>
+		</ul></p>
+		<p>Value can also come from tag body. Tag body is taken into account only if
+		value is not set by one of the tag attributes. In this case Attribute type is
+		"string", unless tag body define another type.</p>
       ]]>
       </description>
       <attribute>

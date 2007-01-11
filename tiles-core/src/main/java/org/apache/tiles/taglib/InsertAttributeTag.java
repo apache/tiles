@@ -25,11 +25,9 @@ package org.apache.tiles.taglib;
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.context.jsp.JspUtil;
 
 import javax.servlet.jsp.JspException;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * This is the tag handler for &lt;tiles:attribute&gt;, which defines an
@@ -38,14 +36,12 @@ import java.util.Map;
  *
  * @version $Rev$ $Date$
  */
-public class AttributeTag extends RenderTagSupport {
+public class InsertAttributeTag extends RenderTagSupport {
 
     /**
      * Name to insert.
      */
     protected String name;
-
-    protected String template;
 
     public void setName(String value) {
         this.name = value;
@@ -55,19 +51,9 @@ public class AttributeTag extends RenderTagSupport {
         return name;
     }
 
-    public String getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
-
     public void release() {
         super.release();
         this.name = null;
-        this.template = null;
     }
 
     protected void render() throws JspException, TilesException, IOException {

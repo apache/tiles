@@ -28,31 +28,42 @@ import org.apache.tiles.taglib.PutTagParent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.jsp.JspException;
+
 /**
  * PutList tag implementation.
  *
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class PutListTag extends PutTag
+public class PutListTag extends PutAttributeTag
     implements PutTagParent {
 
 
     public PutListTag() {
-        super.setValue(new ArrayList());
+        super.setValue(new ArrayList<ComponentAttribute>());
     }
 
     /**
      * Get list defined in tag.
      */
-    public List getValue() {
-        return (List) super.getValue();
+    public List<ComponentAttribute> getValue() {
+        return (List<ComponentAttribute>) super.getValue();
     }
 
     public void setValue(Object object) {
         throw new IllegalStateException("The value of the PutListTag must be the originally defined list.");
     }
 
+    /**
+     * PutListTag may not have any body, except for PutAttribute tags.
+     *
+     * @throws JspException if a JSP exception has occurred
+     */
+    public int doAfterBody() throws JspException {
+        return (SKIP_BODY);
+    }
+    
     /**
      * Release the state of this put list by
      * clearing the contents of the list.
@@ -73,14 +84,15 @@ public class PutListTag extends PutTag
      *
      * @param nestedTag the put tag desciendent.
      */
-    public void processNestedTag(PutTag nestedTag) {
+    public void processNestedTag(PutAttributeTag nestedTag) {
         ComponentAttribute attribute = new ComponentAttribute(
             nestedTag.getValue(), nestedTag.getRole(),
             nestedTag.getType());
 
-        componentContext.putAttribute(
-            nestedTag.getName(),
-            attribute
-        );
+        this.addValue(attribute);	
     }
+
+	private void addValue( ComponentAttribute attribute ) {
+		this.getValue().add(attribute);
+	}
 }

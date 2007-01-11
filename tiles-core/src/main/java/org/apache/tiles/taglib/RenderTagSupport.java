@@ -25,8 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.taglib.PutTag;
+import org.apache.tiles.taglib.PutAttributeTag;
 import org.apache.tiles.taglib.PutTagParent;
 
 import javax.servlet.jsp.JspException;
@@ -95,8 +94,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     }
 
         public int doStartTag() {
-        container = TilesAccess.getContainer(pageContext.getServletContext());
-        componentContext = container.getComponentContext(pageContext);
+        super.doStartTag();
         cacheState();
         return isAccessAllowed() ? EVAL_BODY_BUFFERED : SKIP_BODY;
     }
@@ -145,7 +143,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
      *
      * @param nestedTag the put tag desciendent.
      */
-    public void processNestedTag(PutTag nestedTag) {
+    public void processNestedTag(PutAttributeTag nestedTag) {
         ComponentAttribute attribute = new ComponentAttribute(
             nestedTag.getValue(), nestedTag.getRole(),
             nestedTag.getType());

@@ -22,7 +22,7 @@
 package org.apache.tiles.taglib.definition;
 
 import org.apache.tiles.taglib.PutTagParent;
-import org.apache.tiles.taglib.PutTag;
+import org.apache.tiles.taglib.PutAttributeTag;
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
@@ -149,7 +149,7 @@ public class DefinitionTag extends TagSupport
      * which invokes TagSupport.release(), which typically does nothing.
      */
 
-    public void processNestedTag(PutTag nestedTag) throws JspException {
+    public void processNestedTag(PutAttributeTag nestedTag) throws JspException {
         ComponentAttribute attr = new ComponentAttribute(nestedTag.getValue(),
             nestedTag.getRole(), nestedTag.getType());
         attr.setName(nestedTag.getName());
