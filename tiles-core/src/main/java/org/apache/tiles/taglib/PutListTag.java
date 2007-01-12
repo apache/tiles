@@ -41,7 +41,6 @@ public class PutListTag extends PutAttributeTag
 
 
     public PutListTag() {
-        super.setValue(new ArrayList<ComponentAttribute>());
     }
 
     /**
@@ -55,6 +54,10 @@ public class PutListTag extends PutAttributeTag
         throw new IllegalStateException("The value of the PutListTag must be the originally defined list.");
     }
 
+    public int doStartTag() {
+        super.setValue(new ArrayList<ComponentAttribute>());
+    	return super.doStartTag();
+    }
     /**
      * PutListTag may not have any body, except for PutAttribute tags.
      *
@@ -69,8 +72,8 @@ public class PutListTag extends PutAttributeTag
      * clearing the contents of the list.
      */
     public void release() {
+        super.setValue(null);
         super.release();
-        getValue().clear();
     }
 
     /**
