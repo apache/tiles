@@ -38,13 +38,21 @@
             <item name="Tiles 2" href="http://tiles.apache.org" />
         </links>
 
-        <menu name="Documentation">
+        <menu name="Apache Tiles">
             <item
                    name="Welcome"
                    href="/index.html"/>
             <item
                    name="FAQ"
                    href="/faq.html"/>
+            <item
+                   name="Volunteers"
+                   href="/volunteers.html"/>
+        </menu>
+        <menu name="Documentation">
+            <item   
+                    name="Quickstart"
+                    href="/quickstart/index.html"/>
             <item
                     name="Javadoc"
                     href="/tiles-core/apidocs/index.html"/>
@@ -60,6 +68,15 @@
             <item
                     name="Selenium Testing"
                     href="/selenium.html"/>
+        </menu>
+        <menu name="Support">
+            <item
+                    name="Mailing List"
+                    href="mail.html"/>
+            <item
+                    name="Issue Tracker (JIRA)"
+                    href="http://issues.apache.org/struts/browse/TILES"/>
+
         </menu>
         <menu name="Quick Links">
             <item

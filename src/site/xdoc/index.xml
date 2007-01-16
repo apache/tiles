@@ -31,19 +31,28 @@
 
         <section name="Tiles 2">
 
-                <p><strong>Tiles 2</strong> is an effort to extract the Tiles library
-                from Struts. It is currently housed in the Sandbox area
-                of the Apache Struts Subversion repository.</p>
+                <p><strong><a href="http://tiles.apache.org">Apache Tiles</a></strong>
+                is a templating framework built to simplfy the development of web
+                application user interfaces.</p>
 
-                <p>Much of the <a
-                href="http://struts.apache.org/struts-action/struts-tiles">
-                Struts Tiles</a> documentation will also be useful in
-                understanding how to use Tiles 2.</p>
+                <p>Tiles allows authors to define page fragements which can be assembled
+                into a complete page at runtime.  These fragments, or tiles, can be used 
+                as simple includes in order to reduce the duplication of common page
+                elements or embeded within other tiles to develop a series of reusable
+                templates. These templates streamline the development of a consistent 
+                look and feel across an entire application.</p>
+
+                <p>Tiles grew in popularity as a component of the popular 
+                <a href="http://struts.apache.org">Struts</a> framework.  It has since
+                been extracted from Struts and is now integrated with various frameworks,
+                such as <a href="http://struts.apache.org">Struts2</a>, 
+                <a href="http://shale.apache.org">Shale</a>, and 
+                <a href="http://velocity.apache.org">Velocity</a>.</p>
 
             <a name="downloads"/>
             <subsection name="Downloads">
 
-                <p>As a sandbox project, Tiles 2 has no formal
+                <p>As new top level project, Tiles does not yet have any official
                 releases.  However, snapshots are occasionally published to
                 Apache's Maven 2 snapshot repository, which can be accessed with
                 the following configuration:</p>
@@ -85,39 +94,14 @@
             <subsection name="Requirements">
 
                 <ul>
-                    <li>Java Runtime Environment (JRE) 1.4 or later.</li>
+                    <li>Java Runtime Environment (JRE) 1.5 or later. (1.4 support provided seperately)</li>
                     <li>Servlet API 2.3 or later (suggested 2.4 or later).</li>
                     <li>JavaServer Pages 1.2 or later, but you need JSP 2.0 or
                     later to use EL.</li>
                 </ul>
 
             </subsection>
-
         </section>
-
-        <section name="Mailing Lists">
-            <a name="mail"/>
-
-            <p>Tiles 2 is being developed by the Apache Struts
-            community, and shares the <i>dev at struts.apache.org</i> mailing
-            list. Subscription information can be found <a
-            href="http://struts.apache.org/mail.html">here</a>.</p>
-
-            <p>When posting to the list, please prefix your subject lines with
-            "[tiles2]" so that list members can filter messages as desired.</p>
-
-        </section>
-
-        <section name="Issue Tracking">
-            <a name="issue"/>
-
-            <p>Please report any bugs or enhancement requests in the <a
-            href="issue-tracking.html">Apache Struts Issue Tracking System</a>,
-            using project <code>Sandbox</code> and component
-            <code>Tiles</code>.</p>
-
-        </section>
-
     </body>
 
 </document>
