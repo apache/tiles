@@ -58,6 +58,17 @@
     <ciManagement/>
     
     <distributionManagement>
+        <repository>
+            <id>tiles-staging</id>
+            <name>Apache Tiles Staging Repository</name>
+            <url>scp://people.apache.org/www/people.apache.org/builds/tiles/m2-staging-repository</url>
+        </repository>
+        <snapshotRepository>
+            <id>apache.snapshots</id>
+            <name>Apache Development Snapshot Repository</name>
+            <url>scp://people.apache.org/www/people.apache.org/repo/m2-snapshot-repository</url>
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
         <site>
             <id>apache-site</id>
             <url>scp://people.apache.org/www/tiles.apache.org</url>

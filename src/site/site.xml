@@ -21,24 +21,21 @@
  * under the License.
  */
 -->
-<project name="Apache Struts - Tiles 2">
+<project name="Apache Tiles 2">
     <bannerLeft>
         <name>Apache Software Foundation</name>
         <src>http://www.apache.org/images/asf-logo.gif</src>
         <href>http://www.apache.org</href>
     </bannerLeft>
     <bannerRight>
-        <name>Apache Struts</name>
-        <src>http://struts.apache.org/images/struts.gif</src>
-        <href>http://struts.apache.org</href>
+        <name>Apache Tiles 2</name>
+        <href>http://tiles.apache.org</href>
     </bannerRight>
     <body>
 
         <links>
             <item name="Apache" href="http://www.apache.org" />
-            <item name="Struts 1" href="http://struts.apache.org/1.x" />
-            <item name="Struts 2" href="http://struts.apache.org/2.x" />
-            <item name="Tiles 2" href="http://struts.apache.org/struts-sandbox/tiles" />
+            <item name="Tiles 2" href="http://tiles.apache.org" />
         </links>
 
         <menu name="Documentation">
@@ -68,9 +65,6 @@
             <item
                     name="Struts"
                     href="http://struts.apache.org/"/>
-            <item
-                    name="Struts Sandbox"
-                    href="http://struts.apache.org/struts-sandbox"/>
             <item
                     name="Tiles 2"
                     href="/index.html"/>
