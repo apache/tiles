@@ -78,13 +78,16 @@
                     href="http://issues.apache.org/struts/browse/TILES"/>
 
         </menu>
-        <menu name="Quick Links">
+        <menu name="Related Projects">
             <item
                     name="Struts"
                     href="http://struts.apache.org/"/>
             <item
-                    name="Tiles 2"
-                    href="/index.html"/>
+                    name="Shale"
+                    href="http://shale.apache.org/"/>
+            <item
+                    name="Velocity"
+                    href="http://velocity.apache.org"/>
         </menu>
 
         ${modules}
