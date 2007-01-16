@@ -1,0 +1,14 @@
+${candidate},
+
+The Struts Project Management Committee (PMC) has voted to invite you to join
+the PMC. As you're most likely aware, the PMC is the body that is ultimately
+responsible for the project, and its members are the people who have binding
+votes and ultimately make all the final decisions. With this, of course, comes
+the responsibility to maintain oversight of the project.
+
+Please let me know as soon as possible whether or not you'd like to accept
+this invitation. And thanks for your continued contributions to Struts!
+
+--
+${pmc-chair}
+Struts PMC Chair

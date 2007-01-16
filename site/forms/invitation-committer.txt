@@ -1,0 +1,36 @@
+${candidate},
+
+On behalf of the Apache Struts PMC, I would like to extend to you an invitation
+to become a Struts Committer. If you might be interested, please be sure to
+review the 'How the ASF Works' pages:
+
+* http://apache.org/foundation/how-it-works.html
+
+along with the Apache Struts PMC charter:
+
+* http://struts.apache.org/bylaws.html
+
+If you decide to accept the invitation, the first step would be to file an
+Individual Contributor License Agreement:
+
+* http://apache.org/licenses/cla.txt
+
+If you have an intellectual property agreement with your employer, they may
+also need to file a corporate agreement:
+
+* http://apache.org/licenses/cla-corporate.txt
+
+The next step would be to send your first three choices for an Apache account
+name to the Struts PMC Chair:
+
+* Martin Cooper <martinc@apache.org>
+
+Once the account is set up, you would be able to commit to the Struts source
+repository.
+
+We do hope that you will be able to join us.
+
+Thank you for your sustained efforts in helping us build not only great
+software, but a great community.
+
+${pmc-member}
