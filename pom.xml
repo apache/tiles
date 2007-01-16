@@ -39,7 +39,7 @@
     <version>2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Tiles 2</name>
-    <url>http://struts.apache.org/struts-sandbox/tiles</url>
+    <url>http://tiles.apache.org</url>
     <description>Tiles 2</description>
 
     <inceptionYear>2000</inceptionYear>
@@ -56,12 +56,48 @@
     </issueManagement>
 
     <ciManagement/>
+    
     <distributionManagement>
         <site>
             <id>apache-site</id>
             <url>scp://people.apache.org/www/tiles.apache.org</url>
         </site>
     </distributionManagement>
+
+    <mailingLists>
+      <mailingList>
+         <name>Tiles User List</name>
+         <subscribe>users-subscribe@tiles.apache.org</subscribe>
+         <unsubscribe>users-unsubscribe@tiles.apache.org</unsubscribe>
+         <post>users@tiles.apache.org</post>
+         <archive>http://mail-archives.apache.org/mod_mbox/tiles-users/</archive>
+      </mailingList>
+      <mailingList>
+         <name>Tiles Development List</name>
+         <subscribe>dev-subscribe@tiles.apache.org</subscribe>
+         <unsubscribe>dev-unsubscribe@tiles.apache.org</unsubscribe>
+         <post>dev@tiles.apache.org</post>
+         <archive>http://mail-archives.apache.org/mod_mbox/tiles-dev/</archive>
+      </mailingList>
+      <mailingList>
+         <name>Tiles Commits List</name>
+         <subscribe>commits-subscribe@tiles.apache.org</subscribe>
+         <unsubscribe>commits-unsubscribe@tiles.apache.org</unsubscribe>
+         <archive>http://mail-archives.apache.org/mod_mbox/tiles-commits/</archive>
+      </mailingList>
+      <mailingList>
+         <name>Tiles Issues List</name>
+         <subscribe>issues-subscribe@tiles.apache.org</subscribe>
+         <unsubscribe>issues-unsubscribe@tiles.apache.org</unsubscribe>
+         <archive>http://mail-archives.apache.org/mod_mbox/tiles-issues/</archive>
+      </mailingList>
+      <mailingList>
+         <name>Tiles Notifications List</name>
+         <subscribe>notifications-subscribe@tiles.apache.org</subscribe>
+         <unsubscribe>notifications-unsubscribe@tiles.apache.org</unsubscribe>
+         <archive>http://mail-archives.apache.org/mod_mbox/tiles-notifications/</archive>
+      </mailingList>
+   </mailingLists>
 
     <modules>
         <module>tiles-api</module>
