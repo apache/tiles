@@ -23,14 +23,14 @@
 
 Tiles Quickstart
 
- This tutoral is inteded to provide a breif tutorial for the
+ This tutorial is intended to provide a brief tutorial for the
  <<{{{http://tiles.apache.org}Tiles}}>> framework.
 
 * Introduction
 
- A Tile is a reusable markup fragment.  Often, it is looks like
+ A Tile is a reusable markup fragment.  Often, it looks like
  nothing more than a jsp include, but when used within the tiles
- framework it become an avenue for a consistent look and feel
+ framework it becomes an avenue for a consistent look and feel
  throughout an application.
 
 * Tiling Basics
@@ -60,7 +60,7 @@ Tiles Quickstart
  This page can be logically cut up into sections: an outer template,
  a header, the body, and a footer.  If it were the only page of
  the application, then it would make sense to render all of this
- content from a single jsp, however, in all likelyhood, it is
+ content from a single jsp, however, in all likelihood, it is
  probably just one of many pages with a similar look and feel.
 
  This tutorial will walk you through extracting each of these
