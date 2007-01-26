@@ -28,9 +28,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.apache</groupId>
-        <artifactId>apache</artifactId>
-        <version>3</version>
+        <groupId>org.apache.tiles</groupId>
+        <artifactId>tiles-master</artifactId>
+        <version>1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -39,97 +39,15 @@
     <version>2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Tiles 2</name>
-    <url>http://tiles.apache.org</url>
     <description>Tiles 2</description>
-
-    <inceptionYear>2000</inceptionYear>
-
-    <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/tiles/trunk</url>
-    </scm>
-
-    <issueManagement>
-        <system>JIRA</system>
-        <url>http://issues.apache.org/struts/</url>
-    </issueManagement>
 
     <ciManagement/>
     
-    <distributionManagement>
-        <repository>
-            <id>tiles-staging</id>
-            <name>Apache Tiles Staging Repository</name>
-            <url>scp://people.apache.org/www/people.apache.org/builds/tiles/m2-staging-repository</url>
-        </repository>
-        <snapshotRepository>
-            <id>apache.snapshots</id>
-            <name>Apache Development Snapshot Repository</name>
-            <url>scp://people.apache.org/www/people.apache.org/repo/m2-snapshot-repository</url>
-            <uniqueVersion>true</uniqueVersion>
-        </snapshotRepository>
-        <site>
-            <id>apache-site</id>
-            <url>scp://people.apache.org/www/tiles.apache.org</url>
-        </site>
-    </distributionManagement>
-
-    <mailingLists>
-      <mailingList>
-         <name>Tiles User List</name>
-         <subscribe>users-subscribe@tiles.apache.org</subscribe>
-         <unsubscribe>users-unsubscribe@tiles.apache.org</unsubscribe>
-         <post>users@tiles.apache.org</post>
-         <archive>http://mail-archives.apache.org/mod_mbox/tiles-users/</archive>
-      </mailingList>
-      <mailingList>
-         <name>Tiles Development List</name>
-         <subscribe>dev-subscribe@tiles.apache.org</subscribe>
-         <unsubscribe>dev-unsubscribe@tiles.apache.org</unsubscribe>
-         <post>dev@tiles.apache.org</post>
-         <archive>http://mail-archives.apache.org/mod_mbox/tiles-dev/</archive>
-      </mailingList>
-      <mailingList>
-         <name>Tiles Commits List</name>
-         <subscribe>commits-subscribe@tiles.apache.org</subscribe>
-         <unsubscribe>commits-unsubscribe@tiles.apache.org</unsubscribe>
-         <archive>http://mail-archives.apache.org/mod_mbox/tiles-commits/</archive>
-      </mailingList>
-      <mailingList>
-         <name>Tiles Issues List</name>
-         <subscribe>issues-subscribe@tiles.apache.org</subscribe>
-         <unsubscribe>issues-unsubscribe@tiles.apache.org</unsubscribe>
-         <archive>http://mail-archives.apache.org/mod_mbox/tiles-issues/</archive>
-      </mailingList>
-      <mailingList>
-         <name>Tiles Notifications List</name>
-         <subscribe>notifications-subscribe@tiles.apache.org</subscribe>
-         <unsubscribe>notifications-unsubscribe@tiles.apache.org</unsubscribe>
-         <archive>http://mail-archives.apache.org/mod_mbox/tiles-notifications/</archive>
-      </mailingList>
-   </mailingLists>
-
     <modules>
         <module>tiles-api</module>
         <module>tiles-core</module>
         <module>tiles-test</module>
     </modules>
-
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments/>
-        </license>
-    </licenses>
-
-    <organization>
-        <name>Apache Software Foundation</name>
-        <url>http://www.apache.org</url>
-    </organization>
-
 
     <build>
         <pluginManagement>
