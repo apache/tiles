@@ -157,10 +157,25 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
     public void dispatch(String path) throws IOException {
-        include(path);
+    	if (response.isCommitted()) {
+    		include(path);
+    	} else {
+    		forward(path);
+    	}
     }
 
-    public void include(String path) throws IOException{
+    private void forward( String path ) throws IOException {
+        RequestDispatcher rd = request.getRequestDispatcher(path);
+        try {
+            rd.forward(request, response);
+        } catch (ServletException ex) {
+            LOG.error("Servlet Exception while including path", ex);
+            throw new IOException("Error including path '"+path+"'. " + ex.getMessage());
+        }
+	}
+
+
+	public void include(String path) throws IOException{
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
             rd.include(request, response);
