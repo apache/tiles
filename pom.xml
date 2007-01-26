@@ -114,7 +114,6 @@
         <module>tiles-api</module>
         <module>tiles-core</module>
         <module>tiles-test</module>
-        <module>tiles-showcase</module>
     </modules>
 
     <licenses>
@@ -206,6 +205,9 @@
             </plugin>
             <plugin>
                 <artifactId>maven-pmd-plugin</artifactId>
+                <configuration>
+                  <targetJdk>1.5</targetJdk>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
