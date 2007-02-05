@@ -30,6 +30,7 @@ import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.IOException;
 
@@ -68,9 +69,7 @@ public abstract class ContainerTagSupport extends BodyTagSupport {
      */
     public int doStartTag() {
         container = TilesAccess.getContainer(pageContext.getServletContext());
-        if (container != null) {
-        	componentContext = container.getComponentContext(pageContext);
-        }
+        componentContext = getComponentContext(pageContext);
         return EVAL_BODY_BUFFERED;
     }
     
@@ -108,5 +107,14 @@ public abstract class ContainerTagSupport extends BodyTagSupport {
         return (role == null || req.isUserInRole(role));
     }
 
+    protected ComponentContext getComponentContext(PageContext pageContext) {
+    	ComponentContext componentContext = null;
+    	
+        if (container != null) {
+        	componentContext = container.createComponentContext();
+        }
+        
+        return componentContext;
+    }
 
 }

@@ -117,7 +117,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
      */
     protected void execute() throws TilesException, JspException, IOException {
         if (preparer != null) {
-            container.prepare(pageContext, preparer);
+            container.prepare(pageContext, componentContext, preparer);
         }
         render();
     }

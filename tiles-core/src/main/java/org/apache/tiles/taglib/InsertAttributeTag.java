@@ -67,6 +67,6 @@ public class InsertAttributeTag extends RenderTagSupport {
             throw new TilesException("Attribute '" + name + "' not found.");
         }
 
-        container.render(pageContext, attr);
+        container.render(pageContext, componentContext, attr);
     }
 }
