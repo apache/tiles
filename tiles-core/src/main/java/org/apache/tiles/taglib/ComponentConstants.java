@@ -32,7 +32,7 @@ public interface ComponentConstants {
     /**
      * Name used to store Tile/Component context.
      */
-    public static final String COMPONENT_CONTEXT = "org.apache.tiles.CompContext";
+    public static final String COMPONENT_CONTEXT_STACK = "org.apache.tiles.ComponentContext.STACK";
 
     public static final int COMPONENT_SCOPE = 8;
     public static final String LOCALE_KEY = "org.apache.tiles.LOCALE";

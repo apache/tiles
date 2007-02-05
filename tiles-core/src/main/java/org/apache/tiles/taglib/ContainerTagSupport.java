@@ -69,7 +69,7 @@ public abstract class ContainerTagSupport extends BodyTagSupport {
      */
     public int doStartTag() {
         container = TilesAccess.getContainer(pageContext.getServletContext());
-        componentContext = getComponentContext(pageContext);
+        startContext(pageContext);
         return EVAL_BODY_BUFFERED;
     }
     
@@ -88,6 +88,8 @@ public abstract class ContainerTagSupport extends BodyTagSupport {
                 throw new JspException(message, io);
             }
         }
+        endContext(pageContext);
+        
         return EVAL_PAGE;
     }
 
@@ -106,15 +108,16 @@ public abstract class ContainerTagSupport extends BodyTagSupport {
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
         return (role == null || req.isUserInRole(role));
     }
-
-    protected ComponentContext getComponentContext(PageContext pageContext) {
-    	ComponentContext componentContext = null;
-    	
+    
+    protected void startContext(PageContext context) {
         if (container != null) {
-        	componentContext = container.createComponentContext();
+            componentContext = container.startContext(pageContext);
         }
-        
-        return componentContext;
     }
-
+    
+    protected void endContext(PageContext context) {
+        if (componentContext != null && container != null) {
+            container.endContext(pageContext);
+        }
+    }
 }

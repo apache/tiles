@@ -108,6 +108,36 @@ public class BasicTilesContainer implements TilesContainer {
         		initParameters);
     }
 
+	public ComponentContext startContext(Object request, Object response) {
+        TilesRequestContext tilesContext = getRequestContext(request, response);
+		return startContext(tilesContext);
+	}
+
+	public ComponentContext startContext(PageContext context) {
+        TilesRequestContext tilesContext = getRequestContext(context);
+        return startContext(tilesContext);
+	}
+
+    public void endContext(Object request, Object response) {
+        TilesRequestContext tilesContext = getRequestContext(request, response);
+        endContext(tilesContext);
+    }
+
+    public void endContext(PageContext context) {
+        TilesRequestContext tilesContext = getRequestContext(context);
+        endContext(tilesContext);
+    }
+    
+    private ComponentContext startContext(TilesRequestContext tilesContext) {
+        ComponentContext context = new BasicComponentContext();
+        BasicComponentContext.pushContext(context, tilesContext);
+        return context;
+    }
+
+    private void endContext(TilesRequestContext tilesContext) {
+        BasicComponentContext.popContext(tilesContext);
+    }
+
     /**
      * Determine whether or not the container has been
      * initialized. Utility method used for methods which
@@ -182,20 +212,16 @@ public class BasicTilesContainer implements TilesContainer {
         return getComponentContext(tilesContext);
     }
 
-	public ComponentContext createComponentContext() {
-		return new BasicComponentContext();
-	}
-
     private ComponentContext getComponentContext(TilesRequestContext tilesContext) {
         ComponentContext context = BasicComponentContext.getContext(tilesContext);
         if (context == null) {
             context = new BasicComponentContext();
-            BasicComponentContext.setContext(context, tilesContext);
+            BasicComponentContext.pushContext(context, tilesContext);
         }
         return context;
     }
 
-	private TilesRequestContext getRequestContext(Object request, Object response) {
+    private TilesRequestContext getRequestContext(Object request, Object response) {
         return getContextFactory().createRequestContext(
             getApplicationContext(),
             request,
@@ -262,23 +288,11 @@ public class BasicTilesContainer implements TilesContainer {
     public void prepare(Object request, Object response, String preparer)
         throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
-                getApplicationContext(),
-                request,
-                response
-            );
-        ComponentContext componentContext = BasicComponentContext.getContext(requestContext);
-        prepare(requestContext, componentContext, preparer, false);
-    }
-
-    public void prepare(Object request, Object response,
-    		ComponentContext componentContext, String preparer)
-        throws TilesException {
-        TilesRequestContext requestContext = getContextFactory().createRequestContext(
             getApplicationContext(),
             request,
             response
         );
-        prepare(requestContext, componentContext, preparer, false);
+        prepare(requestContext, preparer, false);
     }
 
     public void prepare(PageContext context, String preparer)
@@ -286,21 +300,10 @@ public class BasicTilesContainer implements TilesContainer {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
             getApplicationContext(), context
         );
-        ComponentContext componentContext = BasicComponentContext.getContext(requestContext);
-        prepare(requestContext, componentContext, preparer, false);
+        prepare(requestContext, preparer, false);
     }
 
-    public void prepare(PageContext context,
-    		ComponentContext componentContext, String preparer)
-        throws TilesException {
-        TilesRequestContext requestContext = getContextFactory().createRequestContext(
-            getApplicationContext(), context
-        );
-        prepare(requestContext, componentContext, preparer, false);
-    }
-
-	private void prepare(TilesRequestContext context,
-			ComponentContext componentContext, String preparerName, boolean ignoreMissing)
+    private void prepare(TilesRequestContext context, String preparerName, boolean ignoreMissing)
         throws TilesException {
 
         if (LOG.isDebugEnabled()) {
@@ -315,6 +318,8 @@ public class BasicTilesContainer implements TilesContainer {
         if (preparer == null) {
             throw new NoSuchPreparerException("Preparer '" + preparerName + " not found");
         }
+
+        ComponentContext componentContext = BasicComponentContext.getContext(context);
 
         // TODO: Temporary while preparerInstance gets refactored to throw a more specific exception.
         try {
@@ -337,8 +342,7 @@ public class BasicTilesContainer implements TilesContainer {
             request,
             response
         );
-        ComponentContext componentContext = getComponentContext(requestContext);
-        render(requestContext, componentContext, definitionName);
+        render(requestContext, definitionName);
     }
 
     public void render(PageContext context, String definitionName)
@@ -346,37 +350,10 @@ public class BasicTilesContainer implements TilesContainer {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
             getApplicationContext(), context
         );
-        ComponentContext componentContext = getComponentContext(requestContext);
-        render(requestContext, componentContext, definitionName);
+        render(requestContext, definitionName);
     }
 
-    /**
-     * Render the specified definition.
-     *
-     * @param request the TilesRequestContext
-     * @throws TilesException
-     */
-    public void render(Object request, Object response,
-    		ComponentContext componentContext, String definitionName)
-        throws TilesException {
-        TilesRequestContext requestContext = getContextFactory().createRequestContext(
-            getApplicationContext(),
-            request,
-            response
-        );
-        render(requestContext, componentContext, definitionName);
-    }
-
-    public void render(PageContext context, ComponentContext componentContext,
-    		String definitionName)
-        throws TilesException {
-        TilesRequestContext requestContext = getContextFactory().createRequestContext(
-            getApplicationContext(), context
-        );
-        render(requestContext, componentContext, definitionName);
-    }
-
-    private void render(TilesRequestContext request, ComponentContext originalContext, String definitionName)
+    private void render(TilesRequestContext request, String definitionName)
         throws TilesException {
 
         if (LOG.isDebugEnabled()) {
@@ -399,13 +376,14 @@ public class BasicTilesContainer implements TilesContainer {
             return;
         }
 
+        ComponentContext originalContext = getComponentContext(request);
         BasicComponentContext subContext = new BasicComponentContext(originalContext);
         subContext.addMissing(definition.getAttributes());
-        BasicComponentContext.setContext(subContext, request);
+        BasicComponentContext.pushContext(subContext, request);
 
         try {
             if (definition.getPreparer() != null) {
-                prepare(request, subContext, definition.getPreparer(), true);
+                prepare(request, definition.getPreparer(), true);
             }
 
             String dispatchPath = definition.getTemplate();
@@ -424,19 +402,13 @@ public class BasicTilesContainer implements TilesContainer {
             // TODO it would be nice to make the preparerInstance throw a more specific
             throw new TilesException(e.getMessage(), e);
         } finally {
-            BasicComponentContext.setContext(originalContext, request);
+            BasicComponentContext.popContext(request);
         }
     }
 
     public void render(PageContext pageContext, ComponentAttribute attr)
         throws TilesException, IOException {
         ComponentContext context = getComponentContext(pageContext);
-        render(pageContext, context, attr);
-    }
-
-    public void render(PageContext pageContext, ComponentContext componentContext,
-    		ComponentAttribute attr)
-        throws TilesException, IOException {
         TilesRequestContext request = getRequestContext(pageContext);
 
         String type = calculateType(pageContext, attr);
@@ -449,12 +421,12 @@ public class BasicTilesContainer implements TilesContainer {
         Map<String, ComponentAttribute> attrs = attr.getAttributes();
         if (attrs != null) {
             for (Map.Entry<String, ComponentAttribute> a : attrs.entrySet()) {
-                componentContext.putAttribute(a.getKey(), a.getValue());
+                context.putAttribute(a.getKey(), a.getValue());
             }
         }
 
         if (isDefinition(pageContext, attr)) {
-            render(request, componentContext, attr.getValue().toString());
+            render(request, attr.getValue().toString());
         } else {
             request.include(attr.getValue().toString());
         }

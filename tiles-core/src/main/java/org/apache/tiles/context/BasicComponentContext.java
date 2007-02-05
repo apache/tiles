@@ -209,23 +209,55 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      *         jspException is present in the request.
      */
     static public ComponentContext getContext(TilesRequestContext tilesContext) {
-        if (tilesContext.getRequestScope().get("javax.servlet.jsp.jspException") != null) {
+        Stack<ComponentContext> contextStack = getContextStack(tilesContext);
+        if (!contextStack.isEmpty()) {
+            return contextStack.peek();
+        } else {
             return null;
         }
-        return (ComponentContext) tilesContext.getRequestScope().get(
-            ComponentConstants.COMPONENT_CONTEXT);
     }
-
+    
     /**
-     * Store component context into request.
+     * Returns the context stack.
      *
-     * @param context      BasicComponentContext to store.
-     * @param tilesContext current Tiles application context.
+     * @param tilesContext The Tiles context object to use.
+     * @return The needed stack of contexts.
      */
-    static public void setContext(ComponentContext context,
-        TilesRequestContext tilesContext) {
-
-        tilesContext.getRequestScope().put(ComponentConstants.COMPONENT_CONTEXT, context);
+    @SuppressWarnings("unchecked")
+    static public Stack<ComponentContext> getContextStack(TilesRequestContext tilesContext) {
+        Stack<ComponentContext> contextStack =
+            (Stack<ComponentContext>) tilesContext.getRequestScope().get(
+                ComponentConstants.COMPONENT_CONTEXT_STACK);
+        if (contextStack == null) {
+            contextStack = new Stack<ComponentContext>();
+            tilesContext.getRequestScope().put(ComponentConstants.COMPONENT_CONTEXT_STACK,
+                    contextStack);
+        }
+        
+        return contextStack;
+    }
+    
+    /**
+     * Pushes a context object in the stack.
+     *
+     * @param context The context to push.
+     * @param tilesContext The Tiles context object to use.
+     */
+    static public void pushContext(ComponentContext context,
+            TilesRequestContext tilesContext) {
+        Stack<ComponentContext> contextStack = getContextStack(tilesContext);
+        contextStack.push(context);
+    }
+    
+    /**
+     * Pops a context object out of the stack
+     *
+     * @param tilesContext The Tiles context object to use.
+     * @return The popped context object.
+     */
+    static public ComponentContext popContext(TilesRequestContext tilesContext) {
+        Stack<ComponentContext> contextStack = getContextStack(tilesContext);
+        return contextStack.pop();
     }
 
     public void clear() {

@@ -27,6 +27,8 @@ import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesException;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+
 import java.io.IOException;
 
 /**
@@ -67,6 +69,18 @@ public class InsertAttributeTag extends RenderTagSupport {
             throw new TilesException("Attribute '" + name + "' not found.");
         }
 
-        container.render(pageContext, componentContext, attr);
+        container.render(pageContext, attr);
+    }
+
+    @Override
+    protected void startContext(PageContext context) {
+        if (container != null) {
+            componentContext = container.getComponentContext(context);
+        }
+    }
+
+    @Override
+    protected void endContext(PageContext context) {
+        // Do nothing
     }
 }

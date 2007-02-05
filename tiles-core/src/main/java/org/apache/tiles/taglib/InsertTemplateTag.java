@@ -22,13 +22,11 @@
 
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.ComponentContext;
 import org.apache.tiles.context.jsp.JspUtil;
 import org.apache.tiles.taglib.RenderTagSupport;
 import org.apache.tiles.taglib.PutTagParent;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 
 /**
  * This is the tag handler for &lt;tiles:insertTemplate&gt;, which includes a
@@ -52,15 +50,4 @@ public class InsertTemplateTag extends RenderTagSupport
     protected void render() throws JspException {
         JspUtil.doInclude(pageContext, template, flush);
     }
-
-	@Override
-	protected ComponentContext getComponentContext(PageContext pageContext) {
-		ComponentContext componentContext = null;
-		
-		if (container != null) {
-			componentContext = container.getComponentContext(pageContext);
-		}
-		
-		return componentContext;
-	}
 }
