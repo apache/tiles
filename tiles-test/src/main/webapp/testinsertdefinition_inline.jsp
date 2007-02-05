@@ -26,5 +26,5 @@
 <tiles:insertDefinition name="test.definition">
   <tiles:putAttribute name="body">
   <div align="center"><b><i>This is an inline content</i></b></div>
-  </tiles:put>
+  </tiles:putAttribute>
 </tiles:insertDefinition>
