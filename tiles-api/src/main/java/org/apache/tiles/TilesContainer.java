@@ -69,18 +69,9 @@ public interface TilesContainer {
 
     /**
      * Creates a new component context from the current request
-     * @param context the current request.
      * @return map of the attributes in the current component context.
      */
-    ComponentContext createComponentContext(PageContext context);
-
-    /**
-     * Creates a new component context from the current request
-     * @param request the current request.
-     * @param response the current reponse.
-     * @return map of the attributes in the current component context.
-     */
-    ComponentContext createComponentContext(Object request, Object response);
+    ComponentContext createComponentContext();
 
     /**
      * @param request the current request

@@ -182,14 +182,8 @@ public class BasicTilesContainer implements TilesContainer {
         return getComponentContext(tilesContext);
     }
 
-    public ComponentContext createComponentContext(Object request, Object response) {
-		ComponentContext componentContext = getComponentContext(request, response);
-		return new BasicComponentContext(componentContext);
-	}
-
-	public ComponentContext createComponentContext(PageContext context) {
-		ComponentContext componentContext = getComponentContext(context);
-		return new BasicComponentContext(componentContext);
+	public ComponentContext createComponentContext() {
+		return new BasicComponentContext();
 	}
 
     private ComponentContext getComponentContext(TilesRequestContext tilesContext) {
