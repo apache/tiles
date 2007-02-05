@@ -68,6 +68,21 @@ public interface TilesContainer {
     ComponentContext getComponentContext(PageContext context);
 
     /**
+     * Creates a new component context from the current request
+     * @param context the current request.
+     * @return map of the attributes in the current component context.
+     */
+    ComponentContext createComponentContext(PageContext context);
+
+    /**
+     * Creates a new component context from the current request
+     * @param request the current request.
+     * @param response the current reponse.
+     * @return map of the attributes in the current component context.
+     */
+    ComponentContext createComponentContext(Object request, Object response);
+
+    /**
      * @param request the current request
      * @param response the current response
      * @param definition the requested definition
@@ -82,6 +97,25 @@ public interface TilesContainer {
      */
     void prepare(PageContext pageContext, String definition) throws TilesException;
 
+
+    /**
+     * @param request the current request
+     * @param response the current response
+     * @param componentContext the current component context
+     * @param definition the requested definition
+     * @throws TilesException is processing fails.
+     */
+    void prepare(Object request, Object response, ComponentContext componentContext,
+    		String definition) throws TilesException;
+
+    /**
+     * @param pageContext the current pageContext
+     * @param definition the current definition
+     * @param componentContext the current component context
+     * @throws TilesException is processing fails.
+     */
+    void prepare(PageContext pageContext, ComponentContext componentContext,
+    		String definition) throws TilesException;
 
     /**
      * Render the given tiles request
@@ -108,6 +142,34 @@ public interface TilesContainer {
      */
     void render(PageContext pageContext, ComponentAttribute attribute)
         throws TilesException, IOException;
+
+    /**
+     * Render the given tiles request
+     *
+     * @param request the current request
+     * @param response the current response
+     * @param definition the current definition
+     * @throws TilesException is processing fails.
+     */
+    void render(Object request, Object response, ComponentContext componentContext,
+    		String definition) throws TilesException;
+
+    /**
+     * @param pageContext the current pageContext.
+     * @param definition the requested definition.
+     * @throws TilesException is processing fails.
+     */
+    void render(PageContext pageContext, ComponentContext componentContext,
+    		String definition) throws TilesException;
+
+    /**
+     * Render the given ComponentAttribute.
+     * @param pageContext
+     * @param attribute
+     * @throws TilesException
+     */
+    void render(PageContext pageContext, ComponentContext componentContext,
+    		ComponentAttribute attribute) throws TilesException, IOException;
 
     /**
      * Determine whether or not the definition exists.
