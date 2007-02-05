@@ -44,6 +44,8 @@ public class InsertAttributeTag extends RenderTagSupport {
      * Name to insert.
      */
     protected String name;
+    
+    protected Object value = null;
 
     public void setName(String value) {
         this.name = value;
@@ -53,14 +55,36 @@ public class InsertAttributeTag extends RenderTagSupport {
         return name;
     }
 
+    /**
+     * Get the value.
+     *
+     * @return The value.
+     */
+    public Object getValue() {
+        return value;
+    }
+
+    /**
+     * Set the value.
+     *
+     * @param value The new value
+     */
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
     public void release() {
         super.release();
         this.name = null;
+        this.value = null;
     }
 
     protected void render() throws JspException, TilesException, IOException {
         ComponentContext context = container.getComponentContext(pageContext);
-        ComponentAttribute attr = context.getAttribute(name);
+        ComponentAttribute attr = (ComponentAttribute) value;
+        if (attr == null) {
+            attr = context.getAttribute(name);
+        }
         if (attr == null && ignore) {
             return;
         }

@@ -69,7 +69,7 @@ public class ComponentListAttribute extends ComponentAttribute {
      * @param element XmlAttribute to add.
      */
     public void add(ComponentAttribute element) {
-        list.add(element.getValue());
+        list.add(element);
     }
 
     /**
