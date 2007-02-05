@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <tiles:insertDefinition name="test.definition">
   <tiles:putAttribute name="body">

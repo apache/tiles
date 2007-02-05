@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <tiles:destroyContainer/>
 <tiles:initContainer containerFactory="org.apache.tiles.factory.TilesContainerFactory">

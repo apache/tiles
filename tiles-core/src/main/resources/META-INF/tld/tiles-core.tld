@@ -28,7 +28,7 @@
    <tlib-version>2.0</tlib-version>
    <jsp-version>1.2</jsp-version>
    <short-name>tiles</short-name>
-   <uri>http://struts.apache.org/tags-tiles</uri>
+   <uri>http://tiles.apache.org/tags-tiles</uri>
    <description>
    <![CDATA[
    <p>This tag library provides Tiles tags.</p>

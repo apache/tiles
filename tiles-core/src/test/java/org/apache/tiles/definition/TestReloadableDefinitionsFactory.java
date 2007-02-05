@@ -107,7 +107,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
                 "<!DOCTYPE tiles-definitions PUBLIC " +
                 "\"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN\" " +
-                "\"http://struts.apache.org/dtds/tiles-config_2_0.dtd\">\n\n" +
+                "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n" +
                 "<tiles-definitions>" +
                 "<definition name=\"rewrite.test\" template=\"/test.jsp\">" +
                 "<put name=\"testparm\" value=\"testval\"/>" +
@@ -143,7 +143,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
                 "<!DOCTYPE tiles-definitions PUBLIC " +
                 "\"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN\" " +
-                "\"http://struts.apache.org/dtds/tiles-config_2_0.dtd\">\n\n" +
+                "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n" +
                 "<tiles-definitions>" +
                 "<definition name=\"rewrite.test\" template=\"/newtest.jsp\">" +
                 "<put name=\"testparm\" value=\"testval\"/>" +

@@ -30,7 +30,7 @@
     <parent>
         <groupId>org.apache.tiles</groupId>
         <artifactId>tiles-master</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -167,6 +167,16 @@
             <url>http://people.apache.org/repo/m2-snapshot-repository</url>
             <snapshots>
                 <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>tiles.build</id>
+            <url>http://people.apache.org/builds/tiles/m2-staging-repository/</url>
+            <snapshots>
+                <enabled>false</enabled>
             </snapshots>
             <releases>
                 <enabled>true</enabled>

@@ -23,7 +23,7 @@
 
 @hidden $Id$
 @title DTD for the Tiles Definition File, Version 2.0
-@doctype declaredRoot PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://struts.apache.org/dtds/tiles-config_2_0.dtd"
+@doctype declaredRoot PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd"
 @root declaredRoot
 -->
 

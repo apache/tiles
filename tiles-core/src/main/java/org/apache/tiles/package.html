@@ -122,7 +122,7 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
         <p>This example is a layout assembling a page in the classic header-footer-menu-body
             fashion.</p>
       <pre>
-&lt;%@ taglib uri=&quot;/WEB-INF/struts-tiles.tld&quot; prefix=&quot;tiles&quot; %&gt;
+&lt;%@ taglib uri=&quot;http://tiles.apache.org/tags-tiles&quot; prefix=&quot;tiles&quot; %&gt;
 &lt;HTML&gt;
   &lt;HEAD&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;&lt;%=request.getContextPath()%&gt;/layouts/stylesheet.css&quot; 
@@ -331,14 +331,14 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
     <h3>Definition File Syntax</h3>
 
     <p>The definition file syntax can be found in the
-        <a href="http://struts.apache.org/dtds/tiles-config_2_0.dtd">tiles-config_2_0.dtd file</a>.
+        <a href="http://tiles.apache.org/dtds/tiles-config_2_0.dtd">tiles-config_2_0.dtd file</a>.
     </p>
 
     <p>Following is a simple example:</p>
       <pre>
 &lt;!DOCTYPE tiles-definitions PUBLIC
        &amp;&amp;quot;-//Apache Software Foundation//DTD Tiles Configuration//EN&amp;&amp;quot;
-       &amp;&amp;quot;http://struts.apache.org/dtds/tiles-config_2_0.dtd&amp;&amp;quot;&gt;
+       &amp;&amp;quot;http://tiles.apache.org/dtds/tiles-config_2_0.dtd&amp;&amp;quot;&gt;
 
 &lt;!-- Definitions for Tiles documentation   --&gt;
 &lt;tiles-definitions&gt;

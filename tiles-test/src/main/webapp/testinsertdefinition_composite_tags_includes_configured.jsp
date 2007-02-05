@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <tiles:definition name="test.inner.definition.tags" template="/layout.jsp">
     <tiles:putAttribute name="title"  value="This is an inner definition with tags."/>
