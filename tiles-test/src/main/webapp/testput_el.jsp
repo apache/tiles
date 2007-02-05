@@ -27,7 +27,7 @@
 <c:set var="bodyContent" value="Body Content defined by and el" />
 
 <tiles:insertTemplate template="/layout.jsp">
-  <tiles:put name="title"  value="This is the title." />
-  <tiles:put name="header" value="/header.jsp" />
-  <tiles:put name="body"   value="${bodyContent}" />
+  <tiles:putAttribute name="title"  value="This is the title." />
+  <tiles:putAttribute name="header" value="/header.jsp" />
+  <tiles:putAttribute name="body"   value="${bodyContent}" />
 </tiles:insertTemplate>
