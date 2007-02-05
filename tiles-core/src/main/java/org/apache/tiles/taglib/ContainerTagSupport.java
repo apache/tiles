@@ -68,7 +68,9 @@ public abstract class ContainerTagSupport extends BodyTagSupport {
      */
     public int doStartTag() {
         container = TilesAccess.getContainer(pageContext.getServletContext());
-        componentContext = container.getComponentContext(pageContext);
+        if (container != null) {
+        	componentContext = container.getComponentContext(pageContext);
+        }
         return EVAL_BODY_BUFFERED;
     }
     
