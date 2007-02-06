@@ -43,6 +43,7 @@
     <a href="testput.jsp">Test Put Tag</a><br/>
     <a href="testput_el.jsp">Test Put Tag using EL</a><br/>
     <a href="testput_servlet.jsp">Test Put Tag using a servlet mapping as a template</a><br/>
+    <a href="testputlist.jsp">Test Put List Tag</a><br/>
     <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
     <a href="testimportattribute_all.jsp">Test importAttribute Tag with no name</a><br/>
     <a href="testdecorationfilter.jsp">Test Tiles Definition Filter</a><br/>
