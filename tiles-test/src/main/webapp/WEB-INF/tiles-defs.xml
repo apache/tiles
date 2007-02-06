@@ -36,14 +36,6 @@
   <!-- =======================================================  -->
 
   <!-- Doc index page description  -->
-  <definition name="doc.mainLayout" template="/layout/classicLayout.jsp">
-	  <put name="title"  value="Tiles Library Documentation" />
-	  <put name="header" value="/common/header.jsp" />
-	  <put name="menu"   value="doc.menu.main" />
-	  <put name="footer" value="/common/footer.jsp" />
-	  <put name="body"   value="doc.portal.body" />
-  </definition>
-
   <definition name="test.inner.definition" template="/layout.jsp">
       <put name="title"  value="This is a configured inner definition."/>
       <put name="header" value="/header.jsp"/>
