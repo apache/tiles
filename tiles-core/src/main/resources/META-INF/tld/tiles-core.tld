@@ -505,7 +505,7 @@
            is not used in the Add Tag (and it's only valid within
            the PutList
         -->
-      <tag-class>org.apache.tiles.taglib.PutTag</tag-class>
+      <tag-class>org.apache.tiles.taglib.PutAttributeTag</tag-class>
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
