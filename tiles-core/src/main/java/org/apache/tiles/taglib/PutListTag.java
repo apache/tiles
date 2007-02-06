@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 
 /**
  * PutList tag implementation.
@@ -93,6 +94,18 @@ public class PutListTag extends PutAttributeTag
             nestedTag.getType());
 
         this.addValue(attribute);	
+    }
+
+    @Override
+    protected void startContext(PageContext context) {
+        if (container != null) {
+            componentContext = container.getComponentContext(context);
+        }
+    }
+
+    @Override
+    protected void endContext(PageContext context) {
+        // Do nothing
     }
 
 	private void addValue( ComponentAttribute attribute ) {

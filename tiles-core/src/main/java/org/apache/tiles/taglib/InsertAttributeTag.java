@@ -46,6 +46,8 @@ public class InsertAttributeTag extends RenderTagSupport {
     protected String name;
     
     protected Object value = null;
+    
+    protected ComponentContext evaluatingContext;
 
     public void setName(String value) {
         this.name = value;
@@ -80,17 +82,20 @@ public class InsertAttributeTag extends RenderTagSupport {
     }
 
     protected void render() throws JspException, TilesException, IOException {
-        ComponentContext context = container.getComponentContext(pageContext);
         ComponentAttribute attr = (ComponentAttribute) value;
-        if (attr == null) {
-            attr = context.getAttribute(name);
+        if (attr == null && evaluatingContext != null) {
+            attr = evaluatingContext.getAttribute(name);
         }
         if (attr == null && ignore) {
             return;
         }
 
         if (attr == null) {
-            throw new TilesException("Attribute '" + name + "' not found.");
+            if (name != null) {
+                throw new TilesException("Attribute '" + name + "' not found.");
+            } else {
+                throw new TilesException("No attribute name or value has been provided.");
+            }
         }
 
         container.render(pageContext, attr);
@@ -98,13 +103,10 @@ public class InsertAttributeTag extends RenderTagSupport {
 
     @Override
     protected void startContext(PageContext context) {
+        
         if (container != null) {
-            componentContext = container.getComponentContext(context);
+            evaluatingContext = container.getComponentContext(context);
         }
-    }
-
-    @Override
-    protected void endContext(PageContext context) {
-        // Do nothing
+        super.startContext(context);
     }
 }

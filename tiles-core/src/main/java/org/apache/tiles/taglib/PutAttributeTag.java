@@ -29,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
@@ -136,6 +137,18 @@ public class PutAttributeTag extends ContainerTagSupport implements ComponentCon
             type = "string";
         }
         return (SKIP_BODY);
+    }
+
+    @Override
+    protected void startContext(PageContext context) {
+        if (container != null) {
+            componentContext = container.getComponentContext(context);
+        }
+    }
+
+    @Override
+    protected void endContext(PageContext context) {
+        // Do nothing
     }
 
     protected void execute() throws JspException {
