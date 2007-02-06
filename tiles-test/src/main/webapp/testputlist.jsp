@@ -21,7 +21,7 @@
  *
  */
 --%>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <tiles:insertTemplate template="/putattributeslayout.jsp">
   <tiles:putAttribute name="stringTest" value="This is a string" type="string" />
