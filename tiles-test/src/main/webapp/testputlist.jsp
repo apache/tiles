@@ -25,9 +25,9 @@
 
 <tiles:insertTemplate template="/putattributeslayout.jsp">
   <tiles:putAttribute name="stringTest" value="This is a string" type="string" />
-  <tiles:putList name="list">
+  <tiles:putListAttribute name="list">
     <tiles:putAttribute value="valueOne" type="string" />
     <tiles:putAttribute value="valueTwo" type="string" />
     <tiles:putAttribute value="valueThree" type="string" />
-  </tiles:putList>
+  </tiles:putListAttribute>
 </tiles:insertTemplate>
