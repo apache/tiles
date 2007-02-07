@@ -204,17 +204,17 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         String DEFINITION_TAG = "tiles-definitions/definition";
         String definitionHandlerClass = PACKAGE_NAME + ".definition.ComponentDefinition";
 
-        String PUT_TAG = DEFINITION_TAG + "/put";
+        String PUT_TAG = DEFINITION_TAG + "/putAttribute";
         String putAttributeHandlerClass = PACKAGE_NAME + ".ComponentAttribute";
 
         //String LIST_TAG = DEFINITION_TAG + "/putList";
         // List tag value
-        String LIST_TAG = "putList";
+        String LIST_TAG = "putListAttribute";
         String DEF_LIST_TAG = DEFINITION_TAG + "/" + LIST_TAG;
 
         String listHandlerClass = PACKAGE_NAME + ".context.ComponentListAttribute";
         // Tag value for adding an element in a list
-        String ADD_LIST_ELE_TAG = "*/" + LIST_TAG + "/add";
+        String ADD_LIST_ELE_TAG = "*/" + LIST_TAG + "/addAttribute";
 
         // syntax rules
         digester.addObjectCreate(DEFINITION_TAG, definitionHandlerClass);

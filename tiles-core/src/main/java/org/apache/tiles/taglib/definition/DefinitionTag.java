@@ -21,7 +21,7 @@
  */
 package org.apache.tiles.taglib.definition;
 
-import org.apache.tiles.taglib.PutTagParent;
+import org.apache.tiles.taglib.PutAttributeTagParent;
 import org.apache.tiles.taglib.PutAttributeTag;
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.TilesContainer;
@@ -43,7 +43,7 @@ import java.util.HashMap;
  * @version $Rev$ $Date$
  */
 public class DefinitionTag extends TagSupport
-    implements PutTagParent {
+    implements PutAttributeTagParent {
 
 
     private String name;

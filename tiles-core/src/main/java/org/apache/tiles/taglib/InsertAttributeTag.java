@@ -97,8 +97,7 @@ public class InsertAttributeTag extends RenderTagSupport {
                 throw new TilesException("No attribute name or value has been provided.");
             }
         }
-
-        container.render(pageContext, attr);
+        render(attr);
     }
 
     @Override
@@ -108,5 +107,18 @@ public class InsertAttributeTag extends RenderTagSupport {
             evaluatingContext = container.getComponentContext(context);
         }
         super.startContext(context);
+    }
+    
+    /**
+     * Renders an attribute for real.
+     *
+     * @param attr The attribute to render.
+     * @throws TilesException If something goes wrong during rendering.
+     * @throws IOException If something goes wrong during the reading of
+     * definition files.
+     */
+    protected void render(ComponentAttribute attr)
+        throws TilesException, IOException {
+        container.render(pageContext, attr);
     }
 }

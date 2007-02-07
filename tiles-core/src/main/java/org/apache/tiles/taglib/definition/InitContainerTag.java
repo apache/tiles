@@ -30,7 +30,7 @@ import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.mgmt.MutableTilesContainer;
-import org.apache.tiles.taglib.PutTagParent;
+import org.apache.tiles.taglib.PutAttributeTagParent;
 import org.apache.tiles.taglib.PutAttributeTag;
 
 import javax.servlet.RequestDispatcher;
@@ -53,7 +53,7 @@ import java.util.Set;
  * @version $Rev$ $Date$
  */
 public class InitContainerTag extends BodyTagSupport
-    implements PutTagParent {
+    implements PutAttributeTagParent {
 
     private static final Log LOG =
         LogFactory.getLog(InitContainerTag.class);

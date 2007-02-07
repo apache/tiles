@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.taglib.PutAttributeTag;
-import org.apache.tiles.taglib.PutTagParent;
+import org.apache.tiles.taglib.PutAttributeTagParent;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TryCatchFinally;
@@ -51,7 +51,7 @@ import java.util.Map;
  * @version $Rev$ $Date$
  */
 public abstract class RenderTagSupport extends ContainerTagSupport
-    implements TryCatchFinally, PutTagParent {
+    implements TryCatchFinally, PutAttributeTagParent {
     
     private static Log LOG = LogFactory.getLog(RenderTagSupport.class);
 

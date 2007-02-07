@@ -33,7 +33,7 @@ import javax.servlet.jsp.JspException;
  *
  * @version $Rev$ $Date$
  */
-public interface PutTagParent {
+public interface PutAttributeTagParent {
     /**
      * Process the nested tag.
      *

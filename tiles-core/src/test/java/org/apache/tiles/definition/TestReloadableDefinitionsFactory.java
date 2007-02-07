@@ -110,7 +110,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
                 "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n" +
                 "<tiles-definitions>" +
                 "<definition name=\"rewrite.test\" template=\"/test.jsp\">" +
-                "<put name=\"testparm\" value=\"testval\"/>" +
+                "<putAttribute name=\"testparm\" value=\"testval\"/>" +
                 "</definition>" +
                 "</tiles-definitions>";
 
@@ -146,7 +146,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
                 "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n" +
                 "<tiles-definitions>" +
                 "<definition name=\"rewrite.test\" template=\"/newtest.jsp\">" +
-                "<put name=\"testparm\" value=\"testval\"/>" +
+                "<putAttribute name=\"testparm\" value=\"testval\"/>" +
                 "</definition>" +
                 "</tiles-definitions>";
 

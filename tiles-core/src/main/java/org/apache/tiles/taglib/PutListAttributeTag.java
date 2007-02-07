@@ -23,7 +23,7 @@
 package org.apache.tiles.taglib;
 
 import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.taglib.PutTagParent;
+import org.apache.tiles.taglib.PutAttributeTagParent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +37,8 @@ import javax.servlet.jsp.PageContext;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class PutListTag extends PutAttributeTag
-    implements PutTagParent {
-
-
-    public PutListTag() {
-    }
+public class PutListAttributeTag extends PutAttributeTag
+    implements PutAttributeTagParent {
 
     /**
      * Get list defined in tag.
@@ -52,7 +48,7 @@ public class PutListTag extends PutAttributeTag
     }
 
     public void setValue(Object object) {
-        throw new IllegalStateException("The value of the PutListTag must be the originally defined list.");
+        throw new IllegalStateException("The value of the PutListAttributeTag must be the originally defined list.");
     }
 
     public int doStartTag() {
@@ -60,7 +56,7 @@ public class PutListTag extends PutAttributeTag
     	return super.doStartTag();
     }
     /**
-     * PutListTag may not have any body, except for PutAttribute tags.
+     * PutListAttributeTag may not have any body, except for PutAttribute tags.
      *
      * @throws JspException if a JSP exception has occurred
      */
@@ -78,7 +74,7 @@ public class PutListTag extends PutAttributeTag
     }
 
     /**
-     * Process nested &lg;put&gt; tag.
+     * Process nested &lg;putAttribute&gt; tag.
      * <p/>
      * Places the value of the nested tag within the
      * {@link org.apache.tiles.ComponentContext}.It is the responsibility

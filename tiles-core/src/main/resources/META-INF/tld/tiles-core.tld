@@ -474,8 +474,8 @@
       </attribute>
    </tag>
    <tag>
-      <name>putList</name>
-      <tag-class>org.apache.tiles.taglib.PutListTag</tag-class>
+      <name>putListAttribute</name>
+      <tag-class>org.apache.tiles.taglib.PutListAttributeTag</tag-class>
       <body-content>JSP</body-content>
       <description>
       <![CDATA[

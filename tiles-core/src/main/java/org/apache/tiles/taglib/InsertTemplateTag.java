@@ -24,7 +24,7 @@ package org.apache.tiles.taglib;
 
 import org.apache.tiles.context.jsp.JspUtil;
 import org.apache.tiles.taglib.RenderTagSupport;
-import org.apache.tiles.taglib.PutTagParent;
+import org.apache.tiles.taglib.PutAttributeTagParent;
 
 import javax.servlet.jsp.JspException;
 
@@ -35,7 +35,7 @@ import javax.servlet.jsp.JspException;
  * @version $Rev$ $Date$
  */
 public class InsertTemplateTag extends RenderTagSupport
-    implements PutTagParent {
+    implements PutAttributeTagParent {
 
     private String template;
 

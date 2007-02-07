@@ -21,11 +21,9 @@
  */
 package org.apache.tiles.taglib;
 
-import org.apache.tiles.taglib.AttributeTagSupport;
-import org.apache.tiles.taglib.ComponentConstants;
+import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.TilesException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
 import java.io.IOException;
 
 /**
@@ -35,46 +33,11 @@ import java.io.IOException;
  *
  * @version $Rev$ $Date$
  */
-public class GetAsStringTag extends AttributeTagSupport implements ComponentConstants {
+public class GetAsStringTag extends InsertAttributeTag {
 
-    private String role = null;
-
-    public void release() {
-        super.release();
-        role = null;
-    }
-
-    /**
-     * Set role.
-     *
-     * @param role The role the user must be in to store content.
-     */
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    /**
-     * Get role.
-     *
-     * @return Role.
-     */
-    public String getRole() {
-        return role;
-    }
-
-    /**
-     * Print the attribute.
-     *
-     * @throws JspException On error processing tag.
-     * @throws IOException  if io error occurs.
-     */
-    public void execute() throws JspException, IOException {
-        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
-        if (role != null && !req.isUserInRole(role)) {
-            return;
-        }
-
-        pageContext.getOut().print(attribute.getValue().toString());
-
+    @Override
+    protected void render(ComponentAttribute attr)
+        throws TilesException, IOException {
+        pageContext.getOut().print(attr.getValue().toString());
     }
 }

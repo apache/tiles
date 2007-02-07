@@ -36,25 +36,25 @@
 
   <!-- Doc index page description  -->
   <definition name="test.def1" template="/test.jsp">
-          <put name="country" value="France"/>
-	  <put name="title"  value="Tiles Library Documentation" />
-	  <put name="header" value="/common/header.jsp" />
-	  <put name="menu"   value="doc.menu.main" />
-	  <put name="footer" value="/common/footer.jsp" />
-	  <put name="body"   value="doc.portal.body" />
+          <putAttribute name="country" value="France"/>
+	  <putAttribute name="title"  value="Tiles Library Documentation" />
+	  <putAttribute name="header" value="/common/header.jsp" />
+	  <putAttribute name="menu"   value="doc.menu.main" />
+	  <putAttribute name="footer" value="/common/footer.jsp" />
+	  <putAttribute name="body"   value="doc.portal.body" />
   </definition>
 
   <definition name="test.common.french" template="/test.jsp">
-          <put name="country" value="France"/>
-    <put name="title"  value="Common Definition for French" />
-    <put name="header" value="/common/header.jsp" />
-    <put name="menu"   value="doc.menu.main" />
-    <put name="footer" value="/common/footer.jsp" />
-    <put name="body"   value="doc.portal.body" />
+          <putAttribute name="country" value="France"/>
+    <putAttribute name="title"  value="Common Definition for French" />
+    <putAttribute name="header" value="/common/header.jsp" />
+    <putAttribute name="menu"   value="doc.menu.main" />
+    <putAttribute name="footer" value="/common/footer.jsp" />
+    <putAttribute name="body"   value="doc.portal.body" />
   </definition>
 
   <definition name="test.def.overridden" extends="test.def.toextend">
-    <put name="country" value="France"/>
+    <putAttribute name="country" value="France"/>
   </definition>
 
 </tiles-definitions>

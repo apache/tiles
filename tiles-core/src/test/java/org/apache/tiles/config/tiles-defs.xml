@@ -36,11 +36,11 @@
 
   <!-- Doc index page description  -->
   <definition name="doc.mainLayout" template="/layout/classicLayout.jsp">
-	  <put name="title"  value="Tiles Library Documentation" />
-	  <put name="header" value="/common/header.jsp" />
-	  <put name="menu"   value="doc.menu.main" />
-	  <put name="footer" value="/common/footer.jsp" />
-	  <put name="body"   value="doc.portal.body" />
+	  <putAttribute name="title"  value="Tiles Library Documentation" />
+	  <putAttribute name="header" value="/common/header.jsp" />
+	  <putAttribute name="menu"   value="doc.menu.main" />
+	  <putAttribute name="footer" value="/common/footer.jsp" />
+	  <putAttribute name="body"   value="doc.portal.body" />
   </definition>
 
   <!-- =======================================================  -->
@@ -48,21 +48,21 @@
   <!-- =======================================================  -->
 
   <definition name="doc.portal.body" template="/layout/columnsLayout.jsp">
-    <put name="numCols" value="2" />
-    <putList name="list0" >
-      <add value="/doc/portal/welcome.jsp" />
-      <add value="/doc/portal/features.jsp" />
-      <!--<add value="/doc/portal/todo.jsp" /> -->
-      <add value="/doc/portal/documentation.jsp" />
-    </putList>
-    <putList name="list1" >
-      <add value="/doc/portal/news.jsp" />
-      <add value="/doc/portal/download.jsp" />
-      <add value="/doc/portal/tilesCompsTemplates.jsp" />
-      <add value="/doc/portal/strutsIntegration.jsp" />
-      <add value="/doc/portal/comments.jsp" />
-      <add value="/doc/portal/revisions.jsp" />
-    </putList>
+    <putAttribute name="numCols" value="2" />
+    <putListAttribute name="list0" >
+      <addAttribute value="/doc/portal/welcome.jsp" />
+      <addAttribute value="/doc/portal/features.jsp" />
+      <!--<addAttribute value="/doc/portal/todo.jsp" /> -->
+      <addAttribute value="/doc/portal/documentation.jsp" />
+    </putListAttribute>
+    <putListAttribute name="list1" >
+      <addAttribute value="/doc/portal/news.jsp" />
+      <addAttribute value="/doc/portal/download.jsp" />
+      <addAttribute value="/doc/portal/tilesCompsTemplates.jsp" />
+      <addAttribute value="/doc/portal/strutsIntegration.jsp" />
+      <addAttribute value="/doc/portal/comments.jsp" />
+      <addAttribute value="/doc/portal/revisions.jsp" />
+    </putListAttribute>
   </definition>
   
   <!-- =======================================================  -->
@@ -71,18 +71,18 @@
 
   <!-- Menu bar definition -->
 <definition name="doc.menu.main" template="/layout/vboxLayout.jsp" >
-  <putList name="componentsList" >
-    <add value="doc.menu.links" />
-    <add value="doc.menu.taglib.references" />
-    <add value="doc.menu.printer.friendly" />
-    <add value="doc.menu.old.documents" />
-  </putList>
+  <putListAttribute name="componentsList" >
+    <addAttribute value="doc.menu.links" />
+    <addAttribute value="doc.menu.taglib.references" />
+    <addAttribute value="doc.menu.printer.friendly" />
+    <addAttribute value="doc.menu.old.documents" />
+  </putListAttribute>
 </definition>
 
   <!-- Documentation menu definition v1.1-->
 <definition name="doc.menu.links" template="/layouts/menu.jsp" >
-  <put name="title" value="Documentation" />
-    <putList name="items" >
+  <putAttribute name="title" value="Documentation" />
+    <putListAttribute name="items" >
       <item value="Home"           link="/index.jsp"  />
       <item value="Live Examples (new)" link="/examples/index.jsp"  />
       <!--
@@ -102,35 +102,35 @@
       <item value="Javadoc"        link="/api/index.html" />
       <item value="Struts Home"    link="http://www.apache.org"   icon="/images/struts-power.gif"        
 			classtype="org.apache.tiles.beans.SimpleMenuItem" />
-    </putList>
+    </putListAttribute>
 </definition>
 
   <!-- Printer friendly menu definition -->
 <definition name="doc.menu.printer.friendly" template="/layouts/menu.jsp" >
-  <put name="title" value="Printer Versions" />
-  <putList name="items" >
+  <putAttribute name="title" value="Printer Versions" />
+  <putListAttribute name="items" >
     <item value="Quick Overview"     link="/test/testAll.jsp" />
     <item value="Tutorial"           link="/doc/tutorialBody.html" />
     <item value="User Guide"         link="/doc/userGuideBody.html" />
     <item value="Overview (old)"  	 link="/doc/overviewBody.html" />
-  </putList>
+  </putListAttribute>
 </definition>
 
   <!-- Taglib menu definition -->
 <definition name="doc.menu.taglib.references" template="/layouts/menu.jsp" >
-  <put name="title" value="Tag Library Reference" />
-    <putList name="items" >
+  <putAttribute name="title" value="Tag Library Reference" />
+    <putListAttribute name="items" >
       <item value="Tiles Tags"     link="/doc/tilesTags.jsp" />
       <!-- <item value="Extension Tags (old)"   link="/doc/extensionsTags.jsp" /> -->
-    </putList>
+    </putListAttribute>
 </definition>
 
   <!-- Oldies menu definition -->
 <definition name="doc.menu.old.documents" template="/layouts/menu.jsp" >
-  <put name="title" value="Old Documents" />
-  <putList name="items" >
+  <putAttribute name="title" value="Old Documents" />
+  <putListAttribute name="items" >
     <item value="Overview (old)"     link="/doc/overview.jsp" />
-  </putList>
+  </putListAttribute>
 </definition>
 
 

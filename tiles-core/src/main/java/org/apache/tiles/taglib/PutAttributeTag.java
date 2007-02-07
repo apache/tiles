@@ -24,7 +24,7 @@ package org.apache.tiles.taglib;
 
 import org.apache.tiles.taglib.ContainerTagSupport;
 import org.apache.tiles.taglib.ComponentConstants;
-import org.apache.tiles.taglib.PutTagParent;
+import org.apache.tiles.taglib.PutAttributeTagParent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -42,7 +42,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * <li>&lt;insertDefinition&gt;</li>
  * <li>&lt;putList&gt;</li>
  * </ul>
- * (or any other tag which implements the <code>{@link PutTagParent}</code> interface.
+ * (or any other tag which implements the <code>{@link PutAttributeTagParent}</code> interface.
  * Exception is thrown if no appropriate tag can be found.</p>
  * <p>Put tag can have following atributes :
  * <ul>
@@ -152,8 +152,8 @@ public class PutAttributeTag extends ContainerTagSupport implements ComponentCon
     }
 
     protected void execute() throws JspException {
-        PutTagParent parent = (PutTagParent)
-            TagSupport.findAncestorWithClass(this, PutTagParent.class);
+        PutAttributeTagParent parent = (PutAttributeTagParent)
+            TagSupport.findAncestorWithClass(this, PutAttributeTagParent.class);
 
 
         if (parent == null) {
