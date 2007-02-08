@@ -428,7 +428,7 @@ public class BasicTilesContainer implements TilesContainer {
         if (isDefinition(pageContext, attr)) {
             render(request, attr.getValue().toString());
         } else {
-            request.include(attr.getValue().toString());
+            request.dispatch(attr.getValue().toString());
         }
     }
 
