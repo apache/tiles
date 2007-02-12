@@ -43,7 +43,7 @@ public class BasicPreparerFactory implements PreparerFactory {
     private static final Log LOG =
         LogFactory.getLog(BasicPreparerFactory.class);
 
-    private Map<String, ViewPreparer> preparers;
+    protected Map<String, ViewPreparer> preparers;
 
     public BasicPreparerFactory() {
         this.preparers = new HashMap<String, ViewPreparer>();
@@ -69,7 +69,7 @@ public class BasicPreparerFactory implements PreparerFactory {
         return preparers.get(name);
     }
 
-    private ViewPreparer createPreparer(String name) throws TilesException {
+    protected ViewPreparer createPreparer(String name) throws TilesException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Creating ViewPreparer '" + name + "' . . .");
