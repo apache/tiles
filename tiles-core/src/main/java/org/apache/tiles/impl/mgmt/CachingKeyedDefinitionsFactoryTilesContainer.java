@@ -42,7 +42,7 @@ import org.apache.tiles.mgmt.TileDefinition;
  *
  * @version $Rev$ $Date$
  */
-public class CachingKeyedDefinitionsFactoryTilesContainerFactory extends
+public class CachingKeyedDefinitionsFactoryTilesContainer extends
         KeyedDefinitionsFactoryTilesContainer implements MutableTilesContainer {
 
     private DefinitionManager mgr = new DefinitionManager();

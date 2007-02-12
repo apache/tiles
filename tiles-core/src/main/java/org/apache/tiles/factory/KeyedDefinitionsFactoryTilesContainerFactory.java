@@ -30,7 +30,7 @@ import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor;
-import org.apache.tiles.impl.mgmt.CachingKeyedDefinitionsFactoryTilesContainerFactory;
+import org.apache.tiles.impl.mgmt.CachingKeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.util.ClassUtil;
 
@@ -55,8 +55,8 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
 
     @Override
     public MutableTilesContainer createMutableTilesContainer(Object context) throws TilesException {
-        CachingKeyedDefinitionsFactoryTilesContainerFactory container =
-            new CachingKeyedDefinitionsFactoryTilesContainerFactory();
+        CachingKeyedDefinitionsFactoryTilesContainer container =
+            new CachingKeyedDefinitionsFactoryTilesContainer();
         initializeContainer(context, container);
         return container;
     }
