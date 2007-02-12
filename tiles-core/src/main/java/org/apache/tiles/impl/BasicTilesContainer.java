@@ -310,7 +310,7 @@ public class BasicTilesContainer implements TilesContainer {
             LOG.debug("Prepare request received for '" + preparerName);
         }
 
-        ViewPreparer preparer = preparerFactory.getPreparer(preparerName, null);
+        ViewPreparer preparer = preparerFactory.getPreparer(preparerName, context);
         if (preparer == null && ignoreMissing) {
             return;
         }
