@@ -83,7 +83,12 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
     }
 
     @Override
-    public void setDefinitionsFactory(String key, DefinitionsFactory definitionsFactory, Map<String, String> initParameters) {
+    public void setDefinitionsFactory(String key, DefinitionsFactory definitionsFactory,
+            Map<String, String> initParameters) throws TilesException {
+        if (key != null) {
+            initializeDefinitionsFactory(definitionsFactory,
+                    getResourceString(initParameters), initParameters);
+        }
         DefinitionManager mgr = getOrCreateDefinitionManager(key);
         mgr.setFactory(definitionsFactory);
     }
