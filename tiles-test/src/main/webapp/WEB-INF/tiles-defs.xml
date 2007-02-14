@@ -37,42 +37,42 @@
 
   <!-- Doc index page description  -->
   <definition name="test.inner.definition" template="/layout.jsp">
-      <putAttribute name="title"  value="This is a configured inner definition."/>
-      <putAttribute name="header" value="/header.jsp"/>
-      <putAttribute name="body"   value="/body.jsp"/>
+      <put-attribute name="title"  value="This is a configured inner definition."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
   </definition>
 
   <definition name="test.definition" template="/layout.jsp">
-      <putAttribute name="title"  value="This is the title."/>
-      <putAttribute name="header" value="/header.jsp"/>
-      <putAttribute name="body"   value="/body.jsp"/>
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
   </definition>
 
   <definition name="test.composite.definition" template="/layout.jsp">
-      <putAttribute name="title"  value="This is a configured composite definition."/>
-      <putAttribute name="header" value="/header.jsp"/>
-      <putAttribute name="body"   value="test.inner.definition"/>
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="test.inner.definition"/>
   </definition>
 
   <definition name="test.putAttributes" template="/putattributeslayout.jsp">
-    <putAttribute name="stringTest" value="This is a string" type="string" />
-    <putListAttribute name="list">
-      <addAttribute value="valueOne" type="string" />
-      <addAttribute value="valueTwo" type="string" />
-      <addAttribute value="valueThree" type="string" />
-    </putListAttribute>
+    <put-attribute name="stringTest" value="This is a string" type="string" />
+    <put-list-attribute name="list">
+      <add-attribute value="valueOne" type="string" />
+      <add-attribute value="valueTwo" type="string" />
+      <add-attribute value="valueThree" type="string" />
+    </put-list-attribute>
   </definition>
 
   <definition name="test.putAllAttributes" template="/putallattributeslayout.jsp">
-    <putAttribute name="one" value="There should be three more strings" type="string" />
-    <putAttribute name="two" value="One" type="string" />
-    <putAttribute name="three" value="Two" type="string" />
-    <putAttribute name="four" value="Three" type="string" />
+    <put-attribute name="one" value="There should be three more strings" type="string" />
+    <put-attribute name="two" value="One" type="string" />
+    <put-attribute name="three" value="Two" type="string" />
+    <put-attribute name="four" value="Three" type="string" />
   </definition>
 
   <definition name="preparer.definition" template="/layout.jsp">
-      <putAttribute name="title"  value="This is the title."/>
-      <putAttribute name="header" value="/header.jsp"/>
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/header.jsp"/>
   </definition>
 
     <definition name="testdispatchservlet" extends="test.definition"/>

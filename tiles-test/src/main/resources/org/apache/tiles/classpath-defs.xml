@@ -30,8 +30,8 @@
 
 <tiles-definitions>
     <definition name="classpath.definition" template="/layout.jsp">
-        <putAttribute name="title" value="This is the title."/>
-        <putAttribute name="header" value="/header.jsp"/>
-        <putAttribute name="body" value="/classpath.jsp"/>
+        <put-attribute name="title" value="This is the title."/>
+        <put-attribute name="header" value="/header.jsp"/>
+        <put-attribute name="body" value="/classpath.jsp"/>
     </definition>
 </tiles-definitions>
