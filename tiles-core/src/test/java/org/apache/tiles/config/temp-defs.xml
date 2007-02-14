@@ -36,12 +36,12 @@
 
   <!-- Doc index page description  -->
   <definition name="test.def1" template="/test.jsp">
-          <putAttribute name="country" value="default"/>
-	  <putAttribute name="title"  value="Tiles Library Documentation" />
-	  <putAttribute name="header" value="/common/header.jsp" />
-	  <putAttribute name="menu"   value="doc.menu.main" />
-	  <putAttribute name="footer" value="/common/footer.jsp" />
-	  <putAttribute name="body"   value="doc.portal.body" />
+          <put-attribute name="country" value="default"/>
+	  <put-attribute name="title"  value="Tiles Library Documentation" />
+	  <put-attribute name="header" value="/common/header.jsp" />
+	  <put-attribute name="menu"   value="doc.menu.main" />
+	  <put-attribute name="footer" value="/common/footer.jsp" />
+	  <put-attribute name="body"   value="doc.portal.body" />
   </definition>
 
 </tiles-definitions>

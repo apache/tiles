@@ -92,7 +92,7 @@
      page. This definition is identified by its logical name. A definition allows
      to define all the attributes that can be set in <insert> tag from a jsp page.
 -->
-<!ELEMENT definition (icon?, display-name?, description?, putAttribute*, putListAttribute*)>
+<!ELEMENT definition (icon?, display-name?, description?, put-attribute*, put-list-attribute*)>
 <!ATTLIST definition       id               ID               #IMPLIED>
 <!--
 @attr preparer       The fully qualified Java class name of the preparer
@@ -126,61 +126,61 @@
 <!ATTLIST definition       template         %RequestPath;    #IMPLIED>
 
 
-<!-- The "putAttribute" element describes an attribute of a definition. It allows to
+<!-- The "put-attribute" element describes an attribute of a definition. It allows to
      specify the tiles attribute name and its value. The tiles value can be
-     specified as an xml attribute, or in the body of the <putAttribute> tag.
+     specified as an xml attribute, or in the body of the <put-attribute> tag.
 -->
-<!ELEMENT putAttribute (#PCDATA)>
-<!ATTLIST putAttribute     id               ID              #IMPLIED>
+<!ELEMENT put-attribute (#PCDATA)>
+<!ATTLIST put-attribute     id               ID              #IMPLIED>
 <!--
-@attr name           The unique identifier for this putAttribute.
+@attr name           The unique identifier for this put-attribute.
 -->
-<!ATTLIST putAttribute     name             CDATA           #REQUIRED>
+<!ATTLIST put-attribute     name             CDATA           #REQUIRED>
 <!--
 @attr type           The type of the value. Can be: string, template or definition.
                      By default, no type is associated to a value. If a type is
                      associated, it will be used as a hint to process the value
                      when the attribute will be used in the inserted tiles.
 -->
-<!ATTLIST putAttribute     type             %ContentType;   #IMPLIED>
+<!ATTLIST put-attribute     type             %ContentType;   #IMPLIED>
 <!--
 @attr value          The value associated to this tiles attribute. The value should
                      be specified with this tag attribute, or in the body of the tag.
 -->
-<!ATTLIST putAttribute     value            CDATA           #IMPLIED>
+<!ATTLIST put-attribute     value            CDATA           #IMPLIED>
 
 
-<!-- The "putListAttribute" element describes a list attribute of a definition. It allows to
+<!-- The "put-list-attribute" element describes a list attribute of a definition. It allows to
      specify an attribute that is a java List containing any kind of values. In
-     the config file, the list elements are specified by nested <putAttribute>, <item> or
-     <putListAttribute>.
+     the config file, the list elements are specified by nested <put-attribute>, <item> or
+     <put-list-attribute>.
 -->
-<!ELEMENT putListAttribute ( (addAttribute* | item* | bean* | putListAttribute*)+) >
-<!ATTLIST putListAttribute id               ID              #IMPLIED>
+<!ELEMENT put-list-attribute ( (add-attribute* | item* | bean* | put-list-attribute*)+) >
+<!ATTLIST put-list-attribute id               ID              #IMPLIED>
 <!--
 @attr name           The unique identifier for this put attribute list.
 -->
-<!ATTLIST putListAttribute name             CDATA           #REQUIRED>
+<!ATTLIST put-list-attribute name             CDATA           #REQUIRED>
 
 <!-- ========== Subordinate Elements ====================================== -->
 
-<!-- The "addAttribute" element describes an element of a list. It is similar to the
+<!-- The "add-attribute" element describes an element of a list. It is similar to the
      <put> element.
 -->
-<!ELEMENT addAttribute (#PCDATA)>
-<!ATTLIST addAttribute              id               ID              #IMPLIED>
+<!ELEMENT add-attribute (#PCDATA)>
+<!ATTLIST add-attribute              id               ID              #IMPLIED>
 <!--
 @attr type           The type of the value. Can be: string, template or definition.
                      By default, no type is associated to a value. If a type is
                      associated, it will be used as a hint to process the value
                      when the attribute will be used in the inserted tiles.
 -->
-<!ATTLIST addAttribute              type             %ContentType;   #IMPLIED>
+<!ATTLIST add-attribute              type             %ContentType;   #IMPLIED>
 <!--
 @attr value          The value associated to this tiles attribute. The value should
                      be specified with this tag attribute, or in the body of the tag.
 -->
-<!ATTLIST addAttribute              value            CDATA           #IMPLIED>
+<!ATTLIST add-attribute              value            CDATA           #IMPLIED>
 
 
 <!-- The "bean" element describes an element of a list. It create a bean of the
