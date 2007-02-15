@@ -152,10 +152,10 @@
 
 <!-- The "put-list-attribute" element describes a list attribute of a definition. It allows to
      specify an attribute that is a java List containing any kind of values. In
-     the config file, the list elements are specified by nested <put-attribute>, <item> or
-     <put-list-attribute>.
+     the config file, the list elements are specified by nested <add-attribute>, <item> or
+     <add-list-attribute>.
 -->
-<!ELEMENT put-list-attribute ( (add-attribute* | item* | bean* | put-list-attribute*)+) >
+<!ELEMENT put-list-attribute ( (add-attribute* | item* | bean* | add-list-attribute*)+) >
 <!ATTLIST put-list-attribute id               ID              #IMPLIED>
 <!--
 @attr name           The unique identifier for this put attribute list.
@@ -163,6 +163,7 @@
 <!ATTLIST put-list-attribute name             CDATA           #REQUIRED>
 
 <!-- ========== Subordinate Elements ====================================== -->
+
 
 <!-- The "add-attribute" element describes an element of a list. It is similar to the
      <put> element.
@@ -181,6 +182,15 @@
                      be specified with this tag attribute, or in the body of the tag.
 -->
 <!ATTLIST add-attribute              value            CDATA           #IMPLIED>
+
+<!-- The "add-list-attribute" element describes a list attribute subordinate to another
+     list attribute. It allows to specify an attribute value that is a java List
+     containing any kind of values. In the config file, the list elements are specified
+     by nested <add-attribute>, <item> or
+     <add-list-attribute>.
+-->
+<!ELEMENT add-list-attribute ( (add-attribute* | item* | bean* | add-list-attribute*)+) >
+<!ATTLIST add-list-attribute id               ID              #IMPLIED>
 
 
 <!-- The "bean" element describes an element of a list. It create a bean of the

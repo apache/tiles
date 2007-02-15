@@ -214,7 +214,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
         String listHandlerClass = PACKAGE_NAME + ".context.ComponentListAttribute";
         // Tag value for adding an element in a list
-        String ADD_LIST_ELE_TAG = "*/" + LIST_TAG + "/add-attribute";
+        String ADD_LIST_ELE_TAG = "*/add-attribute";
 
         // syntax rules
         digester.addObjectCreate(DEFINITION_TAG, definitionHandlerClass);
@@ -244,7 +244,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
         // nested list elements rules
         // Create a list handler, and add it to parent list
-        String NESTED_LIST = "*/" + LIST_TAG + "/" + LIST_TAG;
+        String NESTED_LIST = "*/add-list-attribute";
         digester.addObjectCreate(NESTED_LIST, listHandlerClass);
         digester.addSetProperties(NESTED_LIST);
         digester.addSetNext(NESTED_LIST, "add", putAttributeHandlerClass);
