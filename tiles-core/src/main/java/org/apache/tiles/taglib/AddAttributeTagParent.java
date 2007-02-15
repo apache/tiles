@@ -20,25 +20,22 @@
  *
  */
 
-
 package org.apache.tiles.taglib;
-
-import org.apache.tiles.taglib.PutAttributeTag;
 
 import javax.servlet.jsp.JspException;
 
 /**
- * Tag classes implementing this interface can contain nested {@link PutAttributeTag}.
+ * Tag classes implementing this interface can contain nested {@link AddAttributeTag}.
  * This interface defines a method called by nested tags.
  *
  * @version $Rev$ $Date$
  */
-public interface PutAttributeTagParent {
+public interface AddAttributeTagParent {
     /**
      * Process the nested tag.
      *
      * @param nestedTag Nested tag to process.
      */
-    void processNestedTag(PutAttributeTag nestedTag) throws JspException;
+    void processNestedTag(AddAttributeTag nestedTag) throws JspException;
 
 }

@@ -389,9 +389,9 @@
 		<li>&lt;definition&gt;</li> 
 		<li>&lt;insertAttribute&gt;</li> 
 		<li>&lt;insertDefinition&gt;</li>
-		<li>&lt;putList&gt;</li>
+		<li>&lt;putListAttribute&gt;</li>
 		</ul>
-		(or any other tag which implements the <code>{@link PutTagParent}</code> interface.
+		(or any other tag which implements the <code>{@link PutAttributeTagParent}</code> interface.
 		Exception is thrown if no appropriate tag can be found.</p>
 		<p>Put tag can have following atributes :
 		<ul>
@@ -422,7 +422,7 @@
       </description>
       <attribute>
          <name>name</name>
-         <required>false</required>
+         <required>true</required>
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
@@ -498,14 +498,14 @@
       </attribute>
    </tag>
    <tag>
-      <name>add</name>
+      <name>addAttribute</name>
        <!--
            Intentionally PutTag, it doubles for the AddTag
            The only difference between the two is that the name
            is not used in the Add Tag (and it's only valid within
            the PutList
         -->
-      <tag-class>org.apache.tiles.taglib.PutAttributeTag</tag-class>
+      <tag-class>org.apache.tiles.taglib.AddAttributeTag</tag-class>
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
@@ -558,6 +558,20 @@
          ]]>
          </description>
       </attribute>
+   </tag>
+   <tag>
+      <name>addListAttribute</name>
+      <tag-class>org.apache.tiles.taglib.AddListAttributeTag</tag-class>
+      <body-content>JSP</body-content>
+      <description>
+      <![CDATA[
+      <p><strong>Declare a list that will be pass as attribute to tile.
+      </strong></p>
+      <p>Declare a list that will be pass as attribute to tile.
+      List elements are added using the tag 'add'.
+      This tag can only be used inside 'insert' or 'definition' tag.</p>
+      ]]>
+      </description>
    </tag>
    <tag>
       <name>getAsString</name>

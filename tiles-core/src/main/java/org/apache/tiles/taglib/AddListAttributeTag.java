@@ -31,12 +31,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 /**
- * PutList tag implementation.
+ * AddListAttribute tag implementation.
  *
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class PutListAttributeTag extends PutAttributeTag
+public class AddListAttributeTag extends AddAttributeTag
     implements AddAttributeTagParent {
 
     /**
@@ -74,7 +74,7 @@ public class PutListAttributeTag extends PutAttributeTag
     }
 
     /**
-     * Process nested &lg;putAttribute&gt; tag.
+     * Process nested &lg;addAttribute&gt; tag.
      * <p/>
      * Places the value of the nested tag within the
      * {@link org.apache.tiles.ComponentContext}.It is the responsibility
