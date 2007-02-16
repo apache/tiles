@@ -21,6 +21,32 @@
         <format>zip</format>
     </formats>
     <includeSiteDirectory>false</includeSiteDirectory>
+
+    <dependencySets>
+        <dependencySet>
+            <scope>compile</scope>
+            <outputDirectory>/lib</outputDirectory>
+            <excludes>
+                <exclude>javax.servlet:servlet-api</exclude>
+                <exclude>javax.servlet:jsp-api</exclude>
+                <exclude>javax.portlet:portlet-api</exclude>
+                <exclude>org.apache.tiles:tiles-api</exclude>
+                <exclude>org.apache.tiles:tiles-core</exclude>
+            </excludes>
+        </dependencySet>
+        <dependencySet>
+            <scope>compile</scope>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>org.apache.tiles:tiles-api</include>
+            </includes>
+            <excludes>
+                <exclude>*</exclude>
+                <exclude>org.apache.tiles:tiles-core</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
+
     <fileSets>
         <fileSet>
             <includes>
