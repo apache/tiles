@@ -49,6 +49,8 @@
 
     <fileSets>
         <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
             <includes>
                 <include>LICENSE.txt</include>
                 <include>NOTICE.txt</include>
