@@ -22,12 +22,20 @@
     </formats>
     <fileSets>
         <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
             <includes>
                 <include>LICENSE.txt</include>
                 <include>NOTICE.txt</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <includes>
                 <include>pom.xml</include>
             </includes>
         </fileSet>
+        
         <fileSet>
             <directory>src</directory>
         </fileSet>

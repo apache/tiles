@@ -40,9 +40,13 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>LICENSE.txt</exclude>
+                    <exclude>NOTICE.txt</exclude>
+                </excludes>
             </resource>
             <resource>
-                <directory>.</directory>
+                <directory>src/main/resources</directory>
                 <includes>
                     <include>LICENSE.txt</include>
                     <include>NOTICE.txt</include>
@@ -66,7 +70,6 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/main/assembly/bin.xml</descriptor>
                         <descriptor>src/main/assembly/src.xml</descriptor>
                     </descriptors>
                     <tarLongFileMode>gnu</tarLongFileMode>
