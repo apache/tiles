@@ -137,7 +137,7 @@ public class DefinitionTag extends TagSupport
         d.getAttributes().putAll(attributes);
         
         try {
-            container.register(d);
+            container.register(d, pageContext);
         } catch (TilesException e) {
             throw new JspException("Unable to add definition. " ,e);
         }

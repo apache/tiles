@@ -42,13 +42,23 @@ public class DefinitionManager {
     private static final Log LOG =
         LogFactory.getLog(DefinitionManager.class);
 
-    private Map<String, ComponentDefinition> definitions;
+    private static final String DEFAULT_DEFINITIONS_ATTRIBUTE_NAME =
+        "org.apache.tiles.impl.mgmt.DefinitionManager.DEFINITIONS";
+
     private DefinitionsFactory factory;
+    
+    private String definitionsAttributeName;
 
     public DefinitionManager() {
-        definitions = new HashMap<String, ComponentDefinition>();
+        definitionsAttributeName = DEFAULT_DEFINITIONS_ATTRIBUTE_NAME;
     }
 
+    public DefinitionManager(String definitionsAttributeName) {
+        this.definitionsAttributeName = definitionsAttributeName;
+        if (this.definitionsAttributeName == null) {
+            this.definitionsAttributeName = DEFAULT_DEFINITIONS_ATTRIBUTE_NAME;
+        }
+    }
 
     public DefinitionsFactory getFactory() {
         return factory;
@@ -60,13 +70,16 @@ public class DefinitionManager {
 
     public ComponentDefinition getDefinition(String definition, TilesRequestContext request)
         throws DefinitionsFactoryException {
-        if (definitions.containsKey(definition)) {
+        Map<String, ComponentDefinition> definitions =
+            getDefinitions(request);
+        if (definitions != null && definitions.containsKey(definition)) {
             return definitions.get(definition);
         }
         return getFactory().getDefinition(definition, request);
     }
 
-    public void addDefinition(ComponentDefinition definition)
+    public void addDefinition(ComponentDefinition definition,
+            TilesRequestContext request)
         throws DefinitionsFactoryException {
         validate(definition);
 
@@ -75,19 +88,20 @@ public class DefinitionManager {
         }
 
         for(ComponentAttribute attr : definition.getAttributes().values()) {
-            if(isDefinition(attr)) {
-                ComponentDefinition d = getDefinition(attr.getValue().toString(), null);
+            if(isDefinition(attr, request)) {
+                ComponentDefinition d = getDefinition(attr.getValue().toString(), request);
                 attr.setAttributes(d.getAttributes());
             }
         }
 
-        definitions.put(definition.getName(), definition);
+        getOrCreateDefinitions(request).put(definition.getName(), definition);
     }
 
-    private boolean isDefinition(ComponentAttribute attribute) throws DefinitionsFactoryException {
+    private boolean isDefinition(ComponentAttribute attribute,
+            TilesRequestContext request) throws DefinitionsFactoryException {
         boolean explicit =  ComponentAttribute.DEFINITION.equals(attribute.getType());
         boolean implicit =  attribute.getType() == null  &&
-                            (getDefinition((String)attribute.getValue(), null) != null);
+                            (getDefinition((String)attribute.getValue(), request) != null);
         return explicit || implicit;
     }
 
@@ -177,5 +191,27 @@ public class DefinitionManager {
         if (child.getPreparer() == null) {
             child.setPreparer(parent.getPreparer());
         }
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected Map<String, ComponentDefinition> getDefinitions(
+            TilesRequestContext request) {
+        return (Map<String, ComponentDefinition>) request.getRequestScope()
+                .get(definitionsAttributeName);
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected Map<String, ComponentDefinition> getOrCreateDefinitions(
+            TilesRequestContext request) {
+        Map<String, ComponentDefinition> definitions =
+            (Map<String, ComponentDefinition>) request
+                .getRequestScope().get(definitionsAttributeName);
+        if (definitions == null) {
+            definitions = new HashMap<String, ComponentDefinition>();
+            request.getRequestScope()
+                    .put(definitionsAttributeName, definitions);
+        }
+
+        return definitions;
     }
 }

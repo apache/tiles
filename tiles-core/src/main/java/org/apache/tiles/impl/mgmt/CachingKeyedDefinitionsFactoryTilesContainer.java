@@ -25,6 +25,8 @@ package org.apache.tiles.impl.mgmt;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.jsp.PageContext;
+
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.ComponentDefinition;
@@ -45,15 +47,30 @@ import org.apache.tiles.mgmt.TileDefinition;
 public class CachingKeyedDefinitionsFactoryTilesContainer extends
         KeyedDefinitionsFactoryTilesContainer implements MutableTilesContainer {
 
+    private static final String DEFINITIONS_ATTRIBUTE_NAME_BASE =
+        "org.apache.tiles.impl.mgmt.CachingKeyedDefinitionsFactoryTilesContainer.DEFINITIONS.";
+
     private DefinitionManager mgr = new DefinitionManager();
     
     private Map<String, DefinitionManager> key2definitionManager
             = new HashMap<String, DefinitionManager>();
 
-    public void register(TileDefinition definition)
+    public void register(TileDefinition definition, PageContext context)
         throws TilesException {
-        ComponentDefinition def = new ComponentDefinition(definition);
-        mgr.addDefinition(def);
+        TilesRequestContext requestContext = getContextFactory().createRequestContext(
+                getApplicationContext(), context
+            );
+        register(definition, requestContext);
+    }
+
+    public void register(TileDefinition definition, Object request,
+            Object response) throws TilesException {
+        TilesRequestContext requestContext = getContextFactory().createRequestContext(
+                getApplicationContext(),
+                request,
+                response
+            );
+        register(definition, requestContext);
     }
 
     @Override
@@ -93,6 +110,14 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
         mgr.setFactory(definitionsFactory);
     }
     
+    protected void register(TileDefinition definition,
+            TilesRequestContext request) throws DefinitionsFactoryException {
+        DefinitionManager mgr = getProperDefinitionManager(
+                getDefinitionsFactoryKey(request));
+        ComponentDefinition def = new ComponentDefinition(definition);
+        mgr.addDefinition(def, request);
+    }
+
     /**
      * Returns a definition manager if found, otherwise it will create a new
      * one.
@@ -103,7 +128,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
     protected DefinitionManager getOrCreateDefinitionManager(String key) {
         DefinitionManager mgr = key2definitionManager.get(key);
         if (mgr == null) {
-            mgr = new DefinitionManager();
+            mgr = new DefinitionManager(DEFINITIONS_ATTRIBUTE_NAME_BASE + key);
             key2definitionManager.put(key, mgr);
         }
         

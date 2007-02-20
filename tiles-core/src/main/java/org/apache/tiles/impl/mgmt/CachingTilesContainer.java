@@ -21,6 +21,8 @@
  */
 package org.apache.tiles.impl.mgmt;
 
+import javax.servlet.jsp.PageContext;
+
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.ComponentDefinition;
@@ -43,10 +45,22 @@ public class CachingTilesContainer extends BasicTilesContainer
 
     private DefinitionManager mgr = new DefinitionManager();
 
-    public void register(TileDefinition definition)
+    public void register(TileDefinition definition, PageContext context)
         throws TilesException {
-        ComponentDefinition def = new ComponentDefinition(definition);
-        mgr.addDefinition(def);
+        TilesRequestContext requestContext = getContextFactory().createRequestContext(
+                getApplicationContext(), context
+            );
+        register(definition, requestContext);
+    }
+
+    public void register(TileDefinition definition, Object request,
+            Object response) throws TilesException {
+        TilesRequestContext requestContext = getContextFactory().createRequestContext(
+                getApplicationContext(),
+                request,
+                response
+            );
+        register(definition, requestContext);
     }
 
     protected ComponentDefinition getDefinition(String definition,
@@ -63,5 +77,11 @@ public class CachingTilesContainer extends BasicTilesContainer
     public void setDefinitionsFactory(DefinitionsFactory definitionsFactory) {
         super.setDefinitionsFactory(definitionsFactory);
         mgr.setFactory(definitionsFactory);
+    }
+    
+    protected void register(TileDefinition definition,
+            TilesRequestContext request) throws DefinitionsFactoryException {
+        ComponentDefinition def = new ComponentDefinition(definition);
+        mgr.addDefinition(def, request);
     }
 }
