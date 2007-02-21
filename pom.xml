@@ -133,7 +133,7 @@
                     <docletArtifact>
                         <groupId>gr.spinellis</groupId>
                         <artifactId>UmlGraph</artifactId>
-                        <version>4.4</version>
+                        <version>4.5</version>
                     </docletArtifact>
                     <additionalparam>
                         -inferrel -inferdep -quiet -hide java.*
