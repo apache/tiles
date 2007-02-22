@@ -52,6 +52,7 @@
     <h3>Mutable Container Tests</h3>
     <a href="testinitcontainer.jsp">Test Initialize Container</a><br/>
     <a href="testdef.jsp">Test Definition Tag</a><br/>
+    <a href="testdef_extend.jsp">Test Definition Tag extending configured and custom definitions</a><br/>
     <a href="testinsertdefinition_composite_tags_includes_configured.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags</a><br/>
     <a href="testinsertdefinition_composite_tags.jsp">Test Insert Definition that contains another definition inside using JSP tags</a><br/>
     <a href="testinsertdefinition_composite_tags_includes_configured_notype.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags without types</a><br/>
