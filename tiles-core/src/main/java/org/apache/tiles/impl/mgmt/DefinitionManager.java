@@ -84,7 +84,7 @@ public class DefinitionManager {
         validate(definition);
 
         if(definition.isExtending()) {
-            this.resolveInheritance(definition);
+            this.resolveInheritance(definition, request);
         }
 
         for(ComponentAttribute attr : definition.getAttributes().values()) {
@@ -128,7 +128,8 @@ public class DefinitionManager {
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
      * @param definition def
      */
-    protected void resolveInheritance(ComponentDefinition definition)
+    protected void resolveInheritance(ComponentDefinition definition,
+            TilesRequestContext request)
         throws DefinitionsFactoryException  {
         // Already done, or not needed ?
         if (definition.isIsVisited() || !definition.isExtending())
@@ -146,7 +147,7 @@ public class DefinitionManager {
         //  however, this may cause errors for other implementations.
         //  we should probably make all factories agnostic and allow the manager to
         //  utilize the correct factory based on the context.
-        ComponentDefinition parent = getDefinition(definition.getExtends(), null);
+        ComponentDefinition parent = getDefinition(definition.getExtends(), request);
 
 
         if (parent == null) { // error
@@ -161,7 +162,7 @@ public class DefinitionManager {
         }
 
         // Resolve parent before itself.
-        resolveInheritance(parent);
+        resolveInheritance(parent, request);
         overload(parent, definition);
     }
 
@@ -179,7 +180,9 @@ public class DefinitionManager {
                             ComponentDefinition child) {
         // Iterate on each parent's attribute and add it if not defined in child.
         for(Map.Entry<String, ComponentAttribute> entry : parent.getAttributes().entrySet()) {
-            child.putAttribute(entry.getKey(), new ComponentAttribute(entry.getValue()));
+            if (!child.hasAttributeValue(entry.getKey())) {
+                child.putAttribute(entry.getKey(), new ComponentAttribute(entry.getValue()));
+            }
         }
 
         if (child.getTemplate() == null)

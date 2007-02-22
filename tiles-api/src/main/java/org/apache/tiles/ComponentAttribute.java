@@ -23,6 +23,7 @@
 package org.apache.tiles;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -74,6 +75,26 @@ public class ComponentAttribute implements Serializable {
      */
     public ComponentAttribute(Object value) {
         this.value = value;
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param value Object to store.
+     */
+    public ComponentAttribute(ComponentAttribute attribute) {
+        this.name = attribute.name;
+        this.role = attribute.role;
+        this.type = attribute.type;
+        this.value = attribute.getValue();
+        if (attribute.attributes != null) {
+            this.attributes = new HashMap<String, ComponentAttribute>();
+            for (Map.Entry<String, ComponentAttribute> entry : attribute.attributes
+                    .entrySet()) {
+                this.attributes.put(entry.getKey(), new ComponentAttribute(
+                        entry.getValue()));
+            }
+        }
     }
 
     /**

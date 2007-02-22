@@ -70,6 +70,7 @@ public class ComponentDefinition extends TileDefinition implements Serializable 
         this.template = definition.getTemplate();
         this.role = definition.getRole();
         this.preparer = definition.getPreparer();
+        this.inherit = definition.getExtends();
     }
 
     /**
@@ -90,6 +91,16 @@ public class ComponentDefinition extends TileDefinition implements Serializable 
      */
     public void putAttribute(String key, ComponentAttribute value) {
         attributes.put(key, value);
+    }
+    
+    /**
+     * Checks whether the <code>key</code> attribute has been set.
+     * 
+     * @param key The attribute key to check.
+     * @return <code>true</code> if the attribute has a value.
+     */
+    public boolean hasAttributeValue(String key) {
+        return attributes.containsKey(key);
     }
 
     /**
