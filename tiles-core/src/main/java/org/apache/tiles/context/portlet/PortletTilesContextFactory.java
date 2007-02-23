@@ -20,23 +20,17 @@
  *
  */
 
-package org.apache.tiles.context;
+package org.apache.tiles.context.portlet;
 
 import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.context.jsp.JspTilesRequestContext;
 import org.apache.tiles.context.portlet.PortletTilesApplicationContext;
 import org.apache.tiles.context.portlet.PortletTilesRequestContext;
-import org.apache.tiles.context.servlet.ServletTilesApplicationContext;
-import org.apache.tiles.context.servlet.ServletTilesRequestContext;
 
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
 import java.util.Map;
 
 /**
@@ -44,7 +38,7 @@ import java.util.Map;
  *
  * @version $Rev$ $Date$
  */
-public class BasicTilesContextFactory implements TilesContextFactory {
+public class PortletTilesContextFactory implements TilesContextFactory {
 
     public void init(Map configParameters) {
     }
@@ -53,55 +47,27 @@ public class BasicTilesContextFactory implements TilesContextFactory {
      * Creates a TilesApplicationContext from the given context.
      */
     public TilesApplicationContext createApplicationContext(Object context) {
-        if (context instanceof ServletContext) {
-            ServletContext servletContext = (ServletContext) context;
-            return new ServletTilesApplicationContext(servletContext);
-
-        } else if (context instanceof PortletContext) {
+        if (context instanceof PortletContext) {
             PortletContext portletContext = (PortletContext) context;
             return new PortletTilesApplicationContext(portletContext);
-        } else {
-            throw new IllegalArgumentException("Invalid context specified. "
-                + context.getClass().getName());
         }
+        
+        return null;
     }
 
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
         if (requestItems.length == 2) {
-            ServletContext servletContext = getServletContext(context);
             PortletContext portletContext = getPortletContext(context);
-            if (servletContext != null) {
-                return new ServletTilesRequestContext(servletContext,
-                    (HttpServletRequest) requestItems[0],
-                    (HttpServletResponse) requestItems[1]);
-            } else if (portletContext != null) {
+            if (portletContext != null) {
                 PortletTilesApplicationContext app = (PortletTilesApplicationContext) context;
                 return new PortletTilesRequestContext(app.getPortletContext(),
                     (PortletRequest) requestItems[0],
                     (PortletResponse) requestItems[1]);
-            } else {
-                throw new IllegalArgumentException("Invalid context specified. "
-                    + context.getClass().getName());
             }
-        } else if (requestItems.length == 1) {
-            ServletContext servletContext = getServletContext(context);
-            if (servletContext != null) {
-                return new JspTilesRequestContext(servletContext, (PageContext) requestItems[0]);
-            }
-            throw new IllegalArgumentException("The context/pageContext combination is not supported.");
-        } else {
-            throw new IllegalArgumentException("The context/pageContext combination is not supported.");
         }
-    }
-
-    protected ServletContext getServletContext(TilesApplicationContext context) {
-        if (context instanceof ServletTilesApplicationContext) {
-            ServletTilesApplicationContext app = (ServletTilesApplicationContext) context;
-            return app.getServletContext();
-        }
+        
         return null;
-
     }
 
     protected PortletContext getPortletContext(TilesApplicationContext context) {

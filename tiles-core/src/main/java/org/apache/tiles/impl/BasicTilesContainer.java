@@ -100,8 +100,6 @@ public class BasicTilesContainer implements TilesContainer {
             LOG.info("Initializing Tiles2 container. . .");
         }
 
-        contextFactory.init(initParameters);
-
         //Everything is now initialized.  We will populate
         // our definitions
         initializeDefinitionsFactory(definitionsFactory, getResourceString(),

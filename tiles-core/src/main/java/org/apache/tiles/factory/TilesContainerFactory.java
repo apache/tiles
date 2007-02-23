@@ -24,7 +24,7 @@ package org.apache.tiles.factory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.context.BasicTilesContextFactory;
+import org.apache.tiles.context.ChainedTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
@@ -71,7 +71,7 @@ public class TilesContainerFactory {
 
     static {
         DEFAULTS.put(CONTAINER_FACTORY_INIT_PARAM, TilesContainerFactory.class.getName());
-        DEFAULTS.put(CONTEXT_FACTORY_INIT_PARAM, BasicTilesContextFactory.class.getName());
+        DEFAULTS.put(CONTEXT_FACTORY_INIT_PARAM, ChainedTilesContextFactory.class.getName());
         DEFAULTS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
         DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
     }
@@ -187,6 +187,7 @@ public class TilesContainerFactory {
             (PreparerFactory) createFactory(configuration,
                 PREPARER_FACTORY_INIT_PARAM);
 
+        contextFactory.init(configuration);
         TilesApplicationContext tilesContext =
             contextFactory.createApplicationContext(context);
 

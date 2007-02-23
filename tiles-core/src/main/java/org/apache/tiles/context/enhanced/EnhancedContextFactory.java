@@ -22,13 +22,13 @@
 package org.apache.tiles.context.enhanced;
 
 import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.ChainedTilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.context.BasicTilesContextFactory;
 
 /**
  * @version $Rev$ $Date$
  */
-public class EnhancedContextFactory extends BasicTilesContextFactory {
+public class EnhancedContextFactory extends ChainedTilesContextFactory {
 
     public TilesApplicationContext createApplicationContext(Object context) {
         TilesApplicationContext root = super.createApplicationContext(context);
