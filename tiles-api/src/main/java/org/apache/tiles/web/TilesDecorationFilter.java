@@ -154,7 +154,7 @@ public class TilesDecorationFilter implements Filter {
         mutator.mutate(container.getComponentContext(req, res), req);
         try {
             String definitionName = getDefinitionForRequest(req);
-            container.render(req, res, definitionName);
+            container.render(definitionName, req, res);
         } catch (TilesException e) {
             throw new ServletException("Error wrapping jsp with tile definition. "+e.getMessage(), e);
         }

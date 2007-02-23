@@ -21,7 +21,6 @@
  */
 package org.apache.tiles;
 
-import javax.servlet.jsp.PageContext;
 import java.util.Map;
 import java.util.Iterator;
 
@@ -69,28 +68,6 @@ public interface ComponentContext {
      * @param value value of the attribute
      */
     void putAttribute(String name, ComponentAttribute value);
-
-    /**
-     * Find the attribute
-     *
-     * @param beanName name of the bean
-     * @param pageContext current pageContext.
-     * @return search for the attribute in one of the scopes.
-     */
-    ComponentAttribute findAttribute(String beanName, PageContext pageContext);
-
-    /**
-     * Find the named attribute.
-     *
-     * @param beanName name of the bean
-     * @param scope scope of the bean
-     * @param pageContext current pageContext
-     * @return component attribute - if found.
-     */
-    ComponentAttribute getAttribute(
-        String beanName,
-        int scope,
-        PageContext pageContext);
 
     /**
      * Clear the attributes

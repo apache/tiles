@@ -86,7 +86,7 @@ public class TilesDecorationFilter implements Filter {
         ctx.putAttribute(targetAttributeName, attr);
 
         try {
-            container.render(request, response, definition);
+            container.render(definition, request, response);
         } catch (TilesException e) {
             throw new ServletException("Error wrapping jsp with tile definition.", e);
         }

@@ -21,9 +21,9 @@
  */
 package org.apache.tiles;
 
-import javax.servlet.jsp.PageContext;
 import java.util.Map;
 import java.io.IOException;
+import java.io.Writer;
 
 /**
  * An encapsulation of the tiles framework.  This interface is
@@ -54,120 +54,64 @@ public interface TilesContainer {
 
     /**
      * Retrive the component context of the current request.
-     * @param request the current request.
-     * @param response the current reponse.
+     * @param requestItems the current request objects.
      * @return map of the attributes in the current component context.
      */
-    ComponentContext getComponentContext(Object request, Object response);
-
-    /**
-     * Retrieve the component context of the current request
-     * @param context the current request.
-     * @return map of the attributes in the current component context.
-     */
-    ComponentContext getComponentContext(PageContext context);
+    ComponentContext getComponentContext(Object... requestItems);
 
     /**
      * Starts a new context, where attribute values are stored independently
      * from others.<br>
      * When the use of the contexts is finished, call
-     * {@link TilesContainer#endContext(Object, Object)}
+     * {@link TilesContainer#endContext(Object...)}
      *
-     * @param request the current request.
-     * @param response the current reponse.
+     * @param requestItems the current request objects.
      * @return The newly created context.
      */
-    ComponentContext startContext(Object request, Object response);
-
-    /**
-     * Starts a new context, where attribute values are stored independently
-     * from others.<br>
-     * When the use of the contexts is finished, call
-     * {@link TilesContainer#endContext(PageContext)}
-     *
-     * @param context the current request.
-     * @return The newly created context.
-     */
-    ComponentContext startContext(PageContext context);
+    ComponentContext startContext(Object... requestItems);
     
     /**
      * Ends a context, where attribute values are stored independently
      * from others.<br>
      * It must be called after a
-     * {@link TilesContainer#startContext(Object, Object)} call.
+     * {@link TilesContainer#startContext(Object...)} call.
      *
-     * @param request the current request.
-     * @param response the current reponse.
+     * @param requestItems the current request objects.
      */
-    void endContext(Object request, Object response);
-    
-    /**
-     * Ends a context, where attribute values are stored independently
-     * from others.<br>
-     * It must be called after a
-     * {@link TilesContainer#startContext(PageContext)} call.
-     *
-     * @param context the current request.
-     */
-    void endContext(PageContext context);
+    void endContext(Object... requestItems);
 
     /**
-     * @param request the current request
-     * @param response the current response
      * @param definition the requested definition
+     * @param requestItems the current request objects.
      * @throws TilesException is processing fails.
      */
-    void prepare(Object request, Object response, String definition) throws TilesException;
-
-    /**
-     * @param pageContext the current pageContext
-     * @param definition the current definition
-     * @throws TilesException is processing fails.
-     */
-    void prepare(PageContext pageContext, String definition) throws TilesException;
+    void prepare(String definition, Object... requestItems) throws TilesException;
 
     /**
      * Render the given tiles request
-     *
-     * @param request the current request
-     * @param response the current response
      * @param definition the current definition
+     * @param requestItems the current request objects.
+     *
      * @throws TilesException is processing fails.
      */
-    void render(Object request, Object response, String definition) throws TilesException;
-
-    /**
-     * @param pageContext the current pageContext.
-     * @param definition the requested definition.
-     * @throws TilesException is processing fails.
-     */
-    void render(PageContext pageContext, String definition) throws TilesException;
+    void render(String definition, Object... requestItems) throws TilesException;
 
     /**
      * Render the given ComponentAttribute.
-     * @param pageContext
      * @param attribute
+     * @param writer TODO
+     * @param requestItems the current request objects.
      * @throws TilesException
      */
-    void render(PageContext pageContext, ComponentAttribute attribute)
+    void render(ComponentAttribute attribute, Writer writer, Object... requestItems)
         throws TilesException, IOException;
 
     /**
      * Determine whether or not the definition exists.
-     * 
-     * @param pageContext the current page context
      * @param definition the name of the definition.
-     * @return true if the definition is found.
-     */
-    boolean isValidDefinition(PageContext pageContext, String definition);
-
-    /**
-     * Determine whether or not the definition exists.
+     * @param requestItems the current request objects.
      *
-     * @param request the current request
-     * @param response the current response
-     * @param definition the name of the definition.
      * @return true if the definition is found.
      */
-    boolean isValidDefinition(Object request, Object response, String definition);
+    boolean isValidDefinition(String definition, Object... requestItems);
 }

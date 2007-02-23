@@ -24,7 +24,6 @@ package org.apache.tiles.context;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 
-import javax.servlet.jsp.PageContext;
 import java.util.Map;
 
 /**
@@ -58,15 +57,5 @@ public interface TilesContextFactory {
      * @return TilesRequestContext
      */
     TilesRequestContext createRequestContext(TilesApplicationContext context,
-                                             Object request, Object response);
-
-    /**
-     * Create a TilesRequestContext for the given tiles and page contexts.
-     *
-     * @param context
-     * @param pageContext
-     * @return
-     */
-    TilesRequestContext createRequestContext(TilesApplicationContext context,
-                                             PageContext pageContext);
+                                             Object... requestItems);
 }

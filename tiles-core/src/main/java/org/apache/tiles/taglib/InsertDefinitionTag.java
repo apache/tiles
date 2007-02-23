@@ -48,6 +48,6 @@ public class InsertDefinitionTag extends RenderTagSupport implements PutAttribut
 
 
     protected void render() throws JspException, TilesException {
-        container.render(pageContext, name);
+        container.render(name, pageContext);
     }
 }

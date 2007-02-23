@@ -21,8 +21,6 @@
  */
 package org.apache.tiles.mgmt;
 
-import javax.servlet.jsp.PageContext;
-
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 
@@ -38,18 +36,8 @@ public interface MutableTilesContainer extends TilesContainer {
      * Register a new definition with the container.
      *
      * @param definition
-     * @param context The PageContext to use
+     * @param requestItems the current request objects.
      */
-    void register(TileDefinition definition, PageContext context)
-            throws TilesException;
-
-    /**
-     * Register a new definition with the container.
-     *
-     * @param definition
-     * @param request The request object to use.
-     * @param response The response object to use.
-     */
-    void register(TileDefinition definition, Object request, Object response)
+    void register(TileDefinition definition, Object... requestItems)
             throws TilesException;
 }

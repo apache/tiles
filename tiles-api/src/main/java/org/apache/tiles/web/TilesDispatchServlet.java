@@ -71,7 +71,7 @@ public class TilesDispatchServlet extends HttpServlet {
             if (LOG.isDebugEnabled()) {
                 LOG.info("Dispatching to tile '" + definition + "'");
             }
-            container.render(req, res, definition);
+            container.render(definition, req, res);
         } catch (TilesException e) {
             throw new ServletException("Error rendering tile.", e);
         }

@@ -25,8 +25,6 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.BasicTilesContextFactory;
 
-import javax.servlet.jsp.PageContext;
-
 /**
  * @version $Rev$ $Date$
  */
@@ -37,18 +35,12 @@ public class EnhancedContextFactory extends BasicTilesContextFactory {
         return new EnhancedTilesApplicationContext(root);
     }
 
-
-    public TilesRequestContext createRequestContext(TilesApplicationContext context, Object request, Object response) {
+    @Override
+    public TilesRequestContext createRequestContext(TilesApplicationContext context,
+            Object... requestItems) {
         if (context instanceof EnhancedTilesApplicationContext) {
             context = ((EnhancedTilesApplicationContext) context).getRootContext();
         }
-        return super.createRequestContext(context, request, response);
-    }
-
-    public TilesRequestContext createRequestContext(TilesApplicationContext context, PageContext pageContext) {
-        if (context instanceof EnhancedTilesApplicationContext) {
-            context = ((EnhancedTilesApplicationContext) context).getRootContext();
-        }
-        return super.createRequestContext(context, pageContext);
+        return super.createRequestContext(context, requestItems);
     }
 }

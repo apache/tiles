@@ -27,7 +27,6 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentAttribute;
 
-import javax.servlet.jsp.PageContext;
 import java.io.Serializable;
 import java.util.*;
 
@@ -154,51 +153,6 @@ public class BasicComponentContext implements ComponentContext, Serializable {
         }
 
         attributes.put(name, value);
-    }
-
-    /**
-     * Find object in one of the contexts.
-     * Order : component then pageContext.findAttribute()
-     *
-     * @param beanName    Name of the bean to find.
-     * @param pageContext Page context.
-     * @return Requested bean or <code>null</code> if not found.
-     */
-    public ComponentAttribute findAttribute(String beanName, PageContext pageContext) {
-        ComponentAttribute attribute = getAttribute(beanName);
-        if (attribute == null) {
-            Object attributeValue = pageContext.findAttribute(beanName);
-            attribute = new ComponentAttribute(attributeValue);
-        }
-
-        return attribute;
-    }
-
-    /**
-     * Get object from requested context.
-     * Context can be 'component'.
-     *
-     * @param beanName    Name of the bean to find.
-     * @param scope       Search scope (see {@link PageContext}).
-     * @param pageContext Page context.
-     * @return requested bean or <code>null</code> if not found.
-     */
-    public ComponentAttribute getAttribute(
-        String beanName,
-        int scope,
-        PageContext pageContext) {
-
-        if (scope == ComponentConstants.COMPONENT_SCOPE) {
-            return getAttribute(beanName);
-        }
-
-        Object attributeValue =
-            pageContext.getAttribute(beanName, scope);
-        if(attributeValue != null) {
-            return new ComponentAttribute(attributeValue);
-        }
-
-        return null;
     }
 
     /**

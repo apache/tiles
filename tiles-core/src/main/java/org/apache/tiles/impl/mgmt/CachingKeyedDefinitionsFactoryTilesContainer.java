@@ -25,8 +25,6 @@ package org.apache.tiles.impl.mgmt;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.jsp.PageContext;
-
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.ComponentDefinition;
@@ -55,20 +53,10 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
     private Map<String, DefinitionManager> key2definitionManager
             = new HashMap<String, DefinitionManager>();
 
-    public void register(TileDefinition definition, PageContext context)
-        throws TilesException {
-        TilesRequestContext requestContext = getContextFactory().createRequestContext(
-                getApplicationContext(), context
-            );
-        register(definition, requestContext);
-    }
-
-    public void register(TileDefinition definition, Object request,
-            Object response) throws TilesException {
+    public void register(TileDefinition definition, Object... requestItems) throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
                 getApplicationContext(),
-                request,
-                response
+                requestItems
             );
         register(definition, requestContext);
     }

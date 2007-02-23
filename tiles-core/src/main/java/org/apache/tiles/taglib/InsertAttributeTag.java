@@ -119,6 +119,6 @@ public class InsertAttributeTag extends RenderTagSupport {
      */
     protected void render(ComponentAttribute attr)
         throws TilesException, IOException {
-        container.render(pageContext, attr);
+        container.render(attr, pageContext.getOut(), pageContext);
     }
 }

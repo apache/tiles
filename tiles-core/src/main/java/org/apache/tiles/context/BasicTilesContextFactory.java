@@ -67,32 +67,32 @@ public class BasicTilesContextFactory implements TilesContextFactory {
     }
 
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
-                                                    Object request,
-                                                    Object response) {
-        ServletContext servletContext = getServletContext(context);
-        PortletContext portletContext = getPortletContext(context);
-        if (servletContext != null) {
-            return new ServletTilesRequestContext(servletContext,
-                (HttpServletRequest) request,
-                (HttpServletResponse) response);
-        } else if (portletContext != null) {
-            PortletTilesApplicationContext app = (PortletTilesApplicationContext) context;
-            return new PortletTilesRequestContext(app.getPortletContext(),
-                (PortletRequest) request,
-                (PortletResponse) response);
+                                                    Object... requestItems) {
+        if (requestItems.length == 2) {
+            ServletContext servletContext = getServletContext(context);
+            PortletContext portletContext = getPortletContext(context);
+            if (servletContext != null) {
+                return new ServletTilesRequestContext(servletContext,
+                    (HttpServletRequest) requestItems[0],
+                    (HttpServletResponse) requestItems[1]);
+            } else if (portletContext != null) {
+                PortletTilesApplicationContext app = (PortletTilesApplicationContext) context;
+                return new PortletTilesRequestContext(app.getPortletContext(),
+                    (PortletRequest) requestItems[0],
+                    (PortletResponse) requestItems[1]);
+            } else {
+                throw new IllegalArgumentException("Invalid context specified. "
+                    + context.getClass().getName());
+            }
+        } else if (requestItems.length == 1) {
+            ServletContext servletContext = getServletContext(context);
+            if (servletContext != null) {
+                return new JspTilesRequestContext(servletContext, (PageContext) requestItems[0]);
+            }
+            throw new IllegalArgumentException("The context/pageContext combination is not supported.");
         } else {
-            throw new IllegalArgumentException("Invalid context specified. "
-                + context.getClass().getName());
+            throw new IllegalArgumentException("The context/pageContext combination is not supported.");
         }
-    }
-
-    public TilesRequestContext createRequestContext(TilesApplicationContext context,
-                                                    PageContext pageContext) {
-        ServletContext servletContext = getServletContext(context);
-        if (servletContext != null) {
-            return new JspTilesRequestContext(servletContext, pageContext);
-        }
-        throw new IllegalArgumentException("The context/pageContext combination is not supported.");
     }
 
     protected ServletContext getServletContext(TilesApplicationContext context) {
