@@ -164,9 +164,9 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
         EasyMock.replay(response);
-        assertTrue(container.isValidDefinition(request, response, "test.def1"));
-        assertFalse(container.isValidDefinition(request, response, "test.def.one"));
-        assertFalse(container.isValidDefinition(request, response, "test.def.two"));
+        assertTrue(container.isValidDefinition("test.def1", request, response));
+        assertFalse(container.isValidDefinition("test.def.one", request, response));
+        assertFalse(container.isValidDefinition("test.def.two", request, response));
         
         EasyMock.reset(request);
         EasyMock.reset(response);
@@ -176,9 +176,9 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
         EasyMock.replay(response);
-        assertTrue(container.isValidDefinition(request, response, "test.def1"));
-        assertTrue(container.isValidDefinition(request, response, "test.def.one"));
-        assertFalse(container.isValidDefinition(request, response, "test.def.two"));
+        assertTrue(container.isValidDefinition("test.def1", request, response));
+        assertTrue(container.isValidDefinition("test.def.one", request, response));
+        assertFalse(container.isValidDefinition("test.def.two", request, response));
         
         EasyMock.reset(request);
         EasyMock.reset(response);
@@ -188,8 +188,8 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
         EasyMock.replay(response);
-        assertTrue(container.isValidDefinition(request, response, "test.def1"));
-        assertFalse(container.isValidDefinition(request, response, "test.def.one"));
-        assertTrue(container.isValidDefinition(request, response, "test.def.two"));
+        assertTrue(container.isValidDefinition("test.def1", request, response));
+        assertFalse(container.isValidDefinition("test.def.one", request, response));
+        assertTrue(container.isValidDefinition("test.def.two", request, response));
     }
 }
