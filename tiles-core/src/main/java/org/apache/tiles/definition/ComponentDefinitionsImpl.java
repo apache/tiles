@@ -78,7 +78,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     public void addDefinitions(Map<String, ComponentDefinition> defsMap) throws NoSuchDefinitionException {
         this.baseDefinitions.putAll(defsMap);
-        resolveAttributeDependencies();
+        resolveAttributeDependencies(null);
         resolveInheritances();
     }
 
@@ -125,7 +125,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      */
     public void resolveInheritances() throws NoSuchDefinitionException {
         for (ComponentDefinition definition : baseDefinitions.values()) {
-            resolveInheritance(definition);
+            resolveInheritance(definition, null);
         }  // end loop
     }
 
@@ -158,20 +158,6 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
         return baseDefinitions;
     }
 
-    public void resolveAttributeDependencies() {
-        for (ComponentDefinition def : baseDefinitions.values()) {
-            Map<String, ComponentAttribute> attributes = def.getAttributes();
-            for (ComponentAttribute attr : attributes.values()) {
-                if (isDefinitionType(attr)) {
-                    ComponentDefinition subDef =
-                        getDefinitionByAttribute(attr);
-                    attr.setAttributes(subDef.getAttributes());
-                    attr.setType("definition");
-                }
-            }
-        }
-    }
-
     private boolean isDefinitionType(ComponentAttribute attr) {
         boolean explicit = (attr.getType() != null &&
             (attr.getType().equalsIgnoreCase("definition") ||
@@ -186,8 +172,10 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     }
 
-    public void resolveAttributeDependencies(Locale locale) {
-        resolveAttributeDependencies(); // FIXME Is it necessary?
+    protected void resolveAttributeDependencies(Locale locale) {
+        if (locale != null) {
+            resolveAttributeDependencies(null); // FIXME Is it necessary?
+        }
         Map<String, ComponentDefinition> defsMap = localeSpecificDefinitions.get(locale);
         if (defsMap == null) {
             return;
@@ -204,28 +192,6 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
                 }
             }
         }
-    }
-
-    /**
-     * Searches for a definition specified as an attribute.
-     *
-     * @param attr The attribute to use.
-     * @return The required definition if found, otherwise it returns
-     *         <code>null</code>.
-     */
-    private ComponentDefinition getDefinitionByAttribute(
-        ComponentAttribute attr) {
-        ComponentDefinition retValue = null;
-
-        Object attrValue = attr.getValue();
-        if (attrValue instanceof ComponentDefinition) {
-            retValue = (ComponentDefinition) attrValue;
-        } else if (attrValue instanceof String) {
-            retValue = this.getDefinition((String) attr
-                .getValue());
-        }
-
-        return retValue;
     }
 
     /**
@@ -249,47 +215,6 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
         }
 
         return retValue;
-    }
-
-    /**
-     * Resolve inheritance.
-     * First, resolve parent's inheritance, then set template to the parent's
-     * template.
-     * Also copy attributes setted in parent, and not set in child
-     * If instance doesn't extend anything, do nothing.
-     *
-     * @throws NoSuchDefinitionException If an inheritance can not be solved.
-     */
-    protected void resolveInheritance(ComponentDefinition definition)
-        throws NoSuchDefinitionException {
-        // Already done, or not needed ?
-        if (definition.isIsVisited() || !definition.isExtending())
-            return;
-
-        if (log.isDebugEnabled())
-            log.debug("Resolve definition for child name='"
-                + definition.getName()
-                + "' extends='" + definition.getExtends() + "'.");
-
-        // Set as visited to avoid endless recurisvity.
-        definition.setIsVisited(true);
-
-        // Resolve parent before itself.
-        ComponentDefinition parent = getDefinition(definition.getExtends());
-        if (parent == null) { // error
-            String msg = "Error while resolving definition inheritance: child '"
-                + definition.getName()
-                + "' can't find its ancestor '"
-                + definition.getExtends()
-                + "'. Please check your description file.";
-            log.error(msg);
-            // to do : find better exception
-            throw new NoSuchDefinitionException(msg);
-        }
-
-        resolveInheritance(parent);
-
-        overload(parent, definition);
     }
 
     /**
