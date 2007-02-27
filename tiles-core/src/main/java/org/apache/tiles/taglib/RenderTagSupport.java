@@ -31,9 +31,6 @@ import org.apache.tiles.taglib.PutAttributeTagParent;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TryCatchFinally;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Support for all tags which render (a template, or definition).
@@ -58,8 +55,6 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     protected String preparer;
     protected boolean flush;
     protected boolean ignore;
-
-    private Map<String, ComponentAttribute> originalState;
 
     public String getPreparer() {
         return preparer;
@@ -93,9 +88,8 @@ public abstract class RenderTagSupport extends ContainerTagSupport
         super.release();
     }
 
-        public int doStartTag() {
+    public int doStartTag() {
         super.doStartTag();
-        cacheState();
         return isAccessAllowed() ? EVAL_BODY_BUFFERED : SKIP_BODY;
     }
 
@@ -104,7 +98,6 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     }
 
     public void doFinally() {
-        restoreState();
     }
 
     /**
@@ -153,23 +146,4 @@ public abstract class RenderTagSupport extends ContainerTagSupport
             attribute
         );
     }
-
-    private void cacheState() {
-        originalState = new HashMap<String, ComponentAttribute>();
-        Iterator<String> i = componentContext.getAttributeNames();
-        while(i.hasNext()) {
-            String name = i.next();
-            ComponentAttribute original = componentContext.getAttribute(name);
-            ComponentAttribute a = new ComponentAttribute(
-                original.getValue(), original.getRole(), original.getType()
-            );
-            originalState.put(name, a);
-        }
-    }
-
-    private void restoreState() {
-        originalState.clear();
-        originalState.putAll(originalState);
-    }
-
 }
