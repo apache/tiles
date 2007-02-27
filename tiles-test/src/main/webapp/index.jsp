@@ -40,6 +40,7 @@
     <a href="testinsertdefinition_override_and_not.jsp">Test Insert Configured Definition with an overridden content and one with original content</a><br/>
     <a href="testinsertdefinition_inline.jsp">Test Insert Configured Definition with an inline content</a><br/>
     <a href="testinsertdefinition_composite.jsp">Test Insert Configured Definition that contains another definition inside</a><br/>
+    <a href="testinsertdefinition_exception.jsp">Test Insert Configured Definition with an exception in an attribute page</a><br/>
     <a href="testput.jsp">Test Put Tag</a><br/>
     <a href="testput_el.jsp">Test Put Tag using EL</a><br/>
     <a href="testput_servlet.jsp">Test Put Tag using a servlet mapping as a template</a><br/>

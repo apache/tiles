@@ -48,6 +48,12 @@
       <put-attribute name="body"   value="/body.jsp"/>
   </definition>
 
+  <definition name="test.definition.exception" template="/layout.jsp">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/exception.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
+  </definition>
+
   <definition name="test.composite.definition" template="/layout.jsp">
       <put-attribute name="title"  value="This is a configured composite definition."/>
       <put-attribute name="header" value="/header.jsp"/>
