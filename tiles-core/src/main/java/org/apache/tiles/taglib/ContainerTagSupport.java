@@ -75,20 +75,21 @@ public abstract class ContainerTagSupport extends BodyTagSupport {
     
 
     public int doEndTag() throws JspException {
-        if (isAccessAllowed()) {
-            try {
+        try {
+            if (isAccessAllowed()) {
                 execute();
-            } catch (TilesException e) {
-                String message = "Error executing tag: " + e.getMessage();
-                LOG.error(message, e);
-                throw new JspException(message, e);
-            } catch (IOException io) {
-                String message = "IO Error executing tag: " + io.getMessage();
-                LOG.error(message, io);
-                throw new JspException(message, io);
             }
+        } catch (TilesException e) {
+            String message = "Error executing tag: " + e.getMessage();
+            LOG.error(message, e);
+            throw new JspException(message, e);
+        } catch (IOException io) {
+            String message = "IO Error executing tag: " + io.getMessage();
+            LOG.error(message, io);
+            throw new JspException(message, io);
+        } finally {
+            endContext(pageContext);
         }
-        endContext(pageContext);
         
         return EVAL_PAGE;
     }
