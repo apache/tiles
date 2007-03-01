@@ -26,6 +26,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.apache.tiles.locale.LocaleResolver;
+import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.util.ClassUtil;
 
 import java.io.FileNotFoundException;
@@ -79,6 +81,8 @@ public class UrlDefinitionsFactory
 
 
     private ComponentDefinitions definitions;
+    
+    private LocaleResolver localeResolver;
 
     /**
      * Creates a new instance of UrlDefinitionsFactory
@@ -108,6 +112,15 @@ public class UrlDefinitionsFactory
             reader = new DigesterDefinitionsReader();
         }
         reader.init(params);
+        
+        String resolverClassName = params
+                .get(DefinitionsFactory.LOCALE_RESOLVER_IMPL_PROPERTY);
+        if (resolverClassName != null) {
+            localeResolver = (LocaleResolver) ClassUtil.instantiate(resolverClassName);
+        } else {
+            localeResolver = new DefaultLocaleResolver();
+        }
+        localeResolver.init(params);
     }
 
     private ComponentDefinitions getComponentDefinitions()
@@ -137,7 +150,7 @@ public class UrlDefinitionsFactory
         Locale locale = null;
 
         if (tilesContext != null) {
-            locale = tilesContext.getRequestLocale();
+            locale = localeResolver.resolveLocale(tilesContext);
             if (!isContextProcessed(tilesContext)) {
                 synchronized (definitions) {
                     addDefinitions(definitions, tilesContext);
@@ -189,7 +202,7 @@ public class UrlDefinitionsFactory
                                   TilesRequestContext tilesContext)
         throws DefinitionsFactoryException {
 
-        Locale locale = tilesContext.getRequestLocale();
+        Locale locale = localeResolver.resolveLocale(tilesContext);
 
         if (isContextProcessed(tilesContext)) {
             return;
@@ -233,8 +246,8 @@ public class UrlDefinitionsFactory
         
         // At the end of definitions loading, they can be assigned to
         // ComponentDefinitions implementation, to allow inheritance resolution.
-        definitions.addDefinitions(localeDefsMap,
-        		tilesContext.getRequestLocale());
+        definitions.addDefinitions(localeDefsMap, localeResolver
+                .resolveLocale(tilesContext));
     }
 
     /**
@@ -275,7 +288,8 @@ public class UrlDefinitionsFactory
      * @return true if the given context has been processed and false otherwise.
      */
     protected boolean isContextProcessed(TilesRequestContext tilesContext) {
-        return processedLocales.contains(tilesContext.getRequestLocale());
+        return processedLocales.contains(localeResolver
+                .resolveLocale(tilesContext));
     }
 
     /**

@@ -50,6 +50,9 @@ public interface DefinitionsFactory {
      */
     public static final String DEFINITIONS_IMPL_PROPERTY =
         "org.apache.tiles.definition.ComponentDefinitions";
+    
+    public static final String LOCALE_RESOLVER_IMPL_PROPERTY =
+        "org.apache.tiles.locale.LocaleResolver";
 
     /**
      * Initializes the DefinitionsFactory and its subcomponents.
