@@ -30,6 +30,7 @@ import java.util.Vector;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import junit.framework.TestCase;
 
@@ -37,6 +38,7 @@ import org.apache.tiles.TilesException;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
+import org.apache.tiles.taglib.ComponentConstants;
 import org.apache.tiles.util.RollingVectorEnumeration;
 import org.easymock.EasyMock;
 
@@ -153,40 +155,53 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
     public void testDefinitionsFactoryUse() {
         HttpServletRequest request = EasyMock.createMock(
                 HttpServletRequest.class);
+        HttpSession session = EasyMock.createMock(HttpSession.class);
         HttpServletResponse response = EasyMock.createMock(
                 HttpServletResponse.class);
         
         EasyMock.reset(request);
+        EasyMock.reset(session);
         EasyMock.reset(response);
+        EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
+        EasyMock.expect(session.getAttribute(ComponentConstants.LOCALE_KEY)).andReturn(null).anyTimes();
+        EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.expect(request.getAttribute(
                 KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
                 .andReturn(null).anyTimes();
-        EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
+        EasyMock.replay(session);
         EasyMock.replay(response);
         assertTrue(container.isValidDefinition("test.def1", request, response));
         assertFalse(container.isValidDefinition("test.def.one", request, response));
         assertFalse(container.isValidDefinition("test.def.two", request, response));
         
         EasyMock.reset(request);
+        EasyMock.reset(session);
         EasyMock.reset(response);
         EasyMock.expect(request.getAttribute(
                 KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
                 .andReturn("one").anyTimes();
+        EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
+        EasyMock.expect(session.getAttribute(ComponentConstants.LOCALE_KEY)).andReturn(null).anyTimes();
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
+        EasyMock.replay(session);
         EasyMock.replay(response);
         assertTrue(container.isValidDefinition("test.def1", request, response));
         assertTrue(container.isValidDefinition("test.def.one", request, response));
         assertFalse(container.isValidDefinition("test.def.two", request, response));
         
         EasyMock.reset(request);
+        EasyMock.reset(session);
         EasyMock.reset(response);
         EasyMock.expect(request.getAttribute(
                 KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
                 .andReturn("two").anyTimes();
+        EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
+        EasyMock.expect(session.getAttribute(ComponentConstants.LOCALE_KEY)).andReturn(null).anyTimes();
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
+        EasyMock.replay(session);
         EasyMock.replay(response);
         assertTrue(container.isValidDefinition("test.def1", request, response));
         assertFalse(container.isValidDefinition("test.def.one", request, response));
