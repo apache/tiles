@@ -22,6 +22,8 @@
 
 package org.apache.tiles.context;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 
@@ -41,6 +43,8 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
             "org.apache.tiles.context.servlet.ServletTilesContextFactory",
             "org.apache.tiles.context.portlet.PortletTilesContextFactory",
             "org.apache.tiles.context.jsp.JspTilesContextFactory" };
+    
+    private static Log LOG = LogFactory.getLog(ChainedTilesContextFactory.class);
 
     private TilesContextFactory[] factories;
 
@@ -67,9 +71,9 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
                             + " does not implement TilesContextFactory");
                 }
             } catch (ClassNotFoundException e) {
-                throw new IllegalArgumentException(
-                        "Cannot find TilesContextFactory class "
-                                + classNames[i], e);
+                // We log it, because it could be a default configuration class that
+                // is simply not present.
+                LOG.warn("Cannot find TilesContextFactory class "+ classNames[i], e);
             } catch (InstantiationException e) {
                 throw new IllegalArgumentException(
                         "Cannot instantiate TilesFactoryClass " + classNames[i],
