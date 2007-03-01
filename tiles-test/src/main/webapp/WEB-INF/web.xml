@@ -85,6 +85,10 @@
             <param-value>/layout.jsp</param-value>
         </init-param>
     </servlet>
+    <servlet>
+        <servlet-name>selectLocaleServlet</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+    </servlet>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -93,6 +97,11 @@
     <servlet-mapping>
         <servlet-name>layoutServlet</servlet-name>
         <url-pattern>/servlets/layoutServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>selectLocaleServlet</servlet-name>
+        <url-pattern>/servlets/selectLocaleServlet</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

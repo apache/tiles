@@ -84,5 +84,11 @@
     <definition name="testdispatchservlet" extends="test.definition"/>
 
   <definition name="preparer.definition.configured" extends="preparer.definition" preparer="org.apache.tiles.test.preparer.TestViewPreparer" />
+  
+  <definition name="test.localized.definition" template="/layout.jsp">
+      <put-attribute name="title" value="Default locale" />
+      <put-attribute name="header" value="/header.jsp" />
+      <put-attribute name="body" value="/defaultlocale.jsp" />
+  </definition>
 
 </tiles-definitions>

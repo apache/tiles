@@ -49,6 +49,7 @@
     <a href="testimportattribute_all.jsp">Test importAttribute Tag with no name</a><br/>
     <a href="testdecorationfilter.jsp">Test Tiles Definition Filter</a><br/>
     <a href="testdispatchservlet.tiles">Test Tiles Dispatch Servlet</a><br/>
+    <a href="selectlocale.jsp">Test Localization</a><br/>
 
     <h3>Mutable Container Tests</h3>
     <a href="testinitcontainer.jsp">Test Initialize Container</a><br/>
