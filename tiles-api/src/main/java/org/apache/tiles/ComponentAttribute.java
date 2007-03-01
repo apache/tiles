@@ -133,6 +133,22 @@ public class ComponentAttribute implements Serializable {
     }
 
     /**
+     * Constructor.
+     *
+     * @param name name of the attribute
+     * @param value Object to store.
+     * @param role  Asociated role.
+     * @param type  Attribute type.
+     */
+    public ComponentAttribute(String name, Object value, String role,
+            String type) {
+        this.name = name;
+        this.value = value;
+        this.role = role;
+        this.type = type;
+    }
+
+    /**
      * Get role.
      * @return the name of the required role(s)
      */

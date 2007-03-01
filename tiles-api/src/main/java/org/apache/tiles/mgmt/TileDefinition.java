@@ -145,6 +145,27 @@ public class TileDefinition {
     }
 
     /**
+     * Put a new attribute in this component
+     *
+     * @param key   String key for attribute
+     * @param value Attibute value.
+     */
+    public void putAttribute(String key, ComponentAttribute value) {
+        attributes.put(key, value);
+    }
+
+    /**
+     * Add an attribute to this component.
+     * <p/>
+     * This method is used by Digester to load definitions.
+     *
+     * @param attribute Attribute to add.
+     */
+    public void addAttribute(ComponentAttribute attribute) {
+        putAttribute(attribute.getName(), attribute);
+    }
+
+    /**
      * Get associated preparerInstance
      */
     public String getPreparer() {
