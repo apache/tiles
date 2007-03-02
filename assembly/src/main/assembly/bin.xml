@@ -25,9 +25,6 @@
         <dependencySet>
             <outputDirectory>/lib</outputDirectory>
             <excludes>
-                <exclude>javax.servlet:servlet-api</exclude>
-                <exclude>javax.servlet:jsp-api</exclude>
-                <exclude>javax.portlet:portlet-api</exclude>
                 <exclude>org.apache.tiles:tiles-api</exclude>
                 <exclude>org.apache.tiles:tiles-core</exclude>
             </excludes>
@@ -38,9 +35,6 @@
                 <include>org.apache.tiles:tiles-api</include>
                 <include>org.apache.tiles:tiles-core</include>
             </includes>
-            <excludes>
-                <exclude>*</exclude>
-            </excludes>
         </dependencySet>
     </dependencySets>
 
