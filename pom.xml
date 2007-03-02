@@ -26,6 +26,7 @@
         <module>tiles-api</module>
         <module>tiles-core</module>
         <module>tiles-test</module>
+        <module>assembly</module>
     </modules>
 
     <build>
@@ -92,19 +93,6 @@
                 <artifactId>maven-project-info-reports-plugin</artifactId>
             </plugin>
             <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <!--aggregate>true</aggregate-->
-                    <links>
-                        <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-                        <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
-                        <link>http://jakarta.apache.org/commons/chain/apidocs</link>
-                        <link>http://jakarta.apache.org/commons/digester/commons-digester-1.6/docs/api</link>
-                        <link>http://jakarta.apache.org/commons/logging/commons-logging-1.1/apidocs</link>
-                    </links>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-surefire-report-plugin</artifactId>
             </plugin>
             <plugin>
@@ -129,6 +117,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+                    <aggregate>true</aggregate>
+                    <links>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+                        <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
+                        <link>http://jakarta.apache.org/commons/chain/apidocs</link>
+                        <link>http://jakarta.apache.org/commons/digester/commons-digester-1.6/docs/api</link>
+                        <link>http://jakarta.apache.org/commons/logging/commons-logging-1.1/apidocs</link>
+                    </links>
                     <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
                     <docletArtifact>
                         <groupId>gr.spinellis</groupId>
