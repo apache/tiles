@@ -20,7 +20,7 @@
  *
  */
 
-package org.apache.tiles.taglib;
+package org.apache.tiles;
 
 /**
  * Constants used by Tiles/Components.

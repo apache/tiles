@@ -34,11 +34,11 @@ import javax.servlet.http.HttpSession;
 
 import junit.framework.TestCase;
 
+import org.apache.tiles.ComponentConstants;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
-import org.apache.tiles.taglib.ComponentConstants;
 import org.apache.tiles.util.RollingVectorEnumeration;
 import org.easymock.EasyMock;
 

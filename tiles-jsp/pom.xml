@@ -31,9 +31,9 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>tiles-core</artifactId>
+  <artifactId>tiles-jsp</artifactId>
   <packaging>jar</packaging>
-  <name>Tiles - Core Library</name>
+  <name>Tiles - JSP support</name>
 
   <build>
     <resources>
@@ -67,16 +67,6 @@
             <manifest>
             </manifest>
           </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptors>
-            <descriptor>src/main/assembly/bin.xml</descriptor>
-            <descriptor>src/main/assembly/src.xml</descriptor>
-          </descriptors>
-          <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
       </plugin>
     </plugins>
@@ -182,11 +172,8 @@
   <reporting>
     <plugins>
       <plugin>
-        <groupId>net.sf.dtddoc</groupId>
-        <artifactId>dtddoc-maven-plugin</artifactId>
-        <configuration>
-          <docTitle>Tiles Definition File</docTitle>
-        </configuration>
+        <groupId>net.sourceforge.maven-taglib</groupId>
+        <artifactId>maven-taglib-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
@@ -196,6 +183,12 @@
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-api</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-core</artifactId>
       <version>${pom.version}</version>
     </dependency>
 
@@ -232,13 +225,6 @@
     </dependency>
 
     <dependency>
-      <groupId>javax.portlet</groupId>
-      <artifactId>portlet-api</artifactId>
-      <version>1.0</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.0</version>
@@ -260,18 +246,5 @@
     </dependency>
 
   </dependencies>
-
-  <repositories>
-    <repository>
-      <id>dtddoc</id>
-      <url>http://dtddoc.sf.net/maven2</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>dtddoc</id>
-      <url>http://dtddoc.sf.net/maven2</url>
-    </pluginRepository>
-  </pluginRepositories>
 
 </project>

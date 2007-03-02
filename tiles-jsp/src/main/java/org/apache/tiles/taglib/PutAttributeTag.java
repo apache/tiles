@@ -22,8 +22,8 @@
 
 package org.apache.tiles.taglib;
 
+import org.apache.tiles.ComponentConstants;
 import org.apache.tiles.taglib.ContainerTagSupport;
-import org.apache.tiles.taglib.ComponentConstants;
 import org.apache.tiles.taglib.PutAttributeTagParent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -33,7 +33,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.taglib.ComponentConstants;
+import org.apache.tiles.ComponentConstants;
 
 /**
  * @version $Rev$ $Date$

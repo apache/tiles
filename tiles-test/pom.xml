@@ -14,7 +14,7 @@
    <dependencies>
       <dependency>
          <groupId>${pom.groupId}</groupId>
-         <artifactId>tiles-core</artifactId>
+         <artifactId>tiles-jsp</artifactId>
          <version>${pom.version}</version>
       </dependency>
       <dependency>

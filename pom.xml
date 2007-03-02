@@ -25,6 +25,7 @@
     <modules>
         <module>tiles-api</module>
         <module>tiles-core</module>
+        <module>tiles-jsp</module>
         <module>tiles-test</module>
         <module>assembly</module>
     </modules>

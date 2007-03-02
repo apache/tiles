@@ -24,10 +24,10 @@ package org.apache.tiles.locale.impl;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.tiles.ComponentConstants;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.locale.LocaleResolver;
-import org.apache.tiles.taglib.ComponentConstants;
 
 /**
  * @version $Rev$ $Date$

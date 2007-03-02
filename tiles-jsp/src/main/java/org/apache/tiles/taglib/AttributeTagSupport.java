@@ -22,6 +22,7 @@
 package org.apache.tiles.taglib;
 
 import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.ComponentConstants;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
