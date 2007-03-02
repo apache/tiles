@@ -20,10 +20,10 @@
  *
  */
 
-package org.apache.tiles.taglib;
+package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.ComponentConstants;
-import org.apache.tiles.taglib.ContainerTagSupport;
+import org.apache.tiles.jsp.taglib.ContainerTagSupport;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

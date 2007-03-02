@@ -20,34 +20,34 @@
  *
  */
 
-package org.apache.tiles.taglib;
+package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.context.jsp.JspUtil;
-import org.apache.tiles.taglib.RenderTagSupport;
-import org.apache.tiles.taglib.PutAttributeTagParent;
+import org.apache.tiles.jsp.taglib.RenderTagSupport;
+import org.apache.tiles.TilesException;
 
 import javax.servlet.jsp.JspException;
 
 /**
- * This is the tag handler for &lt;tiles:insertTemplate&gt;, which includes a
- * template ready to be filled.
+ * This is the tag handler for &lt;tiles:insertDefinition&gt;, which includes a
+ * name, eventually overriding or filling attributes of its template.
  *
  * @version $Rev$ $Date$
  */
-public class InsertTemplateTag extends RenderTagSupport
-    implements PutAttributeTagParent {
+public class InsertDefinitionTag extends RenderTagSupport implements PutAttributeTagParent {
 
-    private String template;
+    private String name;
 
-    public String getTemplate() {
-        return template;
+
+    public String getName() {
+        return name;
     }
 
-    public void setTemplate(String template) {
-        this.template = template;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    protected void render() throws JspException {
-        JspUtil.doInclude(pageContext, template, flush);
+
+    protected void render() throws JspException, TilesException {
+        container.render(name, pageContext);
     }
 }

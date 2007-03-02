@@ -19,25 +19,23 @@
  * under the License.
  *
  */
-package org.apache.tiles.taglib.definition;
 
-import org.apache.tiles.TilesException;
-import org.apache.tiles.access.TilesAccess;
+package org.apache.tiles.jsp.taglib;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 /**
+ * Tag classes implementing this interface can contain nested {@link AddAttributeTag}.
+ * This interface defines a method called by nested tags.
+ *
  * @version $Rev$ $Date$
  */
-public class DestroyContainerTag extends TagSupport {
+public interface AddAttributeTagParent {
+    /**
+     * Process the nested tag.
+     *
+     * @param nestedTag Nested tag to process.
+     */
+    void processNestedTag(AddAttributeTag nestedTag) throws JspException;
 
-    public int doEndTag() throws JspException {
-        try {
-            TilesAccess.setContainer(pageContext.getServletContext(), null);
-        } catch (TilesException e) {
-            throw new JspException(e);
-        }
-        return EVAL_PAGE;
-    }
 }

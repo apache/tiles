@@ -19,35 +19,25 @@
  * under the License.
  *
  */
+package org.apache.tiles.jsp.taglib.definition;
 
-package org.apache.tiles.taglib;
-
-import org.apache.tiles.taglib.RenderTagSupport;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.TagSupport;
 
 /**
- * This is the tag handler for &lt;tiles:insertDefinition&gt;, which includes a
- * name, eventually overriding or filling attributes of its template.
- *
  * @version $Rev$ $Date$
  */
-public class InsertDefinitionTag extends RenderTagSupport implements PutAttributeTagParent {
+public class DestroyContainerTag extends TagSupport {
 
-    private String name;
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    protected void render() throws JspException, TilesException {
-        container.render(name, pageContext);
+    public int doEndTag() throws JspException {
+        try {
+            TilesAccess.setContainer(pageContext.getServletContext(), null);
+        } catch (TilesException e) {
+            throw new JspException(e);
+        }
+        return EVAL_PAGE;
     }
 }

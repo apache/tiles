@@ -20,13 +20,13 @@
  *
  */
 
-package org.apache.tiles.context.jsp;
+package org.apache.tiles.jsp.context;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.context.jsp.JspTilesRequestContext;
 import org.apache.tiles.context.servlet.ServletTilesApplicationContext;
+import org.apache.tiles.jsp.context.JspTilesRequestContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.PageContext;

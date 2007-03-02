@@ -19,25 +19,33 @@
  * under the License.
  *
  */
-package org.apache.tiles.taglib;
+package org.apache.tiles.jsp.context;
 
-import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.TilesException;
-
+import javax.servlet.http.HttpServletResponseWrapper;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
+import java.io.PrintWriter;
 import java.io.IOException;
 
+
 /**
- * Retrieve the value of the specified component/template attribute property,
- * and render it to the current JspWriter as a String.
- * The usual toString() conversion is applied on the found value.
- *
  * @version $Rev$ $Date$
  */
-public class GetAsStringTag extends InsertAttributeTag {
+public class JspWriterResponse extends HttpServletResponseWrapper {
 
-    @Override
-    protected void render(ComponentAttribute attr)
-        throws TilesException, IOException {
-        pageContext.getOut().print(attr.getValue().toString());
+    private PageContext context;
+    private PrintWriter writer;
+
+    public JspWriterResponse(PageContext pageContext) {
+        super((HttpServletResponse)pageContext.getResponse());
+        this.context = pageContext;
+    }
+
+
+    public PrintWriter getWriter() throws IOException {
+        if(writer == null) {
+            writer = new PrintWriter(context.getOut());
+        }
+        return writer;
     }
 }

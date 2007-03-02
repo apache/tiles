@@ -19,7 +19,7 @@
  * under the License.
  *
  */
-package org.apache.tiles.taglib;
+package org.apache.tiles.jsp.taglib;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

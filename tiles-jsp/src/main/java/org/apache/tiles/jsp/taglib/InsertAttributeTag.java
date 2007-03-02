@@ -20,7 +20,7 @@
  *
  */
 
-package org.apache.tiles.taglib;
+package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.ComponentContext;

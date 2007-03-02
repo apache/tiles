@@ -20,7 +20,7 @@
  *
  */
 
-package org.apache.tiles.taglib;
+package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.ComponentAttribute;
 
@@ -31,12 +31,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 /**
- * AddListAttribute tag implementation.
+ * PutList tag implementation.
  *
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class AddListAttributeTag extends AddAttributeTag
+public class PutListAttributeTag extends PutAttributeTag
     implements AddAttributeTagParent {
 
     /**
@@ -74,12 +74,12 @@ public class AddListAttributeTag extends AddAttributeTag
     }
 
     /**
-     * Process nested &lg;addAttribute&gt; tag.
+     * Process nested &lg;putAttribute&gt; tag.
      * <p/>
      * Places the value of the nested tag within the
      * {@link org.apache.tiles.ComponentContext}.It is the responsibility
      * of the descendent to check security.  Tags extending
-     * the {@link org.apache.tiles.taglib.ContainerTagSupport} will automatically provide
+     * the {@link org.apache.tiles.jsp.taglib.ContainerTagSupport} will automatically provide
      * the appropriate security.
      *
      * @param nestedTag the put tag desciendent.

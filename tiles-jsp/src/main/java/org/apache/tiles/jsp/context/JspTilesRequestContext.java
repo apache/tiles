@@ -19,7 +19,7 @@
  * under the License.
  *
  */
-package org.apache.tiles.context.jsp;
+package org.apache.tiles.jsp.context;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

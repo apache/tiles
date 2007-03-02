@@ -42,7 +42,7 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
     public static final String[] DEFAULT_FACTORY_CLASS_NAMES = {
             "org.apache.tiles.context.servlet.ServletTilesContextFactory",
             "org.apache.tiles.context.portlet.PortletTilesContextFactory",
-            "org.apache.tiles.context.jsp.JspTilesContextFactory" };
+            "org.apache.tiles.jsp.context.JspTilesContextFactory" };
     
     private static Log LOG = LogFactory.getLog(ChainedTilesContextFactory.class);
 

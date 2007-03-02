@@ -19,33 +19,35 @@
  * under the License.
  *
  */
-package org.apache.tiles.context.jsp;
 
-import javax.servlet.http.HttpServletResponseWrapper;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-import java.io.PrintWriter;
-import java.io.IOException;
+package org.apache.tiles.jsp.taglib;
 
+import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
+import org.apache.tiles.jsp.taglib.RenderTagSupport;
+
+import javax.servlet.jsp.JspException;
 
 /**
+ * This is the tag handler for &lt;tiles:insertTemplate&gt;, which includes a
+ * template ready to be filled.
+ *
  * @version $Rev$ $Date$
  */
-public class JspWriterResponse extends HttpServletResponseWrapper {
+public class InsertTemplateTag extends RenderTagSupport
+    implements PutAttributeTagParent {
 
-    private PageContext context;
-    private PrintWriter writer;
+    private String template;
 
-    public JspWriterResponse(PageContext pageContext) {
-        super((HttpServletResponse)pageContext.getResponse());
-        this.context = pageContext;
+    public String getTemplate() {
+        return template;
     }
 
+    public void setTemplate(String template) {
+        this.template = template;
+    }
 
-    public PrintWriter getWriter() throws IOException {
-        if(writer == null) {
-            writer = new PrintWriter(context.getOut());
-        }
-        return writer;
+    protected void render() throws JspException {
+        JspUtil.doInclude(pageContext, template, flush);
     }
 }

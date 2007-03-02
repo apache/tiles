@@ -19,13 +19,13 @@
  * under the License.
  *
  */
-package org.apache.tiles.taglib.definition;
+package org.apache.tiles.jsp.taglib.definition;
 
-import org.apache.tiles.taglib.PutAttributeTagParent;
-import org.apache.tiles.taglib.PutAttributeTag;
 import org.apache.tiles.ComponentAttribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.jsp.taglib.PutAttributeTag;
+import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.mgmt.TileDefinition;
 import org.apache.tiles.access.TilesAccess;

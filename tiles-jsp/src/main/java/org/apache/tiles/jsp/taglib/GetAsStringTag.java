@@ -19,26 +19,25 @@
  * under the License.
  *
  */
+package org.apache.tiles.jsp.taglib;
 
+import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.TilesException;
 
-package org.apache.tiles.taglib;
-
-import org.apache.tiles.taglib.PutAttributeTag;
-
-import javax.servlet.jsp.JspException;
+import java.io.IOException;
 
 /**
- * Tag classes implementing this interface can contain nested {@link PutAttributeTag}.
- * This interface defines a method called by nested tags.
+ * Retrieve the value of the specified component/template attribute property,
+ * and render it to the current JspWriter as a String.
+ * The usual toString() conversion is applied on the found value.
  *
  * @version $Rev$ $Date$
  */
-public interface PutAttributeTagParent {
-    /**
-     * Process the nested tag.
-     *
-     * @param nestedTag Nested tag to process.
-     */
-    void processNestedTag(PutAttributeTag nestedTag) throws JspException;
+public class GetAsStringTag extends InsertAttributeTag {
 
+    @Override
+    protected void render(ComponentAttribute attr)
+        throws TilesException, IOException {
+        pageContext.getOut().print(attr.getValue().toString());
+    }
 }
