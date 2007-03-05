@@ -35,7 +35,7 @@ import java.util.*;
  * @version $Rev$ $Date$
  */
 
-final class ServletHeaderValuesMap implements Map {
+final class ServletHeaderValuesMap implements Map<String, String[]> {
 
 
     public ServletHeaderValuesMap(HttpServletRequest request) {
@@ -61,9 +61,9 @@ final class ServletHeaderValuesMap implements Map {
             return (false);
         }
         String[] test = (String[]) value;
-        Iterator values = values().iterator();
+        Iterator<String[]> values = values().iterator();
         while (values.hasNext()) {
-            String[] actual = (String[]) values.next();
+            String[] actual = values.next();
             if (test.length == actual.length) {
                 boolean matched = true;
                 for (int i = 0; i < test.length; i++) {
@@ -81,13 +81,16 @@ final class ServletHeaderValuesMap implements Map {
     }
 
 
-    public Set entrySet() {
-        Set set = new HashSet();
-        Enumeration keys = request.getHeaderNames();
+    @SuppressWarnings("unchecked")
+    public Set<Map.Entry<String, String[]>> entrySet() {
+        Set<Map.Entry<String, String[]>> set = new HashSet<Map.Entry<String, String[]>>();
+        Enumeration<String> keys = request.getHeaderNames();
         String key;
         while (keys.hasMoreElements()) {
-            key = (String) keys.nextElement();
-            set.add(new MapEntry(key, request.getHeaders(key), false));
+            key = keys.nextElement();
+            Enumeration<String> headerEnum = request.getHeaders(key);
+            set.add(new MapEntry<String, String[]>(key,
+                    enumeration2array(headerEnum), false));
         }
         return (set);
     }
@@ -98,7 +101,8 @@ final class ServletHeaderValuesMap implements Map {
     }
 
 
-    public Object get(Object key) {
+    @SuppressWarnings("unchecked")
+	public String[] get(Object key) {
         List<String> list = new ArrayList<String>();
         Enumeration<String> values = request.getHeaders(key(key));
         while (values.hasMoreElements()) {
@@ -118,9 +122,10 @@ final class ServletHeaderValuesMap implements Map {
     }
 
 
-    public Set keySet() {
-        Set set = new HashSet();
-        Enumeration keys = request.getHeaderNames();
+    @SuppressWarnings("unchecked")
+    public Set<String> keySet() {
+        Set<String> set = new HashSet<String>();
+        Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -128,24 +133,26 @@ final class ServletHeaderValuesMap implements Map {
     }
 
 
-    public Object put(Object key, Object value) {
+    public String[] put(String key, String[] value) {
         throw new UnsupportedOperationException();
     }
 
 
-    public void putAll(Map map) {
+    public void putAll(Map<? extends String, ? extends String[]> map) {
         throw new UnsupportedOperationException();
     }
 
 
-    public Object remove(Object key) {
+    public String[] remove(Object key) {
         throw new UnsupportedOperationException();
     }
 
 
+
+    @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration keys = request.getHeaderNames();
+        Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -154,17 +161,14 @@ final class ServletHeaderValuesMap implements Map {
     }
 
 
-    public Collection values() {
-        List list = new ArrayList();
-        Enumeration keys = request.getHeaderNames();
+    @SuppressWarnings("unchecked")
+	public Collection<String[]> values() {
+        List<String[]> list = new ArrayList<String[]>();
+        Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
-            String key = (String) keys.nextElement();
-            List list1 = new ArrayList();
-            Enumeration values = request.getHeaders(key);
-            while (values.hasMoreElements()) {
-                list1.add(values.nextElement());
-            }
-            list.add((list1.toArray(new String[list1.size()])));
+            String key = keys.nextElement();
+            Enumeration<String> values = request.getHeaders(key);
+            list.add(enumeration2array(values));
         }
         return (list);
     }
@@ -180,5 +184,12 @@ final class ServletHeaderValuesMap implements Map {
         }
     }
 
-
+    private String[] enumeration2array(Enumeration<String> enumeration) {
+        List<String> list1 = new ArrayList<String>();
+        while (enumeration.hasMoreElements()) {
+            list1.add(enumeration.nextElement());
+        }
+        
+        return list1.toArray(new String[list1.size()]);
+    }
 }

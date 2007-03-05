@@ -23,6 +23,9 @@ package org.apache.tiles.context.portlet;
 
 
 import javax.portlet.PortletContext;
+
+import org.apache.tiles.context.MapEntry;
+
 import java.util.*;
 
 
@@ -33,7 +36,7 @@ import java.util.*;
  * @version $Rev$ $Date$
  */
 
-final class PortletInitParamMap implements Map {
+final class PortletInitParamMap implements Map<String, String> {
 
 
     public PortletInitParamMap(PortletContext context) {
@@ -55,7 +58,7 @@ final class PortletInitParamMap implements Map {
 
 
     public boolean containsValue(Object value) {
-        Iterator values = values().iterator();
+        Iterator<String> values = values().iterator();
         while (values.hasNext()) {
             if (value.equals(values.next())) {
                 return (true);
@@ -65,11 +68,14 @@ final class PortletInitParamMap implements Map {
     }
 
 
-    public Set entrySet() {
-        Set set = new HashSet();
-        Enumeration keys = context.getInitParameterNames();
+    @SuppressWarnings("unchecked")
+	public Set<Map.Entry<String, String>> entrySet() {
+        Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
-            set.add(context.getInitParameter((String) keys.nextElement()));
+        	String key = keys.nextElement();
+            set.add(new MapEntry<String, String>(key, context
+					.getInitParameter(key), false));
         }
         return (set);
     }
@@ -80,7 +86,7 @@ final class PortletInitParamMap implements Map {
     }
 
 
-    public Object get(Object key) {
+    public String get(Object key) {
         return (context.getInitParameter(key(key)));
     }
 
@@ -95,9 +101,10 @@ final class PortletInitParamMap implements Map {
     }
 
 
-    public Set keySet() {
-        Set set = new HashSet();
-        Enumeration keys = context.getInitParameterNames();
+    @SuppressWarnings("unchecked")
+	public Set<String> keySet() {
+        Set<String> set = new HashSet<String>();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -105,24 +112,25 @@ final class PortletInitParamMap implements Map {
     }
 
 
-    public Object put(Object key, Object value) {
+    public String put(String key, String value) {
         throw new UnsupportedOperationException();
     }
 
 
-    public void putAll(Map map) {
+    public void putAll(Map<? extends String, ? extends String> map) {
         throw new UnsupportedOperationException();
     }
 
 
-    public Object remove(Object key) {
+    public String remove(Object key) {
         throw new UnsupportedOperationException();
     }
 
 
-    public int size() {
+    @SuppressWarnings("unchecked")
+	public int size() {
         int n = 0;
-        Enumeration keys = context.getInitParameterNames();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -131,11 +139,12 @@ final class PortletInitParamMap implements Map {
     }
 
 
-    public Collection values() {
-        List list = new ArrayList();
-        Enumeration keys = context.getInitParameterNames();
+    @SuppressWarnings("unchecked")
+	public Collection<String> values() {
+        List<String> list = new ArrayList<String>();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
-            list.add(context.getInitParameter((String) keys.nextElement()));
+            list.add(context.getInitParameter(keys.nextElement()));
         }
         return (list);
     }

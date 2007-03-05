@@ -23,6 +23,9 @@ package org.apache.tiles.context.portlet;
 
 
 import javax.portlet.PortletRequest;
+
+import org.apache.tiles.context.MapEntry;
+
 import java.util.*;
 
 
@@ -33,7 +36,7 @@ import java.util.*;
  * @version $Rev$ $Date$
  */
 
-final class PortletParamMap implements Map {
+final class PortletParamMap implements Map<String, String> {
 
 
     public PortletParamMap(PortletRequest request) {
@@ -55,7 +58,7 @@ final class PortletParamMap implements Map {
 
 
     public boolean containsValue(Object value) {
-        Iterator values = values().iterator();
+        Iterator<String> values = values().iterator();
         while (values.hasNext()) {
             if (value.equals(values.next())) {
                 return (true);
@@ -65,11 +68,15 @@ final class PortletParamMap implements Map {
     }
 
 
-    public Set entrySet() {
-        Set set = new HashSet();
-        Enumeration keys = request.getParameterNames();
+    @SuppressWarnings("unchecked")
+	public Set<Map.Entry<String, String>> entrySet() {
+        Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
+        Enumeration<String> keys = request.getParameterNames();
+        String key;
         while (keys.hasMoreElements()) {
-            set.add(request.getParameter((String) keys.nextElement()));
+        	key = keys.nextElement();
+            set.add(new MapEntry<String, String>(key,
+					request.getParameter(key), false));
         }
         return (set);
     }
@@ -80,7 +87,7 @@ final class PortletParamMap implements Map {
     }
 
 
-    public Object get(Object key) {
+    public String get(Object key) {
         return (request.getParameter(key(key)));
     }
 
@@ -95,9 +102,10 @@ final class PortletParamMap implements Map {
     }
 
 
-    public Set keySet() {
-        Set set = new HashSet();
-        Enumeration keys = request.getParameterNames();
+    @SuppressWarnings("unchecked")
+	public Set<String> keySet() {
+        Set<String> set = new HashSet<String>();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -105,24 +113,25 @@ final class PortletParamMap implements Map {
     }
 
 
-    public Object put(Object key, Object value) {
+    public String put(String key, String value) {
         throw new UnsupportedOperationException();
     }
 
 
-    public void putAll(Map map) {
+    public void putAll(Map<? extends String, ? extends String> map) {
         throw new UnsupportedOperationException();
     }
 
 
-    public Object remove(Object key) {
+    public String remove(Object key) {
         throw new UnsupportedOperationException();
     }
 
 
-    public int size() {
+    @SuppressWarnings("unchecked")
+	public int size() {
         int n = 0;
-        Enumeration keys = request.getParameterNames();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -131,11 +140,12 @@ final class PortletParamMap implements Map {
     }
 
 
-    public Collection values() {
-        List list = new ArrayList();
-        Enumeration keys = request.getParameterNames();
+    @SuppressWarnings("unchecked")
+	public Collection<String> values() {
+        List<String> list = new ArrayList<String>();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
-            list.add(request.getParameter((String) keys.nextElement()));
+            list.add(request.getParameter(keys.nextElement()));
         }
         return (list);
     }

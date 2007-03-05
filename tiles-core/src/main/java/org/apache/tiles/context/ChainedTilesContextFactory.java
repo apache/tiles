@@ -48,10 +48,10 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
 
     private TilesContextFactory[] factories;
 
-    public void init(Map configParameters) {
+    @SuppressWarnings("unchecked")
+	public void init(Map<String, String> configParameters) {
         String[] classNames = null;
-        String classNamesString = (String) configParameters
-                .get(FACTORY_CLASS_NAMES);
+        String classNamesString = configParameters.get(FACTORY_CLASS_NAMES);
         if (classNamesString != null) {
             classNames = classNamesString.split("\\s*,\\s*");
         }
@@ -62,9 +62,10 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
         factories = new TilesContextFactory[classNames.length];
         for (int i = 0; i < classNames.length; i++) {
             try {
-                Class clazz = Class.forName(classNames[i]);
+                Class<TilesContextFactory> clazz = (Class<TilesContextFactory>) Class
+						.forName(classNames[i]);
                 if (TilesContextFactory.class.isAssignableFrom(clazz)) {
-                    factories[i] = (TilesContextFactory) clazz.newInstance();
+                    factories[i] = clazz.newInstance();
                 } else {
                     throw new IllegalArgumentException("The class "
                             + classNames[i]

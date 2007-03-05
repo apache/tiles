@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public class JspTilesContextFactory implements TilesContextFactory {
 
-    public void init(Map configParameters) {
+    public void init(Map<String, String> configParameters) {
     }
 
     /**

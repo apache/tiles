@@ -23,6 +23,9 @@ package org.apache.tiles.context.portlet;
 
 
 import javax.portlet.PortletContext;
+
+import org.apache.tiles.context.MapEntry;
+
 import java.util.*;
 
 
@@ -33,7 +36,7 @@ import java.util.*;
  * @version $Rev$ $Date$
  */
 
-final class PortletApplicationScopeMap implements Map {
+final class PortletApplicationScopeMap implements Map<String, Object> {
 
 
     public PortletApplicationScopeMap(PortletContext context) {
@@ -45,9 +48,9 @@ final class PortletApplicationScopeMap implements Map {
 
 
     public void clear() {
-        Iterator keys = keySet().iterator();
+        Iterator<String> keys = keySet().iterator();
         while (keys.hasNext()) {
-            context.removeAttribute((String) keys.next());
+            context.removeAttribute(keys.next());
         }
     }
 
@@ -57,13 +60,14 @@ final class PortletApplicationScopeMap implements Map {
     }
 
 
-    public boolean containsValue(Object value) {
+    @SuppressWarnings("unchecked")
+	public boolean containsValue(Object value) {
         if (value == null) {
             return (false);
         }
-        Enumeration keys = context.getAttributeNames();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
-            Object next = context.getAttribute((String) keys.nextElement());
+            Object next = context.getAttribute(keys.nextElement());
             if (next == value) {
                 return (true);
             }
@@ -72,11 +76,14 @@ final class PortletApplicationScopeMap implements Map {
     }
 
 
-    public Set entrySet() {
-        Set set = new HashSet();
-        Enumeration keys = context.getAttributeNames();
+    @SuppressWarnings("unchecked")
+	public Set<Map.Entry<String, Object>> entrySet() {
+        Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
+        Enumeration<String> keys = context.getAttributeNames();
+        String key;
         while (keys.hasMoreElements()) {
-            set.add(context.getAttribute((String) keys.nextElement()));
+            key = keys.nextElement();
+            set.add(new MapEntry<String, Object>(key, context.getAttribute(key), true));
         }
         return (set);
     }
@@ -102,9 +109,10 @@ final class PortletApplicationScopeMap implements Map {
     }
 
 
-    public Set keySet() {
-        Set set = new HashSet();
-        Enumeration keys = context.getAttributeNames();
+    @SuppressWarnings("unchecked")
+	public Set<String> keySet() {
+        Set<String> set = new HashSet<String>();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -112,7 +120,7 @@ final class PortletApplicationScopeMap implements Map {
     }
 
 
-    public Object put(Object key, Object value) {
+    public Object put(String key, Object value) {
         if (value == null) {
             return (remove(key));
         }
@@ -123,10 +131,10 @@ final class PortletApplicationScopeMap implements Map {
     }
 
 
-    public void putAll(Map map) {
-        Iterator keys = map.keySet().iterator();
+    public void putAll(Map<? extends String, ? extends Object> map) {
+        Iterator<? extends String> keys = map.keySet().iterator();
         while (keys.hasNext()) {
-            String key = (String) keys.next();
+            String key = keys.next();
             context.setAttribute(key, map.get(key));
         }
     }
@@ -140,9 +148,10 @@ final class PortletApplicationScopeMap implements Map {
     }
 
 
-    public int size() {
+    @SuppressWarnings("unchecked")
+	public int size() {
         int n = 0;
-        Enumeration keys = context.getAttributeNames();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -151,11 +160,12 @@ final class PortletApplicationScopeMap implements Map {
     }
 
 
-    public Collection values() {
-        List list = new ArrayList();
-        Enumeration keys = context.getAttributeNames();
+    @SuppressWarnings("unchecked")
+	public Collection<Object> values() {
+        List<Object> list = new ArrayList<Object>();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
-            list.add(context.getAttribute((String) keys.nextElement()));
+            list.add(context.getAttribute(keys.nextElement()));
         }
         return (list);
     }

@@ -47,14 +47,14 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
      * <p>The lazily instantiated <code>Map</code> of application scope
      * attributes.</p>
      */
-    private Map applicationScope = null;
+    private Map<String, Object> applicationScope = null;
 
 
     /**
      * <p>The lazily instantiated <code>Map</code> of context initialization
      * parameters.</p>
      */
-    private Map initParam = null;
+    private Map<String, String> initParam = null;
 
 
     /**
@@ -65,7 +65,7 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
     }
 
 
-    public Map getApplicationScope() {
+    public Map<String, Object> getApplicationScope() {
 
         if ((applicationScope == null) && (servletContext != null)) {
             applicationScope = new ServletApplicationScopeMap(servletContext);
@@ -75,7 +75,7 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
     }
 
 
-    public Map getInitParams() {
+    public Map<String, String> getInitParams() {
 
         if ((initParam == null) && (servletContext != null)) {
             initParam = new ServletInitParamMap(servletContext);

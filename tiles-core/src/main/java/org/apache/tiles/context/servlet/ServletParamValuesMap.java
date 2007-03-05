@@ -34,7 +34,7 @@ import java.util.*;
  * @version $Rev$ $Date$
  */
 
-final class ServletParamValuesMap implements Map {
+final class ServletParamValuesMap implements Map<String, String[]> {
 
 
     public ServletParamValuesMap(ServletRequest request) {
@@ -56,23 +56,39 @@ final class ServletParamValuesMap implements Map {
 
 
     public boolean containsValue(Object value) {
-        Iterator values = values().iterator();
+        if (!(value instanceof String[])) {
+            return (false);
+        }
+        String[] test = (String[]) value;
+        Iterator<String[]> values = values().iterator();
         while (values.hasNext()) {
-            if (value.equals(values.next())) {
-                return (true);
+            String[] actual = values.next();
+            if (test.length == actual.length) {
+                boolean matched = true;
+                for (int i = 0; i < test.length; i++) {
+                    if (!test[i].equals(actual[i])) {
+                        matched = false;
+                        break;
+                    }
+                }
+                if (matched) {
+                    return (true);
+                }
             }
         }
         return (false);
     }
 
 
-    public Set entrySet() {
-        Set set = new HashSet();
-        Enumeration keys = request.getParameterNames();
+    @SuppressWarnings("unchecked")
+    public Set<Map.Entry<String, String[]>> entrySet() {
+        Set<Map.Entry<String, String[]>> set = new HashSet<Map.Entry<String, String[]>>();
+        Enumeration<String> keys = request.getParameterNames();
         String key;
         while (keys.hasMoreElements()) {
-            key = (String) keys.nextElement();
-            set.add(new MapEntry(key, request.getParameterValues(key), false));
+            key = keys.nextElement();
+            set.add(new MapEntry<String, String[]>(key, request
+                    .getParameterValues(key), false));
         }
         return (set);
     }
@@ -83,7 +99,7 @@ final class ServletParamValuesMap implements Map {
     }
 
 
-    public Object get(Object key) {
+    public String[] get(Object key) {
         return (request.getParameterValues(key(key)));
     }
 
@@ -98,9 +114,10 @@ final class ServletParamValuesMap implements Map {
     }
 
 
-    public Set keySet() {
-        Set set = new HashSet();
-        Enumeration keys = request.getParameterNames();
+    @SuppressWarnings("unchecked")
+    public Set<String> keySet() {
+        Set<String> set = new HashSet<String>();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -108,24 +125,25 @@ final class ServletParamValuesMap implements Map {
     }
 
 
-    public Object put(Object key, Object value) {
+    public String[] put(String key, String[] value) {
         throw new UnsupportedOperationException();
     }
 
 
-    public void putAll(Map map) {
+    public void putAll(Map<? extends String, ? extends String[]> map) {
         throw new UnsupportedOperationException();
     }
 
 
-    public Object remove(Object key) {
+    public String[] remove(Object key) {
         throw new UnsupportedOperationException();
     }
 
 
+    @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration keys = request.getParameterNames();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -134,11 +152,12 @@ final class ServletParamValuesMap implements Map {
     }
 
 
-    public Collection values() {
-        List list = new ArrayList();
-        Enumeration keys = request.getParameterNames();
+    @SuppressWarnings("unchecked")
+    public Collection<String[]> values() {
+        List<String[]> list = new ArrayList<String[]>();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
-            list.add(request.getParameterValues((String) keys.nextElement()));
+            list.add(request.getParameterValues(keys.nextElement()));
         }
         return (list);
     }

@@ -40,19 +40,19 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
         this.context = context;
     }
 
-    public Map getHeader() {
+    public Map<String, String> getHeader() {
         return context.getHeader();
     }
 
-    public Map getHeaderValues() {
+    public Map<String, String[]> getHeaderValues() {
         return context.getHeaderValues();
     }
 
-    public Map getRequestScope() {
+    public Map<String, Object> getRequestScope() {
         return context.getRequestScope();
     }
 
-    public Map getSessionScope() {
+    public Map<String, Object> getSessionScope() {
         return context.getSessionScope();
     }
 
@@ -64,11 +64,11 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
         context.include(path);
     }
 
-    public Map getParam() {
+    public Map<String, String> getParam() {
         return context.getParam();
     }
 
-    public Map getParamValues() {
+    public Map<String, String[]> getParamValues() {
         return context.getParamValues();
     }
 

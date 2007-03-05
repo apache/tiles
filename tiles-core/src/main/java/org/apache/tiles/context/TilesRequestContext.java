@@ -37,26 +37,26 @@ public interface TilesRequestContext {
      * Return an immutable Map that maps header names to the first (or only)
      * header value (as a String).
      */
-    Map getHeader();
+    Map<String, String> getHeader();
 
     /**
      * Return an immutable Map that maps header names to the set of all values
      * specified in the request (as a String array). Header names must be
      * matched in a case-insensitive manner.
      */
-    Map getHeaderValues();
+    Map<String, String[]> getHeaderValues();
 
     /**
      * Return a mutable Map that maps request scope attribute names to their
      * values.
      */
-    Map getRequestScope();
+    Map<String, Object> getRequestScope();
 
     /**
      * Return a mutable Map that maps session scope attribute names to their
      * values.
      */
-    Map getSessionScope();
+    Map<String, Object> getSessionScope();
 
     /**
      * Dispatches the request to a specified path.
@@ -72,13 +72,13 @@ public interface TilesRequestContext {
      * Return an immutable Map that maps request parameter names to the first
      * (or only) value (as a String).
      */
-    Map getParam();
+    Map<String, String> getParam();
 
     /**
      * Return an immutable Map that maps request parameter names to the set of
      * all values (as a String array).
      */
-    Map getParamValues();
+    Map<String, String[]> getParamValues();
 
     /**
      * Return the preferred Locale in which the client will accept content.

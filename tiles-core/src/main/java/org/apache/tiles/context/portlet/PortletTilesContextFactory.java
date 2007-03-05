@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public class PortletTilesContextFactory implements TilesContextFactory {
 
-    public void init(Map configParameters) {
+    public void init(Map<String, String> configParameters) {
     }
 
     /**

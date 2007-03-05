@@ -75,11 +75,11 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
         return null;
     }
 
-    public Map getHeader() {
+    public Map<String, String> getHeader() {
         return null;
     }
 
-    public Map getHeaderValues() {
+    public Map<String, String[]> getHeaderValues() {
         return null;
     }
 
@@ -87,15 +87,15 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
         return null;
     }
 
-    public Map getParam() {
+    public Map<String, String> getParam() {
         return null;
     }
 
-    public Map getParamValues() {
+    public Map<String, String[]> getParamValues() {
         return null;
     }
 
-    public Map getRequestScope() {
+    public Map<String, Object> getRequestScope() {
         return null;
     }
 
@@ -103,7 +103,7 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
         return null;
     }
 
-    public Map getSessionScope() {
+    public Map<String, Object> getSessionScope() {
         return null;
     }
 

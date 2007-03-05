@@ -44,7 +44,7 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
      * <p>The lazily instantiated <code>Map</code> of application scope
      * attributes.</p>
      */
-    private Map applicationScope = null;
+    private Map<String, Object> applicationScope = null;
 
 
     /**
@@ -57,7 +57,7 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
      * <p>The lazily instantiated <code>Map</code> of context initialization
      * parameters.</p>
      */
-    private Map initParam = null;
+    private Map<String, String> initParam = null;
 
 
     /**
@@ -106,7 +106,7 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
     }
 
 
-    public Map getApplicationScope() {
+    public Map<String, Object> getApplicationScope() {
         if ((applicationScope == null) && (context != null)) {
             applicationScope = new PortletApplicationScopeMap(context);
         }
@@ -114,7 +114,7 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
 
     }
 
-    public Map getInitParams() {
+    public Map<String, String> getInitParams() {
         if ((initParam == null) && (context != null)) {
             initParam = new PortletInitParamMap(context);
         }

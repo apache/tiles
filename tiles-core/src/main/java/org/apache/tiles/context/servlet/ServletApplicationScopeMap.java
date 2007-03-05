@@ -35,7 +35,7 @@ import java.util.*;
  * @version $Rev$ $Date$
  */
 
-final class ServletApplicationScopeMap implements Map {
+final class ServletApplicationScopeMap implements Map<String, Object> {
 
 
     public ServletApplicationScopeMap(ServletContext context) {
@@ -47,9 +47,9 @@ final class ServletApplicationScopeMap implements Map {
 
 
     public void clear() {
-        Iterator keys = keySet().iterator();
+        Iterator<String> keys = keySet().iterator();
         while (keys.hasNext()) {
-            context.removeAttribute((String) keys.next());
+            context.removeAttribute(keys.next());
         }
     }
 
@@ -59,13 +59,14 @@ final class ServletApplicationScopeMap implements Map {
     }
 
 
+    @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
         if (value == null) {
             return (false);
         }
-        Enumeration keys = context.getAttributeNames();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
-            Object next = context.getAttribute((String) keys.nextElement());
+            Object next = context.getAttribute(keys.nextElement());
             if (next == value) {
                 return (true);
             }
@@ -74,13 +75,15 @@ final class ServletApplicationScopeMap implements Map {
     }
 
 
-    public Set entrySet() {
-        Set set = new HashSet();
-        Enumeration keys = context.getAttributeNames();
+    @SuppressWarnings("unchecked")
+    public Set<Map.Entry<String, Object>> entrySet() {
+        Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
+        Enumeration<String> keys = context.getAttributeNames();
         String key;
         while (keys.hasMoreElements()) {
-            key = (String) keys.nextElement();
-            set.add(new MapEntry(key, context.getAttribute(key), true));
+            key = keys.nextElement();
+            set.add(new MapEntry<String, Object>(key,
+                    context.getAttribute(key), true));
         }
         return (set);
     }
@@ -106,9 +109,10 @@ final class ServletApplicationScopeMap implements Map {
     }
 
 
-    public Set keySet() {
-        Set set = new HashSet();
-        Enumeration keys = context.getAttributeNames();
+    @SuppressWarnings("unchecked")
+    public Set<String> keySet() {
+        Set<String> set = new HashSet<String>();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -116,7 +120,7 @@ final class ServletApplicationScopeMap implements Map {
     }
 
 
-    public Object put(Object key, Object value) {
+    public Object put(String key, Object value) {
         if (value == null) {
             return (remove(key));
         }
@@ -127,10 +131,10 @@ final class ServletApplicationScopeMap implements Map {
     }
 
 
-    public void putAll(Map map) {
-        Iterator keys = map.keySet().iterator();
+    public void putAll(Map<? extends String, ? extends Object> map) {
+        Iterator<? extends String> keys = map.keySet().iterator();
         while (keys.hasNext()) {
-            String key = (String) keys.next();
+            String key = keys.next();
             context.setAttribute(key, map.get(key));
         }
     }
@@ -144,9 +148,10 @@ final class ServletApplicationScopeMap implements Map {
     }
 
 
+    @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration keys = context.getAttributeNames();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -155,11 +160,12 @@ final class ServletApplicationScopeMap implements Map {
     }
 
 
-    public Collection values() {
-        List list = new ArrayList();
-        Enumeration keys = context.getAttributeNames();
+    @SuppressWarnings("unchecked")
+    public Collection<Object> values() {
+        List<Object> list = new ArrayList<Object>();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
-            list.add(context.getAttribute((String) keys.nextElement()));
+            list.add(context.getAttribute(keys.nextElement()));
         }
         return (list);
     }

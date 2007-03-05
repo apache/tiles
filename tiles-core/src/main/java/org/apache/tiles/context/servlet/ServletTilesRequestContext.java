@@ -50,40 +50,40 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
      * <p>The lazily instantiated <code>Map</code> of header name-value
      * combinations (immutable).</p>
      */
-    private Map header = null;
+    private Map<String, String> header = null;
 
 
     /**
      * <p>The lazily instantitated <code>Map</code> of header name-values
      * combinations (immutable).</p>
      */
-    private Map headerValues = null;
+    private Map<String, String[]> headerValues = null;
 
 
     /**
      * <p>The lazily instantiated <code>Map</code> of request
      * parameter name-value.</p>
      */
-    private Map param = null;
+    private Map<String, String> param = null;
 
 
     /**
      * <p>The lazily instantiated <code>Map</code> of request
      * parameter name-values.</p>
      */
-    private Map paramValues = null;
+    private Map<String, String[]> paramValues = null;
 
     /**
      * <p>The lazily instantiated <code>Map</code> of request scope
      * attributes.</p>
      */
-    private Map requestScope = null;
+    private Map<String, Object> requestScope = null;
 
     /**
      * <p>The lazily instantiated <code>Map</code> of session scope
      * attributes.</p>
      */
-    private Map sessionScope = null;
+    private Map<String, Object> sessionScope = null;
 
 
     /**
@@ -97,7 +97,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
-    public Map getHeader() {
+    public Map<String, String> getHeader() {
 
         if ((header == null) && (request != null)) {
             header = new ServletHeaderMap(request);
@@ -107,7 +107,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
-    public Map getHeaderValues() {
+    public Map<String, String[]> getHeaderValues() {
 
         if ((headerValues == null) && (request != null)) {
             headerValues = new ServletHeaderValuesMap(request);
@@ -117,7 +117,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
-    public Map getParam() {
+    public Map<String, String> getParam() {
 
         if ((param == null) && (request != null)) {
             param = new ServletParamMap(request);
@@ -127,7 +127,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
-    public Map getParamValues() {
+    public Map<String, String[]> getParamValues() {
 
         if ((paramValues == null) && (request != null)) {
             paramValues = new ServletParamValuesMap(request);
@@ -137,7 +137,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
-    public Map getRequestScope() {
+    public Map<String, Object> getRequestScope() {
 
         if ((requestScope == null) && (request != null)) {
             requestScope = new ServletRequestScopeMap(request);
@@ -147,7 +147,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
-    public Map getSessionScope() {
+    public Map<String, Object> getSessionScope() {
 
         if ((sessionScope == null) && (request != null)) {
             sessionScope = new ServletSessionScopeMap(request.getSession());

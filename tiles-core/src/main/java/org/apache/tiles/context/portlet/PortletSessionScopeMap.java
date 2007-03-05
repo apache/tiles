@@ -23,6 +23,9 @@ package org.apache.tiles.context.portlet;
 
 
 import javax.portlet.PortletSession;
+
+import org.apache.tiles.context.MapEntry;
+
 import java.util.*;
 
 
@@ -33,7 +36,7 @@ import java.util.*;
  * @version $Rev$ $Date$
  */
 
-final class PortletSessionScopeMap implements Map {
+final class PortletSessionScopeMap implements Map<String, Object> {
 
 
     public PortletSessionScopeMap(PortletSession session) {
@@ -45,9 +48,9 @@ final class PortletSessionScopeMap implements Map {
 
 
     public void clear() {
-        Iterator keys = keySet().iterator();
+        Iterator<String> keys = keySet().iterator();
         while (keys.hasNext()) {
-            session.removeAttribute((String) keys.next());
+            session.removeAttribute(keys.next());
         }
     }
 
@@ -57,14 +60,15 @@ final class PortletSessionScopeMap implements Map {
     }
 
 
-    public boolean containsValue(Object value) {
+    @SuppressWarnings("unchecked")
+	public boolean containsValue(Object value) {
         if (value == null) {
             return (false);
         }
-        Enumeration keys =
+        Enumeration<String> keys =
             session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
-            Object next = session.getAttribute((String) keys.nextElement());
+            Object next = session.getAttribute(keys.nextElement());
             if (next == value) {
                 return (true);
             }
@@ -73,12 +77,15 @@ final class PortletSessionScopeMap implements Map {
     }
 
 
-    public Set entrySet() {
-        Set set = new HashSet();
-        Enumeration keys =
+    @SuppressWarnings("unchecked")
+	public Set<Map.Entry<String, Object>> entrySet() {
+        Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
+        Enumeration<String> keys =
             session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+        String key;
         while (keys.hasMoreElements()) {
-            set.add(session.getAttribute((String) keys.nextElement()));
+        	key = keys.nextElement();
+            set.add(new MapEntry<String, Object>(key, session.getAttribute(key), true));
         }
         return (set);
     }
@@ -104,9 +111,10 @@ final class PortletSessionScopeMap implements Map {
     }
 
 
-    public Set keySet() {
-        Set set = new HashSet();
-        Enumeration keys =
+    @SuppressWarnings("unchecked")
+	public Set<String> keySet() {
+        Set<String> set = new HashSet<String>();
+        Enumeration<String> keys =
             session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
@@ -115,7 +123,7 @@ final class PortletSessionScopeMap implements Map {
     }
 
 
-    public Object put(Object key, Object value) {
+    public Object put(String key, Object value) {
         if (value == null) {
             return (remove(key));
         }
@@ -126,10 +134,10 @@ final class PortletSessionScopeMap implements Map {
     }
 
 
-    public void putAll(Map map) {
-        Iterator keys = map.keySet().iterator();
+    public void putAll(Map<? extends String, ? extends Object> map) {
+        Iterator<? extends String> keys = map.keySet().iterator();
         while (keys.hasNext()) {
-            String key = (String) keys.next();
+            String key = keys.next();
             session.setAttribute(key, map.get(key));
         }
     }
@@ -143,9 +151,10 @@ final class PortletSessionScopeMap implements Map {
     }
 
 
-    public int size() {
+    @SuppressWarnings("unchecked")
+	public int size() {
         int n = 0;
-        Enumeration keys =
+        Enumeration<String> keys =
             session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
             keys.nextElement();
@@ -155,12 +164,13 @@ final class PortletSessionScopeMap implements Map {
     }
 
 
-    public Collection values() {
-        List list = new ArrayList();
-        Enumeration keys =
+    @SuppressWarnings("unchecked")
+	public Collection<Object> values() {
+        List<Object> list = new ArrayList<Object>();
+        Enumeration<String> keys =
             session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
-            list.add(session.getAttribute((String) keys.nextElement()));
+            list.add(session.getAttribute(keys.nextElement()));
         }
         return (list);
     }

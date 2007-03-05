@@ -40,14 +40,14 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
      * <p>The lazily instantiated <code>Map</code> of header name-value
      * combinations (immutable).</p>
      */
-    private Map header = null;
+    private Map<String, String> header = null;
 
 
     /**
      * <p>The lazily instantitated <code>Map</code> of header name-values
      * combinations (immutable).</p>
      */
-    private Map headerValues = null;
+    private Map<String, String[]> headerValues = null;
 
 
     /**
@@ -60,7 +60,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
      * <p>The lazily instantiated <code>Map</code> of request scope
      * attributes.</p>
      */
-    private Map requestScope = null;
+    private Map<String, Object> requestScope = null;
 
 
     /**
@@ -73,7 +73,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
      * <p>The lazily instantiated <code>Map</code> of session scope
      * attributes.</p>
      */
-    private Map sessionScope = null;
+    private Map<String, Object> sessionScope = null;
 
 
     /**
@@ -84,12 +84,12 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
      * <p>The lazily instantiated <code>Map</code> of request
      * parameter name-value.</p>
      */
-    protected Map param = null;
+    protected Map<String, String> param = null;
     /**
      * <p>The lazily instantiated <code>Map</code> of request
      * parameter name-values.</p>
      */
-    protected Map paramValues = null;
+    protected Map<String, String[]> paramValues = null;
 
 
     /**
@@ -162,42 +162,44 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         return (this.response);
     }
 
-    public Map getHeader() {
+    @SuppressWarnings("unchecked")
+	public Map<String, String> getHeader() {
         if ((header == null) && (request != null)) {
             header = Collections.EMPTY_MAP;
         }
         return (header);
     }
 
-    public Map getHeaderValues() {
+    @SuppressWarnings("unchecked")
+	public Map<String, String[]> getHeaderValues() {
         if ((headerValues == null) && (request != null)) {
             headerValues = Collections.EMPTY_MAP;
         }
         return (headerValues);
     }
 
-    public Map getParam() {
+    public Map<String, String> getParam() {
         if ((param == null) && (request != null)) {
             param = new PortletParamMap(request);
         }
         return (param);
     }
 
-    public Map getParamValues() {
+    public Map<String, String[]> getParamValues() {
         if ((paramValues == null) && (request != null)) {
             paramValues = new PortletParamValuesMap(request);
         }
         return (paramValues);
     }
 
-    public Map getRequestScope() {
+    public Map<String, Object> getRequestScope() {
         if ((requestScope == null) && (request != null)) {
             requestScope = new PortletRequestScopeMap(request);
         }
         return (requestScope);
     }
 
-    public Map getSessionScope() {
+    public Map<String, Object> getSessionScope() {
         if ((sessionScope == null) && (request != null)) {
             sessionScope =
                 new PortletSessionScopeMap(request.getPortletSession());

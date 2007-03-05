@@ -37,7 +37,7 @@ public interface TilesContextFactory {
     /**
      * Initialize the impl
      */
-    void init(Map configurationParameters);
+    void init(Map<String, String> configurationParameters);
 
     /**
      * Create a TilesApplicationContext for the given context.
