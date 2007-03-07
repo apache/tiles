@@ -150,7 +150,11 @@ public class ServletTilesRequestContextTest extends TestCase {
         assertEquals("The map" + mapName
                 + " has keySet and entrySet of different size", size1, size2);
         for (K key : currentMap.keySet()) {
+            assertTrue("The key is not of class" + keyClass.getName(), keyClass
+                    .isInstance(key));
             V value = currentMap.get(key);
+            assertTrue("The value is not of class" + valueClass.getName(),
+                    valueClass.isInstance(value));
             assertTrue("The map " + mapName
                     + " does not return the correct value for 'containsValue'",
                     currentMap.containsValue(value));
