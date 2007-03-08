@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 
 /**
  * PutList tag implementation.
@@ -51,7 +50,7 @@ public class PutListAttributeTag extends PutAttributeTag
         throw new IllegalStateException("The value of the PutListAttributeTag must be the originally defined list.");
     }
 
-    public int doStartTag() {
+    public int doStartTag() throws JspException {
         super.setValue(new ArrayList<ComponentAttribute>());
     	return super.doStartTag();
     }
@@ -90,18 +89,6 @@ public class PutListAttributeTag extends PutAttributeTag
             nestedTag.getType());
 
         this.addValue(attribute);	
-    }
-
-    @Override
-    protected void startContext(PageContext context) {
-        if (container != null) {
-            componentContext = container.getComponentContext(context);
-        }
-    }
-
-    @Override
-    protected void endContext(PageContext context) {
-        // Do nothing
     }
 
 	private void addValue( ComponentAttribute attribute ) {

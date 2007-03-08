@@ -23,12 +23,10 @@
 package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.ComponentConstants;
-import org.apache.tiles.jsp.taglib.ContainerTagSupport;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
@@ -60,7 +58,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  * @version $Rev$ $Date$
  */
-public class AddAttributeTag extends ContainerTagSupport implements ComponentConstants {
+public class AddAttributeTag extends RoleSecurityTagSupport implements
+        ComponentConstants {
 
     private static final Log LOG = LogFactory.getLog(AddAttributeTag.class);
 
@@ -110,18 +109,6 @@ public class AddAttributeTag extends ContainerTagSupport implements ComponentCon
             type = "string";
         }
         return (SKIP_BODY);
-    }
-
-    @Override
-    protected void startContext(PageContext context) {
-        if (container != null) {
-            componentContext = container.getComponentContext(context);
-        }
-    }
-
-    @Override
-    protected void endContext(PageContext context) {
-        // Do nothing
     }
 
     protected void execute() throws JspException {

@@ -113,6 +113,9 @@ public class DefinitionTag extends TagSupport
         TilesContainer c =
             TilesAccess.getContainer(pageContext.getServletContext());
 
+        if (c == null) {
+            throw new JspException("TilesContainer not initialized");
+        }
         if(!(c instanceof MutableTilesContainer)) {
             throw new JspException("Unable to define definition for a " +
                 "container which does not implement MutableTilesContainer");

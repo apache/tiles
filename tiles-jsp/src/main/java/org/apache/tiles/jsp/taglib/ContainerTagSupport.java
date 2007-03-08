@@ -25,14 +25,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-import java.io.IOException;
 
 /**
  * Base tag for the tiles tags which interact with the container.
@@ -43,71 +39,46 @@ import java.io.IOException;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public abstract class ContainerTagSupport extends BodyTagSupport {
+public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
     
     /**
      * The log instance for this tag.
      */
     private static final Log LOG = LogFactory.getLog(ContainerTagSupport.class);
 
-    private String role;
     protected TilesContainer container;
     protected ComponentContext componentContext;
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     /**
      * By default, all ContainerTags evaluate their body.  Subclasses may choose to be more selective.
      * In any case, children can rely upon the container and componentContext being initialized if they
      * call <code>super.doStartTag()</code>
      */
-    public int doStartTag() {
+    public int doStartTag() throws JspException {
         container = TilesAccess.getContainer(pageContext.getServletContext());
-        startContext(pageContext);
-        return EVAL_BODY_BUFFERED;
+        if (container != null) {
+            startContext(pageContext);
+            return EVAL_BODY_BUFFERED;
+        } else {
+            throw new JspException("TilesContainer not initialized");
+        }
     }
     
 
     public int doEndTag() throws JspException {
         try {
-            if (isAccessAllowed()) {
-                execute();
-            }
-        } catch (TilesException e) {
-            String message = "Error executing tag: " + e.getMessage();
-            LOG.error(message, e);
-            throw new JspException(message, e);
-        } catch (IOException io) {
-            String message = "IO Error executing tag: " + io.getMessage();
-            LOG.error(message, io);
-            throw new JspException(message, io);
+            return super.doEndTag();
         } finally {
             endContext(pageContext);
         }
-        
-        return EVAL_PAGE;
     }
 
 
 
     public void release() {
         super.release();
-        this.role = null;
         this.container = null;
         this.componentContext = null;
-    }
-
-    protected abstract void execute() throws TilesException, JspException, IOException;
-
-    protected boolean isAccessAllowed() {
-        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
-        return (role == null || req.isUserInRole(role));
     }
     
     protected void startContext(PageContext context) {

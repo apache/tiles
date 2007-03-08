@@ -88,7 +88,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
         super.release();
     }
 
-    public int doStartTag() {
+    public int doStartTag() throws JspException {
         super.doStartTag();
         return isAccessAllowed() ? EVAL_BODY_BUFFERED : SKIP_BODY;
     }
