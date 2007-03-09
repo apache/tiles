@@ -26,6 +26,7 @@ import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 
 import java.util.Collections;
+import java.util.Map;
 
 /**
  * Mock Defintions Reader implementation.  Stubs out all functionality.
@@ -62,7 +63,8 @@ public class MockDefinitionsReader implements DefinitionsReader {
      * @throws org.apache.tiles.definition.DefinitionsFactoryException if the source is invalid or
      *  an error occurs when reading definitions.
      */
-    public java.util.Map read(Object source) throws DefinitionsFactoryException {
+    @SuppressWarnings("unchecked")
+    public Map<String, ComponentDefinition> read(Object source) throws DefinitionsFactoryException {
         return Collections.EMPTY_MAP;
     }
 
@@ -75,7 +77,7 @@ public class MockDefinitionsReader implements DefinitionsReader {
      * @throws org.apache.tiles.definition.DefinitionsFactoryException if required properties are not
      *  passed in or the initialization fails.
      */
-    public void init(java.util.Map params) throws DefinitionsFactoryException {
+    public void init(Map<String, String> params) throws DefinitionsFactoryException {
     }
     
 }

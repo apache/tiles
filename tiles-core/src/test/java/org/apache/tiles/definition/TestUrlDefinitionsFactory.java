@@ -76,6 +76,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
     /**
      * Tests the readDefinitions method under normal conditions.
      */
+    @SuppressWarnings("unchecked")
     public void testReadDefinitions() throws Exception {
         DefinitionsFactory factory = new UrlDefinitionsFactory();
 
@@ -106,6 +107,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
     /**
      * Tests the getDefinition method.
      */
+    @SuppressWarnings("unchecked")
     public void testGetDefinition() throws Exception {
         DefinitionsFactory factory = new UrlDefinitionsFactory();
 
@@ -168,6 +170,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
     /**
      * Tests addSource with a bad source object type.
      */
+    @SuppressWarnings("unchecked")
     public void testBadSourceType() throws Exception {
         try {
             DefinitionsFactory factory = new UrlDefinitionsFactory();
@@ -185,6 +188,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
      * Tests the addDefinitions method under normal
      * circumstances.
      */
+    @SuppressWarnings("unchecked")
     public void testReadByLocale() throws Exception {
         MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
 
@@ -229,6 +233,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
     /**
      * Tests the isContextProcessed method.
      */
+    @SuppressWarnings("unchecked")
     public void testIsContextProcessed() throws Exception {
         MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
 
@@ -256,7 +261,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
      * Tests the reader init param.
      */
     public void testReaderParam() throws Exception {
-        Map params = new HashMap();
+        Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.READER_IMPL_PROPERTY,
                 "org.apache.tiles.definition.MockDefinitionsReader");
 

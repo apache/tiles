@@ -68,7 +68,7 @@ public class TestComponentDefinitions extends TestCase {
      * Tests the inheritance properties of ComponentDefinition objects.
      */
     public void testResolveInheritances() {
-        Map defs = new HashMap();
+        Map<String, ComponentDefinition> defs = new HashMap<String, ComponentDefinition>();
         
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
@@ -114,7 +114,7 @@ public class TestComponentDefinitions extends TestCase {
      * Tests the inheritance with localized definitions.
      */
     public void testLocalizedResolveInheritances() {
-        Map defs = new HashMap();
+        Map<String, ComponentDefinition> defs = new HashMap<String, ComponentDefinition>();
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
@@ -133,7 +133,7 @@ public class TestComponentDefinitions extends TestCase {
         def.addAttribute(attr);
         defs.put(def.getName(), def);
 
-        Map localDefs = new HashMap();
+        Map<String, ComponentDefinition> localDefs = new HashMap<String, ComponentDefinition>();
         def = new ComponentDefinition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
@@ -184,7 +184,7 @@ public class TestComponentDefinitions extends TestCase {
      * Tests the reset method.
      */
     public void testReset() {
-        Map defs = new HashMap();
+        Map<String, ComponentDefinition> defs = new HashMap<String, ComponentDefinition>();
         
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");
@@ -227,7 +227,7 @@ public class TestComponentDefinitions extends TestCase {
      * executed and attribute dependencies are calculated.
      */
     public void testResolveAttributeDependencies() {
-        Map defs = new HashMap();
+        Map<String, ComponentDefinition> defs = new HashMap<String, ComponentDefinition>();
         
         ComponentDefinition def = new ComponentDefinition();
         def.setName("parent.def1");

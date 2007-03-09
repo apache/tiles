@@ -48,8 +48,8 @@ public class TilesContainerFactoryTest extends TestCase {
     }
 
     public void testGetFactory() throws TilesException {
-        Vector v = new Vector();
-        Vector emptyVector = new Vector();
+        Vector<String> v = new Vector<String>();
+        Vector<String> emptyVector = new Vector<String>();
         v.add(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
 
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
@@ -92,7 +92,7 @@ public class TilesContainerFactoryTest extends TestCase {
 
     public void testCreateContainer() throws TilesException, MalformedURLException {
         URL url = getClass().getResource("test-defs.xml");
-        Vector enumeration = new Vector();
+        Vector<String> enumeration = new Vector<String>();
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
@@ -116,7 +116,7 @@ public class TilesContainerFactoryTest extends TestCase {
     }
 
     public void testGetInitParameterMap() throws TilesException {
-        Vector keys = new Vector();
+        Vector<String> keys = new Vector<String>();
         keys.add("one");
         keys.add("two");
 
@@ -127,8 +127,7 @@ public class TilesContainerFactoryTest extends TestCase {
         EasyMock.expect(context.getInitParameter("two")).andReturn("twoValue").anyTimes();
         EasyMock.replay(context);
 
-        TilesContainerFactory factory = TilesContainerFactory.getFactory(context);
-        Map map = factory.getInitParameterMap(context);
+        Map<String, String> map = TilesContainerFactory.getInitParameterMap(context);
 
         assertEquals(2, map.size());
         assertTrue(map.containsKey("one"));

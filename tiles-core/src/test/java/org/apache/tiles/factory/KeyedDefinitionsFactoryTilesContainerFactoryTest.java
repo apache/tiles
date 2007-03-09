@@ -68,7 +68,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
     }
 
     public void testCreateContainer() throws TilesException, MalformedURLException {
-        Vector enumeration = new Vector();
+        Vector<String> enumeration = new Vector<String>();
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);

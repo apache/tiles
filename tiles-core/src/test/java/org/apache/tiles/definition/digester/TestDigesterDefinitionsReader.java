@@ -70,25 +70,23 @@ public class TestDigesterDefinitionsReader extends TestCase {
     public void testRead() {
         try {
             DefinitionsReader reader = new DigesterDefinitionsReader();
-            reader.init(new HashMap());
+            reader.init(new HashMap<String, String>());
             
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/tiles-defs.xml");
             assertNotNull("Config file not found", configFile);
             
             InputStream source = configFile.openStream();
-            Map definitions = reader.read(source);
+            Map<String, ComponentDefinition> definitions = reader.read(source);
             
             assertNotNull("Definitions not returned.", definitions);
             assertNotNull("Couldn't find doc.mainLayout tile.", 
-                    (ComponentDefinition) definitions.get("doc.mainLayout"));
-            assertNotNull("Couldn't Find title attribute.",
-                    ((ComponentDefinition) definitions.get("doc.mainLayout"))
-                    .getAttribute("title"));
+                    definitions.get("doc.mainLayout"));
+            assertNotNull("Couldn't Find title attribute.", definitions.get(
+                    "doc.mainLayout").getAttribute("title"));
             assertEquals("Incorrect Find title attribute.",
-                    "Tiles Library Documentation",
-                    ((ComponentDefinition) definitions.get("doc.mainLayout"))
-                    .getAttribute("title"));
+                    "Tiles Library Documentation", definitions.get(
+                            "doc.mainLayout").getAttribute("title"));
             
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
@@ -110,7 +108,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertNotNull("Config file not found", configFile);
             
             InputStream source = configFile.openStream();
-            Map definitions = reader.read(source);
+            reader.read(source);
             
             fail("Should've thrown exception.");
         } catch (DefinitionsFactoryException e) {
@@ -127,13 +125,13 @@ public class TestDigesterDefinitionsReader extends TestCase {
         try {
             // Create Digester Reader.
             DefinitionsReader reader = new DigesterDefinitionsReader();
-            Map params = new HashMap();
+            Map<String, String> params = new HashMap<String, String>();
 
             // Initialize reader.
             reader.init(params);
 
             // Read definitions.
-            Map definitions = reader.read(new String("Bad Input"));
+            reader.read(new String("Bad Input"));
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.
@@ -148,14 +146,14 @@ public class TestDigesterDefinitionsReader extends TestCase {
     public void testBadXml() {
         try {
             DefinitionsReader reader = new DigesterDefinitionsReader();
-            reader.init(new HashMap());
+            reader.init(new HashMap<String, String>());
             
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/malformed-defs.xml");
             assertNotNull("Config file not found", configFile);
             
             InputStream source = configFile.openStream();
-            Map definitions = reader.read(source);
+            reader.read(source);
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.

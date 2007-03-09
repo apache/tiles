@@ -121,7 +121,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         writer.write(xml);
         writer.close();
 
-        factory.init(new HashMap());
+        factory.init(new HashMap<String, String>());
         factory.addSource(url);
 
         // Parse files.

@@ -71,7 +71,7 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
         return null;
     }
 
-    public Map getApplicationScope() {
+    public Map<String, Object> getApplicationScope() {
         return null;
     }
 
@@ -83,7 +83,7 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
         return null;
     }
 
-    public Map getInitParams() {
+    public Map<String, String> getInitParams() {
         return null;
     }
 

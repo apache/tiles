@@ -55,7 +55,7 @@ public class SelectLocaleServlet extends HttpServlet {
 
     private void process(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        String localeParameter = (String) request.getParameter("locale");
+        String localeParameter = request.getParameter("locale");
         HttpSession session = request.getSession();
         Locale locale = null;
         if (localeParameter != null && localeParameter.trim().length() > 0) {

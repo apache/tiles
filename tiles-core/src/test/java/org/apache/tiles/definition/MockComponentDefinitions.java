@@ -24,6 +24,8 @@
 package org.apache.tiles.definition;
 
 import java.util.Locale;
+import java.util.Map;
+
 import org.apache.tiles.definition.ComponentDefinitions;
 import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.definition.ComponentDefinition;
@@ -69,7 +71,8 @@ public class MockComponentDefinitions implements ComponentDefinitions {
      * @param defsMap The new definitions to add.
      * @param locale The locale to add the definitions to.
      */
-    public void addDefinitions(java.util.Map defsMap, java.util.Locale locale) {
+    public void addDefinitions(Map<String, ComponentDefinition> defsMap,
+            java.util.Locale locale) {
     }
 
     /**
@@ -90,7 +93,7 @@ public class MockComponentDefinitions implements ComponentDefinitions {
      * 
      * @param defsMap The new definitions to add.
      */
-    public void addDefinitions(java.util.Map defsMap) {
+    public void addDefinitions(Map<String, ComponentDefinition> defsMap) {
     }
 
     /**
@@ -114,7 +117,7 @@ public class MockComponentDefinitions implements ComponentDefinitions {
     /**
      * Returns base definitions collection;
      */
-    public java.util.Map getBaseDefinitions() {
+    public Map<String, ComponentDefinition> getBaseDefinitions() {
         return null;
     }
     
