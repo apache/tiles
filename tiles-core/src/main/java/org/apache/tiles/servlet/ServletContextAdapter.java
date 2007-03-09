@@ -59,6 +59,7 @@ public class ServletContextAdapter implements ServletContext {
         return rootContext.getMimeType(string);
     }
 
+    @SuppressWarnings("unchecked")
     public Set getResourcePaths(String string) {
         return rootContext.getResourcePaths(string);
     }
@@ -84,12 +85,12 @@ public class ServletContextAdapter implements ServletContext {
         return rootContext.getServlet(string);
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public Enumeration getServlets() {
         return rootContext.getServlets();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public Enumeration getServletNames() {
         return rootContext.getServletNames();
     }
@@ -123,6 +124,7 @@ public class ServletContextAdapter implements ServletContext {
         return parm;
     }
 
+    @SuppressWarnings("unchecked")
     public Enumeration getInitParameterNames() {
         return new CompositeEnumeration(config.getInitParameterNames(),
             rootContext.getInitParameterNames());
@@ -132,6 +134,7 @@ public class ServletContextAdapter implements ServletContext {
         return rootContext.getAttribute(string);
     }
 
+    @SuppressWarnings("unchecked")
     public Enumeration getAttributeNames() {
         return rootContext.getAttributeNames();
     }
@@ -148,6 +151,7 @@ public class ServletContextAdapter implements ServletContext {
         return rootContext.getServletContextName();
     }
 
+    @SuppressWarnings("unchecked")
     class CompositeEnumeration implements Enumeration {
 
         private Enumeration first;

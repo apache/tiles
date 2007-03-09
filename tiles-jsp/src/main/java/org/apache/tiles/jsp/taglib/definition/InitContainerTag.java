@@ -131,7 +131,6 @@ public class InitContainerTag extends BodyTagSupport
 
 
 
-    @SuppressWarnings("deprecated")
     public class RuntimeConfiguredContext implements ServletContext {
 
         private ServletContext rootContext;
@@ -159,6 +158,7 @@ public class InitContainerTag extends BodyTagSupport
             return rootContext.getMimeType(string);
         }
 
+        @SuppressWarnings("unchecked")
         public Set getResourcePaths(String string) {
             return rootContext.getResourcePaths(string);
         }
@@ -179,15 +179,18 @@ public class InitContainerTag extends BodyTagSupport
             return rootContext.getNamedDispatcher(string);
         }
 
-        public Servlet getServlet(String string) throws ServletException {
+        @SuppressWarnings("deprecation")
+		public Servlet getServlet(String string) throws ServletException {
             return rootContext.getServlet(string);
         }
 
-        public Enumeration getServlets() {
+        @SuppressWarnings({ "deprecation", "unchecked" })
+		public Enumeration getServlets() {
             return rootContext.getServlets();
         }
 
-        public Enumeration getServletNames() {
+        @SuppressWarnings({ "deprecation", "unchecked" })
+		public Enumeration getServletNames() {
             return rootContext.getServletNames();
         }
 
@@ -195,7 +198,8 @@ public class InitContainerTag extends BodyTagSupport
             rootContext.log(string);
         }
 
-        public void log(Exception exception, String string) {
+        @SuppressWarnings("deprecation")
+		public void log(Exception exception, String string) {
             rootContext.log(exception, string);
         }
 
@@ -222,6 +226,7 @@ public class InitContainerTag extends BodyTagSupport
             initParameters.put(name, value);
         }
 
+        @SuppressWarnings("unchecked")
         public Enumeration getInitParameterNames() {
             return rootContext.getInitParameterNames();
         }
@@ -230,6 +235,7 @@ public class InitContainerTag extends BodyTagSupport
             return rootContext.getAttribute(string);
         }
 
+        @SuppressWarnings("unchecked")
         public Enumeration getAttributeNames() {
             return rootContext.getAttributeNames();
         }

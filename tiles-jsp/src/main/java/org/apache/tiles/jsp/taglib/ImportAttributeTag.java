@@ -58,9 +58,9 @@ public class ImportAttributeTag extends AttributeTagSupport {
             pageContext.setAttribute(toName != null? toName : name,
                     attribute.getValue(), scope);
         } else {
-            Iterator names = componentContext.getAttributeNames();
+            Iterator<String> names = componentContext.getAttributeNames();
             while (names.hasNext()) {
-                String name = (String) names.next();
+                String name = names.next();
 
                 if (name == null && !ignore) {
                     throw new JspException("Error importing attributes. " +

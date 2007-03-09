@@ -81,7 +81,7 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
          */
         public String getDefinitionsFactoryKey(TilesRequestContext request) {
             String retValue = null;
-            Map requestScope = request.getRequestScope();
+            Map<String, Object> requestScope = request.getRequestScope();
             if (requestScope != null) { // Probably the request scope does not exist
                 retValue = (String) requestScope.get(
                         DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME);

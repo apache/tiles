@@ -47,14 +47,8 @@ import java.io.IOException;
 
 public class TilesDecorationFilter implements Filter {
 
+    @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(TilesDecorationFilter.class);
-
-    /**
-     * The filter configuration object we are associated with.  If
-     * this value is null, this filter instance is not currently
-     * configured.
-     */
-    private FilterConfig filterConfig = null;
 
     private ServletContext servletContext = null;
 
@@ -100,7 +94,6 @@ public class TilesDecorationFilter implements Filter {
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig = filterConfig;
         String name = filterConfig.getInitParameter("target-attribute-name");
         if(name != null) {
             targetAttributeName = name;
@@ -111,7 +104,6 @@ public class TilesDecorationFilter implements Filter {
      * Destroy method for this filter
      */
     public void destroy() {
-        this.filterConfig = null;
         this.servletContext = null;
         this.targetAttributeName = "body";
     }

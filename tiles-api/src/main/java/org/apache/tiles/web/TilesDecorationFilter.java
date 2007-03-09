@@ -127,6 +127,7 @@ public class TilesDecorationFilter implements Filter {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected Map<String, String> parseAlternateDefinitions() {
         Map<String, String> map = new HashMap<String, String>();
         Enumeration<String> e = filterConfig.getInitParameterNames();

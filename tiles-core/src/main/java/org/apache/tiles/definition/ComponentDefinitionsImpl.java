@@ -107,9 +107,10 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
         ComponentDefinition definition = null;
 
         if (locale != null) {
-            Map localeSpecificMap = localeSpecificDefinitions.get(locale);
+            Map<String, ComponentDefinition> localeSpecificMap = localeSpecificDefinitions
+                    .get(locale);
             if (localeSpecificMap != null) {
-                definition = (ComponentDefinition) localeSpecificMap.get(name);
+                definition = localeSpecificMap.get(name);
             }
         }
 
@@ -154,7 +155,7 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     /**
      * Returns base definitions collection;
      */
-    public Map getBaseDefinitions() {
+    public Map<String, ComponentDefinition> getBaseDefinitions() {
         return baseDefinitions;
     }
 
@@ -272,9 +273,10 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
     protected void overload(ComponentDefinition parent,
                             ComponentDefinition child) {
         // Iterate on each parent's attribute and add it if not defined in child.
-        Iterator parentAttributes = parent.getAttributes().keySet().iterator();
+        Iterator<String> parentAttributes = parent.getAttributes().keySet()
+                .iterator();
         while (parentAttributes.hasNext()) {
-            String name = (String) parentAttributes.next();
+            String name = parentAttributes.next();
             if (!child.getAttributes().containsKey(name))
                 child.put(name, parent.getAttribute(name));
         }

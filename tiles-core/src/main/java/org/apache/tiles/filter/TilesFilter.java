@@ -39,6 +39,7 @@ import java.util.Enumeration;
 
 public class TilesFilter extends TilesServlet implements Filter {
 
+    @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(TilesFilter.class);
 
     /**
@@ -147,6 +148,7 @@ public class TilesFilter extends TilesServlet implements Filter {
             return config.getInitParameter(string);
         }
 
+        @SuppressWarnings("unchecked")
         public Enumeration getInitParameterNames() {
             return config.getInitParameterNames();
         }

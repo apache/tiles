@@ -95,5 +95,5 @@ public interface ComponentDefinitions {
     /**
      * Returns base definitions collection;
      */
-    public Map getBaseDefinitions();
+    public Map<String, ComponentDefinition> getBaseDefinitions();
 }

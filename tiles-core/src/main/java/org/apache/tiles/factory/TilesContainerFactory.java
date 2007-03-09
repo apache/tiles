@@ -216,7 +216,7 @@ public class TilesContainerFactory {
                                              String parameterName) throws TilesException {
         Object value;
         try {
-            Class contextClass = context.getClass();
+            Class<?> contextClass = context.getClass();
             Method getInitParameterMethod =
                 contextClass.getMethod("getInitParameter", String.class);
             value = getInitParameterMethod.invoke(context, parameterName);
@@ -227,17 +227,19 @@ public class TilesContainerFactory {
         return value == null ? null : value.toString();
     }
 
+    @SuppressWarnings("unchecked")
     protected static Map<String, String> getInitParameterMap(Object context)
         throws TilesException {
         Map<String, String> initParameters = new HashMap<String, String>();
-        Class contextClass = context.getClass();
+        Class<?> contextClass = context.getClass();
         try {
             Method method = contextClass.getMethod("getInitParameterNames");
-            Enumeration e = (Enumeration) method.invoke(context);
+            Enumeration<String> e = (Enumeration<String>) method
+                    .invoke(context);
 
             method = contextClass.getMethod("getInitParameter", String.class);
             while (e.hasMoreElements()) {
-                String key = (String) e.nextElement();
+                String key = e.nextElement();
                 initParameters.put(key, (String) method.invoke(context, key));
             }
         } catch (Exception e) {

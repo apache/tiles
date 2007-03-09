@@ -41,7 +41,7 @@ public class DefaultLocaleResolver implements LocaleResolver {
 
     public Locale resolveLocale(TilesRequestContext request) {
         Locale retValue = null;
-        Map session = request.getSessionScope();
+        Map<String, Object> session = request.getSessionScope();
         if (session != null) {
             retValue = (Locale) session.get(ComponentConstants.LOCALE_KEY);
         }

@@ -40,7 +40,7 @@ public class ClassUtil {
             Thread.currentThread().setContextClassLoader(ClassUtil.class.getClassLoader());
         }
         try {
-            Class namedClass = Class.forName(className);
+            Class<?> namedClass = Class.forName(className);
             return namedClass.newInstance();
         } catch (ClassNotFoundException e) {
             if(returnNull) {

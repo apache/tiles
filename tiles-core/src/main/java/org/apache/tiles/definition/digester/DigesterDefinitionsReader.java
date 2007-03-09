@@ -124,7 +124,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      *          if the source is invalid or
      *          an error occurs when reading definitions.
      */
-    public Map read(Object source) throws DefinitionsFactoryException {
+    public Map<String, ComponentDefinition> read(Object source) throws DefinitionsFactoryException {
 
         // Get out if we have not been initialized.
         if (!inited) {
@@ -178,10 +178,10 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      *          if required properties are not
      *          passed in or the initialization fails.
      */
-    public void init(Map params) throws DefinitionsFactoryException {
+    public void init(Map<String, String> params) throws DefinitionsFactoryException {
 
         if (params != null) {
-            String value = (String) params.get(PARSER_VALIDATE_PARAMETER_NAME);
+            String value = params.get(PARSER_VALIDATE_PARAMETER_NAME);
             if (value != null) {
                 digester.setValidating(Boolean.valueOf(value));
             }

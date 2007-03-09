@@ -75,7 +75,7 @@ public class TilesAccess {
 
     private static Object getAttribute(Object context, String attributeName) {
         try {
-            Class contextClass = context.getClass();
+            Class<?> contextClass = context.getClass();
             Method attrMethod = contextClass.getMethod("getAttribute", String.class);
             return attrMethod.invoke(context, attributeName);
         } catch (Exception e) {
@@ -87,7 +87,7 @@ public class TilesAccess {
     private static void setAttribute(Object context, String name, Object value)
         throws TilesException {
         try {
-            Class contextClass = context.getClass();
+            Class<?> contextClass = context.getClass();
             Method attrMethod = contextClass.getMethod("setAttribute", String.class, Object.class);
             attrMethod.invoke(context, name, value);
         } catch (Exception e) {
@@ -98,7 +98,7 @@ public class TilesAccess {
     private static void removeAttribute(Object context, String name)
         throws TilesException {
         try {
-            Class contextClass = context.getClass();
+            Class<?> contextClass = context.getClass();
             Method attrMethod = contextClass.getMethod("removeAttribute", String.class);
             attrMethod.invoke(context, name);
         } catch (Exception e) {

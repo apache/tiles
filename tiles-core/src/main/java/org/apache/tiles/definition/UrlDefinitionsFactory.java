@@ -214,7 +214,7 @@ public class UrlDefinitionsFactory
 
         processedLocales.add(locale);
         List<String> postfixes = calculatePostfixes(locale);
-        Map localeDefsMap = new HashMap();
+        Map<String, ComponentDefinition> localeDefsMap = new HashMap<String, ComponentDefinition>();
         for (Object postfix : postfixes) {
         	// For each postfix, all the sources must be loaded.
             for (Object source : sources) {
@@ -231,7 +231,8 @@ public class UrlDefinitionsFactory
                     
                     // Definition must be collected, starting from the base
                     // source up to the last localized file.
-                    Map defsMap = reader.read(connection.getInputStream());
+                    Map<String, ComponentDefinition> defsMap = reader
+                            .read(connection.getInputStream());
                     if (defsMap != null) {
                     	localeDefsMap.putAll(defsMap);
                     }
@@ -267,7 +268,8 @@ public class UrlDefinitionsFactory
                 connection.connect();
                 lastModifiedDates.put(source.toExternalForm(),
                     connection.getLastModified());
-                Map defsMap = reader.read(connection.getInputStream());
+                Map<String, ComponentDefinition> defsMap = reader
+                        .read(connection.getInputStream());
                 definitions.addDefinitions(defsMap);
             }
         } catch (IOException e) {

@@ -53,7 +53,7 @@ public class JspUtil {
     static {
         try {
             // get version of include method with flush argument
-            Class[] args = new Class[]{String.class, boolean.class};
+            Class<?>[] args = new Class<?>[]{String.class, boolean.class};
             include = PageContext.class.getMethod("include", args);
         } catch (NoSuchMethodException e) {
             LOG.debug("Could not find JSP 2.0 include method.  Using old one that doesn't support " +

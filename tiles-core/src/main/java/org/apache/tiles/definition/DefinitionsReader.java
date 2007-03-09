@@ -48,7 +48,7 @@ public interface DefinitionsReader {
      * @throws DefinitionsFactoryException if required properties are not
      *                                     passed in or the initialization fails.
      */
-    public void init(Map params) throws DefinitionsFactoryException;
+    public void init(Map<String, String> params) throws DefinitionsFactoryException;
 
     /**
      * Reads <code>{@link org.apache.tiles.definition.ComponentDefinition}</code> objects from a source.
@@ -61,6 +61,6 @@ public interface DefinitionsReader {
      * @throws DefinitionsFactoryException if the source is invalid or
      *                                     an error occurs when reading definitions.
      */
-    public Map read(Object source) throws DefinitionsFactoryException;
+    public Map<String, ComponentDefinition> read(Object source) throws DefinitionsFactoryException;
 
 }
