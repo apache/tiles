@@ -123,7 +123,7 @@ public class UrlDefinitionsFactory
         localeResolver.init(params);
     }
 
-    private ComponentDefinitions getComponentDefinitions()
+    protected ComponentDefinitions getComponentDefinitions()
         throws DefinitionsFactoryException {
         if (definitions == null) {
             definitions = readDefinitions();
