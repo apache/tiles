@@ -39,6 +39,9 @@ import java.util.Enumeration;
 
 public class TilesFilter extends TilesServlet implements Filter {
 
+    /**
+     * The logging object.
+     */
     @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(TilesFilter.class);
 
@@ -73,7 +76,9 @@ public class TilesFilter extends TilesServlet implements Filter {
     }
 
     /**
-     * Return the filter configuration object for this filter.
+     * Returns the filter configuration object for this filter.
+     * 
+     * @return The filter configuration.
      */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
@@ -99,12 +104,8 @@ public class TilesFilter extends TilesServlet implements Filter {
         super.destroy();
     }
 
-    /**
-     * Init method for this filter
-     */
-    public void init
-        (FilterConfig
-            filterConfig) throws ServletException {
+    /** {@inheritDoc} */
+    public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
         super.init(createServletConfig());
 
@@ -113,41 +114,65 @@ public class TilesFilter extends TilesServlet implements Filter {
         }
     }
 
-    public void log
-        (String
-            msg) {
+    /** {@inheritDoc} */
+    public void log(String msg) {
         filterConfig.getServletContext().log(msg);
     }
 
+    /**
+     * A debug flag.
+     */
+    // FIXME Is it really used?
     private static final boolean debug = true;
 
-    private ServletConfig createServletConfig
-        () {
+    /**
+     * Creates a servlet configuration object from the filter configuration
+     * object.
+     *
+     * @return The servlet configuration object.
+     */
+    private ServletConfig createServletConfig() {
         return new ServletConfigAdapter(filterConfig);
     }
 
 
+    /**
+     * Adapts a filter configuration object to become a servlet configuration
+     * object.
+     */
     class ServletConfigAdapter implements ServletConfig {
 
+        /**
+         * The filter configuration object to use.
+         */
         private FilterConfig config;
 
 
+        /**
+         * Constructor.
+         *
+         * @param config The filter configuration object to use.
+         */
         public ServletConfigAdapter(FilterConfig config) {
             this.config = config;
         }
 
+        /** {@inheritDoc} */
         public String getServletName() {
             return config.getFilterName();
         }
 
+        /** {@inheritDoc} */
         public ServletContext getServletContext() {
             return config.getServletContext();
         }
 
+        /** {@inheritDoc} */
         public String getInitParameter(String string) {
             return config.getInitParameter(string);
         }
 
+        /** {@inheritDoc} */
         @SuppressWarnings("unchecked")
         public Enumeration getInitParameterNames() {
             return config.getInitParameterNames();

@@ -41,12 +41,20 @@ import java.io.IOException;
  */
 public class TilesDispatchServlet extends HttpServlet {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG =
         LogFactory.getLog(TilesDispatchServlet.class);
 
+    /**
+     * The object that will mutate the component context so that it uses
+     * different attributes. 
+     */
     private ComponentContextMutator mutator;
 
 
+    /** {@inheritDoc} */
     public void init() throws ServletException {
         super.init();
         String temp = getInitParameter("mutator");
@@ -61,6 +69,7 @@ public class TilesDispatchServlet extends HttpServlet {
         }
     }
 
+    /** {@inheritDoc} */
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
 
@@ -77,6 +86,12 @@ public class TilesDispatchServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Returns the called definition name for the given request.
+     *
+     * @param request The request to parse.
+     * @return The definition name to render.
+     */
     protected String getDefinitionName(HttpServletRequest request) {
         String path = (String) request.getAttribute("javax.servlet.include.servlet_path");
         if (path == null) {
@@ -89,13 +104,19 @@ public class TilesDispatchServlet extends HttpServlet {
         return path.substring(start, end);
     }
 
+    /** {@inheritDoc} */
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         LOG.info("Tiles dispatch request received. Redirecting POST to GET.");
         doGet(req, res);
     }
 
+    /**
+     * Default no-op mutator
+     */
     class DefaultMutator implements ComponentContextMutator {
+
+        /** {@inheritDoc} */
         public void mutate(ComponentContext context, ServletRequest request) {
             // noop;
         }

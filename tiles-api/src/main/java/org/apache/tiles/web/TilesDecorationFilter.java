@@ -73,6 +73,9 @@ import java.util.HashMap;
  */
 public class TilesDecorationFilter implements Filter {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG =
         LogFactory.getLog(TilesDecorationFilter.class);
 
@@ -87,20 +90,42 @@ public class TilesDecorationFilter implements Filter {
      */
     private String componentAttributeName = "content";
 
+    /**
+     * The definition name to use.
+     */
     private String definitionName = "layout";
 
+    /**
+     * Stores a map of the type "mask -> definition": when a definition name
+     * mask is identified, it is substituted with the configured definition.
+     */
     private Map<String, String> alternateDefinitions;
 
+    /**
+     * The object that will mutate the component context so that it uses
+     * different attributes. 
+     */
     private ComponentContextMutator mutator = null;
 
+    /**
+     * Returns the filter configuration object.
+     * 
+     * @return The filter configuration.
+     */
     public FilterConfig getFilterConfig() {
         return filterConfig;
     }
 
+    /**
+     * Returns the servlet context.
+     * 
+     * @return The servlet context.
+     */
     public ServletContext getServletContext() {
         return filterConfig.getServletContext();
     }
 
+    /** {@inheritDoc} */
     public void init(FilterConfig config) throws ServletException {
         filterConfig = config;
         String temp = config.getInitParameter("attribute-name");
@@ -127,6 +152,12 @@ public class TilesDecorationFilter implements Filter {
         }
     }
 
+    /**
+     * Creates the alternate definitions map, to map a mask of definition names
+     * to a configured definition.
+     *
+     * @return The alternate definitions map.
+     */
     @SuppressWarnings("unchecked")
     protected Map<String, String> parseAlternateDefinitions() {
         Map<String, String> map = new HashMap<String, String>();
@@ -144,11 +175,13 @@ public class TilesDecorationFilter implements Filter {
         return map;
     }
 
+    /** {@inheritDoc} */
     public void destroy() {
         filterConfig = null;
     }
 
 
+    /** {@inheritDoc} */
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
         throws IOException, ServletException {
         TilesContainer container = TilesAccess.getContainer(getServletContext());
@@ -161,6 +194,12 @@ public class TilesDecorationFilter implements Filter {
         }
     }
 
+    /**
+     * Returns the final definition to render for the given request.
+     *
+     * @param request The request object.
+     * @return The final definition name.
+     */
     private String getDefinitionForRequest(ServletRequest request) {
         if(alternateDefinitions.size() < 1) {
             return definitionName;
@@ -174,6 +213,13 @@ public class TilesDecorationFilter implements Filter {
         return definitionName;
     }
 
+    /**
+     * Returns the request base, i.e. the the URL to calculate all the relative
+     * paths.
+     * 
+     * @param request The request object to use.
+     * @return The request base.
+     */
     private String getRequestBase(ServletRequest request) {
         // Included Path
         String include = (String) request.getAttribute("javax.servlet.include.servlet_path");
@@ -186,7 +232,12 @@ public class TilesDecorationFilter implements Filter {
         return ((HttpServletRequest) request).getServletPath();
     }
 
+    /**
+     * The default component context mutator to use.
+     */
     class DefaultMutator implements ComponentContextMutator {
+
+        /** {@inheritDoc} */
         public void mutate(ComponentContext ctx, ServletRequest req) {
             ComponentAttribute attr = new ComponentAttribute();
             attr.setType(ComponentAttribute.TEMPLATE);

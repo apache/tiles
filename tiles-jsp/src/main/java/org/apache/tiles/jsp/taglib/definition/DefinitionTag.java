@@ -125,11 +125,6 @@ public class DefinitionTag extends TagSupport
         return EVAL_BODY_INCLUDE;
     }
 
-    /**
-     *
-     *
-     * @return
-     */
     public int doEndTag() throws JspException {
         TileDefinition d = new TileDefinition();
         d.setName(name);

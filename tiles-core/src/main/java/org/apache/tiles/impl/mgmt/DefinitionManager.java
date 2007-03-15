@@ -124,9 +124,11 @@ public class DefinitionManager {
      * template.
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
+     * 
+     * @param definition The definition that needs to have its inheritances
+     * resolved.
      *
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
-     * @param definition def
      */
     protected void resolveInheritance(ComponentDefinition definition,
             TilesRequestContext request)

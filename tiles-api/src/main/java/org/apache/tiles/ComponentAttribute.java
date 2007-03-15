@@ -26,6 +26,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tiles.context.ComponentListAttribute;
+
 /**
  * Common implementation of attribute definition.
  *
@@ -53,12 +55,26 @@ public class ComponentAttribute implements Serializable {
      */
     protected String role = null;
 
+    /**
+     * The value of the attribute.
+     */
     protected Object value = null;
 
+    /**
+     * The type of the attribute. It can be <code>string</code>,
+     * <code>template</code>, <code>definition</code>.
+     */
     private String type = null;
 
+    /**
+     * The name of the attribute. If it is <code>null</code>, it should be used
+     * as an element of a list attribute.
+     */
     private String name = null;
 
+    /**
+     * The composing attributes, used to render the attribute itself.
+     */
     private Map<String, ComponentAttribute> attributes;
 
     /**
@@ -80,7 +96,7 @@ public class ComponentAttribute implements Serializable {
     /**
      * Copy constructor.
      *
-     * @param value Object to store.
+     * @param attribute The attribute to copy from.
      */
     public ComponentAttribute(ComponentAttribute attribute) {
         this.name = attribute.name;
@@ -182,9 +198,7 @@ public class ComponentAttribute implements Serializable {
         this.value = value;
     }
 
-    /**
-     * Get String representation of this object.
-     */
+    /** {@inheritDoc} */
     public String toString() {
         if (value != null) {
             return value.toString();
@@ -192,31 +206,73 @@ public class ComponentAttribute implements Serializable {
         return null;
     }
 
+    /**
+     * Returns the type of this attribute.
+     * 
+     * @return The attribute type. It can be <code>string</code>,
+     * <code>template</code>, <code>definition</code>.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Sets the type of this attribute.
+     * 
+     * @param type The attribute type. It can be <code>string</code>,
+     * <code>template</code>, <code>definition</code>.
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Returns the name of the attribute.
+     *
+     * @return The name of the attribute. It can be <code>null</code>, but in
+     * this case it should be used as an element of
+     * {@link ComponentListAttribute}
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the attribute.
+     *
+     * @param name The name of the attribute. It can be <code>null</code>,
+     * but in this case it should be used as an element of
+     * {@link ComponentListAttribute}
+     */
     public void setName(String name) {
         this.name = name;
     }
 
 
+    /**
+     * Returns the underlying attributes for this attribute.
+     *
+     * @return The attribute map.
+     */
     public Map<String, ComponentAttribute> getAttributes() {
         return attributes;
     }
 
+    /**
+     * Sets the underlying attributes for this attribute.
+     *
+     * @param attributes The attribute map.
+     */
     public void setAttributes(Map<String, ComponentAttribute> attributes) {
         this.attributes = attributes;
     }
 
+    /**
+     * Sets the body of this attribute.
+     * 
+     * @param body The attribute body.
+     */
+    // FIXME Is it necessary?
     public void setBody(String body) {
         if (body != null && body.length() != 0) {
             setValue(body);

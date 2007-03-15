@@ -87,8 +87,8 @@ public interface TilesRequestContext {
 
     /**
      * Determine whether or not the specified user is in the given role
-     * @param role
-     * @return
+     * @param role the role to check against.
+     * @return <code>true</code> if the user is in the given role.
      */
     boolean isUserInRole(String role);
 

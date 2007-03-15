@@ -29,93 +29,126 @@ import java.net.MalformedURLException;
 import java.io.InputStream;
 
 /**
+ * Adapts a servlet config and a servlet context to become a unique servlet
+ * context.
+ * 
  * @version $Rev$ $Date$
  */
 @SuppressWarnings("deprecation")
 public class ServletContextAdapter implements ServletContext {
 
+    /**
+     * The root context to use.
+     */
     private ServletContext rootContext;
+
+    /**
+     * The configuration object to use.
+     */
     private ServletConfig config;
 
 
+    /**
+     * Constructor.
+     *
+     * @param config The servlet configuration object.
+     */
     public ServletContextAdapter(ServletConfig config) {
         this.rootContext = config.getServletContext();
         this.config = config;
     }
 
+    /** {@inheritDoc} */
     public ServletContext getContext(String string) {
         return rootContext.getContext(string);
     }
 
+    /** {@inheritDoc} */
     public int getMajorVersion() {
         return rootContext.getMajorVersion();
     }
 
+    /** {@inheritDoc} */
     public int getMinorVersion() {
         return rootContext.getMinorVersion();
     }
 
+    /** {@inheritDoc} */
     public String getMimeType(String string) {
         return rootContext.getMimeType(string);
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Set getResourcePaths(String string) {
         return rootContext.getResourcePaths(string);
     }
 
+    /** {@inheritDoc} */
     public URL getResource(String string) throws MalformedURLException {
         return rootContext.getResource(string);
     }
 
+    /** {@inheritDoc} */
     public InputStream getResourceAsStream(String string) {
         return rootContext.getResourceAsStream(string);
     }
 
+    /** {@inheritDoc} */
     public RequestDispatcher getRequestDispatcher(String string) {
         return rootContext.getRequestDispatcher(string);
     }
 
+    /** {@inheritDoc} */
     public RequestDispatcher getNamedDispatcher(String string) {
         return rootContext.getNamedDispatcher(string);
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings("deprecation")
     public Servlet getServlet(String string) throws ServletException {
         return rootContext.getServlet(string);
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings({ "deprecation", "unchecked" })
     public Enumeration getServlets() {
         return rootContext.getServlets();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings({ "deprecation", "unchecked" })
     public Enumeration getServletNames() {
         return rootContext.getServletNames();
     }
 
+    /** {@inheritDoc} */
     public void log(String string) {
         rootContext.log(string);
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings("deprecation")
     public void log(Exception exception, String string) {
         rootContext.log(exception, string);
     }
 
+    /** {@inheritDoc} */
     public void log(String string, Throwable throwable) {
         rootContext.log(string, throwable);
     }
 
+    /** {@inheritDoc} */
     public String getRealPath(String string) {
         return rootContext.getRealPath(string);
     }
 
+    /** {@inheritDoc} */
     public String getServerInfo() {
         return rootContext.getServerInfo();
     }
 
+    /** {@inheritDoc} */
     public String getInitParameter(String string) {
         String parm = config.getInitParameter(string);
         if(parm == null) {
@@ -124,49 +157,73 @@ public class ServletContextAdapter implements ServletContext {
         return parm;
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Enumeration getInitParameterNames() {
         return new CompositeEnumeration(config.getInitParameterNames(),
             rootContext.getInitParameterNames());
     }
 
+    /** {@inheritDoc} */
     public Object getAttribute(String string) {
         return rootContext.getAttribute(string);
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Enumeration getAttributeNames() {
         return rootContext.getAttributeNames();
     }
 
+    /** {@inheritDoc} */
     public void setAttribute(String string, Object object) {
         rootContext.setAttribute(string, object);
     }
 
+    /** {@inheritDoc} */
     public void removeAttribute(String string) {
         rootContext.removeAttribute(string);
     }
 
+    /** {@inheritDoc} */
     public String getServletContextName() {
         return rootContext.getServletContextName();
     }
 
+    /**
+     * Composes an enumeration into a single one.
+     */
     @SuppressWarnings("unchecked")
     class CompositeEnumeration implements Enumeration {
 
+        /**
+         * The first enumeration to consider.
+         */
         private Enumeration first;
+
+        /**
+         * The second enumeration to consider.
+         */
         private Enumeration second;
 
 
+        /**
+         * Constructor.
+         *
+         * @param first The first enumeration to consider.
+         * @param second The second enumeration to consider.
+         */
         public CompositeEnumeration(Enumeration first, Enumeration second) {
             this.first = first;
             this.second = second;
         }
 
+        /** {@inheritDoc} */
         public boolean hasMoreElements() {
             return first.hasMoreElements() || second.hasMoreElements();
         }
 
+        /** {@inheritDoc} */
         public Object nextElement() {
             if(first.hasMoreElements()) {
                 return first.nextElement();

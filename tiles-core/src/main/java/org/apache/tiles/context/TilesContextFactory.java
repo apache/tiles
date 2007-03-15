@@ -52,8 +52,7 @@ public interface TilesContextFactory {
      * request, and response.
      *
      * @param context  the associated {@link TilesApplicationContext}
-     * @param request  the associated request.  Typically a ServletRequest or PortletRequest.
-     * @param response the associated response.  Typically a ServletResponse or PortletResponse.
+     * @param requestItems  the associated request items, typically a request and a response.
      * @return TilesRequestContext
      */
     TilesRequestContext createRequestContext(TilesApplicationContext context,
