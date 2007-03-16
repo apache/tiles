@@ -440,7 +440,7 @@ public class BasicTilesContainer implements TilesContainer {
         ComponentContext context = getComponentContext(requestItems);
         TilesRequestContext request = getRequestContext(requestItems);
 
-        String type = calculateType(attr, requestItems);
+        String type = calculateType(attr, request);
         if ("string".equalsIgnoreCase(type)) {
             writer.write(attr.getValue().toString());
             return;
@@ -477,18 +477,18 @@ public class BasicTilesContainer implements TilesContainer {
      * Calculates the type of an attribute.
      *
      * @param attr The attribute to check.
-     * @param requestItems The request items.
+     * @param request The request object.
      * @return The calculated attribute type.
      * @throws TilesException If the type is not recognized.
      */
     private String calculateType(ComponentAttribute attr,
-            Object... requestItems) throws TilesException {
+            TilesRequestContext request) throws TilesException {
         String type = attr.getType();
         if (type == null) {
             Object valueContent = attr.getValue();
             if (valueContent instanceof String) {
                 String valueString = (String) valueContent;
-                if (isValidDefinition(valueString, requestItems)) {
+                if (isValidDefinition(request, valueString)) {
                     type = ComponentAttribute.DEFINITION;
                 } else if (valueString.startsWith("/")) {
                     type = ComponentAttribute.TEMPLATE;
