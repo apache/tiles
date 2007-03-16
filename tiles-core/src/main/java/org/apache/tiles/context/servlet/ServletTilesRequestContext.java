@@ -39,10 +39,19 @@ import java.util.Map;
  */
 public class ServletTilesRequestContext extends ServletTilesApplicationContext implements TilesRequestContext {
     
+    /**
+     * The logging object.
+     */
     private static final Log LOG = LogFactory.getLog(ServletTilesRequestContext.class);
 
+    /**
+     * The request object to use.
+     */
     private HttpServletRequest request;
 
+    /**
+     * The response object to use.
+     */
     private HttpServletResponse response;
 
 
@@ -88,6 +97,10 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
 
     /**
      * Creates a new instance of ServletTilesRequestContext
+     *
+     * @param servletContext The servlet context.
+     * @param request The request object.
+     * @param response The response object.
      */
     public ServletTilesRequestContext(ServletContext servletContext,
                                       HttpServletRequest request,
@@ -97,6 +110,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
+    /** {@inheritDoc} */
     public Map<String, String> getHeader() {
 
         if ((header == null) && (request != null)) {
@@ -107,6 +121,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
+    /** {@inheritDoc} */
     public Map<String, String[]> getHeaderValues() {
 
         if ((headerValues == null) && (request != null)) {
@@ -117,6 +132,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
+    /** {@inheritDoc} */
     public Map<String, String> getParam() {
 
         if ((param == null) && (request != null)) {
@@ -127,6 +143,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
+    /** {@inheritDoc} */
     public Map<String, String[]> getParamValues() {
 
         if ((paramValues == null) && (request != null)) {
@@ -137,6 +154,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
+    /** {@inheritDoc} */
     public Map<String, Object> getRequestScope() {
 
         if ((requestScope == null) && (request != null)) {
@@ -147,6 +165,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
+    /** {@inheritDoc} */
     public Map<String, Object> getSessionScope() {
 
         if ((sessionScope == null) && (request != null)) {
@@ -156,6 +175,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
 
     }
 
+    /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {
     	if (response.isCommitted()) {
     		include(path);
@@ -164,6 +184,12 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     	}
     }
 
+    /**
+     * Forwards to a path.
+     *
+     * @param path The path to forward to.
+     * @throws IOException If something goes wrong during the operation.
+     */
     private void forward( String path ) throws IOException {
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
@@ -175,6 +201,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
 	}
 
 
+    /** {@inheritDoc} */
 	public void include(String path) throws IOException{
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
@@ -185,14 +212,17 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         }
     }
 
+    /** {@inheritDoc} */
     public Locale getRequestLocale() {
         return request.getLocale();
     }
 
+    /** {@inheritDoc} */
     public HttpServletRequest getRequest() {
         return request;
     }
 
+    /** {@inheritDoc} */
     public HttpServletResponse getResponse() {
         return response;
     }
@@ -237,6 +267,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
 
+    /** {@inheritDoc} */
     public boolean isUserInRole(String role) {
         return request.isUserInRole(role);
     }

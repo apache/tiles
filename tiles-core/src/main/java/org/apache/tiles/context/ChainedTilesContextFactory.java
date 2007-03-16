@@ -37,17 +37,30 @@ import java.util.Map;
  */
 public class ChainedTilesContextFactory implements TilesContextFactory {
 
+    /**
+     * Factory class names initialization parameter to use.
+     */
     public static final String FACTORY_CLASS_NAMES = "org.apache.tiles.context.ChainTilesContextFactory.FACTORY_CLASS_NAMES";
 
+    /**
+     * The default class names to instantiate that compose the chain..
+     */
     public static final String[] DEFAULT_FACTORY_CLASS_NAMES = {
             "org.apache.tiles.context.servlet.ServletTilesContextFactory",
             "org.apache.tiles.context.portlet.PortletTilesContextFactory",
             "org.apache.tiles.jsp.context.JspTilesContextFactory" };
     
+    /**
+     * The logging object.
+     */
     private static Log LOG = LogFactory.getLog(ChainedTilesContextFactory.class);
 
+    /**
+     * The Tiles context factories composing the chain.
+     */
     private TilesContextFactory[] factories;
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
 	public void init(Map<String, String> configParameters) {
         String[] classNames = null;
@@ -87,9 +100,7 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
         }
     }
 
-    /**
-     * Creates a TilesApplicationContext from the given context.
-     */
+    /** {@inheritDoc} */
     public TilesApplicationContext createApplicationContext(Object context) {
         TilesApplicationContext retValue = null;
 
@@ -105,6 +116,7 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
         return retValue;
     }
 
+    /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(
             TilesApplicationContext context, Object... requestItems) {
         TilesRequestContext retValue = null;

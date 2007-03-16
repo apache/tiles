@@ -31,12 +31,24 @@ import java.io.Serializable;
  */
 public class SimpleMenuItem implements MenuItem, Serializable {
 
+    /**
+     * The value of the item, i.e. what is really visible to the user.
+     */
     private String value = null;
 
+    /**
+     * The link where the menu item points to.
+     */
     private String link = null;
 
+    /**
+     * The (optional) icon image URL.
+     */
     private String icon = null;
 
+    /**
+     * The (optional) tooltip text.
+     */
     private String tooltip = null;
 
     /**
@@ -47,64 +59,78 @@ public class SimpleMenuItem implements MenuItem, Serializable {
     }
 
     /**
-     * Set value property.
+     * Sets the value of the item, i.e. what is really visible to the user.
+     *
+     * @param value The value of the item.  
      */
     public void setValue(String value) {
         this.value = value;
     }
 
     /**
-     * Get value property.
+     * Returns the value of the item, i.e. what is really visible to the user.
+     *
+     * @return The value of the item.  
      */
     public String getValue() {
         return value;
     }
 
     /**
-     * Set link property.
+     * Sets the link where the menu item points to.
+     *
+     * @param link The link.
      */
     public void setLink(String link) {
         this.link = link;
     }
 
     /**
-     * Get link property.
+     * Returns the link where the menu item points to.
+     *
+     * @return The link.
      */
     public String getLink() {
         return link;
     }
 
     /**
-     * Set icon property.
+     * Sets the (optional) icon image URL.
+     *
+     * @param icon The icon URL.
      */
     public void setIcon(String icon) {
         this.icon = icon;
     }
 
     /**
-     * Get icon property.
+     * Returns the (optional) icon image URL.
+     *
+     * @return The icon URL.
      */
     public String getIcon() {
         return icon;
     }
 
     /**
-     * Set tooltip property.
+     * Sets the (optional) tooltip text.
+     *
+     * @param tooltip The tooltip text.
      */
     public void setTooltip(String tooltip) {
         this.tooltip = tooltip;
     }
 
     /**
-     * Get tooltip property.
+     * Returns the (optional) tooltip text.
+     *
+     * @return The tooltip text.
      */
     public String getTooltip() {
         return tooltip;
     }
 
-    /**
-     * Return String representation.
-     */
+    /** {@inheritDoc} */
     public String toString() {
         StringBuffer buff = new StringBuffer("SimpleMenuItem[");
 

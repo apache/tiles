@@ -80,8 +80,14 @@ public class UrlDefinitionsFactory
     private List<Locale> processedLocales;
 
 
+    /**
+     * The definitions holder object.
+     */
     private ComponentDefinitions definitions;
     
+    /**
+     * The locale resolver object.
+     */
     private LocaleResolver localeResolver;
 
     /**
@@ -100,7 +106,7 @@ public class UrlDefinitionsFactory
      * the params Map.
      *
      * @param params The Map of configuration properties.
-     * @throws DefinitionsFactoryException if an initialization error occurs.
+     * @throws TilesException if an initialization error occurs.
      */
     public void init(Map<String, String> params) throws TilesException {
         String readerClassName =
@@ -123,6 +129,13 @@ public class UrlDefinitionsFactory
         localeResolver.init(params);
     }
 
+    /**
+     * Returns the definitions holder object.
+     *
+     * @return The definitions holder.
+     * @throws DefinitionsFactoryException If something goes wrong during
+     * reading definitions.
+     */
     protected ComponentDefinitions getComponentDefinitions()
         throws DefinitionsFactoryException {
         if (definitions == null) {
@@ -255,8 +268,9 @@ public class UrlDefinitionsFactory
      * Creates and returns a {@link ComponentDefinitions} set by reading
      * configuration data from the applied sources.
      *
+     * @return The definitions holder object, filled with base definitions.
      * @throws DefinitionsFactoryException if an error occurs reading the
-     *                                     sources.
+     * sources.
      */
     public ComponentDefinitions readDefinitions()
         throws DefinitionsFactoryException {
@@ -373,6 +387,7 @@ public class UrlDefinitionsFactory
     }
 
 
+    /** {@inheritDoc} */
     public void refresh() throws DefinitionsFactoryException {
         LOG.debug("Updating Tiles definitions. . .");
         synchronized (definitions) {
@@ -386,6 +401,8 @@ public class UrlDefinitionsFactory
     /**
      * Indicates whether the DefinitionsFactory is out of date and needs to be
      * reloaded.
+     * 
+     * @return If the factory needs refresh.
      */
     public boolean refreshRequired() {
         boolean status = false;

@@ -88,6 +88,8 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      *
      * @param defsMap The new definitions to add.
      * @param locale  The locale to add the definitions to.
+     * @throws NoSuchDefinitionException If something goes wrong during
+     * inheritance resolution.
      */
     public void addDefinitions(Map<String, ComponentDefinition> defsMap, Locale locale) throws NoSuchDefinitionException {
         localeSpecificDefinitions.put(locale, defsMap);
@@ -123,6 +125,8 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     /**
      * Resolve extended instances.
+     *
+     * @throws NoSuchDefinitionException If a parent definition is not found. 
      */
     public void resolveInheritances() throws NoSuchDefinitionException {
         for (ComponentDefinition definition : baseDefinitions.values()) {
@@ -132,6 +136,9 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     /**
      * Resolve locale-specific extended instances.
+     *
+     * @param locale The locale to use. 
+     * @throws NoSuchDefinitionException If a parent definition is not found.
      */
     public void resolveInheritances(Locale locale) throws NoSuchDefinitionException {
         resolveInheritances();
@@ -154,11 +161,19 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     /**
      * Returns base definitions collection;
+     *
+     * @return The base (i.e. not depending on any locale) definitions map. 
      */
     public Map<String, ComponentDefinition> getBaseDefinitions() {
         return baseDefinitions;
     }
 
+    /**
+     * Checks if an attribute is of type "definition".
+     *
+     * @param attr The attribute to check.
+     * @return <code>true</code> if the attribute is a definition.
+     */
     private boolean isDefinitionType(ComponentAttribute attr) {
         boolean explicit = (attr.getType() != null &&
             (attr.getType().equalsIgnoreCase("definition") ||
@@ -173,6 +188,12 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
 
     }
 
+    /**
+     * Resolves attribute dependencies for the given locale. If the locale is
+     * <code>null</code>, it resolves base attribute dependencies.
+     * 
+     * @param locale The locale to use.
+     */
     protected void resolveAttributeDependencies(Locale locale) {
         if (locale != null) {
             resolveAttributeDependencies(null); // FIXME Is it necessary?
@@ -224,7 +245,9 @@ public class ComponentDefinitionsImpl implements ComponentDefinitions {
      * template.
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
-     *
+     * 
+     * @param definition The definition to resolve
+     * @param locale The locale to use.
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
      */
     protected void resolveInheritance(ComponentDefinition definition,

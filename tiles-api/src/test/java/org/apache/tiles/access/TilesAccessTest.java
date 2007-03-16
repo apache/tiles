@@ -34,12 +34,21 @@ import junit.framework.TestCase;
  */
 public class TilesAccessTest extends TestCase {
 
+    /**
+     * The servlet context to use.
+     */
     private ServletContext context;
 
+    /** {@inheritDoc} */
     public void setUp() {
         context = EasyMock.createMock(ServletContext.class);
     }
 
+    /**
+     * Tests the setting of the context.
+     *
+     * @throws TilesException If something goes wrong.
+     */
     public void testSetContext() throws TilesException {
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         context.setAttribute(TilesAccess.CONTAINER_ATTRIBUTE,container);
@@ -48,6 +57,11 @@ public class TilesAccessTest extends TestCase {
         EasyMock.verify(context);
     }
 
+    /**
+     * Tests the getting of the context.
+     *
+     * @throws TilesException If something goes wrong.
+     */
     public void testGetContext() throws TilesException {
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         EasyMock.expect(context.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);

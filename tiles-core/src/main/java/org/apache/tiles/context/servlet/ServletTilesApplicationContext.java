@@ -34,12 +34,15 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * Servlet-bsed implementation of the TilesApplicationContext interface.
+ * Servlet-based implementation of the TilesApplicationContext interface.
  *
  * @version $Rev$ $Date$
  */
 public class ServletTilesApplicationContext implements TilesApplicationContext {
 
+    /**
+     * The servlet context to use.
+     */
     private ServletContext servletContext;
 
 
@@ -59,12 +62,15 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
 
     /**
      * Creates a new instance of ServletTilesApplicationContext
+     *
+     * @param servletContext The servlet context to use. 
      */
     public ServletTilesApplicationContext(ServletContext servletContext) {
         initialize(servletContext);
     }
 
 
+    /** {@inheritDoc} */
     public Map<String, Object> getApplicationScope() {
 
         if ((applicationScope == null) && (servletContext != null)) {
@@ -75,6 +81,7 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
     }
 
 
+    /** {@inheritDoc} */
     public Map<String, String> getInitParams() {
 
         if ((initParam == null) && (servletContext != null)) {
@@ -84,16 +91,23 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
 
     }
 
+    /** {@inheritDoc} */
     public URL getResource(String path) throws MalformedURLException {
         return servletContext.getResource(path);
     }
 
+    /** {@inheritDoc} */
     public Set<URL> getResources(String path) throws MalformedURLException {
         HashSet<URL> urls = new HashSet<URL>();
         urls.add(getResource(path));
         return urls;
     }
 
+    /**
+     * Returns the servlet context.
+     *
+     * @return The servlet context.
+     */
     public ServletContext getServletContext() {
         return servletContext;
     }
@@ -130,6 +144,13 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
 
     }
 
+    /**
+     * Creates a servlet context for a given request/response pair.
+     *
+     * @param request The request object.
+     * @param response The response object.
+     * @return The corresponding Tiles request context.
+     */
     public TilesRequestContext createRequestContext(Object request, Object response) {
         if (request instanceof HttpServletRequest) {
             return new ServletTilesRequestContext(

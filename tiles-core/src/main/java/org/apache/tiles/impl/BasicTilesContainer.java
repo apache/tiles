@@ -79,12 +79,29 @@ public class BasicTilesContainer implements TilesContainer {
     private static final Log LOG =
         LogFactory.getLog(BasicTilesContainer.class);
 
+    /**
+     * The Tiles application context object.
+     */
     private TilesApplicationContext context;
+
+    /**
+     * The definitions factory. 
+     */
     private DefinitionsFactory definitionsFactory;
+
+    /**
+     * The preparer factory.
+     */
     private PreparerFactory preparerFactory;
 
+    /**
+     * The Tiles context factory.
+     */
     private TilesContextFactory contextFactory;
 
+    /**
+     * Initialization flag. If set, this container cannot be changed.
+     */
     private boolean initialized = false;
 
     /**
@@ -106,22 +123,35 @@ public class BasicTilesContainer implements TilesContainer {
         		initParameters);
     }
 
+    /** {@inheritDoc} */
 	public ComponentContext startContext(Object... requestItems) {
         TilesRequestContext tilesContext = getRequestContext(requestItems);
 		return startContext(tilesContext);
 	}
 
+    /** {@inheritDoc} */
     public void endContext(Object... requestItems) {
         TilesRequestContext tilesContext = getRequestContext(requestItems);
         endContext(tilesContext);
     }
     
+    /**
+     * Starts a component context inside the container.
+     *
+     * @param tilesContext The request context to use.
+     * @return The newly created component context.
+     */
     private ComponentContext startContext(TilesRequestContext tilesContext) {
         ComponentContext context = new BasicComponentContext();
         BasicComponentContext.pushContext(context, tilesContext);
         return context;
     }
 
+    /**
+     * Releases and removes a previously created component context.
+     *
+     * @param tilesContext The request context to use.
+     */
     private void endContext(TilesRequestContext tilesContext) {
         BasicComponentContext.popContext(tilesContext);
     }
@@ -185,16 +215,28 @@ public class BasicTilesContainer implements TilesContainer {
         return context;
     }
 
+    /**
+     * Sets the Tiles application context to use.
+     *
+     * @param context The Tiles application context.
+     */
     public void setApplicationContext(TilesApplicationContext context) {
         this.context = context;
     }
 
+    /** {@inheritDoc} */
     public ComponentContext getComponentContext(Object... requestItems) {
         TilesRequestContext tilesContext = getRequestContext(requestItems);
         return getComponentContext(tilesContext);
 
     }
 
+    /**
+     * Returns the current component context.
+     *
+     * @param tilesContext The request context to use.
+     * @return The current component context.
+     */
     private ComponentContext getComponentContext(TilesRequestContext tilesContext) {
         ComponentContext context = BasicComponentContext.getContext(tilesContext);
         if (context == null) {
@@ -204,6 +246,12 @@ public class BasicTilesContainer implements TilesContainer {
         return context;
     }
 
+    /**
+     * Creates a Tiles request context from request items.
+     *
+     * @param requestItems The request items.
+     * @return The created Tiles request context.
+     */
     private TilesRequestContext getRequestContext(Object... requestItems) {
         return getContextFactory().createRequestContext(
             getApplicationContext(),
@@ -211,19 +259,29 @@ public class BasicTilesContainer implements TilesContainer {
         );
     }
 
+    /**
+     * Returns the context factory.
+     *
+     * @return The context factory.
+     */
     public TilesContextFactory getContextFactory() {
         return contextFactory;
     }
 
+    /**
+     * Sets the context factory.
+     *
+     * @param contextFactory The context factory.
+     */
     public void setContextFactory(TilesContextFactory contextFactory) {
         checkInit();
         this.contextFactory = contextFactory;
     }
 
     /**
-     * Standard Getter
+     * Returns the definitions factory.
      *
-     * @return the definitions factory used by this container.
+     * @return The definitions factory used by this container.
      */
     public DefinitionsFactory getDefinitionsFactory() {
         return definitionsFactory;
@@ -259,6 +317,7 @@ public class BasicTilesContainer implements TilesContainer {
         this.preparerFactory = preparerFactory;
     }
 
+    /** {@inheritDoc} */
     public void prepare(String preparer, Object... requestItems)
         throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
@@ -268,6 +327,17 @@ public class BasicTilesContainer implements TilesContainer {
         prepare(requestContext, preparer, false);
     }
 
+    /**
+     * Execute a preparer.
+     *
+     * @param context The request context.
+     * @param preparerName The name of the preparer.
+     * @param ignoreMissing If <code>true</code> if the preparer is not found,
+     * it ignores the problem.
+     * @throws TilesException If the preparer is not found (and
+     * <code>ignoreMissing</code> is not set) or if the preparer itself threw an
+     * exception.
+     */
     private void prepare(TilesRequestContext context, String preparerName, boolean ignoreMissing)
         throws TilesException {
 
@@ -294,12 +364,7 @@ public class BasicTilesContainer implements TilesContainer {
         }
     }
 
-    /**
-     * Render the specified definition.
-     * @param requestItems the TilesRequestContext
-     *
-     * @throws TilesException
-     */
+    /** {@inheritDoc} */
     public void render(String definitionName, Object... requestItems)
         throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
@@ -309,6 +374,13 @@ public class BasicTilesContainer implements TilesContainer {
         render(requestContext, definitionName);
     }
 
+    /**
+     * Renders the specified definition.
+     *
+     * @param request The request context. 
+     * @param definitionName The name of the definition to render.
+     * @throws TilesException If something goes wrong during rendering.
+     */
     private void render(TilesRequestContext request, String definitionName)
         throws TilesException {
 
@@ -362,6 +434,7 @@ public class BasicTilesContainer implements TilesContainer {
         }
     }
 
+    /** {@inheritDoc} */
     public void render(ComponentAttribute attr, Writer writer, Object... requestItems)
         throws TilesException, IOException {
         ComponentContext context = getComponentContext(requestItems);
@@ -388,11 +461,26 @@ public class BasicTilesContainer implements TilesContainer {
         }
     }
 
+    /**
+     * Checks if an attribute contains a definition.
+     *
+     * @param attr The attribute to check.
+     * @param requestItems The request items.
+     * @return <code>true</code> if the attribute is a definition.
+     */
     private boolean isDefinition(ComponentAttribute attr, Object... requestItems) {
         return ComponentAttribute.DEFINITION.equals(attr.getType()) ||
             isValidDefinition(attr.getValue().toString(), requestItems);
     }
 
+    /**
+     * Calculates the type of an attribute.
+     *
+     * @param attr The attribute to check.
+     * @param requestItems The request items.
+     * @return The calculated attribute type.
+     * @throws TilesException If the type is not recognized.
+     */
     private String calculateType(ComponentAttribute attr,
             Object... requestItems) throws TilesException {
         String type = attr.getType();
@@ -416,12 +504,29 @@ public class BasicTilesContainer implements TilesContainer {
         return type;
     }
 
+    /**
+     * Returns a definition specifying its name.
+     *
+     * @param definitionName The name of the definition to find.
+     * @param request The request context.
+     * @return The definition, if found.
+     * @throws DefinitionsFactoryException If the definitions factory throws an
+     * exception.
+     */
     protected ComponentDefinition getDefinition(String definitionName, TilesRequestContext request) throws DefinitionsFactoryException {
         ComponentDefinition definition =
             definitionsFactory.getDefinition(definitionName, request);
         return definition;
     }
 
+    /**
+     * Checks if the current user is in one of the comma-separated roles
+     * specified in the <code>role</code> parameter.
+     *
+     * @param request The request context.
+     * @param role The comma-separated list of roles.
+     * @return <code>true</code> if the current user is in one of those roles.
+     */
     private boolean isPermitted(TilesRequestContext request, String role) {
         if (role == null) {
             return true;
@@ -484,10 +589,19 @@ public class BasicTilesContainer implements TilesContainer {
         return filenames;
     }
 
+    /** {@inheritDoc} */
     public boolean isValidDefinition(String definitionName, Object... requestItems) {
         return isValidDefinition(getRequestContext(requestItems), definitionName);
     }
 
+    /**
+     * Checks if a string is a valid definition name.
+     *
+     * @param context The request context.
+     * @param definitionName The name of the definition to find.
+     * @return <code>true</code> if <code>definitionName</code> is a valid
+     * definition name.
+     */
     private boolean isValidDefinition(TilesRequestContext context, String definitionName) {
         try {
             ComponentDefinition definition = getDefinition(definitionName, context);

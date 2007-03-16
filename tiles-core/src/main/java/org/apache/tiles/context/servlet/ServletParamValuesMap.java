@@ -37,24 +37,35 @@ import java.util.*;
 final class ServletParamValuesMap implements Map<String, String[]> {
 
 
+    /**
+     * Constructor.
+     *
+     * @param request The request object to use.
+     */
     public ServletParamValuesMap(ServletRequest request) {
         this.request = request;
     }
 
 
+    /**
+     * The request object to use.
+     */
     private ServletRequest request = null;
 
 
+    /** {@inheritDoc} */
     public void clear() {
         throw new UnsupportedOperationException();
     }
 
 
+    /** {@inheritDoc} */
     public boolean containsKey(Object key) {
         return (request.getParameter(key(key)) != null);
     }
 
 
+    /** {@inheritDoc} */
     public boolean containsValue(Object value) {
         if (!(value instanceof String[])) {
             return (false);
@@ -80,6 +91,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     }
 
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, String[]>> entrySet() {
         Set<Map.Entry<String, String[]>> set = new HashSet<Map.Entry<String, String[]>>();
@@ -94,26 +106,31 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     }
 
 
+    /** {@inheritDoc} */
     public boolean equals(Object o) {
         return (request.equals(o));
     }
 
 
+    /** {@inheritDoc} */
     public String[] get(Object key) {
         return (request.getParameterValues(key(key)));
     }
 
 
+    /** {@inheritDoc} */
     public int hashCode() {
         return (request.hashCode());
     }
 
 
+    /** {@inheritDoc} */
     public boolean isEmpty() {
         return (size() < 1);
     }
 
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
@@ -125,21 +142,25 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     }
 
 
+    /** {@inheritDoc} */
     public String[] put(String key, String[] value) {
         throw new UnsupportedOperationException();
     }
 
 
+    /** {@inheritDoc} */
     public void putAll(Map<? extends String, ? extends String[]> map) {
         throw new UnsupportedOperationException();
     }
 
 
+    /** {@inheritDoc} */
     public String[] remove(Object key) {
         throw new UnsupportedOperationException();
     }
 
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
@@ -152,6 +173,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     }
 
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Collection<String[]> values() {
         List<String[]> list = new ArrayList<String[]>();
@@ -163,6 +185,13 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     }
 
 
+    /**
+     * Returns the string representation of the key.
+     *
+     * @param key The key.
+     * @return The string representation of the key.
+     * @throws IllegalArgumentException If the key is <code>null</code>.
+     */
     private String key(Object key) {
         if (key == null) {
             throw new IllegalArgumentException();

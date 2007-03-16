@@ -50,22 +50,43 @@ import java.util.Map;
  */
 public class TilesContainerFactory {
 
+    /**
+     * Initialization parameter that represents the container factory class
+     * name.
+     */
     public static final String CONTAINER_FACTORY_INIT_PARAM =
         "org.apache.tiles.CONTAINER_FACTORY";
 
+    /**
+     * Initialization parameter that indicates if the container factory is
+     * mutable.
+     */
     public static final String CONTAINER_FACTORY_MUTABLE_INIT_PARAM =
         "org.apache.tiles.CONTAINER_FACTORY.mutable";
 
+    /**
+     * Initialization parameter that represents the context factory class name.
+     */
     public static final String CONTEXT_FACTORY_INIT_PARAM =
         "org.apache.tiles.CONTEXT_FACTORY";
 
+    /**
+     * Initialization parameter that represents the definitions factory class
+     * name.
+     */
     public static final String DEFINITIONS_FACTORY_INIT_PARAM =
         "org.apache.tiles.DEFINITIONS_FACTORY";
 
+    /**
+     * Initialization parameter that represents the preparer factory class name.
+     */
     public static final String PREPARER_FACTORY_INIT_PARAM =
         "org.apache.tiles.PREPARER_FACTORY";
 
 
+    /**
+     * Default configuration parameters.
+     */
     private static final Map<String, String> DEFAULTS =
         new HashMap<String, String>();
 
@@ -76,6 +97,9 @@ public class TilesContainerFactory {
         DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
     }
 
+    /**
+     * The default configuration to be used by the factory.
+     */
     protected Map<String, String> defaultConfiguration =
         new HashMap<String, String>(DEFAULTS);
 
@@ -100,17 +124,16 @@ public class TilesContainerFactory {
     }
 
     /**
-     * Retrieve a factory instance as configured through the
-     * specified context.
-     * <p/>
-     * The context will be queried and if a init parameter
-     * named 'org.apache.tiles.CONTAINER_FACTORY' is discovered
-     * this class will be instantiated and returned. Otherwise,
-     * the factory will attempt to utilize one of it's internal
-     * factories.
-     *
-     * @param context the executing applications context.
-     *                Typically a ServletContext or PortletContext
+     * Retrieve a factory instance as configured through the specified context.
+     * <p/> The context will be queried and if a init parameter named
+     * 'org.apache.tiles.CONTAINER_FACTORY' is discovered this class will be
+     * instantiated and returned. Otherwise, the factory will attempt to utilize
+     * one of it's internal factories.
+     * 
+     * @param context the executing applications context. Typically a
+     * ServletContext or PortletContext
+     * @param defaults Default configuration parameters values, used if the
+     * context object has not the corresponding parameters.
      * @return a tiles container
      * @throws TilesException if an error occurs creating the factory.
      */
@@ -126,6 +149,13 @@ public class TilesContainerFactory {
         return factory;
     }
 
+    /**
+     * Creates a Tiles container.
+     *
+     * @param context The (application) context object.
+     * @return The created container.
+     * @throws TilesException If something goes wrong during instantiation.
+     */
     public TilesContainer createContainer(Object context) throws TilesException {
         String value = getInitParameter(context, CONTAINER_FACTORY_MUTABLE_INIT_PARAM);
         if (Boolean.parseBoolean(value)) {
@@ -135,16 +165,34 @@ public class TilesContainerFactory {
         }
     }
 
+    /**
+     * Sets the default configuration parameters.
+     *
+     * @param defaultConfiguration The default configuration parameters.
+     */
     public void setDefaultConfiguration(Map<String, String> defaultConfiguration) {
         if (defaultConfiguration != null) {
             this.defaultConfiguration.putAll(defaultConfiguration);
         }
     }
 
+    /**
+     * Sets one default configuration parameter value.
+     *
+     * @param key The key of the configuration parameter.
+     * @param value The value of the configuration parameter.
+     */
     public void setDefaultValue(String key, String value) {
         this.defaultConfiguration.put(key, value);
     }
 
+    /**
+     * Creates an immutable Tiles container.
+     *
+     * @param context The (application) context object.
+     * @return The created Tiles container.
+     * @throws TilesException If something goes wrong during initialization.
+     */
     public TilesContainer createTilesContainer(Object context)
         throws TilesException {
         BasicTilesContainer container = new BasicTilesContainer();
@@ -152,6 +200,13 @@ public class TilesContainerFactory {
         return container;
     }
 
+    /**
+     * Creates a mutable Tiles container.
+     *
+     * @param context The (application) context object.
+     * @return The created Tiles container.
+     * @throws TilesException If something goes wrong during initialization.
+     */
     public MutableTilesContainer createMutableTilesContainer(Object context)
         throws TilesException {
         CachingTilesContainer container = new CachingTilesContainer();
@@ -159,6 +214,13 @@ public class TilesContainerFactory {
         return container;
     }
 
+    /**
+     * Initializes a container.
+     *
+     * @param context The (application) context object to use.
+     * @param container The container to be initialized.
+     * @throws TilesException If something goes wrong during initialization.
+     */
     protected void initializeContainer(Object context,
                                        BasicTilesContainer container)
         throws TilesException {
@@ -171,6 +233,17 @@ public class TilesContainerFactory {
         container.init(initParameterMap);
     }
 
+    /**
+     * Stores container dependencies, that is called before
+     * {@link TilesContainer#init(Map)}
+     *
+     * @param context The (application) context object to use.
+     * @param initParameters The initialization parameters.
+     * @param configuration The merged configuration parameters (both defaults
+     * and context ones).
+     * @param container The container to use.
+     * @throws TilesException If something goes wrong during initialization.
+     */
     protected void storeContainerDependencies(Object context,
                                               Map<String, String> initParameters,
                                               Map<String, String> configuration,
@@ -198,12 +271,31 @@ public class TilesContainerFactory {
     }
 
 
+    /**
+     * Creates a factory instance.
+     *
+     * @param configuration The merged configuration parameters (both defaults
+     * and context ones).
+     * @param initParameterName The initialization parameter name from which the
+     * class name is got.
+     * @return The created factory.
+     * @throws TilesException If something goes wrong during creation.
+     */
     protected static Object createFactory(Map<String, String> configuration, String initParameterName)
         throws TilesException {
         String factoryName = resolveFactoryName(configuration, initParameterName);
         return ClassUtil.instantiate(factoryName);
     }
 
+    /**
+     * Resolves a factory class name.
+     *
+     * @param configuration The merged configuration parameters (both defaults
+     * and context ones).
+     * @param parameterName The name of the initialization parameter to use.
+     * @return The factory class name.
+     * @throws TilesException If something goes wrong during resolution.
+     */
     protected static String resolveFactoryName(Map<String, String> configuration, String parameterName)
         throws TilesException {
         Object factoryName = configuration.get(parameterName);
@@ -212,6 +304,14 @@ public class TilesContainerFactory {
             : factoryName.toString();
     }
 
+    /**
+     * Returns the value of an initialization parameter.
+     *
+     * @param context The (application) context object to use.
+     * @param parameterName The parameter name to retrieve.
+     * @return The parameter value.
+     * @throws TilesException If the context has not been recognized.
+     */
     protected static String getInitParameter(Object context,
                                              String parameterName) throws TilesException {
         Object value;
@@ -227,6 +327,13 @@ public class TilesContainerFactory {
         return value == null ? null : value.toString();
     }
 
+    /**
+     * Returns a map containing parameters name-value entries.
+     * 
+     * @param context The (application) context object to use.
+     * @return The initialization parameters map.
+     * @throws TilesException If the context object has not been recognized.
+     */
     @SuppressWarnings("unchecked")
     protected static Map<String, String> getInitParameterMap(Object context)
         throws TilesException {

@@ -33,58 +33,78 @@ import java.io.IOException;
  */
 public class TilesRequestContextWrapper implements TilesRequestContext {
 
+    /**
+     * The wrapper request context object.
+     */
     private TilesRequestContext context;
 
 
+    /**
+     * Constructor.
+     *
+     * @param context The request context to wrap.
+     */
     public TilesRequestContextWrapper(TilesRequestContext context) {
         this.context = context;
     }
 
+    /** {@inheritDoc} */
     public Map<String, String> getHeader() {
         return context.getHeader();
     }
 
+    /** {@inheritDoc} */
     public Map<String, String[]> getHeaderValues() {
         return context.getHeaderValues();
     }
 
+    /** {@inheritDoc} */
     public Map<String, Object> getRequestScope() {
         return context.getRequestScope();
     }
 
+    /** {@inheritDoc} */
     public Map<String, Object> getSessionScope() {
         return context.getSessionScope();
     }
 
+    /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {
         context.dispatch(path);
     }
 
+    /** {@inheritDoc} */
     public void include(String path) throws IOException {
         context.include(path);
     }
 
+    /** {@inheritDoc} */
     public Map<String, String> getParam() {
         return context.getParam();
     }
 
+    /** {@inheritDoc} */
     public Map<String, String[]> getParamValues() {
         return context.getParamValues();
     }
 
+    /** {@inheritDoc} */
     public Locale getRequestLocale() {
         return context.getRequestLocale();
     }
 
+    /** {@inheritDoc} */
     public boolean isUserInRole(String role) {
         return context.isUserInRole(role);
     }
 
 
+    /** {@inheritDoc} */
     public Object getResponse() {
         return context.getResponse();
     }
 
+    /** {@inheritDoc} */
     public Object getRequest() {
         return context.getRequest();
     }

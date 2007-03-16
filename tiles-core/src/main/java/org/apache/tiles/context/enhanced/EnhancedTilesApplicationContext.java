@@ -49,32 +49,56 @@ import java.io.IOException;
  */
 public class EnhancedTilesApplicationContext implements TilesApplicationContext {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG =
         LogFactory.getLog(EnhancedTilesApplicationContext.class);
 
+    /**
+     * The root context to be wrapped.
+     */
     private TilesApplicationContext rootContext;
 
+    /**
+     * Constructor.
+     *
+     * @param rootContext The root context to use.
+     */
     public EnhancedTilesApplicationContext(TilesApplicationContext rootContext) {
         this.rootContext = rootContext;
     }
 
 
+    /**
+     * Returns the root context.
+     *
+     * @return The root context.
+     */
     public TilesApplicationContext getRootContext() {
         return rootContext;
     }
 
+    /**
+     * Sets the root context.
+     *
+     * @param rootContext The root context.
+     */
     public void setRootContext(TilesApplicationContext rootContext) {
         this.rootContext = rootContext;
     }
 
+    /** {@inheritDoc} */
     public Map<String, Object> getApplicationScope() {
         return rootContext.getApplicationScope();
     }
 
+    /** {@inheritDoc} */
     public Map<String, String> getInitParams() {
         return rootContext.getInitParams();
     }
 
+    /** {@inheritDoc} */
     public URL getResource(String path) throws IOException {
         URL rootUrl = rootContext.getResource(path);
         if(rootUrl == null) {
@@ -87,6 +111,7 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
         return rootUrl;
     }
 
+    /** {@inheritDoc} */
     public Set<URL> getResources(String path) throws IOException {
         Set<URL> resources = new HashSet<URL>();
         resources.addAll(rootContext.getResources(path));
@@ -94,6 +119,13 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
         return resources;
     }
 
+    /**
+     * Searches for resources in the classpath, given a path.
+     *
+     * @param path The path to search into.
+     * @return The set of found URLs.
+     * @throws IOException If something goes wrong during search.
+     */
     public Set<URL> getClasspathResources(String path) throws IOException {
         Set<URL> resources = new HashSet<URL>();
         resources.addAll(searchResources(getClass().getClassLoader(), path));
@@ -110,6 +142,14 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
         return resources;
     }
 
+    /**
+     * Searches for resources in the classpath, given a path, using a class
+     * loader.
+     *
+     * @param loader The class loader to use.
+     * @param path The path to search into.
+     * @return The set of found URLs.
+     */
     protected Set<URL> searchResources(ClassLoader loader, String path) {
         Set<URL> resources = new HashSet<URL>();
         try {

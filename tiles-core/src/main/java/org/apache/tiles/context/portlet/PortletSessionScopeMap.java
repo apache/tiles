@@ -39,14 +39,23 @@ import java.util.*;
 final class PortletSessionScopeMap implements Map<String, Object> {
 
 
+    /**
+     * Constructor.
+     *
+     * @param session The portlet session to use.
+     */
     public PortletSessionScopeMap(PortletSession session) {
         this.session = session;
     }
 
 
+    /**
+     * The portlet session to use.
+     */
     private PortletSession session = null;
 
 
+    /** {@inheritDoc} */
     public void clear() {
         Iterator<String> keys = keySet().iterator();
         while (keys.hasNext()) {
@@ -55,11 +64,13 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     }
 
 
+    /** {@inheritDoc} */
     public boolean containsKey(Object key) {
         return (session.getAttribute(key(key)) != null);
     }
 
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
 	public boolean containsValue(Object value) {
         if (value == null) {
@@ -77,6 +88,7 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     }
 
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
 	public Set<Map.Entry<String, Object>> entrySet() {
         Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
@@ -91,26 +103,31 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     }
 
 
+    /** {@inheritDoc} */
     public boolean equals(Object o) {
         return (session.equals(o));
     }
 
 
+    /** {@inheritDoc} */
     public Object get(Object key) {
         return (session.getAttribute(key(key)));
     }
 
 
+    /** {@inheritDoc} */
     public int hashCode() {
         return (session.hashCode());
     }
 
 
+    /** {@inheritDoc} */
     public boolean isEmpty() {
         return (size() < 1);
     }
 
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
 	public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
@@ -123,6 +140,7 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     }
 
 
+    /** {@inheritDoc} */
     public Object put(String key, Object value) {
         if (value == null) {
             return (remove(key));
@@ -134,6 +152,7 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     }
 
 
+    /** {@inheritDoc} */
     public void putAll(Map<? extends String, ? extends Object> map) {
         Iterator<? extends String> keys = map.keySet().iterator();
         while (keys.hasNext()) {
@@ -143,6 +162,7 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     }
 
 
+    /** {@inheritDoc} */
     public Object remove(Object key) {
         String skey = key(key);
         Object previous = session.getAttribute(skey);
@@ -151,6 +171,7 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     }
 
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
 	public int size() {
         int n = 0;
@@ -164,6 +185,7 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     }
 
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
 	public Collection<Object> values() {
         List<Object> list = new ArrayList<Object>();
@@ -176,6 +198,13 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     }
 
 
+    /**
+     * Returns the string representation of the key.
+     *
+     * @param key The key.
+     * @return The string representation of the key.
+     * @throws IllegalArgumentException If the key is <code>null</code>.
+     */
     private String key(Object key) {
         if (key == null) {
             throw new IllegalArgumentException();
