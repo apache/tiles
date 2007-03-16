@@ -26,8 +26,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.context.ComponentListAttribute;
-
 /**
  * Common implementation of attribute definition.
  *
@@ -231,7 +229,7 @@ public class ComponentAttribute implements Serializable {
      *
      * @return The name of the attribute. It can be <code>null</code>, but in
      * this case it should be used as an element of
-     * {@link ComponentListAttribute}
+     * <code>ComponentListAttribute</code>
      */
     public String getName() {
         return name;
@@ -242,7 +240,7 @@ public class ComponentAttribute implements Serializable {
      *
      * @param name The name of the attribute. It can be <code>null</code>,
      * but in this case it should be used as an element of
-     * {@link ComponentListAttribute}
+     * <code>ComponentListAttribute</code>
      */
     public void setName(String name) {
         this.name = name;
