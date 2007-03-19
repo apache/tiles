@@ -27,16 +27,28 @@ import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.TilesException;
 
 /**
+ * Tests the basic preparer factory.
+ *
  * @version $Rev$ $Date$
  */
 public class BasicPreparerFactoryTest extends TestCase {
 
+    /**
+     * The preparer factory.
+     */
     private BasicPreparerFactory factory;
 
+    /** {@inheritDoc} */
+    @Override
     public void setUp() {
         factory = new BasicPreparerFactory();
     }
 
+    /**
+     * Tests getting a preparer.
+     *
+     * @throws TilesException If something goes wrong.
+     */
     public void testGetPreparer() throws TilesException {
         String name = ViewPreparerSupport.class.getName();
         ViewPreparer p = factory.getPreparer(name, null);

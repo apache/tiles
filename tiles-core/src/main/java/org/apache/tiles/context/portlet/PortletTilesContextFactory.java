@@ -40,12 +40,11 @@ import java.util.Map;
  */
 public class PortletTilesContextFactory implements TilesContextFactory {
 
+    /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {
     }
 
-    /**
-     * Creates a TilesApplicationContext from the given context.
-     */
+    /** {@inheritDoc} */
     public TilesApplicationContext createApplicationContext(Object context) {
         if (context instanceof PortletContext) {
             PortletContext portletContext = (PortletContext) context;
@@ -55,6 +54,7 @@ public class PortletTilesContextFactory implements TilesContextFactory {
         return null;
     }
 
+    /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
         if (requestItems.length == 2) {
@@ -70,6 +70,12 @@ public class PortletTilesContextFactory implements TilesContextFactory {
         return null;
     }
 
+    /**
+     * Returns the original portlet context.
+     *
+     * @param context The application context.
+     * @return The original portlet context, if found.
+     */
     protected PortletContext getPortletContext(TilesApplicationContext context) {
         if (context instanceof PortletTilesApplicationContext) {
             PortletTilesApplicationContext app = (PortletTilesApplicationContext) context;

@@ -39,8 +39,13 @@ import org.easymock.EasyMock;
  */
 public class BasicTilesContainerTest extends TestCase {
     
+    /**
+     * The container.
+     */
     private BasicTilesContainer container;
 
+    /** {@inheritDoc} */
+    @Override
     public void setUp() {
         ServletContext context = EasyMock.createMock(ServletContext.class);
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
@@ -67,6 +72,9 @@ public class BasicTilesContainerTest extends TestCase {
         }
     }
     
+    /**
+     * Tests basic Tiles container initialization.
+     */
     public void testInitialization() {
         assertNotNull(container);
         assertNotNull(container.getContextFactory());

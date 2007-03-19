@@ -42,6 +42,9 @@ import java.util.Map;
 public abstract class AttributeTagSupport extends TagSupport {
 
 
+    /**
+     * Maps scope names to their constants.
+     */
     private static final Map<String, Integer> scopes =
         new HashMap<String, Integer>();
 
@@ -53,19 +56,40 @@ public abstract class AttributeTagSupport extends TagSupport {
     }
 
 
+    /**
+     * The scope name.
+     */
     protected String scopeName = null;
 
+    /**
+     * The scope.
+     */
     protected int scope = PageContext.PAGE_SCOPE;
 
+    /**
+     * The name of the attribute.
+     */
     protected String name = null;
 
+    /**
+     * Flag that, if <code>true</code>, ignores exceptions.
+     */
     protected boolean ignore = false;
 
 
+    /**
+     * The Tiles container to use.
+     */
     protected TilesContainer container;
 
+    /**
+     * The current component context.
+     */
     protected ComponentContext componentContext;
 
+    /**
+     * The found attribute.
+     */
     protected ComponentAttribute attribute;
 
 
@@ -87,11 +111,13 @@ public abstract class AttributeTagSupport extends TagSupport {
         return scopeName;
     }
 
+    /** {@inheritDoc} */
     public void release() {
         scopeName = null;
         scope = PageContext.PAGE_SCOPE;
     }
 
+    /** {@inheritDoc} */
     public int doStartTag() throws JspException {
         container = TilesAccess.getContainer(pageContext.getServletContext());
         componentContext = container.getComponentContext(pageContext);
@@ -123,8 +149,15 @@ public abstract class AttributeTagSupport extends TagSupport {
         return SKIP_BODY;
     }
 
+    /**
+     * Execute this tag. It is called inside {@link #doEndTag()}.
+     *
+     * @throws JspException If something goes wrong during rendering.
+     * @throws IOException If something goes wrong during writing content.
+     */
     public abstract void execute() throws JspException, IOException;
 
+    /** {@inheritDoc} */
     public int doEndTag() {
         return EVAL_PAGE;
     }

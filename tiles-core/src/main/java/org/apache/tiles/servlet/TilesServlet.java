@@ -36,16 +36,30 @@ import javax.servlet.ServletException;
  */
 public class TilesServlet extends HttpServlet {
 
+    /**
+     * The private listener instance, that is used to initialize Tiles
+     * container.
+     */
     private TilesListener listener = new TilesListener();
 
+    /** {@inheritDoc} */
+    @Override
     public void destroy() {
         listener.contextDestroyed(createEvent());
     }
 
+    /** {@inheritDoc} */
+    @Override
     public void init() throws ServletException {
         listener.contextInitialized(createEvent());
     }
 
+    /**
+     * Creates an servlet context event starting for the servlet configuration
+     * object.
+     * 
+     * @return The servlet context event.
+     */
     private ServletContextEvent createEvent() {
         return new ServletContextEvent(
             new ServletContextAdapter(getServletConfig())

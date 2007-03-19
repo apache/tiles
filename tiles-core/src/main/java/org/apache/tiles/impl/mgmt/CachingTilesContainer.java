@@ -41,8 +41,12 @@ import org.apache.tiles.mgmt.MutableTilesContainer;
 public class CachingTilesContainer extends BasicTilesContainer
     implements MutableTilesContainer {
 
+    /**
+     * The definition manager to store custom and main definitions.
+     */
     private DefinitionManager mgr = new DefinitionManager();
 
+    /** {@inheritDoc} */
     public void register(TileDefinition definition, Object... requestItems) throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
                 getApplicationContext(),
@@ -51,6 +55,8 @@ public class CachingTilesContainer extends BasicTilesContainer
         register(definition, requestContext);
     }
 
+    /** {@inheritDoc} */
+    @Override
     protected ComponentDefinition getDefinition(String definition,
                                                 TilesRequestContext context)
         throws DefinitionsFactoryException {
@@ -58,15 +64,28 @@ public class CachingTilesContainer extends BasicTilesContainer
     }
 
 
+    /** {@inheritDoc} */
+    @Override
     public DefinitionsFactory getDefinitionsFactory() {
         return mgr.getFactory();
     }
 
+    /** {@inheritDoc} */
+    @Override
     public void setDefinitionsFactory(DefinitionsFactory definitionsFactory) {
         super.setDefinitionsFactory(definitionsFactory);
         mgr.setFactory(definitionsFactory);
     }
     
+    /**
+     * Registers a custom definition.
+     *
+     * @param definition The definition to register.
+     * @param request The request inside which the definition should be
+     * registered.
+     * @throws DefinitionsFactoryException If something goes wrong during adding
+     * a definition, such as missing parent definitions.
+     */
     protected void register(TileDefinition definition,
             TilesRequestContext request) throws DefinitionsFactoryException {
         ComponentDefinition def = new ComponentDefinition(definition);

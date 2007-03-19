@@ -60,6 +60,9 @@ public class TileDefinition {
     protected String preparer = null;
 
 
+    /**
+     * Constructor.
+     */
     public TileDefinition() {
         attributes = new HashMap<String, ComponentAttribute>();
     }
@@ -167,6 +170,8 @@ public class TileDefinition {
 
     /**
      * Get associated preparerInstance
+     *
+     * @return The preparer name.
      */
     public String getPreparer() {
         return preparer;

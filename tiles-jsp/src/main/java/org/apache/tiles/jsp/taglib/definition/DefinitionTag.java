@@ -42,61 +42,150 @@ import java.util.HashMap;
  *
  * @version $Rev$ $Date$
  */
+/**
+ * @author PTRNTN77A26E506O
+ *
+ */
+/**
+ * @author PTRNTN77A26E506O
+ *
+ */
+/**
+ * @author PTRNTN77A26E506O
+ *
+ */
 public class DefinitionTag extends TagSupport
     implements PutAttributeTagParent {
 
 
+    /**
+     * Name of the definition to configure.
+     */
     private String name;
+
+    /**
+     * The template of the definition.
+     */
     private String template;
+
+    /**
+     * The (optional) definition name that this definition extends.
+     */
     private String extend;
+
+    /**
+     * The role to check when rendering this definition.
+     */
     private String role;
+
+    /**
+     * The definition view preparer.
+     */
     private String preparer;
 
 
+    /**
+     * The mutable Tiles container to use.
+     */
     private MutableTilesContainer container;
+
+    /**
+     * Maps attribute names with their attributes.
+     */
     private Map<String, ComponentAttribute> attributes;
 
 
+    /**
+     * Returns the name of the definition to configure.
+     *
+     * @return The definition name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the definition to configure.
+     *
+     * @param name The definition name.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the template URI of the definition.
+     *
+     * @return The template URI.
+     */
     public String getTemplate() {
         return template;
     }
 
+    /**
+     * Sets the template URI of the definition.
+     *
+     * @param template The template URI.
+     */
     public void setTemplate(String template) {
         this.template = template;
     }
 
+    /**
+     * Returns the (optional) definition name that this definition extends.
+     *
+     * @return The extending definition name.
+     */
     public String getExtends() {
         return extend;
     }
 
+    /**
+     * Sets the (optional) definition name that this definition extends.
+     *
+     * @param extend The extending definition name.
+     */
     public void setExtends(String extend) {
         this.extend = extend;
     }
 
+    /**
+     * Returns the role to check when rendering this definition.
+     *
+     * @return The role to check.
+     */
     public String getRole() {
         return role;
     }
 
+    /**
+     * Sets the role to check when rendering this definition.
+     *
+     * @param role The role to check.
+     */
     public void setRole(String role) {
         this.role = role;
     }
 
+    /**
+     * Returns the definition view preparer.
+     *
+     * @return The view preparer name.
+     */
     public String getPreparer() {
         return preparer;
     }
 
+    /**
+     * Sets the definition view preparer.
+     *
+     * @param preparer The view preparer name.
+     */
     public void setPreparer(String preparer) {
         this.preparer = preparer;
     }
 
+    /** {@inheritDoc} */
     public void release() {
         super.release();
         name = null;
@@ -107,6 +196,7 @@ public class DefinitionTag extends TagSupport
         attributes.clear();
     }
 
+    /** {@inheritDoc} */
     public int doStartTag() throws JspException {
         attributes = new HashMap<String, ComponentAttribute>();
 
@@ -125,6 +215,7 @@ public class DefinitionTag extends TagSupport
         return EVAL_BODY_INCLUDE;
     }
 
+    /** {@inheritDoc} */
     public int doEndTag() throws JspException {
         TileDefinition d = new TileDefinition();
         d.setName(name);
@@ -145,8 +236,10 @@ public class DefinitionTag extends TagSupport
     /**
      * Reset member values for reuse. This method calls super.release(),
      * which invokes TagSupport.release(), which typically does nothing.
+     *
+     * @param nestedTag The nested <code>PutAttributeTag</code>
+     * @throws JspException Never thrown, it's here for API compatibility.
      */
-
     public void processNestedTag(PutAttributeTag nestedTag) throws JspException {
         ComponentAttribute attr = new ComponentAttribute(nestedTag.getValue(),
             nestedTag.getRole(), nestedTag.getType());

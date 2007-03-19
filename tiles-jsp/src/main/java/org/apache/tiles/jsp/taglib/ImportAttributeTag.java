@@ -38,12 +38,31 @@ import java.util.Iterator;
  */
 public class ImportAttributeTag extends AttributeTagSupport {
 
+	/**
+	 * The destination attribute name.
+	 */
 	private String toName;
 
+    /**
+     * <p>
+     * Returns the name of the destination attribute. If not specified, the name
+     * will be the same as specified in <code>name</code> attribute
+     * </p>
+     * 
+     * @return The destination attribute name.
+     */
     public String getToName() {
         return toName;
     }
 	
+    /**
+     * <p>
+     * Sets the name of the destination attribute. If not specified, the name
+     * will be the same as specified in <code>name</code> attribute
+     * </p>
+     *
+     * @param toName The destination attribute name.
+     */
 	public void setToName(String toName) {
         this.toName = toName;
     }

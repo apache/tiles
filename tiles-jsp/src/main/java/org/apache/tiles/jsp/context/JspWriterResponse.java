@@ -23,25 +23,42 @@ package org.apache.tiles.jsp.context;
 
 import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import java.io.PrintWriter;
 import java.io.IOException;
 
 
 /**
+ * It works as an {@link HttpServletResponse} by wrapping a {@link JspWriter}
+ * around a {@link PrintWriter}.
+ * 
  * @version $Rev$ $Date$
  */
 public class JspWriterResponse extends HttpServletResponseWrapper {
 
+    /**
+     * The page context to use.
+     */
     private PageContext context;
+
+    /**
+     * The created print writer.
+     */
     private PrintWriter writer;
 
+    /**
+     * Constructor.
+     *
+     * @param pageContext The page context to use.
+     */
     public JspWriterResponse(PageContext pageContext) {
         super((HttpServletResponse)pageContext.getResponse());
         this.context = pageContext;
     }
 
 
+    /** {@inheritDoc} */
     public PrintWriter getWriter() throws IOException {
         if(writer == null) {
             writer = new PrintWriter(context.getOut());

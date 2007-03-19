@@ -35,18 +35,32 @@ import javax.servlet.jsp.JspException;
  */
 public class InsertDefinitionTag extends RenderTagSupport implements PutAttributeTagParent {
 
+    /**
+     * The definition name.
+     */
     private String name;
 
 
+    /**
+     * Returns the name of the definition to insert.
+     *
+     * @return The name of the definition.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the definition to insert.
+     *
+     * @param name The name of the definition.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
 
+    /** {@inheritDoc} */
     protected void render() throws JspException, TilesException {
         container.render(name, pageContext);
     }

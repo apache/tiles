@@ -37,10 +37,18 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class IncludingServlet extends HttpServlet {
 
+    /**
+     * Init parameter value, that indicates the pate to include.
+     */
     private String include;
 
     /**
-     * Initializes the servlet, reading the <code>include</code> init parameter
+     * Initializes the servlet, reading the <code>include</code> init
+     * parameter
+     *
+     * @param config The servlet configuration object to use.
+     * @throws ServletException Thrown by
+     * {@link HttpServlet#init(ServletConfig)}
      */
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -50,6 +58,11 @@ public class IncludingServlet extends HttpServlet {
 
     /**
      * Processes the request, including the specified page.
+     *
+     * @param request The request object.
+     * @param response The response object.
+     * @throws ServletException Thrown by the {@link #include} method.
+     * @throws IOException Thrown by the {@link #include} method.
      */
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {

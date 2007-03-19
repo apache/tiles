@@ -41,12 +41,22 @@ import java.net.MalformedURLException;
  */
 public class TilesContainerFactoryTest extends TestCase {
 
+    /**
+     * The servlet context.
+     */
     private ServletContext context;
 
+    /** {@inheritDoc} */
+    @Override
     public void setUp() {
         context = EasyMock.createMock(ServletContext.class);
     }
 
+    /**
+     * Tests getting the factory.
+     *
+     * @throws TilesException If something goes wrong.
+     */
     public void testGetFactory() throws TilesException {
         Vector<String> v = new Vector<String>();
         Vector<String> emptyVector = new Vector<String>();
@@ -90,6 +100,12 @@ public class TilesContainerFactoryTest extends TestCase {
         }
     }
 
+
+    /**
+     * Tests
+     * @throws TilesException
+     * @throws MalformedURLException
+     */
     public void testCreateContainer() throws TilesException, MalformedURLException {
         URL url = getClass().getResource("test-defs.xml");
         Vector<String> enumeration = new Vector<String>();
@@ -115,6 +131,12 @@ public class TilesContainerFactoryTest extends TestCase {
 
     }
 
+
+    /**
+     * Tests getting init parameter map.
+     *
+     * @throws TilesException If something goes wrong.
+     */
     public void testGetInitParameterMap() throws TilesException {
         Vector<String> keys = new Vector<String>();
         keys.add("one");
@@ -136,6 +158,9 @@ public class TilesContainerFactoryTest extends TestCase {
         assertEquals("twoValue", map.get("two"));
     }
 
+    /**
+     * A test factory extending directly from TilesContainerFactory.
+     */
     public static class TestFactory extends TilesContainerFactory {
 
     }

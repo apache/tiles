@@ -55,44 +55,62 @@ import java.util.Set;
 public class InitContainerTag extends BodyTagSupport
     implements PutAttributeTagParent {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG =
         LogFactory.getLog(InitContainerTag.class);
 
+    /**
+     * The container factory class name to use.
+     */
     private String containerFactory;
+
+    /**
+     * Init parameters map.
+     */
     private Map<String, String> initParameters;
 
 
+    /**
+     * Returns the container factory class name.
+     *
+     * @return The container factory class name.
+     */
     public String getContainerFactory() {
         return containerFactory;
     }
 
+    /**
+     * Sets the container factory class name.
+     *
+     * @param containerFactory The container factory class name.
+     */
     public void setContainerFactory(String containerFactory) {
         this.containerFactory = containerFactory;
     }
 
 
+    /** {@inheritDoc} */
     public void processNestedTag(PutAttributeTag nestedTag) throws JspException {
         initParameters.put(nestedTag.getName(), nestedTag.getValue().toString());
     }
 
-    /**
-     * Release all allocated resources.
-     */
+    /** {@inheritDoc} */
     public void release() {
         super.release();
         containerFactory = null;
         initParameters = null;
     }
 
+    /** {@inheritDoc} */
     public int doStartTag() {
         initParameters = new HashMap<String, String>();
         return EVAL_BODY_INCLUDE;
     }
 
-    /**
-     * TODO Add a MutableContainer so that this can be done?
-     * Do start tag.
-     */
+    /** {@inheritDoc} */
+    // TODO Add a MutableContainer so that this can be done?
     public int doEndTag() throws JspException {
         TilesContainer container =
             TilesAccess.getContainer(pageContext.getServletContext());
@@ -131,90 +149,129 @@ public class InitContainerTag extends BodyTagSupport
 
 
 
+    /**
+     * A servlet context created "on the fly" for container initialization.
+     */
     public class RuntimeConfiguredContext implements ServletContext {
 
+        /**
+         * The root servlet context.
+         */
         private ServletContext rootContext;
+
+        /**
+         * The custom init parameters.
+         */
         private Map<String, String> initParameters;
 
 
+        /**
+         * Constructor.
+         *
+         * @param rootContext The "real" servlet context. 
+         */
         public RuntimeConfiguredContext(ServletContext rootContext) {
             this.rootContext = rootContext;
             this.initParameters = new HashMap<String, String>();
         }
 
+        /** {@inheritDoc} */
         public ServletContext getContext(String string) {
             return rootContext.getContext(string);
         }
 
+        /** {@inheritDoc} */
         public int getMajorVersion() {
             return rootContext.getMajorVersion();
         }
 
+        /** {@inheritDoc} */
         public int getMinorVersion() {
             return rootContext.getMinorVersion();
         }
 
+        /** {@inheritDoc} */
         public String getMimeType(String string) {
             return rootContext.getMimeType(string);
         }
 
+        /** {@inheritDoc} */
         @SuppressWarnings("unchecked")
         public Set getResourcePaths(String string) {
             return rootContext.getResourcePaths(string);
         }
 
+        /** {@inheritDoc} */
         public URL getResource(String string) throws MalformedURLException {
             return rootContext.getResource(string);
         }
 
+        /** {@inheritDoc} */
         public InputStream getResourceAsStream(String string) {
             return rootContext.getResourceAsStream(string);
         }
 
+        /** {@inheritDoc} */
         public RequestDispatcher getRequestDispatcher(String string) {
             return rootContext.getRequestDispatcher(string);
         }
 
+        /** {@inheritDoc} */
         public RequestDispatcher getNamedDispatcher(String string) {
             return rootContext.getNamedDispatcher(string);
         }
 
+        /** {@inheritDoc} */
         @SuppressWarnings("deprecation")
 		public Servlet getServlet(String string) throws ServletException {
             return rootContext.getServlet(string);
         }
 
+        /** {@inheritDoc} */
         @SuppressWarnings({ "deprecation", "unchecked" })
 		public Enumeration getServlets() {
             return rootContext.getServlets();
         }
 
+        /** {@inheritDoc} */
         @SuppressWarnings({ "deprecation", "unchecked" })
 		public Enumeration getServletNames() {
             return rootContext.getServletNames();
         }
 
+        /** {@inheritDoc} */
         public void log(String string) {
             rootContext.log(string);
         }
 
+        /** {@inheritDoc} */
         @SuppressWarnings("deprecation")
 		public void log(Exception exception, String string) {
             rootContext.log(exception, string);
         }
 
+        /** {@inheritDoc} */
         public void log(String string, Throwable throwable) {
             rootContext.log(string, throwable);
         }
 
+        /** {@inheritDoc} */
         public String getRealPath(String string) {
             return rootContext.getRealPath(string);
         }
 
+        /** {@inheritDoc} */
         public String getServerInfo() {
             return rootContext.getServerInfo();
         }
 
+        /**
+         * Takes the init parameters either from the custom parameters or from
+         * the root context.
+         *
+         * @param string The parameter name.
+         * @see javax.servlet.ServletContext#getInitParameter(java.lang.String)
+         */
         public String getInitParameter(String string) {
             if (initParameters.containsKey(string)) {
                 return initParameters.get(string);
@@ -222,32 +279,50 @@ public class InitContainerTag extends BodyTagSupport
             return rootContext.getInitParameter(string);
         }
 
+        /**
+         * Sets an init parameter value.
+         *
+         * @param name The name of the parameter.
+         * @param value The value of the parameter.
+         */
         public void setInitParameter(String name, String value) {
             initParameters.put(name, value);
         }
 
+        /**
+         * Returns init parameter names, including the custom and the original
+         * ones.
+         *
+         * @see javax.servlet.ServletContext#getInitParameterNames()
+         */
         @SuppressWarnings("unchecked")
         public Enumeration getInitParameterNames() {
+            // FIXME This implementation is wrong!
             return rootContext.getInitParameterNames();
         }
 
+        /** {@inheritDoc} */
         public Object getAttribute(String string) {
             return rootContext.getAttribute(string);
         }
 
+        /** {@inheritDoc} */
         @SuppressWarnings("unchecked")
         public Enumeration getAttributeNames() {
             return rootContext.getAttributeNames();
         }
 
+        /** {@inheritDoc} */
         public void setAttribute(String string, Object object) {
             rootContext.setAttribute(string, object);
         }
 
+        /** {@inheritDoc} */
         public void removeAttribute(String string) {
             rootContext.removeAttribute(string);
         }
 
+        /** {@inheritDoc} */
         public String getServletContextName() {
             return rootContext.getServletContextName();
         }

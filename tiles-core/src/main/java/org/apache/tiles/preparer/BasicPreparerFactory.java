@@ -40,11 +40,20 @@ import java.util.Map;
  */
 public class BasicPreparerFactory implements PreparerFactory {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG =
         LogFactory.getLog(BasicPreparerFactory.class);
 
+    /**
+     * Maps a preparer name to the instantiated preparer.
+     */
     protected Map<String, ViewPreparer> preparers;
 
+    /**
+     * Constructor.
+     */
     public BasicPreparerFactory() {
         this.preparers = new HashMap<String, ViewPreparer>();
     }
@@ -57,7 +66,7 @@ public class BasicPreparerFactory implements PreparerFactory {
      * @param name    the named preparerInstance
      * @param context current context
      * @return ViewPreparer instance
-     * @throws NoSuchPreparerException
+     * @throws TilesException If something goes wrong during preparer creation.
      */
     public ViewPreparer getPreparer(String name, TilesRequestContext context)
         throws TilesException {
@@ -69,6 +78,14 @@ public class BasicPreparerFactory implements PreparerFactory {
         return preparers.get(name);
     }
 
+    /**
+     * Creates a view preparer for the given name.
+     *
+     * @param name The name of the preparer.
+     * @return The created preparer.
+     * @throws TilesException If something goes wrong during instantiation, or
+     * if the created object is not an instance of <code>ViewPreparer</code>.
+     */
     protected ViewPreparer createPreparer(String name) throws TilesException {
 
         if (LOG.isDebugEnabled()) {

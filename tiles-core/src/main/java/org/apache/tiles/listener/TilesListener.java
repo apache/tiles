@@ -33,6 +33,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 /**
+ * Listener for the initialization of the Tiles container.
+ *
  * @version $Rev$ $Date$
  */
 public class TilesListener
@@ -64,7 +66,7 @@ public class TilesListener
     /**
      * Remove the tiles container from service.
      *
-     * @param event
+     * @param event The intercepted event.
      */
     public void contextDestroyed(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();
@@ -75,6 +77,13 @@ public class TilesListener
         }
     }
 
+    /**
+     * Creates a Tiles container.
+     *
+     * @param context The servlet context to use.
+     * @return The created container
+     * @throws TilesException If something goes wrong during creation.
+     */
     protected TilesContainer createContainer(ServletContext context)
         throws TilesException {
         TilesContainerFactory factory =

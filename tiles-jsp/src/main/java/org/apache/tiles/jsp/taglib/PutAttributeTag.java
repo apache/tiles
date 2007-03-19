@@ -72,6 +72,9 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 public class PutAttributeTag extends RoleSecurityTagSupport implements ComponentConstants {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG = LogFactory.getLog(PutAttributeTag.class);
 
     /**
@@ -90,26 +93,82 @@ public class PutAttributeTag extends RoleSecurityTagSupport implements Component
     private String type = null;
 
 
+    /**
+     * Returns  the name of the attribute.
+     *
+     * @return The name of the attribute.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the attribute.
+     *
+     * @param name The name of the attribute.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the Attribute value. Could be a String or an Object. Value can
+     * come from a direct assignment (value="aValue") or from a bean. One of
+     * 'value' 'content' or 'beanName' must be present.
+     *
+     * @return The attribute value.
+     */
     public Object getValue() {
         return value;
     }
 
+    /**
+     * Sets the Attribute value. Could be a String or an Object. Value can
+     * come from a direct assignment (value="aValue") or from a bean. One of
+     * 'value' 'content' or 'beanName' must be present.
+     *
+     * @param value The attribute value.
+     */
     public void setValue(Object value) {
         this.value = value;
     }
 
+    /**
+     * <p>
+     * Returns the content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value is the name of a definition defined in factory
+     * (xml file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;tiles:insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @return The attribute type.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * <p>
+     * Sets the content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value is the name of a definition defined in factory
+     * (xml file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;tiles:insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @param type The attribute type.
+     */
     public void setType(String type) {
         this.type = type;
     }
@@ -127,6 +186,7 @@ public class PutAttributeTag extends RoleSecurityTagSupport implements Component
     /**
      * Save the body content of this tag (if any)
      *
+     * @return <code>SKIP_BODY</code>.
      * @throws JspException if a JSP exception has occurred
      */
     public int doAfterBody() throws JspException {
@@ -137,6 +197,7 @@ public class PutAttributeTag extends RoleSecurityTagSupport implements Component
         return (SKIP_BODY);
     }
 
+    /** {@inheritDoc} */
     protected void execute() throws JspException {
         PutAttributeTagParent parent = (PutAttributeTagParent)
             TagSupport.findAncestorWithClass(this, PutAttributeTagParent.class);

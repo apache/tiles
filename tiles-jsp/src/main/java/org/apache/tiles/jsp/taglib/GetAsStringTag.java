@@ -35,6 +35,7 @@ import java.io.IOException;
  */
 public class GetAsStringTag extends InsertAttributeTag {
 
+    /** {@inheritDoc} */
     @Override
     protected void render(ComponentAttribute attr)
         throws TilesException, IOException {

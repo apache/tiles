@@ -37,16 +37,33 @@ import javax.servlet.jsp.JspException;
 public class InsertTemplateTag extends RenderTagSupport
     implements PutAttributeTagParent {
 
+    
+    /**
+     * A string representing the URI of a template (for example, a JSP page).
+     */
     private String template;
 
+    /**
+     * Returns a string representing the URI of a template (for example, a JSP
+     * page).
+     *
+     * @return The template URI.
+     */
     public String getTemplate() {
         return template;
     }
 
+    /**
+     * Sets a string representing the URI of a template (for example, a JSP
+     * page).
+     *
+     * @param template The template URI.
+     */
     public void setTemplate(String template) {
         this.template = template;
     }
 
+    /** {@inheritDoc} */
     protected void render() throws JspException {
         JspUtil.doInclude(pageContext, template, flush);
     }

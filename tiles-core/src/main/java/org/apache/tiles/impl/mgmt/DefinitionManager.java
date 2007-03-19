@@ -39,20 +39,41 @@ import java.util.Map;
  */
 public class DefinitionManager {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG =
         LogFactory.getLog(DefinitionManager.class);
 
+    /**
+     * The default name of the attribute in which storing custom definitions.
+     */
     private static final String DEFAULT_DEFINITIONS_ATTRIBUTE_NAME =
         "org.apache.tiles.impl.mgmt.DefinitionManager.DEFINITIONS";
 
+    /**
+     * The definitions factory to use to get main definitions.
+     */
     private DefinitionsFactory factory;
     
+    /**
+     * The name of the attribute in which storing custom definitions.
+     */
     private String definitionsAttributeName;
 
+    /**
+     * Constructor.
+     */
     public DefinitionManager() {
         definitionsAttributeName = DEFAULT_DEFINITIONS_ATTRIBUTE_NAME;
     }
 
+    /**
+     * Constructor.
+     *
+     * @param definitionsAttributeName The name of the attribute in which
+     * storing custom definitions.
+     */
     public DefinitionManager(String definitionsAttributeName) {
         this.definitionsAttributeName = definitionsAttributeName;
         if (this.definitionsAttributeName == null) {
@@ -60,14 +81,33 @@ public class DefinitionManager {
         }
     }
 
+    /**
+     * Returns the used definitions factory.
+     *
+     * @return The used definitions factory.
+     */
     public DefinitionsFactory getFactory() {
         return factory;
     }
 
+    /**
+     * Sets the definitions factory to use.
+     *
+     * @param factory The definitions factory.
+     */
     public void setFactory(DefinitionsFactory factory) {
         this.factory = factory;
     }
 
+    /**
+     * Returns a definition by name.
+     *
+     * @param definition The name of the definition.
+     * @param request The current request.
+     * @return The requested definition, either main or custom.
+     * @throws DefinitionsFactoryException If something goes wrong when
+     * obtaining a main definition.
+     */
     public ComponentDefinition getDefinition(String definition, TilesRequestContext request)
         throws DefinitionsFactoryException {
         Map<String, ComponentDefinition> definitions =
@@ -78,6 +118,14 @@ public class DefinitionManager {
         return getFactory().getDefinition(definition, request);
     }
 
+    /**
+     * Adds a definition to the set of custom ones.
+     *
+     * @param definition The definition to add.
+     * @param request The current request.
+     * @throws DefinitionsFactoryException If something goes wrong during the
+     * addition.
+     */
     public void addDefinition(ComponentDefinition definition,
             TilesRequestContext request)
         throws DefinitionsFactoryException {
@@ -97,6 +145,15 @@ public class DefinitionManager {
         getOrCreateDefinitions(request).put(definition.getName(), definition);
     }
 
+    /**
+     * Checks if an attribute is a definition.
+     *
+     * @param attribute The attribute to check.
+     * @param request The current request.
+     * @return <code>true</code> if the attribute is a definition.
+     * @throws DefinitionsFactoryException If something goes wrong during
+     * checking if the attribute is a main definition.
+     */
     private boolean isDefinition(ComponentAttribute attribute,
             TilesRequestContext request) throws DefinitionsFactoryException {
         boolean explicit =  ComponentAttribute.DEFINITION.equals(attribute.getType());
@@ -105,6 +162,11 @@ public class DefinitionManager {
         return explicit || implicit;
     }
 
+    /**
+     * Validates a custom definition.
+     *
+     * @param definition The definition to validate.
+     */
     private void validate(TileDefinition definition) {
         Map<String, ComponentAttribute> attrs = definition.getAttributes();
         for (ComponentAttribute attribute : attrs.values()) {
@@ -127,8 +189,8 @@ public class DefinitionManager {
      * 
      * @param definition The definition that needs to have its inheritances
      * resolved.
-     *
-     * @throws NoSuchDefinitionException If an inheritance can not be solved.
+     * @param request The current request.
+     * @throws DefinitionsFactoryException If an inheritance can not be solved.
      */
     protected void resolveInheritance(ComponentDefinition definition,
             TilesRequestContext request)
@@ -198,6 +260,12 @@ public class DefinitionManager {
         }
     }
     
+    /**
+     * Returns the map with custom definitions for the current request.
+     *
+     * @param request The current request.
+     * @return A map that connects a definition name to a definition.
+     */
     @SuppressWarnings("unchecked")
     protected Map<String, ComponentDefinition> getDefinitions(
             TilesRequestContext request) {
@@ -205,6 +273,13 @@ public class DefinitionManager {
                 .get(definitionsAttributeName);
     }
     
+    /**
+     * Returns a map of type "definition name -> definition" and, if it has not
+     * been defined before, creates one.
+     *
+     * @param request The current request.
+     * @return A map that connects a definition name to a definition.
+     */
     @SuppressWarnings("unchecked")
     protected Map<String, ComponentDefinition> getOrCreateDefinitions(
             TilesRequestContext request) {

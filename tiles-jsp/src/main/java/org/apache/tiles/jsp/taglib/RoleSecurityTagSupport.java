@@ -43,16 +43,33 @@ public abstract class RoleSecurityTagSupport extends BodyTagSupport {
      */
     private static final Log LOG = LogFactory.getLog(RoleSecurityTagSupport.class);
 
+    /**
+     * The role to check. If the user is in the specified role, the tag is taken
+     * into account; otherwise, the tag is ignored (skipped).
+     */
     private String role;
 
+    /**
+     * Returns the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @return The role to check.
+     */
     public String getRole() {
         return role;
     }
 
+    /**
+     * Sets the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @param role The role to check.
+     */
     public void setRole(String role) {
         this.role = role;
     }
 
+    /** {@inheritDoc} */
     public int doEndTag() throws JspException {
         try {
             if (isAccessAllowed()) {
@@ -73,13 +90,27 @@ public abstract class RoleSecurityTagSupport extends BodyTagSupport {
 
 
 
+    /** {@inheritDoc} */
     public void release() {
         super.release();
         this.role = null;
     }
 
+    /**
+     * Executes the tag. It is called inside {@link #doEndTag()}.
+     *
+     * @throws TilesException If something goews wrong during the use of Tiles.
+     * @throws JspException If something goes wrong during rendering.
+     * @throws IOException If something goes wrong during writing content.
+     */
     protected abstract void execute() throws TilesException, JspException, IOException;
 
+    /**
+     * Checks if the user is inside the specified role.
+     *
+     * @return <code>true</code> if the user is allowed to have the tag
+     * rendered.
+     */
     protected boolean isAccessAllowed() {
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
         return (role == null || req.isUserInRole(role));

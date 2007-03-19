@@ -45,14 +45,25 @@ import org.apache.tiles.mgmt.TileDefinition;
 public class CachingKeyedDefinitionsFactoryTilesContainer extends
         KeyedDefinitionsFactoryTilesContainer implements MutableTilesContainer {
 
+    /**
+     * The name prefix of the attribute that will contain custom definitions for
+     * the current request.
+     */
     private static final String DEFINITIONS_ATTRIBUTE_NAME_BASE =
         "org.apache.tiles.impl.mgmt.CachingKeyedDefinitionsFactoryTilesContainer.DEFINITIONS.";
 
+    /**
+     * The default definition manager, when no key is identified.
+     */
     private DefinitionManager mgr = new DefinitionManager();
     
+    /**
+     * Maps a key to its definition manager.
+     */
     private Map<String, DefinitionManager> key2definitionManager
             = new HashMap<String, DefinitionManager>();
 
+    /** {@inheritDoc} */
     public void register(TileDefinition definition, Object... requestItems) throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
                 getApplicationContext(),
@@ -61,6 +72,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
         register(definition, requestContext);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected ComponentDefinition getDefinition(String definition,
                                                 TilesRequestContext context)
@@ -70,23 +82,27 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
         return mgr.getDefinition(definition, context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public DefinitionsFactory getDefinitionsFactory() {
         return mgr.getFactory();
     }
 
+    /** {@inheritDoc} */
     @Override
     public DefinitionsFactory getDefinitionsFactory(String key) {
         DefinitionManager mgr = getProperDefinitionManager(key);
         return mgr.getFactory();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void setDefinitionsFactory(DefinitionsFactory definitionsFactory) {
         super.setDefinitionsFactory(definitionsFactory);
         mgr.setFactory(definitionsFactory);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void setDefinitionsFactory(String key, DefinitionsFactory definitionsFactory,
             Map<String, String> initParameters) throws TilesException {
@@ -98,6 +114,15 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
         mgr.setFactory(definitionsFactory);
     }
     
+    /**
+     * Registers a custom definition.
+     *
+     * @param definition The definition to register.
+     * @param request The request inside which the definition should be
+     * registered.
+     * @throws DefinitionsFactoryException If something goes wrong during adding
+     * a definition, such as missing parent definitions.
+     */
     protected void register(TileDefinition definition,
             TilesRequestContext request) throws DefinitionsFactoryException {
         DefinitionManager mgr = getProperDefinitionManager(

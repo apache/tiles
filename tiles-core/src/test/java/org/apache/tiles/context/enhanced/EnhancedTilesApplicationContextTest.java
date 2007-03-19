@@ -38,14 +38,28 @@ import java.util.HashSet;
  */
 public class EnhancedTilesApplicationContextTest extends TestCase {
 
+    /**
+     * The root Tiles application context.
+     */
     private TilesApplicationContext root;
+
+    /**
+     * The enhanced Tiles application context.
+     */
     private EnhancedTilesApplicationContext context;
 
+    /** {@inheritDoc} */
+    @Override
     public void setUp() {
         root = EasyMock.createMock(TilesApplicationContext.class);
         context = new EnhancedTilesApplicationContext(root);
     }
 
+    /**
+     * Tests resource getting.
+     *
+     * @throws IOException If something goes wrong.
+     */
     public void testGetResources() throws IOException {
         ClassLoader original = Thread.currentThread().getContextClassLoader();
         try {
@@ -65,10 +79,22 @@ public class EnhancedTilesApplicationContextTest extends TestCase {
         }
     }
 
+    /**
+     * An mock class loader.
+     */
     public class MockClassLoader extends ClassLoader {
 
+        /**
+         * A vector of resources.
+         */
         private Vector<URL> resources;
 
+        /**
+         * Constructor.
+         *
+         * @throws MalformedURLException If the URL is not valid (that should
+         * not happen).
+         */
         public MockClassLoader() throws MalformedURLException {
             resources = new Vector<URL>();
             resources.add(new URL("file://tiles/test/test.properties"));
@@ -76,6 +102,8 @@ public class EnhancedTilesApplicationContextTest extends TestCase {
             resources.add(new URL("file://tiles/three/test.properties"));
         }
 
+        /** {@inheritDoc} */
+        @Override
         public Enumeration<URL> findResources(String path) {
             return resources.elements();
         }

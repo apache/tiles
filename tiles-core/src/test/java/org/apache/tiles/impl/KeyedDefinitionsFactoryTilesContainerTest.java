@@ -48,10 +48,18 @@ import org.easymock.EasyMock;
  */
 public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
     
+    /**
+     * The Tiles container.
+     */
     private KeyedDefinitionsFactoryTilesContainer container;
     
+    /**
+     * Default configuration parameters.
+     */
     private Map<String, String> defaults;
 
+    /** {@inheritDoc} */
+    @Override
     public void setUp() {
         defaults = new HashMap<String, String>();
         defaults.put(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
@@ -96,6 +104,9 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         }
     }
     
+    /**
+     * Tests container initialization.
+     */
     public void testInitialization() {
         assertNotNull(container);
         assertNotNull(container.getContextFactory());
@@ -105,6 +116,13 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         assertNotNull(container.getProperDefinitionsFactory("two"));
     }
     
+    /**
+     * Tests initialization for postponed definitions factories.
+     *
+     * @throws MalformedURLException If sources are not valid (that should not
+     * happen).
+     * @throws TilesException If something goes wrong.
+     */
     public void testPostponedDefinitionsFactoryInitialization() throws MalformedURLException, TilesException {
         KeyedDefinitionsFactoryTilesContainer container;
         ServletContext context = EasyMock.createMock(ServletContext.class);
@@ -152,6 +170,9 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         assertNotNull(container.getProperDefinitionsFactory("two"));
     }
     
+    /**
+     * Tests if the definitions factory has been used.
+     */
     public void testDefinitionsFactoryUse() {
         HttpServletRequest request = EasyMock.createMock(
                 HttpServletRequest.class);

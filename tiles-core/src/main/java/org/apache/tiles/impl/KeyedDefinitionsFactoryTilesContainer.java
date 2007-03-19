@@ -51,6 +51,9 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
 	 */
 	protected Map<String, DefinitionsFactory> key2definitionsFactory;
     
+    /**
+     * The key extractor object.
+     */
     protected KeyExtractor keyExtractor;
 
 	/**
@@ -60,6 +63,10 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
 		key2definitionsFactory = new HashMap<String, DefinitionsFactory>();
 	}
     
+    /**
+     * It represents an object able to return a key from a request. Each key
+     * maps a different {@link DefinitionsFactory}.
+     */
     public interface KeyExtractor {
 
         /**
@@ -71,6 +78,10 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
         public String getDefinitionsFactoryKey(TilesRequestContext request);
     }
     
+    /**
+     * This is the default factory key. Takes the key from the request-scoped
+     * attribute <code>DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME</code>.
+     */
     protected class DefaultKeyExtractor implements KeyExtractor {
         
         /**
@@ -132,7 +143,10 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      * Set the definitions factory. This method first ensures
      * that the container has not yet been initialized.
      *
+     * @param key The key under which the definitions factory is catalogued. 
      * @param definitionsFactory the definitions factory for this instance.
+     * @param initParameters The init parameters to configure the definitions
+     * factory.
      * @throws TilesException If something goes wrong during initialization of
      * the definitions factory.
      */
@@ -148,10 +162,16 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
     	}
     }
     
+    /**
+     * Sets the key extractor to use.
+     *
+     * @param keyExtractor The key extractor.
+     */
     public void setKeyExtractor(KeyExtractor keyExtractor) {
         this.keyExtractor = keyExtractor;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected ComponentDefinition getDefinition(String definitionName,
             TilesRequestContext request) throws DefinitionsFactoryException {

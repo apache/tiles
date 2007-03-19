@@ -43,10 +43,18 @@ import java.net.MalformedURLException;
  */
 public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
 
+    /**
+     * The servlet context.
+     */
     private ServletContext context;
     
+    /**
+     * Default configuration parameters.
+     */
     private Map<String, String> defaults;
 
+    /** {@inheritDoc} */
+    @Override
     public void setUp() {
         context = EasyMock.createMock(ServletContext.class);
         defaults = new HashMap<String, String>();
@@ -54,6 +62,11 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
                 KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
     }
 
+    /**
+     * Tests getting a container factory.
+     *
+     * @throws TilesException If something goes wrong.
+     */
     public void testGetFactory() throws TilesException {
         Vector<String> v = new Vector<String>();
 
@@ -67,6 +80,13 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
                 factory.getClass());
     }
 
+    /**
+     * Tests creating a container.
+     *
+     * @throws TilesException If something goes wrong.
+     * @throws MalformedURLException If the resources have an invalid form (that
+     * should not happen).
+     */
     public void testCreateContainer() throws TilesException, MalformedURLException {
         Vector<String> enumeration = new Vector<String>();
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);

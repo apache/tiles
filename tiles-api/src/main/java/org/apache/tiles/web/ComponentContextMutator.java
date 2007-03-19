@@ -25,8 +25,22 @@ import org.apache.tiles.ComponentContext;
 
 import javax.servlet.ServletRequest;
 
+/**
+ * It represents an object able to manipulate a <code>ComponentContext</code>.
+ * In other words, it is able to add, replace and remove attributes from the
+ * <code>ComponentContext</code>.
+ *
+ * @since Tiles 2.0
+ * @version $Rev$ $Date$
+ */
 public interface ComponentContextMutator {
 
+    /**
+     * Mutate a <code>ComponentContext</code>.
+     * 
+     * @param context The component context to mutate.
+     * @param request The current servlet request.
+     */
     void mutate(ComponentContext context, ServletRequest request);
 
 }

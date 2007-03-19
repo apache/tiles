@@ -38,6 +38,9 @@ import java.lang.reflect.Method;
  */
 public class JspUtil {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG =
         LogFactory.getLog(JspUtil.class);
 
@@ -61,6 +64,15 @@ public class JspUtil {
         }
     }
 
+    /**
+     * Includes an URI in the JSP response.
+     *
+     * @param pageContext The page context to use.
+     * @param uri The URI to include.
+     * @param flush <code>true</code> means that the buffer should be flushed at
+     * the end of this operation
+     * @throws JspException If an underlying exception happens.
+     */
     public static void doInclude(PageContext pageContext, String uri, boolean flush)
         throws JspException {
 

@@ -42,13 +42,29 @@ import java.io.IOException;
 public class JspTilesRequestContext extends ServletTilesRequestContext
     implements TilesRequestContext {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG =
         LogFactory.getLog(JspTilesRequestContext.class);
 
 
+    /**
+     * The current page context.
+     */
     private PageContext pageContext;
+
+    /**
+     * The writer response to use.
+     */
     private JspWriterResponse response;
 
+    /**
+     * Constructor.
+     *
+     * @param context The servlet context to use.
+     * @param pageContext The page context to use.
+     */
     public JspTilesRequestContext(ServletContext context, PageContext pageContext) {
         super(context,
             (HttpServletRequest) pageContext.getRequest(),
@@ -56,10 +72,17 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
         this.pageContext = pageContext;
     }
 
+    /**
+     * Dispatches a path. In fact it "includes" it!
+     *
+     * @param path The path to dispatch to.
+     * @see org.apache.tiles.context.servlet.ServletTilesRequestContext#dispatch(java.lang.String)
+     */
     public void dispatch(String path) throws IOException {
         include(path);
     }
 
+    /** {@inheritDoc} */
     public void include(String path) throws IOException {
         try {
             JspUtil.doInclude(pageContext, path, false);
@@ -69,6 +92,7 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
         }
     }
 
+    /** {@inheritDoc} */
     public HttpServletResponse getResponse() {
         if(response == null) {
             response = new JspWriterResponse(pageContext);

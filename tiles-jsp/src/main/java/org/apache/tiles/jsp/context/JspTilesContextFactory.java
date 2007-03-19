@@ -39,12 +39,11 @@ import java.util.Map;
  */
 public class JspTilesContextFactory implements TilesContextFactory {
 
+    /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {
     }
 
-    /**
-     * Creates a TilesApplicationContext from the given context.
-     */
+    /** {@inheritDoc} */
     public TilesApplicationContext createApplicationContext(Object context) {
         if (context instanceof ServletContext) {
             ServletContext servletContext = (ServletContext) context;
@@ -54,6 +53,7 @@ public class JspTilesContextFactory implements TilesContextFactory {
         return null;
     }
 
+    /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
         if (requestItems.length == 1) {
@@ -66,6 +66,12 @@ public class JspTilesContextFactory implements TilesContextFactory {
         return null;
     }
 
+    /**
+     * Returns the original servlet context.
+     *
+     * @param context The application context.
+     * @return The original servlet context, if found.
+     */
     protected ServletContext getServletContext(TilesApplicationContext context) {
         if (context instanceof ServletTilesApplicationContext) {
             ServletTilesApplicationContext app = (ServletTilesApplicationContext) context;

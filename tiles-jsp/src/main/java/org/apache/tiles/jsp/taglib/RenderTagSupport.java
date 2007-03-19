@@ -50,37 +50,91 @@ import java.io.IOException;
 public abstract class RenderTagSupport extends ContainerTagSupport
     implements TryCatchFinally, PutAttributeTagParent {
     
+    /**
+     * The logging object.
+     */
     private static Log LOG = LogFactory.getLog(RenderTagSupport.class);
 
+    /**
+     * The view preparer to use before the rendering. 
+     */
     protected String preparer;
+
+    /**
+     * This flag, if <code>true</code>, flushes the content before rendering.
+     */
     protected boolean flush;
+
+    /**
+     * This flag, if <code>true</code>, ignores exception thrown by preparers
+     * and those caused by problems with definitions.
+     */
     protected boolean ignore;
 
+    /**
+     * Returns the preparer name.
+     *
+     * @return The preparer name. 
+     */
     public String getPreparer() {
         return preparer;
     }
 
+    /**
+     * Sets the preparer name.
+     *
+     * @param preparer The preparer name. 
+     */
     public void setPreparer(String preparer) {
         this.preparer = preparer;
     }
 
+    /**
+     * Returns the flush flag. If <code>true</code>, current page out stream
+     * is flushed before insertion.
+     *
+     * @return The flush flag.
+     */
     public boolean isFlush() {
         return flush;
     }
 
+    /**
+     * Sets the flush flag. If <code>true</code>, current page out stream
+     * is flushed before insertion.
+     *
+     * @param flush The flush flag.
+     */
     public void setFlush(boolean flush) {
         this.flush = flush;
     }
 
+    /**
+     * Returns the ignore flag. If it is set to true, and the attribute
+     * specified by the name does not exist, simply return without writing
+     * anything. The default value is false, which will cause a runtime
+     * exception to be thrown.
+     *
+     * @return The ignore flag.
+     */
     public boolean isIgnore() {
         return ignore;
     }
 
+    /**
+     * Sets the ignore flag. If this attribute is set to true, and the attribute
+     * specified by the name does not exist, simply return without writing
+     * anything. The default value is false, which will cause a runtime
+     * exception to be thrown.
+     *
+     * @param ignore The ignore flag.
+     */
     public void setIgnore(boolean ignore) {
         this.ignore = ignore;
     }
 
 
+    /** {@inheritDoc} */
     public void release() {
         preparer = null;
         flush = false;
@@ -88,15 +142,18 @@ public abstract class RenderTagSupport extends ContainerTagSupport
         super.release();
     }
 
+    /** {@inheritDoc} */
     public int doStartTag() throws JspException {
         super.doStartTag();
         return isAccessAllowed() ? EVAL_BODY_BUFFERED : SKIP_BODY;
     }
 
+    /** {@inheritDoc} */
     public void doCatch(Throwable throwable) throws Throwable {
         LOG.error("Error during rendering", throwable);
     }
 
+    /** {@inheritDoc} */
     public void doFinally() {
     }
 

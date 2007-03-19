@@ -26,18 +26,34 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
+ * It represents an vector-based enumeration when, when it has finished
+ * enumerating items, it starts from the beginning.
+ *
+ * @param <E> The type of the element of this enumeration. 
  * @version $Rev$ $Date$
  */
 public class RollingVectorEnumeration<E> implements Enumeration<E> {
     
+    /**
+     * The vector.
+     */
     private Vector<E> vector;
     
+    /**
+     * The elements.
+     */
     private Enumeration<E> elements;
     
+    /**
+     * Constructor.
+     *
+     * @param vector The vector.
+     */
     public RollingVectorEnumeration(Vector<E> vector) {
         this.vector = vector;
     }
 
+    /** {@inheritDoc} */
     public boolean hasMoreElements() {
         if (elements == null) {
             elements = vector.elements();
@@ -46,6 +62,7 @@ public class RollingVectorEnumeration<E> implements Enumeration<E> {
         return elements.hasMoreElements();
     }
 
+    /** {@inheritDoc} */
     public E nextElement() {
         E retValue = elements.nextElement();
         

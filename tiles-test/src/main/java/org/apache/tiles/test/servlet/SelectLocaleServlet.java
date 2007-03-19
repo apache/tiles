@@ -36,23 +36,36 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.ComponentConstants;
 
 /**
+ * Servlet able to let a user choose a locale.
+ *
  * @version $Rev$ $Date$
  */
 public class SelectLocaleServlet extends HttpServlet {
 
+    /** {@inheritDoc} */
     @Override
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         process(request, response);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
         process(request, response);
     }
 
+    /**
+     * Processes the request.
+     * 
+     * @param request The request object.
+     * @param response The response object.
+     * @throws ServletException If something goes wrong when rendering
+     * <code>test.localized.definition</code> definition.
+     * @throws IOException It will be never thrown, it is there only for API
+     * compatibility.
+     */
     private void process(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         String localeParameter = request.getParameter("locale");

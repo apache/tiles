@@ -61,6 +61,9 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class AddAttributeTag extends RoleSecurityTagSupport implements
         ComponentConstants {
 
+    /**
+     * The logging object.
+     */
     private static final Log LOG = LogFactory.getLog(AddAttributeTag.class);
 
     /**
@@ -73,18 +76,60 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
      */
     private String type = null;
 
+    /**
+     * Returns the attribute value.
+     *
+     * @return Attribute value. Can be a String or Object.
+     */
     public Object getValue() {
         return value;
     }
 
+    /**
+     * Sets the attribute value.
+     *
+     * @param value Attribute value. Can be a String or Object.
+     */
     public void setValue(Object value) {
         this.value = value;
     }
 
+    /**
+     * <p>
+     * Returns content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml
+     * file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @return The attribute type.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * <p>
+     * Sets content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml
+     * file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @param type The attribute type.
+     */
     public void setType(String type) {
         this.type = type;
     }
@@ -92,6 +137,7 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
     /**
      * Release all allocated resources.
      */
+    @Override
     public void release() {
         super.release();
         value = null;
@@ -101,6 +147,7 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
     /**
      * Save the body content of this tag (if any)
      *
+     * @return It returns <code>SKIP_BODY</code>.
      * @throws JspException if a JSP exception has occurred
      */
     public int doAfterBody() throws JspException {
@@ -111,6 +158,7 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
         return (SKIP_BODY);
     }
 
+    /** {@inheritDoc} */
     protected void execute() throws JspException {
         AddAttributeTagParent parent = (AddAttributeTagParent)
             TagSupport.findAncestorWithClass(this, AddAttributeTagParent.class);

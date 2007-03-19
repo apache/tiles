@@ -45,14 +45,30 @@ public class InsertAttributeTag extends RenderTagSupport {
      */
     protected String name;
     
+    /**
+     * The value of the attribute.
+     */
     protected Object value = null;
     
+    /**
+     * The context used to evaluate the attribute.
+     */
     protected ComponentContext evaluatingContext;
 
+    /**
+     * Sets the name of the attribute.
+     *
+     * @param value The name of the attribute.
+     */
     public void setName(String value) {
         this.name = value;
     }
 
+    /**
+     * Returns  the name of the attribute.
+     *
+     * @return The name of the attribute.
+     */
     public String getName() {
         return name;
     }
@@ -75,12 +91,14 @@ public class InsertAttributeTag extends RenderTagSupport {
         this.value = value;
     }
 
+    /** {@inheritDoc} */
     public void release() {
         super.release();
         this.name = null;
         this.value = null;
     }
 
+    /** {@inheritDoc} */
     protected void render() throws JspException, TilesException, IOException {
         ComponentAttribute attr = (ComponentAttribute) value;
         if (attr == null && evaluatingContext != null) {
@@ -100,6 +118,7 @@ public class InsertAttributeTag extends RenderTagSupport {
         render(attr);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void startContext(PageContext context) {
         

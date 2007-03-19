@@ -50,9 +50,13 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
     public static final String CONTAINER_KEYS_INIT_PARAM =
         "org.apache.tiles.CONTAINER.keys";
     
+    /**
+     * Init parameter name that contains the class name for the key extractor.
+     */
     public static final String KEY_EXTRACTOR_CLASS_INIT_PARAM =
         "org.apache.tiles.CONTAINER.keyExtractor";
 
+    /** {@inheritDoc} */
     @Override
     public MutableTilesContainer createMutableTilesContainer(Object context) throws TilesException {
         CachingKeyedDefinitionsFactoryTilesContainer container =
@@ -61,6 +65,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
         return container;
     }
 
+    /** {@inheritDoc} */
     @Override
     public TilesContainer createTilesContainer(Object context) throws TilesException {
         KeyedDefinitionsFactoryTilesContainer container =
@@ -89,6 +94,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
         return retValue;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void storeContainerDependencies(Object context,
             Map<String, String> initParameters, Map<String, String> configuration, BasicTilesContainer container) throws TilesException {

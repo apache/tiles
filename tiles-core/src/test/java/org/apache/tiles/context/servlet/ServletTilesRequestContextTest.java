@@ -38,8 +38,12 @@ import junit.framework.TestCase;
  */
 public class ServletTilesRequestContextTest extends TestCase {
 
+    /**
+     * The request context.
+     */
     private TilesRequestContext context;
 
+    /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -70,6 +74,9 @@ public class ServletTilesRequestContextTest extends TestCase {
         applicationScope.put("applicationAttribute2", "applicationValue2");
     }
 
+    /**
+     * Tests getting the header.
+     */
     public void testGetHeader() {
         Map<String, String> map = context.getHeader();
         assertTrue("The header does not contain a set value", "text/html"
@@ -77,6 +84,9 @@ public class ServletTilesRequestContextTest extends TestCase {
         doTestReadMap(map, String.class, String.class, "header map");
     }
 
+    /**
+     * Tests getting the header value.
+     */
     public void testGetHeaderValues() {
         Map<String, String[]> map = context.getHeaderValues();
         String[] array = map.get("Content-Type");
@@ -85,6 +95,9 @@ public class ServletTilesRequestContextTest extends TestCase {
         doTestReadMap(map, String.class, String[].class, "header values map");
     }
 
+    /**
+     * Tests getting the parameters.
+     */
     public void testGetParam() {
         Map<String, String> map = context.getParam();
         assertTrue("The parameters do not contain a set value", "value1"
@@ -93,6 +106,9 @@ public class ServletTilesRequestContextTest extends TestCase {
         doTestReadMap(map, String.class, String.class, "parameter map");
     }
 
+    /**
+     * Tests getting the parameter values.
+     */
     public void testGetParamValues() {
         Map<String, String[]> map = context.getParamValues();
         String[] array = map.get("myParam");
@@ -105,6 +121,9 @@ public class ServletTilesRequestContextTest extends TestCase {
         doTestReadMap(map, String.class, String[].class, "parameter values map");
     }
 
+    /**
+     * Tests getting request scope attributes.
+     */
     public void testGetRequestScope() {
         Map<String, Object> map = context.getRequestScope();
         assertTrue("The request scope does not contain a set value", "value1"
@@ -114,6 +133,9 @@ public class ServletTilesRequestContextTest extends TestCase {
         doTestReadMap(map, String.class, Object.class, "request scope map");
     }
 
+    /**
+     * Tests getting session scope attributes.
+     */
     public void testGetSessionScope() {
         Map<String, Object> map = context.getSessionScope();
         assertTrue("The session scope does not contain a set value",
@@ -123,6 +145,9 @@ public class ServletTilesRequestContextTest extends TestCase {
         doTestReadMap(map, String.class, Object.class, "session scope map");
     }
 
+    /**
+     * Tests getting application scope attributes.
+     */
     public void testGetApplicationScope() {
         Map<String, Object> map = ((TilesApplicationContext) context)
                 .getApplicationScope();
@@ -133,6 +158,9 @@ public class ServletTilesRequestContextTest extends TestCase {
         doTestReadMap(map, String.class, Object.class, "application scope map");
     }
 
+    /**
+     * Tests getting init parameters.
+     */
     public void testGetInitParams() {
         Map<String, String> map = ((TilesApplicationContext) context)
                 .getInitParams();
@@ -142,6 +170,16 @@ public class ServletTilesRequestContextTest extends TestCase {
                 "init parameters scope map");
     }
 
+    /**
+     * Tests a generic map.
+     *
+     * @param <K> The key type.
+     * @param <V> The value type.
+     * @param currentMap The map to check.
+     * @param keyClass The key class.
+     * @param valueClass The value class.
+     * @param mapName The name of the map to test (for messages).
+     */
     private <K, V> void doTestReadMap(Map<K, V> currentMap, Class<K> keyClass,
             Class<V> valueClass, String mapName) {
         int size1, size2;

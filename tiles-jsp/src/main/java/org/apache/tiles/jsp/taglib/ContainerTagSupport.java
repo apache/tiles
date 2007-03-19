@@ -47,13 +47,23 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
     @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(ContainerTagSupport.class);
 
+    /**
+     * The Tiles container that can be used inside the tag.
+     */
     protected TilesContainer container;
+
+    /**
+     * The component context to use to store and read attribute values.
+     */
     protected ComponentContext componentContext;
 
     /**
      * By default, all ContainerTags evaluate their body.  Subclasses may choose to be more selective.
      * In any case, children can rely upon the container and componentContext being initialized if they
      * call <code>super.doStartTag()</code>
+     *
+     * @return <code>EVAL_BODY_BUFFERED</code>.
+     * @throws JspException If the container has not been initialized.
      */
     public int doStartTag() throws JspException {
         container = TilesAccess.getContainer(pageContext.getServletContext());
@@ -66,6 +76,7 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
     }
     
 
+    /** {@inheritDoc} */
     public int doEndTag() throws JspException {
         try {
             return super.doEndTag();
@@ -76,18 +87,29 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
 
 
 
+    /** {@inheritDoc} */
     public void release() {
         super.release();
         this.container = null;
         this.componentContext = null;
     }
     
+    /**
+     * Starts the context when entering the tag.
+     *
+     * @param context The page context to use.
+     */
     protected void startContext(PageContext context) {
         if (container != null) {
             componentContext = container.startContext(pageContext);
         }
     }
     
+    /**
+     * Ends the context when exiting the tag.
+     *
+     * @param context The page context to use.
+     */
     protected void endContext(PageContext context) {
         if (componentContext != null && container != null) {
             container.endContext(pageContext);

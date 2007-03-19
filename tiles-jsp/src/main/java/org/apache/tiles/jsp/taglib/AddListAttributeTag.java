@@ -40,23 +40,30 @@ public class AddListAttributeTag extends AddAttributeTag
 
     /**
      * Get list defined in tag.
+     *
+     * @return The list of component attributes. 
      */
     @SuppressWarnings("unchecked")
     public List<ComponentAttribute> getValue() {
         return (List<ComponentAttribute>) super.getValue();
     }
 
+    /** {@inheritDoc} */
+    @Override
     public void setValue(Object object) {
         throw new IllegalStateException("The value of the PutListAttributeTag must be the originally defined list.");
     }
 
+    /** {@inheritDoc} */
     public int doStartTag() throws JspException {
         super.setValue(new ArrayList<ComponentAttribute>());
     	return super.doStartTag();
     }
+
     /**
      * PutListAttributeTag may not have any body, except for PutAttribute tags.
      *
+     * @return <code>SKIP_BODY</code>.
      * @throws JspException if a JSP exception has occurred
      */
     public int doAfterBody() throws JspException {
@@ -91,6 +98,11 @@ public class AddListAttributeTag extends AddAttributeTag
         this.addValue(attribute);	
     }
 
+	/**
+     * Adds a value in this list.
+     *
+	 * @param attribute The attribute to add.
+	 */
 	private void addValue( ComponentAttribute attribute ) {
 		this.getValue().add(attribute);
 	}
