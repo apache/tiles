@@ -448,10 +448,10 @@
          <rtexprvalue>false</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Specify content type: string, page, template or definition.</p>
+         <p>Specify content type: string, template or definition.</p>
          <ul>
            <li>String : Content is printed directly.</li>
-           <li>page | template : Content is included from specified URL. Name is used as an URL.</li>
+           <li>template : Content is included from specified URL. Value is used as an URL.</li>
            <li>definition : Value is the name of a definition defined in factory (xml file). Definition will be searched
            in the inserted tile, in a <code>&lt;tiles:insert attribute="attributeName"&gt;</code> tag, where 'attributeName'
            is the name used for this tag.</li>
@@ -524,7 +524,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Element value. Can be a String or Object.</p>
+         <p>Attribute value. Can be a String or Object.</p>
          ]]>
       </description>
       </attribute>
@@ -534,10 +534,10 @@
          <rtexprvalue>false</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Specify content type: string, page, template or instance.</p>
+         <p>Specify content type: string, template or definition.</p>
          <ul>
             <li>String : Content is printed directly.</li>
-            <li>page | template : Content is included from specified URL. Name is used as an URL.</li>
+            <li>template : Content is included from specified URL. Value is used as an URL.</li>
             <li>definition : Value denote a definition defined in factory (xml file). Definition will be searched
             in the inserted tile, in a <code>&lt;insert attribute="attributeName"&gt;</code> tag, where 'attributeName'
             is the name used for this tag.</li>
