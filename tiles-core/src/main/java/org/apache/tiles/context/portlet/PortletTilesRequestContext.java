@@ -94,6 +94,10 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
 
     /**
      * Creates a new instance of PortletTilesRequestContext
+     *
+     * @param context The portlet context to use. 
+     * @param request The request object to use.
+     * @param response The response object to use.
      */
     public PortletTilesRequestContext(PortletContext context, PortletRequest request,
                                       PortletResponse response) {
@@ -150,6 +154,8 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
 
     /**
      * <p>Return the {@link PortletRequest} for this context.</p>
+     *
+     * @return The used portlet request. 
      */
     public PortletRequest getRequest() {
         return (this.request);
@@ -157,11 +163,14 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
 
     /**
      * <p>Return the {@link PortletResponse} for this context.</p>
+     *
+     * @return The used portlet response.
      */
     public PortletResponse getResponse() {
         return (this.response);
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
 	public Map<String, String> getHeader() {
         if ((header == null) && (request != null)) {
@@ -170,6 +179,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         return (header);
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
 	public Map<String, String[]> getHeaderValues() {
         if ((headerValues == null) && (request != null)) {
@@ -178,6 +188,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         return (headerValues);
     }
 
+    /** {@inheritDoc} */
     public Map<String, String> getParam() {
         if ((param == null) && (request != null)) {
             param = new PortletParamMap(request);
@@ -185,6 +196,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         return (param);
     }
 
+    /** {@inheritDoc} */
     public Map<String, String[]> getParamValues() {
         if ((paramValues == null) && (request != null)) {
             paramValues = new PortletParamValuesMap(request);
@@ -192,6 +204,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         return (paramValues);
     }
 
+    /** {@inheritDoc} */
     public Map<String, Object> getRequestScope() {
         if ((requestScope == null) && (request != null)) {
             requestScope = new PortletRequestScopeMap(request);
@@ -199,6 +212,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         return (requestScope);
     }
 
+    /** {@inheritDoc} */
     public Map<String, Object> getSessionScope() {
         if ((sessionScope == null) && (request != null)) {
             sessionScope =
@@ -207,10 +221,12 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         return (sessionScope);
     }
 
+    /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {
         include(path);
     }
 
+    /** {@inheritDoc} */
     public void include(String path) throws IOException {
         if (isRenderRequest) {
             try {
@@ -222,6 +238,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         }
     }
 
+    /** {@inheritDoc} */
     public Locale getRequestLocale() {
         if (request != null) {
             return request.getLocale();
@@ -230,6 +247,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         }
     }
 
+    /** {@inheritDoc} */
     public boolean isUserInRole(String role) {
         return request.isUserInRole(role);
     }

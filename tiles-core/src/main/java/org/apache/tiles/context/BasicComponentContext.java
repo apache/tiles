@@ -31,7 +31,7 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Component context.
+ * Basic implementation for <code>ComponentContext</code>.
  *
  * @version $Rev$ $Date$
  */
@@ -62,6 +62,11 @@ public class BasicComponentContext implements ComponentContext, Serializable {
     }
 
 
+    /**
+     * Copy constructor.
+     *
+     * @param context The constructor to copy.
+     */
     public BasicComponentContext(ComponentContext context) {
         this.attributes = new HashMap<String, ComponentAttribute>();
         Iterator<String> names = context.getAttributeNames();
@@ -214,6 +219,7 @@ public class BasicComponentContext implements ComponentContext, Serializable {
         return contextStack.pop();
     }
 
+    /** {@inheritDoc} */
     public void clear() {
         attributes.clear();
     }

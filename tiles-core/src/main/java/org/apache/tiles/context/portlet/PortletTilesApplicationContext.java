@@ -62,6 +62,8 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
 
     /**
      * Creates a new instance of PortletTilesApplicationContext
+     *
+     * @param context The portlet context to use. 
      */
     public PortletTilesApplicationContext(PortletContext context) {
         initialize(context);
@@ -100,12 +102,15 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
 
     /**
      * <p>Return the {@link PortletContext} for this context.</p>
+     *
+     * @return The original portlet context. 
      */
     public PortletContext getPortletContext() {
         return (this.context);
     }
 
 
+    /** {@inheritDoc} */
     public Map<String, Object> getApplicationScope() {
         if ((applicationScope == null) && (context != null)) {
             applicationScope = new PortletApplicationScopeMap(context);
@@ -114,6 +119,7 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
 
     }
 
+    /** {@inheritDoc} */
     public Map<String, String> getInitParams() {
         if ((initParam == null) && (context != null)) {
             initParam = new PortletInitParamMap(context);
@@ -123,16 +129,25 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
     }
 
 
+    /** {@inheritDoc} */
     public URL getResource(String path) throws MalformedURLException {
         return context.getResource(path);
     }
 
+    /** {@inheritDoc} */
     public Set<URL> getResources(String path) throws MalformedURLException {
         HashSet<URL> set = new HashSet<URL>();
         set.add(getResource(path));
         return set;
     }
 
+    /**
+     * Creates a portlet context for a given request/response pair.
+     *
+     * @param request The request object.
+     * @param response The response object.
+     * @return The corresponding Tiles request context.
+     */
     public TilesRequestContext createRequestContext(Object request, Object response) {
         if (request instanceof PortletRequest && response instanceof PortletResponse) {
             return new PortletTilesRequestContext(

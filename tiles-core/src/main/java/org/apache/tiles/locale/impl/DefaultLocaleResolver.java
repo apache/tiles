@@ -30,15 +30,22 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.locale.LocaleResolver;
 
 /**
+ * Default implementation of <code>LocaleResolver</code><br>
+ * It tries to take the locale from the session-scoped attribute
+ * {@link ComponentConstants#LOCALE_KEY}. If it is not found, it returns the
+ * locale included in the request.
+ *
  * @version $Rev$ $Date$
  */
 public class DefaultLocaleResolver implements LocaleResolver {
 
+    /** {@inheritDoc} */
     public void init(Map<String, String> params)
             throws TilesException {
         // Does nothing.
     }
 
+    /** {@inheritDoc} */
     public Locale resolveLocale(TilesRequestContext request) {
         Locale retValue = null;
         Map<String, Object> session = request.getSessionScope();

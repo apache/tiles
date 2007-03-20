@@ -79,11 +79,16 @@ public interface ComponentDefinitions {
 
     /**
      * Resolves configuration inheritance properties.
+     *
+     * @throws NoSuchDefinitionException If parent definitions are not found. 
      */
     public void resolveInheritances() throws NoSuchDefinitionException;
 
     /**
      * Resolves locale-specific configuration inheritance properties.
+     *
+     * @param locale The locale object to use. 
+     * @throws NoSuchDefinitionException If parent definitions are not found.
      */
     public void resolveInheritances(Locale locale) throws NoSuchDefinitionException;
 
@@ -94,6 +99,8 @@ public interface ComponentDefinitions {
 
     /**
      * Returns base definitions collection;
+     *
+     * @return A map of the type "definition name -> definition". 
      */
     public Map<String, ComponentDefinition> getBaseDefinitions();
 }

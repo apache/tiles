@@ -23,6 +23,7 @@
 package org.apache.tiles.definition;
 
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.TilesException;
 
 import java.util.Map;
@@ -51,6 +52,10 @@ public interface DefinitionsFactory {
     public static final String DEFINITIONS_IMPL_PROPERTY =
         "org.apache.tiles.definition.ComponentDefinitions";
     
+    /**
+     * Property name that specifies the implementation of
+     * {@link LocaleResolver}.
+     */
     public static final String LOCALE_RESOLVER_IMPL_PROPERTY =
         "org.apache.tiles.locale.LocaleResolver";
 
@@ -62,6 +67,7 @@ public interface DefinitionsFactory {
      *
      * @param params The Map of configuration properties.
      * @throws DefinitionsFactoryException if an initialization error occurs.
+     * @throws TilesException If a generic Tiles exception occurs.
      */
     public void init(Map<String, String> params) throws DefinitionsFactoryException, TilesException;
 
@@ -97,7 +103,8 @@ public interface DefinitionsFactory {
     /**
      * Creates and returns a {@link ComponentDefinitions} set by reading
      * configuration data from the applied sources.
-     *
+     * 
+     * @return The read definitions.
      * @throws DefinitionsFactoryException if an error occurs reading the
      *                                     sources.
      */

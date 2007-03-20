@@ -26,9 +26,11 @@ import java.util.Map;
 
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 
 /**
+ * It represents an object able to resolve the current locale for the current
+ * request, where its strategy depends on its implementation.
+ *
  * @version $Rev$ $Date$
  */
 public interface LocaleResolver {
@@ -39,10 +41,16 @@ public interface LocaleResolver {
      * method is called.
      *
      * @param params A map of properties used to set up the resolver.
-     * @throws DefinitionsFactoryException if required properties are not passed
+     * @throws TilesException if required properties are not passed
      * in or the initialization fails.
      */
     public void init(Map<String, String> params) throws TilesException;
 
+    /**
+     * Resolves the locale.
+     *
+     * @param request The Tiles request object.
+     * @return The current locale for the current request.
+     */
     public Locale resolveLocale(TilesRequestContext request);
 }

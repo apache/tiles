@@ -26,15 +26,21 @@ import org.apache.tiles.context.ChainedTilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
+ * Tiles context factory to be used together with
+ * {@link EnhancedTilesApplicationContext}.
+ *
  * @version $Rev$ $Date$
  */
 public class EnhancedContextFactory extends ChainedTilesContextFactory {
 
+    /** {@inheritDoc} */
+    @Override
     public TilesApplicationContext createApplicationContext(Object context) {
         TilesApplicationContext root = super.createApplicationContext(context);
         return new EnhancedTilesApplicationContext(root);
     }
 
+    /** {@inheritDoc} */
     @Override
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
             Object... requestItems) {

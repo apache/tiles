@@ -29,10 +29,21 @@ package org.apache.tiles.preparer;
  */
 public class NoSuchPreparerException extends PreparerException {
 
+    /**
+     * Constructor.
+     *
+     * @param message The message to include.
+     */
     public NoSuchPreparerException(String message) {
         super(message);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param message The message to include.
+     * @param e The cause exception.
+     */
     public NoSuchPreparerException(String message, Exception e) {
         super(message, e);
     }
