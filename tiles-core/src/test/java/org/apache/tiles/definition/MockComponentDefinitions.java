@@ -43,6 +43,8 @@ public class MockComponentDefinitions implements ComponentDefinitions {
     
     /**
      * Hokey way to verify that this class was created.
+     *
+     * @return The number of created instances.
      */
     public static int getInstanceCount() {
         return instanceCount;
@@ -96,15 +98,11 @@ public class MockComponentDefinitions implements ComponentDefinitions {
     public void addDefinitions(Map<String, ComponentDefinition> defsMap) {
     }
 
-    /**
-     * Resolves configuration inheritance properties.
-     */
+    /** {@inheritDoc} */
     public void resolveInheritances() throws NoSuchDefinitionException {
     }
 
-    /**
-     * Resolves configuration inheritance properties.
-     */
+    /** {@inheritDoc} */
     public void resolveInheritances(Locale locale) throws NoSuchDefinitionException {
     }
 
@@ -114,9 +112,7 @@ public class MockComponentDefinitions implements ComponentDefinitions {
     public void reset() {
     }
 
-    /**
-     * Returns base definitions collection;
-     */
+    /** {@inheritDoc} */
     public Map<String, ComponentDefinition> getBaseDefinitions() {
         return null;
     }

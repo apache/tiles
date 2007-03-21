@@ -45,6 +45,8 @@ public class TestReloadableDefinitionsFactory extends TestCase {
 
     /**
      * Creates a new instance of TestReloadableDefinitionsFactory
+     *
+     * @param name The name of the test.
      */
     public TestReloadableDefinitionsFactory(String name) {
         super(name);
@@ -70,6 +72,8 @@ public class TestReloadableDefinitionsFactory extends TestCase {
 
     /**
      * Tests reloading definitions impl.
+     *
+     * @throws Exception If something goes wrong.
      */
     public void testReloadableDefinitionsFactory() throws Exception {
         DefinitionsFactory factory = new UrlDefinitionsFactory();

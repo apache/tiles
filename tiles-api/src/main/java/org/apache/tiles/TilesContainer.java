@@ -98,10 +98,14 @@ public interface TilesContainer {
 
     /**
      * Render the given ComponentAttribute.
-     * @param attribute
-     * @param writer TODO
+     *
+     * @param attribute The attribute to render.
+     * @param writer The writer to use when rendering an attribute of "string"
+     * type.
      * @param requestItems the current request objects.
-     * @throws TilesException
+     * @throws TilesException If something goes wrong during accessing Tiles
+     * elements.
+     * @throws IOException If something goes wrong during writing to the output. 
      */
     void render(ComponentAttribute attribute, Writer writer, Object... requestItems)
         throws TilesException, IOException;

@@ -30,6 +30,8 @@ import java.util.Map;
  * or not.</p>
  *
  * @version $Rev$ $Date$
+ * @param <K> The key type.
+ * @param <V> The value type.
  */
 
 public class MapEntry<K, V> implements Map.Entry<K, V> {

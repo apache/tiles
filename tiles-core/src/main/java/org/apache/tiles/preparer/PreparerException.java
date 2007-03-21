@@ -34,10 +34,21 @@ import org.apache.tiles.TilesException;
  */
 public class PreparerException extends TilesException {
 
+    /**
+     * Constructor.
+     *
+     * @param message The message to include.
+     */
     public PreparerException(String message) {
         super(message);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param message The message to include.
+     * @param e The cause exception.
+     */
     public PreparerException(String message, Exception e) {
         super(message, e);
     }

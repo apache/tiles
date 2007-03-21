@@ -57,7 +57,7 @@ public interface TilesApplicationContext {
      *
      * @param path to the desired resource.
      * @return the first located resource which matches the given path.
-     * @throws java.net.MalformedURLException if the path is malformed
+     * @throws IOException if the path is malformed
      */
     URL getResource(String path) throws IOException;
 
@@ -66,7 +66,7 @@ public interface TilesApplicationContext {
      *
      * @param path to the desired resource.
      * @return all resources which match the given path.
-     * @throws java.net.MalformedURLException if the url is illegal
+     * @throws IOException if the url is illegal
      */
     Set<URL> getResources(String path) throws IOException;
 }

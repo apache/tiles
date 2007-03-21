@@ -34,9 +34,7 @@ import org.apache.tiles.ComponentContext;
  */
 public class ViewPreparerSupport implements ViewPreparer {
 
-    /**
-     * Stubs out preparerInstance method.
-     */
+    /** {@inheritDoc} */
     public void execute(TilesRequestContext tilesContext,
                         ComponentContext componentContext) throws Exception {
     }

@@ -37,6 +37,7 @@ public interface MutableTilesContainer extends TilesContainer {
      *
      * @param definition
      * @param requestItems the current request objects.
+     * @throws TilesException If something goes wrong during registration.
      */
     void register(TileDefinition definition, Object... requestItems)
             throws TilesException;

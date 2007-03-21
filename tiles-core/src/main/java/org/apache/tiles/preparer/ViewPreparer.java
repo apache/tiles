@@ -52,6 +52,7 @@ public interface ViewPreparer {
      *
      * @param tilesContext     Current tiles application context.
      * @param componentContext Current tile context.
+     * @throws Exception If something goes wrong during execution.
      */
     public void execute(TilesRequestContext tilesContext,
         ComponentContext componentContext)

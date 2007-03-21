@@ -35,6 +35,7 @@ public interface AddAttributeTagParent {
      * Process the nested tag.
      *
      * @param nestedTag Nested tag to process.
+     * @throws JspException If something goes wrong during processing.
      */
     void processNestedTag(AddAttributeTag nestedTag) throws JspException;
 

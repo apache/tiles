@@ -23,8 +23,6 @@
 package org.apache.tiles.definition;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 
@@ -63,61 +61,55 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     // nothing or returning null, because they are not needed at all in tests
     // that use this class.
 
+    /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {
     }
 
-
-    public String getDefinitionName() {
-        return null;
-    }
-
-    public Map<String, Object> getApplicationScope() {
-        return null;
-    }
-
+    /** {@inheritDoc} */
     public Map<String, String> getHeader() {
         return null;
     }
 
+    /** {@inheritDoc} */
     public Map<String, String[]> getHeaderValues() {
         return null;
     }
 
-    public Map<String, String> getInitParams() {
-        return null;
-    }
-
+    /** {@inheritDoc} */
     public Map<String, String> getParam() {
         return null;
     }
 
+    /** {@inheritDoc} */
     public Map<String, String[]> getParamValues() {
         return null;
     }
 
+    /** {@inheritDoc} */
     public Map<String, Object> getRequestScope() {
         return null;
     }
 
-    public URL getResource(String path) throws MalformedURLException {
-        return null;
-    }
-
+    /** {@inheritDoc} */
     public Map<String, Object> getSessionScope() {
         return null;
     }
 
+    /** {@inheritDoc} */
     public void include(String path) throws IOException {
     }
 
+    /** {@inheritDoc} */
     public boolean isUserInRole(String role) {
         return false;
     }
 
+    /** {@inheritDoc} */
     public Object getRequest() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /** {@inheritDoc} */
     public Object getResponse() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

@@ -83,6 +83,11 @@ public class UseAttributeTag extends AttributeTagSupport {
         pageContext.setAttribute(getScriptingVariable(), attribute.getValue(), scope);
     }
 
+    /**
+     * Returns the scripting variable to use.
+     *
+     * @return The scripting variable.
+     */
     public String getScriptingVariable() {
         return id == null ? getName() : id;
     }
@@ -94,9 +99,7 @@ public class UseAttributeTag extends AttributeTagSupport {
      */
     public static class Tei extends TagExtraInfo {
 
-        /**
-         * Return information about the scripting variables to be created.
-         */
+        /** {@inheritDoc} */
         public VariableInfo[] getVariableInfo(TagData data) {
             String classname = data.getAttributeString("classname");
             if (classname == null) {

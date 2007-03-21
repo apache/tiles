@@ -25,14 +25,35 @@ import org.apache.tiles.TilesException;
 
 
 /**
+ * Utilities to work with dynamic class loading and instantiation.
+ *
  * @version $Rev$ $Date$
  */
 public class ClassUtil {
 
+    /**
+     * Returns an instance of the given class name, by calling the default
+     * constructor.
+     *
+     * @param className The class name to load and to instantiate.
+     * @return The new instance of the class name.
+     * @throws TilesException If something goes wrong during instantiation.
+     */
     public static Object instantiate(String className) throws TilesException {
         return instantiate(className, false);
     }
 
+    /**
+     * Returns an instance of the given class name, by calling the default
+     * constructor.
+     *
+     * @param className The class name to load and to instantiate.
+     * @param returnNull If <code>true</code>, if the class is not found it
+     * returns <code>true</code>, otherwise it throws a
+     * <code>TilesException</code>.
+     * @return The new instance of the class name.
+     * @throws TilesException If something goes wrong during instantiation.
+     */
     public static Object instantiate(String className, boolean returnNull)
         throws TilesException {
         ClassLoader original = Thread.currentThread().getContextClassLoader();

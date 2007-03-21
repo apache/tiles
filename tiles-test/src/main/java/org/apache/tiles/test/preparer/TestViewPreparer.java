@@ -27,10 +27,13 @@ import org.apache.tiles.ComponentContext;
 import org.apache.tiles.ComponentAttribute;
 
 /**
+ * A simple test <code>ViewPreparer</code>.
+ *
  * @version $Rev$ $Date$
  */
 public class TestViewPreparer implements ViewPreparer {
 
+    /** {@inheritDoc} */
     public void execute(TilesRequestContext tilesContext, ComponentContext componentContext)
     throws Exception {
         componentContext.putAttribute(

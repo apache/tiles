@@ -50,6 +50,8 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
     /**
      * Creates a new instance of TestUrlDefinitionsFactory
+     *
+     * @param name The name of the test.
      */
     public TestUrlDefinitionsFactory(String name) {
         super(name);
@@ -75,6 +77,8 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
     /**
      * Tests the readDefinitions method under normal conditions.
+     *
+     * @throws Exception If something goes wrong.
      */
     @SuppressWarnings("unchecked")
     public void testReadDefinitions() throws Exception {
@@ -106,6 +110,8 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
     /**
      * Tests the getDefinition method.
+     *
+     * @throws Exception If something goes wrong.
      */
     @SuppressWarnings("unchecked")
     public void testGetDefinition() throws Exception {
@@ -169,6 +175,8 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
     /**
      * Tests addSource with a bad source object type.
+     *
+     * @throws Exception If something goes wrong.
      */
     @SuppressWarnings("unchecked")
     public void testBadSourceType() throws Exception {
@@ -187,6 +195,8 @@ public class TestUrlDefinitionsFactory extends TestCase {
     /**
      * Tests the addDefinitions method under normal
      * circumstances.
+     *
+     * @throws Exception If something goes wrong.
      */
     @SuppressWarnings("unchecked")
     public void testReadByLocale() throws Exception {
@@ -232,6 +242,8 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
     /**
      * Tests the isContextProcessed method.
+     *
+     * @throws Exception If something goes wrong.
      */
     @SuppressWarnings("unchecked")
     public void testIsContextProcessed() throws Exception {
@@ -259,6 +271,8 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
     /**
      * Tests the reader init param.
+     *
+     * @throws Exception If something goes wrong.
      */
     public void testReaderParam() throws Exception {
         Map<String, String> params = new HashMap<String, String>();

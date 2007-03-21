@@ -35,7 +35,9 @@ import java.util.Map;
 public interface TilesContextFactory {
 
     /**
-     * Initialize the impl
+     * Initialize the factory.
+     *
+     * @param configurationParameters A map of parameters. 
      */
     void init(Map<String, String> configurationParameters);
 

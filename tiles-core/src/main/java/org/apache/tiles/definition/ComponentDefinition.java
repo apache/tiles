@@ -62,6 +62,8 @@ public class ComponentDefinition extends TileDefinition implements Serializable 
      * Create a new definition initialized with parent definition.
      * Do a shallow copy : attributes are shared between copies, but not the Map
      * containing attributes.
+     *
+     * @param definition The definition to copy.
      */
     public ComponentDefinition(TileDefinition definition) {
         attributes = new HashMap<String, ComponentAttribute>(
@@ -75,6 +77,9 @@ public class ComponentDefinition extends TileDefinition implements Serializable 
 
     /**
      * Constructor.
+     * @param name The name of the definition.
+     * @param template The template of the definition.
+     * @param attributes The attribute map of the definition.
      */
     public ComponentDefinition(String name, String template,
                                Map<String, ComponentAttribute> attributes) {
@@ -135,6 +140,8 @@ public class ComponentDefinition extends TileDefinition implements Serializable 
 
     /**
      * Returns a description of the attributes.
+     *
+     * @return A string representation of the content of this definition.
      */
     public String toString() {
         return "{name="
@@ -152,6 +159,8 @@ public class ComponentDefinition extends TileDefinition implements Serializable 
 
     /**
      * Get extends flag.
+     *
+     * @return <code>true</code> if this definition extends another.
      */
     public boolean isExtending() {
         return inherit != null;

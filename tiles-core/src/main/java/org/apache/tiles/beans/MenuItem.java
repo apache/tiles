@@ -32,42 +32,58 @@ import java.io.Serializable;
 public interface MenuItem extends Serializable {
 
     /**
-     * Set value property.
+     * Sets the value (i.e. the visible part) of this menu item.
+     *
+     * @param value The value of this item. 
      */
     public void setValue(String value);
 
     /**
-     * Get value property.
+     * Returns the value (i.e. the visible part) of this menu item.
+     *
+     * @return The value of this item. 
      */
     public String getValue();
 
     /**
-     * Set link property.
+     * Sets the URL of this menu item.
+     *
+     * @param link The URL of this item.
      */
     public void setLink(String link);
 
     /**
-     * Get link property.
+     * Returns the URL of this menu item.
+     *
+     * @return The URL of this item.
      */
     public String getLink();
 
     /**
-     * Set icon property.
+     * Sets the icon URL of this menu item.
+     *
+     * @param link The icon URL.
      */
     public void setIcon(String link);
 
     /**
-     * Get icon property.
+     * Returns the icon URL of this menu item.
+     *
+     * @return The icon URL.
      */
     public String getIcon();
 
     /**
-     * Set tooltip property.
+     * Sets the tooltip text.
+     * 
+     * @param link The tooltip text.
      */
     public void setTooltip(String link);
 
     /**
-     * Get tooltip property.
+     * Returns the tooltip text.
+     * 
+     * @return The tooltip text.
      */
     public String getTooltip();
 }

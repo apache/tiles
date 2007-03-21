@@ -28,10 +28,14 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
+ * Destroys the accessible container.
+ *
  * @version $Rev$ $Date$
  */
 public class DestroyContainerTag extends TagSupport {
 
+    /** {@inheritDoc} */
+    @Override
     public int doEndTag() throws JspException {
         try {
             TilesAccess.setContainer(pageContext.getServletContext(), null);
