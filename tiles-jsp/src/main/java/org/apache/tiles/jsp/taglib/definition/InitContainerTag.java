@@ -44,6 +44,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -152,7 +154,7 @@ public class InitContainerTag extends BodyTagSupport
     /**
      * A servlet context created "on the fly" for container initialization.
      */
-    public class RuntimeConfiguredContext implements ServletContext {
+    public static class RuntimeConfiguredContext implements ServletContext {
 
         /**
          * The root servlet context.
@@ -162,7 +164,7 @@ public class InitContainerTag extends BodyTagSupport
         /**
          * The custom init parameters.
          */
-        private Map<String, String> initParameters;
+        private Hashtable<String, String> initParameters;
 
 
         /**
@@ -170,9 +172,17 @@ public class InitContainerTag extends BodyTagSupport
          *
          * @param rootContext The "real" servlet context. 
          */
+        @SuppressWarnings("unchecked")
         public RuntimeConfiguredContext(ServletContext rootContext) {
             this.rootContext = rootContext;
-            this.initParameters = new HashMap<String, String>();
+            this.initParameters = new Hashtable<String, String>();
+            Enumeration<String> enumeration = rootContext
+                    .getInitParameterNames();
+            while (enumeration.hasMoreElements()) {
+                String paramName = enumeration.nextElement();
+                initParameters.put(paramName, rootContext
+                        .getInitParameter(paramName));
+            }
         }
 
         /** {@inheritDoc} */
@@ -273,10 +283,7 @@ public class InitContainerTag extends BodyTagSupport
          * @see javax.servlet.ServletContext#getInitParameter(java.lang.String)
          */
         public String getInitParameter(String string) {
-            if (initParameters.containsKey(string)) {
-                return initParameters.get(string);
-            }
-            return rootContext.getInitParameter(string);
+            return initParameters.get(string);
         }
 
         /**
@@ -297,8 +304,7 @@ public class InitContainerTag extends BodyTagSupport
          */
         @SuppressWarnings("unchecked")
         public Enumeration getInitParameterNames() {
-            // FIXME This implementation is wrong!
-            return rootContext.getInitParameterNames();
+            return initParameters.keys();
         }
 
         /** {@inheritDoc} */
@@ -325,6 +331,49 @@ public class InitContainerTag extends BodyTagSupport
         /** {@inheritDoc} */
         public String getServletContextName() {
             return rootContext.getServletContextName();
+        }
+
+        /**
+         * Composes an enumeration and an iterator into a single enumeration.
+         */
+        @SuppressWarnings("unchecked")
+        static class CompositeEnumeration implements Enumeration {
+
+            /**
+             * The first enumeration to consider.
+             */
+            private Enumeration first;
+
+            /**
+             * The second enumeration to consider.
+             */
+            private Iterator second;
+
+
+            /**
+             * Constructor.
+             *
+             * @param first The first enumeration to consider.
+             * @param second The second enumeration to consider.
+             */
+            public CompositeEnumeration(Enumeration first, Iterator second) {
+                this.first = first;
+                this.second = second;
+            }
+
+            /** {@inheritDoc} */
+            public boolean hasMoreElements() {
+                return first.hasMoreElements() || second.hasNext();
+            }
+
+            /** {@inheritDoc} */
+            public Object nextElement() {
+                if(first.hasMoreElements()) {
+                    return first.nextElement();
+                }
+
+                return second.next();
+            }
         }
     }
 
