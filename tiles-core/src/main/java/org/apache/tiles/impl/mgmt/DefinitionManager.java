@@ -35,6 +35,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Manages custom and configured definitions, so they can be used by the
+ * container, instead of using a simple {@link DefinitionsFactory}.
+ *
  * @version $Rev$ $Date$
  */
 public class DefinitionManager {
