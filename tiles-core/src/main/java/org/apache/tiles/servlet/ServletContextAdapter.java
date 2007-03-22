@@ -22,6 +22,8 @@
 package org.apache.tiles.servlet;
 
 import javax.servlet.*;
+
+import java.util.Hashtable;
 import java.util.Set;
 import java.util.Enumeration;
 import java.net.URL;
@@ -43,9 +45,10 @@ public class ServletContextAdapter implements ServletContext {
     private ServletContext rootContext;
 
     /**
-     * The configuration object to use.
+     * The union of init parameters of {@link ServletConfig} and
+     * {@link ServletContext}.
      */
-    private ServletConfig config;
+    private Hashtable<String, String> initParameters;
 
 
     /**
@@ -53,9 +56,22 @@ public class ServletContextAdapter implements ServletContext {
      *
      * @param config The servlet configuration object.
      */
+    @SuppressWarnings("unchecked")
     public ServletContextAdapter(ServletConfig config) {
         this.rootContext = config.getServletContext();
-        this.config = config;
+        initParameters = new Hashtable<String, String>();
+        Enumeration<String> enumeration = rootContext
+                .getInitParameterNames();
+        while (enumeration.hasMoreElements()) {
+            String paramName = enumeration.nextElement();
+            initParameters.put(paramName, rootContext
+                    .getInitParameter(paramName));
+        }
+        enumeration = config.getInitParameterNames();
+        while (enumeration.hasMoreElements()) {
+            String paramName = enumeration.nextElement();
+            initParameters.put(paramName, config.getInitParameter(paramName));
+        }
     }
 
     /** {@inheritDoc} */
@@ -150,18 +166,13 @@ public class ServletContextAdapter implements ServletContext {
 
     /** {@inheritDoc} */
     public String getInitParameter(String string) {
-        String parm = config.getInitParameter(string);
-        if(parm == null) {
-            parm = rootContext.getInitParameter(string);
-        }
-        return parm;
+        return initParameters.get(string);
     }
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Enumeration getInitParameterNames() {
-        return new CompositeEnumeration(config.getInitParameterNames(),
-            rootContext.getInitParameterNames());
+        return initParameters.keys();
     }
 
     /** {@inheritDoc} */
