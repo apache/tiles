@@ -35,12 +35,6 @@ public interface ComponentConstants {
     public static final String COMPONENT_CONTEXT_STACK = "org.apache.tiles.ComponentContext.STACK";
 
     /**
-     * It represents the scope under Tiles attributes are stored.
-     */
-    // FIXME Probably it is not needed
-    public static final int COMPONENT_SCOPE = 8;
-
-    /**
      * The attribute name that is used to store the current locale.
      */
     public static final String LOCALE_KEY = "org.apache.tiles.LOCALE";

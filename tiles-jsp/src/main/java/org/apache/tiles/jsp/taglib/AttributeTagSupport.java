@@ -22,7 +22,6 @@
 package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.ComponentConstants;
 import org.apache.tiles.ComponentContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
@@ -143,7 +142,8 @@ public abstract class AttributeTagSupport extends TagSupport {
         try {
             execute();
         } catch (IOException e) {
-            throw new JspException("io error while executing tag '" + getClass().getName() + "'.");
+            throw new JspException("io error while executing tag '"
+                    + getClass().getName() + "'.", e);
         }
 
         return SKIP_BODY;
@@ -173,18 +173,7 @@ public abstract class AttributeTagSupport extends TagSupport {
             return PageContext.PAGE_SCOPE;
         }
 
-        if (scopeName.equalsIgnoreCase("component")) {
-            return ComponentConstants.COMPONENT_SCOPE;
-
-        } else if (scopeName.equalsIgnoreCase("template")) {
-            return ComponentConstants.COMPONENT_SCOPE;
-
-        } else if (scopeName.equalsIgnoreCase("tile")) {
-            return ComponentConstants.COMPONENT_SCOPE;
-
-        } else {
-            return getScope(scopeName);
-        }
+        return getScope(scopeName);
     }
 
     /**
