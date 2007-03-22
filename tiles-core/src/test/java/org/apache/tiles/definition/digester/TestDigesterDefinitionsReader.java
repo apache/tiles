@@ -41,7 +41,11 @@ import org.apache.tiles.definition.ComponentDefinition;
  */
 public class TestDigesterDefinitionsReader extends TestCase {
     
-    /** Creates a new instance of TestDigesterDefinitionsReader */
+    /**
+     * Creates a new instance of TestDigesterDefinitionsReader
+     *
+     * @param name The name of the test.
+     */
     public TestDigesterDefinitionsReader(String name) {
         super(name);
     }

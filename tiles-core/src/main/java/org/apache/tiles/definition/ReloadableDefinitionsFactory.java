@@ -33,6 +33,8 @@ public interface ReloadableDefinitionsFactory {
     /**
      * Indicates whether the DefinitionsFactory is out of date and needs to be
      * reloaded.
+     *
+     * @return <code>true</code> if the definitions need to be refreshed. 
      */
     public boolean refreshRequired();
     

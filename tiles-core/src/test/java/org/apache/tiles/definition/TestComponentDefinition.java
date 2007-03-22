@@ -34,7 +34,11 @@ import org.apache.tiles.definition.ComponentDefinition;
  */
 public class TestComponentDefinition extends TestCase{
     
-    /** Creates a new instance of TestComponentDefinition */
+    /**
+     * Creates a new instance of TestComponentDefinition
+     *
+     * @param name The name of the test.
+     */
     public TestComponentDefinition(String name) {
         super(name);
     }

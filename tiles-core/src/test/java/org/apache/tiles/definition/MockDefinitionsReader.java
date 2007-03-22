@@ -42,6 +42,8 @@ public class MockDefinitionsReader implements DefinitionsReader {
     
     /**
      * Hokey way to verify that this class was created.
+     *
+     * @return The number of created instances. 
      */
     public static int getInstanceCount() {
         return instanceCount;
