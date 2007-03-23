@@ -32,8 +32,7 @@ import javax.servlet.jsp.tagext.VariableInfo;
 
 
 /**
- * Exposes a component attribute as a scripting variable
- * within the page.
+ * Exposes am attribute as a scripting variable within the page.
  *
  * @since Tiles 1.0
  * @version $Rev$ $Date$
@@ -75,7 +74,7 @@ public class UseAttributeTag extends AttributeTagSupport {
 
 
     /**
-     * Expose the requested attribute from component context.
+     * Expose the requested attribute from attribute context.
      *
      * @throws JspException if a JSP exception has occurred
      */

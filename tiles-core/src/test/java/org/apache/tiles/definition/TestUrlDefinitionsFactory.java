@@ -33,7 +33,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
-import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.Definitions;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.MockPublicUrlDefinitionsFactory;
@@ -42,7 +42,7 @@ import org.apache.tiles.definition.MockOnlyLocaleTilesContext;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
- * Tests the UrlDefinitionsFactory component.
+ * Tests the UrlDefinitionsFactory.
  *
  * @version $Rev$ $Date$
  */
@@ -101,7 +101,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
         factory.addSource(url3);
 
         // Parse files.
-        ComponentDefinitions definitions = factory.readDefinitions();
+        Definitions definitions = factory.readDefinitions();
 
         assertNotNull("test.def1 definition not found.", definitions.getDefinition("test.def1"));
         assertNotNull("test.def2 definition not found.", definitions.getDefinition("test.def2"));
@@ -219,7 +219,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
         factory.addSource(url3);
 
         // Parse files.
-        ComponentDefinitions definitions = factory.readDefinitions();
+        Definitions definitions = factory.readDefinitions();
         factory.addDefinitions(definitions,
                 new MockOnlyLocaleTilesContext(Locale.US));
         factory.addDefinitions(definitions,
@@ -258,7 +258,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
         factory.addSource(url1);
 
         // Parse files.
-        ComponentDefinitions definitions = factory.readDefinitions();
+        Definitions definitions = factory.readDefinitions();
         TilesRequestContext tilesContext =
                 new MockOnlyLocaleTilesContext(Locale.US);
         assertFalse("Locale should not be processed.",

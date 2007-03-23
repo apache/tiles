@@ -21,26 +21,26 @@
  */
 package org.apache.tiles.web;
 
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.AttributeContext;
 
 import javax.servlet.ServletRequest;
 
 /**
- * It represents an object able to manipulate a <code>ComponentContext</code>.
+ * It represents an object able to manipulate a <code>AttributeContext</code>.
  * In other words, it is able to add, replace and remove attributes from the
- * <code>ComponentContext</code>.
+ * <code>AttributeContext</code>.
  *
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public interface ComponentContextMutator {
+public interface AttributeContextMutator {
 
     /**
-     * Mutate a <code>ComponentContext</code>.
+     * Mutate a <code>AttributeContext</code>.
      * 
-     * @param context The component context to mutate.
+     * @param context The attribute context to mutate.
      * @param request The current servlet request.
      */
-    void mutate(ComponentContext context, ServletRequest request);
+    void mutate(AttributeContext context, ServletRequest request);
 
 }

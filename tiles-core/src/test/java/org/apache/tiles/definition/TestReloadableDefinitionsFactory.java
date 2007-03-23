@@ -32,7 +32,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
-import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.Definitions;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.ReloadableDefinitionsFactory;
 
@@ -129,7 +129,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         factory.addSource(url);
 
         // Parse files.
-        ComponentDefinitions definitions = factory.readDefinitions();
+        Definitions definitions = factory.readDefinitions();
 
         assertNotNull("rewrite.test definition not found.",
                 definitions.getDefinition("rewrite.test"));

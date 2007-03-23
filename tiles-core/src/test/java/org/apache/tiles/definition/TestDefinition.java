@@ -25,21 +25,21 @@ package org.apache.tiles.definition;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.Definition;
 
 /**
- * Tests the ComponentDefinition class.
+ * Tests the Definition class.
  *
  * @version $Rev$ $Date$
  */
-public class TestComponentDefinition extends TestCase{
+public class TestDefinition extends TestCase{
     
     /**
-     * Creates a new instance of TestComponentDefinition
+     * Creates a new instance of TestDefinition
      *
      * @param name The name of the test.
      */
-    public TestComponentDefinition(String name) {
+    public TestDefinition(String name) {
         super(name);
     }
     
@@ -50,7 +50,7 @@ public class TestComponentDefinition extends TestCase{
      */
     public static void main(String[] theArgs) {
         junit.textui.TestRunner.main(
-            new String[] { TestComponentDefinition.class.getName()});
+            new String[] { TestDefinition.class.getName()});
     }
 
     /**
@@ -58,23 +58,23 @@ public class TestComponentDefinition extends TestCase{
      *         starting with "test"
      */
     public static Test suite() {
-        return new TestSuite(TestComponentDefinition.class);
+        return new TestSuite(TestDefinition.class);
     }
     
     /**
      * Verifies the put Attribute functionality.
      *
-     * Attributes are added or replaced in the component definition.
+     * Attributes are added or replaced in the definition.
      */
     public void testPutAttribute() {
-        ComponentDefinition def = new ComponentDefinition();
+        Definition def = new Definition();
         def.setName("test1");
         def.setTemplate("/page1.jsp");
-        def.put("attr1", new ComponentDefinition(), "definition", null);
+        def.put("attr1", new Definition(), "definition", null);
         
         Object attr1 = def.getAttribute("attr1");
         assertNotNull("Null attribute.", attr1);
-        assertTrue("Wrong attribute type", attr1 instanceof ComponentDefinition);
+        assertTrue("Wrong attribute type", attr1 instanceof Definition);
     }
     
     

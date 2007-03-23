@@ -22,7 +22,7 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.ComponentConstants;
+import org.apache.tiles.Constants;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,7 +70,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  * @version $Rev$ $Date$
  */
-public class PutAttributeTag extends RoleSecurityTagSupport implements ComponentConstants {
+public class PutAttributeTag extends RoleSecurityTagSupport implements Constants {
 
     /**
      * The logging object.
@@ -78,7 +78,7 @@ public class PutAttributeTag extends RoleSecurityTagSupport implements Component
     private static final Log LOG = LogFactory.getLog(PutAttributeTag.class);
 
     /**
-     * Name of attribute to put in component context.
+     * Name of attribute to put in attribute context.
      */
     protected String name = null;
 

@@ -23,7 +23,7 @@ package org.apache.tiles.jsp.taglib;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 
@@ -33,7 +33,7 @@ import javax.servlet.jsp.PageContext;
 /**
  * Base tag for the tiles tags which interact with the container.
  * Provides standard support for security, and provides access
- * to the container and component context.
+ * to the container and attribute context.
  * </p>
  *
  * @since Tiles 2.0
@@ -53,13 +53,13 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
     protected TilesContainer container;
 
     /**
-     * The component context to use to store and read attribute values.
+     * The attribute context to use to store and read attribute values.
      */
-    protected ComponentContext componentContext;
+    protected AttributeContext attributeContext;
 
     /**
      * By default, all ContainerTags evaluate their body.  Subclasses may choose to be more selective.
-     * In any case, children can rely upon the container and componentContext being initialized if they
+     * In any case, children can rely upon the container and attributeContext being initialized if they
      * call <code>super.doStartTag()</code>
      *
      * @return <code>EVAL_BODY_BUFFERED</code>.
@@ -91,7 +91,7 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
     public void release() {
         super.release();
         this.container = null;
-        this.componentContext = null;
+        this.attributeContext = null;
     }
     
     /**
@@ -101,7 +101,7 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
      */
     protected void startContext(PageContext context) {
         if (container != null) {
-            componentContext = container.startContext(pageContext);
+            attributeContext = container.startContext(pageContext);
         }
     }
     
@@ -111,7 +111,7 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
      * @param context The page context to use.
      */
     protected void endContext(PageContext context) {
-        if (componentContext != null && container != null) {
+        if (attributeContext != null && container != null) {
             container.endContext(pageContext);
         }
     }

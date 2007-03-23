@@ -23,29 +23,29 @@
 package org.apache.tiles.context;
 
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.ComponentConstants;
-import org.apache.tiles.ComponentContext;
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.Constants;
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.Attribute;
 
 import java.io.Serializable;
 import java.util.*;
 
 /**
- * Basic implementation for <code>ComponentContext</code>.
+ * Basic implementation for <code>AttributeContext</code>.
  *
  * @version $Rev$ $Date$
  */
-public class BasicComponentContext implements ComponentContext, Serializable {
+public class BasicAttributeContext implements AttributeContext, Serializable {
 
     /**
-     * Component attributes.
+     * Template attributes.
      */
-    private Map<String, ComponentAttribute> attributes = null;
+    private Map<String, Attribute> attributes = null;
 
     /**
      * Constructor.
      */
-    public BasicComponentContext() {
+    public BasicAttributeContext() {
         super();
     }
 
@@ -55,9 +55,9 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      *
      * @param attributes Attributes to initialize context.
      */
-    public BasicComponentContext(Map<String, ComponentAttribute> attributes) {
+    public BasicAttributeContext(Map<String, Attribute> attributes) {
         if (attributes != null) {
-            this.attributes = new HashMap<String, ComponentAttribute>(attributes);
+            this.attributes = new HashMap<String, Attribute>(attributes);
         }
     }
 
@@ -67,8 +67,8 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      *
      * @param context The constructor to copy.
      */
-    public BasicComponentContext(ComponentContext context) {
-        this.attributes = new HashMap<String, ComponentAttribute>();
+    public BasicAttributeContext(AttributeContext context) {
+        this.attributes = new HashMap<String, Attribute>();
         Iterator<String> names = context.getAttributeNames();
         while(names.hasNext()) {
             String name = names.next();
@@ -84,9 +84,9 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      *
      * @param newAttributes Attributes to add.
      */
-    public void addAll(Map<String, ComponentAttribute> newAttributes) {
+    public void addAll(Map<String, Attribute> newAttributes) {
         if (attributes == null) {
-            attributes = new HashMap<String, ComponentAttribute>(newAttributes);
+            attributes = new HashMap<String, Attribute>(newAttributes);
             return;
         }
 
@@ -101,18 +101,18 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      *
      * @param defaultAttributes Attributes to add.
      */
-    public void addMissing(Map<String, ComponentAttribute> defaultAttributes) {
+    public void addMissing(Map<String, Attribute> defaultAttributes) {
         if (defaultAttributes == null) {
             return;
         }
 
         if (attributes == null) {
-            attributes = new HashMap<String, ComponentAttribute>(defaultAttributes);
+            attributes = new HashMap<String, Attribute>(defaultAttributes);
             return;
         }
 
-        Set<Map.Entry<String, ComponentAttribute>> entries = defaultAttributes.entrySet();
-        for (Map.Entry<String, ComponentAttribute> entry : entries) {
+        Set<Map.Entry<String, Attribute>> entries = defaultAttributes.entrySet();
+        for (Map.Entry<String, Attribute> entry : entries) {
             if (!attributes.containsKey(entry.getKey())) {
                 attributes.put(entry.getKey(), entry.getValue());
             }
@@ -123,9 +123,9 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      * Get an attribute from context.
      *
      * @param name Name of the attribute.
-     * @return <{ComponentAttribute}>
+     * @return <{Attribute}>
      */
-    public ComponentAttribute getAttribute(String name) {
+    public Attribute getAttribute(String name) {
         if (attributes == null) {
             return null;
         }
@@ -136,7 +136,7 @@ public class BasicComponentContext implements ComponentContext, Serializable {
     /**
      * Get names of all attributes.
      *
-     * @return <{ComponentAttribute}>
+     * @return <{Attribute}>
      */
     public Iterator<String> getAttributeNames() {
         if (attributes == null) {
@@ -152,23 +152,23 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      * @param name  Name of the attribute.
      * @param value Value of the attribute.
      */
-    public void putAttribute(String name, ComponentAttribute value) {
+    public void putAttribute(String name, Attribute value) {
         if (attributes == null) {
-            attributes = new HashMap<String, ComponentAttribute>();
+            attributes = new HashMap<String, Attribute>();
         }
 
         attributes.put(name, value);
     }
 
     /**
-     * Get component context from request.
+     * Get attribute context from request.
      *
      * @param tilesContext current Tiles application context.
-     * @return BasicComponentContext or null if context is not found or an
+     * @return BasicAttributeContext or null if context is not found or an
      *         jspException is present in the request.
      */
-    static public ComponentContext getContext(TilesRequestContext tilesContext) {
-        Stack<ComponentContext> contextStack = getContextStack(tilesContext);
+    static public AttributeContext getContext(TilesRequestContext tilesContext) {
+        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
         if (!contextStack.isEmpty()) {
             return contextStack.peek();
         } else {
@@ -183,13 +183,13 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      * @return The needed stack of contexts.
      */
     @SuppressWarnings("unchecked")
-    static public Stack<ComponentContext> getContextStack(TilesRequestContext tilesContext) {
-        Stack<ComponentContext> contextStack =
-            (Stack<ComponentContext>) tilesContext.getRequestScope().get(
-                ComponentConstants.COMPONENT_CONTEXT_STACK);
+    static public Stack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
+        Stack<AttributeContext> contextStack =
+            (Stack<AttributeContext>) tilesContext.getRequestScope().get(
+                Constants.ATTRIBUTE_CONTEXT_STACK);
         if (contextStack == null) {
-            contextStack = new Stack<ComponentContext>();
-            tilesContext.getRequestScope().put(ComponentConstants.COMPONENT_CONTEXT_STACK,
+            contextStack = new Stack<AttributeContext>();
+            tilesContext.getRequestScope().put(Constants.ATTRIBUTE_CONTEXT_STACK,
                     contextStack);
         }
         
@@ -202,9 +202,9 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      * @param context The context to push.
      * @param tilesContext The Tiles context object to use.
      */
-    static public void pushContext(ComponentContext context,
+    static public void pushContext(AttributeContext context,
             TilesRequestContext tilesContext) {
-        Stack<ComponentContext> contextStack = getContextStack(tilesContext);
+        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
         contextStack.push(context);
     }
     
@@ -214,8 +214,8 @@ public class BasicComponentContext implements ComponentContext, Serializable {
      * @param tilesContext The Tiles context object to use.
      * @return The popped context object.
      */
-    static public ComponentContext popContext(TilesRequestContext tilesContext) {
-        Stack<ComponentContext> contextStack = getContextStack(tilesContext);
+    static public AttributeContext popContext(TilesRequestContext tilesContext) {
+        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
         return contextStack.pop();
     }
 

@@ -759,7 +759,6 @@
       </attribute>
    </tag>
    <tag>
-      <!-- <name>initComponentDefinitions</name> -->
        <name>initContainer</name>
       <tag-class>org.apache.tiles.jsp.taglib.definition.InitContainerTag</tag-class>
       <body-content>JSP</body-content>

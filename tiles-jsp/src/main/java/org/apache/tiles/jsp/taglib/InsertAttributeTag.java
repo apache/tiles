@@ -22,8 +22,8 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.Attribute;
+import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesException;
 
 import javax.servlet.jsp.JspException;
@@ -53,7 +53,7 @@ public class InsertAttributeTag extends RenderTagSupport {
     /**
      * The context used to evaluate the attribute.
      */
-    protected ComponentContext evaluatingContext;
+    protected AttributeContext evaluatingContext;
 
     /**
      * Sets the name of the attribute.
@@ -100,7 +100,7 @@ public class InsertAttributeTag extends RenderTagSupport {
 
     /** {@inheritDoc} */
     protected void render() throws JspException, TilesException, IOException {
-        ComponentAttribute attr = (ComponentAttribute) value;
+        Attribute attr = (Attribute) value;
         if (attr == null && evaluatingContext != null) {
             attr = evaluatingContext.getAttribute(name);
         }
@@ -123,7 +123,7 @@ public class InsertAttributeTag extends RenderTagSupport {
     protected void startContext(PageContext context) {
         
         if (container != null) {
-            evaluatingContext = container.getComponentContext(context);
+            evaluatingContext = container.getAttributeContext(context);
         }
         super.startContext(context);
     }
@@ -136,7 +136,7 @@ public class InsertAttributeTag extends RenderTagSupport {
      * @throws IOException If something goes wrong during the reading of
      * definition files.
      */
-    protected void render(ComponentAttribute attr)
+    protected void render(Attribute attr)
         throws TilesException, IOException {
         container.render(attr, pageContext.getOut(), pageContext);
     }

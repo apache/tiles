@@ -23,15 +23,15 @@ package org.apache.tiles.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.Attribute;
+import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.context.BasicComponentContext;
+import org.apache.tiles.context.BasicAttributeContext;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
@@ -124,7 +124,7 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /** {@inheritDoc} */
-	public ComponentContext startContext(Object... requestItems) {
+	public AttributeContext startContext(Object... requestItems) {
         TilesRequestContext tilesContext = getRequestContext(requestItems);
 		return startContext(tilesContext);
 	}
@@ -136,24 +136,24 @@ public class BasicTilesContainer implements TilesContainer {
     }
     
     /**
-     * Starts a component context inside the container.
+     * Starts an attribute context inside the container.
      *
      * @param tilesContext The request context to use.
-     * @return The newly created component context.
+     * @return The newly created attribute context.
      */
-    private ComponentContext startContext(TilesRequestContext tilesContext) {
-        ComponentContext context = new BasicComponentContext();
-        BasicComponentContext.pushContext(context, tilesContext);
+    private AttributeContext startContext(TilesRequestContext tilesContext) {
+        AttributeContext context = new BasicAttributeContext();
+        BasicAttributeContext.pushContext(context, tilesContext);
         return context;
     }
 
     /**
-     * Releases and removes a previously created component context.
+     * Releases and removes a previously created attribute context.
      *
      * @param tilesContext The request context to use.
      */
     private void endContext(TilesRequestContext tilesContext) {
-        BasicComponentContext.popContext(tilesContext);
+        BasicAttributeContext.popContext(tilesContext);
     }
 
     /**
@@ -225,23 +225,23 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /** {@inheritDoc} */
-    public ComponentContext getComponentContext(Object... requestItems) {
+    public AttributeContext getAttributeContext(Object... requestItems) {
         TilesRequestContext tilesContext = getRequestContext(requestItems);
-        return getComponentContext(tilesContext);
+        return getAttributeContext(tilesContext);
 
     }
 
     /**
-     * Returns the current component context.
+     * Returns the current attribute context.
      *
      * @param tilesContext The request context to use.
-     * @return The current component context.
+     * @return The current attribute context.
      */
-    private ComponentContext getComponentContext(TilesRequestContext tilesContext) {
-        ComponentContext context = BasicComponentContext.getContext(tilesContext);
+    private AttributeContext getAttributeContext(TilesRequestContext tilesContext) {
+        AttributeContext context = BasicAttributeContext.getContext(tilesContext);
         if (context == null) {
-            context = new BasicComponentContext();
-            BasicComponentContext.pushContext(context, tilesContext);
+            context = new BasicAttributeContext();
+            BasicAttributeContext.pushContext(context, tilesContext);
         }
         return context;
     }
@@ -354,11 +354,11 @@ public class BasicTilesContainer implements TilesContainer {
             throw new NoSuchPreparerException("Preparer '" + preparerName + " not found");
         }
 
-        ComponentContext componentContext = BasicComponentContext.getContext(context);
+        AttributeContext attributeContext = BasicAttributeContext.getContext(context);
 
         // TODO: Temporary while preparerInstance gets refactored to throw a more specific exception.
         try {
-            preparer.execute(context, componentContext);
+            preparer.execute(context, attributeContext);
         } catch (Exception e) {
             throw new PreparerException(e.getMessage(), e);
         }
@@ -388,7 +388,7 @@ public class BasicTilesContainer implements TilesContainer {
             LOG.debug("Render request recieved for definition '" + definitionName + "'");
         }
 
-        ComponentDefinition definition = getDefinition(definitionName, request);
+        Definition definition = getDefinition(definitionName, request);
 
         if (definition == null) {
             if (LOG.isWarnEnabled()) {
@@ -404,10 +404,10 @@ public class BasicTilesContainer implements TilesContainer {
             return;
         }
 
-        ComponentContext originalContext = getComponentContext(request);
-        BasicComponentContext subContext = new BasicComponentContext(originalContext);
+        AttributeContext originalContext = getAttributeContext(request);
+        BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
         subContext.addMissing(definition.getAttributes());
-        BasicComponentContext.pushContext(subContext, request);
+        BasicAttributeContext.pushContext(subContext, request);
 
         try {
             if (definition.getPreparer() != null) {
@@ -430,14 +430,14 @@ public class BasicTilesContainer implements TilesContainer {
             // TODO it would be nice to make the preparerInstance throw a more specific
             throw new TilesException(e.getMessage(), e);
         } finally {
-            BasicComponentContext.popContext(request);
+            BasicAttributeContext.popContext(request);
         }
     }
 
     /** {@inheritDoc} */
-    public void render(ComponentAttribute attr, Writer writer, Object... requestItems)
+    public void render(Attribute attr, Writer writer, Object... requestItems)
         throws TilesException, IOException {
-        ComponentContext context = getComponentContext(requestItems);
+        AttributeContext context = getAttributeContext(requestItems);
         TilesRequestContext request = getRequestContext(requestItems);
 
         String type = calculateType(attr, request);
@@ -447,9 +447,9 @@ public class BasicTilesContainer implements TilesContainer {
 
         }
 
-        Map<String, ComponentAttribute> attrs = attr.getAttributes();
+        Map<String, Attribute> attrs = attr.getAttributes();
         if (attrs != null) {
-            for (Map.Entry<String, ComponentAttribute> a : attrs.entrySet()) {
+            for (Map.Entry<String, Attribute> a : attrs.entrySet()) {
                 context.putAttribute(a.getKey(), a.getValue());
             }
         }
@@ -468,8 +468,8 @@ public class BasicTilesContainer implements TilesContainer {
      * @param requestItems The request items.
      * @return <code>true</code> if the attribute is a definition.
      */
-    private boolean isDefinition(ComponentAttribute attr, Object... requestItems) {
-        return ComponentAttribute.DEFINITION.equals(attr.getType()) ||
+    private boolean isDefinition(Attribute attr, Object... requestItems) {
+        return Attribute.DEFINITION.equals(attr.getType()) ||
             isValidDefinition(attr.getValue().toString(), requestItems);
     }
 
@@ -481,7 +481,7 @@ public class BasicTilesContainer implements TilesContainer {
      * @return The calculated attribute type.
      * @throws TilesException If the type is not recognized.
      */
-    private String calculateType(ComponentAttribute attr,
+    private String calculateType(Attribute attr,
             TilesRequestContext request) throws TilesException {
         String type = attr.getType();
         if (type == null) {
@@ -489,11 +489,11 @@ public class BasicTilesContainer implements TilesContainer {
             if (valueContent instanceof String) {
                 String valueString = (String) valueContent;
                 if (isValidDefinition(request, valueString)) {
-                    type = ComponentAttribute.DEFINITION;
+                    type = Attribute.DEFINITION;
                 } else if (valueString.startsWith("/")) {
-                    type = ComponentAttribute.TEMPLATE;
+                    type = Attribute.TEMPLATE;
                 } else {
-                    type = ComponentAttribute.STRING;
+                    type = Attribute.STRING;
                 }
             }
             if (type == null) {
@@ -513,8 +513,8 @@ public class BasicTilesContainer implements TilesContainer {
      * @throws DefinitionsFactoryException If the definitions factory throws an
      * exception.
      */
-    protected ComponentDefinition getDefinition(String definitionName, TilesRequestContext request) throws DefinitionsFactoryException {
-        ComponentDefinition definition =
+    protected Definition getDefinition(String definitionName, TilesRequestContext request) throws DefinitionsFactoryException {
+        Definition definition =
             definitionsFactory.getDefinition(definitionName, request);
         return definition;
     }
@@ -604,7 +604,7 @@ public class BasicTilesContainer implements TilesContainer {
      */
     private boolean isValidDefinition(TilesRequestContext context, String definitionName) {
         try {
-            ComponentDefinition definition = getDefinition(definitionName, context);
+            Definition definition = getDefinition(definitionName, context);
             return definition != null;
         }
         catch (NoSuchDefinitionException nsde) {

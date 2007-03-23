@@ -23,7 +23,7 @@ package org.apache.tiles.jsp.taglib;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
@@ -38,7 +38,7 @@ import java.io.IOException;
  * Properly invokes the defined preparer and invokes the abstract
  * render method upon completion.
  * </p>
- * This tag takes special care to ensure that the component context is
+ * This tag takes special care to ensure that the attribute context is
  * reset to it's original state after the execution of the tag is
  * complete. This ensures that all all included attributes in subsequent
  * tiles are scoped properly and do not bleed outside their intended
@@ -185,7 +185,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
      * Process nested &lg;put&gt; tag.
      * <p/>
      * Places the value of the nested tag within the
-     * {@link org.apache.tiles.ComponentContext}.It is the responsibility
+     * {@link org.apache.tiles.AttributeContext}.It is the responsibility
      * of the descendent to check security.  Tags extending
      * the {@link ContainerTagSupport} will automatically provide
      * the appropriate security.
@@ -194,11 +194,11 @@ public abstract class RenderTagSupport extends ContainerTagSupport
      * @param nestedTag the put tag desciendent.
      */
     public void processNestedTag(PutAttributeTag nestedTag) {
-        ComponentAttribute attribute = new ComponentAttribute(
+        Attribute attribute = new Attribute(
             nestedTag.getValue(), nestedTag.getRole(),
             nestedTag.getType());
 
-        componentContext.putAttribute(
+        attributeContext.putAttribute(
             nestedTag.getName(),
             attribute
         );

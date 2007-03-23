@@ -23,7 +23,7 @@ package org.apache.tiles.impl.mgmt;
 
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
@@ -57,7 +57,7 @@ public class CachingTilesContainer extends BasicTilesContainer
 
     /** {@inheritDoc} */
     @Override
-    protected ComponentDefinition getDefinition(String definition,
+    protected Definition getDefinition(String definition,
                                                 TilesRequestContext context)
         throws DefinitionsFactoryException {
         return mgr.getDefinition(definition, context);
@@ -88,7 +88,7 @@ public class CachingTilesContainer extends BasicTilesContainer
      */
     protected void register(TileDefinition definition,
             TilesRequestContext request) throws DefinitionsFactoryException {
-        ComponentDefinition def = new ComponentDefinition(definition);
+        Definition def = new Definition(definition);
         mgr.addDefinition(def, request);
     }
 }

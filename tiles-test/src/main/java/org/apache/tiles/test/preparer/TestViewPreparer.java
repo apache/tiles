@@ -23,8 +23,8 @@ package org.apache.tiles.test.preparer;
 
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.ComponentContext;
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.Attribute;
 
 /**
  * A simple test <code>ViewPreparer</code>.
@@ -34,10 +34,10 @@ import org.apache.tiles.ComponentAttribute;
 public class TestViewPreparer implements ViewPreparer {
 
     /** {@inheritDoc} */
-    public void execute(TilesRequestContext tilesContext, ComponentContext componentContext)
+    public void execute(TilesRequestContext tilesContext, AttributeContext attributeContext)
     throws Exception {
-        componentContext.putAttribute(
+        attributeContext.putAttribute(
             "body",
-            new ComponentAttribute("This is the value added by the ViewPreparer"));
+            new Attribute("This is the value added by the ViewPreparer"));
     }
 }

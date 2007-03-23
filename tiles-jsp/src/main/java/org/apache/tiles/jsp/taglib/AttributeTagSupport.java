@@ -21,8 +21,8 @@
  */
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.Attribute;
+import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 
@@ -82,14 +82,14 @@ public abstract class AttributeTagSupport extends TagSupport {
     protected TilesContainer container;
 
     /**
-     * The current component context.
+     * The current attribute context.
      */
-    protected ComponentContext componentContext;
+    protected AttributeContext attributeContext;
 
     /**
      * The found attribute.
      */
-    protected ComponentAttribute attribute;
+    protected Attribute attribute;
 
 
     /**
@@ -119,13 +119,13 @@ public abstract class AttributeTagSupport extends TagSupport {
     /** {@inheritDoc} */
     public int doStartTag() throws JspException {
         container = TilesAccess.getContainer(pageContext.getServletContext());
-        componentContext = container.getComponentContext(pageContext);
+        attributeContext = container.getAttributeContext(pageContext);
         scope = getScopeId();
 
         // Some tags allow for unspecified attribues.  This
         // implies that the tag should use all of the attributes.
         if (name != null) {
-            attribute = componentContext.getAttribute(name);
+            attribute = attributeContext.getAttribute(name);
             if ((attribute == null || attribute.getValue() == null) && ignore) {
                 return SKIP_BODY;
             }

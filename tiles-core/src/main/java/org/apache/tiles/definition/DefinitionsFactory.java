@@ -29,13 +29,13 @@ import org.apache.tiles.TilesException;
 import java.util.Map;
 
 /**
- * Interface for creating a {@link org.apache.tiles.definition.ComponentDefinitions} object and managing
+ * Interface for creating a {@link org.apache.tiles.definition.Definitions} object and managing
  * its contents.
  * <p/>
  * <p>DefinitionsFactory implementations are responsible for maintaining the data
  * sources of Tiles configuration data and using the data to create
- * ComponentDefinitions sets.  Implementations also know how to append
- * locale-specific configuration data to an existing ComponentDefinitions set.</p>
+ * Definitions sets.  Implementations also know how to append
+ * locale-specific configuration data to an existing Definitions set.</p>
  *
  * @version $Rev$ $Date$
  */
@@ -47,10 +47,10 @@ public interface DefinitionsFactory {
     public static final String READER_IMPL_PROPERTY =
         "org.apache.tiles.definition.DefinitionsReader";
     /**
-     * Property name that specifies the implementation of ComponentDefinitions.
+     * Property name that specifies the implementation of Definitions.
      */
     public static final String DEFINITIONS_IMPL_PROPERTY =
-        "org.apache.tiles.definition.ComponentDefinitions";
+        "org.apache.tiles.definition.Definitions";
     
     /**
      * Property name that specifies the implementation of
@@ -72,20 +72,20 @@ public interface DefinitionsFactory {
     public void init(Map<String, String> params) throws DefinitionsFactoryException, TilesException;
 
     /**
-     * Returns a ComponentDefinition object that matches the given name and
+     * Returns a Definition object that matches the given name and
      * Tiles context
      *
-     * @param name         The name of the ComponentDefinition to return.
+     * @param name         The name of the Definition to return.
      * @param tilesContext The Tiles context to use to resolve the definition.
-     * @return the ComponentDefinition matching the given name or null if none
+     * @return the Definition matching the given name or null if none
      *         is found.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
-    public ComponentDefinition getDefinition(String name,
+    public Definition getDefinition(String name,
                                              TilesRequestContext tilesContext) throws DefinitionsFactoryException;
 
     /**
-     * Adds a source where ComponentDefinition objects are stored.
+     * Adds a source where Definition objects are stored.
      * <p/>
      * Implementations should publish what type of source object they expect.
      * The source should contain enough information to resolve a configuration
@@ -101,13 +101,13 @@ public interface DefinitionsFactory {
     public void addSource(Object source) throws DefinitionsFactoryException;
 
     /**
-     * Creates and returns a {@link ComponentDefinitions} set by reading
+     * Creates and returns a {@link Definitions} set by reading
      * configuration data from the applied sources.
      * 
      * @return The read definitions.
      * @throws DefinitionsFactoryException if an error occurs reading the
      *                                     sources.
      */
-    public ComponentDefinitions readDefinitions()
+    public Definitions readDefinitions()
         throws DefinitionsFactoryException;
 }

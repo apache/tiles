@@ -32,7 +32,7 @@ import junit.framework.TestSuite;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.Definition;
 
 /**
  * Tests the <code>org.apache.tiles.definition.digester.DigesterDefinitionsReader</code> class.
@@ -81,7 +81,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertNotNull("Config file not found", configFile);
             
             InputStream source = configFile.openStream();
-            Map<String, ComponentDefinition> definitions = reader.read(source);
+            Map<String, Definition> definitions = reader.read(source);
             
             assertNotNull("Definitions not returned.", definitions);
             assertNotNull("Couldn't find doc.mainLayout tile.", 

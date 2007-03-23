@@ -43,9 +43,9 @@ import java.util.Set;
 
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation
- * that manages ComponentDefinitions configuration data from URLs.
+ * that manages Definitions configuration data from URLs.
  * <p/>
- * <p>The ComponentDefinition objects are read from the
+ * <p>The Definition objects are read from the
  * {@link org.apache.tiles.definition.digester.DigesterDefinitionsReader DigesterDefinitionsReader}
  * class unless another implementation is specified.</p>
  *
@@ -83,7 +83,7 @@ public class UrlDefinitionsFactory
     /**
      * The definitions holder object.
      */
-    private ComponentDefinitions definitions;
+    private Definitions definitions;
     
     /**
      * The locale resolver object.
@@ -136,7 +136,7 @@ public class UrlDefinitionsFactory
      * @throws DefinitionsFactoryException If something goes wrong during
      * reading definitions.
      */
-    protected ComponentDefinitions getComponentDefinitions()
+    protected Definitions getDefinitions()
         throws DefinitionsFactoryException {
         if (definitions == null) {
             definitions = readDefinitions();
@@ -146,20 +146,20 @@ public class UrlDefinitionsFactory
 
 
     /**
-     * Returns a ComponentDefinition object that matches the given name and
+     * Returns a Definition object that matches the given name and
      * Tiles context
      *
-     * @param name         The name of the ComponentDefinition to return.
+     * @param name         The name of the Definition to return.
      * @param tilesContext The Tiles context to use to resolve the definition.
-     * @return the ComponentDefinition matching the given name or null if none
+     * @return the Definition matching the given name or null if none
      *         is found.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
-    public ComponentDefinition getDefinition(String name,
+    public Definition getDefinition(String name,
                                              TilesRequestContext tilesContext)
         throws DefinitionsFactoryException {
 
-        ComponentDefinitions definitions = getComponentDefinitions();
+        Definitions definitions = getDefinitions();
         Locale locale = null;
 
         if (tilesContext != null) {
@@ -175,7 +175,7 @@ public class UrlDefinitionsFactory
     }
 
     /**
-     * Adds a source where ComponentDefinition objects are stored.
+     * Adds a source where Definition objects are stored.
      * <p/>
      * Implementations should publish what type of source object they expect.
      * The source should contain enough information to resolve a configuration
@@ -203,15 +203,15 @@ public class UrlDefinitionsFactory
     }
 
     /**
-     * Appends locale-specific {@link ComponentDefinition} objects to an existing
-     * {@link ComponentDefinitions} set by reading locale-specific versions of
+     * Appends locale-specific {@link Definition} objects to an existing
+     * {@link Definitions} set by reading locale-specific versions of
      * the applied sources.
      *
-     * @param definitions  The ComponentDefinitions object to append to.
+     * @param definitions  The Definitions object to append to.
      * @param tilesContext The requested locale.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
-    protected void addDefinitions(ComponentDefinitions definitions,
+    protected void addDefinitions(Definitions definitions,
                                   TilesRequestContext tilesContext)
         throws DefinitionsFactoryException {
 
@@ -227,7 +227,7 @@ public class UrlDefinitionsFactory
 
         processedLocales.add(locale);
         List<String> postfixes = calculatePostfixes(locale);
-        Map<String, ComponentDefinition> localeDefsMap = new HashMap<String, ComponentDefinition>();
+        Map<String, Definition> localeDefsMap = new HashMap<String, Definition>();
         for (Object postfix : postfixes) {
         	// For each postfix, all the sources must be loaded.
             for (Object source : sources) {
@@ -244,7 +244,7 @@ public class UrlDefinitionsFactory
                     
                     // Definition must be collected, starting from the base
                     // source up to the last localized file.
-                    Map<String, ComponentDefinition> defsMap = reader
+                    Map<String, Definition> defsMap = reader
                             .read(connection.getInputStream());
                     if (defsMap != null) {
                     	localeDefsMap.putAll(defsMap);
@@ -259,22 +259,22 @@ public class UrlDefinitionsFactory
         }
         
         // At the end of definitions loading, they can be assigned to
-        // ComponentDefinitions implementation, to allow inheritance resolution.
+        // Definitions implementation, to allow inheritance resolution.
         definitions.addDefinitions(localeDefsMap, localeResolver
                 .resolveLocale(tilesContext));
     }
 
     /**
-     * Creates and returns a {@link ComponentDefinitions} set by reading
+     * Creates and returns a {@link Definitions} set by reading
      * configuration data from the applied sources.
      *
      * @return The definitions holder object, filled with base definitions.
      * @throws DefinitionsFactoryException if an error occurs reading the
      * sources.
      */
-    public ComponentDefinitions readDefinitions()
+    public Definitions readDefinitions()
         throws DefinitionsFactoryException {
-        ComponentDefinitions definitions = new ComponentDefinitionsImpl();
+        Definitions definitions = new DefinitionsImpl();
         try {
             for (Object source1 : sources) {
                 URL source = (URL) source1;
@@ -282,7 +282,7 @@ public class UrlDefinitionsFactory
                 connection.connect();
                 lastModifiedDates.put(source.toExternalForm(),
                     connection.getLastModified());
-                Map<String, ComponentDefinition> defsMap = reader
+                Map<String, Definition> defsMap = reader
                         .read(connection.getInputStream());
                 definitions.addDefinitions(defsMap);
             }
@@ -391,7 +391,7 @@ public class UrlDefinitionsFactory
     public void refresh() throws DefinitionsFactoryException {
         LOG.debug("Updating Tiles definitions. . .");
         synchronized (definitions) {
-            ComponentDefinitions newDefs = readDefinitions();
+            Definitions newDefs = readDefinitions();
             definitions.reset();
             definitions.addDefinitions(newDefs.getBaseDefinitions());
         }

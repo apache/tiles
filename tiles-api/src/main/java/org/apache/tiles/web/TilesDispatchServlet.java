@@ -25,7 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.AttributeContext;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.ServletException;
@@ -48,10 +48,10 @@ public class TilesDispatchServlet extends HttpServlet {
         LogFactory.getLog(TilesDispatchServlet.class);
 
     /**
-     * The object that will mutate the component context so that it uses
+     * The object that will mutate the attribute context so that it uses
      * different attributes. 
      */
-    private ComponentContextMutator mutator;
+    private AttributeContextMutator mutator;
 
 
     /** {@inheritDoc} */
@@ -60,7 +60,7 @@ public class TilesDispatchServlet extends HttpServlet {
         String temp = getInitParameter("mutator");
         if(temp != null) {
             try {
-                mutator = (ComponentContextMutator)Class.forName(temp).newInstance();
+                mutator = (AttributeContextMutator)Class.forName(temp).newInstance();
             } catch (Exception e) {
                 throw new ServletException("Unable to instantiate specified context mutator.", e);
             }
@@ -74,7 +74,7 @@ public class TilesDispatchServlet extends HttpServlet {
         throws ServletException, IOException {
 
         TilesContainer container = TilesAccess.getContainer(getServletContext());
-        mutator.mutate(container.getComponentContext(req, res), req);
+        mutator.mutate(container.getAttributeContext(req, res), req);
         try {
             String definition = getDefinitionName(req);
             if (LOG.isDebugEnabled()) {
@@ -114,10 +114,10 @@ public class TilesDispatchServlet extends HttpServlet {
     /**
      * Default no-op mutator
      */
-    class DefaultMutator implements ComponentContextMutator {
+    class DefaultMutator implements AttributeContextMutator {
 
         /** {@inheritDoc} */
-        public void mutate(ComponentContext context, ServletRequest request) {
+        public void mutate(AttributeContext context, ServletRequest request) {
             // noop;
         }
     }

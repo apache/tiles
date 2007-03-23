@@ -22,7 +22,7 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.ComponentConstants;
+import org.apache.tiles.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -59,7 +59,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @version $Rev$ $Date$
  */
 public class AddAttributeTag extends RoleSecurityTagSupport implements
-        ComponentConstants {
+        Constants {
 
     /**
      * The logging object.

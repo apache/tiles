@@ -37,8 +37,7 @@
 <!ENTITY % Boolean "(true|false)">
 
 
-<!-- A "ContentType" is the content type of an attribute passed to a tile
-     component.
+<!-- A "ContentType" is the content type of an attribute passed to a template.
 -->
 <!ENTITY % ContentType "(string|template|definition)">
 

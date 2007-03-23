@@ -22,7 +22,7 @@
 package org.apache.tiles.preparer;
 
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.AttributeContext;
 
 /**
  * <p>
@@ -31,7 +31,7 @@ import org.apache.tiles.ComponentContext;
  *
  * <p>
  * A view preparer is typically used to provide last minute
- * translations of the data within the Component or Tiles Context.
+ * translations of the data within the attribute context.
  * A preparer is not intended to replace the controller within an
  * MVC architecture.
  * </p>
@@ -51,10 +51,10 @@ public interface ViewPreparer {
      * is included.
      *
      * @param tilesContext     Current tiles application context.
-     * @param componentContext Current tile context.
+     * @param attributeContext Current tile context.
      * @throws Exception If something goes wrong during execution.
      */
     public void execute(TilesRequestContext tilesContext,
-        ComponentContext componentContext)
+        AttributeContext attributeContext)
         throws Exception;
 }

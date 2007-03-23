@@ -24,7 +24,7 @@ package org.apache.tiles.locale.impl;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.ComponentConstants;
+import org.apache.tiles.Constants;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.locale.LocaleResolver;
@@ -32,7 +32,7 @@ import org.apache.tiles.locale.LocaleResolver;
 /**
  * Default implementation of <code>LocaleResolver</code><br>
  * It tries to take the locale from the session-scoped attribute
- * {@link ComponentConstants#LOCALE_KEY}. If it is not found, it returns the
+ * {@link Constants#LOCALE_KEY}. If it is not found, it returns the
  * locale included in the request.
  *
  * @version $Rev$ $Date$
@@ -50,7 +50,7 @@ public class DefaultLocaleResolver implements LocaleResolver {
         Locale retValue = null;
         Map<String, Object> session = request.getSessionScope();
         if (session != null) {
-            retValue = (Locale) session.get(ComponentConstants.LOCALE_KEY);
+            retValue = (Locale) session.get(Constants.LOCALE_KEY);
         }
         if (retValue == null) {
             retValue = request.getRequestLocale();

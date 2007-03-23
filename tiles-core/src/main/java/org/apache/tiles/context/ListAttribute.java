@@ -21,7 +21,7 @@
  */
 package org.apache.tiles.context;
 
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @version $Rev$ $Date$
  */
-public class ComponentListAttribute extends ComponentAttribute {
+public class ListAttribute extends Attribute {
     /**
      * List.
      * We declare a List to avoid cast.
@@ -46,7 +46,7 @@ public class ComponentListAttribute extends ComponentAttribute {
     /**
      * Constructor.
      */
-    public ComponentListAttribute() {
+    public ListAttribute() {
         list = new ArrayList<Object>();
         setValue(list);
     }
@@ -57,7 +57,7 @@ public class ComponentListAttribute extends ComponentAttribute {
      * @param name  Name.
      * @param value List.
      */
-    public ComponentListAttribute(String name, List<Object> value) {
+    public ListAttribute(String name, List<Object> value) {
         super(name, value);
         list = value;
     }
@@ -68,7 +68,7 @@ public class ComponentListAttribute extends ComponentAttribute {
      *
      * @param element XmlAttribute to add.
      */
-    public void add(ComponentAttribute element) {
+    public void add(Attribute element) {
         list.add(element);
     }
 
@@ -81,8 +81,8 @@ public class ComponentListAttribute extends ComponentAttribute {
         //list.add( value );
         // To correct a bug in digester, we need to check the object type
         // Digester doesn't call correct method according to object type ;-(
-        if (value instanceof ComponentAttribute) {
-            add((ComponentAttribute) value);
+        if (value instanceof Attribute) {
+            add((Attribute) value);
         } else {
             list.add(value);
         }

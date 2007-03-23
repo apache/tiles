@@ -31,7 +31,7 @@ import java.util.Map;
  *
  * @version $Rev$ $Date$
  */
-public class ComponentAttribute implements Serializable {
+public class Attribute implements Serializable {
 
     /**
      * Attribute of type definition.
@@ -73,13 +73,13 @@ public class ComponentAttribute implements Serializable {
     /**
      * The composing attributes, used to render the attribute itself.
      */
-    private Map<String, ComponentAttribute> attributes;
+    private Map<String, Attribute> attributes;
 
     /**
      * Constructor.
      *
      */
-    public ComponentAttribute() {
+    public Attribute() {
     }
 
     /**
@@ -87,7 +87,7 @@ public class ComponentAttribute implements Serializable {
      *
      * @param value Object to store.
      */
-    public ComponentAttribute(Object value) {
+    public Attribute(Object value) {
         this.value = value;
     }
 
@@ -96,16 +96,16 @@ public class ComponentAttribute implements Serializable {
      *
      * @param attribute The attribute to copy from.
      */
-    public ComponentAttribute(ComponentAttribute attribute) {
+    public Attribute(Attribute attribute) {
         this.name = attribute.name;
         this.role = attribute.role;
         this.type = attribute.type;
         this.value = attribute.getValue();
         if (attribute.attributes != null) {
-            this.attributes = new HashMap<String, ComponentAttribute>();
-            for (Map.Entry<String, ComponentAttribute> entry : attribute.attributes
+            this.attributes = new HashMap<String, Attribute>();
+            for (Map.Entry<String, Attribute> entry : attribute.attributes
                     .entrySet()) {
-                this.attributes.put(entry.getKey(), new ComponentAttribute(
+                this.attributes.put(entry.getKey(), new Attribute(
                         entry.getValue()));
             }
         }
@@ -117,7 +117,7 @@ public class ComponentAttribute implements Serializable {
      * @param name name of the attribute
      * @param value Object to store.
      */
-    public ComponentAttribute(String name, Object value) {
+    public Attribute(String name, Object value) {
         this.name = name;
         this.value = value;
     }
@@ -128,7 +128,7 @@ public class ComponentAttribute implements Serializable {
      * @param value Object to store.
      * @param role  Asociated role.
      */
-    public ComponentAttribute(Object value, String role) {
+    public Attribute(Object value, String role) {
         this.value = value;
         this.role = role;
     }
@@ -140,7 +140,7 @@ public class ComponentAttribute implements Serializable {
      * @param role  Asociated role.
      * @param type  Attribute type.
      */
-    public ComponentAttribute(Object value, String role, String type) {
+    public Attribute(Object value, String role, String type) {
         this.value = value;
         this.role = role;
         this.type = type;
@@ -154,7 +154,7 @@ public class ComponentAttribute implements Serializable {
      * @param role  Asociated role.
      * @param type  Attribute type.
      */
-    public ComponentAttribute(String name, Object value, String role,
+    public Attribute(String name, Object value, String role,
             String type) {
         this.name = name;
         this.value = value;
@@ -229,7 +229,7 @@ public class ComponentAttribute implements Serializable {
      *
      * @return The name of the attribute. It can be <code>null</code>, but in
      * this case it should be used as an element of
-     * <code>ComponentListAttribute</code>
+     * <code>ListAttribute</code>
      */
     public String getName() {
         return name;
@@ -240,7 +240,7 @@ public class ComponentAttribute implements Serializable {
      *
      * @param name The name of the attribute. It can be <code>null</code>,
      * but in this case it should be used as an element of
-     * <code>ComponentListAttribute</code>
+     * <code>ListAttribute</code>
      */
     public void setName(String name) {
         this.name = name;
@@ -252,7 +252,7 @@ public class ComponentAttribute implements Serializable {
      *
      * @return The attribute map.
      */
-    public Map<String, ComponentAttribute> getAttributes() {
+    public Map<String, Attribute> getAttributes() {
         return attributes;
     }
 
@@ -261,7 +261,7 @@ public class ComponentAttribute implements Serializable {
      *
      * @param attributes The attribute map.
      */
-    public void setAttributes(Map<String, ComponentAttribute> attributes) {
+    public void setAttributes(Map<String, Attribute> attributes) {
         this.attributes = attributes;
     }
 

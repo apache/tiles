@@ -21,7 +21,7 @@
  */
 package org.apache.tiles.mgmt;
 
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.Attribute;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -47,9 +47,9 @@ public class TileDefinition {
      */
     protected String template = null;
     /**
-     * Attributes defined for the component.
+     * Attributes defined for the definition.
      */
-    protected Map<String, ComponentAttribute> attributes = null;
+    protected Map<String, Attribute> attributes = null;
     /**
      * Role associated to definition.
      */
@@ -64,7 +64,7 @@ public class TileDefinition {
      * Constructor.
      */
     public TileDefinition() {
-        attributes = new HashMap<String, ComponentAttribute>();
+        attributes = new HashMap<String, Attribute>();
     }
 
     /**
@@ -127,7 +127,7 @@ public class TileDefinition {
      *
      * @return the current value of the attributes property
      */
-    public Map<String, ComponentAttribute> getAttributes() {
+    public Map<String, Attribute> getAttributes() {
         return attributes;
     }
 
@@ -139,7 +139,7 @@ public class TileDefinition {
      * @return requested attribute or null if not found
      */
     public Object getAttribute(String key) {
-        ComponentAttribute attribute = attributes.get(key);
+        Attribute attribute = attributes.get(key);
         if (attribute != null) {
             return attribute.getValue();
         } else {
@@ -148,23 +148,23 @@ public class TileDefinition {
     }
 
     /**
-     * Put a new attribute in this component
+     * Put a new attribute in this definition.
      *
      * @param key   String key for attribute
      * @param value Attibute value.
      */
-    public void putAttribute(String key, ComponentAttribute value) {
+    public void putAttribute(String key, Attribute value) {
         attributes.put(key, value);
     }
 
     /**
-     * Add an attribute to this component.
+     * Add an attribute to this definition.
      * <p/>
      * This method is used by Digester to load definitions.
      *
      * @param attribute Attribute to add.
      */
-    public void addAttribute(ComponentAttribute attribute) {
+    public void addAttribute(Attribute attribute) {
         putAttribute(attribute.getName(), attribute);
     }
 

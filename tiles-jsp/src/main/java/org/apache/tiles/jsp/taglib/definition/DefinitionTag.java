@@ -21,7 +21,7 @@
  */
 package org.apache.tiles.jsp.taglib.definition;
 
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
@@ -36,23 +36,11 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * This is the tag handler for &lt;tiles:definition&gt;, which defines
- * a tiles (or template / component). TileDefinition is put in requested context and can be
- * used in &lt;tiles:insert&gt.
+ * This is the tag handler for &lt;tiles:definition&gt;, which creates a custom
+ * definition. If the configured container is a {@link MutableTilesContainer},
+ * this newly created definition can be used in &lt;tiles:insertDefinition&gt.
  *
  * @version $Rev$ $Date$
- */
-/**
- * @author PTRNTN77A26E506O
- *
- */
-/**
- * @author PTRNTN77A26E506O
- *
- */
-/**
- * @author PTRNTN77A26E506O
- *
  */
 public class DefinitionTag extends TagSupport
     implements PutAttributeTagParent {
@@ -92,7 +80,7 @@ public class DefinitionTag extends TagSupport
     /**
      * Maps attribute names with their attributes.
      */
-    private Map<String, ComponentAttribute> attributes;
+    private Map<String, Attribute> attributes;
 
 
     /**
@@ -198,7 +186,7 @@ public class DefinitionTag extends TagSupport
 
     /** {@inheritDoc} */
     public int doStartTag() throws JspException {
-        attributes = new HashMap<String, ComponentAttribute>();
+        attributes = new HashMap<String, Attribute>();
 
         TilesContainer c =
             TilesAccess.getContainer(pageContext.getServletContext());
@@ -241,7 +229,7 @@ public class DefinitionTag extends TagSupport
      * @throws JspException Never thrown, it's here for API compatibility.
      */
     public void processNestedTag(PutAttributeTag nestedTag) throws JspException {
-        ComponentAttribute attr = new ComponentAttribute(nestedTag.getValue(),
+        Attribute attr = new Attribute(nestedTag.getValue(),
             nestedTag.getRole(), nestedTag.getType());
         attr.setName(nestedTag.getName());
         attributes.put(nestedTag.getName(), attr);

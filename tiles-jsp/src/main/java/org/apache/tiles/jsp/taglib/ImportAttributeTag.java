@@ -21,7 +21,7 @@
  */
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.Attribute;
 import org.apache.tiles.jsp.taglib.AttributeTagSupport;
 
 import javax.servlet.jsp.JspException;
@@ -68,7 +68,7 @@ public class ImportAttributeTag extends AttributeTagSupport {
     }
 
     /**
-     * Expose the requested property from component context.
+     * Expose the requested property from attribute context.
      *
      * @throws JspException On errors processing tag.
      */
@@ -77,7 +77,7 @@ public class ImportAttributeTag extends AttributeTagSupport {
             pageContext.setAttribute(toName != null? toName : name,
                     attribute.getValue(), scope);
         } else {
-            Iterator<String> names = componentContext.getAttributeNames();
+            Iterator<String> names = attributeContext.getAttributeNames();
             while (names.hasNext()) {
                 String name = names.next();
 
@@ -88,7 +88,7 @@ public class ImportAttributeTag extends AttributeTagSupport {
                     continue;
                 }
 
-                ComponentAttribute attr = componentContext.getAttribute(name);
+                Attribute attr = attributeContext.getAttribute(name);
 
                 if ( (attr == null || attr.getValue() == null) && !ignore) {
                     throw new JspException("Error importing attributes. "+

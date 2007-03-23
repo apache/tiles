@@ -22,7 +22,7 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +44,8 @@ public class PutListAttributeTag extends PutAttributeTag
      * @return The value of this list attribute.
      */
     @SuppressWarnings("unchecked")
-    public List<ComponentAttribute> getValue() {
-        return (List<ComponentAttribute>) super.getValue();
+    public List<Attribute> getValue() {
+        return (List<Attribute>) super.getValue();
     }
 
     /** {@inheritDoc} */
@@ -57,7 +57,7 @@ public class PutListAttributeTag extends PutAttributeTag
     /** {@inheritDoc} */
     @Override
     public int doStartTag() throws JspException {
-        super.setValue(new ArrayList<ComponentAttribute>());
+        super.setValue(new ArrayList<Attribute>());
     	return super.doStartTag();
     }
 
@@ -84,7 +84,7 @@ public class PutListAttributeTag extends PutAttributeTag
      * Process nested &lg;putAttribute&gt; tag.
      * <p/>
      * Places the value of the nested tag within the
-     * {@link org.apache.tiles.ComponentContext}.It is the responsibility
+     * {@link org.apache.tiles.AttributeContext}.It is the responsibility
      * of the descendent to check security.  Tags extending
      * the {@link org.apache.tiles.jsp.taglib.ContainerTagSupport} will automatically provide
      * the appropriate security.
@@ -92,7 +92,7 @@ public class PutListAttributeTag extends PutAttributeTag
      * @param nestedTag the put tag desciendent.
      */
     public void processNestedTag(AddAttributeTag nestedTag) {
-        ComponentAttribute attribute = new ComponentAttribute(
+        Attribute attribute = new Attribute(
             nestedTag.getValue(), nestedTag.getRole(),
             nestedTag.getType());
 
@@ -104,7 +104,7 @@ public class PutListAttributeTag extends PutAttributeTag
      *
 	 * @param attribute The attribute to add.
 	 */
-	private void addValue( ComponentAttribute attribute ) {
+	private void addValue( Attribute attribute ) {
 		this.getValue().add(attribute);
 	}
 }

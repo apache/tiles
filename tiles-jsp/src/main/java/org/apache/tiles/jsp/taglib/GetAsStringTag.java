@@ -21,13 +21,13 @@
  */
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
 
 import java.io.IOException;
 
 /**
- * Retrieve the value of the specified component/template attribute property,
+ * Retrieve the value of the specified definition/template attribute property,
  * and render it to the current JspWriter as a String.
  * The usual toString() conversion is applied on the found value.
  *
@@ -37,7 +37,7 @@ public class GetAsStringTag extends InsertAttributeTag {
 
     /** {@inheritDoc} */
     @Override
-    protected void render(ComponentAttribute attr)
+    protected void render(Attribute attr)
         throws TilesException, IOException {
         pageContext.getOut().print(attr.getValue().toString());
     }

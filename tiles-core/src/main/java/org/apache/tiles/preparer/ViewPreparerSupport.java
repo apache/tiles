@@ -22,7 +22,7 @@
 package org.apache.tiles.preparer;
 
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.AttributeContext;
 
 /**
  * Basic implementation of ViewPreparer.  Implementations can extend this class
@@ -36,6 +36,6 @@ public class ViewPreparerSupport implements ViewPreparer {
 
     /** {@inheritDoc} */
     public void execute(TilesRequestContext tilesContext,
-                        ComponentContext componentContext) throws Exception {
+                        AttributeContext attributeContext) throws Exception {
     }
 }

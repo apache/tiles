@@ -22,7 +22,7 @@
 
 package org.apache.tiles.definition;
 
-import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.Definitions;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
@@ -39,10 +39,10 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
      * Exposes the <code>addDefinitions</code> method of
      * <code>UrlDefinitionsFactory</code>
      * 
-     * @see org.apache.tiles.definition.UrlDefinitionsFactory#addDefinitions(org.apache.tiles.definition.ComponentDefinitions,
+     * @see org.apache.tiles.definition.UrlDefinitionsFactory#addDefinitions(org.apache.tiles.definition.Definitions,
      *org.apache.tiles.context.TilesRequestContext)
      */
-    public void addDefinitions(ComponentDefinitions definitions,
+    public void addDefinitions(Definitions definitions,
             TilesRequestContext tilesContext) throws DefinitionsFactoryException {
         super.addDefinitions(definitions, tilesContext);
     }

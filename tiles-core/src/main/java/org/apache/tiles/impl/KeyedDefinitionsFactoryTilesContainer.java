@@ -27,7 +27,7 @@ import java.util.Map;
 
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 
@@ -173,9 +173,9 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
 
     /** {@inheritDoc} */
     @Override
-    protected ComponentDefinition getDefinition(String definitionName,
+    protected Definition getDefinition(String definitionName,
             TilesRequestContext request) throws DefinitionsFactoryException {
-        ComponentDefinition retValue = null;
+        Definition retValue = null;
         String key = getDefinitionsFactoryKey(request);
         if (key != null) {
             DefinitionsFactory definitionsFactory =

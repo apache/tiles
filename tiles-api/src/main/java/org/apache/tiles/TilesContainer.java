@@ -53,11 +53,11 @@ public interface TilesContainer {
     TilesApplicationContext getApplicationContext();
 
     /**
-     * Retrive the component context of the current request.
+     * Retrive the attribute context of the current request.
      * @param requestItems the current request objects.
-     * @return map of the attributes in the current component context.
+     * @return map of the attributes in the current attribute context.
      */
-    ComponentContext getComponentContext(Object... requestItems);
+    AttributeContext getAttributeContext(Object... requestItems);
 
     /**
      * Starts a new context, where attribute values are stored independently
@@ -68,7 +68,7 @@ public interface TilesContainer {
      * @param requestItems the current request objects.
      * @return The newly created context.
      */
-    ComponentContext startContext(Object... requestItems);
+    AttributeContext startContext(Object... requestItems);
     
     /**
      * Ends a context, where attribute values are stored independently
@@ -97,7 +97,7 @@ public interface TilesContainer {
     void render(String definition, Object... requestItems) throws TilesException;
 
     /**
-     * Render the given ComponentAttribute.
+     * Render the given Attribute.
      *
      * @param attribute The attribute to render.
      * @param writer The writer to use when rendering an attribute of "string"
@@ -107,7 +107,7 @@ public interface TilesContainer {
      * elements.
      * @throws IOException If something goes wrong during writing to the output. 
      */
-    void render(ComponentAttribute attribute, Writer writer, Object... requestItems)
+    void render(Attribute attribute, Writer writer, Object... requestItems)
         throws TilesException, IOException;
 
     /**

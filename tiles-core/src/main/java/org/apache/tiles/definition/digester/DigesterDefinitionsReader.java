@@ -23,7 +23,7 @@
 package org.apache.tiles.definition.digester;
 
 import org.apache.commons.digester.Digester;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.xml.sax.SAXException;
@@ -35,21 +35,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Reads {@link org.apache.tiles.definition.ComponentDefinition ComponentDefinition} objects
+ * Reads {@link org.apache.tiles.definition.Definition Definition} objects
  * from an XML InputStream using Digester.
  * <p/>
  * <p>This <code>DefinitionsReader</code> implementation expects the source to be
  * passed as an <code>InputStream</code>.  It parses XML data from the source and
- * builds a Map of ComponentDefinition objects.</p>
+ * builds a Map of Definition objects.</p>
  * <p/>
  * <p>The Digester object can be configured by passing in initialization parameters.
  * Currently the only parameter that is supported is the <code>validating</code>
  * parameter.  This value is set to <code>false</code> by default.  To enable DTD
- * validation for XML ComponentDefinition files, give the init method a parameter
+ * validation for XML Definition files, give the init method a parameter
  * with a key of <code>definitions-parser-validate</code> and a value of
  * <code>&quot;true&quot;</code>.
  * <p/>
- * <p>The ComponentDefinition objects are stored internally in a Map.  The Map is
+ * <p>The Definition objects are stored internally in a Map.  The Map is
  * stored as an instance variable rather than a local variable in the <code>read</code>
  * method.  This means that instances of this class are <strong>not</strong>
  * thread-safe and access by multiple threads must be synchronized.</p>
@@ -64,14 +64,14 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     public static final String PARSER_VALIDATE_PARAMETER_NAME =
         "definitions-parser-validate";
     /**
-     * <code>Digester</code> object used to read ComponentDefinition data
+     * <code>Digester</code> object used to read Definition data
      * from the source.
      */
     protected Digester digester;
     /**
-     * Stores ComponentDefinition objects.
+     * Stores Definition objects.
      */
-    Map<String, ComponentDefinition> definitions;
+    Map<String, Definition> definitions;
     /**
      * Should we use a validating XML parser to read the configuration file.
      * Default is <code>false</code>.
@@ -112,19 +112,19 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     }
 
     /**
-     * Reads <code>{@link ComponentDefinition}</code> objects from a source.
+     * Reads <code>{@link Definition}</code> objects from a source.
      * <p/>
      * Implementations should publish what type of source object is expected.
      *
      * @param source The <code>InputStream</code> source from which definitions
      *               will be read.
-     * @return a Map of <code>ComponentDefinition</code> objects read from
+     * @return a Map of <code>Definition</code> objects read from
      *         the source.
      * @throws org.apache.tiles.definition.DefinitionsFactoryException
      *          if the source is invalid or
      *          an error occurs when reading definitions.
      */
-    public Map<String, ComponentDefinition> read(Object source) throws DefinitionsFactoryException {
+    public Map<String, Definition> read(Object source) throws DefinitionsFactoryException {
 
         // Get out if we have not been initialized.
         if (!inited) {
@@ -135,7 +135,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // This is an instance variable instead of a local variable because
         // we want to be able to call the addDefinition method to populate it.
         // But we reset the Map here, which, of course, has threading implications.
-        definitions = new HashMap<String, ComponentDefinition>();
+        definitions = new HashMap<String, Definition>();
 
         if (source == null) {
             // Perhaps we should throw an exception here.
@@ -202,17 +202,17 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // Common constants
         String PACKAGE_NAME = "org.apache.tiles";
         String DEFINITION_TAG = "tiles-definitions/definition";
-        String definitionHandlerClass = PACKAGE_NAME + ".definition.ComponentDefinition";
+        String definitionHandlerClass = PACKAGE_NAME + ".definition.Definition";
 
         String PUT_TAG = DEFINITION_TAG + "/put-attribute";
-        String putAttributeHandlerClass = PACKAGE_NAME + ".ComponentAttribute";
+        String putAttributeHandlerClass = PACKAGE_NAME + ".Attribute";
 
         //String LIST_TAG = DEFINITION_TAG + "/putList";
         // List tag value
         String LIST_TAG = "put-list-attribute";
         String DEF_LIST_TAG = DEFINITION_TAG + "/" + LIST_TAG;
 
-        String listHandlerClass = PACKAGE_NAME + ".context.ComponentListAttribute";
+        String listHandlerClass = PACKAGE_NAME + ".context.ListAttribute";
         // Tag value for adding an element in a list
         String ADD_LIST_ELE_TAG = "*/add-attribute";
 
@@ -272,12 +272,12 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     }
 
     /**
-     * Adds a new <code>ComponentDefinition</code> to the internal Map or replaces
+     * Adds a new <code>Definition</code> to the internal Map or replaces
      * an existing one.
      *
-     * @param definition The ComponentDefinition object to be added.
+     * @param definition The Definition object to be added.
      */
-    public void addDefinition(ComponentDefinition definition) {
+    public void addDefinition(Definition definition) {
         definitions.put(definition.getName(), definition);
     }
 }

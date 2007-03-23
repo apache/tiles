@@ -26,15 +26,15 @@ package org.apache.tiles.definition;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.Definitions;
 import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.Definition;
 
 /**
  *
  * @version $Rev$ $Date$ 
  */
-public class MockComponentDefinitions implements ComponentDefinitions {
+public class MockDefinitions implements Definitions {
     
     /**
      * Hokey way to verify that this was created.
@@ -50,52 +50,52 @@ public class MockComponentDefinitions implements ComponentDefinitions {
         return instanceCount;
     }
     
-    /** Creates a new instance of MockComponentDefinitions */
-    public MockComponentDefinitions() {
+    /** Creates a new instance of MockDefinitions */
+    public MockDefinitions() {
         instanceCount++;
     }
 
     /**
-     * Returns a ComponentDefinition object that matches the given name.
+     * Returns a Definition object that matches the given name.
      * 
-     * @param name The name of the ComponentDefinition to return.
-     * @return the ComponentDefinition matching the given name or null if none
+     * @param name The name of the Definition to return.
+     * @return the Definition matching the given name or null if none
      *  is found.
      */
-    public ComponentDefinition getDefinition(String name) {
+    public Definition getDefinition(String name) {
         return null;
     }
 
     /**
-     * Adds new locale-specific ComponentDefinition objects to the internal 
+     * Adds new locale-specific Definition objects to the internal 
      * collection and resolves inheritance attraibutes.
      * 
      * @param defsMap The new definitions to add.
      * @param locale The locale to add the definitions to.
      */
-    public void addDefinitions(Map<String, ComponentDefinition> defsMap,
+    public void addDefinitions(Map<String, Definition> defsMap,
             java.util.Locale locale) {
     }
 
     /**
-     * Returns a ComponentDefinition object that matches the given name and locale.
+     * Returns a Definition object that matches the given name and locale.
      * 
-     * @param name The name of the ComponentDefinition to return.
+     * @param name The name of the Definition to return.
      * @param locale The locale to use to resolve the definition.
-     * @return the ComponentDefinition matching the given name or null if none
+     * @return the Definition matching the given name or null if none
      *  is found.
      */
-    public ComponentDefinition getDefinition(String name, java.util.Locale locale) {
+    public Definition getDefinition(String name, java.util.Locale locale) {
         return null;
     }
 
     /**
-     * Adds new ComponentDefinition objects to the internal collection and 
+     * Adds new Definition objects to the internal collection and 
      * resolves inheritance attraibutes.
      * 
      * @param defsMap The new definitions to add.
      */
-    public void addDefinitions(Map<String, ComponentDefinition> defsMap) {
+    public void addDefinitions(Map<String, Definition> defsMap) {
     }
 
     /** {@inheritDoc} */
@@ -113,7 +113,7 @@ public class MockComponentDefinitions implements ComponentDefinitions {
     }
 
     /** {@inheritDoc} */
-    public Map<String, ComponentDefinition> getBaseDefinitions() {
+    public Map<String, Definition> getBaseDefinitions() {
         return null;
     }
     

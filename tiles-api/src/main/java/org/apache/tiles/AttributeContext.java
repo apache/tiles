@@ -30,29 +30,29 @@ import java.util.Iterator;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public interface ComponentContext {
+public interface AttributeContext {
 
     /**
      * Add all attributes to the context.
      *
      * @param newAttributes the attributes to be added.
      */
-    void addAll(Map<String, ComponentAttribute> newAttributes);
+    void addAll(Map<String, Attribute> newAttributes);
 
     /**
      * Add all attributes to the context
      *
      * @param defaultAttributes attributes which should be present.
      */
-    void addMissing(Map<String, ComponentAttribute> defaultAttributes);
+    void addMissing(Map<String, Attribute> defaultAttributes);
 
     /**
      * Retrieve the named attribute.
      *
      * @param name key name for the attribute.
-     * @return ComponentAttribute associated with the given name.
+     * @return Attribute associated with the given name.
      */
-    ComponentAttribute getAttribute(String name);
+    Attribute getAttribute(String name);
 
     /**
      * Iterator of all attribute names.
@@ -67,7 +67,7 @@ public interface ComponentContext {
      * @param name name of the attribute
      * @param value value of the attribute
      */
-    void putAttribute(String name, ComponentAttribute value);
+    void putAttribute(String name, Attribute value);
 
     /**
      * Clear the attributes

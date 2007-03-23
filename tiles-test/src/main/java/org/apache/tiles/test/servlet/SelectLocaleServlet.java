@@ -33,7 +33,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.ComponentConstants;
+import org.apache.tiles.Constants;
 
 /**
  * Servlet able to let a user choose a locale.
@@ -81,7 +81,7 @@ public class SelectLocaleServlet extends HttpServlet {
                 locale = new Locale(localeStrings[0], localeStrings[1], localeStrings[2]);
             }
         }
-        session.setAttribute(ComponentConstants.LOCALE_KEY, locale);
+        session.setAttribute(Constants.LOCALE_KEY, locale);
         TilesContainer container = TilesAccess.getContainer(request
                 .getSession().getServletContext());
         try {

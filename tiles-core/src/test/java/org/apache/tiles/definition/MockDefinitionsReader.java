@@ -55,18 +55,18 @@ public class MockDefinitionsReader implements DefinitionsReader {
     }
 
     /**
-     * Reads <code>{@link org.apache.tiles.definition.ComponentDefinition}</code> objects from a source.
+     * Reads <code>{@link org.apache.tiles.definition.Definition}</code> objects from a source.
      * 
      * Implementations should publish what type of source object is expected.
      * 
      * @param source The source from which definitions will be read.
-     * @return a Map of <code>ComponentDefinition</code> objects read from
+     * @return a Map of <code>Definition</code> objects read from
      *  the source.
      * @throws org.apache.tiles.definition.DefinitionsFactoryException if the source is invalid or
      *  an error occurs when reading definitions.
      */
     @SuppressWarnings("unchecked")
-    public Map<String, ComponentDefinition> read(Object source) throws DefinitionsFactoryException {
+    public Map<String, Definition> read(Object source) throws DefinitionsFactoryException {
         return Collections.EMPTY_MAP;
     }
 

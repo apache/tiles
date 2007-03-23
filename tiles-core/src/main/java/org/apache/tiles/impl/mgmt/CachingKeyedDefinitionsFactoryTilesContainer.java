@@ -27,7 +27,7 @@ import java.util.Map;
 
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
@@ -74,7 +74,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
 
     /** {@inheritDoc} */
     @Override
-    protected ComponentDefinition getDefinition(String definition,
+    protected Definition getDefinition(String definition,
                                                 TilesRequestContext context)
         throws DefinitionsFactoryException {
         DefinitionManager mgr = getProperDefinitionManager(
@@ -127,7 +127,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
             TilesRequestContext request) throws DefinitionsFactoryException {
         DefinitionManager mgr = getProperDefinitionManager(
                 getDefinitionsFactoryKey(request));
-        ComponentDefinition def = new ComponentDefinition(definition);
+        Definition def = new Definition(definition);
         mgr.addDefinition(def, request);
     }
 

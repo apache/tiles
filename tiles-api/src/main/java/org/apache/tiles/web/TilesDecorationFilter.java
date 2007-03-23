@@ -23,8 +23,8 @@ package org.apache.tiles.web;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.ComponentAttribute;
-import org.apache.tiles.ComponentContext;
+import org.apache.tiles.Attribute;
+import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
@@ -68,8 +68,8 @@ import java.util.HashMap;
  * </filter-mapping>
  * </xmp>
  * The filter will intercept all requests to the indicated url pattern
- * store the initial request path as the "body" component attribute
- * and then render the "test.definition" definition.
+ * store the initial request path as the "body"  attribute and then render the 
+ * "test.definition" definition.
  */
 public class TilesDecorationFilter implements Filter {
 
@@ -85,10 +85,10 @@ public class TilesDecorationFilter implements Filter {
     private FilterConfig filterConfig;
 
     /**
-     * The name of the component attribute used to
+     * The name of the definition attribute used to
      * pass on the request.
      */
-    private String componentAttributeName = "content";
+    private String definitionAttributeName = "content";
 
     /**
      * The definition name to use.
@@ -102,10 +102,10 @@ public class TilesDecorationFilter implements Filter {
     private Map<String, String> alternateDefinitions;
 
     /**
-     * The object that will mutate the component context so that it uses
+     * The object that will mutate the attribute context so that it uses
      * different attributes. 
      */
-    private ComponentContextMutator mutator = null;
+    private AttributeContextMutator mutator = null;
 
     /**
      * Returns the filter configuration object.
@@ -130,7 +130,7 @@ public class TilesDecorationFilter implements Filter {
         filterConfig = config;
         String temp = config.getInitParameter("attribute-name");
         if (temp != null) {
-            componentAttributeName = temp;
+            definitionAttributeName = temp;
         }
 
         temp = config.getInitParameter("definition");
@@ -143,7 +143,7 @@ public class TilesDecorationFilter implements Filter {
         temp = config.getInitParameter("mutator");
         if(temp != null) {
             try {
-                mutator = (ComponentContextMutator)Class.forName(temp).newInstance();
+                mutator = (AttributeContextMutator)Class.forName(temp).newInstance();
             } catch (Exception e) {
                 throw new ServletException("Unable to instantiate specified context mutator.", e);
             }
@@ -185,7 +185,7 @@ public class TilesDecorationFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
         throws IOException, ServletException {
         TilesContainer container = TilesAccess.getContainer(getServletContext());
-        mutator.mutate(container.getComponentContext(req, res), req);
+        mutator.mutate(container.getAttributeContext(req, res), req);
         try {
             String definitionName = getDefinitionForRequest(req);
             container.render(definitionName, req, res);
@@ -233,17 +233,17 @@ public class TilesDecorationFilter implements Filter {
     }
 
     /**
-     * The default component context mutator to use.
+     * The default attribute context mutator to use.
      */
-    class DefaultMutator implements ComponentContextMutator {
+    class DefaultMutator implements AttributeContextMutator {
 
         /** {@inheritDoc} */
-        public void mutate(ComponentContext ctx, ServletRequest req) {
-            ComponentAttribute attr = new ComponentAttribute();
-            attr.setType(ComponentAttribute.TEMPLATE);
-            attr.setName(componentAttributeName);
+        public void mutate(AttributeContext ctx, ServletRequest req) {
+            Attribute attr = new Attribute();
+            attr.setType(Attribute.TEMPLATE);
+            attr.setName(definitionAttributeName);
             attr.setValue(getRequestBase(req));
-            ctx.putAttribute(componentAttributeName, attr);
+            ctx.putAttribute(definitionAttributeName, attr);
         }
     }
 

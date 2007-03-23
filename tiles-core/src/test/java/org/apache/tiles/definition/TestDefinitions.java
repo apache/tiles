@@ -28,25 +28,25 @@ import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.tiles.definition.ComponentDefinitionsImpl;
-import org.apache.tiles.definition.ComponentDefinitions;
+import org.apache.tiles.definition.DefinitionsImpl;
+import org.apache.tiles.definition.Definitions;
 import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.tiles.definition.ComponentDefinition;
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.definition.Definition;
+import org.apache.tiles.Attribute;
 
 /**
- * Tests the ComponentDefinitionsImpl class.
+ * Tests the DefinitionsImpl class.
  *
  * @version $Rev$ $Date$ 
  */
-public class TestComponentDefinitions extends TestCase {
+public class TestDefinitions extends TestCase {
     
     /**
-     * Creates a new instance of TestComponentDefinitions
+     * Creates a new instance of TestDefinitions
      *
      * @param name The name of the test.
      */
-    public TestComponentDefinitions(String name) {
+    public TestDefinitions(String name) {
         super(name);
     }
     
@@ -57,7 +57,7 @@ public class TestComponentDefinitions extends TestCase {
      */
     public static void main(String[] theArgs) {
         junit.textui.TestRunner.main(
-            new String[] { TestComponentDefinitions.class.getName()});
+            new String[] { TestDefinitions.class.getName()});
     }
 
     /**
@@ -65,34 +65,34 @@ public class TestComponentDefinitions extends TestCase {
      *         starting with "test"
      */
     public static Test suite() {
-        return new TestSuite(TestComponentDefinitions.class);
+        return new TestSuite(TestDefinitions.class);
     }
 
     /**
-     * Tests the inheritance properties of ComponentDefinition objects.
+     * Tests the inheritance properties of Definition objects.
      */
     public void testResolveInheritances() {
-        Map<String, ComponentDefinition> defs = new HashMap<String, ComponentDefinition>();
+        Map<String, Definition> defs = new HashMap<String, Definition>();
         
-        ComponentDefinition def = new ComponentDefinition();
+        Definition def = new Definition();
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
-        ComponentAttribute attr = new ComponentAttribute();
+        Attribute attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("value1");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
         
-        def = new ComponentDefinition();
+        def = new Definition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
-        attr = new ComponentAttribute();
+        attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("New value");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
         
-        ComponentDefinitions definitions = new ComponentDefinitionsImpl();
+        Definitions definitions = new DefinitionsImpl();
         try {
             definitions.addDefinitions(defs);
         } catch (NoSuchDefinitionException e) {
@@ -118,36 +118,36 @@ public class TestComponentDefinitions extends TestCase {
      * Tests the inheritance with localized definitions.
      */
     public void testLocalizedResolveInheritances() {
-        Map<String, ComponentDefinition> defs = new HashMap<String, ComponentDefinition>();
-        ComponentDefinition def = new ComponentDefinition();
+        Map<String, Definition> defs = new HashMap<String, Definition>();
+        Definition def = new Definition();
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
-        ComponentAttribute attr = new ComponentAttribute();
+        Attribute attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("value1");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
         
-        def = new ComponentDefinition();
+        def = new Definition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
-        attr = new ComponentAttribute();
+        attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("New value");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
 
-        Map<String, ComponentDefinition> localDefs = new HashMap<String, ComponentDefinition>();
-        def = new ComponentDefinition();
+        Map<String, Definition> localDefs = new HashMap<String, Definition>();
+        def = new Definition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
-        attr = new ComponentAttribute();
+        attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("US Value");
         def.addAttribute(attr);
         localDefs.put(def.getName(), def);
 
-        ComponentDefinitions definitions = new ComponentDefinitionsImpl();
+        Definitions definitions = new DefinitionsImpl();
         try {
             definitions.addDefinitions(defs);
             definitions.addDefinitions(localDefs, Locale.US);
@@ -188,27 +188,27 @@ public class TestComponentDefinitions extends TestCase {
      * Tests the reset method.
      */
     public void testReset() {
-        Map<String, ComponentDefinition> defs = new HashMap<String, ComponentDefinition>();
+        Map<String, Definition> defs = new HashMap<String, Definition>();
         
-        ComponentDefinition def = new ComponentDefinition();
+        Definition def = new Definition();
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
-        ComponentAttribute attr = new ComponentAttribute();
+        Attribute attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("value1");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
         
-        def = new ComponentDefinition();
+        def = new Definition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
-        attr = new ComponentAttribute();
+        attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("New value");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
         
-        ComponentDefinitions definitions = new ComponentDefinitionsImpl();
+        Definitions definitions = new DefinitionsImpl();
         try {
             definitions.addDefinitions(defs);
         } catch (NoSuchDefinitionException e) {
@@ -226,38 +226,38 @@ public class TestComponentDefinitions extends TestCase {
     /**
      * Verifies that attribute dependencies are resolved.
      *
-     * A Component (tile) can have an attribute that points to another component.
+     * A definition can have an attribute that points to another definition.
      * This test verifies that the <code>resolveAttributes</code> method is
      * executed and attribute dependencies are calculated.
      */
     public void testResolveAttributeDependencies() {
-        Map<String, ComponentDefinition> defs = new HashMap<String, ComponentDefinition>();
+        Map<String, Definition> defs = new HashMap<String, Definition>();
         
-        ComponentDefinition def = new ComponentDefinition();
+        Definition def = new Definition();
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
-        ComponentAttribute attr = new ComponentAttribute();
+        Attribute attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("tiles.def2");
         attr.setType("definition");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
         
-        def = new ComponentDefinition();
+        def = new Definition();
         def.setName("parent.notype.def1");
         def.setTemplate("/test1.jsp");
-        attr = new ComponentAttribute();
+        attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("tiles.def2");
         // Don't set the type
         def.addAttribute(attr);
         defs.put(def.getName(), def);
         
-        def = new ComponentDefinition();
+        def = new Definition();
         def.setName("tiles.def2");
         defs.put(def.getName(), def);
         
-        ComponentDefinitions definitions = new ComponentDefinitionsImpl();
+        Definitions definitions = new DefinitionsImpl();
         try {
             definitions.addDefinitions(defs);
             definitions.addDefinitions(defs, Locale.ITALIAN);
@@ -265,7 +265,7 @@ public class TestComponentDefinitions extends TestCase {
             fail("Test failure: " + e);
         }
         
-        ComponentDefinition newDef = definitions.getDefinition("parent.def1");
+        Definition newDef = definitions.getDefinition("parent.def1");
         assertNotNull("Parent definition not found.", newDef);
         
         Object newAttr = newDef.getAttribute("attr1");

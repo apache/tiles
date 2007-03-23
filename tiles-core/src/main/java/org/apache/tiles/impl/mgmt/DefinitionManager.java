@@ -21,9 +21,9 @@
  */
 package org.apache.tiles.impl.mgmt;
 
-import org.apache.tiles.ComponentAttribute;
+import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.ComponentDefinition;
+import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
@@ -111,9 +111,9 @@ public class DefinitionManager {
      * @throws DefinitionsFactoryException If something goes wrong when
      * obtaining a main definition.
      */
-    public ComponentDefinition getDefinition(String definition, TilesRequestContext request)
+    public Definition getDefinition(String definition, TilesRequestContext request)
         throws DefinitionsFactoryException {
-        Map<String, ComponentDefinition> definitions =
+        Map<String, Definition> definitions =
             getDefinitions(request);
         if (definitions != null && definitions.containsKey(definition)) {
             return definitions.get(definition);
@@ -129,7 +129,7 @@ public class DefinitionManager {
      * @throws DefinitionsFactoryException If something goes wrong during the
      * addition.
      */
-    public void addDefinition(ComponentDefinition definition,
+    public void addDefinition(Definition definition,
             TilesRequestContext request)
         throws DefinitionsFactoryException {
         validate(definition);
@@ -138,9 +138,9 @@ public class DefinitionManager {
             this.resolveInheritance(definition, request);
         }
 
-        for(ComponentAttribute attr : definition.getAttributes().values()) {
+        for(Attribute attr : definition.getAttributes().values()) {
             if(isDefinition(attr, request)) {
-                ComponentDefinition d = getDefinition(attr.getValue().toString(), request);
+                Definition d = getDefinition(attr.getValue().toString(), request);
                 attr.setAttributes(d.getAttributes());
             }
         }
@@ -157,9 +157,9 @@ public class DefinitionManager {
      * @throws DefinitionsFactoryException If something goes wrong during
      * checking if the attribute is a main definition.
      */
-    private boolean isDefinition(ComponentAttribute attribute,
+    private boolean isDefinition(Attribute attribute,
             TilesRequestContext request) throws DefinitionsFactoryException {
-        boolean explicit =  ComponentAttribute.DEFINITION.equals(attribute.getType());
+        boolean explicit =  Attribute.DEFINITION.equals(attribute.getType());
         boolean implicit =  attribute.getType() == null  &&
                             (getDefinition((String)attribute.getValue(), request) != null);
         return explicit || implicit;
@@ -171,8 +171,8 @@ public class DefinitionManager {
      * @param definition The definition to validate.
      */
     private void validate(TileDefinition definition) {
-        Map<String, ComponentAttribute> attrs = definition.getAttributes();
-        for (ComponentAttribute attribute : attrs.values()) {
+        Map<String, Attribute> attrs = definition.getAttributes();
+        for (Attribute attribute : attrs.values()) {
             if (attribute.getName() == null) {
                 throw new IllegalArgumentException("Attribute name not defined");
             }
@@ -195,7 +195,7 @@ public class DefinitionManager {
      * @param request The current request.
      * @throws DefinitionsFactoryException If an inheritance can not be solved.
      */
-    protected void resolveInheritance(ComponentDefinition definition,
+    protected void resolveInheritance(Definition definition,
             TilesRequestContext request)
         throws DefinitionsFactoryException  {
         // Already done, or not needed ?
@@ -214,7 +214,7 @@ public class DefinitionManager {
         //  however, this may cause errors for other implementations.
         //  we should probably make all factories agnostic and allow the manager to
         //  utilize the correct factory based on the context.
-        ComponentDefinition parent = getDefinition(definition.getExtends(), request);
+        Definition parent = getDefinition(definition.getExtends(), request);
 
 
         if (parent == null) { // error
@@ -243,12 +243,12 @@ public class DefinitionManager {
      * @param parent The parent definition.
      * @param child  The child that will be overloaded.
      */
-    protected void overload(ComponentDefinition parent,
-                            ComponentDefinition child) {
+    protected void overload(Definition parent,
+                            Definition child) {
         // Iterate on each parent's attribute and add it if not defined in child.
-        for(Map.Entry<String, ComponentAttribute> entry : parent.getAttributes().entrySet()) {
+        for(Map.Entry<String, Attribute> entry : parent.getAttributes().entrySet()) {
             if (!child.hasAttributeValue(entry.getKey())) {
-                child.putAttribute(entry.getKey(), new ComponentAttribute(entry.getValue()));
+                child.putAttribute(entry.getKey(), new Attribute(entry.getValue()));
             }
         }
 
@@ -270,9 +270,9 @@ public class DefinitionManager {
      * @return A map that connects a definition name to a definition.
      */
     @SuppressWarnings("unchecked")
-    protected Map<String, ComponentDefinition> getDefinitions(
+    protected Map<String, Definition> getDefinitions(
             TilesRequestContext request) {
-        return (Map<String, ComponentDefinition>) request.getRequestScope()
+        return (Map<String, Definition>) request.getRequestScope()
                 .get(definitionsAttributeName);
     }
     
@@ -284,13 +284,13 @@ public class DefinitionManager {
      * @return A map that connects a definition name to a definition.
      */
     @SuppressWarnings("unchecked")
-    protected Map<String, ComponentDefinition> getOrCreateDefinitions(
+    protected Map<String, Definition> getOrCreateDefinitions(
             TilesRequestContext request) {
-        Map<String, ComponentDefinition> definitions =
-            (Map<String, ComponentDefinition>) request
+        Map<String, Definition> definitions =
+            (Map<String, Definition>) request
                 .getRequestScope().get(definitionsAttributeName);
         if (definitions == null) {
-            definitions = new HashMap<String, ComponentDefinition>();
+            definitions = new HashMap<String, Definition>();
             request.getRequestScope()
                     .put(definitionsAttributeName, definitions);
         }

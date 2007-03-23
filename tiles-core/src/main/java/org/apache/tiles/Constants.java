@@ -23,16 +23,16 @@
 package org.apache.tiles;
 
 /**
- * Constants used by Tiles/Components.
+ * Constants used by Tiles.
  *
  * @version $Rev$ $Date$
  */
-public interface ComponentConstants {
+public interface Constants {
 
     /**
-     * Name used to store Tile/Component context.
+     * Name used to store attribute context stack.
      */
-    public static final String COMPONENT_CONTEXT_STACK = "org.apache.tiles.ComponentContext.STACK";
+    public static final String ATTRIBUTE_CONTEXT_STACK = "org.apache.tiles.AttributeContext.STACK";
 
     /**
      * The attribute name that is used to store the current locale.
