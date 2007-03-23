@@ -53,5 +53,13 @@
             <directory>../target/site/apidocs</directory>
             <outputDirectory>apidocs</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>../tiles-core/target/site/dtddoc</directory>
+            <outputDirectory>dtddoc</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../tiles-jsp/target/site/tlddoc</directory>
+            <outputDirectory>tlddoc</outputDirectory>
+        </fileSet>
     </fileSets>
 </assembly>
