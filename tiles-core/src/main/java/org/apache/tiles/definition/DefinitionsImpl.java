@@ -174,7 +174,7 @@ public class DefinitionsImpl implements Definitions {
      * @param attr The attribute to check.
      * @return <code>true</code> if the attribute is a definition.
      */
-    private boolean isDefinitionType(Attribute attr) {
+    protected boolean isDefinitionType(Attribute attr) {
         boolean explicit = (attr.getType() != null &&
             (attr.getType().equalsIgnoreCase("definition") ||
                 attr.getType().equalsIgnoreCase("instance")));
@@ -224,7 +224,7 @@ public class DefinitionsImpl implements Definitions {
      * @return The required definition if found, otherwise it returns
      *         <code>null</code>.
      */
-    private Definition getDefinitionByAttribute(
+    protected Definition getDefinitionByAttribute(
         Attribute attr, Locale locale) {
         Definition retValue = null;
 
