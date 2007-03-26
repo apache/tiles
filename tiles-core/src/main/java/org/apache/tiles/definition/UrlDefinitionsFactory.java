@@ -274,7 +274,7 @@ public class UrlDefinitionsFactory
      */
     public Definitions readDefinitions()
         throws DefinitionsFactoryException {
-        Definitions definitions = new DefinitionsImpl();
+        Definitions definitions = createDefinitions();
         try {
             for (Object source1 : sources) {
                 URL source = (URL) source1;
@@ -306,6 +306,16 @@ public class UrlDefinitionsFactory
     protected boolean isContextProcessed(TilesRequestContext tilesContext) {
         return processedLocales.contains(localeResolver
                 .resolveLocale(tilesContext));
+    }
+    
+    /**
+     * Creates a new instance of <code>Definitions</code>. Override this method
+     * to provide your custom instance of Definitions.
+     *
+     * @return A new instance of <code>Definitions</code>.
+     */
+    protected Definitions createDefinitions() {
+        return new DefinitionsImpl();
     }
 
     /**
