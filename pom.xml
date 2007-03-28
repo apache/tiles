@@ -64,7 +64,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>retrotranslator-maven-plugin</artifactId>
-                    <version>1.0-SNAPSHOT</version>
+                    <version>1.0-alpha-2</version>
                     <executions>
                         <execution>
                             <phase>process-classes</phase>
@@ -119,6 +119,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <aggregate>true</aggregate>
+                    <excludePackageNames>org.apache.tiles.test</excludePackageNames>
                     <links>
                         <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
                         <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
