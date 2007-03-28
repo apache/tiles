@@ -98,6 +98,17 @@
                         <executions>
                             <execution>
                                 <id>retrotranslate</id>
+                                <goals>
+                                    <goal>translate</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>
+                                            <directory>${pom.basedir}/target/classes</directory>
+                                        </include>
+                                    </includes>
+                                    <destdir>${project.build.directory}/classes-retro</destdir>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
