@@ -29,6 +29,13 @@
         <module>tiles-test</module>
         <module>assembly</module>
     </modules>
+    
+    <distributionManagement>
+        <site>
+            <id>apache-site</id>
+            <url>scp://people.apache.org/www/tiles.apache.org/framework</url>
+        </site>
+    </distributionManagement>
 
     <build>
         <pluginManagement>
