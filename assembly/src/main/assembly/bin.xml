@@ -28,6 +28,7 @@
                 <exclude>org.apache.tiles:tiles-api</exclude>
                 <exclude>org.apache.tiles:tiles-core</exclude>
                 <exclude>org.apache.tiles:tiles-jsp</exclude>
+                <exclude>org.apache.tiles:tiles-test</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
@@ -36,6 +37,12 @@
                 <include>org.apache.tiles:tiles-api</include>
                 <include>org.apache.tiles:tiles-core</include>
                 <include>org.apache.tiles:tiles-jsp</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/examples</outputDirectory>
+            <includes>
+                <include>org.apache.tiles:tiles-test</include>
             </includes>
         </dependencySet>
     </dependencySets>

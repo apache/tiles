@@ -62,6 +62,14 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>../tiles-test</directory>
+            <outputDirectory>src/tiles-test</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>../assembly</directory>
             <outputDirectory>src/assembly</outputDirectory>
             <includes>
