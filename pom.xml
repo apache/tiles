@@ -9,15 +9,15 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.tiles</groupId>
     <artifactId>tiles-parent</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>2.0.2</version>
     <packaging>pom</packaging>
     <name>Tiles 2</name>
     <description>Tiles 2</description>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/trunk/</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/trunk/</developerConnection>
-        <url>http://svn.apache.org/viewvc/tiles/framework/trunk/</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/tags/tiles-2.0.2</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/tags/tiles-2.0.2</developerConnection>
+        <url>http://svn.apache.org/viewvc/tiles/framework/tags/tiles-2.0.2</url>
     </scm>
 
     <ciManagement />
