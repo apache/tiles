@@ -31,6 +31,11 @@
     </modules>
     
     <distributionManagement>
+        <repository>
+            <id>tiles-staging</id>
+            <name>Apache Tiles Staging Repository</name>
+            <url>scp://people.apache.org/www/people.apache.org/builds/tiles/${pom.version}/m2-staging-repository</url>
+        </repository>
         <site>
             <id>apache-site</id>
             <url>scp://people.apache.org/www/tiles.apache.org/framework</url>
@@ -195,7 +200,7 @@
         </repository>
         <repository>
             <id>tiles.build</id>
-            <url>http://people.apache.org/builds/tiles/m2-staging-repository/</url>
+            <url>http://people.apache.org/builds/tiles/${pom.version}/m2-staging-repository/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
