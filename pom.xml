@@ -145,8 +145,7 @@
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
-                    <!-- TODO:  add a checkstyle config file for tiles -->
-                    <configLocation>http://svn.apache.org/repos/asf/struts/maven/trunk/build/struts_checks.xml
+                    <configLocation>http://svn.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks.xml
                     </configLocation>
                 </configuration>
             </plugin>
