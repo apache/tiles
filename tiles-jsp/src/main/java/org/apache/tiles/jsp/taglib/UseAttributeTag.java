@@ -17,13 +17,10 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 
 package org.apache.tiles.jsp.taglib;
-
-import org.apache.tiles.jsp.taglib.AttributeTagSupport;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagData;

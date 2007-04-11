@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 
@@ -34,13 +33,13 @@ public interface ReloadableDefinitionsFactory {
      * Indicates whether the DefinitionsFactory is out of date and needs to be
      * reloaded.
      *
-     * @return <code>true</code> if the definitions need to be refreshed. 
+     * @return <code>true</code> if the definitions need to be refreshed.
      */
     public boolean refreshRequired();
-    
+
     /**
      * Refreshes the stored definitions, reloading them.
-     * 
+     *
      * @throws DefinitionsFactoryException If something goes wrong during
      * refresh.
      */

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.test.servlet;
 
@@ -32,8 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Sample servlet that includes a page specified by the <code>include</code>
  * init parameter.
- * 
- * @version $Rev$ $Date$ 
+ *
+ * @version $Rev$ $Date$
  */
 public class IncludingServlet extends HttpServlet {
 
@@ -44,7 +43,7 @@ public class IncludingServlet extends HttpServlet {
 
     /**
      * Initializes the servlet, reading the <code>include</code> init
-     * parameter
+     * parameter.
      *
      * @param config The servlet configuration object to use.
      * @throws ServletException Thrown by

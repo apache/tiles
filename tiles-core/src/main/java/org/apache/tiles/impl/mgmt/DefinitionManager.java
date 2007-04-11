@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.impl.mgmt;
 
@@ -58,7 +57,7 @@ public class DefinitionManager {
      * The definitions factory to use to get main definitions.
      */
     private DefinitionsFactory factory;
-    
+
     /**
      * The name of the attribute in which storing custom definitions.
      */
@@ -134,12 +133,12 @@ public class DefinitionManager {
         throws DefinitionsFactoryException {
         validate(definition);
 
-        if(definition.isExtending()) {
+        if (definition.isExtending()) {
             this.resolveInheritance(definition, request);
         }
 
-        for(Attribute attr : definition.getAttributes().values()) {
-            if(isDefinition(attr, request)) {
+        for (Attribute attr : definition.getAttributes().values()) {
+            if (isDefinition(attr, request)) {
                 Definition d = getDefinition(attr.getValue().toString(), request);
                 attr.setAttributes(d.getAttributes());
             }
@@ -160,8 +159,8 @@ public class DefinitionManager {
     private boolean isDefinition(Attribute attribute,
             TilesRequestContext request) throws DefinitionsFactoryException {
         boolean explicit =  Attribute.DEFINITION.equals(attribute.getType());
-        boolean implicit =  attribute.getType() == null  &&
-                            (getDefinition((String)attribute.getValue(), request) != null);
+        boolean implicit = attribute.getType() == null
+                && (getDefinition((String) attribute.getValue(), request) != null);
         return explicit || implicit;
     }
 
@@ -189,7 +188,7 @@ public class DefinitionManager {
      * template.
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
-     * 
+     *
      * @param definition The definition that needs to have its inheritances
      * resolved.
      * @param request The current request.
@@ -199,13 +198,15 @@ public class DefinitionManager {
             TilesRequestContext request)
         throws DefinitionsFactoryException  {
         // Already done, or not needed ?
-        if (definition.isIsVisited() || !definition.isExtending())
+        if (definition.isIsVisited() || !definition.isExtending()) {
             return;
+        }
 
-        if (LOG.isDebugEnabled())
+        if (LOG.isDebugEnabled()) {
             LOG.debug("Resolve definition for child name='"
                 + definition.getName()
                 + "' extends='" + definition.getExtends() + "'.");
+        }
 
         // Set as visited to avoid endless recurisvity.
         definition.setIsVisited(true);
@@ -246,23 +247,25 @@ public class DefinitionManager {
     protected void overload(Definition parent,
                             Definition child) {
         // Iterate on each parent's attribute and add it if not defined in child.
-        for(Map.Entry<String, Attribute> entry : parent.getAttributes().entrySet()) {
+        for (Map.Entry<String, Attribute> entry : parent.getAttributes().entrySet()) {
             if (!child.hasAttributeValue(entry.getKey())) {
                 child.putAttribute(entry.getKey(), new Attribute(entry.getValue()));
             }
         }
 
-        if (child.getTemplate() == null)
+        if (child.getTemplate() == null) {
             child.setTemplate(parent.getTemplate());
+        }
 
-        if (child.getRole() == null)
+        if (child.getRole() == null) {
             child.setRole(parent.getRole());
+        }
 
         if (child.getPreparer() == null) {
             child.setPreparer(parent.getPreparer());
         }
     }
-    
+
     /**
      * Returns the map with custom definitions for the current request.
      *
@@ -275,7 +278,7 @@ public class DefinitionManager {
         return (Map<String, Definition>) request.getRequestScope()
                 .get(definitionsAttributeName);
     }
-    
+
     /**
      * Returns a map of type "definition name -> definition" and, if it has not
      * been defined before, creates one.

@@ -17,17 +17,19 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context.enhanced;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
-
-import java.util.*;
-import java.net.URL;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
 
 /**
  * ApplicationContext decorator used to provide
@@ -101,10 +103,10 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
     /** {@inheritDoc} */
     public URL getResource(String path) throws IOException {
         URL rootUrl = rootContext.getResource(path);
-        if(rootUrl == null) {
+        if (rootUrl == null) {
             Set<URL> resources = getResources(path);
             resources.remove(null);
-            if(resources.size() > 0) {
+            if (resources.size() > 0) {
                 rootUrl = resources.toArray(new URL[resources.size()])[0];
             }
         }
@@ -131,11 +133,11 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
         resources.addAll(searchResources(getClass().getClassLoader(), path));
 
         ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
-        if(contextLoader != null) {
+        if (contextLoader != null) {
             resources.addAll(searchResources(contextLoader, path));
         }
 
-        if(resources.size() == 0 && path.startsWith("/")) {
+        if (resources.size() == 0 && path.startsWith("/")) {
             return getClasspathResources(path.substring(1));
         }
 
@@ -154,11 +156,12 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
         Set<URL> resources = new HashSet<URL>();
         try {
             Enumeration<URL> e = loader.getResources(path);
-            while(e.hasMoreElements()) {
+            while (e.hasMoreElements()) {
                 resources.add(e.nextElement());
             }
         } catch (IOException e) {
-            LOG.warn("Unable to retrieved resources from classloader: "+loader, e);
+            LOG.warn("Unable to retrieved resources from classloader: "
+                    + loader, e);
         }
         return resources;
     }

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.impl;
@@ -38,31 +37,31 @@ import org.apache.tiles.definition.DefinitionsFactoryException;
  * @version $Rev$ $Date$
  */
 public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
-    
+
     /**
      * Name of the attribute inside the request that will be used to get the key
      * of the definitions factory to be used.
      */
     public static final String DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME =
         "org.apache.tiles.DEFINITIONS_FACTORY.key";
-	
-	/**
-	 * Maps definition factories to their keys.
-	 */
-	protected Map<String, DefinitionsFactory> key2definitionsFactory;
-    
+
+    /**
+     * Maps definition factories to their keys.
+     */
+    protected Map<String, DefinitionsFactory> key2definitionsFactory;
+
     /**
      * The key extractor object.
      */
     protected KeyExtractor keyExtractor;
 
-	/**
-	 * Constructor.
-	 */
-	public KeyedDefinitionsFactoryTilesContainer() {
-		key2definitionsFactory = new HashMap<String, DefinitionsFactory>();
-	}
-    
+    /**
+     * Constructor.
+     */
+    public KeyedDefinitionsFactoryTilesContainer() {
+        key2definitionsFactory = new HashMap<String, DefinitionsFactory>();
+    }
+
     /**
      * It represents an object able to return a key from a request. Each key
      * maps a different {@link DefinitionsFactory}.
@@ -77,13 +76,13 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
          */
         public String getDefinitionsFactoryKey(TilesRequestContext request);
     }
-    
+
     /**
      * This is the default factory key. Takes the key from the request-scoped
      * attribute <code>DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME</code>.
      */
     protected class DefaultKeyExtractor implements KeyExtractor {
-        
+
         /**
          * Returns the definitions factory key.
          *
@@ -97,33 +96,34 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
                 retValue = (String) requestScope.get(
                         DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME);
             }
-            
+
             return retValue;
         }
     }
 
-	/**
-     * Standard Getter
+    /**
+     * Returns a definition factory given its key.
      *
      * @return the definitions factory used by this container. If the key is not
      * valid, the default factory will be returned.
      * @param key The key of the needed definitions factory.
      */
     public DefinitionsFactory getDefinitionsFactory(String key) {
-    	DefinitionsFactory retValue = null;
-    	
-    	if (key != null) {
-    		retValue = key2definitionsFactory.get(key);
-    	}
-    	if (retValue == null) {
-    		retValue = getDefinitionsFactory();
-    	}
-    	
-    	return retValue;
+        DefinitionsFactory retValue = null;
+
+        if (key != null) {
+            retValue = key2definitionsFactory.get(key);
+        }
+        if (retValue == null) {
+            retValue = getDefinitionsFactory();
+        }
+
+        return retValue;
     }
 
     /**
-     * Standard Getter
+     * Returns the proper definition factory for the given key, i.e. if the key
+     * is not present, <code>null</code> will be returned.
      *
      * @return the definitions factory used by this container. If the key is not
      * valid, <code>null</code> will be returned.
@@ -131,11 +131,11 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      */
     public DefinitionsFactory getProperDefinitionsFactory(String key) {
         DefinitionsFactory retValue = null;
-        
+
         if (key != null) {
             retValue = key2definitionsFactory.get(key);
         }
-        
+
         return retValue;
     }
 
@@ -143,7 +143,7 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      * Set the definitions factory. This method first ensures
      * that the container has not yet been initialized.
      *
-     * @param key The key under which the definitions factory is catalogued. 
+     * @param key The key under which the definitions factory is catalogued.
      * @param definitionsFactory the definitions factory for this instance.
      * @param initParameters The init parameters to configure the definitions
      * factory.
@@ -151,17 +151,17 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      * the definitions factory.
      */
     public void setDefinitionsFactory(String key,
-    		DefinitionsFactory definitionsFactory,
-    		Map<String, String> initParameters) throws TilesException {
-    	if (key != null) {
-	        key2definitionsFactory.put(key, definitionsFactory);
+            DefinitionsFactory definitionsFactory,
+            Map<String, String> initParameters) throws TilesException {
+        if (key != null) {
+            key2definitionsFactory.put(key, definitionsFactory);
             initializeDefinitionsFactory(definitionsFactory,
                     getResourceString(initParameters), initParameters);
-    	} else {
-    		setDefinitionsFactory(definitionsFactory);
-    	}
+        } else {
+            setDefinitionsFactory(definitionsFactory);
+        }
     }
-    
+
     /**
      * Sets the key extractor to use.
      *
@@ -190,7 +190,7 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
         }
         return retValue;
     }
-    
+
     /**
      * Returns the definitions factory key.
      *
@@ -198,7 +198,6 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      * @return The needed factory key.
      */
     protected String getDefinitionsFactoryKey(TilesRequestContext request) {
-        
         if (keyExtractor == null) {
             keyExtractor = new DefaultKeyExtractor();
         }

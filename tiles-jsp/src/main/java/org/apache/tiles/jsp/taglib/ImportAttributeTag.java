@@ -17,12 +17,10 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.jsp.taglib.AttributeTagSupport;
 
 import javax.servlet.jsp.JspException;
 import java.util.Iterator;
@@ -38,23 +36,23 @@ import java.util.Iterator;
  */
 public class ImportAttributeTag extends AttributeTagSupport {
 
-	/**
-	 * The destination attribute name.
-	 */
-	private String toName;
+    /**
+     * The destination attribute name.
+     */
+    private String toName;
 
     /**
      * <p>
      * Returns the name of the destination attribute. If not specified, the name
      * will be the same as specified in <code>name</code> attribute
      * </p>
-     * 
+     *
      * @return The destination attribute name.
      */
     public String getToName() {
         return toName;
     }
-	
+
     /**
      * <p>
      * Sets the name of the destination attribute. If not specified, the name
@@ -63,7 +61,7 @@ public class ImportAttributeTag extends AttributeTagSupport {
      *
      * @param toName The destination attribute name.
      */
-	public void setToName(String toName) {
+    public void setToName(String toName) {
         this.toName = toName;
     }
 
@@ -74,7 +72,7 @@ public class ImportAttributeTag extends AttributeTagSupport {
      */
     public void execute() throws JspException {
         if (attribute != null) {
-            pageContext.setAttribute(toName != null? toName : name,
+            pageContext.setAttribute(toName != null ? toName : name,
                     attribute.getValue(), scope);
         } else {
             Iterator<String> names = attributeContext.getAttributeNames();
@@ -82,18 +80,18 @@ public class ImportAttributeTag extends AttributeTagSupport {
                 String name = names.next();
 
                 if (name == null && !ignore) {
-                    throw new JspException("Error importing attributes. " +
-                        "Attribute with null key found.");
+                    throw new JspException("Error importing attributes. "
+                            + "Attribute with null key found.");
                 } else if (name == null) {
                     continue;
                 }
 
                 Attribute attr = attributeContext.getAttribute(name);
 
-                if ( (attr == null || attr.getValue() == null) && !ignore) {
-                    throw new JspException("Error importing attributes. "+
-                        "Attribute '"+name+"' has a null value ");
-                } else if( attr == null || attr.getValue() == null) {
+                if ((attr == null || attr.getValue() == null) && !ignore) {
+                    throw new JspException("Error importing attributes. "
+                            + "Attribute '" + name + "' has a null value ");
+                } else if (attr == null || attr.getValue() == null) {
                     continue;
                 }
 

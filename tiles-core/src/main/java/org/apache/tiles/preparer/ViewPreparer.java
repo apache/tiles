@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.preparer;
 
@@ -40,7 +39,7 @@ import org.apache.tiles.AttributeContext;
  * <ul>
  * <li>&lt;insert&gt;</li>
  * <li>&lt;definition&gt;</li>
- * <li>
+ * </ul>>
  *
  * @version $Rev$ $Date$
  */

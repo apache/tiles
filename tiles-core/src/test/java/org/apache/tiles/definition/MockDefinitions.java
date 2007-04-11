@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 
@@ -26,21 +25,17 @@ package org.apache.tiles.definition;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.definition.Definitions;
-import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.tiles.definition.Definition;
-
 /**
  *
- * @version $Rev$ $Date$ 
+ * @version $Rev$ $Date$
  */
 public class MockDefinitions implements Definitions {
-    
+
     /**
      * Hokey way to verify that this was created.
      */
     private static int instanceCount = 0;
-    
+
     /**
      * Hokey way to verify that this class was created.
      *
@@ -49,15 +44,15 @@ public class MockDefinitions implements Definitions {
     public static int getInstanceCount() {
         return instanceCount;
     }
-    
-    /** Creates a new instance of MockDefinitions */
+
+    /** Creates a new instance of MockDefinitions. */
     public MockDefinitions() {
         instanceCount++;
     }
 
     /**
      * Returns a Definition object that matches the given name.
-     * 
+     *
      * @param name The name of the Definition to return.
      * @return the Definition matching the given name or null if none
      *  is found.
@@ -67,9 +62,9 @@ public class MockDefinitions implements Definitions {
     }
 
     /**
-     * Adds new locale-specific Definition objects to the internal 
+     * Adds new locale-specific Definition objects to the internal
      * collection and resolves inheritance attraibutes.
-     * 
+     *
      * @param defsMap The new definitions to add.
      * @param locale The locale to add the definitions to.
      */
@@ -79,7 +74,7 @@ public class MockDefinitions implements Definitions {
 
     /**
      * Returns a Definition object that matches the given name and locale.
-     * 
+     *
      * @param name The name of the Definition to return.
      * @param locale The locale to use to resolve the definition.
      * @return the Definition matching the given name or null if none
@@ -90,9 +85,9 @@ public class MockDefinitions implements Definitions {
     }
 
     /**
-     * Adds new Definition objects to the internal collection and 
+     * Adds new Definition objects to the internal collection and
      * resolves inheritance attraibutes.
-     * 
+     *
      * @param defsMap The new definitions to add.
      */
     public void addDefinitions(Map<String, Definition> defsMap) {
@@ -116,5 +111,5 @@ public class MockDefinitions implements Definitions {
     public Map<String, Definition> getBaseDefinitions() {
         return null;
     }
-    
+
 }

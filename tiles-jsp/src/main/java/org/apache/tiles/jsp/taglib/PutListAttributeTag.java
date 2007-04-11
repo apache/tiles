@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.jsp.taglib;
@@ -58,7 +57,7 @@ public class PutListAttributeTag extends PutAttributeTag
     @Override
     public int doStartTag() throws JspException {
         super.setValue(new ArrayList<Attribute>());
-    	return super.doStartTag();
+        return super.doStartTag();
     }
 
     /**
@@ -70,7 +69,7 @@ public class PutListAttributeTag extends PutAttributeTag
     public int doAfterBody() throws JspException {
         return (SKIP_BODY);
     }
-    
+
     /**
      * Release the state of this put list by
      * clearing the contents of the list.
@@ -96,15 +95,15 @@ public class PutListAttributeTag extends PutAttributeTag
             nestedTag.getValue(), nestedTag.getRole(),
             nestedTag.getType());
 
-        this.addValue(attribute);	
+        this.addValue(attribute);
     }
 
-	/**
+    /**
      * Adds an attribute value to the list.
      *
-	 * @param attribute The attribute to add.
-	 */
-	private void addValue( Attribute attribute ) {
-		this.getValue().add(attribute);
-	}
+     * @param attribute The attribute to add.
+     */
+    private void addValue(Attribute attribute) {
+        this.getValue().add(attribute);
+    }
 }

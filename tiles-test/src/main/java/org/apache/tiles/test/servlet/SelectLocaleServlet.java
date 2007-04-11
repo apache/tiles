@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.test.servlet;
 
@@ -58,7 +57,7 @@ public class SelectLocaleServlet extends HttpServlet {
 
     /**
      * Processes the request.
-     * 
+     *
      * @param request The request object.
      * @param response The response object.
      * @throws ServletException If something goes wrong when rendering
@@ -77,7 +76,7 @@ public class SelectLocaleServlet extends HttpServlet {
                 locale = new Locale(localeStrings[0]);
             } else if (localeStrings.length == 2) {
                 locale = new Locale(localeStrings[0], localeStrings[1]);
-            } else if (localeStrings.length == 3) {
+            } else if (localeStrings.length > 2) {
                 locale = new Locale(localeStrings[0], localeStrings[1], localeStrings[2]);
             }
         }

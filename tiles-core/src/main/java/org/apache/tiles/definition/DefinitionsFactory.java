@@ -17,13 +17,11 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
 
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.TilesException;
 
 import java.util.Map;
@@ -51,29 +49,28 @@ public interface DefinitionsFactory {
      */
     public static final String DEFINITIONS_IMPL_PROPERTY =
         "org.apache.tiles.definition.Definitions";
-    
+
     /**
      * Property name that specifies the implementation of
-     * {@link LocaleResolver}.
+     * {@link org.apache.tiles.locale.LocaleResolver}.
      */
     public static final String LOCALE_RESOLVER_IMPL_PROPERTY =
         "org.apache.tiles.locale.LocaleResolver";
 
     /**
-     * Initializes the DefinitionsFactory and its subcomponents.
-     * <p/>
+     * Initializes the DefinitionsFactory and its subcomponents. <p/>
      * Implementations may support configuration properties to be passed in via
      * the params Map.
      *
      * @param params The Map of configuration properties.
-     * @throws DefinitionsFactoryException if an initialization error occurs.
-     * @throws TilesException If a generic Tiles exception occurs.
+     * @throws TilesException If a Tiles exception, such as an initialization
+     * error, occurs.
      */
-    public void init(Map<String, String> params) throws DefinitionsFactoryException, TilesException;
+    public void init(Map<String, String> params) throws TilesException;
 
     /**
      * Returns a Definition object that matches the given name and
-     * Tiles context
+     * Tiles context.
      *
      * @param name         The name of the Definition to return.
      * @param tilesContext The Tiles context to use to resolve the definition.
@@ -103,7 +100,7 @@ public interface DefinitionsFactory {
     /**
      * Creates and returns a {@link Definitions} set by reading
      * configuration data from the applied sources.
-     * 
+     *
      * @return The read definitions.
      * @throws DefinitionsFactoryException if an error occurs reading the
      *                                     sources.

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
@@ -29,8 +28,8 @@ import java.util.Map;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
- * Creates a TilesApplicationContext that contains only a Locale
- * 
+ * Creates a TilesApplicationContext that contains only a Locale.
+ *
  * @version $Rev$ $Date$
  */
 public class MockOnlyLocaleTilesContext implements TilesRequestContext {
@@ -41,7 +40,7 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     private Locale locale;
 
     /** Creates a new instance of MockOnlyLocaleTilesContext.
-     * 
+     *
      * @param locale The locale object to use.
      */
     public MockOnlyLocaleTilesContext(Locale locale) {
@@ -50,7 +49,8 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
 
     /**
      * Returns the locale specified in the constructor.
-     * 
+     *
+     * @return The locale of the request.
      * @see org.apache.tiles.context.TilesRequestContext#getRequestLocale()
      */
     public Locale getRequestLocale() {

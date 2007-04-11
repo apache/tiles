@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.jsp.taglib;
 
@@ -32,12 +31,12 @@ import java.io.IOException;
 
 /**
  * Base tag for the tiles tags which provides standard support for security.
- * 
+ *
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
 public abstract class RoleSecurityTagSupport extends BodyTagSupport {
-    
+
     /**
      * The log instance for this tag.
      */
@@ -84,7 +83,7 @@ public abstract class RoleSecurityTagSupport extends BodyTagSupport {
             LOG.error(message, io);
             throw new JspException(message, io);
         }
-        
+
         return EVAL_PAGE;
     }
 

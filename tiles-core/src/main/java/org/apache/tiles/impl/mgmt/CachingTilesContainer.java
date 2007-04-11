@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.impl.mgmt;
 
@@ -76,7 +75,7 @@ public class CachingTilesContainer extends BasicTilesContainer
         super.setDefinitionsFactory(definitionsFactory);
         mgr.setFactory(definitionsFactory);
     }
-    
+
     /**
      * Registers a custom definition.
      *

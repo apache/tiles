@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.web;
 
@@ -49,7 +48,7 @@ public class TilesDispatchServlet extends HttpServlet {
 
     /**
      * The object that will mutate the attribute context so that it uses
-     * different attributes. 
+     * different attributes.
      */
     private AttributeContextMutator mutator;
 
@@ -58,9 +57,10 @@ public class TilesDispatchServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         String temp = getInitParameter("mutator");
-        if(temp != null) {
+        if (temp != null) {
             try {
-                mutator = (AttributeContextMutator)Class.forName(temp).newInstance();
+                mutator = (AttributeContextMutator) Class.forName(temp)
+                        .newInstance();
             } catch (Exception e) {
                 throw new ServletException("Unable to instantiate specified context mutator.", e);
             }
@@ -112,7 +112,7 @@ public class TilesDispatchServlet extends HttpServlet {
     }
 
     /**
-     * Default no-op mutator
+     * Default no-op mutator.
      */
     class DefaultMutator implements AttributeContextMutator {
 

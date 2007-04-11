@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.beans;
 
@@ -61,7 +60,7 @@ public class SimpleMenuItem implements MenuItem, Serializable {
     /**
      * Sets the value of the item, i.e. what is really visible to the user.
      *
-     * @param value The value of the item.  
+     * @param value The value of the item.
      */
     public void setValue(String value) {
         this.value = value;
@@ -70,7 +69,7 @@ public class SimpleMenuItem implements MenuItem, Serializable {
     /**
      * Returns the value of the item, i.e. what is really visible to the user.
      *
-     * @return The value of the item.  
+     * @return The value of the item.
      */
     public String getValue() {
         return value;

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
@@ -25,24 +24,23 @@ package org.apache.tiles.definition;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.tiles.definition.Definition;
 
 /**
  * Tests the Definition class.
  *
  * @version $Rev$ $Date$
  */
-public class TestDefinition extends TestCase{
-    
+public class TestDefinition extends TestCase {
+
     /**
-     * Creates a new instance of TestDefinition
+     * Creates a new instance of TestDefinition.
      *
      * @param name The name of the test.
      */
     public TestDefinition(String name) {
         super(name);
     }
-    
+
     /**
      * Start the tests.
      *
@@ -60,7 +58,7 @@ public class TestDefinition extends TestCase{
     public static Test suite() {
         return new TestSuite(TestDefinition.class);
     }
-    
+
     /**
      * Verifies the put Attribute functionality.
      *
@@ -71,11 +69,11 @@ public class TestDefinition extends TestCase{
         def.setName("test1");
         def.setTemplate("/page1.jsp");
         def.put("attr1", new Definition(), "definition", null);
-        
+
         Object attr1 = def.getAttribute("attr1");
         assertNotNull("Null attribute.", attr1);
         assertTrue("Wrong attribute type", attr1 instanceof Definition);
     }
-    
-    
+
+
 }

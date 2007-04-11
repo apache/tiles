@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.mgmt;
 
@@ -35,7 +34,7 @@ public interface MutableTilesContainer extends TilesContainer {
     /**
      * Register a new definition with the container.
      *
-     * @param definition
+     * @param definition The definition to register.
      * @param requestItems the current request objects.
      * @throws TilesException If something goes wrong during registration.
      */

@@ -17,12 +17,10 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 
 import java.util.Map;
 
@@ -37,15 +35,15 @@ public interface TilesContextFactory {
     /**
      * Initialize the factory.
      *
-     * @param configurationParameters A map of parameters. 
+     * @param configurationParameters A map of parameters.
      */
     void init(Map<String, String> configurationParameters);
 
     /**
      * Create a TilesApplicationContext for the given context.
      *
-     * @param context
-     * @return TilesApplicationContext
+     * @param context The (application) context to use.
+     * @return TilesApplicationContext The Tiles application context.
      */
     TilesApplicationContext createApplicationContext(Object context);
 

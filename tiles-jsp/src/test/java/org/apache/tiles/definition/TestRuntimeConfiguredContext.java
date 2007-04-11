@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.definition;
 
@@ -31,17 +30,17 @@ import org.apache.tiles.jsp.taglib.definition.InitContainerTag.RuntimeConfigured
 import junit.framework.TestCase;
 
 /**
- * Tests {@link RuntimeConfiguredContext}
+ * Tests {@link RuntimeConfiguredContext}.
  *
  * @version $Rev$ $Date$
  */
 public class TestRuntimeConfiguredContext extends TestCase {
-    
+
     /**
      * The context to test.
      */
-    RuntimeConfiguredContext context;
-    
+    private RuntimeConfiguredContext context;
+
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
@@ -61,7 +60,7 @@ public class TestRuntimeConfiguredContext extends TestCase {
         assertEquals(context.getInitParameter("initParameter1"), "newParameterValue1");
         assertEquals(context.getInitParameter("initParameter2"), "parameterValue2");
         assertEquals(context.getInitParameter("newInitParameter"), "newParameterValue2");
-        
+
         Set<String> paramSet = new HashSet<String>();
         paramSet.add("initParameter1");
         paramSet.add("initParameter2");
@@ -72,7 +71,7 @@ public class TestRuntimeConfiguredContext extends TestCase {
             assertTrue(paramSet.contains(name));
             paramSet.remove(name);
         }
-        
+
         assertTrue(paramSet.isEmpty());
     }
 

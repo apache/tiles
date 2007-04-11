@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition.util;
@@ -34,7 +33,7 @@ import org.apache.tiles.impl.BasicTilesContainer;
  *
  * @version $Rev$ $Date$
  */
-public class DefinitionsFactoryUtil {
+public final class DefinitionsFactoryUtil {
 
     /**
      * Private constructor to avoid instatiation.

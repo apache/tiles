@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context.portlet;
 
@@ -61,9 +60,9 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
 
 
     /**
-     * Creates a new instance of PortletTilesApplicationContext
+     * Creates a new instance of PortletTilesApplicationContext.
      *
-     * @param context The portlet context to use. 
+     * @param context The portlet context to use.
      */
     public PortletTilesApplicationContext(PortletContext context) {
         initialize(context);
@@ -103,7 +102,7 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
     /**
      * <p>Return the {@link PortletContext} for this context.</p>
      *
-     * @return The original portlet context. 
+     * @return The original portlet context.
      */
     public PortletContext getPortletContext() {
         return (this.context);

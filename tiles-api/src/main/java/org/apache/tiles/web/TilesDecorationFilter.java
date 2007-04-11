@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.web;
 
@@ -68,7 +67,7 @@ import java.util.HashMap;
  * </filter-mapping>
  * </xmp>
  * The filter will intercept all requests to the indicated url pattern
- * store the initial request path as the "body"  attribute and then render the 
+ * store the initial request path as the "body"  attribute and then render the
  * "test.definition" definition.
  */
 public class TilesDecorationFilter implements Filter {
@@ -103,13 +102,13 @@ public class TilesDecorationFilter implements Filter {
 
     /**
      * The object that will mutate the attribute context so that it uses
-     * different attributes. 
+     * different attributes.
      */
     private AttributeContextMutator mutator = null;
 
     /**
      * Returns the filter configuration object.
-     * 
+     *
      * @return The filter configuration.
      */
     public FilterConfig getFilterConfig() {
@@ -118,7 +117,7 @@ public class TilesDecorationFilter implements Filter {
 
     /**
      * Returns the servlet context.
-     * 
+     *
      * @return The servlet context.
      */
     public ServletContext getServletContext() {
@@ -141,9 +140,10 @@ public class TilesDecorationFilter implements Filter {
         alternateDefinitions = parseAlternateDefinitions();
 
         temp = config.getInitParameter("mutator");
-        if(temp != null) {
+        if (temp != null) {
             try {
-                mutator = (AttributeContextMutator)Class.forName(temp).newInstance();
+                mutator = (AttributeContextMutator) Class.forName(temp)
+                        .newInstance();
             } catch (Exception e) {
                 throw new ServletException("Unable to instantiate specified context mutator.", e);
             }
@@ -162,14 +162,15 @@ public class TilesDecorationFilter implements Filter {
     protected Map<String, String> parseAlternateDefinitions() {
         Map<String, String> map = new HashMap<String, String>();
         Enumeration<String> e = filterConfig.getInitParameterNames();
-        while(e.hasMoreElements()) {
+        while (e.hasMoreElements()) {
             String parm = e.nextElement();
-            if(parm.startsWith("definition(") && parm.endsWith("*)")) {
+            if (parm.startsWith("definition(") && parm.endsWith("*)")) {
                 String value = filterConfig.getInitParameter(parm);
                 String mask = parm.substring("definition(".length());
                 mask = mask.substring(0, mask.lastIndexOf("*)"));
                 map.put(mask, value);
-                LOG.info("Mapping all requests matching '"+mask+"*' to definition '"+value+"'");
+                LOG.info("Mapping all requests matching '" + mask
+                        + "*' to definition '" + value + "'");
             }
         }
         return map;
@@ -190,7 +191,9 @@ public class TilesDecorationFilter implements Filter {
             String definitionName = getDefinitionForRequest(req);
             container.render(definitionName, req, res);
         } catch (TilesException e) {
-            throw new ServletException("Error wrapping jsp with tile definition. "+e.getMessage(), e);
+            throw new ServletException(
+                    "Error wrapping jsp with tile definition. "
+                            + e.getMessage(), e);
         }
     }
 
@@ -201,12 +204,12 @@ public class TilesDecorationFilter implements Filter {
      * @return The final definition name.
      */
     private String getDefinitionForRequest(ServletRequest request) {
-        if(alternateDefinitions.size() < 1) {
+        if (alternateDefinitions.size() < 1) {
             return definitionName;
         }
         String base = getRequestBase(request);
-        for(Map.Entry<String, String> pair : alternateDefinitions.entrySet()) {
-            if(base.startsWith(pair.getKey())) {
+        for (Map.Entry<String, String> pair : alternateDefinitions.entrySet()) {
+            if (base.startsWith(pair.getKey())) {
                 return pair.getValue();
             }
         }
@@ -216,7 +219,7 @@ public class TilesDecorationFilter implements Filter {
     /**
      * Returns the request base, i.e. the the URL to calculate all the relative
      * paths.
-     * 
+     *
      * @param request The request object to use.
      * @return The request base.
      */

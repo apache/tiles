@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.jsp.taglib;
 
@@ -25,38 +24,37 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.jsp.taglib.PutAttributeTag;
-import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TryCatchFinally;
 import java.io.IOException;
 
 /**
+ * <p>
  * Support for all tags which render (a template, or definition).
  * </p>
- * Properly invokes the defined preparer and invokes the abstract
- * render method upon completion.
+ * <p>
+ * Properly invokes the defined preparer and invokes the abstract render method
+ * upon completion.
  * </p>
- * This tag takes special care to ensure that the attribute context is
- * reset to it's original state after the execution of the tag is
- * complete. This ensures that all all included attributes in subsequent
- * tiles are scoped properly and do not bleed outside their intended
- * scope.
+ * This tag takes special care to ensure that the attribute context is reset to
+ * it's original state after the execution of the tag is complete. This ensures
+ * that all all included attributes in subsequent tiles are scoped properly and
+ * do not bleed outside their intended scope.
  *
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
 public abstract class RenderTagSupport extends ContainerTagSupport
     implements TryCatchFinally, PutAttributeTagParent {
-    
+
     /**
      * The logging object.
      */
-    private static Log LOG = LogFactory.getLog(RenderTagSupport.class);
+    private static final Log LOG = LogFactory.getLog(RenderTagSupport.class);
 
     /**
-     * The view preparer to use before the rendering. 
+     * The view preparer to use before the rendering.
      */
     protected String preparer;
 
@@ -74,7 +72,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     /**
      * Returns the preparer name.
      *
-     * @return The preparer name. 
+     * @return The preparer name.
      */
     public String getPreparer() {
         return preparer;
@@ -83,7 +81,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     /**
      * Sets the preparer name.
      *
-     * @param preparer The preparer name. 
+     * @param preparer The preparer name.
      */
     public void setPreparer(String preparer) {
         this.preparer = preparer;
@@ -182,8 +180,10 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     protected abstract void render() throws JspException, TilesException, IOException;
 
     /**
+     * <p>
      * Process nested &lg;put&gt; tag.
      * <p/>
+     * <p>
      * Places the value of the nested tag within the
      * {@link org.apache.tiles.AttributeContext}.It is the responsibility
      * of the descendent to check security.  Tags extending

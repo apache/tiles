@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.jsp.taglib;
 
@@ -34,13 +33,12 @@ import javax.servlet.jsp.PageContext;
  * Base tag for the tiles tags which interact with the container.
  * Provides standard support for security, and provides access
  * to the container and attribute context.
- * </p>
  *
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
 public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
-    
+
     /**
      * The log instance for this tag.
      */
@@ -74,7 +72,7 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
             throw new JspException("TilesContainer not initialized");
         }
     }
-    
+
 
     /** {@inheritDoc} */
     public int doEndTag() throws JspException {
@@ -93,7 +91,7 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
         this.container = null;
         this.attributeContext = null;
     }
-    
+
     /**
      * Starts the context when entering the tag.
      *
@@ -104,7 +102,7 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
             attributeContext = container.startContext(pageContext);
         }
     }
-    
+
     /**
      * Ends the context when exiting the tag.
      *

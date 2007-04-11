@@ -17,19 +17,26 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.filter;
+
+import java.io.IOException;
+import java.util.Enumeration;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
 import org.apache.tiles.servlet.TilesServlet;
-
-import javax.servlet.*;
-import java.io.IOException;
-import java.util.Enumeration;
 
 /**
  * Processes Reloadable Tiles Definitions.
@@ -77,7 +84,7 @@ public class TilesFilter extends TilesServlet implements Filter {
 
     /**
      * Returns the filter configuration object for this filter.
-     * 
+     *
      * @return The filter configuration.
      */
     public FilterConfig getFilterConfig() {
@@ -97,7 +104,7 @@ public class TilesFilter extends TilesServlet implements Filter {
     }
 
     /**
-     * Destroy method for this filter
+     * Destroy method for this filter.
      */
     public void destroy
         () {
@@ -109,7 +116,7 @@ public class TilesFilter extends TilesServlet implements Filter {
         this.filterConfig = filterConfig;
         super.init(createServletConfig());
 
-        if (debug) {
+        if (DEBUG) {
             log("TilesDecorationFilter:Initializing filter");
         }
     }
@@ -120,10 +127,10 @@ public class TilesFilter extends TilesServlet implements Filter {
     }
 
     /**
-     * A debug flag.
+     * A DEBUG flag.
      */
     // FIXME Is it really used?
-    private static final boolean debug = true;
+    private static final boolean DEBUG = true;
 
     /**
      * Creates a servlet configuration object from the filter configuration

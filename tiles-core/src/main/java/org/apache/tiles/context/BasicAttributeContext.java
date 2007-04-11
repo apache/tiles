@@ -17,18 +17,21 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.context;
 
-import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.Constants;
-import org.apache.tiles.AttributeContext;
-import org.apache.tiles.Attribute;
-
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+
+import org.apache.tiles.Attribute;
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.Constants;
 
 /**
  * Basic implementation for <code>AttributeContext</code>.
@@ -70,7 +73,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     public BasicAttributeContext(AttributeContext context) {
         this.attributes = new HashMap<String, Attribute>();
         Iterator<String> names = context.getAttributeNames();
-        while(names.hasNext()) {
+        while (names.hasNext()) {
             String name = names.next();
             attributes.put(name, context.getAttribute(name));
         }
@@ -167,7 +170,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * @return BasicAttributeContext or null if context is not found or an
      *         jspException is present in the request.
      */
-    static public AttributeContext getContext(TilesRequestContext tilesContext) {
+    public static AttributeContext getContext(TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack = getContextStack(tilesContext);
         if (!contextStack.isEmpty()) {
             return contextStack.peek();
@@ -175,7 +178,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             return null;
         }
     }
-    
+
     /**
      * Returns the context stack.
      *
@@ -183,7 +186,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * @return The needed stack of contexts.
      */
     @SuppressWarnings("unchecked")
-    static public Stack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
+    public static Stack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack =
             (Stack<AttributeContext>) tilesContext.getRequestScope().get(
                 Constants.ATTRIBUTE_CONTEXT_STACK);
@@ -192,29 +195,29 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             tilesContext.getRequestScope().put(Constants.ATTRIBUTE_CONTEXT_STACK,
                     contextStack);
         }
-        
+
         return contextStack;
     }
-    
+
     /**
      * Pushes a context object in the stack.
      *
      * @param context The context to push.
      * @param tilesContext The Tiles context object to use.
      */
-    static public void pushContext(AttributeContext context,
+    public static void pushContext(AttributeContext context,
             TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack = getContextStack(tilesContext);
         contextStack.push(context);
     }
-    
+
     /**
-     * Pops a context object out of the stack
+     * Pops a context object out of the stack.
      *
      * @param tilesContext The Tiles context object to use.
      * @return The popped context object.
      */
-    static public AttributeContext popContext(TilesRequestContext tilesContext) {
+    public static AttributeContext popContext(TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack = getContextStack(tilesContext);
         return contextStack.pop();
     }

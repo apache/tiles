@@ -17,23 +17,26 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.servlet;
 
-import javax.servlet.*;
-
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Set;
-import java.util.Enumeration;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.InputStream;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 /**
  * Adapts a servlet config and a servlet context to become a unique servlet
  * context.
- * 
+ *
  * @version $Rev$ $Date$
  */
 @SuppressWarnings("deprecation")
@@ -236,7 +239,7 @@ public class ServletContextAdapter implements ServletContext {
 
         /** {@inheritDoc} */
         public Object nextElement() {
-            if(first.hasMoreElements()) {
+            if (first.hasMoreElements()) {
                 return first.nextElement();
             }
 

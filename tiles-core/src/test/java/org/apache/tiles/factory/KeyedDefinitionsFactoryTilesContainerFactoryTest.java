@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.factory;
 
@@ -47,7 +46,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
      * The servlet context.
      */
     private ServletContext context;
-    
+
     /**
      * Default configuration parameters.
      */
@@ -124,8 +123,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
         try {
             container.init(new HashMap<String, String>());
             fail("Container should have already been initialized");
-        }
-        catch (IllegalStateException te) {
+        } catch (IllegalStateException te) {
         }
 
     }

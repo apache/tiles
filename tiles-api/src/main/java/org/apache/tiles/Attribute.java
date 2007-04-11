@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles;
@@ -206,7 +205,7 @@ public class Attribute implements Serializable {
 
     /**
      * Returns the type of this attribute.
-     * 
+     *
      * @return The attribute type. It can be <code>string</code>,
      * <code>template</code>, <code>definition</code>.
      */
@@ -216,7 +215,7 @@ public class Attribute implements Serializable {
 
     /**
      * Sets the type of this attribute.
-     * 
+     *
      * @param type The attribute type. It can be <code>string</code>,
      * <code>template</code>, <code>definition</code>.
      */
@@ -267,7 +266,7 @@ public class Attribute implements Serializable {
 
     /**
      * Sets the body of this attribute.
-     * 
+     *
      * @param body The attribute body.
      */
     // FIXME Is it necessary?

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.mgmt;
 
@@ -39,7 +38,7 @@ public class TileDefinition {
      */
     protected String inherit;
     /**
-     * TileDefinition name
+     * TileDefinition name.
      */
     protected String name = null;
     /**
@@ -55,7 +54,7 @@ public class TileDefinition {
      */
     protected String role = null;
     /**
-     * Associated ViewPreparer URL or classname, if defined
+     * Associated ViewPreparer URL or classname, if defined.
      */
     protected String preparer = null;
 
@@ -169,7 +168,7 @@ public class TileDefinition {
     }
 
     /**
-     * Get associated preparerInstance
+     * Get associated preparerInstance.
      *
      * @return The preparer name.
      */

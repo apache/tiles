@@ -17,28 +17,28 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
 
-import org.apache.tiles.definition.Definitions;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.UrlDefinitionsFactory;
 
 /**
  * Mock implementation of UrlDefinitionsFactory that exposes two of its methods
  * as public instead of protected.
- * 
+ *
  * @version $Rev$ $Date$
  */
 public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
 
     /**
      * Exposes the <code>addDefinitions</code> method of
-     * <code>UrlDefinitionsFactory</code>
-     * 
+     * <code>UrlDefinitionsFactory</code>.
+     *
+     * @param definitions The definitions to add.
+     * @param tilesContext The request context to use.
+     * @throws DefinitionsFactoryException If something goes wrong during the
+     * addition.
      * @see org.apache.tiles.definition.UrlDefinitionsFactory#addDefinitions(org.apache.tiles.definition.Definitions,
      *org.apache.tiles.context.TilesRequestContext)
      */
@@ -48,11 +48,13 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
     }
 
     /**
-     * 
      * Exposes the <code>isLocaleProcessed</code> method of
-     * <code>UrlDefinitionsFactory</code>
-     * 
-     * @see org.apache.tiles.definition.UrlDefinitionsFactory#isContextProcessed(org.apache.tiles.context.TilesRequestContext)
+     * <code>UrlDefinitionsFactory</code>.
+     *
+     * @param tilesContext The request context to use.
+     * @return <code>true</code> if the context has been already processed.
+     * @see org.apache.tiles.definition.UrlDefinitionsFactory
+     * #isContextProcessed(org.apache.tiles.context.TilesRequestContext)
      */
     public boolean isContextProcessed(TilesRequestContext tilesContext) {
         return super.isContextProcessed(tilesContext);

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.servlet;
 
@@ -57,7 +56,7 @@ public class TilesServlet extends HttpServlet {
     /**
      * Creates an servlet context event starting for the servlet configuration
      * object.
-     * 
+     *
      * @return The servlet context event.
      */
     private ServletContextEvent createEvent() {

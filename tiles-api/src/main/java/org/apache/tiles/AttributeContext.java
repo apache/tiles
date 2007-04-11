@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles;
 
@@ -40,7 +39,7 @@ public interface AttributeContext {
     void addAll(Map<String, Attribute> newAttributes);
 
     /**
-     * Add all attributes to the context
+     * Add all attributes to the context.
      *
      * @param defaultAttributes attributes which should be present.
      */
@@ -70,7 +69,7 @@ public interface AttributeContext {
     void putAttribute(String name, Attribute value);
 
     /**
-     * Clear the attributes
+     * Clear the attributes.
      */
     void clear();
 }

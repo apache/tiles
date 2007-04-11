@@ -17,13 +17,11 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.Constants;
-import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,11 +30,11 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * <p><strong>Put an attribute in enclosing attribute container tag.</strong></p>
- * <p>Enclosing attribute container tag can be : 
+ * <p>Enclosing attribute container tag can be :
  * <ul>
- * <li>&lt;initContainer&gt;</li> 
- * <li>&lt;definition&gt;</li> 
- * <li>&lt;insertAttribute&gt;</li> 
+ * <li>&lt;initContainer&gt;</li>
+ * <li>&lt;definition&gt;</li>
+ * <li>&lt;insertAttribute&gt;</li>
  * <li>&lt;insertDefinition&gt;</li>
  * <li>&lt;putList&gt;</li>
  * </ul>
@@ -184,7 +182,7 @@ public class PutAttributeTag extends RoleSecurityTagSupport implements Constants
     }
 
     /**
-     * Save the body content of this tag (if any)
+     * Save the body content of this tag (if any).
      *
      * @return <code>SKIP_BODY</code>.
      * @throws JspException if a JSP exception has occurred
@@ -205,7 +203,8 @@ public class PutAttributeTag extends RoleSecurityTagSupport implements Constants
 
         if (parent == null) {
             String message = "Error: enclosing tag '"
-                +getParent().getClass().getName()+" doesn't accept 'put' tag.";
+                    + getParent().getClass().getName()
+                    + " doesn't accept 'put' tag.";
             LOG.error(message);
             throw new JspException(message);
         }

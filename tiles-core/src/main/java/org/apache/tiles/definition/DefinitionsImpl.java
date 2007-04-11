@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
@@ -51,7 +50,7 @@ public class DefinitionsImpl implements Definitions {
     private Map<Locale, Map<String, Definition>> localeSpecificDefinitions;
 
     /**
-     * Creates a new instance of DefinitionsImpl
+     * Creates a new instance of DefinitionsImpl.
      */
     public DefinitionsImpl() {
         baseDefinitions = new HashMap<String, Definition>();
@@ -74,9 +73,11 @@ public class DefinitionsImpl implements Definitions {
      * resolves inheritance attraibutes.
      *
      * @param defsMap The new definitions to add.
-     * @throws NoSuchDefinitionException
+     * @throws NoSuchDefinitionException If something goes wrong during
+     * addition.
      */
-    public void addDefinitions(Map<String, Definition> defsMap) throws NoSuchDefinitionException {
+    public void addDefinitions(Map<String, Definition> defsMap)
+            throws NoSuchDefinitionException {
         this.baseDefinitions.putAll(defsMap);
         resolveAttributeDependencies(null);
         resolveInheritances();
@@ -126,7 +127,7 @@ public class DefinitionsImpl implements Definitions {
     /**
      * Resolve extended instances.
      *
-     * @throws NoSuchDefinitionException If a parent definition is not found. 
+     * @throws NoSuchDefinitionException If a parent definition is not found.
      */
     public void resolveInheritances() throws NoSuchDefinitionException {
         for (Definition definition : baseDefinitions.values()) {
@@ -137,7 +138,7 @@ public class DefinitionsImpl implements Definitions {
     /**
      * Resolve locale-specific extended instances.
      *
-     * @param locale The locale to use. 
+     * @param locale The locale to use.
      * @throws NoSuchDefinitionException If a parent definition is not found.
      */
     public void resolveInheritances(Locale locale) throws NoSuchDefinitionException {
@@ -160,9 +161,9 @@ public class DefinitionsImpl implements Definitions {
     }
 
     /**
-     * Returns base definitions collection;
+     * Returns base definitions collection.
      *
-     * @return The base (i.e. not depending on any locale) definitions map. 
+     * @return The base (i.e. not depending on any locale) definitions map.
      */
     public Map<String, Definition> getBaseDefinitions() {
         return baseDefinitions;
@@ -175,14 +176,12 @@ public class DefinitionsImpl implements Definitions {
      * @return <code>true</code> if the attribute is a definition.
      */
     protected boolean isDefinitionType(Attribute attr) {
-        boolean explicit = (attr.getType() != null &&
-            (attr.getType().equalsIgnoreCase("definition") ||
-                attr.getType().equalsIgnoreCase("instance")));
+        boolean explicit = (attr.getType() != null && (attr.getType()
+                .equalsIgnoreCase("definition") || attr.getType()
+                .equalsIgnoreCase("instance")));
 
-        boolean implicit =
-            attr.getType() == null &&
-                attr.getValue() != null &&
-                baseDefinitions.containsKey(attr.getValue().toString());
+        boolean implicit = attr.getType() == null && attr.getValue() != null
+                && baseDefinitions.containsKey(attr.getValue().toString());
 
         return explicit || implicit;
 
@@ -191,7 +190,7 @@ public class DefinitionsImpl implements Definitions {
     /**
      * Resolves attribute dependencies for the given locale. If the locale is
      * <code>null</code>, it resolves base attribute dependencies.
-     * 
+     *
      * @param locale The locale to use.
      */
     protected void resolveAttributeDependencies(Locale locale) {
@@ -245,7 +244,7 @@ public class DefinitionsImpl implements Definitions {
      * template.
      * Also copy attributes setted in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
-     * 
+     *
      * @param definition The definition to resolve
      * @param locale The locale to use.
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
@@ -253,13 +252,15 @@ public class DefinitionsImpl implements Definitions {
     protected void resolveInheritance(Definition definition,
                                       Locale locale) throws NoSuchDefinitionException {
         // Already done, or not needed ?
-        if (definition.isIsVisited() || !definition.isExtending())
+        if (definition.isIsVisited() || !definition.isExtending()) {
             return;
+        }
 
-        if (log.isDebugEnabled())
+        if (log.isDebugEnabled()) {
             log.debug("Resolve definition for child name='"
                 + definition.getName()
                 + "' extends='" + definition.getExtends() + "'.");
+        }
 
         // Set as visited to avoid endless recurisvity.
         definition.setIsVisited(true);
@@ -300,14 +301,17 @@ public class DefinitionsImpl implements Definitions {
                 .iterator();
         while (parentAttributes.hasNext()) {
             String name = parentAttributes.next();
-            if (!child.getAttributes().containsKey(name))
+            if (!child.getAttributes().containsKey(name)) {
                 child.put(name, parent.getAttribute(name));
+            }
         }
         // Set template and role if not setted
-        if (child.getTemplate() == null)
+        if (child.getTemplate() == null) {
             child.setTemplate(parent.getTemplate());
-        if (child.getRole() == null)
+        }
+        if (child.getRole() == null) {
             child.setRole(parent.getRole());
+        }
         if (child.getPreparer() == null) {
             child.setPreparer(parent.getPreparer());
         }

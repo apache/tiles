@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context;
 
@@ -93,8 +92,8 @@ public class ListAttribute extends Attribute {
      *
      * @param value Object to add.
      */
-    public void addObject( Object value ) {
-    list.add( value );
+    public void addObject(Object value) {
+    list.add(value);
   }
 
 }

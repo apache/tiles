@@ -17,17 +17,22 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context.portlet;
 
-import org.apache.tiles.context.TilesRequestContext;
-
-import javax.portlet.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.portlet.PortletContext;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import org.apache.tiles.context.TilesRequestContext;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
@@ -93,9 +98,9 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
 
 
     /**
-     * Creates a new instance of PortletTilesRequestContext
+     * Creates a new instance of PortletTilesRequestContext.
      *
-     * @param context The portlet context to use. 
+     * @param context The portlet context to use.
      * @param request The request object to use.
      * @param response The response object to use.
      */
@@ -155,7 +160,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
     /**
      * <p>Return the {@link PortletRequest} for this context.</p>
      *
-     * @return The used portlet request. 
+     * @return The used portlet request.
      */
     public PortletRequest getRequest() {
         return (this.request);
@@ -172,7 +177,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Map<String, String> getHeader() {
+    public Map<String, String> getHeader() {
         if ((header == null) && (request != null)) {
             header = Collections.EMPTY_MAP;
         }
@@ -181,7 +186,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Map<String, String[]> getHeaderValues() {
+    public Map<String, String[]> getHeaderValues() {
         if ((headerValues == null) && (request != null)) {
             headerValues = Collections.EMPTY_MAP;
         }
@@ -233,7 +238,8 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
                 context.getRequestDispatcher(path).include((RenderRequest) request,
                     (RenderResponse) response);
             } catch (PortletException e) {
-                throw new IOException("PortletException while including path '"+path+"'."+e.getMessage());
+                throw new IOException("PortletException while including path '"
+                        + path + "'." + e.getMessage());
             }
         }
     }

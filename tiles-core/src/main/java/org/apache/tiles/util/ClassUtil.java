@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.util;
 
@@ -29,7 +28,13 @@ import org.apache.tiles.TilesException;
  *
  * @version $Rev$ $Date$
  */
-public class ClassUtil {
+public final class ClassUtil {
+
+    /**
+     * Constructor, private to avoid instantiation.
+     */
+    private ClassUtil() {
+    }
 
     /**
      * Returns an instance of the given class name, by calling the default
@@ -64,7 +69,7 @@ public class ClassUtil {
             Class<?> namedClass = Class.forName(className);
             return namedClass.newInstance();
         } catch (ClassNotFoundException e) {
-            if(returnNull) {
+            if (returnNull) {
                 return null;
             }
             throw new TilesException("Unable to resolve factory class: '" + className + "'");

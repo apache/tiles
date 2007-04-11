@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.factory;
 
@@ -129,7 +128,7 @@ public class TilesContainerFactory {
      * 'org.apache.tiles.CONTAINER_FACTORY' is discovered this class will be
      * instantiated and returned. Otherwise, the factory will attempt to utilize
      * one of it's internal factories.
-     * 
+     *
      * @param context the executing applications context. Typically a
      * ServletContext or PortletContext
      * @param defaults Default configuration parameters values, used if the
@@ -225,7 +224,7 @@ public class TilesContainerFactory {
                                        BasicTilesContainer container)
         throws TilesException {
         Map <String, String> initParameterMap;
-        
+
         initParameterMap = getInitParameterMap(context);
         Map<String, String> configuration = new HashMap<String, String>(defaultConfiguration);
         configuration.putAll(initParameterMap);
@@ -235,7 +234,7 @@ public class TilesContainerFactory {
 
     /**
      * Stores container dependencies, that is called before
-     * {@link TilesContainer#init(Map)}
+     * {@link TilesContainer#init(Map)}.
      *
      * @param context The (application) context object to use.
      * @param initParameters The initialization parameters.
@@ -321,15 +320,15 @@ public class TilesContainerFactory {
                 contextClass.getMethod("getInitParameter", String.class);
             value = getInitParameterMethod.invoke(context, parameterName);
         } catch (Exception e) {
-            throw new TilesException("Unrecognized context.  Is this context" +
-                " a ServletContext, PortletContext, or similar?", e);
+            throw new TilesException("Unrecognized context.  Is this context"
+                    + " a ServletContext, PortletContext, or similar?", e);
         }
         return value == null ? null : value.toString();
     }
 
     /**
      * Returns a map containing parameters name-value entries.
-     * 
+     *
      * @param context The (application) context object to use.
      * @return The initialization parameters map.
      * @throws TilesException If the context object has not been recognized.
@@ -350,9 +349,9 @@ public class TilesContainerFactory {
                 initParameters.put(key, (String) method.invoke(context, key));
             }
         } catch (Exception e) {
-            throw new TilesException("Unable to retrieve init parameters." +
-                " Is this context a ServletContext, PortletContext," +
-                " or similar object?", e);
+            throw new TilesException("Unable to retrieve init parameters."
+                    + " Is this context a ServletContext, PortletContext,"
+                    + " or similar object?", e);
         }
         return initParameters;
     }

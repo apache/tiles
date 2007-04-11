@@ -17,13 +17,10 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.preparer;
 
 import junit.framework.TestCase;
-import org.apache.tiles.preparer.ViewPreparerSupport;
-import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.TilesException;
 
 /**

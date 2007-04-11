@@ -17,16 +17,21 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context.servlet;
 
-
-import org.apache.tiles.context.MapEntry;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
 
+import org.apache.tiles.context.MapEntry;
 
 /**
  * <p>Private implementation of <code>Map</code> for servlet parameter

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.context;
@@ -25,14 +24,13 @@ package org.apache.tiles.context;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 
 import java.util.Map;
 
 /**
  * Default implementation for TilesContextFactory, that creates a chain of
  * sub-factories, trying each one until it returns a not-null value.
- * 
+ *
  * @version $Rev$ $Date$
  */
 public class ChainedTilesContextFactory implements TilesContextFactory {
@@ -40,7 +38,8 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
     /**
      * Factory class names initialization parameter to use.
      */
-    public static final String FACTORY_CLASS_NAMES = "org.apache.tiles.context.ChainTilesContextFactory.FACTORY_CLASS_NAMES";
+    public static final String FACTORY_CLASS_NAMES =
+        "org.apache.tiles.context.ChainTilesContextFactory.FACTORY_CLASS_NAMES";
 
     /**
      * The default class names to instantiate that compose the chain..
@@ -49,11 +48,12 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
             "org.apache.tiles.context.servlet.ServletTilesContextFactory",
             "org.apache.tiles.context.portlet.PortletTilesContextFactory",
             "org.apache.tiles.jsp.context.JspTilesContextFactory" };
-    
+
     /**
      * The logging object.
      */
-    private static Log LOG = LogFactory.getLog(ChainedTilesContextFactory.class);
+    private static final Log LOG = LogFactory
+            .getLog(ChainedTilesContextFactory.class);
 
     /**
      * The Tiles context factories composing the chain.
@@ -62,7 +62,7 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public void init(Map<String, String> configParameters) {
+    public void init(Map<String, String> configParameters) {
         String[] classNames = null;
         String classNamesString = configParameters.get(FACTORY_CLASS_NAMES);
         if (classNamesString != null) {
@@ -76,7 +76,7 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
         for (int i = 0; i < classNames.length; i++) {
             try {
                 Class<TilesContextFactory> clazz = (Class<TilesContextFactory>) Class
-						.forName(classNames[i]);
+                        .forName(classNames[i]);
                 if (TilesContextFactory.class.isAssignableFrom(clazz)) {
                     factories[i] = clazz.newInstance();
                 } else {
@@ -87,7 +87,8 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
             } catch (ClassNotFoundException e) {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.
-                LOG.warn("Cannot find TilesContextFactory class "+ classNames[i], e);
+                LOG.warn("Cannot find TilesContextFactory class "
+                        + classNames[i], e);
             } catch (InstantiationException e) {
                 throw new IllegalArgumentException(
                         "Cannot instantiate TilesFactoryClass " + classNames[i],

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.factory;
 
@@ -26,6 +25,8 @@ import junit.framework.TestCase;
 import javax.servlet.ServletContext;
 
 import org.easymock.EasyMock;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 
@@ -40,6 +41,12 @@ import java.net.MalformedURLException;
  * @version $Rev$ $Date$
  */
 public class TilesContainerFactoryTest extends TestCase {
+
+    /**
+     * The logging object.
+     */
+    private static final Log LOG = LogFactory
+            .getLog(TilesContainerFactoryTest.class);
 
     /**
      * The servlet context.
@@ -71,7 +78,9 @@ public class TilesContainerFactoryTest extends TestCase {
 
         EasyMock.reset(context);
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(TestFactory.class.getName());
+        EasyMock.expect(context.getInitParameter(TilesContainerFactory
+                .CONTAINER_FACTORY_INIT_PARAM)).andReturn(
+                        TestFactory.class.getName());
         EasyMock.replay(context);
         factory = TilesContainerFactory.getFactory(context);
         assertNotNull(factory);
@@ -90,21 +99,24 @@ public class TilesContainerFactoryTest extends TestCase {
 
         EasyMock.reset(context);
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn("org.missing.Class");
+        EasyMock.expect(context.getInitParameter(TilesContainerFactory
+                .CONTAINER_FACTORY_INIT_PARAM)).andReturn("org.missing.Class");
         EasyMock.replay(context);
         try {
             TilesContainerFactory.getFactory(context);
             fail("Invalid classname.  Exception should have been thrown.");
-        }
-        catch (TilesException e) {
+        } catch (TilesException e) {
         }
     }
 
 
     /**
-     * Tests
-     * @throws TilesException
-     * @throws MalformedURLException
+     * Tests the creation of a container.
+     *
+     * @throws TilesException If something goes wrong during execution of
+     * Tiles-specific code.
+     * @throws MalformedURLException If something goes wrong when obtaining URL
+     * resources.
      */
     public void testCreateContainer() throws TilesException, MalformedURLException {
         URL url = getClass().getResource("test-defs.xml");
@@ -125,8 +137,10 @@ public class TilesContainerFactoryTest extends TestCase {
         try {
             container.init(new HashMap<String, String>());
             fail("Container should have already been initialized");
-        }
-        catch (IllegalStateException te) {
+        } catch (IllegalStateException te) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Intercepted an exception, it is OK", te);
+            }
         }
 
     }

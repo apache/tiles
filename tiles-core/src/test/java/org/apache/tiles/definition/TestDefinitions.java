@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
@@ -28,28 +27,24 @@ import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.tiles.definition.DefinitionsImpl;
-import org.apache.tiles.definition.Definitions;
-import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.tiles.definition.Definition;
 import org.apache.tiles.Attribute;
 
 /**
  * Tests the DefinitionsImpl class.
  *
- * @version $Rev$ $Date$ 
+ * @version $Rev$ $Date$
  */
 public class TestDefinitions extends TestCase {
-    
+
     /**
-     * Creates a new instance of TestDefinitions
+     * Creates a new instance of TestDefinitions.
      *
      * @param name The name of the test.
      */
     public TestDefinitions(String name) {
         super(name);
     }
-    
+
     /**
      * Start the tests.
      *
@@ -73,7 +68,7 @@ public class TestDefinitions extends TestCase {
      */
     public void testResolveInheritances() {
         Map<String, Definition> defs = new HashMap<String, Definition>();
-        
+
         Definition def = new Definition();
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
@@ -82,7 +77,7 @@ public class TestDefinitions extends TestCase {
         attr.setValue("value1");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
-        
+
         def = new Definition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
@@ -91,29 +86,29 @@ public class TestDefinitions extends TestCase {
         attr.setValue("New value");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
-        
+
         Definitions definitions = new DefinitionsImpl();
         try {
             definitions.addDefinitions(defs);
         } catch (NoSuchDefinitionException e) {
             fail("Test failure: " + e);
         }
-        
-        assertNotNull("Couldn't get parent.", 
+
+        assertNotNull("Couldn't get parent.",
                 definitions.getDefinition("parent.def1"));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("parent.def1").getTemplate());
         assertEquals("Incorrect attr1 value", "value1",
                 definitions.getDefinition("parent.def1").getAttribute("attr1"));
-        
-        assertNotNull("Couldn't get child.", 
+
+        assertNotNull("Couldn't get child.",
                 definitions.getDefinition("child.def1"));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("child.def1").getTemplate());
         assertEquals("Incorrect attr1 value", "New value",
                 definitions.getDefinition("child.def1").getAttribute("attr1"));
     }
-    
+
     /**
      * Tests the inheritance with localized definitions.
      */
@@ -127,7 +122,7 @@ public class TestDefinitions extends TestCase {
         attr.setValue("value1");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
-        
+
         def = new Definition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
@@ -154,42 +149,42 @@ public class TestDefinitions extends TestCase {
         } catch (NoSuchDefinitionException e) {
             fail("Test failure: " + e);
         }
-        
-        assertNotNull("Couldn't get parent.", 
+
+        assertNotNull("Couldn't get parent.",
                 definitions.getDefinition("parent.def1"));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("parent.def1").getTemplate());
         assertEquals("Incorrect attr1 value", "value1",
                 definitions.getDefinition("parent.def1").getAttribute("attr1"));
-        
-        assertNotNull("Couldn't get child.", 
+
+        assertNotNull("Couldn't get child.",
                 definitions.getDefinition("child.def1"));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("child.def1").getTemplate());
         assertEquals("Incorrect attr1 value", "New value",
                 definitions.getDefinition("child.def1").getAttribute("attr1"));
-        
-        assertNotNull("Couldn't get parent.", 
+
+        assertNotNull("Couldn't get parent.",
                 definitions.getDefinition("parent.def1", Locale.US));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("parent.def1", Locale.US).getTemplate());
         assertEquals("Incorrect attr1 value", "value1",
                 definitions.getDefinition("parent.def1", Locale.US).getAttribute("attr1"));
-        
-        assertNotNull("Couldn't get child.", 
+
+        assertNotNull("Couldn't get child.",
                 definitions.getDefinition("child.def1", Locale.US));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("child.def1", Locale.US).getTemplate());
         assertEquals("Incorrect attr1 value", "US Value",
                 definitions.getDefinition("child.def1", Locale.US).getAttribute("attr1"));
     }
-    
+
     /**
      * Tests the reset method.
      */
     public void testReset() {
         Map<String, Definition> defs = new HashMap<String, Definition>();
-        
+
         Definition def = new Definition();
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
@@ -198,7 +193,7 @@ public class TestDefinitions extends TestCase {
         attr.setValue("value1");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
-        
+
         def = new Definition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
@@ -207,22 +202,22 @@ public class TestDefinitions extends TestCase {
         attr.setValue("New value");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
-        
+
         Definitions definitions = new DefinitionsImpl();
         try {
             definitions.addDefinitions(defs);
         } catch (NoSuchDefinitionException e) {
             fail("Test failure: " + e);
         }
-        
-        assertNotNull("Couldn't get parent.", 
+
+        assertNotNull("Couldn't get parent.",
                 definitions.getDefinition("parent.def1"));
-        
+
         definitions.reset();
-        assertNull("Definitions should be null.", 
+        assertNull("Definitions should be null.",
                 definitions.getDefinition("parent.def1"));
     }
-    
+
     /**
      * Verifies that attribute dependencies are resolved.
      *
@@ -232,7 +227,7 @@ public class TestDefinitions extends TestCase {
      */
     public void testResolveAttributeDependencies() {
         Map<String, Definition> defs = new HashMap<String, Definition>();
-        
+
         Definition def = new Definition();
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
@@ -242,7 +237,7 @@ public class TestDefinitions extends TestCase {
         attr.setType("definition");
         def.addAttribute(attr);
         defs.put(def.getName(), def);
-        
+
         def = new Definition();
         def.setName("parent.notype.def1");
         def.setTemplate("/test1.jsp");
@@ -252,11 +247,11 @@ public class TestDefinitions extends TestCase {
         // Don't set the type
         def.addAttribute(attr);
         defs.put(def.getName(), def);
-        
+
         def = new Definition();
         def.setName("tiles.def2");
         defs.put(def.getName(), def);
-        
+
         Definitions definitions = new DefinitionsImpl();
         try {
             definitions.addDefinitions(defs);
@@ -264,36 +259,36 @@ public class TestDefinitions extends TestCase {
         } catch (NoSuchDefinitionException e) {
             fail("Test failure: " + e);
         }
-        
+
         Definition newDef = definitions.getDefinition("parent.def1");
         assertNotNull("Parent definition not found.", newDef);
-        
+
         Object newAttr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", newAttr);
-        
+
         newDef = definitions.getDefinition("parent.notype.def1");
         assertNotNull("Parent definition not found.", newDef);
-        
+
         newAttr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", newAttr);
-        
+
         assertEquals("Incorrect dependent attribute name.", "tiles.def2",
                 newAttr);
-        
+
         // Part of the test for locale-specific definitions.
         newDef = definitions.getDefinition("parent.def1", Locale.ITALIAN);
         assertNotNull("Parent definition not found.", newDef);
-        
+
         newAttr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", newAttr);
-        
+
         newDef = definitions.getDefinition("parent.notype.def1",
-        		Locale.ITALIAN);
+                Locale.ITALIAN);
         assertNotNull("Parent definition not found.", newDef);
-        
+
         newAttr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", newAttr);
-        
+
         assertEquals("Incorrect dependent attribute name.", "tiles.def2",
                 newAttr);
     }

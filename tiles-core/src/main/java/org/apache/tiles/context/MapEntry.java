@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context;
 
@@ -112,13 +111,13 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
      * @return True if equal, else false
      */
     @SuppressWarnings("unchecked")
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (o != null && o instanceof Map.Entry) {
             Map.Entry<K, V> entry = (Map.Entry<K, V>) o;
-            return (this.getKey() == null ?
-                entry.getKey() == null : this.getKey().equals(entry.getKey())) &&
-                (this.getValue() == null ?
-                    entry.getValue() == null : this.getValue().equals(entry.getValue()));
+            return (this.getKey() == null ? entry.getKey() == null : this
+                    .getKey().equals(entry.getKey()))
+                    && (this.getValue() == null ? entry.getValue() == null
+                            : this.getValue().equals(entry.getValue()));
         }
         return false;
     }
@@ -130,7 +129,7 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
      * @return The and'ed hashcode of the key and value
      */
     public int hashCode() {
-        return (this.getKey() == null ? 0 : this.getKey().hashCode()) ^
-            (this.getValue() == null ? 0 : this.getValue().hashCode());
+        return (this.getKey() == null ? 0 : this.getKey().hashCode())
+            ^ (this.getValue() == null ? 0 : this.getValue().hashCode());
     }
 }

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.locale;
 
@@ -34,7 +33,7 @@ import org.apache.tiles.context.TilesRequestContext;
  * @version $Rev$ $Date$
  */
 public interface LocaleResolver {
-    
+
     /**
      * Initializes the <code>LocaleResolver</code> object. <p/> This method
      * must be called before the {@link #resolveLocale(TilesRequestContext)}

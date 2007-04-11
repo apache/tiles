@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.servlet;
 
@@ -40,7 +39,7 @@ public class ServletContextAdapterTest extends TestCase {
     /**
      * The context to test.
      */
-    ServletContextAdapter context;
+    private ServletContextAdapter context;
 
     /** {@inheritDoc} */
     @Override
@@ -62,7 +61,7 @@ public class ServletContextAdapterTest extends TestCase {
         assertEquals(context.getInitParameter("initParameter1"), "newParameterValue1");
         assertEquals(context.getInitParameter("initParameter2"), "parameterValue2");
         assertEquals(context.getInitParameter("newInitParameter"), "newParameterValue2");
-        
+
         Set<String> paramSet = new HashSet<String>();
         paramSet.add("initParameter1");
         paramSet.add("initParameter2");
@@ -73,7 +72,7 @@ public class ServletContextAdapterTest extends TestCase {
             assertTrue(paramSet.contains(name));
             paramSet.remove(name);
         }
-        
+
         assertTrue(paramSet.isEmpty());
     }
 

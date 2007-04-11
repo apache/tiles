@@ -17,20 +17,22 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context.servlet;
 
-import org.apache.tiles.context.TilesRequestContext;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.context.TilesRequestContext;
 
 /**
  * Servlet-bsed implementation of the TilesApplicationContext interface.
@@ -38,7 +40,7 @@ import java.util.Map;
  * @version $Rev$ $Date$
  */
 public class ServletTilesRequestContext extends ServletTilesApplicationContext implements TilesRequestContext {
-    
+
     /**
      * The logging object.
      */
@@ -96,7 +98,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
 
 
     /**
-     * Creates a new instance of ServletTilesRequestContext
+     * Creates a new instance of ServletTilesRequestContext.
      *
      * @param servletContext The servlet context.
      * @param request The request object.
@@ -177,11 +179,11 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
 
     /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {
-    	if (response.isCommitted()) {
-    		include(path);
-    	} else {
-    		forward(path);
-    	}
+        if (response.isCommitted()) {
+            include(path);
+        } else {
+            forward(path);
+        }
     }
 
     /**
@@ -190,25 +192,27 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
      * @param path The path to forward to.
      * @throws IOException If something goes wrong during the operation.
      */
-    private void forward( String path ) throws IOException {
+    private void forward(String path) throws IOException {
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
             rd.forward(request, response);
         } catch (ServletException ex) {
             LOG.error("Servlet Exception while including path", ex);
-            throw new IOException("Error including path '"+path+"'. " + ex.getMessage());
+            throw new IOException("Error including path '" + path + "'. "
+                    + ex.getMessage());
         }
-	}
+    }
 
 
     /** {@inheritDoc} */
-	public void include(String path) throws IOException{
+    public void include(String path) throws IOException {
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
             rd.include(request, response);
         } catch (ServletException ex) {
             LOG.error("Servlet Exception while including path", ex);
-            throw new IOException("Error including path '"+path+"'. " + ex.getMessage());
+            throw new IOException("Error including path '" + path + "'. "
+                    + ex.getMessage());
         }
     }
 

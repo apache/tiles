@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.jsp.taglib.definition;
 
@@ -194,12 +193,13 @@ public class DefinitionTag extends TagSupport
         if (c == null) {
             throw new JspException("TilesContainer not initialized");
         }
-        if(!(c instanceof MutableTilesContainer)) {
-            throw new JspException("Unable to define definition for a " +
-                "container which does not implement MutableTilesContainer");
+        if (!(c instanceof MutableTilesContainer)) {
+            throw new JspException(
+                    "Unable to define definition for a "
+                            + "container which does not implement MutableTilesContainer");
         }
 
-        container = (MutableTilesContainer)c;
+        container = (MutableTilesContainer) c;
         return EVAL_BODY_INCLUDE;
     }
 
@@ -212,11 +212,11 @@ public class DefinitionTag extends TagSupport
         d.setRole(role);
         d.setPreparer(preparer);
         d.getAttributes().putAll(attributes);
-        
+
         try {
             container.register(d, pageContext);
         } catch (TilesException e) {
-            throw new JspException("Unable to add definition. " ,e);
+            throw new JspException("Unable to add definition. " , e);
         }
         return EVAL_PAGE;
     }

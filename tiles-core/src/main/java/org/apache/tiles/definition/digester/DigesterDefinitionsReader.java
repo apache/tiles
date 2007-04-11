@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition.digester;
@@ -63,6 +62,72 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      */
     public static final String PARSER_VALIDATE_PARAMETER_NAME =
         "definitions-parser-validate";
+
+    // Digester rules constants for tag interception.
+
+    /**
+     * Intercepts a &lt;definition&gt; tag.
+     */
+    private static final String DEFINITION_TAG = "tiles-definitions/definition";
+
+    /**
+     * Intercepts a &lt;put-attribute&gt; tag.
+     */
+    private static final String PUT_TAG = DEFINITION_TAG + "/put-attribute";
+
+    /**
+     * Intercepts a &lt;put-list-attribute&gt; tag.
+     */
+    private static final String LIST_TAG = "put-list-attribute";
+
+    /**
+     * Intercepts a &lt;put-list-attribute&gt; tag inside a %lt;definition&gt;
+     * tag.
+     */
+    private static final String DEF_LIST_TAG = DEFINITION_TAG + "/" + LIST_TAG;
+
+    /**
+     * Intercepts a &lt;add-attribute&gt; tag.
+     */
+    private static final String ADD_LIST_ELE_TAG = "*/add-attribute";
+
+    /**
+     * Intercepts a &lt;add-list-attribute&gt; tag.
+     */
+    private static final String NESTED_LIST = "*/add-list-attribute";
+
+    /**
+     * Intercepts a &lt;item&gt; tag.
+     */
+    private static final String ADD_WILDCARD = "*/item";
+
+    /**
+     * Intercepts a &lt;bean&gt; tag.
+     */
+    private static final String BEAN_TAG = "*/bean";
+
+    // Handler class names.
+
+    /**
+     * The package name.
+     */
+    private static final String PACKAGE_NAME = "org.apache.tiles";
+
+    /**
+     * The handler to create definitions.
+     */
+    private static final String DEFINITION_HANDLER_CLASS = PACKAGE_NAME + ".definition.Definition";
+
+    /**
+     * The handler to create attributes.
+     */
+    private static final String PUT_ATTRIBUTE_HANDLER_CLASS = PACKAGE_NAME + ".Attribute";
+
+    /**
+     * The handler to create list attributes.
+     */
+    private static final String LIST_HANDLER_CLASS = PACKAGE_NAME + ".context.ListAttribute";
+
     /**
      * <code>Digester</code> object used to read Definition data
      * from the source.
@@ -71,7 +136,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     /**
      * Stores Definition objects.
      */
-    Map<String, Definition> definitions;
+    private Map<String, Definition> definitions;
     /**
      * Should we use a validating XML parser to read the configuration file.
      * Default is <code>false</code>.
@@ -82,7 +147,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * the versions of the configuration file DTDs we know about.  There
      * <strong>MUST</strong> be an even number of Strings in this list!
      */
-    protected String registrations[] = {
+    protected String[] registrations = {
         "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
         "/org/apache/tiles/resources/tiles-config_2_0.dtd"
     };
@@ -93,7 +158,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     private boolean inited = false;
 
     /**
-     * Creates a new instance of DigesterDefinitionsReader
+     * Creates a new instance of DigesterDefinitionsReader.
      */
     public DigesterDefinitionsReader() {
         digester = new Digester();
@@ -194,74 +259,54 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
 
     /**
-     * Init digester for Tiles syntax with first element = tiles-definitions
+     * Init digester for Tiles syntax with first element = tiles-definitions.
      *
      * @param digester Digester instance to use.
      */
     private void initDigesterForTilesDefinitionsSyntax(Digester digester) {
-        // Common constants
-        String PACKAGE_NAME = "org.apache.tiles";
-        String DEFINITION_TAG = "tiles-definitions/definition";
-        String definitionHandlerClass = PACKAGE_NAME + ".definition.Definition";
-
-        String PUT_TAG = DEFINITION_TAG + "/put-attribute";
-        String putAttributeHandlerClass = PACKAGE_NAME + ".Attribute";
-
-        //String LIST_TAG = DEFINITION_TAG + "/putList";
-        // List tag value
-        String LIST_TAG = "put-list-attribute";
-        String DEF_LIST_TAG = DEFINITION_TAG + "/" + LIST_TAG;
-
-        String listHandlerClass = PACKAGE_NAME + ".context.ListAttribute";
-        // Tag value for adding an element in a list
-        String ADD_LIST_ELE_TAG = "*/add-attribute";
-
         // syntax rules
-        digester.addObjectCreate(DEFINITION_TAG, definitionHandlerClass);
+        digester.addObjectCreate(DEFINITION_TAG, DEFINITION_HANDLER_CLASS);
         digester.addSetProperties(DEFINITION_TAG);
-        digester.addSetNext(DEFINITION_TAG, "addDefinition", definitionHandlerClass);
+        digester.addSetNext(DEFINITION_TAG, "addDefinition", DEFINITION_HANDLER_CLASS);
         // put / putAttribute rules
         // Rules for a same pattern are called in order, but rule.end() are called
         // in reverse order.
         // SetNext and CallMethod use rule.end() method. So, placing SetNext in
         // first position ensure it will be called last (sic).
-        digester.addObjectCreate(PUT_TAG, putAttributeHandlerClass);
+        digester.addObjectCreate(PUT_TAG, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addSetProperties(PUT_TAG);
-        digester.addSetNext(PUT_TAG, "addAttribute", putAttributeHandlerClass);
+        digester.addSetNext(PUT_TAG, "addAttribute", PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addCallMethod(PUT_TAG, "setBody", 0);
         // TileDefinition level list rules
         // This is rules for lists nested in a definition
-        digester.addObjectCreate(DEF_LIST_TAG, listHandlerClass);
+        digester.addObjectCreate(DEF_LIST_TAG, LIST_HANDLER_CLASS);
         digester.addSetProperties(DEF_LIST_TAG);
-        digester.addSetNext(DEF_LIST_TAG, "addAttribute", putAttributeHandlerClass);
+        digester.addSetNext(DEF_LIST_TAG, "addAttribute", PUT_ATTRIBUTE_HANDLER_CLASS);
         // list elements rules
         // We use Attribute class to avoid rewriting a new class.
         // Name part can't be used in listElement attribute.
-        digester.addObjectCreate(ADD_LIST_ELE_TAG, putAttributeHandlerClass);
+        digester.addObjectCreate(ADD_LIST_ELE_TAG, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addSetProperties(ADD_LIST_ELE_TAG);
-        digester.addSetNext(ADD_LIST_ELE_TAG, "add", putAttributeHandlerClass);
+        digester.addSetNext(ADD_LIST_ELE_TAG, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addCallMethod(ADD_LIST_ELE_TAG, "setBody", 0);
 
         // nested list elements rules
         // Create a list handler, and add it to parent list
-        String NESTED_LIST = "*/add-list-attribute";
-        digester.addObjectCreate(NESTED_LIST, listHandlerClass);
+        digester.addObjectCreate(NESTED_LIST, LIST_HANDLER_CLASS);
         digester.addSetProperties(NESTED_LIST);
-        digester.addSetNext(NESTED_LIST, "add", putAttributeHandlerClass);
+        digester.addSetNext(NESTED_LIST, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
 
         // item elements rules
         // We use Attribute class to avoid rewriting a new class.
         // Name part can't be used in listElement attribute.
         //String ADD_WILDCARD = LIST_TAG + "/addItem";
         // non String ADD_WILDCARD = LIST_TAG + "/addx*";
-        String ADD_WILDCARD = "*/item";
         String menuItemDefaultClass = "org.apache.tiles.beans.SimpleMenuItem";
         digester.addObjectCreate(ADD_WILDCARD, menuItemDefaultClass, "classtype");
         digester.addSetNext(ADD_WILDCARD, "add", "java.lang.Object");
         digester.addSetProperties(ADD_WILDCARD);
 
         // bean elements rules
-        String BEAN_TAG = "*/bean";
         String beanDefaultClass = "org.apache.tiles.beans.SimpleMenuItem";
         digester.addObjectCreate(BEAN_TAG, beanDefaultClass, "classtype");
         digester.addSetProperties(BEAN_TAG);

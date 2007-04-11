@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.definition;
 
@@ -84,14 +83,14 @@ public class UrlDefinitionsFactory
      * The definitions holder object.
      */
     private Definitions definitions;
-    
+
     /**
      * The locale resolver object.
      */
     private LocaleResolver localeResolver;
 
     /**
-     * Creates a new instance of UrlDefinitionsFactory
+     * Creates a new instance of UrlDefinitionsFactory.
      */
     public UrlDefinitionsFactory() {
         sources = new ArrayList<Object>();
@@ -118,7 +117,7 @@ public class UrlDefinitionsFactory
             reader = new DigesterDefinitionsReader();
         }
         reader.init(params);
-        
+
         String resolverClassName = params
                 .get(DefinitionsFactory.LOCALE_RESOLVER_IMPL_PROPERTY);
         if (resolverClassName != null) {
@@ -147,7 +146,7 @@ public class UrlDefinitionsFactory
 
     /**
      * Returns a Definition object that matches the given name and
-     * Tiles context
+     * Tiles context.
      *
      * @param name         The name of the Definition to return.
      * @param tilesContext The Tiles context to use to resolve the definition.
@@ -220,16 +219,16 @@ public class UrlDefinitionsFactory
         if (isContextProcessed(tilesContext)) {
             return;
         }
-        
+
         if (locale == null) {
-        	return;
+            return;
         }
 
         processedLocales.add(locale);
         List<String> postfixes = calculatePostfixes(locale);
         Map<String, Definition> localeDefsMap = new HashMap<String, Definition>();
         for (Object postfix : postfixes) {
-        	// For each postfix, all the sources must be loaded.
+            // For each postfix, all the sources must be loaded.
             for (Object source : sources) {
                 URL url = (URL) source;
                 String path = url.toExternalForm();
@@ -241,23 +240,26 @@ public class UrlDefinitionsFactory
                     connection.connect();
                     lastModifiedDates.put(newUrl.toExternalForm(),
                         connection.getLastModified());
-                    
+
                     // Definition must be collected, starting from the base
                     // source up to the last localized file.
                     Map<String, Definition> defsMap = reader
                             .read(connection.getInputStream());
                     if (defsMap != null) {
-                    	localeDefsMap.putAll(defsMap);
+                        localeDefsMap.putAll(defsMap);
                     }
                 } catch (FileNotFoundException e) {
                     // File not found. continue.
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("File " + newPath + " not found, continue");
+                    }
                 } catch (IOException e) {
                     throw new DefinitionsFactoryException(
                         "I/O error processing configuration.");
                 }
             }
         }
-        
+
         // At the end of definitions loading, they can be assigned to
         // Definitions implementation, to allow inheritance resolution.
         definitions.addDefinitions(localeDefsMap, localeResolver
@@ -307,7 +309,7 @@ public class UrlDefinitionsFactory
         return processedLocales.contains(localeResolver
                 .resolveLocale(tilesContext));
     }
-    
+
     /**
      * Creates a new instance of <code>Definitions</code>. Override this method
      * to provide your custom instance of Definitions.
@@ -374,17 +376,20 @@ public class UrlDefinitionsFactory
         temp.append('_');
         temp.append(language);
 
-        if (languageLength > 0)
+        if (languageLength > 0) {
             result.add(temp.toString());
+        }
 
-        if (countryLength + variantLength == 0)
+        if (countryLength + variantLength == 0) {
             return result;
+        }
 
         temp.append('_');
         temp.append(country);
 
-        if (countryLength > 0)
+        if (countryLength > 0) {
             result.add(temp.toString());
+        }
 
         if (variantLength == 0) {
             return result;
@@ -411,7 +416,7 @@ public class UrlDefinitionsFactory
     /**
      * Indicates whether the DefinitionsFactory is out of date and needs to be
      * reloaded.
-     * 
+     *
      * @return If the factory needs refresh.
      */
     public boolean refreshRequired() {

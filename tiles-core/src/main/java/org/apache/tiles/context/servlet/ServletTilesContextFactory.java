@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.context.servlet;
@@ -25,8 +24,6 @@ package org.apache.tiles.context.servlet;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.context.servlet.ServletTilesApplicationContext;
-import org.apache.tiles.context.servlet.ServletTilesRequestContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +61,7 @@ public class ServletTilesContextFactory implements TilesContextFactory {
                     (HttpServletResponse) requestItems[1]);
             }
         }
-        
+
         return null;
     }
 

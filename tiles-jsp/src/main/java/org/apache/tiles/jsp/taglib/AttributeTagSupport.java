@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.jsp.taglib;
 
@@ -44,14 +43,14 @@ public abstract class AttributeTagSupport extends TagSupport {
     /**
      * Maps scope names to their constants.
      */
-    private static final Map<String, Integer> scopes =
+    private static final Map<String, Integer> SCOPES =
         new HashMap<String, Integer>();
 
     static {
-        scopes.put("page", PageContext.PAGE_SCOPE);
-        scopes.put("request", PageContext.REQUEST_SCOPE);
-        scopes.put("session", PageContext.SESSION_SCOPE);
-        scopes.put("application", PageContext.APPLICATION_SCOPE);
+        SCOPES.put("page", PageContext.PAGE_SCOPE);
+        SCOPES.put("request", PageContext.REQUEST_SCOPE);
+        SCOPES.put("session", PageContext.SESSION_SCOPE);
+        SCOPES.put("application", PageContext.APPLICATION_SCOPE);
     }
 
 
@@ -163,7 +162,7 @@ public abstract class AttributeTagSupport extends TagSupport {
     }
 
     /**
-     * Get scope value from string value
+     * Get scope value from string value.
      *
      * @return Scope as an <code>int</code>, or <code>defaultValue</code> if scope is <code>null</code>.
      * @throws javax.servlet.jsp.JspException Scope name is not recognized as a valid scope.
@@ -185,7 +184,7 @@ public abstract class AttributeTagSupport extends TagSupport {
      * @throws JspException if the scopeName is not a valid name.
      */
     public static int getScope(String scopeName) throws JspException {
-        Integer scope = scopes.get(scopeName.toLowerCase());
+        Integer scope = SCOPES.get(scopeName.toLowerCase());
 
         if (scope == null) {
             throw new JspException("Unable to retrieve the scope " + scopeName);

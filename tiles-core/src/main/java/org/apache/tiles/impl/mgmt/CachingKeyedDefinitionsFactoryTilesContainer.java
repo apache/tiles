@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.impl.mgmt;
@@ -56,7 +55,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
      * The default definition manager, when no key is identified.
      */
     private DefinitionManager mgr = new DefinitionManager();
-    
+
     /**
      * Maps a key to its definition manager.
      */
@@ -113,7 +112,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
         DefinitionManager mgr = getOrCreateDefinitionManager(key);
         mgr.setFactory(definitionsFactory);
     }
-    
+
     /**
      * Registers a custom definition.
      *
@@ -144,10 +143,10 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
             mgr = new DefinitionManager(DEFINITIONS_ATTRIBUTE_NAME_BASE + key);
             key2definitionManager.put(key, mgr);
         }
-        
+
         return mgr;
     }
-    
+
     /**
      * Returns a definition manager if found.
      *
@@ -156,14 +155,14 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
      */
     protected DefinitionManager getProperDefinitionManager(String key) {
         DefinitionManager mgr = null;
-        
+
         if (key != null) {
             mgr = key2definitionManager.get(key);
         }
         if (mgr == null) {
             mgr = this.mgr;
         }
-        
+
         return mgr;
     }
 }

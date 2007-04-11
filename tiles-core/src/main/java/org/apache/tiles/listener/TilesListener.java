@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.listener;
 
@@ -50,7 +49,7 @@ public class TilesListener
      * Initialize the TilesContainer and place it
      * into service.
      *
-     * @param event
+     * @param event The intercepted event.
      */
     public void contextInitialized(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();

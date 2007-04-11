@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.jsp.context;
@@ -26,7 +25,6 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.servlet.ServletTilesApplicationContext;
-import org.apache.tiles.jsp.context.JspTilesRequestContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.PageContext;
@@ -49,7 +47,7 @@ public class JspTilesContextFactory implements TilesContextFactory {
             ServletContext servletContext = (ServletContext) context;
             return new ServletTilesApplicationContext(servletContext);
         }
-        
+
         return null;
     }
 
@@ -62,7 +60,7 @@ public class JspTilesContextFactory implements TilesContextFactory {
                 return new JspTilesRequestContext(servletContext, (PageContext) requestItems[0]);
             }
         }
-        
+
         return null;
     }
 

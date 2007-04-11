@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.jsp.taglib;
@@ -44,12 +43,12 @@ public class InsertAttributeTag extends RenderTagSupport {
      * Name to insert.
      */
     protected String name;
-    
+
     /**
      * The value of the attribute.
      */
     protected Object value = null;
-    
+
     /**
      * The context used to evaluate the attribute.
      */
@@ -121,13 +120,13 @@ public class InsertAttributeTag extends RenderTagSupport {
     /** {@inheritDoc} */
     @Override
     protected void startContext(PageContext context) {
-        
+
         if (container != null) {
             evaluatingContext = container.getAttributeContext(context);
         }
         super.startContext(context);
     }
-    
+
     /**
      * Renders an attribute for real.
      *

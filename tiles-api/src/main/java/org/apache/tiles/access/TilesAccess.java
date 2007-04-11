@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.access;
 
@@ -35,7 +34,13 @@ import java.lang.reflect.Method;
  *
  * @version $Rev$ $Date$
  */
-public class TilesAccess {
+public final class TilesAccess {
+
+    /**
+     * Constructor, private to avoid instantiation.
+     */
+    private TilesAccess() {
+    }
 
     /**
      * The logging object.
@@ -81,7 +86,7 @@ public class TilesAccess {
         throws TilesException {
 
         if (container == null) {
-            if(LOG.isInfoEnabled()) {
+            if (LOG.isInfoEnabled()) {
                 LOG.info("Removing TilesContext for context: " + context.getClass().getName());
             }
             removeAttribute(context, CONTAINER_ATTRIBUTE);

@@ -17,17 +17,22 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context.portlet;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.portlet.PortletContext;
 
 import org.apache.tiles.context.MapEntry;
-
-import java.util.*;
-
 
 /**
  * <p>Private implementation of <code>Map</code> for portlet context
@@ -81,13 +86,13 @@ final class PortletInitParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Set<Map.Entry<String, String>> entrySet() {
+    public Set<Map.Entry<String, String>> entrySet() {
         Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
         Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
-        	String key = keys.nextElement();
+            String key = keys.nextElement();
             set.add(new MapEntry<String, String>(key, context
-					.getInitParameter(key), false));
+                    .getInitParameter(key), false));
         }
         return (set);
     }
@@ -119,7 +124,7 @@ final class PortletInitParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Set<String> keySet() {
+    public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
         Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
@@ -149,7 +154,7 @@ final class PortletInitParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public int size() {
+    public int size() {
         int n = 0;
         Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
@@ -162,7 +167,7 @@ final class PortletInitParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Collection<String> values() {
+    public Collection<String> values() {
         List<String> list = new ArrayList<String>();
         Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {

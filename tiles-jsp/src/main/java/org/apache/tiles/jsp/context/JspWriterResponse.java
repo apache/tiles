@@ -17,22 +17,20 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.jsp.context;
 
 import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import java.io.PrintWriter;
 import java.io.IOException;
 
 
 /**
- * It works as an {@link HttpServletResponse} by wrapping a {@link JspWriter}
- * around a {@link PrintWriter}.
- * 
+ * It works as an {@link HttpServletResponse} by wrapping a
+ * {@link javax.servlet.jsp.JspWriter} around a {@link PrintWriter}.
+ *
  * @version $Rev$ $Date$
  */
 public class JspWriterResponse extends HttpServletResponseWrapper {
@@ -53,14 +51,14 @@ public class JspWriterResponse extends HttpServletResponseWrapper {
      * @param pageContext The page context to use.
      */
     public JspWriterResponse(PageContext pageContext) {
-        super((HttpServletResponse)pageContext.getResponse());
+        super((HttpServletResponse) pageContext.getResponse());
         this.context = pageContext;
     }
 
 
     /** {@inheritDoc} */
     public PrintWriter getWriter() throws IOException {
-        if(writer == null) {
+        if (writer == null) {
             writer = new PrintWriter(context.getOut());
         }
         return writer;

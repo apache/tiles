@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
@@ -80,14 +79,14 @@ public interface Definitions {
     /**
      * Resolves configuration inheritance properties.
      *
-     * @throws NoSuchDefinitionException If parent definitions are not found. 
+     * @throws NoSuchDefinitionException If parent definitions are not found.
      */
     public void resolveInheritances() throws NoSuchDefinitionException;
 
     /**
      * Resolves locale-specific configuration inheritance properties.
      *
-     * @param locale The locale object to use. 
+     * @param locale The locale object to use.
      * @throws NoSuchDefinitionException If parent definitions are not found.
      */
     public void resolveInheritances(Locale locale) throws NoSuchDefinitionException;
@@ -98,9 +97,9 @@ public interface Definitions {
     public void reset();
 
     /**
-     * Returns base definitions collection;
+     * Returns base definitions collection.
      *
-     * @return A map of the type "definition name -> definition". 
+     * @return A map of the type "definition name -> definition".
      */
     public Map<String, Definition> getBaseDefinitions();
 }

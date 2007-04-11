@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.beans;
 
@@ -34,14 +33,14 @@ public interface MenuItem extends Serializable {
     /**
      * Sets the value (i.e. the visible part) of this menu item.
      *
-     * @param value The value of this item. 
+     * @param value The value of this item.
      */
     public void setValue(String value);
 
     /**
      * Returns the value (i.e. the visible part) of this menu item.
      *
-     * @return The value of this item. 
+     * @return The value of this item.
      */
     public String getValue();
 
@@ -75,14 +74,14 @@ public interface MenuItem extends Serializable {
 
     /**
      * Sets the tooltip text.
-     * 
+     *
      * @param link The tooltip text.
      */
     public void setTooltip(String link);
 
     /**
      * Returns the tooltip text.
-     * 
+     *
      * @return The tooltip text.
      */
     public String getTooltip();

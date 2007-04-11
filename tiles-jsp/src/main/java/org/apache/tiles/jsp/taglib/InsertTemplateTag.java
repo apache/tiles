@@ -17,14 +17,11 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.jsp.context.JspUtil;
-import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
-import org.apache.tiles.jsp.taglib.RenderTagSupport;
 
 import javax.servlet.jsp.JspException;
 
@@ -37,7 +34,6 @@ import javax.servlet.jsp.JspException;
 public class InsertTemplateTag extends RenderTagSupport
     implements PutAttributeTagParent {
 
-    
     /**
      * A string representing the URI of a template (for example, a JSP page).
      */

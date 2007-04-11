@@ -17,15 +17,21 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context.servlet;
 
-import org.apache.tiles.context.MapEntry;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
 
+import org.apache.tiles.context.MapEntry;
 
 /**
  * <p>Private implementation of <code>Map</code> for servlet request
@@ -79,14 +85,14 @@ final class ServletHeaderMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Set<Map.Entry<String, String>> entrySet() {
+    public Set<Map.Entry<String, String>> entrySet() {
         Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
         Enumeration<String> keys = request.getHeaderNames();
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
             set.add(new MapEntry<String, String>(key, request.getHeader(key),
-					false));
+                    false));
         }
         return (set);
     }
@@ -118,7 +124,7 @@ final class ServletHeaderMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Set<String> keySet() {
+    public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
         Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
@@ -148,7 +154,7 @@ final class ServletHeaderMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public int size() {
+    public int size() {
         int n = 0;
         Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
@@ -161,7 +167,7 @@ final class ServletHeaderMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Collection<String> values() {
+    public Collection<String> values() {
         List<String> list = new ArrayList<String>();
         Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {

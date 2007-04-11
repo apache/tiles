@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
@@ -32,13 +31,9 @@ import java.util.Collections;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.tiles.definition.UrlDefinitionsFactory;
-import org.apache.tiles.definition.Definitions;
-import org.apache.tiles.definition.DefinitionsFactory;
-import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.definition.MockPublicUrlDefinitionsFactory;
-import org.apache.tiles.definition.MockDefinitionsReader;
-import org.apache.tiles.definition.MockOnlyLocaleTilesContext;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
@@ -49,7 +44,18 @@ import org.apache.tiles.context.TilesRequestContext;
 public class TestUrlDefinitionsFactory extends TestCase {
 
     /**
-     * Creates a new instance of TestUrlDefinitionsFactory
+     * The logging object.
+     */
+    private static final Log LOG =
+        LogFactory.getLog(TestUrlDefinitionsFactory.class);
+
+    /**
+     * The number of foreseen URLs with postfixes.
+     */
+    private static final int POSTFIX_COUNT = 3;
+
+    /**
+     * Creates a new instance of TestUrlDefinitionsFactory.
      *
      * @param name The name of the test.
      */
@@ -135,7 +141,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
         // Parse files.
         factory.readDefinitions();
-        
+
         TilesRequestContext emptyContext = new MockOnlyLocaleTilesContext(null);
         TilesRequestContext usContext = new MockOnlyLocaleTilesContext(Locale.US);
         TilesRequestContext frenchContext = new MockOnlyLocaleTilesContext(Locale.FRENCH);
@@ -146,14 +152,27 @@ public class TestUrlDefinitionsFactory extends TestCase {
         assertNotNull("test.def2 definition not found.", factory.getDefinition("test.def2", emptyContext));
         assertNotNull("test.def3 definition not found.", factory.getDefinition("test.def3", emptyContext));
         assertNotNull("test.common definition not found.", factory.getDefinition("test.common", emptyContext));
-        assertNotNull("test.common definition in US locale not found.", factory.getDefinition("test.common", usContext));
-        assertNotNull("test.common definition in FRENCH locale not found.", factory.getDefinition("test.common", frenchContext));
-        assertNotNull("test.common definition in CHINA locale not found.", factory.getDefinition("test.common", chinaContext));
-        assertNotNull("test.common.french definition in FRENCH locale not found.", factory.getDefinition("test.common.french", frenchContext));
-        assertNotNull("test.common.french definition in CANADA_FRENCH locale not found.", factory.getDefinition("test.common.french", canadaFrenchContext));
-        assertNotNull("test.def.toextend definition not found.", factory.getDefinition("test.def.toextend", emptyContext));
-        assertNotNull("test.def.overridden definition not found.", factory.getDefinition("test.def.overridden", emptyContext));
-        assertNotNull("test.def.overridden definition in FRENCH locale not found.", factory.getDefinition("test.def.overridden", frenchContext));
+        assertNotNull("test.common definition in US locale not found.", factory
+                .getDefinition("test.common", usContext));
+        assertNotNull("test.common definition in FRENCH locale not found.",
+                factory.getDefinition("test.common", frenchContext));
+        assertNotNull("test.common definition in CHINA locale not found.",
+                factory.getDefinition("test.common", chinaContext));
+        assertNotNull(
+                "test.common.french definition in FRENCH locale not found.",
+                factory.getDefinition("test.common.french", frenchContext));
+        assertNotNull(
+                "test.common.french definition in CANADA_FRENCH locale not found.",
+                factory
+                        .getDefinition("test.common.french",
+                                canadaFrenchContext));
+        assertNotNull("test.def.toextend definition not found.", factory
+                .getDefinition("test.def.toextend", emptyContext));
+        assertNotNull("test.def.overridden definition not found.", factory
+                .getDefinition("test.def.overridden", emptyContext));
+        assertNotNull(
+                "test.def.overridden definition in FRENCH locale not found.",
+                factory.getDefinition("test.def.overridden", frenchContext));
 
         assertEquals("Incorrect default country value", "default",
                 factory.getDefinition("test.def1", emptyContext).getAttribute("country"));
@@ -188,6 +207,9 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
             fail("Should've thrown exception.");
         } catch (DefinitionsFactoryException e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Bad class name intercepted, it is ok", e);
+            }
             // success.
         }
     }
@@ -303,7 +325,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
         Locale locale = Locale.US;
 
         List<String> posts = UrlDefinitionsFactory.calculatePostfixes(locale);
-        assertEquals(3, posts.size());
+        assertEquals(POSTFIX_COUNT, posts.size());
         assertTrue(posts.contains("_en_US"));
         assertTrue(posts.contains("_en"));
 
@@ -317,7 +339,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
      * Tests the concatPostfix method.
      */
     public void testConcatPostfix() {
-    	UrlDefinitionsFactory factory = new UrlDefinitionsFactory();
+        UrlDefinitionsFactory factory = new UrlDefinitionsFactory();
         String postfix = "_en_US";
         assertEquals("a_en_US", factory.concatPostfix("a", postfix));
         assertEquals("a_en_US.jsp", factory.concatPostfix("a.jsp", postfix));

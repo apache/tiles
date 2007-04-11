@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.jsp.context;
 
@@ -76,6 +75,7 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
      * Dispatches a path. In fact it "includes" it!
      *
      * @param path The path to dispatch to.
+     * @throws IOException If something goes wrong during dispatching.
      * @see org.apache.tiles.context.servlet.ServletTilesRequestContext#dispatch(java.lang.String)
      */
     public void dispatch(String path) throws IOException {
@@ -87,14 +87,15 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
         try {
             JspUtil.doInclude(pageContext, path, false);
         } catch (JspException e) {
-            LOG.error("JSPException while including path '"+path+"'. ", e);
-            throw new IOException("JSPException while including path '"+path+"'. "+e.getMessage());
+            LOG.error("JSPException while including path '" + path + "'. ", e);
+            throw new IOException("JSPException while including path '" + path
+                    + "'. " + e.getMessage());
         }
     }
 
     /** {@inheritDoc} */
     public HttpServletResponse getResponse() {
-        if(response == null) {
+        if (response == null) {
             response = new JspWriterResponse(pageContext);
         }
         return response;

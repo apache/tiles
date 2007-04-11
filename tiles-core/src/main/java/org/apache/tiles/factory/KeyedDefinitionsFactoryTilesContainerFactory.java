@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.factory;
 
@@ -41,15 +40,15 @@ import org.apache.tiles.util.ClassUtil;
  * @version $Rev$ $Date$
  */
 public class KeyedDefinitionsFactoryTilesContainerFactory extends
-		TilesContainerFactory {
-    
+        TilesContainerFactory {
+
     /**
      * The name of the initialization parameter that will contain a
      * comma-separated list of keys to use.
      */
     public static final String CONTAINER_KEYS_INIT_PARAM =
         "org.apache.tiles.CONTAINER.keys";
-    
+
     /**
      * Init parameter name that contains the class name for the key extractor.
      */
@@ -73,7 +72,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
         initializeContainer(context, container);
         return container;
     }
-    
+
     // FIXME Probably we should create some sort of "FactoryUtils" to create
     // factories dynamically depending on a configuration.
     // I think this method does not belong here.
@@ -97,9 +96,11 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
     /** {@inheritDoc} */
     @Override
     protected void storeContainerDependencies(Object context,
-            Map<String, String> initParameters, Map<String, String> configuration, BasicTilesContainer container) throws TilesException {
+            Map<String, String> initParameters,
+            Map<String, String> configuration, BasicTilesContainer container)
+            throws TilesException {
         super.storeContainerDependencies(context, initParameters, configuration, container);
-        
+
         String keyExtractorClassName = configuration.get(
                 KEY_EXTRACTOR_CLASS_INIT_PARAM);
         if (keyExtractorClassName != null
@@ -107,14 +108,14 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
             ((KeyedDefinitionsFactoryTilesContainer) container).setKeyExtractor(
                     (KeyExtractor) ClassUtil.instantiate(keyExtractorClassName));
         }
-        
+
         String keysString = initParameters.get(CONTAINER_KEYS_INIT_PARAM);
         if (keysString != null
                 && container instanceof KeyedDefinitionsFactoryTilesContainer) {
             String[] keys = keysString.split(",");
             Map<String, String> config = new HashMap<String, String>(defaultConfiguration);
             config.putAll(getInitParameterMap(context));
-            for (int i=0; i < keys.length; i++) {
+            for (int i = 0; i < keys.length; i++) {
                 Map<String, String> initParams = new HashMap<String, String>();
                 String param = initParameters.get(
                         BasicTilesContainer.DEFINITIONS_CONFIG + "@" + keys[i]);

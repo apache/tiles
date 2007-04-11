@@ -17,17 +17,22 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context.portlet;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.portlet.PortletRequest;
 
 import org.apache.tiles.context.MapEntry;
-
-import java.util.*;
-
 
 /**
  * <p>Private implementation of <code>Map</code> for portlet request
@@ -72,7 +77,7 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public boolean containsValue(Object value) {
+    public boolean containsValue(Object value) {
         if (value == null) {
             return (false);
         }
@@ -89,14 +94,14 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Set<Map.Entry<String, Object>> entrySet() {
+    public Set<Map.Entry<String, Object>> entrySet() {
         Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
         Enumeration<String> keys = request.getAttributeNames();
         String key;
         while (keys.hasMoreElements()) {
-        	key = keys.nextElement();
+            key = keys.nextElement();
             set.add(new MapEntry<String, Object>(key,
-					request.getAttribute(key), true));
+                    request.getAttribute(key), true));
         }
         return (set);
     }
@@ -128,7 +133,7 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Set<String> keySet() {
+    public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
         Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
@@ -171,7 +176,7 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public int size() {
+    public int size() {
         int n = 0;
         Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
@@ -184,7 +189,7 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Collection<Object> values() {
+    public Collection<Object> values() {
         List<Object> list = new ArrayList<Object>();
         Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {

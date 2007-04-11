@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 
@@ -131,7 +130,7 @@ public class InitContainerTag extends BodyTagSupport
                 containerFactory);
         }
 
-        for(Map.Entry<String, String> entry : initParameters.entrySet()) {
+        for (Map.Entry<String, String> entry : initParameters.entrySet()) {
             context.setInitParameter(entry.getKey(), entry.getValue());
         }
 
@@ -140,8 +139,7 @@ public class InitContainerTag extends BodyTagSupport
                 TilesContainerFactory.getFactory(context)
                     .createMutableTilesContainer(context);
             TilesAccess.setContainer(context, mutableContainer);
-        }
-        catch (TilesException e) {
+        } catch (TilesException e) {
             throw new JspException("Error creating tiles container.", e);
         }
 
@@ -170,7 +168,7 @@ public class InitContainerTag extends BodyTagSupport
         /**
          * Constructor.
          *
-         * @param rootContext The "real" servlet context. 
+         * @param rootContext The "real" servlet context.
          */
         @SuppressWarnings("unchecked")
         public RuntimeConfiguredContext(ServletContext rootContext) {
@@ -233,19 +231,19 @@ public class InitContainerTag extends BodyTagSupport
 
         /** {@inheritDoc} */
         @SuppressWarnings("deprecation")
-		public Servlet getServlet(String string) throws ServletException {
+        public Servlet getServlet(String string) throws ServletException {
             return rootContext.getServlet(string);
         }
 
         /** {@inheritDoc} */
         @SuppressWarnings({ "deprecation", "unchecked" })
-		public Enumeration getServlets() {
+        public Enumeration getServlets() {
             return rootContext.getServlets();
         }
 
         /** {@inheritDoc} */
         @SuppressWarnings({ "deprecation", "unchecked" })
-		public Enumeration getServletNames() {
+        public Enumeration getServletNames() {
             return rootContext.getServletNames();
         }
 
@@ -256,7 +254,7 @@ public class InitContainerTag extends BodyTagSupport
 
         /** {@inheritDoc} */
         @SuppressWarnings("deprecation")
-		public void log(Exception exception, String string) {
+        public void log(Exception exception, String string) {
             rootContext.log(exception, string);
         }
 
@@ -280,6 +278,7 @@ public class InitContainerTag extends BodyTagSupport
          * the root context.
          *
          * @param string The parameter name.
+         * @return The value of the parameter.
          * @see javax.servlet.ServletContext#getInitParameter(java.lang.String)
          */
         public String getInitParameter(String string) {
@@ -300,6 +299,8 @@ public class InitContainerTag extends BodyTagSupport
          * Returns init parameter names, including the custom and the original
          * ones.
          *
+         * @return An enumeration of String representing the init parameter
+         * names.
          * @see javax.servlet.ServletContext#getInitParameterNames()
          */
         @SuppressWarnings("unchecked")
@@ -368,7 +369,7 @@ public class InitContainerTag extends BodyTagSupport
 
             /** {@inheritDoc} */
             public Object nextElement() {
-                if(first.hasMoreElements()) {
+                if (first.hasMoreElements()) {
                     return first.nextElement();
                 }
 

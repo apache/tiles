@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition.digester;
@@ -29,7 +28,9 @@ import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.Definition;
@@ -37,19 +38,25 @@ import org.apache.tiles.definition.Definition;
 /**
  * Tests the <code>org.apache.tiles.definition.digester.DigesterDefinitionsReader</code> class.
  *
- * @version $Rev$ $Date$ 
+ * @version $Rev$ $Date$
  */
 public class TestDigesterDefinitionsReader extends TestCase {
-    
+
     /**
-     * Creates a new instance of TestDigesterDefinitionsReader
+     * The logging object.
+     */
+    private static final Log LOG = LogFactory
+            .getLog(TestDigesterDefinitionsReader.class);
+
+    /**
+     * Creates a new instance of TestDigesterDefinitionsReader.
      *
      * @param name The name of the test.
      */
     public TestDigesterDefinitionsReader(String name) {
         super(name);
     }
-    
+
     /**
      * Start the tests.
      *
@@ -75,53 +82,56 @@ public class TestDigesterDefinitionsReader extends TestCase {
         try {
             DefinitionsReader reader = new DigesterDefinitionsReader();
             reader.init(new HashMap<String, String>());
-            
+
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/tiles-defs.xml");
             assertNotNull("Config file not found", configFile);
-            
+
             InputStream source = configFile.openStream();
             Map<String, Definition> definitions = reader.read(source);
-            
+
             assertNotNull("Definitions not returned.", definitions);
-            assertNotNull("Couldn't find doc.mainLayout tile.", 
+            assertNotNull("Couldn't find doc.mainLayout tile.",
                     definitions.get("doc.mainLayout"));
             assertNotNull("Couldn't Find title attribute.", definitions.get(
                     "doc.mainLayout").getAttribute("title"));
             assertEquals("Incorrect Find title attribute.",
                     "Tiles Library Documentation", definitions.get(
                             "doc.mainLayout").getAttribute("title"));
-            
+
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }
     }
-    
+
     /**
      * Tests calling read without calling init.
      */
     public void testNoInit() {
         try {
             DefinitionsReader reader = new DigesterDefinitionsReader();
-            
+
             // What happens if we don't call init?
             // reader.init(new HashMap());
-            
+
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/tiles-defs.xml");
             assertNotNull("Config file not found", configFile);
-            
+
             InputStream source = configFile.openStream();
             reader.read(source);
-            
+
             fail("Should've thrown exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Exception caught, it is OK", e);
+            }
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }
     }
-    
+
     /**
      * Tests read with bad input source.
      */
@@ -139,11 +149,14 @@ public class TestDigesterDefinitionsReader extends TestCase {
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Exception caught, it is OK", e);
+            }
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }
     }
-    
+
     /**
      * Tests read with bad XML source.
      */
@@ -151,25 +164,28 @@ public class TestDigesterDefinitionsReader extends TestCase {
         try {
             DefinitionsReader reader = new DigesterDefinitionsReader();
             reader.init(new HashMap<String, String>());
-            
+
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/malformed-defs.xml");
             assertNotNull("Config file not found", configFile);
-            
+
             InputStream source = configFile.openStream();
             reader.read(source);
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Exception caught, it is OK", e);
+            }
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }
     }
-    
+
     /**
      * Tests the validating input parameter.
      *
-     * This test case enables Digester's validating property then passes in a 
+     * This test case enables Digester's validating property then passes in a
      * configuration file with invalid XML.
      */
     public void testValidatingParameter() {
@@ -177,7 +193,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
          * For some reason this test doesn't work.  It throws a SAXParseException
          * but then the test failes saying "Should've thrown an exception.
          *
-         * I don't know why DigesterDefinitionsReader doesn't catch the 
+         * I don't know why DigesterDefinitionsReader doesn't catch the
          * SAXParseException or how it makes it to the "fail" statement below.
          *
         try {
@@ -186,11 +202,11 @@ public class TestDigesterDefinitionsReader extends TestCase {
             params.put(DigesterDefinitionsReader.PARSER_VALIDATE_PARAMETER_NAME,
                     "true");
             reader.init(params);
-            
+
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/invalid-defs.xml");
             assertNotNull("Config file not found", configFile);
-            
+
             InputStream source = configFile.openStream();
             Map definitions = reader.read(source);
             fail("Should've thrown an exception.");

@@ -17,15 +17,12 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.context;
 
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
-
-import org.apache.tiles.locale.LocaleResolver;
 
 /**
  * Encapsulation of request information.
@@ -39,7 +36,7 @@ public interface TilesRequestContext {
      * Return an immutable Map that maps header names to the first (or only)
      * header value (as a String).
      *
-     * @return The header map. 
+     * @return The header map.
      */
     Map<String, String> getHeader();
 
@@ -48,7 +45,7 @@ public interface TilesRequestContext {
      * specified in the request (as a String array). Header names must be
      * matched in a case-insensitive manner.
      *
-     * @return The header values map. 
+     * @return The header values map.
      */
     Map<String, String[]> getHeaderValues();
 
@@ -56,7 +53,7 @@ public interface TilesRequestContext {
      * Return a mutable Map that maps request scope attribute names to their
      * values.
      *
-     * @return The request scope map. 
+     * @return The request scope map.
      */
     Map<String, Object> getRequestScope();
 
@@ -64,7 +61,7 @@ public interface TilesRequestContext {
      * Return a mutable Map that maps session scope attribute names to their
      * values.
      *
-     * @return The request scope map. 
+     * @return The request scope map.
      */
     Map<String, Object> getSessionScope();
 
@@ -88,7 +85,7 @@ public interface TilesRequestContext {
      * Return an immutable Map that maps request parameter names to the first
      * (or only) value (as a String).
      *
-     * @return The parameter map. 
+     * @return The parameter map.
      */
     Map<String, String> getParam();
 
@@ -96,7 +93,7 @@ public interface TilesRequestContext {
      * Return an immutable Map that maps request parameter names to the set of
      * all values (as a String array).
      *
-     * @return The parameter values map. 
+     * @return The parameter values map.
      */
     Map<String, String[]> getParamValues();
 
@@ -105,12 +102,13 @@ public interface TilesRequestContext {
      *
      * @return The current request locale. It is the locale of the request
      * object itself and it is NOT the locale that the user wants to use. See
-     * {@link LocaleResolver} to implement strategies to resolve locales.
+     * {@link org.apache.tiles.locale.LocaleResolver} to implement strategies to
+     * resolve locales.
      */
     Locale getRequestLocale();
 
     /**
-     * Determine whether or not the specified user is in the given role
+     * Determine whether or not the specified user is in the given role.
      * @param role the role to check against.
      * @return <code>true</code> if the user is in the given role.
      */

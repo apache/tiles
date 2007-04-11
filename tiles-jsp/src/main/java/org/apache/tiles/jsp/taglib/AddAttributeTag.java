@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.jsp.taglib;
@@ -31,10 +30,10 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * <p><strong>Adds an attribute in enclosing attribute container tag.</strong></p>
- * <p>Enclosing attribute container tag can be : 
+ * <p>Enclosing attribute container tag can be :
  * <ul>
- * <li>&lt;putListAttribute&gt;</li> 
- * <li>&lt;putAttribute&gt;</li> 
+ * <li>&lt;putListAttribute&gt;</li>
+ * <li>&lt;putAttribute&gt;</li>
  * </ul>
  * (or any other tag which implements the <code>{@link AddAttributeTagParent}</code> interface.
  * Exception is thrown if no appropriate tag can be found.</p>
@@ -145,7 +144,7 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
     }
 
     /**
-     * Save the body content of this tag (if any)
+     * Save the body content of this tag (if any).
      *
      * @return It returns <code>SKIP_BODY</code>.
      * @throws JspException if a JSP exception has occurred
@@ -166,7 +165,8 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
 
         if (parent == null) {
             String message = "Error: enclosing tag '"
-                +getParent().getClass().getName()+" doesn't accept 'put' tag.";
+                    + getParent().getClass().getName()
+                    + " doesn't accept 'put' tag.";
             LOG.error(message);
             throw new JspException(message);
         }

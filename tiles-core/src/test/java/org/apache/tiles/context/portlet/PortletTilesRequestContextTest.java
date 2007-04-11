@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.context.portlet;
@@ -28,7 +27,6 @@ import java.util.Map;
 //import org.apache.shale.test.mock.MockPortletRequest;
 //import org.apache.shale.test.mock.MockPortletResponse;
 //import org.apache.shale.test.mock.MockPortletSession;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 
 import junit.framework.TestCase;

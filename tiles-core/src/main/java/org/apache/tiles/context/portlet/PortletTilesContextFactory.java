@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.context.portlet;
@@ -25,8 +24,6 @@ package org.apache.tiles.context.portlet;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.context.portlet.PortletTilesApplicationContext;
-import org.apache.tiles.context.portlet.PortletTilesRequestContext;
 
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
@@ -50,7 +47,7 @@ public class PortletTilesContextFactory implements TilesContextFactory {
             PortletContext portletContext = (PortletContext) context;
             return new PortletTilesApplicationContext(portletContext);
         }
-        
+
         return null;
     }
 
@@ -66,7 +63,7 @@ public class PortletTilesContextFactory implements TilesContextFactory {
                     (PortletResponse) requestItems[1]);
             }
         }
-        
+
         return null;
     }
 

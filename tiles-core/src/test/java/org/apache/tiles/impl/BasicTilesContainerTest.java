@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.impl;
 
@@ -38,7 +37,7 @@ import org.easymock.EasyMock;
  * @version $Rev$ $Date$
  */
 public class BasicTilesContainerTest extends TestCase {
-    
+
     /**
      * The container.
      */
@@ -49,7 +48,7 @@ public class BasicTilesContainerTest extends TestCase {
     public void setUp() {
         ServletContext context = EasyMock.createMock(ServletContext.class);
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
-        
+
         Vector<String> v = new Vector<String>();
 
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
@@ -71,7 +70,7 @@ public class BasicTilesContainerTest extends TestCase {
             throw new RuntimeException("Error initializing factory", e);
         }
     }
-    
+
     /**
      * Tests basic Tiles container initialization.
      */

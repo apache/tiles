@@ -17,12 +17,14 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -31,10 +33,6 @@ import java.util.HashMap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.tiles.definition.UrlDefinitionsFactory;
-import org.apache.tiles.definition.Definitions;
-import org.apache.tiles.definition.DefinitionsFactory;
-import org.apache.tiles.definition.ReloadableDefinitionsFactory;
 
 /**
  * Tests the reloadable definitions impl.
@@ -44,7 +42,13 @@ import org.apache.tiles.definition.ReloadableDefinitionsFactory;
 public class TestReloadableDefinitionsFactory extends TestCase {
 
     /**
-     * Creates a new instance of TestReloadableDefinitionsFactory
+     * The time (in milliseconds) to wait to be sure that the system updates the
+     * modify date of a file.
+     */
+    private static final int SLEEP_MILLIS = 30000;
+
+    /**
+     * Creates a new instance of TestReloadableDefinitionsFactory.
      *
      * @param name The name of the test.
      */
@@ -108,15 +112,15 @@ public class TestReloadableDefinitionsFactory extends TestCase {
             uri = new URI(urlPath.replaceAll(" ", "%20"));
         }
 
-        String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
-                "<!DOCTYPE tiles-definitions PUBLIC " +
-                "\"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN\" " +
-                "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n" +
-                "<tiles-definitions>" +
-                "<definition name=\"rewrite.test\" template=\"/test.jsp\">" +
-                "<put-attribute name=\"testparm\" value=\"testval\"/>" +
-                "</definition>" +
-                "</tiles-definitions>";
+        String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
+            + "<!DOCTYPE tiles-definitions PUBLIC "
+            + "\"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN\" "
+            + "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n"
+            + "<tiles-definitions>"
+            + "<definition name=\"rewrite.test\" template=\"/test.jsp\">"
+            + "<put-attribute name=\"testparm\" value=\"testval\"/>"
+            + "</definition>"
+            + "</tiles-definitions>";
 
         File file = new File(uri);
         FileOutputStream fileOut = new FileOutputStream(file);
@@ -141,18 +145,18 @@ public class TestReloadableDefinitionsFactory extends TestCase {
                 reloadable.refreshRequired());
 
         // Make sure the system actually updates the timestamp.
-        Thread.sleep(30000);
+        Thread.sleep(SLEEP_MILLIS);
 
         // Set up multiple data sources.
-        xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n" +
-                "<!DOCTYPE tiles-definitions PUBLIC " +
-                "\"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN\" " +
-                "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n" +
-                "<tiles-definitions>" +
-                "<definition name=\"rewrite.test\" template=\"/newtest.jsp\">" +
-                "<put-attribute name=\"testparm\" value=\"testval\"/>" +
-                "</definition>" +
-                "</tiles-definitions>";
+        xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
+            + "<!DOCTYPE tiles-definitions PUBLIC "
+            + "\"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN\" "
+            + "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n"
+            + "<tiles-definitions>"
+            + "<definition name=\"rewrite.test\" template=\"/newtest.jsp\">"
+            + "<put-attribute name=\"testparm\" value=\"testval\"/>"
+            + "</definition>"
+            + "</tiles-definitions>";
 
         file = new File(uri);
         fileOut = new FileOutputStream(file);

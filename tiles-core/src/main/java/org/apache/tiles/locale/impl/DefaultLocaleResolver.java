@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.locale.impl;
 
@@ -55,7 +54,7 @@ public class DefaultLocaleResolver implements LocaleResolver {
         if (retValue == null) {
             retValue = request.getRequestLocale();
         }
-        
+
         return retValue;
     }
 }

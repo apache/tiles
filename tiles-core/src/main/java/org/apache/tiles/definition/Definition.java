@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 
 package org.apache.tiles.definition;
@@ -87,10 +86,10 @@ public class Definition extends TileDefinition implements Serializable {
         this.template = template;
         this.attributes = attributes;
     }
-    
+
     /**
      * Checks whether the <code>key</code> attribute has been set.
-     * 
+     *
      * @param key The attribute key to check.
      * @return <code>true</code> if the attribute has a value.
      */

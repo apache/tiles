@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles;
 
@@ -69,7 +68,7 @@ public interface TilesContainer {
      * @return The newly created context.
      */
     AttributeContext startContext(Object... requestItems);
-    
+
     /**
      * Ends a context, where attribute values are stored independently
      * from others.<br>
@@ -88,8 +87,9 @@ public interface TilesContainer {
     void prepare(String definition, Object... requestItems) throws TilesException;
 
     /**
-     * Render the given tiles request
-     * @param definition the current definition
+     * Render the given tiles request.
+     *
+     * @param definition the current definition.
      * @param requestItems the current request objects.
      *
      * @throws TilesException is processing fails.
@@ -105,7 +105,7 @@ public interface TilesContainer {
      * @param requestItems the current request objects.
      * @throws TilesException If something goes wrong during accessing Tiles
      * elements.
-     * @throws IOException If something goes wrong during writing to the output. 
+     * @throws IOException If something goes wrong during writing to the output.
      */
     void render(Attribute attribute, Writer writer, Object... requestItems)
         throws TilesException, IOException;

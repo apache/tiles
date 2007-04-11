@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.impl;
 
@@ -85,7 +84,7 @@ public class BasicTilesContainer implements TilesContainer {
     private TilesApplicationContext context;
 
     /**
-     * The definitions factory. 
+     * The definitions factory.
      */
     private DefinitionsFactory definitionsFactory;
 
@@ -108,7 +107,7 @@ public class BasicTilesContainer implements TilesContainer {
      * Initialize the Container with the given configuration.
      *
      * @param initParameters application context for this container
-     * @throws TilesException
+     * @throws TilesException If something goes wrong during initialization.
      */
     public void init(Map<String, String> initParameters) throws TilesException {
         checkInit();
@@ -120,21 +119,21 @@ public class BasicTilesContainer implements TilesContainer {
         //Everything is now initialized.  We will populate
         // our definitions
         initializeDefinitionsFactory(definitionsFactory, getResourceString(),
-        		initParameters);
+                initParameters);
     }
 
     /** {@inheritDoc} */
-	public AttributeContext startContext(Object... requestItems) {
+    public AttributeContext startContext(Object... requestItems) {
         TilesRequestContext tilesContext = getRequestContext(requestItems);
-		return startContext(tilesContext);
-	}
+        return startContext(tilesContext);
+    }
 
     /** {@inheritDoc} */
     public void endContext(Object... requestItems) {
         TilesRequestContext tilesContext = getRequestContext(requestItems);
         endContext(tilesContext);
     }
-    
+
     /**
      * Starts an attribute context inside the container.
      *
@@ -169,22 +168,22 @@ public class BasicTilesContainer implements TilesContainer {
             throw new IllegalStateException("Container allready initialized");
         }
     }
-    
+
     /**
      * Initializes a definitions factory.
      *
-     * @param definitionsFactory The factory to initializes. 
+     * @param definitionsFactory The factory to initialize.
      * @param resourceString The string containing a comma-separated-list of
      * resources.
      * @param initParameters A map containing the initialization parameters.
      * @throws TilesException If something goes wrong.
      */
     protected void initializeDefinitionsFactory(
-    		DefinitionsFactory definitionsFactory, String resourceString,
-    		Map<String, String> initParameters) throws TilesException {
+            DefinitionsFactory definitionsFactory, String resourceString,
+            Map<String, String> initParameters) throws TilesException {
         List<String> resources = getResourceNames(resourceString);
         definitionsFactory.init(initParameters);
-        
+
         try {
             for (String resource : resources) {
                 URL resourceUrl = context.getResource(resource);
@@ -207,7 +206,7 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /**
-     * Standard Getter
+     * Returns the Tiles application context used by this container.
      *
      * @return the application context for this container.
      */
@@ -299,7 +298,7 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /**
-     * Standard Getter
+     * Returns the preparer factory used by this container.
      *
      * @return return the preparerInstance factory used by this container.
      */
@@ -377,7 +376,7 @@ public class BasicTilesContainer implements TilesContainer {
     /**
      * Renders the specified definition.
      *
-     * @param request The request context. 
+     * @param request The request context.
      * @param definitionName The name of the definition to render.
      * @throws TilesException If something goes wrong during rendering.
      */
@@ -399,8 +398,8 @@ public class BasicTilesContainer implements TilesContainer {
         }
 
         if (!isPermitted(request, definition.getRole())) {
-            LOG.info("Access to definition '" + definitionName +
-                "' denied.  User not in role '" + definition.getRole());
+            LOG.info("Access to definition '" + definitionName
+                    + "' denied.  User not in role '" + definition.getRole());
             return;
         }
 
@@ -417,8 +416,8 @@ public class BasicTilesContainer implements TilesContainer {
             String dispatchPath = definition.getTemplate();
 
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Dispatching to definition path '" +
-                    definition.getTemplate() + " '");
+                LOG.debug("Dispatching to definition path '"
+                        + definition.getTemplate() + " '");
             }
             request.dispatch(dispatchPath);
 
@@ -469,8 +468,8 @@ public class BasicTilesContainer implements TilesContainer {
      * @return <code>true</code> if the attribute is a definition.
      */
     private boolean isDefinition(Attribute attr, Object... requestItems) {
-        return Attribute.DEFINITION.equals(attr.getType()) ||
-            isValidDefinition(attr.getValue().toString(), requestItems);
+        return Attribute.DEFINITION.equals(attr.getType())
+                || isValidDefinition(attr.getValue().toString(), requestItems);
     }
 
     /**
@@ -513,7 +512,8 @@ public class BasicTilesContainer implements TilesContainer {
      * @throws DefinitionsFactoryException If the definitions factory throws an
      * exception.
      */
-    protected Definition getDefinition(String definitionName, TilesRequestContext request) throws DefinitionsFactoryException {
+    protected Definition getDefinition(String definitionName,
+            TilesRequestContext request) throws DefinitionsFactoryException {
         Definition definition =
             definitionsFactory.getDefinition(definitionName, request);
         return definition;
@@ -606,8 +606,7 @@ public class BasicTilesContainer implements TilesContainer {
         try {
             Definition definition = getDefinition(definitionName, context);
             return definition != null;
-        }
-        catch (NoSuchDefinitionException nsde) {
+        } catch (NoSuchDefinitionException nsde) {
             return false;
         } catch (DefinitionsFactoryException e) {
             // TODO, is this the right thing to do?

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.impl;
 
@@ -47,12 +46,12 @@ import org.easymock.EasyMock;
  * @version $Rev$ $Date$
  */
 public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
-    
+
     /**
      * The Tiles container.
      */
     private KeyedDefinitionsFactoryTilesContainer container;
-    
+
     /**
      * Default configuration parameters.
      */
@@ -64,9 +63,9 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         defaults = new HashMap<String, String>();
         defaults.put(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
                 KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
-        
+
         ServletContext context = EasyMock.createMock(ServletContext.class);
-        
+
         Vector<String> v = new Vector<String>();
         v.add(KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM);
         v.add(BasicTilesContainer.DEFINITIONS_CONFIG + "@one");
@@ -103,7 +102,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
             throw new RuntimeException("Error initializing factory", e);
         }
     }
-    
+
     /**
      * Tests container initialization.
      */
@@ -115,7 +114,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         assertNotNull(container.getProperDefinitionsFactory("one"));
         assertNotNull(container.getProperDefinitionsFactory("two"));
     }
-    
+
     /**
      * Tests initialization for postponed definitions factories.
      *
@@ -126,7 +125,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
     public void testPostponedDefinitionsFactoryInitialization() throws MalformedURLException, TilesException {
         KeyedDefinitionsFactoryTilesContainer container;
         ServletContext context = EasyMock.createMock(ServletContext.class);
-        
+
         Vector<String> v = new Vector<String>();
 
         EasyMock.reset(context);
@@ -135,7 +134,8 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(BasicTilesContainer.DEFINITIONS_CONFIG)).andReturn(null);
         EasyMock.expect(context.getInitParameter("definitions-config")).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_MUTABLE_INIT_PARAM)).andReturn(null);
+        EasyMock.expect(context.getInitParameter(TilesContainerFactory
+                .CONTAINER_FACTORY_MUTABLE_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(
                 KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))
                 .andReturn(null);
@@ -151,12 +151,12 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
             (KeyedDefinitionsFactoryTilesContainerFactory)
             TilesContainerFactory.getFactory(context, defaults);
         container = (KeyedDefinitionsFactoryTilesContainer) factory.createContainer(context);
-        
+
         assertNotNull(container);
         assertNotNull(container.getDefinitionsFactory());
         assertNull(container.getProperDefinitionsFactory("one"));
         assertNull(container.getProperDefinitionsFactory("two"));
-        
+
         Map<String, String> initParams = new HashMap<String, String>();
         initParams.put(BasicTilesContainer.DEFINITIONS_CONFIG,
                 "/WEB-INF/tiles-one.xml");
@@ -169,7 +169,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         assertNotNull(container.getProperDefinitionsFactory("one"));
         assertNotNull(container.getProperDefinitionsFactory("two"));
     }
-    
+
     /**
      * Tests if the definitions factory has been used.
      */
@@ -179,7 +179,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         HttpSession session = EasyMock.createMock(HttpSession.class);
         HttpServletResponse response = EasyMock.createMock(
                 HttpServletResponse.class);
-        
+
         EasyMock.reset(request);
         EasyMock.reset(session);
         EasyMock.reset(response);
@@ -195,7 +195,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         assertTrue(container.isValidDefinition("test.def1", request, response));
         assertFalse(container.isValidDefinition("test.def.one", request, response));
         assertFalse(container.isValidDefinition("test.def.two", request, response));
-        
+
         EasyMock.reset(request);
         EasyMock.reset(session);
         EasyMock.reset(response);
@@ -211,7 +211,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         assertTrue(container.isValidDefinition("test.def1", request, response));
         assertTrue(container.isValidDefinition("test.def.one", request, response));
         assertFalse(container.isValidDefinition("test.def.two", request, response));
-        
+
         EasyMock.reset(request);
         EasyMock.reset(session);
         EasyMock.reset(response);

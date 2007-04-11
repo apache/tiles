@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.jsp.context;
 
@@ -36,7 +35,13 @@ import java.lang.reflect.Method;
  *
  * @version $Rev$ $Date$
  */
-public class JspUtil {
+public final class JspUtil {
+
+    /**
+     * Constructor, private to avoid instantiation.
+     */
+    private JspUtil() {
+    }
 
     /**
      * The logging object.
@@ -59,8 +64,8 @@ public class JspUtil {
             Class<?>[] args = new Class<?>[]{String.class, boolean.class};
             include = PageContext.class.getMethod("include", args);
         } catch (NoSuchMethodException e) {
-            LOG.debug("Could not find JSP 2.0 include method.  Using old one that doesn't support " +
-                "configurable flushing.", e);
+            LOG.debug("Could not find JSP 2.0 include method.  Using old one that doesn't support "
+                    + "configurable flushing.", e);
         }
     }
 
@@ -91,8 +96,7 @@ public class JspUtil {
 
         try {
             pageContext.include(uri);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new JspException("IOException while including page.", e);
         } catch (ServletException e) {
             throw new JspException("ServletException while including page.", e);

@@ -17,7 +17,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 package org.apache.tiles.access;
 
@@ -51,7 +50,7 @@ public class TilesAccessTest extends TestCase {
      */
     public void testSetContext() throws TilesException {
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        context.setAttribute(TilesAccess.CONTAINER_ATTRIBUTE,container);
+        context.setAttribute(TilesAccess.CONTAINER_ATTRIBUTE, container);
         EasyMock.replay(context);
         TilesAccess.setContainer(context, container);
         EasyMock.verify(context);
