@@ -35,54 +35,54 @@ public interface MenuItem extends Serializable {
      *
      * @param value The value of this item.
      */
-    public void setValue(String value);
+    void setValue(String value);
 
     /**
      * Returns the value (i.e. the visible part) of this menu item.
      *
      * @return The value of this item.
      */
-    public String getValue();
+    String getValue();
 
     /**
      * Sets the URL of this menu item.
      *
      * @param link The URL of this item.
      */
-    public void setLink(String link);
+    void setLink(String link);
 
     /**
      * Returns the URL of this menu item.
      *
      * @return The URL of this item.
      */
-    public String getLink();
+    String getLink();
 
     /**
      * Sets the icon URL of this menu item.
      *
      * @param link The icon URL.
      */
-    public void setIcon(String link);
+    void setIcon(String link);
 
     /**
      * Returns the icon URL of this menu item.
      *
      * @return The icon URL.
      */
-    public String getIcon();
+    String getIcon();
 
     /**
      * Sets the tooltip text.
      *
      * @param link The tooltip text.
      */
-    public void setTooltip(String link);
+    void setTooltip(String link);
 
     /**
      * Returns the tooltip text.
      *
      * @return The tooltip text.
      */
-    public String getTooltip();
+    String getTooltip();
 }

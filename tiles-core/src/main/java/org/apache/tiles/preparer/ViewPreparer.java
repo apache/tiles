@@ -53,7 +53,7 @@ public interface ViewPreparer {
      * @param attributeContext Current tile context.
      * @throws Exception If something goes wrong during execution.
      */
-    public void execute(TilesRequestContext tilesContext,
+    void execute(TilesRequestContext tilesContext,
         AttributeContext attributeContext)
         throws Exception;
 }

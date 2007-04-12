@@ -43,7 +43,7 @@ public interface Definitions {
      * @return the Definition matching the given name or null if none
      *         is found.
      */
-    public Definition getDefinition(String name);
+    Definition getDefinition(String name);
 
     /**
      * Adds new Definition objects to the internal collection and
@@ -53,7 +53,7 @@ public interface Definitions {
      * @throws NoSuchDefinitionException if a Definition extends from
      *                                   one that doesn't exist.
      */
-    public void addDefinitions(Map<String, Definition> defsMap) throws NoSuchDefinitionException;
+    void addDefinitions(Map<String, Definition> defsMap) throws NoSuchDefinitionException;
 
     /**
      * Adds new locale-specific Definition objects to the internal
@@ -64,7 +64,7 @@ public interface Definitions {
      * @throws NoSuchDefinitionException if a Definition extends from
      *                                   one that doesn't exist.
      */
-    public void addDefinitions(Map<String, Definition> defsMap, Locale locale) throws NoSuchDefinitionException;
+    void addDefinitions(Map<String, Definition> defsMap, Locale locale) throws NoSuchDefinitionException;
 
     /**
      * Returns a Definition object that matches the given name and locale.
@@ -74,14 +74,14 @@ public interface Definitions {
      * @return the Definition matching the given name or null if none
      *         is found.
      */
-    public Definition getDefinition(String name, Locale locale);
+    Definition getDefinition(String name, Locale locale);
 
     /**
      * Resolves configuration inheritance properties.
      *
      * @throws NoSuchDefinitionException If parent definitions are not found.
      */
-    public void resolveInheritances() throws NoSuchDefinitionException;
+    void resolveInheritances() throws NoSuchDefinitionException;
 
     /**
      * Resolves locale-specific configuration inheritance properties.
@@ -89,17 +89,17 @@ public interface Definitions {
      * @param locale The locale object to use.
      * @throws NoSuchDefinitionException If parent definitions are not found.
      */
-    public void resolveInheritances(Locale locale) throws NoSuchDefinitionException;
+    void resolveInheritances(Locale locale) throws NoSuchDefinitionException;
 
     /**
      * Clears definitions.
      */
-    public void reset();
+    void reset();
 
     /**
      * Returns base definitions collection.
      *
      * @return A map of the type "definition name -> definition".
      */
-    public Map<String, Definition> getBaseDefinitions();
+    Map<String, Definition> getBaseDefinitions();
 }

@@ -25,6 +25,8 @@ import junit.framework.TestCase;
 import javax.servlet.ServletContext;
 
 import org.easymock.EasyMock;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.impl.BasicTilesContainer;
@@ -41,6 +43,12 @@ import java.net.MalformedURLException;
  * @version $Rev$ $Date$
  */
 public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
+
+    /**
+     * The logging object.
+     */
+    private static final Log LOG = LogFactory
+            .getLog(KeyedDefinitionsFactoryTilesContainerFactoryTest.class);
 
     /**
      * The servlet context.
@@ -124,6 +132,9 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
             container.init(new HashMap<String, String>());
             fail("Container should have already been initialized");
         } catch (IllegalStateException te) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("The container has been initialized, the exception is ok", te);
+            }
         }
 
     }

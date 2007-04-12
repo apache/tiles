@@ -43,7 +43,7 @@ public interface LocaleResolver {
      * @throws TilesException if required properties are not passed
      * in or the initialization fails.
      */
-    public void init(Map<String, String> params) throws TilesException;
+    void init(Map<String, String> params) throws TilesException;
 
     /**
      * Resolves the locale.
@@ -51,5 +51,5 @@ public interface LocaleResolver {
      * @param request The Tiles request object.
      * @return The current locale for the current request.
      */
-    public Locale resolveLocale(TilesRequestContext request);
+    Locale resolveLocale(TilesRequestContext request);
 }

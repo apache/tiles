@@ -106,6 +106,9 @@ public class TilesContainerFactoryTest extends TestCase {
             TilesContainerFactory.getFactory(context);
             fail("Invalid classname.  Exception should have been thrown.");
         } catch (TilesException e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("The classname is invalid, it is ok", e);
+            }
         }
     }
 

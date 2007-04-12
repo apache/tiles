@@ -42,19 +42,19 @@ public interface DefinitionsFactory {
     /**
      * Property name that specifies the implementation of the DefinitionsReader.
      */
-    public static final String READER_IMPL_PROPERTY =
+    String READER_IMPL_PROPERTY =
         "org.apache.tiles.definition.DefinitionsReader";
     /**
      * Property name that specifies the implementation of Definitions.
      */
-    public static final String DEFINITIONS_IMPL_PROPERTY =
+    String DEFINITIONS_IMPL_PROPERTY =
         "org.apache.tiles.definition.Definitions";
 
     /**
      * Property name that specifies the implementation of
      * {@link org.apache.tiles.locale.LocaleResolver}.
      */
-    public static final String LOCALE_RESOLVER_IMPL_PROPERTY =
+    String LOCALE_RESOLVER_IMPL_PROPERTY =
         "org.apache.tiles.locale.LocaleResolver";
 
     /**
@@ -66,7 +66,7 @@ public interface DefinitionsFactory {
      * @throws TilesException If a Tiles exception, such as an initialization
      * error, occurs.
      */
-    public void init(Map<String, String> params) throws TilesException;
+    void init(Map<String, String> params) throws TilesException;
 
     /**
      * Returns a Definition object that matches the given name and
@@ -78,8 +78,8 @@ public interface DefinitionsFactory {
      *         is found.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
-    public Definition getDefinition(String name,
-                                             TilesRequestContext tilesContext) throws DefinitionsFactoryException;
+    Definition getDefinition(String name, TilesRequestContext tilesContext)
+            throws DefinitionsFactoryException;
 
     /**
      * Adds a source where Definition objects are stored.
@@ -95,7 +95,7 @@ public interface DefinitionsFactory {
      * @throws DefinitionsFactoryException if an invalid source is passed in or
      *                                     an error occurs resolving the source to an actual data store.
      */
-    public void addSource(Object source) throws DefinitionsFactoryException;
+    void addSource(Object source) throws DefinitionsFactoryException;
 
     /**
      * Creates and returns a {@link Definitions} set by reading
@@ -105,6 +105,6 @@ public interface DefinitionsFactory {
      * @throws DefinitionsFactoryException if an error occurs reading the
      *                                     sources.
      */
-    public Definitions readDefinitions()
+    Definitions readDefinitions()
         throws DefinitionsFactoryException;
 }

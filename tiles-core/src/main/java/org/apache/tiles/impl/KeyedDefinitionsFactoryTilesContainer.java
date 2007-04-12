@@ -74,7 +74,7 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
          * @param request The request object.
          * @return The needed factory key.
          */
-        public String getDefinitionsFactoryKey(TilesRequestContext request);
+        String getDefinitionsFactoryKey(TilesRequestContext request);
     }
 
     /**
