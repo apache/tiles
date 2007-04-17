@@ -31,7 +31,6 @@ import java.util.Stack;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
-import org.apache.tiles.Constants;
 
 /**
  * Basic implementation for <code>AttributeContext</code>.
@@ -39,6 +38,12 @@ import org.apache.tiles.Constants;
  * @version $Rev$ $Date$
  */
 public class BasicAttributeContext implements AttributeContext, Serializable {
+
+    /**
+     * Name used to store attribute context stack.
+     */
+    private static final String ATTRIBUTE_CONTEXT_STACK =
+        "org.apache.tiles.AttributeContext.STACK";
 
     /**
      * Template attributes.
@@ -189,10 +194,10 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     public static Stack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack =
             (Stack<AttributeContext>) tilesContext.getRequestScope().get(
-                Constants.ATTRIBUTE_CONTEXT_STACK);
+                BasicAttributeContext.ATTRIBUTE_CONTEXT_STACK);
         if (contextStack == null) {
             contextStack = new Stack<AttributeContext>();
-            tilesContext.getRequestScope().put(Constants.ATTRIBUTE_CONTEXT_STACK,
+            tilesContext.getRequestScope().put(BasicAttributeContext.ATTRIBUTE_CONTEXT_STACK,
                     contextStack);
         }
 

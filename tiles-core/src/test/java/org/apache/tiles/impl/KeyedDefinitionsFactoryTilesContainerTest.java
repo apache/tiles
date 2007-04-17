@@ -33,11 +33,11 @@ import javax.servlet.http.HttpSession;
 
 import junit.framework.TestCase;
 
-import org.apache.tiles.Constants;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
+import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.util.RollingVectorEnumeration;
 import org.easymock.EasyMock;
 
@@ -184,7 +184,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.reset(session);
         EasyMock.reset(response);
         EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
-        EasyMock.expect(session.getAttribute(Constants.LOCALE_KEY)).andReturn(null).anyTimes();
+        EasyMock.expect(session.getAttribute(DefaultLocaleResolver.LOCALE_KEY)).andReturn(null).anyTimes();
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.expect(request.getAttribute(
                 KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
@@ -203,7 +203,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
                 KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
                 .andReturn("one").anyTimes();
         EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
-        EasyMock.expect(session.getAttribute(Constants.LOCALE_KEY)).andReturn(null).anyTimes();
+        EasyMock.expect(session.getAttribute(DefaultLocaleResolver.LOCALE_KEY)).andReturn(null).anyTimes();
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
         EasyMock.replay(session);
@@ -219,7 +219,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
                 KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
                 .andReturn("two").anyTimes();
         EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
-        EasyMock.expect(session.getAttribute(Constants.LOCALE_KEY)).andReturn(null).anyTimes();
+        EasyMock.expect(session.getAttribute(DefaultLocaleResolver.LOCALE_KEY)).andReturn(null).anyTimes();
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
         EasyMock.replay(session);
