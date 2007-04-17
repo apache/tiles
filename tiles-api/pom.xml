@@ -33,6 +33,8 @@
     <artifactId>tiles-api</artifactId>
     <packaging>jar</packaging>
     <name>Tiles - API</name>
+    <description>Tiles APIs, containing interfaces and classes to interact with
+    Tiles.</description>
 
     <build>
 

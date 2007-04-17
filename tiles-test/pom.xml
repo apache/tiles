@@ -33,6 +33,8 @@
    <artifactId>tiles-test</artifactId>
    <packaging>war</packaging>
    <name>Tiles - Apps - Test</name>
+   <description>Tiles Test web application: tests Tiles functionality.
+   </description>
    
    <dependencies>
       <dependency>

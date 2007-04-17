@@ -38,12 +38,10 @@
             <item name="Tiles 2" href="http://tiles.apache.org" />
         </links>
 
+
         <menu name="Apache Tiles">
             <item
                    name="Home"
-                   href="../../index.html"/>
-            <item
-                   name="Parent module"
                    href="../index.html"/>
         </menu>
 

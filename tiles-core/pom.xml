@@ -33,6 +33,8 @@
   <artifactId>tiles-core</artifactId>
   <packaging>jar</packaging>
   <name>Tiles - Core Library</name>
+  <description>Tiles Core Library, including basic implementation of the APIs.
+  </description>
 
   <build>
     <resources>

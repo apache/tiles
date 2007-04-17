@@ -24,8 +24,7 @@
   <artifactId>tiles-assembly</artifactId>
   <packaging>pom</packaging>
   <name>Tiles Assembly</name>
-  <description>
-    Tiles Assembly
+  <description>Tiles Assembly: assembles artifact to produce distributions.
   </description>
 
   <parent>

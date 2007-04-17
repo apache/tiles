@@ -22,32 +22,32 @@
  */
 -->
 <project name="Apache Struts - Tiles 2 - Core">
-    <bannerLeft>
-        <name>Apache Software Foundation</name>
-        <src>http://www.apache.org/images/asf-logo.gif</src>
-        <href>http://www.apache.org</href>
-    </bannerLeft>
-    <bannerRight>
-        <name>Apache Tiles 2</name>
-        <href>http://tiles.apache.org</href>
-    </bannerRight>
     <body>
 
-        <links>
-            <item name="Apache" href="http://www.apache.org" />
-            <item name="Tiles 2" href="http://tiles.apache.org" />
-        </links>
+        <menu name="Documentation">
+            <item
+                    name="Javadoc"
+                    href="/apidocs/index.html"/>
+            <item
+                    name="Taglibdoc"
+                    href="/tlddoc/index.html"/>
+            <item
+                    name="Taglib Reference"
+                    href="/tagreference.html"/>
+            <item
+                    name="DTD Doc"
+                    href="/dtddoc/index.html"/>
 
-        <menu name="Apache Tiles">
+        </menu>
+        <menu name="Quick Links">
             <item
-                   name="Home"
-                   href="../../index.html"/>
+                    name="Struts"
+                    href="http://struts.apache.org/"/>
             <item
-                   name="Parent module"
-                   href="../index.html"/>
+                    name="Struts Sandbox"
+                    href="http://struts.apache.org/struts-sandbox"/>
         </menu>
 
-        ${modules}
         ${reports}
 
     </body>

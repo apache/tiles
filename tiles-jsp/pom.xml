@@ -33,6 +33,8 @@
   <artifactId>tiles-jsp</artifactId>
   <packaging>jar</packaging>
   <name>Tiles - JSP support</name>
+  <description>Tiles JSP support: Classes and tag libraries to use Tiles in a
+  JSP environment.</description>
 
   <build>
     <resources>
