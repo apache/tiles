@@ -35,7 +35,6 @@ import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.preparer.NoSuchPreparerException;
-import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
 
@@ -355,12 +354,7 @@ public class BasicTilesContainer implements TilesContainer {
 
         AttributeContext attributeContext = BasicAttributeContext.getContext(context);
 
-        // TODO: Temporary while preparerInstance gets refactored to throw a more specific exception.
-        try {
-            preparer.execute(context, attributeContext);
-        } catch (Exception e) {
-            throw new PreparerException(e.getMessage(), e);
-        }
+        preparer.execute(context, attributeContext);
     }
 
     /** {@inheritDoc} */

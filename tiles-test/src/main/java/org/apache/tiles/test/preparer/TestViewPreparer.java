@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.test.preparer;
 
+import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.AttributeContext;
@@ -34,7 +35,7 @@ public class TestViewPreparer implements ViewPreparer {
 
     /** {@inheritDoc} */
     public void execute(TilesRequestContext tilesContext, AttributeContext attributeContext)
-    throws Exception {
+    throws PreparerException {
         attributeContext.putAttribute(
             "body",
             new Attribute("This is the value added by the ViewPreparer"));

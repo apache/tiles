@@ -35,6 +35,22 @@ public class PreparerException extends TilesException {
 
     /**
      * Constructor.
+     */
+    public PreparerException() {
+        super();
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param e The cause exception.
+     */
+    public PreparerException(Exception e) {
+        super(e);
+    }
+
+    /**
+     * Constructor.
      *
      * @param message The message to include.
      */
