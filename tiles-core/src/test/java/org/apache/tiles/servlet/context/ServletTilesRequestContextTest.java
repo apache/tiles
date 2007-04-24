@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.context.servlet;
+package org.apache.tiles.servlet.context;
 
 import java.util.Map;
 
@@ -29,7 +29,6 @@ import org.apache.shale.test.mock.MockHttpSession;
 import org.apache.shale.test.mock.MockServletContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
 import junit.framework.TestCase;
 

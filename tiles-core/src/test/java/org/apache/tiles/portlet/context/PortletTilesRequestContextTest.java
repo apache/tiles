@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.context.portlet;
+package org.apache.tiles.portlet.context;
 
 import java.util.Map;
 
