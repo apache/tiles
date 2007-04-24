@@ -25,6 +25,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,13 +74,15 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
             classNames = DEFAULT_FACTORY_CLASS_NAMES;
         }
 
-        factories = new TilesContextFactory[classNames.length];
+        List<TilesContextFactory> factoryList =
+            new ArrayList<TilesContextFactory>();
         for (int i = 0; i < classNames.length; i++) {
             try {
                 Class<TilesContextFactory> clazz = (Class<TilesContextFactory>) Class
                         .forName(classNames[i]);
                 if (TilesContextFactory.class.isAssignableFrom(clazz)) {
-                    factories[i] = clazz.newInstance();
+                    TilesContextFactory factory = clazz.newInstance();
+                    factoryList.add(factory);
                 } else {
                     throw new IllegalArgumentException("The class "
                             + classNames[i]
@@ -99,6 +103,8 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
                                 + " default constructor", e);
             }
         }
+        factories = new TilesContextFactory[factoryList.size()];
+        factoryList.toArray(factories);
     }
 
     /** {@inheritDoc} */
