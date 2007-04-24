@@ -44,11 +44,6 @@ public interface DefinitionsFactory {
      */
     String READER_IMPL_PROPERTY =
         "org.apache.tiles.definition.DefinitionsReader";
-    /**
-     * Property name that specifies the implementation of Definitions.
-     */
-    String DEFINITIONS_IMPL_PROPERTY =
-        "org.apache.tiles.definition.Definitions";
 
     /**
      * Property name that specifies the implementation of
