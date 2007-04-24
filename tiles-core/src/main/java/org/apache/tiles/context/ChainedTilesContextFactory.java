@@ -45,8 +45,8 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
      * The default class names to instantiate that compose the chain..
      */
     public static final String[] DEFAULT_FACTORY_CLASS_NAMES = {
-            "org.apache.tiles.context.servlet.ServletTilesContextFactory",
-            "org.apache.tiles.context.portlet.PortletTilesContextFactory",
+            "org.apache.tiles.servlet.context.ServletTilesContextFactory",
+            "org.apache.tiles.portlet.context.PortletTilesContextFactory",
             "org.apache.tiles.jsp.context.JspTilesContextFactory" };
 
     /**

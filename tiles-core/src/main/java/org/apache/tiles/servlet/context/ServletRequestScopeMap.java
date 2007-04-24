@@ -18,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.portlet;
-
+package org.apache.tiles.servlet.context;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,48 +29,48 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.portlet.PortletSession;
+import javax.servlet.ServletRequest;
 
 import org.apache.tiles.context.MapEntry;
 
 /**
- * <p>Private implementation of <code>Map</code> for portlet session
+ * <p>Private implementation of <code>Map</code> for servlet request
  * attributes.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class PortletSessionScopeMap implements Map<String, Object> {
+final class ServletRequestScopeMap implements Map<String, Object> {
 
 
     /**
      * Constructor.
      *
-     * @param session The portlet session to use.
+     * @param request The request object to use.
      */
-    public PortletSessionScopeMap(PortletSession session) {
-        this.session = session;
+    public ServletRequestScopeMap(ServletRequest request) {
+        this.request = request;
     }
 
 
     /**
-     * The portlet session to use.
+     * The request object to use.
      */
-    private PortletSession session = null;
+    private ServletRequest request = null;
 
 
     /** {@inheritDoc} */
     public void clear() {
         Iterator<String> keys = keySet().iterator();
         while (keys.hasNext()) {
-            session.removeAttribute(keys.next());
+            request.removeAttribute(keys.next());
         }
     }
 
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (session.getAttribute(key(key)) != null);
+        return (request.getAttribute(key(key)) != null);
     }
 
 
@@ -81,10 +80,9 @@ final class PortletSessionScopeMap implements Map<String, Object> {
         if (value == null) {
             return (false);
         }
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+        Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
-            Object next = session.getAttribute(keys.nextElement());
+            Object next = request.getAttribute(keys.nextElement());
             if (next == value) {
                 return (true);
             }
@@ -97,12 +95,12 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, Object>> entrySet() {
         Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+        Enumeration<String> keys = request.getAttributeNames();
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
-            set.add(new MapEntry<String, Object>(key, session.getAttribute(key), true));
+            set.add(new MapEntry<String, Object>(key,
+                    request.getAttribute(key), true));
         }
         return (set);
     }
@@ -110,19 +108,19 @@ final class PortletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public boolean equals(Object o) {
-        return (session.equals(o));
+        return (request.equals(o));
     }
 
 
     /** {@inheritDoc} */
     public Object get(Object key) {
-        return (session.getAttribute(key(key)));
+        return (request.getAttribute(key(key)));
     }
 
 
     /** {@inheritDoc} */
     public int hashCode() {
-        return (session.hashCode());
+        return (request.hashCode());
     }
 
 
@@ -136,8 +134,7 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+        Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -151,8 +148,8 @@ final class PortletSessionScopeMap implements Map<String, Object> {
             return (remove(key));
         }
         String skey = key(key);
-        Object previous = session.getAttribute(skey);
-        session.setAttribute(skey, value);
+        Object previous = request.getAttribute(skey);
+        request.setAttribute(skey, value);
         return (previous);
     }
 
@@ -162,7 +159,7 @@ final class PortletSessionScopeMap implements Map<String, Object> {
         Iterator<? extends String> keys = map.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
-            session.setAttribute(key, map.get(key));
+            request.setAttribute(key, map.get(key));
         }
     }
 
@@ -170,8 +167,8 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     /** {@inheritDoc} */
     public Object remove(Object key) {
         String skey = key(key);
-        Object previous = session.getAttribute(skey);
-        session.removeAttribute(skey);
+        Object previous = request.getAttribute(skey);
+        request.removeAttribute(skey);
         return (previous);
     }
 
@@ -180,8 +177,7 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+        Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -194,10 +190,9 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public Collection<Object> values() {
         List<Object> list = new ArrayList<Object>();
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+        Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
-            list.add(session.getAttribute(keys.nextElement()));
+            list.add(request.getAttribute(keys.nextElement()));
         }
         return (list);
     }

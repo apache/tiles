@@ -18,73 +18,74 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.servlet;
+package org.apache.tiles.portlet.context;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import javax.servlet.ServletRequest;
+import javax.portlet.PortletRequest;
 
 import org.apache.tiles.context.MapEntry;
 
+import java.util.*;
+
+
 /**
- * <p>Private implementation of <code>Map</code> for servlet request
- * attributes.</p>
+ * <p>Private implementation of <code>Map</code> for portlet parameter
+ * name-values[].</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class ServletRequestScopeMap implements Map<String, Object> {
+final class PortletParamValuesMap implements Map<String, String[]> {
 
 
     /**
      * Constructor.
      *
-     * @param request The request object to use.
+     * @param request The portlet request to use.
      */
-    public ServletRequestScopeMap(ServletRequest request) {
+    public PortletParamValuesMap(PortletRequest request) {
         this.request = request;
     }
 
 
     /**
-     * The request object to use.
+     * The portlet request to use.
      */
-    private ServletRequest request = null;
+    private PortletRequest request = null;
 
 
     /** {@inheritDoc} */
     public void clear() {
-        Iterator<String> keys = keySet().iterator();
-        while (keys.hasNext()) {
-            request.removeAttribute(keys.next());
-        }
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (request.getAttribute(key(key)) != null);
+        return (request.getParameter(key(key)) != null);
     }
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
-        if (value == null) {
+        if (!(value instanceof String[])) {
             return (false);
         }
-        Enumeration<String> keys = request.getAttributeNames();
-        while (keys.hasMoreElements()) {
-            Object next = request.getAttribute(keys.nextElement());
-            if (next == value) {
-                return (true);
+        String[] test = (String[]) value;
+        Iterator<String[]> values = values().iterator();
+        while (values.hasNext()) {
+            String[] actual = values.next();
+            if (test.length == actual.length) {
+                boolean matched = true;
+                for (int i = 0; i < test.length; i++) {
+                    if (!test[i].equals(actual[i])) {
+                        matched = false;
+                        break;
+                    }
+                }
+                if (matched) {
+                    return (true);
+                }
             }
         }
         return (false);
@@ -93,14 +94,14 @@ final class ServletRequestScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<String, Object>> entrySet() {
-        Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
-        Enumeration<String> keys = request.getAttributeNames();
+	public Set<Map.Entry<String, String[]>> entrySet() {
+        Set<Map.Entry<String, String[]>> set = new HashSet<Map.Entry<String, String[]>>();
+        Enumeration<String> keys = request.getParameterNames();
         String key;
         while (keys.hasMoreElements()) {
-            key = keys.nextElement();
-            set.add(new MapEntry<String, Object>(key,
-                    request.getAttribute(key), true));
+        	key = keys.nextElement();
+            set.add(new MapEntry<String, String[]>(key, (request
+					.getParameterValues(key)), false));
         }
         return (set);
     }
@@ -113,8 +114,8 @@ final class ServletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public Object get(Object key) {
-        return (request.getAttribute(key(key)));
+    public String[] get(Object key) {
+        return (request.getParameterValues(key(key)));
     }
 
 
@@ -132,9 +133,9 @@ final class ServletRequestScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Set<String> keySet() {
+	public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = request.getAttributeNames();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -143,41 +144,28 @@ final class ServletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public Object put(String key, Object value) {
-        if (value == null) {
-            return (remove(key));
-        }
-        String skey = key(key);
-        Object previous = request.getAttribute(skey);
-        request.setAttribute(skey, value);
-        return (previous);
+    public String[] put(String key, String[] value) {
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public void putAll(Map<? extends String, ? extends Object> map) {
-        Iterator<? extends String> keys = map.keySet().iterator();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            request.setAttribute(key, map.get(key));
-        }
+    public void putAll(Map<? extends String, ? extends String[]> map) {
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public Object remove(Object key) {
-        String skey = key(key);
-        Object previous = request.getAttribute(skey);
-        request.removeAttribute(skey);
-        return (previous);
+    public String[] remove(Object key) {
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public int size() {
+	public int size() {
         int n = 0;
-        Enumeration<String> keys = request.getAttributeNames();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -188,11 +176,11 @@ final class ServletRequestScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Collection<Object> values() {
-        List<Object> list = new ArrayList<Object>();
-        Enumeration<String> keys = request.getAttributeNames();
+	public Collection<String[]> values() {
+        List<String[]> list = new ArrayList<String[]>();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
-            list.add(request.getAttribute(keys.nextElement()));
+            list.add(request.getParameterValues(keys.nextElement()));
         }
         return (list);
     }

@@ -18,7 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.servlet;
+package org.apache.tiles.portlet.context;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,53 +30,62 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.portlet.PortletSession;
 
 import org.apache.tiles.context.MapEntry;
 
 /**
- * <p>Private implementation of <code>Map</code> for servlet request
- * name-value.</p>
+ * <p>Private implementation of <code>Map</code> for portlet session
+ * attributes.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class ServletHeaderMap implements Map<String, String> {
+final class PortletSessionScopeMap implements Map<String, Object> {
 
 
     /**
      * Constructor.
      *
-     * @param request The request object to use.
+     * @param session The portlet session to use.
      */
-    public ServletHeaderMap(HttpServletRequest request) {
-        this.request = request;
+    public PortletSessionScopeMap(PortletSession session) {
+        this.session = session;
     }
 
 
     /**
-     * The request object to use.
+     * The portlet session to use.
      */
-    private HttpServletRequest request = null;
+    private PortletSession session = null;
 
 
     /** {@inheritDoc} */
     public void clear() {
-        throw new UnsupportedOperationException();
+        Iterator<String> keys = keySet().iterator();
+        while (keys.hasNext()) {
+            session.removeAttribute(keys.next());
+        }
     }
 
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (request.getHeader(key(key)) != null);
+        return (session.getAttribute(key(key)) != null);
     }
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
-        Iterator<String> values = values().iterator();
-        while (values.hasNext()) {
-            if (value.equals(values.next())) {
+        if (value == null) {
+            return (false);
+        }
+        Enumeration<String> keys =
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+        while (keys.hasMoreElements()) {
+            Object next = session.getAttribute(keys.nextElement());
+            if (next == value) {
                 return (true);
             }
         }
@@ -85,14 +95,14 @@ final class ServletHeaderMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<String, String>> entrySet() {
-        Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
-        Enumeration<String> keys = request.getHeaderNames();
+    public Set<Map.Entry<String, Object>> entrySet() {
+        Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
+        Enumeration<String> keys =
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
-            set.add(new MapEntry<String, String>(key, request.getHeader(key),
-                    false));
+            set.add(new MapEntry<String, Object>(key, session.getAttribute(key), true));
         }
         return (set);
     }
@@ -100,19 +110,19 @@ final class ServletHeaderMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     public boolean equals(Object o) {
-        return (request.equals(o));
+        return (session.equals(o));
     }
 
 
     /** {@inheritDoc} */
-    public String get(Object key) {
-        return (request.getHeader(key(key)));
+    public Object get(Object key) {
+        return (session.getAttribute(key(key)));
     }
 
 
     /** {@inheritDoc} */
     public int hashCode() {
-        return (request.hashCode());
+        return (session.hashCode());
     }
 
 
@@ -126,7 +136,8 @@ final class ServletHeaderMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = request.getHeaderNames();
+        Enumeration<String> keys =
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -135,20 +146,33 @@ final class ServletHeaderMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
-    public String put(String key, String value) {
-        throw new UnsupportedOperationException();
+    public Object put(String key, Object value) {
+        if (value == null) {
+            return (remove(key));
+        }
+        String skey = key(key);
+        Object previous = session.getAttribute(skey);
+        session.setAttribute(skey, value);
+        return (previous);
     }
 
 
     /** {@inheritDoc} */
-    public void putAll(Map<? extends String, ? extends String> map) {
-        throw new UnsupportedOperationException();
+    public void putAll(Map<? extends String, ? extends Object> map) {
+        Iterator<? extends String> keys = map.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            session.setAttribute(key, map.get(key));
+        }
     }
 
 
     /** {@inheritDoc} */
-    public String remove(Object key) {
-        throw new UnsupportedOperationException();
+    public Object remove(Object key) {
+        String skey = key(key);
+        Object previous = session.getAttribute(skey);
+        session.removeAttribute(skey);
+        return (previous);
     }
 
 
@@ -156,7 +180,8 @@ final class ServletHeaderMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = request.getHeaderNames();
+        Enumeration<String> keys =
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -167,11 +192,12 @@ final class ServletHeaderMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Collection<String> values() {
-        List<String> list = new ArrayList<String>();
-        Enumeration<String> keys = request.getHeaderNames();
+    public Collection<Object> values() {
+        List<Object> list = new ArrayList<Object>();
+        Enumeration<String> keys =
+            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
         while (keys.hasMoreElements()) {
-            list.add(request.getHeader(keys.nextElement()));
+            list.add(session.getAttribute(keys.nextElement()));
         }
         return (list);
     }

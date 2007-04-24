@@ -18,22 +18,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.servlet;
+package org.apache.tiles.servlet.context;
+
 
 import org.apache.tiles.context.MapEntry;
 
-import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
 /**
- * <p>Private implementation of <code>Map</code> for servlet parameter
+ * <p>Private implementation of <code>Map</code> for servlet request
  * name-values[].</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class ServletParamValuesMap implements Map<String, String[]> {
+final class ServletHeaderValuesMap implements Map<String, String[]> {
 
 
     /**
@@ -41,7 +42,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
      *
      * @param request The request object to use.
      */
-    public ServletParamValuesMap(ServletRequest request) {
+    public ServletHeaderValuesMap(HttpServletRequest request) {
         this.request = request;
     }
 
@@ -49,7 +50,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     /**
      * The request object to use.
      */
-    private ServletRequest request = null;
+    private HttpServletRequest request = null;
 
 
     /** {@inheritDoc} */
@@ -60,7 +61,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (request.getParameter(key(key)) != null);
+        return (request.getHeader(key(key)) != null);
     }
 
 
@@ -94,12 +95,13 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, String[]>> entrySet() {
         Set<Map.Entry<String, String[]>> set = new HashSet<Map.Entry<String, String[]>>();
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = request.getHeaderNames();
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
-            set.add(new MapEntry<String, String[]>(key, request
-                    .getParameterValues(key), false));
+            Enumeration<String> headerEnum = request.getHeaders(key);
+            set.add(new MapEntry<String, String[]>(key,
+                    enumeration2array(headerEnum), false));
         }
         return (set);
     }
@@ -112,8 +114,14 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
 
     /** {@inheritDoc} */
-    public String[] get(Object key) {
-        return (request.getParameterValues(key(key)));
+    @SuppressWarnings("unchecked")
+	public String[] get(Object key) {
+        List<String> list = new ArrayList<String>();
+        Enumeration<String> values = request.getHeaders(key(key));
+        while (values.hasMoreElements()) {
+            list.add(values.nextElement());
+        }
+        return ((list.toArray(new String[list.size()])));
     }
 
 
@@ -133,7 +141,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -159,11 +167,12 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     }
 
 
+
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -174,11 +183,13 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Collection<String[]> values() {
+	public Collection<String[]> values() {
         List<String[]> list = new ArrayList<String[]>();
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
-            list.add(request.getParameterValues(keys.nextElement()));
+            String key = keys.nextElement();
+            Enumeration<String> values = request.getHeaders(key);
+            list.add(enumeration2array(values));
         }
         return (list);
     }
@@ -201,5 +212,18 @@ final class ServletParamValuesMap implements Map<String, String[]> {
         }
     }
 
-
+    /**
+     * Converts the content of a string enumeration to an array of strings.
+     *
+     * @param enumeration The enumeration to convert.
+     * @return The corresponding array.
+     */
+    private String[] enumeration2array(Enumeration<String> enumeration) {
+        List<String> list1 = new ArrayList<String>();
+        while (enumeration.hasMoreElements()) {
+            list1.add(enumeration.nextElement());
+        }
+        
+        return list1.toArray(new String[list1.size()]);
+    }
 }

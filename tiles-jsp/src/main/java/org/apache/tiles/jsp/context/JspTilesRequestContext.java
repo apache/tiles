@@ -23,7 +23,7 @@ package org.apache.tiles.jsp.context;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.context.servlet.ServletTilesRequestContext;
+import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -76,7 +76,7 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
      *
      * @param path The path to dispatch to.
      * @throws IOException If something goes wrong during dispatching.
-     * @see org.apache.tiles.context.servlet.ServletTilesRequestContext#dispatch(java.lang.String)
+     * @see org.apache.tiles.servlet.context.ServletTilesRequestContext#dispatch(java.lang.String)
      */
     public void dispatch(String path) throws IOException {
         include(path);

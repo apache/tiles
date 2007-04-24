@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.servlet;
+package org.apache.tiles.web.util;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;

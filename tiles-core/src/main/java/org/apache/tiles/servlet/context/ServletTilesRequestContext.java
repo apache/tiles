@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.servlet;
+package org.apache.tiles.servlet.context;
 
 import java.io.IOException;
 import java.util.Locale;

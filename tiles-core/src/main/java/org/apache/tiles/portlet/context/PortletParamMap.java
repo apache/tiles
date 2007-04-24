@@ -18,7 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.servlet;
+package org.apache.tiles.portlet.context;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,61 +30,53 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
+import javax.portlet.PortletRequest;
 
 import org.apache.tiles.context.MapEntry;
 
 /**
- * <p>Private implementation of <code>Map</code> for HTTP session
- * attributes.</p>
+ * <p>Private implementation of <code>Map</code> for portlet parameter
+ * name-value.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class ServletSessionScopeMap implements Map<String, Object> {
+final class PortletParamMap implements Map<String, String> {
 
 
     /**
      * Constructor.
      *
-     * @param session The session object to use.
+     * @param request The portlet request to use.
      */
-    public ServletSessionScopeMap(HttpSession session) {
-        this.session = session;
+    public PortletParamMap(PortletRequest request) {
+        this.request = request;
     }
 
 
     /**
-     * The session object to use.
+     * The portlet request to use.
      */
-    private HttpSession session = null;
+    private PortletRequest request = null;
 
 
     /** {@inheritDoc} */
     public void clear() {
-        Iterator<String> keys = keySet().iterator();
-        while (keys.hasNext()) {
-            session.removeAttribute(keys.next());
-        }
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (session.getAttribute(key(key)) != null);
+        return (request.getParameter(key(key)) != null);
     }
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
-        if (value == null) {
-            return (false);
-        }
-        Enumeration<String> keys = session.getAttributeNames();
-        while (keys.hasMoreElements()) {
-            Object next = session.getAttribute(keys.nextElement());
-            if (next == value) {
+        Iterator<String> values = values().iterator();
+        while (values.hasNext()) {
+            if (value.equals(values.next())) {
                 return (true);
             }
         }
@@ -93,14 +86,14 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<String, Object>> entrySet() {
-        Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
-        Enumeration<String> keys = session.getAttributeNames();
+    public Set<Map.Entry<String, String>> entrySet() {
+        Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
+        Enumeration<String> keys = request.getParameterNames();
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
-            set.add(new MapEntry<String, Object>(key,
-                    session.getAttribute(key), true));
+            set.add(new MapEntry<String, String>(key,
+                    request.getParameter(key), false));
         }
         return (set);
     }
@@ -108,19 +101,19 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public boolean equals(Object o) {
-        return (session.equals(o));
+        return (request.equals(o));
     }
 
 
     /** {@inheritDoc} */
-    public Object get(Object key) {
-        return (session.getAttribute(key(key)));
+    public String get(Object key) {
+        return (request.getParameter(key(key)));
     }
 
 
     /** {@inheritDoc} */
     public int hashCode() {
-        return (session.hashCode());
+        return (request.hashCode());
     }
 
 
@@ -134,7 +127,7 @@ final class ServletSessionScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = session.getAttributeNames();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -143,33 +136,20 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public Object put(String key, Object value) {
-        if (value == null) {
-            return (remove(key));
-        }
-        String skey = key(key);
-        Object previous = session.getAttribute(skey);
-        session.setAttribute(skey, value);
-        return (previous);
+    public String put(String key, String value) {
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public void putAll(Map<? extends String, ? extends Object> map) {
-        Iterator<? extends String> keys = map.keySet().iterator();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            session.setAttribute(key, map.get(key));
-        }
+    public void putAll(Map<? extends String, ? extends String> map) {
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public Object remove(Object key) {
-        String skey = key(key);
-        Object previous = session.getAttribute(skey);
-        session.removeAttribute(skey);
-        return (previous);
+    public String remove(Object key) {
+        throw new UnsupportedOperationException();
     }
 
 
@@ -177,7 +157,7 @@ final class ServletSessionScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = session.getAttributeNames();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -188,11 +168,11 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Collection<Object> values() {
-        List<Object> list = new ArrayList<Object>();
-        Enumeration<String> keys = session.getAttributeNames();
+    public Collection<String> values() {
+        List<String> list = new ArrayList<String>();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
-            list.add(session.getAttribute(keys.nextElement()));
+            list.add(request.getParameter(keys.nextElement()));
         }
         return (list);
     }

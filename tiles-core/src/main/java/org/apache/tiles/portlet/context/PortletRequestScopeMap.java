@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.servlet;
+package org.apache.tiles.portlet.context;
 
 
 import java.util.ArrayList;
@@ -30,48 +30,48 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletContext;
+import javax.portlet.PortletRequest;
 
 import org.apache.tiles.context.MapEntry;
 
 /**
- * <p>Private implementation of <code>Map</code> for servlet context
+ * <p>Private implementation of <code>Map</code> for portlet request
  * attributes.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class ServletApplicationScopeMap implements Map<String, Object> {
+final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /**
      * Constructor.
      *
-     * @param context The servlet context to use.
+     * @param request The request object to use.
      */
-    public ServletApplicationScopeMap(ServletContext context) {
-        this.context = context;
+    public PortletRequestScopeMap(PortletRequest request) {
+        this.request = request;
     }
 
 
     /**
-     * The servlet context to use.
+     * The request object to use.
      */
-    private ServletContext context = null;
+    private PortletRequest request = null;
 
 
     /** {@inheritDoc} */
     public void clear() {
         Iterator<String> keys = keySet().iterator();
         while (keys.hasNext()) {
-            context.removeAttribute(keys.next());
+            request.removeAttribute(keys.next());
         }
     }
 
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (context.getAttribute(key(key)) != null);
+        return (request.getAttribute(key(key)) != null);
     }
 
 
@@ -81,9 +81,9 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
         if (value == null) {
             return (false);
         }
-        Enumeration<String> keys = context.getAttributeNames();
+        Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
-            Object next = context.getAttribute(keys.nextElement());
+            Object next = request.getAttribute(keys.nextElement());
             if (next == value) {
                 return (true);
             }
@@ -96,12 +96,12 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, Object>> entrySet() {
         Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
-        Enumeration<String> keys = context.getAttributeNames();
+        Enumeration<String> keys = request.getAttributeNames();
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
             set.add(new MapEntry<String, Object>(key,
-                    context.getAttribute(key), true));
+                    request.getAttribute(key), true));
         }
         return (set);
     }
@@ -109,19 +109,19 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public boolean equals(Object o) {
-        return (context.equals(o));
+        return (request.equals(o));
     }
 
 
     /** {@inheritDoc} */
     public Object get(Object key) {
-        return (context.getAttribute(key(key)));
+        return (request.getAttribute(key(key)));
     }
 
 
     /** {@inheritDoc} */
     public int hashCode() {
-        return (context.hashCode());
+        return (request.hashCode());
     }
 
 
@@ -135,7 +135,7 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = context.getAttributeNames();
+        Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -149,8 +149,8 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
             return (remove(key));
         }
         String skey = key(key);
-        Object previous = context.getAttribute(skey);
-        context.setAttribute(skey, value);
+        Object previous = request.getAttribute(skey);
+        request.setAttribute(skey, value);
         return (previous);
     }
 
@@ -160,7 +160,7 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
         Iterator<? extends String> keys = map.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
-            context.setAttribute(key, map.get(key));
+            request.setAttribute(key, map.get(key));
         }
     }
 
@@ -168,8 +168,8 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
     /** {@inheritDoc} */
     public Object remove(Object key) {
         String skey = key(key);
-        Object previous = context.getAttribute(skey);
-        context.removeAttribute(skey);
+        Object previous = request.getAttribute(skey);
+        request.removeAttribute(skey);
         return (previous);
     }
 
@@ -178,7 +178,7 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = context.getAttributeNames();
+        Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -191,9 +191,9 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public Collection<Object> values() {
         List<Object> list = new ArrayList<Object>();
-        Enumeration<String> keys = context.getAttributeNames();
+        Enumeration<String> keys = request.getAttributeNames();
         while (keys.hasMoreElements()) {
-            list.add(context.getAttribute(keys.nextElement()));
+            list.add(request.getAttribute(keys.nextElement()));
         }
         return (list);
     }

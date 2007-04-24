@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.listener;
+package org.apache.tiles.web.startup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.context.portlet;
+package org.apache.tiles.portlet.context;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesContextFactory;

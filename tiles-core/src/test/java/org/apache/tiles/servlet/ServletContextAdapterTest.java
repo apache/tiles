@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.apache.shale.test.mock.MockServletConfig;
 import org.apache.shale.test.mock.MockServletContext;
+import org.apache.tiles.web.util.ServletContextAdapter;
 
 import junit.framework.TestCase;
 

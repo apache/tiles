@@ -18,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.portlet;
-
+package org.apache.tiles.servlet.context;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,62 +29,53 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.portlet.PortletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.context.MapEntry;
 
-
 /**
- * <p>Private implementation of <code>Map</code> for portlet context
- * attributes.</p>
+ * <p>Private implementation of <code>Map</code> for servlet parameter
+ * name-value.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class PortletApplicationScopeMap implements Map<String, Object> {
+final class ServletParamMap implements Map<String, String> {
 
 
     /**
      * Constructor.
      *
-     * @param context The portlet context to use.
+     * @param request The request object to use.
      */
-    public PortletApplicationScopeMap(PortletContext context) {
-        this.context = context;
+    public ServletParamMap(HttpServletRequest request) {
+        this.request = request;
     }
 
 
     /**
-     * The portlet context to use.
+     * The request object to use.
      */
-    private PortletContext context = null;
+    private HttpServletRequest request = null;
 
 
     /** {@inheritDoc} */
     public void clear() {
-        Iterator<String> keys = keySet().iterator();
-        while (keys.hasNext()) {
-            context.removeAttribute(keys.next());
-        }
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (context.getAttribute(key(key)) != null);
+        return (request.getParameter(key(key)) != null);
     }
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
-        if (value == null) {
-            return (false);
-        }
-        Enumeration<String> keys = context.getAttributeNames();
-        while (keys.hasMoreElements()) {
-            Object next = context.getAttribute(keys.nextElement());
-            if (next == value) {
+        Iterator<String> values = values().iterator();
+        while (values.hasNext()) {
+            if (value.equals(values.next())) {
                 return (true);
             }
         }
@@ -95,13 +85,14 @@ final class PortletApplicationScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<String, Object>> entrySet() {
-        Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
-        Enumeration<String> keys = context.getAttributeNames();
+    public Set<Map.Entry<String, String>> entrySet() {
+        Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
+        Enumeration<String> keys = request.getParameterNames();
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
-            set.add(new MapEntry<String, Object>(key, context.getAttribute(key), true));
+            set.add(new MapEntry<String, String>(key,
+                    request.getParameter(key), false));
         }
         return (set);
     }
@@ -109,19 +100,19 @@ final class PortletApplicationScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public boolean equals(Object o) {
-        return (context.equals(o));
+        return (request.equals(o));
     }
 
 
     /** {@inheritDoc} */
-    public Object get(Object key) {
-        return (context.getAttribute(key(key)));
+    public String get(Object key) {
+        return (request.getParameter(key(key)));
     }
 
 
     /** {@inheritDoc} */
     public int hashCode() {
-        return (context.hashCode());
+        return (request.hashCode());
     }
 
 
@@ -135,7 +126,7 @@ final class PortletApplicationScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = context.getAttributeNames();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -144,33 +135,20 @@ final class PortletApplicationScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public Object put(String key, Object value) {
-        if (value == null) {
-            return (remove(key));
-        }
-        String skey = key(key);
-        Object previous = context.getAttribute(skey);
-        context.setAttribute(skey, value);
-        return (previous);
+    public String put(String key, String value) {
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public void putAll(Map<? extends String, ? extends Object> map) {
-        Iterator<? extends String> keys = map.keySet().iterator();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            context.setAttribute(key, map.get(key));
-        }
+    public void putAll(Map<? extends String, ? extends String> map) {
+        throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public Object remove(Object key) {
-        String skey = key(key);
-        Object previous = context.getAttribute(skey);
-        context.removeAttribute(skey);
-        return (previous);
+    public String remove(Object key) {
+        throw new UnsupportedOperationException();
     }
 
 
@@ -178,7 +156,7 @@ final class PortletApplicationScopeMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = context.getAttributeNames();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -189,11 +167,11 @@ final class PortletApplicationScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Collection<Object> values() {
-        List<Object> list = new ArrayList<Object>();
-        Enumeration<String> keys = context.getAttributeNames();
+    public Collection<String> values() {
+        List<String> list = new ArrayList<String>();
+        Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
-            list.add(context.getAttribute(keys.nextElement()));
+            list.add(request.getParameter(keys.nextElement()));
         }
         return (list);
     }

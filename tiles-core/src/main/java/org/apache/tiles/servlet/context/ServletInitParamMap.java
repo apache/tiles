@@ -18,39 +18,45 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.servlet;
+package org.apache.tiles.servlet.context;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.ServletContext;
 
 import org.apache.tiles.context.MapEntry;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
-
-
 /**
- * <p>Private implementation of <code>Map</code> for servlet request
- * name-values[].</p>
+ * <p>Private implementation of <code>Map</code> for servlet context
+ * init parameters.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class ServletHeaderValuesMap implements Map<String, String[]> {
+final class ServletInitParamMap implements Map<String, String> {
 
 
     /**
      * Constructor.
      *
-     * @param request The request object to use.
+     * @param context The servlet context to use.
      */
-    public ServletHeaderValuesMap(HttpServletRequest request) {
-        this.request = request;
+    public ServletInitParamMap(ServletContext context) {
+        this.context = context;
     }
 
 
     /**
-     * The request object to use.
+     * The servlet context to use.
      */
-    private HttpServletRequest request = null;
+    private ServletContext context = null;
 
 
     /** {@inheritDoc} */
@@ -61,30 +67,16 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (request.getHeader(key(key)) != null);
+        return (context.getInitParameter(key(key)) != null);
     }
 
 
     /** {@inheritDoc} */
     public boolean containsValue(Object value) {
-        if (!(value instanceof String[])) {
-            return (false);
-        }
-        String[] test = (String[]) value;
-        Iterator<String[]> values = values().iterator();
+        Iterator<String> values = values().iterator();
         while (values.hasNext()) {
-            String[] actual = values.next();
-            if (test.length == actual.length) {
-                boolean matched = true;
-                for (int i = 0; i < test.length; i++) {
-                    if (!test[i].equals(actual[i])) {
-                        matched = false;
-                        break;
-                    }
-                }
-                if (matched) {
-                    return (true);
-                }
+            if (value.equals(values.next())) {
+                return (true);
             }
         }
         return (false);
@@ -93,15 +85,14 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<String, String[]>> entrySet() {
-        Set<Map.Entry<String, String[]>> set = new HashSet<Map.Entry<String, String[]>>();
-        Enumeration<String> keys = request.getHeaderNames();
+    public Set<Map.Entry<String, String>> entrySet() {
+        Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
+        Enumeration<String> keys = context.getInitParameterNames();
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
-            Enumeration<String> headerEnum = request.getHeaders(key);
-            set.add(new MapEntry<String, String[]>(key,
-                    enumeration2array(headerEnum), false));
+            set.add(new MapEntry<String, String>(key, context
+                    .getInitParameter(key), false));
         }
         return (set);
     }
@@ -109,25 +100,19 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     public boolean equals(Object o) {
-        return (request.equals(o));
+        return (context.equals(o));
     }
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-	public String[] get(Object key) {
-        List<String> list = new ArrayList<String>();
-        Enumeration<String> values = request.getHeaders(key(key));
-        while (values.hasMoreElements()) {
-            list.add(values.nextElement());
-        }
-        return ((list.toArray(new String[list.size()])));
+    public String get(Object key) {
+        return (context.getInitParameter(key(key)));
     }
 
 
     /** {@inheritDoc} */
     public int hashCode() {
-        return (request.hashCode());
+        return (context.hashCode());
     }
 
 
@@ -141,7 +126,7 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = request.getHeaderNames();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -150,29 +135,28 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
 
     /** {@inheritDoc} */
-    public String[] put(String key, String[] value) {
+    public String put(String key, String value) {
         throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public void putAll(Map<? extends String, ? extends String[]> map) {
+    public void putAll(Map<? extends String, ? extends String> map) {
         throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public String[] remove(Object key) {
+    public String remove(Object key) {
         throw new UnsupportedOperationException();
     }
-
 
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = request.getHeaderNames();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -183,13 +167,11 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Collection<String[]> values() {
-        List<String[]> list = new ArrayList<String[]>();
-        Enumeration<String> keys = request.getHeaderNames();
+    public Collection<String> values() {
+        List<String> list = new ArrayList<String>();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
-            String key = keys.nextElement();
-            Enumeration<String> values = request.getHeaders(key);
-            list.add(enumeration2array(values));
+            list.add(context.getInitParameter(keys.nextElement()));
         }
         return (list);
     }
@@ -212,18 +194,5 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
         }
     }
 
-    /**
-     * Converts the content of a string enumeration to an array of strings.
-     *
-     * @param enumeration The enumeration to convert.
-     * @return The corresponding array.
-     */
-    private String[] enumeration2array(Enumeration<String> enumeration) {
-        List<String> list1 = new ArrayList<String>();
-        while (enumeration.hasMoreElements()) {
-            list1.add(enumeration.nextElement());
-        }
-        
-        return list1.toArray(new String[list1.size()]);
-    }
+
 }

@@ -18,7 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.servlet;
+package org.apache.tiles.portlet.context;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,34 +30,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.portlet.PortletContext;
 
 import org.apache.tiles.context.MapEntry;
 
 /**
- * <p>Private implementation of <code>Map</code> for servlet parameter
- * name-value.</p>
+ * <p>Private implementation of <code>Map</code> for portlet context
+ * init parameters.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class ServletParamMap implements Map<String, String> {
+final class PortletInitParamMap implements Map<String, String> {
 
 
     /**
      * Constructor.
      *
-     * @param request The request object to use.
+     * @param context The portlet context to use.
      */
-    public ServletParamMap(HttpServletRequest request) {
-        this.request = request;
+    public PortletInitParamMap(PortletContext context) {
+        this.context = context;
     }
 
 
     /**
-     * The request object to use.
+     * The portlet context to use.
      */
-    private HttpServletRequest request = null;
+    private PortletContext context = null;
 
 
     /** {@inheritDoc} */
@@ -67,7 +68,7 @@ final class ServletParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (request.getParameter(key(key)) != null);
+        return (context.getInitParameter(key(key)) != null);
     }
 
 
@@ -87,12 +88,11 @@ final class ServletParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, String>> entrySet() {
         Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
-        Enumeration<String> keys = request.getParameterNames();
-        String key;
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
-            key = keys.nextElement();
-            set.add(new MapEntry<String, String>(key,
-                    request.getParameter(key), false));
+            String key = keys.nextElement();
+            set.add(new MapEntry<String, String>(key, context
+                    .getInitParameter(key), false));
         }
         return (set);
     }
@@ -100,19 +100,19 @@ final class ServletParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     public boolean equals(Object o) {
-        return (request.equals(o));
+        return (context.equals(o));
     }
 
 
     /** {@inheritDoc} */
     public String get(Object key) {
-        return (request.getParameter(key(key)));
+        return (context.getInitParameter(key(key)));
     }
 
 
     /** {@inheritDoc} */
     public int hashCode() {
-        return (request.hashCode());
+        return (context.hashCode());
     }
 
 
@@ -126,7 +126,7 @@ final class ServletParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -156,7 +156,7 @@ final class ServletParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -169,9 +169,9 @@ final class ServletParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public Collection<String> values() {
         List<String> list = new ArrayList<String>();
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
-            list.add(request.getParameter(keys.nextElement()));
+            list.add(context.getInitParameter(keys.nextElement()));
         }
         return (list);
     }

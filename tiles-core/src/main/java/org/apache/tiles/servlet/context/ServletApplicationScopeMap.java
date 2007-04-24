@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.portlet;
+package org.apache.tiles.servlet.context;
 
 
 import java.util.ArrayList;
@@ -30,53 +30,61 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.portlet.PortletContext;
+import javax.servlet.ServletContext;
 
 import org.apache.tiles.context.MapEntry;
 
 /**
- * <p>Private implementation of <code>Map</code> for portlet context
- * init parameters.</p>
+ * <p>Private implementation of <code>Map</code> for servlet context
+ * attributes.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class PortletInitParamMap implements Map<String, String> {
+final class ServletApplicationScopeMap implements Map<String, Object> {
 
 
     /**
      * Constructor.
      *
-     * @param context The portlet context to use.
+     * @param context The servlet context to use.
      */
-    public PortletInitParamMap(PortletContext context) {
+    public ServletApplicationScopeMap(ServletContext context) {
         this.context = context;
     }
 
 
     /**
-     * The portlet context to use.
+     * The servlet context to use.
      */
-    private PortletContext context = null;
+    private ServletContext context = null;
 
 
     /** {@inheritDoc} */
     public void clear() {
-        throw new UnsupportedOperationException();
+        Iterator<String> keys = keySet().iterator();
+        while (keys.hasNext()) {
+            context.removeAttribute(keys.next());
+        }
     }
 
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (context.getInitParameter(key(key)) != null);
+        return (context.getAttribute(key(key)) != null);
     }
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
-        Iterator<String> values = values().iterator();
-        while (values.hasNext()) {
-            if (value.equals(values.next())) {
+        if (value == null) {
+            return (false);
+        }
+        Enumeration<String> keys = context.getAttributeNames();
+        while (keys.hasMoreElements()) {
+            Object next = context.getAttribute(keys.nextElement());
+            if (next == value) {
                 return (true);
             }
         }
@@ -86,13 +94,14 @@ final class PortletInitParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<String, String>> entrySet() {
-        Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
-        Enumeration<String> keys = context.getInitParameterNames();
+    public Set<Map.Entry<String, Object>> entrySet() {
+        Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
+        Enumeration<String> keys = context.getAttributeNames();
+        String key;
         while (keys.hasMoreElements()) {
-            String key = keys.nextElement();
-            set.add(new MapEntry<String, String>(key, context
-                    .getInitParameter(key), false));
+            key = keys.nextElement();
+            set.add(new MapEntry<String, Object>(key,
+                    context.getAttribute(key), true));
         }
         return (set);
     }
@@ -105,8 +114,8 @@ final class PortletInitParamMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
-    public String get(Object key) {
-        return (context.getInitParameter(key(key)));
+    public Object get(Object key) {
+        return (context.getAttribute(key(key)));
     }
 
 
@@ -126,7 +135,7 @@ final class PortletInitParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = context.getInitParameterNames();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -135,20 +144,33 @@ final class PortletInitParamMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
-    public String put(String key, String value) {
-        throw new UnsupportedOperationException();
+    public Object put(String key, Object value) {
+        if (value == null) {
+            return (remove(key));
+        }
+        String skey = key(key);
+        Object previous = context.getAttribute(skey);
+        context.setAttribute(skey, value);
+        return (previous);
     }
 
 
     /** {@inheritDoc} */
-    public void putAll(Map<? extends String, ? extends String> map) {
-        throw new UnsupportedOperationException();
+    public void putAll(Map<? extends String, ? extends Object> map) {
+        Iterator<? extends String> keys = map.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            context.setAttribute(key, map.get(key));
+        }
     }
 
 
     /** {@inheritDoc} */
-    public String remove(Object key) {
-        throw new UnsupportedOperationException();
+    public Object remove(Object key) {
+        String skey = key(key);
+        Object previous = context.getAttribute(skey);
+        context.removeAttribute(skey);
+        return (previous);
     }
 
 
@@ -156,7 +178,7 @@ final class PortletInitParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = context.getInitParameterNames();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -167,11 +189,11 @@ final class PortletInitParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Collection<String> values() {
-        List<String> list = new ArrayList<String>();
-        Enumeration<String> keys = context.getInitParameterNames();
+    public Collection<Object> values() {
+        List<Object> list = new ArrayList<Object>();
+        Enumeration<String> keys = context.getAttributeNames();
         while (keys.hasMoreElements()) {
-            list.add(context.getInitParameter(keys.nextElement()));
+            list.add(context.getAttribute(keys.nextElement()));
         }
         return (list);
     }

@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.filter;
+package org.apache.tiles.web.startup;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -36,7 +36,6 @@ import javax.servlet.ServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
-import org.apache.tiles.servlet.TilesServlet;
 
 /**
  * Processes Reloadable Tiles Definitions.

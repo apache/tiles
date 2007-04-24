@@ -42,7 +42,7 @@
 
     <filter>
         <filter-name>Tiles Decoration Filter</filter-name>
-        <filter-class>org.apache.tiles.web.TilesDecorationFilter</filter-class>
+        <filter-class>org.apache.tiles.web.util.TilesDecorationFilter</filter-class>
         <init-param>
             <param-name>definition</param-name>
             <param-value>test.definition</param-value>
@@ -62,7 +62,7 @@
     <!-- Standard Action Servlet Configuration -->
     <servlet>
         <servlet-name>tiles</servlet-name>
-        <servlet-class>org.apache.tiles.servlet.TilesServlet</servlet-class>
+        <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
         <init-param>
             <param-name>definitions-config</param-name>
             <param-value>/WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml</param-value>
@@ -72,7 +72,7 @@
 
     <servlet>
         <servlet-name>Tiles Dispatch Servlet</servlet-name>
-        <servlet-class>org.apache.tiles.web.TilesDispatchServlet</servlet-class>
+        <servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>
     </servlet>
 
     <!-- Standard Action Servlet Configuration -->

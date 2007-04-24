@@ -29,6 +29,7 @@ import org.apache.shale.test.mock.MockHttpSession;
 import org.apache.shale.test.mock.MockServletContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
 import junit.framework.TestCase;
 

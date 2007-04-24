@@ -18,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.portlet;
-
+package org.apache.tiles.servlet.context;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,34 +29,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.portlet.PortletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.context.MapEntry;
 
 /**
- * <p>Private implementation of <code>Map</code> for portlet parameter
+ * <p>Private implementation of <code>Map</code> for servlet request
  * name-value.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class PortletParamMap implements Map<String, String> {
+final class ServletHeaderMap implements Map<String, String> {
 
 
     /**
      * Constructor.
      *
-     * @param request The portlet request to use.
+     * @param request The request object to use.
      */
-    public PortletParamMap(PortletRequest request) {
+    public ServletHeaderMap(HttpServletRequest request) {
         this.request = request;
     }
 
 
     /**
-     * The portlet request to use.
+     * The request object to use.
      */
-    private PortletRequest request = null;
+    private HttpServletRequest request = null;
 
 
     /** {@inheritDoc} */
@@ -68,7 +67,7 @@ final class PortletParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (request.getParameter(key(key)) != null);
+        return (request.getHeader(key(key)) != null);
     }
 
 
@@ -88,12 +87,12 @@ final class PortletParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, String>> entrySet() {
         Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = request.getHeaderNames();
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
-            set.add(new MapEntry<String, String>(key,
-                    request.getParameter(key), false));
+            set.add(new MapEntry<String, String>(key, request.getHeader(key),
+                    false));
         }
         return (set);
     }
@@ -107,7 +106,7 @@ final class PortletParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     public String get(Object key) {
-        return (request.getParameter(key(key)));
+        return (request.getHeader(key(key)));
     }
 
 
@@ -127,7 +126,7 @@ final class PortletParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -157,7 +156,7 @@ final class PortletParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -170,9 +169,9 @@ final class PortletParamMap implements Map<String, String> {
     @SuppressWarnings("unchecked")
     public Collection<String> values() {
         List<String> list = new ArrayList<String>();
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
-            list.add(request.getParameter(keys.nextElement()));
+            list.add(request.getHeader(keys.nextElement()));
         }
         return (list);
     }

@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.portlet;
+package org.apache.tiles.portlet.context;
 
 import java.io.IOException;
 import java.util.Collections;

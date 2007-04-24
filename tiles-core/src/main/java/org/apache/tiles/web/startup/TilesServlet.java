@@ -18,9 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.servlet;
+package org.apache.tiles.web.startup;
 
-import org.apache.tiles.listener.TilesListener;
+import org.apache.tiles.web.util.ServletContextAdapter;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletContextEvent;
@@ -30,7 +30,7 @@ import javax.servlet.ServletException;
  * Initialization Servlet. Provided for backwards compatibility.
  * The prefered method of initialization is to use the TilesListener.
  *
- * @see org.apache.tiles.listener.TilesListener
+ * @see org.apache.tiles.web.startup.TilesListener
  * @version $Rev$ $Date$
  */
 public class TilesServlet extends HttpServlet {
