@@ -54,33 +54,33 @@ public class TilesContainerFactory {
      * name.
      */
     public static final String CONTAINER_FACTORY_INIT_PARAM =
-        "org.apache.tiles.CONTAINER_FACTORY";
+        "org.apache.tiles.factory.TilesContainerFactory";
 
     /**
      * Initialization parameter that indicates if the container factory is
      * mutable.
      */
     public static final String CONTAINER_FACTORY_MUTABLE_INIT_PARAM =
-        "org.apache.tiles.CONTAINER_FACTORY.mutable";
+        "org.apache.tiles.factory.TilesContainerFactory.MUTABLE";
 
     /**
      * Initialization parameter that represents the context factory class name.
      */
     public static final String CONTEXT_FACTORY_INIT_PARAM =
-        "org.apache.tiles.CONTEXT_FACTORY";
+        "org.apache.tiles.context.TilesContextFactory";
 
     /**
      * Initialization parameter that represents the definitions factory class
      * name.
      */
     public static final String DEFINITIONS_FACTORY_INIT_PARAM =
-        "org.apache.tiles.DEFINITIONS_FACTORY";
+        "org.apache.tiles.definition.DefinitionsFactory";
 
     /**
      * Initialization parameter that represents the preparer factory class name.
      */
     public static final String PREPARER_FACTORY_INIT_PARAM =
-        "org.apache.tiles.PREPARER_FACTORY";
+        "org.apache.tiles.preparer.PreparerFactory";
 
 
     /**
@@ -107,7 +107,7 @@ public class TilesContainerFactory {
      * specified context.
      * <p/>
      * The context will be queried and if a init parameter
-     * named 'org.apache.tiles.CONTAINER_FACTORY' is discovered
+     * named 'org.apache.tiles.factory.TilesContainerFactory' is discovered
      * this class will be instantiated and returned. Otherwise,
      * the factory will attempt to utilize one of it's internal
      * factories.
@@ -125,9 +125,9 @@ public class TilesContainerFactory {
     /**
      * Retrieve a factory instance as configured through the specified context.
      * <p/> The context will be queried and if a init parameter named
-     * 'org.apache.tiles.CONTAINER_FACTORY' is discovered this class will be
-     * instantiated and returned. Otherwise, the factory will attempt to utilize
-     * one of it's internal factories.
+     * 'org.apache.tiles.factory.TilesContainerFactory' is discovered this class
+     * will be instantiated and returned. Otherwise, the factory will attempt to
+     * utilize one of it's internal factories.
      *
      * @param context the executing applications context. Typically a
      * ServletContext or PortletContext

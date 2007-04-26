@@ -68,8 +68,10 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
 
         Vector<String> v = new Vector<String>();
         v.add(KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM);
-        v.add(BasicTilesContainer.DEFINITIONS_CONFIG + "@one");
-        v.add(BasicTilesContainer.DEFINITIONS_CONFIG + "@two");
+        v.add(KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
+                + "one");
+        v.add(KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
+                + "two");
 
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
@@ -77,10 +79,12 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.expect(context.getInitParameter(
                 KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))
                 .andReturn("one,two").anyTimes();
-        EasyMock.expect(context.getInitParameter(BasicTilesContainer.DEFINITIONS_CONFIG + "@one"))
-                .andReturn("/WEB-INF/tiles-one.xml").anyTimes();
-        EasyMock.expect(context.getInitParameter(BasicTilesContainer.DEFINITIONS_CONFIG + "@two"))
-                .andReturn("/WEB-INF/tiles-two.xml").anyTimes();
+        EasyMock.expect(context.getInitParameter(
+                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
+                + "one")).andReturn("/WEB-INF/tiles-one.xml").anyTimes();
+        EasyMock.expect(context.getInitParameter(
+                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
+                + "two")).andReturn("/WEB-INF/tiles-two.xml").anyTimes();
         EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
         EasyMock.expect(context.getInitParameterNames()).andReturn(new RollingVectorEnumeration<String>(v)).anyTimes();
         try {

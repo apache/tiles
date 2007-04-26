@@ -31,12 +31,12 @@
     <distributable/>
 
     <context-param>
-        <param-name>org.apache.tiles.CONTEXT_FACTORY</param-name>
+        <param-name>org.apache.tiles.context.TilesContextFactory</param-name>
         <param-value>org.apache.tiles.context.enhanced.EnhancedContextFactory</param-value>
     </context-param>
 
     <context-param>
-        <param-name>org.apache.tiles.CONTAINER_FACTORY.mutable</param-name>
+        <param-name>org.apache.tiles.factory.TilesContainerFactory.MUTABLE</param-name>
         <param-value>true</param-value>
     </context-param>
 

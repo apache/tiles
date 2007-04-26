@@ -39,6 +39,13 @@ import org.apache.tiles.definition.DefinitionsFactoryException;
 public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
 
     /**
+     * Constant representing the prefix of the configuration parameter used to
+     * define the tiles definition resources for a specific key.
+     */
+    public static final String DEFINITIONS_CONFIG_PREFIX =
+        "org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG@";
+
+    /**
      * Name of the attribute inside the request that will be used to get the key
      * of the definitions factory to be used.
      */

@@ -29,7 +29,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 
 import java.util.Map;
@@ -102,10 +101,13 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
         EasyMock.expect(context.getInitParameter(
                 KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))
                 .andReturn("one,two").anyTimes();
-        EasyMock.expect(context.getInitParameter(BasicTilesContainer.DEFINITIONS_CONFIG + "@one"))
+        EasyMock.expect(context.getInitParameter(
+                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
+                + "one"))
                 .andReturn("/WEB-INF/tiles-one.xml").anyTimes();
-        EasyMock.expect(context.getInitParameter(BasicTilesContainer.DEFINITIONS_CONFIG + "@two"))
-                .andReturn("/WEB-INF/tiles-two.xml").anyTimes();
+        EasyMock.expect(context.getInitParameter(
+                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
+                + "@two")).andReturn("/WEB-INF/tiles-two.xml").anyTimes();
         EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
         EasyMock.expect(context.getInitParameterNames()).andReturn(enumeration.elements()).anyTimes();
         URL url = getClass().getResource("test-defs.xml");

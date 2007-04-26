@@ -202,7 +202,7 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
                             /WEB-INF/tiles-tests-defs.xml,/WEB-INF/tiles-tutorial-defs.xml,
                             /WEB-INF/tiles-examples-defs.xml&amp;&amp;quot; /&gt;
     &lt;set-property property=&amp;&amp;quot;moduleAware&amp;&amp;quot; value=&amp;&amp;quot;true&amp;&amp;quot; /&gt;
-    &lt;set-property property=&amp;&amp;quot;definitions-parser-validate&amp;&amp;quot; value=&amp;&amp;quot;true&amp;&amp;quot; /&gt;
+    &lt;set-property property=&amp;&amp;quot;org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE&amp;&amp;quot; value=&amp;&amp;quot;true&amp;&amp;quot; /&gt;
   &lt;/plug-in&gt;
 </pre>
     <ul>
@@ -212,7 +212,7 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
                 </li>
             </ul>
         </li>
-        <li>definitions-parser-validate: (optional)
+        <li>org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE: (optional)
             <ul>
                 <li>Specify if XML parser should validate the Tiles configuration
                     file
@@ -296,7 +296,7 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
 		false : no validation
 		--&gt; 	
     &lt;init-param&gt;
-      &lt;param-name&gt;definitions-parser-validate&lt;/param-name&gt;
+      &lt;param-name&gt;org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE&lt;/param-name&gt;
       &lt;param-value&gt;true&lt;/param-value&gt;
     &lt;/init-param&gt;
      ...
@@ -319,7 +319,7 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
       &lt;param-value&gt;/WEB-INF/tiles-defs.xml&lt;/param-value&gt;
     &lt;/init-param&gt;
     &lt;init-param&gt;
-      &lt;param-name&gt;definitions-parser-validate&lt;/param-name&gt;
+      &lt;param-name&gt;org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE&lt;/param-name&gt;
       &lt;param-value&gt;true&lt;/param-value&gt;
     &lt;/init-param&gt;
    ...

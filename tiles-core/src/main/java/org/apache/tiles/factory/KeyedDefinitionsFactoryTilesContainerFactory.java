@@ -47,13 +47,13 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
      * comma-separated list of keys to use.
      */
     public static final String CONTAINER_KEYS_INIT_PARAM =
-        "org.apache.tiles.CONTAINER.keys";
+        "org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory.KEYS";
 
     /**
      * Init parameter name that contains the class name for the key extractor.
      */
     public static final String KEY_EXTRACTOR_CLASS_INIT_PARAM =
-        "org.apache.tiles.CONTAINER.keyExtractor";
+        "org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor";
 
     /** {@inheritDoc} */
     @Override
@@ -118,7 +118,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
             for (int i = 0; i < keys.length; i++) {
                 Map<String, String> initParams = new HashMap<String, String>();
                 String param = initParameters.get(
-                        BasicTilesContainer.DEFINITIONS_CONFIG + "@" + keys[i]);
+                        KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX + keys[i]);
                 if (param != null) {
                     initParams.put(BasicTilesContainer.DEFINITIONS_CONFIG,
                             param);

@@ -34,24 +34,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Reads {@link org.apache.tiles.definition.Definition Definition} objects
- * from an XML InputStream using Digester.
+ * Reads {@link org.apache.tiles.definition.Definition Definition} objects from
+ * an XML InputStream using Digester. <p/>
+ * <p>
+ * This <code>DefinitionsReader</code> implementation expects the source to be
+ * passed as an <code>InputStream</code>. It parses XML data from the source
+ * and builds a Map of Definition objects.
+ * </p>
  * <p/>
- * <p>This <code>DefinitionsReader</code> implementation expects the source to be
- * passed as an <code>InputStream</code>.  It parses XML data from the source and
- * builds a Map of Definition objects.</p>
- * <p/>
- * <p>The Digester object can be configured by passing in initialization parameters.
- * Currently the only parameter that is supported is the <code>validating</code>
- * parameter.  This value is set to <code>false</code> by default.  To enable DTD
- * validation for XML Definition files, give the init method a parameter
- * with a key of <code>definitions-parser-validate</code> and a value of
- * <code>&quot;true&quot;</code>.
- * <p/>
- * <p>The Definition objects are stored internally in a Map.  The Map is
- * stored as an instance variable rather than a local variable in the <code>read</code>
- * method.  This means that instances of this class are <strong>not</strong>
- * thread-safe and access by multiple threads must be synchronized.</p>
+ * <p>
+ * The Digester object can be configured by passing in initialization
+ * parameters. Currently the only parameter that is supported is the
+ * <code>validating</code> parameter. This value is set to <code>false</code>
+ * by default. To enable DTD validation for XML Definition files, give the init
+ * method a parameter with a key of
+ * <code>org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE</code>
+ * and a value of <code>&quot;true&quot;</code>. <p/>
+ * <p>
+ * The Definition objects are stored internally in a Map. The Map is stored as
+ * an instance variable rather than a local variable in the <code>read</code>
+ * method. This means that instances of this class are <strong>not</strong>
+ * thread-safe and access by multiple threads must be synchronized.
+ * </p>
  *
  * @version $Rev$ $Date$
  */
@@ -61,7 +65,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * Digester validation parameter name.
      */
     public static final String PARSER_VALIDATE_PARAMETER_NAME =
-        "definitions-parser-validate";
+        "org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE";
 
     // Digester rules constants for tag interception.
 
