@@ -46,13 +46,6 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
         "org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG@";
 
     /**
-     * Name of the attribute inside the request that will be used to get the key
-     * of the definitions factory to be used.
-     */
-    public static final String DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME =
-        "org.apache.tiles.DEFINITIONS_FACTORY.key";
-
-    /**
      * Maps definition factories to their keys.
      */
     protected Map<String, DefinitionsFactory> key2definitionsFactory;
@@ -73,7 +66,7 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      * It represents an object able to return a key from a request. Each key
      * maps a different {@link DefinitionsFactory}.
      */
-    public interface KeyExtractor {
+    public static interface KeyExtractor {
 
         /**
          * Returns the definitions factory key.
@@ -88,7 +81,14 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      * This is the default factory key. Takes the key from the request-scoped
      * attribute <code>DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME</code>.
      */
-    protected class DefaultKeyExtractor implements KeyExtractor {
+    public static class DefaultKeyExtractor implements KeyExtractor {
+
+        /**
+         * Name of the attribute inside the request that will be used to get the
+         * key of the definitions factory to be used.
+         */
+        public static final String DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME =
+            "org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.DefaultKeyExtractor.KEY";
 
         /**
          * Returns the definitions factory key.
