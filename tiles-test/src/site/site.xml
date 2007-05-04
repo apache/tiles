@@ -24,11 +24,6 @@
 <project name="Apache Tiles - Test web application">
     <body>
 
-        <links>
-            <item name="Apache" href="http://www.apache.org" />
-            <item name="Tiles 2" href="http://tiles.apache.org" />
-        </links>
-
         <menu name="Apache Tiles">
             <item
                    name="Home"
