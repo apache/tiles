@@ -29,6 +29,7 @@
     </bannerLeft>
     <bannerRight>
         <name>Apache Tiles 2</name>
+        <src>http://tiles.apache.org/images/logo.png</src>
         <href>http://tiles.apache.org</href>
     </bannerRight>
     <body>

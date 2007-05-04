@@ -21,33 +21,24 @@
  * under the License.
  */
 -->
-<project name="Apache Struts - Tiles 2 - Core">
+<project name="Apache Tiles - Assembly">
     <body>
 
-        <menu name="Documentation">
-            <item
-                    name="Javadoc"
-                    href="/apidocs/index.html"/>
-            <item
-                    name="Taglibdoc"
-                    href="/tlddoc/index.html"/>
-            <item
-                    name="Taglib Reference"
-                    href="/tagreference.html"/>
-            <item
-                    name="DTD Doc"
-                    href="/dtddoc/index.html"/>
+        <links>
+            <item name="Apache" href="http://www.apache.org" />
+            <item name="Tiles 2" href="http://tiles.apache.org" />
+        </links>
 
-        </menu>
-        <menu name="Quick Links">
+        <menu name="Apache Tiles">
             <item
-                    name="Struts"
-                    href="http://struts.apache.org/"/>
+                   name="Home"
+                   href="../../index.html"/>
             <item
-                    name="Struts Sandbox"
-                    href="http://struts.apache.org/struts-sandbox"/>
+                   name="Parent module"
+                   href="../index.html"/>
         </menu>
 
+        ${modules}
         ${reports}
 
     </body>

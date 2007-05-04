@@ -21,16 +21,7 @@
  * under the License.
  */
 -->
-<project name="Apache Struts - Tiles 2 - Core">
-    <bannerLeft>
-        <name>Apache Software Foundation</name>
-        <src>http://www.apache.org/images/asf-logo.gif</src>
-        <href>http://www.apache.org</href>
-    </bannerLeft>
-    <bannerRight>
-        <name>Apache Tiles 2</name>
-        <href>http://tiles.apache.org</href>
-    </bannerRight>
+<project name="Apache Tiles - Test web application">
     <body>
 
         <links>
