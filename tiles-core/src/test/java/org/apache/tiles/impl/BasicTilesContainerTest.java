@@ -20,14 +20,22 @@
  */
 package org.apache.tiles.impl;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Vector;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.shale.test.mock.MockHttpServletRequest;
+import org.apache.shale.test.mock.MockHttpServletResponse;
+import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.easymock.EasyMock;
@@ -37,6 +45,17 @@ import org.easymock.EasyMock;
  * @version $Rev$ $Date$
  */
 public class BasicTilesContainerTest extends TestCase {
+
+    /**
+     * The logging object.
+     */
+    private static final Log LOG = LogFactory
+            .getLog(BasicTilesContainerTest.class);
+
+    /**
+     * A sample integer value to check object rendering.
+     */
+    private static final int SAMPLE_INT = 15;
 
     /**
      * The container.
@@ -79,5 +98,29 @@ public class BasicTilesContainerTest extends TestCase {
         assertNotNull(container.getContextFactory());
         assertNotNull(container.getPreparerFactory());
         assertNotNull(container.getDefinitionsFactory());
+    }
+
+    /**
+     * Tests that attributes of type "object" won't be rendered.
+     *
+     * @throws IOException If something goes wrong, but it's not a Tiles
+     * exception.
+     */
+    public void testObjectAttribute() throws IOException {
+        Attribute attribute = new Attribute();
+        HttpServletRequest request = new MockHttpServletRequest();
+        HttpServletResponse response = new MockHttpServletResponse();
+        boolean exceptionFound = false;
+
+        attribute.setValue(new Integer(SAMPLE_INT)); // A simple object
+        try {
+            container.render(attribute, null, request, response);
+        } catch (TilesException e) {
+            LOG.debug("Intercepted a TilesException, it is correct", e);
+            exceptionFound = true;
+        }
+
+        assertTrue("An attribute of 'object' type cannot be rendered",
+                exceptionFound);
     }
 }

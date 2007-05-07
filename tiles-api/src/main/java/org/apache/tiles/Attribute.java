@@ -48,6 +48,11 @@ public class Attribute implements Serializable {
     public static final String STRING = "string";
 
     /**
+     * Attribute of type object.
+     */
+    public static final String OBJECT = "object";
+
+    /**
      * Role associated to this attribute.
      */
     protected String role = null;

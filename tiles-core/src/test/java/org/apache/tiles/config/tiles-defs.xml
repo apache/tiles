@@ -41,6 +41,7 @@
 	  <put-attribute name="menu"   value="doc.menu.main" />
 	  <put-attribute name="footer" value="/common/footer.jsp" />
 	  <put-attribute name="body"   value="doc.portal.body" />
+      <put-attribute name="bean"   value="This is an object" type="object" />
   </definition>
 
   <!-- =======================================================  -->

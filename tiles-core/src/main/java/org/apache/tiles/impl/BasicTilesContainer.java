@@ -434,7 +434,13 @@ public class BasicTilesContainer implements TilesContainer {
         TilesRequestContext request = getRequestContext(requestItems);
 
         String type = calculateType(attr, request);
-        if ("string".equalsIgnoreCase(type)) {
+
+        if (Attribute.OBJECT.equals(type)) {
+            throw new TilesException(
+                    "Cannot insert an attribute of 'object' type");
+        }
+
+        if (Attribute.STRING.equals(type)) {
             writer.write(attr.getValue().toString());
             return;
 
@@ -488,6 +494,8 @@ public class BasicTilesContainer implements TilesContainer {
                 } else {
                     type = Attribute.STRING;
                 }
+            } else {
+                type = Attribute.OBJECT;
             }
             if (type == null) {
                 throw new TilesException("Unrecognized type for attribute value "
