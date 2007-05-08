@@ -24,6 +24,7 @@ package org.apache.tiles.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Attribute.AttributeType;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -176,11 +177,11 @@ public class DefinitionsImpl implements Definitions {
      * @return <code>true</code> if the attribute is a definition.
      */
     protected boolean isDefinitionType(Attribute attr) {
-        boolean explicit = (attr.getType() != null && (attr.getType()
-                .equalsIgnoreCase("definition") || attr.getType()
-                .equalsIgnoreCase("instance")));
+        AttributeType type = attr.getType();
 
-        boolean implicit = attr.getType() == null && attr.getValue() != null
+        boolean explicit = type == AttributeType.DEFINITION;
+
+        boolean implicit = type == null && attr.getValue() != null
                 && baseDefinitions.containsKey(attr.getValue().toString());
 
         return explicit || implicit;
@@ -209,7 +210,7 @@ public class DefinitionsImpl implements Definitions {
                     Definition subDef =
                         getDefinitionByAttribute(attr, locale);
                     attr.setAttributes(subDef.getAttributes());
-                    attr.setType("definition");
+                    attr.setType(AttributeType.DEFINITION);
                 }
             }
         }

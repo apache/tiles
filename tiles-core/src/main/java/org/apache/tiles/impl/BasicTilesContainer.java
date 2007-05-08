@@ -27,6 +27,7 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.context.BasicAttributeContext;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
@@ -433,14 +434,14 @@ public class BasicTilesContainer implements TilesContainer {
         AttributeContext context = getAttributeContext(requestItems);
         TilesRequestContext request = getRequestContext(requestItems);
 
-        String type = calculateType(attr, request);
+        AttributeType type = calculateType(attr, request);
 
-        if (Attribute.OBJECT.equals(type)) {
+        if (AttributeType.OBJECT == type) {
             throw new TilesException(
                     "Cannot insert an attribute of 'object' type");
         }
 
-        if (Attribute.STRING.equals(type)) {
+        if (AttributeType.STRING == type) {
             writer.write(attr.getValue().toString());
             return;
 
@@ -468,7 +469,7 @@ public class BasicTilesContainer implements TilesContainer {
      * @return <code>true</code> if the attribute is a definition.
      */
     private boolean isDefinition(Attribute attr, Object... requestItems) {
-        return Attribute.DEFINITION.equals(attr.getType())
+        return AttributeType.DEFINITION == attr.getType()
                 || isValidDefinition(attr.getValue().toString(), requestItems);
     }
 
@@ -480,22 +481,22 @@ public class BasicTilesContainer implements TilesContainer {
      * @return The calculated attribute type.
      * @throws TilesException If the type is not recognized.
      */
-    private String calculateType(Attribute attr,
+    private AttributeType calculateType(Attribute attr,
             TilesRequestContext request) throws TilesException {
-        String type = attr.getType();
+        AttributeType type = attr.getType();
         if (type == null) {
             Object valueContent = attr.getValue();
             if (valueContent instanceof String) {
                 String valueString = (String) valueContent;
                 if (isValidDefinition(request, valueString)) {
-                    type = Attribute.DEFINITION;
+                    type = AttributeType.DEFINITION;
                 } else if (valueString.startsWith("/")) {
-                    type = Attribute.TEMPLATE;
+                    type = AttributeType.TEMPLATE;
                 } else {
-                    type = Attribute.STRING;
+                    type = AttributeType.STRING;
                 }
             } else {
-                type = Attribute.OBJECT;
+                type = AttributeType.OBJECT;
             }
             if (type == null) {
                 throw new TilesException("Unrecognized type for attribute value "

@@ -21,6 +21,7 @@
 package org.apache.tiles.impl.mgmt;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactory;
@@ -158,7 +159,7 @@ public class DefinitionManager {
      */
     private boolean isDefinition(Attribute attribute,
             TilesRequestContext request) throws DefinitionsFactoryException {
-        boolean explicit =  Attribute.DEFINITION.equals(attribute.getType());
+        boolean explicit = AttributeType.DEFINITION == attribute.getType();
         boolean implicit = attribute.getType() == null
                 && (getDefinition((String) attribute.getValue(), request) != null);
         return explicit || implicit;

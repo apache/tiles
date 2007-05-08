@@ -26,6 +26,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.Filter;
@@ -243,7 +244,7 @@ public class TilesDecorationFilter implements Filter {
         /** {@inheritDoc} */
         public void mutate(AttributeContext ctx, ServletRequest req) {
             Attribute attr = new Attribute();
-            attr.setType(Attribute.TEMPLATE);
+            attr.setType(AttributeType.TEMPLATE);
             attr.setName(definitionAttributeName);
             attr.setValue(getRequestBase(req));
             ctx.putAttribute(definitionAttributeName, attr);

@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.Attribute.AttributeType;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TryCatchFinally;
@@ -196,7 +197,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     public void processNestedTag(PutAttributeTag nestedTag) {
         Attribute attribute = new Attribute(
             nestedTag.getValue(), nestedTag.getRole(),
-            nestedTag.getType());
+            AttributeType.getType(nestedTag.getType()));
 
         attributeContext.putAttribute(
             nestedTag.getName(),

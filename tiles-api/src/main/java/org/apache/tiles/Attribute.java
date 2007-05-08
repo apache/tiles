@@ -33,24 +33,79 @@ import java.util.Map;
 public class Attribute implements Serializable {
 
     /**
-     * Attribute of type definition.
+     * Attribute types.
      */
-    public static final String DEFINITION = "definition";
+    public static enum AttributeType {
+        /**
+         * Attribute of type string.
+         */
+        STRING("string"),
 
-    /**
-     * Attribute of type template.
-     */
-    public static final String TEMPLATE = "template";
+        /**
+         * Attribute of type definition.
+         */
+        DEFINITION("definition"),
 
-    /**
-     * Attribute of type string.
-     */
-    public static final String STRING = "string";
+        /**
+         * Attribute of type template.
+         */
+        TEMPLATE("template"),
 
-    /**
-     * Attribute of type object.
-     */
-    public static final String OBJECT = "object";
+        /**
+         * Attribute of type object.
+         */
+        OBJECT("object");
+
+        /**
+         * The string representation of the enum element.
+         */
+        private String stringRepresentation;
+
+        /**
+         * Maps the string representation to the attribute type.
+         */
+        private static Map<String, AttributeType> representation2type;
+
+        static {
+            representation2type = new HashMap<String, AttributeType>();
+            representation2type.put("string", AttributeType.STRING);
+            representation2type.put("definition", AttributeType.DEFINITION);
+            representation2type.put("template", AttributeType.TEMPLATE);
+            representation2type.put("object", AttributeType.OBJECT);
+        }
+
+        /**
+         * Returns the type for the given string representation.
+         *
+         * @param stringRepresentation The string representation of the needed
+         * type.
+         * @return The corresponding attribute type, if found, or
+         * <code>null</code> if not.
+         */
+        public static AttributeType getType(String stringRepresentation) {
+            return representation2type.get(stringRepresentation);
+        }
+
+        /**
+         * Constructor.
+         *
+         * @param stringRepresentation The string representation of the enum
+         * element.
+         */
+        private AttributeType(String stringRepresentation) {
+            this.stringRepresentation = stringRepresentation;
+        }
+
+        /**
+         * Returns the string representation of the element.
+         *
+         * @return The string representation.
+         */
+        @Override
+        public String toString() {
+            return stringRepresentation;
+        }
+    };
 
     /**
      * Role associated to this attribute.
@@ -66,7 +121,7 @@ public class Attribute implements Serializable {
      * The type of the attribute. It can be <code>string</code>,
      * <code>template</code>, <code>definition</code>.
      */
-    private String type = null;
+    private AttributeType type = null;
 
     /**
      * The name of the attribute. If it is <code>null</code>, it should be used
@@ -144,7 +199,7 @@ public class Attribute implements Serializable {
      * @param role  Asociated role.
      * @param type  Attribute type.
      */
-    public Attribute(Object value, String role, String type) {
+    public Attribute(Object value, String role, AttributeType type) {
         this.value = value;
         this.role = role;
         this.type = type;
@@ -159,7 +214,7 @@ public class Attribute implements Serializable {
      * @param type  Attribute type.
      */
     public Attribute(String name, Object value, String role,
-            String type) {
+            AttributeType type) {
         this.name = name;
         this.value = value;
         this.role = role;
@@ -212,19 +267,18 @@ public class Attribute implements Serializable {
      * Returns the type of this attribute.
      *
      * @return The attribute type. It can be <code>string</code>,
-     * <code>template</code>, <code>definition</code>.
+     * <code>template</code>, <code>definition</code>, <code>object</code>.
      */
-    public String getType() {
+    public AttributeType getType() {
         return type;
     }
 
     /**
      * Sets the type of this attribute.
      *
-     * @param type The attribute type. It can be <code>string</code>,
-     * <code>template</code>, <code>definition</code>.
+     * @param type The attribute type.
      */
-    public void setType(String type) {
+    public void setType(AttributeType type) {
         this.type = type;
     }
 

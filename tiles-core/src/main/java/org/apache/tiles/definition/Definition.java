@@ -24,6 +24,7 @@ package org.apache.tiles.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.mgmt.TileDefinition;
 
 import java.io.Serializable;
@@ -129,7 +130,7 @@ public class Definition extends TileDefinition implements Serializable {
      * @param type    attribute type: template, string, definition
      * @param role    Determine if content is used by get tag. If user is in role, content is used.
      */
-    public void put(String name, Object content, String type, String role) {
+    public void put(String name, Object content, AttributeType type, String role) {
         // Is there a type set ?
         // First check direct attribute, and translate it to a valueType.
         // Then, evaluate valueType, and create requested typed attribute.

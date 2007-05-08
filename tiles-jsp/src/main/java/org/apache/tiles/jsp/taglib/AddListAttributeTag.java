@@ -22,6 +22,7 @@
 package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Attribute.AttributeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +93,7 @@ public class AddListAttributeTag extends AddAttributeTag
     public void processNestedTag(AddAttributeTag nestedTag) {
         Attribute attribute = new Attribute(
             nestedTag.getValue(), nestedTag.getRole(),
-            nestedTag.getType());
+            AttributeType.getType(nestedTag.getType()));
 
         this.addValue(attribute);
     }

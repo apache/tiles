@@ -22,9 +22,13 @@
 package org.apache.tiles.definition.digester;
 
 import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.Rule;
+import org.apache.tiles.Attribute;
+import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -131,6 +135,23 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * The handler to create list attributes.
      */
     private static final String LIST_HANDLER_CLASS = PACKAGE_NAME + ".context.ListAttribute";
+
+    /**
+     * Digester rule to manage attribute filling.
+     */
+    private static class FillAttributeRule extends Rule {
+
+        /** {@inheritDoc} */
+        @Override
+        public void begin(String namespace, String name, Attributes attributes)
+                throws Exception {
+            Attribute attribute = (Attribute) digester.peek();
+            attribute.setName(attributes.getValue("name"));
+            attribute.setValue(attributes.getValue("value"));
+            attribute.setType(AttributeType
+                    .getType(attributes.getValue("type")));
+        }
+    }
 
     /**
      * <code>Digester</code> object used to read Definition data
@@ -278,7 +299,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // SetNext and CallMethod use rule.end() method. So, placing SetNext in
         // first position ensure it will be called last (sic).
         digester.addObjectCreate(PUT_TAG, PUT_ATTRIBUTE_HANDLER_CLASS);
-        digester.addSetProperties(PUT_TAG);
+        digester.addRule(PUT_TAG, new FillAttributeRule());
         digester.addSetNext(PUT_TAG, "addAttribute", PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addCallMethod(PUT_TAG, "setBody", 0);
         // TileDefinition level list rules
@@ -290,7 +311,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // We use Attribute class to avoid rewriting a new class.
         // Name part can't be used in listElement attribute.
         digester.addObjectCreate(ADD_LIST_ELE_TAG, PUT_ATTRIBUTE_HANDLER_CLASS);
-        digester.addSetProperties(ADD_LIST_ELE_TAG);
+        digester.addRule(ADD_LIST_ELE_TAG, new FillAttributeRule());
         digester.addSetNext(ADD_LIST_ELE_TAG, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addCallMethod(ADD_LIST_ELE_TAG, "setBody", 0);
 

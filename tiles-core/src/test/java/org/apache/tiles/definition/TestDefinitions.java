@@ -28,6 +28,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Attribute.AttributeType;
 
 /**
  * Tests the DefinitionsImpl class.
@@ -234,7 +235,7 @@ public class TestDefinitions extends TestCase {
         Attribute attr = new Attribute();
         attr.setName("attr1");
         attr.setValue("tiles.def2");
-        attr.setType("definition");
+        attr.setType(AttributeType.DEFINITION);
         def.addAttribute(attr);
         defs.put(def.getName(), def);
 
