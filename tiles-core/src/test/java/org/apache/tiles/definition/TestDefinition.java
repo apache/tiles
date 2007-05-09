@@ -21,6 +21,7 @@
 
 package org.apache.tiles.definition;
 
+import org.apache.tiles.Attribute;
 import org.apache.tiles.Attribute.AttributeType;
 
 import junit.framework.Test;
@@ -70,11 +71,13 @@ public class TestDefinition extends TestCase {
         Definition def = new Definition();
         def.setName("test1");
         def.setTemplate("/page1.jsp");
-        def.put("attr1", new Definition(), AttributeType.DEFINITION, null);
+        def.put("attr1", "test.definition.name", AttributeType.DEFINITION,
+                null);
 
-        Object attr1 = def.getAttribute("attr1");
+        Attribute attr1 = def.getAttribute("attr1");
         assertNotNull("Null attribute.", attr1);
-        assertTrue("Wrong attribute type", attr1 instanceof Definition);
+        assertTrue("Wrong attribute type",
+                attr1.getType() == AttributeType.DEFINITION);
     }
 
 

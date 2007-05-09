@@ -174,22 +174,31 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "test.def.overridden definition in FRENCH locale not found.",
                 factory.getDefinition("test.def.overridden", frenchContext));
 
-        assertEquals("Incorrect default country value", "default",
-                factory.getDefinition("test.def1", emptyContext).getAttribute("country"));
-        assertEquals("Incorrect US country value", "US",
-                factory.getDefinition("test.def1", usContext).getAttribute("country"));
-        assertEquals("Incorrect France country value", "France",
-                factory.getDefinition("test.def1", frenchContext).getAttribute("country"));
-        assertEquals("Incorrect Chinese country value (should be default)", "default",
-                factory.getDefinition("test.def1", chinaContext).getAttribute("country"));
-        assertEquals("Incorrect default country value", "default",
-                factory.getDefinition("test.def.overridden", emptyContext).getAttribute("country"));
-        assertEquals("Incorrect default title value", "Definition to be overridden",
-                factory.getDefinition("test.def.overridden", emptyContext).getAttribute("title"));
-        assertEquals("Incorrect France country value", "France",
-                factory.getDefinition("test.def.overridden", frenchContext).getAttribute("country"));
-        assertEquals("Incorrect France title value", "Definition to be extended",
-                factory.getDefinition("test.def.overridden", frenchContext).getAttribute("title"));
+        assertEquals("Incorrect default country value", "default", factory
+                .getDefinition("test.def1", emptyContext).getAttribute(
+                        "country").getValue());
+        assertEquals("Incorrect US country value", "US", factory.getDefinition(
+                "test.def1", usContext).getAttribute("country").getValue());
+        assertEquals("Incorrect France country value", "France", factory
+                .getDefinition("test.def1", frenchContext).getAttribute(
+                        "country").getValue());
+        assertEquals("Incorrect Chinese country value (should be default)",
+                "default", factory.getDefinition("test.def1", chinaContext)
+                        .getAttribute("country").getValue());
+        assertEquals("Incorrect default country value", "default", factory
+                .getDefinition("test.def.overridden", emptyContext)
+                .getAttribute("country").getValue());
+        assertEquals("Incorrect default title value",
+                "Definition to be overridden", factory.getDefinition(
+                        "test.def.overridden", emptyContext).getAttribute(
+                        "title").getValue());
+        assertEquals("Incorrect France country value", "France", factory
+                .getDefinition("test.def.overridden", frenchContext)
+                .getAttribute("country").getValue());
+        assertEquals("Incorrect France title value",
+                "Definition to be extended", factory.getDefinition(
+                        "test.def.overridden", frenchContext).getAttribute(
+                        "title").getValue());
     }
 
     /**
@@ -252,14 +261,17 @@ public class TestUrlDefinitionsFactory extends TestCase {
         assertNotNull("test.def1 France definition not found.", definitions.getDefinition("test.def1", Locale.FRENCH));
         assertNotNull("test.def1 China should return default.", definitions.getDefinition("test.def1", Locale.CHINA));
 
-        assertEquals("Incorrect default country value", "default",
-                definitions.getDefinition("test.def1").getAttribute("country"));
-        assertEquals("Incorrect US country value", "US",
-                definitions.getDefinition("test.def1", Locale.US).getAttribute("country"));
-        assertEquals("Incorrect France country value", "France",
-                definitions.getDefinition("test.def1", Locale.FRENCH).getAttribute("country"));
-        assertEquals("Incorrect Chinese country value (should default)", "default",
-                definitions.getDefinition("test.def1", Locale.CHINA).getAttribute("country"));
+        assertEquals("Incorrect default country value", "default", definitions
+                .getDefinition("test.def1").getAttribute("country").getValue());
+        assertEquals("Incorrect US country value", "US", definitions
+                .getDefinition("test.def1", Locale.US).getAttribute("country")
+                .getValue());
+        assertEquals("Incorrect France country value", "France", definitions
+                .getDefinition("test.def1", Locale.FRENCH).getAttribute(
+                        "country").getValue());
+        assertEquals("Incorrect Chinese country value (should default)",
+                "default", definitions.getDefinition("test.def1", Locale.CHINA)
+                        .getAttribute("country").getValue());
     }
 
     /**

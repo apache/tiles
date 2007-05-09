@@ -117,7 +117,7 @@ public class TestDefinitions extends TestCase {
         assertEquals("Incorrect template value.", "/test1.jsp", def
                 .getTemplate());
         assertEquals("Incorrect attr1 value", "value1", def
-                .getAttribute("attr1"));
+                .getAttribute("attr1").getValue());
 
         attr = def.getAttributes().get("attr1");
         assertNotNull("Dependent attribute not found.", attr);
@@ -134,8 +134,8 @@ public class TestDefinitions extends TestCase {
                 definitions.getDefinition("child.def1"));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("child.def1").getTemplate());
-        assertEquals("Incorrect attr1 value", "New value",
-                definitions.getDefinition("child.def1").getAttribute("attr1"));
+        assertEquals("Incorrect attr1 value", "New value", definitions
+                .getDefinition("child.def1").getAttribute("attr1").getValue());
 
         attr = def.getAttributes().get("attr1");
         assertNotNull("Dependent attribute not found.", attr);
@@ -192,29 +192,31 @@ public class TestDefinitions extends TestCase {
                 definitions.getDefinition("parent.def1"));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("parent.def1").getTemplate());
-        assertEquals("Incorrect attr1 value", "value1",
-                definitions.getDefinition("parent.def1").getAttribute("attr1"));
+        assertEquals("Incorrect attr1 value", "value1", definitions
+                .getDefinition("parent.def1").getAttribute("attr1").getValue());
 
         assertNotNull("Couldn't get child.",
                 definitions.getDefinition("child.def1"));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("child.def1").getTemplate());
-        assertEquals("Incorrect attr1 value", "New value",
-                definitions.getDefinition("child.def1").getAttribute("attr1"));
+        assertEquals("Incorrect attr1 value", "New value", definitions
+                .getDefinition("child.def1").getAttribute("attr1").getValue());
 
         assertNotNull("Couldn't get parent.",
                 definitions.getDefinition("parent.def1", Locale.US));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("parent.def1", Locale.US).getTemplate());
-        assertEquals("Incorrect attr1 value", "value1",
-                definitions.getDefinition("parent.def1", Locale.US).getAttribute("attr1"));
+        assertEquals("Incorrect attr1 value", "value1", definitions
+                .getDefinition("parent.def1", Locale.US).getAttribute("attr1")
+                .getValue());
 
         assertNotNull("Couldn't get child.",
                 definitions.getDefinition("child.def1", Locale.US));
         assertEquals("Incorrect template value." , "/test1.jsp",
                 definitions.getDefinition("child.def1", Locale.US).getTemplate());
-        assertEquals("Incorrect attr1 value", "US Value",
-                definitions.getDefinition("child.def1", Locale.US).getAttribute("attr1"));
+        assertEquals("Incorrect attr1 value", "US Value", definitions
+                .getDefinition("child.def1", Locale.US).getAttribute("attr1")
+                .getValue());
     }
 
     /**
@@ -319,13 +321,13 @@ public class TestDefinitions extends TestCase {
         Definition newDef = definitions.getDefinition("parent.def1");
         assertNotNull("Parent definition not found.", newDef);
 
-        Object newAttr = newDef.getAttribute("attr1");
+        Object newAttr = newDef.getAttribute("attr1").getValue();
         assertNotNull("Dependent attribute not found.", newAttr);
 
         newDef = definitions.getDefinition("parent.notype.def1");
         assertNotNull("Parent definition not found.", newDef);
 
-        newAttr = newDef.getAttribute("attr1");
+        newAttr = newDef.getAttribute("attr1").getValue();
         assertNotNull("Dependent attribute not found.", newAttr);
 
         assertEquals("Incorrect dependent attribute name.", "tiles.def2",
@@ -335,14 +337,14 @@ public class TestDefinitions extends TestCase {
         newDef = definitions.getDefinition("parent.def1", Locale.ITALIAN);
         assertNotNull("Parent definition not found.", newDef);
 
-        newAttr = newDef.getAttribute("attr1");
+        newAttr = newDef.getAttribute("attr1").getValue();
         assertNotNull("Dependent attribute not found.", newAttr);
 
         newDef = definitions.getDefinition("parent.notype.def1",
                 Locale.ITALIAN);
         assertNotNull("Parent definition not found.", newDef);
 
-        newAttr = newDef.getAttribute("attr1");
+        newAttr = newDef.getAttribute("attr1").getValue();
         assertNotNull("Dependent attribute not found.", newAttr);
 
         assertEquals("Incorrect dependent attribute name.", "tiles.def2",

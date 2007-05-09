@@ -131,19 +131,14 @@ public class TileDefinition {
     }
 
     /**
-     * Returns the value of the named attribute as an Object, or null if no
-     * attribute of the given name exists.
+     * Returns the attribute for the given name, or null if no attribute of the
+     * given name exists.
      *
      * @param key name of the attribute
      * @return requested attribute or null if not found
      */
-    public Object getAttribute(String key) {
-        Attribute attribute = attributes.get(key);
-        if (attribute != null) {
-            return attribute.getValue();
-        } else {
-            return null;
-        }
+    public Attribute getAttribute(String key) {
+        return attributes.get(key);
     }
 
     /**
