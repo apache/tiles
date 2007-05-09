@@ -431,46 +431,36 @@ public class BasicTilesContainer implements TilesContainer {
     /** {@inheritDoc} */
     public void render(Attribute attr, Writer writer, Object... requestItems)
         throws TilesException, IOException {
-        AttributeContext context = getAttributeContext(requestItems);
         TilesRequestContext request = getRequestContext(requestItems);
 
-        AttributeType type = calculateType(attr, request);
+        if (attr == null) {
+            throw new TilesException("Cannot render a null attribute");
+        }
 
-        if (AttributeType.OBJECT == type) {
-            throw new TilesException(
+        AttributeType type = attr.getType();
+        if (type == null) {
+            type = calculateType(attr, request);
+            attr.setType(type);
+        }
+
+        switch (type) {
+            case OBJECT:
+                throw new TilesException(
                     "Cannot insert an attribute of 'object' type");
+            case STRING:
+                writer.write(attr.getValue().toString());
+                break;
+            case DEFINITION:
+                render(request, attr.getValue().toString());
+                break;
+            case TEMPLATE:
+                request.dispatch(attr.getValue().toString());
+                break;
+            default: // should not happen
+                throw new TilesException(
+                        "Unrecognized type for attribute value "
+                        + attr.getValue());
         }
-
-        if (AttributeType.STRING == type) {
-            writer.write(attr.getValue().toString());
-            return;
-
-        }
-
-        Map<String, Attribute> attrs = attr.getAttributes();
-        if (attrs != null) {
-            for (Map.Entry<String, Attribute> a : attrs.entrySet()) {
-                context.putAttribute(a.getKey(), a.getValue());
-            }
-        }
-
-        if (isDefinition(attr, requestItems)) {
-            render(request, attr.getValue().toString());
-        } else {
-            request.dispatch(attr.getValue().toString());
-        }
-    }
-
-    /**
-     * Checks if an attribute contains a definition.
-     *
-     * @param attr The attribute to check.
-     * @param requestItems The request items.
-     * @return <code>true</code> if the attribute is a definition.
-     */
-    private boolean isDefinition(Attribute attr, Object... requestItems) {
-        return AttributeType.DEFINITION == attr.getType()
-                || isValidDefinition(attr.getValue().toString(), requestItems);
     }
 
     /**
@@ -483,26 +473,21 @@ public class BasicTilesContainer implements TilesContainer {
      */
     private AttributeType calculateType(Attribute attr,
             TilesRequestContext request) throws TilesException {
-        AttributeType type = attr.getType();
-        if (type == null) {
-            Object valueContent = attr.getValue();
-            if (valueContent instanceof String) {
-                String valueString = (String) valueContent;
-                if (isValidDefinition(request, valueString)) {
-                    type = AttributeType.DEFINITION;
-                } else if (valueString.startsWith("/")) {
-                    type = AttributeType.TEMPLATE;
-                } else {
-                    type = AttributeType.STRING;
-                }
+        AttributeType type;
+        Object valueContent = attr.getValue();
+        if (valueContent instanceof String) {
+            String valueString = (String) valueContent;
+            if (isValidDefinition(request, valueString)) {
+                type = AttributeType.DEFINITION;
+            } else if (valueString.startsWith("/")) {
+                type = AttributeType.TEMPLATE;
             } else {
-                type = AttributeType.OBJECT;
+                type = AttributeType.STRING;
             }
-            if (type == null) {
-                throw new TilesException("Unrecognized type for attribute value "
-                    + attr.getValue());
-            }
+        } else {
+            type = AttributeType.OBJECT;
         }
+
         return type;
     }
 

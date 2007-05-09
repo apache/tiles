@@ -24,10 +24,8 @@ package org.apache.tiles.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
-import org.apache.tiles.Attribute.AttributeType;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -80,7 +78,6 @@ public class DefinitionsImpl implements Definitions {
     public void addDefinitions(Map<String, Definition> defsMap)
             throws NoSuchDefinitionException {
         this.baseDefinitions.putAll(defsMap);
-        resolveAttributeDependencies(null);
         resolveInheritances();
     }
 
@@ -95,7 +92,6 @@ public class DefinitionsImpl implements Definitions {
      */
     public void addDefinitions(Map<String, Definition> defsMap, Locale locale) throws NoSuchDefinitionException {
         localeSpecificDefinitions.put(locale, defsMap);
-        resolveAttributeDependencies(locale);
         resolveInheritances(locale);
     }
 
@@ -168,52 +164,6 @@ public class DefinitionsImpl implements Definitions {
      */
     public Map<String, Definition> getBaseDefinitions() {
         return baseDefinitions;
-    }
-
-    /**
-     * Checks if an attribute is of type "definition".
-     *
-     * @param attr The attribute to check.
-     * @return <code>true</code> if the attribute is a definition.
-     */
-    protected boolean isDefinitionType(Attribute attr) {
-        AttributeType type = attr.getType();
-
-        boolean explicit = type == AttributeType.DEFINITION;
-
-        boolean implicit = type == null && attr.getValue() != null
-                && baseDefinitions.containsKey(attr.getValue().toString());
-
-        return explicit || implicit;
-
-    }
-
-    /**
-     * Resolves attribute dependencies for the given locale. If the locale is
-     * <code>null</code>, it resolves base attribute dependencies.
-     *
-     * @param locale The locale to use.
-     */
-    protected void resolveAttributeDependencies(Locale locale) {
-        if (locale != null) {
-            resolveAttributeDependencies(null); // FIXME Is it necessary?
-        }
-        Map<String, Definition> defsMap = localeSpecificDefinitions.get(locale);
-        if (defsMap == null) {
-            return;
-        }
-
-        for (Definition def : defsMap.values()) {
-            Map<String, Attribute> attributes = def.getAttributes();
-            for (Attribute attr : attributes.values()) {
-                if (isDefinitionType(attr)) {
-                    Definition subDef =
-                        getDefinitionByAttribute(attr, locale);
-                    attr.setAttributes(subDef.getAttributes());
-                    attr.setType(AttributeType.DEFINITION);
-                }
-            }
-        }
     }
 
     /**
@@ -295,15 +245,13 @@ public class DefinitionsImpl implements Definitions {
      * @param parent The parent definition.
      * @param child  The child that will be overloaded.
      */
+    // FIXME This is the same as DefinitionManager.overload.
     protected void overload(Definition parent,
                             Definition child) {
         // Iterate on each parent's attribute and add it if not defined in child.
-        Iterator<String> parentAttributes = parent.getAttributes().keySet()
-                .iterator();
-        while (parentAttributes.hasNext()) {
-            String name = parentAttributes.next();
-            if (!child.getAttributes().containsKey(name)) {
-                child.put(name, parent.getAttribute(name));
+        for (Map.Entry<String, Attribute> entry : parent.getAttributes().entrySet()) {
+            if (!child.hasAttributeValue(entry.getKey())) {
+                child.putAttribute(entry.getKey(), new Attribute(entry.getValue()));
             }
         }
         // Set template and role if not setted

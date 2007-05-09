@@ -93,6 +93,10 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * @param newAttributes Attributes to add.
      */
     public void addAll(Map<String, Attribute> newAttributes) {
+        if (newAttributes == null) {
+            return;
+        }
+
         if (attributes == null) {
             attributes = new HashMap<String, Attribute>(newAttributes);
             return;

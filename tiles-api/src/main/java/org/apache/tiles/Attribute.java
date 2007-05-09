@@ -130,11 +130,6 @@ public class Attribute implements Serializable {
     private String name = null;
 
     /**
-     * The composing attributes, used to render the attribute itself.
-     */
-    private Map<String, Attribute> attributes;
-
-    /**
      * Constructor.
      *
      */
@@ -160,14 +155,6 @@ public class Attribute implements Serializable {
         this.role = attribute.role;
         this.type = attribute.type;
         this.value = attribute.getValue();
-        if (attribute.attributes != null) {
-            this.attributes = new HashMap<String, Attribute>();
-            for (Map.Entry<String, Attribute> entry : attribute.attributes
-                    .entrySet()) {
-                this.attributes.put(entry.getKey(), new Attribute(
-                        entry.getValue()));
-            }
-        }
     }
 
     /**
@@ -302,25 +289,6 @@ public class Attribute implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-
-    /**
-     * Returns the underlying attributes for this attribute.
-     *
-     * @return The attribute map.
-     */
-    public Map<String, Attribute> getAttributes() {
-        return attributes;
-    }
-
-    /**
-     * Sets the underlying attributes for this attribute.
-     *
-     * @param attributes The attribute map.
-     */
-    public void setAttributes(Map<String, Attribute> attributes) {
-        this.attributes = attributes;
     }
 
     /**

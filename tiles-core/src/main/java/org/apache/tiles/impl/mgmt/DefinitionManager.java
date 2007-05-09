@@ -21,7 +21,6 @@
 package org.apache.tiles.impl.mgmt;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactory;
@@ -138,31 +137,7 @@ public class DefinitionManager {
             this.resolveInheritance(definition, request);
         }
 
-        for (Attribute attr : definition.getAttributes().values()) {
-            if (isDefinition(attr, request)) {
-                Definition d = getDefinition(attr.getValue().toString(), request);
-                attr.setAttributes(d.getAttributes());
-            }
-        }
-
         getOrCreateDefinitions(request).put(definition.getName(), definition);
-    }
-
-    /**
-     * Checks if an attribute is a definition.
-     *
-     * @param attribute The attribute to check.
-     * @param request The current request.
-     * @return <code>true</code> if the attribute is a definition.
-     * @throws DefinitionsFactoryException If something goes wrong during
-     * checking if the attribute is a main definition.
-     */
-    private boolean isDefinition(Attribute attribute,
-            TilesRequestContext request) throws DefinitionsFactoryException {
-        boolean explicit = AttributeType.DEFINITION == attribute.getType();
-        boolean implicit = attribute.getType() == null
-                && (getDefinition((String) attribute.getValue(), request) != null);
-        return explicit || implicit;
     }
 
     /**
@@ -245,6 +220,7 @@ public class DefinitionManager {
      * @param parent The parent definition.
      * @param child  The child that will be overloaded.
      */
+    // FIXME This is the same as DefinitionsImpl.overload.
     protected void overload(Definition parent,
                             Definition child) {
         // Iterate on each parent's attribute and add it if not defined in child.
