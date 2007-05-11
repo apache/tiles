@@ -24,11 +24,11 @@ package org.apache.tiles.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tiles.Definition;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.mgmt.Definition;
 
 /**
  * Container that can be used to store multiple {@link DefinitionsFactory}

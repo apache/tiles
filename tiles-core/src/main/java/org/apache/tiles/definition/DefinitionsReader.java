@@ -23,7 +23,7 @@ package org.apache.tiles.definition;
 
 import java.util.Map;
 
-import org.apache.tiles.mgmt.Definition;
+import org.apache.tiles.Definition;
 
 /**
  * Interface for reading <code>{@link Definition}</code> from a source.

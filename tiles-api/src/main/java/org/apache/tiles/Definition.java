@@ -18,13 +18,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.mgmt;
+package org.apache.tiles;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.Attribute.AttributeType;
 
 import java.util.Map;
 import java.util.HashMap;
+
+import org.apache.tiles.Attribute.AttributeType;
 
 /**
  * A definition, i.e. a template with (completely or not) filled attributes.

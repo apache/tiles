@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.mgmt;
 
+import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 

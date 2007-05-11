@@ -24,7 +24,7 @@ package org.apache.tiles.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
-import org.apache.tiles.mgmt.Definition;
+import org.apache.tiles.Definition;
 
 import java.util.HashMap;
 import java.util.HashSet;

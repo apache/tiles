@@ -22,12 +22,12 @@ package org.apache.tiles.definition;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.Definition;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
-import org.apache.tiles.mgmt.Definition;
 import org.apache.tiles.util.ClassUtil;
 
 import java.io.FileNotFoundException;

@@ -21,11 +21,11 @@
 package org.apache.tiles.impl.mgmt;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Definition;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.tiles.mgmt.Definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

@@ -31,9 +31,9 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
-import org.apache.tiles.mgmt.Definition;
 
 /**
  * Tests the <code>org.apache.tiles.definition.digester.DigesterDefinitionsReader</code> class.

@@ -24,7 +24,7 @@ package org.apache.tiles.definition;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.tiles.mgmt.Definition;
+import org.apache.tiles.Definition;
 
 /**
  * Mock Defintions Reader implementation.  Stubs out all functionality.

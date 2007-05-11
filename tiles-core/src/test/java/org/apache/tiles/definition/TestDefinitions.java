@@ -28,8 +28,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Definition;
 import org.apache.tiles.Attribute.AttributeType;
-import org.apache.tiles.mgmt.Definition;
 
 /**
  * Tests the DefinitionsImpl class.

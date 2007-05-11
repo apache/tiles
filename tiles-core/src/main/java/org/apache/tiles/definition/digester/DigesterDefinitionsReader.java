@@ -24,11 +24,11 @@ package org.apache.tiles.definition.digester;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Definition;
 import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.context.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
-import org.apache.tiles.mgmt.Definition;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
