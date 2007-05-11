@@ -46,11 +46,6 @@ public class Definition extends TileDefinition implements Serializable {
     protected static Log log = LogFactory.getLog(Definition.class);
 
     /**
-     * Used for resolving inheritance.
-     */
-    private boolean isVisited = false;
-
-    /**
      * Constructor.
      */
     public Definition() {
@@ -138,6 +133,12 @@ public class Definition extends TileDefinition implements Serializable {
         putAttribute(name, attribute);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
+
     /**
      * Returns a description of the attributes.
      *
@@ -164,23 +165,5 @@ public class Definition extends TileDefinition implements Serializable {
      */
     public boolean isExtending() {
         return inherit != null;
-    }
-
-    /**
-     * Sets the visit flag, used during inheritance resolution.
-     *
-     * @param isVisited <code>true</code> is the definition has been visited.
-     */
-    public void setIsVisited(boolean isVisited) {
-        this.isVisited = isVisited;
-    }
-
-    /**
-     * Returns the visit flag, used during inheritance resolution.
-     *
-     * @return isVisited <code>true</code> is the definition has been visited.
-     */
-    public boolean isIsVisited() {
-        return isVisited;
     }
 }

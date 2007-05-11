@@ -26,8 +26,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @version $Rev$ $Date$
@@ -127,8 +129,10 @@ public class DefinitionsImpl implements Definitions {
      * @throws NoSuchDefinitionException If a parent definition is not found.
      */
     public void resolveInheritances() throws NoSuchDefinitionException {
+        Set<String> alreadyResolvedDefinitions = new HashSet<String>();
+
         for (Definition definition : baseDefinitions.values()) {
-            resolveInheritance(definition, null);
+            resolveInheritance(definition, null, alreadyResolvedDefinitions);
         }  // end loop
     }
 
@@ -143,8 +147,10 @@ public class DefinitionsImpl implements Definitions {
 
         Map<String, Definition> map = localeSpecificDefinitions.get(locale);
         if (map != null) {
+            Set<String> alreadyResolvedDefinitions = new HashSet<String>();
             for (Definition definition : map.values()) {
-                resolveInheritance(definition, locale);
+                resolveInheritance(definition, locale,
+                        alreadyResolvedDefinitions);
             }  // end loop
         }
     }
@@ -198,12 +204,16 @@ public class DefinitionsImpl implements Definitions {
      *
      * @param definition The definition to resolve
      * @param locale The locale to use.
+     * @param alreadyResolvedDefinitions The set of the definitions that have
+     * been already resolved.
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
      */
-    protected void resolveInheritance(Definition definition,
-                                      Locale locale) throws NoSuchDefinitionException {
+    protected void resolveInheritance(Definition definition, Locale locale,
+            Set<String> alreadyResolvedDefinitions)
+            throws NoSuchDefinitionException {
         // Already done, or not needed ?
-        if (definition.isIsVisited() || !definition.isExtending()) {
+        if (!definition.isExtending()
+                || alreadyResolvedDefinitions.contains(definition.getName())) {
             return;
         }
 
@@ -214,7 +224,7 @@ public class DefinitionsImpl implements Definitions {
         }
 
         // Set as visited to avoid endless recurisvity.
-        definition.setIsVisited(true);
+        alreadyResolvedDefinitions.add(definition.getName());
 
         // Resolve parent before itself.
         Definition parent = getDefinition(definition.getExtends(),
@@ -230,7 +240,7 @@ public class DefinitionsImpl implements Definitions {
             throw new NoSuchDefinitionException(msg);
         }
 
-        resolveInheritance(parent, locale);
+        resolveInheritance(parent, locale, alreadyResolvedDefinitions);
 
         overload(parent, definition);
     }

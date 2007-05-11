@@ -174,7 +174,7 @@ public class DefinitionManager {
             TilesRequestContext request)
         throws DefinitionsFactoryException  {
         // Already done, or not needed ?
-        if (definition.isIsVisited() || !definition.isExtending()) {
+        if (!definition.isExtending()) {
             return;
         }
 
@@ -184,15 +184,11 @@ public class DefinitionManager {
                 + "' extends='" + definition.getExtends() + "'.");
         }
 
-        // Set as visited to avoid endless recurisvity.
-        definition.setIsVisited(true);
-
         // TODO Factories our factory implementations will be context agnostic,
         //  however, this may cause errors for other implementations.
         //  we should probably make all factories agnostic and allow the manager to
         //  utilize the correct factory based on the context.
         Definition parent = getDefinition(definition.getExtends(), request);
-
 
         if (parent == null) { // error
             String msg = "Error while resolving definition inheritance: child '"
