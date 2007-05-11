@@ -26,12 +26,11 @@ import java.util.Map;
 
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
-import org.apache.tiles.mgmt.TileDefinition;
+import org.apache.tiles.mgmt.Definition;
 
 /**
  * Container that can be used to store multiple {@link DefinitionsFactory}
@@ -63,7 +62,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
             = new HashMap<String, DefinitionManager>();
 
     /** {@inheritDoc} */
-    public void register(TileDefinition definition, Object... requestItems) throws TilesException {
+    public void register(Definition definition, Object... requestItems) throws TilesException {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
                 getApplicationContext(),
                 requestItems
@@ -122,7 +121,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
      * @throws DefinitionsFactoryException If something goes wrong during adding
      * a definition, such as missing parent definitions.
      */
-    protected void register(TileDefinition definition,
+    protected void register(Definition definition,
             TilesRequestContext request) throws DefinitionsFactoryException {
         DefinitionManager mgr = getProperDefinitionManager(
                 getDefinitionsFactoryKey(request));

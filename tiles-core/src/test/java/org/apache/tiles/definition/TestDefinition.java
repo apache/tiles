@@ -23,6 +23,7 @@ package org.apache.tiles.definition;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Attribute.AttributeType;
+import org.apache.tiles.mgmt.Definition;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -24,6 +24,7 @@ package org.apache.tiles.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
+import org.apache.tiles.mgmt.Definition;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,7 +56,8 @@ public class DefinitionsImpl implements Definitions {
      */
     public DefinitionsImpl() {
         baseDefinitions = new HashMap<String, Definition>();
-        localeSpecificDefinitions = new HashMap<Locale, Map<String, Definition>>();
+        localeSpecificDefinitions =
+            new HashMap<Locale, Map<String, Definition>>();
     }
 
     /**
@@ -92,7 +94,8 @@ public class DefinitionsImpl implements Definitions {
      * @throws NoSuchDefinitionException If something goes wrong during
      * inheritance resolution.
      */
-    public void addDefinitions(Map<String, Definition> defsMap, Locale locale) throws NoSuchDefinitionException {
+    public void addDefinitions(Map<String, Definition> defsMap,
+            Locale locale) throws NoSuchDefinitionException {
         localeSpecificDefinitions.put(locale, defsMap);
         resolveInheritances(locale);
     }
@@ -109,8 +112,8 @@ public class DefinitionsImpl implements Definitions {
         Definition definition = null;
 
         if (locale != null) {
-            Map<String, Definition> localeSpecificMap = localeSpecificDefinitions
-                    .get(locale);
+            Map<String, Definition> localeSpecificMap =
+                localeSpecificDefinitions.get(locale);
             if (localeSpecificMap != null) {
                 definition = localeSpecificMap.get(name);
             }
@@ -160,7 +163,8 @@ public class DefinitionsImpl implements Definitions {
      */
     public void reset() {
         this.baseDefinitions = new HashMap<String, Definition>();
-        this.localeSpecificDefinitions = new HashMap<Locale, Map<String, Definition>>();
+        this.localeSpecificDefinitions =
+            new HashMap<Locale, Map<String, Definition>>();
     }
 
     /**
@@ -185,9 +189,7 @@ public class DefinitionsImpl implements Definitions {
         Definition retValue = null;
 
         Object attrValue = attr.getValue();
-        if (attrValue instanceof Definition) {
-            retValue = (Definition) attrValue;
-        } else if (attrValue instanceof String) {
+        if (attrValue instanceof String) {
             retValue = this.getDefinition((String) attr
                 .getValue(), locale);
         }
@@ -256,8 +258,7 @@ public class DefinitionsImpl implements Definitions {
      * @param child  The child that will be overloaded.
      */
     // FIXME This is the same as DefinitionManager.overload.
-    protected void overload(Definition parent,
-                            Definition child) {
+    protected void overload(Definition parent, Definition child) {
         // Iterate on each parent's attribute and add it if not defined in child.
         for (Map.Entry<String, Attribute> entry : parent.getAttributes().entrySet()) {
             if (!child.hasAttributeValue(entry.getKey())) {

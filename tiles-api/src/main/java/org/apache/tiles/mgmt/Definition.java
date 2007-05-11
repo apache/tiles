@@ -18,32 +18,49 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.tiles.mgmt;
 
-package org.apache.tiles.definition;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Attribute.AttributeType;
-import org.apache.tiles.mgmt.TileDefinition;
 
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * A definition, i.e. a template with (completely or not) filled attributes.
- * Attributes of a template can be defined with the help of this class.
- * An instance of this class can be used as a bean, and passed to 'insert' tag.
+ * Attributes of a template can be defined with the help of this class.<br>
+ * It can be used as a data transfer object used for registering new
+ * definitions with the Container.
  *
+ * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public class Definition extends TileDefinition implements Serializable {
-
+public class Definition {
     /**
-     * Commons Logging instance.
+     * Extends attribute value.
      */
-    protected static Log log = LogFactory.getLog(Definition.class);
+    protected String inherit;
+    /**
+     * Definition name.
+     */
+    protected String name = null;
+    /**
+     * Template path.
+     */
+    protected String template = null;
+    /**
+     * Attributes defined for the definition.
+     */
+    protected Map<String, Attribute> attributes = null;
+    /**
+     * Role associated to definition.
+     */
+    protected String role = null;
+    /**
+     * Associated ViewPreparer URL or classname, if defined.
+     */
+    protected String preparer = null;
+
 
     /**
      * Constructor.
@@ -60,7 +77,7 @@ public class Definition extends TileDefinition implements Serializable {
      *
      * @param definition The definition to copy.
      */
-    public Definition(TileDefinition definition) {
+    public Definition(Definition definition) {
         attributes = new HashMap<String, Attribute>(
             definition.getAttributes());
         this.name = definition.getName();
@@ -81,6 +98,102 @@ public class Definition extends TileDefinition implements Serializable {
         this.name = name;
         this.template = template;
         this.attributes = attributes;
+    }
+
+    /**
+     * Access method for the name property.
+     *
+     * @return the current value of the name property
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the value of the name property.
+     *
+     * @param aName the new value of the name property
+     */
+    public void setName(String aName) {
+        name = aName;
+    }
+
+    /**
+     * Access method for the template property.
+     *
+     * @return the current value of the template property
+     */
+    public String getTemplate() {
+        return template;
+    }
+
+    /**
+     * Sets the value of the template property.
+     *
+     * @param template the new value of the path property
+     */
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    /**
+     * Access method for the role property.
+     *
+     * @return the current value of the role property
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * Sets the value of the role property.
+     *
+     * @param role the new value of the path property
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    /**
+     * Access method for the attributes property.
+     * If there is no attributes, return an empty map.
+     *
+     * @return the current value of the attributes property
+     */
+    public Map<String, Attribute> getAttributes() {
+        return attributes;
+    }
+
+    /**
+     * Returns the attribute for the given name, or null if no attribute of the
+     * given name exists.
+     *
+     * @param key name of the attribute
+     * @return requested attribute or null if not found
+     */
+    public Attribute getAttribute(String key) {
+        return attributes.get(key);
+    }
+
+    /**
+     * Put a new attribute in this definition.
+     *
+     * @param key   String key for attribute
+     * @param value Attibute value.
+     */
+    public void putAttribute(String key, Attribute value) {
+        attributes.put(key, value);
+    }
+
+    /**
+     * Add an attribute to this definition.
+     * <p/>
+     * This method is used by Digester to load definitions.
+     *
+     * @param attribute Attribute to add.
+     */
+    public void addAttribute(Attribute attribute) {
+        putAttribute(attribute.getName(), attribute);
     }
 
     /**
@@ -133,10 +246,55 @@ public class Definition extends TileDefinition implements Serializable {
         putAttribute(name, attribute);
     }
 
+    /**
+     * Get associated preparerInstance.
+     *
+     * @return The preparer name.
+     */
+    public String getPreparer() {
+        return preparer;
+    }
+
+    /**
+     * Set associated preparerInstance URL.
+     *
+     * @param url Url called locally
+     */
+    public void setPreparer(String url) {
+        this.preparer = url;
+    }
+
+    /**
+     * Set extends.
+     *
+     * @param name Name of the extended definition.
+     */
+    public void setExtends(String name) {
+        inherit = name;
+    }
+
+    /**
+     * Get extends.
+     *
+     * @return Name of the extended definition.
+     */
+    public String getExtends() {
+        return inherit;
+    }
+
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
+    }
+
+    /**
+     * Get extends flag.
+     *
+     * @return <code>true</code> if this definition extends another.
+     */
+    public boolean isExtending() {
+        return inherit != null;
     }
 
     /**
@@ -156,14 +314,5 @@ public class Definition extends TileDefinition implements Serializable {
             + ", attributes="
             + attributes
             + "}\n";
-    }
-
-    /**
-     * Get extends flag.
-     *
-     * @return <code>true</code> if this definition extends another.
-     */
-    public boolean isExtending() {
-        return inherit != null;
     }
 }

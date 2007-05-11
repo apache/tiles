@@ -25,6 +25,8 @@ package org.apache.tiles.definition;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.tiles.mgmt.Definition;
+
 /**
  *
  * @version $Rev$ $Date$

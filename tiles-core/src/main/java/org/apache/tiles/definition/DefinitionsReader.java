@@ -23,11 +23,13 @@ package org.apache.tiles.definition;
 
 import java.util.Map;
 
+import org.apache.tiles.mgmt.Definition;
+
 /**
- * Interface for reading <code>{@link org.apache.tiles.definition.Definition}</code> from a source.
+ * Interface for reading <code>{@link Definition}</code> from a source.
  * <p/>
  * <p>This interface provides a standard way to read
- * <code>{@link org.apache.tiles.definition.Definition}</code> objects from a source.  Implementations
+ * <code>{@link Definition}</code> objects from a source.  Implementations
  * should define what the source is, whether it be a persistent store such as a
  * configuration file or database, or something like a web service.  The
  * DefinitionsReader is responsible for reading from a single location.  It does
@@ -50,7 +52,7 @@ public interface DefinitionsReader {
     void init(Map<String, String> params) throws DefinitionsFactoryException;
 
     /**
-     * Reads <code>{@link org.apache.tiles.definition.Definition}</code> objects from a source.
+     * Reads <code>{@link Definition}</code> objects from a source.
      * <p/>
      * Implementations should publish what type of source object is expected.
      *

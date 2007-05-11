@@ -26,7 +26,7 @@ import org.apache.tiles.TilesException;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
 import org.apache.tiles.mgmt.MutableTilesContainer;
-import org.apache.tiles.mgmt.TileDefinition;
+import org.apache.tiles.mgmt.Definition;
 import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.access.TilesAccess;
 
@@ -206,7 +206,7 @@ public class DefinitionTag extends TagSupport
 
     /** {@inheritDoc} */
     public int doEndTag() throws JspException {
-        TileDefinition d = new TileDefinition();
+        Definition d = new Definition();
         d.setName(name);
         d.setTemplate(template);
         d.setExtends(extend);

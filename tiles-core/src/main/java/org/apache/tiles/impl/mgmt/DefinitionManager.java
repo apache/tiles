@@ -22,11 +22,10 @@ package org.apache.tiles.impl.mgmt;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.Definition;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.tiles.mgmt.TileDefinition;
+import org.apache.tiles.mgmt.Definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -145,7 +144,7 @@ public class DefinitionManager {
      *
      * @param definition The definition to validate.
      */
-    private void validate(TileDefinition definition) {
+    private void validate(Definition definition) {
         Map<String, Attribute> attrs = definition.getAttributes();
         for (Attribute attribute : attrs.values()) {
             if (attribute.getName() == null) {
@@ -217,8 +216,7 @@ public class DefinitionManager {
      * @param child  The child that will be overloaded.
      */
     // FIXME This is the same as DefinitionsImpl.overload.
-    protected void overload(Definition parent,
-                            Definition child) {
+    protected void overload(Definition parent, Definition child) {
         // Iterate on each parent's attribute and add it if not defined in child.
         for (Map.Entry<String, Attribute> entry : parent.getAttributes().entrySet()) {
             if (!child.hasAttributeValue(entry.getKey())) {

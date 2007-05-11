@@ -24,6 +24,8 @@ package org.apache.tiles.definition;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.tiles.mgmt.Definition;
+
 /**
  * Interface for managing collections of {@link Definition} objects.
  * <p/>
@@ -64,7 +66,8 @@ public interface Definitions {
      * @throws NoSuchDefinitionException if a Definition extends from
      *                                   one that doesn't exist.
      */
-    void addDefinitions(Map<String, Definition> defsMap, Locale locale) throws NoSuchDefinitionException;
+    void addDefinitions(Map<String, Definition> defsMap, Locale locale)
+            throws NoSuchDefinitionException;
 
     /**
      * Returns a Definition object that matches the given name and locale.

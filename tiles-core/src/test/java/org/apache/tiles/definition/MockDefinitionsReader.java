@@ -24,6 +24,8 @@ package org.apache.tiles.definition;
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.tiles.mgmt.Definition;
+
 /**
  * Mock Defintions Reader implementation.  Stubs out all functionality.
  *
@@ -51,7 +53,7 @@ public class MockDefinitionsReader implements DefinitionsReader {
     }
 
     /**
-     * Reads <code>{@link org.apache.tiles.definition.Definition}</code> objects from a source.
+     * Reads <code>{@link Definition}</code> objects from a source.
      *
      * Implementations should publish what type of source object is expected.
      *
@@ -62,7 +64,8 @@ public class MockDefinitionsReader implements DefinitionsReader {
      *  an error occurs when reading definitions.
      */
     @SuppressWarnings("unchecked")
-    public Map<String, Definition> read(Object source) throws DefinitionsFactoryException {
+    public Map<String, Definition> read(Object source)
+            throws DefinitionsFactoryException {
         return Collections.EMPTY_MAP;
     }
 

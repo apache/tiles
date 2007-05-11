@@ -25,9 +25,10 @@ import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Attribute.AttributeType;
-import org.apache.tiles.definition.Definition;
+import org.apache.tiles.context.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
+import org.apache.tiles.mgmt.Definition;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -38,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Reads {@link org.apache.tiles.definition.Definition Definition} objects from
+ * Reads {@link Definition} objects from
  * an XML InputStream using Digester. <p/>
  * <p>
  * This <code>DefinitionsReader</code> implementation expects the source to be
@@ -117,24 +118,22 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     // Handler class names.
 
     /**
-     * The package name.
-     */
-    private static final String PACKAGE_NAME = "org.apache.tiles";
-
-    /**
      * The handler to create definitions.
      */
-    private static final String DEFINITION_HANDLER_CLASS = PACKAGE_NAME + ".definition.Definition";
+    private static final String DEFINITION_HANDLER_CLASS =
+        Definition.class.getName();
 
     /**
      * The handler to create attributes.
      */
-    private static final String PUT_ATTRIBUTE_HANDLER_CLASS = PACKAGE_NAME + ".Attribute";
+    private static final String PUT_ATTRIBUTE_HANDLER_CLASS =
+        Attribute.class.getName();
 
     /**
      * The handler to create list attributes.
      */
-    private static final String LIST_HANDLER_CLASS = PACKAGE_NAME + ".context.ListAttribute";
+    private static final String LIST_HANDLER_CLASS =
+        ListAttribute.class.getName();
 
     /**
      * Digester rule to manage attribute filling.
@@ -214,7 +213,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      *          if the source is invalid or
      *          an error occurs when reading definitions.
      */
-    public Map<String, Definition> read(Object source) throws DefinitionsFactoryException {
+    public Map<String, Definition> read(Object source)
+            throws DefinitionsFactoryException {
 
         // Get out if we have not been initialized.
         if (!inited) {
@@ -302,7 +302,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.addRule(PUT_TAG, new FillAttributeRule());
         digester.addSetNext(PUT_TAG, "addAttribute", PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addCallMethod(PUT_TAG, "setBody", 0);
-        // TileDefinition level list rules
+        // Definition level list rules
         // This is rules for lists nested in a definition
         digester.addObjectCreate(DEF_LIST_TAG, LIST_HANDLER_CLASS);
         digester.addSetProperties(DEF_LIST_TAG);
