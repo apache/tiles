@@ -92,7 +92,11 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.
                 LOG.warn("Cannot find TilesContextFactory class "
-                        + classNames[i], e);
+                        + classNames[i]);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Cannot find TilesContextFactory class "
+                            + classNames[i], e);
+                }
             } catch (InstantiationException e) {
                 throw new IllegalArgumentException(
                         "Cannot instantiate TilesFactoryClass " + classNames[i],
