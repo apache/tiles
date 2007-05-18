@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * $Id: pom.xml 538558 2007-05-16 12:22:28Z apetrelli $
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <groupId>org.apache.tiles</groupId>
+    <artifactId>tiles-parent</artifactId>
+    <version>2.1.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>tiles-compat</artifactId>
+  <packaging>jar</packaging>
+  <name>Tiles - Compatibility</name>
+  <description>Tiles compatibility library, to help migration from Struts-Tiles.
+  </description>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>LICENSE.txt</exclude>
+          <exclude>NOTICE.txt</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>LICENSE.txt</include>
+          <include>NOTICE.txt</include>
+        </includes>
+        <targetPath>META-INF</targetPath>
+      </resource>
+    </resources>
+
+    <testResources>
+      <testResource>
+        <directory>src/test/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.properties</include>
+        </includes>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
+
+  <profiles>
+
+    <profile>
+      <!--
+         Run the translator for Java 1.4 compatiblity
+
+         Sample:
+         $ cd struts/struts2/
+         $ mvn clean install -Papps,j4 -Djava14.jar=$JAVA_HOME/../Classes/classes.jar
+
+      -->
+      <id>j4</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>retrotranslator-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>retrotranslate</id>
+                <goals>
+                    <goal>translate</goal>
+                </goals>
+                <configuration>
+                    <includes>
+                        <include>
+                            <directory>${pom.basedir}/target/classes</directory>
+                        </include>
+                    </includes>
+                    <destdir>${project.build.directory}/classes-retro</destdir>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>create-j4-jar</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <classesDirectory>${project.build.directory}/classes-retro</classesDirectory>
+                  <classifier>j4</classifier>
+                  <archive>
+                    <manifestEntries>
+                      <Extension-Name>${project.artifactId}-j4</Extension-Name>
+                      <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                      <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                      <Implementation-Title>${project.description}</Implementation-Title>
+                      <Implementation-Version>${project.version}</Implementation-Version>
+                      <Revision>${scm.revision}</Revision>
+                    </manifestEntries>
+                  </archive>
+                  <includes>
+                      <include>
+                          <directory>${pom.basedir}/target/classes</directory>
+                      </include>
+                  </includes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+      <dependencies>
+        <dependency>
+          <groupId>sun.jdk</groupId>
+          <artifactId>rt</artifactId>
+          <version>1.4.0</version>
+          <scope>system</scope>
+          <!-- path to rt.jar (on OSX, it's classes.jar) -->
+          <systemPath>${java14.jar}</systemPath>
+        </dependency>
+        <dependency>
+          <groupId>net.sf.retrotranslator</groupId>
+          <artifactId>retrotranslator-runtime</artifactId>
+          <version>1.0.8</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>net.sf.dtddoc</groupId>
+        <artifactId>dtddoc-maven-plugin</artifactId>
+        <configuration>
+          <docTitle>Tiles Definition File</docTitle>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-core</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-jsp</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>2.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.shale</groupId>
+      <artifactId>shale-test</artifactId>
+      <version>1.0.4</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>dtddoc</id>
+      <url>http://dtddoc.sf.net/maven2</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>dtddoc</id>
+      <url>http://dtddoc.sf.net/maven2</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+</project>
