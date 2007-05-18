@@ -120,25 +120,27 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     /**
      * The handler to create definitions.
      */
-    private static final String DEFINITION_HANDLER_CLASS =
+    protected static final String DEFINITION_HANDLER_CLASS =
         Definition.class.getName();
 
     /**
      * The handler to create attributes.
      */
-    private static final String PUT_ATTRIBUTE_HANDLER_CLASS =
+    protected static final String PUT_ATTRIBUTE_HANDLER_CLASS =
         Attribute.class.getName();
 
     /**
      * The handler to create list attributes.
      */
-    private static final String LIST_HANDLER_CLASS =
+    protected static final String LIST_HANDLER_CLASS =
         ListAttribute.class.getName();
 
     /**
      * Digester rule to manage attribute filling.
      */
-    private static class FillAttributeRule extends Rule {
+    public static class FillAttributeRule extends Rule {
+        
+        public FillAttributeRule() {};
 
         /** {@inheritDoc} */
         @Override
@@ -277,9 +279,13 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
             }
         }
 
-        initDigesterForTilesDefinitionsSyntax(digester);
+        initSyntax(digester);
 
         inited = true;
+    }
+
+    protected void initSyntax(Digester digester) {
+        initDigesterForTilesDefinitionsSyntax(digester);
     }
 
 
