@@ -251,6 +251,7 @@
          <name>value</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.Object</type>
          <description>
          <![CDATA[
          <p>Attribute object to render directly. If it specified, the <code>name</code>
@@ -310,12 +311,11 @@
       <body-content>JSP</body-content>
       <description>
          <![CDATA[
-         <p><strong>Create a template definition bean.
+         <p><strong>Create a definition at runtime.
          </strong></p>
-         <p>Create a template definition as a bean.
-         Newly created bean will be saved under specified "id", in the requested "scope".
-         Definition tag has same syntax as <code>insert</code></p>
-         ]]>
+         <p>Create a new definition at runtime.
+         Newly created definition will be available across the entire request.
+         </p>]]>
          </description>
       <attribute>
          <name>name</name>
@@ -325,18 +325,6 @@
          <![CDATA[
          <p>Specifies the name under which the newly created definition bean 
          will be saved.</p>
-         ]]>
-         </description>
-      </attribute>
-      <attribute>
-         <name>scope</name>
-         <required>false</required>
-         <rtexprvalue>false</rtexprvalue>
-         <description>
-         <![CDATA[
-         <p>Specifies the variable scope into which the newly defined bean 
-         will be created. 
-         If not specified, the bean will be created in page scope.</p>
          ]]>
          </description>
       </attribute>
@@ -371,6 +359,17 @@
          <![CDATA[
          <p>Name of a parent definition that is used to initialize this new 
          definition. Parent definition is searched in definitions factory.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>preparer</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+         <![CDATA[
+         <p>Specifies the preparer name to use. The specified preparer will
+         be executed before rendering this newly created definition.</p>
          ]]>
          </description>
       </attribute>
@@ -434,6 +433,7 @@
          <name>value</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.Object</type>
          <description>
          <![CDATA[
          <p>Attribute value. Could be a String or an Object.
@@ -522,6 +522,7 @@
          <name>value</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.Object</type>
          <description>
          <![CDATA[
          <p>Attribute value. Can be a String or Object.</p>
