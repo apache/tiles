@@ -33,6 +33,7 @@
 
     <h3>Standard Render/Attribute Tests</h3>
     <a href="testinsertdefinition.jsp">Test Insert Configured Definition</a><br/>
+    <a href="testinsertdefinition_flush.jsp">Test Insert Configured Definition with Flush</a><br/>
     <a href="testinsertdefinition_preparer.jsp">Test Insert Configured Definition with Preparer</a><br/>
     <a href="testinsertdefinition_preparer_configured.jsp">Test Insert Configured Definition with Preparer configured in the definition itself</a><br/>
     <a href="testinsertdefinition_classpath.jsp">Test Insert Configured Classpath Definition</a><br/>
@@ -42,6 +43,7 @@
     <a href="testinsertdefinition_composite.jsp">Test Insert Configured Definition that contains another definition inside</a><br/>
     <a href="testinsertdefinition_exception.jsp">Test Insert Configured Definition with an exception in an attribute page</a><br/>
     <a href="testput.jsp">Test Put Tag</a><br/>
+    <a href="testput_flush.jsp">Test Put Tag with Flush</a><br/>
     <a href="testput_el.jsp">Test Put Tag using EL</a><br/>
     <a href="testput_servlet.jsp">Test Put Tag using a servlet mapping as a template</a><br/>
     <a href="testputlist.jsp">Test Put List Tag</a><br/>
