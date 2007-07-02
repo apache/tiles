@@ -169,6 +169,9 @@ public abstract class RenderTagSupport extends ContainerTagSupport
             container.prepare(preparer, pageContext);
         }
         render();
+        if (flush) {
+            pageContext.getOut().flush();
+        }
     }
 
     /**
