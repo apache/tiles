@@ -139,8 +139,11 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * Digester rule to manage attribute filling.
      */
     public static class FillAttributeRule extends Rule {
-        
-        public FillAttributeRule() {};
+
+        /**
+         * Constructor.
+         */
+        public FillAttributeRule() { };
 
         /** {@inheritDoc} */
         @Override
@@ -284,6 +287,12 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         inited = true;
     }
 
+    /**
+     * Initialised the syntax for reading XML files containing Tiles
+     * definitions.
+     *
+     * @param digester The digester to initialize.
+     */
     protected void initSyntax(Digester digester) {
         initDigesterForTilesDefinitionsSyntax(digester);
     }
