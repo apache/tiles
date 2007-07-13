@@ -437,6 +437,12 @@ public class BasicTilesContainer implements TilesContainer {
             throw new TilesException("Cannot render a null attribute");
         }
 
+        if (!isPermitted(request, attr.getRole())) {
+            LOG.info("Access to attribute '" + attr.getName()
+                    + "' denied.  User not in role '" + attr.getRole());
+            return;
+        }
+
         AttributeType type = attr.getType();
         if (type == null) {
             type = calculateType(attr, request);

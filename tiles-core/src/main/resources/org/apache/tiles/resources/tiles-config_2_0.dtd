@@ -147,6 +147,12 @@
                      be specified with this tag attribute, or in the body of the tag.
 -->
 <!ATTLIST put-attribute     value            CDATA           #IMPLIED>
+<!--
+@attr role           Security role name that is allowed access to this attribute
+                     object. The attribute is inserted only if the role name is
+                     allowed.
+-->
+<!ATTLIST put-attribute     role             CDATA            #IMPLIED>
 
 
 <!-- The "put-list-attribute" element describes a list attribute of a definition. It allows to
@@ -160,6 +166,12 @@
 @attr name           The unique identifier for this put attribute list.
 -->
 <!ATTLIST put-list-attribute name             CDATA           #REQUIRED>
+<!--
+@attr role           Security role name that is allowed access to this attribute
+                     object. The attribute is inserted only if the role name is
+                     allowed.
+-->
+<!ATTLIST put-list-attribute role             CDATA            #IMPLIED>
 
 <!-- ========== Subordinate Elements ====================================== -->
 
@@ -181,6 +193,12 @@
                      be specified with this tag attribute, or in the body of the tag.
 -->
 <!ATTLIST add-attribute              value            CDATA           #IMPLIED>
+<!--
+@attr role           Security role name that is allowed access to this attribute
+                     object. The attribute is inserted only if the role name is
+                     allowed.
+-->
+<!ATTLIST add-attribute              role             CDATA            #IMPLIED>
 
 <!-- The "add-list-attribute" element describes a list attribute subordinate to another
      list attribute. It allows to specify an attribute value that is a java List
@@ -190,6 +208,12 @@
 -->
 <!ELEMENT add-list-attribute ( (add-attribute* | item* | bean* | add-list-attribute*)+) >
 <!ATTLIST add-list-attribute id               ID              #IMPLIED>
+<!--
+@attr role           Security role name that is allowed access to this attribute
+                     object. The attribute is inserted only if the role name is
+                     allowed.
+-->
+<!ATTLIST add-list-attribute role             CDATA            #IMPLIED>
 
 
 <!-- The "bean" element describes an element of a list. It create a bean of the
