@@ -127,7 +127,13 @@ public class BasicTilesContainerTest extends TestCase {
         assertTrue("An attribute of 'object' type cannot be rendered",
                 exceptionFound);
     }
-    
+
+    /**
+     * Tests is attributes are rendered correctly according to users roles.
+     *
+     * @throws TilesException If a problem arises during rendering.
+     * @throws IOException If a problem arises during rendering or writing in the writer.
+     */
     public void testAttributeCredentials() throws TilesException, IOException {
         RoleMockHttpServletRequest request = new RoleMockHttpServletRequest("myrole");
         MockHttpSession session = new MockHttpSession();
@@ -146,22 +152,33 @@ public class BasicTilesContainerTest extends TestCase {
         assertNotSame("The attribute should have not been rendered", writer
                 .toString(), "This is the value");
     }
-    
+
+    /**
+     * Servlet request mock class that allows to choose the user roles.
+     */
     private static class RoleMockHttpServletRequest extends MockHttpServletRequest {
-        
+
+        /**
+         * Set containing the allowed roles.
+         */
         private Set<String> roleSet;
-        
+
+        /**
+         * Constructor.
+         *
+         * @param roles The roles to be allowed.
+         */
         public RoleMockHttpServletRequest(String... roles) {
             roleSet = new HashSet<String>();
-            for (String role: roles) {
+            for (String role : roles) {
                 roleSet.add(role);
             }
         }
 
+        /** {@inheritDoc} */
         @Override
         public boolean isUserInRole(String role) {
             return roleSet.contains(role);
         }
-        
     }
 }
