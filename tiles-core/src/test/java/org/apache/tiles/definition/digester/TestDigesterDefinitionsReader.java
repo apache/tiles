@@ -31,6 +31,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -98,6 +99,14 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertEquals("Incorrect Find title attribute.",
                     "Tiles Library Documentation", definitions.get(
                             "doc.mainLayout").getAttribute("title").getValue());
+
+            Definition def = definitions.get("doc.role.test");
+            assertNotNull("Couldn't find doc.role.test tile.", def);
+            Attribute attribute = def.getAttribute("title");
+            assertNotNull("Couldn't Find title attribute.", attribute
+                    .getValue());
+            assertEquals("Role 'myrole' expected", attribute.getRole(),
+                    "myrole");
 
         } catch (Exception e) {
             fail("Exception reading configuration." + e);

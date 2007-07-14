@@ -152,6 +152,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
             Attribute attribute = (Attribute) digester.peek();
             attribute.setName(attributes.getValue("name"));
             attribute.setValue(attributes.getValue("value"));
+            attribute.setRole(attributes.getValue("role"));
             attribute.setType(AttributeType
                     .getType(attributes.getValue("type")));
         }
