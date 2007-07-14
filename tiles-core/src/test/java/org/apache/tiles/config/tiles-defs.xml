@@ -134,5 +134,9 @@
   </put-list-attribute>
 </definition>
 
+<definition name="doc.role.test" template="/layout/classicLayout.jsp">
+  <put-attribute name="title" value="Test title" role="myrole" />
+</definition>
+
 
 </tiles-definitions>
