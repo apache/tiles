@@ -1,4 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%--
 /*
  * $Id$
@@ -22,23 +21,6 @@
  *
  */
 --%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Select your locale</title>
-</head>
-<body>
-<form action="servlets/selectLocaleServlet">
-Select your locale:
-<select name="locale">
-<option selected="selected" value="">Default</option>
-<option value="en_US">American English</option>
-<option value="en_GB">British English</option>
-<option value="fr_FR">French</option>
-<option value="it_IT">Italian</option>
-</select>
-<input type="submit" value="Submit" />
-</form>
-<div id="defaultLocaleMessage">Your default Locale is <%=request.getLocale().toString() %></div>
-</body>
-</html>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+
+<tiles:insertDefinition name="test.definition.freemarker" />
