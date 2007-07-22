@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%--
+<!--
 /*
  * $Id$
  *
@@ -19,26 +18,49 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
---%>
+-->
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Select your locale</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Configured Definition Test with FreeMarker</title>
 </head>
 <body>
-<form action="servlets/selectLocaleServlet">
-Select your locale:
-<select name="locale">
-<option selected="selected" value="">Default</option>
-<option value="en_US">American English</option>
-<option value="en_GB">British English</option>
-<option value="fr_FR">French</option>
-<option value="it_IT">Italian</option>
-</select>
-<input type="submit" value="Submit" />
-</form>
-<div id="defaultLocaleMessage">Your default Locale is <%=request.getLocale().toString() %></div>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Configured Definition Test with FreeMarker</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/tiles-test/index.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Test Insert Configured Definition with FreeMarker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>This is the title.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>This is the header</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>This is a body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>This layout is made in FreeMarker.</td>
+	<td></td>
+</tr>
+
+</tbody></table>
 </body>
 </html>
