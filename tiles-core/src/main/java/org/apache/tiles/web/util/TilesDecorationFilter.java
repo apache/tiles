@@ -59,6 +59,10 @@ import java.util.HashMap;
  * <param-name>attribute-name</param-name>
  * <param-value>body</param-value>
  * </init-param>
+ * <init-param>
+ * <param-name>prevent-token</param-name>
+ * <param-value>layout</param-value>
+ * </init-param>
  * </filter>
  * <p/>
  * <filter-mapping>
@@ -69,7 +73,9 @@ import java.util.HashMap;
  * </xmp>
  * The filter will intercept all requests to the indicated url pattern
  * store the initial request path as the "body"  attribute and then render the
- * "test.definition" definition.
+ * "test.definition" definition.  The filter will only redecorate those requests
+ * which do not contain the request attribute associated with the prevent token
+ * "layout".
  */
 public class TilesDecorationFilter implements Filter {
 
@@ -94,6 +100,13 @@ public class TilesDecorationFilter implements Filter {
      * The definition name to use.
      */
     private String definitionName = "layout";
+
+    /**
+     * Token used to prevent re-decoration of requests.
+     * This token is used to prevent infinate loops on
+     * filters configured to match wildcards.
+     */
+    private String preventDecorationToken;
 
     /**
      * Stores a map of the type "mask -> definition": when a definition name
@@ -137,6 +150,9 @@ public class TilesDecorationFilter implements Filter {
         if (temp != null) {
             definitionName = temp;
         }
+
+        temp = config.getInitParameter("prevent-token");
+        preventDecorationToken = "org.apache.tiles.decoration.PREVENT:"+(temp == null ? definitionName : temp);
 
         alternateDefinitions = parseAlternateDefinitions();
 
@@ -183,17 +199,30 @@ public class TilesDecorationFilter implements Filter {
     }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
+        // If the request contains the prevent token, we must not reapply the definition.
+        // This is used to ensure that filters mapped to wild cards do not infinately
+        // loop.
+        if (isPreventTokenPresent(req)) {
+            filterChain.doFilter(req, res);
+            return;
+        }
+        
         TilesContainer container = TilesAccess.getContainer(getServletContext());
         mutator.mutate(container.getAttributeContext(req, res), req);
         try {
+            if(preventDecorationToken != null) {
+                req.setAttribute(preventDecorationToken, Boolean.TRUE);
+            }
             String definitionName = getDefinitionForRequest(req);
             container.render(definitionName, req, res);
-        } catch (TilesException e) {
-            throw new ServletException(
-                    "Error wrapping jsp with tile definition. "
+        }
+        catch (TilesException e) {
+            throw new ServletException("Error wrapping jsp with tile definition. "
                             + e.getMessage(), e);
         }
     }
@@ -251,4 +280,7 @@ public class TilesDecorationFilter implements Filter {
         }
     }
 
+    private boolean isPreventTokenPresent(ServletRequest request) {
+        return preventDecorationToken != null && request.getAttribute(preventDecorationToken) != null;
+    }
 }
