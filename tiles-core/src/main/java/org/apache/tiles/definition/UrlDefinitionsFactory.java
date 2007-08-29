@@ -127,6 +127,7 @@ public class UrlDefinitionsFactory
             localeResolver = new DefaultLocaleResolver();
         }
         localeResolver.init(params);
+        definitions = readDefinitions();
     }
 
     /**
@@ -138,9 +139,6 @@ public class UrlDefinitionsFactory
      */
     protected Definitions getDefinitions()
         throws DefinitionsFactoryException {
-        if (definitions == null) {
-            definitions = readDefinitions();
-        }
         return definitions;
     }
 
