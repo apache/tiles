@@ -182,7 +182,6 @@ public class BasicTilesContainer implements TilesContainer {
             DefinitionsFactory definitionsFactory, String resourceString,
             Map<String, String> initParameters) throws TilesException {
         List<String> resources = getResourceNames(resourceString);
-        definitionsFactory.init(initParameters);
 
         try {
             for (String resource : resources) {
@@ -200,6 +199,9 @@ public class BasicTilesContainer implements TilesContainer {
             throw new DefinitionsFactoryException("Unable to parse definitions from "
                 + resourceString, e);
         }
+
+        definitionsFactory.init(initParameters);
+
         if (LOG.isInfoEnabled()) {
             LOG.info("Tiles2 container initialization complete.");
         }

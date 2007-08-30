@@ -134,13 +134,10 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        factory.init(Collections.EMPTY_MAP);
         factory.addSource(url1);
         factory.addSource(url2);
         factory.addSource(url3);
-
-        // Parse files.
-        factory.readDefinitions();
+        factory.init(Collections.EMPTY_MAP);
 
         TilesRequestContext emptyContext = new MockOnlyLocaleTilesContext(null);
         TilesRequestContext usContext = new MockOnlyLocaleTilesContext(Locale.US);
