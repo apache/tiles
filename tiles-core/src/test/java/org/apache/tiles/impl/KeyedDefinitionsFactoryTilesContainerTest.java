@@ -188,7 +188,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.reset(request);
         EasyMock.reset(session);
         EasyMock.reset(response);
-        EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
+        EasyMock.expect(request.getSession(false)).andReturn(session).anyTimes();
         EasyMock.expect(session.getAttribute(DefaultLocaleResolver.LOCALE_KEY)).andReturn(null).anyTimes();
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.expect(request.getAttribute(
@@ -207,7 +207,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.expect(request.getAttribute(
                 DefaultKeyExtractor.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
                 .andReturn("one").anyTimes();
-        EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
+        EasyMock.expect(request.getSession(false)).andReturn(session).anyTimes();
         EasyMock.expect(session.getAttribute(DefaultLocaleResolver.LOCALE_KEY)).andReturn(null).anyTimes();
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
@@ -223,7 +223,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.expect(request.getAttribute(
                 DefaultKeyExtractor.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
                 .andReturn("two").anyTimes();
-        EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
+        EasyMock.expect(request.getSession(false)).andReturn(session).anyTimes();
         EasyMock.expect(session.getAttribute(DefaultLocaleResolver.LOCALE_KEY)).andReturn(null).anyTimes();
         EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);

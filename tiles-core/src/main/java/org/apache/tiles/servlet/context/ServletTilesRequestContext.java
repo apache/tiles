@@ -171,7 +171,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     public Map<String, Object> getSessionScope() {
 
         if ((sessionScope == null) && (request != null)) {
-            sessionScope = new ServletSessionScopeMap(request.getSession());
+            sessionScope = new ServletSessionScopeMap(request);
         }
         return (sessionScope);
 
