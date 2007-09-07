@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpSession;
 
@@ -46,30 +47,36 @@ final class ServletSessionScopeMap implements Map<String, Object> {
     /**
      * Constructor.
      *
-     * @param session The session object to use.
+     * @param request The request object to use.
      */
-    public ServletSessionScopeMap(HttpSession session) {
-        this.session = session;
+    public ServletSessionScopeMap(HttpServletRequest request) {
+        this.request = request;
     }
 
-
     /**
-     * The session object to use.
+     * The request object to use.
      */
-    private HttpSession session = null;
-
+    private HttpServletRequest request = null;
 
     /** {@inheritDoc} */
     public void clear() {
-        Iterator<String> keys = keySet().iterator();
-        while (keys.hasNext()) {
-            session.removeAttribute(keys.next());
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Iterator<String> keys = keySet().iterator();
+            while (keys.hasNext()) {
+                session.removeAttribute(keys.next());
+            }
         }
     }
 
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return false;
+        }
+
         return (session.getAttribute(key(key)) != null);
     }
 
@@ -77,7 +84,8 @@ final class ServletSessionScopeMap implements Map<String, Object> {
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
-        if (value == null) {
+        HttpSession session = request.getSession(false);
+        if (session == null || value == null) {
             return (false);
         }
         Enumeration<String> keys = session.getAttributeNames();
@@ -94,13 +102,16 @@ final class ServletSessionScopeMap implements Map<String, Object> {
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, Object>> entrySet() {
+        HttpSession session = request.getSession(false);
         Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
-        Enumeration<String> keys = session.getAttributeNames();
-        String key;
-        while (keys.hasMoreElements()) {
-            key = keys.nextElement();
-            set.add(new MapEntry<String, Object>(key,
-                    session.getAttribute(key), true));
+        if (session != null) {
+            Enumeration<String> keys = session.getAttributeNames();
+            String key;
+            while (keys.hasMoreElements()) {
+                key = keys.nextElement();
+                set.add(new MapEntry<String, Object>(key,
+                        session.getAttribute(key), true));
+            }
         }
         return (set);
     }
@@ -108,18 +119,33 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public boolean equals(Object o) {
-        return (session.equals(o));
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return o == null;
+        } else {
+            return (session.equals(o));
+        }
     }
 
 
     /** {@inheritDoc} */
     public Object get(Object key) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return null;
+        }
+
         return (session.getAttribute(key(key)));
     }
 
 
     /** {@inheritDoc} */
     public int hashCode() {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return 0;
+        }
+
         return (session.hashCode());
     }
 
@@ -133,10 +159,13 @@ final class ServletSessionScopeMap implements Map<String, Object> {
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
+        HttpSession session = request.getSession(false);
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = session.getAttributeNames();
-        while (keys.hasMoreElements()) {
-            set.add(keys.nextElement());
+        if (session != null) {
+            Enumeration<String> keys = session.getAttributeNames();
+            while (keys.hasMoreElements()) {
+                set.add(keys.nextElement());
+            }
         }
         return (set);
     }
@@ -144,6 +173,7 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public Object put(String key, Object value) {
+        HttpSession session = request.getSession();
         if (value == null) {
             return (remove(key));
         }
@@ -156,6 +186,7 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public void putAll(Map<? extends String, ? extends Object> map) {
+        HttpSession session = request.getSession();
         Iterator<? extends String> keys = map.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
@@ -166,6 +197,11 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public Object remove(Object key) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return null;
+        }
+
         String skey = key(key);
         Object previous = session.getAttribute(skey);
         session.removeAttribute(skey);
@@ -176,11 +212,14 @@ final class ServletSessionScopeMap implements Map<String, Object> {
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public int size() {
+        HttpSession session = request.getSession(false);
         int n = 0;
-        Enumeration<String> keys = session.getAttributeNames();
-        while (keys.hasMoreElements()) {
-            keys.nextElement();
-            n++;
+        if (session != null) {
+            Enumeration<String> keys = session.getAttributeNames();
+            while (keys.hasMoreElements()) {
+                keys.nextElement();
+                n++;
+            }
         }
         return (n);
     }
@@ -189,10 +228,13 @@ final class ServletSessionScopeMap implements Map<String, Object> {
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public Collection<Object> values() {
+        HttpSession session = request.getSession(false);
         List<Object> list = new ArrayList<Object>();
-        Enumeration<String> keys = session.getAttributeNames();
-        while (keys.hasMoreElements()) {
-            list.add(session.getAttribute(keys.nextElement()));
+        if (session != null) {
+            Enumeration<String> keys = session.getAttributeNames();
+            while (keys.hasMoreElements()) {
+                list.add(session.getAttribute(keys.nextElement()));
+            }
         }
         return (list);
     }

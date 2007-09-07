@@ -1,3 +1,4 @@
+<%@ page session="false" %>
 <%--
 /*
  * $Id$
