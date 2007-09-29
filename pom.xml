@@ -166,9 +166,9 @@
                     <links>
                         <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
                         <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
-                        <link>http://jakarta.apache.org/commons/chain/apidocs</link>
-                        <link>http://jakarta.apache.org/commons/digester/commons-digester-1.6/docs/api</link>
-                        <link>http://jakarta.apache.org/commons/logging/commons-logging-1.1/apidocs</link>
+                        <link>http://commons.apache.org/chain/apidocs</link>
+                        <link>http://commons.apache.org/digester/commons-digester-1.6/docs/api</link>
+                        <link>http://commons.apache.org/logging/commons-logging-1.1/apidocs</link>
                     </links>
                     <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
                     <docletArtifact>
