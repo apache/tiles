@@ -107,8 +107,21 @@ final class ServletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
-        return (request.equals(o));
+    @SuppressWarnings("unchecked")
+	public boolean equals(Object o) {
+        ServletRequest otherRequest = ((ServletRequestScopeMap) o).request;
+        boolean retValue = true;
+        synchronized (request) {
+            for (Enumeration<String> attribs = request.getAttributeNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String attributeName = attribs.nextElement();
+                retValue = request.getAttribute(attributeName).equals(
+                        otherRequest.getAttribute(attributeName));
+            }
+        }
+
+        return retValue;
     }
 
 

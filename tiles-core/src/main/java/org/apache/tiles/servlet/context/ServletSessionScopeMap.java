@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpSession;
@@ -118,13 +119,28 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
+    @SuppressWarnings("unchecked")
+	public boolean equals(Object o) {
+        boolean retValue = true;
+
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            return o == null;
-        } else {
-            return (session.equals(o));
+        synchronized (session) {
+            HttpSession otherSession = ((ServletSessionScopeMap) o).request
+                    .getSession(false);
+            if (session == null) {
+                retValue = otherSession == null;
+            } else {
+                for (Enumeration<String> attribs = session.getAttributeNames(); attribs
+                        .hasMoreElements()
+                        && retValue;) {
+                    String attributeName = attribs.nextElement();
+                    retValue = session.getAttribute(attributeName).equals(
+                            otherSession.getAttribute(attributeName));
+                }
+            }
         }
+
+        return retValue;
     }
 
 

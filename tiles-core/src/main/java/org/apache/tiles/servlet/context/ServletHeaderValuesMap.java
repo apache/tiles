@@ -108,8 +108,21 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
-        return (request.equals(o));
+    @SuppressWarnings("unchecked")
+	public boolean equals(Object o) {
+        HttpServletRequest otherRequest = ((ServletHeaderValuesMap) o).request;
+        boolean retValue = true;
+        synchronized (request) {
+            for (Enumeration<String> attribs = request.getHeaderNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String parameterName = attribs.nextElement();
+                retValue = request.getHeaders(parameterName).equals(
+                        otherRequest.getHeaders(parameterName));
+            }
+        }
+
+        return retValue;
     }
 
 

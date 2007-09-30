@@ -106,8 +106,21 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
-        return (request.equals(o));
+    @SuppressWarnings("unchecked")
+	public boolean equals(Object o) {
+        ServletRequest otherRequest = ((ServletParamValuesMap) o).request;
+        boolean retValue = true;
+        synchronized (request) {
+            for (Enumeration<String> attribs = request.getParameterNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String parameterName = attribs.nextElement();
+                retValue = request.getParameterValues(parameterName).equals(
+                        otherRequest.getParameterValues(parameterName));
+            }
+        }
+
+        return retValue;
     }
 
 

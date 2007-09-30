@@ -99,8 +99,21 @@ final class ServletInitParamMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
-        return (context.equals(o));
+    @SuppressWarnings("unchecked")
+	public boolean equals(Object o) {
+        ServletContext otherContext = ((ServletInitParamMap) o).context;
+        boolean retValue = true;
+        synchronized (context) {
+            for (Enumeration<String> attribs = context.getInitParameterNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String parameterName = attribs.nextElement();
+                retValue = context.getInitParameter(parameterName).equals(
+                        otherContext.getInitParameter(parameterName));
+            }
+        }
+
+        return retValue;
     }
 
 
