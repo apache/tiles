@@ -100,8 +100,21 @@ final class PortletParamMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
-        return (request.equals(o));
+        PortletRequest otherRequest = ((PortletParamMap) o).request;
+        boolean retValue = true;
+        synchronized (request) {
+            for (Enumeration<String> attribs = request.getParameterNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String parameterName = attribs.nextElement();
+                retValue = request.getParameter(parameterName).equals(
+                        otherRequest.getParameter(parameterName));
+            }
+        }
+
+        return retValue;
     }
 
 
