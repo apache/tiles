@@ -108,7 +108,7 @@ final class ServletRequestScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         ServletRequest otherRequest = ((ServletRequestScopeMap) o).request;
         boolean retValue = true;
         synchronized (request) {

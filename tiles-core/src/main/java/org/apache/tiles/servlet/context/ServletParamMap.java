@@ -101,7 +101,7 @@ final class ServletParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         ServletRequest otherRequest = ((ServletParamMap) o).request;
         boolean retValue = true;
         synchronized (request) {
