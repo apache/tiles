@@ -21,11 +21,18 @@
 package org.apache.tiles.portlet.context;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.portlet.PortletRequest;
 
 import org.apache.tiles.context.MapEntry;
-
-import java.util.*;
 
 
 /**
@@ -108,8 +115,21 @@ final class PortletParamValuesMap implements Map<String, String[]> {
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
-        return (request.equals(o));
+        PortletRequest otherRequest = ((PortletParamValuesMap) o).request;
+        boolean retValue = true;
+        synchronized (request) {
+            for (Enumeration<String> attribs = request.getParameterNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String parameterName = attribs.nextElement();
+                retValue = request.getParameterValues(parameterName).equals(
+                        otherRequest.getParameterValues(parameterName));
+            }
+        }
+
+        return retValue;
     }
 
 

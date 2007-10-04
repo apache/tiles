@@ -108,8 +108,21 @@ final class PortletApplicationScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
-        return (context.equals(o));
+        PortletContext otherContext = ((PortletApplicationScopeMap) o).context;
+        boolean retValue = true;
+        synchronized (context) {
+            for (Enumeration<String> attribs = context.getAttributeNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String parameterName = attribs.nextElement();
+                retValue = context.getAttribute(parameterName).equals(
+                        otherContext.getAttribute(parameterName));
+            }
+        }
+
+        return retValue;
     }
 
 

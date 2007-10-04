@@ -108,8 +108,21 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
-        return (request.equals(o));
+        PortletRequest otherRequest = ((PortletRequestScopeMap) o).request;
+        boolean retValue = true;
+        synchronized (request) {
+            for (Enumeration<String> attribs = request.getAttributeNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String attributeName = attribs.nextElement();
+                retValue = request.getAttribute(attributeName).equals(
+                        otherRequest.getAttribute(attributeName));
+            }
+        }
+
+        return retValue;
     }
 
 

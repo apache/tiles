@@ -109,8 +109,21 @@ final class PortletSessionScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
-        return (session.equals(o));
+        PortletSession otherSession = ((PortletSessionScopeMap) o).session;
+        boolean retValue = true;
+        synchronized (session) {
+            for (Enumeration<String> attribs = session.getAttributeNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String attributeName = attribs.nextElement();
+                retValue = session.getAttribute(attributeName).equals(
+                        otherSession.getAttribute(attributeName));
+            }
+        }
+
+        return retValue;
     }
 
 

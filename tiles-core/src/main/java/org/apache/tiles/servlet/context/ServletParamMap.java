@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.context.MapEntry;
@@ -99,8 +100,21 @@ final class ServletParamMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
-        return (request.equals(o));
+        ServletRequest otherRequest = ((ServletParamMap) o).request;
+        boolean retValue = true;
+        synchronized (request) {
+            for (Enumeration<String> attribs = request.getParameterNames(); attribs
+                    .hasMoreElements()
+                    && retValue;) {
+                String parameterName = attribs.nextElement();
+                retValue = request.getParameter(parameterName).equals(
+                        otherRequest.getParameter(parameterName));
+            }
+        }
+
+        return retValue;
     }
 
 
