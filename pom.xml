@@ -105,26 +105,6 @@
                       <useReleaseProfile>false</useReleaseProfile>
                   </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>retrotranslator-maven-plugin</artifactId>
-                    <version>1.0-alpha-2</version>
-                    <executions>
-                        <execution>
-                            <phase>process-classes</phase>
-                            <goals>
-                                <goal>translate</goal>
-                            </goals>
-                            <configuration>
-                                <includes>
-                                    <include>
-                                        <directory>${pom.basedir}/target/classes</directory>
-                                    </include>
-                                </includes>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
 
