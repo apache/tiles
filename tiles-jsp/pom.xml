@@ -85,6 +85,12 @@
             <dependencies>
                 <dependency>
                     <groupId>org.apache.tiles</groupId>
+                    <artifactId>tiles-api</artifactId>
+                    <version>${pom.version}</version>
+                    <classifier>j4</classifier>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.tiles</groupId>
                     <artifactId>tiles-core</artifactId>
                     <version>${pom.version}</version>
                     <classifier>j4</classifier>
