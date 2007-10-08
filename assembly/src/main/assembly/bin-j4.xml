@@ -15,7 +15,7 @@
  limitations under the License.
 -->
 <assembly>
-    <id>bin</id>
+    <id>bin-j4</id>
     <formats>
         <format>tar.gz</format>
         <format>zip</format>
@@ -32,41 +32,24 @@
             </excludes>
         </dependencySet>
         <dependencySet>
+            <outputFileNameMapping>${artifactId}-${version}-j4.${extension}</outputFileNameMapping>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>org.apache.tiles:tiles-api</include>
-                <include>org.apache.tiles:tiles-core</include>
-                <include>org.apache.tiles:tiles-jsp</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/examples</outputDirectory>
-            <includes>
-                <include>org.apache.tiles:tiles-test</include>
+                <include>org.apache.tiles:tiles-api:jar:j4</include>
+                <include>org.apache.tiles:tiles-core:jar:j4</include>
+                <include>org.apache.tiles:tiles-jsp:jar:j4</include>
             </includes>
         </dependencySet>
     </dependencySets>
 
     <fileSets>
         <fileSet>
-            <directory>.</directory>
+            <directory>..</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>LICENSE.txt</include>
                 <include>NOTICE.txt</include>
             </includes>
-        </fileSet>
-        <fileSet>
-            <directory>./target/site/apidocs</directory>
-            <outputDirectory>apidocs</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>./tiles-core/target/site/dtddoc</directory>
-            <outputDirectory>dtddoc</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>./tiles-jsp/target/site/tlddoc</directory>
-            <outputDirectory>tlddoc</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>

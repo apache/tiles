@@ -38,6 +38,9 @@
                 <include>org.apache.tiles:tiles-core</include>
                 <include>org.apache.tiles:tiles-jsp</include>
             </includes>
+            <excludes>
+                <exclude>*:j4</exclude>
+            </excludes>
         </dependencySet>
         <dependencySet>
             <outputDirectory>/examples</outputDirectory>
