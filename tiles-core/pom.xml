@@ -82,14 +82,6 @@
 
     <profile>
       <id>j4</id>
-      <dependencies>
-          <dependency>
-              <groupId>org.apache.tiles</groupId>
-              <artifactId>tiles-api</artifactId>
-              <version>${pom.version}</version>
-              <classifier>j4</classifier>
-          </dependency>
-      </dependencies>
       <build>
         <plugins>
             <plugin>
