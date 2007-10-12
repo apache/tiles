@@ -204,7 +204,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
          *
          * I don't know why DigesterDefinitionsReader doesn't catch the
          * SAXParseException or how it makes it to the "fail" statement below.
-         *
+         */
         try {
             DefinitionsReader reader = new DigesterDefinitionsReader();
             Map params = new HashMap();
@@ -224,6 +224,5 @@ public class TestDigesterDefinitionsReader extends TestCase {
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }
-         */
     }
 }

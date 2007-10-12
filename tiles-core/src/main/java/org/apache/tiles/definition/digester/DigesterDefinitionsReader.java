@@ -30,6 +30,7 @@ import org.apache.tiles.context.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.xml.sax.Attributes;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -37,6 +38,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import org.xml.sax.SAXParseException;
 
 /**
  * Reads {@link Definition} objects from
@@ -195,6 +197,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.setValidating(validating);
         digester.setNamespaceAware(true);
         digester.setUseContextClassLoader(true);
+        digester.setErrorHandler(new ThrowingErrorHandler());
 
         // Register our local copy of the DTDs that we can find
         for (int i = 0; i < registrations.length; i += 2) {
@@ -365,5 +368,26 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      */
     public void addDefinition(Definition definition) {
         definitions.put(definition.getName(), definition);
+    }
+
+    /**
+     * Error Handler that throws every exception it receives.
+     */
+    private static class ThrowingErrorHandler implements ErrorHandler {
+
+        /** {@inheritDoc} */
+        public void warning(SAXParseException exception) throws SAXException {
+            throw exception;
+        }
+
+        /** {@inheritDoc} */
+        public void error(SAXParseException exception) throws SAXException {
+            throw exception;
+        }
+
+        /** {@inheritDoc} */
+        public void fatalError(SAXParseException exception) throws SAXException {
+            throw exception;
+        }
     }
 }
