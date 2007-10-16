@@ -198,16 +198,9 @@ public class TestDigesterDefinitionsReader extends TestCase {
      * configuration file with invalid XML.
      */
     public void testValidatingParameter() {
-        /*
-         * For some reason this test doesn't work.  It throws a SAXParseException
-         * but then the test failes saying "Should've thrown an exception.
-         *
-         * I don't know why DigesterDefinitionsReader doesn't catch the
-         * SAXParseException or how it makes it to the "fail" statement below.
-         *
         try {
             DefinitionsReader reader = new DigesterDefinitionsReader();
-            Map params = new HashMap();
+            Map<String, String> params = new HashMap<String, String>();
             params.put(DigesterDefinitionsReader.PARSER_VALIDATE_PARAMETER_NAME,
                     "true");
             reader.init(params);
@@ -217,13 +210,15 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertNotNull("Config file not found", configFile);
 
             InputStream source = configFile.openStream();
-            Map definitions = reader.read(source);
+            reader.read(source);
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Exception caught, it is OK", e);
+            }
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }
-         */
     }
 }
