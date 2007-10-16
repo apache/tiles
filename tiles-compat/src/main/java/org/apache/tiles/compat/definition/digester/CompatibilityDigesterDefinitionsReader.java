@@ -36,15 +36,7 @@ public class CompatibilityDigesterDefinitionsReader extends
      * versions of the configuration file DTDs we know about. There <strong>MUST</strong>
      * be an even number of Strings in this list!
      */
-    protected String[] registrations = {
-            "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
-            "/org/apache/tiles/resources/tiles-config_2_0.dtd",
-            "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN",
-            "/org/apache/tiles/compat/resources/tiles-config_1_1.dtd",
-            "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN",
-            "/org/apache/tiles/compat/resources/tiles-config_1_3.dtd",
-            "-//Apache Software Foundation//DTD Tiles Configuration 1.4//EN",
-            "/org/apache/tiles/compat/resources/tiles-config_1_4.dtd" };
+    protected String[] registrations;
 
     /** {@inheritDoc} */
     @Override
@@ -196,6 +188,17 @@ public class CompatibilityDigesterDefinitionsReader extends
 
     /** {@inheritDoc} */
     protected String[] getRegistrations() {
+        if (registrations == null) {
+            registrations = new String[] {
+                "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
+                "/org/apache/tiles/resources/tiles-config_2_0.dtd",
+                "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN",
+                "/org/apache/tiles/compat/resources/tiles-config_1_1.dtd",
+                "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN",
+                "/org/apache/tiles/compat/resources/tiles-config_1_3.dtd",
+                "-//Apache Software Foundation//DTD Tiles Configuration 1.4//EN",
+                "/org/apache/tiles/compat/resources/tiles-config_1_4.dtd"};
+        }
         return registrations;
     }
 }

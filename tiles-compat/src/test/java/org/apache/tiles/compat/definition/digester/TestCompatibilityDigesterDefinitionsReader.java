@@ -21,6 +21,7 @@
 
 package org.apache.tiles.compat.definition.digester;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
@@ -68,59 +69,49 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
     /**
      * Tests the read method to read Tiles 1.1 files.
      */
-    public void testReadOldFormat() {
-        try {
-            DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
-            reader.init(new HashMap<String, String>());
+    public void testReadOldFormat() throws DefinitionsFactoryException, IOException {
+        DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
+        reader.init(new HashMap<String, String>());
 
-            URL configFile = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/tiles-defs-1.1.xml");
-            assertNotNull("Config file not found", configFile);
+        URL configFile = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/tiles-defs-1.1.xml");
+        assertNotNull("Config file not found", configFile);
 
-            InputStream source = configFile.openStream();
-            Map<String, Definition> definitions = reader.read(source);
+        InputStream source = configFile.openStream();
+        Map<String, Definition> definitions = reader.read(source);
 
-            assertNotNull("Definitions not returned.", definitions);
-            assertNotNull("Couldn't find doc.mainLayout tile.",
-                    definitions.get("doc.mainLayout"));
-            assertNotNull("Couldn't Find title attribute.", definitions.get(
-                    "doc.mainLayout").getAttribute("title").getValue());
-            assertEquals("Incorrect Find title attribute.",
-                    "Tiles Library Documentation", definitions.get(
-                            "doc.mainLayout").getAttribute("title").getValue());
-
-        } catch (Exception e) {
-            fail("Exception reading configuration." + e);
-        }
+        assertNotNull("Definitions not returned.", definitions);
+        assertNotNull("Couldn't find doc.mainLayout tile.",
+                definitions.get("doc.mainLayout"));
+        assertNotNull("Couldn't Find title attribute.", definitions.get(
+                "doc.mainLayout").getAttribute("title").getValue());
+        assertEquals("Incorrect Find title attribute.",
+                "Tiles Library Documentation", definitions.get(
+                        "doc.mainLayout").getAttribute("title").getValue());
     }
 
     /**
      * Tests the read method to read Tiles 2.0 files.
      */
-    public void testReadNewFormat() {
-        try {
-            DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
-            reader.init(new HashMap<String, String>());
+    public void testReadNewFormat() throws DefinitionsFactoryException, IOException {
+        DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
+        reader.init(new HashMap<String, String>());
 
-            URL configFile = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/tiles-defs-2.0.xml");
-            assertNotNull("Config file not found", configFile);
+        URL configFile = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/tiles-defs-2.0.xml");
+        assertNotNull("Config file not found", configFile);
 
-            InputStream source = configFile.openStream();
-            Map<String, Definition> definitions = reader.read(source);
+        InputStream source = configFile.openStream();
+        Map<String, Definition> definitions = reader.read(source);
 
-            assertNotNull("Definitions not returned.", definitions);
-            assertNotNull("Couldn't find doc.mainLayout tile.",
-                    definitions.get("doc.mainLayout"));
-            assertNotNull("Couldn't Find title attribute.", definitions.get(
-                    "doc.mainLayout").getAttribute("title").getValue());
-            assertEquals("Incorrect Find title attribute.",
-                    "Tiles Library Documentation", definitions.get(
-                            "doc.mainLayout").getAttribute("title").getValue());
-
-        } catch (Exception e) {
-            fail("Exception reading configuration." + e);
-        }
+        assertNotNull("Definitions not returned.", definitions);
+        assertNotNull("Couldn't find doc.mainLayout tile.",
+                definitions.get("doc.mainLayout"));
+        assertNotNull("Couldn't Find title attribute.", definitions.get(
+                "doc.mainLayout").getAttribute("title").getValue());
+        assertEquals("Incorrect Find title attribute.",
+                "Tiles Library Documentation", definitions.get(
+                        "doc.mainLayout").getAttribute("title").getValue());
     }
 
     /**

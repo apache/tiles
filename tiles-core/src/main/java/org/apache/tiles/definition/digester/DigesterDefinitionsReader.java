@@ -179,10 +179,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * the versions of the configuration file DTDs we know about.  There
      * <strong>MUST</strong> be an even number of Strings in this list!
      */
-    protected String[] registrations = {
-        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
-        "/org/apache/tiles/resources/tiles-config_2_0.dtd"
-    };
+    protected String[] registrations;
 
     /**
      * Indicates whether init method has been called.
@@ -399,6 +396,11 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * DTDs.
      */
     protected String[] getRegistrations() {
+        if (registrations == null) {
+            registrations = new String[] {
+                "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
+                "/org/apache/tiles/resources/tiles-config_2_0.dtd"};
+        }
         return registrations;
     }
 }
