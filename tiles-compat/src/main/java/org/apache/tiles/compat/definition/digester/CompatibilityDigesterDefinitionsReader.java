@@ -193,4 +193,9 @@ public class CompatibilityDigesterDefinitionsReader extends
         digester.addRule(addListElementTag, new FillAttributeRule());
         digester.addSetNext(addListElementTag, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
     }
+
+    /** {@inheritDoc} */
+    protected String[] getRegistrations() {
+        return registrations;
+    }
 }

@@ -200,6 +200,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.setErrorHandler(new ThrowingErrorHandler());
 
         // Register our local copy of the DTDs that we can find
+        String[] registrations = getRegistrations();
         for (int i = 0; i < registrations.length; i += 2) {
             URL url = this.getClass().getResource(
                 registrations[i + 1]);
@@ -389,5 +390,15 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         public void fatalError(SAXParseException exception) throws SAXException {
             throw exception;
         }
+    }
+
+    /**
+     * Returns the registrations for local DTDs.
+     *
+     * @return An array containing the locations for registrations of local
+     * DTDs.
+     */
+    protected String[] getRegistrations() {
+        return registrations;
     }
 }
