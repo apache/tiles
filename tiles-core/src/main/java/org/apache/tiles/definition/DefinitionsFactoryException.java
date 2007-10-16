@@ -36,7 +36,6 @@ public class DefinitionsFactoryException extends TilesException {
      */
     public DefinitionsFactoryException() {
         super();
-        this.exception = null;
     }
 
     /**
@@ -46,7 +45,6 @@ public class DefinitionsFactoryException extends TilesException {
      */
     public DefinitionsFactoryException(String message) {
         super(message);
-        this.exception = null;
     }
 
 
@@ -60,8 +58,7 @@ public class DefinitionsFactoryException extends TilesException {
      * @param e The exception to be wrapped.
      */
     public DefinitionsFactoryException(Exception e) {
-        super();
-        this.exception = e;
+        super(e);
     }
 
 
@@ -75,49 +72,6 @@ public class DefinitionsFactoryException extends TilesException {
      * @param e       The exception to be wrapped.
      */
     public DefinitionsFactoryException(String message, Exception e) {
-        super(message);
-        this.exception = e;
+        super(message, e);
     }
-
-
-    /**
-     * Return a detail message for this exception.
-     * <p/>
-     * <p>If there is a embedded exception, and if the DefinitionsFactoryException
-     * has no detail message of its own, this method will return
-     * the detail message from the embedded exception.</p>
-     *
-     * @return The error or warning message.
-     */
-    public String getMessage() {
-        String message = super.getMessage();
-
-        if (message == null && exception != null) {
-            return exception.getMessage();
-        } else {
-            return message;
-        }
-    }
-
-
-    /**
-     * Return the embedded exception, if any.
-     *
-     * @return The embedded exception, or <code>null</code> if there is none.
-     */
-    public Exception getException() {
-        return exception;
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    // Internal state.
-    //////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Any "wrapped" exception will be exposed when this is serialized.
-     *
-     * @serial
-     */
-    private Exception exception;
 }
