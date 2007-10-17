@@ -198,11 +198,10 @@ public class TestDigesterDefinitionsReader extends TestCase {
      * configuration file with invalid XML.
      */
     public void testValidatingParameter() {
+        // Testing with default (validation ON).
         try {
             DefinitionsReader reader = new DigesterDefinitionsReader();
             Map<String, String> params = new HashMap<String, String>();
-            params.put(DigesterDefinitionsReader.PARSER_VALIDATE_PARAMETER_NAME,
-                    "true");
             reader.init(params);
 
             URL configFile = this.getClass().getClassLoader().getResource(
@@ -217,6 +216,26 @@ public class TestDigesterDefinitionsReader extends TestCase {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Exception caught, it is OK", e);
             }
+        } catch (Exception e) {
+            fail("Exception reading configuration." + e);
+        }
+
+        // Testing with validation OFF.
+        try {
+            DefinitionsReader reader = new DigesterDefinitionsReader();
+            Map<String, String> params = new HashMap<String, String>();
+            params.put(DigesterDefinitionsReader.PARSER_VALIDATE_PARAMETER_NAME,
+                    "false");
+            reader.init(params);
+
+            URL configFile = this.getClass().getClassLoader().getResource(
+                    "org/apache/tiles/config/invalid-defs.xml");
+            assertNotNull("Config file not found", configFile);
+
+            InputStream source = configFile.openStream();
+            reader.read(source);
+        } catch (DefinitionsFactoryException e) {
+            fail("Should not have thrown an exception." + e);
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }

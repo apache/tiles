@@ -166,9 +166,9 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     private Map<String, Definition> definitions;
     /**
      * Should we use a validating XML parser to read the configuration file.
-     * Default is <code>false</code>.
+     * Default is <code>true</code>.
      */
-    protected boolean validating = false;
+    protected boolean validating = true;
     /**
      * The set of public identifiers, and corresponding resource names for
      * the versions of the configuration file DTDs we know about.  There
