@@ -53,9 +53,20 @@
         </init-param>
     </filter>
 
+    <filter>
+        <filter-name>Security Wrapping Filter</filter-name>
+        <filter-class>org.apache.tiles.test.filter.SecurityWrappingFilter</filter-class>
+    </filter>
+
     <filter-mapping>
         <filter-name>Tiles Decoration Filter</filter-name>
         <url-pattern>/testdecorationfilter.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Security Wrapping Filter</filter-name>
+        <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 
