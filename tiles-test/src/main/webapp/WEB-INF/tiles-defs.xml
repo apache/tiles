@@ -102,4 +102,23 @@
       <put-attribute name="body" value="/defaultlocale.jsp" />
   </definition>
 
+  <definition name="test.definition.appears" extends="test.definition">
+      <put-attribute name="title"  value="This definition appears."/>
+  </definition>
+
+  <definition name="test.definition.does_not_appear" extends="test.definition">
+      <put-attribute name="title"  value="This definition does not appear."/>
+  </definition>
+
+  <definition name="test.definition.appears.configured"
+    extends="test.definition.appears" role="goodrole" />
+
+  <definition name="test.definition.does_not_appear.configured"
+    extends="test.definition.does_not_appear" role="badrole" />
+
+  <definition name="test.definition.roles" template="/layout.jsp">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/header.jsp" role="goodrole" />
+      <put-attribute name="body"   value="/body.jsp" role="badrole" />
+  </definition>
 </tiles-definitions>
