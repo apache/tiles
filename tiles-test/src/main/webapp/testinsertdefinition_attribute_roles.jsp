@@ -1,7 +1,7 @@
 <%@ page session="false" %>
 <%--
 /*
- * $Id: testinsertdefinition.jsp 573035 2007-09-05 19:27:22Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
