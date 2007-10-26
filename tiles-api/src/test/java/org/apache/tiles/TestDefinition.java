@@ -1,5 +1,5 @@
 /*
- * $Id: TestDefinition.java 537191 2007-05-11 13:46:06Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
 /**
  * Tests the Definition class.
  *
- * @version $Rev: 537191 $ $Date: 2007-05-11 15:46:06 +0200 (ven, 11 mag 2007) $
+ * @version $Rev$ $Date$
  */
 public class TestDefinition extends TestCase {
 

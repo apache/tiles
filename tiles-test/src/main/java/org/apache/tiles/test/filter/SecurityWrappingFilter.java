@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id:SecurityWrappingFilter.java 586909 2007-10-21 15:13:47Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 /**
  * Filter that wraps an HttpServletRequest to override "isUserInRole".
  *
- * @version $Rev$ $Date$
+ * @version $Rev:586909 $ $Date:2007-10-21 17:13:47 +0200 (dom, 21 ott 2007) $
  */
 public class SecurityWrappingFilter implements Filter {
 
@@ -64,7 +64,7 @@ public class SecurityWrappingFilter implements Filter {
     /**
      * Request wrapper that overrides "isUserInRole" method.
      *
-     * @version $Rev$ $Date$
+     * @version $Rev:586909 $ $Date:2007-10-21 17:13:47 +0200 (dom, 21 ott 2007) $
      */
     private static class SecurityWrapperHttpServletRequest extends
             HttpServletRequestWrapper {
