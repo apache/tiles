@@ -260,6 +260,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                 "I/O Error reading definitions.", e);
+        } finally {
+            digester.clear();
         }
 
         return definitions;

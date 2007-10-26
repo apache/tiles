@@ -76,7 +76,11 @@
         <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
         <init-param>
             <param-name>definitions-config</param-name>
-            <param-value>/WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml</param-value>
+            <param-value>/WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml,/WEB-INF/tiles-defs-1.1.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.apache.tiles.definition.DefinitionsReader</param-name>
+            <param-value>org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
