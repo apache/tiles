@@ -130,11 +130,11 @@ public abstract class AttributeTagSupport extends TagSupport {
             }
 
             if (attribute == null) {
-                throw new JspException("Attribute whith name '" + name + "' not found");
+                throw new JspException("Attribute with name '" + name + "' not found");
             }
 
             if (attribute.getValue() == null) {
-                throw new JspException("Attribute whith name '" + name + "' has a null value.");
+                throw new JspException("Attribute with name '" + name + "' has a null value.");
             }
         }
 
