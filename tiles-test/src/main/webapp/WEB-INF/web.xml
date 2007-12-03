@@ -132,6 +132,10 @@
             <param-name>include</param-name>
             <param-value>/layout.jsp</param-value>
         </init-param>
+        <init-param>
+            <param-name>errorInclude</param-name>
+            <param-value>/errorInclude.jsp</param-value>
+        </init-param>
     </servlet>
     <servlet>
         <servlet-name>selectLocaleServlet</servlet-name>

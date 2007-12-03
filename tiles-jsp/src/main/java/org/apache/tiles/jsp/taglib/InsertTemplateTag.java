@@ -61,6 +61,10 @@ public class InsertTemplateTag extends RenderTagSupport
 
     /** {@inheritDoc} */
     protected void render() throws JspException {
+        // FIXME This code should be changed once the overriding template
+        // facility will be available, so it can be managed by the Tiles
+        // container.
+        JspUtil.setForceInclude(pageContext, true);
         JspUtil.doInclude(pageContext, template, flush);
     }
 }
