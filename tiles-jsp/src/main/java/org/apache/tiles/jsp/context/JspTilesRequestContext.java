@@ -84,6 +84,7 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
 
     /** {@inheritDoc} */
     public void include(String path) throws IOException {
+        JspUtil.setForceInclude(pageContext, true);
         try {
             JspUtil.doInclude(pageContext, path, false);
         } catch (JspException e) {

@@ -179,7 +179,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
 
     /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {
-        if (response.isCommitted()) {
+        if (response.isCommitted() || ServletUtil.isForceInclude(request)) {
             include(path);
         } else {
             forward(path);
@@ -192,7 +192,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
      * @param path The path to forward to.
      * @throws IOException If something goes wrong during the operation.
      */
-    private void forward(String path) throws IOException {
+    protected void forward(String path) throws IOException {
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
             rd.forward(request, response);
@@ -206,6 +206,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
 
     /** {@inheritDoc} */
     public void include(String path) throws IOException {
+        ServletUtil.setForceInclude(request, true);
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
             rd.include(request, response);

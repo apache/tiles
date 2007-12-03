@@ -22,6 +22,7 @@ package org.apache.tiles.jsp.context;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.servlet.context.ServletUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.jsp.JspException;
@@ -104,5 +105,30 @@ public final class JspUtil {
 
     }
 
+    /**
+     * Returns true if forced include of the result is needed.
+     *
+     * @param context The page context.
+     * @return If <code>true</code> the include operation must be forced.
+     */
+    public static boolean isForceInclude(PageContext context) {
+        Boolean retValue = (Boolean) context.getAttribute(
+                ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+                PageContext.REQUEST_SCOPE);
+        return retValue != null && retValue.booleanValue();
+    }
 
+    /**
+     * Sets the option that enables the forced include of the response.
+     *
+     * @param context The page context.
+     * @param forceInclude If <code>true</code> the include operation must be
+     * forced.
+     */
+    public static void setForceInclude(PageContext context, boolean forceInclude) {
+        Boolean retValue = Boolean.valueOf(forceInclude);
+        context.setAttribute(
+                ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+                retValue, PageContext.REQUEST_SCOPE);
+    }
 }

@@ -21,7 +21,12 @@
 
 package org.apache.tiles.servlet.context;
 
+import java.io.IOException;
 import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shale.test.mock.MockHttpServletRequest;
 import org.apache.shale.test.mock.MockHttpServletResponse;
@@ -38,15 +43,25 @@ import junit.framework.TestCase;
 public class ServletTilesRequestContextTest extends TestCase {
 
     /**
+     * Test path to check forward and include.
+     */
+    private static final String TEST_PATH = "testPath.jsp";
+
+    /**
      * The request context.
      */
     private TilesRequestContext context;
+
+    /**
+     * The servlet context.
+     */
+    private MockServletContext servletContext;
 
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        MockServletContext servletContext = new MockServletContext();
+        servletContext = new MockServletContext();
         servletContext
                 .addInitParameter("initParameter1", "initParameterValue1");
         MockHttpSession session = new MockHttpSession(servletContext);
@@ -170,6 +185,27 @@ public class ServletTilesRequestContextTest extends TestCase {
     }
 
     /**
+     * Tests the forced inclusion in the request.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testForceInclude() throws IOException {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new CommitSupportMockHttpServletResponse();
+        MockServletTilesRequestContext context = new MockServletTilesRequestContext(
+                servletContext, request, response);
+        context.dispatch(TEST_PATH);
+        assertEquals("Forward has not been called", 1, context.getForwardCount());
+        assertEquals("Include has been called", 0, context.getIncludeCount());
+        assertFalse("Force include has been incorrectly set.", ServletUtil
+                .isForceInclude(request));
+        ServletUtil.setForceInclude(request, true);
+        context.dispatch(TEST_PATH);
+        assertEquals("Forward has been called", 1, context.getForwardCount());
+        assertEquals("Include has not been called", 1, context.getIncludeCount());
+    }
+
+    /**
      * Tests a generic map.
      *
      * @param <K> The key type.
@@ -195,6 +231,79 @@ public class ServletTilesRequestContextTest extends TestCase {
             assertTrue("The map " + mapName
                     + " does not return the correct value for 'containsValue'",
                     currentMap.containsValue(value));
+        }
+    }
+
+    /**
+     * Extends {@link MockHttpServletResponse} to override
+     * {@link MockHttpServletResponse#isCommitted()} method.
+     */
+    private static class CommitSupportMockHttpServletResponse extends
+            MockHttpServletResponse {
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean isCommitted() {
+            return false;
+        }
+    }
+
+    /**
+     * Extends {@link ServletTilesRequestContext} to check forward and include.
+     */
+    private static class MockServletTilesRequestContext extends
+            ServletTilesRequestContext {
+
+        /**
+         * The number of times that forward has been called.
+         */
+        private int forwardCount = 0;
+
+        /**
+         * The number of times that include has been called.
+         */
+        private int includeCount = 0;
+
+        /**
+         * Constructor.
+         *
+         * @param servletContext The servlet context.
+         * @param request The request.
+         * @param response The response.
+         */
+        public MockServletTilesRequestContext(ServletContext servletContext,
+                HttpServletRequest request, HttpServletResponse response) {
+            super(servletContext, request, response);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected void forward(String path) throws IOException {
+            forwardCount++;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void include(String path) throws IOException {
+            includeCount++;
+        }
+
+        /**
+         * Returns the forward count.
+         *
+         * @return The forward count.
+         */
+        public int getForwardCount() {
+            return forwardCount;
+        }
+
+        /**
+         * Returns the include count.
+         *
+         * @return The include count.
+         */
+        public int getIncludeCount() {
+            return includeCount;
         }
     }
 }
