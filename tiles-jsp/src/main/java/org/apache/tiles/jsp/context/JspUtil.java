@@ -20,16 +20,9 @@
  */
 package org.apache.tiles.jsp.context;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.servlet.context.ServletUtil;
 
-import javax.servlet.ServletException;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * Utility class for working within a Jsp environment.
@@ -42,67 +35,6 @@ public final class JspUtil {
      * Constructor, private to avoid instantiation.
      */
     private JspUtil() {
-    }
-
-    /**
-     * The logging object.
-     */
-    private static final Log LOG =
-        LogFactory.getLog(JspUtil.class);
-
-    /**
-     * JSP 2.0 include method to use which supports configurable flushing.
-     */
-    private static Method include = null;
-
-    /**
-     * Initialize the include variable with the
-     * JSP 2.0 method if available.
-     */
-    static {
-        try {
-            // get version of include method with flush argument
-            Class<?>[] args = new Class<?>[]{String.class, boolean.class};
-            include = PageContext.class.getMethod("include", args);
-        } catch (NoSuchMethodException e) {
-            LOG.debug("Could not find JSP 2.0 include method.  Using old one that doesn't support "
-                    + "configurable flushing.", e);
-        }
-    }
-
-    /**
-     * Includes an URI in the JSP response.
-     *
-     * @param pageContext The page context to use.
-     * @param uri The URI to include.
-     * @param flush <code>true</code> means that the buffer should be flushed at
-     * the end of this operation
-     * @throws JspException If an underlying exception happens.
-     */
-    public static void doInclude(PageContext pageContext, String uri, boolean flush)
-        throws JspException {
-
-        try {
-            // perform include with new JSP 2.0 method that supports flushing
-            if (include != null) {
-                include.invoke(pageContext, uri, flush);
-                return;
-            }
-        } catch (IllegalAccessException e) {
-            LOG.debug("Could not find JSP 2.0 include method.  Using old one.", e);
-        } catch (InvocationTargetException e) {
-            LOG.debug("Unable to execute JSP 2.0 include method.  Trying old one.", e);
-        }
-
-
-        try {
-            pageContext.include(uri);
-        } catch (IOException e) {
-            throw new JspException("IOException while including page.", e);
-        } catch (ServletException e) {
-            throw new JspException("ServletException while including page.", e);
-        }
-
     }
 
     /**

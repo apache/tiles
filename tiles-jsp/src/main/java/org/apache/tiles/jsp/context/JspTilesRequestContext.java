@@ -26,10 +26,10 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.JspException;
 import java.io.IOException;
 
 /**
@@ -86,9 +86,9 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
     public void include(String path) throws IOException {
         JspUtil.setForceInclude(pageContext, true);
         try {
-            JspUtil.doInclude(pageContext, path, false);
-        } catch (JspException e) {
-            LOG.error("JSPException while including path '" + path + "'. ", e);
+            pageContext.include(path, false);
+        } catch (ServletException e) {
+            LOG.error("ServletException while including path '" + path + "'. ", e);
             throw new IOException("JSPException while including path '" + path
                     + "'. " + e.getMessage());
         }
