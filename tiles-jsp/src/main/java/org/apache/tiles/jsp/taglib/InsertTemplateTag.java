@@ -21,8 +21,11 @@
 
 package org.apache.tiles.jsp.taglib;
 
+import java.io.IOException;
+
 import org.apache.tiles.jsp.context.JspUtil;
 
+import javax.servlet.ServletException;
 import javax.servlet.jsp.JspException;
 
 /**
@@ -65,6 +68,18 @@ public class InsertTemplateTag extends RenderTagSupport
         // facility will be available, so it can be managed by the Tiles
         // container.
         JspUtil.setForceInclude(pageContext, true);
-        JspUtil.doInclude(pageContext, template, flush);
+        try {
+            pageContext.include(template, flush);
+        } catch (ServletException e) {
+            Throwable rootCause = e.getRootCause();
+            if (rootCause != null) {
+                // Replace the ServletException with a JspException
+                throw new JspException(rootCause);
+            } else {
+                throw new JspException(e);
+            }
+        } catch (IOException e) {
+            throw new JspException(e);
+        }
     }
 }
