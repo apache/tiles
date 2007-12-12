@@ -190,7 +190,8 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         try {
             rd.forward(request, response);
         } catch (ServletException ex) {
-            throw wrapServletException(ex, path);
+            throw wrapServletException(ex, "ServletException including path '"
+                    + path + "'.");
         }
     }
 
@@ -202,7 +203,8 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         try {
             rd.include(request, response);
         } catch (ServletException ex) {
-            throw wrapServletException(ex, path);
+            throw wrapServletException(ex, "ServletException including path '"
+                    + path + "'.");
         }
     }
 
@@ -270,20 +272,18 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
      * Wraps a ServletException to create an IOException with the root cause if present.
      *
      * @param ex The exception to wrap.
-     * @param path The path that failed.
+     * @param message The message of the exception.
      * @return The wrapped exception.
      */
-    protected IOException wrapServletException(ServletException ex, String path) {
+    protected IOException wrapServletException(ServletException ex, String message) {
         IOException retValue;
         Throwable rootCause = ex.getRootCause();
         if (rootCause != null) {
             // Replace the ServletException with an IOException, with the root
             // cause of the first as the cause of the latter.
-            retValue = new IOException("JSPException while including path '"
-                    + path + "'.", rootCause);
+            retValue = new IOException(message, rootCause);
         } else {
-            retValue = new IOException("JSPException while including path '"
-                    + path + "'.", ex);
+            retValue = new IOException(message, ex);
         }
 
         return retValue;

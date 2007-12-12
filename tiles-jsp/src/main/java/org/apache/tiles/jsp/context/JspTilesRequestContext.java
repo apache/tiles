@@ -79,7 +79,8 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
         try {
             pageContext.include(path, false);
         } catch (ServletException e) {
-            throw wrapServletException(e, path);
+            throw wrapServletException(e, "JSPException including path '"
+                    + path + "'.");
         }
     }
 
