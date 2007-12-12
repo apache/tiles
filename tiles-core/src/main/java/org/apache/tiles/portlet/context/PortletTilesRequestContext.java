@@ -239,7 +239,7 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
                     (RenderResponse) response);
             } catch (PortletException e) {
                 throw new IOException("PortletException while including path '"
-                        + path + "'." + e.getMessage());
+                        + path + "'.", e);
             }
         }
     }

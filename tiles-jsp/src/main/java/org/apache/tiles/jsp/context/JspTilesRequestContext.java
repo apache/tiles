@@ -20,8 +20,6 @@
  */
 package org.apache.tiles.jsp.context;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
@@ -40,13 +38,6 @@ import java.io.IOException;
  */
 public class JspTilesRequestContext extends ServletTilesRequestContext
     implements TilesRequestContext {
-
-    /**
-     * The logging object.
-     */
-    private static final Log LOG =
-        LogFactory.getLog(JspTilesRequestContext.class);
-
 
     /**
      * The current page context.
@@ -88,9 +79,8 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
         try {
             pageContext.include(path, false);
         } catch (ServletException e) {
-            LOG.error("ServletException while including path '" + path + "'. ", e);
-            throw new IOException("JSPException while including path '" + path
-                    + "'. " + e.getMessage());
+            throw wrapServletException(e, "JSPException including path '"
+                    + path + "'.");
         }
     }
 

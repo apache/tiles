@@ -30,21 +30,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
- * Servlet-bsed implementation of the TilesApplicationContext interface.
+ * Servlet-based implementation of the TilesApplicationContext interface.
  *
  * @version $Rev$ $Date$
  */
 public class ServletTilesRequestContext extends ServletTilesApplicationContext implements TilesRequestContext {
-
-    /**
-     * The logging object.
-     */
-    private static final Log LOG = LogFactory.getLog(ServletTilesRequestContext.class);
 
     /**
      * The request object to use.
@@ -197,9 +190,8 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         try {
             rd.forward(request, response);
         } catch (ServletException ex) {
-            LOG.error("Servlet Exception while including path", ex);
-            throw new IOException("Error including path '" + path + "'. "
-                    + ex.getMessage());
+            throw wrapServletException(ex, "ServletException including path '"
+                    + path + "'.");
         }
     }
 
@@ -211,9 +203,8 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         try {
             rd.include(request, response);
         } catch (ServletException ex) {
-            LOG.error("Servlet Exception while including path", ex);
-            throw new IOException("Error including path '" + path + "'. "
-                    + ex.getMessage());
+            throw wrapServletException(ex, "ServletException including path '"
+                    + path + "'.");
         }
     }
 
@@ -275,5 +266,26 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     /** {@inheritDoc} */
     public boolean isUserInRole(String role) {
         return request.isUserInRole(role);
+    }
+
+    /**
+     * Wraps a ServletException to create an IOException with the root cause if present.
+     *
+     * @param ex The exception to wrap.
+     * @param message The message of the exception.
+     * @return The wrapped exception.
+     */
+    protected IOException wrapServletException(ServletException ex, String message) {
+        IOException retValue;
+        Throwable rootCause = ex.getRootCause();
+        if (rootCause != null) {
+            // Replace the ServletException with an IOException, with the root
+            // cause of the first as the cause of the latter.
+            retValue = new IOException(message, rootCause);
+        } else {
+            retValue = new IOException(message, ex);
+        }
+
+        return retValue;
     }
 }
