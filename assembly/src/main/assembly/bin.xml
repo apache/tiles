@@ -29,6 +29,8 @@
                 <exclude>org.apache.tiles:tiles-core</exclude>
                 <exclude>org.apache.tiles:tiles-jsp</exclude>
                 <exclude>org.apache.tiles:tiles-test</exclude>
+		        <exclude>net.sf.retrotranslator:retrotranslator-runtime</exclude>
+		        <exclude>backport-util-concurrent:backport-util-concurrent</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
