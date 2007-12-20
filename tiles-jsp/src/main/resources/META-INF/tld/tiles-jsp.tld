@@ -232,7 +232,7 @@
       <p><strong>Example : </strong></p>
       <pre>
         <code>
-          <tiles:insertAttribute name="body">
+          &lt;tiles:insertAttribute name="body" /&gt;
         </code>
       </pre>
       ]]>
@@ -391,29 +391,17 @@
 		<li>&lt;insertDefinition&gt;</li>
 		<li>&lt;putListAttribute&gt;</li>
 		</ul>
-		(or any other tag which implements the <code>{@link PutAttributeTagParent}</code> interface.
+		(or any other tag which implements the <code>PutAttributeTagParent</code> interface.
 		Exception is thrown if no appropriate tag can be found.</p>
 		<p>Put tag can have following atributes :
 		<ul>
 		<li>name : Name of the attribute</li>
 		<li>value : value to put as attribute</li>
-		<li>type : value type. Only valid if value is a String and is set by
-		value="something" or by a bean.
-		Possible type are : string (value is used as direct string),
+		<li>type : value type. Possible type are : string (value is used as direct string),
 		template (value is used as a page url to insert),
-		definition (value is used as a definition name to insert)</li>
-		<li>direct : Specify if value is to be used as a direct string or as a
-		page url to insert. This is another way to specify the type. It only apply
-		if value is set as a string, and type is not present.</li>
-		<li>beanName : Name of a bean used for setting value. Only valid if value is not set.
-		If property is specified, value come from bean's property. Otherwise, bean
-		itself is used for value.</li>
-		<li>beanProperty : Name of the property used for retrieving value.</li>
-		<li>beanScope : Scope containing bean. </li>
-		<li>role : Role to check when 'insert' will be called. If enclosing tag is
-		&lt;insert&gt;, role is checked immediately. If enclosing tag is
-		&lt;definition&gt;, role will be checked when this definition will be
-		inserted.</li>
+		definition (value is used as a definition name to insert),
+		object (value is used as it is)</li>
+		<li>role : Role to check when 'insertAttribute' will be called.</li>
 		</ul></p>
 		<p>Value can also come from tag body. Tag body is taken into account only if
 		value is not set by one of the tag attributes. In this case Attribute type is
@@ -437,9 +425,7 @@
          <type>java.lang.Object</type>
          <description>
          <![CDATA[
-         <p>Attribute value. Could be a String or an Object.
-         Value can come from a direct assignment (value="aValue") or from a bean.
-         One of 'value' 'content' or 'beanName' must be present.</p>
+         <p>Attribute value. Could be a String or an Object.</p>
          ]]>
          </description>
       </attribute>
@@ -451,11 +437,12 @@
          <![CDATA[
          <p>Specify content type: string, template or definition.</p>
          <ul>
-           <li>String : Content is printed directly.</li>
+           <li>string : Content is printed directly.</li>
            <li>template : Content is included from specified URL. Value is used as an URL.</li>
            <li>definition : Value is the name of a definition defined in factory (xml file). Definition will be searched
-           in the inserted tile, in a <code>&lt;tiles:insert attribute="attributeName"&gt;</code> tag, where 'attributeName'
+           in the inserted tile, in a <code>&lt;tiles:insertAttribute name="attributeName"&gt;</code> tag, where 'attributeName'
            is the name used for this tag.</li>
+           <li>object: the value is used as it is.</li>
          </ul>
          ]]>
          </description>
@@ -483,8 +470,9 @@
       <p><strong>Declare a list that will be pass as attribute to tile.
       </strong></p>
       <p>Declare a list that will be pass as attribute to tile.
-      List elements are added using the tag 'add'.
-      This tag can only be used inside 'insert' or 'definition' tag.</p>
+      List elements are added using the tags 'addAttribute' or 'addListAttribute'.
+      This tag can only be used inside 'insertTemplate', 'insertDefinition',
+      'definition' tags.</p>
       ]]>
       </description>
       <attribute>
@@ -511,12 +499,11 @@
       <description>
       <![CDATA[
       <p><strong>Add an element to the surrounding list.
-      Equivalent to 'put', but for list element.</strong></p>
+      Equivalent to 'putAttribute', but for list element.</strong></p>
           
       <p>Add an element to the surrounding list.
-      This tag can only be used inside putList tag.
-      Value can come from a direct assignment (value="aValue") or from a bean.
-      One of 'value' or 'beanName' must be present.</p>
+      This tag can only be used inside 'putListAttribute' or 'addListAttribute' tags.
+      Value can come from a direct assignment (value="aValue")</p>
       ]]>
       </description>
       <attribute>
@@ -538,11 +525,12 @@
          <![CDATA[
          <p>Specify content type: string, template or definition.</p>
          <ul>
-            <li>String : Content is printed directly.</li>
+            <li>string : Content is printed directly.</li>
             <li>template : Content is included from specified URL. Value is used as an URL.</li>
             <li>definition : Value denote a definition defined in factory (xml file). Definition will be searched
-            in the inserted tile, in a <code>&lt;insert attribute="attributeName"&gt;</code> tag, where 'attributeName'
+            in the inserted tile, in a <code>&lt;insertAttribute name="attributeName"&gt;</code> tag, where 'attributeName'
             is the name used for this tag.</li>
+            <li>object: the value is used as it is.</li>
          </ul>
          ]]>
          </description>
@@ -555,8 +543,6 @@
          <![CDATA[
          <p>If the user is in the specified role, the tag is taken into account;
          otherwise, the tag is ignored (skipped).</p>
-         <p>The role isn't taken into account if <code>&lt;add&gt;</code> 
-         tag is used in a definition.</p>
          ]]>
          </description>
       </attribute>
@@ -567,11 +553,12 @@
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
-      <p><strong>Declare a list that will be pass as attribute to tile.
+      <p><strong>Declare a list that will be pass as an attribute.
       </strong></p>
-      <p>Declare a list that will be pass as attribute to tile.
-      List elements are added using the tag 'add'.
-      This tag can only be used inside 'insert' or 'definition' tag.</p>
+      <p>Declare a list that will be pass as an attribute .
+      List elements are added using the tag 'addAttribute' or 'addListAttribute'.
+      This tag can only be used inside 'insertTemplate', 'insertDefinition'
+      or 'definition' tag.</p>
       ]]>
       </description>
    </tag>
@@ -639,7 +626,7 @@
       <![CDATA[
       <p><strong>Use attribute value inside page.</strong></p>
       <p>Declare a Java variable, and an attribute in the specified scope, 
-      using tile attribute value.</p>
+      using its attribute value.</p>
       <p>Java variable and attribute will have the name specified by 'id',
       or the original name if not specified.</p>
       ]]>
@@ -680,7 +667,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Tile's attribute name.</p>
+         <p>Attribute name.</p>
          ]]>
          </description>
       </attribute>
@@ -706,9 +693,9 @@
       <body-content>empty</body-content>
       <description>
       <![CDATA[
-      <p><strong>Import Tile's attribute in specified context.</strong></p>
-      <p>Import attribute from tile to requested scope.
-      Attribute name and scope are optional. If not specified, all tile
+      <p><strong>Import attribute(s) in specified context.</strong></p>
+      <p>Import attribute(s) to requested scope.
+      Attribute name and scope are optional. If not specified, all
       attributes are imported in page scope.
       Once imported, an attribute can be used as any other beans from jsp 
       contexts.</p>
@@ -720,7 +707,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Tile's attribute name. If not specified, all attributes are
+         <p>Attribute name. If not specified, all attributes are
          imported.</p>
          ]]>
          </description>
@@ -731,7 +718,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Name of the destination attribute. If not specified, the name will
+         <p>Name of the destination bean. If not specified, the name will
          be the same as specified in <code>name</code> attribute</p>
          ]]>
          </description>
@@ -761,7 +748,7 @@
       </attribute>
    </tag>
    <tag>
-       <name>initContainer</name>
+      <name>initContainer</name>
       <tag-class>org.apache.tiles.jsp.taglib.definition.InitContainerTag</tag-class>
       <body-content>JSP</body-content>
       <description>
