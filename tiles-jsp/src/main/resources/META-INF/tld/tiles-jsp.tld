@@ -46,21 +46,22 @@
       A template can be seen as a procedure that can take parameters or attributes.
       <code>&lt;tiles:insertTemplate&gt;</code> allows to define these attributes 
       and pass them to the inserted jsp page, called template.
-      Attributes are defined using nested tag <code>&lt;tiles:put&gt;</code> or
-      <code>&lt;tiles:putList&gt;</code>.
+      Attributes are defined using nested tag
+      <code>&lt;tiles:putAttribute&gt;</code> or
+      <code>&lt;tiles:putListAttribute&gt;</code>.
       </p>
       <p>You must specify <li><code>template</code> attribute, for inserting a template</p>
      
       <p><strong>Example : </strong></p>
       <pre>
         <code>
-          &lt;tiles:insertTemplate template="/basic/myLayout.jsp" flush="true">
-             &lt;tiles:put name="title" value="My first page" />
-             &lt;tiles:put name="header" value="/common/header.jsp" />
-             &lt;tiles:put name="footer" value="/common/footer.jsp" />
-             &lt;tiles:put name="menu" value="/basic/menu.jsp" />
-             &lt;tiles:put name="body" value="/basic/helloBody.jsp" />
-          &lt;/tiles:insert>
+          &lt;tiles:insertTemplate template="/basic/myLayout.jsp" flush="true"&gt;
+             &lt;tiles:putAttribute name="title" value="My first page" /&gt;
+             &lt;tiles:putAttribute name="header" value="/common/header.jsp" /&gt;
+             &lt;tiles:putAttribute name="footer" value="/common/footer.jsp" /&gt;
+             &lt;tiles:putAttribute name="menu" value="/basic/menu.jsp" /&gt;
+             &lt;tiles:putAttribute name="body" value="/basic/helloBody.jsp" /&gt;
+          &lt;/tiles:insert&gt;
         </code>
       </pre>
       ]]>
@@ -137,21 +138,21 @@
       can override or complete attribute values.
       <code>&lt;tiles:insertDefinition&gt;</code> allows to define these attributes 
       and pass them to the inserted jsp page, called template.
-      Attributes are defined using nested tag <code>&lt;tiles:put&gt;</code> or
-      <code>&lt;tiles:putList&gt;</code>.
+      Attributes are defined using nested tag <code>&lt;tiles:putAttribute&gt;</code> or
+      <code>&lt;tiles:putListAttribute&gt;</code>.
       </p>
       <p>You must specify <code>name</code> tag attribute, for inserting a definition from 
         definitions factory.</p>
       <p><strong>Example : </strong></p>
       <pre>
         <code>
-          &lt;tiles:insertDefinition name=".my.tiles.defininition flush="true">
-             &lt;tiles:put name="title" value="My first page" />
-             &lt;tiles:put name="header" value="/common/header.jsp" />
-             &lt;tiles:put name="footer" value="/common/footer.jsp" />
-             &lt;tiles:put name="menu" value="/basic/menu.jsp" />
-             &lt;tiles:put name="body" value="/basic/helloBody.jsp" />
-          &lt;/tiles:insertDefinition>
+          &lt;tiles:insertDefinition name=".my.tiles.defininition flush="true"&gt;
+             &lt;tiles:putAttribute name="title" value="My first page" /&gt;
+             &lt;tiles:putAttribute name="header" value="/common/header.jsp" /&gt;
+             &lt;tiles:putAttribute name="footer" value="/common/footer.jsp" /&gt;
+             &lt;tiles:putAttribute name="menu" value="/basic/menu.jsp" /&gt;
+             &lt;tiles:putAttribute name="body" value="/basic/helloBody.jsp" /&gt;
+          &lt;/tiles:insertDefinition&gt;
         </code>
       </pre>
       ]]>
