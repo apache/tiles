@@ -43,8 +43,10 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -394,9 +396,12 @@ public class BasicTilesContainer implements TilesContainer {
             throw new NoSuchDefinitionException(definitionName);
         }
 
-        if (!isPermitted(request, definition.getRole())) {
-            LOG.info("Access to definition '" + definitionName
-                    + "' denied.  User not in role '" + definition.getRole());
+        if (!isPermitted(request, definition.getRoles())) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Access to definition '" + definitionName
+                        + "' denied.  User not in role '"
+                        + definition.getRoles());
+            }
             return;
         }
 
@@ -439,9 +444,11 @@ public class BasicTilesContainer implements TilesContainer {
             throw new TilesException("Cannot render a null attribute");
         }
 
-        if (!isPermitted(request, attr.getRole())) {
-            LOG.info("Access to attribute '" + attr.getName()
-                    + "' denied.  User not in role '" + attr.getRole());
+        if (!isPermitted(request, attr.getRoles())) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Access to attribute '" + attr.getName()
+                        + "' denied.  User not in role '" + attr.getRoles());
+            }
             return;
         }
 
@@ -520,21 +527,22 @@ public class BasicTilesContainer implements TilesContainer {
      * specified in the <code>role</code> parameter.
      *
      * @param request The request context.
-     * @param role The comma-separated list of roles.
+     * @param roles The list of roles.
      * @return <code>true</code> if the current user is in one of those roles.
      */
-    private boolean isPermitted(TilesRequestContext request, String role) {
-        if (role == null) {
+    private boolean isPermitted(TilesRequestContext request, Set<String> roles) {
+        if (roles == null || roles.isEmpty()) {
             return true;
         }
 
-        StringTokenizer st = new StringTokenizer(role, ",");
-        while (st.hasMoreTokens()) {
-            if (request.isUserInRole(st.nextToken())) {
-                return true;
-            }
+        boolean retValue = false;
+
+        for (Iterator<String> roleIt = roles.iterator(); roleIt.hasNext()
+                && !retValue;) {
+            retValue = request.isUserInRole(roleIt.next());
         }
-        return false;
+
+        return retValue;
     }
 
     /**

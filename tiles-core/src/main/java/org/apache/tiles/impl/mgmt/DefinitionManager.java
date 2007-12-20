@@ -228,8 +228,8 @@ public class DefinitionManager {
             child.setTemplate(parent.getTemplate());
         }
 
-        if (child.getRole() == null) {
-            child.setRole(parent.getRole());
+        if (child.getRoles() == null) {
+            child.setRoles(parent.getRoles());
         }
 
         if (child.getPreparer() == null) {

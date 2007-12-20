@@ -21,8 +21,11 @@
 package org.apache.tiles;
 
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.apache.tiles.Attribute.AttributeType;
 
@@ -53,9 +56,9 @@ public class Definition {
      */
     protected Map<String, Attribute> attributes = null;
     /**
-     * Role associated to definition.
+     * The roles that can render this definition.
      */
-    protected String role = null;
+    protected Set<String> roles = null;
     /**
      * Associated ViewPreparer URL or classname, if defined.
      */
@@ -80,11 +83,11 @@ public class Definition {
     public Definition(Definition definition) {
         attributes = new HashMap<String, Attribute>(
             definition.getAttributes());
-        this.name = definition.getName();
-        this.template = definition.getTemplate();
-        this.role = definition.getRole();
-        this.preparer = definition.getPreparer();
-        this.inherit = definition.getExtends();
+        this.name = definition.name;
+        this.template = definition.template;
+        this.roles = definition.roles;
+        this.preparer = definition.preparer;
+        this.inherit = definition.inherit;
     }
 
     /**
@@ -142,16 +145,57 @@ public class Definition {
      * @return the current value of the role property
      */
     public String getRole() {
-        return role;
+        String retValue = null;
+
+        if (roles != null && !roles.isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            Iterator<String> roleIt = roles.iterator();
+            if (roleIt.hasNext()) {
+                builder.append(roleIt.next());
+                while (roleIt.hasNext()) {
+                    builder.append(",");
+                    builder.append(roleIt.next());
+                }
+                retValue = builder.toString();
+            }
+        }
+
+        return retValue;
+    }
+
+    /**
+     * Returns the roles that can render this attribute.
+     *
+     * @return The enabled roles.
+     */
+    public Set<String> getRoles() {
+        return roles;
     }
 
     /**
      * Sets the value of the role property.
      *
-     * @param role the new value of the path property
+     * @param role the new value of the role property
      */
     public void setRole(String role) {
-        this.role = role;
+        if (role != null && role.trim().length() > 0) {
+            String[] rolesStrings = role.split("\\s*,\\s*");
+            roles = new HashSet<String>();
+            for (int i = 0; i < rolesStrings.length; i++) {
+                roles.add(rolesStrings[i]);
+            }
+        } else {
+            roles = null;
+        }
+    }
+
+    /**
+     * Sets the roles that can render this attribute.
+     *
+     * @param roles The enabled roles.
+     */
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
 
     /**
@@ -308,7 +352,7 @@ public class Definition {
             + ", template="
             + template
             + ", role="
-            + role
+            + getRoles()
             + ", preparerInstance="
             + preparer
             + ", attributes="

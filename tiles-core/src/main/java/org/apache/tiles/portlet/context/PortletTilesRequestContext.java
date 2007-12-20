@@ -33,6 +33,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.util.TilesIOException;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
@@ -238,8 +239,9 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
                 context.getRequestDispatcher(path).include((RenderRequest) request,
                     (RenderResponse) response);
             } catch (PortletException e) {
-                throw new IOException("PortletException while including path '"
-                        + path + "'.", e);
+                throw new TilesIOException(
+                        "PortletException while including path '" + path + "'.",
+                        e);
             }
         }
     }
