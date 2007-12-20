@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.util.TilesIOException;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.
@@ -281,9 +282,9 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         if (rootCause != null) {
             // Replace the ServletException with an IOException, with the root
             // cause of the first as the cause of the latter.
-            retValue = new IOException(message, rootCause);
+            retValue = new TilesIOException(message, rootCause);
         } else {
-            retValue = new IOException(message, ex);
+            retValue = new TilesIOException(message, ex);
         }
 
         return retValue;
