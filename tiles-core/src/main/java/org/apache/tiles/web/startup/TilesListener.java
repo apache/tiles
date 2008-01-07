@@ -57,8 +57,8 @@ public class TilesListener
             TilesContainer container = createContainer(servletContext);
             TilesAccess.setContainer(servletContext, container);
         } catch (TilesException e) {
-            LOG.fatal("Unable to retrieve tiles factory.", e);
-            throw new IllegalStateException("Unable to instantiate container.");
+            throw new IllegalStateException("Unable to instantiate container.",
+                    e);
         }
     }
 
