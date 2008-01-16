@@ -24,6 +24,7 @@ package org.apache.tiles.context;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -51,6 +52,11 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     private Map<String, Attribute> attributes = null;
 
     /**
+     * Cascaded template attributes.
+     */
+    private Map<String, Attribute> cascadedAttributes = null;
+
+    /**
      * Constructor.
      */
     public BasicAttributeContext() {
@@ -76,12 +82,28 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * @param context The constructor to copy.
      */
     public BasicAttributeContext(AttributeContext context) {
-        this.attributes = new HashMap<String, Attribute>();
-        Iterator<String> names = context.getAttributeNames();
-        while (names.hasNext()) {
-            String name = names.next();
-            attributes.put(name, context.getAttribute(name));
+        if (context instanceof BasicAttributeContext) {
+            copyBasicAttributeContext((BasicAttributeContext) context);
+        } else {
+            this.attributes = new HashMap<String, Attribute>();
+            this.cascadedAttributes = new HashMap<String, Attribute>();
+            for (String name : context.getLocalAttributeNames()) {
+                attributes.put(name, context.getLocalAttribute(name));
+            }
+            for (String name : context.getCascadedAttributeNames()) {
+                cascadedAttributes
+                        .put(name, context.getCascadedAttribute(name));
+            }
         }
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param context The constructor to copy.
+     */
+    public BasicAttributeContext(BasicAttributeContext context) {
+        copyBasicAttributeContext(context);
     }
 
     /**
@@ -120,24 +142,38 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
 
         if (attributes == null) {
             attributes = new HashMap<String, Attribute>(defaultAttributes);
-            return;
+            if (cascadedAttributes == null || cascadedAttributes.isEmpty()) {
+                return;
+            }
         }
 
         Set<Map.Entry<String, Attribute>> entries = defaultAttributes.entrySet();
         for (Map.Entry<String, Attribute> entry : entries) {
-            if (!attributes.containsKey(entry.getKey())) {
+            String key = entry.getKey();
+            if (!attributes.containsKey(key)
+                    && (cascadedAttributes == null || cascadedAttributes
+                            .containsKey(key))) {
                 attributes.put(entry.getKey(), entry.getValue());
             }
         }
     }
 
-    /**
-     * Get an attribute from context.
-     *
-     * @param name Name of the attribute.
-     * @return <{Attribute}>
-     */
+    /** {@inheritDoc} */
     public Attribute getAttribute(String name) {
+        Attribute retValue = null;
+        if (attributes != null) {
+            retValue = attributes.get(name);
+        }
+
+        if (retValue == null && cascadedAttributes != null) {
+            retValue = cascadedAttributes.get(name);
+        }
+
+        return retValue;
+    }
+
+    /** {@inheritDoc} */
+    public Attribute getLocalAttribute(String name) {
         if (attributes == null) {
             return null;
         }
@@ -145,31 +181,78 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         return attributes.get(name);
     }
 
-    /**
-     * Get names of all attributes.
-     *
-     * @return <{Attribute}>
-     */
-    public Iterator<String> getAttributeNames() {
-        if (attributes == null) {
-            return new ArrayList<String>().iterator();
+    /** {@inheritDoc} */
+    public Attribute getCascadedAttribute(String name) {
+        if (cascadedAttributes == null) {
+            return null;
         }
 
-        return attributes.keySet().iterator();
+        return cascadedAttributes.get(name);
     }
 
-    /**
-     * Put a new attribute to context.
-     *
-     * @param name  Name of the attribute.
-     * @param value Value of the attribute.
-     */
+    /** {@inheritDoc} */
+    public Iterator<String> getAttributeNames() {
+        Set<String> attributeSet = null;
+
+        if (attributes != null && !attributes.isEmpty()) {
+            attributeSet = new HashSet<String>(attributes
+                    .keySet());
+            if (cascadedAttributes != null && !cascadedAttributes.isEmpty()) {
+                attributeSet.addAll(cascadedAttributes.keySet());
+            }
+        } else if (cascadedAttributes != null && !cascadedAttributes.isEmpty()) {
+            attributeSet = new HashSet<String>(cascadedAttributes.keySet());
+        }
+
+        if (attributeSet != null) {
+            return attributeSet.iterator();
+        } else {
+            return new ArrayList<String>().iterator();
+        }
+    }
+
+    /** {@inheritDoc} */
+    public Set<String> getLocalAttributeNames() {
+        if (attributes != null && !attributes.isEmpty()) {
+            return attributes.keySet();
+        } else {
+            return null;
+        }
+    }
+
+    /** {@inheritDoc} */
+    public Set<String> getCascadedAttributeNames() {
+        if (cascadedAttributes != null && !cascadedAttributes.isEmpty()) {
+            return cascadedAttributes.keySet();
+        } else {
+            return null;
+        }
+    }
+
+    /** {@inheritDoc} */
     public void putAttribute(String name, Attribute value) {
         if (attributes == null) {
             attributes = new HashMap<String, Attribute>();
         }
 
         attributes.put(name, value);
+    }
+
+    /** {@inheritDoc} */
+    public void putAttribute(String name, Attribute value, boolean cascade) {
+        Map<String, Attribute> mapToUse;
+        if (cascade) {
+            if (cascadedAttributes == null) {
+                cascadedAttributes = new HashMap<String, Attribute>();
+            }
+            mapToUse = cascadedAttributes;
+        } else {
+            if (attributes == null) {
+                attributes = new HashMap<String, Attribute>();
+            }
+            mapToUse = attributes;
+        }
+        mapToUse.put(name, value);
     }
 
     /**
@@ -234,5 +317,22 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     /** {@inheritDoc} */
     public void clear() {
         attributes.clear();
+        cascadedAttributes.clear();
+    }
+
+    /**
+     * Copies a BasicAttributeContext in an easier way.
+     *
+     * @param context The context to copy.
+     */
+    private void copyBasicAttributeContext(BasicAttributeContext context) {
+        if (context.attributes != null && !context.attributes.isEmpty()) {
+            attributes = new HashMap<String, Attribute>(context.attributes);
+        }
+        if (context.cascadedAttributes != null
+                && !context.cascadedAttributes.isEmpty()) {
+            cascadedAttributes = new HashMap<String, Attribute>(
+                    context.cascadedAttributes);
+        }
     }
 }

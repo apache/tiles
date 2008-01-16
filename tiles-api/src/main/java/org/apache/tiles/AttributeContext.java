@@ -22,6 +22,7 @@ package org.apache.tiles;
 
 import java.util.Map;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Encapsulation of the current state of execution.
@@ -46,7 +47,7 @@ public interface AttributeContext {
     void addMissing(Map<String, Attribute> defaultAttributes);
 
     /**
-     * Retrieve the named attribute.
+     * Retrieve the named attribute, either cascaded or not.
      *
      * @param name key name for the attribute.
      * @return Attribute associated with the given name.
@@ -54,19 +55,68 @@ public interface AttributeContext {
     Attribute getAttribute(String name);
 
     /**
+     * Retrieve the attribute that has been defined in this context (i.e. not
+     * cascaded).
+     *
+     * @param name key name for the attribute.
+     * @return Attribute The local attribute associated with the given name, if
+     * present, or <code>null</code> otherwise.
+     */
+    Attribute getLocalAttribute(String name);
+
+    /**
+     * Retrieve the attribute that has been cascaded at upper levels.
+     *
+     * @param name key name for the attribute.
+     * @return Attribute The cascaded attribute associated with the given name,
+     * if present, or <code>null</code> otherwise.
+     */
+    Attribute getCascadedAttribute(String name);
+
+    /**
      * Iterator of all attribute names.
      *
      * @return iterator of all names.
      */
+    @Deprecated
     Iterator<String> getAttributeNames();
+
+    /**
+     * Returns the names of the local attributes, i.e. the one that have not
+     * been cascaded.
+     *
+     * @return The local attribute names.
+     */
+    Set<String> getLocalAttributeNames();
+
+    /**
+     * Returns the names of the cascaded attributes.
+     *
+     * @return The cascaded attribute names.
+     */
+    Set<String> getCascadedAttributeNames();
+
+    /**
+     * Add the specified attribute. The attribute value will be available only
+     * in the current context, i.e. it is like calling
+     * {@link AttributeContext#putAttribute(String, Attribute, boolean)} with
+     * <code>cascade = false</code>.
+     *
+     * @param name name of the attribute
+     * @param value value of the attribute
+     */
+    void putAttribute(String name, Attribute value);
 
     /**
      * Add the specified attribute.
      *
      * @param name name of the attribute
      * @param value value of the attribute
+     * @param cascade If <code>true</code>, the attribute value will be
+     * available in all nested contexts. If <code>false</code>, it will be
+     * available only in the current context.
      */
-    void putAttribute(String name, Attribute value);
+    void putAttribute(String name, Attribute value, boolean cascade);
 
     /**
      * Clear the attributes.
