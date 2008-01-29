@@ -23,7 +23,8 @@ package org.apache.tiles.jsp.taglib;
 import org.apache.tiles.Attribute;
 
 import javax.servlet.jsp.JspException;
-import java.util.Iterator;
+
+import java.util.Collection;
 
 
 /**
@@ -75,28 +76,40 @@ public class ImportAttributeTag extends AttributeTagSupport {
             pageContext.setAttribute(toName != null ? toName : name,
                     attribute.getValue(), scope);
         } else {
-            Iterator<String> names = attributeContext.getAttributeNames();
-            while (names.hasNext()) {
-                String name = names.next();
+            importAttributes(attributeContext.getCascadedAttributeNames());
+            importAttributes(attributeContext.getLocalAttributeNames());
+        }
+    }
 
-                if (name == null && !ignore) {
-                    throw new JspException("Error importing attributes. "
-                            + "Attribute with null key found.");
-                } else if (name == null) {
-                    continue;
-                }
+    /**
+     * Imports an attribute set.
+     *
+     * @param names The names of the attributes to be imported.
+     * @throws JspException If something goes wrong during the import.
+     */
+    private void importAttributes(Collection<String> names) throws JspException {
+        if (names == null || names.isEmpty()) {
+            return;
+        }
 
-                Attribute attr = attributeContext.getAttribute(name);
-
-                if ((attr == null || attr.getValue() == null) && !ignore) {
-                    throw new JspException("Error importing attributes. "
-                            + "Attribute '" + name + "' has a null value ");
-                } else if (attr == null || attr.getValue() == null) {
-                    continue;
-                }
-
-                pageContext.setAttribute(name, attr.getValue(), scope);
+        for (String name : names) {
+            if (name == null && !ignore) {
+                throw new JspException("Error importing attributes. "
+                        + "Attribute with null key found.");
+            } else if (name == null) {
+                continue;
             }
+
+            Attribute attr = attributeContext.getAttribute(name);
+
+            if ((attr == null || attr.getValue() == null) && !ignore) {
+                throw new JspException("Error importing attributes. "
+                        + "Attribute '" + name + "' has a null value ");
+            } else if (attr == null || attr.getValue() == null) {
+                continue;
+            }
+
+            pageContext.setAttribute(name, attr.getValue(), scope);
         }
     }
 }
