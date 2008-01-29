@@ -178,7 +178,9 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * @param tilesContext current Tiles application context.
      * @return BasicAttributeContext or null if context is not found or an
      *         jspException is present in the request.
+     * @deprecated Use {@link TilesContainer#getAttributeContext(Object...)}.
      */
+    @Deprecated
     public static AttributeContext getContext(TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack = getContextStack(tilesContext);
         if (!contextStack.isEmpty()) {
@@ -193,7 +195,11 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      *
      * @param tilesContext The Tiles context object to use.
      * @return The needed stack of contexts.
+     * @deprecated Use {@link TilesContainer#getAttributeContext(Object...)},
+     * {@link TilesContainer#startContext(Object...)} or
+     * {@link TilesContainer#endContext(Object...)}.
      */
+    @Deprecated
     @SuppressWarnings("unchecked")
     public static Stack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack =
@@ -213,7 +219,9 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      *
      * @param context The context to push.
      * @param tilesContext The Tiles context object to use.
+     * @deprecated Use {@link TilesContainer#startContext(Object...)}.
      */
+    @Deprecated
     public static void pushContext(AttributeContext context,
             TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack = getContextStack(tilesContext);
@@ -225,6 +233,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      *
      * @param tilesContext The Tiles context object to use.
      * @return The popped context object.
+     * @deprecated Use {@link TilesContainer#endContext(Object...)}.
      */
     public static AttributeContext popContext(TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack = getContextStack(tilesContext);
