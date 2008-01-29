@@ -137,79 +137,6 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /**
-     * Starts an attribute context inside the container.
-     *
-     * @param tilesContext The request context to use.
-     * @return The newly created attribute context.
-     */
-    private AttributeContext startContext(TilesRequestContext tilesContext) {
-        AttributeContext context = new BasicAttributeContext();
-        BasicAttributeContext.pushContext(context, tilesContext);
-        return context;
-    }
-
-    /**
-     * Releases and removes a previously created attribute context.
-     *
-     * @param tilesContext The request context to use.
-     */
-    private void endContext(TilesRequestContext tilesContext) {
-        BasicAttributeContext.popContext(tilesContext);
-    }
-
-    /**
-     * Determine whether or not the container has been
-     * initialized. Utility method used for methods which
-     * can not be invoked after the container has been
-     * started.
-     *
-     * @throws IllegalStateException if the container has already been initialized.
-     */
-    protected void checkInit() {
-        if (initialized) {
-            throw new IllegalStateException("Container allready initialized");
-        }
-    }
-
-    /**
-     * Initializes a definitions factory.
-     *
-     * @param definitionsFactory The factory to initialize.
-     * @param resourceString The string containing a comma-separated-list of
-     * resources.
-     * @param initParameters A map containing the initialization parameters.
-     * @throws TilesException If something goes wrong.
-     */
-    protected void initializeDefinitionsFactory(
-            DefinitionsFactory definitionsFactory, String resourceString,
-            Map<String, String> initParameters) throws TilesException {
-        List<String> resources = getResourceNames(resourceString);
-
-        try {
-            for (String resource : resources) {
-                URL resourceUrl = context.getResource(resource);
-                if (resourceUrl != null) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Adding resource '" + resourceUrl + "' to definitions factory.");
-                    }
-                    definitionsFactory.addSource(resourceUrl);
-                } else {
-                    LOG.warn("Unable to find configured definition '" + resource + "'");
-                }
-            }
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException("Unable to parse definitions from "
-                + resourceString, e);
-        }
-
-        definitionsFactory.init(initParameters);
-
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Tiles2 container initialization complete.");
-        }
-    }
-
-    /**
      * Returns the Tiles application context used by this container.
      *
      * @return the application context for this container.
@@ -232,34 +159,6 @@ public class BasicTilesContainer implements TilesContainer {
         TilesRequestContext tilesContext = getRequestContext(requestItems);
         return getAttributeContext(tilesContext);
 
-    }
-
-    /**
-     * Returns the current attribute context.
-     *
-     * @param tilesContext The request context to use.
-     * @return The current attribute context.
-     */
-    private AttributeContext getAttributeContext(TilesRequestContext tilesContext) {
-        AttributeContext context = BasicAttributeContext.getContext(tilesContext);
-        if (context == null) {
-            context = new BasicAttributeContext();
-            BasicAttributeContext.pushContext(context, tilesContext);
-        }
-        return context;
-    }
-
-    /**
-     * Creates a Tiles request context from request items.
-     *
-     * @param requestItems The request items.
-     * @return The created Tiles request context.
-     */
-    private TilesRequestContext getRequestContext(Object... requestItems) {
-        return getContextFactory().createRequestContext(
-            getApplicationContext(),
-            requestItems
-        );
     }
 
     /**
@@ -330,6 +229,229 @@ public class BasicTilesContainer implements TilesContainer {
         prepare(requestContext, preparer, false);
     }
 
+    /** {@inheritDoc} */
+    public void render(String definitionName, Object... requestItems)
+        throws TilesException {
+        TilesRequestContext requestContext = getContextFactory().createRequestContext(
+            getApplicationContext(),
+            requestItems
+        );
+        render(requestContext, definitionName);
+    }
+
+    /** {@inheritDoc} */
+    public void render(Attribute attr, Writer writer, Object... requestItems)
+        throws TilesException, IOException {
+        TilesRequestContext request = getRequestContext(requestItems);
+
+        if (attr == null) {
+            throw new TilesException("Cannot render a null attribute");
+        }
+
+        if (!isPermitted(request, attr.getRoles())) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Access to attribute '" + attr.getName()
+                        + "' denied.  User not in role '" + attr.getRoles());
+            }
+            return;
+        }
+
+        AttributeType type = attr.getType();
+        if (type == null) {
+            type = calculateType(attr, request);
+            attr.setType(type);
+        }
+
+        switch (type) {
+            case OBJECT:
+                throw new TilesException(
+                    "Cannot insert an attribute of 'object' type");
+            case STRING:
+                writer.write(attr.getValue().toString());
+                break;
+            case DEFINITION:
+                render(request, attr.getValue().toString());
+                break;
+            case TEMPLATE:
+                request.dispatch(attr.getValue().toString());
+                break;
+            default: // should not happen
+                throw new TilesException(
+                        "Unrecognized type for attribute value "
+                        + attr.getValue());
+        }
+    }
+
+    /** {@inheritDoc} */
+    public boolean isValidDefinition(String definitionName, Object... requestItems) {
+        return isValidDefinition(getRequestContext(requestItems), definitionName);
+    }
+
+    /**
+     * Returns a definition specifying its name.
+     *
+     * @param definitionName The name of the definition to find.
+     * @param request The request context.
+     * @return The definition, if found.
+     * @throws DefinitionsFactoryException If the definitions factory throws an
+     * exception.
+     */
+    protected Definition getDefinition(String definitionName,
+            TilesRequestContext request) throws DefinitionsFactoryException {
+        Definition definition =
+            definitionsFactory.getDefinition(definitionName, request);
+        return definition;
+    }
+
+    /**
+     * Derive the resource string from the initialization parameters.
+     * If no parameter {@link #DEFINITIONS_CONFIG} is available, attempts
+     * to retrieve {@link #LEGACY_DEFINITIONS_CONFIG}.  If niether are
+     * available, returns "/WEB-INF/tiles.xml".
+     *
+     * @return resource string to be parsed.
+     */
+    protected String getResourceString() {
+        return getResourceString(context.getInitParams());
+    }
+
+    /**
+     * Derive the resource string from the initialization parameters.
+     * If no parameter {@link #DEFINITIONS_CONFIG} is available, attempts
+     * to retrieve {@link #LEGACY_DEFINITIONS_CONFIG}.  If niether are
+     * available, returns "/WEB-INF/tiles.xml".
+     *
+     * @param parms The initialization parameters.
+     * @return resource string to be parsed.
+     */
+    protected String getResourceString(Map<String, String> parms) {
+        String resourceStr = parms.get(DEFINITIONS_CONFIG);
+        if (resourceStr == null) {
+            resourceStr = parms.get(LEGACY_DEFINITIONS_CONFIG);
+        }
+        if (resourceStr == null) {
+            resourceStr = "/WEB-INF/tiles.xml";
+        }
+        return resourceStr;
+    }
+
+    /**
+     * Parse the resourceString into a list of resource paths
+     * which can be loaded by the application context.
+     *
+     * @param resourceString comma seperated resources
+     * @return parsed resources
+     */
+    protected List<String> getResourceNames(String resourceString) {
+        StringTokenizer tokenizer = new StringTokenizer(resourceString, ",");
+        List<String> filenames = new ArrayList<String>(tokenizer.countTokens());
+        while (tokenizer.hasMoreTokens()) {
+            filenames.add(tokenizer.nextToken().trim());
+        }
+        return filenames;
+    }
+
+    /**
+     * Determine whether or not the container has been
+     * initialized. Utility method used for methods which
+     * can not be invoked after the container has been
+     * started.
+     *
+     * @throws IllegalStateException if the container has already been initialized.
+     */
+    protected void checkInit() {
+        if (initialized) {
+            throw new IllegalStateException("Container allready initialized");
+        }
+    }
+
+    /**
+     * Initializes a definitions factory.
+     *
+     * @param definitionsFactory The factory to initialize.
+     * @param resourceString The string containing a comma-separated-list of
+     * resources.
+     * @param initParameters A map containing the initialization parameters.
+     * @throws TilesException If something goes wrong.
+     */
+    protected void initializeDefinitionsFactory(
+            DefinitionsFactory definitionsFactory, String resourceString,
+            Map<String, String> initParameters) throws TilesException {
+        List<String> resources = getResourceNames(resourceString);
+
+        try {
+            for (String resource : resources) {
+                URL resourceUrl = context.getResource(resource);
+                if (resourceUrl != null) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Adding resource '" + resourceUrl + "' to definitions factory.");
+                    }
+                    definitionsFactory.addSource(resourceUrl);
+                } else {
+                    LOG.warn("Unable to find configured definition '" + resource + "'");
+                }
+            }
+        } catch (IOException e) {
+            throw new DefinitionsFactoryException("Unable to parse definitions from "
+                + resourceString, e);
+        }
+
+        definitionsFactory.init(initParameters);
+
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Tiles2 container initialization complete.");
+        }
+    }
+
+    /**
+     * Returns the current attribute context.
+     *
+     * @param tilesContext The request context to use.
+     * @return The current attribute context.
+     */
+    private AttributeContext getAttributeContext(TilesRequestContext tilesContext) {
+        AttributeContext context = BasicAttributeContext.getContext(tilesContext);
+        if (context == null) {
+            context = new BasicAttributeContext();
+            BasicAttributeContext.pushContext(context, tilesContext);
+        }
+        return context;
+    }
+
+    /**
+     * Creates a Tiles request context from request items.
+     *
+     * @param requestItems The request items.
+     * @return The created Tiles request context.
+     */
+    private TilesRequestContext getRequestContext(Object... requestItems) {
+        return getContextFactory().createRequestContext(
+            getApplicationContext(),
+            requestItems
+        );
+    }
+
+    /**
+     * Starts an attribute context inside the container.
+     *
+     * @param tilesContext The request context to use.
+     * @return The newly created attribute context.
+     */
+    private AttributeContext startContext(TilesRequestContext tilesContext) {
+        AttributeContext context = new BasicAttributeContext();
+        BasicAttributeContext.pushContext(context, tilesContext);
+        return context;
+    }
+
+    /**
+     * Releases and removes a previously created attribute context.
+     *
+     * @param tilesContext The request context to use.
+     */
+    private void endContext(TilesRequestContext tilesContext) {
+        BasicAttributeContext.popContext(tilesContext);
+    }
+
     /**
      * Execute a preparer.
      *
@@ -360,16 +482,6 @@ public class BasicTilesContainer implements TilesContainer {
         AttributeContext attributeContext = BasicAttributeContext.getContext(context);
 
         preparer.execute(context, attributeContext);
-    }
-
-    /** {@inheritDoc} */
-    public void render(String definitionName, Object... requestItems)
-        throws TilesException {
-        TilesRequestContext requestContext = getContextFactory().createRequestContext(
-            getApplicationContext(),
-            requestItems
-        );
-        render(requestContext, definitionName);
     }
 
     /**
@@ -435,49 +547,6 @@ public class BasicTilesContainer implements TilesContainer {
         }
     }
 
-    /** {@inheritDoc} */
-    public void render(Attribute attr, Writer writer, Object... requestItems)
-        throws TilesException, IOException {
-        TilesRequestContext request = getRequestContext(requestItems);
-
-        if (attr == null) {
-            throw new TilesException("Cannot render a null attribute");
-        }
-
-        if (!isPermitted(request, attr.getRoles())) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Access to attribute '" + attr.getName()
-                        + "' denied.  User not in role '" + attr.getRoles());
-            }
-            return;
-        }
-
-        AttributeType type = attr.getType();
-        if (type == null) {
-            type = calculateType(attr, request);
-            attr.setType(type);
-        }
-
-        switch (type) {
-            case OBJECT:
-                throw new TilesException(
-                    "Cannot insert an attribute of 'object' type");
-            case STRING:
-                writer.write(attr.getValue().toString());
-                break;
-            case DEFINITION:
-                render(request, attr.getValue().toString());
-                break;
-            case TEMPLATE:
-                request.dispatch(attr.getValue().toString());
-                break;
-            default: // should not happen
-                throw new TilesException(
-                        "Unrecognized type for attribute value "
-                        + attr.getValue());
-        }
-    }
-
     /**
      * Calculates the type of an attribute.
      *
@@ -507,22 +576,6 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /**
-     * Returns a definition specifying its name.
-     *
-     * @param definitionName The name of the definition to find.
-     * @param request The request context.
-     * @return The definition, if found.
-     * @throws DefinitionsFactoryException If the definitions factory throws an
-     * exception.
-     */
-    protected Definition getDefinition(String definitionName,
-            TilesRequestContext request) throws DefinitionsFactoryException {
-        Definition definition =
-            definitionsFactory.getDefinition(definitionName, request);
-        return definition;
-    }
-
-    /**
      * Checks if the current user is in one of the comma-separated roles
      * specified in the <code>role</code> parameter.
      *
@@ -543,59 +596,6 @@ public class BasicTilesContainer implements TilesContainer {
         }
 
         return retValue;
-    }
-
-    /**
-     * Derive the resource string from the initialization parameters.
-     * If no parameter {@link #DEFINITIONS_CONFIG} is available, attempts
-     * to retrieve {@link #LEGACY_DEFINITIONS_CONFIG}.  If niether are
-     * available, returns "/WEB-INF/tiles.xml".
-     *
-     * @return resource string to be parsed.
-     */
-    protected String getResourceString() {
-        return getResourceString(context.getInitParams());
-    }
-
-    /**
-     * Derive the resource string from the initialization parameters.
-     * If no parameter {@link #DEFINITIONS_CONFIG} is available, attempts
-     * to retrieve {@link #LEGACY_DEFINITIONS_CONFIG}.  If niether are
-     * available, returns "/WEB-INF/tiles.xml".
-     *
-     * @param parms The initialization parameters.
-     * @return resource string to be parsed.
-     */
-    protected String getResourceString(Map<String, String> parms) {
-        String resourceStr = parms.get(DEFINITIONS_CONFIG);
-        if (resourceStr == null) {
-            resourceStr = parms.get(LEGACY_DEFINITIONS_CONFIG);
-        }
-        if (resourceStr == null) {
-            resourceStr = "/WEB-INF/tiles.xml";
-        }
-        return resourceStr;
-    }
-
-    /**
-     * Parse the resourceString into a list of resource paths
-     * which can be loaded by the application context.
-     *
-     * @param resourceString comma seperated resources
-     * @return parsed resources
-     */
-    protected List<String> getResourceNames(String resourceString) {
-        StringTokenizer tokenizer = new StringTokenizer(resourceString, ",");
-        List<String> filenames = new ArrayList<String>(tokenizer.countTokens());
-        while (tokenizer.hasMoreTokens()) {
-            filenames.add(tokenizer.nextToken().trim());
-        }
-        return filenames;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isValidDefinition(String definitionName, Object... requestItems) {
-        return isValidDefinition(getRequestContext(requestItems), definitionName);
     }
 
     /**
