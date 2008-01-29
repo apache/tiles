@@ -47,6 +47,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 /**
@@ -72,6 +73,12 @@ public class BasicTilesContainer implements TilesContainer {
      * @deprecated use {@link #DEFINITIONS_CONFIG} to avoid namespace collisions.
      */
     private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
+
+    /**
+     * Name used to store attribute context stack.
+     */
+    private static final String ATTRIBUTE_CONTEXT_STACK =
+        "org.apache.tiles.AttributeContext.STACK";
 
     /**
      * Log instance for all BasicTilesContainer
@@ -404,16 +411,75 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /**
+     * Returns the context stack.
+     *
+     * @param tilesContext The Tiles context object to use.
+     * @return The needed stack of contexts.
+     */
+    @SuppressWarnings("unchecked")
+    protected Stack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
+        Stack<AttributeContext> contextStack =
+            (Stack<AttributeContext>) tilesContext
+                .getRequestScope().get(ATTRIBUTE_CONTEXT_STACK);
+        if (contextStack == null) {
+            contextStack = new Stack<AttributeContext>();
+            tilesContext.getRequestScope().put(ATTRIBUTE_CONTEXT_STACK,
+                    contextStack);
+        }
+
+        return contextStack;
+    }
+
+    /**
+     * Pushes a context object in the stack.
+     *
+     * @param context The context to push.
+     * @param tilesContext The Tiles context object to use.
+     */
+    protected void pushContext(AttributeContext context,
+            TilesRequestContext tilesContext) {
+        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
+        contextStack.push(context);
+    }
+
+    /**
+     * Pops a context object out of the stack.
+     *
+     * @param tilesContext The Tiles context object to use.
+     * @return The popped context object.
+     */
+    protected AttributeContext popContext(TilesRequestContext tilesContext) {
+        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
+        return contextStack.pop();
+    }
+
+    /**
+     * Get attribute context from request.
+     *
+     * @param tilesContext current Tiles application context.
+     * @return BasicAttributeContext or null if context is not found or an
+     *         jspException is present in the request.
+     */
+    protected AttributeContext getContext(TilesRequestContext tilesContext) {
+        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
+        if (!contextStack.isEmpty()) {
+            return contextStack.peek();
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Returns the current attribute context.
      *
      * @param tilesContext The request context to use.
      * @return The current attribute context.
      */
     private AttributeContext getAttributeContext(TilesRequestContext tilesContext) {
-        AttributeContext context = BasicAttributeContext.getContext(tilesContext);
+        AttributeContext context = getContext(tilesContext);
         if (context == null) {
             context = new BasicAttributeContext();
-            BasicAttributeContext.pushContext(context, tilesContext);
+            pushContext(context, tilesContext);
         }
         return context;
     }
@@ -439,7 +505,7 @@ public class BasicTilesContainer implements TilesContainer {
      */
     private AttributeContext startContext(TilesRequestContext tilesContext) {
         AttributeContext context = new BasicAttributeContext();
-        BasicAttributeContext.pushContext(context, tilesContext);
+        pushContext(context, tilesContext);
         return context;
     }
 
@@ -449,7 +515,7 @@ public class BasicTilesContainer implements TilesContainer {
      * @param tilesContext The request context to use.
      */
     private void endContext(TilesRequestContext tilesContext) {
-        BasicAttributeContext.popContext(tilesContext);
+        popContext(tilesContext);
     }
 
     /**
@@ -479,7 +545,7 @@ public class BasicTilesContainer implements TilesContainer {
             throw new NoSuchPreparerException("Preparer '" + preparerName + " not found");
         }
 
-        AttributeContext attributeContext = BasicAttributeContext.getContext(context);
+        AttributeContext attributeContext = getContext(context);
 
         preparer.execute(context, attributeContext);
     }
@@ -520,7 +586,7 @@ public class BasicTilesContainer implements TilesContainer {
         AttributeContext originalContext = getAttributeContext(request);
         BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
         subContext.addMissing(definition.getAttributes());
-        BasicAttributeContext.pushContext(subContext, request);
+        pushContext(subContext, request);
 
         try {
             if (definition.getPreparer() != null) {
@@ -543,7 +609,7 @@ public class BasicTilesContainer implements TilesContainer {
             // TODO it would be nice to make the preparerInstance throw a more specific
             throw new TilesException(e.getMessage(), e);
         } finally {
-            BasicAttributeContext.popContext(request);
+            popContext(request);
         }
     }
 
