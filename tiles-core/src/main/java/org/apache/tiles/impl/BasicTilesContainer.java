@@ -505,7 +505,12 @@ public class BasicTilesContainer implements TilesContainer {
      */
     private AttributeContext startContext(TilesRequestContext tilesContext) {
         AttributeContext context = new BasicAttributeContext();
-        pushContext(context, tilesContext);
+        Stack<AttributeContext>  stack = getContextStack(tilesContext);
+        if (!stack.isEmpty()) {
+            AttributeContext parent = stack.peek();
+            context.inheritCascadedAttributes(parent);
+        }
+        stack.push(context);
         return context;
     }
 
