@@ -68,6 +68,9 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
 
     /**
      * Tests the read method to read Tiles 1.1 files.
+     *
+     * @throws DefinitionsFactoryException If the definitions factory fails.
+     * @throws IOException If an I/O exception happens.
      */
     public void testReadOldFormat() throws DefinitionsFactoryException, IOException {
         DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
@@ -92,6 +95,9 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
 
     /**
      * Tests the read method to read Tiles 2.0 files.
+     *
+     * @throws DefinitionsFactoryException If the definitions factory fails.
+     * @throws IOException If an I/O exception happens.
      */
     public void testReadNewFormat() throws DefinitionsFactoryException, IOException {
         DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();

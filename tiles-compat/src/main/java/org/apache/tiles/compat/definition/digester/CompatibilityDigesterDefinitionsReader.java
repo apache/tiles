@@ -71,14 +71,12 @@ public class CompatibilityDigesterDefinitionsReader extends
         // put / putAttribute rules
         digester.addObjectCreate(putTag, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addRule(putTag, new FillAttributeRule());
-        digester.addSetNext(putTag, "addAttribute",
-                PUT_ATTRIBUTE_HANDLER_CLASS);
+        digester.addRule(putTag, new PutAttributeRule());
         digester.addCallMethod(putTag, "setBody", 0);
         // list rules
         digester.addObjectCreate(listTag, LIST_HANDLER_CLASS);
         digester.addSetProperties(listTag);
-        digester.addSetNext(listTag, "addAttribute",
-                PUT_ATTRIBUTE_HANDLER_CLASS);
+        digester.addRule(listTag, new PutAttributeRule());
         // list elements rules
         // We use Attribute class to avoid rewriting a new class.
         // Name part can't be used in listElement attribute.
@@ -116,15 +114,13 @@ public class CompatibilityDigesterDefinitionsReader extends
         // first position ensure it will be called last (sic).
         digester.addObjectCreate(putTag, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addRule(putTag, new FillAttributeRule());
-        digester.addSetNext(putTag, "addAttribute",
-                PUT_ATTRIBUTE_HANDLER_CLASS);
+        digester.addRule(putTag, new PutAttributeRule());
         digester.addCallMethod(putTag, "setBody", 0);
         // Definition level list rules
         // This is rules for lists nested in a definition
         digester.addObjectCreate(definitionListTag, LIST_HANDLER_CLASS);
         digester.addSetProperties(definitionListTag);
-        digester.addSetNext(definitionListTag, "addAttribute",
-                PUT_ATTRIBUTE_HANDLER_CLASS);
+        digester.addRule(definitionListTag, new PutAttributeRule());
         // list elements rules
         // We use Attribute class to avoid rewriting a new class.
         // Name part can't be used in listElement attribute.
@@ -168,16 +164,15 @@ public class CompatibilityDigesterDefinitionsReader extends
         // put / putAttribute rules
         digester.addObjectCreate(putAttributeTag, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addRule(putTag, new FillAttributeRule());
-        digester.addSetNext(putAttributeTag, "addAttribute",
-                PUT_ATTRIBUTE_HANDLER_CLASS);
+        digester.addRule(putTag, new PutAttributeRule());
         // put / putAttribute rules
         digester.addObjectCreate(putTag, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addSetProperties(putTag);
-        digester.addSetNext(putTag, "addAttribute", PUT_ATTRIBUTE_HANDLER_CLASS);
+        digester.addRule(putTag, new PutAttributeRule());
         // list rules
         digester.addObjectCreate(listTag, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addSetProperties(listTag);
-        digester.addSetNext(listTag, "addAttribute", PUT_ATTRIBUTE_HANDLER_CLASS);
+        digester.addRule(listTag, new PutAttributeRule());
         // list elements rules
         // We use Attribute class to avoid rewriting a new class.
         // Name part can't be used in listElement attribute.
