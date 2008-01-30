@@ -129,7 +129,9 @@ public class Attribute implements Serializable {
     /**
      * The name of the attribute. If it is <code>null</code>, it should be used
      * as an element of a list attribute.
+     * @deprecated It is not used.
      */
+    @Deprecated
     private String name = null;
 
     /**
@@ -317,9 +319,11 @@ public class Attribute implements Serializable {
      * Returns the name of the attribute.
      *
      * @return The name of the attribute. It can be <code>null</code>, but in
-     * this case it should be used as an element of
-     * <code>ListAttribute</code>
+     * this case it should be used as an element of <code>ListAttribute</code>
+     * @deprecated Use the <code>getName</code> methods in object that contain
+     * attributes.
      */
+    @Deprecated
     public String getName() {
         return name;
     }
@@ -330,7 +334,10 @@ public class Attribute implements Serializable {
      * @param name The name of the attribute. It can be <code>null</code>,
      * but in this case it should be used as an element of
      * <code>ListAttribute</code>
+     * @deprecated Use the <code>setName</code> methods in object that contain
+     * attributes.
      */
+    @Deprecated
     public void setName(String name) {
         this.name = name;
     }

@@ -147,11 +147,26 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         public void begin(String namespace, String name, Attributes attributes)
                 throws Exception {
             Attribute attribute = (Attribute) digester.peek();
-            attribute.setName(attributes.getValue("name"));
             attribute.setValue(attributes.getValue("value"));
             attribute.setRole(attributes.getValue("role"));
             attribute.setType(AttributeType
                     .getType(attributes.getValue("type")));
+        }
+    }
+
+    /**
+     * Digester rule to manage assignment of the attribute to the parent
+     * element.
+     */
+    private static class PutAttributeRule extends Rule {
+
+        /** {@inheritDoc} */
+        @Override
+        public void begin(String namespace, String name, Attributes attributes)
+                throws Exception {
+            Attribute attribute = (Attribute) digester.peek(0);
+            Definition definition = (Definition) digester.peek(1);
+            definition.putAttribute(attributes.getValue("name"), attribute);
         }
     }
 
@@ -304,13 +319,13 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // first position ensure it will be called last (sic).
         digester.addObjectCreate(PUT_TAG, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addRule(PUT_TAG, new FillAttributeRule());
-        digester.addSetNext(PUT_TAG, "addAttribute", PUT_ATTRIBUTE_HANDLER_CLASS);
+        digester.addRule(PUT_TAG, new PutAttributeRule());
         digester.addCallMethod(PUT_TAG, "setBody", 0);
         // Definition level list rules
         // This is rules for lists nested in a definition
         digester.addObjectCreate(DEF_LIST_TAG, LIST_HANDLER_CLASS);
         digester.addSetProperties(DEF_LIST_TAG);
-        digester.addSetNext(DEF_LIST_TAG, "addAttribute", PUT_ATTRIBUTE_HANDLER_CLASS);
+        digester.addRule(DEF_LIST_TAG, new PutAttributeRule());
         // list elements rules
         // We use Attribute class to avoid rewriting a new class.
         // Name part can't be used in listElement attribute.

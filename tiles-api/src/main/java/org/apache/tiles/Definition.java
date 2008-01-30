@@ -235,7 +235,9 @@ public class Definition {
      * This method is used by Digester to load definitions.
      *
      * @param attribute Attribute to add.
+     * @deprecated Use {@link Definition#putAttribute(String, Attribute)}.
      */
+    @Deprecated
     public void addAttribute(Attribute attribute) {
         putAttribute(attribute.getName(), attribute);
     }

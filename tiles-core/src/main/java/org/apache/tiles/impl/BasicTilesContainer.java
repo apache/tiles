@@ -257,8 +257,8 @@ public class BasicTilesContainer implements TilesContainer {
 
         if (!isPermitted(request, attr.getRoles())) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Access to attribute '" + attr.getName()
-                        + "' denied.  User not in role '" + attr.getRoles());
+                LOG.debug("Access to attribute denied.  User not in role '"
+                        + attr.getRoles() + "'");
             }
             return;
         }

@@ -232,7 +232,6 @@ public class DefinitionTag extends TagSupport
     public void processNestedTag(PutAttributeTag nestedTag) throws JspException {
         Attribute attr = new Attribute(nestedTag.getValue(),
             nestedTag.getRole(), AttributeType.getType(nestedTag.getType()));
-        attr.setName(nestedTag.getName());
         attributes.put(nestedTag.getName(), attr);
     }
 }
