@@ -75,7 +75,6 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         }
     }
 
-
     /**
      * Copy constructor.
      *
@@ -86,14 +85,10 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             copyBasicAttributeContext((BasicAttributeContext) context);
         } else {
             this.attributes = new HashMap<String, Attribute>();
-            this.cascadedAttributes = new HashMap<String, Attribute>();
             for (String name : context.getLocalAttributeNames()) {
                 attributes.put(name, context.getLocalAttribute(name));
             }
-            for (String name : context.getCascadedAttributeNames()) {
-                cascadedAttributes
-                        .put(name, context.getCascadedAttribute(name));
-            }
+            inheritCascadedAttributes(context);
         }
     }
 
@@ -104,6 +99,19 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      */
     public BasicAttributeContext(BasicAttributeContext context) {
         copyBasicAttributeContext(context);
+    }
+
+    /** {@inheritDoc} */
+    public void inheritCascadedAttributes(AttributeContext context) {
+        if (context instanceof BasicAttributeContext) {
+            copyCascadedAttributes((BasicAttributeContext) context);
+        } else {
+            this.cascadedAttributes = new HashMap<String, Attribute>();
+            for (String name : context.getCascadedAttributeNames()) {
+                cascadedAttributes
+                        .put(name, context.getCascadedAttribute(name));
+            }
+        }
     }
 
     /**
@@ -338,6 +346,15 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         if (context.attributes != null && !context.attributes.isEmpty()) {
             attributes = new HashMap<String, Attribute>(context.attributes);
         }
+        copyCascadedAttributes(context);
+    }
+
+    /**
+     * Copies the cascaded attributes to the current context.
+     *
+     * @param context The context to copy from.
+     */
+    private void copyCascadedAttributes(BasicAttributeContext context) {
         if (context.cascadedAttributes != null
                 && !context.cascadedAttributes.isEmpty()) {
             cascadedAttributes = new HashMap<String, Attribute>(

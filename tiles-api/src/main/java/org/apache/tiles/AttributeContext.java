@@ -47,6 +47,13 @@ public interface AttributeContext {
     void addMissing(Map<String, Attribute> defaultAttributes);
 
     /**
+     * Copies the cascaded attributes to this attribute context.
+     *
+     * @param parent The parent context to be used.
+     */
+    void inheritCascadedAttributes(AttributeContext parent);
+
+    /**
      * Retrieve the named attribute, either cascaded or not.
      *
      * @param name key name for the attribute.

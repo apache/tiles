@@ -133,6 +133,23 @@ public class BasicAttributeContextTest extends TestCase {
     }
 
     /**
+     * Tests {@link BasicAttributeContext#inheritCascadedAttributes(AttributeContext)}.
+     */
+    public void testInheritCascadedAttributes() {
+        AttributeContext toCopy = new BasicAttributeContext();
+        toCopy.putAttribute("name1", new Attribute("value1"), false);
+        toCopy.putAttribute("name2", new Attribute("value2"), true);
+        AttributeContext context = new BasicAttributeContext();
+        context.inheritCascadedAttributes(toCopy);
+        Attribute attribute = context.getLocalAttribute("name1");
+        assertNull("Attribute name1 found", attribute);
+        attribute = context.getCascadedAttribute("name2");
+        assertNotNull("Attribute name2 not found", attribute);
+        assertEquals("Attribute name2 has not been set correctly", "value2",
+                attribute.getValue());
+    }
+
+    /**
      * Tests {@link BasicAttributeContext#addAll(Map)}.
      */
     public void testAddAll() {
