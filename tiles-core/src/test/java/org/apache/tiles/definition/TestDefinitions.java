@@ -75,20 +75,17 @@ public class TestDefinitions extends TestCase {
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
         Attribute attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("value1");
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         attr = new Attribute();
-        attr.setName("attr2");
         attr.setValue("tiles.def1");
         // No type set
-        def.addAttribute(attr);
+        def.putAttribute("attr2", attr);
         defs.put(def.getName(), def);
         attr = new Attribute();
-        attr.setName("attr3");
         attr.setValue("tiles.def1");
         attr.setType(AttributeType.STRING);
-        def.addAttribute(attr);
+        def.putAttribute("attr3", attr);
         defs.put(def.getName(), def);
 
         def = new Definition();
@@ -100,9 +97,8 @@ public class TestDefinitions extends TestCase {
         def.setName("child.def1");
         def.setExtends("parent.def1");
         attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("New value");
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         defs.put(def.getName(), def);
 
         Definitions definitions = new DefinitionsImpl();
@@ -157,18 +153,16 @@ public class TestDefinitions extends TestCase {
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
         Attribute attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("value1");
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         defs.put(def.getName(), def);
 
         def = new Definition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
         attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("New value");
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         defs.put(def.getName(), def);
 
         Map<String, Definition> localDefs = new HashMap<String, Definition>();
@@ -176,9 +170,8 @@ public class TestDefinitions extends TestCase {
         def.setName("child.def1");
         def.setExtends("parent.def1");
         attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("US Value");
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         localDefs.put(def.getName(), def);
 
         Definitions definitions = new DefinitionsImpl();
@@ -230,18 +223,16 @@ public class TestDefinitions extends TestCase {
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
         Attribute attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("value1");
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         defs.put(def.getName(), def);
 
         def = new Definition();
         def.setName("child.def1");
         def.setExtends("parent.def1");
         attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("New value");
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         defs.put(def.getName(), def);
 
         Definitions definitions = new DefinitionsImpl();
@@ -273,20 +264,18 @@ public class TestDefinitions extends TestCase {
         def.setName("parent.def1");
         def.setTemplate("/test1.jsp");
         Attribute attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("tiles.def2");
         attr.setType(AttributeType.DEFINITION);
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         defs.put(def.getName(), def);
 
         def = new Definition();
         def.setName("parent.notype.def1");
         def.setTemplate("/test1.jsp");
         attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("tiles.def2");
         // Don't set the type
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         defs.put(def.getName(), def);
 
         def = new Definition();
@@ -305,9 +294,8 @@ public class TestDefinitions extends TestCase {
         def.setName("parent.def2");
         def.setTemplate("/test1.jsp");
         attr = new Attribute();
-        attr.setName("attr1");
         attr.setValue("tiles.def3");
-        def.addAttribute(attr);
+        def.putAttribute("attr1", attr);
         defs.put(def.getName(), def);
         def = new Definition();
         def.setName("tiles.def3");

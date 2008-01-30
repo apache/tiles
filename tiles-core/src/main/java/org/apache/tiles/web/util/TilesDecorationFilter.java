@@ -274,7 +274,6 @@ public class TilesDecorationFilter implements Filter {
         public void mutate(AttributeContext ctx, ServletRequest req) {
             Attribute attr = new Attribute();
             attr.setType(AttributeType.TEMPLATE);
-            attr.setName(definitionAttributeName);
             attr.setValue(getRequestBase(req));
             ctx.putAttribute(definitionAttributeName, attr);
         }

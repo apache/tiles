@@ -147,10 +147,6 @@ public class DefinitionManager {
     private void validate(Definition definition) {
         Map<String, Attribute> attrs = definition.getAttributes();
         for (Attribute attribute : attrs.values()) {
-            if (attribute.getName() == null) {
-                throw new IllegalArgumentException("Attribute name not defined");
-            }
-
             if (attribute.getValue() == null) {
                 throw new IllegalArgumentException("Attribute value not defined");
             }
