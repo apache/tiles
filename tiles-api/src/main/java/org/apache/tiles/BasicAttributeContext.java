@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.context;
+package org.apache.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,10 +28,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
-
-import org.apache.tiles.Attribute;
-import org.apache.tiles.AttributeContext;
 
 /**
  * Basic implementation for <code>AttributeContext</code>.
@@ -41,20 +37,14 @@ import org.apache.tiles.AttributeContext;
 public class BasicAttributeContext implements AttributeContext, Serializable {
 
     /**
-     * Name used to store attribute context stack.
-     */
-    private static final String ATTRIBUTE_CONTEXT_STACK =
-        "org.apache.tiles.AttributeContext.STACK";
-
-    /**
      * Template attributes.
      */
-    private Map<String, Attribute> attributes = null;
+    protected Map<String, Attribute> attributes = null;
 
     /**
      * Cascaded template attributes.
      */
-    private Map<String, Attribute> cascadedAttributes = null;
+    protected Map<String, Attribute> cascadedAttributes = null;
 
     /**
      * Constructor.
@@ -261,74 +251,6 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             mapToUse = attributes;
         }
         mapToUse.put(name, value);
-    }
-
-    /**
-     * Get attribute context from request.
-     *
-     * @param tilesContext current Tiles application context.
-     * @return BasicAttributeContext or null if context is not found or an
-     *         jspException is present in the request.
-     * @deprecated Use {@link TilesContainer#getAttributeContext(Object...)}.
-     */
-    @Deprecated
-    public static AttributeContext getContext(TilesRequestContext tilesContext) {
-        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
-        if (!contextStack.isEmpty()) {
-            return contextStack.peek();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Returns the context stack.
-     *
-     * @param tilesContext The Tiles context object to use.
-     * @return The needed stack of contexts.
-     * @deprecated Use {@link TilesContainer#getAttributeContext(Object...)},
-     * {@link TilesContainer#startContext(Object...)} or
-     * {@link TilesContainer#endContext(Object...)}.
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public static Stack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
-        Stack<AttributeContext> contextStack =
-            (Stack<AttributeContext>) tilesContext.getRequestScope().get(
-                BasicAttributeContext.ATTRIBUTE_CONTEXT_STACK);
-        if (contextStack == null) {
-            contextStack = new Stack<AttributeContext>();
-            tilesContext.getRequestScope().put(BasicAttributeContext.ATTRIBUTE_CONTEXT_STACK,
-                    contextStack);
-        }
-
-        return contextStack;
-    }
-
-    /**
-     * Pushes a context object in the stack.
-     *
-     * @param context The context to push.
-     * @param tilesContext The Tiles context object to use.
-     * @deprecated Use {@link TilesContainer#startContext(Object...)}.
-     */
-    @Deprecated
-    public static void pushContext(AttributeContext context,
-            TilesRequestContext tilesContext) {
-        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
-        contextStack.push(context);
-    }
-
-    /**
-     * Pops a context object out of the stack.
-     *
-     * @param tilesContext The Tiles context object to use.
-     * @return The popped context object.
-     * @deprecated Use {@link TilesContainer#endContext(Object...)}.
-     */
-    public static AttributeContext popContext(TilesRequestContext tilesContext) {
-        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
-        return contextStack.pop();
     }
 
     /** {@inheritDoc} */

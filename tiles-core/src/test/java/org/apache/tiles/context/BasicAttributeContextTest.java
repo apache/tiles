@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.BasicAttributeContext;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
