@@ -104,6 +104,42 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         }
     }
 
+    /** {@inheritDoc} */
+    public void inherit(AttributeContext parent) {
+        if (parent instanceof BasicAttributeContext) {
+            inherit((BasicAttributeContext) parent);
+        } else {
+            Set<String> names = parent.getCascadedAttributeNames();
+            if (names != null && !names.isEmpty()) {
+                for (String name : names) {
+                    Attribute attribute = parent.getCascadedAttribute(name);
+                    putAttribute(name, attribute, true);
+                }
+            }
+            names = parent.getLocalAttributeNames();
+            if (names != null && !names.isEmpty()) {
+                for (String name : names) {
+                    Attribute attribute = parent.getLocalAttribute(name);
+                    putAttribute(name, attribute, false);
+                }
+            }
+        }
+    }
+
+    /**
+     * Inherits the attribute context, inheriting, i.e. copying if not present,
+     * the attributes.
+     *
+     * @param parent The attribute context to inherit.
+     */
+    public void inherit(BasicAttributeContext parent) {
+        cascadedAttributes = addMissingAttributes(
+                ((BasicAttributeContext) parent).cascadedAttributes,
+                cascadedAttributes);
+        attributes = addMissingAttributes(
+                ((BasicAttributeContext) parent).attributes, attributes);
+    }
+
     /**
      * Add all attributes to this context.
      * Copies all of the mappings from the specified attribute map to this context.
@@ -282,5 +318,29 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             cascadedAttributes = new HashMap<String, Attribute>(
                     context.cascadedAttributes);
         }
+    }
+
+    /**
+     * Adds missing attributes to the destination map.
+     *
+     * @param source The source attribute map.
+     * @param destination The destination attribute map.
+     * @return The destination attribute map if not null, a new one otherwise.
+     */
+    private Map<String, Attribute> addMissingAttributes(Map<String, Attribute> source,
+            Map<String, Attribute> destination) {
+        if (source != null && !source.isEmpty()) {
+            if (destination == null) {
+                destination = new HashMap<String, Attribute>();
+            }
+            for (Map.Entry<String, Attribute> entry : source.entrySet()) {
+                String key = entry.getKey();
+                if (!destination.containsKey(key)) {
+                    destination.put(key, entry.getValue());
+                }
+            }
+        }
+
+        return destination;
     }
 }

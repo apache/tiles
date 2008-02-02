@@ -54,6 +54,14 @@ public interface AttributeContext {
     void inheritCascadedAttributes(AttributeContext parent);
 
     /**
+     * Copies all missing attributes from the <code>parent</code> attribute
+     * context to this one.
+     *
+     * @param parent The attribute context to copy attributes from.
+     */
+    void inherit(AttributeContext parent);
+
+    /**
      * Retrieve the named attribute, either cascaded or not.
      *
      * @param name key name for the attribute.

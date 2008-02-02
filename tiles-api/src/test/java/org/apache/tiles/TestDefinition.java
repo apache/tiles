@@ -80,5 +80,62 @@ public class TestDefinition extends TestCase {
                 attr1.getType() == AttributeType.DEFINITION);
     }
 
+    /**
+     * Tests the {@link Definition#inherit(Definition)} method.
+     */
+    public void testInherit() {
+        Definition toCopy = new Definition();
+        toCopy.putAttribute("name1", new Attribute("value1"), true);
+        toCopy.putAttribute("name2", new Attribute("value2"), true);
+        toCopy.putAttribute("name3", new Attribute("value3"), false);
+        toCopy.putAttribute("name4", new Attribute("value4"), false);
+        Definition context = new Definition();
+        toCopy.putAttribute("name1", new Attribute("newValue1"), true);
+        toCopy.putAttribute("name3", new Attribute("newValue3"), false);
+        context.inherit(toCopy);
+        Attribute attribute = context.getCascadedAttribute("name1");
+        assertNotNull("Attribute name1 not found", attribute);
+        assertEquals("Attribute name1 has not been set correctly", "newValue1",
+                attribute.getValue());
+        attribute = context.getCascadedAttribute("name2");
+        assertNotNull("Attribute name2 not found", attribute);
+        assertEquals("Attribute name2 has not been set correctly", "value2",
+                attribute.getValue());
+        attribute = context.getLocalAttribute("name3");
+        assertNotNull("Attribute name3 not found", attribute);
+        assertEquals("Attribute name3 has not been set correctly", "newValue3",
+                attribute.getValue());
+        attribute = context.getLocalAttribute("name4");
+        assertNotNull("Attribute name4 not found", attribute);
+        assertEquals("Attribute name4 has not been set correctly", "value4",
+                attribute.getValue());
+
+        toCopy = new Definition();
+        toCopy.setPreparer("ExtendedPreparer");
+        toCopy.setRole("extendedRole");
+        toCopy.setTemplate("extendedTemplate.jsp");
+        context = new Definition();
+        context.inherit(toCopy);
+        assertEquals("Preparer not inherited", "ExtendedPreparer", context
+                .getPreparer());
+        assertNotNull("Roles not inherited", context.getRoles());
+        assertEquals("Roles not inherited", context.getRoles().size(), 1);
+        assertTrue("Roles not inherited", context.getRoles().contains(
+                "extendedRole"));
+        assertEquals("Template not inherited", "extendedTemplate.jsp", context
+                .getTemplate());
+        context = new Definition();
+        context.setPreparer("LocalPreparer");
+        context.setRole("localRole");
+        context.setTemplate("localTemplate.jsp");
+        assertEquals("Preparer inherited", "LocalPreparer", context
+                .getPreparer());
+        assertNotNull("Roles not correct", context.getRoles());
+        assertEquals("Roles not correct", context.getRoles().size(), 1);
+        assertTrue("Roles inherited", context.getRoles().contains(
+                "localRole"));
+        assertEquals("Template inherited", "localTemplate.jsp", context
+                .getTemplate());
+    }
 
 }

@@ -18,16 +18,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context;
+package org.apache.tiles;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.AttributeContext;
-import org.apache.tiles.BasicAttributeContext;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
@@ -147,6 +144,37 @@ public class BasicAttributeContextTest extends TestCase {
         attribute = context.getCascadedAttribute("name2");
         assertNotNull("Attribute name2 not found", attribute);
         assertEquals("Attribute name2 has not been set correctly", "value2",
+                attribute.getValue());
+    }
+
+    /**
+     * Tests {@link BasicAttributeContext#inheritCascadedAttributes(AttributeContext)}.
+     */
+    public void testInherit() {
+        AttributeContext toCopy = new BasicAttributeContext();
+        toCopy.putAttribute("name1", new Attribute("value1"), true);
+        toCopy.putAttribute("name2", new Attribute("value2"), true);
+        toCopy.putAttribute("name3", new Attribute("value3"), false);
+        toCopy.putAttribute("name4", new Attribute("value4"), false);
+        AttributeContext context = new BasicAttributeContext();
+        toCopy.putAttribute("name1", new Attribute("newValue1"), true);
+        toCopy.putAttribute("name3", new Attribute("newValue3"), false);
+        context.inherit(toCopy);
+        Attribute attribute = context.getCascadedAttribute("name1");
+        assertNotNull("Attribute name1 not found", attribute);
+        assertEquals("Attribute name1 has not been set correctly", "newValue1",
+                attribute.getValue());
+        attribute = context.getCascadedAttribute("name2");
+        assertNotNull("Attribute name2 not found", attribute);
+        assertEquals("Attribute name2 has not been set correctly", "value2",
+                attribute.getValue());
+        attribute = context.getLocalAttribute("name3");
+        assertNotNull("Attribute name3 not found", attribute);
+        assertEquals("Attribute name3 has not been set correctly", "newValue3",
+                attribute.getValue());
+        attribute = context.getLocalAttribute("name4");
+        assertNotNull("Attribute name4 not found", attribute);
+        assertEquals("Attribute name4 has not been set correctly", "value4",
                 attribute.getValue());
     }
 

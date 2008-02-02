@@ -24,7 +24,6 @@ package org.apache.tiles;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 
 import org.apache.tiles.Attribute.AttributeType;
@@ -38,7 +37,7 @@ import org.apache.tiles.Attribute.AttributeType;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public class Definition {
+public class Definition extends BasicAttributeContext {
     /**
      * Extends attribute value.
      */
@@ -51,10 +50,6 @@ public class Definition {
      * Template path.
      */
     protected String template = null;
-    /**
-     * Attributes defined for the definition.
-     */
-    protected Map<String, Attribute> attributes = null;
     /**
      * The roles that can render this definition.
      */
@@ -69,7 +64,7 @@ public class Definition {
      * Constructor.
      */
     public Definition() {
-        attributes = new HashMap<String, Attribute>();
+        super();
     }
 
     /**
@@ -81,8 +76,7 @@ public class Definition {
      * @param definition The definition to copy.
      */
     public Definition(Definition definition) {
-        attributes = new HashMap<String, Attribute>(
-            definition.getAttributes());
+        super(definition);
         this.name = definition.name;
         this.template = definition.template;
         this.roles = definition.roles;
@@ -98,9 +92,9 @@ public class Definition {
      */
     public Definition(String name, String template,
                                Map<String, Attribute> attributes) {
+        super(attributes);
         this.name = name;
         this.template = template;
-        this.attributes = attributes;
     }
 
     /**
@@ -199,34 +193,16 @@ public class Definition {
     }
 
     /**
-     * Access method for the attributes property.
-     * If there is no attributes, return an empty map.
+     * Access method for the attributes property. If there is no attributes,
+     * return an empty map.
      *
      * @return the current value of the attributes property
+     * @deprecated Use {@link AttributeContext#getLocalAttributeNames()} and
+     * {@link AttributeContext#getCascadedAttributeNames()}.
      */
+    @Deprecated
     public Map<String, Attribute> getAttributes() {
         return attributes;
-    }
-
-    /**
-     * Returns the attribute for the given name, or null if no attribute of the
-     * given name exists.
-     *
-     * @param key name of the attribute
-     * @return requested attribute or null if not found
-     */
-    public Attribute getAttribute(String key) {
-        return attributes.get(key);
-    }
-
-    /**
-     * Put a new attribute in this definition.
-     *
-     * @param key   String key for attribute
-     * @param value Attibute value.
-     */
-    public void putAttribute(String key, Attribute value) {
-        attributes.put(key, value);
     }
 
     /**
@@ -247,18 +223,24 @@ public class Definition {
      *
      * @param key The attribute key to check.
      * @return <code>true</code> if the attribute has a value.
+     * @deprecated Check if the {@link AttributeContext#getAttribute(String)}
+     * returns null.
      */
+    @Deprecated
     public boolean hasAttributeValue(String key) {
-        return attributes.containsKey(key);
+        return getAttribute(key) != null;
     }
 
     /**
-     * Put an attribute in template definition.
-     * Attribute can be used as content for tag get.
+     * Put an attribute in template definition. Attribute can be used as content
+     * for tag get.
      *
-     * @param name    Attribute name
+     * @param name Attribute name
      * @param content Attribute value
+     * @deprecated Use {@link AttributeContext#putAttribute(String, Attribute)}
+     * or {@link AttributeContext#putAttribute(String, Attribute, boolean)}.
      */
+    @Deprecated
     public void put(String name, Object content) {
         put(name, content, null);
     }
@@ -270,7 +252,10 @@ public class Definition {
      * @param name    Attribute name
      * @param content Attribute value
      * @param role    Determine if content is used by get tag. If user is in role, content is used.
+     * @deprecated Use {@link AttributeContext#putAttribute(String, Attribute)}
+     * or {@link AttributeContext#putAttribute(String, Attribute, boolean)}.
      */
+    @Deprecated
     public void put(String name, Object content, String role) {
         put(name, content, null, role);
     }
@@ -283,7 +268,10 @@ public class Definition {
      * @param content Attribute value
      * @param type    attribute type: template, string, definition
      * @param role    Determine if content is used by get tag. If user is in role, content is used.
+     * @deprecated Use {@link AttributeContext#putAttribute(String, Attribute)}
+     * or {@link AttributeContext#putAttribute(String, Attribute, boolean)}.
      */
+    @Deprecated
     public void put(String name, Object content, AttributeType type, String role) {
         // Is there a type set ?
         // First check direct attribute, and translate it to a valueType.
@@ -326,6 +314,58 @@ public class Definition {
      */
     public String getExtends() {
         return inherit;
+    }
+
+    /**
+     * Inherits the attribute context. If the parameter is a Definition, the
+     * other properties (roles, template, preparer) are inherited.
+     *
+     * @param parent The attribute context to inherit.
+     */
+    @Override
+    public void inherit(AttributeContext parent) {
+        if (parent instanceof Definition) {
+            inherit((Definition) parent);
+        } else {
+            super.inherit(parent);
+        }
+    }
+
+    /**
+     * Inherits the attribute context. If the parameter is a Definition, the
+     * other properties (roles, template, preparer) are inherited.
+     *
+     * @param parent The attribute context to inherit.
+     */
+    @Override
+    public void inherit(BasicAttributeContext parent) {
+        if (parent instanceof Definition) {
+            inherit((Definition) parent);
+        } else {
+            super.inherit(parent);
+        }
+    }
+
+    /**
+     * Inherits the definition, inheriting attribute, i.e. copying if not
+     * present, attributes, template, roles, preparer.
+     *
+     * @param parent The definition to inherit.
+     */
+    public void inherit(Definition parent) {
+        super.inherit(parent);
+
+        // Set template, roles and preparer if not set
+        if (template == null) {
+            template = parent.template;
+        }
+        if ((roles == null || roles.isEmpty()) && parent.roles != null
+                && !parent.roles.isEmpty()) {
+            roles = new HashSet<String>(parent.roles);
+        }
+        if (preparer == null) {
+            preparer = parent.preparer;
+        }
     }
 
     /** {@inheritDoc} */

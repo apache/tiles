@@ -212,7 +212,7 @@ public class DefinitionTag extends TagSupport
         d.setExtends(extend);
         d.setRole(role);
         d.setPreparer(preparer);
-        d.getAttributes().putAll(attributes);
+        d.addAll(attributes);
 
         try {
             container.register(d, pageContext);
