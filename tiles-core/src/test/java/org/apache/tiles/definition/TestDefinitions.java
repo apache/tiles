@@ -116,11 +116,11 @@ public class TestDefinitions extends TestCase {
         assertEquals("Incorrect attr1 value", "value1", def
                 .getAttribute("attr1").getValue());
 
-        attr = def.getAttributes().get("attr1");
+        attr = def.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", attr);
-        attr = def.getAttributes().get("attr2");
+        attr = def.getAttribute("attr2");
         assertNotNull("Dependent attribute not found.", attr);
-        attr = def.getAttributes().get("attr3");
+        attr = def.getAttribute("attr3");
         assertNotNull("Dependent attribute not found.", attr);
         assertTrue("The attribute 'attr3' should be of type STRING", attr
                 .getType() == AttributeType.STRING);
@@ -134,11 +134,11 @@ public class TestDefinitions extends TestCase {
         assertEquals("Incorrect attr1 value", "New value", definitions
                 .getDefinition("child.def1").getAttribute("attr1").getValue());
 
-        attr = def.getAttributes().get("attr1");
+        attr = def.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", attr);
-        attr = def.getAttributes().get("attr2");
+        attr = def.getAttribute("attr2");
         assertNotNull("Dependent attribute not found.", attr);
-        attr = def.getAttributes().get("attr3");
+        attr = def.getAttribute("attr3");
         assertNotNull("Dependent attribute not found.", attr);
         assertTrue("The attribute 'attr3' should be of type STRING", attr
                 .getType() == AttributeType.STRING);
@@ -342,7 +342,7 @@ public class TestDefinitions extends TestCase {
         newDef = definitions.getDefinition("parent.def2", Locale.ITALIAN);
         assertNotNull("Parent definition not found.", newDef);
 
-        attr = newDef.getAttributes().get("attr1");
+        attr = newDef.getAttribute("attr1");
         assertNotNull("Dependent attribute not found.", attr);
     }
 }

@@ -244,7 +244,7 @@ public class DefinitionsImpl implements Definitions {
 
         resolveInheritance(parent, locale, alreadyResolvedDefinitions);
 
-        overload(parent, definition);
+        definition.inherit(parent);
     }
 
     /**
@@ -256,24 +256,10 @@ public class DefinitionsImpl implements Definitions {
      *
      * @param parent The parent definition.
      * @param child  The child that will be overloaded.
+     * @deprecated Use {@link Definition#inherit(org.apache.tiles.AttributeContext)}.
      */
-    // FIXME This is the same as DefinitionManager.overload.
+    @Deprecated
     protected void overload(Definition parent, Definition child) {
-        // Iterate on each parent's attribute and add it if not defined in child.
-        for (Map.Entry<String, Attribute> entry : parent.getAttributes().entrySet()) {
-            if (!child.hasAttributeValue(entry.getKey())) {
-                child.putAttribute(entry.getKey(), new Attribute(entry.getValue()));
-            }
-        }
-        // Set template and role if not setted
-        if (child.getTemplate() == null) {
-            child.setTemplate(parent.getTemplate());
-        }
-        if (child.getRoles() == null) {
-            child.setRoles(parent.getRoles());
-        }
-        if (child.getPreparer() == null) {
-            child.setPreparer(parent.getPreparer());
-        }
+        child.inherit(parent);
     }
 }

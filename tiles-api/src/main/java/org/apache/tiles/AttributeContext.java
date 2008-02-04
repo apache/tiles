@@ -92,6 +92,8 @@ public interface AttributeContext {
      * Iterator of all attribute names.
      *
      * @return iterator of all names.
+     * @deprecated Use {@link AttributeContext#getLocalAttributeNames()} or
+     * {@link AttributeContext#getCascadedAttributeNames()}.
      */
     @Deprecated
     Iterator<String> getAttributeNames();

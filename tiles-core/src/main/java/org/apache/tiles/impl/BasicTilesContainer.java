@@ -590,7 +590,7 @@ public class BasicTilesContainer implements TilesContainer {
 
         AttributeContext originalContext = getAttributeContext(request);
         BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
-        subContext.addMissing(definition.getAttributes());
+        subContext.inherit(definition);
         pushContext(subContext, request);
 
         try {

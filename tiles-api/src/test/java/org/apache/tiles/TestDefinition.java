@@ -71,10 +71,10 @@ public class TestDefinition extends TestCase {
         Definition def = new Definition();
         def.setName("test1");
         def.setTemplate("/page1.jsp");
-        def.put("attr1", "test.definition.name", AttributeType.DEFINITION,
-                null);
+        Attribute attr1 = new Attribute("test.definition.name", null, AttributeType.DEFINITION);
+        def.putAttribute("attr1",  attr1);
 
-        Attribute attr1 = def.getAttribute("attr1");
+        attr1 = def.getAttribute("attr1");
         assertNotNull("Null attribute.", attr1);
         assertTrue("Wrong attribute type",
                 attr1.getType() == AttributeType.DEFINITION);

@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Manages custom and configured definitions, so they can be used by the
@@ -145,10 +146,24 @@ public class DefinitionManager {
      * @param definition The definition to validate.
      */
     private void validate(Definition definition) {
-        Map<String, Attribute> attrs = definition.getAttributes();
-        for (Attribute attribute : attrs.values()) {
-            if (attribute.getValue() == null) {
-                throw new IllegalArgumentException("Attribute value not defined");
+        Set<String> names = definition.getLocalAttributeNames();
+        if (names != null) {
+            for (String name : names) {
+                Attribute attribute = definition.getLocalAttribute(name);
+                if (attribute.getValue() == null) {
+                    throw new IllegalArgumentException(
+                            "Attribute '" + name + "' value not defined");
+                }
+            }
+        }
+        names = definition.getCascadedAttributeNames();
+        if (names != null) {
+            for (String name : names) {
+                Attribute attribute = definition.getCascadedAttribute(name);
+                if (attribute.getValue() == null) {
+                    throw new IllegalArgumentException(
+                            "Attribute '" + name + "' value not defined");
+                }
             }
         }
     }
@@ -210,27 +225,10 @@ public class DefinitionManager {
      *
      * @param parent The parent definition.
      * @param child  The child that will be overloaded.
+     * @deprecated Use {@link Definition#inherit(Definition)}.
      */
-    // FIXME This is the same as DefinitionsImpl.overload.
     protected void overload(Definition parent, Definition child) {
-        // Iterate on each parent's attribute and add it if not defined in child.
-        for (Map.Entry<String, Attribute> entry : parent.getAttributes().entrySet()) {
-            if (!child.hasAttributeValue(entry.getKey())) {
-                child.putAttribute(entry.getKey(), new Attribute(entry.getValue()));
-            }
-        }
-
-        if (child.getTemplate() == null) {
-            child.setTemplate(parent.getTemplate());
-        }
-
-        if (child.getRoles() == null) {
-            child.setRoles(parent.getRoles());
-        }
-
-        if (child.getPreparer() == null) {
-            child.setPreparer(parent.getPreparer());
-        }
+        child.inherit(parent);
     }
 
     /**
