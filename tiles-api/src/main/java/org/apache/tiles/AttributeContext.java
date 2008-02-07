@@ -50,6 +50,7 @@ public interface AttributeContext {
      * Copies the cascaded attributes to this attribute context.
      *
      * @param parent The parent context to be used.
+     * @since 2.1.0
      */
     void inheritCascadedAttributes(AttributeContext parent);
 
@@ -58,6 +59,7 @@ public interface AttributeContext {
      * context to this one.
      *
      * @param parent The attribute context to copy attributes from.
+     * @since 2.1.0
      */
     void inherit(AttributeContext parent);
 
@@ -76,6 +78,7 @@ public interface AttributeContext {
      * @param name key name for the attribute.
      * @return Attribute The local attribute associated with the given name, if
      * present, or <code>null</code> otherwise.
+     * @since 2.1.0
      */
     Attribute getLocalAttribute(String name);
 
@@ -85,6 +88,7 @@ public interface AttributeContext {
      * @param name key name for the attribute.
      * @return Attribute The cascaded attribute associated with the given name,
      * if present, or <code>null</code> otherwise.
+     * @since 2.1.0
      */
     Attribute getCascadedAttribute(String name);
 
@@ -103,6 +107,7 @@ public interface AttributeContext {
      * been cascaded.
      *
      * @return The local attribute names.
+     * @since 2.1.0
      */
     Set<String> getLocalAttributeNames();
 
@@ -110,6 +115,7 @@ public interface AttributeContext {
      * Returns the names of the cascaded attributes.
      *
      * @return The cascaded attribute names.
+     * @since 2.1.0
      */
     Set<String> getCascadedAttributeNames();
 
@@ -132,6 +138,7 @@ public interface AttributeContext {
      * @param cascade If <code>true</code>, the attribute value will be
      * available in all nested contexts. If <code>false</code>, it will be
      * available only in the current context.
+     * @since 2.1.0
      */
     void putAttribute(String name, Attribute value, boolean cascade);
 

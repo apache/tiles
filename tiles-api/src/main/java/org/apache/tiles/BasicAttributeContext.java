@@ -33,21 +33,26 @@ import java.util.Set;
  * Basic implementation for <code>AttributeContext</code>.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
 public class BasicAttributeContext implements AttributeContext, Serializable {
 
     /**
      * Template attributes.
+     * @since 2.1.0
      */
     protected Map<String, Attribute> attributes = null;
 
     /**
      * Cascaded template attributes.
+     * @since 2.1.0
      */
     protected Map<String, Attribute> cascadedAttributes = null;
 
     /**
      * Constructor.
+     *
+     * @since 2.1.0
      */
     public BasicAttributeContext() {
         super();
@@ -58,6 +63,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * Create a context and set specified attributes.
      *
      * @param attributes Attributes to initialize context.
+     * @since 2.1.0
      */
     public BasicAttributeContext(Map<String, Attribute> attributes) {
         if (attributes != null) {
@@ -69,6 +75,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * Copy constructor.
      *
      * @param context The constructor to copy.
+     * @since 2.1.0
      */
     public BasicAttributeContext(AttributeContext context) {
         if (context instanceof BasicAttributeContext) {
@@ -86,6 +93,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * Copy constructor.
      *
      * @param context The constructor to copy.
+     * @since 2.1.0
      */
     public BasicAttributeContext(BasicAttributeContext context) {
         copyBasicAttributeContext(context);
@@ -131,6 +139,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * the attributes.
      *
      * @param parent The attribute context to inherit.
+     * @since 2.1.0
      */
     public void inherit(BasicAttributeContext parent) {
         cascadedAttributes = addMissingAttributes(
@@ -147,6 +156,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * currently in the specified attribute map.
      *
      * @param newAttributes Attributes to add.
+     * @since 2.1.0
      */
     public void addAll(Map<String, Attribute> newAttributes) {
         if (newAttributes == null) {
@@ -168,6 +178,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * this context.
      *
      * @param defaultAttributes Attributes to add.
+     * @since 2.1.0
      */
     public void addMissing(Map<String, Attribute> defaultAttributes) {
         if (defaultAttributes == null) {

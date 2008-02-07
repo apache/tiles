@@ -324,6 +324,7 @@ public class Definition extends BasicAttributeContext {
      * other properties (roles, template, preparer) are inherited.
      *
      * @param parent The attribute context to inherit.
+     * @since 2.1.0
      */
     @Override
     public void inherit(AttributeContext parent) {
@@ -339,6 +340,7 @@ public class Definition extends BasicAttributeContext {
      * other properties (roles, template, preparer) are inherited.
      *
      * @param parent The attribute context to inherit.
+     * @since 2.1.0
      */
     @Override
     public void inherit(BasicAttributeContext parent) {
@@ -354,6 +356,7 @@ public class Definition extends BasicAttributeContext {
      * present, attributes, template, roles, preparer.
      *
      * @param parent The definition to inherit.
+     * @since 2.1.0
      */
     public void inherit(Definition parent) {
         super.inherit(parent);

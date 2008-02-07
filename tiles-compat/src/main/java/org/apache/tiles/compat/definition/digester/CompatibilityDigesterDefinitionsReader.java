@@ -28,6 +28,7 @@ import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
  * Digester reader that can read Tiles 1.1, 1.2, 1.3, 1.4 and 2.0 files.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
 public class CompatibilityDigesterDefinitionsReader extends
         DigesterDefinitionsReader {
@@ -35,6 +36,8 @@ public class CompatibilityDigesterDefinitionsReader extends
      * The set of public identifiers, and corresponding resource names for the
      * versions of the configuration file DTDs we know about. There <strong>MUST</strong>
      * be an even number of Strings in this list!
+     *
+     * @since 2.1.0
      */
     protected String[] registrations;
 

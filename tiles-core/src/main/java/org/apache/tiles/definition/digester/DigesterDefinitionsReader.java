@@ -121,24 +121,32 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
     /**
      * The handler to create definitions.
+     *
+     * @since 2.1.0
      */
     protected static final String DEFINITION_HANDLER_CLASS =
         Definition.class.getName();
 
     /**
      * The handler to create attributes.
+     *
+     * @since 2.1.0
      */
     protected static final String PUT_ATTRIBUTE_HANDLER_CLASS =
         Attribute.class.getName();
 
     /**
      * The handler to create list attributes.
+     *
+     * @since 2.1.0
      */
     protected static final String LIST_HANDLER_CLASS =
         ListAttribute.class.getName();
 
     /**
      * Digester rule to manage attribute filling.
+     *
+     * @since 2.1.0
      */
     public static class FillAttributeRule extends Rule {
 
@@ -157,6 +165,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     /**
      * Digester rule to manage assignment of the attribute to the parent
      * element.
+     *
+     * @since 2.1.0
      */
     public static class PutAttributeRule extends Rule {
 
@@ -406,6 +416,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      *
      * @return An array containing the locations for registrations of local
      * DTDs.
+     * @since 2.1.0
      */
     protected String[] getRegistrations() {
         if (registrations == null) {
