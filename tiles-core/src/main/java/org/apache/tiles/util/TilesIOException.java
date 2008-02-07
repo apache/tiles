@@ -27,11 +27,13 @@ import java.io.IOException;
  * but not in Java 5. It contains the same number of constructors.
  *
  * @version $Rev$ $Date$
+ * @since 2.0.6
  */
 public class TilesIOException extends IOException {
 
     /**
      * Default constructor.
+     * @since 2.0.6
      */
     public TilesIOException() {
     }
@@ -40,6 +42,7 @@ public class TilesIOException extends IOException {
      * Constructor.
      *
      * @param message Message of the exception.
+     * @since 2.0.6
      */
     public TilesIOException(String message) {
         super(message);
@@ -49,6 +52,7 @@ public class TilesIOException extends IOException {
      * Constructor.
      *
      * @param cause The cause of the exception.
+     * @since 2.0.6
      */
     public TilesIOException(Throwable cause) {
         super();
@@ -60,6 +64,7 @@ public class TilesIOException extends IOException {
      *
      * @param message Message of the exception.
      * @param cause The cause of the exception.
+     * @since 2.0.6
      */
     public TilesIOException(String message, Throwable cause) {
         super(message);

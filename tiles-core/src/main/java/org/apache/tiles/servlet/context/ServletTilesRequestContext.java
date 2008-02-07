@@ -275,6 +275,7 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
      * @param ex The exception to wrap.
      * @param message The message of the exception.
      * @return The wrapped exception.
+     * @since 2.0.6
      */
     protected IOException wrapServletException(ServletException ex, String message) {
         IOException retValue;

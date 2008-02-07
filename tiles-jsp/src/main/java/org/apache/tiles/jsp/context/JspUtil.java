@@ -42,6 +42,7 @@ public final class JspUtil {
      *
      * @param context The page context.
      * @return If <code>true</code> the include operation must be forced.
+     * @since 2.0.6
      */
     public static boolean isForceInclude(PageContext context) {
         Boolean retValue = (Boolean) context.getAttribute(
@@ -56,6 +57,7 @@ public final class JspUtil {
      * @param context The page context.
      * @param forceInclude If <code>true</code> the include operation must be
      * forced.
+     * @since 2.0.6
      */
     public static void setForceInclude(PageContext context, boolean forceInclude) {
         Boolean retValue = Boolean.valueOf(forceInclude);

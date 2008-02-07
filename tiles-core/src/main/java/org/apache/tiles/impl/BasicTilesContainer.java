@@ -415,6 +415,7 @@ public class BasicTilesContainer implements TilesContainer {
      *
      * @param tilesContext The Tiles context object to use.
      * @return The needed stack of contexts.
+     * @since 2.0.6
      */
     @SuppressWarnings("unchecked")
     protected Stack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
@@ -435,6 +436,7 @@ public class BasicTilesContainer implements TilesContainer {
      *
      * @param context The context to push.
      * @param tilesContext The Tiles context object to use.
+     * @since 2.0.6
      */
     protected void pushContext(AttributeContext context,
             TilesRequestContext tilesContext) {
@@ -447,6 +449,7 @@ public class BasicTilesContainer implements TilesContainer {
      *
      * @param tilesContext The Tiles context object to use.
      * @return The popped context object.
+     * @since 2.0.6
      */
     protected AttributeContext popContext(TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack = getContextStack(tilesContext);
@@ -459,6 +462,7 @@ public class BasicTilesContainer implements TilesContainer {
      * @param tilesContext current Tiles application context.
      * @return BasicAttributeContext or null if context is not found or an
      *         jspException is present in the request.
+     * @since 2.0.6
      */
     protected AttributeContext getContext(TilesRequestContext tilesContext) {
         Stack<AttributeContext> contextStack = getContextStack(tilesContext);

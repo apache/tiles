@@ -112,6 +112,7 @@ public class Attribute implements Serializable {
 
     /**
      * The roles that can render this attribute.
+     * @since 2.0.6
      */
     protected Set<String> roles = null;
 
@@ -240,6 +241,7 @@ public class Attribute implements Serializable {
      * Returns the roles that can render this attribute.
      *
      * @return The enabled roles.
+     * @since 2.0.6
      */
     public Set<String> getRoles() {
         return roles;
@@ -266,6 +268,7 @@ public class Attribute implements Serializable {
      * Sets the roles that can render this attribute.
      *
      * @param roles The enabled roles.
+     * @since 2.0.6
      */
     public void setRoles(Set<String> roles) {
         this.roles = roles;
