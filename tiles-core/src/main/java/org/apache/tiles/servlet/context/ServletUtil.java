@@ -28,11 +28,13 @@ import javax.servlet.http.HttpServletRequest;
  * Utilities for Tiles servlet support.
  *
  * @version $Rev$ $Date$
+ * @since 2.0.6
  */
 public final class ServletUtil {
 
     /**
      * Name of the attribute used to store the force-include option.
+     * @since 2.0.6
      */
     public static final String FORCE_INCLUDE_ATTRIBUTE_NAME =
         "org.apache.tiles.servlet.context.ServletTilesRequestContext.FORCE_INCLUDE";
@@ -48,6 +50,7 @@ public final class ServletUtil {
      *
      * @param request The HTTP request.
      * @return If <code>true</code> the include operation must be forced.
+     * @since 2.0.6
      */
     public static boolean isForceInclude(HttpServletRequest request) {
         Boolean retValue = (Boolean) request
@@ -61,6 +64,7 @@ public final class ServletUtil {
      * @param request The HTTP request.
      * @param forceInclude If <code>true</code> the include operation must be
      * forced.
+     * @since 2.0.6
      */
     public static void setForceInclude(HttpServletRequest request,
             boolean forceInclude) {

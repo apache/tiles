@@ -52,6 +52,7 @@ public class Definition extends BasicAttributeContext {
     protected String template = null;
     /**
      * The roles that can render this definition.
+     * @since 2.0.6
      */
     protected Set<String> roles = null;
     /**
@@ -161,6 +162,7 @@ public class Definition extends BasicAttributeContext {
      * Returns the roles that can render this attribute.
      *
      * @return The enabled roles.
+     * @since 2.0.6
      */
     public Set<String> getRoles() {
         return roles;
@@ -187,6 +189,7 @@ public class Definition extends BasicAttributeContext {
      * Sets the roles that can render this attribute.
      *
      * @param roles The enabled roles.
+     * @since 2.0.6
      */
     public void setRoles(Set<String> roles) {
         this.roles = roles;
