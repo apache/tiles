@@ -181,7 +181,7 @@
 @attr cascade        If true, the attribute will be cascaded to all inner
                      definitions. By default, cascade is false.
 -->
-<!ATTLIST put-attribute     cascade          %Boolean;    #IMPLIED>
+<!ATTLIST put-list-attribute cascade          %Boolean;        #IMPLIED>
 
 <!-- ========== Subordinate Elements ====================================== -->
 

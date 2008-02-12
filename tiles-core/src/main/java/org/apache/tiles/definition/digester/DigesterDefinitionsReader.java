@@ -423,7 +423,9 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         if (registrations == null) {
             registrations = new String[] {
                 "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
-                "/org/apache/tiles/resources/tiles-config_2_0.dtd"};
+                "/org/apache/tiles/resources/tiles-config_2_0.dtd",
+                "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN",
+                "/org/apache/tiles/resources/tiles-config_2_1.dtd"};
         }
         return registrations;
     }

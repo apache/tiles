@@ -32,6 +32,12 @@
   <definition name="doc.cascaded.test" template="/layout/classicLayout.jsp">
     <put-attribute name="title" value="Test title" cascade="false" />
     <put-attribute name="title2" value="Test title two" cascade="true" />
+    <put-list-attribute name="items1" cascade="false">
+        <add-attribute value="value1" type="string" />
+    </put-list-attribute>
+    <put-list-attribute name="items2" cascade="true">
+        <add-attribute value="value2" type="string" />
+    </put-list-attribute>
   </definition>
 
 </tiles-definitions>

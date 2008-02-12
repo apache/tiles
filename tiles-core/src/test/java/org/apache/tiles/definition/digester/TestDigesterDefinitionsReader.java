@@ -138,6 +138,10 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertNotNull("Couldn't Find title local attribute.", attribute);
             attribute = def.getCascadedAttribute("title2");
             assertNotNull("Couldn't Find title2 cascaded attribute.", attribute);
+            attribute = def.getLocalAttribute("items1");
+            assertNotNull("Couldn't Find items1 local attribute.", attribute);
+            attribute = def.getCascadedAttribute("items2");
+            assertNotNull("Couldn't Find items2 cascaded attribute.", attribute);
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
             e.printStackTrace();
