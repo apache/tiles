@@ -113,6 +113,37 @@ public class TestDigesterDefinitionsReader extends TestCase {
         }
     }
 
+
+    /**
+     * Tests the read method under normal conditions for the new features in 2.1
+     * version of the DTD.
+     */
+    public void testRead21Version() {
+        try {
+            DefinitionsReader reader = new DigesterDefinitionsReader();
+            reader.init(new HashMap<String, String>());
+
+            URL configFile = this.getClass().getClassLoader().getResource(
+                    "org/apache/tiles/config/tiles-defs-2-1.xml");
+            assertNotNull("Config file not found", configFile);
+
+            InputStream source = configFile.openStream();
+            Map<String, Definition> definitions = reader.read(source);
+
+            assertNotNull("Definitions not returned.", definitions);
+            Definition def = definitions.get("doc.cascaded.test");
+
+            assertNotNull("Couldn't find doc.role.test tile.", def);
+            Attribute attribute = def.getLocalAttribute("title");
+            assertNotNull("Couldn't Find title local attribute.", attribute);
+            attribute = def.getCascadedAttribute("title2");
+            assertNotNull("Couldn't Find title2 cascaded attribute.", attribute);
+        } catch (Exception e) {
+            fail("Exception reading configuration." + e);
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Tests calling read without calling init.
      */

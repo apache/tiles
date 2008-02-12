@@ -176,7 +176,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
                 throws Exception {
             Attribute attribute = (Attribute) digester.peek(0);
             Definition definition = (Definition) digester.peek(1);
-            definition.putAttribute(attributes.getValue("name"), attribute);
+            definition.putAttribute(attributes.getValue("name"), attribute,
+                    "true".equals(attributes.getValue("cascade")));
         }
     }
 
