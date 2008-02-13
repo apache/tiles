@@ -202,9 +202,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
             nestedTag.getValue(), nestedTag.getRole(),
             AttributeType.getType(nestedTag.getType()));
 
-        attributeContext.putAttribute(
-            nestedTag.getName(),
-            attribute
-        );
+        attributeContext.putAttribute(nestedTag.getName(), attribute, nestedTag
+                .isCascade());
     }
 }

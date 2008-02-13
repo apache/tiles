@@ -89,6 +89,11 @@ public class PutAttributeTag extends RoleSecurityTagSupport {
      */
     private String type = null;
 
+    /**
+     * If <code>true</code>, the attribute will be cascaded to all nested
+     * definitions.
+     */
+    private boolean cascade = false;
 
     /**
      * Returns  the name of the attribute.
@@ -171,6 +176,27 @@ public class PutAttributeTag extends RoleSecurityTagSupport {
     }
 
     /**
+     * Checks if the attribute should be cascaded to nested definitions.
+     *
+     * @return <code>true</code> if the attribute will be cascaded.
+     * @since 2.1.0
+     */
+    public boolean isCascade() {
+        return cascade;
+    }
+
+    /**
+     * Sets the property that tells if the attribute should be cascaded to
+     * nested definitions.
+     *
+     * @param cascade <code>true</code> if the attribute will be cascaded.
+     * @since 2.1.0
+     */
+    public void setCascade(boolean cascade) {
+        this.cascade = cascade;
+    }
+
+    /**
      * Release all allocated resources.
      */
     public void release() {
@@ -178,6 +204,7 @@ public class PutAttributeTag extends RoleSecurityTagSupport {
         name = null;
         value = null;
         type = null;
+        cascade = false;
     }
 
     /**

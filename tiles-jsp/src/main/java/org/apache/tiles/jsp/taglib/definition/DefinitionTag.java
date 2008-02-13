@@ -32,8 +32,6 @@ import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * This is the tag handler for &lt;tiles:definition&gt;, which creates a custom
@@ -78,10 +76,9 @@ public class DefinitionTag extends TagSupport
     private MutableTilesContainer container;
 
     /**
-     * Maps attribute names with their attributes.
+     * The definition currently being built.
      */
-    private Map<String, Attribute> attributes;
-
+    private Definition definition;
 
     /**
      * Returns the name of the definition to configure.
@@ -181,12 +178,17 @@ public class DefinitionTag extends TagSupport
         extend = null;
         role = null;
         preparer = null;
-        attributes.clear();
+        definition = null;
     }
 
     /** {@inheritDoc} */
     public int doStartTag() throws JspException {
-        attributes = new HashMap<String, Attribute>();
+        definition = new Definition();
+        definition.setName(name);
+        definition.setTemplate(template);
+        definition.setExtends(extend);
+        definition.setRole(role);
+        definition.setPreparer(preparer);
 
         TilesContainer c =
             TilesAccess.getContainer(pageContext.getServletContext());
@@ -206,16 +208,8 @@ public class DefinitionTag extends TagSupport
 
     /** {@inheritDoc} */
     public int doEndTag() throws JspException {
-        Definition d = new Definition();
-        d.setName(name);
-        d.setTemplate(template);
-        d.setExtends(extend);
-        d.setRole(role);
-        d.setPreparer(preparer);
-        d.addAll(attributes);
-
         try {
-            container.register(d, pageContext);
+            container.register(definition, pageContext);
         } catch (TilesException e) {
             throw new JspException("Unable to add definition. " , e);
         }
@@ -232,6 +226,7 @@ public class DefinitionTag extends TagSupport
     public void processNestedTag(PutAttributeTag nestedTag) throws JspException {
         Attribute attr = new Attribute(nestedTag.getValue(),
             nestedTag.getRole(), AttributeType.getType(nestedTag.getType()));
-        attributes.put(nestedTag.getName(), attr);
+        definition.putAttribute(nestedTag.getName(), attr, nestedTag
+                .isCascade());
     }
 }

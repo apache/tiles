@@ -144,7 +144,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertNotNull("Couldn't Find items2 cascaded attribute.", attribute);
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
-            e.printStackTrace();
         }
     }
 
