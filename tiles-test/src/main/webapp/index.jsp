@@ -45,6 +45,9 @@
     <a href="testinsertdefinition_exception.jsp">Test Insert Configured Definition with an exception in an attribute page</a><br/>
     <a href="testinsertdefinition_freemarker.jsp">Test Insert Configured Definition with FreeMarker</a><br/>
     <a href="testinsertdefinition_old.jsp">Test Insert Configured Definition in Old Format</a><br/>
+    <a href="testinsertdefinition_cascaded.jsp">Test Insert Configured Cascaded Definition</a><br/>
+    <a href="testinsertdefinition_cascaded_overridden.jsp">Test Insert Configured Cascaded Definition with Override</a><br/>
+    <a href="testinsertdefinition_cascaded_template.jsp">Test Insert Configured Cascaded Definition with Template</a><br/>
     <a href="testput.jsp">Test Put Tag</a><br/>
     <a href="testput_flush.jsp">Test Put Tag with Flush</a><br/>
     <a href="testput_el.jsp">Test Put Tag using EL</a><br/>
