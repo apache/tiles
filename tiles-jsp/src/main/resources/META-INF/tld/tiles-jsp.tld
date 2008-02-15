@@ -460,6 +460,20 @@
          ]]>
          </description>
       </attribute>
+      <attribute>
+         <name>cascade</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>boolean</type>
+         <description>
+         <![CDATA[
+         <p>
+         If true, the attribute value will be cascaded to nested templates and
+         definitions.
+         </p>
+         ]]>
+         </description>
+      </attribute>
    </tag>
    <tag>
       <name>putListAttribute</name>
@@ -482,6 +496,20 @@
          <description>
          <![CDATA[
          <p>Name of the list.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>cascade</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>boolean</type>
+         <description>
+         <![CDATA[
+         <p>
+         If true, the attribute value will be cascaded to nested templates and
+         definitions.
+         </p>
          ]]>
          </description>
       </attribute>

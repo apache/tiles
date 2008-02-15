@@ -1,4 +1,5 @@
-<!--
+<%@ page session="false" %>
+<%--
 /*
  * $Id$
  *
@@ -18,39 +19,13 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
+ *
  */
--->
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Configured Definition Cascaded Template Test</title>
-</head>
-<body>
-<table cellpadding="1" cellspacing="1" border="1">
-<thead>
-<tr><td rowspan="1" colspan="3">Configured Definition Cascaded Template Test</td></tr>
-</thead><tbody>
-<tr>
-	<td>open</td>
-	<td>/tiles-test/index.jsp</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Test Insert Configured Cascaded Definition with Template</td>
-	<td></td>
-</tr>
-<tr>
-    <td>assertTextPresent</td>
-    <td>This is the title.</td>
-    <td></td>
-</tr>
-<tr>
-    <td>assertTextPresent</td>
-    <td>This is the header</td>
-    <td></td>
-</tr>
+--%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
-</tbody></table>
-</body>
-</html>
+<tiles:insertTemplate template="/layout.jsp">
+  <tiles:putAttribute name="title"  value="This is the title." cascade="true" />
+  <tiles:putAttribute name="header" value="/header.jsp" cascade="true" />
+  <tiles:putAttribute name="body"   value="/layout_nobody.jsp" />
+</tiles:insertTemplate>

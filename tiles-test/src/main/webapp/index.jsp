@@ -52,6 +52,9 @@
     <a href="testput_flush.jsp">Test Put Tag with Flush</a><br/>
     <a href="testput_el.jsp">Test Put Tag using EL</a><br/>
     <a href="testput_servlet.jsp">Test Put Tag using a servlet mapping as a template</a><br/>
+    <a href="testput_cascaded.jsp">Test Put Tag with Cascaded Attributes</a><br/>
+    <a href="testput_cascaded_overridden.jsp">Test Put Tag with Overridden Cascaded Attributes</a><br/>
+    <a href="testput_cascaded_template.jsp">Test Put Tag with Cascaded Attributes and Template</a><br/>
     <a href="testputlist.jsp">Test Put List Tag</a><br/>
     <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
     <a href="testimportattribute_all.jsp">Test importAttribute Tag with no name</a><br/>
