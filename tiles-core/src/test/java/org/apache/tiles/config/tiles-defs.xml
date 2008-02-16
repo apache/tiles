@@ -138,5 +138,8 @@
   <put-attribute name="title" value="Test title" role="myrole" />
 </definition>
 
+<definition name="doc.listattribute.test" template="/layout/classicLayout.jsp">
+  <put-list-attribute name="items" />
+</definition>
 
 </tiles-definitions>
