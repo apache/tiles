@@ -36,7 +36,6 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
-import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 
 /**
  * Tests the <code>org.apache.tiles.definition.digester.DigesterDefinitionsReader</code> class.
@@ -128,7 +127,7 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      */
     public void testRead21Version() {
         try {
-            DefinitionsReader reader = new DigesterDefinitionsReader();
+            DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
             reader.init(new HashMap<String, String>());
 
             URL configFile = this.getClass().getClassLoader().getResource(
