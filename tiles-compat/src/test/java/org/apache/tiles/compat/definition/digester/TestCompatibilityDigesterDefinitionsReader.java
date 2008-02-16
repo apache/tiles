@@ -32,9 +32,11 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
+import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 
 /**
  * Tests the <code>org.apache.tiles.definition.digester.DigesterDefinitionsReader</code> class.
@@ -118,6 +120,39 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
         assertEquals("Incorrect Find title attribute.",
                 "Tiles Library Documentation", definitions.get(
                         "doc.mainLayout").getAttribute("title").getValue());
+    }
+
+    /**
+     * Tests the read method under normal conditions for the new features in 2.1
+     * version of the DTD.
+     */
+    public void testRead21Version() {
+        try {
+            DefinitionsReader reader = new DigesterDefinitionsReader();
+            reader.init(new HashMap<String, String>());
+
+            URL configFile = this.getClass().getClassLoader().getResource(
+                    "org/apache/tiles/config/tiles-defs-2.1.xml");
+            assertNotNull("Config file not found", configFile);
+
+            InputStream source = configFile.openStream();
+            Map<String, Definition> definitions = reader.read(source);
+
+            assertNotNull("Definitions not returned.", definitions);
+            Definition def = definitions.get("doc.cascaded.test");
+
+            assertNotNull("Couldn't find doc.role.test tile.", def);
+            Attribute attribute = def.getLocalAttribute("title");
+            assertNotNull("Couldn't Find title local attribute.", attribute);
+            attribute = def.getCascadedAttribute("title2");
+            assertNotNull("Couldn't Find title2 cascaded attribute.", attribute);
+            attribute = def.getLocalAttribute("items1");
+            assertNotNull("Couldn't Find items1 local attribute.", attribute);
+            attribute = def.getCascadedAttribute("items2");
+            assertNotNull("Couldn't Find items2 cascaded attribute.", attribute);
+        } catch (Exception e) {
+            fail("Exception reading configuration." + e);
+        }
     }
 
     /**

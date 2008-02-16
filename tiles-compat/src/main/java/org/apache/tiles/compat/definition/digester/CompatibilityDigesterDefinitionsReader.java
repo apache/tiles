@@ -190,6 +190,8 @@ public class CompatibilityDigesterDefinitionsReader extends
             registrations = new String[] {
                 "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
                 "/org/apache/tiles/resources/tiles-config_2_0.dtd",
+                "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN",
+                "/org/apache/tiles/resources/tiles-config_2_1.dtd",
                 "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN",
                 "/org/apache/tiles/compat/resources/tiles-config_1_1.dtd",
                 "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN",

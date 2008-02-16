@@ -124,7 +124,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
             reader.init(new HashMap<String, String>());
 
             URL configFile = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/tiles-defs-2-1.xml");
+                    "org/apache/tiles/config/tiles-defs-2.1.xml");
             assertNotNull("Config file not found", configFile);
 
             InputStream source = configFile.openStream();
