@@ -24,6 +24,7 @@ package org.apache.tiles.definition.digester;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -33,6 +34,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.context.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 
@@ -108,6 +110,14 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertEquals("Role 'myrole' expected", attribute.getRole(),
                     "myrole");
 
+            def = definitions.get("doc.listattribute.test");
+            assertNotNull("Couldn't find doc.listattribute.test tile.", def);
+            attribute = def.getAttribute("items");
+            assertNotNull("Couldn't Find items attribute.", attribute);
+            assertTrue("The class of the attribute is not right",
+                    attribute instanceof ListAttribute);
+            assertTrue("The class of value of the attribute is not right",
+                    attribute.getValue() instanceof List);
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }
