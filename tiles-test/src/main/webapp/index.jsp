@@ -48,6 +48,7 @@
     <a href="testinsertdefinition_cascaded.jsp">Test Insert Configured Cascaded Definition</a><br/>
     <a href="testinsertdefinition_cascaded_overridden.jsp">Test Insert Configured Cascaded Definition with Override</a><br/>
     <a href="testinsertdefinition_cascaded_template.jsp">Test Insert Configured Cascaded Definition with Template</a><br/>
+    <a href="testinsertdefinition_cascaded_list.jsp">Test Insert Configured Cascaded Definition with List</a><br/>
     <a href="testput.jsp">Test Put Tag</a><br/>
     <a href="testput_flush.jsp">Test Put Tag with Flush</a><br/>
     <a href="testput_el.jsp">Test Put Tag using EL</a><br/>
@@ -56,6 +57,7 @@
     <a href="testput_cascaded_overridden.jsp">Test Put Tag with Overridden Cascaded Attributes</a><br/>
     <a href="testput_cascaded_template.jsp">Test Put Tag with Cascaded Attributes and Template</a><br/>
     <a href="testputlist.jsp">Test Put List Tag</a><br/>
+    <a href="testputlist_cascaded.jsp">Test Put List Cascaded Tag</a><br/>
     <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
     <a href="testimportattribute_all.jsp">Test importAttribute Tag with no name</a><br/>
     <a href="testdecorationfilter.jsp">Test Tiles Definition Filter</a><br/>

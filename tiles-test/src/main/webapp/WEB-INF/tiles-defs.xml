@@ -107,7 +107,8 @@
   </definition>
 
   <definition name="test.definition.does_not_appear" extends="test.definition">
-      <put-attribute name="title"  value="This definition does not appear."/>
+      <put-attribute name="title"  value="This definition does
+       not appear."/>
   </definition>
 
   <definition name="test.definition.appears.configured"
@@ -143,5 +144,17 @@
       <put-attribute name="title"  value="This is the title." cascade="true" />
       <put-attribute name="header" value="/header.jsp" cascade="true"/>
       <put-attribute name="body"   value="/layout_nobody.jsp"/>
+  </definition>
+
+  <definition name="test.cascaded.list.definition" template="/layout.jsp">
+      <put-attribute name="title"  value="This is the title." cascade="true" />
+      <put-attribute name="header" value="/header.jsp" cascade="true"/>
+      <put-attribute name="body"   value="/putattributeslayout.jsp"/>
+      <put-attribute name="stringTest" value="This is a string" type="string" cascade="true" />
+      <put-list-attribute name="list" cascade="true">
+        <add-attribute value="valueOne" type="string" />
+        <add-attribute value="valueTwo" type="string" />
+        <add-attribute value="valueThree" type="string" />
+      </put-list-attribute>
   </definition>
 </tiles-definitions>
