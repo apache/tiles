@@ -26,8 +26,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.Attribute.AttributeType;
-
 /**
  * A definition, i.e. a template with (completely or not) filled attributes.
  * Attributes of a template can be defined with the help of this class.<br>
@@ -260,7 +258,8 @@ public class Definition extends BasicAttributeContext {
      */
     @Deprecated
     public void put(String name, Object content, String role) {
-        put(name, content, null, role);
+        Attribute attribute = new Attribute(content, role, (String) null);
+        putAttribute(name, attribute);
     }
 
     /**
@@ -275,7 +274,8 @@ public class Definition extends BasicAttributeContext {
      * or {@link AttributeContext#putAttribute(String, Attribute, boolean)}.
      */
     @Deprecated
-    public void put(String name, Object content, AttributeType type, String role) {
+    public void put(String name, Object content,
+            org.apache.tiles.Attribute.AttributeType type, String role) {
         // Is there a type set ?
         // First check direct attribute, and translate it to a valueType.
         // Then, evaluate valueType, and create requested typed attribute.

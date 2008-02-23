@@ -140,6 +140,7 @@ public class BasicTilesContainerTest extends TestCase {
         request.setHttpSession(session);
         MockHttpServletResponse response = new MockHttpServletResponse();
         Attribute attribute = new Attribute((Object) "This is the value", "myrole");
+        attribute.setRenderer("string");
         StringWriter writer = new StringWriter();
         container.render(attribute, writer, request, response);
         writer.close();

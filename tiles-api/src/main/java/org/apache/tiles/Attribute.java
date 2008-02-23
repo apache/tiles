@@ -37,6 +37,9 @@ public class Attribute implements Serializable {
 
     /**
      * Attribute types.
+     *
+     * @deprecated Use {@link Attribute#setRenderer(String)} and
+     * {@link Attribute#getRenderer()}.
      */
     public static enum AttributeType {
         /**
@@ -122,10 +125,10 @@ public class Attribute implements Serializable {
     protected Object value = null;
 
     /**
-     * The type of the attribute. It can be <code>string</code>,
-     * <code>template</code>, <code>definition</code>.
+     * The renderer name of the attribute. Default names are <code>string</code>,
+     * <code>template</code>, <code>definition</code>, <code>object</code>.
      */
-    private AttributeType type = null;
+    private String renderer = null;
 
     /**
      * The name of the attribute. If it is <code>null</code>, it should be used
@@ -159,8 +162,8 @@ public class Attribute implements Serializable {
     public Attribute(Attribute attribute) {
         this.name = attribute.name;
         this.roles = attribute.roles;
-        this.type = attribute.type;
         this.value = attribute.getValue();
+        this.renderer = attribute.renderer;
     }
 
     /**
@@ -189,12 +192,28 @@ public class Attribute implements Serializable {
      * Constructor.
      *
      * @param value Object to store.
-     * @param role  Asociated role.
-     * @param type  Attribute type.
+     * @param role Associated role.
+     * @param type Attribute type.
+     * @deprecated Use {@link Attribute#Attribute(Object, String, String)}.
      */
+    @Deprecated
     public Attribute(Object value, String role, AttributeType type) {
         this.value = value;
-        this.type = type;
+        setType(type);
+        setRole(role);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param value Object to store.
+     * @param role Associated role.
+     * @param rendererName The renderer name.
+     * @since 2.1.0
+     */
+    public Attribute(Object value, String role, String rendererName) {
+        this.value = value;
+        this.renderer = rendererName;
         setRole(role);
     }
 
@@ -203,14 +222,16 @@ public class Attribute implements Serializable {
      *
      * @param name name of the attribute
      * @param value Object to store.
-     * @param role  Asociated role.
-     * @param type  Attribute type.
+     * @param role Asociated role.
+     * @param type Attribute type.
+     * @deprecated Use
+     * {@link Attribute#Attribute(Object, String, String)))}.
      */
     public Attribute(String name, Object value, String role,
             AttributeType type) {
         this.name = name;
         this.value = value;
-        this.type = type;
+        setType(type);
         setRole(role);
     }
 
@@ -304,18 +325,40 @@ public class Attribute implements Serializable {
      *
      * @return The attribute type. It can be <code>string</code>,
      * <code>template</code>, <code>definition</code>, <code>object</code>.
+     * @deprecated Use {@link Attribute#getRenderer()}.
      */
     public AttributeType getType() {
-        return type;
+        return AttributeType.getType(renderer);
     }
 
     /**
      * Sets the type of this attribute.
      *
      * @param type The attribute type.
+     * @deprecated Use {@link Attribute#setRenderer(String))}.
      */
     public void setType(AttributeType type) {
-        this.type = type;
+        this.renderer = type.toString();
+    }
+
+    /**
+     * Returns the renderer name to use.
+     *
+     * @return The renderer name.
+     * @since 2.1.0
+     */
+    public String getRenderer() {
+        return renderer;
+    }
+
+    /**
+     * Sets the renderer name to use.
+     *
+     * @param rendererName The renderer.
+     * @since 2.1.0
+     */
+    public void setRenderer(String rendererName) {
+        this.renderer = rendererName;
     }
 
     /**

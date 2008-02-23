@@ -29,7 +29,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
-import org.apache.tiles.Attribute.AttributeType;
 
 /**
  * Tests the DefinitionsImpl class.
@@ -84,7 +83,7 @@ public class TestDefinitions extends TestCase {
         defs.put(def.getName(), def);
         attr = new Attribute();
         attr.setValue("tiles.def1");
-        attr.setType(AttributeType.STRING);
+        attr.setRenderer("string");
         def.putAttribute("attr3", attr);
         defs.put(def.getName(), def);
 
@@ -122,8 +121,8 @@ public class TestDefinitions extends TestCase {
         assertNotNull("Dependent attribute not found.", attr);
         attr = def.getAttribute("attr3");
         assertNotNull("Dependent attribute not found.", attr);
-        assertTrue("The attribute 'attr3' should be of type STRING", attr
-                .getType() == AttributeType.STRING);
+        assertTrue("The attribute 'attr3' should be of type STRING", "string"
+                .equals(attr.getRenderer()));
 
         def = definitions.getDefinition("child.def1");
 
@@ -140,8 +139,8 @@ public class TestDefinitions extends TestCase {
         assertNotNull("Dependent attribute not found.", attr);
         attr = def.getAttribute("attr3");
         assertNotNull("Dependent attribute not found.", attr);
-        assertTrue("The attribute 'attr3' should be of type STRING", attr
-                .getType() == AttributeType.STRING);
+        assertTrue("The attribute 'attr3' should be of type STRING", "string"
+                .equals(attr.getRenderer()));
     }
 
     /**
@@ -265,7 +264,7 @@ public class TestDefinitions extends TestCase {
         def.setTemplate("/test1.jsp");
         Attribute attr = new Attribute();
         attr.setValue("tiles.def2");
-        attr.setType(AttributeType.DEFINITION);
+        attr.setRenderer("definition");
         def.putAttribute("attr1", attr);
         defs.put(def.getName(), def);
 

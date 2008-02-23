@@ -51,6 +51,11 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
             .getLog(TestCompatibilityDigesterDefinitionsReader.class);
 
     /**
+     * The definitions reader.
+     */
+    private DefinitionsReader reader;
+
+    /**
      * Creates a new instance of TestDigesterDefinitionsReader.
      *
      * @param name The name of the test.
@@ -67,6 +72,13 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
         return new TestSuite(TestCompatibilityDigesterDefinitionsReader.class);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        reader = new CompatibilityDigesterDefinitionsReader();
+    }
+
     /**
      * Tests the read method to read Tiles 1.1 files.
      *
@@ -74,7 +86,6 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      * @throws IOException If an I/O exception happens.
      */
     public void testReadOldFormat() throws DefinitionsFactoryException, IOException {
-        DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
         reader.init(new HashMap<String, String>());
 
         URL configFile = this.getClass().getClassLoader().getResource(
@@ -101,7 +112,6 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      * @throws IOException If an I/O exception happens.
      */
     public void testReadNewFormat() throws DefinitionsFactoryException, IOException {
-        DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
         reader.init(new HashMap<String, String>());
 
         URL configFile = this.getClass().getClassLoader().getResource(
@@ -127,7 +137,6 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      */
     public void testRead21Version() {
         try {
-            DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
             reader.init(new HashMap<String, String>());
 
             URL configFile = this.getClass().getClassLoader().getResource(
@@ -159,8 +168,6 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      */
     public void testNoInit() {
         try {
-            DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
-
             // What happens if we don't call init?
             // reader.init(new HashMap());
 
@@ -187,12 +194,7 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      */
     public void testBadSource() {
         try {
-            // Create Digester Reader.
-            DefinitionsReader reader = new CompatibilityDigesterDefinitionsReader();
-            Map<String, String> params = new HashMap<String, String>();
-
-            // Initialize reader.
-            reader.init(params);
+            reader.init(new HashMap<String, String>());
 
             // Read definitions.
             reader.read(new String("Bad Input"));

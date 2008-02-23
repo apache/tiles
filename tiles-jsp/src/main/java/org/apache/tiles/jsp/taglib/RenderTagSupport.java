@@ -22,7 +22,6 @@ package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.Attribute.AttributeType;
 
 import javax.servlet.jsp.JspException;
 import java.io.IOException;
@@ -183,7 +182,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     public void processNestedTag(PutAttributeTag nestedTag) {
         Attribute attribute = new Attribute(
             nestedTag.getValue(), nestedTag.getRole(),
-            AttributeType.getType(nestedTag.getType()));
+            nestedTag.getType());
 
         attributeContext.putAttribute(nestedTag.getName(), attribute, nestedTag
                 .isCascade());

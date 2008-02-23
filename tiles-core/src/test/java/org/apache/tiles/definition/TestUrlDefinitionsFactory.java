@@ -22,11 +22,11 @@
 package org.apache.tiles.definition;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Collections;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -53,6 +53,18 @@ public class TestUrlDefinitionsFactory extends TestCase {
      * The number of foreseen URLs with postfixes.
      */
     private static final int POSTFIX_COUNT = 3;
+
+    /**
+     * The definitions factory.
+     */
+    private MockPublicUrlDefinitionsFactory factory;
+
+    /** {@inheritDoc} */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        factory = new MockPublicUrlDefinitionsFactory();
+    }
 
     /**
      * Creates a new instance of TestUrlDefinitionsFactory.
@@ -88,8 +100,6 @@ public class TestUrlDefinitionsFactory extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testReadDefinitions() throws Exception {
-        DefinitionsFactory factory = new UrlDefinitionsFactory();
-
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs1.xml");
@@ -121,8 +131,6 @@ public class TestUrlDefinitionsFactory extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testGetDefinition() throws Exception {
-        DefinitionsFactory factory = new UrlDefinitionsFactory();
-
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs1.xml");
@@ -206,8 +214,6 @@ public class TestUrlDefinitionsFactory extends TestCase {
     @SuppressWarnings("unchecked")
     public void testBadSourceType() throws Exception {
         try {
-            DefinitionsFactory factory = new UrlDefinitionsFactory();
-
             factory.init(Collections.EMPTY_MAP);
             factory.addSource("Bad object.");
 
@@ -228,8 +234,6 @@ public class TestUrlDefinitionsFactory extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testReadByLocale() throws Exception {
-        MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
-
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs1.xml");
@@ -278,7 +282,6 @@ public class TestUrlDefinitionsFactory extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testIsContextProcessed() throws Exception {
-        MockPublicUrlDefinitionsFactory factory = new MockPublicUrlDefinitionsFactory();
 
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(

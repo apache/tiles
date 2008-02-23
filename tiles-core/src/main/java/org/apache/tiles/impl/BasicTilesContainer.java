@@ -29,7 +29,6 @@ import org.apache.tiles.Definition;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
@@ -38,6 +37,9 @@ import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.preparer.NoSuchPreparerException;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.renderer.AttributeRenderer;
+import org.apache.tiles.renderer.RendererException;
+import org.apache.tiles.renderer.RendererFactory;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -103,6 +105,11 @@ public class BasicTilesContainer implements TilesContainer {
     private PreparerFactory preparerFactory;
 
     /**
+     * The renderer factory.
+     */
+    private RendererFactory rendererFactory;
+
+    /**
      * The Tiles context factory.
      */
     private TilesContextFactory contextFactory;
@@ -123,6 +130,12 @@ public class BasicTilesContainer implements TilesContainer {
         initialized = true;
         if (LOG.isInfoEnabled()) {
             LOG.info("Initializing Tiles2 container. . .");
+        }
+
+        if (rendererFactory != null) {
+            rendererFactory.init(initParameters);
+        } else {
+            throw new IllegalStateException("RendererFactory not specified");
         }
 
         //Everything is now initialized.  We will populate
@@ -226,6 +239,16 @@ public class BasicTilesContainer implements TilesContainer {
         this.preparerFactory = preparerFactory;
     }
 
+    /**
+     * Sets the renderer instance factory.
+     *
+     * @param rendererFactory the renderer instance factory for this container.
+     * @since 2.1.0
+     */
+    public void setRendererFactory(RendererFactory rendererFactory) {
+        this.rendererFactory = rendererFactory;
+    }
+
     /** {@inheritDoc} */
     public void prepare(String preparer, Object... requestItems)
         throws TilesException {
@@ -249,44 +272,18 @@ public class BasicTilesContainer implements TilesContainer {
     /** {@inheritDoc} */
     public void render(Attribute attr, Writer writer, Object... requestItems)
         throws TilesException, IOException {
-        TilesRequestContext request = getRequestContext(requestItems);
-
         if (attr == null) {
-            throw new TilesException("Cannot render a null attribute");
+            throw new RendererException("Cannot render a null attribute");
         }
 
-        if (!isPermitted(request, attr.getRoles())) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Access to attribute denied.  User not in role '"
-                        + attr.getRoles() + "'");
-            }
-            return;
+        AttributeRenderer renderer = rendererFactory.getRenderer(attr
+                .getRenderer());
+        if (renderer == null) {
+            throw new RendererException(
+                    "Cannot render an attribute with renderer name "
+                            + attr.getRenderer());
         }
-
-        AttributeType type = attr.getType();
-        if (type == null) {
-            type = calculateType(attr, request);
-            attr.setType(type);
-        }
-
-        switch (type) {
-            case OBJECT:
-                throw new TilesException(
-                    "Cannot insert an attribute of 'object' type");
-            case STRING:
-                writer.write(attr.getValue().toString());
-                break;
-            case DEFINITION:
-                render(request, attr.getValue().toString());
-                break;
-            case TEMPLATE:
-                request.dispatch(attr.getValue().toString());
-                break;
-            default: // should not happen
-                throw new TilesException(
-                        "Unrecognized type for attribute value "
-                        + attr.getValue());
-        }
+        renderer.render(attr, writer, requestItems);
     }
 
     /** {@inheritDoc} */
@@ -384,6 +381,10 @@ public class BasicTilesContainer implements TilesContainer {
     protected void initializeDefinitionsFactory(
             DefinitionsFactory definitionsFactory, String resourceString,
             Map<String, String> initParameters) throws TilesException {
+        if (rendererFactory == null) {
+            throw new IllegalStateException("No RendererFactory found");
+        }
+
         List<String> resources = getResourceNames(resourceString);
 
         try {
@@ -620,34 +621,6 @@ public class BasicTilesContainer implements TilesContainer {
         } finally {
             popContext(request);
         }
-    }
-
-    /**
-     * Calculates the type of an attribute.
-     *
-     * @param attr The attribute to check.
-     * @param request The request object.
-     * @return The calculated attribute type.
-     * @throws TilesException If the type is not recognized.
-     */
-    private AttributeType calculateType(Attribute attr,
-            TilesRequestContext request) throws TilesException {
-        AttributeType type;
-        Object valueContent = attr.getValue();
-        if (valueContent instanceof String) {
-            String valueString = (String) valueContent;
-            if (isValidDefinition(request, valueString)) {
-                type = AttributeType.DEFINITION;
-            } else if (valueString.startsWith("/")) {
-                type = AttributeType.TEMPLATE;
-            } else {
-                type = AttributeType.STRING;
-            }
-        } else {
-            type = AttributeType.OBJECT;
-        }
-
-        return type;
     }
 
     /**

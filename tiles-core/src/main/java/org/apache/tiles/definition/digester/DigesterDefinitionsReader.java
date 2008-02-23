@@ -25,7 +25,6 @@ import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
-import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.context.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -157,8 +156,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
             Attribute attribute = (Attribute) digester.peek();
             attribute.setValue(attributes.getValue("value"));
             attribute.setRole(attributes.getValue("role"));
-            attribute.setType(AttributeType
-                    .getType(attributes.getValue("type")));
+            attribute.setRenderer(attributes.getValue("type"));
         }
     }
 

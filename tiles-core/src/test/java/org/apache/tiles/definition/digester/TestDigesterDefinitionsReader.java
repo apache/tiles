@@ -52,6 +52,11 @@ public class TestDigesterDefinitionsReader extends TestCase {
             .getLog(TestDigesterDefinitionsReader.class);
 
     /**
+     * The definitions reader.
+     */
+    private DefinitionsReader reader;
+
+    /**
      * Creates a new instance of TestDigesterDefinitionsReader.
      *
      * @param name The name of the test.
@@ -78,12 +83,18 @@ public class TestDigesterDefinitionsReader extends TestCase {
         return new TestSuite(TestDigesterDefinitionsReader.class);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        reader = new DigesterDefinitionsReader();
+    }
+
     /**
      * Tests the read method under normal conditions.
      */
     public void testRead() {
         try {
-            DefinitionsReader reader = new DigesterDefinitionsReader();
             reader.init(new HashMap<String, String>());
 
             URL configFile = this.getClass().getClassLoader().getResource(
@@ -130,7 +141,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      */
     public void testRead21Version() {
         try {
-            DefinitionsReader reader = new DigesterDefinitionsReader();
             reader.init(new HashMap<String, String>());
 
             URL configFile = this.getClass().getClassLoader().getResource(
@@ -162,8 +172,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      */
     public void testNoInit() {
         try {
-            DefinitionsReader reader = new DigesterDefinitionsReader();
-
             // What happens if we don't call init?
             // reader.init(new HashMap());
 
@@ -190,8 +198,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      */
     public void testBadSource() {
         try {
-            // Create Digester Reader.
-            DefinitionsReader reader = new DigesterDefinitionsReader();
             Map<String, String> params = new HashMap<String, String>();
 
             // Initialize reader.
@@ -215,7 +221,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      */
     public void testBadXml() {
         try {
-            DefinitionsReader reader = new DigesterDefinitionsReader();
             reader.init(new HashMap<String, String>());
 
             URL configFile = this.getClass().getClassLoader().getResource(
@@ -244,7 +249,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
     public void testValidatingParameter() {
         // Testing with default (validation ON).
         try {
-            DefinitionsReader reader = new DigesterDefinitionsReader();
             Map<String, String> params = new HashMap<String, String>();
             reader.init(params);
 
@@ -266,7 +270,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
 
         // Testing with validation OFF.
         try {
-            DefinitionsReader reader = new DigesterDefinitionsReader();
+            setUp();
             Map<String, String> params = new HashMap<String, String>();
             params.put(DigesterDefinitionsReader.PARSER_VALIDATE_PARAMETER_NAME,
                     "false");

@@ -23,6 +23,8 @@ package org.apache.tiles.factory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.awareness.TilesContainerAware;
+import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.ChainedTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
@@ -32,6 +34,8 @@ import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
+import org.apache.tiles.renderer.RendererFactory;
+import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.util.ClassUtil;
 
 import java.lang.reflect.Method;
@@ -82,6 +86,12 @@ public class TilesContainerFactory {
     public static final String PREPARER_FACTORY_INIT_PARAM =
         "org.apache.tiles.preparer.PreparerFactory";
 
+    /**
+     * Initialization parameter that represents the renderer factory class name.
+     * @since 2.1.0
+     */
+    public static final String RENDERER_FACTORY_INIT_PARAM =
+        "org.apache.tiles.renderer.RendererFactory";
 
     /**
      * Default configuration parameters.
@@ -94,6 +104,7 @@ public class TilesContainerFactory {
         DEFAULTS.put(CONTEXT_FACTORY_INIT_PARAM, ChainedTilesContextFactory.class.getName());
         DEFAULTS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
         DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
+        DEFAULTS.put(RENDERER_FACTORY_INIT_PARAM, BasicRendererFactory.class.getName());
     }
 
     /**
@@ -255,20 +266,35 @@ public class TilesContainerFactory {
             (DefinitionsFactory) createFactory(configuration,
                 DEFINITIONS_FACTORY_INIT_PARAM);
 
-        PreparerFactory prepFactory =
-            (PreparerFactory) createFactory(configuration,
-                PREPARER_FACTORY_INIT_PARAM);
+        RendererFactory rendererFactory =
+            (RendererFactory) createFactory(configuration,
+                RENDERER_FACTORY_INIT_PARAM);
 
         contextFactory.init(configuration);
         TilesApplicationContext tilesContext =
             contextFactory.createApplicationContext(context);
 
+        if (rendererFactory instanceof TilesContextFactoryAware) {
+            ((TilesContextFactoryAware) rendererFactory)
+                    .setContextFactory(contextFactory);
+            ((TilesContextFactoryAware) rendererFactory)
+                    .setApplicationContext(tilesContext);
+        }
+
+        if (rendererFactory instanceof TilesContainerAware) {
+            ((TilesContainerAware) rendererFactory).setContainer(container);
+        }
+
+        PreparerFactory prepFactory =
+            (PreparerFactory) createFactory(configuration,
+                PREPARER_FACTORY_INIT_PARAM);
+
         container.setDefinitionsFactory(defsFactory);
         container.setContextFactory(contextFactory);
         container.setPreparerFactory(prepFactory);
         container.setApplicationContext(tilesContext);
+        container.setRendererFactory(rendererFactory);
     }
-
 
     /**
      * Creates a factory instance.
