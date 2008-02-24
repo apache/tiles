@@ -39,7 +39,7 @@
 
 <!-- A "ContentType" is the content type of an attribute passed to a template.
 -->
-<!ENTITY % ContentType "(string|template|definition|object)">
+<!ENTITY % ContentType "CDATA">
 
 <!-- A "ClassName" is the fully qualified name of a Java class that is
      instantiated to provide the functionality of the enclosing element.

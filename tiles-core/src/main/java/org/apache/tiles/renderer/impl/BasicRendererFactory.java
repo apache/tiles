@@ -50,7 +50,7 @@ public class BasicRendererFactory implements RendererFactory,
      * @since 2.1.0
      */
     public static final String TYPE_RENDERERS_INIT_PARAM =
-        "org.apache.tiles.rendere.impl.BasicRendereFactory.TYPE_RENDERERS";
+        "org.apache.tiles.renderer.impl.BasicRendereFactory.TYPE_RENDERERS";
 
     /**
      * The default renderer init parameter.
@@ -161,6 +161,7 @@ public class BasicRendererFactory implements RendererFactory,
             if (retValue == null) {
                 try {
                     retValue = (AttributeRenderer) ClassUtil.instantiate(name);
+                    initializeRenderer(retValue);
                 } catch (TilesException e) {
                     throw new TilesRuntimeException(
                             "Cannot instantiate renderer " + name, e);
