@@ -40,6 +40,11 @@
         <param-value>true</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>org.apache.tiles.renderer.impl.BasicRendereFactory.TYPE_RENDERERS</param-name>
+        <param-value>reversed,org.apache.tiles.test.renderer.ReverseStringAttributeRenderer</param-value>
+    </context-param>
+
     <filter>
         <filter-name>Tiles Decoration Filter</filter-name>
         <filter-class>org.apache.tiles.web.util.TilesDecorationFilter</filter-class>

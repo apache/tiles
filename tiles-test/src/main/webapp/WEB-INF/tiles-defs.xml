@@ -157,4 +157,17 @@
         <add-attribute value="valueThree" type="string" />
       </put-list-attribute>
   </definition>
+
+  <definition name="test.reversed.definition" template="/layout_alt_title.jsp">
+      <put-attribute name="title"  value="This is the title." type="reversed"/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
+  </definition>
+
+  <definition name="test.reversed.explicit.definition" template="/layout_alt_title.jsp">
+      <put-attribute name="title"  value="This is the title."
+          type="org.apache.tiles.test.renderer.ReverseStringAttributeRenderer"/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
+  </definition>
 </tiles-definitions>
