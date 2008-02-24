@@ -41,8 +41,10 @@ public class DefinitionAttributeRenderer extends AbstractBaseAttributeRenderer
 
     /**
      * The Tiles container.
+     *
+     * @since 2.1.0
      */
-    private TilesContainer container;
+    protected TilesContainer container;
 
     /** {@inheritDoc} */
     public void setContainer(TilesContainer container) {
