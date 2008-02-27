@@ -170,4 +170,16 @@
       <put-attribute name="header" value="/header.jsp"/>
       <put-attribute name="body"   value="/body.jsp"/>
   </definition>
+
+  <definition name="test.nesting.definitions" template="/layout.jsp">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body">
+          <definition template="/layout.jsp">
+              <put-attribute name="title"  value="This is a nested definition."/>
+              <put-attribute name="header" value="/header.jsp"/>
+              <put-attribute name="body"   value="/body.jsp"/>
+          </definition>
+      </put-attribute>
+  </definition>
 </tiles-definitions>
