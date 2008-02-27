@@ -139,6 +139,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
      * Tests the read method under normal conditions for the new features in 2.1
      * version of the DTD.
      */
+    @SuppressWarnings("unchecked")
     public void testRead21Version() {
         try {
             reader.init(new HashMap<String, String>());
@@ -162,6 +163,36 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertNotNull("Couldn't Find items1 local attribute.", attribute);
             attribute = def.getCascadedAttribute("items2");
             assertNotNull("Couldn't Find items2 cascaded attribute.", attribute);
+
+            def = definitions.get("test.nesting.definitions");
+            assertNotNull("Couldn't find test.nesting.definitions tile.", def);
+            attribute = def.getAttribute("body");
+            assertNotNull("Couldn't Find body attribute.", attribute);
+            assertEquals("Attribute not of 'definition' type", "definition",
+                    attribute.getRenderer());
+            assertNotNull("Attribute value null", attribute.getValue());
+            String defName = attribute.getValue().toString();
+            def = definitions.get(defName);
+            assertNotNull("Couldn't find " + defName + " tile.", def);
+
+            def = definitions.get("test.nesting.list.definitions");
+            assertNotNull("Couldn't find test.nesting.list.definitions tile.",
+                    def);
+            attribute = def.getAttribute("list");
+            assertNotNull("Couldn't Find list attribute.", attribute);
+            assertTrue("Attribute not of valid type",
+                    attribute instanceof ListAttribute);
+            ListAttribute listAttribute = (ListAttribute) attribute;
+            List<Attribute> list = (List<Attribute>) listAttribute.getValue();
+            assertEquals("The list is not of correct size", 1, list.size());
+            attribute = list.get(0);
+            assertNotNull("Couldn't Find element attribute.", attribute);
+            assertEquals("Attribute not of 'definition' type", "definition",
+                    attribute.getRenderer());
+            assertNotNull("Attribute value null", attribute.getValue());
+            defName = attribute.getValue().toString();
+            def = definitions.get(defName);
+            assertNotNull("Couldn't find " + defName + " tile.", def);
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }

@@ -64,12 +64,6 @@ public class DefinitionManager {
     private String definitionsAttributeName;
 
     /**
-     * Index to be used to create unique definition names for anonymous
-     * (nested) definitions.
-     */
-    private int anonymousDefinitionIndex = 1;
-
-    /**
      * Constructor.
      */
     public DefinitionManager() {
@@ -285,6 +279,7 @@ public class DefinitionManager {
     protected String getNextUniqueDefinitionName(
             Map<String, Definition> definitions) {
         String candidate;
+        int anonymousDefinitionIndex = 1;
 
         do {
             candidate = "$anonymousMutableDefinition" + anonymousDefinitionIndex;

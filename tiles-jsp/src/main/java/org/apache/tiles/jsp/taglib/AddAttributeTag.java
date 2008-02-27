@@ -23,6 +23,7 @@ package org.apache.tiles.jsp.taglib;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.jsp.taglib.definition.DefinitionTagParent;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -56,7 +57,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  * @version $Rev$ $Date$
  */
-public class AddAttributeTag extends RoleSecurityTagSupport {
+public class AddAttributeTag extends RoleSecurityTagSupport implements
+        DefinitionTagParent {
 
     /**
      * The logging object.
@@ -148,11 +150,20 @@ public class AddAttributeTag extends RoleSecurityTagSupport {
      * @throws JspException if a JSP exception has occurred
      */
     public int doAfterBody() throws JspException {
-        if (bodyContent != null) {
+        if (value == null && bodyContent != null) {
             value = bodyContent.getString();
             type = "string";
         }
         return (SKIP_BODY);
+    }
+
+    /** {@inheritDoc} */
+    public void processNestedDefinitionName(String definitionName)
+            throws JspException {
+        value = definitionName;
+        if (type == null) {
+            type = "definition";
+        }
     }
 
     /** {@inheritDoc} */

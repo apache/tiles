@@ -40,4 +40,22 @@
     </put-list-attribute>
   </definition>
 
+  <definition name="test.nesting.definitions" template="/layout.jsp">
+      <put-attribute name="body">
+          <definition template="/layout.jsp">
+              <put-attribute name="title"  value="This is a nested definition."/>
+          </definition>
+      </put-attribute>
+  </definition>
+
+  <definition name="test.nesting.list.definitions" template="/layout.jsp">
+      <put-list-attribute name="list">
+          <add-attribute>
+              <definition template="/layout.jsp">
+                  <put-attribute name="title"  value="This is a nested definition."/>
+              </definition>
+          </add-attribute>
+      </put-list-attribute>
+  </definition>
+
 </tiles-definitions>

@@ -92,6 +92,11 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     private static final String PUT_DEFINITION_TAG = "*/put-attribute/definition";
 
     /**
+     * Intercepts a &lt;definition&gt; inside an &lt;add-attribute&gt; tag.
+     */
+    private static final String ADD_DEFINITION_TAG = "*/add-attribute/definition";
+
+    /**
      * Intercepts a &lt;put-list-attribute&gt; tag.
      */
     private static final String LIST_TAG = "put-list-attribute";
@@ -371,6 +376,10 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.addSetProperties(PUT_DEFINITION_TAG);
         digester.addSetRoot(PUT_DEFINITION_TAG, "addDefinition");
         digester.addRule(PUT_DEFINITION_TAG, new AddNestedDefinitionRule());
+        digester.addObjectCreate(ADD_DEFINITION_TAG, DEFINITION_HANDLER_CLASS);
+        digester.addSetProperties(ADD_DEFINITION_TAG);
+        digester.addSetRoot(ADD_DEFINITION_TAG, "addDefinition");
+        digester.addRule(ADD_DEFINITION_TAG, new AddNestedDefinitionRule());
 
         // put / putAttribute rules
         // Rules for a same pattern are called in order, but rule.end() are called

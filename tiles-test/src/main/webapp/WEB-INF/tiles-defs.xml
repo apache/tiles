@@ -182,4 +182,18 @@
           </definition>
       </put-attribute>
   </definition>
+
+  <definition name="test.nesting.list.definitions" template="/layout_list.jsp">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-list-attribute name="list">
+          <add-attribute>
+              <definition template="/layout.jsp">
+                  <put-attribute name="title"  value="This is a nested definition."/>
+                  <put-attribute name="header" value="/header.jsp"/>
+                  <put-attribute name="body"   value="/body.jsp"/>
+              </definition>
+          </add-attribute>
+      </put-list-attribute>
+  </definition>
 </tiles-definitions>

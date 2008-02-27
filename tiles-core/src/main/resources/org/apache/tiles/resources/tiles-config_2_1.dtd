@@ -191,7 +191,7 @@
 <!-- The "add-attribute" element describes an element of a list. It is similar to the
      <put> element.
 -->
-<!ELEMENT add-attribute (#PCDATA)>
+<!ELEMENT add-attribute ( (definition*) )>
 <!ATTLIST add-attribute              id               ID              #IMPLIED>
 <!--
 @attr type           The type of the value. Can be: string, template or definition.
