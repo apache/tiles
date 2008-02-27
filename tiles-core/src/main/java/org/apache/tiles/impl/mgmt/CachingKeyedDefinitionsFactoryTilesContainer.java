@@ -125,8 +125,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
             TilesRequestContext request) throws DefinitionsFactoryException {
         DefinitionManager mgr = getProperDefinitionManager(
                 getDefinitionsFactoryKey(request));
-        Definition def = new Definition(definition);
-        mgr.addDefinition(def, request);
+        mgr.addDefinition(definition, request);
     }
 
     /**

@@ -25,7 +25,7 @@
     "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
     "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
 <taglib>
-   <tlib-version>2.0</tlib-version>
+   <tlib-version>2.1</tlib-version>
    <jsp-version>1.2</jsp-version>
    <short-name>tiles</short-name>
    <uri>http://tiles.apache.org/tags-tiles</uri>
@@ -320,7 +320,7 @@
          </description>
       <attribute>
          <name>name</name>
-         <required>true</required>
+         <required>false</required>
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[

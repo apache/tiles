@@ -86,7 +86,6 @@ public class CachingTilesContainer extends BasicTilesContainer
      */
     protected void register(Definition definition,
             TilesRequestContext request) throws DefinitionsFactoryException {
-        Definition def = new Definition(definition);
-        mgr.addDefinition(def, request);
+        mgr.addDefinition(definition, request);
     }
 }

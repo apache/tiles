@@ -25,6 +25,7 @@ import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.TilesRuntimeException;
 import org.apache.tiles.context.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -83,7 +84,12 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     /**
      * Intercepts a &lt;put-attribute&gt; tag.
      */
-    private static final String PUT_TAG = DEFINITION_TAG + "/put-attribute";
+    private static final String PUT_TAG = "*/definition/put-attribute";
+
+    /**
+     * Intercepts a &lt;definition&gt; inside a  &lt;put-attribute&gt; tag.
+     */
+    private static final String PUT_DEFINITION_TAG = "*/put-attribute/definition";
 
     /**
      * Intercepts a &lt;put-list-attribute&gt; tag.
@@ -180,6 +186,28 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     }
 
     /**
+     * Digester rule to manage assignment of a nested definition in an attribute
+     * value.
+     *
+     * @since 2.1.0
+     */
+    public class AddNestedDefinitionRule extends Rule {
+
+        /** {@inheritDoc} */
+        @Override
+        public void begin(String namespace, String name, Attributes attributes)
+                throws Exception {
+            Definition definition = (Definition) digester.peek(0);
+            if (definition.getName() == null) {
+                definition.setName(getNextUniqueDefinitionName(definitions));
+            }
+            Attribute attribute = (Attribute) digester.peek(1);
+            attribute.setValue(definition.getName());
+            attribute.setRenderer("definition");
+        }
+    }
+
+    /**
      * <code>Digester</code> object used to read Definition data
      * from the source.
      */
@@ -204,6 +232,12 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * Indicates whether init method has been called.
      */
     private boolean inited = false;
+
+    /**
+     * Index to be used to create unique definition names for anonymous
+     * (nested) definitions.
+     */
+    private int anonymousDefinitionIndex = 1;
 
     /**
      * Creates a new instance of DigesterDefinitionsReader.
@@ -331,6 +365,13 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.addObjectCreate(DEFINITION_TAG, DEFINITION_HANDLER_CLASS);
         digester.addSetProperties(DEFINITION_TAG);
         digester.addSetNext(DEFINITION_TAG, "addDefinition", DEFINITION_HANDLER_CLASS);
+
+        // nested definition rules
+        digester.addObjectCreate(PUT_DEFINITION_TAG, DEFINITION_HANDLER_CLASS);
+        digester.addSetProperties(PUT_DEFINITION_TAG);
+        digester.addSetRoot(PUT_DEFINITION_TAG, "addDefinition");
+        digester.addRule(PUT_DEFINITION_TAG, new AddNestedDefinitionRule());
+
         // put / putAttribute rules
         // Rules for a same pattern are called in order, but rule.end() are called
         // in reverse order.
@@ -386,7 +427,13 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * @param definition The Definition object to be added.
      */
     public void addDefinition(Definition definition) {
-        definitions.put(definition.getName(), definition);
+        String name = definition.getName();
+        if (name == null) {
+            throw new TilesRuntimeException(
+                    "A root definition has been defined with no name");
+        }
+
+        definitions.put(name, definition);
     }
 
     /**
@@ -426,5 +473,23 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
                 "/org/apache/tiles/resources/tiles-config_2_1.dtd"};
         }
         return registrations;
+    }
+
+    /**
+     * Create a unique definition name usable to store anonymous definitions.
+     *
+     * @param definitions The already created definitions.
+     * @return The unique definition name to be used to store the definition.
+     */
+    protected String getNextUniqueDefinitionName(
+            Map<String, Definition> definitions) {
+        String candidate;
+
+        do {
+            candidate = "$anonymousDefinition" + anonymousDefinitionIndex;
+            anonymousDefinitionIndex++;
+        } while (definitions.containsKey(candidate));
+
+        return candidate;
     }
 }

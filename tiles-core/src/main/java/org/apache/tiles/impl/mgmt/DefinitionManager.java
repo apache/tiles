@@ -64,6 +64,12 @@ public class DefinitionManager {
     private String definitionsAttributeName;
 
     /**
+     * Index to be used to create unique definition names for anonymous
+     * (nested) definitions.
+     */
+    private int anonymousDefinitionIndex = 1;
+
+    /**
      * Constructor.
      */
     public DefinitionManager() {
@@ -131,13 +137,17 @@ public class DefinitionManager {
     public void addDefinition(Definition definition,
             TilesRequestContext request)
         throws DefinitionsFactoryException {
+        Map<String, Definition> definitions = getOrCreateDefinitions(request);
+        if (definition.getName() == null) {
+            definition.setName(getNextUniqueDefinitionName(definitions));
+        }
         validate(definition);
 
         if (definition.isExtending()) {
             this.resolveInheritance(definition, request);
         }
 
-        getOrCreateDefinitions(request).put(definition.getName(), definition);
+        definitions.put(definition.getName(), definition);
     }
 
     /**
@@ -213,7 +223,7 @@ public class DefinitionManager {
 
         // Resolve parent before itself.
         resolveInheritance(parent, request);
-        overload(parent, definition);
+        definition.inherit(parent);
     }
 
     /**
@@ -264,5 +274,23 @@ public class DefinitionManager {
         }
 
         return definitions;
+    }
+
+    /**
+     * Create a unique definition name usable to store anonymous definitions.
+     *
+     * @param definitions The already created definitions.
+     * @return The unique definition name to be used to store the definition.
+     */
+    protected String getNextUniqueDefinitionName(
+            Map<String, Definition> definitions) {
+        String candidate;
+
+        do {
+            candidate = "$anonymousMutableDefinition" + anonymousDefinitionIndex;
+            anonymousDefinitionIndex++;
+        } while (definitions.containsKey(candidate));
+
+        return candidate;
     }
 }

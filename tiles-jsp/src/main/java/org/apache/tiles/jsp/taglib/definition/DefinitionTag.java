@@ -209,6 +209,7 @@ public class DefinitionTag extends TagSupport
     public int doEndTag() throws JspException {
         try {
             container.register(definition, pageContext);
+            callParent();
         } catch (TilesException e) {
             throw new JspException("Unable to add definition. " , e);
         }
@@ -227,5 +228,43 @@ public class DefinitionTag extends TagSupport
             nestedTag.getRole(), nestedTag.getType());
         definition.putAttribute(nestedTag.getName(), attr, nestedTag
                 .isCascade());
+    }
+
+    /**
+     * Find parent tag which must implement {@link DefinitionTagParent}.
+     * @throws JspException If we can't find an appropriate enclosing tag.
+     */
+    protected void callParent() throws JspException {
+        // Get enclosing parent
+        DefinitionTagParent enclosingParent =
+                findEnclosingDefinitionTagParent();
+        if (enclosingParent != null) {
+            enclosingParent.processNestedDefinitionName(definition.getName());
+        }
+    }
+
+    /**
+     * Find parent tag which must implement AttributeContainer.
+     * @throws JspException If we can't find an appropriate enclosing tag.
+     * @return The parent tag.
+     */
+    protected DefinitionTagParent findEnclosingDefinitionTagParent() throws JspException {
+        try {
+            DefinitionTagParent parent =
+                    (DefinitionTagParent) findAncestorWithClass(this,
+                            DefinitionTagParent.class);
+
+            if (parent == null && name == null) {
+                throw new JspException(
+                        "Error - tag definition : enclosing tag doesn't accept 'definition'"
+                                + " tag and a name was not specified.");
+            }
+
+            return parent;
+
+        } catch (ClassCastException ex) { // Is it possibile?
+            throw new JspException(
+                    "Error - tag definition : enclosing tag doesn't accept 'definition' tag.", ex);
+        }
     }
 }

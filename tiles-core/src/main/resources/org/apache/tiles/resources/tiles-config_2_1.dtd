@@ -108,9 +108,11 @@
 -->
 <!ATTLIST definition       extends          %DefinitionName; #IMPLIED>
 <!--
-@attr name           The unique identifier for this definition.
+@attr name           The unique identifier for this definition. Required when
+                     it is a root definition, while it is implied in nested
+                     definitions. 
 -->
-<!ATTLIST definition       name             %DefinitionName; #REQUIRED>
+<!ATTLIST definition       name             %DefinitionName; #IMPLIED>
 <!--
 @attr role           Security role name that is allowed access to this definition
                      object. The definition is inserted only if the role name is
@@ -129,7 +131,7 @@
      specify the tiles attribute name and its value. The tiles value can be
      specified as an xml attribute, or in the body of the <put-attribute> tag.
 -->
-<!ELEMENT put-attribute (#PCDATA)>
+<!ELEMENT put-attribute ( (definition*) )>
 <!ATTLIST put-attribute     id               ID              #IMPLIED>
 <!--
 @attr name           The unique identifier for this put-attribute.
