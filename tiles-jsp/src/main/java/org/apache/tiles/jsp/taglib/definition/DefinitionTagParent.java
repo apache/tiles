@@ -28,6 +28,7 @@ import javax.servlet.jsp.JspException;
  * tags.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
 public interface DefinitionTagParent {
 
@@ -36,6 +37,7 @@ public interface DefinitionTagParent {
      *
      * @param definitionName Nested definition name.
      * @throws JspException If something goes wrong during the processing.
+     * @since 2.1.0
      */
     void processNestedDefinitionName(String definitionName)
             throws JspException;

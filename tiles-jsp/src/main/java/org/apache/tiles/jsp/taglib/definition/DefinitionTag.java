@@ -233,6 +233,7 @@ public class DefinitionTag extends TagSupport
     /**
      * Find parent tag which must implement {@link DefinitionTagParent}.
      * @throws JspException If we can't find an appropriate enclosing tag.
+     * @since 2.1.0
      */
     protected void callParent() throws JspException {
         // Get enclosing parent
@@ -247,6 +248,7 @@ public class DefinitionTag extends TagSupport
      * Find parent tag which must implement AttributeContainer.
      * @throws JspException If we can't find an appropriate enclosing tag.
      * @return The parent tag.
+     * @since 2.1.0
      */
     protected DefinitionTagParent findEnclosingDefinitionTagParent() throws JspException {
         try {

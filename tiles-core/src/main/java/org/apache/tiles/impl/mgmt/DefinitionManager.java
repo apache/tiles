@@ -275,6 +275,7 @@ public class DefinitionManager {
      *
      * @param definitions The already created definitions.
      * @return The unique definition name to be used to store the definition.
+     * @since 2.1.0
      */
     protected String getNextUniqueDefinitionName(
             Map<String, Definition> definitions) {
