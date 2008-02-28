@@ -156,6 +156,22 @@ public class BasicTilesContainer implements TilesContainer {
         endContext(tilesContext);
     }
 
+    /** {@inheritDoc} */
+    public void renderContext(Object... requestItems) throws TilesException {
+        TilesRequestContext request = getRequestContext(requestItems);
+        AttributeContext attributeContext = getAttributeContext(request);
+
+        if (!isPermitted(request, attributeContext.getRoles())) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Access to current attribute context denied. "
+                        + "User not in role '" + attributeContext.getRoles());
+            }
+            return;
+        }
+
+        render(request, attributeContext);
+    }
+
     /**
      * Returns the Tiles application context used by this container.
      *

@@ -80,6 +80,15 @@ public interface TilesContainer {
     void endContext(Object... requestItems);
 
     /**
+     * Renders the current context, as it is.
+     *
+     * @param requestItems the current request objects.
+     * @throws TilesException If something goes wrong during rendition.
+     * @since 2.1.0
+     */
+    void renderContext(Object... requestItems) throws TilesException;
+
+    /**
      * @param definition the requested definition
      * @param requestItems the current request objects.
      * @throws TilesException is processing fails.

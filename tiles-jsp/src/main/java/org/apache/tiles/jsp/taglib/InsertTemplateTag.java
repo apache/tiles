@@ -23,9 +23,9 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
+import org.apache.tiles.TilesException;
 import org.apache.tiles.jsp.context.JspUtil;
 
-import javax.servlet.ServletException;
 import javax.servlet.jsp.JspException;
 
 /**
@@ -64,22 +64,18 @@ public class InsertTemplateTag extends RenderTagSupport
 
     /** {@inheritDoc} */
     protected void render() throws JspException {
-        // FIXME This code should be changed once the overriding template
-        // facility will be available, so it can be managed by the Tiles
-        // container.
         JspUtil.setForceInclude(pageContext, true);
         try {
-            pageContext.include(template, flush);
-        } catch (ServletException e) {
-            Throwable rootCause = e.getRootCause();
-            if (rootCause != null) {
-                // Replace the ServletException with a JspException
-                throw new JspException(rootCause);
-            } else {
-                throw new JspException(e);
+            attributeContext.setTemplate(template);
+            container.renderContext(pageContext);
+            if (flush) {
+                pageContext.getOut().flush();
             }
         } catch (IOException e) {
-            throw new JspException(e);
+            throw new JspException("Error during flush", e);
+        } catch (TilesException e) {
+            throw new JspException("Error during rendering of template '"
+                    + template + "'", e);
         }
     }
 }
