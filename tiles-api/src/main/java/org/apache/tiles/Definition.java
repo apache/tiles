@@ -20,11 +20,7 @@
  */
 package org.apache.tiles;
 
-
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * A definition, i.e. a template with (completely or not) filled attributes.
@@ -44,20 +40,6 @@ public class Definition extends BasicAttributeContext {
      * Definition name.
      */
     protected String name = null;
-    /**
-     * Template path.
-     */
-    protected String template = null;
-    /**
-     * The roles that can render this definition.
-     * @since 2.0.6
-     */
-    protected Set<String> roles = null;
-    /**
-     * Associated ViewPreparer URL or classname, if defined.
-     */
-    protected String preparer = null;
-
 
     /**
      * Constructor.
@@ -112,85 +94,6 @@ public class Definition extends BasicAttributeContext {
      */
     public void setName(String aName) {
         name = aName;
-    }
-
-    /**
-     * Access method for the template property.
-     *
-     * @return the current value of the template property
-     */
-    public String getTemplate() {
-        return template;
-    }
-
-    /**
-     * Sets the value of the template property.
-     *
-     * @param template the new value of the path property
-     */
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
-    /**
-     * Access method for the role property.
-     *
-     * @return the current value of the role property
-     */
-    public String getRole() {
-        String retValue = null;
-
-        if (roles != null && !roles.isEmpty()) {
-            StringBuilder builder = new StringBuilder();
-            Iterator<String> roleIt = roles.iterator();
-            if (roleIt.hasNext()) {
-                builder.append(roleIt.next());
-                while (roleIt.hasNext()) {
-                    builder.append(",");
-                    builder.append(roleIt.next());
-                }
-                retValue = builder.toString();
-            }
-        }
-
-        return retValue;
-    }
-
-    /**
-     * Returns the roles that can render this attribute.
-     *
-     * @return The enabled roles.
-     * @since 2.0.6
-     */
-    public Set<String> getRoles() {
-        return roles;
-    }
-
-    /**
-     * Sets the value of the role property.
-     *
-     * @param role the new value of the role property
-     */
-    public void setRole(String role) {
-        if (role != null && role.trim().length() > 0) {
-            String[] rolesStrings = role.split("\\s*,\\s*");
-            roles = new HashSet<String>();
-            for (int i = 0; i < rolesStrings.length; i++) {
-                roles.add(rolesStrings[i]);
-            }
-        } else {
-            roles = null;
-        }
-    }
-
-    /**
-     * Sets the roles that can render this attribute.
-     *
-     * @param roles The enabled roles.
-     * @since 2.0.6
-     */
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
     }
 
     /**
@@ -284,24 +187,6 @@ public class Definition extends BasicAttributeContext {
     }
 
     /**
-     * Get associated preparerInstance.
-     *
-     * @return The preparer name.
-     */
-    public String getPreparer() {
-        return preparer;
-    }
-
-    /**
-     * Set associated preparerInstance URL.
-     *
-     * @param url Url called locally
-     */
-    public void setPreparer(String url) {
-        this.preparer = url;
-    }
-
-    /**
      * Set extends.
      *
      * @param name Name of the extended definition.
@@ -317,61 +202,6 @@ public class Definition extends BasicAttributeContext {
      */
     public String getExtends() {
         return inherit;
-    }
-
-    /**
-     * Inherits the attribute context. If the parameter is a Definition, the
-     * other properties (roles, template, preparer) are inherited.
-     *
-     * @param parent The attribute context to inherit.
-     * @since 2.1.0
-     */
-    @Override
-    public void inherit(AttributeContext parent) {
-        if (parent instanceof Definition) {
-            inherit((Definition) parent);
-        } else {
-            super.inherit(parent);
-        }
-    }
-
-    /**
-     * Inherits the attribute context. If the parameter is a Definition, the
-     * other properties (roles, template, preparer) are inherited.
-     *
-     * @param parent The attribute context to inherit.
-     * @since 2.1.0
-     */
-    @Override
-    public void inherit(BasicAttributeContext parent) {
-        if (parent instanceof Definition) {
-            inherit((Definition) parent);
-        } else {
-            super.inherit(parent);
-        }
-    }
-
-    /**
-     * Inherits the definition, inheriting attribute, i.e. copying if not
-     * present, attributes, template, roles, preparer.
-     *
-     * @param parent The definition to inherit.
-     * @since 2.1.0
-     */
-    public void inherit(Definition parent) {
-        super.inherit(parent);
-
-        // Set template, roles and preparer if not set
-        if (template == null) {
-            template = parent.template;
-        }
-        if ((roles == null || roles.isEmpty()) && parent.roles != null
-                && !parent.roles.isEmpty()) {
-            roles = new HashSet<String>(parent.roles);
-        }
-        if (preparer == null) {
-            preparer = parent.preparer;
-        }
     }
 
     /** {@inheritDoc} */

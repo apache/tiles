@@ -38,6 +38,27 @@ import java.util.Set;
 public class BasicAttributeContext implements AttributeContext, Serializable {
 
     /**
+     * Template path.
+     *
+     * @since 2.1.0
+     */
+    protected String template = null;
+
+    /**
+     * The roles that can render this definition.
+     *
+     * @since 2.1.0
+     */
+    protected Set<String> roles = null;
+
+    /**
+     * Associated ViewPreparer URL or classname, if defined.
+     *
+     * @since 2.1.0
+     */
+    protected String preparer = null;
+
+    /**
      * Template attributes.
      * @since 2.1.0
      */
@@ -100,6 +121,69 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     }
 
     /** {@inheritDoc} */
+    public String getTemplate() {
+        return template;
+    }
+
+    /** {@inheritDoc} */
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    /** {@inheritDoc} */
+    public String getRole() {
+        String retValue = null;
+
+        if (roles != null && !roles.isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            Iterator<String> roleIt = roles.iterator();
+            if (roleIt.hasNext()) {
+                builder.append(roleIt.next());
+                while (roleIt.hasNext()) {
+                    builder.append(",");
+                    builder.append(roleIt.next());
+                }
+                retValue = builder.toString();
+            }
+        }
+
+        return retValue;
+    }
+
+    /** {@inheritDoc} */
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    /** {@inheritDoc} */
+    public void setRole(String role) {
+        if (role != null && role.trim().length() > 0) {
+            String[] rolesStrings = role.split("\\s*,\\s*");
+            roles = new HashSet<String>();
+            for (int i = 0; i < rolesStrings.length; i++) {
+                roles.add(rolesStrings[i]);
+            }
+        } else {
+            roles = null;
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
+
+    /** {@inheritDoc} */
+    public String getPreparer() {
+        return preparer;
+    }
+
+    /** {@inheritDoc} */
+    public void setPreparer(String url) {
+        this.preparer = url;
+    }
+
+    /** {@inheritDoc} */
     public void inheritCascadedAttributes(AttributeContext context) {
         if (context instanceof BasicAttributeContext) {
             copyCascadedAttributes((BasicAttributeContext) context);
@@ -117,6 +201,20 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         if (parent instanceof BasicAttributeContext) {
             inherit((BasicAttributeContext) parent);
         } else {
+            // Inheriting template, roles and preparer.
+            if (template == null) {
+                template = parent.getTemplate();
+            }
+            Set<String> parentRoles = parent.getRoles();
+            if ((roles == null || roles.isEmpty()) && parentRoles != null
+                    && !parentRoles.isEmpty()) {
+                roles = new HashSet<String>(parentRoles);
+            }
+            if (preparer == null) {
+                preparer = parent.getPreparer();
+            }
+
+            // Inheriting attributes.
             Set<String> names = parent.getCascadedAttributeNames();
             if (names != null && !names.isEmpty()) {
                 for (String name : names) {
@@ -142,6 +240,19 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * @since 2.1.0
      */
     public void inherit(BasicAttributeContext parent) {
+        // Set template, roles and preparer if not set.
+        if (template == null) {
+            template = parent.template;
+        }
+        if ((roles == null || roles.isEmpty()) && parent.roles != null
+                && !parent.roles.isEmpty()) {
+            roles = new HashSet<String>(parent.roles);
+        }
+        if (preparer == null) {
+            preparer = parent.preparer;
+        }
+
+        // Sets attributes.
         cascadedAttributes = addMissingAttributes(
                 ((BasicAttributeContext) parent).cascadedAttributes,
                 cascadedAttributes);
@@ -302,6 +413,9 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
 
     /** {@inheritDoc} */
     public void clear() {
+        template = null;
+        preparer = null;
+        roles = null;
         attributes.clear();
         cascadedAttributes.clear();
     }

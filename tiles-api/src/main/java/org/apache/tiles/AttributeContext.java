@@ -31,6 +31,69 @@ import java.util.Set;
  * @version $Rev$ $Date$
  */
 public interface AttributeContext {
+    /**
+     * Access method for the template property.
+     *
+     * @return the current value of the template property
+     * @since 2.1.0
+     */
+    String getTemplate();
+
+    /**
+     * Sets the value of the template property.
+     *
+     * @param template the new value of the path property
+     * @since 2.1.0
+     */
+    void setTemplate(String template);
+
+    /**
+     * Access method for the role property.
+     *
+     * @return the current value of the role property
+     * @since 2.1.0
+     */
+    String getRole();
+
+    /**
+     * Returns the roles that can render this attribute.
+     *
+     * @return The enabled roles.
+     * @since 2.1.0
+     */
+    Set<String> getRoles();
+
+    /**
+     * Sets the value of the role property.
+     *
+     * @param role the new value of the role property
+     * @since 2.1.0
+     */
+    void setRole(String role);
+
+    /**
+     * Sets the roles that can render this attribute.
+     *
+     * @param roles The enabled roles.
+     * @since 2.1.0
+     */
+    void setRoles(Set<String> roles);
+
+    /**
+     * Get associated preparer instance.
+     *
+     * @return The preparer name.
+     * @since 2.1.0
+     */
+    String getPreparer();
+
+    /**
+     * Set associated preparer instance.
+     *
+     * @param url The preparer name.
+     * @since 2.1.0
+     */
+    void setPreparer(String url);
 
     /**
      * Add all attributes to the context.

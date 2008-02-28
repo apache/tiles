@@ -599,6 +599,23 @@ public class BasicTilesContainer implements TilesContainer {
         pushContext(subContext, request);
 
         try {
+            render(request, definition);
+        } finally {
+            popContext(request);
+        }
+    }
+
+    /**
+     * Renders the specified attribute context.
+     *
+     * @param request The request context.
+     * @param definition The context to render.
+     * @throws TilesException If something goes wrong during rendering.
+     */
+    private void render(TilesRequestContext request, AttributeContext definition)
+        throws TilesException {
+
+        try {
             if (definition.getPreparer() != null) {
                 prepare(request, definition.getPreparer(), true);
             }
@@ -612,14 +629,10 @@ public class BasicTilesContainer implements TilesContainer {
             request.dispatch(dispatchPath);
 
             // tiles exception so that it doesn't need to be rethrown.
-        } catch (TilesException e) {
-            throw e;
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOG.error("Error rendering tile", e);
             // TODO it would be nice to make the preparerInstance throw a more specific
             throw new TilesException(e.getMessage(), e);
-        } finally {
-            popContext(request);
         }
     }
 
