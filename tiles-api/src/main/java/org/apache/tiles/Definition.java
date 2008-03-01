@@ -59,9 +59,6 @@ public class Definition extends BasicAttributeContext {
     public Definition(Definition definition) {
         super(definition);
         this.name = definition.name;
-        this.template = definition.template;
-        this.roles = definition.roles;
-        this.preparer = definition.preparer;
         this.inherit = definition.inherit;
     }
 

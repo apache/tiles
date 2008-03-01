@@ -102,6 +102,12 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         if (context instanceof BasicAttributeContext) {
             copyBasicAttributeContext((BasicAttributeContext) context);
         } else {
+            this.template = context.getTemplate();
+            Set<String> roles = context.getRoles();
+            if (roles != null && !roles.isEmpty()) {
+                this.roles = new HashSet<String>(roles);
+            }
+            this.preparer = context.getPreparer();
             this.attributes = new HashMap<String, Attribute>();
             for (String name : context.getLocalAttributeNames()) {
                 attributes.put(name, context.getLocalAttribute(name));
@@ -426,6 +432,12 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * @param context The context to copy.
      */
     private void copyBasicAttributeContext(BasicAttributeContext context) {
+        template = context.template;
+        Set<String> roles = context.roles;
+        if (roles != null && !roles.isEmpty()) {
+            this.roles = new HashSet<String>(roles);
+        }
+        preparer = context.preparer;
         if (context.attributes != null && !context.attributes.isEmpty()) {
             attributes = new HashMap<String, Attribute>(context.attributes);
         }

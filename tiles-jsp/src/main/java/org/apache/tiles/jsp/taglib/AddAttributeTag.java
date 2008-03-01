@@ -25,7 +25,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.jsp.taglib.definition.DefinitionTagParent;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
@@ -57,13 +59,18 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  * @version $Rev$ $Date$
  */
-public class AddAttributeTag extends RoleSecurityTagSupport implements
-        DefinitionTagParent {
+public class AddAttributeTag extends BodyTagSupport implements DefinitionTagParent {
 
     /**
      * The logging object.
      */
     private static final Log LOG = LogFactory.getLog(AddAttributeTag.class);
+
+    /**
+     * The role to check. If the user is in the specified role, the tag is taken
+     * into account; otherwise, the tag is ignored (skipped).
+     */
+    protected String role;
 
     /**
      * Associated attribute value.
@@ -74,6 +81,26 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
      * Requested type for the value.
      */
     private String type = null;
+
+    /**
+     * Returns the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @return The role to check.
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * Sets the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @param role The role to check.
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     /**
      * Returns the attribute value.
@@ -138,7 +165,7 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
      */
     @Override
     public void release() {
-        super.release();
+        role = null;
         value = null;
         type = null;
     }
@@ -158,6 +185,15 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
     }
 
     /** {@inheritDoc} */
+    public int doEndTag() throws JspException {
+        if (isAccessAllowed()) {
+            execute();
+        }
+
+        return EVAL_PAGE;
+    }
+
+    /** {@inheritDoc} */
     public void processNestedDefinitionName(String definitionName)
             throws JspException {
         value = definitionName;
@@ -171,7 +207,6 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
         AddAttributeTagParent parent = (AddAttributeTagParent)
             TagSupport.findAncestorWithClass(this, AddAttributeTagParent.class);
 
-
         if (parent == null) {
             String message = "Error: enclosing tag '"
                     + getParent().getClass().getName()
@@ -181,5 +216,16 @@ public class AddAttributeTag extends RoleSecurityTagSupport implements
         }
 
         parent.processNestedTag(this);
+    }
+
+    /**
+     * Checks if the user is inside the specified role.
+     *
+     * @return <code>true</code> if the user is allowed to have the tag
+     * rendered.
+     */
+    protected boolean isAccessAllowed() {
+        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
+        return (role == null || req.isUserInRole(role));
     }
 }

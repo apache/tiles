@@ -21,6 +21,7 @@
 package org.apache.tiles;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -91,8 +92,19 @@ public class BasicAttributeContextTest extends TestCase {
                 new Attribute("value3")).anyTimes();
         EasyMock.expect(toCopy.getCascadedAttribute("cascaded2")).andReturn(
                 new Attribute("value4")).anyTimes();
+        EasyMock.expect(toCopy.getTemplate()).andReturn("/template.jsp");
+        Set<String> roles = new HashSet<String>();
+        roles.add("role1");
+        roles.add("role2");
+        EasyMock.expect(toCopy.getRoles()).andReturn(roles);
+        EasyMock.expect(toCopy.getPreparer()).andReturn("my.preparer.Preparer");
         EasyMock.replay(toCopy);
         BasicAttributeContext context = new BasicAttributeContext(toCopy);
+        assertEquals("The template has not been set correctly",
+                "/template.jsp", context.getTemplate());
+        assertEquals("The roles are not the same", roles, context.getRoles());
+        assertEquals("The preparer has not been set correctly",
+                "my.preparer.Preparer", context.getPreparer());
         Attribute attribute = context.getLocalAttribute("local1");
         assertNotNull("Attribute local1 not found", attribute);
         assertEquals("Attribute local1 has not been set correctly", "value1",
@@ -119,7 +131,18 @@ public class BasicAttributeContextTest extends TestCase {
         AttributeContext toCopy = new BasicAttributeContext();
         toCopy.putAttribute("name1", new Attribute("value1"), false);
         toCopy.putAttribute("name2", new Attribute("value2"), true);
+        toCopy.setTemplate("/template.jsp");
+        Set<String> roles = new HashSet<String>();
+        roles.add("role1");
+        roles.add("role2");
+        toCopy.setRoles(roles);
+        toCopy.setPreparer("my.preparer.Preparer");
         AttributeContext context = new BasicAttributeContext(toCopy);
+        assertEquals("The template has not been set correctly",
+                "/template.jsp", context.getTemplate());
+        assertEquals("The roles are not the same", roles, context.getRoles());
+        assertEquals("The preparer has not been set correctly",
+                "my.preparer.Preparer", context.getPreparer());
         Attribute attribute = context.getLocalAttribute("name1");
         assertNotNull("Attribute name1 not found", attribute);
         assertEquals("Attribute name1 has not been set correctly", "value1",

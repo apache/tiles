@@ -36,6 +36,7 @@ import javax.servlet.jsp.PageContext;
  *
  * @since Tiles 2.0
  * @version $Rev$ $Date$
+ * @deprecated Use {@link RenderTagSupport}.
  */
 public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
 

@@ -31,7 +31,8 @@ import javax.servlet.jsp.JspException;
  *
  * @version $Rev$ $Date$
  */
-public class InsertDefinitionTag extends RenderTagSupport implements PutAttributeTagParent {
+public class InsertDefinitionTag extends InsertTemplateTag implements
+        PutAttributeTagParent {
 
     /**
      * The definition name.
@@ -57,9 +58,16 @@ public class InsertDefinitionTag extends RenderTagSupport implements PutAttribut
         this.name = name;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void release() {
+        super.release();
+        name = null;
+    }
 
     /** {@inheritDoc} */
-    protected void render() throws JspException, TilesException {
+    @Override
+    protected void renderContext() throws JspException, TilesException {
         container.render(name, pageContext);
     }
 }

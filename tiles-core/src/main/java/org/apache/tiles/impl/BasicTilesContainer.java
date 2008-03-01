@@ -600,7 +600,11 @@ public class BasicTilesContainer implements TilesContainer {
             throw new NoSuchDefinitionException(definitionName);
         }
 
-        if (!isPermitted(request, definition.getRoles())) {
+        AttributeContext originalContext = getAttributeContext(request);
+        BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
+        subContext.inherit(definition);
+
+        if (!isPermitted(request, subContext.getRoles())) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Access to definition '" + definitionName
                         + "' denied.  User not in role '"
@@ -609,13 +613,10 @@ public class BasicTilesContainer implements TilesContainer {
             return;
         }
 
-        AttributeContext originalContext = getAttributeContext(request);
-        BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
-        subContext.inherit(definition);
         pushContext(subContext, request);
 
         try {
-            render(request, definition);
+            render(request, subContext);
         } finally {
             popContext(request);
         }
@@ -625,29 +626,28 @@ public class BasicTilesContainer implements TilesContainer {
      * Renders the specified attribute context.
      *
      * @param request The request context.
-     * @param definition The context to render.
+     * @param attributeContext The context to render.
      * @throws TilesException If something goes wrong during rendering.
      */
-    private void render(TilesRequestContext request, AttributeContext definition)
-        throws TilesException {
+    private void render(TilesRequestContext request,
+            AttributeContext attributeContext) throws TilesException {
 
         try {
-            if (definition.getPreparer() != null) {
-                prepare(request, definition.getPreparer(), true);
+            if (attributeContext.getPreparer() != null) {
+                prepare(request, attributeContext.getPreparer(), true);
             }
 
-            String dispatchPath = definition.getTemplate();
+            String dispatchPath = attributeContext.getTemplate();
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Dispatching to definition path '"
-                        + definition.getTemplate() + " '");
+                        + attributeContext.getTemplate() + " '");
             }
             request.dispatch(dispatchPath);
 
             // tiles exception so that it doesn't need to be rethrown.
         } catch (IOException e) {
             LOG.error("Error rendering tile", e);
-            // TODO it would be nice to make the preparerInstance throw a more specific
             throw new TilesException(e.getMessage(), e);
         }
     }

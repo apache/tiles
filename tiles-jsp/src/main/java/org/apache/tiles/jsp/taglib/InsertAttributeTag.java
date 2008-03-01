@@ -25,6 +25,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
@@ -99,6 +100,13 @@ public class InsertAttributeTag extends RenderTagSupport {
 
     /** {@inheritDoc} */
     protected void render() throws JspException, TilesException, IOException {
+        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
+
+        // Checks if the attribute can be rendered with the current user.
+        if (role != null && !req.isUserInRole(role)) {
+            return;
+        }
+
         Attribute attr = (Attribute) value;
         if (attr == null && evaluatingContext != null) {
             attr = evaluatingContext.getAttribute(name);

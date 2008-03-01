@@ -34,6 +34,7 @@ import java.io.IOException;
  *
  * @since Tiles 2.0
  * @version $Rev$ $Date$
+ * @deprecated Use {@link AddAttributeTag} and {@link PutAttributeTag} directly.
  */
 public abstract class RoleSecurityTagSupport extends BodyTagSupport {
 

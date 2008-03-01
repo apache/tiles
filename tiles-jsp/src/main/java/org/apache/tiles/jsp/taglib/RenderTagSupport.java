@@ -20,15 +20,24 @@
  */
 package org.apache.tiles.jsp.taglib;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.access.TilesAccess;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.BodyTagSupport;
+
 import java.io.IOException;
 
 /**
  * <p>
- * Support for all tags which render (a template, or definition).
+ * Support for all tags which render (an attribute, a template, or definition).
  * </p>
  * <p>
  * Properly invokes the defined preparer and invokes the abstract render method
@@ -42,8 +51,19 @@ import java.io.IOException;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public abstract class RenderTagSupport extends ContainerTagSupport
-    implements PutAttributeTagParent {
+public abstract class RenderTagSupport extends BodyTagSupport implements
+        PutAttributeTagParent {
+
+    /**
+     * The log instance for this tag.
+     */
+    private static final Log LOG = LogFactory.getLog(RenderTagSupport.class);
+
+    /**
+     * The role to check. If the user is in the specified role, the tag is taken
+     * into account; otherwise, the tag is ignored (skipped).
+     */
+    protected String role;
 
     /**
      * The view preparer to use before the rendering.
@@ -60,6 +80,36 @@ public abstract class RenderTagSupport extends ContainerTagSupport
      * and those caused by problems with definitions.
      */
     protected boolean ignore;
+
+    /**
+     * The Tiles container that can be used inside the tag.
+     */
+    protected TilesContainer container;
+
+    /**
+     * The attribute context to use to store and read attribute values.
+     */
+    protected AttributeContext attributeContext;
+
+    /**
+     * Returns the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @return The role to check.
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * Sets the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @param role The role to check.
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     /**
      * Returns the preparer name.
@@ -129,13 +179,42 @@ public abstract class RenderTagSupport extends ContainerTagSupport
         preparer = null;
         flush = false;
         ignore = false;
-        super.release();
+        container = null;
+        attributeContext = null;
+        role = null;
     }
 
     /** {@inheritDoc} */
     public int doStartTag() throws JspException {
-        super.doStartTag();
-        return isAccessAllowed() ? EVAL_BODY_BUFFERED : SKIP_BODY;
+        container = TilesAccess.getContainer(pageContext.getServletContext());
+        if (container != null) {
+            startContext(pageContext);
+            return EVAL_BODY_BUFFERED;
+        } else {
+            throw new JspException("TilesContainer not initialized");
+        }
+    }
+
+    /** {@inheritDoc} */
+    public int doEndTag() throws JspException {
+        try {
+            render();
+            if (flush) {
+                pageContext.getOut().flush();
+            }
+
+            return EVAL_PAGE;
+        } catch (TilesException e) {
+            String message = "Error executing tag: " + e.getMessage();
+            LOG.error(message, e);
+            throw new JspException(message, e);
+        } catch (IOException io) {
+            String message = "IO Error executing tag: " + io.getMessage();
+            LOG.error(message, io);
+            throw new JspException(message, io);
+        } finally {
+            endContext(pageContext);
+        }
     }
 
     /**
@@ -145,6 +224,7 @@ public abstract class RenderTagSupport extends ContainerTagSupport
      * @throws TilesException if a prepare or render exception occurs.
      * @throws JspException if a jsp exception occurs.
      * @throws IOException if an io exception occurs.
+     * @deprecated Use {@link #render()}.
      */
     protected void execute() throws TilesException, JspException, IOException {
         if (preparer != null) {
@@ -166,15 +246,36 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     protected abstract void render() throws JspException, TilesException, IOException;
 
     /**
+     * Starts the context when entering the tag.
+     *
+     * @param context The page context to use.
+     */
+    protected void startContext(PageContext context) {
+        if (container != null) {
+            attributeContext = container.startContext(pageContext);
+        }
+    }
+
+    /**
+     * Ends the context when exiting the tag.
+     *
+     * @param context The page context to use.
+     */
+    protected void endContext(PageContext context) {
+        if (attributeContext != null && container != null) {
+            container.endContext(pageContext);
+        }
+    }
+
+    /**
      * <p>
      * Process nested &lg;put&gt; tag.
      * <p/>
      * <p>
      * Places the value of the nested tag within the
      * {@link org.apache.tiles.AttributeContext}.It is the responsibility
-     * of the descendent to check security.  Tags extending
-     * the {@link ContainerTagSupport} will automatically provide
-     * the appropriate security.
+     * of the descendent to check security. Security will be managed by
+     * called tags.
      * </p>
      *
      * @param nestedTag the put tag desciendent.
@@ -186,5 +287,17 @@ public abstract class RenderTagSupport extends ContainerTagSupport
 
         attributeContext.putAttribute(nestedTag.getName(), attribute, nestedTag
                 .isCascade());
+    }
+
+    /**
+     * Checks if the user is inside the specified role.
+     *
+     * @return <code>true</code> if the user is allowed to have the tag
+     * rendered.
+     * @deprecated Implement access allowance in your own tag.
+     */
+    protected boolean isAccessAllowed() {
+        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
+        return (role == null || req.isUserInRole(role));
     }
 }

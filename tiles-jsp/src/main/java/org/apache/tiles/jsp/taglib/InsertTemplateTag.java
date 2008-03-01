@@ -34,19 +34,22 @@ import javax.servlet.jsp.JspException;
  *
  * @version $Rev$ $Date$
  */
-public class InsertTemplateTag extends RenderTagSupport
-    implements PutAttributeTagParent {
+public class InsertTemplateTag extends RenderTagSupport implements
+        PutAttributeTagParent {
 
     /**
      * A string representing the URI of a template (for example, a JSP page).
+     *
+     * @since 2.1.0
      */
-    private String template;
+    protected String template;
 
     /**
      * Returns a string representing the URI of a template (for example, a JSP
      * page).
      *
      * @return The template URI.
+     * @since 2.1.0
      */
     public String getTemplate() {
         return template;
@@ -57,22 +60,34 @@ public class InsertTemplateTag extends RenderTagSupport
      * page).
      *
      * @param template The template URI.
+     * @since 2.1.0
      */
     public void setTemplate(String template) {
         this.template = template;
     }
 
     /** {@inheritDoc} */
-    protected void render() throws JspException {
+    @Override
+    protected void render() throws JspException, TilesException, IOException {
+        attributeContext.setTemplate(template);
+        attributeContext.setPreparer(preparer);
+        attributeContext.setRole(role);
+        renderContext();
+    }
+
+    /**
+     * Renders the current context.
+     *
+     * @throws TilesException if a prepare or render exception occurs.
+     * @throws JspException if a jsp exception occurs.
+     * @throws IOException if an io exception occurs.
+     */
+    protected void renderContext() throws JspException, TilesException,
+            IOException {
         JspUtil.setForceInclude(pageContext, true);
         try {
             attributeContext.setTemplate(template);
             container.renderContext(pageContext);
-            if (flush) {
-                pageContext.getOut().flush();
-            }
-        } catch (IOException e) {
-            throw new JspException("Error during flush", e);
         } catch (TilesException e) {
             throw new JspException("Error during rendering of template '"
                     + template + "'", e);

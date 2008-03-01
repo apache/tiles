@@ -83,9 +83,8 @@ public class AddListAttributeTag extends AddAttributeTag
      * <p/>
      * Places the value of the nested tag within the
      * {@link org.apache.tiles.AttributeContext}.It is the responsibility
-     * of the descendent to check security.  Tags extending
-     * the {@link org.apache.tiles.jsp.taglib.ContainerTagSupport} will automatically provide
-     * the appropriate security.
+     * of the descendent to check security.  Security will be managed by called
+     * tags.
      *
      * @param nestedTag the put tag desciendent.
      */
