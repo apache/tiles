@@ -188,6 +188,12 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
      */
     protected void forward(String path) throws IOException {
         RequestDispatcher rd = request.getRequestDispatcher(path);
+
+        if (rd == null) {
+            throw new IOException("No request dispatcher returned for path '"
+                    + path + "'");
+        }
+
         try {
             rd.forward(request, response);
         } catch (ServletException ex) {
@@ -201,6 +207,12 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     public void include(String path) throws IOException {
         ServletUtil.setForceInclude(request, true);
         RequestDispatcher rd = request.getRequestDispatcher(path);
+
+        if (rd == null) {
+            throw new IOException("No request dispatcher returned for path '"
+                    + path + "'");
+        }
+
         try {
             rd.include(request, response);
         } catch (ServletException ex) {
