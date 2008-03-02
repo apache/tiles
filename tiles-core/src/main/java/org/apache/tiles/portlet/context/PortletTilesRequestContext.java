@@ -28,6 +28,7 @@ import java.util.Map;
 import javax.portlet.PortletContext;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
+import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -236,7 +237,15 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
     public void include(String path) throws IOException {
         if (isRenderRequest) {
             try {
-                context.getRequestDispatcher(path).include((RenderRequest) request,
+                PortletRequestDispatcher rd = context.getRequestDispatcher(path);
+
+                if (rd == null) {
+                    throw new IOException(
+                            "No portlet request dispatcher returned for path '"
+                                    + path + "'");
+                }
+
+                rd.include((RenderRequest) request,
                     (RenderResponse) response);
             } catch (PortletException e) {
                 throw new TilesIOException(
