@@ -168,6 +168,18 @@
          </description>
       </attribute>
       <attribute>
+         <name>template</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description>
+         <![CDATA[
+         <p>A string representing the URI of a template (for example, a JSP
+         page) that will override the one used by the definition itself. 
+         </p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
          <name>flush</name>
          <required>false</required>
          <rtexprvalue>false</rtexprvalue>

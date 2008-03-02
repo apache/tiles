@@ -85,12 +85,6 @@ public class InsertTemplateTag extends RenderTagSupport implements
     protected void renderContext() throws JspException, TilesException,
             IOException {
         JspUtil.setForceInclude(pageContext, true);
-        try {
-            attributeContext.setTemplate(template);
-            container.renderContext(pageContext);
-        } catch (TilesException e) {
-            throw new JspException("Error during rendering of template '"
-                    + template + "'", e);
-        }
+        container.renderContext(pageContext);
     }
 }
