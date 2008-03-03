@@ -127,7 +127,7 @@ public class UrlDefinitionsFactory
             localeResolver = new DefaultLocaleResolver();
         }
         localeResolver.init(params);
-        definitions = readDefinitions();
+        loadDefinitions();
     }
 
     /**
@@ -272,24 +272,12 @@ public class UrlDefinitionsFactory
      * @return The definitions holder object, filled with base definitions.
      * @throws DefinitionsFactoryException if an error occurs reading the
      * sources.
+     * @deprecated Let the Definitions Factory use it.
      */
+    @Deprecated
     public Definitions readDefinitions()
         throws DefinitionsFactoryException {
-        Definitions definitions = createDefinitions();
-        try {
-            for (Object source1 : sources) {
-                URL source = (URL) source1;
-                URLConnection connection = source.openConnection();
-                connection.connect();
-                lastModifiedDates.put(source.toExternalForm(),
-                    connection.getLastModified());
-                Map<String, Definition> defsMap = reader
-                        .read(connection.getInputStream());
-                definitions.addDefinitions(defsMap);
-            }
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException("I/O error accessing source.", e);
-        }
+        loadDefinitions();
         return definitions;
     }
 
@@ -344,6 +332,38 @@ public class UrlDefinitionsFactory
         String ext = name.substring(dotIndex);
         name = name.substring(0, dotIndex);
         return name + postfix + ext;
+    }
+
+    /**
+     * Creates a {@link Definitions} set by reading
+     * configuration data from the applied sources.
+     *
+     * @throws DefinitionsFactoryException if an error occurs reading the
+     * sources.
+     * @since 2.1.0
+     */
+    protected synchronized void loadDefinitions()
+            throws DefinitionsFactoryException {
+        if (definitions == null) {
+            definitions = createDefinitions();
+        } else {
+            definitions.reset();
+        }
+
+        try {
+            for (Object source1 : sources) {
+                URL source = (URL) source1;
+                URLConnection connection = source.openConnection();
+                connection.connect();
+                lastModifiedDates.put(source.toExternalForm(),
+                    connection.getLastModified());
+                Map<String, Definition> defsMap = reader
+                        .read(connection.getInputStream());
+                definitions.addDefinitions(defsMap);
+            }
+        } catch (IOException e) {
+            throw new DefinitionsFactoryException("I/O error accessing source.", e);
+        }
     }
 
     /**
@@ -402,13 +422,10 @@ public class UrlDefinitionsFactory
 
 
     /** {@inheritDoc} */
-    public void refresh() throws DefinitionsFactoryException {
+    public synchronized void refresh() throws DefinitionsFactoryException {
         LOG.debug("Updating Tiles definitions. . .");
-        synchronized (definitions) {
-            Definitions newDefs = readDefinitions();
-            definitions.reset();
-            definitions.addDefinitions(newDefs.getBaseDefinitions());
-        }
+        processedLocales.clear();
+        loadDefinitions();
     }
 
 

@@ -100,7 +100,9 @@ public interface DefinitionsFactory {
      * @return The read definitions.
      * @throws DefinitionsFactoryException if an error occurs reading the
      *                                     sources.
+     * @deprecated Let the Definitions Factory use it.
      */
+    @Deprecated
     Definitions readDefinitions()
         throws DefinitionsFactoryException;
 }

@@ -111,13 +111,13 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        factory.init(Collections.EMPTY_MAP);
         factory.addSource(url1);
         factory.addSource(url2);
         factory.addSource(url3);
+        factory.init(Collections.EMPTY_MAP);
 
         // Parse files.
-        Definitions definitions = factory.readDefinitions();
+        Definitions definitions = factory.getDefinitions();
 
         assertNotNull("test.def1 definition not found.", definitions.getDefinition("test.def1"));
         assertNotNull("test.def2 definition not found.", definitions.getDefinition("test.def2"));
@@ -245,13 +245,13 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        factory.init(Collections.EMPTY_MAP);
         factory.addSource(url1);
         factory.addSource(url2);
         factory.addSource(url3);
+        factory.init(Collections.EMPTY_MAP);
 
         // Parse files.
-        Definitions definitions = factory.readDefinitions();
+        Definitions definitions = factory.getDefinitions();
         factory.addDefinitions(definitions,
                 new MockOnlyLocaleTilesContext(Locale.US));
         factory.addDefinitions(definitions,
@@ -288,11 +288,11 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "org/apache/tiles/config/defs1.xml");
         assertNotNull("Could not load defs1 file.", url1);
 
-        factory.init(Collections.EMPTY_MAP);
         factory.addSource(url1);
+        factory.init(Collections.EMPTY_MAP);
 
         // Parse files.
-        Definitions definitions = factory.readDefinitions();
+        Definitions definitions = factory.getDefinitions();
         TilesRequestContext tilesContext =
                 new MockOnlyLocaleTilesContext(Locale.US);
         assertFalse("Locale should not be processed.",

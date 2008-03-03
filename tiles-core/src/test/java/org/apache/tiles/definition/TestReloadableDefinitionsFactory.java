@@ -30,6 +30,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 
+import org.apache.tiles.Definition;
+import org.apache.tiles.context.TilesRequestContext;
+import org.easymock.EasyMock;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -129,16 +133,18 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         writer.write(xml);
         writer.close();
 
-        factory.init(new HashMap<String, String>());
         factory.addSource(url);
+        factory.init(new HashMap<String, String>());
+        TilesRequestContext context = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.expect(context.getSessionScope()).andReturn(
+                new HashMap<String, Object>()).anyTimes();
+        EasyMock.expect(context.getRequestLocale()).andReturn(null).anyTimes();
+        EasyMock.replay(context);
 
-        // Parse files.
-        Definitions definitions = factory.readDefinitions();
-
-        assertNotNull("rewrite.test definition not found.",
-                definitions.getDefinition("rewrite.test"));
+        Definition definition = factory.getDefinition("rewrite.test", context);
+        assertNotNull("rewrite.test definition not found.", definition);
         assertEquals("Incorrect initial template value", "/test.jsp",
-                definitions.getDefinition("rewrite.test").getTemplate());
+                definition.getTemplate());
 
         ReloadableDefinitionsFactory reloadable = (ReloadableDefinitionsFactory) factory;
         assertEquals("Factory should be fresh.", false,
@@ -167,10 +173,10 @@ public class TestReloadableDefinitionsFactory extends TestCase {
 
         assertEquals("Factory should be stale.", true,
                 reloadable.refreshRequired());
-        definitions = factory.readDefinitions();
-        assertNotNull("rewrite.test definition not found.",
-                definitions.getDefinition("rewrite.test"));
+        reloadable.refresh();
+        definition = factory.getDefinition("rewrite.test", context);
+        assertNotNull("rewrite.test definition not found.", definition);
         assertEquals("Incorrect initial template value", "/newtest.jsp",
-                definitions.getDefinition("rewrite.test").getTemplate());
+                definition.getTemplate());
     }
 }
