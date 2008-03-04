@@ -76,7 +76,7 @@ public class UseAttributeTag extends AttributeTagSupport {
      * @throws JspException if a JSP exception has occurred
      */
     public void execute() throws JspException {
-        pageContext.setAttribute(getScriptingVariable(), attribute.getValue(), scope);
+        pageContext.setAttribute(getScriptingVariable(), attributeValue, scope);
     }
 
     /**

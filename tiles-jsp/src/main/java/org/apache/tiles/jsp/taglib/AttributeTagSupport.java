@@ -20,9 +20,12 @@
  */
 package org.apache.tiles.jsp.taglib;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.jsp.JspException;
@@ -39,6 +42,10 @@ import java.util.Map;
  */
 public abstract class AttributeTagSupport extends TagSupport {
 
+    /**
+     * The logging object.
+     */
+    private static final Log LOG = LogFactory.getLog(AttributeTagSupport.class);
 
     /**
      * Maps scope names to their constants.
@@ -90,6 +97,12 @@ public abstract class AttributeTagSupport extends TagSupport {
      */
     protected Attribute attribute;
 
+    /**
+     * The attribute value.
+     *
+     * @since 2.1.0
+     */
+    protected Object attributeValue;
 
     /**
      * Set the scope.
@@ -113,6 +126,10 @@ public abstract class AttributeTagSupport extends TagSupport {
     public void release() {
         scopeName = null;
         scope = PageContext.PAGE_SCOPE;
+        ignore = false;
+        attribute = null;
+        attributeValue = null;
+        attributeContext = null;
     }
 
     /** {@inheritDoc} */
@@ -133,7 +150,19 @@ public abstract class AttributeTagSupport extends TagSupport {
                 throw new JspException("Attribute with name '" + name + "' not found");
             }
 
-            if (attribute.getValue() == null) {
+            try {
+                attributeValue = container.evaluate(attribute, pageContext);
+            } catch (TilesException e) {
+                if (!ignore) {
+                    throw new JspException("Attribute with name '" + name
+                            + "' has a value of '" + attribute.getValue()
+                            + "' that cannot be evaluated");
+                } else if (LOG.isDebugEnabled()) {
+                    LOG.debug("Ignoring Tiles Exception", e);
+                }
+            }
+
+            if (attributeValue == null) {
                 throw new JspException("Attribute with name '" + name + "' has a null value.");
             }
         }
