@@ -53,9 +53,9 @@ public class DefinitionAttributeRenderer extends AbstractBaseAttributeRenderer
 
     /** {@inheritDoc} */
     @Override
-    public void write(Attribute attribute, Writer writer,
-            TilesRequestContext request, Object... requestItems)
+    public void write(Object value, Attribute attribute,
+            Writer writer, TilesRequestContext request, Object... requestItems)
             throws IOException, TilesException {
-        container.render(attribute.getValue().toString(), requestItems);
+        container.render(value.toString(), requestItems);
     }
 }

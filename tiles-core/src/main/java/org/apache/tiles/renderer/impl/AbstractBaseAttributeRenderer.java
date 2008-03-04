@@ -33,6 +33,8 @@ import org.apache.tiles.TilesException;
 import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.evaluator.AttributeEvaluator;
+import org.apache.tiles.evaluator.AttributeEvaluatorAware;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererException;
 
@@ -43,7 +45,7 @@ import org.apache.tiles.renderer.RendererException;
  * @since 2.1.0
  */
 public abstract class AbstractBaseAttributeRenderer implements
-        AttributeRenderer, TilesContextFactoryAware {
+        AttributeRenderer, TilesContextFactoryAware, AttributeEvaluatorAware {
 
     /**
      * The logging object.
@@ -65,6 +67,13 @@ public abstract class AbstractBaseAttributeRenderer implements
      */
     protected TilesApplicationContext applicationContext;
 
+    /**
+     * The attribute evaluator.
+     *
+     * @since 2.1.0
+     */
+    protected AttributeEvaluator evaluator;
+
     /** {@inheritDoc} */
     public void setContextFactory(TilesContextFactory contextFactory) {
         this.contextFactory = contextFactory;
@@ -73,6 +82,11 @@ public abstract class AbstractBaseAttributeRenderer implements
     /** {@inheritDoc} */
     public void setApplicationContext(TilesApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
+    }
+
+    /** {@inheritDoc} */
+    public void setEvaluator(AttributeEvaluator evaluator) {
+        this.evaluator = evaluator;
     }
 
     /** {@inheritDoc} */
@@ -92,23 +106,30 @@ public abstract class AbstractBaseAttributeRenderer implements
             return;
         }
 
-        write(attribute, writer, request, requestItems);
+        Object value = attribute.getValue();
+
+        if (attribute.getValue() instanceof String) {
+            value = evaluator.evaluate((String) value, request);
+        }
+
+        write(value, attribute, writer, request, requestItems);
     }
 
     /**
      * Implement this method knowing that the attribute won't be null and it
      * will be authorized.
-     *
+     * @param value The value of the attribute to be rendered.
      * @param attribute The attribute to render.
      * @param writer The writer to use.
      * @param request The Tiles request object.
      * @param requestItems The original request items.
+     *
      * @throws IOException If something goes wrong during rendition.
      * @throws TilesException If something goes wrong in Tiles engine.
      * @since 2.1.0
      */
-    public abstract void write(Attribute attribute, Writer writer,
-            TilesRequestContext request, Object... requestItems)
+    public abstract void write(Object value, Attribute attribute,
+            Writer writer, TilesRequestContext request, Object... requestItems)
             throws IOException, TilesException;
 
     /**

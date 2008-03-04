@@ -36,9 +36,9 @@ import org.apache.tiles.context.TilesRequestContext;
 public class StringAttributeRenderer extends AbstractBaseAttributeRenderer {
 
     /** {@inheritDoc} */
-    public void write(Attribute attribute, Writer writer,
-            TilesRequestContext request, Object... requestItems)
+    public void write(Object value, Attribute attribute,
+            Writer writer, TilesRequestContext request, Object... requestItems)
             throws IOException, TilesException {
-        writer.write(attribute.getValue().toString());
+        writer.write(value.toString());
     }
 }

@@ -51,12 +51,11 @@ public class UntypedAttributeRenderer extends AbstractBaseAttributeRenderer
 
     /** {@inheritDoc} */
     @Override
-    public void write(Attribute attribute, Writer writer,
-            TilesRequestContext request, Object... requestItems)
+    public void write(Object value, Attribute attribute,
+            Writer writer, TilesRequestContext request, Object... requestItems)
             throws IOException, TilesException {
-        Object valueContent = attribute.getValue();
-        if (valueContent instanceof String) {
-            String valueString = (String) valueContent;
+        if (value instanceof String) {
+            String valueString = (String) value;
             if (container.isValidDefinition(valueString, requestItems)) {
                 container.render(valueString, requestItems);
             } else if (valueString.startsWith("/")) {

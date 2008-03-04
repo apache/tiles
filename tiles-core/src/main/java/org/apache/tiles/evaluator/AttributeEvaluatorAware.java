@@ -18,28 +18,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.renderer.impl;
-
-import java.io.IOException;
-import java.io.Writer;
-
-import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesException;
-import org.apache.tiles.context.TilesRequestContext;
+package org.apache.tiles.evaluator;
 
 /**
- * Renders an attribute that contains a reference to a template.
+ * It represents an object that can use an {@link AttributeEvaluator}.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class TemplateAttributeRenderer extends AbstractBaseAttributeRenderer {
+public interface AttributeEvaluatorAware {
 
-    /** {@inheritDoc} */
-    @Override
-    public void write(Object value, Attribute attribute,
-            Writer writer, TilesRequestContext request, Object... requestItems)
-            throws IOException, TilesException {
-        request.dispatch(value.toString());
-    }
+    /**
+     * Sets the evaluator.
+     *
+     * @param evaluator The evaluator to set.
+     */
+    void setEvaluator(AttributeEvaluator evaluator);
 }

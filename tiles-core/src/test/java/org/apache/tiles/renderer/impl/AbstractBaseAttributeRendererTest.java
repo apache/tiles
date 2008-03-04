@@ -159,8 +159,8 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
 
         /** {@inheritDoc} */
         @Override
-        public void write(Attribute attribute, Writer writer,
-                TilesRequestContext request, Object... requestItems)
+        public void write(Object value, Attribute attribute,
+                Writer writer, TilesRequestContext request, Object... requestItems)
                 throws IOException, TilesException {
             writer.write("wrote");
         }

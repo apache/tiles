@@ -29,6 +29,7 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.evaluator.impl.DirectEvaluator;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
@@ -49,11 +50,12 @@ public class UntypedAttributeRendererTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         renderer = new UntypedAttributeRenderer();
+        renderer.setEvaluator(new DirectEvaluator());
     }
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Attribute, java.io.Writer, TilesRequestContext, Object...)}
+     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}
      * writing a Definition.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -85,7 +87,7 @@ public class UntypedAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Attribute, java.io.Writer, TilesRequestContext, Object...)}
+     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}
      * writing a string.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -116,7 +118,7 @@ public class UntypedAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Attribute, java.io.Writer, TilesRequestContext, Object...)}
+     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}
      * writing a template.
      *
      * @throws IOException If something goes wrong during rendition.

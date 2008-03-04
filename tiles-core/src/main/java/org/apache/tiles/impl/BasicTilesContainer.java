@@ -34,6 +34,7 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.preparer.NoSuchPreparerException;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
@@ -108,6 +109,11 @@ public class BasicTilesContainer implements TilesContainer {
      * The renderer factory.
      */
     private RendererFactory rendererFactory;
+
+    /**
+     * The attribute evaluator.
+     */
+    private AttributeEvaluator evaluator;
 
     /**
      * The Tiles context factory.
@@ -265,6 +271,16 @@ public class BasicTilesContainer implements TilesContainer {
         this.rendererFactory = rendererFactory;
     }
 
+    /**
+     * Sets the evaluator to use.
+     *
+     * @param evaluator The evaluator to use.
+     * @since 2.1.0
+     */
+    public void setEvaluator(AttributeEvaluator evaluator) {
+        this.evaluator = evaluator;
+    }
+
     /** {@inheritDoc} */
     public void prepare(String preparer, Object... requestItems)
         throws TilesException {
@@ -300,6 +316,19 @@ public class BasicTilesContainer implements TilesContainer {
                             + attr.getRenderer());
         }
         renderer.render(attr, writer, requestItems);
+    }
+
+    /** {@inheritDoc} */
+    public Object evaluate(Attribute attribute, Object... requestItems)
+            throws TilesException {
+        TilesRequestContext request = getContextFactory().createRequestContext(
+                context, requestItems);
+        Object retValue = attribute.getValue();
+        if (retValue != null && retValue instanceof String) {
+            retValue = evaluator.evaluate((String) retValue, request);
+        }
+
+        return retValue;
     }
 
     /** {@inheritDoc} */

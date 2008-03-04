@@ -18,34 +18,22 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.test.renderer;
+package org.apache.tiles.evaluator.impl;
 
-import java.io.IOException;
-import java.io.Writer;
-
-import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.renderer.impl.StringAttributeRenderer;
+import org.apache.tiles.evaluator.AttributeEvaluator;
 
 /**
- * A simple test <code>AttributeRenderer</code>.
+ * Resolves a string and returns the string itself. It is useful for backward
+ * compatibility.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
-public class ReverseStringAttributeRenderer extends StringAttributeRenderer {
+public class DirectEvaluator implements AttributeEvaluator {
 
     /** {@inheritDoc} */
-    @Override
-    public void write(Object value, Attribute attribute,
-            Writer writer, TilesRequestContext request, Object... requestItems)
-            throws IOException, TilesException {
-        String original = attribute.getValue().toString();
-        char[] array = original.toCharArray();
-        char[] newArray = new char[array.length];
-        for (int i = 0; i < array.length; i++) {
-            newArray[array.length - i - 1] = array[i];
-        }
-        writer.write(String.valueOf(newArray));
+    public Object evaluate(String expression, TilesRequestContext request) {
+        return expression;
     }
 }

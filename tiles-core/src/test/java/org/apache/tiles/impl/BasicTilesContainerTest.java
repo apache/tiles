@@ -155,6 +155,22 @@ public class BasicTilesContainerTest extends TestCase {
     }
 
     /**
+     * Tests {@link BasicTilesContainer#evaluate(Attribute, Object...)}.
+     *
+     * @throws TilesException If something goes wrong.
+     */
+    public void testEvaluate() throws TilesException {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpSession session = new MockHttpSession();
+        request.setHttpSession(session);
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        Attribute attribute = new Attribute((Object) "This is the value");
+        Object value = container.evaluate(attribute, request, response);
+        assertEquals("The attribute has not been evaluated correctly",
+                "This is the value", value);
+    }
+
+    /**
      * Servlet request mock class that allows to choose the user roles.
      */
     private static class RoleMockHttpServletRequest extends MockHttpServletRequest {

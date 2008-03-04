@@ -1,3 +1,4 @@
+<!--
 /*
  * $Id$
  *
@@ -18,28 +19,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.renderer.impl;
-
-import java.io.IOException;
-import java.io.Writer;
-
-import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesException;
-import org.apache.tiles.context.TilesRequestContext;
-
-/**
- * Renders an attribute that contains a reference to a template.
- *
- * @version $Rev$ $Date$
- * @since 2.1.0
- */
-public class TemplateAttributeRenderer extends AbstractBaseAttributeRenderer {
-
-    /** {@inheritDoc} */
-    @Override
-    public void write(Object value, Attribute attribute,
-            Writer writer, TilesRequestContext request, Object... requestItems)
-            throws IOException, TilesException {
-        request.dispatch(value.toString());
-    }
-}
+-->
+<html>
+<head>
+    <title>Tiles attribute evaluators</title>
+</head>
+<body>
+Interfaces to manage attribute value evaluation.
+</body>
+</html>

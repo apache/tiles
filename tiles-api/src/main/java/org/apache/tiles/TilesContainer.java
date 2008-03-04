@@ -120,6 +120,19 @@ public interface TilesContainer {
         throws TilesException, IOException;
 
     /**
+     * Evaluates the given attribute.
+     *
+     * @param attribute The attribute to evaluate.
+     * @param requestItems the current request objects.
+     * @throws TilesException If something goes wrong during accessing Tiles
+     * elements.
+     * @return The evaluated object.
+     * @since 2.1.0
+     */
+    Object evaluate(Attribute attribute, Object... requestItems)
+            throws TilesException;
+
+    /**
      * Determine whether or not the definition exists.
      * @param definition the name of the definition.
      * @param requestItems the current request objects.

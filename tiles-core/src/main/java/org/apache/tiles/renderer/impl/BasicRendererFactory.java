@@ -30,6 +30,8 @@ import org.apache.tiles.TilesRuntimeException;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.evaluator.AttributeEvaluator;
+import org.apache.tiles.evaluator.AttributeEvaluatorAware;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererException;
 import org.apache.tiles.renderer.RendererFactory;
@@ -42,7 +44,7 @@ import org.apache.tiles.util.ClassUtil;
  * @since 2.1.0
  */
 public class BasicRendererFactory implements RendererFactory,
-        TilesContainerAware, TilesContextFactoryAware {
+        TilesContainerAware, TilesContextFactoryAware, AttributeEvaluatorAware {
 
     /**
      * The type renderers init parameter name.
@@ -95,6 +97,13 @@ public class BasicRendererFactory implements RendererFactory,
      * @since 2.1.0
      */
     protected TilesContainer container;
+
+    /**
+     * The attribute evaluator.
+     *
+     * @since 2.1.0
+     */
+    protected AttributeEvaluator evaluator;
 
     /**
      * The renderer name/renderer map.
@@ -181,6 +190,11 @@ public class BasicRendererFactory implements RendererFactory,
     }
 
     /** {@inheritDoc} */
+    public void setEvaluator(AttributeEvaluator evaluator) {
+        this.evaluator = evaluator;
+    }
+
+    /** {@inheritDoc} */
     public void setContextFactory(TilesContextFactory contextFactory) {
         this.contextFactory = contextFactory;
     }
@@ -204,6 +218,9 @@ public class BasicRendererFactory implements RendererFactory,
         }
         if (renderer instanceof TilesContainerAware) {
             ((TilesContainerAware) renderer).setContainer(container);
+        }
+        if (renderer instanceof AttributeEvaluatorAware) {
+            ((AttributeEvaluatorAware) renderer).setEvaluator(evaluator);
         }
     }
 }

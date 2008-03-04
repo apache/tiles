@@ -28,6 +28,7 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.evaluator.impl.DirectEvaluator;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
@@ -48,11 +49,12 @@ public class StringAttributeRendererTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         renderer = new StringAttributeRenderer();
+        renderer.setEvaluator(new DirectEvaluator());
     }
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Attribute, java.io.Writer, TilesRequestContext, Object...)}.
+     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}.
      *
      * @throws IOException If something goes wrong during rendition.
      * @throws TilesException If something goes wrong during the usage of Tiles.
