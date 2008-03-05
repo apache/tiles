@@ -36,7 +36,6 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorAware;
 import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.renderer.RendererException;
 
 /**
  * Base abstract class that manages authorization to display the attribute.
@@ -94,10 +93,6 @@ public abstract class AbstractBaseAttributeRenderer implements
             Object... requestItems) throws IOException, TilesException {
         TilesRequestContext request = getRequestContext(requestItems);
 
-        if (attribute == null) {
-            throw new RendererException("Cannot render a null attribute");
-        }
-
         if (!isPermitted(request, attribute.getRoles())) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Access to attribute denied.  User not in role '"
@@ -106,11 +101,7 @@ public abstract class AbstractBaseAttributeRenderer implements
             return;
         }
 
-        Object value = attribute.getValue();
-
-        if (attribute.getValue() instanceof String) {
-            value = evaluator.evaluate((String) value, request);
-        }
+        Object value = evaluator.evaluate(attribute, request);
 
         write(value, attribute, writer, request, requestItems);
     }

@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.evaluator.impl;
 
+import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 
@@ -33,7 +34,11 @@ import org.apache.tiles.evaluator.AttributeEvaluator;
 public class DirectEvaluator implements AttributeEvaluator {
 
     /** {@inheritDoc} */
-    public Object evaluate(String expression, TilesRequestContext request) {
-        return expression;
+    public Object evaluate(Attribute attribute, TilesRequestContext request) {
+        if (attribute == null) {
+            throw new IllegalArgumentException("The attribute cannot be null");
+        }
+
+        return attribute.getValue();
     }
 }

@@ -323,12 +323,7 @@ public class BasicTilesContainer implements TilesContainer {
             throws TilesException {
         TilesRequestContext request = getContextFactory().createRequestContext(
                 context, requestItems);
-        Object retValue = attribute.getValue();
-        if (retValue != null && retValue instanceof String) {
-            retValue = evaluator.evaluate((String) retValue, request);
-        }
-
-        return retValue;
+        return evaluator.evaluate(attribute, request);
     }
 
     /** {@inheritDoc} */

@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.evaluator;
 
+import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
@@ -33,9 +34,9 @@ public interface AttributeEvaluator {
     /**
      * Evaluates an expression.
      *
-     * @param expression The expression to evaluate.
+     * @param attribute The expression to evaluate.
      * @param request The request object.
      * @return The evaluated object.
      */
-    Object evaluate(String expression, TilesRequestContext request);
+    Object evaluate(Attribute attribute, TilesRequestContext request);
 }

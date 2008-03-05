@@ -20,6 +20,8 @@
  */
 package org.apache.tiles.evaluator.impl;
 
+import org.apache.tiles.Attribute;
+
 import junit.framework.TestCase;
 
 /**
@@ -41,15 +43,17 @@ public class DirectEvaluatorTest extends TestCase {
 
     /**
      * Tests
-     * {@link DirectEvaluator#evaluate(String, org.apache.tiles.context.TilesRequestContext)}.
+     * {@link DirectEvaluator#evaluate(Attribute, org.apache.tiles.context.TilesRequestContext)}.
      */
     public void testEvaluate() {
         String expression = "This is an expression";
-        Object result = evaluator.evaluate(expression, null);
+        Attribute attribute = new Attribute(expression);
+        Object result = evaluator.evaluate(attribute, null);
         assertEquals("The expression has not been evaluated correctly", result,
                 expression);
         expression = "${attributeName}";
-        result = evaluator.evaluate(expression, null);
+        attribute.setValue(expression);
+        result = evaluator.evaluate(attribute, null);
         assertEquals("The expression has not been evaluated correctly", result,
                 expression);
     }
