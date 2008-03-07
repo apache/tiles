@@ -31,7 +31,7 @@ import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorAware;
-import org.apache.tiles.evaluator.impl.DirectEvaluator;
+import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
@@ -117,7 +117,7 @@ public class TilesContainerFactory {
         DEFAULTS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
         DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
         DEFAULTS.put(RENDERER_FACTORY_INIT_PARAM, BasicRendererFactory.class.getName());
-        DEFAULTS.put(ATTRIBUTE_EVALUATOR_INIT_PARAM, DirectEvaluator.class.getName());
+        DEFAULTS.put(ATTRIBUTE_EVALUATOR_INIT_PARAM, DirectAttributeEvaluator.class.getName());
     }
 
     /**
@@ -283,12 +283,23 @@ public class TilesContainerFactory {
             (RendererFactory) createFactory(configuration,
                 RENDERER_FACTORY_INIT_PARAM);
 
-        AttributeEvaluator evaluator = (AttributeEvaluator) createFactory(
-                configuration, ATTRIBUTE_EVALUATOR_INIT_PARAM);
-
         contextFactory.init(configuration);
         TilesApplicationContext tilesContext =
             contextFactory.createApplicationContext(context);
+
+        AttributeEvaluator evaluator = (AttributeEvaluator) createFactory(
+                configuration, ATTRIBUTE_EVALUATOR_INIT_PARAM);
+
+        if (evaluator instanceof TilesContextFactoryAware) {
+            ((TilesContextFactoryAware) evaluator)
+                    .setContextFactory(contextFactory);
+            ((TilesContextFactoryAware) evaluator)
+                    .setApplicationContext(tilesContext);
+        }
+
+        if (evaluator instanceof TilesContainerAware) {
+            ((TilesContainerAware) evaluator).setContainer(container);
+        }
 
         if (rendererFactory instanceof TilesContextFactoryAware) {
             ((TilesContextFactoryAware) rendererFactory)

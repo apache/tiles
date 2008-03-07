@@ -1,3 +1,4 @@
+<!--
 /*
  * $Id$
  *
@@ -18,27 +19,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.evaluator.impl;
-
-import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.evaluator.AttributeEvaluator;
-
-/**
- * Resolves a string and returns the string itself. It is useful for backward
- * compatibility.
- *
- * @version $Rev$ $Date$
- * @since 2.1.0
- */
-public class DirectEvaluator implements AttributeEvaluator {
-
-    /** {@inheritDoc} */
-    public Object evaluate(Attribute attribute, TilesRequestContext request) {
-        if (attribute == null) {
-            throw new IllegalArgumentException("The attribute cannot be null");
-        }
-
-        return attribute.getValue();
-    }
-}
+-->
+<html>
+<head>
+    <title>Tiles attribute evaluator EL implementation</title>
+</head>
+<body>
+Attribute evaluator classes that can perform EL evaluation for attributes.
+</body>
+</html>

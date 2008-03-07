@@ -31,7 +31,7 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.evaluator.impl.DirectEvaluator;
+import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
@@ -52,7 +52,7 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         renderer = new MockAttributeRenderer();
-        renderer.setEvaluator(new DirectEvaluator());
+        renderer.setEvaluator(new DirectAttributeEvaluator());
     }
 
     /**

@@ -25,7 +25,7 @@ import org.apache.tiles.Attribute;
 import junit.framework.TestCase;
 
 /**
- * Tests {@link DirectEvaluator}.
+ * Tests {@link DirectAttributeEvaluator}.
  *
  * @version $Rev$ $Date$
  */
@@ -34,16 +34,16 @@ public class DirectEvaluatorTest extends TestCase {
     /**
      * The evaluator to test.
      */
-    private DirectEvaluator evaluator;
+    private DirectAttributeEvaluator evaluator;
 
     /** {@inheritDoc} */
     public void setUp() throws Exception {
-        evaluator = new DirectEvaluator();
+        evaluator = new DirectAttributeEvaluator();
     }
 
     /**
      * Tests
-     * {@link DirectEvaluator#evaluate(Attribute, org.apache.tiles.context.TilesRequestContext)}.
+     * {@link DirectAttributeEvaluator#evaluate(Attribute, org.apache.tiles.context.TilesRequestContext)}.
      */
     public void testEvaluate() {
         String expression = "This is an expression";
