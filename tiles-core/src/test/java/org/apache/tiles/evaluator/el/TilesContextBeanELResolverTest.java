@@ -1,5 +1,5 @@
 /*
- * $Id: TilesContextBeanELResolver.java 634819 2008-03-07 20:59:31Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -40,7 +40,7 @@ import junit.framework.TestCase;
 /**
  * Tests {@link TilesContextBeanELResolver}.
  *
- * @version $Rev: 634819 $ $Date: 2008-03-07 20:59:31 +0000 (ven, 07 mar 2008) $
+ * @version $Rev$ $Date$
  */
 public class TilesContextBeanELResolverTest extends TestCase {
 
