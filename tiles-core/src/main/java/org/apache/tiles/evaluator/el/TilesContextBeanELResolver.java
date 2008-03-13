@@ -20,10 +20,7 @@
  */
 package org.apache.tiles.evaluator.el;
 
-import java.beans.BeanInfo;
 import java.beans.FeatureDescriptor;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,8 +29,6 @@ import java.util.Map;
 import javax.el.ELContext;
 import javax.el.ELResolver;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 
@@ -44,12 +39,6 @@ import org.apache.tiles.context.TilesRequestContext;
  * @since 2.1.0
  */
 public class TilesContextBeanELResolver extends ELResolver {
-
-    /**
-     * The logging object.
-     */
-    private static final Log LOG = LogFactory
-            .getLog(TilesContextBeanELResolver.class);
 
     /** {@inheritDoc} */
     @Override
@@ -132,23 +121,17 @@ public class TilesContextBeanELResolver extends ELResolver {
             return;
         }
 
-        for (Object bean : map.values()) {
-            BeanInfo info = null;
-            try {
-                info = Introspector.getBeanInfo(bean.getClass());
-            } catch (Exception ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Cannot inspect bean " + bean.getClass(), ex);
-                }
-            }
-            if (info == null) {
-                return;
-            }
-            for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
-                pd.setValue("type", pd.getPropertyType());
-                pd.setValue("resolvableAtDesignTime", Boolean.FALSE);
-                list.add(pd);
-            }
+        for (Map.Entry<String, ? extends Object> entry : map.entrySet()) {
+            FeatureDescriptor descriptor = new FeatureDescriptor();
+            descriptor.setDisplayName(entry.getKey());
+            descriptor.setExpert(false);
+            descriptor.setHidden(false);
+            descriptor.setName(entry.getKey());
+            descriptor.setPreferred(true);
+            descriptor.setShortDescription("");
+            descriptor.setValue("type", String.class);
+            descriptor.setValue("resolvableAtDesignTime", Boolean.FALSE);
+            list.add(descriptor);
         }
     }
 

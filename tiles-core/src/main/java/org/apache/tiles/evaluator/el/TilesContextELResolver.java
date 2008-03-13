@@ -25,11 +25,14 @@ import java.beans.FeatureDescriptor;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.el.BeanELResolver;
 import javax.el.ELContext;
+import javax.el.PropertyNotFoundException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,15 +59,33 @@ public class TilesContextELResolver extends BeanELResolver {
      *
      * @since 2.1.0
      */
-    private List<FeatureDescriptor> descriptors;
+    protected List<FeatureDescriptor> descriptors;
+
+    /**
+     * Contains the properties of {@link TilesRequestContext}.
+     *
+     * @since 2.1.0
+     */
+    protected Set<String> requestProperties;
+
+    /**
+     * Contains the properties of {@link TilesApplicationContext}.
+     *
+     * @since 2.1.0
+     */
+    protected Set<String> applicationProperties;
 
     /**
      * Constructor.
      */
     public TilesContextELResolver() {
-        List<FeatureDescriptor> list = new ArrayList<FeatureDescriptor>();
-        collectBeanInfo(TilesRequestContext.class, list);
-        collectBeanInfo(TilesApplicationContext.class, list);
+        descriptors = new ArrayList<FeatureDescriptor>();
+        requestProperties = new HashSet<String>();
+        applicationProperties = new HashSet<String>();
+        collectBeanInfo(TilesRequestContext.class, descriptors,
+                requestProperties);
+        collectBeanInfo(TilesApplicationContext.class, descriptors,
+                applicationProperties);
     }
 
     /** {@inheritDoc} */
@@ -98,14 +119,20 @@ public class TilesContextELResolver extends BeanELResolver {
             return null;
         }
 
-        TilesRequestContext request = (TilesRequestContext) context
-                .getContext(TilesRequestContext.class);
-
-        Class<?> retValue = super.getType(context, request, property);
-        if (retValue == null) {
+        Class<?> retValue;
+        if (requestProperties.contains(property)) {
+            TilesRequestContext request = (TilesRequestContext) context
+                    .getContext(TilesRequestContext.class);
+            retValue = super.getType(context, request, property);
+        } else if (applicationProperties.contains(property)) {
             TilesApplicationContext applicationContext = (TilesApplicationContext) context
                     .getContext(TilesApplicationContext.class);
             retValue = super.getType(context, applicationContext, property);
+        } else {
+            throw new PropertyNotFoundException(
+                    "Cannot find property "
+                            + property
+                            + " neither in TilesRequestContext nor in TilesApplicationContext");
         }
         context.setPropertyResolved(true);
         return retValue;
@@ -119,16 +146,23 @@ public class TilesContextELResolver extends BeanELResolver {
             return null;
         }
 
-        TilesRequestContext request = (TilesRequestContext) context
-                .getContext(TilesRequestContext.class);
+        Object retValue;
 
-        Object retValue = super.getValue(context, request, property);
-        if (retValue == null) {
+        if (requestProperties.contains(property)) {
+            TilesRequestContext request = (TilesRequestContext) context
+                    .getContext(TilesRequestContext.class);
+            retValue = super.getValue(context, request, property);
+        } else if (applicationProperties.contains(property)) {
             TilesApplicationContext applicationContext = (TilesApplicationContext) context
                     .getContext(TilesApplicationContext.class);
             retValue = super.getValue(context, applicationContext, property);
+        } else {
+            throw new PropertyNotFoundException(
+                    "Cannot find property "
+                            + property
+                            + " neither in TilesRequestContext nor in TilesApplicationContext");
         }
-        context.setPropertyResolved(true);
+
         return retValue;
     }
 
@@ -154,8 +188,11 @@ public class TilesContextELResolver extends BeanELResolver {
      *
      * @param clazz The class to be inspected.
      * @param list The list to fill.
+     * @param properties The properties set to be filled.
+     * @since 2.1.0
      */
-    protected void collectBeanInfo(Class<?> clazz, List<FeatureDescriptor> list) {
+    protected void collectBeanInfo(Class<?> clazz,
+            List<FeatureDescriptor> list, Set<String> properties) {
         BeanInfo info = null;
         try {
             info = Introspector.getBeanInfo(clazz);
@@ -171,6 +208,7 @@ public class TilesContextELResolver extends BeanELResolver {
             pd.setValue("type", pd.getPropertyType());
             pd.setValue("resolvableAtDesignTime", Boolean.TRUE);
             list.add(pd);
+            properties.add(pd.getName());
         }
     }
 }
