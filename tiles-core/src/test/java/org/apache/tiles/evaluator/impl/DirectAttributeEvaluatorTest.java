@@ -29,7 +29,7 @@ import junit.framework.TestCase;
  *
  * @version $Rev$ $Date$
  */
-public class DirectEvaluatorTest extends TestCase {
+public class DirectAttributeEvaluatorTest extends TestCase {
 
     /**
      * The evaluator to test.

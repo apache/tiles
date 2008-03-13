@@ -77,6 +77,7 @@ public class TilesContextBeanELResolver extends ELResolver {
 
         Object obj = findObjectByProperty(context, property);
         if (obj != null) {
+            context.setPropertyResolved(true);
             return obj.getClass();
         }
         return null;
@@ -89,7 +90,13 @@ public class TilesContextBeanELResolver extends ELResolver {
             return null;
         }
 
-        return findObjectByProperty(context, property);
+        Object retValue = findObjectByProperty(context, property);
+
+        if (retValue != null) {
+            context.setPropertyResolved(true);
+        }
+
+        return retValue;
     }
 
     /** {@inheritDoc} */

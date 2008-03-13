@@ -31,8 +31,6 @@ import javax.el.ValueExpression;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
@@ -51,7 +49,7 @@ import de.odysseus.el.util.SimpleContext;
  * @since 2.1.0
  */
 public class ELAttributeEvaluator implements AttributeEvaluator,
-        TilesContextFactoryAware, TilesContainerAware {
+        TilesContextFactoryAware {
 
     /**
      * The Tiles application context.
@@ -66,13 +64,6 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
      * @since 2.1.0
      */
     protected TilesContextFactory contextFactory;
-
-    /**
-     * The Tiles container.
-     *
-     * @since 2.1.0
-     */
-    protected TilesContainer container;
 
     /**
      * The EL expression factory.
@@ -116,11 +107,6 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
     /** {@inheritDoc} */
     public void setContextFactory(TilesContextFactory contextFactory) {
         this.contextFactory = contextFactory;
-    }
-
-    /** {@inheritDoc} */
-    public void setContainer(TilesContainer container) {
-        this.container = container;
     }
 
     /** {@inheritDoc} */

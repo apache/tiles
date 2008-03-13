@@ -32,7 +32,6 @@ import java.util.Set;
 
 import javax.el.BeanELResolver;
 import javax.el.ELContext;
-import javax.el.PropertyNotFoundException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -119,7 +118,7 @@ public class TilesContextELResolver extends BeanELResolver {
             return null;
         }
 
-        Class<?> retValue;
+        Class<?> retValue = null;
         if (requestProperties.contains(property)) {
             TilesRequestContext request = (TilesRequestContext) context
                     .getContext(TilesRequestContext.class);
@@ -128,13 +127,12 @@ public class TilesContextELResolver extends BeanELResolver {
             TilesApplicationContext applicationContext = (TilesApplicationContext) context
                     .getContext(TilesApplicationContext.class);
             retValue = super.getType(context, applicationContext, property);
-        } else {
-            throw new PropertyNotFoundException(
-                    "Cannot find property "
-                            + property
-                            + " neither in TilesRequestContext nor in TilesApplicationContext");
         }
-        context.setPropertyResolved(true);
+
+        if (retValue != null) {
+            context.setPropertyResolved(true);
+        }
+
         return retValue;
     }
 
@@ -146,7 +144,7 @@ public class TilesContextELResolver extends BeanELResolver {
             return null;
         }
 
-        Object retValue;
+        Object retValue = null;
 
         if (requestProperties.contains(property)) {
             TilesRequestContext request = (TilesRequestContext) context
@@ -156,11 +154,10 @@ public class TilesContextELResolver extends BeanELResolver {
             TilesApplicationContext applicationContext = (TilesApplicationContext) context
                     .getContext(TilesApplicationContext.class);
             retValue = super.getValue(context, applicationContext, property);
-        } else {
-            throw new PropertyNotFoundException(
-                    "Cannot find property "
-                            + property
-                            + " neither in TilesRequestContext nor in TilesApplicationContext");
+        }
+
+        if (retValue != null) {
+            context.setPropertyResolved(true);
         }
 
         return retValue;
