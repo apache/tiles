@@ -26,7 +26,6 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.Filter;
@@ -152,7 +151,8 @@ public class TilesDecorationFilter implements Filter {
         }
 
         temp = config.getInitParameter("prevent-token");
-        preventDecorationToken = "org.apache.tiles.decoration.PREVENT:"+(temp == null ? definitionName : temp);
+        preventDecorationToken = "org.apache.tiles.decoration.PREVENT:"
+                + (temp == null ? definitionName : temp);
 
         alternateDefinitions = parseAlternateDefinitions();
 
@@ -211,17 +211,16 @@ public class TilesDecorationFilter implements Filter {
             filterChain.doFilter(req, res);
             return;
         }
-        
+
         TilesContainer container = TilesAccess.getContainer(getServletContext());
         mutator.mutate(container.getAttributeContext(req, res), req);
         try {
-            if(preventDecorationToken != null) {
+            if (preventDecorationToken != null) {
                 req.setAttribute(preventDecorationToken, Boolean.TRUE);
             }
             String definitionName = getDefinitionForRequest(req);
             container.render(definitionName, req, res);
-        }
-        catch (TilesException e) {
+        } catch (TilesException e) {
             throw new ServletException("Error wrapping jsp with tile definition. "
                             + e.getMessage(), e);
         }
@@ -273,12 +272,18 @@ public class TilesDecorationFilter implements Filter {
         /** {@inheritDoc} */
         public void mutate(AttributeContext ctx, ServletRequest req) {
             Attribute attr = new Attribute();
-            attr.setType(AttributeType.TEMPLATE);
+            attr.setRenderer("template");
             attr.setValue(getRequestBase(req));
             ctx.putAttribute(definitionAttributeName, attr);
         }
     }
 
+    /**
+     * Checks if the prevent evaluation token is present.
+     *
+     * @param request The HTTP request object.
+     * @return <code>true</code> if the token is present.
+     */
     private boolean isPreventTokenPresent(ServletRequest request) {
         return preventDecorationToken != null && request.getAttribute(preventDecorationToken) != null;
     }
