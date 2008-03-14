@@ -1,3 +1,5 @@
+<%@ page session="false" %>
+<%--
 /*
  * $Id$
  *
@@ -17,35 +19,9 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- */
-package org.apache.tiles.evaluator;
-
-import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
-
-/**
- * It represents an object that resolves a string to return an object.
  *
- * @version $Rev$ $Date$
- * @since 2.1.0
  */
-public interface AttributeEvaluator {
+--%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
-    /**
-     * Evaluates an expression.
-     *
-     * @param expression The expression to evaluate.
-     * @param request The request object.
-     * @return The evaluated object.
-     */
-    Object evaluate(String expression, TilesRequestContext request);
-
-    /**
-     * Evaluates an attribute value.
-     *
-     * @param attribute The attribute to evaluate.
-     * @param request The request object.
-     * @return The evaluated object.
-     */
-    Object evaluate(Attribute attribute, TilesRequestContext request);
-}
+<tiles:insertDefinition name="test.composite.el.definition" />

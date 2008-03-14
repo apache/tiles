@@ -663,6 +663,22 @@ public class BasicTilesContainer implements TilesContainer {
 
             String dispatchPath = attributeContext.getTemplate();
 
+            if (dispatchPath != null) {
+                Object value = evaluator.evaluate(dispatchPath, request);
+                if (value instanceof String) {
+                    dispatchPath = (String) value;
+                } else {
+                    throw new InvalidTemplateException(
+                            "Cannot render a template that is not an object: "
+                                    + value.toString());
+                }
+            }
+
+            if (dispatchPath == null) {
+                throw new InvalidTemplateException(
+                        "Cannot render a null template");
+            }
+
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Dispatching to definition path '"
                         + attributeContext.getTemplate() + " '");

@@ -18,34 +18,25 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.evaluator;
+package org.apache.tiles.test.preparer;
 
-import org.apache.tiles.Attribute;
+import org.apache.tiles.preparer.PreparerException;
+import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.AttributeContext;
 
 /**
- * It represents an object that resolves a string to return an object.
- *
+ * A simple test <code>ViewPreparer</code> to put a request attribute, that
+ * will be used with the EL evaluator.
+ * 
  * @version $Rev$ $Date$
- * @since 2.1.0
  */
-public interface AttributeEvaluator {
+public class RequestSettingViewPreparer implements ViewPreparer {
 
-    /**
-     * Evaluates an expression.
-     *
-     * @param expression The expression to evaluate.
-     * @param request The request object.
-     * @return The evaluated object.
-     */
-    Object evaluate(String expression, TilesRequestContext request);
-
-    /**
-     * Evaluates an attribute value.
-     *
-     * @param attribute The attribute to evaluate.
-     * @param request The request object.
-     * @return The evaluated object.
-     */
-    Object evaluate(Attribute attribute, TilesRequestContext request);
+    /** {@inheritDoc} */
+    public void execute(TilesRequestContext tilesContext,
+            AttributeContext attributeContext) throws PreparerException {
+        tilesContext.getRequestScope().put("body", "test.inner.definition");
+        tilesContext.getRequestScope().put("layout", "/layout.jsp");
+    }
 }

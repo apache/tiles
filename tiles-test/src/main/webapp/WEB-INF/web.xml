@@ -45,6 +45,11 @@
         <param-value>reversed,org.apache.tiles.test.renderer.ReverseStringAttributeRenderer</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>org.apache.tiles.evaluator.AttributeEvaluator</param-name>
+        <param-value>org.apache.tiles.evaluator.el.ELAttributeEvaluator</param-value>
+    </context-param>
+
     <filter>
         <filter-name>Tiles Decoration Filter</filter-name>
         <filter-class>org.apache.tiles.web.util.TilesDecorationFilter</filter-class>

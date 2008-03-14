@@ -18,34 +18,54 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.evaluator;
+package org.apache.tiles.impl;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.TilesRuntimeException;
 
 /**
- * It represents an object that resolves a string to return an object.
+ * An invalid template has been identified.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public interface AttributeEvaluator {
+public class InvalidTemplateException extends TilesRuntimeException {
 
     /**
-     * Evaluates an expression.
+     * Constructor.
      *
-     * @param expression The expression to evaluate.
-     * @param request The request object.
-     * @return The evaluated object.
+     * @since 2.1.0
      */
-    Object evaluate(String expression, TilesRequestContext request);
+    public InvalidTemplateException() {
+    }
 
     /**
-     * Evaluates an attribute value.
+     * Constructor.
      *
-     * @param attribute The attribute to evaluate.
-     * @param request The request object.
-     * @return The evaluated object.
+     * @param message The detail message.
+     * @since 2.1.0
      */
-    Object evaluate(Attribute attribute, TilesRequestContext request);
+    public InvalidTemplateException(String message) {
+        super(message);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param e The exception to be wrapped.
+     * @since 2.1.0
+     */
+    public InvalidTemplateException(Exception e) {
+        super(e);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param message The detail message.
+     * @param e The exception to be wrapped.
+     * @since 2.1.0
+     */
+    public InvalidTemplateException(String message, Exception e) {
+        super(message, e);
+    }
 }

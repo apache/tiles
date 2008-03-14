@@ -106,4 +106,32 @@ public class ELAttributeEvaluatorTest extends TestCase {
         assertEquals("The value is not correct", new Integer(2), evaluator
                 .evaluate(attribute, request));
     }
+
+    /**
+     * Tests
+     * {@link ELAttributeEvaluator#evaluate(String, TilesRequestContext)}.
+     */
+    public void testEvaluateString() {
+        String expression = "${requestScope.object1}";
+        assertEquals("The value is not correct", "value", evaluator.evaluate(
+                expression, request));
+        expression = "${sessionScope.object2}";
+        assertEquals("The value is not correct", new Integer(1), evaluator
+                .evaluate(expression, request));
+        expression = "${applicationScope.object3}";
+        assertEquals("The value is not correct", new Float(2.0), evaluator
+                .evaluate(expression, request));
+        expression = "${object1}";
+        assertEquals("The value is not correct", "value", evaluator.evaluate(
+                expression, request));
+        expression = "${object2}";
+        assertEquals("The value is not correct", new Integer(1), evaluator
+                .evaluate(expression, request));
+        expression = "${object3}";
+        assertEquals("The value is not correct", new Float(2.0), evaluator
+                .evaluate(expression, request));
+        expression = "String literal";
+        assertEquals("The value is not correct", expression, evaluator
+                .evaluate(expression, request));
+    }
 }

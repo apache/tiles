@@ -110,19 +110,23 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
     }
 
     /** {@inheritDoc} */
+    public Object evaluate(String expression, TilesRequestContext request) {
+        SimpleContext context = new SimpleContext(defaultResolver);
+        context.putContext(TilesRequestContext.class, request);
+        context.putContext(TilesApplicationContext.class,
+                applicationContext);
+        ValueExpression valueExpression = expressionFactory.createValueExpression(
+                context, expression.toString(), Object.class);
+
+        return valueExpression.getValue(context);
+    }
+
+    /** {@inheritDoc} */
     public Object evaluate(Attribute attribute, TilesRequestContext request) {
         Object retValue = attribute.getValue();
 
         if (retValue instanceof String) {
-            SimpleContext context = new SimpleContext(defaultResolver);
-            context.putContext(TilesRequestContext.class, request);
-            context.putContext(TilesApplicationContext.class,
-                    applicationContext);
-            ValueExpression expression = expressionFactory
-                    .createValueExpression(context, attribute.getValue()
-                            .toString(), Object.class);
-
-            retValue = expression.getValue(context);
+            retValue = evaluate((String) retValue, request);
         }
 
         return retValue;

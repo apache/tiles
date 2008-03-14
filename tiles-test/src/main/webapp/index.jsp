@@ -56,6 +56,7 @@
     <a href="testinsertnesteddefinition_tags.jsp">Test Insert Nested Definition only using JSP tags</a><br/>
     <a href="testinsertnestedlistdefinition.jsp">Test Insert Nested List Definition</a><br/>
     <a href="testinsertnestedlistdefinition_tags.jsp">Test Insert Nested List Definition only using JSP tags</a><br/>
+    <a href="testinsertdefinition_el.jsp">Test Insert Configured Definition with EL</a><br/>
     <a href="testput.jsp">Test Put Tag</a><br/>
     <a href="testput_flush.jsp">Test Put Tag with Flush</a><br/>
     <a href="testput_el.jsp">Test Put Tag using EL</a><br/>

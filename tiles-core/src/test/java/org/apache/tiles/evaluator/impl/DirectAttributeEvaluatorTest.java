@@ -57,4 +57,19 @@ public class DirectAttributeEvaluatorTest extends TestCase {
         assertEquals("The expression has not been evaluated correctly", result,
                 expression);
     }
+
+    /**
+     * Tests
+     * {@link DirectAttributeEvaluator#evaluate(String, org.apache.tiles.context.TilesRequestContext)}.
+     */
+    public void testEvaluateString() {
+        String expression = "This is an expression";
+        Object result = evaluator.evaluate(expression, null);
+        assertEquals("The expression has not been evaluated correctly", result,
+                expression);
+        expression = "${attributeName}";
+        result = evaluator.evaluate(expression, null);
+        assertEquals("The expression has not been evaluated correctly", result,
+                expression);
+    }
 }

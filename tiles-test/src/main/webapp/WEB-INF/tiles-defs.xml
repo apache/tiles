@@ -196,4 +196,11 @@
           </add-attribute>
       </put-list-attribute>
   </definition>
+
+  <definition name="test.composite.el.definition" template="${layout}"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="${requestScope.body}"/>
+  </definition>
 </tiles-definitions>
