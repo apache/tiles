@@ -23,13 +23,12 @@ package org.apache.tiles.jsp.taglib.definition;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
+import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.access.TilesAccess;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
@@ -181,7 +180,7 @@ public class DefinitionTag extends TagSupport
     }
 
     /** {@inheritDoc} */
-    public int doStartTag() throws JspException {
+    public int doStartTag() throws TilesJspException {
         definition = new Definition();
         definition.setName(name);
         definition.setTemplate(template);
@@ -193,10 +192,10 @@ public class DefinitionTag extends TagSupport
             TilesAccess.getContainer(pageContext.getServletContext());
 
         if (c == null) {
-            throw new JspException("TilesContainer not initialized");
+            throw new TilesJspException("TilesContainer not initialized");
         }
         if (!(c instanceof MutableTilesContainer)) {
-            throw new JspException(
+            throw new TilesJspException(
                     "Unable to define definition for a "
                             + "container which does not implement MutableTilesContainer");
         }
@@ -206,13 +205,9 @@ public class DefinitionTag extends TagSupport
     }
 
     /** {@inheritDoc} */
-    public int doEndTag() throws JspException {
-        try {
-            container.register(definition, pageContext);
-            callParent();
-        } catch (TilesException e) {
-            throw new JspException("Unable to add definition. " , e);
-        }
+    public int doEndTag() throws TilesJspException {
+        container.register(definition, pageContext);
+        callParent();
         return EVAL_PAGE;
     }
 
@@ -221,9 +216,9 @@ public class DefinitionTag extends TagSupport
      * which invokes TagSupport.release(), which typically does nothing.
      *
      * @param nestedTag The nested <code>PutAttributeTag</code>
-     * @throws JspException Never thrown, it's here for API compatibility.
+     * @throws TilesJspException Never thrown, it's here for API compatibility.
      */
-    public void processNestedTag(PutAttributeTag nestedTag) throws JspException {
+    public void processNestedTag(PutAttributeTag nestedTag) throws TilesJspException {
         Attribute attr = new Attribute(nestedTag.getValue(),
             nestedTag.getRole(), nestedTag.getType());
         definition.putAttribute(nestedTag.getName(), attr, nestedTag
@@ -232,10 +227,10 @@ public class DefinitionTag extends TagSupport
 
     /**
      * Find parent tag which must implement {@link DefinitionTagParent}.
-     * @throws JspException If we can't find an appropriate enclosing tag.
+     * @throws TilesJspException If we can't find an appropriate enclosing tag.
      * @since 2.1.0
      */
-    protected void callParent() throws JspException {
+    protected void callParent() throws TilesJspException {
         // Get enclosing parent
         DefinitionTagParent enclosingParent =
                 findEnclosingDefinitionTagParent();
@@ -246,18 +241,19 @@ public class DefinitionTag extends TagSupport
 
     /**
      * Find parent tag which must implement AttributeContainer.
-     * @throws JspException If we can't find an appropriate enclosing tag.
+     * @throws TilesJspException If we can't find an appropriate enclosing tag.
      * @return The parent tag.
      * @since 2.1.0
      */
-    protected DefinitionTagParent findEnclosingDefinitionTagParent() throws JspException {
+    protected DefinitionTagParent findEnclosingDefinitionTagParent()
+            throws TilesJspException {
         try {
             DefinitionTagParent parent =
                     (DefinitionTagParent) findAncestorWithClass(this,
                             DefinitionTagParent.class);
 
             if (parent == null && name == null) {
-                throw new JspException(
+                throw new TilesJspException(
                         "Error - tag definition : enclosing tag doesn't accept 'definition'"
                                 + " tag and a name was not specified.");
             }
@@ -265,7 +261,7 @@ public class DefinitionTag extends TagSupport
             return parent;
 
         } catch (ClassCastException ex) { // Is it possibile?
-            throw new JspException(
+            throw new TilesJspException(
                     "Error - tag definition : enclosing tag doesn't accept 'definition' tag.", ex);
         }
     }

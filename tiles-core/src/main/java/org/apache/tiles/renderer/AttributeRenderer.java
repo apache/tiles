@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesException;
 
 /**
  * An object that can render an attribute. For each attribute, if it needs to be
@@ -42,9 +41,9 @@ public interface AttributeRenderer {
      * @param writer The writer to use.
      * @param requestItems The request items.
      * @throws IOException If something goes wrong during rendition.
-     * @throws TilesException If something goes wrong in Tiles engine.
+     * @throws RendererException If something goes wrong during rendition.
      * @since 2.1.0
      */
     void render(Attribute attribute, Writer writer, Object... requestItems)
-            throws IOException, TilesException;
+            throws IOException;
 }

@@ -26,7 +26,6 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 /**
@@ -62,21 +61,21 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
      * call <code>super.doStartTag()</code>
      *
      * @return <code>EVAL_BODY_BUFFERED</code>.
-     * @throws JspException If the container has not been initialized.
+     * @throws TilesJspException If the container has not been initialized.
      */
-    public int doStartTag() throws JspException {
+    public int doStartTag() throws TilesJspException {
         container = TilesAccess.getContainer(pageContext.getServletContext());
         if (container != null) {
             startContext(pageContext);
             return EVAL_BODY_BUFFERED;
         } else {
-            throw new JspException("TilesContainer not initialized");
+            throw new TilesJspException("TilesContainer not initialized");
         }
     }
 
 
     /** {@inheritDoc} */
-    public int doEndTag() throws JspException {
+    public int doEndTag() throws TilesJspException {
         try {
             return super.doEndTag();
         } finally {

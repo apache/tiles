@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
@@ -57,7 +56,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
 
     /** {@inheritDoc} */
     @Override
-    public MutableTilesContainer createMutableTilesContainer(Object context) throws TilesException {
+    public MutableTilesContainer createMutableTilesContainer(Object context) {
         CachingKeyedDefinitionsFactoryTilesContainer container =
             new CachingKeyedDefinitionsFactoryTilesContainer();
         initializeContainer(context, container);
@@ -66,7 +65,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
 
     /** {@inheritDoc} */
     @Override
-    public TilesContainer createTilesContainer(Object context) throws TilesException {
+    public TilesContainer createTilesContainer(Object context) {
         KeyedDefinitionsFactoryTilesContainer container =
             new KeyedDefinitionsFactoryTilesContainer();
         initializeContainer(context, container);
@@ -80,10 +79,9 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
      * Creates a definitions factory.
      * @param context The context object to use.
      * @return The newly created definitions factory.
-     * @throws TilesException If something goes wrong.
+     * @throws TilesContainerFactoryException If something goes wrong.
      */
-    public DefinitionsFactory createDefinitionsFactory(Object context)
-            throws TilesException {
+    public DefinitionsFactory createDefinitionsFactory(Object context) {
         DefinitionsFactory retValue;
         Map<String, String> config = new HashMap<String, String>(defaultConfiguration);
         config.putAll(getInitParameterMap(context));
@@ -97,8 +95,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
     @Override
     protected void storeContainerDependencies(Object context,
             Map<String, String> initParameters,
-            Map<String, String> configuration, BasicTilesContainer container)
-            throws TilesException {
+            Map<String, String> configuration, BasicTilesContainer container) {
         super.storeContainerDependencies(context, initParameters, configuration, container);
 
         String keyExtractorClassName = configuration.get(

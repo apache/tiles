@@ -28,7 +28,6 @@ import java.util.Set;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
@@ -84,9 +83,8 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
      * {@link AbstractBaseAttributeRenderer#render(Attribute, Writer, Object...)}.
      *
      * @throws IOException If something goes wrong during rendition.
-     * @throws TilesException If something goes wrong during the usage of Tiles.
      */
-    public void testRender() throws IOException, TilesException {
+    public void testRender() throws IOException {
         Attribute attribute = new Attribute();
         StringWriter writer = new StringWriter();
         TilesApplicationContext applicationContext = EasyMock
@@ -163,7 +161,7 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
         @Override
         public void write(Object value, Attribute attribute,
                 Writer writer, TilesRequestContext request, Object... requestItems)
-                throws IOException, TilesException {
+                throws IOException {
             writer.write("wrote");
         }
     }

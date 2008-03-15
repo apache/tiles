@@ -23,19 +23,19 @@ package org.apache.tiles.impl;
 import org.apache.tiles.TilesException;
 
 /**
- * An invalid template has been identified.
+ * Indicates that something went wrong during the rendering process.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class InvalidTemplateException extends TilesException {
+public class CannotRenderException extends TilesException {
 
     /**
      * Constructor.
      *
      * @since 2.1.0
      */
-    public InvalidTemplateException() {
+    public CannotRenderException() {
     }
 
     /**
@@ -44,7 +44,7 @@ public class InvalidTemplateException extends TilesException {
      * @param message The detail message.
      * @since 2.1.0
      */
-    public InvalidTemplateException(String message) {
+    public CannotRenderException(String message) {
         super(message);
     }
 
@@ -54,7 +54,7 @@ public class InvalidTemplateException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public InvalidTemplateException(Exception e) {
+    public CannotRenderException(Exception e) {
         super(e);
     }
 
@@ -65,7 +65,8 @@ public class InvalidTemplateException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public InvalidTemplateException(String message, Exception e) {
+    public CannotRenderException(String message, Exception e) {
         super(message, e);
     }
+
 }

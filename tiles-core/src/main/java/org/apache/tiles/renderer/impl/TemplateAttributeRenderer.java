@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
@@ -39,7 +38,7 @@ public class TemplateAttributeRenderer extends AbstractBaseAttributeRenderer {
     @Override
     public void write(Object value, Attribute attribute,
             Writer writer, TilesRequestContext request, Object... requestItems)
-            throws IOException, TilesException {
+            throws IOException {
         request.dispatch(value.toString());
     }
 }

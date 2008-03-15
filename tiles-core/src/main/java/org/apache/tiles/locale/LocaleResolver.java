@@ -23,7 +23,6 @@ package org.apache.tiles.locale;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
@@ -40,10 +39,8 @@ public interface LocaleResolver {
      * method is called.
      *
      * @param params A map of properties used to set up the resolver.
-     * @throws TilesException if required properties are not passed
-     * in or the initialization fails.
      */
-    void init(Map<String, String> params) throws TilesException;
+    void init(Map<String, String> params);
 
     /**
      * Resolves the locale.

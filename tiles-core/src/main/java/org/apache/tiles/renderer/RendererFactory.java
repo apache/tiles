@@ -22,8 +22,6 @@ package org.apache.tiles.renderer;
 
 import java.util.Map;
 
-import org.apache.tiles.TilesException;
-
 /**
  * <p>
  * Factory interface used to create/retrieve instances of the
@@ -45,10 +43,9 @@ public interface RendererFactory {
      * Initialize the renderer factory.
      *
      * @param parameters The parameters for the initialization.
-     * @throws TilesException If something goes wrong during initialization.
      * @since 2.1.0
      */
-    void init(Map<String, String> parameters) throws TilesException;
+    void init(Map<String, String> parameters);
 
     /**
      * Returns a renderer by its name.

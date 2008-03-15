@@ -21,7 +21,6 @@
 package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesException;
 
 import java.io.IOException;
 
@@ -36,8 +35,7 @@ public class GetAsStringTag extends InsertAttributeTag {
 
     /** {@inheritDoc} */
     @Override
-    protected void render(Attribute attr)
-        throws TilesException, IOException {
+    protected void render(Attribute attr) throws IOException {
         pageContext.getOut().print(attr.getValue().toString());
     }
 }

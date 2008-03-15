@@ -20,7 +20,7 @@
  */
 package org.apache.tiles.jsp.taglib.definition;
 
-import javax.servlet.jsp.JspException;
+import org.apache.tiles.jsp.taglib.TilesJspException;
 
 /**
  * Tag classes implementing this interface can contain nested
@@ -36,9 +36,9 @@ public interface DefinitionTagParent {
      * Process the nested &lt;tiles:definition&gt; tag.
      *
      * @param definitionName Nested definition name.
-     * @throws JspException If something goes wrong during the processing.
+     * @throws TilesJspException If something goes wrong during the processing.
      * @since 2.1.0
      */
     void processNestedDefinitionName(String definitionName)
-            throws JspException;
+            throws TilesJspException;
 }

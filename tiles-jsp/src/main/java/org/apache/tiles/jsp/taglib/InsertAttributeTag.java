@@ -23,10 +23,8 @@ package org.apache.tiles.jsp.taglib;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
-import org.apache.tiles.TilesException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import java.io.IOException;
@@ -99,7 +97,7 @@ public class InsertAttributeTag extends RenderTagSupport {
     }
 
     /** {@inheritDoc} */
-    protected void render() throws JspException, TilesException, IOException {
+    protected void render() throws TilesJspException, IOException {
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
 
         // Checks if the attribute can be rendered with the current user.
@@ -117,9 +115,9 @@ public class InsertAttributeTag extends RenderTagSupport {
 
         if (attr == null) {
             if (name != null) {
-                throw new TilesException("Attribute '" + name + "' not found.");
+                throw new TilesJspException("Attribute '" + name + "' not found.");
             } else {
-                throw new TilesException("No attribute name or value has been provided.");
+                throw new TilesJspException("No attribute name or value has been provided.");
             }
         }
         render(attr);
@@ -139,12 +137,10 @@ public class InsertAttributeTag extends RenderTagSupport {
      * Renders an attribute for real.
      *
      * @param attr The attribute to render.
-     * @throws TilesException If something goes wrong during rendering.
      * @throws IOException If something goes wrong during the reading of
      * definition files.
      */
-    protected void render(Attribute attr)
-        throws TilesException, IOException {
+    protected void render(Attribute attr) throws IOException {
         container.render(attr, pageContext.getOut(), pageContext);
     }
 }

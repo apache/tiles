@@ -23,7 +23,6 @@ package org.apache.tiles.definition;
 
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesException;
 
 import java.util.Map;
 
@@ -59,10 +58,10 @@ public interface DefinitionsFactory {
      * the params Map.
      *
      * @param params The Map of configuration properties.
-     * @throws TilesException If a Tiles exception, such as an initialization
+     * @throws DefinitionsFactoryException If a Tiles exception, such as an initialization
      * error, occurs.
      */
-    void init(Map<String, String> params) throws TilesException;
+    void init(Map<String, String> params);
 
     /**
      * Returns a Definition object that matches the given name and
@@ -72,10 +71,8 @@ public interface DefinitionsFactory {
      * @param tilesContext The Tiles context to use to resolve the definition.
      * @return the Definition matching the given name or null if none
      *         is found.
-     * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
-    Definition getDefinition(String name, TilesRequestContext tilesContext)
-            throws DefinitionsFactoryException;
+    Definition getDefinition(String name, TilesRequestContext tilesContext);
 
     /**
      * Adds a source where Definition objects are stored.
@@ -88,21 +85,16 @@ public interface DefinitionsFactory {
      * on locale.
      *
      * @param source The configuration source for definitions.
-     * @throws DefinitionsFactoryException if an invalid source is passed in or
-     *                                     an error occurs resolving the source to an actual data store.
      */
-    void addSource(Object source) throws DefinitionsFactoryException;
+    void addSource(Object source);
 
     /**
      * Creates and returns a {@link Definitions} set by reading
      * configuration data from the applied sources.
      *
      * @return The read definitions.
-     * @throws DefinitionsFactoryException if an error occurs reading the
-     *                                     sources.
      * @deprecated Let the Definitions Factory use it.
      */
     @Deprecated
-    Definitions readDefinitions()
-        throws DefinitionsFactoryException;
+    Definitions readDefinitions();
 }

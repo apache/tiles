@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.easymock.EasyMock;
@@ -63,10 +62,8 @@ public class BasicRendererFactoryTest extends TestCase {
     /**
      * Tests {@link BasicRendererFactory#init(Map)} and
      * {@link BasicRendererFactory#getRenderer(String)}.
-     *
-     * @throws TilesException If something goes wrong.
      */
-    public void testInitAndGetRenderer() throws TilesException {
+    public void testInitAndGetRenderer() {
         Map<String, String> params = new HashMap<String, String>();
         params.put(BasicRendererFactory.TYPE_RENDERERS_INIT_PARAM, "test,"
                 + StringAttributeRenderer.class.getName());

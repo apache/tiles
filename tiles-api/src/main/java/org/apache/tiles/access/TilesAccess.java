@@ -24,7 +24,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 
 import java.lang.reflect.Method;
 
@@ -79,11 +78,10 @@ public final class TilesAccess {
      *
      * @param context The (application) context object to use.
      * @param container The container object to set.
-     * @throws TilesException If something goes wrong during manipulation of the
+     * @throws TilesAccessException If something goes wrong during manipulation of the
      * context.
      */
-    public static void setContainer(Object context, TilesContainer container)
-        throws TilesException {
+    public static void setContainer(Object context, TilesContainer container) {
 
         if (container == null) {
             if (LOG.isInfoEnabled()) {
@@ -135,17 +133,20 @@ public final class TilesAccess {
      * @param context The context object to use.
      * @param name The name of the attribute to set.
      * @param value The value of the attribute to set.
-     * @throws TilesException If something goes wrong during setting the
+     * @throws TilesAccessException If something goes wrong during setting the
      * attribute.
      */
-    private static void setAttribute(Object context, String name, Object value)
-        throws TilesException {
+    private static void setAttribute(Object context, String name, Object value) {
         try {
             Class<?> contextClass = context.getClass();
             Method attrMethod = contextClass.getMethod("setAttribute", String.class, Object.class);
             attrMethod.invoke(context, name, value);
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
-            throw new TilesException("Unable to set attribute for specified context: '" + context + "'");
+            throw new TilesAccessException(
+                    "Unable to set attribute for specified context: '"
+                            + context + "'", e);
         }
     }
 
@@ -154,16 +155,19 @@ public final class TilesAccess {
      *
      * @param context The context object to use.
      * @param name The name of the attribute to remove.
-     * @throws TilesException If something goes wrong during removal.
+     * @throws TilesAccessException If something goes wrong during removal.
      */
-    private static void removeAttribute(Object context, String name)
-        throws TilesException {
+    private static void removeAttribute(Object context, String name) {
         try {
             Class<?> contextClass = context.getClass();
             Method attrMethod = contextClass.getMethod("removeAttribute", String.class);
             attrMethod.invoke(context, name);
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
-            throw new TilesException("Unable to remove attribute for specified context: '" + context + "'");
+            throw new TilesAccessException(
+                    "Unable to remove attribute for specified context: '"
+                            + context + "'", e);
         }
     }
 }

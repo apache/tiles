@@ -22,7 +22,6 @@ package org.apache.tiles.factory;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.ChainedTilesContextFactory;
@@ -139,10 +138,10 @@ public class TilesContainerFactory {
      * @param context the executing applications context.
      *                Typically a ServletContext or PortletContext
      * @return a tiles container
-     * @throws TilesException if an error occurs creating the factory.
+     * @throws TilesContainerFactoryException if an error occurs creating the
+     * factory.
      */
-    public static TilesContainerFactory getFactory(Object context)
-        throws TilesException {
+    public static TilesContainerFactory getFactory(Object context) {
         return getFactory(context, DEFAULTS);
     }
 
@@ -158,11 +157,11 @@ public class TilesContainerFactory {
      * @param defaults Default configuration parameters values, used if the
      * context object has not the corresponding parameters.
      * @return a tiles container
-     * @throws TilesException if an error occurs creating the factory.
+     * @throws TilesContainerFactoryException if an error occurs creating the
+     * factory.
      */
     public static TilesContainerFactory getFactory(Object context,
-                                                   Map<String, String> defaults)
-        throws TilesException {
+            Map<String, String> defaults) {
         Map<String, String> configuration = new HashMap<String, String>(defaults);
         configuration.putAll(getInitParameterMap(context));
         TilesContainerFactory factory =
@@ -177,9 +176,10 @@ public class TilesContainerFactory {
      *
      * @param context The (application) context object.
      * @return The created container.
-     * @throws TilesException If something goes wrong during instantiation.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * instantiation.
      */
-    public TilesContainer createContainer(Object context) throws TilesException {
+    public TilesContainer createContainer(Object context) {
         String value = getInitParameter(context, CONTAINER_FACTORY_MUTABLE_INIT_PARAM);
         if (Boolean.parseBoolean(value)) {
             return createMutableTilesContainer(context);
@@ -214,10 +214,10 @@ public class TilesContainerFactory {
      *
      * @param context The (application) context object.
      * @return The created Tiles container.
-     * @throws TilesException If something goes wrong during initialization.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * initialization.
      */
-    public TilesContainer createTilesContainer(Object context)
-        throws TilesException {
+    public TilesContainer createTilesContainer(Object context) {
         BasicTilesContainer container = new BasicTilesContainer();
         initializeContainer(context, container);
         return container;
@@ -228,10 +228,10 @@ public class TilesContainerFactory {
      *
      * @param context The (application) context object.
      * @return The created Tiles container.
-     * @throws TilesException If something goes wrong during initialization.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * initialization.
      */
-    public MutableTilesContainer createMutableTilesContainer(Object context)
-        throws TilesException {
+    public MutableTilesContainer createMutableTilesContainer(Object context) {
         CachingTilesContainer container = new CachingTilesContainer();
         initializeContainer(context, container);
         return container;
@@ -242,11 +242,11 @@ public class TilesContainerFactory {
      *
      * @param context The (application) context object to use.
      * @param container The container to be initialized.
-     * @throws TilesException If something goes wrong during initialization.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * initialization.
      */
     protected void initializeContainer(Object context,
-                                       BasicTilesContainer container)
-        throws TilesException {
+            BasicTilesContainer container) {
         Map <String, String> initParameterMap;
 
         initParameterMap = getInitParameterMap(context);
@@ -265,12 +265,12 @@ public class TilesContainerFactory {
      * @param configuration The merged configuration parameters (both defaults
      * and context ones).
      * @param container The container to use.
-     * @throws TilesException If something goes wrong during initialization.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * initialization.
      */
     protected void storeContainerDependencies(Object context,
-                                              Map<String, String> initParameters,
-                                              Map<String, String> configuration,
-                                              BasicTilesContainer container) throws TilesException {
+            Map<String, String> initParameters,
+            Map<String, String> configuration, BasicTilesContainer container) {
         TilesContextFactory contextFactory =
             (TilesContextFactory) createFactory(configuration,
                 CONTEXT_FACTORY_INIT_PARAM);
@@ -336,10 +336,11 @@ public class TilesContainerFactory {
      * @param initParameterName The initialization parameter name from which the
      * class name is got.
      * @return The created factory.
-     * @throws TilesException If something goes wrong during creation.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * creation.
      */
-    protected static Object createFactory(Map<String, String> configuration, String initParameterName)
-        throws TilesException {
+    protected static Object createFactory(Map<String, String> configuration,
+            String initParameterName) {
         String factoryName = resolveFactoryName(configuration, initParameterName);
         return ClassUtil.instantiate(factoryName);
     }
@@ -351,10 +352,11 @@ public class TilesContainerFactory {
      * and context ones).
      * @param parameterName The name of the initialization parameter to use.
      * @return The factory class name.
-     * @throws TilesException If something goes wrong during resolution.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * resolution.
      */
-    protected static String resolveFactoryName(Map<String, String> configuration, String parameterName)
-        throws TilesException {
+    protected static String resolveFactoryName(
+            Map<String, String> configuration, String parameterName) {
         Object factoryName = configuration.get(parameterName);
         return factoryName == null
             ? DEFAULTS.get(parameterName)
@@ -367,10 +369,11 @@ public class TilesContainerFactory {
      * @param context The (application) context object to use.
      * @param parameterName The parameter name to retrieve.
      * @return The parameter value.
-     * @throws TilesException If the context has not been recognized.
+     * @throws TilesContainerFactoryException If the context has not been
+     * recognized.
      */
     protected static String getInitParameter(Object context,
-                                             String parameterName) throws TilesException {
+            String parameterName) {
         Object value;
         try {
             Class<?> contextClass = context.getClass();
@@ -378,7 +381,8 @@ public class TilesContainerFactory {
                 contextClass.getMethod("getInitParameter", String.class);
             value = getInitParameterMethod.invoke(context, parameterName);
         } catch (Exception e) {
-            throw new TilesException("Unrecognized context.  Is this context"
+            throw new TilesContainerFactoryException(
+                    "Unrecognized context.  Is this context"
                     + " a ServletContext, PortletContext, or similar?", e);
         }
         return value == null ? null : value.toString();
@@ -389,11 +393,11 @@ public class TilesContainerFactory {
      *
      * @param context The (application) context object to use.
      * @return The initialization parameters map.
-     * @throws TilesException If the context object has not been recognized.
+     * @throws TilesContainerFactoryException If the context object has not been
+     * recognized.
      */
     @SuppressWarnings("unchecked")
-    protected static Map<String, String> getInitParameterMap(Object context)
-        throws TilesException {
+    protected static Map<String, String> getInitParameterMap(Object context) {
         Map<String, String> initParameters = new HashMap<String, String>();
         Class<?> contextClass = context.getClass();
         try {
@@ -407,7 +411,8 @@ public class TilesContainerFactory {
                 initParameters.put(key, (String) method.invoke(context, key));
             }
         } catch (Exception e) {
-            throw new TilesException("Unable to retrieve init parameters."
+            throw new TilesContainerFactoryException(
+                    "Unable to retrieve init parameters."
                     + " Is this context a ServletContext, PortletContext,"
                     + " or similar object?", e);
         }

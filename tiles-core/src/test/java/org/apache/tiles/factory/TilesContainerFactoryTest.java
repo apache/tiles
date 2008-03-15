@@ -61,10 +61,8 @@ public class TilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests getting the factory.
-     *
-     * @throws TilesException If something goes wrong.
      */
-    public void testGetFactory() throws TilesException {
+    public void testGetFactory() {
         Vector<String> v = new Vector<String>();
         Vector<String> emptyVector = new Vector<String>();
         v.add(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
@@ -116,12 +114,10 @@ public class TilesContainerFactoryTest extends TestCase {
     /**
      * Tests the creation of a container.
      *
-     * @throws TilesException If something goes wrong during execution of
-     * Tiles-specific code.
      * @throws MalformedURLException If something goes wrong when obtaining URL
      * resources.
      */
-    public void testCreateContainer() throws TilesException, MalformedURLException {
+    public void testCreateContainer() throws MalformedURLException {
         URL url = getClass().getResource("test-defs.xml");
         Vector<String> enumeration = new Vector<String>();
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
@@ -151,10 +147,8 @@ public class TilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests getting init parameter map.
-     *
-     * @throws TilesException If something goes wrong.
      */
-    public void testGetInitParameterMap() throws TilesException {
+    public void testGetInitParameterMap() {
         Vector<String> keys = new Vector<String>();
         keys.add("one");
         keys.add("two");

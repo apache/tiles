@@ -21,23 +21,22 @@
 
 package org.apache.tiles.definition.digester;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesRuntimeException;
 import org.apache.tiles.context.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -278,8 +277,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      *          if the source is invalid or
      *          an error occurs when reading definitions.
      */
-    public Map<String, Definition> read(Object source)
-            throws DefinitionsFactoryException {
+    public Map<String, Definition> read(Object source) {
 
         // Get out if we have not been initialized.
         if (!inited) {
@@ -335,7 +333,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      *          if required properties are not
      *          passed in or the initialization fails.
      */
-    public void init(Map<String, String> params) throws DefinitionsFactoryException {
+    public void init(Map<String, String> params) {
 
         if (params != null) {
             String value = params.get(PARSER_VALIDATE_PARAMETER_NAME);
@@ -438,7 +436,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     public void addDefinition(Definition definition) {
         String name = definition.getName();
         if (name == null) {
-            throw new TilesRuntimeException(
+            throw new DigesterDefinitionsReaderException(
                     "A root definition has been defined with no name");
         }
 

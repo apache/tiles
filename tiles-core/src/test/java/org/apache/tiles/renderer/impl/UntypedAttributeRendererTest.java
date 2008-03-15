@@ -26,7 +26,6 @@ import java.io.StringWriter;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
@@ -59,9 +58,8 @@ public class UntypedAttributeRendererTest extends TestCase {
      * writing a Definition.
      *
      * @throws IOException If something goes wrong during rendition.
-     * @throws TilesException If something goes wrong during the usage of Tiles.
      */
-    public void testWriteDefinition() throws IOException, TilesException {
+    public void testWriteDefinition() throws IOException {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("my.definition", null, "definition");
         TilesApplicationContext applicationContext = EasyMock
@@ -91,9 +89,8 @@ public class UntypedAttributeRendererTest extends TestCase {
      * writing a string.
      *
      * @throws IOException If something goes wrong during rendition.
-     * @throws TilesException If something goes wrong during the usage of Tiles.
      */
-    public void testWriteString() throws IOException, TilesException {
+    public void testWriteString() throws IOException {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("Result", null, "string");
         TilesApplicationContext applicationContext = EasyMock
@@ -122,9 +119,8 @@ public class UntypedAttributeRendererTest extends TestCase {
      * writing a template.
      *
      * @throws IOException If something goes wrong during rendition.
-     * @throws TilesException If something goes wrong during the usage of Tiles.
      */
-    public void testWriteTemplate() throws IOException, TilesException {
+    public void testWriteTemplate() throws IOException {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("/myTemplate.jsp", null, "template");
         TilesApplicationContext applicationContext = EasyMock

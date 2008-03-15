@@ -26,8 +26,6 @@ import org.apache.tiles.Attribute;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.jsp.JspException;
-
 /**
  * AddListAttribute tag implementation.
  *
@@ -54,18 +52,17 @@ public class AddListAttributeTag extends AddAttributeTag
     }
 
     /** {@inheritDoc} */
-    public int doStartTag() throws JspException {
+    public int doStartTag() {
         super.setValue(new ArrayList<Attribute>());
-        return super.doStartTag();
+        return EVAL_BODY_BUFFERED;
     }
 
     /**
      * PutListAttributeTag may not have any body, except for PutAttribute tags.
      *
      * @return <code>SKIP_BODY</code>.
-     * @throws JspException if a JSP exception has occurred
      */
-    public int doAfterBody() throws JspException {
+    public int doAfterBody() {
         return (SKIP_BODY);
     }
 

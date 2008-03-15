@@ -22,7 +22,6 @@ package org.apache.tiles.access;
 
 import org.easymock.EasyMock;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 
 import javax.servlet.ServletContext;
 
@@ -45,10 +44,8 @@ public class TilesAccessTest extends TestCase {
 
     /**
      * Tests the setting of the context.
-     *
-     * @throws TilesException If something goes wrong.
      */
-    public void testSetContext() throws TilesException {
+    public void testSetContext() {
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         context.setAttribute(TilesAccess.CONTAINER_ATTRIBUTE, container);
         EasyMock.replay(context);
@@ -58,10 +55,8 @@ public class TilesAccessTest extends TestCase {
 
     /**
      * Tests the getting of the context.
-     *
-     * @throws TilesException If something goes wrong.
      */
-    public void testGetContext() throws TilesException {
+    public void testGetContext() {
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         EasyMock.expect(context.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         EasyMock.replay(context);

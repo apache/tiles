@@ -23,10 +23,7 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
-import org.apache.tiles.TilesException;
 import org.apache.tiles.jsp.context.JspUtil;
-
-import javax.servlet.jsp.JspException;
 
 /**
  * This is the tag handler for &lt;tiles:insertTemplate&gt;, which includes a
@@ -68,7 +65,7 @@ public class InsertTemplateTag extends RenderTagSupport implements
 
     /** {@inheritDoc} */
     @Override
-    protected void render() throws JspException, TilesException, IOException {
+    protected void render() throws IOException {
         attributeContext.setTemplate(template);
         attributeContext.setPreparer(preparer);
         attributeContext.setRole(role);
@@ -78,12 +75,9 @@ public class InsertTemplateTag extends RenderTagSupport implements
     /**
      * Renders the current context.
      *
-     * @throws TilesException if a prepare or render exception occurs.
-     * @throws JspException if a jsp exception occurs.
      * @throws IOException if an io exception occurs.
      */
-    protected void renderContext() throws JspException, TilesException,
-            IOException {
+    protected void renderContext() throws IOException {
         JspUtil.setForceInclude(pageContext, true);
         container.renderContext(pageContext);
     }

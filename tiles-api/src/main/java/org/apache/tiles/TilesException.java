@@ -26,7 +26,7 @@ package org.apache.tiles;
  *
  * @version $Rev$ $Date$
  */
-public class TilesException extends Exception {
+public class TilesException extends RuntimeException {
 
     /**
      * Constructor.

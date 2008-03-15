@@ -18,62 +18,56 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles;
+package org.apache.tiles.definition.digester;
+
+import org.apache.tiles.TilesException;
 
 /**
- * Root class for all Tiles runtime exceptions.
+ * Indicates that something went wrong during the use of
+ * {@link DigesterDefinitionsReader}.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class TilesRuntimeException extends RuntimeException {
+public class DigesterDefinitionsReaderException extends TilesException {
 
     /**
      * Constructor.
+     *
      * @since 2.1.0
      */
-    public TilesRuntimeException() {
-        super();
+    public DigesterDefinitionsReaderException() {
     }
 
     /**
      * Constructor.
      *
-     * @param message The error or warning message.
+     * @param message The detail message.
      * @since 2.1.0
      */
-    public TilesRuntimeException(String message) {
+    public DigesterDefinitionsReaderException(String message) {
         super(message);
     }
 
     /**
-     * Create a new <code>TilesRuntimeException</code> wrapping an existing
-     * exception. <p/>
-     * <p>
-     * The existing exception will be embedded in the new one, and its message
-     * will become the default message for the TilesException.
-     * </p>
+     * Constructor.
      *
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public TilesRuntimeException(Exception e) {
+    public DigesterDefinitionsReaderException(Exception e) {
         super(e);
     }
 
     /**
-     * Create a new <code>TilesRuntimeException</code> from an existing
-     * exception. <p/>
-     * <p>
-     * The existing exception will be embedded in the new one, but the new
-     * exception will have its own message.
-     * </p>
+     * Constructor.
      *
      * @param message The detail message.
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public TilesRuntimeException(String message, Exception e) {
+    public DigesterDefinitionsReaderException(String message, Exception e) {
         super(message, e);
     }
+
 }

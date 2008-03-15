@@ -18,24 +18,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.impl;
+package org.apache.tiles.util;
 
 import org.apache.tiles.TilesException;
 
 /**
- * An invalid template has been identified.
+ * Indicates that an object cannot be instantiated.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class InvalidTemplateException extends TilesException {
+public class CannotInstantiateObjectException extends TilesException {
 
     /**
      * Constructor.
      *
      * @since 2.1.0
      */
-    public InvalidTemplateException() {
+    public CannotInstantiateObjectException() {
     }
 
     /**
@@ -44,7 +44,7 @@ public class InvalidTemplateException extends TilesException {
      * @param message The detail message.
      * @since 2.1.0
      */
-    public InvalidTemplateException(String message) {
+    public CannotInstantiateObjectException(String message) {
         super(message);
     }
 
@@ -54,7 +54,7 @@ public class InvalidTemplateException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public InvalidTemplateException(Exception e) {
+    public CannotInstantiateObjectException(Exception e) {
         super(e);
     }
 
@@ -65,7 +65,9 @@ public class InvalidTemplateException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public InvalidTemplateException(String message, Exception e) {
+    public CannotInstantiateObjectException(String message, Exception e) {
         super(message, e);
+        // TODO Auto-generated constructor stub
     }
+
 }

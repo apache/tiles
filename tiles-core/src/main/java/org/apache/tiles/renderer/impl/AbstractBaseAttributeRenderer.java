@@ -29,7 +29,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
@@ -90,7 +89,7 @@ public abstract class AbstractBaseAttributeRenderer implements
 
     /** {@inheritDoc} */
     public void render(Attribute attribute, Writer writer,
-            Object... requestItems) throws IOException, TilesException {
+            Object... requestItems) throws IOException {
         TilesRequestContext request = getRequestContext(requestItems);
 
         if (!isPermitted(request, attribute.getRoles())) {
@@ -116,12 +115,11 @@ public abstract class AbstractBaseAttributeRenderer implements
      * @param requestItems The original request items.
      *
      * @throws IOException If something goes wrong during rendition.
-     * @throws TilesException If something goes wrong in Tiles engine.
      * @since 2.1.0
      */
     public abstract void write(Object value, Attribute attribute,
             Writer writer, TilesRequestContext request, Object... requestItems)
-            throws IOException, TilesException;
+            throws IOException;
 
     /**
      * Creates a Tiles request context from request items.

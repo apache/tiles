@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 
@@ -83,10 +82,6 @@ public class SelectLocaleServlet extends HttpServlet {
         session.setAttribute(DefaultLocaleResolver.LOCALE_KEY, locale);
         TilesContainer container = TilesAccess.getContainer(request
                 .getSession().getServletContext());
-        try {
-            container.render("test.localized.definition", request, response);
-        } catch (TilesException e) {
-            throw new ServletException("Cannot render 'test.localized.definition' definition", e);
-        }
+        container.render("test.localized.definition", request, response);
     }
 }

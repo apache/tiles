@@ -20,9 +20,6 @@
  */
 package org.apache.tiles.util;
 
-import org.apache.tiles.TilesException;
-
-
 /**
  * Utilities to work with dynamic class loading and instantiation.
  *
@@ -42,9 +39,10 @@ public final class ClassUtil {
      *
      * @param className The class name to load and to instantiate.
      * @return The new instance of the class name.
-     * @throws TilesException If something goes wrong during instantiation.
+     * @throws CannotInstantiateObjectException If something goes wrong during
+     * instantiation.
      */
-    public static Object instantiate(String className) throws TilesException {
+    public static Object instantiate(String className) {
         return instantiate(className, false);
     }
 
@@ -57,10 +55,9 @@ public final class ClassUtil {
      * returns <code>true</code>, otherwise it throws a
      * <code>TilesException</code>.
      * @return The new instance of the class name.
-     * @throws TilesException If something goes wrong during instantiation.
+     * @throws CannotInstantiateObjectException If something goes wrong during instantiation.
      */
-    public static Object instantiate(String className, boolean returnNull)
-        throws TilesException {
+    public static Object instantiate(String className, boolean returnNull) {
         ClassLoader original = Thread.currentThread().getContextClassLoader();
         if (original == null) {
             Thread.currentThread().setContextClassLoader(ClassUtil.class.getClassLoader());
@@ -72,12 +69,17 @@ public final class ClassUtil {
             if (returnNull) {
                 return null;
             }
-            throw new TilesException("Unable to resolve factory class: '" + className + "'");
+            throw new CannotInstantiateObjectException(
+                    "Unable to resolve factory class: '" + className + "'", e);
         } catch (IllegalAccessException e) {
-            throw new TilesException("Unable to access factory class: '" + className + "'");
+            throw new CannotInstantiateObjectException(
+                    "Unable to access factory class: '" + className + "'", e);
         } catch (InstantiationException e) {
-            throw new TilesException("Unable to instantiate factory class: '"
-                + className + "'. Make sure that this class has a default constructor");
+            throw new CannotInstantiateObjectException(
+                    "Unable to instantiate factory class: '"
+                            + className
+                            + "'. Make sure that this class has a default constructor",
+                    e);
         } finally {
             Thread.currentThread().setContextClassLoader(original);
         }

@@ -40,9 +40,8 @@ public interface TilesContainer {
      * configuration.
      *
      * @param initParameters application context
-     * @throws TilesException when an initialization error occurs
      */
-    void init(Map<String, String> initParameters) throws TilesException;
+    void init(Map<String, String> initParameters);
 
     /**
      * Retrieve the containers context.
@@ -83,27 +82,23 @@ public interface TilesContainer {
      * Renders the current context, as it is.
      *
      * @param requestItems the current request objects.
-     * @throws TilesException If something goes wrong during rendition.
      * @since 2.1.0
      */
-    void renderContext(Object... requestItems) throws TilesException;
+    void renderContext(Object... requestItems);
 
     /**
      * @param definition the requested definition
      * @param requestItems the current request objects.
-     * @throws TilesException is processing fails.
      */
-    void prepare(String definition, Object... requestItems) throws TilesException;
+    void prepare(String definition, Object... requestItems);
 
     /**
      * Render the given tiles request.
      *
      * @param definition the current definition.
      * @param requestItems the current request objects.
-     *
-     * @throws TilesException is processing fails.
      */
-    void render(String definition, Object... requestItems) throws TilesException;
+    void render(String definition, Object... requestItems);
 
     /**
      * Render the given Attribute.
@@ -112,28 +107,24 @@ public interface TilesContainer {
      * @param writer The writer to use when rendering an attribute of "string"
      * type.
      * @param requestItems the current request objects.
-     * @throws TilesException If something goes wrong during accessing Tiles
-     * elements.
      * @throws IOException If something goes wrong during writing to the output.
      */
     void render(Attribute attribute, Writer writer, Object... requestItems)
-        throws TilesException, IOException;
+        throws IOException;
 
     /**
      * Evaluates the given attribute.
      *
      * @param attribute The attribute to evaluate.
      * @param requestItems the current request objects.
-     * @throws TilesException If something goes wrong during accessing Tiles
-     * elements.
      * @return The evaluated object.
      * @since 2.1.0
      */
-    Object evaluate(Attribute attribute, Object... requestItems)
-            throws TilesException;
+    Object evaluate(Attribute attribute, Object... requestItems);
 
     /**
      * Determine whether or not the definition exists.
+     *
      * @param definition the name of the definition.
      * @param requestItems the current request objects.
      *

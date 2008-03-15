@@ -25,10 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 
@@ -62,7 +60,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
             = new HashMap<String, DefinitionManager>();
 
     /** {@inheritDoc} */
-    public void register(Definition definition, Object... requestItems) throws TilesException {
+    public void register(Definition definition, Object... requestItems) {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
                 getApplicationContext(),
                 requestItems
@@ -73,8 +71,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
     /** {@inheritDoc} */
     @Override
     protected Definition getDefinition(String definition,
-                                                TilesRequestContext context)
-        throws DefinitionsFactoryException {
+            TilesRequestContext context) {
         DefinitionManager mgr = getProperDefinitionManager(
                 getDefinitionsFactoryKey(context));
         return mgr.getDefinition(definition, context);
@@ -103,7 +100,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
     /** {@inheritDoc} */
     @Override
     public void setDefinitionsFactory(String key, DefinitionsFactory definitionsFactory,
-            Map<String, String> initParameters) throws TilesException {
+            Map<String, String> initParameters) {
         if (key != null) {
             initializeDefinitionsFactory(definitionsFactory,
                     getResourceString(initParameters), initParameters);
@@ -118,11 +115,8 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
      * @param definition The definition to register.
      * @param request The request inside which the definition should be
      * registered.
-     * @throws DefinitionsFactoryException If something goes wrong during adding
-     * a definition, such as missing parent definitions.
      */
-    protected void register(Definition definition,
-            TilesRequestContext request) throws DefinitionsFactoryException {
+    protected void register(Definition definition, TilesRequestContext request) {
         DefinitionManager mgr = getProperDefinitionManager(
                 getDefinitionsFactoryKey(request));
         mgr.addDefinition(definition, request);

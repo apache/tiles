@@ -20,7 +20,6 @@
  */
 package org.apache.tiles.test.preparer;
 
-import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.AttributeContext;
@@ -28,14 +27,14 @@ import org.apache.tiles.AttributeContext;
 /**
  * A simple test <code>ViewPreparer</code> to put a request attribute, that
  * will be used with the EL evaluator.
- * 
+ *
  * @version $Rev$ $Date$
  */
 public class RequestSettingViewPreparer implements ViewPreparer {
 
     /** {@inheritDoc} */
     public void execute(TilesRequestContext tilesContext,
-            AttributeContext attributeContext) throws PreparerException {
+            AttributeContext attributeContext) {
         tilesContext.getRequestScope().put("body", "test.inner.definition");
         tilesContext.getRequestScope().put("layout", "/layout.jsp");
     }

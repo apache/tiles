@@ -21,7 +21,6 @@
 package org.apache.tiles.preparer;
 
 import junit.framework.TestCase;
-import org.apache.tiles.TilesException;
 
 /**
  * Tests the basic preparer factory.
@@ -43,10 +42,8 @@ public class BasicPreparerFactoryTest extends TestCase {
 
     /**
      * Tests getting a preparer.
-     *
-     * @throws TilesException If something goes wrong.
      */
-    public void testGetPreparer() throws TilesException {
+    public void testGetPreparer() {
         String name = ViewPreparerSupport.class.getName();
         ViewPreparer p = factory.getPreparer(name, null);
         assertNotNull(p);

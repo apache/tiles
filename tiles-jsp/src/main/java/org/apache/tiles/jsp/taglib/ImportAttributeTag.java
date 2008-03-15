@@ -25,8 +25,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
 
-import javax.servlet.jsp.JspException;
-
 import java.util.Collection;
 
 
@@ -77,9 +75,9 @@ public class ImportAttributeTag extends AttributeTagSupport {
     /**
      * Expose the requested property from attribute context.
      *
-     * @throws JspException On errors processing tag.
+     * @throws TilesJspException On errors processing tag.
      */
-    public void execute() throws JspException {
+    public void execute() throws TilesJspException {
         if (attributeValue != null) {
             pageContext.setAttribute(toName != null ? toName : name,
                     attributeValue, scope);
@@ -93,16 +91,17 @@ public class ImportAttributeTag extends AttributeTagSupport {
      * Imports an attribute set.
      *
      * @param names The names of the attributes to be imported.
-     * @throws JspException If something goes wrong during the import.
+     * @throws TilesJspException If something goes wrong during the import.
      */
-    private void importAttributes(Collection<String> names) throws JspException {
+    private void importAttributes(Collection<String> names)
+            throws TilesJspException {
         if (names == null || names.isEmpty()) {
             return;
         }
 
         for (String name : names) {
             if (name == null && !ignore) {
-                throw new JspException("Error importing attributes. "
+                throw new TilesJspException("Error importing attributes. "
                         + "Attribute with null key found.");
             } else if (name == null) {
                 continue;
@@ -114,21 +113,20 @@ public class ImportAttributeTag extends AttributeTagSupport {
                 try {
                     Object attributeValue = container.evaluate(attr, pageContext);
                     if (attributeValue == null) {
-                        throw new JspException("Error importing attributes. "
-                                + "Attribute '" + name + "' has a null value ");
+                        throw new TilesJspException(
+                                "Error importing attributes. " + "Attribute '"
+                                        + name + "' has a null value ");
                     }
                     pageContext.setAttribute(name, attributeValue, scope);
                 } catch (TilesException e) {
                     if (!ignore) {
-                        throw new JspException("Attribute with name '" + name
-                                + "' has a value of '" + attr.getValue()
-                                + "' that cannot be evaluated");
+                        throw e;
                     } else if (LOG.isDebugEnabled()) {
                         LOG.debug("Ignoring Tiles Exception", e);
                     }
                 }
             } else if (!ignore) {
-                throw new JspException("Error importing attributes. "
+                throw new TilesJspException("Error importing attributes. "
                         + "Attribute '" + name + "' is null");
             }
 

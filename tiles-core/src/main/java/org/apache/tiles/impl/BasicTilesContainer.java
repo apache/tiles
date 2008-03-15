@@ -28,7 +28,6 @@ import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
@@ -39,7 +38,6 @@ import org.apache.tiles.preparer.NoSuchPreparerException;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.renderer.RendererException;
 import org.apache.tiles.renderer.RendererFactory;
 
 import java.io.IOException;
@@ -129,9 +127,12 @@ public class BasicTilesContainer implements TilesContainer {
      * Initialize the Container with the given configuration.
      *
      * @param initParameters application context for this container
-     * @throws TilesException If something goes wrong during initialization.
+     * @throws IllegalStateException If the container has been already
+     * initialized.
+     * @throws DefinitionsFactoryException If something goes wrong during
+     * initialization.
      */
-    public void init(Map<String, String> initParameters) throws TilesException {
+    public void init(Map<String, String> initParameters) {
         checkInit();
         initialized = true;
         if (LOG.isInfoEnabled()) {
@@ -163,7 +164,7 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /** {@inheritDoc} */
-    public void renderContext(Object... requestItems) throws TilesException {
+    public void renderContext(Object... requestItems) {
         TilesRequestContext request = getRequestContext(requestItems);
         AttributeContext attributeContext = getAttributeContext(request);
 
@@ -282,8 +283,7 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /** {@inheritDoc} */
-    public void prepare(String preparer, Object... requestItems)
-        throws TilesException {
+    public void prepare(String preparer, Object... requestItems) {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
             getApplicationContext(),
             requestItems
@@ -292,8 +292,7 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /** {@inheritDoc} */
-    public void render(String definitionName, Object... requestItems)
-        throws TilesException {
+    public void render(String definitionName, Object... requestItems) {
         TilesRequestContext requestContext = getContextFactory().createRequestContext(
             getApplicationContext(),
             requestItems
@@ -303,15 +302,15 @@ public class BasicTilesContainer implements TilesContainer {
 
     /** {@inheritDoc} */
     public void render(Attribute attr, Writer writer, Object... requestItems)
-        throws TilesException, IOException {
+        throws IOException {
         if (attr == null) {
-            throw new RendererException("Cannot render a null attribute");
+            throw new CannotRenderException("Cannot render a null attribute");
         }
 
         AttributeRenderer renderer = rendererFactory.getRenderer(attr
                 .getRenderer());
         if (renderer == null) {
-            throw new RendererException(
+            throw new CannotRenderException(
                     "Cannot render an attribute with renderer name "
                             + attr.getRenderer());
         }
@@ -319,8 +318,7 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /** {@inheritDoc} */
-    public Object evaluate(Attribute attribute, Object... requestItems)
-            throws TilesException {
+    public Object evaluate(Attribute attribute, Object... requestItems) {
         TilesRequestContext request = getContextFactory().createRequestContext(
                 context, requestItems);
         return evaluator.evaluate(attribute, request);
@@ -341,7 +339,7 @@ public class BasicTilesContainer implements TilesContainer {
      * exception.
      */
     protected Definition getDefinition(String definitionName,
-            TilesRequestContext request) throws DefinitionsFactoryException {
+            TilesRequestContext request) {
         Definition definition =
             definitionsFactory.getDefinition(definitionName, request);
         return definition;
@@ -416,11 +414,11 @@ public class BasicTilesContainer implements TilesContainer {
      * @param resourceString The string containing a comma-separated-list of
      * resources.
      * @param initParameters A map containing the initialization parameters.
-     * @throws TilesException If something goes wrong.
+     * @throws DefinitionsFactoryException If something goes wrong.
      */
     protected void initializeDefinitionsFactory(
             DefinitionsFactory definitionsFactory, String resourceString,
-            Map<String, String> initParameters) throws TilesException {
+            Map<String, String> initParameters) {
         if (rendererFactory == null) {
             throw new IllegalStateException("No RendererFactory found");
         }
@@ -501,8 +499,7 @@ public class BasicTilesContainer implements TilesContainer {
      * Get attribute context from request.
      *
      * @param tilesContext current Tiles application context.
-     * @return BasicAttributeContext or null if context is not found or an
-     *         jspException is present in the request.
+     * @return BasicAttributeContext or null if context is not found.
      * @since 2.0.6
      */
     protected AttributeContext getContext(TilesRequestContext tilesContext) {
@@ -575,12 +572,11 @@ public class BasicTilesContainer implements TilesContainer {
      * @param preparerName The name of the preparer.
      * @param ignoreMissing If <code>true</code> if the preparer is not found,
      * it ignores the problem.
-     * @throws TilesException If the preparer is not found (and
+     * @throws NoSuchPreparerException If the preparer is not found (and
      * <code>ignoreMissing</code> is not set) or if the preparer itself threw an
      * exception.
      */
-    private void prepare(TilesRequestContext context, String preparerName, boolean ignoreMissing)
-        throws TilesException {
+    private void prepare(TilesRequestContext context, String preparerName, boolean ignoreMissing) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Prepare request received for '" + preparerName);
@@ -605,10 +601,11 @@ public class BasicTilesContainer implements TilesContainer {
      *
      * @param request The request context.
      * @param definitionName The name of the definition to render.
-     * @throws TilesException If something goes wrong during rendering.
+     * @throws NoSuchDefinitionException If the definition has not been found.
+     * @throws DefinitionsFactoryException If something goes wrong when
+     * obtaining the definition.
      */
-    private void render(TilesRequestContext request, String definitionName)
-        throws TilesException {
+    private void render(TilesRequestContext request, String definitionName) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Render request recieved for definition '" + definitionName + "'");
@@ -651,10 +648,11 @@ public class BasicTilesContainer implements TilesContainer {
      *
      * @param request The request context.
      * @param attributeContext The context to render.
-     * @throws TilesException If something goes wrong during rendering.
+     * @throws InvalidTemplateException If the template is not valid.
+     * @throws CannotRenderException If something goes wrong during rendering.
      */
     private void render(TilesRequestContext request,
-            AttributeContext attributeContext) throws TilesException {
+            AttributeContext attributeContext) {
 
         try {
             if (attributeContext.getPreparer() != null) {
@@ -687,8 +685,7 @@ public class BasicTilesContainer implements TilesContainer {
 
             // tiles exception so that it doesn't need to be rethrown.
         } catch (IOException e) {
-            LOG.error("Error rendering tile", e);
-            throw new TilesException(e.getMessage(), e);
+            throw new CannotRenderException(e.getMessage(), e);
         }
     }
 

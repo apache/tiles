@@ -25,7 +25,6 @@ import java.io.StringWriter;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
@@ -57,9 +56,8 @@ public class StringAttributeRendererTest extends TestCase {
      * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}.
      *
      * @throws IOException If something goes wrong during rendition.
-     * @throws TilesException If something goes wrong during the usage of Tiles.
      */
-    public void testWrite() throws IOException, TilesException {
+    public void testWrite() throws IOException {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("Result", null, "string");
         TilesApplicationContext applicationContext = EasyMock

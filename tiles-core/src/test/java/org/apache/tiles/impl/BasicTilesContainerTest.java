@@ -86,12 +86,8 @@ public class BasicTilesContainerTest extends TestCase {
                     e);
         }
         EasyMock.replay(context);
-        try {
-            TilesContainerFactory factory = TilesContainerFactory.getFactory(context);
-            container = (BasicTilesContainer) factory.createContainer(context);
-        } catch (TilesException e) {
-            throw new RuntimeException("Error initializing factory", e);
-        }
+        TilesContainerFactory factory = TilesContainerFactory.getFactory(context);
+        container = (BasicTilesContainer) factory.createContainer(context);
     }
 
     /**
@@ -131,10 +127,9 @@ public class BasicTilesContainerTest extends TestCase {
     /**
      * Tests is attributes are rendered correctly according to users roles.
      *
-     * @throws TilesException If a problem arises during rendering.
      * @throws IOException If a problem arises during rendering or writing in the writer.
      */
-    public void testAttributeCredentials() throws TilesException, IOException {
+    public void testAttributeCredentials() throws IOException {
         RoleMockHttpServletRequest request = new RoleMockHttpServletRequest("myrole");
         MockHttpSession session = new MockHttpSession();
         request.setHttpSession(session);
@@ -156,10 +151,8 @@ public class BasicTilesContainerTest extends TestCase {
 
     /**
      * Tests {@link BasicTilesContainer#evaluate(Attribute, Object...)}.
-     *
-     * @throws TilesException If something goes wrong.
      */
-    public void testEvaluate() throws TilesException {
+    public void testEvaluate() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpSession session = new MockHttpSession();
         request.setHttpSession(session);

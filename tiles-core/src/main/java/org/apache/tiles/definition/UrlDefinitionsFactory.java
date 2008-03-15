@@ -23,7 +23,6 @@ package org.apache.tiles.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.locale.LocaleResolver;
@@ -106,9 +105,9 @@ public class UrlDefinitionsFactory
      * the params Map.
      *
      * @param params The Map of configuration properties.
-     * @throws TilesException if an initialization error occurs.
+     * @throws DefinitionsFactoryException if an initialization error occurs.
      */
-    public void init(Map<String, String> params) throws TilesException {
+    public void init(Map<String, String> params) {
         String readerClassName =
             params.get(DefinitionsFactory.READER_IMPL_PROPERTY);
 
@@ -134,11 +133,8 @@ public class UrlDefinitionsFactory
      * Returns the definitions holder object.
      *
      * @return The definitions holder.
-     * @throws DefinitionsFactoryException If something goes wrong during
-     * reading definitions.
      */
-    protected Definitions getDefinitions()
-        throws DefinitionsFactoryException {
+    protected Definitions getDefinitions() {
         return definitions;
     }
 
@@ -154,8 +150,7 @@ public class UrlDefinitionsFactory
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
     public Definition getDefinition(String name,
-                                             TilesRequestContext tilesContext)
-        throws DefinitionsFactoryException {
+            TilesRequestContext tilesContext) {
 
         Definitions definitions = getDefinitions();
         Locale locale = null;
@@ -186,7 +181,7 @@ public class UrlDefinitionsFactory
      * @throws DefinitionsFactoryException if an invalid source is passed in or
      *                                     an error occurs resolving the source to an actual data store.
      */
-    public void addSource(Object source) throws DefinitionsFactoryException {
+    public void addSource(Object source) {
         if (source == null) {
             throw new DefinitionsFactoryException(
                 "Source object must not be null");
@@ -210,8 +205,7 @@ public class UrlDefinitionsFactory
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
     protected void addDefinitions(Definitions definitions,
-                                  TilesRequestContext tilesContext)
-        throws DefinitionsFactoryException {
+            TilesRequestContext tilesContext) {
 
         Locale locale = localeResolver.resolveLocale(tilesContext);
 
@@ -275,8 +269,7 @@ public class UrlDefinitionsFactory
      * @deprecated Let the Definitions Factory use it.
      */
     @Deprecated
-    public Definitions readDefinitions()
-        throws DefinitionsFactoryException {
+    public Definitions readDefinitions() {
         loadDefinitions();
         return definitions;
     }
@@ -342,8 +335,7 @@ public class UrlDefinitionsFactory
      * sources.
      * @since 2.1.0
      */
-    protected synchronized void loadDefinitions()
-            throws DefinitionsFactoryException {
+    protected synchronized void loadDefinitions() {
         if (definitions == null) {
             definitions = createDefinitions();
         } else {
@@ -422,7 +414,7 @@ public class UrlDefinitionsFactory
 
 
     /** {@inheritDoc} */
-    public synchronized void refresh() throws DefinitionsFactoryException {
+    public synchronized void refresh() {
         LOG.debug("Updating Tiles definitions. . .");
         processedLocales.clear();
         loadDefinitions();

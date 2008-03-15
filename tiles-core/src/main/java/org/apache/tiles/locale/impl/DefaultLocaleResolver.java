@@ -23,7 +23,6 @@ package org.apache.tiles.locale.impl;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.locale.LocaleResolver;
 
@@ -43,8 +42,7 @@ public class DefaultLocaleResolver implements LocaleResolver {
     public static final String LOCALE_KEY = "org.apache.tiles.LOCALE";
 
     /** {@inheritDoc} */
-    public void init(Map<String, String> params)
-            throws TilesException {
+    public void init(Map<String, String> params) {
         // Does nothing.
     }
 

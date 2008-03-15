@@ -25,7 +25,6 @@ import java.io.Writer;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.renderer.RendererException;
@@ -53,7 +52,7 @@ public class UntypedAttributeRenderer extends AbstractBaseAttributeRenderer
     @Override
     public void write(Object value, Attribute attribute,
             Writer writer, TilesRequestContext request, Object... requestItems)
-            throws IOException, TilesException {
+            throws IOException {
         if (value instanceof String) {
             String valueString = (String) value;
             if (container.isValidDefinition(valueString, requestItems)) {

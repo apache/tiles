@@ -21,8 +21,6 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import javax.servlet.jsp.JspException;
-
 /**
  * Tag classes implementing this interface can contain nested {@link AddAttributeTag}.
  * This interface defines a method called by nested tags.
@@ -34,8 +32,8 @@ public interface AddAttributeTagParent {
      * Process the nested tag.
      *
      * @param nestedTag Nested tag to process.
-     * @throws JspException If something goes wrong during processing.
+     * @throws TilesJspException If something goes wrong during processing.
      */
-    void processNestedTag(AddAttributeTag nestedTag) throws JspException;
+    void processNestedTag(AddAttributeTag nestedTag) throws TilesJspException;
 
 }

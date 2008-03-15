@@ -24,7 +24,6 @@ package org.apache.tiles.jsp.taglib;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
@@ -134,7 +133,7 @@ public class PutAttributeTag extends AddAttributeTag {
     }
 
     /** {@inheritDoc} */
-    protected void execute() throws JspException {
+    protected void execute() throws TilesJspException {
         PutAttributeTagParent parent = (PutAttributeTagParent)
             TagSupport.findAncestorWithClass(this, PutAttributeTagParent.class);
 
@@ -144,7 +143,7 @@ public class PutAttributeTag extends AddAttributeTag {
                     + getParent().getClass().getName()
                     + " doesn't accept 'put' tag.";
             LOG.error(message);
-            throw new JspException(message);
+            throw new TilesJspException(message);
         }
 
         parent.processNestedTag(this);

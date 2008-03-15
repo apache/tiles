@@ -22,10 +22,8 @@ package org.apache.tiles.jsp.taglib;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.TilesException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.IOException;
 
@@ -70,19 +68,15 @@ public abstract class RoleSecurityTagSupport extends BodyTagSupport {
     }
 
     /** {@inheritDoc} */
-    public int doEndTag() throws JspException {
+    public int doEndTag() throws TilesJspException {
         try {
             if (isAccessAllowed()) {
                 execute();
             }
-        } catch (TilesException e) {
-            String message = "Error executing tag: " + e.getMessage();
-            LOG.error(message, e);
-            throw new JspException(message, e);
         } catch (IOException io) {
             String message = "IO Error executing tag: " + io.getMessage();
             LOG.error(message, io);
-            throw new JspException(message, io);
+            throw new TilesJspException(message, io);
         }
 
         return EVAL_PAGE;
@@ -99,11 +93,10 @@ public abstract class RoleSecurityTagSupport extends BodyTagSupport {
     /**
      * Executes the tag. It is called inside {@link #doEndTag()}.
      *
-     * @throws TilesException If something goews wrong during the use of Tiles.
-     * @throws JspException If something goes wrong during rendering.
+     * @throws TilesJspException If something goes wrong during rendering.
      * @throws IOException If something goes wrong during writing content.
      */
-    protected abstract void execute() throws TilesException, JspException, IOException;
+    protected abstract void execute() throws TilesJspException, IOException;
 
     /**
      * Checks if the user is inside the specified role.

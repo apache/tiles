@@ -18,54 +18,55 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.impl;
+package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.TilesException;
+import javax.servlet.jsp.JspException;
 
 /**
- * An invalid template has been identified.
+ * Indicates that something went wrong during the use of Tiles in JSP pages.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class InvalidTemplateException extends TilesException {
+public class TilesJspException extends JspException {
 
     /**
      * Constructor.
      *
      * @since 2.1.0
      */
-    public InvalidTemplateException() {
+    public TilesJspException() {
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param msg The detail message.
+     * @since 2.1.0
+     */
+    public TilesJspException(String msg) {
+        super(msg);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param rootCause The root cause of the exception.
+     * @since 2.1.0
+     */
+    public TilesJspException(Throwable rootCause) {
+        super(rootCause);
     }
 
     /**
      * Constructor.
      *
      * @param message The detail message.
+     * @param rootCause The root cause of the exception.
      * @since 2.1.0
      */
-    public InvalidTemplateException(String message) {
-        super(message);
+    public TilesJspException(String message, Throwable rootCause) {
+        super(message, rootCause);
     }
 
-    /**
-     * Constructor.
-     *
-     * @param e The exception to be wrapped.
-     * @since 2.1.0
-     */
-    public InvalidTemplateException(Exception e) {
-        super(e);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param message The detail message.
-     * @param e The exception to be wrapped.
-     * @since 2.1.0
-     */
-    public InvalidTemplateException(String message, Exception e) {
-        super(message, e);
-    }
 }

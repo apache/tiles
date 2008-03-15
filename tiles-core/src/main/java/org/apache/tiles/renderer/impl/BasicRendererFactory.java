@@ -25,8 +25,6 @@ import java.util.Map;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
-import org.apache.tiles.TilesRuntimeException;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
@@ -130,7 +128,7 @@ public class BasicRendererFactory implements RendererFactory,
     }
 
     /** {@inheritDoc} */
-    public void init(Map<String, String> parameters) throws TilesException {
+    public void init(Map<String, String> parameters) {
         String defaultRendererParam = parameters.get(DEFAULT_RENDERER_INIT_PARAM);
         if (defaultRendererParam == null) {
             defaultRendererParam = DEFAULT_RENDERER_CLASS_NAME;
@@ -168,13 +166,8 @@ public class BasicRendererFactory implements RendererFactory,
         if (name != null) {
             retValue = renderers.get(name);
             if (retValue == null) {
-                try {
-                    retValue = (AttributeRenderer) ClassUtil.instantiate(name);
-                    initializeRenderer(retValue);
-                } catch (TilesException e) {
-                    throw new TilesRuntimeException(
-                            "Cannot instantiate renderer " + name, e);
-                }
+                retValue = (AttributeRenderer) ClassUtil.instantiate(name);
+                initializeRenderer(retValue);
                 renderers.put(name, retValue);
             }
         } else {

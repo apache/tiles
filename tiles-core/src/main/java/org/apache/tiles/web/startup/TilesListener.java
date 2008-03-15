@@ -53,13 +53,8 @@ public class TilesListener
      */
     public void contextInitialized(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();
-        try {
-            TilesContainer container = createContainer(servletContext);
-            TilesAccess.setContainer(servletContext, container);
-        } catch (TilesException e) {
-            throw new IllegalStateException("Unable to instantiate container.",
-                    e);
-        }
+        TilesContainer container = createContainer(servletContext);
+        TilesAccess.setContainer(servletContext, container);
     }
 
     /**
@@ -72,7 +67,7 @@ public class TilesListener
         try {
             TilesAccess.setContainer(servletContext, null);
         } catch (TilesException e) {
-            LOG.warn("Unable to remove tiles container from service.");
+            LOG.warn("Unable to remove tiles container from service.", e);
         }
     }
 
@@ -81,10 +76,8 @@ public class TilesListener
      *
      * @param context The servlet context to use.
      * @return The created container
-     * @throws TilesException If something goes wrong during creation.
      */
-    protected TilesContainer createContainer(ServletContext context)
-        throws TilesException {
+    protected TilesContainer createContainer(ServletContext context) {
         TilesContainerFactory factory =
             TilesContainerFactory.getFactory(context);
         return factory.createContainer(context);

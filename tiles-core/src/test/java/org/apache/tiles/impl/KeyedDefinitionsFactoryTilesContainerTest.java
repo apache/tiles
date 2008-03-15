@@ -33,7 +33,6 @@ import javax.servlet.http.HttpSession;
 
 import junit.framework.TestCase;
 
-import org.apache.tiles.TilesException;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
@@ -100,12 +99,8 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
                     e);
         }
         EasyMock.replay(context);
-        try {
-            TilesContainerFactory factory = TilesContainerFactory.getFactory(context, defaults);
-            container = (KeyedDefinitionsFactoryTilesContainer) factory.createContainer(context);
-        } catch (TilesException e) {
-            throw new RuntimeException("Error initializing factory", e);
-        }
+        TilesContainerFactory factory = TilesContainerFactory.getFactory(context, defaults);
+        container = (KeyedDefinitionsFactoryTilesContainer) factory.createContainer(context);
     }
 
     /**
@@ -125,9 +120,8 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
      *
      * @throws MalformedURLException If sources are not valid (that should not
      * happen).
-     * @throws TilesException If something goes wrong.
      */
-    public void testPostponedDefinitionsFactoryInitialization() throws MalformedURLException, TilesException {
+    public void testPostponedDefinitionsFactoryInitialization() throws MalformedURLException {
         KeyedDefinitionsFactoryTilesContainer container;
         ServletContext context = EasyMock.createMock(ServletContext.class);
 

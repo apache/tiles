@@ -83,8 +83,7 @@ public class BasicAttributeContext extends
      * Get attribute context from request.
      *
      * @param tilesContext current Tiles application context.
-     * @return BasicAttributeContext or null if context is not found or an
-     *         jspException is present in the request.
+     * @return BasicAttributeContext or null if context is not found.
      * @deprecated Use {@link TilesContainer#getAttributeContext(Object...)}.
      */
     @Deprecated

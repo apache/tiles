@@ -18,24 +18,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.impl;
+package org.apache.tiles.access;
 
 import org.apache.tiles.TilesException;
 
 /**
- * An invalid template has been identified.
+ * Indicates that something went wrong in {@link TilesAccess} use.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class InvalidTemplateException extends TilesException {
+public class TilesAccessException extends TilesException {
 
     /**
      * Constructor.
      *
      * @since 2.1.0
      */
-    public InvalidTemplateException() {
+    public TilesAccessException() {
     }
 
     /**
@@ -44,7 +44,7 @@ public class InvalidTemplateException extends TilesException {
      * @param message The detail message.
      * @since 2.1.0
      */
-    public InvalidTemplateException(String message) {
+    public TilesAccessException(String message) {
         super(message);
     }
 
@@ -54,7 +54,7 @@ public class InvalidTemplateException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public InvalidTemplateException(Exception e) {
+    public TilesAccessException(Exception e) {
         super(e);
     }
 
@@ -65,7 +65,7 @@ public class InvalidTemplateException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public InvalidTemplateException(String message, Exception e) {
+    public TilesAccessException(String message, Exception e) {
         super(message, e);
     }
 }

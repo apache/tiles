@@ -25,11 +25,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
@@ -185,18 +183,18 @@ public abstract class RenderTagSupport extends BodyTagSupport implements
     }
 
     /** {@inheritDoc} */
-    public int doStartTag() throws JspException {
+    public int doStartTag() throws TilesJspException {
         container = TilesAccess.getContainer(pageContext.getServletContext());
         if (container != null) {
             startContext(pageContext);
             return EVAL_BODY_BUFFERED;
         } else {
-            throw new JspException("TilesContainer not initialized");
+            throw new TilesJspException("TilesContainer not initialized");
         }
     }
 
     /** {@inheritDoc} */
-    public int doEndTag() throws JspException {
+    public int doEndTag() throws TilesJspException {
         try {
             render();
             if (flush) {
@@ -204,14 +202,10 @@ public abstract class RenderTagSupport extends BodyTagSupport implements
             }
 
             return EVAL_PAGE;
-        } catch (TilesException e) {
-            String message = "Error executing tag: " + e.getMessage();
-            LOG.error(message, e);
-            throw new JspException(message, e);
         } catch (IOException io) {
             String message = "IO Error executing tag: " + io.getMessage();
             LOG.error(message, io);
-            throw new JspException(message, io);
+            throw new TilesJspException(message, io);
         } finally {
             endContext(pageContext);
         }
@@ -221,12 +215,11 @@ public abstract class RenderTagSupport extends BodyTagSupport implements
      * Execute the tag by invoking the preparer, if defined, and then
      * rendering.
      *
-     * @throws TilesException if a prepare or render exception occurs.
-     * @throws JspException if a jsp exception occurs.
+     * @throws TilesJspException if a jsp exception occurs.
      * @throws IOException if an io exception occurs.
      * @deprecated Use {@link #render()}.
      */
-    protected void execute() throws TilesException, JspException, IOException {
+    protected void execute() throws TilesJspException, IOException {
         if (preparer != null) {
             container.prepare(preparer, pageContext);
         }
@@ -239,11 +232,10 @@ public abstract class RenderTagSupport extends BodyTagSupport implements
     /**
      * Render the specified content.
      *
-     * @throws TilesException if a prepare or render exception occurs.
-     * @throws JspException if a jsp exception occurs.
+     * @throws TilesJspException if a jsp exception occurs.
      * @throws IOException if an io exception occurs.
      */
-    protected abstract void render() throws JspException, TilesException, IOException;
+    protected abstract void render() throws TilesJspException, IOException;
 
     /**
      * Starts the context when entering the tag.

@@ -22,7 +22,6 @@ package org.apache.tiles.mgmt;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 
 /**
  * Defines a mutable version of the TilesContainer.
@@ -37,8 +36,6 @@ public interface MutableTilesContainer extends TilesContainer {
      *
      * @param definition The definition to register.
      * @param requestItems the current request objects.
-     * @throws TilesException If something goes wrong during registration.
      */
-    void register(Definition definition, Object... requestItems)
-            throws TilesException;
+    void register(Definition definition, Object... requestItems);
 }

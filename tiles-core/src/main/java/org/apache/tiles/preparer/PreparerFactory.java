@@ -21,7 +21,6 @@
 package org.apache.tiles.preparer;
 
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.TilesException;
 
 /**
  * <p>
@@ -48,10 +47,6 @@ public interface PreparerFactory {
      * @param name    ViewPreparer name, commonly the qualified classname.
      * @param context the context within which the preparerInstance will be invoked.
      * @return instance of the ViewPreparer
-     * @throws TilesException If something goes wrong during preparer creation.
      */
-    ViewPreparer getPreparer(String name, TilesRequestContext context)
-        throws TilesException;
-
-
+    ViewPreparer getPreparer(String name, TilesRequestContext context);
 }

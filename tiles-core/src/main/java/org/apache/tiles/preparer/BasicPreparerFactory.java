@@ -22,7 +22,6 @@ package org.apache.tiles.preparer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.util.ClassUtil;
 
@@ -65,10 +64,8 @@ public class BasicPreparerFactory implements PreparerFactory {
      * @param name    the named preparerInstance
      * @param context current context
      * @return ViewPreparer instance
-     * @throws TilesException If something goes wrong during preparer creation.
      */
-    public ViewPreparer getPreparer(String name, TilesRequestContext context)
-        throws TilesException {
+    public ViewPreparer getPreparer(String name, TilesRequestContext context) {
 
         if (!preparers.containsKey(name)) {
             preparers.put(name, createPreparer(name));
@@ -82,10 +79,8 @@ public class BasicPreparerFactory implements PreparerFactory {
      *
      * @param name The name of the preparer.
      * @return The created preparer.
-     * @throws TilesException If something goes wrong during instantiation, or
-     * if the created object is not an instance of <code>ViewPreparer</code>.
      */
-    protected ViewPreparer createPreparer(String name) throws TilesException {
+    protected ViewPreparer createPreparer(String name) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Creating ViewPreparer '" + name + "' . . .");

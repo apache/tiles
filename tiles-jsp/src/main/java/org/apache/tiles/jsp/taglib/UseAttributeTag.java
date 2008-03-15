@@ -22,7 +22,6 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
@@ -72,10 +71,8 @@ public class UseAttributeTag extends AttributeTagSupport {
 
     /**
      * Expose the requested attribute from attribute context.
-     *
-     * @throws JspException if a JSP exception has occurred
      */
-    public void execute() throws JspException {
+    public void execute() {
         pageContext.setAttribute(getScriptingVariable(), attributeValue, scope);
     }
 

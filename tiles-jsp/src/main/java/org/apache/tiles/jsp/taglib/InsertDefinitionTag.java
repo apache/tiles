@@ -21,10 +21,6 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.TilesException;
-
-import javax.servlet.jsp.JspException;
-
 /**
  * This is the tag handler for &lt;tiles:insertDefinition&gt;, which includes a
  * name, eventually overriding or filling attributes of its template.
@@ -67,7 +63,7 @@ public class InsertDefinitionTag extends InsertTemplateTag implements
 
     /** {@inheritDoc} */
     @Override
-    protected void renderContext() throws JspException, TilesException {
+    protected void renderContext() {
         container.render(name, pageContext);
     }
 }

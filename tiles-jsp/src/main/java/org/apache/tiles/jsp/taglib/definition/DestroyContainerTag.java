@@ -20,10 +20,8 @@
  */
 package org.apache.tiles.jsp.taglib.definition;
 
-import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
@@ -35,12 +33,8 @@ public class DestroyContainerTag extends TagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public int doEndTag() throws JspException {
-        try {
-            TilesAccess.setContainer(pageContext.getServletContext(), null);
-        } catch (TilesException e) {
-            throw new JspException(e);
-        }
+    public int doEndTag() {
+        TilesAccess.setContainer(pageContext.getServletContext(), null);
         return EVAL_PAGE;
     }
 }

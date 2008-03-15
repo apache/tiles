@@ -28,7 +28,6 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
@@ -133,7 +132,7 @@ public abstract class AttributeTagSupport extends TagSupport {
     }
 
     /** {@inheritDoc} */
-    public int doStartTag() throws JspException {
+    public int doStartTag() throws TilesJspException {
         container = TilesAccess.getContainer(pageContext.getServletContext());
         attributeContext = container.getAttributeContext(pageContext);
         scope = getScopeId();
@@ -147,30 +146,30 @@ public abstract class AttributeTagSupport extends TagSupport {
             }
 
             if (attribute == null) {
-                throw new JspException("Attribute with name '" + name + "' not found");
+                throw new TilesJspException("Attribute with name '" + name
+                        + "' not found");
             }
 
             try {
                 attributeValue = container.evaluate(attribute, pageContext);
             } catch (TilesException e) {
                 if (!ignore) {
-                    throw new JspException("Attribute with name '" + name
-                            + "' has a value of '" + attribute.getValue()
-                            + "' that cannot be evaluated");
+                    throw e;
                 } else if (LOG.isDebugEnabled()) {
                     LOG.debug("Ignoring Tiles Exception", e);
                 }
             }
 
             if (attributeValue == null) {
-                throw new JspException("Attribute with name '" + name + "' has a null value.");
+                throw new TilesJspException("Attribute with name '" + name
+                        + "' has a null value.");
             }
         }
 
         try {
             execute();
         } catch (IOException e) {
-            throw new JspException("io error while executing tag '"
+            throw new TilesJspException("io error while executing tag '"
                     + getClass().getName() + "'.", e);
         }
 
@@ -180,10 +179,10 @@ public abstract class AttributeTagSupport extends TagSupport {
     /**
      * Execute this tag. It is called inside {@link #doEndTag()}.
      *
-     * @throws JspException If something goes wrong during rendering.
+     * @throws TilesJspException If something goes wrong during rendering.
      * @throws IOException If something goes wrong during writing content.
      */
-    public abstract void execute() throws JspException, IOException;
+    public abstract void execute() throws TilesJspException, IOException;
 
     /** {@inheritDoc} */
     public int doEndTag() {
@@ -194,9 +193,9 @@ public abstract class AttributeTagSupport extends TagSupport {
      * Get scope value from string value.
      *
      * @return Scope as an <code>int</code>, or <code>defaultValue</code> if scope is <code>null</code>.
-     * @throws javax.servlet.jsp.JspException Scope name is not recognized as a valid scope.
+     * @throws TilesJspException Scope name is not recognized as a valid scope.
      */
-    public int getScopeId() throws JspException {
+    public int getScopeId() throws TilesJspException {
         if (scopeName == null) {
             return PageContext.PAGE_SCOPE;
         }
@@ -210,13 +209,14 @@ public abstract class AttributeTagSupport extends TagSupport {
      * @param scopeName Can be "page", "request", "session", or "application" in any
      *                  case.
      * @return The constant representing the scope (ie. PageContext.REQUEST_SCOPE).
-     * @throws JspException if the scopeName is not a valid name.
+     * @throws TilesJspException if the scopeName is not a valid name.
      */
-    public static int getScope(String scopeName) throws JspException {
+    public static int getScope(String scopeName) throws TilesJspException {
         Integer scope = SCOPES.get(scopeName.toLowerCase());
 
         if (scope == null) {
-            throw new JspException("Unable to retrieve the scope " + scopeName);
+            throw new TilesJspException("Unable to retrieve the scope "
+                    + scopeName);
         }
 
         return scope;

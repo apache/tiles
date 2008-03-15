@@ -28,7 +28,6 @@ import org.easymock.EasyMock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 
 import java.util.Map;
@@ -70,10 +69,8 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests getting a container factory.
-     *
-     * @throws TilesException If something goes wrong.
      */
-    public void testGetFactory() throws TilesException {
+    public void testGetFactory() {
         Vector<String> v = new Vector<String>();
 
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
@@ -89,11 +86,10 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
     /**
      * Tests creating a container.
      *
-     * @throws TilesException If something goes wrong.
      * @throws MalformedURLException If the resources have an invalid form (that
      * should not happen).
      */
-    public void testCreateContainer() throws TilesException, MalformedURLException {
+    public void testCreateContainer() throws MalformedURLException {
         Vector<String> enumeration = new Vector<String>();
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);

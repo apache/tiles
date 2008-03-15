@@ -23,7 +23,6 @@ package org.apache.tiles.web.util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.access.TilesAccess;
 
@@ -75,15 +74,11 @@ public class TilesDispatchServlet extends HttpServlet {
 
         TilesContainer container = TilesAccess.getContainer(getServletContext());
         mutator.mutate(container.getAttributeContext(req, res), req);
-        try {
-            String definition = getDefinitionName(req);
-            if (LOG.isDebugEnabled()) {
-                LOG.info("Dispatching to tile '" + definition + "'");
-            }
-            container.render(definition, req, res);
-        } catch (TilesException e) {
-            throw new ServletException("Error rendering tile.", e);
+        String definition = getDefinitionName(req);
+        if (LOG.isDebugEnabled()) {
+            LOG.info("Dispatching to tile '" + definition + "'");
         }
+        container.render(definition, req, res);
     }
 
     /**

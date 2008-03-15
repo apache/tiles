@@ -25,10 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 
 /**
  * Container that can be used to store multiple {@link DefinitionsFactory}
@@ -147,19 +145,17 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
     }
 
     /**
-     * Set the definitions factory. This method first ensures
-     * that the container has not yet been initialized.
+     * Set the definitions factory. This method first ensures that the container
+     * has not yet been initialized.
      *
      * @param key The key under which the definitions factory is catalogued.
      * @param definitionsFactory the definitions factory for this instance.
      * @param initParameters The init parameters to configure the definitions
      * factory.
-     * @throws TilesException If something goes wrong during initialization of
-     * the definitions factory.
      */
     public void setDefinitionsFactory(String key,
             DefinitionsFactory definitionsFactory,
-            Map<String, String> initParameters) throws TilesException {
+            Map<String, String> initParameters) {
         if (key != null) {
             key2definitionsFactory.put(key, definitionsFactory);
             initializeDefinitionsFactory(definitionsFactory,
@@ -181,7 +177,7 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
     /** {@inheritDoc} */
     @Override
     protected Definition getDefinition(String definitionName,
-            TilesRequestContext request) throws DefinitionsFactoryException {
+            TilesRequestContext request) {
         Definition retValue = null;
         String key = getDefinitionsFactoryKey(request);
         if (key != null) {

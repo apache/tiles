@@ -21,12 +21,9 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.jsp.taglib.definition.DefinitionTagParent;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -60,11 +57,6 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @version $Rev$ $Date$
  */
 public class AddAttributeTag extends BodyTagSupport implements DefinitionTagParent {
-
-    /**
-     * The logging object.
-     */
-    private static final Log LOG = LogFactory.getLog(AddAttributeTag.class);
 
     /**
      * The role to check. If the user is in the specified role, the tag is taken
@@ -174,9 +166,8 @@ public class AddAttributeTag extends BodyTagSupport implements DefinitionTagPare
      * Save the body content of this tag (if any).
      *
      * @return It returns <code>SKIP_BODY</code>.
-     * @throws JspException if a JSP exception has occurred
      */
-    public int doAfterBody() throws JspException {
+    public int doAfterBody() {
         if (value == null && bodyContent != null) {
             value = bodyContent.getString();
             type = "string";
@@ -185,7 +176,7 @@ public class AddAttributeTag extends BodyTagSupport implements DefinitionTagPare
     }
 
     /** {@inheritDoc} */
-    public int doEndTag() throws JspException {
+    public int doEndTag() throws TilesJspException {
         if (isAccessAllowed()) {
             execute();
         }
@@ -194,8 +185,7 @@ public class AddAttributeTag extends BodyTagSupport implements DefinitionTagPare
     }
 
     /** {@inheritDoc} */
-    public void processNestedDefinitionName(String definitionName)
-            throws JspException {
+    public void processNestedDefinitionName(String definitionName) {
         value = definitionName;
         if (type == null) {
             type = "definition";
@@ -203,16 +193,14 @@ public class AddAttributeTag extends BodyTagSupport implements DefinitionTagPare
     }
 
     /** {@inheritDoc} */
-    protected void execute() throws JspException {
+    protected void execute() throws TilesJspException {
         AddAttributeTagParent parent = (AddAttributeTagParent)
             TagSupport.findAncestorWithClass(this, AddAttributeTagParent.class);
 
         if (parent == null) {
-            String message = "Error: enclosing tag '"
+            throw new TilesJspException("Error: enclosing tag '"
                     + getParent().getClass().getName()
-                    + " doesn't accept 'put' tag.";
-            LOG.error(message);
-            throw new JspException(message);
+                    + " doesn't accept 'put' tag.");
         }
 
         parent.processNestedTag(this);

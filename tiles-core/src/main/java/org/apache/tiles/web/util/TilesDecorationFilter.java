@@ -25,7 +25,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.Filter;
@@ -214,16 +213,11 @@ public class TilesDecorationFilter implements Filter {
 
         TilesContainer container = TilesAccess.getContainer(getServletContext());
         mutator.mutate(container.getAttributeContext(req, res), req);
-        try {
-            if (preventDecorationToken != null) {
-                req.setAttribute(preventDecorationToken, Boolean.TRUE);
-            }
-            String definitionName = getDefinitionForRequest(req);
-            container.render(definitionName, req, res);
-        } catch (TilesException e) {
-            throw new ServletException("Error wrapping jsp with tile definition. "
-                            + e.getMessage(), e);
+        if (preventDecorationToken != null) {
+            req.setAttribute(preventDecorationToken, Boolean.TRUE);
         }
+        String definitionName = getDefinitionForRequest(req);
+        container.render(definitionName, req, res);
     }
 
     /**

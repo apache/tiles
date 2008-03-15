@@ -25,7 +25,6 @@ package org.apache.tiles.jsp.taglib.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
@@ -36,7 +35,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -93,7 +91,7 @@ public class InitContainerTag extends BodyTagSupport
 
 
     /** {@inheritDoc} */
-    public void processNestedTag(PutAttributeTag nestedTag) throws JspException {
+    public void processNestedTag(PutAttributeTag nestedTag) {
         initParameters.put(nestedTag.getName(), nestedTag.getValue().toString());
     }
 
@@ -112,7 +110,7 @@ public class InitContainerTag extends BodyTagSupport
 
     /** {@inheritDoc} */
     // TODO Add a MutableContainer so that this can be done?
-    public int doEndTag() throws JspException {
+    public int doEndTag() {
         TilesContainer container =
             TilesAccess.getContainer(pageContext.getServletContext());
 
@@ -134,14 +132,10 @@ public class InitContainerTag extends BodyTagSupport
             context.setInitParameter(entry.getKey(), entry.getValue());
         }
 
-        try {
-            MutableTilesContainer mutableContainer =
-                TilesContainerFactory.getFactory(context)
-                    .createMutableTilesContainer(context);
-            TilesAccess.setContainer(context, mutableContainer);
-        } catch (TilesException e) {
-            throw new JspException("Error creating tiles container.", e);
-        }
+        MutableTilesContainer mutableContainer =
+            TilesContainerFactory.getFactory(context)
+                .createMutableTilesContainer(context);
+        TilesAccess.setContainer(context, mutableContainer);
 
         return EVAL_PAGE;
     }
