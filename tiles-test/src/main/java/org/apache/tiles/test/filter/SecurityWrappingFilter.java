@@ -68,10 +68,17 @@ public class SecurityWrappingFilter implements Filter {
      */
     private static class SecurityWrapperHttpServletRequest extends
             HttpServletRequestWrapper {
+        /**
+         * Constructor.
+         *
+         * @param request The HTTP servlet request.
+         */
         public SecurityWrapperHttpServletRequest(HttpServletRequest request) {
             super(request);
         }
 
+        /** {@inheritDoc} */
+        @Override
         public boolean isUserInRole(String role) {
             return GOOD_ROLE.equals(role);
         }
