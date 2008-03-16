@@ -49,9 +49,11 @@ public class InsertAttributeTag extends RenderTagSupport {
     protected Object value = null;
 
     /**
-     * The context used to evaluate the attribute.
+     * The evaluated attribute.
+     *
+     * @since 2.1.0
      */
-    protected AttributeContext evaluatingContext;
+    protected Attribute attribute;
 
     /**
      * Sets the name of the attribute.
@@ -90,10 +92,21 @@ public class InsertAttributeTag extends RenderTagSupport {
     }
 
     /** {@inheritDoc} */
+    @Override
+    public int doStartTag() throws TilesJspException {
+        if (value == null && name == null) {
+            throw new TilesJspException(
+                    "No attribute name or value has been provided.");
+        }
+        return super.doStartTag();
+    }
+
+    /** {@inheritDoc} */
     public void release() {
         super.release();
         this.name = null;
         this.value = null;
+        this.attribute = null;
     }
 
     /** {@inheritDoc} */
@@ -104,32 +117,24 @@ public class InsertAttributeTag extends RenderTagSupport {
         if (role != null && !req.isUserInRole(role)) {
             return;
         }
-
-        Attribute attr = (Attribute) value;
-        if (attr == null && evaluatingContext != null) {
-            attr = evaluatingContext.getAttribute(name);
-        }
-        if (attr == null && ignore) {
-            return;
-        }
-
-        if (attr == null) {
-            if (name != null) {
-                throw new TilesJspException("Attribute '" + name + "' not found.");
-            } else {
-                throw new TilesJspException("No attribute name or value has been provided.");
-            }
-        }
-        render(attr);
+        render(attribute);
     }
 
     /** {@inheritDoc} */
     @Override
     protected void startContext(PageContext context) {
+        attribute = (Attribute) value;
 
-        if (container != null) {
-            evaluatingContext = container.getAttributeContext(context);
+        if (attribute == null) {
+            AttributeContext evaluatingContext = container
+                    .getAttributeContext(context);
+            attribute = evaluatingContext.getAttribute(name);
+            if (attribute == null && !ignore) {
+                throw new NoSuchAttributeException("Attribute '" + name
+                        + "' not found.");
+            }
         }
+
         super.startContext(context);
     }
 
