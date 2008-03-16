@@ -80,11 +80,13 @@ public interface TilesContainer {
     void endContext(Object... requestItems);
 
     /**
-     * @param definition the requested definition
+     * Executes a preparer.
+     *
+     * @param preparer The name of the preparer to execute.
      * @param requestItems the current request objects.
      * @throws TilesException is processing fails.
      */
-    void prepare(String definition, Object... requestItems) throws TilesException;
+    void prepare(String preparer, Object... requestItems) throws TilesException;
 
     /**
      * Render the given tiles request.
