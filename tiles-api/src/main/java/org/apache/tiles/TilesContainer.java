@@ -87,10 +87,12 @@ public interface TilesContainer {
     void renderContext(Object... requestItems);
 
     /**
-     * @param definition the requested definition
+     * Executes a preparer.
+     *
+     * @param preparer The name of the preparer to execute.
      * @param requestItems the current request objects.
      */
-    void prepare(String definition, Object... requestItems);
+    void prepare(String preparer, Object... requestItems);
 
     /**
      * Render the given tiles request.
