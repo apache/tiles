@@ -123,6 +123,10 @@ public class InsertAttributeTag extends RenderTagSupport {
     /** {@inheritDoc} */
     @Override
     protected void startContext(PageContext context) {
+        if (preparer != null) {
+            container.prepare(preparer, context);
+        }
+
         attribute = (Attribute) value;
 
         if (attribute == null) {

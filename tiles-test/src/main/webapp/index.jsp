@@ -52,6 +52,7 @@
     <a href="testinsertdefinition_cascaded_list.jsp">Test Insert Configured Cascaded Definition with List</a><br/>
     <a href="testinsertdefinition_reversed.jsp">Test Insert Configured Definition with Reversed Attribute</a><br/>
     <a href="testinsertdefinition_reversed_explicit.jsp">Test Insert Configured Definition with Reversed Explicit Attribute</a><br/>
+    <a href="testinsertdefinition_attribute_preparer.jsp">Test Insert Configured Definition with Attribute Preparer</a><br/>
     <a href="testinsertnesteddefinition.jsp">Test Insert Nested Definition</a><br/>
     <a href="testinsertnesteddefinition_tags.jsp">Test Insert Nested Definition only using JSP tags</a><br/>
     <a href="testinsertnestedlistdefinition.jsp">Test Insert Nested List Definition</a><br/>

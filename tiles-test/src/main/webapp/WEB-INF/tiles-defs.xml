@@ -203,4 +203,9 @@
       <put-attribute name="header" value="/header.jsp"/>
       <put-attribute name="body"   value="${requestScope.body}"/>
   </definition>
+
+  <definition name="test.definition.attribute.preparer" template="/layout_preparer.jsp">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/header.jsp"/>
+  </definition>
 </tiles-definitions>
