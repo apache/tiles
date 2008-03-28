@@ -24,7 +24,6 @@ package org.apache.tiles.definition.util;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.definition.DefinitionsFactory;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.ReloadableDefinitionsFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 
@@ -45,11 +44,10 @@ public final class DefinitionsFactoryUtil {
      * Reloads the definitions factory content, if necessary.
      *
      * @param context The context object to use
-     * @throws DefinitionsFactoryException If something goes wrong during
-     * reload.
+     * @throws org.apache.tiles.definition.DefinitionsFactoryException If
+     * something goes wrong during reload.
      */
-    public static void reloadDefinitionsFactory(Object context)
-            throws DefinitionsFactoryException {
+    public static void reloadDefinitionsFactory(Object context) {
         TilesContainer container = TilesAccess.getContainer(context);
         if (container instanceof BasicTilesContainer) {
             BasicTilesContainer basic = (BasicTilesContainer) container;

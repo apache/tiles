@@ -31,7 +31,7 @@ import javax.el.ValueExpression;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.awareness.TilesContextFactoryAware;
+import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
@@ -49,7 +49,7 @@ import de.odysseus.el.util.SimpleContext;
  * @since 2.1.0
  */
 public class ELAttributeEvaluator implements AttributeEvaluator,
-        TilesContextFactoryAware {
+        TilesApplicationContextAware {
 
     /**
      * The Tiles application context.
@@ -102,11 +102,6 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
     /** {@inheritDoc} */
     public void setApplicationContext(TilesApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-    }
-
-    /** {@inheritDoc} */
-    public void setContextFactory(TilesContextFactory contextFactory) {
-        this.contextFactory = contextFactory;
     }
 
     /** {@inheritDoc} */

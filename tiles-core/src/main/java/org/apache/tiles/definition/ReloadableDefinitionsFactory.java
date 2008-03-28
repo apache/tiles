@@ -39,9 +39,6 @@ public interface ReloadableDefinitionsFactory {
 
     /**
      * Refreshes the stored definitions, reloading them.
-     *
-     * @throws DefinitionsFactoryException If something goes wrong during
-     * refresh.
      */
-    void refresh() throws DefinitionsFactoryException;
+    void refresh();
 }
