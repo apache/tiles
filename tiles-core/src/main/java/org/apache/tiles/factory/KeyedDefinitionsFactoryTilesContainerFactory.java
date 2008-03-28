@@ -23,13 +23,18 @@ package org.apache.tiles.factory;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.awareness.TilesApplicationContextAware;
+import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
+import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor;
 import org.apache.tiles.impl.mgmt.CachingKeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.util.ClassUtil;
 
 /**
@@ -53,6 +58,13 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
      */
     public static final String KEY_EXTRACTOR_CLASS_INIT_PARAM =
         "org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor";
+
+    /**
+     * The application context.
+     *
+     * @since 2.1.0
+     */
+    protected TilesApplicationContext applicationContext;
 
     /** {@inheritDoc} */
     @Override
@@ -87,6 +99,10 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
         config.putAll(getInitParameterMap(context));
         retValue = (DefinitionsFactory) createFactory(config,
                     DEFINITIONS_FACTORY_INIT_PARAM);
+        if (retValue instanceof TilesApplicationContextAware) {
+            ((TilesApplicationContextAware) retValue)
+                    .setApplicationContext(applicationContext);
+        }
 
         return retValue;
     }
@@ -105,28 +121,44 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
             ((KeyedDefinitionsFactoryTilesContainer) container).setKeyExtractor(
                     (KeyExtractor) ClassUtil.instantiate(keyExtractorClassName));
         }
+    }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void postCreationOperations(TilesContextFactory contextFactory,
+            TilesApplicationContext tilesContext,
+            RendererFactory rendererFactory, AttributeEvaluator evaluator,
+            Map<String, String> initParameters,
+            Map<String, String> configuration, BasicTilesContainer container) {
+        super.postCreationOperations(contextFactory, tilesContext,
+                rendererFactory, evaluator, initParameters, configuration,
+                container);
+        this.applicationContext = tilesContext;
         String keysString = initParameters.get(CONTAINER_KEYS_INIT_PARAM);
         if (keysString != null
                 && container instanceof KeyedDefinitionsFactoryTilesContainer) {
             String[] keys = keysString.split(",");
-            Map<String, String> config = new HashMap<String, String>(defaultConfiguration);
-            config.putAll(getInitParameterMap(context));
+            Map<String, String> initParams = new HashMap<String, String>(initParameters);
             for (int i = 0; i < keys.length; i++) {
-                Map<String, String> initParams = new HashMap<String, String>();
                 String param = initParameters.get(
                         KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX + keys[i]);
                 if (param != null) {
-                    initParams.put(BasicTilesContainer.DEFINITIONS_CONFIG,
+                    initParams.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                             param);
+                } else {
+                    initParams.remove(DefinitionsFactory.DEFINITIONS_CONFIG);
                 }
 
                 DefinitionsFactory defsFactory =
-                    (DefinitionsFactory) createFactory(config,
+                    (DefinitionsFactory) createFactory(configuration,
                             DEFINITIONS_FACTORY_INIT_PARAM);
+                if (defsFactory instanceof TilesApplicationContextAware) {
+                    ((TilesApplicationContextAware) defsFactory).setApplicationContext(tilesContext);
+                }
+
+                defsFactory.init(initParams);
                 ((KeyedDefinitionsFactoryTilesContainer) container)
-                        .setDefinitionsFactory(keys[i], defsFactory,
-                                initParams);
+                        .setDefinitionsFactory(keys[i], defsFactory);
             }
         }
     }

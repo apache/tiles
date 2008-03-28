@@ -22,7 +22,6 @@
 package org.apache.tiles.definition;
 
 import java.net.URL;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -32,9 +31,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.easymock.EasyMock;
 
 /**
  * Tests the UrlDefinitionsFactory.
@@ -42,12 +41,6 @@ import org.apache.tiles.context.TilesRequestContext;
  * @version $Rev$ $Date$
  */
 public class TestUrlDefinitionsFactory extends TestCase {
-
-    /**
-     * The logging object.
-     */
-    private static final Log LOG =
-        LogFactory.getLog(TestUrlDefinitionsFactory.class);
 
     /**
      * The number of foreseen URLs with postfixes.
@@ -111,10 +104,25 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        factory.addSource(url1);
-        factory.addSource(url2);
-        factory.addSource(url3);
-        factory.init(Collections.EMPTY_MAP);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs1.xml"))
+                .andReturn(url1);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs2.xml"))
+                .andReturn(url2);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs3.xml"))
+                .andReturn(url3);
+        EasyMock.replay(applicationContext);
+        factory.setApplicationContext(applicationContext);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
+                "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
+                + "org/apache/tiles/config/defs3.xml");
+        factory.init(params);
 
         // Parse files.
         Definitions definitions = factory.getDefinitions();
@@ -142,10 +150,25 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        factory.addSource(url1);
-        factory.addSource(url2);
-        factory.addSource(url3);
-        factory.init(Collections.EMPTY_MAP);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs1.xml"))
+                .andReturn(url1);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs2.xml"))
+                .andReturn(url2);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs3.xml"))
+                .andReturn(url3);
+        EasyMock.replay(applicationContext);
+        factory.setApplicationContext(applicationContext);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
+                "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
+                + "org/apache/tiles/config/defs3.xml");
+        factory.init(params);
 
         TilesRequestContext emptyContext = new MockOnlyLocaleTilesContext(null);
         TilesRequestContext usContext = new MockOnlyLocaleTilesContext(Locale.US);
@@ -207,26 +230,6 @@ public class TestUrlDefinitionsFactory extends TestCase {
     }
 
     /**
-     * Tests addSource with a bad source object type.
-     *
-     * @throws Exception If something goes wrong.
-     */
-    @SuppressWarnings("unchecked")
-    public void testBadSourceType() throws Exception {
-        try {
-            factory.init(Collections.EMPTY_MAP);
-            factory.addSource("Bad object.");
-
-            fail("Should've thrown exception.");
-        } catch (DefinitionsFactoryException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Bad class name intercepted, it is ok", e);
-            }
-            // success.
-        }
-    }
-
-    /**
      * Tests the addDefinitions method under normal
      * circumstances.
      *
@@ -245,10 +248,25 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        factory.addSource(url1);
-        factory.addSource(url2);
-        factory.addSource(url3);
-        factory.init(Collections.EMPTY_MAP);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs1.xml"))
+                .andReturn(url1);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs2.xml"))
+                .andReturn(url2);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs3.xml"))
+                .andReturn(url3);
+        EasyMock.replay(applicationContext);
+        factory.setApplicationContext(applicationContext);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
+                "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
+                + "org/apache/tiles/config/defs3.xml");
+        factory.init(params);
 
         // Parse files.
         Definitions definitions = factory.getDefinitions();
@@ -288,8 +306,18 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "org/apache/tiles/config/defs1.xml");
         assertNotNull("Could not load defs1 file.", url1);
 
-        factory.addSource(url1);
-        factory.init(Collections.EMPTY_MAP);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs1.xml"))
+                .andReturn(url1);
+        EasyMock.replay(applicationContext);
+        factory.setApplicationContext(applicationContext);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
+                "org/apache/tiles/config/defs1.xml");
+        factory.init(params);
 
         // Parse files.
         Definitions definitions = factory.getDefinitions();
@@ -315,15 +343,24 @@ public class TestUrlDefinitionsFactory extends TestCase {
 
         int instanceCount = MockDefinitionsReader.getInstanceCount();
 
-        DefinitionsFactory factory = new UrlDefinitionsFactory();
+        UrlDefinitionsFactory factory = new UrlDefinitionsFactory();
 
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs1.xml");
         assertNotNull("Could not load defs1 file.", url1);
 
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs1.xml"))
+                .andReturn(url1);
+        EasyMock.replay(applicationContext);
+        factory.setApplicationContext(applicationContext);
+
+        params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
+                "org/apache/tiles/config/defs1.xml");
         factory.init(params);
-        factory.addSource(url1);
 
         assertEquals("MockDefinitionsReader not used.",
                 instanceCount + 1,

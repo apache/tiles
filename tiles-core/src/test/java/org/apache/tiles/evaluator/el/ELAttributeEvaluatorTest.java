@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.easymock.EasyMock;
 
@@ -52,8 +51,6 @@ public class ELAttributeEvaluatorTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         evaluator = new ELAttributeEvaluator();
-        TilesContextFactory factory = EasyMock
-                .createMock(TilesContextFactory.class);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
@@ -71,7 +68,6 @@ public class ELAttributeEvaluatorTest extends TestCase {
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
-        evaluator.setContextFactory(factory);
         evaluator.setApplicationContext(applicationContext);
     }
 

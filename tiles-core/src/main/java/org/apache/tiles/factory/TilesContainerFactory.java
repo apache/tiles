@@ -22,6 +22,7 @@ package org.apache.tiles.factory;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.ChainedTilesContextFactory;
@@ -274,18 +275,14 @@ public class TilesContainerFactory {
         TilesContextFactory contextFactory =
             (TilesContextFactory) createFactory(configuration,
                 CONTEXT_FACTORY_INIT_PARAM);
+        contextFactory.init(configuration);
 
-        DefinitionsFactory defsFactory =
-            (DefinitionsFactory) createFactory(configuration,
-                DEFINITIONS_FACTORY_INIT_PARAM);
+        TilesApplicationContext tilesContext =
+            contextFactory.createApplicationContext(context);
 
         RendererFactory rendererFactory =
             (RendererFactory) createFactory(configuration,
                 RENDERER_FACTORY_INIT_PARAM);
-
-        contextFactory.init(configuration);
-        TilesApplicationContext tilesContext =
-            contextFactory.createApplicationContext(context);
 
         AttributeEvaluator evaluator = (AttributeEvaluator) createFactory(
                 configuration, ATTRIBUTE_EVALUATOR_INIT_PARAM);
@@ -293,7 +290,10 @@ public class TilesContainerFactory {
         if (evaluator instanceof TilesContextFactoryAware) {
             ((TilesContextFactoryAware) evaluator)
                     .setContextFactory(contextFactory);
-            ((TilesContextFactoryAware) evaluator)
+        }
+
+        if (evaluator instanceof TilesApplicationContextAware) {
+            ((TilesApplicationContextAware) evaluator)
                     .setApplicationContext(tilesContext);
         }
 
@@ -304,7 +304,10 @@ public class TilesContainerFactory {
         if (rendererFactory instanceof TilesContextFactoryAware) {
             ((TilesContextFactoryAware) rendererFactory)
                     .setContextFactory(contextFactory);
-            ((TilesContextFactoryAware) rendererFactory)
+        }
+
+        if (rendererFactory instanceof TilesApplicationContextAware) {
+            ((TilesApplicationContextAware) rendererFactory)
                     .setApplicationContext(tilesContext);
         }
 
@@ -315,17 +318,52 @@ public class TilesContainerFactory {
         if (rendererFactory instanceof AttributeEvaluatorAware) {
             ((AttributeEvaluatorAware) rendererFactory).setEvaluator(evaluator);
         }
+        rendererFactory.init(initParameters);
 
         PreparerFactory prepFactory =
             (PreparerFactory) createFactory(configuration,
                 PREPARER_FACTORY_INIT_PARAM);
 
-        container.setDefinitionsFactory(defsFactory);
+        postCreationOperations(contextFactory, tilesContext, rendererFactory,
+                evaluator, initParameters, configuration, container);
+
         container.setContextFactory(contextFactory);
         container.setPreparerFactory(prepFactory);
         container.setApplicationContext(tilesContext);
         container.setRendererFactory(rendererFactory);
         container.setEvaluator(evaluator);
+    }
+
+    /**
+     * After the creation of the elements, it is possible to do other operations that
+     * will be done after the creation and before the assignment to the container.
+     *
+     * @param contextFactory The Tiles context factory.
+     * @param tilesContext The Tiles application context.
+     * @param rendererFactory The renderer factory.
+     * @param evaluator The attribute evaluator.
+     * @param initParameters The initialization parameters.
+     * @param configuration The merged configuration parameters (both defaults
+     * and context ones).
+     * @param container The container to use.
+     * @since 2.1.0
+     */
+    protected void postCreationOperations(TilesContextFactory contextFactory,
+            TilesApplicationContext tilesContext,
+            RendererFactory rendererFactory, AttributeEvaluator evaluator,
+            Map<String, String> initParameters,
+            Map<String, String> configuration, BasicTilesContainer container) {
+        DefinitionsFactory defsFactory =
+            (DefinitionsFactory) createFactory(configuration,
+                DEFINITIONS_FACTORY_INIT_PARAM);
+        if (defsFactory instanceof TilesApplicationContextAware) {
+            ((TilesApplicationContextAware) defsFactory)
+                    .setApplicationContext(tilesContext);
+        }
+
+        defsFactory.init(configuration);
+
+        container.setDefinitionsFactory(defsFactory);
     }
 
     /**

@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
@@ -42,7 +43,8 @@ import org.apache.tiles.util.ClassUtil;
  * @since 2.1.0
  */
 public class BasicRendererFactory implements RendererFactory,
-        TilesContainerAware, TilesContextFactoryAware, AttributeEvaluatorAware {
+        TilesContainerAware, TilesContextFactoryAware,
+        TilesApplicationContextAware, AttributeEvaluatorAware {
 
     /**
      * The type renderers init parameter name.
@@ -205,9 +207,12 @@ public class BasicRendererFactory implements RendererFactory,
      */
     protected void initializeRenderer(AttributeRenderer renderer) {
         if (renderer instanceof TilesContextFactoryAware) {
-            TilesContextFactoryAware cfaRenderer = (TilesContextFactoryAware) renderer;
-            cfaRenderer.setApplicationContext(applicationContext);
-            cfaRenderer.setContextFactory(contextFactory);
+            ((TilesContextFactoryAware) renderer)
+                    .setContextFactory(contextFactory);
+        }
+        if (renderer instanceof TilesApplicationContextAware) {
+            ((TilesApplicationContextAware) renderer)
+                    .setApplicationContext(applicationContext);
         }
         if (renderer instanceof TilesContainerAware) {
             ((TilesContainerAware) renderer).setContainer(container);

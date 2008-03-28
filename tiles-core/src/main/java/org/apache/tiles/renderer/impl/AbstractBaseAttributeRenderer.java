@@ -29,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
@@ -43,7 +44,8 @@ import org.apache.tiles.renderer.AttributeRenderer;
  * @since 2.1.0
  */
 public abstract class AbstractBaseAttributeRenderer implements
-        AttributeRenderer, TilesContextFactoryAware, AttributeEvaluatorAware {
+        AttributeRenderer, TilesContextFactoryAware,
+        TilesApplicationContextAware, AttributeEvaluatorAware {
 
     /**
      * The logging object.

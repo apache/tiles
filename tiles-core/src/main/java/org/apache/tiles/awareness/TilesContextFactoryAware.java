@@ -20,12 +20,11 @@
  */
 package org.apache.tiles.awareness;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesContextFactory;
 
 /**
  * It represents an object that can have a reference to the
- * {@link TilesContextFactory} and to the {@link TilesApplicationContext}.
+ * {@link TilesContextFactory}.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
@@ -39,12 +38,4 @@ public interface TilesContextFactoryAware {
      * @since 2.1.0
      */
     void setContextFactory(TilesContextFactory contextFactory);
-
-    /**
-     * Sets the Tiles application context.
-     *
-     * @param applicationContext The Tiles application context.
-     * @since 2.1.0
-     */
-    void setApplicationContext(TilesApplicationContext applicationContext);
 }

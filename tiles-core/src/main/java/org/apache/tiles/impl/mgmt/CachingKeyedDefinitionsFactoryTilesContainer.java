@@ -99,6 +99,7 @@ public class CachingKeyedDefinitionsFactoryTilesContainer extends
 
     /** {@inheritDoc} */
     @Override
+    @Deprecated
     public void setDefinitionsFactory(String key, DefinitionsFactory definitionsFactory,
             Map<String, String> initParameters) {
         if (key != null) {

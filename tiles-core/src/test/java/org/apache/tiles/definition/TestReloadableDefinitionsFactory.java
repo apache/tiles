@@ -29,8 +29,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tiles.Definition;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.easymock.EasyMock;
 
@@ -102,6 +105,13 @@ public class TestReloadableDefinitionsFactory extends TestCase {
             urlPath = "file:/" + url.getPath();
         }
 
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        EasyMock.expect(applicationContext.getResource(urlPath)).andReturn(url);
+        EasyMock.replay(applicationContext);
+        ((TilesApplicationContextAware) factory)
+                .setApplicationContext(applicationContext);
+
         // The following second madness is necessary b/c sometimes spaces
         // are encoded as '%20', sometimes they are not. For example in
         // Windows 2000 under Eclipse they are encoded, under the prompt of
@@ -133,8 +143,9 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         writer.write(xml);
         writer.close();
 
-        factory.addSource(url);
-        factory.init(new HashMap<String, String>());
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(DefinitionsFactory.DEFINITIONS_CONFIG, urlPath);
+        factory.init(params);
         TilesRequestContext context = EasyMock.createMock(TilesRequestContext.class);
         EasyMock.expect(context.getSessionScope()).andReturn(
                 new HashMap<String, Object>()).anyTimes();

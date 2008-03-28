@@ -121,6 +121,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
      * @throws MalformedURLException If sources are not valid (that should not
      * happen).
      */
+    @SuppressWarnings("deprecation")
     public void testPostponedDefinitionsFactoryInitialization() throws MalformedURLException {
         KeyedDefinitionsFactoryTilesContainer container;
         ServletContext context = EasyMock.createMock(ServletContext.class);
@@ -131,6 +132,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
+        EasyMock.expect(context.getInitParameter(DefinitionsFactory.DEFINITIONS_CONFIG)).andReturn(null);
         EasyMock.expect(context.getInitParameter(BasicTilesContainer.DEFINITIONS_CONFIG)).andReturn(null);
         EasyMock.expect(context.getInitParameter("definitions-config")).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory
@@ -157,14 +159,16 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         assertNull(container.getProperDefinitionsFactory("two"));
 
         Map<String, String> initParams = new HashMap<String, String>();
-        initParams.put(BasicTilesContainer.DEFINITIONS_CONFIG,
+        initParams.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "/WEB-INF/tiles-one.xml");
         DefinitionsFactory defsFactory = factory.createDefinitionsFactory(context);
-        container.setDefinitionsFactory("one", defsFactory, initParams);
-        initParams.put(BasicTilesContainer.DEFINITIONS_CONFIG,
+        defsFactory.init(initParams);
+        container.setDefinitionsFactory("one", defsFactory);
+        initParams.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "/WEB-INF/tiles-two.xml");
         defsFactory = factory.createDefinitionsFactory(context);
-        container.setDefinitionsFactory("two", defsFactory, initParams);
+        defsFactory.init(initParams);
+        container.setDefinitionsFactory("two", defsFactory);
         assertNotNull(container.getProperDefinitionsFactory("one"));
         assertNotNull(container.getProperDefinitionsFactory("two"));
     }

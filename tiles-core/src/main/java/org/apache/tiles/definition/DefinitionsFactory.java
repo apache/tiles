@@ -53,6 +53,14 @@ public interface DefinitionsFactory {
         "org.apache.tiles.locale.LocaleResolver";
 
     /**
+     * Constant representing the configuration parameter
+     * used to define the tiles definition resources.
+     *
+     * @since 2.1.0
+     */
+    String DEFINITIONS_CONFIG = "org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG";
+
+    /**
      * Initializes the DefinitionsFactory and its subcomponents. <p/>
      * Implementations may support configuration properties to be passed in via
      * the params Map.
@@ -85,7 +93,9 @@ public interface DefinitionsFactory {
      * on locale.
      *
      * @param source The configuration source for definitions.
+     * @deprecated Let the Definitions Factory load its sources by itself.
      */
+    @Deprecated
     void addSource(Object source);
 
     /**

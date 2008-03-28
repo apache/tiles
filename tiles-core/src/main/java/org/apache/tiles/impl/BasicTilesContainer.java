@@ -42,7 +42,6 @@ import org.apache.tiles.renderer.RendererFactory;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -63,8 +62,11 @@ import java.util.StringTokenizer;
 public class BasicTilesContainer implements TilesContainer {
 
     /**
-     * Constant representing the configuration parameter
-     * used to define the tiles definition resources.
+     * Constant representing the configuration parameter used to define the
+     * tiles definition resources.
+     *
+     * @deprecated Use
+     * {@link org.apache.tiles.definition.DefinitionsFactory#DEFINITIONS_CONFIG}.
      */
     public static final String DEFINITIONS_CONFIG = "org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG";
 
@@ -139,16 +141,9 @@ public class BasicTilesContainer implements TilesContainer {
             LOG.info("Initializing Tiles2 container. . .");
         }
 
-        if (rendererFactory != null) {
-            rendererFactory.init(initParameters);
-        } else {
+        if (rendererFactory == null) {
             throw new IllegalStateException("RendererFactory not specified");
         }
-
-        //Everything is now initialized.  We will populate
-        // our definitions
-        initializeDefinitionsFactory(definitionsFactory, getResourceString(),
-                initParameters);
     }
 
     /** {@inheritDoc} */
@@ -415,31 +410,15 @@ public class BasicTilesContainer implements TilesContainer {
      * resources.
      * @param initParameters A map containing the initialization parameters.
      * @throws DefinitionsFactoryException If something goes wrong.
+     * @deprecated Do not use, the Definitions Factory should be initialized by
+     * the Tiles Container Factory.
      */
+    @Deprecated
     protected void initializeDefinitionsFactory(
             DefinitionsFactory definitionsFactory, String resourceString,
             Map<String, String> initParameters) {
         if (rendererFactory == null) {
             throw new IllegalStateException("No RendererFactory found");
-        }
-
-        List<String> resources = getResourceNames(resourceString);
-
-        try {
-            for (String resource : resources) {
-                URL resourceUrl = context.getResource(resource);
-                if (resourceUrl != null) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Adding resource '" + resourceUrl + "' to definitions factory.");
-                    }
-                    definitionsFactory.addSource(resourceUrl);
-                } else {
-                    LOG.warn("Unable to find configured definition '" + resource + "'");
-                }
-            }
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException("Unable to parse definitions from "
-                + resourceString, e);
         }
 
         definitionsFactory.init(initParameters);

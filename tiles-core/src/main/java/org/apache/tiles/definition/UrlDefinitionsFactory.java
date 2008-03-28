@@ -23,8 +23,11 @@ package org.apache.tiles.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Definition;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.util.ClassUtil;
@@ -39,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation
@@ -50,8 +54,15 @@ import java.util.Set;
  *
  * @version $Rev$ $Date$
  */
-public class UrlDefinitionsFactory
-    implements DefinitionsFactory, ReloadableDefinitionsFactory {
+public class UrlDefinitionsFactory implements DefinitionsFactory,
+        ReloadableDefinitionsFactory, TilesApplicationContextAware {
+
+    /**
+     * Compatibility constant.
+     *
+     * @deprecated use {@link DEFINITIONS_CONFIG} to avoid namespace collisions.
+     */
+    private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
 
     /**
      * LOG instance for all UrlDefinitionsFactory instances.
@@ -72,6 +83,13 @@ public class UrlDefinitionsFactory
      * Contains the dates that the URL sources were last modified.
      */
     protected Map<String, Long> lastModifiedDates;
+
+    /**
+     * The application context.
+     *
+     * @since 2.1.0
+     */
+    protected TilesApplicationContext applicationContext;
 
     /**
      * Contains a list of locales that have been processed.
@@ -98,6 +116,11 @@ public class UrlDefinitionsFactory
         processedLocales = new ArrayList<Locale>();
     }
 
+    /** {@inheritDoc} */
+    public void setApplicationContext(TilesApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
     /**
      * Initializes the DefinitionsFactory and its subcomponents.
      * <p/>
@@ -108,6 +131,7 @@ public class UrlDefinitionsFactory
      * @throws DefinitionsFactoryException if an initialization error occurs.
      */
     public void init(Map<String, String> params) {
+        identifySources(params);
         String readerClassName =
             params.get(DefinitionsFactory.READER_IMPL_PROPERTY);
 
@@ -180,6 +204,8 @@ public class UrlDefinitionsFactory
      * @param source The configuration source for definitions.
      * @throws DefinitionsFactoryException if an invalid source is passed in or
      *                                     an error occurs resolving the source to an actual data store.
+     * @deprecated Do not call it, let the Definitions Factory load the sources
+     * by itself.
      */
     public void addSource(Object source) {
         if (source == null) {
@@ -449,5 +475,79 @@ public class UrlDefinitionsFactory
             return true;
         }
         return status;
+    }
+
+    /**
+     * Detects the sources to load.
+     *
+     * @param initParameters The initialization parameters.
+     * @since 2.1.0
+     */
+    protected void identifySources(Map<String, String> initParameters) {
+        if (applicationContext == null) {
+            throw new IllegalStateException(
+                    "The TilesApplicationContext cannot be null");
+        }
+
+        String resourceString = getResourceString(initParameters);
+        List<String> resources = getResourceNames(resourceString);
+
+        try {
+            for (String resource : resources) {
+                URL resourceUrl = applicationContext.getResource(resource);
+                if (resourceUrl != null) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Adding resource '" + resourceUrl + "' to definitions factory.");
+                    }
+                    sources.add(resourceUrl);
+                } else {
+                    LOG.warn("Unable to find configured definition '" + resource + "'");
+                }
+            }
+        } catch (IOException e) {
+            throw new DefinitionsFactoryException("Unable to parse definitions from "
+                + resourceString, e);
+        }
+    }
+
+    /**
+     * Derive the resource string from the initialization parameters. If no
+     * parameter {@link DefinitionsFactory#DEFINITIONS_CONFIG} is available,
+     * attempts to retrieve {@link BasicTilesContainer#DEFINITIONS_CONFIG} and
+     * {@link UrlDefinitionsFactory#LEGACY_DEFINITIONS_CONFIG}. If neither are
+     * available, returns "/WEB-INF/tiles.xml".
+     *
+     * @param parms The initialization parameters.
+     * @return resource string to be parsed.
+     */
+    @SuppressWarnings("deprecation")
+    protected String getResourceString(Map<String, String> parms) {
+        String resourceStr = parms.get(DefinitionsFactory.DEFINITIONS_CONFIG);
+        if (resourceStr == null) {
+            resourceStr = parms.get(BasicTilesContainer.DEFINITIONS_CONFIG);
+        }
+        if (resourceStr == null) {
+            resourceStr = parms.get(UrlDefinitionsFactory.LEGACY_DEFINITIONS_CONFIG);
+        }
+        if (resourceStr == null) {
+            resourceStr = "/WEB-INF/tiles.xml";
+        }
+        return resourceStr;
+    }
+
+    /**
+     * Parse the resourceString into a list of resource paths
+     * which can be loaded by the application context.
+     *
+     * @param resourceString comma seperated resources
+     * @return parsed resources
+     */
+    protected List<String> getResourceNames(String resourceString) {
+        StringTokenizer tokenizer = new StringTokenizer(resourceString, ",");
+        List<String> filenames = new ArrayList<String>(tokenizer.countTokens());
+        while (tokenizer.hasMoreTokens()) {
+            filenames.add(tokenizer.nextToken().trim());
+        }
+        return filenames;
     }
 }

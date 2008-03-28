@@ -18,25 +18,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.test.preparer;
+package org.apache.tiles.awareness;
 
-import org.apache.tiles.preparer.ViewPreparer;
-import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.AttributeContext;
-import org.apache.tiles.Attribute;
+import org.apache.tiles.TilesApplicationContext;
 
 /**
- * A <code>ViewPreparer</code> that stores an attribute.
+ * It represents an object that can have a reference to the
+ * {@link TilesApplicationContext}.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
-public class AttributeViewPreparer implements ViewPreparer {
+public interface TilesApplicationContextAware {
 
-    /** {@inheritDoc} */
-    public void execute(TilesRequestContext tilesContext,
-            AttributeContext attributeContext) {
-        attributeContext.putAttribute(
-            "body",
-            new Attribute("This is the value added by the AttributeViewPreparer"));
-    }
+    /**
+     * Sets the Tiles application context.
+     *
+     * @param applicationContext The Tiles application context.
+     * @since 2.1.0
+     */
+    void setApplicationContext(TilesApplicationContext applicationContext);
 }

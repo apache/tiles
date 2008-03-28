@@ -152,14 +152,31 @@ public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
      * @param definitionsFactory the definitions factory for this instance.
      * @param initParameters The init parameters to configure the definitions
      * factory.
+     * @deprecated Use {@link #setDefinitionsFactory(String, DefinitionsFactory)}.
      */
+    @Deprecated
     public void setDefinitionsFactory(String key,
             DefinitionsFactory definitionsFactory,
             Map<String, String> initParameters) {
+        setDefinitionsFactory(key, definitionsFactory);
         if (key != null) {
-            key2definitionsFactory.put(key, definitionsFactory);
             initializeDefinitionsFactory(definitionsFactory,
                     getResourceString(initParameters), initParameters);
+        }
+    }
+
+    /**
+     * Set the definitions factory. This method first ensures that the container
+     * has not yet been initialized.
+     *
+     * @param key The key under which the definitions factory is catalogued.
+     * @param definitionsFactory the definitions factory for this instance.
+     * @since 2.1.0
+     */
+    public void setDefinitionsFactory(String key,
+            DefinitionsFactory definitionsFactory) {
+        if (key != null) {
+            key2definitionsFactory.put(key, definitionsFactory);
         } else {
             setDefinitionsFactory(definitionsFactory);
         }
