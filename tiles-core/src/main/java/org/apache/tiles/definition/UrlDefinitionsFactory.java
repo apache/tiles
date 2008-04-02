@@ -143,6 +143,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * Sets the definitions reader that will read the URLs.
      *
      * @param reader The definitions reader.
+     * @since 2.1.0
      */
     public void setReader(DefinitionsReader reader) {
         this.reader = reader;
@@ -152,6 +153,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * Sets the locale resolver to use.
      *
      * @param localeResolver The locale resolver.
+     * @since 2.1.0
      */
     public void setLocaleResolver(LocaleResolver localeResolver) {
         this.localeResolver = localeResolver;

@@ -37,6 +37,7 @@ public interface AttributeEvaluator {
      * Initializes the attribute evaluator.
      *
      * @param initParameters The initialization parameters.
+     * @since 2.1.0
      */
     void init(Map<String, String> initParameters);
 
@@ -46,6 +47,7 @@ public interface AttributeEvaluator {
      * @param expression The expression to evaluate.
      * @param request The request object.
      * @return The evaluated object.
+     * @since 2.1.0
      */
     Object evaluate(String expression, TilesRequestContext request);
 
@@ -55,6 +57,7 @@ public interface AttributeEvaluator {
      * @param attribute The attribute to evaluate.
      * @param request The request object.
      * @return The evaluated object.
+     * @since 2.1.0
      */
     Object evaluate(Attribute attribute, TilesRequestContext request);
 }
