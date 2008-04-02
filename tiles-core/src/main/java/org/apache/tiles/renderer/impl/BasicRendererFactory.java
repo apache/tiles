@@ -129,6 +129,15 @@ public class BasicRendererFactory implements RendererFactory,
                 .getName());
     }
 
+    /**
+     * Constructor.
+     *
+     * @since 2.1.0
+     */
+    public BasicRendererFactory() {
+        renderers = new HashMap<String, AttributeRenderer>();
+    }
+
     /** {@inheritDoc} */
     public void init(Map<String, String> parameters) {
         String defaultRendererParam = parameters.get(DEFAULT_RENDERER_INIT_PARAM);
@@ -153,7 +162,6 @@ public class BasicRendererFactory implements RendererFactory,
             }
         }
 
-        renderers = new HashMap<String, AttributeRenderer>();
         for (Map.Entry<String, String> entry : completeParams.entrySet()) {
             AttributeRenderer renderer = (AttributeRenderer) ClassUtil
                     .instantiate(entry.getValue());
@@ -177,6 +185,27 @@ public class BasicRendererFactory implements RendererFactory,
         }
 
         return retValue;
+    }
+
+    /**
+     * Sets the default renderer.
+     *
+     * @param renderer The default renderer.
+     * @since 2.1.0
+     */
+    public void setDefaultRenderer(AttributeRenderer renderer) {
+        this.defaultRenderer = renderer;
+    }
+
+    /**
+     * Registers a renderer.
+     *
+     * @param name The name of the renderer.
+     * @param renderer The renderer to register.
+     * @since 2.1.0
+     */
+    public void registerRenderer(String name, AttributeRenderer renderer) {
+        renderers.put(name, renderer);
     }
 
     /** {@inheritDoc} */

@@ -137,12 +137,24 @@ public class BasicTilesContainer implements TilesContainer {
     public void init(Map<String, String> initParameters) {
         checkInit();
         initialized = true;
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Initializing Tiles2 container. . .");
-        }
 
         if (rendererFactory == null) {
             throw new IllegalStateException("RendererFactory not specified");
+        }
+        if (preparerFactory == null) {
+            throw new IllegalStateException("PreparerFactory not specified");
+        }
+        if (definitionsFactory == null) {
+            throw new IllegalStateException("DefinitionsFactory not specified");
+        }
+        if (evaluator == null) {
+            throw new IllegalStateException("AttributeEvaluator not specified");
+        }
+        if (contextFactory == null) {
+            throw new IllegalStateException("TilesContextFactory not specified");
+        }
+        if (context == null) {
+            throw new IllegalStateException("TilesApplicationContext not specified");
         }
     }
 

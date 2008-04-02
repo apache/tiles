@@ -71,6 +71,15 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
 
     /**
      * Contains the URL objects identifying where configuration data is found.
+     *
+     * @since 2.1.0
+     */
+    protected List<URL> sourceURLs;
+
+    /**
+     * Contains the URL objects identifying where configuration data is found.
+     *
+     * @deprecated Use {@link #sourceURLs}.
      */
     protected List<Object> sources;
 
@@ -111,7 +120,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * Creates a new instance of UrlDefinitionsFactory.
      */
     public UrlDefinitionsFactory() {
-        sources = new ArrayList<Object>();
+        sourceURLs = new ArrayList<URL>();
         lastModifiedDates = new HashMap<String, Long>();
         processedLocales = new ArrayList<Locale>();
     }
@@ -119,6 +128,33 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     /** {@inheritDoc} */
     public void setApplicationContext(TilesApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
+    }
+
+    /**
+     * Sets the source URLs to use.
+     *
+     * @param sourceURLs The source URLs.
+     */
+    public void setSourceURLs(List<URL> sourceURLs) {
+        this.sourceURLs = sourceURLs;
+    }
+
+    /**
+     * Sets the definitions reader that will read the URLs.
+     *
+     * @param reader The definitions reader.
+     */
+    public void setReader(DefinitionsReader reader) {
+        this.reader = reader;
+    }
+
+    /**
+     * Sets the locale resolver to use.
+     *
+     * @param localeResolver The locale resolver.
+     */
+    public void setLocaleResolver(LocaleResolver localeResolver) {
+        this.localeResolver = localeResolver;
     }
 
     /**
@@ -218,7 +254,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
                 "Source object must be an URL");
         }
 
-        sources.add(source);
+        sourceURLs.add((URL) source);
     }
 
     /**
@@ -248,8 +284,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
         Map<String, Definition> localeDefsMap = new HashMap<String, Definition>();
         for (Object postfix : postfixes) {
             // For each postfix, all the sources must be loaded.
-            for (Object source : sources) {
-                URL url = (URL) source;
+            for (URL url : sourceURLs) {
                 String path = url.toExternalForm();
 
                 String newPath = concatPostfix(path, (String) postfix);
@@ -369,8 +404,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
         }
 
         try {
-            for (Object source1 : sources) {
-                URL source = (URL) source1;
+            for (URL source : sourceURLs) {
                 URLConnection connection = source.openConnection();
                 connection.connect();
                 lastModifiedDates.put(source.toExternalForm(),
@@ -499,7 +533,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Adding resource '" + resourceUrl + "' to definitions factory.");
                     }
-                    sources.add(resourceUrl);
+                    sourceURLs.add(resourceUrl);
                 } else {
                     LOG.warn("Unable to find configured definition '" + resource + "'");
                 }

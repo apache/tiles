@@ -20,6 +20,8 @@
  */
 package org.apache.tiles.factory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
@@ -104,6 +106,11 @@ public class TilesContainerFactory {
      */
     public static final String ATTRIBUTE_EVALUATOR_INIT_PARAM =
         "org.apache.tiles.evaluator.AttributeEvaluator";
+
+    /**
+     * The logging object.
+     */
+    private static final Log LOG = LogFactory.getLog(TilesContainerFactory.class);
 
     /**
      * Default configuration parameters.
@@ -250,11 +257,19 @@ public class TilesContainerFactory {
             BasicTilesContainer container) {
         Map <String, String> initParameterMap;
 
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Initializing Tiles2 container. . .");
+        }
+
         initParameterMap = getInitParameterMap(context);
         Map<String, String> configuration = new HashMap<String, String>(defaultConfiguration);
         configuration.putAll(initParameterMap);
         storeContainerDependencies(context, initParameterMap, configuration, container);
         container.init(initParameterMap);
+
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Tiles2 container initialized");
+        }
     }
 
     /**
@@ -300,6 +315,8 @@ public class TilesContainerFactory {
         if (evaluator instanceof TilesContainerAware) {
             ((TilesContainerAware) evaluator).setContainer(container);
         }
+
+        evaluator.init(configuration);
 
         if (rendererFactory instanceof TilesContextFactoryAware) {
             ((TilesContextFactoryAware) rendererFactory)

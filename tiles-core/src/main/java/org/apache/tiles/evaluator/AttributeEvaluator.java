@@ -20,6 +20,8 @@
  */
 package org.apache.tiles.evaluator;
 
+import java.util.Map;
+
 import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
 
@@ -30,6 +32,13 @@ import org.apache.tiles.context.TilesRequestContext;
  * @since 2.1.0
  */
 public interface AttributeEvaluator {
+
+    /**
+     * Initializes the attribute evaluator.
+     *
+     * @param initParameters The initialization parameters.
+     */
+    void init(Map<String, String> initParameters);
 
     /**
      * Evaluates an expression.

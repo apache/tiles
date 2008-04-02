@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,16 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
     /**
      * The Tiles context factories composing the chain.
      */
-    private TilesContextFactory[] factories;
+    private List<TilesContextFactory> factories;
+
+    /**
+     * Sets the factories to be used.
+     *
+     * @param factories The factories to be used.
+     */
+    public void setFactories(List<TilesContextFactory> factories) {
+        this.factories = factories;
+    }
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
@@ -74,15 +84,14 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
             classNames = DEFAULT_FACTORY_CLASS_NAMES;
         }
 
-        List<TilesContextFactory> factoryList =
-            new ArrayList<TilesContextFactory>();
+        factories = new ArrayList<TilesContextFactory>();
         for (int i = 0; i < classNames.length; i++) {
             try {
                 Class<TilesContextFactory> clazz = (Class<TilesContextFactory>) Class
                         .forName(classNames[i]);
                 if (TilesContextFactory.class.isAssignableFrom(clazz)) {
                     TilesContextFactory factory = clazz.newInstance();
-                    factoryList.add(factory);
+                    factories.add(factory);
                 } else {
                     throw new IllegalArgumentException("The class "
                             + classNames[i]
@@ -107,16 +116,15 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
                                 + " default constructor", e);
             }
         }
-        factories = new TilesContextFactory[factoryList.size()];
-        factoryList.toArray(factories);
     }
 
     /** {@inheritDoc} */
     public TilesApplicationContext createApplicationContext(Object context) {
         TilesApplicationContext retValue = null;
 
-        for (int i = 0; i < factories.length && retValue == null; i++) {
-            retValue = factories[i].createApplicationContext(context);
+        for (Iterator<TilesContextFactory> factoryIt = factories.iterator(); factoryIt
+                .hasNext() && retValue == null;) {
+            retValue = factoryIt.next().createApplicationContext(context);
         }
 
         if (retValue == null) {
@@ -132,8 +140,10 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
             TilesApplicationContext context, Object... requestItems) {
         TilesRequestContext retValue = null;
 
-        for (int i = 0; i < factories.length && retValue == null; i++) {
-            retValue = factories[i].createRequestContext(context, requestItems);
+        for (Iterator<TilesContextFactory> factoryIt = factories.iterator(); factoryIt
+                .hasNext() && retValue == null;) {
+            retValue = factoryIt.next().createRequestContext(context,
+                    requestItems);
         }
 
         if (retValue == null) {

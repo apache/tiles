@@ -20,6 +20,8 @@
  */
 package org.apache.tiles.evaluator.impl;
 
+import java.util.Map;
+
 import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
@@ -32,6 +34,11 @@ import org.apache.tiles.evaluator.AttributeEvaluator;
  * @since 2.1.0
  */
 public class DirectAttributeEvaluator implements AttributeEvaluator {
+
+    /** {@inheritDoc} */
+    public void init(Map<String, String> initParameters) {
+        // Does nothing.
+    }
 
     /** {@inheritDoc} */
     public Object evaluate(String expression, TilesRequestContext request) {

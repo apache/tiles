@@ -69,6 +69,7 @@ public class ELAttributeEvaluatorTest extends TestCase {
         EasyMock.replay(request, applicationContext);
 
         evaluator.setApplicationContext(applicationContext);
+        evaluator.init(null);
     }
 
     /**

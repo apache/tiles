@@ -20,6 +20,8 @@
  */
 package org.apache.tiles.evaluator.el;
 
+import java.util.Map;
+
 import javax.el.ArrayELResolver;
 import javax.el.CompositeELResolver;
 import javax.el.ELResolver;
@@ -32,7 +34,6 @@ import javax.el.ValueExpression;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 
@@ -59,13 +60,6 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
     protected TilesApplicationContext applicationContext;
 
     /**
-     * The Tiles context factory.
-     *
-     * @since 2.1.0
-     */
-    protected TilesContextFactory contextFactory;
-
-    /**
      * The EL expression factory.
      *
      * @since 2.1.0
@@ -77,7 +71,7 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
      *
      * @since 2.1.0
      */
-    protected ELResolver defaultResolver;
+    protected ELResolver resolver;
 
     /**
      * Constructor.
@@ -85,9 +79,13 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
      * @since 2.1.0
      */
     public ELAttributeEvaluator() {
+    }
+
+    /** {@inheritDoc} */
+    public void init(Map<String, String> initParameters) {
         // FIXME Take a different strategy to hold the expression factory.
         expressionFactory = new ExpressionFactoryImpl();
-        defaultResolver = new CompositeELResolver() {
+        resolver = new CompositeELResolver() {
             {
                 add(new TilesContextELResolver());
                 add(new TilesContextBeanELResolver());
@@ -104,9 +102,27 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
         this.applicationContext = applicationContext;
     }
 
+    /**
+     * Sets the expression factory to use.
+     *
+     * @param expressionFactory The expression factory.
+     */
+    public void setExpressionFactory(ExpressionFactory expressionFactory) {
+        this.expressionFactory = expressionFactory;
+    }
+
+    /**
+     * Sets the EL resolver to use.
+     *
+     * @param resolver The EL resolver.
+     */
+    public void setResolver(ELResolver resolver) {
+        this.resolver = resolver;
+    }
+
     /** {@inheritDoc} */
     public Object evaluate(String expression, TilesRequestContext request) {
-        SimpleContext context = new SimpleContext(defaultResolver);
+        SimpleContext context = new SimpleContext(resolver);
         context.putContext(TilesRequestContext.class, request);
         context.putContext(TilesApplicationContext.class,
                 applicationContext);
