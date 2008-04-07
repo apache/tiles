@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.factory.TilesContainerFactory;
+import org.apache.tiles.factory.AbstractTilesContainerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -78,8 +78,8 @@ public class TilesListener
      * @return The created container
      */
     protected TilesContainer createContainer(ServletContext context) {
-        TilesContainerFactory factory =
-            TilesContainerFactory.getFactory(context);
+        AbstractTilesContainerFactory factory =
+            AbstractTilesContainerFactory.getTilesContainerFactory(context);
         return factory.createContainer(context);
     }
 

@@ -43,8 +43,6 @@ import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.util.ClassUtil;
 
-import java.lang.reflect.Method;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,11 +54,13 @@ import java.util.Map;
  * @version $Rev$ $Date$
  * @since 2.0
  */
-public class TilesContainerFactory {
+public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Initialization parameter that represents the container factory class
      * name.
+     *
+     * @deprecated Use {@link AbstractTilesContainerFactory#CONTAINER_FACTORY_INIT_PARAM}.
      */
     public static final String CONTAINER_FACTORY_INIT_PARAM =
         "org.apache.tiles.factory.TilesContainerFactory";
@@ -119,7 +119,6 @@ public class TilesContainerFactory {
         new HashMap<String, String>();
 
     static {
-        DEFAULTS.put(CONTAINER_FACTORY_INIT_PARAM, TilesContainerFactory.class.getName());
         DEFAULTS.put(CONTEXT_FACTORY_INIT_PARAM, ChainedTilesContextFactory.class.getName());
         DEFAULTS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
         DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
@@ -134,21 +133,22 @@ public class TilesContainerFactory {
         new HashMap<String, String>(DEFAULTS);
 
     /**
-     * Retrieve a factory instance as configured through the
-     * specified context.
-     * <p/>
-     * The context will be queried and if a init parameter
-     * named 'org.apache.tiles.factory.TilesContainerFactory' is discovered
-     * this class will be instantiated and returned. Otherwise,
-     * the factory will attempt to utilize one of it's internal
-     * factories.
+     * Retrieve a factory instance as configured through the specified context.
+     * <p/> The context will be queried and if a init parameter named
+     * 'org.apache.tiles.factory.TilesContainerFactory' is discovered this class
+     * will be instantiated and returned. Otherwise, the factory will attempt to
+     * utilize one of it's internal factories.
      *
-     * @param context the executing applications context.
-     *                Typically a ServletContext or PortletContext
+     * @param context the executing applications context. Typically a
+     * ServletContext or PortletContext
      * @return a tiles container
      * @throws TilesContainerFactoryException if an error occurs creating the
      * factory.
+     * @since 2.1.0
+     * @deprecated Use
+     * {@link AbstractTilesContainerFactory#getTilesContainerFactory(Object)}.
      */
+    @Deprecated
     public static TilesContainerFactory getFactory(Object context) {
         return getFactory(context, DEFAULTS);
     }
@@ -167,6 +167,9 @@ public class TilesContainerFactory {
      * @return a tiles container
      * @throws TilesContainerFactoryException if an error occurs creating the
      * factory.
+     * @deprecated Use
+     * {@link AbstractTilesContainerFactory#getTilesContainerFactory(Object)}
+     * and then {@link #setDefaultConfiguration(Map)}.
      */
     public static TilesContainerFactory getFactory(Object context,
             Map<String, String> defaults) {
@@ -417,62 +420,4 @@ public class TilesContainerFactory {
             ? DEFAULTS.get(parameterName)
             : factoryName.toString();
     }
-
-    /**
-     * Returns the value of an initialization parameter.
-     *
-     * @param context The (application) context object to use.
-     * @param parameterName The parameter name to retrieve.
-     * @return The parameter value.
-     * @throws TilesContainerFactoryException If the context has not been
-     * recognized.
-     */
-    protected static String getInitParameter(Object context,
-            String parameterName) {
-        Object value;
-        try {
-            Class<?> contextClass = context.getClass();
-            Method getInitParameterMethod =
-                contextClass.getMethod("getInitParameter", String.class);
-            value = getInitParameterMethod.invoke(context, parameterName);
-        } catch (Exception e) {
-            throw new TilesContainerFactoryException(
-                    "Unrecognized context.  Is this context"
-                    + " a ServletContext, PortletContext, or similar?", e);
-        }
-        return value == null ? null : value.toString();
-    }
-
-    /**
-     * Returns a map containing parameters name-value entries.
-     *
-     * @param context The (application) context object to use.
-     * @return The initialization parameters map.
-     * @throws TilesContainerFactoryException If the context object has not been
-     * recognized.
-     */
-    @SuppressWarnings("unchecked")
-    protected static Map<String, String> getInitParameterMap(Object context) {
-        Map<String, String> initParameters = new HashMap<String, String>();
-        Class<?> contextClass = context.getClass();
-        try {
-            Method method = contextClass.getMethod("getInitParameterNames");
-            Enumeration<String> e = (Enumeration<String>) method
-                    .invoke(context);
-
-            method = contextClass.getMethod("getInitParameter", String.class);
-            while (e.hasMoreElements()) {
-                String key = e.nextElement();
-                initParameters.put(key, (String) method.invoke(context, key));
-            }
-        } catch (Exception e) {
-            throw new TilesContainerFactoryException(
-                    "Unable to retrieve init parameters."
-                    + " Is this context a ServletContext, PortletContext,"
-                    + " or similar object?", e);
-        }
-        return initParameters;
-    }
-
-
 }

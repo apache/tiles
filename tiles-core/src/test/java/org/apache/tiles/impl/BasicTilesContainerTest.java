@@ -41,6 +41,7 @@ import org.apache.shale.test.mock.MockHttpServletResponse;
 import org.apache.shale.test.mock.MockHttpSession;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.easymock.EasyMock;
 
@@ -67,6 +68,7 @@ public class BasicTilesContainerTest extends TestCase {
     private BasicTilesContainer container;
 
     /** {@inheritDoc} */
+    @SuppressWarnings("deprecation")
     @Override
     public void setUp() {
         ServletContext context = EasyMock.createMock(ServletContext.class);
@@ -74,6 +76,8 @@ public class BasicTilesContainerTest extends TestCase {
 
         Vector<String> v = new Vector<String>();
 
+        EasyMock.expect(context.getInitParameter(
+                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
@@ -86,7 +90,8 @@ public class BasicTilesContainerTest extends TestCase {
                     e);
         }
         EasyMock.replay(context);
-        TilesContainerFactory factory = TilesContainerFactory.getFactory(context);
+        AbstractTilesContainerFactory factory = AbstractTilesContainerFactory
+                .getTilesContainerFactory(context);
         container = (BasicTilesContainer) factory.createContainer(context);
     }
 

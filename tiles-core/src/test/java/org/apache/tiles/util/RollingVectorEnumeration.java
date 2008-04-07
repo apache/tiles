@@ -50,6 +50,7 @@ public class RollingVectorEnumeration<E> implements Enumeration<E> {
      */
     public RollingVectorEnumeration(Vector<E> vector) {
         this.vector = vector;
+        elements = vector.elements();
     }
 
     /** {@inheritDoc} */

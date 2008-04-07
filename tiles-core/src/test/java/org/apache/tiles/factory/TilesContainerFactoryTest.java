@@ -62,46 +62,57 @@ public class TilesContainerFactoryTest extends TestCase {
     /**
      * Tests getting the factory.
      */
+    @SuppressWarnings("deprecation")
     public void testGetFactory() {
         Vector<String> v = new Vector<String>();
         Vector<String> emptyVector = new Vector<String>();
-        v.add(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
+        v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
 
-        EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
+        EasyMock.expect(context.getInitParameterNames()).andReturn(
+                emptyVector.elements());
+        EasyMock.expect(context.getInitParameter(
+                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
+                .andReturn(null);
+        EasyMock.expect(context.getInitParameter(
+                TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
+                .andReturn(null);
         EasyMock.replay(context);
-        TilesContainerFactory factory = TilesContainerFactory.getFactory(context);
+        AbstractTilesContainerFactory factory = AbstractTilesContainerFactory
+                .getTilesContainerFactory(context);
         assertNotNull(factory);
         assertEquals(TilesContainerFactory.class, factory.getClass());
 
         EasyMock.reset(context);
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory
-                .CONTAINER_FACTORY_INIT_PARAM)).andReturn(
-                        TestFactory.class.getName());
+        EasyMock.expect(context.getInitParameter(
+                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
+                .andReturn(TestFactory.class.getName());
         EasyMock.replay(context);
-        factory = TilesContainerFactory.getFactory(context);
+        factory = AbstractTilesContainerFactory
+                .getTilesContainerFactory(context);
         assertNotNull(factory);
         assertEquals(TestFactory.class, factory.getClass());
 
         Map<String, String> defaults = new HashMap<String, String>();
-        defaults.put(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
-                TestFactory.class.getName());
         EasyMock.reset(context);
-        EasyMock.expect(context.getInitParameterNames()).andReturn(emptyVector.elements());
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
+        EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
+        EasyMock.expect(context.getInitParameter(
+                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
+                .andReturn(TestFactory.class.getName());
         EasyMock.replay(context);
-        factory = TilesContainerFactory.getFactory(context, defaults);
+        factory = AbstractTilesContainerFactory
+                .getTilesContainerFactory(context);
+        ((TilesContainerFactory) factory).setDefaultConfiguration(defaults);
         assertNotNull(factory);
         assertEquals(TestFactory.class, factory.getClass());
 
         EasyMock.reset(context);
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory
+        EasyMock.expect(context.getInitParameter(AbstractTilesContainerFactory
                 .CONTAINER_FACTORY_INIT_PARAM)).andReturn("org.missing.Class");
         EasyMock.replay(context);
         try {
-            TilesContainerFactory.getFactory(context);
+            AbstractTilesContainerFactory.getTilesContainerFactory(context);
             fail("Invalid classname.  Exception should have been thrown.");
         } catch (TilesException e) {
             if (LOG.isDebugEnabled()) {
@@ -120,7 +131,6 @@ public class TilesContainerFactoryTest extends TestCase {
     public void testCreateContainer() throws MalformedURLException {
         URL url = getClass().getResource("test-defs.xml");
         Vector<String> enumeration = new Vector<String>();
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
@@ -128,7 +138,8 @@ public class TilesContainerFactoryTest extends TestCase {
         EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
         EasyMock.replay(context);
 
-        TilesContainerFactory factory = TilesContainerFactory.getFactory(context);
+        AbstractTilesContainerFactory factory = AbstractTilesContainerFactory
+                .getTilesContainerFactory(context);
         TilesContainer container = factory.createContainer(context);
 
         assertNotNull(container);
@@ -153,7 +164,8 @@ public class TilesContainerFactoryTest extends TestCase {
         keys.add("one");
         keys.add("two");
 
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
+        EasyMock.expect(context.getInitParameter(
+                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameterNames()).andReturn(keys.elements());
         EasyMock.expect(context.getInitParameterNames()).andReturn(keys.elements());
         EasyMock.expect(context.getInitParameter("one")).andReturn("oneValue").anyTimes();

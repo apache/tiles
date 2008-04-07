@@ -26,10 +26,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
-import org.apache.tiles.mgmt.MutableTilesContainer;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -124,17 +124,21 @@ public class InitContainerTag extends BodyTagSupport
 
         if (containerFactory != null) {
             context.setInitParameter(
-                TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
+                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
                 containerFactory);
         }
+
+        // This is to provide compatibility with Tiles 2.0.x
+        context.setInitParameter(
+                TilesContainerFactory.CONTAINER_FACTORY_MUTABLE_INIT_PARAM,
+                "true");
 
         for (Map.Entry<String, String> entry : initParameters.entrySet()) {
             context.setInitParameter(entry.getKey(), entry.getValue());
         }
 
-        MutableTilesContainer mutableContainer =
-            TilesContainerFactory.getFactory(context)
-                .createMutableTilesContainer(context);
+        TilesContainer mutableContainer = AbstractTilesContainerFactory
+                .getTilesContainerFactory(context).createContainer(context);
         TilesAccess.setContainer(context, mutableContainer);
 
         return EVAL_PAGE;
