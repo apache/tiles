@@ -199,32 +199,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
     }
 
     /**
-     * Tests calling read without calling init.
-     */
-    public void testNoInit() {
-        try {
-            // What happens if we don't call init?
-            // reader.init(new HashMap());
-
-            URL configFile = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/tiles-defs.xml");
-            assertNotNull("Config file not found", configFile);
-
-            InputStream source = configFile.openStream();
-            reader.read(source);
-
-            fail("Should've thrown exception.");
-        } catch (DefinitionsFactoryException e) {
-            // correct.
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Exception caught, it is OK", e);
-            }
-        } catch (Exception e) {
-            fail("Exception reading configuration." + e);
-        }
-    }
-
-    /**
      * Tests read with bad input source.
      */
     public void testBadSource() {

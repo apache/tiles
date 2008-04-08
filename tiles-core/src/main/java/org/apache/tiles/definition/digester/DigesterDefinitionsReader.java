@@ -233,11 +233,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     protected String[] registrations;
 
     /**
-     * Indicates whether init method has been called.
-     */
-    private boolean inited = false;
-
-    /**
      * Index to be used to create unique definition names for anonymous
      * (nested) definitions.
      */
@@ -262,6 +257,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
                 digester.register(registrations[i], url.toString());
             }
         }
+
+        initSyntax(digester);
     }
 
     /**
@@ -278,13 +275,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      *          an error occurs when reading definitions.
      */
     public Map<String, Definition> read(Object source) {
-
-        // Get out if we have not been initialized.
-        if (!inited) {
-            throw new DefinitionsFactoryException(
-                "Definitions reader has not been initialized.");
-        }
-
         // This is an instance variable instead of a local variable because
         // we want to be able to call the addDefinition method to populate it.
         // But we reset the Map here, which, of course, has threading implications.
@@ -334,17 +324,12 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      *          passed in or the initialization fails.
      */
     public void init(Map<String, String> params) {
-
         if (params != null) {
             String value = params.get(PARSER_VALIDATE_PARAMETER_NAME);
             if (value != null) {
                 digester.setValidating(Boolean.valueOf(value));
             }
         }
-
-        initSyntax(digester);
-
-        inited = true;
     }
 
     /**

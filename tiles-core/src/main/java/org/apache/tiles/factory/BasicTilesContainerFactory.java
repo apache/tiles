@@ -108,6 +108,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
                 contextFactory));
         factory.setSourceURLs(getSourceURLs(context, applicationContext,
                 contextFactory));
+        factory.refresh();
         return factory;
     }
 
@@ -158,7 +159,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             retValue.add(applicationContext.getResource("/WEB-INF/tiles.xml"));
         } catch (IOException e) {
             throw new TilesContainerFactoryException(
-                    "Cannot get URL: /WEB-INF/tiles.xml");
+                    "Cannot get URL: /WEB-INF/tiles.xml", e);
         }
         return retValue;
     }

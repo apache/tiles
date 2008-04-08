@@ -85,7 +85,7 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      * @throws DefinitionsFactoryException If the definitions factory fails.
      * @throws IOException If an I/O exception happens.
      */
-    public void testReadOldFormat() throws DefinitionsFactoryException, IOException {
+    public void testReadOldFormat() throws IOException {
         reader.init(new HashMap<String, String>());
 
         URL configFile = this.getClass().getClassLoader().getResource(
@@ -108,10 +108,9 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
     /**
      * Tests the read method to read Tiles 2.0 files.
      *
-     * @throws DefinitionsFactoryException If the definitions factory fails.
      * @throws IOException If an I/O exception happens.
      */
-    public void testReadNewFormat() throws DefinitionsFactoryException, IOException {
+    public void testReadNewFormat() throws IOException {
         reader.init(new HashMap<String, String>());
 
         URL configFile = this.getClass().getClassLoader().getResource(
@@ -158,32 +157,6 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
             assertNotNull("Couldn't Find items1 local attribute.", attribute);
             attribute = def.getCascadedAttribute("items2");
             assertNotNull("Couldn't Find items2 cascaded attribute.", attribute);
-        } catch (Exception e) {
-            fail("Exception reading configuration." + e);
-        }
-    }
-
-    /**
-     * Tests calling read without calling init.
-     */
-    public void testNoInit() {
-        try {
-            // What happens if we don't call init?
-            // reader.init(new HashMap());
-
-            URL configFile = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/tiles-defs-1.1.xml");
-            assertNotNull("Config file not found", configFile);
-
-            InputStream source = configFile.openStream();
-            reader.read(source);
-
-            fail("Should've thrown exception.");
-        } catch (DefinitionsFactoryException e) {
-            // correct.
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Exception caught, it is OK", e);
-            }
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
         }
