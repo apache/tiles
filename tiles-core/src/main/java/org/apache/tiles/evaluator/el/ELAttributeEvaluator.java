@@ -106,6 +106,7 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
      * Sets the expression factory to use.
      *
      * @param expressionFactory The expression factory.
+     * @since 2.1.0
      */
     public void setExpressionFactory(ExpressionFactory expressionFactory) {
         this.expressionFactory = expressionFactory;
@@ -115,6 +116,7 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
      * Sets the EL resolver to use.
      *
      * @param resolver The EL resolver.
+     * @since 2.1.0
      */
     public void setResolver(ELResolver resolver) {
         this.resolver = resolver;
