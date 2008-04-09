@@ -31,23 +31,8 @@
     <distributable/>
 
     <context-param>
-        <param-name>org.apache.tiles.context.TilesContextFactory</param-name>
-        <param-value>org.apache.tiles.context.enhanced.EnhancedContextFactory</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.apache.tiles.factory.TilesContainerFactory.MUTABLE</param-name>
-        <param-value>true</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.apache.tiles.renderer.impl.BasicRendereFactory.TYPE_RENDERERS</param-name>
-        <param-value>reversed,org.apache.tiles.test.renderer.ReverseStringAttributeRenderer</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.apache.tiles.evaluator.AttributeEvaluator</param-name>
-        <param-value>org.apache.tiles.evaluator.el.ELAttributeEvaluator</param-value>
+        <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
+        <param-value>org.apache.tiles.test.factory.TestTilesContainerFactory</param-value>
     </context-param>
 
     <filter>
@@ -84,14 +69,6 @@
     <servlet>
         <servlet-name>tiles</servlet-name>
         <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-        <init-param>
-            <param-name>definitions-config</param-name>
-            <param-value>/WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml,/WEB-INF/tiles-defs-1.1.xml</param-value>
-        </init-param>
-        <init-param>
-            <param-name>org.apache.tiles.definition.DefinitionsReader</param-name>
-            <param-value>org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader</param-value>
-        </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet>

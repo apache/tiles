@@ -43,7 +43,7 @@ public abstract class AbstractTilesContainerFactory {
      * @since 2.1.0
      */
     public static final String CONTAINER_FACTORY_INIT_PARAM =
-        "org.apache.tiles.factory.TilesContainerFactory";
+        "org.apache.tiles.factory.AbstractTilesContainerFactory";
 
     /**
      * Default configuration parameters.
