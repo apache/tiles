@@ -121,4 +121,10 @@
       <put-attribute name="header" value="/header.jsp" role="goodrole" />
       <put-attribute name="body"   value="/body.jsp" role="badrole" />
   </definition>
+
+  <definition name="test.openbody.definition" template="/layout_closebody.jsp">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/layout.jsp" />
+  </definition>
 </tiles-definitions>
