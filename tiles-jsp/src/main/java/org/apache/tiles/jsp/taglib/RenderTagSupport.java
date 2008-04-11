@@ -20,14 +20,11 @@
  */
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.Attribute.AttributeType;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TryCatchFinally;
 import java.io.IOException;
 
 /**
@@ -47,12 +44,7 @@ import java.io.IOException;
  * @version $Rev$ $Date$
  */
 public abstract class RenderTagSupport extends ContainerTagSupport
-    implements TryCatchFinally, PutAttributeTagParent {
-
-    /**
-     * The logging object.
-     */
-    private static final Log LOG = LogFactory.getLog(RenderTagSupport.class);
+    implements PutAttributeTagParent {
 
     /**
      * The view preparer to use before the rendering.
@@ -145,15 +137,6 @@ public abstract class RenderTagSupport extends ContainerTagSupport
     public int doStartTag() throws JspException {
         super.doStartTag();
         return isAccessAllowed() ? EVAL_BODY_BUFFERED : SKIP_BODY;
-    }
-
-    /** {@inheritDoc} */
-    public void doCatch(Throwable throwable) throws Throwable {
-        LOG.error("Error during rendering", throwable);
-    }
-
-    /** {@inheritDoc} */
-    public void doFinally() {
     }
 
     /**
