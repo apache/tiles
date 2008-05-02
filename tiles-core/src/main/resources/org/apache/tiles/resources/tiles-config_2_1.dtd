@@ -207,8 +207,9 @@
 <!ATTLIST add-attribute              value            CDATA           #IMPLIED>
 <!--
 @attr role           Security role name that is allowed access to this attribute
-                     object. The attribute is inserted only if the role name is
-                     allowed.
+                     object. The attribute will be added to the parent list
+                     anyway. It is delegated to the user of this attribute to
+                     use it or not depending on the role of the user.
 -->
 <!ATTLIST add-attribute              role             CDATA            #IMPLIED>
 
@@ -222,8 +223,9 @@
 <!ATTLIST add-list-attribute id               ID              #IMPLIED>
 <!--
 @attr role           Security role name that is allowed access to this attribute
-                     object. The attribute is inserted only if the role name is
-                     allowed.
+                     object. The attribute will be added to the parent list
+                     anyway. It is delegated to the user of this attribute to
+                     use it or not depending on the role of the user.
 -->
 <!ATTLIST add-list-attribute role             CDATA            #IMPLIED>
 
