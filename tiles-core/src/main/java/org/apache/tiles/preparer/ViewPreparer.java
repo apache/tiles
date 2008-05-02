@@ -54,6 +54,5 @@ public interface ViewPreparer {
      * @throws PreparerException If something goes wrong during execution.
      */
     void execute(TilesRequestContext tilesContext,
-        AttributeContext attributeContext)
-        throws PreparerException;
+        AttributeContext attributeContext);
 }

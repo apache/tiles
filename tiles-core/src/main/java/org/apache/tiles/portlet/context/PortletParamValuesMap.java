@@ -101,14 +101,14 @@ final class PortletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Set<Map.Entry<String, String[]>> entrySet() {
+    public Set<Map.Entry<String, String[]>> entrySet() {
         Set<Map.Entry<String, String[]>> set = new HashSet<Map.Entry<String, String[]>>();
         Enumeration<String> keys = request.getParameterNames();
         String key;
         while (keys.hasMoreElements()) {
-        	key = keys.nextElement();
+            key = keys.nextElement();
             set.add(new MapEntry<String, String[]>(key, (request
-					.getParameterValues(key)), false));
+                    .getParameterValues(key)), false));
         }
         return (set);
     }
@@ -153,7 +153,7 @@ final class PortletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Set<String> keySet() {
+    public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
         Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
@@ -183,7 +183,7 @@ final class PortletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public int size() {
+    public int size() {
         int n = 0;
         Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {
@@ -196,7 +196,7 @@ final class PortletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Collection<String[]> values() {
+    public Collection<String[]> values() {
         List<String[]> list = new ArrayList<String[]>();
         Enumeration<String> keys = request.getParameterNames();
         while (keys.hasMoreElements()) {

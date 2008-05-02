@@ -20,10 +20,18 @@
  */
 package org.apache.tiles.servlet.context;
 
-import org.apache.tiles.context.MapEntry;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletRequest;
-import java.util.*;
+
+import org.apache.tiles.context.MapEntry;
 
 
 /**
@@ -107,7 +115,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         ServletRequest otherRequest = ((ServletParamValuesMap) o).request;
         boolean retValue = true;
         synchronized (request) {

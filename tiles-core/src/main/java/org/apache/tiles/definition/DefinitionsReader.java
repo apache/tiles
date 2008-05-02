@@ -49,7 +49,7 @@ public interface DefinitionsReader {
      * @throws DefinitionsFactoryException if required properties are not
      *                                     passed in or the initialization fails.
      */
-    void init(Map<String, String> params) throws DefinitionsFactoryException;
+    void init(Map<String, String> params);
 
     /**
      * Reads <code>{@link Definition}</code> objects from a source.
@@ -62,6 +62,6 @@ public interface DefinitionsReader {
      * @throws DefinitionsFactoryException if the source is invalid or
      *                                     an error occurs when reading definitions.
      */
-    Map<String, Definition> read(Object source) throws DefinitionsFactoryException;
+    Map<String, Definition> read(Object source);
 
 }

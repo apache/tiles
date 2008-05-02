@@ -21,10 +21,18 @@
 package org.apache.tiles.servlet.context;
 
 
-import org.apache.tiles.context.MapEntry;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+
+import org.apache.tiles.context.MapEntry;
 
 
 /**
@@ -109,7 +117,7 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         HttpServletRequest otherRequest = ((ServletHeaderValuesMap) o).request;
         boolean retValue = true;
         synchronized (request) {
@@ -128,7 +136,7 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public String[] get(Object key) {
+    public String[] get(Object key) {
         List<String> list = new ArrayList<String>();
         Enumeration<String> values = request.getHeaders(key(key));
         while (values.hasMoreElements()) {
@@ -196,7 +204,7 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-	public Collection<String[]> values() {
+    public Collection<String[]> values() {
         List<String[]> list = new ArrayList<String[]>();
         Enumeration<String> keys = request.getHeaderNames();
         while (keys.hasMoreElements()) {
@@ -236,7 +244,7 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
         while (enumeration.hasMoreElements()) {
             list1.add(enumeration.nextElement());
         }
-        
+
         return list1.toArray(new String[list1.size()]);
     }
 }

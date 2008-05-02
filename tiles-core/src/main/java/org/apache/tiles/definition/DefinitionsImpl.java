@@ -79,8 +79,7 @@ public class DefinitionsImpl implements Definitions {
      * @throws NoSuchDefinitionException If something goes wrong during
      * addition.
      */
-    public void addDefinitions(Map<String, Definition> defsMap)
-            throws NoSuchDefinitionException {
+    public void addDefinitions(Map<String, Definition> defsMap) {
         this.baseDefinitions.putAll(defsMap);
         resolveInheritances();
     }
@@ -95,7 +94,7 @@ public class DefinitionsImpl implements Definitions {
      * inheritance resolution.
      */
     public void addDefinitions(Map<String, Definition> defsMap,
-            Locale locale) throws NoSuchDefinitionException {
+            Locale locale) {
         localeSpecificDefinitions.put(locale, defsMap);
         resolveInheritances(locale);
     }
@@ -131,7 +130,7 @@ public class DefinitionsImpl implements Definitions {
      *
      * @throws NoSuchDefinitionException If a parent definition is not found.
      */
-    public void resolveInheritances() throws NoSuchDefinitionException {
+    public void resolveInheritances() {
         Set<String> alreadyResolvedDefinitions = new HashSet<String>();
 
         for (Definition definition : baseDefinitions.values()) {
@@ -145,7 +144,7 @@ public class DefinitionsImpl implements Definitions {
      * @param locale The locale to use.
      * @throws NoSuchDefinitionException If a parent definition is not found.
      */
-    public void resolveInheritances(Locale locale) throws NoSuchDefinitionException {
+    public void resolveInheritances(Locale locale) {
         resolveInheritances();
 
         Map<String, Definition> map = localeSpecificDefinitions.get(locale);
@@ -211,8 +210,7 @@ public class DefinitionsImpl implements Definitions {
      * @throws NoSuchDefinitionException If an inheritance can not be solved.
      */
     protected void resolveInheritance(Definition definition, Locale locale,
-            Set<String> alreadyResolvedDefinitions)
-            throws NoSuchDefinitionException {
+            Set<String> alreadyResolvedDefinitions) {
         // Already done, or not needed ?
         if (!definition.isExtending()
                 || alreadyResolvedDefinitions.contains(definition.getName())) {

@@ -24,7 +24,6 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -107,11 +106,11 @@ public class DefinitionManager {
      * @param definition The name of the definition.
      * @param request The current request.
      * @return The requested definition, either main or custom.
-     * @throws DefinitionsFactoryException If something goes wrong when
-     * obtaining a main definition.
+     * @throws org.apache.tiles.definition.DefinitionsFactoryException If
+     * something goes wrong when obtaining a main definition.
      */
-    public Definition getDefinition(String definition, TilesRequestContext request)
-        throws DefinitionsFactoryException {
+    public Definition getDefinition(String definition,
+            TilesRequestContext request) {
         Map<String, Definition> definitions =
             getDefinitions(request);
         if (definitions != null && definitions.containsKey(definition)) {
@@ -125,12 +124,11 @@ public class DefinitionManager {
      *
      * @param definition The definition to add.
      * @param request The current request.
-     * @throws DefinitionsFactoryException If something goes wrong during the
-     * addition.
+     * @throws org.apache.tiles.definition.DefinitionsFactoryException If
+     * something goes wrong during the addition.
      */
     public void addDefinition(Definition definition,
-            TilesRequestContext request)
-        throws DefinitionsFactoryException {
+            TilesRequestContext request) {
         Map<String, Definition> definitions = getOrCreateDefinitions(request);
         if (definition.getName() == null) {
             definition.setName(getNextUniqueDefinitionName(definitions));
@@ -182,11 +180,11 @@ public class DefinitionManager {
      * @param definition The definition that needs to have its inheritances
      * resolved.
      * @param request The current request.
-     * @throws DefinitionsFactoryException If an inheritance can not be solved.
+     * @throws org.apache.tiles.definition.DefinitionsFactoryException If an
+     * inheritance can not be solved.
      */
     protected void resolveInheritance(Definition definition,
-            TilesRequestContext request)
-        throws DefinitionsFactoryException  {
+            TilesRequestContext request) {
         // Already done, or not needed ?
         if (!definition.isExtending()) {
             return;

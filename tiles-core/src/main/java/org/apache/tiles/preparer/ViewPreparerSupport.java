@@ -35,6 +35,6 @@ public class ViewPreparerSupport implements ViewPreparer {
 
     /** {@inheritDoc} */
     public void execute(TilesRequestContext tilesContext,
-                        AttributeContext attributeContext) throws PreparerException {
+                        AttributeContext attributeContext) {
     }
 }

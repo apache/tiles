@@ -55,7 +55,7 @@ public interface Definitions {
      * @throws NoSuchDefinitionException if a Definition extends from
      *                                   one that doesn't exist.
      */
-    void addDefinitions(Map<String, Definition> defsMap) throws NoSuchDefinitionException;
+    void addDefinitions(Map<String, Definition> defsMap);
 
     /**
      * Adds new locale-specific Definition objects to the internal
@@ -66,8 +66,7 @@ public interface Definitions {
      * @throws NoSuchDefinitionException if a Definition extends from
      *                                   one that doesn't exist.
      */
-    void addDefinitions(Map<String, Definition> defsMap, Locale locale)
-            throws NoSuchDefinitionException;
+    void addDefinitions(Map<String, Definition> defsMap, Locale locale);
 
     /**
      * Returns a Definition object that matches the given name and locale.
@@ -84,7 +83,7 @@ public interface Definitions {
      *
      * @throws NoSuchDefinitionException If parent definitions are not found.
      */
-    void resolveInheritances() throws NoSuchDefinitionException;
+    void resolveInheritances();
 
     /**
      * Resolves locale-specific configuration inheritance properties.
@@ -92,7 +91,7 @@ public interface Definitions {
      * @param locale The locale object to use.
      * @throws NoSuchDefinitionException If parent definitions are not found.
      */
-    void resolveInheritances(Locale locale) throws NoSuchDefinitionException;
+    void resolveInheritances(Locale locale);
 
     /**
      * Clears definitions.
