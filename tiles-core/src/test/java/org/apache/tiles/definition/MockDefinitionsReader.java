@@ -64,8 +64,7 @@ public class MockDefinitionsReader implements DefinitionsReader {
      *  an error occurs when reading definitions.
      */
     @SuppressWarnings("unchecked")
-    public Map<String, Definition> read(Object source)
-            throws DefinitionsFactoryException {
+    public Map<String, Definition> read(Object source) {
         return Collections.EMPTY_MAP;
     }
 
@@ -78,7 +77,7 @@ public class MockDefinitionsReader implements DefinitionsReader {
      * @throws org.apache.tiles.definition.DefinitionsFactoryException if required properties are not
      *  passed in or the initialization fails.
      */
-    public void init(Map<String, String> params) throws DefinitionsFactoryException {
+    public void init(Map<String, String> params) {
     }
 
 }

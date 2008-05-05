@@ -96,11 +96,11 @@ public class MockDefinitions implements Definitions {
     }
 
     /** {@inheritDoc} */
-    public void resolveInheritances() throws NoSuchDefinitionException {
+    public void resolveInheritances() {
     }
 
     /** {@inheritDoc} */
-    public void resolveInheritances(Locale locale) throws NoSuchDefinitionException {
+    public void resolveInheritances(Locale locale) {
     }
 
     /**

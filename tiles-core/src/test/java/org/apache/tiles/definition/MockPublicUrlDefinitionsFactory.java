@@ -43,7 +43,7 @@ public class MockPublicUrlDefinitionsFactory extends UrlDefinitionsFactory {
      *org.apache.tiles.context.TilesRequestContext)
      */
     public void addDefinitions(Definitions definitions,
-            TilesRequestContext tilesContext) throws DefinitionsFactoryException {
+            TilesRequestContext tilesContext) {
         super.addDefinitions(definitions, tilesContext);
     }
 
