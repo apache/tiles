@@ -68,6 +68,10 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
         initialize(servletContext);
     }
 
+    /** {@inheritDoc} */
+    public Object getContext() {
+        return servletContext;
+    }
 
     /** {@inheritDoc} */
     public Map<String, Object> getApplicationScope() {
@@ -106,6 +110,7 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
      * Returns the servlet context.
      *
      * @return The servlet context.
+     * @deprecated Use {@link #getContext()}.
      */
     public ServletContext getServletContext() {
         return servletContext;

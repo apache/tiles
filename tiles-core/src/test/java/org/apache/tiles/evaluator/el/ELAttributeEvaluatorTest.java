@@ -69,7 +69,10 @@ public class ELAttributeEvaluatorTest extends TestCase {
         EasyMock.replay(request, applicationContext);
 
         evaluator.setApplicationContext(applicationContext);
-        evaluator.init(null);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(ELAttributeEvaluator.EXPRESSION_FACTORY_FACTORY_INIT_PARAM,
+                TomcatExpressionFactoryFactory.class.getName());
+        evaluator.init(params);
     }
 
     /**

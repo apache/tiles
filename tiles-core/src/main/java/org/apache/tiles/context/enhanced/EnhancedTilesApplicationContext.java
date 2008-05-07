@@ -71,6 +71,10 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
         this.rootContext = rootContext;
     }
 
+    /** {@inheritDoc} */
+    public Object getContext() {
+        return rootContext.getContext();
+    }
 
     /**
      * Returns the root context.

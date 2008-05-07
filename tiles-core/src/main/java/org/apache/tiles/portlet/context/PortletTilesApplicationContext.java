@@ -68,6 +68,10 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
         initialize(context);
     }
 
+    /** {@inheritDoc} */
+    public Object getContext() {
+        return context;
+    }
 
     /**
      * <p>Initialize (or reinitialize) this {@link PortletTilesApplicationContext} instance
@@ -158,6 +162,4 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
                 + context.getClass().getName());
         }
     }
-
-
 }

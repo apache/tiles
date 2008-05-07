@@ -29,13 +29,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.el.ELContext;
+
 import junit.framework.TestCase;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.evaluator.el.tomcat.jasper.el.lang.ELContextImpl;
 import org.easymock.EasyMock;
-
-import de.odysseus.el.util.SimpleContext;
 
 /**
  * Tests {@link TilesContextELResolver}.
@@ -97,7 +98,7 @@ public class TilesContextELResolverTest extends TestCase {
                 .createMock(TilesRequestContext.class);
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        SimpleContext context = new SimpleContext(resolver);
+        ELContext context = new ELContextImpl(resolver);
         EasyMock.replay(request, applicationContext);
         context.putContext(TilesRequestContext.class, request);
         context.putContext(TilesApplicationContext.class, applicationContext);
@@ -128,7 +129,7 @@ public class TilesContextELResolverTest extends TestCase {
                 .createMock(TilesApplicationContext.class);
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
                 applicationScope);
-        SimpleContext context = new SimpleContext(resolver);
+        ELContext context = new ELContextImpl(resolver);
         EasyMock.replay(request, applicationContext);
         context.putContext(TilesRequestContext.class, request);
         context.putContext(TilesApplicationContext.class, applicationContext);
@@ -146,7 +147,7 @@ public class TilesContextELResolverTest extends TestCase {
      * {@link TilesContextELResolver#isReadOnly(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
     public void testIsReadOnly() {
-        SimpleContext context = new SimpleContext(resolver);
+        ELContext context = new ELContextImpl(resolver);
         assertTrue("The value is not read only", resolver.isReadOnly(context,
                 null, null));
     }

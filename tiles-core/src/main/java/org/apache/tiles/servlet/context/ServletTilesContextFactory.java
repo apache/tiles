@@ -54,7 +54,8 @@ public class ServletTilesContextFactory implements TilesContextFactory {
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
         if (requestItems.length == 2) {
-            ServletContext servletContext = getServletContext(context);
+            ServletContext servletContext = (ServletContext) context
+                    .getContext();
             if (servletContext != null) {
                 return new ServletTilesRequestContext(servletContext,
                     (HttpServletRequest) requestItems[0],
@@ -70,6 +71,7 @@ public class ServletTilesContextFactory implements TilesContextFactory {
      *
      * @param context The application context.
      * @return The original servlet context, if found.
+     * @deprecated Use {@link TilesApplicationContext#getContext()}.
      */
     protected ServletContext getServletContext(TilesApplicationContext context) {
         if (context instanceof ServletTilesApplicationContext) {

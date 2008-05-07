@@ -25,6 +25,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.el.ArrayELResolver;
+import javax.el.CompositeELResolver;
+import javax.el.ELResolver;
+import javax.el.ListELResolver;
+import javax.el.MapELResolver;
+import javax.el.ResourceBundleELResolver;
+
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
@@ -34,14 +41,15 @@ import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.el.ELAttributeEvaluator;
+import org.apache.tiles.evaluator.el.JspExpressionFactoryFactory;
+import org.apache.tiles.evaluator.el.TilesContextBeanELResolver;
+import org.apache.tiles.evaluator.el.TilesContextELResolver;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
-
-import de.odysseus.el.ExpressionFactoryImpl;
 
 /**
  * Test Tiles container factory to customize Tiles behaviour.
@@ -92,8 +100,21 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
             TilesContextFactory contextFactory, LocaleResolver resolver) {
         ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
         evaluator.setApplicationContext(applicationContext);
-        evaluator.setExpressionFactory(new ExpressionFactoryImpl());
-        evaluator.init(null);
+        JspExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();
+        efFactory.setApplicationContext(applicationContext);
+        evaluator.setExpressionFactory(efFactory.getExpressionFactory());
+        ELResolver elResolver = new CompositeELResolver() {
+            {
+                add(new TilesContextELResolver());
+                add(new TilesContextBeanELResolver());
+                add(new ArrayELResolver(false));
+                add(new ListELResolver(false));
+                add(new MapELResolver(false));
+                add(new ResourceBundleELResolver());
+            }
+        };
+        evaluator.setResolver(elResolver);
+
         return evaluator;
     }
 

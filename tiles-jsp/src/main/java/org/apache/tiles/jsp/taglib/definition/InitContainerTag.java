@@ -332,6 +332,11 @@ public class InitContainerTag extends BodyTagSupport
             return rootContext.getServletContextName();
         }
 
+        /** {@inheritDoc} */
+        public String getContextPath() {
+            return rootContext.getContextPath();
+        }
+
         /**
          * Composes an enumeration and an iterator into a single enumeration.
          */

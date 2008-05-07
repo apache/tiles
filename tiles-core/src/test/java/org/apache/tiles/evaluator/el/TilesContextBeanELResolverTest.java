@@ -31,9 +31,8 @@ import javax.el.ELContext;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.evaluator.el.tomcat.jasper.el.lang.ELContextImpl;
 import org.easymock.EasyMock;
-
-import de.odysseus.el.util.SimpleContext;
 
 import junit.framework.TestCase;
 
@@ -89,7 +88,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
-        ELContext context = new SimpleContext(resolver);
+        ELContext context = new ELContextImpl(resolver);
         context.putContext(TilesRequestContext.class, request);
         context.putContext(TilesApplicationContext.class, applicationContext);
 
@@ -148,7 +147,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
-        ELContext context = new SimpleContext(resolver);
+        ELContext context = new ELContextImpl(resolver);
         context.putContext(TilesRequestContext.class, request);
         context.putContext(TilesApplicationContext.class, applicationContext);
 
@@ -183,7 +182,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
-        ELContext context = new SimpleContext(resolver);
+        ELContext context = new ELContextImpl(resolver);
         context.putContext(TilesRequestContext.class, request);
         context.putContext(TilesApplicationContext.class, applicationContext);
 
@@ -200,7 +199,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
      * {@link TilesContextBeanELResolver#isReadOnly(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
     public void testIsReadOnlyELContextObjectObject() {
-        SimpleContext context = new SimpleContext(resolver);
+        ELContext context = new ELContextImpl(resolver);
         assertTrue("The value is not read only", resolver.isReadOnly(context,
                 null, null));
     }
@@ -228,7 +227,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
-        ELContext context = new SimpleContext(resolver);
+        ELContext context = new ELContextImpl(resolver);
         context.putContext(TilesRequestContext.class, request);
         context.putContext(TilesApplicationContext.class, applicationContext);
 

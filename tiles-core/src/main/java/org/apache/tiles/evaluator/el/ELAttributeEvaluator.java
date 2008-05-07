@@ -36,9 +36,8 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
-
-import de.odysseus.el.ExpressionFactoryImpl;
-import de.odysseus.el.util.SimpleContext;
+import org.apache.tiles.evaluator.el.tomcat.jasper.el.lang.ELContextImpl;
+import org.apache.tiles.util.ClassUtil;
 
 /**
  * Evaluates string expression with typical EL syntax.<br>
@@ -51,6 +50,15 @@ import de.odysseus.el.util.SimpleContext;
  */
 public class ELAttributeEvaluator implements AttributeEvaluator,
         TilesApplicationContextAware {
+
+    /**
+     * Initialization parameter to decide the implementation of
+     * {@link ExpressionFactoryFactory}.
+     *
+     * @since 2.1.0
+     */
+    public static final String EXPRESSION_FACTORY_FACTORY_INIT_PARAM =
+        "org.apache.tiles.evaluator.el.ExpressionFactoryFactory";
 
     /**
      * The Tiles application context.
@@ -83,8 +91,20 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
 
     /** {@inheritDoc} */
     public void init(Map<String, String> initParameters) {
-        // FIXME Take a different strategy to hold the expression factory.
-        expressionFactory = new ExpressionFactoryImpl();
+        String expressionFactoryClassName = initParameters
+                .get(EXPRESSION_FACTORY_FACTORY_INIT_PARAM);
+        ExpressionFactoryFactory efFactory;
+        if (expressionFactoryClassName != null) {
+            efFactory = (ExpressionFactoryFactory) ClassUtil
+                    .instantiate(expressionFactoryClassName);
+        } else {
+            efFactory = new JspExpressionFactoryFactory();
+        }
+        if (efFactory instanceof TilesApplicationContextAware) {
+            ((TilesApplicationContextAware) efFactory)
+                    .setApplicationContext(applicationContext);
+        }
+        expressionFactory = efFactory.getExpressionFactory();
         resolver = new CompositeELResolver() {
             {
                 add(new TilesContextELResolver());
@@ -124,7 +144,7 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
 
     /** {@inheritDoc} */
     public Object evaluate(String expression, TilesRequestContext request) {
-        SimpleContext context = new SimpleContext(resolver);
+        ELContextImpl context = new ELContextImpl(resolver);
         context.putContext(TilesRequestContext.class, request);
         context.putContext(TilesApplicationContext.class,
                 applicationContext);

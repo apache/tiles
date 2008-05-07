@@ -204,6 +204,11 @@ public class ServletContextAdapter implements ServletContext {
         return rootContext.getServletContextName();
     }
 
+    /** {@inheritDoc} */
+    public String getContextPath() {
+        return rootContext.getContextPath();
+    }
+
     /**
      * Composes an enumeration into a single one.
      */

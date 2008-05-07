@@ -50,25 +50,19 @@
       <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>servlet-api</artifactId>
-         <version>2.4</version>
+         <version>2.5</version>
          <scope>provided</scope>
       </dependency>
       <dependency>
-         <groupId>javax.servlet</groupId>
+         <groupId>javax.servlet.jsp</groupId>
          <artifactId>jsp-api</artifactId>
-         <version>2.0</version>
+         <version>2.1</version>
          <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>jstl</artifactId>
-         <version>1.1.2</version>
-         <scope>runtime</scope>
-      </dependency>
-      <dependency>
-         <groupId>taglibs</groupId>
-         <artifactId>standard</artifactId>
-         <version>1.1.2</version>
+         <version>1.2</version>
          <scope>runtime</scope>
       </dependency>
       <dependency>
@@ -77,9 +71,16 @@
         <version>2.3.10</version>
       </dependency>
       <dependency>
-	    <groupId>de.odysseus.juel</groupId>
-	    <artifactId>juel</artifactId>
-	    <version>2.1.0</version>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>jasper-el</artifactId>
+        <version>6.0.16</version>
+        <scope>optional</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>el-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
    </dependencies>
    
@@ -105,9 +106,10 @@
            <plugin>
                <groupId>org.codehaus.cargo</groupId>
                <artifactId>cargo-maven2-plugin</artifactId>
+               <version>1.0-SNAPSHOT</version>
                <configuration>
                    <container>
-                       <containerId>tomcat5x</containerId>
+                       <containerId>tomcat6x</containerId>
                        <home>${cargo.tomcat5x.home}</home>
                        <log>${project.build.directory}/tomcat5x.log</log>
                        <output>${project.build.directory}/tomcat5x.out</output>
@@ -286,6 +288,18 @@
         </profile>
 
     </profiles>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>codehaus.snapshots</id>
+            <url>http://snapshots.repository.codehaus.org/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 
 
 </project>

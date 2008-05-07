@@ -36,6 +36,14 @@ import java.io.IOException;
 public interface TilesApplicationContext {
 
     /**
+     * Returns the original, technology-dependent, context.
+     *
+     * @return The original application context.
+     * @since 2.1.0
+     */
+    Object getContext();
+
+    /**
      * Returns a mutable Map that maps application scope attribute names to
      * their values.
      *
