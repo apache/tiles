@@ -35,7 +35,6 @@ import junit.framework.TestCase;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.evaluator.el.tomcat.jasper.el.lang.ELContextImpl;
 import org.easymock.EasyMock;
 
 /**

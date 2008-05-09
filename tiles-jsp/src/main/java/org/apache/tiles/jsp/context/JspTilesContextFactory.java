@@ -69,13 +69,9 @@ public class JspTilesContextFactory implements TilesContextFactory {
      *
      * @param context The application context.
      * @return The original servlet context, if found.
+     * @deprecated Use {@link TilesApplicationContext#getContext()}.
      */
     protected ServletContext getServletContext(TilesApplicationContext context) {
-        if (context instanceof ServletTilesApplicationContext) {
-            ServletTilesApplicationContext app = (ServletTilesApplicationContext) context;
-            return app.getServletContext();
-        }
-        return null;
-
+        return (ServletContext) context.getContext();
     }
 }

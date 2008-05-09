@@ -110,12 +110,12 @@
                <configuration>
                    <container>
                        <containerId>tomcat6x</containerId>
-                       <home>${cargo.tomcat5x.home}</home>
-                       <log>${project.build.directory}/tomcat5x.log</log>
-                       <output>${project.build.directory}/tomcat5x.out</output>
+                       <home>${cargo.tomcat6x.home}</home>
+                       <log>${project.build.directory}/tomcat6x.log</log>
+                       <output>${project.build.directory}/tomcat6x.out</output>
                    </container>
                    <configuration>
-                       <home>${project.build.directory}/tomcat5x</home>
+                       <home>${project.build.directory}/tomcat6x</home>
                    </configuration>
                </configuration>
            </plugin>

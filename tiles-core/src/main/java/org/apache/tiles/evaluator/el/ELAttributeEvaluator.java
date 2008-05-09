@@ -36,7 +36,6 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
-import org.apache.tiles.evaluator.el.tomcat.jasper.el.lang.ELContextImpl;
 import org.apache.tiles.util.ClassUtil;
 
 /**
