@@ -41,7 +41,6 @@ import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.el.ELAttributeEvaluator;
-import org.apache.tiles.evaluator.el.JspExpressionFactoryFactory;
 import org.apache.tiles.evaluator.el.TilesContextBeanELResolver;
 import org.apache.tiles.evaluator.el.TilesContextELResolver;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
@@ -49,6 +48,7 @@ import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
+import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 
 /**
@@ -100,7 +100,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
             TilesContextFactory contextFactory, LocaleResolver resolver) {
         ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
         evaluator.setApplicationContext(applicationContext);
-        JspExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();
+        MultiversionExpressionFactoryFactory efFactory = new MultiversionExpressionFactoryFactory();
         efFactory.setApplicationContext(applicationContext);
         evaluator.setExpressionFactory(efFactory.getExpressionFactory());
         ELResolver elResolver = new CompositeELResolver() {

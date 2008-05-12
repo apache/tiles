@@ -38,6 +38,8 @@
                value="reversed,org.apache.tiles.test.renderer.ReverseStringAttributeRenderer"/>
     <tiles:putAttribute name="org.apache.tiles.evaluator.AttributeEvaluator"
                value="org.apache.tiles.evaluator.el.ELAttributeEvaluator"/>
+    <tiles:putAttribute name="org.apache.tiles.evaluator.el.ExpressionFactoryFactory"
+               value="org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory"/>
 </tiles:initContainer>
 
 <tiles:insertDefinition name="test.definition" />
