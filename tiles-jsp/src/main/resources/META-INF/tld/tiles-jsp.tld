@@ -50,7 +50,7 @@
       <code>&lt;tiles:putAttribute&gt;</code> or
       <code>&lt;tiles:putListAttribute&gt;</code>.
       </p>
-      <p>You must specify <li><code>template</code> attribute, for inserting a template</p>
+      <p>You must specify <code>template</code> attribute, for inserting a template</p>
      
       <p><strong>Example : </strong></p>
       <pre>

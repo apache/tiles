@@ -111,6 +111,9 @@
       <plugin>
         <groupId>net.sourceforge.maven-taglib</groupId>
         <artifactId>maven-taglib-plugin</artifactId>
+        <configuration>
+          <parseHtml>true</parseHtml>
+        </configuration>
       </plugin>
     </plugins>
   </reporting>
