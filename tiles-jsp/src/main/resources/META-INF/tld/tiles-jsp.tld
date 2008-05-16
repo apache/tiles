@@ -61,7 +61,7 @@
              &lt;tiles:putAttribute name="footer" value="/common/footer.jsp" /&gt;
              &lt;tiles:putAttribute name="menu" value="/basic/menu.jsp" /&gt;
              &lt;tiles:putAttribute name="body" value="/basic/helloBody.jsp" /&gt;
-          &lt;/tiles:insert&gt;
+          &lt;/tiles:insertTemplate&gt;
         </code>
       </pre>
       ]]>
