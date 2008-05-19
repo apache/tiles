@@ -18,8 +18,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.apache.tiles.jsp.context;
 
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.impl.NoSuchContainerException;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 import javax.servlet.jsp.PageContext;
@@ -64,5 +68,61 @@ public final class JspUtil {
         context.setAttribute(
                 ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
                 retValue, PageContext.REQUEST_SCOPE);
+    }
+
+    /**
+     * Sets the current container to use in web pages.
+     *
+     * @param context The page context to use.
+     * @param key The key under which the container is stored.
+     * @since 2.1.0
+     */
+    public static void setCurrentContainer(PageContext context, String key) {
+        TilesContainer container = TilesAccess.getContainer(context
+                .getServletContext(), key);
+        if (container != null) {
+            context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+                    container, PageContext.REQUEST_SCOPE);
+        } else {
+            throw new NoSuchContainerException("The container with the key '"
+                    + key + "' cannot be found");
+        }
+    }
+
+    /**
+     * Sets the current container to use in web pages.
+     *
+     * @param context The page context to use.
+     * @param container The container to use as the current container.
+     * @since 2.1.0
+     */
+    public static void setCurrentContainer(PageContext context,
+            TilesContainer container) {
+        if (container != null) {
+            context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+                    container, PageContext.REQUEST_SCOPE);
+        } else {
+            throw new NoSuchContainerException("The container cannot be null");
+        }
+    }
+
+    /**
+     * Returns the current container that has been set, or the default one.
+     *
+     * @param context The page context to use.
+     * @return The current Tiles container to use in web pages.
+     * @since 2.1.0
+     */
+    public static TilesContainer getCurrentContainer(PageContext context) {
+        TilesContainer container = (TilesContainer) context.getAttribute(
+                ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+                PageContext.REQUEST_SCOPE);
+        if (container == null) {
+            container = TilesAccess.getContainer(context.getServletContext());
+            context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+                    container, PageContext.REQUEST_SCOPE);
+        }
+
+        return container;
     }
 }

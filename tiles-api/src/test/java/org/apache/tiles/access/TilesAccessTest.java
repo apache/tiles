@@ -54,6 +54,17 @@ public class TilesAccessTest extends TestCase {
     }
 
     /**
+     * Tests the setting of the context.
+     */
+    public void testSetContextWithKey() {
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        context.setAttribute("myKey", container);
+        EasyMock.replay(context);
+        TilesAccess.setContainer(context, container, "myKey");
+        EasyMock.verify(context);
+    }
+
+    /**
      * Tests the getting of the context.
      */
     public void testGetContext() {
@@ -61,6 +72,17 @@ public class TilesAccessTest extends TestCase {
         EasyMock.expect(context.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         EasyMock.replay(context);
         assertEquals(container, TilesAccess.getContainer(context));
+        EasyMock.verify(context);
+    }
+
+    /**
+     * Tests the getting of the context.
+     */
+    public void testGetContextWithKey() {
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        EasyMock.expect(context.getAttribute("myKey")).andReturn(container);
+        EasyMock.replay(context);
+        assertEquals(container, TilesAccess.getContainer(context, "myKey"));
         EasyMock.verify(context);
     }
 

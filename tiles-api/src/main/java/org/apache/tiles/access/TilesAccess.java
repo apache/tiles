@@ -62,7 +62,8 @@ public final class TilesAccess {
         "org.apache.tiles.APPLICATION_CONTEXT";
 
     /**
-     * Finds and returns a Tiles container object, if it was previously initialized.
+     * Finds and returns the default Tiles container object, if it was
+     * previously initialized.
      *
      * @param context The (application) context object to use.
      * @return The container if it has been configured previously, otherwise
@@ -74,6 +75,23 @@ public final class TilesAccess {
     }
 
     /**
+     * Finds and returns a Tiles container object, if it was previously initialized.
+     *
+     * @param context The (application) context object to use.
+     * @return The container if it has been configured previously, otherwise
+     * <code>null</code>.
+     * @param key The key under which the container is stored.
+     * @see #setContainer(Object, TilesContainer)
+     */
+    public static TilesContainer getContainer(Object context, String key) {
+        if (key == null) {
+            key = CONTAINER_ATTRIBUTE;
+        }
+
+        return (TilesContainer) getAttribute(context, key);
+    }
+
+    /**
      * Configures the container to be used in the application.
      *
      * @param context The (application) context object to use.
@@ -82,17 +100,33 @@ public final class TilesAccess {
      * context.
      */
     public static void setContainer(Object context, TilesContainer container) {
+        setContainer(context, container, CONTAINER_ATTRIBUTE);
+    }
+
+    /**
+     * Configures the container to be used in the application.
+     *
+     * @param context The (application) context object to use.
+     * @param container The container object to set.
+     * @param key The key under which the container will be stored.
+     * @throws TilesAccessException If something goes wrong during manipulation of the
+     * context.
+     */
+    public static void setContainer(Object context, TilesContainer container, String key) {
+        if (key == null) {
+            key = CONTAINER_ATTRIBUTE;
+        }
 
         if (container == null) {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Removing TilesContext for context: " + context.getClass().getName());
             }
-            removeAttribute(context, CONTAINER_ATTRIBUTE);
+            removeAttribute(context, key);
         }
         if (container != null && LOG.isInfoEnabled()) {
             LOG.info("Publishing TilesContext for context: " + context.getClass().getName());
         }
-        setAttribute(context, CONTAINER_ATTRIBUTE, container);
+        setAttribute(context, key, container);
     }
 
     /**
