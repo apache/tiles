@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.web.startup.TilesListener;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -46,6 +47,11 @@ public class TilesDispatchServlet extends HttpServlet {
         LogFactory.getLog(TilesDispatchServlet.class);
 
     /**
+     * The key under which the container is stored.
+     */
+    private String containerKey;
+
+    /**
      * The object that will mutate the attribute context so that it uses
      * different attributes.
      */
@@ -55,6 +61,10 @@ public class TilesDispatchServlet extends HttpServlet {
     /** {@inheritDoc} */
     public void init() throws ServletException {
         super.init();
+
+        containerKey = getServletConfig().getInitParameter(
+                TilesListener.CONTAINER_KEY_INIT_PARAMETER);
+
         String temp = getInitParameter("mutator");
         if (temp != null) {
             try {
@@ -72,7 +82,8 @@ public class TilesDispatchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
 
-        TilesContainer container = TilesAccess.getContainer(getServletContext());
+        TilesContainer container = TilesAccess.getContainer(
+                getServletContext(), containerKey);
         mutator.mutate(container.getAttributeContext(req, res), req);
         String definition = getDefinitionName(req);
         if (LOG.isDebugEnabled()) {

@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.jsp.context.JspUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
@@ -184,7 +184,7 @@ public abstract class RenderTagSupport extends BodyTagSupport implements
 
     /** {@inheritDoc} */
     public int doStartTag() throws TilesJspException {
-        container = TilesAccess.getContainer(pageContext.getServletContext());
+        container = JspUtil.getCurrentContainer(pageContext);
         if (container != null) {
             startContext(pageContext);
             return EVAL_BODY_BUFFERED;

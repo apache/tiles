@@ -26,6 +26,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.web.startup.TilesListener;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -89,6 +90,11 @@ public class TilesDecorationFilter implements Filter {
     private FilterConfig filterConfig;
 
     /**
+     * The key under which the container is stored.
+     */
+    private String containerKey;
+
+    /**
      * The name of the definition attribute used to
      * pass on the request.
      */
@@ -139,6 +145,10 @@ public class TilesDecorationFilter implements Filter {
     /** {@inheritDoc} */
     public void init(FilterConfig config) throws ServletException {
         filterConfig = config;
+
+        containerKey = filterConfig.getInitParameter(
+                TilesListener.CONTAINER_KEY_INIT_PARAMETER);
+
         String temp = config.getInitParameter("attribute-name");
         if (temp != null) {
             definitionAttributeName = temp;
@@ -211,7 +221,8 @@ public class TilesDecorationFilter implements Filter {
             return;
         }
 
-        TilesContainer container = TilesAccess.getContainer(getServletContext());
+        TilesContainer container = TilesAccess.getContainer(
+                getServletContext(), containerKey);
         mutator.mutate(container.getAttributeContext(req, res), req);
         if (preventDecorationToken != null) {
             req.setAttribute(preventDecorationToken, Boolean.TRUE);

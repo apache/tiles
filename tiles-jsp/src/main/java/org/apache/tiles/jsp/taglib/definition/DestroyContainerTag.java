@@ -31,10 +31,36 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 public class DestroyContainerTag extends TagSupport {
 
+    /**
+     * The key under which the container will be stored.
+     */
+    private String containerKey;
+
+    /**
+     * Returns the key under which the container will be stored.
+     *
+     * @return the containerKey The container key.
+     * @since 2.1.0
+     */
+    public String getContainerKey() {
+        return containerKey;
+    }
+
+    /**
+     * Sets the key under which the container will be stored.
+     *
+     * @param containerKey the containerKey The container key.
+     * @since 2.1.0
+     */
+    public void setContainerKey(String containerKey) {
+        this.containerKey = containerKey;
+    }
+
     /** {@inheritDoc} */
     @Override
     public int doEndTag() {
-        TilesAccess.setContainer(pageContext.getServletContext(), null);
+        TilesAccess.setContainer(pageContext.getServletContext(), null,
+                containerKey);
         return EVAL_PAGE;
     }
 }

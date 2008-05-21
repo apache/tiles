@@ -26,7 +26,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.jsp.context.JspUtil;
 
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -133,7 +133,7 @@ public abstract class AttributeTagSupport extends TagSupport {
 
     /** {@inheritDoc} */
     public int doStartTag() throws TilesJspException {
-        container = TilesAccess.getContainer(pageContext.getServletContext());
+        container = JspUtil.getCurrentContainer(pageContext);
         attributeContext = container.getAttributeContext(pageContext);
         scope = getScopeId();
 

@@ -813,6 +813,13 @@
          <rtexprvalue>true</rtexprvalue>
          <description> <![CDATA[ <p>Container Factory implementation used to instantiate the container.</p> ]]> </description>
       </attribute>
+      <attribute>
+         <name>containerKey</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <description> <![CDATA[ <p>The key under which the container will be stored.</p>
+         <p>If not defined, the container will be the default container</p> ]]> </description>
+      </attribute>
    </tag>
 
     <tag>
@@ -824,6 +831,13 @@
             <p><strong>Destroy the TilesContainer.</strong></p>
             ]]>
         </description>
+        <attribute>
+            <name>containerKey</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description> <![CDATA[ <p>The key of the container to destroy.</p>
+            <p>If not defined, the destroyed container will be the default container</p> ]]> </description>
+        </attribute>
     </tag>
 </taglib>
 

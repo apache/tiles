@@ -23,11 +23,11 @@ package org.apache.tiles.jsp.taglib.definition;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.mgmt.MutableTilesContainer;
-import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -188,8 +188,7 @@ public class DefinitionTag extends TagSupport
         definition.setRole(role);
         definition.setPreparer(preparer);
 
-        TilesContainer c =
-            TilesAccess.getContainer(pageContext.getServletContext());
+        TilesContainer c = JspUtil.getCurrentContainer(pageContext);
 
         if (c == null) {
             throw new TilesJspException("TilesContainer not initialized");

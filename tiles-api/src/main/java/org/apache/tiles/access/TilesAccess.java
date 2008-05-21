@@ -82,6 +82,7 @@ public final class TilesAccess {
      * <code>null</code>.
      * @param key The key under which the container is stored.
      * @see #setContainer(Object, TilesContainer)
+     * @since 2.1.0
      */
     public static TilesContainer getContainer(Object context, String key) {
         if (key == null) {
@@ -92,7 +93,7 @@ public final class TilesAccess {
     }
 
     /**
-     * Configures the container to be used in the application.
+     * Configures the default container to be used in the application.
      *
      * @param context The (application) context object to use.
      * @param container The container object to set.
@@ -136,7 +137,19 @@ public final class TilesAccess {
      * @return The required Tiles application context.
      */
     public static TilesApplicationContext getApplicationContext(Object context) {
-        TilesContainer container = getContainer(context);
+        return getApplicationContext(context, null);
+    }
+
+    /**
+     * Returns the Tiles application context object.
+     *
+     * @param context The (application) context to use.
+     * @param key The key under which the container is stored.
+     * @return The required Tiles application context.
+     * @since 2.1.0
+     */
+    public static TilesApplicationContext getApplicationContext(Object context, String key) {
+        TilesContainer container = getContainer(context, key);
         if (container != null) {
             return container.getApplicationContext();
         }

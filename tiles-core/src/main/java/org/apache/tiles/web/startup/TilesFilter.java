@@ -58,6 +58,10 @@ public class TilesFilter extends TilesServlet implements Filter {
      */
     private FilterConfig filterConfig = null;
 
+    /**
+     * The key under which the container is stored.
+     */
+    private String containerKey;
 
     /**
      * Checks whether Tiles Definitions need to be reloaded.
@@ -74,7 +78,7 @@ public class TilesFilter extends TilesServlet implements Filter {
 
         try {
             DefinitionsFactoryUtil.reloadDefinitionsFactory(
-                    getServletContext());
+                    getServletContext(), containerKey);
             chain.doFilter(request, response);
         } catch (Exception e) {
             throw new ServletException("Error processing request.", e);
@@ -114,6 +118,9 @@ public class TilesFilter extends TilesServlet implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
         super.init(createServletConfig());
+
+        containerKey = filterConfig.getInitParameter(
+                TilesListener.CONTAINER_KEY_INIT_PARAMETER);
 
         if (DEBUG) {
             log("TilesDecorationFilter:Initializing filter");

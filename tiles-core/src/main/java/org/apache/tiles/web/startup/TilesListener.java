@@ -40,6 +40,15 @@ public class TilesListener
     implements ServletContextListener {
 
     /**
+     * Init parameter to define the key under which the container will be
+     * stored.
+     *
+     * @since 2.1.0
+     */
+    public static final String CONTAINER_KEY_INIT_PARAMETER =
+        "org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY";
+
+    /**
      * Log instance.
      */
     protected static final Log LOG =
@@ -53,7 +62,9 @@ public class TilesListener
      */
     public void contextInitialized(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();
-        TilesContainer container = createContainer(servletContext);
+        String key = servletContext.getInitParameter(
+                CONTAINER_KEY_INIT_PARAMETER);
+        TilesContainer container = createContainer(servletContext, key);
         TilesAccess.setContainer(servletContext, container);
     }
 
@@ -76,8 +87,22 @@ public class TilesListener
      *
      * @param context The servlet context to use.
      * @return The created container
+     * @deprecated Use {@link #createContainer(ServletContext,String)} instead.
      */
+    @Deprecated
     protected TilesContainer createContainer(ServletContext context) {
+        return createContainer(context, null);
+    }
+
+    /**
+     * Creates a Tiles container.
+     *
+     * @param context The servlet context to use.
+     * @param containerKey The key under which the container will be stored.
+     * @return The created container
+     */
+    protected TilesContainer createContainer(ServletContext context,
+            String containerKey) {
         AbstractTilesContainerFactory factory =
             AbstractTilesContainerFactory.getTilesContainerFactory(context);
         return factory.createContainer(context);

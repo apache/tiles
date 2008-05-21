@@ -66,6 +66,11 @@ public class InitContainerTag extends BodyTagSupport
     private String containerFactory;
 
     /**
+     * The key under which the container will be stored.
+     */
+    private String containerKey;
+
+    /**
      * Init parameters map.
      */
     private Map<String, String> initParameters;
@@ -89,6 +94,25 @@ public class InitContainerTag extends BodyTagSupport
         this.containerFactory = containerFactory;
     }
 
+    /**
+     * Returns the key under which the container will be stored.
+     *
+     * @return the containerKey The container key.
+     * @since 2.1.0
+     */
+    public String getContainerKey() {
+        return containerKey;
+    }
+
+    /**
+     * Sets the key under which the container will be stored.
+     *
+     * @param containerKey the containerKey The container key.
+     * @since 2.1.0
+     */
+    public void setContainerKey(String containerKey) {
+        this.containerKey = containerKey;
+    }
 
     /** {@inheritDoc} */
     public void processNestedTag(PutAttributeTag nestedTag) {
@@ -99,6 +123,7 @@ public class InitContainerTag extends BodyTagSupport
     public void release() {
         super.release();
         containerFactory = null;
+        containerKey = null;
         initParameters = null;
     }
 
@@ -112,10 +137,11 @@ public class InitContainerTag extends BodyTagSupport
     // TODO Add a MutableContainer so that this can be done?
     public int doEndTag() {
         TilesContainer container =
-            TilesAccess.getContainer(pageContext.getServletContext());
+            TilesAccess.getContainer(pageContext.getServletContext(), containerKey);
 
         if (container != null) {
-            LOG.warn("TilesContainer allready instantiated for this context. Ignoring request to define.");
+            LOG.warn("TilesContainer allready instantiated for this context under key '"
+                    + containerKey + "'. Ignoring request to define.");
             return SKIP_BODY;
         }
 
@@ -139,7 +165,7 @@ public class InitContainerTag extends BodyTagSupport
 
         TilesContainer mutableContainer = AbstractTilesContainerFactory
                 .getTilesContainerFactory(context).createContainer(context);
-        TilesAccess.setContainer(context, mutableContainer);
+        TilesAccess.setContainer(context, mutableContainer, containerKey);
 
         return EVAL_PAGE;
     }
