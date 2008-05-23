@@ -30,11 +30,6 @@
     <display-name>Tiles 2 Test Application</display-name>
     <distributable/>
 
-    <context-param>
-        <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
-        <param-value>org.apache.tiles.test.factory.TestTilesContainerFactory</param-value>
-    </context-param>
-
     <filter>
         <filter-name>Tiles Decoration Filter</filter-name>
         <filter-class>org.apache.tiles.web.util.TilesDecorationFilter</filter-class>
@@ -70,6 +65,23 @@
         <servlet-name>tiles</servlet-name>
         <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
+        <init-param>
+            <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
+            <param-value>org.apache.tiles.test.factory.TestTilesContainerFactory</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>tiles-alt</servlet-name>
+        <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+        <init-param>
+            <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
+            <param-value>org.apache.tiles.test.factory.TestAlternateTilesContainerFactory</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY</param-name>
+            <param-value>alternate</param-value>
+        </init-param>
     </servlet>
     <servlet>
         <servlet-name>freemarker</servlet-name>

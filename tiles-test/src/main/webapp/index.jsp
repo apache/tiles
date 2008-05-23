@@ -75,6 +75,7 @@
     <a href="testdecorationfilter.jsp">Test Tiles Definition Filter</a><br/>
     <a href="testdispatchservlet.tiles">Test Tiles Dispatch Servlet</a><br/>
     <a href="selectlocale.jsp">Test Localization</a><br/>
+    <a href="testsetcurrentcontainer.jsp">Test setCurrentContainer Tag</a><br/>
 
     <h3>Mutable Container Tests</h3>
     <a href="testinitcontainer.jsp">Test Initialize Container</a><br/>

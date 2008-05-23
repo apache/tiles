@@ -839,5 +839,22 @@
             <p>If not defined, the destroyed container will be the default container</p> ]]> </description>
         </attribute>
     </tag>
+    <tag>
+        <name>setCurrentContainer</name>
+        <tag-class>org.apache.tiles.jsp.taglib.definition.SetCurrentContainerTag</tag-class>
+        <body-content>empty</body-content>
+        <description>
+            <![CDATA[
+            <p><strong>Sets the current Tiles container to use in Tiles tags.</strong></p>
+            ]]>
+        </description>
+        <attribute>
+            <name>containerKey</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description> <![CDATA[ <p>The key of the container that will be set as "current".</p>
+            <p>If not defined, the current container will be the default container</p> ]]> </description>
+        </attribute>
+    </tag>
 </taglib>
 

@@ -64,8 +64,8 @@ public class TilesListener
         ServletContext servletContext = event.getServletContext();
         String key = servletContext.getInitParameter(
                 CONTAINER_KEY_INIT_PARAMETER);
-        TilesContainer container = createContainer(servletContext, key);
-        TilesAccess.setContainer(servletContext, container);
+        TilesContainer container = createContainer(servletContext);
+        TilesAccess.setContainer(servletContext, container, key);
     }
 
     /**
@@ -87,22 +87,8 @@ public class TilesListener
      *
      * @param context The servlet context to use.
      * @return The created container
-     * @deprecated Use {@link #createContainer(ServletContext,String)} instead.
      */
-    @Deprecated
     protected TilesContainer createContainer(ServletContext context) {
-        return createContainer(context, null);
-    }
-
-    /**
-     * Creates a Tiles container.
-     *
-     * @param context The servlet context to use.
-     * @param containerKey The key under which the container will be stored.
-     * @return The created container
-     */
-    protected TilesContainer createContainer(ServletContext context,
-            String containerKey) {
         AbstractTilesContainerFactory factory =
             AbstractTilesContainerFactory.getTilesContainerFactory(context);
         return factory.createContainer(context);

@@ -18,26 +18,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.apache.tiles.jsp.taglib.definition;
 
-import org.apache.tiles.access.TilesAccess;
-
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.apache.tiles.jsp.context.JspUtil;
+
 /**
- * Destroys the accessible container.
+ * Sets the current container, to be used by Tiles tags.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
-public class DestroyContainerTag extends TagSupport {
+public class SetCurrentContainerTag extends TagSupport {
 
     /**
-     * The key of the container to destroy.
+     * The key under which the container is stored.
      */
     private String containerKey;
 
     /**
-     * Returns the key of the container to destroy.
+     * Returns the key under which the container is stored.
      *
      * @return the containerKey The container key.
      * @since 2.1.0
@@ -47,7 +50,7 @@ public class DestroyContainerTag extends TagSupport {
     }
 
     /**
-     * Sets the key of the container to destroy.
+     * Sets the key under which the container is stored.
      *
      * @param containerKey the containerKey The container key.
      * @since 2.1.0
@@ -58,9 +61,14 @@ public class DestroyContainerTag extends TagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public int doEndTag() {
-        TilesAccess.setContainer(pageContext.getServletContext(), null,
-                containerKey);
-        return EVAL_PAGE;
+    public void release() {
+        this.containerKey = null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int doEndTag() throws JspException {
+        JspUtil.setCurrentContainer(pageContext, containerKey);
+        return SKIP_BODY;
     }
 }
