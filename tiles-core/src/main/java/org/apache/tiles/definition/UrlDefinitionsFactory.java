@@ -38,6 +38,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -107,9 +108,14 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
 
 
     /**
-     * The definitions holder object.
+     * The base set of Definition objects not discriminated by locale.
      */
-    private Definitions definitions;
+    private Map<String, Definition> baseDefinitions;
+
+    /**
+     * The locale-specific set of definitions objects.
+     */
+    private Map<Locale, Map<String, Definition>> localeSpecificDefinitions;
 
     /**
      * The locale resolver object.
@@ -195,9 +201,11 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * Returns the definitions holder object.
      *
      * @return The definitions holder.
+     * @deprecated Do not use! Deprecated with no replacement.
      */
+    @Deprecated
     protected Definitions getDefinitions() {
-        return definitions;
+        return new DefinitionsImpl(baseDefinitions, localeSpecificDefinitions);
     }
 
 
@@ -214,19 +222,16 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     public Definition getDefinition(String name,
             TilesRequestContext tilesContext) {
 
-        Definitions definitions = getDefinitions();
         Locale locale = null;
 
         if (tilesContext != null) {
             locale = localeResolver.resolveLocale(tilesContext);
             if (!isContextProcessed(tilesContext)) {
-                synchronized (definitions) {
-                    addDefinitions(definitions, tilesContext);
-                }
+                addDefinitions(tilesContext);
             }
         }
 
-        return definitions.getDefinition(name, locale);
+        return getDefinition(name, locale);
     }
 
     /**
@@ -267,9 +272,24 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * @param definitions  The Definitions object to append to.
      * @param tilesContext The requested locale.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
+     * @deprecated Use {@link #addDefinitions(TilesRequestContext)}.
      */
     protected void addDefinitions(Definitions definitions,
             TilesRequestContext tilesContext) {
+        addDefinitions(tilesContext);
+    }
+
+    /**
+     * Appends locale-specific {@link Definition} objects to existing
+     * definitions set by reading locale-specific versions of the applied
+     * sources.
+     *
+     * @param tilesContext The requested locale.
+     * @throws DefinitionsFactoryException if an error occurs reading
+     * definitions.
+     * @since 2.1.0
+     */
+    protected synchronized void addDefinitions(TilesRequestContext tilesContext) {
 
         Locale locale = localeResolver.resolveLocale(tilesContext);
 
@@ -318,8 +338,8 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
 
         // At the end of definitions loading, they can be assigned to
         // Definitions implementation, to allow inheritance resolution.
-        definitions.addDefinitions(localeDefsMap, localeResolver
-                .resolveLocale(tilesContext));
+        localeSpecificDefinitions.put(locale, localeDefsMap);
+        resolveInheritances(locale);
     }
 
     /**
@@ -334,7 +354,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     @Deprecated
     public Definitions readDefinitions() {
         loadDefinitions();
-        return definitions;
+        return new DefinitionsImpl(baseDefinitions, localeSpecificDefinitions);
     }
 
     /**
@@ -358,7 +378,9 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * to provide your custom instance of Definitions.
      *
      * @return A new instance of <code>Definitions</code>.
+     * @deprecated Do not use! Deprecated with no replacement.
      */
+    @Deprecated
     protected Definitions createDefinitions() {
         return new DefinitionsImpl();
     }
@@ -391,19 +413,15 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     }
 
     /**
-     * Creates a {@link Definitions} set by reading
-     * configuration data from the applied sources.
+     * Creates a base set by reading configuration data from the applied
+     * sources.
      *
      * @throws DefinitionsFactoryException if an error occurs reading the
      * sources.
      * @since 2.1.0
      */
     protected synchronized void loadDefinitions() {
-        if (definitions == null) {
-            definitions = createDefinitions();
-        } else {
-            definitions.reset();
-        }
+        reset();
 
         try {
             for (URL source : sourceURLs) {
@@ -413,7 +431,8 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
                     connection.getLastModified());
                 Map<String, Definition> defsMap = reader
                         .read(connection.getInputStream());
-                definitions.addDefinitions(defsMap);
+                baseDefinitions.putAll(defsMap);
+                resolveInheritances();
             }
         } catch (IOException e) {
             throw new DefinitionsFactoryException("I/O error accessing source.", e);
@@ -585,5 +604,125 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
             filenames.add(tokenizer.nextToken().trim());
         }
         return filenames;
+    }
+
+    /**
+     * Clears definitions.
+     *
+     * @since 2.1.0
+     */
+    protected void reset() {
+        this.baseDefinitions = new HashMap<String, Definition>();
+        this.localeSpecificDefinitions =
+            new HashMap<Locale, Map<String, Definition>>();
+    }
+
+    /**
+     * Resolve extended instances.
+     *
+     * @throws NoSuchDefinitionException If a parent definition is not found.
+     * @since 2.1.0
+     */
+    protected void resolveInheritances() {
+        Set<String> alreadyResolvedDefinitions = new HashSet<String>();
+
+        for (Definition definition : baseDefinitions.values()) {
+            resolveInheritance(definition, null, alreadyResolvedDefinitions);
+        }  // end loop
+    }
+
+    /**
+     * Resolve locale-specific extended instances.
+     *
+     * @param locale The locale to use.
+     * @throws NoSuchDefinitionException If a parent definition is not found.
+     * @since 2.1.0
+     */
+    protected void resolveInheritances(Locale locale) {
+        resolveInheritances();
+
+        Map<String, Definition> map = localeSpecificDefinitions.get(locale);
+        if (map != null) {
+            Set<String> alreadyResolvedDefinitions = new HashSet<String>();
+            for (Definition definition : map.values()) {
+                resolveInheritance(definition, locale,
+                        alreadyResolvedDefinitions);
+            }  // end loop
+        }
+    }
+
+    /**
+     * Resolve locale-specific inheritance.
+     * First, resolve parent's inheritance, then set template to the parent's
+     * template.
+     * Also copy attributes setted in parent, and not set in child
+     * If instance doesn't extend anything, do nothing.
+     *
+     * @param definition The definition to resolve
+     * @param locale The locale to use.
+     * @param alreadyResolvedDefinitions The set of the definitions that have
+     * been already resolved.
+     * @throws NoSuchDefinitionException If an inheritance can not be solved.
+     * @since 2.1.0
+     */
+    protected void resolveInheritance(Definition definition, Locale locale,
+            Set<String> alreadyResolvedDefinitions) {
+        // Already done, or not needed ?
+        if (!definition.isExtending()
+                || alreadyResolvedDefinitions.contains(definition.getName())) {
+            return;
+        }
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Resolve definition for child name='"
+                + definition.getName()
+                + "' extends='" + definition.getExtends() + "'.");
+        }
+
+        // Set as visited to avoid endless recurisvity.
+        alreadyResolvedDefinitions.add(definition.getName());
+
+        // Resolve parent before itself.
+        Definition parent = getDefinition(definition.getExtends(),
+            locale);
+        if (parent == null) { // error
+            String msg = "Error while resolving definition inheritance: child '"
+                + definition.getName()
+                + "' can't find its ancestor '"
+                + definition.getExtends()
+                + "'. Please check your description file.";
+            // to do : find better exception
+            throw new NoSuchDefinitionException(msg);
+        }
+
+        resolveInheritance(parent, locale, alreadyResolvedDefinitions);
+
+        definition.inherit(parent);
+    }
+
+    /**
+     * Returns a Definition object that matches the given name and locale.
+     *
+     * @param name The name of the Definition to return.
+     * @param locale The locale to use to resolve the definition.
+     * @return the Definition matching the given name or null if none is found.
+     * @since 2.1.0
+     */
+    protected Definition getDefinition(String name, Locale locale) {
+        Definition definition = null;
+
+        if (locale != null) {
+            Map<String, Definition> localeSpecificMap =
+                localeSpecificDefinitions.get(locale);
+            if (localeSpecificMap != null) {
+                definition = localeSpecificMap.get(name);
+            }
+        }
+
+        if (definition == null) {
+            definition = baseDefinitions.get(name);
+        }
+
+        return definition;
     }
 }

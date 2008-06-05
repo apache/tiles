@@ -34,7 +34,11 @@ import java.util.Set;
 
 /**
  * @version $Rev$ $Date$
+ *
+ * @deprecated This class is, in fact, part of the implementation of
+ * {@link UrlDefinitionsFactory}.
  */
+@Deprecated
 public class DefinitionsImpl implements Definitions {
 
     /**
@@ -58,6 +62,18 @@ public class DefinitionsImpl implements Definitions {
         baseDefinitions = new HashMap<String, Definition>();
         localeSpecificDefinitions =
             new HashMap<Locale, Map<String, Definition>>();
+    }
+
+    /**
+     * Creates a new instance of DefinitionsImpl to be used as a wrapper.
+     *
+     * @param baseDefinitions The base definitions to use.
+     * @param localeSpecificDefinitions Maps a locale to a map of definitions.
+     */
+    public DefinitionsImpl(Map<String, Definition> baseDefinitions,
+            Map<Locale, Map<String, Definition>> localeSpecificDefinitions) {
+        this.baseDefinitions = baseDefinitions;
+        this.localeSpecificDefinitions = localeSpecificDefinitions;
     }
 
     /**

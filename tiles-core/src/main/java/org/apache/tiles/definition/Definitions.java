@@ -27,15 +27,19 @@ import java.util.Map;
 import org.apache.tiles.Definition;
 
 /**
- * Interface for managing collections of {@link Definition} objects.
- * <p/>
- * <p>The Definitions interface provides a pattern for managing
- * Definition objects.  Implementations will provide a means to append
- * new Definitions to the collection, add and retrieve lcale-specific
- * Definitions objects, and reset the collections.</p>
+ * Interface for managing collections of {@link Definition} objects. <p/>
+ * <p>
+ * The Definitions interface provides a pattern for managing Definition objects.
+ * Implementations will provide a means to append new Definitions to the
+ * collection, add and retrieve lcale-specific Definitions objects, and reset
+ * the collections.
+ * </p>
  *
  * @version $Rev$ $Date$
+ * @deprecated This interface is never used, except in the deprecated class
+ * {@link DefinitionsImpl}.
  */
+@Deprecated
 public interface Definitions {
 
     /**
