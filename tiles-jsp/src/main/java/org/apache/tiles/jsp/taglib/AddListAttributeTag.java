@@ -44,7 +44,7 @@ public class AddListAttributeTag extends AddAttributeTag
      * @return The list of attributes.
      */
     @SuppressWarnings("unchecked")
-    public List<Attribute> getValue() {
+    public List<Attribute> getAttributes() {
         return (List<Attribute>) super.getValue();
     }
 
@@ -104,6 +104,6 @@ public class AddListAttributeTag extends AddAttributeTag
      * @param attribute The attribute to add.
      */
     private void addValue(Attribute attribute) {
-        this.getValue().add(attribute);
+        this.getAttributes().add(attribute);
     }
 }
