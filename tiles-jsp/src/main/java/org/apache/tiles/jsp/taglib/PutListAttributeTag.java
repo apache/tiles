@@ -41,7 +41,7 @@ public class PutListAttributeTag extends PutAttributeTag
      * @return The value of this list attribute.
      */
     @SuppressWarnings("unchecked")
-    public List<Attribute> getValue() {
+    public List<Attribute> getAttributes() {
         return (List<Attribute>) super.getValue();
     }
 
@@ -99,6 +99,6 @@ public class PutListAttributeTag extends PutAttributeTag
      * @param attribute The attribute to add.
      */
     private void addValue(Attribute attribute) {
-        this.getValue().add(attribute);
+        this.getAttributes().add(attribute);
     }
 }
