@@ -33,6 +33,7 @@ import junit.framework.TestSuite;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.util.LocaleUtil;
 import org.easymock.EasyMock;
 
 /**
@@ -373,13 +374,13 @@ public class TestUrlDefinitionsFactory extends TestCase {
     public void testCalculatePostfixes() {
         Locale locale = Locale.US;
 
-        List<String> posts = UrlDefinitionsFactory.calculatePostfixes(locale);
+        List<String> posts = LocaleUtil.calculatePostfixes(locale);
         assertEquals(POSTFIX_COUNT, posts.size());
         assertTrue(posts.contains("_en_US"));
         assertTrue(posts.contains("_en"));
 
         locale = Locale.ENGLISH;
-        posts = UrlDefinitionsFactory.calculatePostfixes(locale);
+        posts = LocaleUtil.calculatePostfixes(locale);
         assertEquals(2, posts.size());
         assertTrue(posts.contains("_en"));
     }
@@ -388,11 +389,10 @@ public class TestUrlDefinitionsFactory extends TestCase {
      * Tests the concatPostfix method.
      */
     public void testConcatPostfix() {
-        UrlDefinitionsFactory factory = new UrlDefinitionsFactory();
         String postfix = "_en_US";
-        assertEquals("a_en_US", factory.concatPostfix("a", postfix));
-        assertEquals("a_en_US.jsp", factory.concatPostfix("a.jsp", postfix));
-        assertEquals("file_en_US.jsp", factory.concatPostfix("file.jsp", postfix));
-        assertEquals("./path/file_en_US.jsp", factory.concatPostfix("./path/file.jsp", postfix));
+        assertEquals("a_en_US", LocaleUtil.concatPostfix("a", postfix));
+        assertEquals("a_en_US.jsp", LocaleUtil.concatPostfix("a.jsp", postfix));
+        assertEquals("file_en_US.jsp", LocaleUtil.concatPostfix("file.jsp", postfix));
+        assertEquals("./path/file_en_US.jsp", LocaleUtil.concatPostfix("./path/file.jsp", postfix));
     }
 }

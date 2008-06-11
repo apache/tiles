@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,6 +35,8 @@ import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
+import org.apache.tiles.definition.dao.DefinitionDAO;
+import org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
@@ -161,6 +164,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @param contextFactory The Tiles context factory.
      * @param resolver The locale resolver.
      * @return The definitions factory.
+     * @since 2.1.0
      */
     protected DefinitionsFactory createDefinitionsFactory(Object context,
             TilesApplicationContext applicationContext,
@@ -168,14 +172,32 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
         UrlDefinitionsFactory factory = new UrlDefinitionsFactory();
         factory.setApplicationContext(applicationContext);
         factory.setLocaleResolver(resolver);
-        factory.setReader(createDefinitionsReader(context, applicationContext,
-                contextFactory));
-        factory.setSourceURLs(getSourceURLs(context, applicationContext,
-                contextFactory));
+        factory.setDefinitionDAO(createLocaleDefinitionDao(context,
+                applicationContext, contextFactory, resolver));
         factory.refresh();
         return factory;
     }
 
+    /**
+     * Creates a Locale-based definition DAO.
+     *
+     * @param context The context.
+     * @param applicationContext The Tiles application context.
+     * @param contextFactory The Tiles context factory.
+     * @param resolver The locale resolver.
+     * @return The definition DAO.
+     * @since 2.1.0
+     */
+    protected DefinitionDAO<Locale> createLocaleDefinitionDao(Object context,
+            TilesApplicationContext applicationContext,
+            TilesContextFactory contextFactory, LocaleResolver resolver) {
+        LocaleUrlDefinitionDAO definitionDao = new LocaleUrlDefinitionDAO();
+        definitionDao.setReader(createDefinitionsReader(context, applicationContext,
+                contextFactory));
+        definitionDao.setSourceURLs(getSourceURLs(context, applicationContext,
+                contextFactory));
+        return definitionDao;
+    }
     /**
      * Creates the locale resolver. By default it creates a
      * {@link DefaultLocaleResolver}.

@@ -23,19 +23,20 @@ package org.apache.tiles.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Definition;
+import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.apache.tiles.definition.dao.DefinitionDAO;
+import org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO;
+import org.apache.tiles.definition.dao.URLReader;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.util.ClassUtil;
+import org.apache.tiles.util.LocaleUtil;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,7 +57,8 @@ import java.util.StringTokenizer;
  * @version $Rev$ $Date$
  */
 public class UrlDefinitionsFactory implements DefinitionsFactory,
-        ReloadableDefinitionsFactory, TilesApplicationContextAware {
+        ReloadableDefinitionsFactory, TilesApplicationContextAware,
+        Initializable {
 
     /**
      * Compatibility constant.
@@ -71,11 +73,11 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     private static final Log LOG = LogFactory.getLog(UrlDefinitionsFactory.class);
 
     /**
-     * Contains the URL objects identifying where configuration data is found.
+     * The definition DAO that extracts the definitions from the sources.
      *
      * @since 2.1.0
      */
-    protected List<URL> sourceURLs;
+    protected DefinitionDAO<Locale> definitionDao;
 
     /**
      * Contains the URL objects identifying where configuration data is found.
@@ -86,11 +88,15 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
 
     /**
      * Reader used to get definitions from the sources.
+     *
+     * @deprecated No more used.
      */
     protected DefinitionsReader reader;
 
     /**
      * Contains the dates that the URL sources were last modified.
+     *
+     * @deprecated No more used.
      */
     protected Map<String, Long> lastModifiedDates;
 
@@ -126,33 +132,13 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * Creates a new instance of UrlDefinitionsFactory.
      */
     public UrlDefinitionsFactory() {
-        sourceURLs = new ArrayList<URL>();
-        lastModifiedDates = new HashMap<String, Long>();
+        definitionDao = new LocaleUrlDefinitionDAO();
         processedLocales = new ArrayList<Locale>();
     }
 
     /** {@inheritDoc} */
     public void setApplicationContext(TilesApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-    }
-
-    /**
-     * Sets the source URLs to use.
-     *
-     * @param sourceURLs The source URLs.
-     */
-    public void setSourceURLs(List<URL> sourceURLs) {
-        this.sourceURLs = sourceURLs;
-    }
-
-    /**
-     * Sets the definitions reader that will read the URLs.
-     *
-     * @param reader The definitions reader.
-     * @since 2.1.0
-     */
-    public void setReader(DefinitionsReader reader) {
-        this.reader = reader;
     }
 
     /**
@@ -166,6 +152,15 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     }
 
     /**
+     * Sets the definition DAO to use. It must be locale-based.
+     *
+     * @param definitionDao The definition DAO.
+     */
+    public void setDefinitionDAO(DefinitionDAO<Locale> definitionDao) {
+        this.definitionDao = definitionDao;
+    }
+
+    /**
      * Initializes the DefinitionsFactory and its subcomponents.
      * <p/>
      * Implementations may support configuration properties to be passed in via
@@ -174,17 +169,23 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * @param params The Map of configuration properties.
      * @throws DefinitionsFactoryException if an initialization error occurs.
      */
+    @SuppressWarnings("unchecked")
     public void init(Map<String, String> params) {
-        identifySources(params);
-        String readerClassName =
-            params.get(DefinitionsFactory.READER_IMPL_PROPERTY);
-
-        if (readerClassName != null) {
-            reader = (DefinitionsReader) ClassUtil.instantiate(readerClassName);
+        String definitionDaoClassName = params
+                .get(DefinitionsFactory.DEFINITION_DAO_INIT_PARAM);
+        if (definitionDaoClassName != null) {
+            definitionDao = (DefinitionDAO<Locale>) ClassUtil
+                    .instantiate(definitionDaoClassName);
         } else {
-            reader = new DigesterDefinitionsReader();
+            definitionDao = new LocaleUrlDefinitionDAO();
         }
-        reader.init(params);
+        if (definitionDao instanceof TilesApplicationContextAware) {
+            ((TilesApplicationContextAware) definitionDao)
+                    .setApplicationContext(applicationContext);
+        }
+        if (definitionDao instanceof Initializable) {
+            ((Initializable) definitionDao).init(params);
+        }
 
         String resolverClassName = params
                 .get(DefinitionsFactory.LOCALE_RESOLVER_IMPL_PROPERTY);
@@ -247,8 +248,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * @param source The configuration source for definitions.
      * @throws DefinitionsFactoryException if an invalid source is passed in or
      *                                     an error occurs resolving the source to an actual data store.
-     * @deprecated Do not call it, let the Definitions Factory load the sources
-     * by itself.
+     * @deprecated Use {@link URLReader#addSourceURL(URL)}.
      */
     public void addSource(Object source) {
         if (source == null) {
@@ -261,7 +261,9 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
                 "Source object must be an URL");
         }
 
-        sourceURLs.add((URL) source);
+        if (definitionDao instanceof URLReader) {
+            ((URLReader) definitionDao).addSourceURL((URL) source);
+        }
     }
 
     /**
@@ -302,43 +304,11 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
         }
 
         processedLocales.add(locale);
-        List<String> postfixes = calculatePostfixes(locale);
-        Map<String, Definition> localeDefsMap = new HashMap<String, Definition>();
-        for (Object postfix : postfixes) {
-            // For each postfix, all the sources must be loaded.
-            for (URL url : sourceURLs) {
-                String path = url.toExternalForm();
-
-                String newPath = concatPostfix(path, (String) postfix);
-                try {
-                    URL newUrl = new URL(newPath);
-                    URLConnection connection = newUrl.openConnection();
-                    connection.connect();
-                    lastModifiedDates.put(newUrl.toExternalForm(),
-                        connection.getLastModified());
-
-                    // Definition must be collected, starting from the base
-                    // source up to the last localized file.
-                    Map<String, Definition> defsMap = reader
-                            .read(connection.getInputStream());
-                    if (defsMap != null) {
-                        localeDefsMap.putAll(defsMap);
-                    }
-                } catch (FileNotFoundException e) {
-                    // File not found. continue.
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("File " + newPath + " not found, continue");
-                    }
-                } catch (IOException e) {
-                    throw new DefinitionsFactoryException(
-                        "I/O error processing configuration.");
-                }
-            }
-        }
 
         // At the end of definitions loading, they can be assigned to
         // Definitions implementation, to allow inheritance resolution.
-        localeSpecificDefinitions.put(locale, localeDefsMap);
+        localeSpecificDefinitions.put(locale, definitionDao
+                .getDefinitions(locale));
         resolveInheritances(locale);
     }
 
@@ -393,23 +363,10 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * @param name    Filename.
      * @param postfix Postfix to add.
      * @return Concatenated filename.
+     * @deprecated Use {@link LocaleUtil#concatPostfix(String,String)} instead
      */
-    protected String concatPostfix(String name, String postfix) {
-        if (postfix == null) {
-            return name;
-        }
-
-        // Search file name extension.
-        // take care of Unix files starting with .
-        int dotIndex = name.lastIndexOf(".");
-        int lastNameStart = name.lastIndexOf(java.io.File.pathSeparator);
-        if (dotIndex < 1 || dotIndex < lastNameStart) {
-            return name + postfix;
-        }
-
-        String ext = name.substring(dotIndex);
-        name = name.substring(0, dotIndex);
-        return name + postfix + ext;
+    protected static String concatPostfix(String name, String postfix) {
+        return LocaleUtil.concatPostfix(name, postfix);
     }
 
     /**
@@ -423,20 +380,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     protected synchronized void loadDefinitions() {
         reset();
 
-        try {
-            for (URL source : sourceURLs) {
-                URLConnection connection = source.openConnection();
-                connection.connect();
-                lastModifiedDates.put(source.toExternalForm(),
-                    connection.getLastModified());
-                Map<String, Definition> defsMap = reader
-                        .read(connection.getInputStream());
-                baseDefinitions.putAll(defsMap);
-                resolveInheritances();
-            }
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException("I/O error accessing source.", e);
-        }
+        baseDefinitions.putAll(definitionDao.getDefinitions(null));
     }
 
     /**
@@ -446,51 +390,10 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      *
      * @param locale the locale
      * @return a list of
+     * @deprecated Use {@link LocaleUtil#calculatePostfixes(Locale)} instead.
      */
     protected static List<String> calculatePostfixes(Locale locale) {
-        final List<String> result = new ArrayList<String>();
-        final String language = locale.getLanguage();
-        final int languageLength = language.length();
-        final String country = locale.getCountry();
-        final int countryLength = country.length();
-        final String variant = locale.getVariant();
-        final int variantLength = variant.length();
-
-        // The default configuration file must be loaded to allow correct
-        // definition inheritance.
-        result.add("");
-        if (languageLength + countryLength + variantLength == 0) {
-            //The locale is "", "", "".
-            return result;
-        }
-
-        final StringBuffer temp = new StringBuffer();
-        temp.append('_');
-        temp.append(language);
-
-        if (languageLength > 0) {
-            result.add(temp.toString());
-        }
-
-        if (countryLength + variantLength == 0) {
-            return result;
-        }
-
-        temp.append('_');
-        temp.append(country);
-
-        if (countryLength > 0) {
-            result.add(temp.toString());
-        }
-
-        if (variantLength == 0) {
-            return result;
-        } else {
-            temp.append('_');
-            temp.append(variant);
-            result.add(temp.toString());
-            return result;
-        }
+        return LocaleUtil.calculatePostfixes(locale);
     }
 
 
@@ -509,60 +412,8 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      * @return If the factory needs refresh.
      */
     public boolean refreshRequired() {
-        boolean status = false;
-
-        Set<String> urls = lastModifiedDates.keySet();
-
-        try {
-            for (String urlPath : urls) {
-                Long lastModifiedDate = lastModifiedDates.get(urlPath);
-                URL url = new URL(urlPath);
-                URLConnection connection = url.openConnection();
-                connection.connect();
-                long newModDate = connection.getLastModified();
-                if (newModDate != lastModifiedDate) {
-                    status = true;
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            LOG.warn("Exception while monitoring update times.", e);
-            return true;
-        }
-        return status;
-    }
-
-    /**
-     * Detects the sources to load.
-     *
-     * @param initParameters The initialization parameters.
-     * @since 2.1.0
-     */
-    protected void identifySources(Map<String, String> initParameters) {
-        if (applicationContext == null) {
-            throw new IllegalStateException(
-                    "The TilesApplicationContext cannot be null");
-        }
-
-        String resourceString = getResourceString(initParameters);
-        List<String> resources = getResourceNames(resourceString);
-
-        try {
-            for (String resource : resources) {
-                URL resourceUrl = applicationContext.getResource(resource);
-                if (resourceUrl != null) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Adding resource '" + resourceUrl + "' to definitions factory.");
-                    }
-                    sourceURLs.add(resourceUrl);
-                } else {
-                    LOG.warn("Unable to find configured definition '" + resource + "'");
-                }
-            }
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException("Unable to parse definitions from "
-                + resourceString, e);
-        }
+        return (definitionDao instanceof RefreshMonitor)
+                && ((RefreshMonitor) definitionDao).refreshRequired();
     }
 
     /**
@@ -574,8 +425,9 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      *
      * @param parms The initialization parameters.
      * @return resource string to be parsed.
+     * @deprecated Deprecated without replacement.
      */
-    @SuppressWarnings("deprecation")
+    @Deprecated
     protected String getResourceString(Map<String, String> parms) {
         String resourceStr = parms.get(DefinitionsFactory.DEFINITIONS_CONFIG);
         if (resourceStr == null) {
@@ -596,7 +448,9 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      *
      * @param resourceString comma seperated resources
      * @return parsed resources
+     * @deprecated Deprecated without replacement.
      */
+    @Deprecated
     protected List<String> getResourceNames(String resourceString) {
         StringTokenizer tokenizer = new StringTokenizer(resourceString, ",");
         List<String> filenames = new ArrayList<String>(tokenizer.countTokens());

@@ -18,28 +18,22 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-
 package org.apache.tiles.definition;
 
-
 /**
- * Indicates support for reloading Tiles configuration when it changes.
+ * Implementing this interface means that the object monitors the sources it
+ * uses to check when they change.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
-public interface ReloadableDefinitionsFactory extends RefreshMonitor {
+public interface RefreshMonitor {
 
     /**
-     * Indicates whether the DefinitionsFactory is out of date and needs to be
-     * reloaded.
+     * Indicates whether the sources are out of date and need to be reloaded.
      *
-     * @return <code>true</code> if the definitions need to be refreshed.
+     * @return <code>true</code> if the sources need to be refreshed.
+ * @since 2.1.0
      */
     boolean refreshRequired();
-
-    /**
-     * Refreshes the stored definitions, reloading them.
-     */
-    void refresh();
 }

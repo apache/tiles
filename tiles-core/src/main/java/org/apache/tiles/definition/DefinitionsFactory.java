@@ -61,6 +61,14 @@ public interface DefinitionsFactory {
     String DEFINITIONS_CONFIG = "org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG";
 
     /**
+     * Constant representing the configuration parameter used to define the
+     * definition DAO to use.
+     */
+    String DEFINITION_DAO_INIT_PARAM =
+        "org.apache.tiles.definition.DefinitionsFactory.DefinitionDAO";
+
+
+    /**
      * Initializes the DefinitionsFactory and its subcomponents. <p/>
      * Implementations may support configuration properties to be passed in via
      * the params Map.

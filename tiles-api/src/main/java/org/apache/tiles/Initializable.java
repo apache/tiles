@@ -18,28 +18,22 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.tiles;
 
-
-package org.apache.tiles.definition;
-
+import java.util.Map;
 
 /**
- * Indicates support for reloading Tiles configuration when it changes.
+ * It is an object that can be initialized using a map with parameters.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
-public interface ReloadableDefinitionsFactory extends RefreshMonitor {
+public interface Initializable {
 
     /**
-     * Indicates whether the DefinitionsFactory is out of date and needs to be
-     * reloaded.
+     * Initializes the object.
      *
-     * @return <code>true</code> if the definitions need to be refreshed.
+     * @param params The map of parameters.
      */
-    boolean refreshRequired();
-
-    /**
-     * Refreshes the stored definitions, reloading them.
-     */
-    void refresh();
+    void init(Map<String, String> params);
 }

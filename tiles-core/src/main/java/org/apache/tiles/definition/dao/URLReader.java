@@ -18,28 +18,43 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.tiles.definition.dao;
 
+import java.net.URL;
+import java.util.List;
 
-package org.apache.tiles.definition;
-
+import org.apache.tiles.definition.DefinitionsReader;
 
 /**
- * Indicates support for reloading Tiles configuration when it changes.
+ * It represents an object that reads URLs and is able to read them throw the
+ * use of a {@link DefinitionsReader}.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
-public interface ReloadableDefinitionsFactory extends RefreshMonitor {
+public interface URLReader {
 
     /**
-     * Indicates whether the DefinitionsFactory is out of date and needs to be
-     * reloaded.
+     * Sets the source URLs to use.
      *
-     * @return <code>true</code> if the definitions need to be refreshed.
+     * @param sourceURLs The source URLs.
+     * @since 2.1.0
      */
-    boolean refreshRequired();
+    void setSourceURLs(List<URL> sourceURLs);
 
     /**
-     * Refreshes the stored definitions, reloading them.
+     * Sets the definitions reader that will read the URLs.
+     *
+     * @param reader The definitions reader.
+     * @since 2.1.0
      */
-    void refresh();
+    void setReader(DefinitionsReader reader);
+
+    /**
+     * Adds a single URL to use.
+     *
+     * @param sourceURL The source URL to add.
+     * @since 2.1.0
+     */
+    void addSourceURL(URL sourceURL);
 }
