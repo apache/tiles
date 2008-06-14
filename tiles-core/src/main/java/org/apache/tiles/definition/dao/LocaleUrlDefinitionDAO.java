@@ -222,19 +222,6 @@ public class LocaleUrlDefinitionDAO implements DefinitionDAO<Locale>,
     }
 
     /**
-     * Appends locale-specific {@link Definition} objects to existing
-     * definitions set by reading locale-specific versions of the applied
-     * sources.
-     *
-     * @param locale The requested locale.
-     * @throws DefinitionsFactoryException if an error occurs reading
-     * definitions.
-     * @since 2.1.0
-     */
-    protected synchronized void addDefinitions(Locale locale) {
-    }
-
-    /**
      * Detects the sources to load.
      *
      * @param initParameters The initialization parameters.
