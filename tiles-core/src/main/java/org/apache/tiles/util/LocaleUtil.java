@@ -33,6 +33,13 @@ import java.util.Locale;
 public final class LocaleUtil {
 
     /**
+     * The "null" Locale, i.e. a Locale that points to no real locale.
+     *
+     * @since 2.1.0
+     */
+    public static final Locale NULL_LOCALE = new Locale("");
+
+    /**
      * Private constructor to avoid instantiation.
      */
     private LocaleUtil() {
@@ -99,6 +106,38 @@ public final class LocaleUtil {
     }
 
     /**
+     * Calculate the postfix to append to a filename to load the correct single
+     * filename for that Locale.
+     *
+     * @param locale The locale.
+     * @return The postfix to append to the filename.
+     * @since 2.1.0
+     */
+    public static String calculatePostfix(Locale locale) {
+        if (locale == null) {
+            return "";
+        }
+
+        StringBuilder builder = new StringBuilder();
+        String language = locale.getLanguage();
+        String country = locale.getCountry();
+        String variant = locale.getVariant();
+        if (!"".equals(language)) {
+            builder.append("_");
+            builder.append(language);
+            if (!"".equals(country)) {
+                builder.append("_");
+                builder.append(country);
+                if (!"".equals(variant)) {
+                    builder.append("_");
+                    builder.append(variant);
+                }
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
      * Concat postfix to the name. Take care of existing filename extension.
      * Transform the given name "name.ext" to have "name" + "postfix" + "ext".
      * If there is no ext, return "name" + "postfix".
@@ -109,7 +148,7 @@ public final class LocaleUtil {
      * @since 2.1.0
      */
     public static String concatPostfix(String name, String postfix) {
-        if (postfix == null) {
+        if (postfix == null || "".equals(postfix)) {
             return name;
         }
 
@@ -124,5 +163,37 @@ public final class LocaleUtil {
         String ext = name.substring(dotIndex);
         name = name.substring(0, dotIndex);
         return name + postfix + ext;
+    }
+
+    /**
+     * <p>
+     * Returns the "parent" locale of a given locale.
+     * </p>
+     * <p>
+     * If the original locale is only language-based, the {@link #NULL_LOCALE}
+     * object is returned.
+     * </p>
+     * <p>
+     * If the original locale is {@link #NULL_LOCALE}, then <code>null</code>
+     * is returned.
+     * </p>
+     *
+     * @param locale The original locale.
+     * @return The parent locale.
+     */
+    public static Locale getParentLocale(Locale locale) {
+        Locale retValue = null;
+        String language = locale.getLanguage();
+        String country = locale.getCountry();
+        String variant = locale.getVariant();
+        if (!"".equals(variant)) {
+            retValue = new Locale(language, country);
+        } else if (!"".equals(country)) {
+            retValue = new Locale(language);
+        } else if (!"".equals(language)) {
+            retValue = NULL_LOCALE;
+        }
+
+        return retValue;
     }
 }

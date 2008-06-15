@@ -23,7 +23,6 @@ package org.apache.tiles.definition;
 
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -33,7 +32,6 @@ import junit.framework.TestSuite;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.util.LocaleUtil;
 import org.easymock.EasyMock;
 
 /**
@@ -42,11 +40,6 @@ import org.easymock.EasyMock;
  * @version $Rev$ $Date$
  */
 public class TestUrlDefinitionsFactory extends TestCase {
-
-    /**
-     * The number of foreseen URLs with postfixes.
-     */
-    private static final int POSTFIX_COUNT = 3;
 
     /**
      * The definitions factory.
@@ -366,33 +359,5 @@ public class TestUrlDefinitionsFactory extends TestCase {
         assertEquals("MockDefinitionsReader not used.",
                 instanceCount + 1,
                 MockDefinitionsReader.getInstanceCount());
-    }
-
-    /**
-     * Tests the calculatePostfixes method.
-     */
-    public void testCalculatePostfixes() {
-        Locale locale = Locale.US;
-
-        List<String> posts = LocaleUtil.calculatePostfixes(locale);
-        assertEquals(POSTFIX_COUNT, posts.size());
-        assertTrue(posts.contains("_en_US"));
-        assertTrue(posts.contains("_en"));
-
-        locale = Locale.ENGLISH;
-        posts = LocaleUtil.calculatePostfixes(locale);
-        assertEquals(2, posts.size());
-        assertTrue(posts.contains("_en"));
-    }
-
-    /**
-     * Tests the concatPostfix method.
-     */
-    public void testConcatPostfix() {
-        String postfix = "_en_US";
-        assertEquals("a_en_US", LocaleUtil.concatPostfix("a", postfix));
-        assertEquals("a_en_US.jsp", LocaleUtil.concatPostfix("a.jsp", postfix));
-        assertEquals("file_en_US.jsp", LocaleUtil.concatPostfix("file.jsp", postfix));
-        assertEquals("./path/file_en_US.jsp", LocaleUtil.concatPostfix("./path/file.jsp", postfix));
     }
 }

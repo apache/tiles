@@ -49,11 +49,11 @@ import org.easymock.EasyMock;
 import junit.framework.TestCase;
 
 /**
- * Tests {@link LocaleUrlDefinitionDAO}.
+ * Tests {@link CachingLocaleUrlDefinitionDAO}.
  *
  * @version $Rev$ $Date$
  */
-public class LocaleUrlDefinitionDAOTest extends TestCase {
+public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
 
     /**
      * The time (in milliseconds) to wait to be sure that the system updates the
@@ -64,13 +64,13 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
     /**
      * The object to test.
      */
-    private LocaleUrlDefinitionDAO definitionDao;
+    private CachingLocaleUrlDefinitionDAO definitionDao;
 
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        definitionDao = new LocaleUrlDefinitionDAO();
+        definitionDao = new CachingLocaleUrlDefinitionDAO();
     }
 
     /**
@@ -219,7 +219,7 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
                 .getDefinitions(Locale.FRENCH);
         Map<String, Definition> chinaDefinitions = definitionDao
                 .getDefinitions(Locale.CHINA);
-        Map<String, Definition> canadaFrenchDefinitions = definitionDao
+        Map<String, Definition> canadaFrendDefinitions = definitionDao
                 .getDefinitions(Locale.CANADA_FRENCH);
 
         assertNotNull("test.def1 definition not found.", defaultDefinitions
@@ -238,10 +238,10 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
                 chinaDefinitions.get("test.common"));
         assertNotNull(
                 "test.common.french definition in FRENCH locale not found.",
-                frenchDefinitions.get("test.common.french"));
+                canadaFrendDefinitions.get("test.common.french"));
         assertNotNull(
                 "test.common.french definition in CANADA_FRENCH locale not found.",
-                canadaFrenchDefinitions.get("test.common.french"));
+                canadaFrendDefinitions.get("test.common.french"));
         assertNotNull("test.def.toextend definition not found.",
                 defaultDefinitions.get("test.def.toextend"));
         assertNotNull("test.def.overridden definition not found.",
