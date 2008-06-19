@@ -157,7 +157,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         assertEquals("Incorrect initial template value", "/test.jsp",
                 definition.getTemplate());
 
-        ReloadableDefinitionsFactory reloadable = (ReloadableDefinitionsFactory) factory;
+        Refreshable reloadable = (Refreshable) factory;
         assertEquals("Factory should be fresh.", false,
                 reloadable.refreshRequired());
 

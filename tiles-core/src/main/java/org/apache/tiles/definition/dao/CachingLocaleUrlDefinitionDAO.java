@@ -29,22 +29,48 @@ import java.util.Map;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.Refreshable;
 import org.apache.tiles.util.LocaleUtil;
 
 /**
+ * <p>
  * A definitions DAO (loading URLs and using Locale as a customization key) that
  * caches definitions that have been loaded in a raw way (i.e. with inheritance
  * that is not resolved).
+ * </p>
+ * <p>
+ * It can check if the URLs change, but by default this feature is turned off.
+ * </p>
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO {
+public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
+        implements Refreshable {
+
+    /**
+     * Initialization parameter to set whether we want to refresh URLs when they
+     * change.
+     *
+     * @since 2.1.0
+     */
+    public static final String CHECK_REFRESH_INIT_PARAMETER =
+        "org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO.CHECK_REFRESH";
 
     /**
      * The locale-specific set of definitions objects.
+     *
+     * @since 2.1.0
      */
     private Map<Locale, Map<String, Definition>> locale2definitionMap;
+
+    /**
+     * Flag that, when <code>true</code>, enables automatic checking of URLs
+     * changing.
+     *
+     * @since 2.1.0
+     */
+    private boolean checkRefresh = false;
 
     /**
      * Constructor.
@@ -53,6 +79,15 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO {
      */
     public CachingLocaleUrlDefinitionDAO() {
         locale2definitionMap = new HashMap<Locale, Map<String, Definition>>();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void init(Map<String, String> params) {
+        super.init(params);
+
+        String param = params.get(CHECK_REFRESH_INIT_PARAMETER);
+        checkRefresh = "true".equals(param);
     }
 
     /** {@inheritDoc} */
@@ -73,10 +108,28 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO {
         }
         Map<String, Definition> retValue = locale2definitionMap
                 .get(customizationKey);
-        if (retValue == null || refreshRequired()) {
+        if (retValue == null || (checkRefresh && refreshRequired())) {
             retValue = checkAndloadDefinitions(customizationKey);
         }
         return retValue;
+    }
+
+    /** {@inheritDoc} */
+    public synchronized void refresh() {
+        if (refreshRequired()) {
+            locale2definitionMap.clear();
+        }
+    }
+
+    /**
+     * Sets the flag to check URL refresh. If not called, the default is
+     * <code>false</code>.
+     *
+     * @param checkRefresh When <code>true</code>, enables automatic checking
+     * of URLs changing.
+     */
+    public void setCheckRefresh(boolean checkRefresh) {
+        this.checkRefresh = checkRefresh;
     }
 
     /**
@@ -89,7 +142,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO {
      */
     protected synchronized Map<String, Definition> checkAndloadDefinitions(
             Locale customizationKey) {
-        if (refreshRequired()) {
+        if (checkRefresh && refreshRequired()) {
             locale2definitionMap.clear();
         }
         return loadDefinitions(customizationKey);

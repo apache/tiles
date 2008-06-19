@@ -24,16 +24,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Definition;
 import org.apache.tiles.Initializable;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.URLReader;
 import org.apache.tiles.impl.BasicTilesContainer;
-import org.apache.tiles.locale.LocaleResolver;
-import org.apache.tiles.locale.impl.DefaultLocaleResolver;
-import org.apache.tiles.util.ClassUtil;
 import org.apache.tiles.util.LocaleUtil;
 
 import java.net.URL;
@@ -47,17 +43,19 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
- * {@link DefinitionsFactory DefinitionsFactory} implementation
- * that manages Definitions configuration data from URLs.
- * <p/>
- * <p>The Definition objects are read from the
+ * {@link DefinitionsFactory DefinitionsFactory} implementation that manages
+ * Definitions configuration data from URLs, resolving inheritance when the URL
+ * is loaded. <p/>
+ * <p>
+ * The Definition objects are read from the
  * {@link org.apache.tiles.definition.digester.DigesterDefinitionsReader DigesterDefinitionsReader}
- * class unless another implementation is specified.</p>
+ * class unless another implementation is specified.
+ * </p>
  *
  * @version $Rev$ $Date$
  */
-public class UrlDefinitionsFactory implements DefinitionsFactory,
-        ReloadableDefinitionsFactory, TilesApplicationContextAware,
+public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements DefinitionsFactory,
+        Refreshable, TilesApplicationContextAware,
         Initializable {
 
     /**
@@ -73,11 +71,20 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     private static final Log LOG = LogFactory.getLog(UrlDefinitionsFactory.class);
 
     /**
-     * The definition DAO that extracts the definitions from the sources.
-     *
-     * @since 2.1.0
+     * Contains a list of locales that have been processed.
      */
-    protected DefinitionDAO<Locale> definitionDao;
+    private List<Locale> processedLocales;
+
+
+    /**
+     * The base set of Definition objects not discriminated by locale.
+     */
+    private Map<String, Definition> baseDefinitions;
+
+    /**
+     * The locale-specific set of definitions objects.
+     */
+    private Map<Locale, Map<String, Definition>> localeSpecificDefinitions;
 
     /**
      * Contains the URL objects identifying where configuration data is found.
@@ -101,63 +108,11 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     protected Map<String, Long> lastModifiedDates;
 
     /**
-     * The application context.
-     *
-     * @since 2.1.0
-     */
-    protected TilesApplicationContext applicationContext;
-
-    /**
-     * Contains a list of locales that have been processed.
-     */
-    private List<Locale> processedLocales;
-
-
-    /**
-     * The base set of Definition objects not discriminated by locale.
-     */
-    private Map<String, Definition> baseDefinitions;
-
-    /**
-     * The locale-specific set of definitions objects.
-     */
-    private Map<Locale, Map<String, Definition>> localeSpecificDefinitions;
-
-    /**
-     * The locale resolver object.
-     */
-    private LocaleResolver localeResolver;
-
-    /**
      * Creates a new instance of UrlDefinitionsFactory.
      */
     public UrlDefinitionsFactory() {
         definitionDao = new LocaleUrlDefinitionDAO();
         processedLocales = new ArrayList<Locale>();
-    }
-
-    /** {@inheritDoc} */
-    public void setApplicationContext(TilesApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
-
-    /**
-     * Sets the locale resolver to use.
-     *
-     * @param localeResolver The locale resolver.
-     * @since 2.1.0
-     */
-    public void setLocaleResolver(LocaleResolver localeResolver) {
-        this.localeResolver = localeResolver;
-    }
-
-    /**
-     * Sets the definition DAO to use. It must be locale-based.
-     *
-     * @param definitionDao The definition DAO.
-     */
-    public void setDefinitionDAO(DefinitionDAO<Locale> definitionDao) {
-        this.definitionDao = definitionDao;
     }
 
     /**
@@ -171,44 +126,9 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      */
     @SuppressWarnings("unchecked")
     public void init(Map<String, String> params) {
-        String definitionDaoClassName = params
-                .get(DefinitionsFactory.DEFINITION_DAO_INIT_PARAM);
-        if (definitionDaoClassName != null) {
-            definitionDao = (DefinitionDAO<Locale>) ClassUtil
-                    .instantiate(definitionDaoClassName);
-        } else {
-            definitionDao = new LocaleUrlDefinitionDAO();
-        }
-        if (definitionDao instanceof TilesApplicationContextAware) {
-            ((TilesApplicationContextAware) definitionDao)
-                    .setApplicationContext(applicationContext);
-        }
-        if (definitionDao instanceof Initializable) {
-            ((Initializable) definitionDao).init(params);
-        }
-
-        String resolverClassName = params
-                .get(DefinitionsFactory.LOCALE_RESOLVER_IMPL_PROPERTY);
-        if (resolverClassName != null) {
-            localeResolver = (LocaleResolver) ClassUtil.instantiate(resolverClassName);
-        } else {
-            localeResolver = new DefaultLocaleResolver();
-        }
-        localeResolver.init(params);
+        super.init(params);
         loadDefinitions();
     }
-
-    /**
-     * Returns the definitions holder object.
-     *
-     * @return The definitions holder.
-     * @deprecated Do not use! Deprecated with no replacement.
-     */
-    @Deprecated
-    protected Definitions getDefinitions() {
-        return new DefinitionsImpl(baseDefinitions, localeSpecificDefinitions);
-    }
-
 
     /**
      * Returns a Definition object that matches the given name and
@@ -220,6 +140,7 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
      *         is found.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
      */
+    @Override
     public Definition getDefinition(String name,
             TilesRequestContext tilesContext) {
 
@@ -235,50 +156,23 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
         return getDefinition(name, locale);
     }
 
-    /**
-     * Adds a source where Definition objects are stored.
-     * <p/>
-     * Implementations should publish what type of source object they expect.
-     * The source should contain enough information to resolve a configuration
-     * source containing definitions.  The source should be a "base" source for
-     * configurations.  Internationalization and Localization properties will be
-     * applied by implementations to discriminate the correct data sources based
-     * on locale.
-     *
-     * @param source The configuration source for definitions.
-     * @throws DefinitionsFactoryException if an invalid source is passed in or
-     *                                     an error occurs resolving the source to an actual data store.
-     * @deprecated Use {@link URLReader#addSourceURL(URL)}.
-     */
-    public void addSource(Object source) {
-        if (source == null) {
-            throw new DefinitionsFactoryException(
-                "Source object must not be null");
-        }
-
-        if (!(source instanceof URL)) {
-            throw new DefinitionsFactoryException(
-                "Source object must be an URL");
-        }
-
-        if (definitionDao instanceof URLReader) {
-            ((URLReader) definitionDao).addSourceURL((URL) source);
-        }
+    /** {@inheritDoc} */
+    public synchronized void refresh() {
+        LOG.debug("Updating Tiles definitions. . .");
+        processedLocales.clear();
+        loadDefinitions();
     }
 
+
     /**
-     * Appends locale-specific {@link Definition} objects to an existing
-     * {@link Definitions} set by reading locale-specific versions of
-     * the applied sources.
+     * Indicates whether the DefinitionsFactory is out of date and needs to be
+     * reloaded.
      *
-     * @param definitions  The Definitions object to append to.
-     * @param tilesContext The requested locale.
-     * @throws DefinitionsFactoryException if an error occurs reading definitions.
-     * @deprecated Use {@link #addDefinitions(TilesRequestContext)}.
+     * @return If the factory needs refresh.
      */
-    protected void addDefinitions(Definitions definitions,
-            TilesRequestContext tilesContext) {
-        addDefinitions(tilesContext);
+    public boolean refreshRequired() {
+        return (definitionDao instanceof RefreshMonitor)
+                && ((RefreshMonitor) definitionDao).refreshRequired();
     }
 
     /**
@@ -313,21 +207,6 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     }
 
     /**
-     * Creates and returns a {@link Definitions} set by reading
-     * configuration data from the applied sources.
-     *
-     * @return The definitions holder object, filled with base definitions.
-     * @throws DefinitionsFactoryException if an error occurs reading the
-     * sources.
-     * @deprecated Let the Definitions Factory use it.
-     */
-    @Deprecated
-    public Definitions readDefinitions() {
-        loadDefinitions();
-        return new DefinitionsImpl(baseDefinitions, localeSpecificDefinitions);
-    }
-
-    /**
      * Indicates whether a given context has been processed or not.
      * <p/>
      * This method can be used to avoid unnecessary synchronization of the
@@ -344,32 +223,6 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
     }
 
     /**
-     * Creates a new instance of <code>Definitions</code>. Override this method
-     * to provide your custom instance of Definitions.
-     *
-     * @return A new instance of <code>Definitions</code>.
-     * @deprecated Do not use! Deprecated with no replacement.
-     */
-    @Deprecated
-    protected Definitions createDefinitions() {
-        return new DefinitionsImpl();
-    }
-
-    /**
-     * Concat postfix to the name. Take care of existing filename extension.
-     * Transform the given name "name.ext" to have "name" + "postfix" + "ext".
-     * If there is no ext, return "name" + "postfix".
-     *
-     * @param name    Filename.
-     * @param postfix Postfix to add.
-     * @return Concatenated filename.
-     * @deprecated Use {@link LocaleUtil#concatPostfix(String,String)} instead
-     */
-    protected static String concatPostfix(String name, String postfix) {
-        return LocaleUtil.concatPostfix(name, postfix);
-    }
-
-    /**
      * Creates a base set by reading configuration data from the applied
      * sources.
      *
@@ -381,83 +234,6 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
         reset();
 
         baseDefinitions.putAll(definitionDao.getDefinitions(null));
-    }
-
-    /**
-     * Calculate the postfixes along the search path from the base bundle to the
-     * bundle specified by baseName and locale.
-     * Method copied from java.util.ResourceBundle
-     *
-     * @param locale the locale
-     * @return a list of
-     * @deprecated Use {@link LocaleUtil#calculatePostfixes(Locale)} instead.
-     */
-    protected static List<String> calculatePostfixes(Locale locale) {
-        return LocaleUtil.calculatePostfixes(locale);
-    }
-
-
-    /** {@inheritDoc} */
-    public synchronized void refresh() {
-        LOG.debug("Updating Tiles definitions. . .");
-        processedLocales.clear();
-        loadDefinitions();
-    }
-
-
-    /**
-     * Indicates whether the DefinitionsFactory is out of date and needs to be
-     * reloaded.
-     *
-     * @return If the factory needs refresh.
-     */
-    public boolean refreshRequired() {
-        return (definitionDao instanceof RefreshMonitor)
-                && ((RefreshMonitor) definitionDao).refreshRequired();
-    }
-
-    /**
-     * Derive the resource string from the initialization parameters. If no
-     * parameter {@link DefinitionsFactory#DEFINITIONS_CONFIG} is available,
-     * attempts to retrieve {@link BasicTilesContainer#DEFINITIONS_CONFIG} and
-     * {@link UrlDefinitionsFactory#LEGACY_DEFINITIONS_CONFIG}. If neither are
-     * available, returns "/WEB-INF/tiles.xml".
-     *
-     * @param parms The initialization parameters.
-     * @return resource string to be parsed.
-     * @deprecated Deprecated without replacement.
-     */
-    @Deprecated
-    protected String getResourceString(Map<String, String> parms) {
-        String resourceStr = parms.get(DefinitionsFactory.DEFINITIONS_CONFIG);
-        if (resourceStr == null) {
-            resourceStr = parms.get(BasicTilesContainer.DEFINITIONS_CONFIG);
-        }
-        if (resourceStr == null) {
-            resourceStr = parms.get(UrlDefinitionsFactory.LEGACY_DEFINITIONS_CONFIG);
-        }
-        if (resourceStr == null) {
-            resourceStr = "/WEB-INF/tiles.xml";
-        }
-        return resourceStr;
-    }
-
-    /**
-     * Parse the resourceString into a list of resource paths
-     * which can be loaded by the application context.
-     *
-     * @param resourceString comma seperated resources
-     * @return parsed resources
-     * @deprecated Deprecated without replacement.
-     */
-    @Deprecated
-    protected List<String> getResourceNames(String resourceString) {
-        StringTokenizer tokenizer = new StringTokenizer(resourceString, ",");
-        List<String> filenames = new ArrayList<String>(tokenizer.countTokens());
-        while (tokenizer.hasMoreTokens()) {
-            filenames.add(tokenizer.nextToken().trim());
-        }
-        return filenames;
     }
 
     /**
@@ -578,5 +354,167 @@ public class UrlDefinitionsFactory implements DefinitionsFactory,
         }
 
         return definition;
+    }
+
+    /**
+     * Adds a source where Definition objects are stored.
+     * <p/>
+     * Implementations should publish what type of source object they expect.
+     * The source should contain enough information to resolve a configuration
+     * source containing definitions.  The source should be a "base" source for
+     * configurations.  Internationalization and Localization properties will be
+     * applied by implementations to discriminate the correct data sources based
+     * on locale.
+     *
+     * @param source The configuration source for definitions.
+     * @throws DefinitionsFactoryException if an invalid source is passed in or
+     *                                     an error occurs resolving the source to an actual data store.
+     * @deprecated Use {@link URLReader#addSourceURL(URL)}.
+     */
+    public void addSource(Object source) {
+        if (source == null) {
+            throw new DefinitionsFactoryException(
+                "Source object must not be null");
+        }
+
+        if (!(source instanceof URL)) {
+            throw new DefinitionsFactoryException(
+                "Source object must be an URL");
+        }
+
+        if (definitionDao instanceof URLReader) {
+            ((URLReader) definitionDao).addSourceURL((URL) source);
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected DefinitionDAO<Locale> createDefaultDefinitionDAO() {
+        return new LocaleUrlDefinitionDAO();
+    }
+
+    /**
+     * Creates and returns a {@link Definitions} set by reading
+     * configuration data from the applied sources.
+     *
+     * @return The definitions holder object, filled with base definitions.
+     * @throws DefinitionsFactoryException if an error occurs reading the
+     * sources.
+     * @deprecated Let the Definitions Factory use it.
+     */
+    @Deprecated
+    public Definitions readDefinitions() {
+        loadDefinitions();
+        return new DefinitionsImpl(baseDefinitions, localeSpecificDefinitions);
+    }
+
+    /**
+     * Returns the definitions holder object.
+     *
+     * @return The definitions holder.
+     * @deprecated Do not use! Deprecated with no replacement.
+     */
+    @Deprecated
+    protected Definitions getDefinitions() {
+        return new DefinitionsImpl(baseDefinitions, localeSpecificDefinitions);
+    }
+
+    /**
+     * Appends locale-specific {@link Definition} objects to an existing
+     * {@link Definitions} set by reading locale-specific versions of
+     * the applied sources.
+     *
+     * @param definitions  The Definitions object to append to.
+     * @param tilesContext The requested locale.
+     * @throws DefinitionsFactoryException if an error occurs reading definitions.
+     * @deprecated Use {@link #addDefinitions(TilesRequestContext)}.
+     */
+    @Deprecated
+    protected void addDefinitions(Definitions definitions,
+            TilesRequestContext tilesContext) {
+        addDefinitions(tilesContext);
+    }
+
+    /**
+     * Creates a new instance of <code>Definitions</code>. Override this method
+     * to provide your custom instance of Definitions.
+     *
+     * @return A new instance of <code>Definitions</code>.
+     * @deprecated Do not use! Deprecated with no replacement.
+     */
+    @Deprecated
+    protected Definitions createDefinitions() {
+        return new DefinitionsImpl();
+    }
+
+    /**
+     * Concat postfix to the name. Take care of existing filename extension.
+     * Transform the given name "name.ext" to have "name" + "postfix" + "ext".
+     * If there is no ext, return "name" + "postfix".
+     *
+     * @param name    Filename.
+     * @param postfix Postfix to add.
+     * @return Concatenated filename.
+     * @deprecated Use {@link LocaleUtil#concatPostfix(String,String)} instead
+     */
+    protected static String concatPostfix(String name, String postfix) {
+        return LocaleUtil.concatPostfix(name, postfix);
+    }
+
+    /**
+     * Calculate the postfixes along the search path from the base bundle to the
+     * bundle specified by baseName and locale.
+     * Method copied from java.util.ResourceBundle
+     *
+     * @param locale the locale
+     * @return a list of
+     * @deprecated Use {@link LocaleUtil#calculatePostfixes(Locale)} instead.
+     */
+    protected static List<String> calculatePostfixes(Locale locale) {
+        return LocaleUtil.calculatePostfixes(locale);
+    }
+
+    /**
+     * Derive the resource string from the initialization parameters. If no
+     * parameter {@link DefinitionsFactory#DEFINITIONS_CONFIG} is available,
+     * attempts to retrieve {@link BasicTilesContainer#DEFINITIONS_CONFIG} and
+     * {@link UrlDefinitionsFactory#LEGACY_DEFINITIONS_CONFIG}. If neither are
+     * available, returns "/WEB-INF/tiles.xml".
+     *
+     * @param parms The initialization parameters.
+     * @return resource string to be parsed.
+     * @deprecated Deprecated without replacement.
+     */
+    @Deprecated
+    protected String getResourceString(Map<String, String> parms) {
+        String resourceStr = parms.get(DefinitionsFactory.DEFINITIONS_CONFIG);
+        if (resourceStr == null) {
+            resourceStr = parms.get(BasicTilesContainer.DEFINITIONS_CONFIG);
+        }
+        if (resourceStr == null) {
+            resourceStr = parms.get(UrlDefinitionsFactory.LEGACY_DEFINITIONS_CONFIG);
+        }
+        if (resourceStr == null) {
+            resourceStr = "/WEB-INF/tiles.xml";
+        }
+        return resourceStr;
+    }
+
+    /**
+     * Parse the resourceString into a list of resource paths
+     * which can be loaded by the application context.
+     *
+     * @param resourceString comma seperated resources
+     * @return parsed resources
+     * @deprecated Deprecated without replacement.
+     */
+    @Deprecated
+    protected List<String> getResourceNames(String resourceString) {
+        StringTokenizer tokenizer = new StringTokenizer(resourceString, ",");
+        List<String> filenames = new ArrayList<String>(tokenizer.countTokens());
+        while (tokenizer.hasMoreTokens()) {
+            filenames.add(tokenizer.nextToken().trim());
+        }
+        return filenames;
     }
 }

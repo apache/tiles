@@ -43,6 +43,8 @@ public class LocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO {
 
     /**
      * Constructor.
+     *
+     * @since 2.1.0
      */
     public LocaleUrlDefinitionDAO() {
         sourceURLs = new ArrayList<URL>();
