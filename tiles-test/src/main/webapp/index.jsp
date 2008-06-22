@@ -92,6 +92,11 @@
     <a href="testinsertdefinition_role_tag.jsp">Test Insert Configured Definition with Specified Role in Tag</a><br/>
     <a href="testinsertdefinition_attribute_roles.jsp">Test Insert Configured Definition with Attribute that have Roles</a><br/>
 
+    <h3>Database Verification tests</h3>
+    <a href="testinsertdefinition_db.jsp">Test Insert Configured Definition from DB</a><br/>
+    <a href="testinsertdefinition_extended_db.jsp">Test Insert Extended Configured Definition from DB</a><br/>
+    <a href="selectlocale_db.jsp">Test Localization from DB</a><br/>
+
     <h2>Currently not working tests</h2>
 
 </html>

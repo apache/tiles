@@ -23,6 +23,7 @@ package org.apache.tiles.test.servlet;
 import java.io.IOException;
 import java.util.Locale;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
+import org.apache.tiles.servlet.context.ServletUtil;
 
 /**
  * Servlet able to let a user choose a locale.
@@ -39,6 +40,19 @@ import org.apache.tiles.locale.impl.DefaultLocaleResolver;
  * @version $Rev$ $Date$
  */
 public class SelectLocaleServlet extends HttpServlet {
+
+    /**
+     * The key of the container to use.
+     */
+    private String containerKey;
+
+    /** {@inheritDoc} */
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        containerKey = config
+                .getInitParameter("org.apache.tiles.test.servlet.ServletConfig.CONTAINER_KEY");
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -80,7 +94,9 @@ public class SelectLocaleServlet extends HttpServlet {
             }
         }
         session.setAttribute(DefaultLocaleResolver.LOCALE_KEY, locale);
-        TilesContainer container = TilesAccess.getContainer(request
+        ServletUtil.setCurrentContainer(request, request
+                .getSession().getServletContext(), containerKey);
+        TilesContainer container = ServletUtil.getCurrentContainer(request, request
                 .getSession().getServletContext());
         container.render("test.localized.definition", request, response);
     }

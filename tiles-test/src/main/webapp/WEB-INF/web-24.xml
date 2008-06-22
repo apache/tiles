@@ -30,6 +30,9 @@
     <display-name>Tiles 2 Test Application</display-name>
     <distributable/>
 
+    <listener>
+      <listener-class>org.apache.tiles.test.init.InitContextListener</listener-class>
+    </listener>
     <filter>
         <filter-name>Tiles Decoration Filter</filter-name>
         <filter-class>org.apache.tiles.web.util.TilesDecorationFilter</filter-class>
@@ -64,16 +67,15 @@
     <servlet>
         <servlet-name>tiles</servlet-name>
         <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
         <init-param>
             <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
             <param-value>org.apache.tiles.test.factory.TestTilesContainerFactory</param-value>
         </init-param>
+        <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>tiles-alt</servlet-name>
         <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-        <load-on-startup>3</load-on-startup>
         <init-param>
             <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
             <param-value>org.apache.tiles.test.factory.TestAlternateTilesContainerFactory</param-value>
@@ -82,6 +84,20 @@
             <param-name>org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY</param-name>
             <param-value>alternate</param-value>
         </init-param>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>tiles-db</servlet-name>
+        <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
+            <param-value>org.apache.tiles.test.factory.TestDbTilesContainerFactory</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY</param-name>
+            <param-value>db</param-value>
+        </init-param>
+        <load-on-startup>4</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>freemarker</servlet-name>
@@ -115,7 +131,7 @@
             <param-value>0.##########</param-value>
         </init-param>
         
-        <load-on-startup>3</load-on-startup>
+        <load-on-startup>5</load-on-startup>
     </servlet>
 
     <servlet>
@@ -140,6 +156,14 @@
         <servlet-name>selectLocaleServlet</servlet-name>
         <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>selectLocaleServletDb</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.CONTAINER_KEY</param-name>
+            <param-value>db</param-value>
+        </init-param>
+    </servlet>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -160,8 +184,12 @@
     </servlet-mapping>
 
     <servlet-mapping>
+        <servlet-name>selectLocaleServletDb</servlet-name>
+        <url-pattern>/servlets/selectLocaleServletDb</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
         <servlet-name>Tiles Dispatch Servlet</servlet-name>
         <url-pattern>*.tiles</url-pattern>
     </servlet-mapping>
-
 </web-app>
