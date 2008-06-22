@@ -34,6 +34,8 @@ import org.apache.tiles.context.ChainedTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
+import org.apache.tiles.definition.LocaleDefinitionsFactory;
+import org.apache.tiles.definition.Refreshable;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO;
@@ -169,13 +171,32 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     protected DefinitionsFactory createDefinitionsFactory(Object context,
             TilesApplicationContext applicationContext,
             TilesContextFactory contextFactory, LocaleResolver resolver) {
-        UrlDefinitionsFactory factory = new UrlDefinitionsFactory();
+        LocaleDefinitionsFactory factory = instantiateDefinitionsFactory(
+                context, applicationContext, contextFactory, resolver);
         factory.setApplicationContext(applicationContext);
         factory.setLocaleResolver(resolver);
         factory.setDefinitionDAO(createLocaleDefinitionDao(context,
                 applicationContext, contextFactory, resolver));
-        factory.refresh();
+        if (factory instanceof Refreshable) {
+            ((Refreshable) factory).refresh();
+        }
         return factory;
+    }
+
+    /**
+     * Instantiate a new definitions factory based on Locale.
+     *
+     * @param context The context.
+     * @param applicationContext The Tiles application context.
+     * @param contextFactory The Tiles context factory.
+     * @param resolver The locale resolver.
+     * @return The definitions factory.
+     * @since 2.1.0
+     */
+    protected LocaleDefinitionsFactory instantiateDefinitionsFactory(Object context,
+            TilesApplicationContext applicationContext,
+            TilesContextFactory contextFactory, LocaleResolver resolver) {
+        return new UrlDefinitionsFactory();
     }
 
     /**

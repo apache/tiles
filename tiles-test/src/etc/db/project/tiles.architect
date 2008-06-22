@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-/*
- * $Id: pom.xml 654222 2008-05-07 19:17:15Z apetrelli $
- *
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
--->
 <architect-project version="1.0" appversion="0.9.10">
  <project-name>tiles</project-name>
  <project-data-sources>
@@ -29,8 +7,20 @@
   </data-source>
   <data-source id="DS2">
    <property key="Connection Type" value="HSQLDB" />
-   <property key="Logical" value="Tiles" />
-   <property key="JDBC URL" value="jdbc:hsqldb:file:/Documents and Settings/PTRNTN77A26E506O/javadev/db/database;shutdown=true" />
+   <property key="Logical" value="Tiles in file" />
+   <property key="JDBC URL" value="jdbc:hsqldb:file:/home/antonio/javadev/db/tiles;shutdown=true" />
+   <property key="UID" value="sa" />
+   <property key="PWD" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
+  </data-source>
+  <data-source id="DS2">
+   <property key="Connection Type" value="HSQLDB" />
+   <property key="Logical" value="Tiles in file" />
+   <property key="JDBC URL" value="jdbc:hsqldb:file:/home/antonio/javadev/db/tiles;shutdown=true" />
    <property key="UID" value="sa" />
    <property key="PWD" value="" />
    <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
@@ -41,381 +31,225 @@
   </data-source>
  </project-data-sources>
  <source-databases>
-  <database id="DB0" populated="true" dbcs-ref="DS2" name="Tiles" physicalName="Tiles" >
-   <schema id="SCH1" populated="true" name="INFORMATION_SCHEMA" nativeTerm="schema" physicalName="INFORMATION_SCHEMA" >
-   </schema>
+  <database id="DB0" populated="true" dbcs-ref="DS2" name="Tiles in file" physicalName="Tiles in memory" >
+   <schema id="SCH1" populated="false" name="INFORMATION_SCHEMA" nativeTerm="schema" physicalName="INFORMATION_SCHEMA" />
    <schema id="SCH2" populated="true" name="PUBLIC" nativeTerm="schema" physicalName="PUBLIC" >
     <table id="TAB3" populated="true" name="ATTRIBUTE" objectType="TABLE" physicalName="ATTRIBUTE" >
-     <folder id="FOL4" populated="true" name="Columns" physicalName="Columns" type="1" >
-      <column id="COL5" populated="true" autoIncrement="false" name="ID" nullable="0" physicalName="ID" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-      <column id="COL6" populated="true" autoIncrement="false" name="NAME" nullable="0" physicalName="NAME" precision="255" referenceCount="1" remarks="" scale="0" sourceDataTypeName="VARCHAR" type="12" />
-      <column id="COL7" populated="true" autoIncrement="false" name="TYPE" nullable="1" physicalName="TYPE" precision="255" referenceCount="1" remarks="" scale="0" sourceDataTypeName="VARCHAR" type="12" />
-      <column id="COL8" populated="true" autoIncrement="false" name="VALUE" nullable="0" physicalName="VALUE" precision="1000" referenceCount="1" remarks="" scale="0" sourceDataTypeName="VARCHAR" type="12" />
-      <column id="COL9" populated="true" autoIncrement="false" name="CASCADE_ATTRIBUTE" nullable="0" physicalName="CASCADE_ATTRIBUTE" precision="1" referenceCount="1" remarks="" scale="0" sourceDataTypeName="BOOLEAN" type="16" />
-      <column id="COL10" populated="true" autoIncrement="false" name="DEFINITION_ID" nullable="1" physicalName="DEFINITION_ID" precision="12" referenceCount="2" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-      <column id="COL11" populated="true" autoIncrement="false" name="PARENT_ID" nullable="0" physicalName="PARENT_ID" precision="12" referenceCount="2" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-     </folder>
-     <folder id="FOL12" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
-     </folder>
-     <folder id="FOL13" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
-     </folder>
-     <folder id="FOL14" populated="true" name="Indices" physicalName="Indices" type="4" >
-      <index id="IDX15" populated="true" clustered="false" name="ATTRIBUTE_pk" physicalName="ATTRIBUTE_pk" primaryKeyIndex="true" unique="true" >
-       <index-column id="IDC16" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL5" name="ID" physicalName="ID" />
-      </index>
-      <index id="IDX17" populated="true" clustered="false" name="SYS_IDX_74" physicalName="SYS_IDX_74" primaryKeyIndex="false" unique="true" >
-       <index-column id="IDC18" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL5" name="ID" physicalName="ID" />
-      </index>
-      <index id="IDX19" populated="true" clustered="false" name="SYS_IDX_81" physicalName="SYS_IDX_81" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC20" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL10" name="DEFINITION_ID" physicalName="DEFINITION_ID" />
-      </index>
-      <index id="IDX21" populated="true" clustered="false" name="SYS_IDX_85" physicalName="SYS_IDX_85" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC22" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL11" name="PARENT_ID" physicalName="PARENT_ID" />
-      </index>
-     </folder>
+     <folder id="FOL4" populated="false" name="Columns" physicalName="Columns" type="1" />
+     <folder id="FOL5" populated="false" name="Exported Keys" physicalName="Exported Keys" type="3" />
+     <folder id="FOL6" populated="false" name="Imported Keys" physicalName="Imported Keys" type="2" />
+     <folder id="FOL7" populated="false" name="Indices" physicalName="Indices" type="4" />
     </table>
-    <table id="TAB23" populated="true" name="ATTRIBUTE_VISIBLE_FOR" objectType="TABLE" physicalName="ATTRIBUTE_VISIBLE_FOR" >
-     <folder id="FOL24" populated="true" name="Columns" physicalName="Columns" type="1" >
-      <column id="COL25" populated="true" autoIncrement="false" name="ATTRIBUTE_ID" nullable="0" physicalName="ATTRIBUTE_ID" precision="12" primaryKeySeq="0" referenceCount="2" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-      <column id="COL26" populated="true" autoIncrement="false" name="ROLE_ID" nullable="0" physicalName="ROLE_ID" precision="12" primaryKeySeq="1" referenceCount="2" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-     </folder>
-     <folder id="FOL27" populated="false" name="Exported Keys" physicalName="Exported Keys" type="3" />
-     <folder id="FOL28" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
-     </folder>
-     <folder id="FOL29" populated="true" name="Indices" physicalName="Indices" type="4" >
-      <index id="IDX30" populated="true" clustered="false" name="ATTRIBUTE_VISIBLE_FOR_pk" physicalName="ATTRIBUTE_VISIBLE_FOR_pk" primaryKeyIndex="true" unique="true" >
-       <index-column id="IDC31" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL25" name="ATTRIBUTE_ID" physicalName="ATTRIBUTE_ID" />
-       <index-column id="IDC32" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL26" name="ROLE_ID" physicalName="ROLE_ID" />
-      </index>
-      <index id="IDX33" populated="true" clustered="false" name="SYS_IDX_78" physicalName="SYS_IDX_78" primaryKeyIndex="false" unique="true" >
-       <index-column id="IDC34" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL25" name="ATTRIBUTE_ID" physicalName="ATTRIBUTE_ID" />
-       <index-column id="IDC35" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL26" name="ROLE_ID" physicalName="ROLE_ID" />
-      </index>
-      <index id="IDX36" populated="true" clustered="false" name="SYS_IDX_87" physicalName="SYS_IDX_87" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC37" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL25" name="ATTRIBUTE_ID" physicalName="ATTRIBUTE_ID" />
-      </index>
-      <index id="IDX38" populated="true" clustered="false" name="SYS_IDX_91" physicalName="SYS_IDX_91" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC39" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL26" name="ROLE_ID" physicalName="ROLE_ID" />
-      </index>
-     </folder>
+    <table id="TAB8" populated="true" name="ATTRIBUTE_VISIBLE_FOR" objectType="TABLE" physicalName="ATTRIBUTE_VISIBLE_FOR" >
+     <folder id="FOL9" populated="false" name="Columns" physicalName="Columns" type="1" />
+     <folder id="FOL10" populated="false" name="Exported Keys" physicalName="Exported Keys" type="3" />
+     <folder id="FOL11" populated="false" name="Imported Keys" physicalName="Imported Keys" type="2" />
+     <folder id="FOL12" populated="false" name="Indices" physicalName="Indices" type="4" />
     </table>
-    <table id="TAB40" populated="true" name="CUSTOMIZATION" objectType="TABLE" physicalName="CUSTOMIZATION" >
-     <folder id="FOL41" populated="true" name="Columns" physicalName="Columns" type="1" >
-      <column id="COL42" populated="true" autoIncrement="false" name="ID" nullable="0" physicalName="ID" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-      <column id="COL43" populated="true" autoIncrement="false" name="PARENT_ID" nullable="0" physicalName="PARENT_ID" precision="12" referenceCount="2" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-      <column id="COL44" populated="true" autoIncrement="false" name="NAME" nullable="0" physicalName="NAME" precision="255" referenceCount="1" remarks="" scale="0" sourceDataTypeName="VARCHAR" type="12" />
-     </folder>
-     <folder id="FOL45" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
-     </folder>
-     <folder id="FOL46" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
-     </folder>
-     <folder id="FOL47" populated="true" name="Indices" physicalName="Indices" type="4" >
-      <index id="IDX48" populated="true" clustered="false" name="CUSTOMIZATION_pk" physicalName="CUSTOMIZATION_pk" primaryKeyIndex="true" unique="true" >
-       <index-column id="IDC49" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL42" name="ID" physicalName="ID" />
-      </index>
-      <index id="IDX50" populated="true" clustered="false" name="SYS_IDX_76" physicalName="SYS_IDX_76" primaryKeyIndex="false" unique="true" >
-       <index-column id="IDC51" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL42" name="ID" physicalName="ID" />
-      </index>
-      <index id="IDX52" populated="true" clustered="false" name="CUSTOMIZATION_IDX" physicalName="CUSTOMIZATION_IDX" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC53" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL44" name="NAME" physicalName="NAME" />
-      </index>
-      <index id="IDX54" populated="true" clustered="false" name="CUSTOMIZATION_IDX1" physicalName="CUSTOMIZATION_IDX1" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC55" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL44" name="NAME" physicalName="NAME" />
-      </index>
-      <index id="IDX56" populated="true" clustered="false" name="SYS_IDX_95" physicalName="SYS_IDX_95" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC57" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL43" name="PARENT_ID" physicalName="PARENT_ID" />
-      </index>
-     </folder>
+    <table id="TAB13" populated="true" name="CUSTOMIZATION" objectType="TABLE" physicalName="CUSTOMIZATION" >
+     <folder id="FOL14" populated="false" name="Columns" physicalName="Columns" type="1" />
+     <folder id="FOL15" populated="false" name="Exported Keys" physicalName="Exported Keys" type="3" />
+     <folder id="FOL16" populated="false" name="Imported Keys" physicalName="Imported Keys" type="2" />
+     <folder id="FOL17" populated="false" name="Indices" physicalName="Indices" type="4" />
     </table>
-    <table id="TAB58" populated="true" name="DEFINITION" objectType="TABLE" physicalName="DEFINITION" >
-     <folder id="FOL59" populated="true" name="Columns" physicalName="Columns" type="1" >
-      <column id="COL60" populated="true" autoIncrement="false" name="ID" nullable="0" physicalName="ID" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-      <column id="COL61" populated="true" autoIncrement="false" name="PARENT_ID" nullable="1" physicalName="PARENT_ID" precision="12" referenceCount="2" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-      <column id="COL62" populated="true" autoIncrement="false" name="NAME" nullable="0" physicalName="NAME" precision="255" referenceCount="1" remarks="" scale="0" sourceDataTypeName="VARCHAR" type="12" />
-      <column id="COL63" populated="true" autoIncrement="false" name="PREPARER" nullable="1" physicalName="PREPARER" precision="1000" referenceCount="1" remarks="" scale="0" sourceDataTypeName="VARCHAR" type="12" />
-      <column id="COL64" populated="true" autoIncrement="false" name="TEMPLATE" nullable="0" physicalName="TEMPLATE" precision="1000" referenceCount="1" remarks="" scale="0" sourceDataTypeName="VARCHAR" type="12" />
-      <column id="COL65" populated="true" autoIncrement="false" name="CUSTOMIZATION_ID" nullable="0" physicalName="CUSTOMIZATION_ID" precision="12" referenceCount="2" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-     </folder>
-     <folder id="FOL66" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
-     </folder>
-     <folder id="FOL67" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
-     </folder>
-     <folder id="FOL68" populated="true" name="Indices" physicalName="Indices" type="4" >
-      <index id="IDX69" populated="true" clustered="false" name="DEFINITION_pk" physicalName="DEFINITION_pk" primaryKeyIndex="true" unique="true" >
-       <index-column id="IDC70" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL60" name="ID" physicalName="ID" />
-      </index>
-      <index id="IDX71" populated="true" clustered="false" name="SYS_IDX_73" physicalName="SYS_IDX_73" primaryKeyIndex="false" unique="true" >
-       <index-column id="IDC72" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL60" name="ID" physicalName="ID" />
-      </index>
-      <index id="IDX73" populated="true" clustered="false" name="DEFINITION_IDX" physicalName="DEFINITION_IDX" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC74" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL62" name="NAME" physicalName="NAME" />
-      </index>
-      <index id="IDX75" populated="true" clustered="false" name="SYS_IDX_79" physicalName="SYS_IDX_79" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC76" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL61" name="PARENT_ID" physicalName="PARENT_ID" />
-      </index>
-      <index id="IDX77" populated="true" clustered="false" name="SYS_IDX_93" physicalName="SYS_IDX_93" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC78" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL65" name="CUSTOMIZATION_ID" physicalName="CUSTOMIZATION_ID" />
-      </index>
-     </folder>
+    <table id="TAB18" populated="true" name="DEFINITION" objectType="TABLE" physicalName="DEFINITION" >
+     <folder id="FOL19" populated="false" name="Columns" physicalName="Columns" type="1" />
+     <folder id="FOL20" populated="false" name="Exported Keys" physicalName="Exported Keys" type="3" />
+     <folder id="FOL21" populated="false" name="Imported Keys" physicalName="Imported Keys" type="2" />
+     <folder id="FOL22" populated="false" name="Indices" physicalName="Indices" type="4" />
     </table>
-    <table id="TAB79" populated="true" name="ROLE" objectType="TABLE" physicalName="ROLE" >
-     <folder id="FOL80" populated="true" name="Columns" physicalName="Columns" type="1" >
-      <column id="COL81" populated="true" autoIncrement="false" name="ID" nullable="0" physicalName="ID" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-      <column id="COL82" populated="true" autoIncrement="false" name="NAME" nullable="0" physicalName="NAME" precision="255" referenceCount="1" remarks="" scale="0" sourceDataTypeName="VARCHAR" type="12" />
-     </folder>
-     <folder id="FOL83" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
-     </folder>
-     <folder id="FOL84" populated="false" name="Imported Keys" physicalName="Imported Keys" type="2" />
-     <folder id="FOL85" populated="true" name="Indices" physicalName="Indices" type="4" >
-      <index id="IDX86" populated="true" clustered="false" name="ROLE_pk" physicalName="ROLE_pk" primaryKeyIndex="true" unique="true" >
-       <index-column id="IDC87" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL81" name="ID" physicalName="ID" />
-      </index>
-      <index id="IDX88" populated="true" clustered="false" name="SYS_IDX_75" physicalName="SYS_IDX_75" primaryKeyIndex="false" unique="true" >
-       <index-column id="IDC89" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL81" name="ID" physicalName="ID" />
-      </index>
-      <index id="IDX90" populated="true" clustered="false" name="ROLE_IDX" physicalName="ROLE_IDX" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC91" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL82" name="NAME" physicalName="NAME" />
-      </index>
-     </folder>
+    <table id="TAB23" populated="true" name="ROLE" objectType="TABLE" physicalName="ROLE" >
+     <folder id="FOL24" populated="false" name="Columns" physicalName="Columns" type="1" />
+     <folder id="FOL25" populated="false" name="Exported Keys" physicalName="Exported Keys" type="3" />
+     <folder id="FOL26" populated="false" name="Imported Keys" physicalName="Imported Keys" type="2" />
+     <folder id="FOL27" populated="false" name="Indices" physicalName="Indices" type="4" />
     </table>
-    <table id="TAB92" populated="true" name="VISIBLE_FOR" objectType="TABLE" physicalName="VISIBLE_FOR" >
-     <folder id="FOL93" populated="true" name="Columns" physicalName="Columns" type="1" >
-      <column id="COL94" populated="true" autoIncrement="false" name="DEFINITION_ID" nullable="0" physicalName="DEFINITION_ID" precision="12" primaryKeySeq="0" referenceCount="2" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-      <column id="COL95" populated="true" autoIncrement="false" name="ROLE_ID" nullable="0" physicalName="ROLE_ID" precision="12" primaryKeySeq="1" referenceCount="2" remarks="" scale="0" sourceDataTypeName="NUMERIC" type="2" />
-     </folder>
-     <folder id="FOL96" populated="false" name="Exported Keys" physicalName="Exported Keys" type="3" />
-     <folder id="FOL97" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
-     </folder>
-     <folder id="FOL98" populated="true" name="Indices" physicalName="Indices" type="4" >
-      <index id="IDX99" populated="true" clustered="false" name="VISIBLE_FOR_pk" physicalName="VISIBLE_FOR_pk" primaryKeyIndex="true" unique="true" >
-       <index-column id="IDC100" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL94" name="DEFINITION_ID" physicalName="DEFINITION_ID" />
-       <index-column id="IDC101" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL95" name="ROLE_ID" physicalName="ROLE_ID" />
-      </index>
-      <index id="IDX102" populated="true" clustered="false" name="SYS_IDX_77" physicalName="SYS_IDX_77" primaryKeyIndex="false" unique="true" >
-       <index-column id="IDC103" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL94" name="DEFINITION_ID" physicalName="DEFINITION_ID" />
-       <index-column id="IDC104" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL95" name="ROLE_ID" physicalName="ROLE_ID" />
-      </index>
-      <index id="IDX105" populated="true" clustered="false" name="SYS_IDX_83" physicalName="SYS_IDX_83" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC106" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL94" name="DEFINITION_ID" physicalName="DEFINITION_ID" />
-      </index>
-      <index id="IDX107" populated="true" clustered="false" name="SYS_IDX_89" physicalName="SYS_IDX_89" primaryKeyIndex="false" unique="false" >
-       <index-column id="IDC108" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL95" name="ROLE_ID" physicalName="ROLE_ID" />
-      </index>
-     </folder>
+    <table id="TAB28" populated="true" name="VISIBLE_FOR" objectType="TABLE" physicalName="VISIBLE_FOR" >
+     <folder id="FOL29" populated="false" name="Columns" physicalName="Columns" type="1" />
+     <folder id="FOL30" populated="false" name="Exported Keys" physicalName="Exported Keys" type="3" />
+     <folder id="FOL31" populated="false" name="Imported Keys" physicalName="Imported Keys" type="2" />
+     <folder id="FOL32" populated="false" name="Indices" physicalName="Indices" type="4" />
     </table>
    </schema>
    <relationships>
-    <relationship id="REL109" populated="true" deferrability="7" deleteRule="3" fk-table-ref="TAB23" fkCardinality="7" identifying="false" name="ATTRIBUTE_ATTRIBUTE_VISIBLE_FOR_FK" physicalName="ATTRIBUTE_ATTRIBUTE_VISIBLE_FOR_FK" pk-table-ref="TAB3" pkCardinality="2" updateRule="3" >
-     <column-mapping id="CMP110" populated="true" fk-column-ref="COL25" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL5" />
-    </relationship>
-    <relationship id="REL111" populated="true" deferrability="7" deleteRule="3" fk-table-ref="TAB3" fkCardinality="7" identifying="false" name="ATTRIBUTE_ATTRIBUTE_FK" physicalName="ATTRIBUTE_ATTRIBUTE_FK" pk-table-ref="TAB3" pkCardinality="2" updateRule="3" >
-     <column-mapping id="CMP112" populated="true" fk-column-ref="COL11" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL5" />
-    </relationship>
-    <reference ref-id="REL111" />
-    <relationship id="REL113" populated="true" deferrability="7" deleteRule="3" fk-table-ref="TAB3" fkCardinality="7" identifying="false" name="DEFINITION_ATTRIBUTE_FK" physicalName="DEFINITION_ATTRIBUTE_FK" pk-table-ref="TAB58" pkCardinality="2" updateRule="3" >
-     <column-mapping id="CMP114" populated="true" fk-column-ref="COL10" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL60" />
-    </relationship>
-    <reference ref-id="REL109" />
-    <relationship id="REL115" populated="true" deferrability="7" deleteRule="3" fk-table-ref="TAB23" fkCardinality="7" identifying="false" name="ROLE_ATTRIBUTE_VISIBLE_FOR_FK" physicalName="ROLE_ATTRIBUTE_VISIBLE_FOR_FK" pk-table-ref="TAB79" pkCardinality="2" updateRule="3" >
-     <column-mapping id="CMP116" populated="true" fk-column-ref="COL26" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL81" />
-    </relationship>
-    <relationship id="REL117" populated="true" deferrability="7" deleteRule="3" fk-table-ref="TAB40" fkCardinality="7" identifying="false" name="CUSTOMIZATION_CUSTOMIZATION_FK" physicalName="CUSTOMIZATION_CUSTOMIZATION_FK" pk-table-ref="TAB40" pkCardinality="2" updateRule="3" >
-     <column-mapping id="CMP118" populated="true" fk-column-ref="COL43" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL42" />
-    </relationship>
-    <relationship id="REL119" populated="true" deferrability="7" deleteRule="3" fk-table-ref="TAB58" fkCardinality="7" identifying="false" name="CUSTOMIZATION_DEFINITION_FK" physicalName="CUSTOMIZATION_DEFINITION_FK" pk-table-ref="TAB40" pkCardinality="2" updateRule="3" >
-     <column-mapping id="CMP120" populated="true" fk-column-ref="COL65" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL42" />
-    </relationship>
-    <reference ref-id="REL117" />
-    <reference ref-id="REL113" />
-    <relationship id="REL121" populated="true" deferrability="7" deleteRule="3" fk-table-ref="TAB92" fkCardinality="7" identifying="false" name="DEFINITION_VISIBLE_FOR_FK" physicalName="DEFINITION_VISIBLE_FOR_FK" pk-table-ref="TAB58" pkCardinality="2" updateRule="3" >
-     <column-mapping id="CMP122" populated="true" fk-column-ref="COL94" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL60" />
-    </relationship>
-    <relationship id="REL123" populated="true" deferrability="7" deleteRule="3" fk-table-ref="TAB58" fkCardinality="7" identifying="false" name="PARENT_DEFINITION_FK" physicalName="PARENT_DEFINITION_FK" pk-table-ref="TAB58" pkCardinality="2" updateRule="3" >
-     <column-mapping id="CMP124" populated="true" fk-column-ref="COL61" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL60" />
-    </relationship>
-    <reference ref-id="REL119" />
-    <reference ref-id="REL123" />
-    <reference ref-id="REL115" />
-    <relationship id="REL125" populated="true" deferrability="7" deleteRule="3" fk-table-ref="TAB92" fkCardinality="7" identifying="false" name="ROLE_VISIBLE_FOR_FK" physicalName="ROLE_VISIBLE_FOR_FK" pk-table-ref="TAB79" pkCardinality="2" updateRule="3" >
-     <column-mapping id="CMP126" populated="true" fk-column-ref="COL95" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL81" />
-    </relationship>
-    <reference ref-id="REL121" />
-    <reference ref-id="REL125" />
+   </relationships>
+  </database>
+  <database id="DB33" populated="true" dbcs-ref="DS2" name="Tiles in file" physicalName="Tiles in file" >
+   <schema id="SCH34" populated="true" name="INFORMATION_SCHEMA" nativeTerm="schema" physicalName="INFORMATION_SCHEMA" >
+   </schema>
+   <schema id="SCH35" populated="true" name="PUBLIC" nativeTerm="schema" physicalName="PUBLIC" >
+   </schema>
+   <relationships>
    </relationships>
   </database>
  </source-databases>
  <target-database dbcs-ref="DS0">
-  <table id="TAB127" populated="true" name="Definition" objectType="TABLE" physicalName="Definition" remarks="" >
-   <folder id="FOL128" populated="true" name="Columns" physicalName="Columns" type="1" >
-    <column id="COL129" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_seq" name="id" nullable="0" physicalName="id" precision="12" primaryKeySeq="0" referenceCount="2" remarks="" scale="0" type="2" />
-    <column id="COL130" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_seq" name="Parent_id" nullable="1" physicalName="Parent_id" precision="12" referenceCount="1" remarks="" scale="0" type="2" />
-    <column id="COL131" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_name_seq" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
-    <column id="COL132" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_preparer_seq" name="preparer" nullable="1" physicalName="preparer" precision="1000" referenceCount="1" remarks="" scale="0" type="12" />
-    <column id="COL133" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_template_seq" name="template" nullable="0" physicalName="template" precision="1000" referenceCount="1" remarks="" scale="0" type="12" />
-    <column id="COL134" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_Customization_id_seq" name="Customization_id" nullable="0" physicalName="Customization_id" precision="12" referenceCount="1" remarks="" scale="0" type="2" />
+  <table id="TAB36" populated="true" name="Definition" objectType="TABLE" physicalName="Definition" remarks="" >
+   <folder id="FOL37" populated="true" name="Columns" physicalName="Columns" type="1" >
+    <column id="COL38" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_seq" name="id" nullable="0" physicalName="id" precision="12" primaryKeySeq="0" referenceCount="2" remarks="" scale="0" type="2" />
+    <column id="COL39" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_name_seq" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
+    <column id="COL40" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_preparer_seq" name="preparer" nullable="1" physicalName="preparer" precision="1000" referenceCount="1" remarks="" scale="0" type="12" />
+    <column id="COL41" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_template_seq" name="template" nullable="1" physicalName="template" precision="1000" referenceCount="1" remarks="" scale="0" type="12" />
+    <column id="COL42" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_Customization_id_seq" name="Customization_id" nullable="0" physicalName="Customization_id" precision="12" referenceCount="1" remarks="" scale="0" type="2" />
+    <column id="COL43" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_parent_name_seq" name="parent_name" nullable="1" physicalName="parent_name" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
    </folder>
-   <folder id="FOL135" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
+   <folder id="FOL44" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
    </folder>
-   <folder id="FOL136" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
+   <folder id="FOL45" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
    </folder>
-   <folder id="FOL137" populated="true" name="Indices" physicalName="Indices" type="4" >
-    <index id="IDX138" populated="true" clustered="false" name="Definition_pk" physicalName="Definition_pk" primaryKeyIndex="true" unique="true" >
-     <index-column id="IDC139" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL129" name="id" physicalName="id" />
+   <folder id="FOL46" populated="true" name="Indices" physicalName="Indices" type="4" >
+    <index id="IDX47" populated="true" clustered="false" name="Definition_pk" physicalName="Definition_pk" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC48" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL38" name="id" physicalName="id" />
     </index>
-    <index id="IDX140" populated="true" clustered="false" name="Definition_idx" physicalName="Definition_idx" primaryKeyIndex="false" unique="false" >
-     <index-column id="IDC141" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL131" name="name" physicalName="name" />
-    </index>
-   </folder>
-  </table>
-  <table id="TAB142" populated="true" name="Attribute" objectType="TABLE" physicalName="Attribute" remarks="" >
-   <folder id="FOL143" populated="true" name="Columns" physicalName="Columns" type="1" >
-    <column id="COL144" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_seq" name="id" nullable="0" physicalName="id" precision="12" primaryKeySeq="0" referenceCount="2" remarks="" scale="0" type="2" />
-    <column id="COL145" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_name_seq" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
-    <column id="COL146" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_type_seq" name="type" nullable="1" physicalName="type" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
-    <column id="COL147" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_value_seq" name="value" nullable="0" physicalName="value" precision="1000" referenceCount="1" remarks="" scale="0" type="12" />
-    <column id="COL148" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_cascade_attribute_seq" name="cascade_attribute" nullable="0" physicalName="cascade_attribute" precision="10" referenceCount="1" remarks="" scale="0" type="16" />
-    <column id="COL149" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_Definition_id_seq" name="Definition_id" nullable="1" physicalName="Definition_id" precision="12" referenceCount="1" remarks="" scale="0" type="2" />
-    <column id="COL150" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_seq" name="Parent_id" nullable="0" physicalName="Parent_id" precision="12" referenceCount="1" remarks="" scale="0" type="2" />
-   </folder>
-   <folder id="FOL151" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
-   </folder>
-   <folder id="FOL152" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
-   </folder>
-   <folder id="FOL153" populated="true" name="Indices" physicalName="Indices" type="4" >
-    <index id="IDX154" populated="true" clustered="false" name="Attribute_pk" physicalName="Attribute_pk" primaryKeyIndex="true" unique="true" >
-     <index-column id="IDC155" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL144" name="id" physicalName="id" />
+    <index id="IDX49" populated="true" clustered="false" name="Definition_idx" physicalName="Definition_idx" primaryKeyIndex="false" unique="false" >
+     <index-column id="IDC50" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL39" name="name" physicalName="name" />
     </index>
    </folder>
   </table>
-  <table id="TAB156" populated="true" name="Role" objectType="TABLE" physicalName="Role" remarks="" >
-   <folder id="FOL157" populated="true" name="Columns" physicalName="Columns" type="1" >
-    <column id="COL158" populated="true" autoIncrement="false" autoIncrementSequenceName="Role_seq" name="id" nullable="0" physicalName="id" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="2" />
-    <column id="COL159" populated="true" autoIncrement="false" autoIncrementSequenceName="Role_name_seq" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
+  <table id="TAB51" populated="true" name="Attribute" objectType="TABLE" physicalName="Attribute" remarks="" >
+   <folder id="FOL52" populated="true" name="Columns" physicalName="Columns" type="1" >
+    <column id="COL53" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_seq" name="id" nullable="0" physicalName="id" precision="12" primaryKeySeq="0" referenceCount="2" remarks="" scale="0" type="2" />
+    <column id="COL54" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_name_seq" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
+    <column id="COL55" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_type_seq" name="type" nullable="1" physicalName="type" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
+    <column id="COL56" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_value_seq" name="value" nullable="0" physicalName="value" precision="1000" referenceCount="1" remarks="" scale="0" type="12" />
+    <column id="COL57" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_cascade_attribute_seq" name="cascade_attribute" nullable="0" physicalName="cascade_attribute" precision="10" referenceCount="1" remarks="" scale="0" type="16" />
+    <column id="COL58" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_Definition_id_seq" name="Definition_id" nullable="1" physicalName="Definition_id" precision="12" referenceCount="1" remarks="" scale="0" type="2" />
+    <column id="COL59" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_seq" name="Parent_id" nullable="1" physicalName="Parent_id" precision="12" referenceCount="1" remarks="" scale="0" type="2" />
    </folder>
-   <folder id="FOL160" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
+   <folder id="FOL60" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
    </folder>
-   <folder id="FOL161" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
+   <folder id="FOL61" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
    </folder>
-   <folder id="FOL162" populated="true" name="Indices" physicalName="Indices" type="4" >
-    <index id="IDX163" populated="true" clustered="false" name="Role_pk" physicalName="Role_pk" primaryKeyIndex="true" unique="true" >
-     <index-column id="IDC164" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL158" name="id" physicalName="id" />
-    </index>
-    <index id="IDX165" populated="true" clustered="false" name="Role_idx" physicalName="Role_idx" primaryKeyIndex="false" unique="false" >
-     <index-column id="IDC166" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL159" name="name" physicalName="name" />
-    </index>
-   </folder>
-  </table>
-  <table id="TAB167" populated="true" name="Customization" objectType="TABLE" physicalName="Customization" remarks="" >
-   <folder id="FOL168" populated="true" name="Columns" physicalName="Columns" type="1" >
-    <column id="COL169" populated="true" autoIncrement="false" autoIncrementSequenceName="Customization_seq" name="id" nullable="0" physicalName="id" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="2" />
-    <column id="COL170" populated="true" autoIncrement="false" autoIncrementSequenceName="Customization_seq" name="Parent_id" nullable="0" physicalName="Parent_id" precision="12" referenceCount="1" remarks="" scale="0" type="2" />
-    <column id="COL171" populated="true" autoIncrement="false" autoIncrementSequenceName="Customization_name_seq" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
-   </folder>
-   <folder id="FOL172" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
-   </folder>
-   <folder id="FOL173" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
-   </folder>
-   <folder id="FOL174" populated="true" name="Indices" physicalName="Indices" type="4" >
-    <index id="IDX175" populated="true" clustered="false" name="Customization_pk" physicalName="Customization_pk" primaryKeyIndex="true" unique="true" >
-     <index-column id="IDC176" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL169" name="id" physicalName="id" />
-    </index>
-    <index id="IDX177" populated="true" clustered="false" name="Customization_idx" physicalName="Customization_idx" primaryKeyIndex="false" unique="false" >
-     <index-column id="IDC178" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL171" name="name" physicalName="name" />
-    </index>
-    <index id="IDX179" populated="true" clustered="false" name="Customization_idx1" physicalName="Customization_idx1" primaryKeyIndex="false" unique="false" >
-     <index-column id="IDC180" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL171" name="name" physicalName="name" />
+   <folder id="FOL62" populated="true" name="Indices" physicalName="Indices" type="4" >
+    <index id="IDX63" populated="true" clustered="false" name="Attribute_pk" physicalName="Attribute_pk" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC64" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL53" name="id" physicalName="id" />
     </index>
    </folder>
   </table>
-  <table id="TAB181" populated="true" name="Visible_for" objectType="TABLE" physicalName="Visible_for" remarks="" >
-   <folder id="FOL182" populated="true" name="Columns" physicalName="Columns" type="1" >
-    <column id="COL183" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_seq" name="Definition_id" nullable="0" physicalName="Definition_id" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="2" />
-    <column id="COL184" populated="true" autoIncrement="false" autoIncrementSequenceName="Role_seq" name="Role_id" nullable="0" physicalName="Role_id" precision="12" primaryKeySeq="1" referenceCount="1" remarks="" scale="0" type="2" />
+  <table id="TAB65" populated="true" name="Role" objectType="TABLE" physicalName="Role" remarks="" >
+   <folder id="FOL66" populated="true" name="Columns" physicalName="Columns" type="1" >
+    <column id="COL67" populated="true" autoIncrement="false" autoIncrementSequenceName="Role_seq" name="id" nullable="0" physicalName="id" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="2" />
+    <column id="COL68" populated="true" autoIncrement="false" autoIncrementSequenceName="Role_name_seq" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
    </folder>
-   <folder id="FOL185" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
+   <folder id="FOL69" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
    </folder>
-   <folder id="FOL186" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
+   <folder id="FOL70" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
    </folder>
-   <folder id="FOL187" populated="true" name="Indices" physicalName="Indices" type="4" >
-    <index id="IDX188" populated="true" clustered="false" name="Visible_for_pk" physicalName="Visible_for_pk" primaryKeyIndex="true" unique="true" >
-     <index-column id="IDC189" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL183" name="Definition_id" physicalName="Definition_id" />
-     <index-column id="IDC190" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL184" name="Role_id" physicalName="Role_id" />
+   <folder id="FOL71" populated="true" name="Indices" physicalName="Indices" type="4" >
+    <index id="IDX72" populated="true" clustered="false" name="Role_pk" physicalName="Role_pk" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC73" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL67" name="id" physicalName="id" />
+    </index>
+    <index id="IDX74" populated="true" clustered="false" name="Role_idx" physicalName="Role_idx" primaryKeyIndex="false" unique="false" >
+     <index-column id="IDC75" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL68" name="name" physicalName="name" />
     </index>
    </folder>
   </table>
-  <table id="TAB191" populated="true" name="Attribute_visible_for" objectType="TABLE" physicalName="Attribute_visible_for" remarks="" >
-   <folder id="FOL192" populated="true" name="Columns" physicalName="Columns" type="1" >
-    <column id="COL193" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_seq" name="Attribute_id" nullable="0" physicalName="Attribute_id" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="2" />
-    <column id="COL194" populated="true" autoIncrement="false" autoIncrementSequenceName="Role_seq" name="Role_id" nullable="0" physicalName="Role_id" precision="12" primaryKeySeq="1" referenceCount="1" remarks="" scale="0" type="2" />
+  <table id="TAB76" populated="true" name="Customization" objectType="TABLE" physicalName="Customization" remarks="" >
+   <folder id="FOL77" populated="true" name="Columns" physicalName="Columns" type="1" >
+    <column id="COL78" populated="true" autoIncrement="false" autoIncrementSequenceName="Customization_seq" name="id" nullable="0" physicalName="id" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="2" />
+    <column id="COL79" populated="true" autoIncrement="false" autoIncrementSequenceName="Customization_seq" name="Parent_id" nullable="1" physicalName="Parent_id" precision="12" referenceCount="1" remarks="" scale="0" type="2" />
+    <column id="COL80" populated="true" autoIncrement="false" autoIncrementSequenceName="Customization_name_seq" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" remarks="" scale="0" type="12" />
    </folder>
-   <folder id="FOL195" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
+   <folder id="FOL81" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
    </folder>
-   <folder id="FOL196" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
+   <folder id="FOL82" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
    </folder>
-   <folder id="FOL197" populated="true" name="Indices" physicalName="Indices" type="4" >
-    <index id="IDX198" populated="true" clustered="false" name="Attribute_visible_for_pk" physicalName="Attribute_visible_for_pk" primaryKeyIndex="true" unique="true" >
-     <index-column id="IDC199" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL193" name="Attribute_id" physicalName="Attribute_id" />
-     <index-column id="IDC200" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL194" name="Role_id" physicalName="Role_id" />
+   <folder id="FOL83" populated="true" name="Indices" physicalName="Indices" type="4" >
+    <index id="IDX84" populated="true" clustered="false" name="Customization_pk" physicalName="Customization_pk" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC85" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL78" name="id" physicalName="id" />
+    </index>
+    <index id="IDX86" populated="true" clustered="false" name="Customization_idx" physicalName="Customization_idx" primaryKeyIndex="false" unique="false" >
+     <index-column id="IDC87" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL80" name="name" physicalName="name" />
+    </index>
+    <index id="IDX88" populated="true" clustered="false" name="Customization_idx1" physicalName="Customization_idx1" primaryKeyIndex="false" unique="false" >
+     <index-column id="IDC89" populated="true" ascendingOrDescending="ASCENDING" column-ref="COL80" name="name" physicalName="name" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB90" populated="true" name="Visible_for" objectType="TABLE" physicalName="Visible_for" remarks="" >
+   <folder id="FOL91" populated="true" name="Columns" physicalName="Columns" type="1" >
+    <column id="COL92" populated="true" autoIncrement="false" autoIncrementSequenceName="Definition_seq" name="Definition_id" nullable="0" physicalName="Definition_id" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="2" />
+    <column id="COL93" populated="true" autoIncrement="false" autoIncrementSequenceName="Role_seq" name="Role_id" nullable="0" physicalName="Role_id" precision="12" primaryKeySeq="1" referenceCount="1" remarks="" scale="0" type="2" />
+   </folder>
+   <folder id="FOL94" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
+   </folder>
+   <folder id="FOL95" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
+   </folder>
+   <folder id="FOL96" populated="true" name="Indices" physicalName="Indices" type="4" >
+    <index id="IDX97" populated="true" clustered="false" name="Visible_for_pk" physicalName="Visible_for_pk" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC98" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL92" name="Definition_id" physicalName="Definition_id" />
+     <index-column id="IDC99" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL93" name="Role_id" physicalName="Role_id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB100" populated="true" name="Attribute_visible_for" objectType="TABLE" physicalName="Attribute_visible_for" remarks="" >
+   <folder id="FOL101" populated="true" name="Columns" physicalName="Columns" type="1" >
+    <column id="COL102" populated="true" autoIncrement="false" autoIncrementSequenceName="Attribute_seq" name="Attribute_id" nullable="0" physicalName="Attribute_id" precision="12" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="2" />
+    <column id="COL103" populated="true" autoIncrement="false" autoIncrementSequenceName="Role_seq" name="Role_id" nullable="0" physicalName="Role_id" precision="12" primaryKeySeq="1" referenceCount="1" remarks="" scale="0" type="2" />
+   </folder>
+   <folder id="FOL104" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
+   </folder>
+   <folder id="FOL105" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
+   </folder>
+   <folder id="FOL106" populated="true" name="Indices" physicalName="Indices" type="4" >
+    <index id="IDX107" populated="true" clustered="false" name="Attribute_visible_for_pk" physicalName="Attribute_visible_for_pk" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC108" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL102" name="Attribute_id" physicalName="Attribute_id" />
+     <index-column id="IDC109" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL103" name="Role_id" physicalName="Role_id" />
     </index>
    </folder>
   </table>
   <relationships>
-   <relationship id="REL201" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB127" fkCardinality="7" identifying="false" name="Parent_Definition_FK" physicalName="Parent_Definition_FK" pk-table-ref="TAB127" pkCardinality="3" updateRule="0" >
-    <column-mapping id="CMP202" populated="true" fk-column-ref="COL130" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL129" />
+   <relationship id="REL110" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB51" fkCardinality="7" identifying="false" name="Definition_Attribute_fk" physicalName="Definition_Attribute_fk" pk-table-ref="TAB36" pkCardinality="3" updateRule="0" >
+    <column-mapping id="CMP111" populated="true" fk-column-ref="COL58" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL38" />
    </relationship>
-   <relationship id="REL203" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB142" fkCardinality="7" identifying="false" name="Definition_Attribute_fk" physicalName="Definition_Attribute_fk" pk-table-ref="TAB127" pkCardinality="3" updateRule="0" >
-    <column-mapping id="CMP204" populated="true" fk-column-ref="COL149" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL129" />
+   <relationship id="REL112" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB90" fkCardinality="7" identifying="true" name="Definition_Visible_for_fk" physicalName="Definition_Visible_for_fk" pk-table-ref="TAB36" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP113" populated="true" fk-column-ref="COL92" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL38" />
    </relationship>
-   <relationship id="REL205" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB181" fkCardinality="7" identifying="true" name="Definition_Visible_for_fk" physicalName="Definition_Visible_for_fk" pk-table-ref="TAB127" pkCardinality="2" updateRule="0" >
-    <column-mapping id="CMP206" populated="true" fk-column-ref="COL183" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL129" />
+   <relationship id="REL114" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB36" fkCardinality="7" identifying="true" name="Customization_Definition_fk" physicalName="Customization_Definition_fk" pk-table-ref="TAB76" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP115" populated="true" fk-column-ref="COL42" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL78" />
    </relationship>
-   <reference ref-id="REL201" />
-   <relationship id="REL207" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB127" fkCardinality="7" identifying="true" name="Customization_Definition_fk" physicalName="Customization_Definition_fk" pk-table-ref="TAB167" pkCardinality="2" updateRule="0" >
-    <column-mapping id="CMP208" populated="true" fk-column-ref="COL134" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL169" />
+   <relationship id="REL116" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB51" fkCardinality="7" identifying="false" name="Attribute_Attribute_fk" physicalName="Attribute_Attribute_fk" pk-table-ref="TAB51" pkCardinality="3" updateRule="0" >
+    <column-mapping id="CMP117" populated="true" fk-column-ref="COL59" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL53" />
    </relationship>
-   <relationship id="REL209" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB142" fkCardinality="7" identifying="false" name="Attribute_Attribute_fk" physicalName="Attribute_Attribute_fk" pk-table-ref="TAB142" pkCardinality="3" updateRule="0" >
-    <column-mapping id="CMP210" populated="true" fk-column-ref="COL150" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL144" />
+   <relationship id="REL118" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB100" fkCardinality="7" identifying="true" name="Attribute_Attribute_visible_for_fk" physicalName="Attribute_Attribute_visible_for_fk" pk-table-ref="TAB51" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP119" populated="true" fk-column-ref="COL102" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL53" />
    </relationship>
-   <relationship id="REL211" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB191" fkCardinality="7" identifying="true" name="Attribute_Attribute_visible_for_fk" physicalName="Attribute_Attribute_visible_for_fk" pk-table-ref="TAB142" pkCardinality="2" updateRule="0" >
-    <column-mapping id="CMP212" populated="true" fk-column-ref="COL193" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL144" />
+   <reference ref-id="REL110" />
+   <reference ref-id="REL116" />
+   <relationship id="REL120" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB90" fkCardinality="7" identifying="true" name="Role_Visible_for_fk" physicalName="Role_Visible_for_fk" pk-table-ref="TAB65" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP121" populated="true" fk-column-ref="COL93" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL67" />
    </relationship>
-   <reference ref-id="REL203" />
-   <reference ref-id="REL209" />
-   <relationship id="REL213" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB181" fkCardinality="7" identifying="true" name="Role_Visible_for_fk" physicalName="Role_Visible_for_fk" pk-table-ref="TAB156" pkCardinality="2" updateRule="0" >
-    <column-mapping id="CMP214" populated="true" fk-column-ref="COL184" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL158" />
+   <relationship id="REL122" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB100" fkCardinality="7" identifying="true" name="Role_Attribute_visible_for_fk" physicalName="Role_Attribute_visible_for_fk" pk-table-ref="TAB65" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP123" populated="true" fk-column-ref="COL103" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL67" />
    </relationship>
-   <relationship id="REL215" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB191" fkCardinality="7" identifying="true" name="Role_Attribute_visible_for_fk" physicalName="Role_Attribute_visible_for_fk" pk-table-ref="TAB156" pkCardinality="2" updateRule="0" >
-    <column-mapping id="CMP216" populated="true" fk-column-ref="COL194" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL158" />
+   <reference ref-id="REL114" />
+   <relationship id="REL124" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB76" fkCardinality="7" identifying="false" name="Customization_Customization_fk" physicalName="Customization_Customization_fk" pk-table-ref="TAB76" pkCardinality="3" updateRule="0" >
+    <column-mapping id="CMP125" populated="true" fk-column-ref="COL79" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL78" />
    </relationship>
-   <reference ref-id="REL207" />
-   <relationship id="REL217" populated="true" deferrability="7" deleteRule="0" fk-table-ref="TAB167" fkCardinality="7" identifying="false" name="Customization_Customization_fk" physicalName="Customization_Customization_fk" pk-table-ref="TAB167" pkCardinality="3" updateRule="0" >
-    <column-mapping id="CMP218" populated="true" fk-column-ref="COL170" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL169" />
-   </relationship>
-   <reference ref-id="REL217" />
-   <reference ref-id="REL205" />
-   <reference ref-id="REL213" />
-   <reference ref-id="REL211" />
-   <reference ref-id="REL215" />
+   <reference ref-id="REL124" />
+   <reference ref-id="REL112" />
+   <reference ref-id="REL120" />
+   <reference ref-id="REL118" />
+   <reference ref-id="REL122" />
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.HSQLDBDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.HSQLDBDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="1.0" viewportX="162" viewportY="0" relationship-style="rectilinear">
-  <table-pane table-ref="TAB127" x="234" y="51" />
-  <table-pane table-ref="TAB142" x="700" y="53" />
-  <table-pane table-ref="TAB156" x="729" y="488" />
-  <table-pane table-ref="TAB167" x="217" y="457" />
-  <table-pane table-ref="TAB181" x="481" y="321" />
-  <table-pane table-ref="TAB191" x="748" y="319" />
-  <table-link relationship-ref="REL201" pk-x="19" pk-y="127" fk-x="0" fk-y="38" orientation="36" />
-  <table-link relationship-ref="REL203" pk-x="184" pk-y="45" fk-x="0" fk-y="43" orientation="33" />
-  <table-link relationship-ref="REL209" pk-x="33" pk-y="143" fk-x="0" fk-y="82" orientation="36" />
-  <table-link relationship-ref="REL207" pk-x="56" pk-y="0" fk-x="39" fk-y="127" orientation="72" />
-  <table-link relationship-ref="REL217" pk-x="70" pk-y="79" fk-x="0" fk-y="39" orientation="36" />
-  <table-link relationship-ref="REL205" pk-x="95" pk-y="127" fk-x="0" fk-y="28" orientation="36" />
-  <table-link relationship-ref="REL213" pk-x="0" pk-y="33" fk-x="44" fk-y="63" orientation="66" />
-  <table-link relationship-ref="REL211" pk-x="70" pk-y="143" fk-x="84" fk-y="0" orientation="132" />
-  <table-link relationship-ref="REL215" pk-x="64" pk-y="0" fk-x="45" fk-y="63" orientation="72" />
+ <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear">
+  <table-pane table-ref="TAB36" x="234" y="51" />
+  <table-pane table-ref="TAB51" x="700" y="53" />
+  <table-pane table-ref="TAB65" x="729" y="488" />
+  <table-pane table-ref="TAB76" x="217" y="457" />
+  <table-pane table-ref="TAB90" x="481" y="321" />
+  <table-pane table-ref="TAB100" x="748" y="319" />
+  <table-link relationship-ref="REL110" pk-x="187" pk-y="45" fk-x="0" fk-y="43" orientation="33" />
+  <table-link relationship-ref="REL116" pk-x="33" pk-y="143" fk-x="0" fk-y="82" orientation="36" />
+  <table-link relationship-ref="REL114" pk-x="56" pk-y="0" fk-x="39" fk-y="120" orientation="72" />
+  <table-link relationship-ref="REL124" pk-x="70" pk-y="79" fk-x="0" fk-y="39" orientation="36" />
+  <table-link relationship-ref="REL112" pk-x="95" pk-y="120" fk-x="0" fk-y="28" orientation="36" />
+  <table-link relationship-ref="REL120" pk-x="0" pk-y="33" fk-x="44" fk-y="63" orientation="66" />
+  <table-link relationship-ref="REL118" pk-x="70" pk-y="143" fk-x="84" fk-y="0" orientation="132" />
+  <table-link relationship-ref="REL122" pk-x="64" pk-y="0" fk-x="45" fk-y="63" orientation="72" />
  </play-pen>
  <profiles topNCount="10">
   </profiles>
