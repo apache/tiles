@@ -22,7 +22,6 @@ package org.apache.tiles.definition.dao;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -40,16 +39,6 @@ import org.apache.tiles.util.LocaleUtil;
  * @since 2.1.0
  */
 public class LocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO {
-
-    /**
-     * Constructor.
-     *
-     * @since 2.1.0
-     */
-    public LocaleUrlDefinitionDAO() {
-        sourceURLs = new ArrayList<URL>();
-        lastModifiedDates = new HashMap<String, Long>();
-    }
 
     /**
      * <p>
