@@ -583,4 +583,32 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals("Factory should be stale.", true, reloadable
                 .refreshRequired());
     }
+
+    /**
+     * Tests wildcard mappings.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testWildcardMapping() throws IOException {
+        URL url = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs-wildcard.xml");
+        definitionDao.addSourceURL(url);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        EasyMock.expect(applicationContext
+                .getResource("org/apache/tiles/config/defs-wildcard.xml"))
+                .andReturn(url);
+        EasyMock.replay(applicationContext);
+        ((TilesApplicationContextAware) definitionDao)
+                .setApplicationContext(applicationContext);
+        definitionDao.setReader(new DigesterDefinitionsReader());
+
+        Definition definition = definitionDao.getDefinition("test.defName.subLayered", null);
+        assertEquals("The template is not correct", "/testName.jsp", definition.getTemplate());
+        assertEquals("The header attribute is not correct",
+                "/common/headerLayered.jsp", definition.getAttribute("header")
+                        .getValue());
+        definition = definitionDao.getDefinition("test.def3", null);
+        assertNotNull("The simple definition is null", definition);
+    }
 }

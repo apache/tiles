@@ -23,14 +23,19 @@ package org.apache.tiles.definition.dao;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.definition.Refreshable;
 import org.apache.tiles.util.LocaleUtil;
+import org.apache.tiles.util.WildcardHelper;
 
 /**
  * <p>
@@ -73,6 +78,21 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     private boolean checkRefresh = false;
 
     /**
+     * An object that helps in resolving definitions with wildcards.
+     *
+     * @since 2.1.0
+     */
+    protected WildcardHelper wildcardHelper = new WildcardHelper();
+
+    /**
+     * Stores patterns depending on the locale they refer to.
+     *
+     * @since 2.1.0
+     */
+    private Map<Locale, List<WildcardMapping>> localePatternPaths =
+        new HashMap<Locale, List<WildcardMapping>>();
+
+    /**
      * Constructor.
      *
      * @since 2.1.0
@@ -93,9 +113,28 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     /** {@inheritDoc} */
     public Definition getDefinition(String name, Locale customizationKey) {
         Definition retValue = null;
+        if (customizationKey == null) {
+            customizationKey = LocaleUtil.NULL_LOCALE;
+        }
         Map<String, Definition> definitions = getDefinitions(customizationKey);
         if (definitions != null) {
             retValue = definitions.get(name);
+
+            if (retValue == null
+                    && localePatternPaths.containsKey(customizationKey)) {
+                retValue = resolveWildcardDefinition(localePatternPaths
+                        .get(customizationKey), name);
+
+                if (retValue != null) {
+                    try {
+                        synchronized (definitions) {
+                            definitions.put(name, retValue);
+                        }
+                    } catch (NoSuchDefinitionException ex) {
+                        throw new IllegalStateException("Unable to resolve wildcard mapping", ex);
+                    }
+                }
+            }
         }
 
         return retValue;
@@ -127,6 +166,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      *
      * @param checkRefresh When <code>true</code>, enables automatic checking
      * of URLs changing.
+     * @since 2.1.0
      */
     public void setCheckRefresh(boolean checkRefresh) {
         this.checkRefresh = checkRefresh;
@@ -188,6 +228,156 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             }
         }
         locale2definitionMap.put(customizationKey, localeDefsMap);
+
+        List<WildcardMapping> lpaths = localePatternPaths
+                .get(customizationKey);
+        if (lpaths == null) {
+            lpaths = new ArrayList<WildcardMapping>();
+            localePatternPaths.put(customizationKey, lpaths);
+        }
+
+        addWildcardPaths(lpaths, localeDefsMap);
         return localeDefsMap;
+    }
+
+    /**
+     * Adds wildcard paths that are stored inside a normal definition map.
+     *
+     * @param paths The list containing the currently stored paths.
+     * @param defsMap The definition map to parse.
+     * @since 2.1.0
+     */
+    protected void addWildcardPaths(List<WildcardMapping> paths,
+            Map<String, Definition> defsMap) {
+        for (Map.Entry<String, Definition> de : defsMap.entrySet()) {
+            if (de.getKey().
+                    indexOf('*') != -1) {
+                paths.add(new WildcardMapping(de.getKey(), de.getValue()));
+            }
+        }
+    }
+
+    /**
+     * Try to resolve a wildcard definition.
+     *
+     * @param paths The list containing the currently stored paths.
+     * @param name The name of the definition to resolve.
+     * @return A definition, if found, or <code>null</code> if not.
+     * @since 2.1.0
+     */
+    protected Definition resolveWildcardDefinition(
+            List<WildcardMapping> paths, String name) {
+        Map<Integer, String> vars = new HashMap<Integer, String>();
+        Definition d = null;
+
+        for (WildcardMapping wm : paths) {
+            if (wildcardHelper.match(vars, name, wm.getPattern())) {
+                d = replaceDefinition(wm.getDefinition(), name, vars);
+                break;
+            }
+        }
+
+        return d;
+    }
+
+    /**
+     * Creates a definition given its representation with wildcards.
+     *
+     * @param d The definition to replace.
+     * @param name The name of the definition to be created.
+     * @param vars The variables to be substituted.
+     * @return The definition that can be rendered.
+     * @since 2.1.0
+     */
+    protected Definition replaceDefinition(Definition d, String name,
+            Map<Integer, String> vars) {
+        Definition nudef = new Definition();
+
+        nudef.setExtends(replace(d.getExtends(), vars));
+        nudef.setName(name);
+        nudef.setPreparer(replace(d.getPreparer(), vars));
+        nudef.setRole(replace(d.getRole(), vars));
+        nudef.setTemplate(replace(d.getTemplate(), vars));
+
+        for (String attributeName : d.getLocalAttributeNames()) {
+            Attribute attr = d.getLocalAttribute(attributeName);
+            Attribute nuattr = new Attribute();
+
+            nuattr.setRole(replace(attr.getRole(), vars));
+            nuattr.setRenderer(attr.getRenderer());
+
+            Object value = attr.getValue();
+            if (value instanceof String) {
+                value = replace((String) value, vars);
+            }
+            nuattr.setValue(value);
+
+            nudef.putAttribute(replace(attributeName, vars), nuattr);
+        }
+
+        return nudef;
+    }
+
+    /**
+     * Replaces a string with placeholders using values of a variable map.
+     *
+     * @param st The string to replace.
+     * @param vars The variables.
+     * @return The replaced string.
+     * @since 2.1.0
+     */
+    protected String replace(String st, Map<Integer, String> vars) {
+        return org.apache.tiles.util.WildcardHelper.convertParam(st, vars);
+    }
+
+    /**
+     * Maps a pattern with a definition in cache.
+     *
+     * @since 2.1.0
+     */
+    protected class WildcardMapping {
+
+        /**
+         * The compiled pattern.
+         */
+        private int[] pattern;
+
+        /**
+         * The definition that matches the pattern.
+         */
+        private Definition definition;
+
+        /**
+         * Constructor.
+         *
+         * @param pattern The compiled pattern.
+         * @param definition A definition that matches the pattern.
+         *
+         * @since 2.1.0
+         */
+        public WildcardMapping(String pattern, Definition definition) {
+            this.pattern = wildcardHelper.compilePattern(pattern);
+            this.definition = definition;
+        }
+
+        /**
+         * Returns the definition.
+         *
+         * @return The definition.
+         * @since 2.1.0
+         */
+        public Definition getDefinition() {
+            return definition;
+        }
+
+        /**
+         * Returns the compiled pattern.
+         *
+         * @return The pattern.
+         * @since 2.1.0
+         */
+        public int[] getPattern() {
+            return pattern;
+        }
     }
 }
