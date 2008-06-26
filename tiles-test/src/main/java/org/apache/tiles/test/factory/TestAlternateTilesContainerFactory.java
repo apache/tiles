@@ -29,6 +29,10 @@ import java.util.List;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.apache.tiles.definition.LocaleDefinitionsFactory;
+import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
+import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
+import org.apache.tiles.locale.LocaleResolver;
 
 /**
  * Test alternate Tiles container factory to customize Tiles behaviour.
@@ -55,5 +59,21 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
                     "Cannot load definition URLs", e);
         }
         return urls;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected LocaleDefinitionsFactory instantiateDefinitionsFactory(
+            Object context, TilesApplicationContext applicationContext,
+            TilesContextFactory contextFactory, LocaleResolver resolver) {
+        return new LocaleDefinitionsFactory();
+   }
+
+    /** {@inheritDoc} */
+    @Override
+    protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(
+            Object context, TilesApplicationContext applicationContext,
+            TilesContextFactory contextFactory, LocaleResolver resolver) {
+        return new CachingLocaleUrlDefinitionDAO();
     }
 }

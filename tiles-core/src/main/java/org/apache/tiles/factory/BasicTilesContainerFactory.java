@@ -37,6 +37,7 @@ import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.apache.tiles.definition.Refreshable;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
+import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
@@ -199,6 +200,23 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
         return new UrlDefinitionsFactory();
     }
 
+
+    /**
+     * Instantiate (and does not initialize) a Locale-based definition DAO.
+     *
+     * @param context The context.
+     * @param applicationContext The Tiles application context.
+     * @param contextFactory The Tiles context factory.
+     * @param resolver The locale resolver.
+     * @return The definition DAO.
+     * @since 2.1.0
+     */
+    protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(Object context,
+            TilesApplicationContext applicationContext,
+            TilesContextFactory contextFactory, LocaleResolver resolver) {
+        return new LocaleUrlDefinitionDAO();
+    }
+
     /**
      * Creates a Locale-based definition DAO.
      *
@@ -212,13 +230,16 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     protected DefinitionDAO<Locale> createLocaleDefinitionDao(Object context,
             TilesApplicationContext applicationContext,
             TilesContextFactory contextFactory, LocaleResolver resolver) {
-        LocaleUrlDefinitionDAO definitionDao = new LocaleUrlDefinitionDAO();
+        BaseLocaleUrlDefinitionDAO definitionDao = instantiateLocaleDefinitionDao(
+                context, applicationContext, contextFactory, resolver);
         definitionDao.setReader(createDefinitionsReader(context, applicationContext,
                 contextFactory));
         definitionDao.setSourceURLs(getSourceURLs(context, applicationContext,
                 contextFactory));
+        definitionDao.setApplicationContext(applicationContext);
         return definitionDao;
     }
+
     /**
      * Creates the locale resolver. By default it creates a
      * {@link DefaultLocaleResolver}.
