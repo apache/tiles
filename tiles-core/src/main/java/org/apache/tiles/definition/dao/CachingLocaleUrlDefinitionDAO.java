@@ -67,7 +67,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      *
      * @since 2.1.0
      */
-    private Map<Locale, Map<String, Definition>> locale2definitionMap;
+    protected Map<Locale, Map<String, Definition>> locale2definitionMap;
 
     /**
      * Flag that, when <code>true</code>, enables automatic checking of URLs
@@ -75,7 +75,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      *
      * @since 2.1.0
      */
-    private boolean checkRefresh = false;
+    protected boolean checkRefresh = false;
 
     /**
      * An object that helps in resolving definitions with wildcards.
@@ -89,7 +89,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      *
      * @since 2.1.0
      */
-    private Map<Locale, List<WildcardMapping>> localePatternPaths =
+    protected Map<Locale, List<WildcardMapping>> localePatternPaths =
         new HashMap<Locale, List<WildcardMapping>>();
 
     /**
@@ -189,7 +189,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     }
 
     /**
-     * Loads definitions from the URLs..
+     * Tries to load definitions if necessary.
      *
      * @param customizationKey The locale to use when loading URLs.
      * @return The loaded definitions.
@@ -202,11 +202,26 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             return localeDefsMap;
         }
 
+        localeDefsMap = loadDefinitionsFromURLs(customizationKey);
+        postDefinitionLoadOperations(localeDefsMap, customizationKey);
+        return localeDefsMap;
+    }
+
+    /**
+     * Loads definitions from the URLs.
+     *
+     * @param customizationKey The locale to use when loading URLs.
+     * @return The loaded definitions.
+     * @since 2.1.0
+     */
+    protected Map<String, Definition> loadDefinitionsFromURLs(Locale customizationKey) {
+        Map<String, Definition> localeDefsMap;
+
         String postfix = LocaleUtil.calculatePostfix(customizationKey);
         Locale parentLocale = LocaleUtil.getParentLocale(customizationKey);
         localeDefsMap = new HashMap<String, Definition>();
         if (parentLocale != null) {
-            Map<String, Definition> parentDefs = loadDefinitions(parentLocale);
+            Map<String, Definition> parentDefs = loadParentDefinitions(parentLocale);
             if (parentDefs != null) {
                 localeDefsMap.putAll(parentDefs);
             }
@@ -229,6 +244,30 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         }
         locale2definitionMap.put(customizationKey, localeDefsMap);
 
+        return localeDefsMap;
+    }
+
+    /**
+     * Loads parent definitions, i.e. definitions mapped to a parent locale.
+     *
+     * @param parentLocale The locale to use when loading URLs.
+     * @return The loaded parent definitions.
+     * @since 2.1.0
+     */
+    protected Map<String, Definition> loadParentDefinitions(Locale parentLocale) {
+        return loadDefinitions(parentLocale);
+    }
+
+    /**
+     * Tries to load definitions if necessary.
+     *
+     * @param localeDefsMap The loaded definitions.
+     * @param customizationKey The locale to use when loading URLs.
+     * @since 2.1.0
+     */
+    protected void postDefinitionLoadOperations(
+            Map<String, Definition> localeDefsMap, Locale customizationKey) {
+
         List<WildcardMapping> lpaths = localePatternPaths
                 .get(customizationKey);
         if (lpaths == null) {
@@ -237,7 +276,6 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         }
 
         addWildcardPaths(lpaths, localeDefsMap);
-        return localeDefsMap;
     }
 
     /**

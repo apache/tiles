@@ -23,23 +23,18 @@ package org.apache.tiles.definition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Definition;
-import org.apache.tiles.Initializable;
-import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.dao.DefinitionDAO;
-import org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO;
+import org.apache.tiles.definition.dao.ResolvingLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.URLReader;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.util.LocaleUtil;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -54,9 +49,8 @@ import java.util.StringTokenizer;
  *
  * @version $Rev$ $Date$
  */
-public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements DefinitionsFactory,
-        Refreshable, TilesApplicationContextAware,
-        Initializable {
+public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
+        Refreshable {
 
     /**
      * Compatibility constant.
@@ -69,22 +63,6 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
      * LOG instance for all UrlDefinitionsFactory instances.
      */
     private static final Log LOG = LogFactory.getLog(UrlDefinitionsFactory.class);
-
-    /**
-     * Contains a list of locales that have been processed.
-     */
-    private List<Locale> processedLocales;
-
-
-    /**
-     * The base set of Definition objects not discriminated by locale.
-     */
-    private Map<String, Definition> baseDefinitions;
-
-    /**
-     * The locale-specific set of definitions objects.
-     */
-    private Map<Locale, Map<String, Definition>> localeSpecificDefinitions;
 
     /**
      * Contains the URL objects identifying where configuration data is found.
@@ -108,29 +86,6 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
     protected Map<String, Long> lastModifiedDates;
 
     /**
-     * Creates a new instance of UrlDefinitionsFactory.
-     */
-    public UrlDefinitionsFactory() {
-        definitionDao = new LocaleUrlDefinitionDAO();
-        processedLocales = new ArrayList<Locale>();
-    }
-
-    /**
-     * Initializes the DefinitionsFactory and its subcomponents.
-     * <p/>
-     * Implementations may support configuration properties to be passed in via
-     * the params Map.
-     *
-     * @param params The Map of configuration properties.
-     * @throws DefinitionsFactoryException if an initialization error occurs.
-     */
-    @SuppressWarnings("unchecked")
-    public void init(Map<String, String> params) {
-        super.init(params);
-        loadDefinitions();
-    }
-
-    /**
      * Returns a Definition object that matches the given name and
      * Tiles context.
      *
@@ -144,23 +99,17 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
     public Definition getDefinition(String name,
             TilesRequestContext tilesContext) {
 
-        Locale locale = null;
+        Locale locale = localeResolver.resolveLocale(tilesContext);
 
-        if (tilesContext != null) {
-            locale = localeResolver.resolveLocale(tilesContext);
-            if (!isContextProcessed(tilesContext)) {
-                addDefinitions(tilesContext);
-            }
-        }
-
-        return getDefinition(name, locale);
+        return definitionDao.getDefinition(name, locale);
     }
 
     /** {@inheritDoc} */
     public synchronized void refresh() {
         LOG.debug("Updating Tiles definitions. . .");
-        processedLocales.clear();
-        loadDefinitions();
+        if (definitionDao instanceof Refreshable) {
+            ((Refreshable) definitionDao).refresh();
+        }
     }
 
 
@@ -176,37 +125,6 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
     }
 
     /**
-     * Appends locale-specific {@link Definition} objects to existing
-     * definitions set by reading locale-specific versions of the applied
-     * sources.
-     *
-     * @param tilesContext The requested locale.
-     * @throws DefinitionsFactoryException if an error occurs reading
-     * definitions.
-     * @since 2.1.0
-     */
-    protected synchronized void addDefinitions(TilesRequestContext tilesContext) {
-
-        Locale locale = localeResolver.resolveLocale(tilesContext);
-
-        if (isContextProcessed(tilesContext)) {
-            return;
-        }
-
-        if (locale == null) {
-            return;
-        }
-
-        processedLocales.add(locale);
-
-        // At the end of definitions loading, they can be assigned to
-        // Definitions implementation, to allow inheritance resolution.
-        localeSpecificDefinitions.put(locale, definitionDao
-                .getDefinitions(locale));
-        resolveInheritances(locale);
-    }
-
-    /**
      * Indicates whether a given context has been processed or not.
      * <p/>
      * This method can be used to avoid unnecessary synchronization of the
@@ -216,144 +134,11 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
      *
      * @param tilesContext The Tiles context to check.
      * @return true if the given context has been processed and false otherwise.
+     * @deprecated It always return <code>true</code>.
      */
+    @Deprecated
     protected boolean isContextProcessed(TilesRequestContext tilesContext) {
-        return processedLocales.contains(localeResolver
-                .resolveLocale(tilesContext));
-    }
-
-    /**
-     * Creates a base set by reading configuration data from the applied
-     * sources.
-     *
-     * @throws DefinitionsFactoryException if an error occurs reading the
-     * sources.
-     * @since 2.1.0
-     */
-    protected synchronized void loadDefinitions() {
-        reset();
-
-        baseDefinitions.putAll(definitionDao.getDefinitions(null));
-    }
-
-    /**
-     * Clears definitions.
-     *
-     * @since 2.1.0
-     */
-    protected void reset() {
-        this.baseDefinitions = new HashMap<String, Definition>();
-        this.localeSpecificDefinitions =
-            new HashMap<Locale, Map<String, Definition>>();
-    }
-
-    /**
-     * Resolve extended instances.
-     *
-     * @throws NoSuchDefinitionException If a parent definition is not found.
-     * @since 2.1.0
-     */
-    protected void resolveInheritances() {
-        Set<String> alreadyResolvedDefinitions = new HashSet<String>();
-
-        for (Definition definition : baseDefinitions.values()) {
-            resolveInheritance(definition, null, alreadyResolvedDefinitions);
-        }  // end loop
-    }
-
-    /**
-     * Resolve locale-specific extended instances.
-     *
-     * @param locale The locale to use.
-     * @throws NoSuchDefinitionException If a parent definition is not found.
-     * @since 2.1.0
-     */
-    protected void resolveInheritances(Locale locale) {
-        resolveInheritances();
-
-        Map<String, Definition> map = localeSpecificDefinitions.get(locale);
-        if (map != null) {
-            Set<String> alreadyResolvedDefinitions = new HashSet<String>();
-            for (Definition definition : map.values()) {
-                resolveInheritance(definition, locale,
-                        alreadyResolvedDefinitions);
-            }  // end loop
-        }
-    }
-
-    /**
-     * Resolve locale-specific inheritance.
-     * First, resolve parent's inheritance, then set template to the parent's
-     * template.
-     * Also copy attributes setted in parent, and not set in child
-     * If instance doesn't extend anything, do nothing.
-     *
-     * @param definition The definition to resolve
-     * @param locale The locale to use.
-     * @param alreadyResolvedDefinitions The set of the definitions that have
-     * been already resolved.
-     * @throws NoSuchDefinitionException If an inheritance can not be solved.
-     * @since 2.1.0
-     */
-    protected void resolveInheritance(Definition definition, Locale locale,
-            Set<String> alreadyResolvedDefinitions) {
-        // Already done, or not needed ?
-        if (!definition.isExtending()
-                || alreadyResolvedDefinitions.contains(definition.getName())) {
-            return;
-        }
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Resolve definition for child name='"
-                + definition.getName()
-                + "' extends='" + definition.getExtends() + "'.");
-        }
-
-        // Set as visited to avoid endless recurisvity.
-        alreadyResolvedDefinitions.add(definition.getName());
-
-        // Resolve parent before itself.
-        Definition parent = getDefinition(definition.getExtends(),
-            locale);
-        if (parent == null) { // error
-            String msg = "Error while resolving definition inheritance: child '"
-                + definition.getName()
-                + "' can't find its ancestor '"
-                + definition.getExtends()
-                + "'. Please check your description file.";
-            // to do : find better exception
-            throw new NoSuchDefinitionException(msg);
-        }
-
-        resolveInheritance(parent, locale, alreadyResolvedDefinitions);
-
-        definition.inherit(parent);
-    }
-
-    /**
-     * Returns a Definition object that matches the given name and locale.
-     *
-     * @param name The name of the Definition to return.
-     * @param locale The locale to use to resolve the definition.
-     * @return the Definition matching the given name or null if none is found.
-     * @since 2.1.0
-     */
-    protected Definition getDefinition(String name, Locale locale) {
-        Definition definition = null;
-
-        if (locale != null) {
-            Map<String, Definition> localeSpecificMap =
-                localeSpecificDefinitions.get(locale);
-            if (localeSpecificMap != null) {
-                definition = localeSpecificMap.get(name);
-            }
-        }
-
-        if (definition == null) {
-            definition = baseDefinitions.get(name);
-        }
-
-        return definition;
+        return true;
     }
 
     /**
@@ -390,7 +175,7 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
     /** {@inheritDoc} */
     @Override
     protected DefinitionDAO<Locale> createDefaultDefinitionDAO() {
-        return new LocaleUrlDefinitionDAO();
+        return new ResolvingLocaleUrlDefinitionDAO();
     }
 
     /**
@@ -404,8 +189,7 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
      */
     @Deprecated
     public Definitions readDefinitions() {
-        loadDefinitions();
-        return new DefinitionsImpl(baseDefinitions, localeSpecificDefinitions);
+        return new CompatibilityDefinitionsImpl(definitionDao);
     }
 
     /**
@@ -416,7 +200,7 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
      */
     @Deprecated
     protected Definitions getDefinitions() {
-        return new DefinitionsImpl(baseDefinitions, localeSpecificDefinitions);
+        return new CompatibilityDefinitionsImpl(definitionDao);
     }
 
     /**
@@ -427,12 +211,18 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
      * @param definitions  The Definitions object to append to.
      * @param tilesContext The requested locale.
      * @throws DefinitionsFactoryException if an error occurs reading definitions.
-     * @deprecated Use {@link #addDefinitions(TilesRequestContext)}.
+     * @deprecated Let the definitions be loaded by a {@link DefinitionDAO}.
      */
     @Deprecated
     protected void addDefinitions(Definitions definitions,
             TilesRequestContext tilesContext) {
-        addDefinitions(tilesContext);
+        Locale locale = localeResolver.resolveLocale(tilesContext);
+        Map<String, Definition> defsMap = definitionDao.getDefinitions(locale);
+        if (defsMap == null) {
+            throw new NullPointerException(
+                    "There are no definitions mapped to locale '"
+                            + locale.toString() + "'");
+        }
     }
 
     /**
@@ -444,7 +234,7 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
      */
     @Deprecated
     protected Definitions createDefinitions() {
-        return new DefinitionsImpl();
+        return new CompatibilityDefinitionsImpl(definitionDao);
     }
 
     /**
@@ -516,5 +306,88 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements D
             filenames.add(tokenizer.nextToken().trim());
         }
         return filenames;
+    }
+
+    /**
+     * {@link Definitions} implementation that uses a {@link DefinitionDAO}.
+     *
+     * @since 2.1.0
+     * @deprecated Here only for compatibility reasons.
+     */
+    @Deprecated
+    private static final class CompatibilityDefinitionsImpl implements Definitions {
+
+        /**
+         * The definition DAO to use.
+         *
+         * @since 2.1.0
+         */
+        private DefinitionDAO<Locale> definitionDao;
+
+        /**
+         * Constructor.
+         *
+         * @param definitionDao The definition DAO to use.
+         * @since 2.1.0
+         */
+        public CompatibilityDefinitionsImpl(DefinitionDAO<Locale> definitionDao) {
+            this.definitionDao = definitionDao;
+        }
+
+        /** {@inheritDoc} */
+        public void addDefinitions(Map<String, Definition> defsMap) {
+            Map<String, Definition> definitions = definitionDao
+                    .getDefinitions(null);
+            if (definitions == null) {
+                throw new NullPointerException(
+                        "No definitions loaded for default locale");
+            }
+            definitions.putAll(defsMap);
+        }
+
+        /** {@inheritDoc} */
+        public void addDefinitions(Map<String, Definition> defsMap,
+                Locale locale) {
+            Map<String, Definition> definitions = definitionDao
+                    .getDefinitions(locale);
+            if (definitions == null) {
+                throw new NullPointerException(
+                        "No definitions loaded for locale '"
+                                + locale.toString() + "'");
+            }
+            definitions.putAll(defsMap);
+        }
+
+        /** {@inheritDoc} */
+        public Map<String, Definition> getBaseDefinitions() {
+            return definitionDao.getDefinitions(null);
+        }
+
+        /** {@inheritDoc} */
+        public Definition getDefinition(String name) {
+            return definitionDao.getDefinition(name, null);
+        }
+
+        /** {@inheritDoc} */
+        public Definition getDefinition(String name, Locale locale) {
+            return definitionDao.getDefinition(name, locale);
+        }
+
+        /** {@inheritDoc} */
+        public void reset() {
+            if (definitionDao instanceof Refreshable) {
+                ((Refreshable) definitionDao).refresh();
+            }
+        }
+
+        /** {@inheritDoc} */
+        public void resolveInheritances() {
+            // Does nothing.
+        }
+
+        /** {@inheritDoc} */
+        public void resolveInheritances(Locale locale) {
+            // Does nothing.
+        }
     }
 }

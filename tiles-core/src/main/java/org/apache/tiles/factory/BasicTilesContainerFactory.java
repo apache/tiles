@@ -39,7 +39,7 @@ import org.apache.tiles.definition.Refreshable;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.DefinitionDAO;
-import org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO;
+import org.apache.tiles.definition.dao.ResolvingLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
@@ -214,7 +214,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(Object context,
             TilesApplicationContext applicationContext,
             TilesContextFactory contextFactory, LocaleResolver resolver) {
-        return new LocaleUrlDefinitionDAO();
+        return new ResolvingLocaleUrlDefinitionDAO();
     }
 
     /**

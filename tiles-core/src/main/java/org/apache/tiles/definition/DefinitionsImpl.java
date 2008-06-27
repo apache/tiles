@@ -36,7 +36,8 @@ import java.util.Set;
  * @version $Rev$ $Date$
  *
  * @deprecated This class is, in fact, part of the implementation of
- * {@link UrlDefinitionsFactory}.
+ * {@link UrlDefinitionsFactory} and
+ * {@link org.apache.tiles.definition.dao.ResolvingLocaleUrlDefinitionDAO}.
  */
 @Deprecated
 public class DefinitionsImpl implements Definitions {

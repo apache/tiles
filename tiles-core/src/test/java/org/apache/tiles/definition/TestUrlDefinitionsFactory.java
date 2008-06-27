@@ -85,7 +85,6 @@ public class TestUrlDefinitionsFactory extends TestCase {
      *
      * @throws Exception If something goes wrong.
      */
-    @SuppressWarnings("unchecked")
     public void testReadDefinitions() throws Exception {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
@@ -111,6 +110,7 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 .andReturn(url3);
         EasyMock.replay(applicationContext);
         factory.setApplicationContext(applicationContext);
+        TilesRequestContext emptyContext = new MockOnlyLocaleTilesContext(null);
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
@@ -119,11 +119,11 @@ public class TestUrlDefinitionsFactory extends TestCase {
         factory.init(params);
 
         assertNotNull("test.def1 definition not found.", factory.getDefinition(
-                "test.def1", (TilesRequestContext) null));
+                "test.def1", emptyContext));
         assertNotNull("test.def2 definition not found.", factory.getDefinition(
-                "test.def2", (TilesRequestContext) null));
+                "test.def2", emptyContext));
         assertNotNull("test.def3 definition not found.", factory.getDefinition(
-                "test.def3", (TilesRequestContext) null));
+                "test.def3", emptyContext));
     }
 
     /**
@@ -131,7 +131,6 @@ public class TestUrlDefinitionsFactory extends TestCase {
      *
      * @throws Exception If something goes wrong.
      */
-    @SuppressWarnings("unchecked")
     public void testGetDefinition() throws Exception {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
@@ -221,108 +220,6 @@ public class TestUrlDefinitionsFactory extends TestCase {
                 "Definition to be extended", factory.getDefinition(
                         "test.def.overridden", frenchContext).getAttribute(
                         "title").getValue());
-    }
-
-    /**
-     * Tests the addDefinitions method under normal
-     * circumstances.
-     *
-     * @throws Exception If something goes wrong.
-     */
-    @SuppressWarnings("unchecked")
-    public void testReadByLocale() throws Exception {
-        // Set up multiple data sources.
-        URL url1 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs1.xml");
-        assertNotNull("Could not load defs1 file.", url1);
-        URL url2 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs2.xml");
-        assertNotNull("Could not load defs2 file.", url2);
-        URL url3 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs3.xml");
-        assertNotNull("Could not load defs3 file.", url3);
-
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs2.xml"))
-                .andReturn(url2);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs3.xml"))
-                .andReturn(url3);
-        EasyMock.replay(applicationContext);
-        factory.setApplicationContext(applicationContext);
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
-                "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
-                + "org/apache/tiles/config/defs3.xml");
-        factory.init(params);
-
-        // Parse files.
-        factory.addDefinitions(new MockOnlyLocaleTilesContext(Locale.US));
-        factory.addDefinitions(new MockOnlyLocaleTilesContext(Locale.FRENCH));
-
-        assertNotNull("test.def1 definition not found.", factory.getDefinition(
-                "test.def1", (Locale) null));
-        assertNotNull("test.def1 US definition not found.", factory
-                .getDefinition("test.def1", Locale.US));
-        assertNotNull("test.def1 France definition not found.", factory
-                .getDefinition("test.def1", Locale.FRENCH));
-        assertNotNull("test.def1 China should return default.", factory
-                .getDefinition("test.def1", Locale.CHINA));
-
-        assertEquals("Incorrect default country value", "default", factory
-                .getDefinition("test.def1", (Locale) null).getAttribute(
-                        "country").getValue());
-        assertEquals("Incorrect US country value", "US", factory.getDefinition(
-                "test.def1", Locale.US).getAttribute("country").getValue());
-        assertEquals("Incorrect France country value", "France", factory
-                .getDefinition("test.def1", Locale.FRENCH).getAttribute(
-                        "country").getValue());
-        assertEquals("Incorrect Chinese country value (should default)",
-                "default", factory.getDefinition("test.def1", Locale.CHINA)
-                        .getAttribute("country").getValue());
-    }
-
-    /**
-     * Tests the isContextProcessed method.
-     *
-     * @throws Exception If something goes wrong.
-     */
-    @SuppressWarnings("unchecked")
-    public void testIsContextProcessed() throws Exception {
-
-        // Set up multiple data sources.
-        URL url1 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs1.xml");
-        assertNotNull("Could not load defs1 file.", url1);
-
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
-        EasyMock.replay(applicationContext);
-        factory.setApplicationContext(applicationContext);
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
-                "org/apache/tiles/config/defs1.xml");
-        factory.init(params);
-
-        // Parse files.
-        TilesRequestContext tilesContext =
-                new MockOnlyLocaleTilesContext(Locale.US);
-        assertFalse("Locale should not be processed.",
-                factory.isContextProcessed(tilesContext));
-
-        factory.addDefinitions(tilesContext);
-        assertTrue("Locale should be processed.",
-                factory.isContextProcessed(tilesContext));
     }
 
     /**

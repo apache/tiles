@@ -33,7 +33,7 @@ import org.apache.tiles.util.LocaleUtil;
 
 /**
  * A definition DAO that uses {@link Locale} as a customization key and loads
- * definitions from URLs.
+ * definitions from URLs. It does not cache definitions in any way.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
