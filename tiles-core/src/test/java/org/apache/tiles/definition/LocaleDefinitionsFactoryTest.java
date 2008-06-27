@@ -85,7 +85,6 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
      *
      * @throws Exception If something goes wrong.
      */
-    @SuppressWarnings("unchecked")
     public void testReadDefinitions() throws Exception {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
@@ -131,7 +130,6 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
      *
      * @throws Exception If something goes wrong.
      */
-    @SuppressWarnings("unchecked")
     public void testGetDefinition() throws Exception {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
@@ -229,7 +227,6 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
      *
      * @throws Exception If something goes wrong.
      */
-    @SuppressWarnings("unchecked")
     public void testReadByLocale() throws Exception {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(

@@ -124,19 +124,18 @@ public class ServletContextAdapter implements ServletContext {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("deprecation")
     public Servlet getServlet(String string) throws ServletException {
         return rootContext.getServlet(string);
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public Enumeration getServlets() {
         return rootContext.getServlets();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public Enumeration getServletNames() {
         return rootContext.getServletNames();
     }
@@ -147,7 +146,6 @@ public class ServletContextAdapter implements ServletContext {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("deprecation")
     public void log(Exception exception, String string) {
         rootContext.log(exception, string);
     }
