@@ -18,6 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.apache.tiles;
 
 
@@ -32,6 +33,7 @@ import java.util.List;
  * This class is used to read configuration files.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.0
  */
 public class ListAttribute extends Attribute {
 
@@ -44,6 +46,8 @@ public class ListAttribute extends Attribute {
 
     /**
      * Constructor.
+     *
+     * @since 2.1.0
      */
     public ListAttribute() {
         setValue(new ArrayList<Object>());
@@ -54,6 +58,7 @@ public class ListAttribute extends Attribute {
      *
      * @param name  Name.
      * @param value List.
+     * @since 2.1.0
      */
     public ListAttribute(String name, List<Object> value) {
         super(name, value);
@@ -64,6 +69,7 @@ public class ListAttribute extends Attribute {
      * We use a property to avoid rewriting a new class.
      *
      * @param element XmlAttribute to add.
+     * @since 2.1.0
      */
     @SuppressWarnings("unchecked")
     public void add(Attribute element) {
@@ -74,6 +80,7 @@ public class ListAttribute extends Attribute {
      * Add an element in list.
      *
      * @param value Object to add.
+     * @since 2.1.0
      */
     @SuppressWarnings("unchecked")
     public void add(Object value) {
@@ -91,6 +98,7 @@ public class ListAttribute extends Attribute {
      * Add an element in list.
      *
      * @param value Object to add.
+     * @since 2.1.0
      */
     @SuppressWarnings("unchecked")
     public void addObject(Object value) {
@@ -103,6 +111,7 @@ public class ListAttribute extends Attribute {
      * default, it is 'false'
      *
      * @param inherit The "inherit" value.
+     * @since 2.1.0
      */
     public void setInherit(boolean inherit) {
         this.inherit = inherit;
@@ -114,6 +123,7 @@ public class ListAttribute extends Attribute {
      * default, it is 'false'
      *
      * @return inherit The "inherit" value.
+     * @since 2.1.0
      */
     public boolean isInherit() {
         return inherit;
@@ -124,6 +134,7 @@ public class ListAttribute extends Attribute {
      * be put before the ones already present.
      *
      * @param parent The parent list attribute.
+     * @since 2.1.0
      */
     @SuppressWarnings("unchecked")
     public void inherit(ListAttribute parent) {
