@@ -18,9 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context;
+package org.apache.tiles;
 
-import org.apache.tiles.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +34,19 @@ import java.util.List;
  * @version $Rev$ $Date$
  */
 public class ListAttribute extends Attribute {
+
     /**
-     * List.
-     * We declare a List to avoid cast.
-     * Parent "value" property points to the same list.
+     * If true, the attribute will put the elements of the attribute with the
+     * same name of the parent definition before the ones specified here. By
+     * default, it is 'false'.
      */
-    private List<Object> list;
+    private boolean inherit = false;
 
     /**
      * Constructor.
      */
     public ListAttribute() {
-        list = new ArrayList<Object>();
-        setValue(list);
+        setValue(new ArrayList<Object>());
     }
 
     /**
@@ -58,7 +57,6 @@ public class ListAttribute extends Attribute {
      */
     public ListAttribute(String name, List<Object> value) {
         super(name, value);
-        list = value;
     }
 
     /**
@@ -67,8 +65,9 @@ public class ListAttribute extends Attribute {
      *
      * @param element XmlAttribute to add.
      */
+    @SuppressWarnings("unchecked")
     public void add(Attribute element) {
-        list.add(element);
+        ((List<Object>) value).add(element);
     }
 
     /**
@@ -76,6 +75,7 @@ public class ListAttribute extends Attribute {
      *
      * @param value Object to add.
      */
+    @SuppressWarnings("unchecked")
     public void add(Object value) {
         //list.add( value );
         // To correct a bug in digester, we need to check the object type
@@ -83,7 +83,7 @@ public class ListAttribute extends Attribute {
         if (value instanceof Attribute) {
             add((Attribute) value);
         } else {
-            list.add(value);
+            ((List<Object>) this.value).add(value);
         }
     }
 
@@ -92,8 +92,44 @@ public class ListAttribute extends Attribute {
      *
      * @param value Object to add.
      */
+    @SuppressWarnings("unchecked")
     public void addObject(Object value) {
-    list.add(value);
-  }
+        ((List<Object>) this.value).add(value);
+    }
 
+    /**
+     * If true, the attribute will put the elements of the attribute with the
+     * same name of the parent definition before the ones specified here. By
+     * default, it is 'false'
+     *
+     * @param inherit The "inherit" value.
+     */
+    public void setInherit(boolean inherit) {
+        this.inherit = inherit;
+    }
+
+    /**
+     * If true, the attribute will put the elements of the attribute with the
+     * same name of the parent definition before the ones specified here. By
+     * default, it is 'false'
+     *
+     * @return inherit The "inherit" value.
+     */
+    public boolean isInherit() {
+        return inherit;
+    }
+
+    /**
+     * Inherits elements present in a "parent" list attribute. The elements will
+     * be put before the ones already present.
+     *
+     * @param parent The parent list attribute.
+     */
+    @SuppressWarnings("unchecked")
+    public void inherit(ListAttribute parent) {
+        List<Object> tempList = new ArrayList<Object>();
+        tempList.addAll((List<Object>) parent.value);
+        tempList.addAll((List<Object>) value);
+        setValue(tempList);
+    }
 }

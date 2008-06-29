@@ -183,6 +183,12 @@
 @attr cascade        If true, the attribute will be cascaded to all inner
                      definitions. By default, cascade is false.
 -->
+<!ATTLIST put-list-attribute inherit          %Boolean;        #IMPLIED>
+<!--
+@attr inherit        If true, the attribute will put the elements of the attribute
+                     with the same name of the parent definition before the ones
+                     specified here. By default, it is 'false'.
+-->
 <!ATTLIST put-list-attribute cascade          %Boolean;        #IMPLIED>
 
 <!-- ========== Subordinate Elements ====================================== -->
@@ -234,6 +240,12 @@
      specified java classtype. This bean is initialized with appropriate nested
      <set-property>.
 -->     
+<!ATTLIST put-list-attribute inherit          %Boolean;        #IMPLIED>
+<!--
+@attr inherit        If true, the attribute will put the elements of the attribute
+                     with the same name of the parent definition before the ones
+                     specified here. By default, it is 'false'.
+-->
 <!ELEMENT bean (set-property*)>
 <!ATTLIST bean             id               ID              #IMPLIED>
 <!--

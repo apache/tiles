@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+
 /**
  * Basic implementation for <code>AttributeContext</code>.
  *
@@ -225,14 +226,28 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             if (names != null && !names.isEmpty()) {
                 for (String name : names) {
                     Attribute attribute = parent.getCascadedAttribute(name);
-                    putAttribute(name, attribute, true);
+                    Attribute destAttribute = getCascadedAttribute(name);
+                    if (destAttribute == null) {
+                        putAttribute(name, attribute, true);
+                    } else if (attribute instanceof ListAttribute
+                            && destAttribute instanceof ListAttribute
+                            && ((ListAttribute) destAttribute).isInherit()) {
+                        ((ListAttribute) destAttribute).inherit((ListAttribute) attribute);
+                    }
                 }
             }
             names = parent.getLocalAttributeNames();
             if (names != null && !names.isEmpty()) {
                 for (String name : names) {
                     Attribute attribute = parent.getLocalAttribute(name);
-                    putAttribute(name, attribute, false);
+                    Attribute destAttribute = getLocalAttribute(name);
+                    if (destAttribute == null) {
+                        putAttribute(name, attribute, false);
+                    } else if (attribute instanceof ListAttribute
+                            && destAttribute instanceof ListAttribute
+                            && ((ListAttribute) destAttribute).isInherit()) {
+                        ((ListAttribute) destAttribute).inherit((ListAttribute) attribute);
+                    }
                 }
             }
         }
@@ -472,8 +487,14 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             }
             for (Map.Entry<String, Attribute> entry : source.entrySet()) {
                 String key = entry.getKey();
-                if (!destination.containsKey(key)) {
+                Attribute destAttribute = destination.get(key);
+                if (destAttribute == null) {
                     destination.put(key, entry.getValue());
+                } else if (destAttribute instanceof ListAttribute
+                        && entry.getValue() instanceof ListAttribute
+                        && ((ListAttribute) destAttribute).isInherit()) {
+                    ((ListAttribute) destAttribute)
+                            .inherit((ListAttribute) entry.getValue());
                 }
             }
         }

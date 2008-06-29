@@ -23,6 +23,7 @@ package org.apache.tiles;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -168,6 +169,43 @@ public class BasicAttributeContextTest extends TestCase {
         assertNotNull("Attribute name2 not found", attribute);
         assertEquals("Attribute name2 has not been set correctly", "value2",
                 attribute.getValue());
+    }
+
+    /**
+     * Tests {@link BasicAttributeContext#inherit(BasicAttributeContext)}
+     * testing inheritance between {@link ListAttribute} instances.
+     */
+    @SuppressWarnings("unchecked")
+    public void testInheritListAttribute() {
+        AttributeContext toCopy = new BasicAttributeContext();
+        ListAttribute parentListAttribute = new ListAttribute();
+        parentListAttribute.add("first");
+        toCopy.putAttribute("list", parentListAttribute);
+        AttributeContext context = new BasicAttributeContext();
+        ListAttribute listAttribute = new ListAttribute();
+        listAttribute.setInherit(true);
+        listAttribute.add("second");
+        context.putAttribute("list", listAttribute);
+        context.inherit(toCopy);
+        ListAttribute result = (ListAttribute) context.getAttribute("list");
+        assertNotNull("The attribute must exist", result);
+        List<Object> value = (List<Object>) result.getValue();
+        assertNotNull("The list must exist", value);
+        assertEquals("The size is not correct", 2, value.size());
+        assertEquals("The first element is not correct", "first", value.get(0));
+        assertEquals("The second element is not correct", "second", value.get(1));
+
+        context = new BasicAttributeContext();
+        listAttribute = new ListAttribute();
+        listAttribute.add("second");
+        context.putAttribute("list", listAttribute);
+        context.inherit(toCopy);
+        result = (ListAttribute) context.getAttribute("list");
+        assertNotNull("The attribute must exist", result);
+        value = (List<Object>) result.getValue();
+        assertNotNull("The list must exist", value);
+        assertEquals("The size is not correct", 1, value.size());
+        assertEquals("The second element is not correct", "second", value.get(0));
     }
 
     /**
