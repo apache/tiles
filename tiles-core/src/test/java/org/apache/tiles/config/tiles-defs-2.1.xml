@@ -58,4 +58,21 @@
       </put-list-attribute>
   </definition>
 
+  <definition name="test.inherit.list.base" template="/layout.jsp">
+      <put-list-attribute name="list">
+          <add-attribute value="first" />
+      </put-list-attribute>
+  </definition>
+
+  <definition name="test.inherit.list" extends="test.inherit.list.base">
+      <put-list-attribute name="list" inherit="true">
+          <add-attribute value="second" />
+      </put-list-attribute>
+  </definition>
+
+  <definition name="test.noinherit.list" extends="test.inherit.list.base">
+      <put-list-attribute name="list">
+          <add-attribute value="second" />
+      </put-list-attribute>
+  </definition>
 </tiles-definitions>

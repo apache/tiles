@@ -21,6 +21,7 @@
 
 package org.apache.tiles.definition.digester;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
@@ -92,110 +93,119 @@ public class TestDigesterDefinitionsReader extends TestCase {
 
     /**
      * Tests the read method under normal conditions.
+     * @throws IOException If something goes wrong.
      */
-    public void testRead() {
-        try {
-            reader.init(new HashMap<String, String>());
+    public void testRead() throws IOException {
+        reader.init(new HashMap<String, String>());
 
-            URL configFile = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/tiles-defs.xml");
-            assertNotNull("Config file not found", configFile);
+        URL configFile = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/tiles-defs.xml");
+        assertNotNull("Config file not found", configFile);
 
-            InputStream source = configFile.openStream();
-            Map<String, Definition> definitions = reader.read(source);
+        InputStream source = configFile.openStream();
+        Map<String, Definition> definitions = reader.read(source);
 
-            assertNotNull("Definitions not returned.", definitions);
-            assertNotNull("Couldn't find doc.mainLayout tile.",
-                    definitions.get("doc.mainLayout"));
-            assertNotNull("Couldn't Find title attribute.", definitions.get(
-                    "doc.mainLayout").getAttribute("title").getValue());
-            assertEquals("Incorrect Find title attribute.",
-                    "Tiles Library Documentation", definitions.get(
-                            "doc.mainLayout").getAttribute("title").getValue());
+        assertNotNull("Definitions not returned.", definitions);
+        assertNotNull("Couldn't find doc.mainLayout tile.",
+                definitions.get("doc.mainLayout"));
+        assertNotNull("Couldn't Find title attribute.", definitions.get(
+                "doc.mainLayout").getAttribute("title").getValue());
+        assertEquals("Incorrect Find title attribute.",
+                "Tiles Library Documentation", definitions.get(
+                        "doc.mainLayout").getAttribute("title").getValue());
 
-            Definition def = definitions.get("doc.role.test");
-            assertNotNull("Couldn't find doc.role.test tile.", def);
-            Attribute attribute = def.getAttribute("title");
-            assertNotNull("Couldn't Find title attribute.", attribute
-                    .getValue());
-            assertEquals("Role 'myrole' expected", attribute.getRole(),
-                    "myrole");
+        Definition def = definitions.get("doc.role.test");
+        assertNotNull("Couldn't find doc.role.test tile.", def);
+        Attribute attribute = def.getAttribute("title");
+        assertNotNull("Couldn't Find title attribute.", attribute
+                .getValue());
+        assertEquals("Role 'myrole' expected", attribute.getRole(),
+                "myrole");
 
-            def = definitions.get("doc.listattribute.test");
-            assertNotNull("Couldn't find doc.listattribute.test tile.", def);
-            attribute = def.getAttribute("items");
-            assertNotNull("Couldn't Find items attribute.", attribute);
-            assertTrue("The class of the attribute is not right",
-                    attribute instanceof ListAttribute);
-            assertTrue("The class of value of the attribute is not right",
-                    attribute.getValue() instanceof List);
-        } catch (Exception e) {
-            fail("Exception reading configuration." + e);
-        }
+        def = definitions.get("doc.listattribute.test");
+        assertNotNull("Couldn't find doc.listattribute.test tile.", def);
+        attribute = def.getAttribute("items");
+        assertNotNull("Couldn't Find items attribute.", attribute);
+        assertTrue("The class of the attribute is not right",
+                attribute instanceof ListAttribute);
+        assertTrue("The class of value of the attribute is not right",
+                attribute.getValue() instanceof List);
     }
 
 
     /**
      * Tests the read method under normal conditions for the new features in 2.1
      * version of the DTD.
+     * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("unchecked")
-    public void testRead21Version() {
-        try {
-            reader.init(new HashMap<String, String>());
+    public void testRead21Version() throws IOException {
+        reader.init(new HashMap<String, String>());
 
-            URL configFile = this.getClass().getClassLoader().getResource(
-                    "org/apache/tiles/config/tiles-defs-2.1.xml");
-            assertNotNull("Config file not found", configFile);
+        URL configFile = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/tiles-defs-2.1.xml");
+        assertNotNull("Config file not found", configFile);
 
-            InputStream source = configFile.openStream();
-            Map<String, Definition> definitions = reader.read(source);
+        InputStream source = configFile.openStream();
+        Map<String, Definition> definitions = reader.read(source);
 
-            assertNotNull("Definitions not returned.", definitions);
-            Definition def = definitions.get("doc.cascaded.test");
+        assertNotNull("Definitions not returned.", definitions);
+        Definition def = definitions.get("doc.cascaded.test");
 
-            assertNotNull("Couldn't find doc.role.test tile.", def);
-            Attribute attribute = def.getLocalAttribute("title");
-            assertNotNull("Couldn't Find title local attribute.", attribute);
-            attribute = def.getCascadedAttribute("title2");
-            assertNotNull("Couldn't Find title2 cascaded attribute.", attribute);
-            attribute = def.getLocalAttribute("items1");
-            assertNotNull("Couldn't Find items1 local attribute.", attribute);
-            attribute = def.getCascadedAttribute("items2");
-            assertNotNull("Couldn't Find items2 cascaded attribute.", attribute);
+        assertNotNull("Couldn't find doc.role.test tile.", def);
+        Attribute attribute = def.getLocalAttribute("title");
+        assertNotNull("Couldn't Find title local attribute.", attribute);
+        attribute = def.getCascadedAttribute("title2");
+        assertNotNull("Couldn't Find title2 cascaded attribute.", attribute);
+        attribute = def.getLocalAttribute("items1");
+        assertNotNull("Couldn't Find items1 local attribute.", attribute);
+        attribute = def.getCascadedAttribute("items2");
+        assertNotNull("Couldn't Find items2 cascaded attribute.", attribute);
 
-            def = definitions.get("test.nesting.definitions");
-            assertNotNull("Couldn't find test.nesting.definitions tile.", def);
-            attribute = def.getAttribute("body");
-            assertNotNull("Couldn't Find body attribute.", attribute);
-            assertEquals("Attribute not of 'definition' type", "definition",
-                    attribute.getRenderer());
-            assertNotNull("Attribute value null", attribute.getValue());
-            String defName = attribute.getValue().toString();
-            def = definitions.get(defName);
-            assertNotNull("Couldn't find " + defName + " tile.", def);
+        def = definitions.get("test.nesting.definitions");
+        assertNotNull("Couldn't find test.nesting.definitions tile.", def);
+        attribute = def.getAttribute("body");
+        assertNotNull("Couldn't Find body attribute.", attribute);
+        assertEquals("Attribute not of 'definition' type", "definition",
+                attribute.getRenderer());
+        assertNotNull("Attribute value null", attribute.getValue());
+        String defName = attribute.getValue().toString();
+        def = definitions.get(defName);
+        assertNotNull("Couldn't find " + defName + " tile.", def);
 
-            def = definitions.get("test.nesting.list.definitions");
-            assertNotNull("Couldn't find test.nesting.list.definitions tile.",
-                    def);
-            attribute = def.getAttribute("list");
-            assertNotNull("Couldn't Find list attribute.", attribute);
-            assertTrue("Attribute not of valid type",
-                    attribute instanceof ListAttribute);
-            ListAttribute listAttribute = (ListAttribute) attribute;
-            List<Attribute> list = (List<Attribute>) listAttribute.getValue();
-            assertEquals("The list is not of correct size", 1, list.size());
-            attribute = list.get(0);
-            assertNotNull("Couldn't Find element attribute.", attribute);
-            assertEquals("Attribute not of 'definition' type", "definition",
-                    attribute.getRenderer());
-            assertNotNull("Attribute value null", attribute.getValue());
-            defName = attribute.getValue().toString();
-            def = definitions.get(defName);
-            assertNotNull("Couldn't find " + defName + " tile.", def);
-        } catch (Exception e) {
-            fail("Exception reading configuration." + e);
-        }
+        def = definitions.get("test.nesting.list.definitions");
+        assertNotNull("Couldn't find test.nesting.list.definitions tile.",
+                def);
+        attribute = def.getAttribute("list");
+        assertNotNull("Couldn't Find list attribute.", attribute);
+        assertTrue("Attribute not of valid type",
+                attribute instanceof ListAttribute);
+        ListAttribute listAttribute = (ListAttribute) attribute;
+        List<Attribute> list = (List<Attribute>) listAttribute.getValue();
+        assertEquals("The list is not of correct size", 1, list.size());
+        attribute = list.get(0);
+        assertNotNull("Couldn't Find element attribute.", attribute);
+        assertEquals("Attribute not of 'definition' type", "definition",
+                attribute.getRenderer());
+        assertNotNull("Attribute value null", attribute.getValue());
+        defName = attribute.getValue().toString();
+        def = definitions.get(defName);
+        assertNotNull("Couldn't find " + defName + " tile.", def);
+
+        defName = "test.inherit.list.base";
+        def = definitions.get(defName);
+        assertNotNull("Couldn't find " + defName + " tile.", def);
+        defName = "test.inherit.list";
+        def = definitions.get(defName);
+        assertNotNull("Couldn't find " + defName + " tile.", def);
+        listAttribute = (ListAttribute) def.getAttribute("list");
+        assertEquals("This definition does not inherit its list attribute",
+                true, listAttribute.isInherit());
+        defName = "test.noinherit.list";
+        def = definitions.get(defName);
+        listAttribute = (ListAttribute) def.getAttribute("list");
+        assertEquals("This definition inherits its list attribute",
+                false, listAttribute.isInherit());
     }
 
     /**
