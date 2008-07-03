@@ -26,6 +26,8 @@ import org.apache.tiles.Attribute;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.jsp.tagext.TagSupport;
+
 /**
  * PutList tag implementation.
  *
@@ -34,6 +36,37 @@ import java.util.List;
  */
 public class PutListAttributeTag extends PutAttributeTag
     implements AddAttributeTagParent {
+
+    /**
+     * If true, the attribute will put the elements of the attribute with the
+     * same name of the parent definition before the ones specified here. By
+     * default, it is 'false'.
+     */
+    private boolean inherit = false;
+
+    /**
+     * If true, the attribute will put the elements of the attribute with the
+     * same name of the parent definition before the ones specified here. By
+     * default, it is 'false'
+     *
+     * @param inherit The "inherit" value.
+     * @since 2.1.0
+     */
+    public void setInherit(boolean inherit) {
+        this.inherit = inherit;
+    }
+
+    /**
+     * If true, the attribute will put the elements of the attribute with the
+     * same name of the parent definition before the ones specified here. By
+     * default, it is 'false'
+     *
+     * @return The "inherit" value.
+     * @since 2.1.0
+     */
+    public boolean getInherit() {
+        return inherit;
+    }
 
     /**
      * Get list defined in tag.
@@ -72,6 +105,7 @@ public class PutListAttributeTag extends PutAttributeTag
      * clearing the contents of the list.
      */
     public void release() {
+        inherit = false;
         super.setValue(null);
         super.release();
     }
@@ -100,5 +134,19 @@ public class PutListAttributeTag extends PutAttributeTag
      */
     private void addValue(Attribute attribute) {
         this.getAttributes().add(attribute);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void execute() throws TilesJspException {
+        PutListAttributeTagParent parent = (PutListAttributeTagParent) TagSupport
+                .findAncestorWithClass(this, PutListAttributeTagParent.class);
+
+        if (parent == null) {
+            // Try with the old method.
+            super.execute();
+        }
+
+        parent.processNestedTag(this);
     }
 }

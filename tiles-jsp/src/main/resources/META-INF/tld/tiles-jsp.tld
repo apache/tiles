@@ -525,6 +525,19 @@
          ]]>
          </description>
       </attribute>
+      <attribute>
+         <name>inherit</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>boolean</type>
+         <description>
+         <![CDATA[
+         <p>If true, the attribute will put the elements of the attribute
+         with the same name of the parent definition before the ones
+         specified here. By default, it is 'false'.</p>
+         ]]>
+         </description>
+      </attribute>
    </tag>
    <tag>
       <name>addAttribute</name>

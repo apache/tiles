@@ -56,12 +56,11 @@ public class ListAttribute extends Attribute {
     /**
      * Constructor.
      *
-     * @param name  Name.
      * @param value List.
      * @since 2.1.0
      */
-    public ListAttribute(String name, List<Object> value) {
-        super(name, value);
+    public ListAttribute(List<? extends Object> value) {
+        super(value);
     }
 
     /**

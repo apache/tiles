@@ -22,10 +22,13 @@ package org.apache.tiles.jsp.taglib.definition;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
+import org.apache.tiles.jsp.taglib.PutListAttributeTag;
+import org.apache.tiles.jsp.taglib.PutListAttributeTagParent;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 
@@ -38,8 +41,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  * @version $Rev$ $Date$
  */
-public class DefinitionTag extends TagSupport
-    implements PutAttributeTagParent {
+public class DefinitionTag extends TagSupport implements PutAttributeTagParent,
+        PutListAttributeTagParent {
 
 
     /**
@@ -221,6 +224,15 @@ public class DefinitionTag extends TagSupport
         Attribute attr = new Attribute(nestedTag.getValue(),
             nestedTag.getRole(), nestedTag.getType());
         definition.putAttribute(nestedTag.getName(), attr, nestedTag
+                .isCascade());
+    }
+
+    /** {@inheritDoc} */
+    public void processNestedTag(PutListAttributeTag nestedTag) {
+        ListAttribute attribute = new ListAttribute(nestedTag.getAttributes());
+        attribute.setRole(nestedTag.getRole());
+        attribute.setInherit(nestedTag.getInherit());
+        definition.putAttribute(nestedTag.getName(), attribute, nestedTag
                 .isCascade());
     }
 

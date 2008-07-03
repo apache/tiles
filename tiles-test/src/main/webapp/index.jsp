@@ -71,8 +71,10 @@
     <a href="testput_reversed_explicit.jsp">Test Put Tag with Reversed Explicit Attribute</a><br/>
     <a href="testputlist.jsp">Test Put List Tag</a><br/>
     <a href="testputlist_cascaded.jsp">Test Put List Cascaded Tag</a><br/>
+    <a href="testputlist_inherit.jsp">Test Put List Tag with Inherit</a><br/>
     <a href="testimportattribute.jsp">Test importAttribute Tag</a><br/>
     <a href="testimportattribute_all.jsp">Test importAttribute Tag with no name</a><br/>
+    <a href="testimportattribute_inherit.jsp">Test importAttribute Tag with List Inherit</a><br/>
     <a href="testdecorationfilter.jsp">Test Tiles Definition Filter</a><br/>
     <a href="testdispatchservlet.tiles">Test Tiles Dispatch Servlet</a><br/>
     <a href="selectlocale.jsp">Test Localization</a><br/>
@@ -83,6 +85,7 @@
     <a href="testdef.jsp">Test Definition Tag</a><br/>
     <a href="testdef_extend.jsp">Test Definition Tag extending configured and custom definitions</a><br/>
     <a href="testdef_preparer.jsp">Test Definition Tag with Preparer</a><br/>
+    <a href="testdef_list_inherit.jsp">Test Definition Tag with a List Inherit</a><br/>
     <a href="testinsertdefinition_composite_tags_includes_configured.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags</a><br/>
     <a href="testinsertdefinition_composite_tags.jsp">Test Insert Definition that contains another definition inside using JSP tags</a><br/>
     <a href="testinsertdefinition_composite_tags_includes_configured_notype.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags without types</a><br/>

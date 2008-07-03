@@ -19,38 +19,25 @@
  * under the License.
  */
 
-package org.apache.tiles.context;
 
-import java.util.List;
+package org.apache.tiles.jsp.taglib;
 
 /**
- * An attribute as a <code>List</code>.
- * This attribute associates a name with a list. The list can be found by the
- * property name.
- * Elements in list are retrieved using List methods.
- * This class is used to read configuration files.
+ * Tag classes implementing this interface can contain nested
+ * {@link PutListAttributeTag}. This interface defines a method called by nested
+ * tags.
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link org.apache.tiles.ListAttribute}.
+ * @since 2.1.0
  */
-public class ListAttribute extends org.apache.tiles.ListAttribute {
-
+public interface PutListAttributeTagParent {
     /**
-     * Constructor.
-     */
-    public ListAttribute() {
-        super();
-    }
-
-    /**
-     * Constructor.
+     * Process the nested tag.
      *
-     * @param name  Name.
-     * @param value List.
+     * @param nestedTag Nested tag to process.
+     * @throws TilesJspException If something goes wrong during processing.
      * @since 2.1.0
      */
-    public ListAttribute(String name, List<Object> value) {
-        super(value);
-        setName(name);
-    }
+    void processNestedTag(PutListAttributeTag nestedTag) throws TilesJspException;
+
 }

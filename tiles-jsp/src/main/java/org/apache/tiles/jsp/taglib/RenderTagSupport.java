@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.context.JspUtil;
 
@@ -50,7 +51,7 @@ import java.io.IOException;
  * @version $Rev$ $Date$
  */
 public abstract class RenderTagSupport extends BodyTagSupport implements
-        PutAttributeTagParent {
+        PutAttributeTagParent, PutListAttributeTagParent {
 
     /**
      * The log instance for this tag.
@@ -276,6 +277,16 @@ public abstract class RenderTagSupport extends BodyTagSupport implements
         Attribute attribute = new Attribute(
             nestedTag.getValue(), nestedTag.getRole(),
             nestedTag.getType());
+
+        attributeContext.putAttribute(nestedTag.getName(), attribute, nestedTag
+                .isCascade());
+    }
+
+    /** {@inheritDoc} */
+    public void processNestedTag(PutListAttributeTag nestedTag) {
+        ListAttribute attribute = new ListAttribute(nestedTag.getAttributes());
+        attribute.setRole(nestedTag.getRole());
+        attribute.setInherit(nestedTag.getInherit());
 
         attributeContext.putAttribute(nestedTag.getName(), attribute, nestedTag
                 .isCascade());

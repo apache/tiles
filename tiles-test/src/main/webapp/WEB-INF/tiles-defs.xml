@@ -80,6 +80,24 @@
     </put-list-attribute>
   </definition>
 
+  <definition name="test.putAttributes.inherit" extends="test.putAttributes">
+    <put-list-attribute name="list" inherit="true">
+      <add-attribute value="valueFour" type="string" />
+    </put-list-attribute>
+  </definition>
+
+  <definition name="test.putAttributes.inherit" extends="test.putAttributes">
+    <put-list-attribute name="list" inherit="true">
+      <add-attribute value="valueFour" type="string" />
+    </put-list-attribute>
+  </definition>
+
+  <definition name="test.putAttributes.inherit" extends="test.putAttributes">
+    <put-list-attribute name="list" inherit="true">
+      <add-attribute value="valueFour" type="string" />
+    </put-list-attribute>
+  </definition>
+
   <definition name="test.putAllAttributes" template="/putallattributeslayout.jsp">
     <put-attribute name="one" value="There should be three more strings" type="string" />
     <put-attribute name="two" value="One" type="string" />

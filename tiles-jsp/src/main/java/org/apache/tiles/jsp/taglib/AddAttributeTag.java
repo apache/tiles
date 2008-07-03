@@ -192,7 +192,11 @@ public class AddAttributeTag extends BodyTagSupport implements DefinitionTagPare
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Executes the processing of this tag, calling its parent tag.
+     *
+     * @throws TilesJspException If something goes wrong during execution.
+     */
     protected void execute() throws TilesJspException {
         AddAttributeTagParent parent = (AddAttributeTagParent)
             TagSupport.findAncestorWithClass(this, AddAttributeTagParent.class);

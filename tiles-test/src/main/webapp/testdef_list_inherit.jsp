@@ -1,3 +1,5 @@
+<%@ page session="false" %>
+<%--
 /*
  * $Id$
  *
@@ -17,40 +19,15 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- */
-
-package org.apache.tiles.context;
-
-import java.util.List;
-
-/**
- * An attribute as a <code>List</code>.
- * This attribute associates a name with a list. The list can be found by the
- * property name.
- * Elements in list are retrieved using List methods.
- * This class is used to read configuration files.
  *
- * @version $Rev$ $Date$
- * @deprecated Use {@link org.apache.tiles.ListAttribute}.
  */
-public class ListAttribute extends org.apache.tiles.ListAttribute {
+--%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
-    /**
-     * Constructor.
-     */
-    public ListAttribute() {
-        super();
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param name  Name.
-     * @param value List.
-     * @since 2.1.0
-     */
-    public ListAttribute(String name, List<Object> value) {
-        super(value);
-        setName(name);
-    }
-}
+<tiles:definition name="templateDefinition" extends="test.putAttributes">
+  <tiles:putAttribute name="stringTest" value="This is a string" type="string"/>
+  <tiles:putListAttribute name="list" inherit="true">
+    <tiles:addAttribute value="valueFour" type="string" />
+  </tiles:putListAttribute>
+</tiles:definition>
+<tiles:insertDefinition name="templateDefinition" />

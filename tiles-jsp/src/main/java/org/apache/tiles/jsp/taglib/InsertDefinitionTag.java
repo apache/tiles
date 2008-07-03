@@ -27,8 +27,7 @@ package org.apache.tiles.jsp.taglib;
  *
  * @version $Rev$ $Date$
  */
-public class InsertDefinitionTag extends InsertTemplateTag implements
-        PutAttributeTagParent {
+public class InsertDefinitionTag extends InsertTemplateTag {
 
     /**
      * The definition name.

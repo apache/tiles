@@ -31,8 +31,7 @@ import org.apache.tiles.jsp.context.JspUtil;
  *
  * @version $Rev$ $Date$
  */
-public class InsertTemplateTag extends RenderTagSupport implements
-        PutAttributeTagParent {
+public class InsertTemplateTag extends RenderTagSupport {
 
     /**
      * A string representing the URI of a template (for example, a JSP page).
