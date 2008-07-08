@@ -24,25 +24,21 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Vector;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.shale.test.mock.MockHttpServletRequest;
-import org.apache.shale.test.mock.MockHttpServletResponse;
-import org.apache.shale.test.mock.MockHttpSession;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.context.ChainedTilesContextFactory;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
+import org.apache.tiles.mock.RepeaterTilesContextFactory;
 import org.easymock.EasyMock;
 
 
@@ -75,7 +71,11 @@ public class BasicTilesContainerTest extends TestCase {
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
 
         Vector<String> v = new Vector<String>();
+        v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
 
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesContextFactory.class.getName());
         EasyMock.expect(context.getInitParameter(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
@@ -113,13 +113,13 @@ public class BasicTilesContainerTest extends TestCase {
      */
     public void testObjectAttribute() throws IOException {
         Attribute attribute = new Attribute();
-        HttpServletRequest request = new MockHttpServletRequest();
-        HttpServletResponse response = new MockHttpServletResponse();
+        TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.replay(request);
         boolean exceptionFound = false;
 
         attribute.setValue(new Integer(SAMPLE_INT)); // A simple object
         try {
-            container.render(attribute, null, request, response);
+            container.render(attribute, null, request);
         } catch (TilesException e) {
             LOG.debug("Intercepted a TilesException, it is correct", e);
             exceptionFound = true;
@@ -135,65 +135,36 @@ public class BasicTilesContainerTest extends TestCase {
      * @throws IOException If a problem arises during rendering or writing in the writer.
      */
     public void testAttributeCredentials() throws IOException {
-        RoleMockHttpServletRequest request = new RoleMockHttpServletRequest("myrole");
-        MockHttpSession session = new MockHttpSession();
-        request.setHttpSession(session);
-        MockHttpServletResponse response = new MockHttpServletResponse();
+        TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.expect(request.isUserInRole("myrole")).andReturn(Boolean.TRUE);
+        EasyMock.replay(request);
         Attribute attribute = new Attribute((Object) "This is the value", "myrole");
         attribute.setRenderer("string");
         StringWriter writer = new StringWriter();
-        container.render(attribute, writer, request, response);
+        container.render(attribute, writer, request);
         writer.close();
-        assertEquals("The attribute should have been rendered", writer
-                .toString(), "This is the value");
-        request = new RoleMockHttpServletRequest();
+        assertEquals("The attribute should have been rendered",
+                "This is the value", writer.toString());
+        EasyMock.reset(request);
+        request = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.expect(request.isUserInRole("myrole")).andReturn(Boolean.FALSE);
+        EasyMock.replay(request);
         writer = new StringWriter();
-        container.render(attribute, writer, request, response);
+        container.render(attribute, writer, request);
         writer.close();
-        assertNotSame("The attribute should have not been rendered", writer
-                .toString(), "This is the value");
+        assertNotSame("The attribute should have not been rendered",
+                "This is the value", writer);
     }
 
     /**
      * Tests {@link BasicTilesContainer#evaluate(Attribute, Object...)}.
      */
     public void testEvaluate() {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpSession session = new MockHttpSession();
-        request.setHttpSession(session);
-        MockHttpServletResponse response = new MockHttpServletResponse();
+        TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.replay(request);
         Attribute attribute = new Attribute((Object) "This is the value");
-        Object value = container.evaluate(attribute, request, response);
+        Object value = container.evaluate(attribute, request);
         assertEquals("The attribute has not been evaluated correctly",
                 "This is the value", value);
-    }
-
-    /**
-     * Servlet request mock class that allows to choose the user roles.
-     */
-    private static class RoleMockHttpServletRequest extends MockHttpServletRequest {
-
-        /**
-         * Set containing the allowed roles.
-         */
-        private Set<String> roleSet;
-
-        /**
-         * Constructor.
-         *
-         * @param roles The roles to be allowed.
-         */
-        public RoleMockHttpServletRequest(String... roles) {
-            roleSet = new HashSet<String>();
-            for (String role : roles) {
-                roleSet.add(role);
-            }
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public boolean isUserInRole(String role) {
-            return roleSet.contains(role);
-        }
     }
 }

@@ -73,7 +73,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
     @Override
     protected TilesContextFactory createContextFactory(Object context) {
         EnhancedContextFactory factory = new  EnhancedContextFactory();
-        registerChainContextFactories(context, factory);
+        registerChainedContextFactories(context, factory);
         return factory;
     }
 

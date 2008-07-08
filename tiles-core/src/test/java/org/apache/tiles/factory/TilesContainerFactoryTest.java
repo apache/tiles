@@ -29,6 +29,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.context.ChainedTilesContextFactory;
+import org.apache.tiles.mock.RepeaterTilesContextFactory;
 
 import java.util.Map;
 import java.util.Vector;
@@ -67,6 +69,7 @@ public class TilesContainerFactoryTest extends TestCase {
         Vector<String> v = new Vector<String>();
         Vector<String> emptyVector = new Vector<String>();
         v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
+        v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
 
         EasyMock.expect(context.getInitParameterNames()).andReturn(
                 emptyVector.elements());
@@ -87,6 +90,9 @@ public class TilesContainerFactoryTest extends TestCase {
         EasyMock.expect(context.getInitParameter(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
                 .andReturn(TestFactory.class.getName());
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesContextFactory.class.getName());
         EasyMock.replay(context);
         factory = AbstractTilesContainerFactory
                 .getTilesContainerFactory(context);
@@ -99,6 +105,9 @@ public class TilesContainerFactoryTest extends TestCase {
         EasyMock.expect(context.getInitParameter(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
                 .andReturn(TestFactory.class.getName());
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesContextFactory.class.getName());
         EasyMock.replay(context);
         factory = AbstractTilesContainerFactory
                 .getTilesContainerFactory(context);
@@ -110,6 +119,9 @@ public class TilesContainerFactoryTest extends TestCase {
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
         EasyMock.expect(context.getInitParameter(AbstractTilesContainerFactory
                 .CONTAINER_FACTORY_INIT_PARAM)).andReturn("org.missing.Class");
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesContextFactory.class.getName());
         EasyMock.replay(context);
         try {
             AbstractTilesContainerFactory.getTilesContainerFactory(context);
@@ -131,6 +143,10 @@ public class TilesContainerFactoryTest extends TestCase {
     public void testCreateContainer() throws MalformedURLException {
         URL url = getClass().getResource("test-defs.xml");
         Vector<String> enumeration = new Vector<String>();
+        enumeration.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesContextFactory.class.getName());
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
@@ -165,7 +181,8 @@ public class TilesContainerFactoryTest extends TestCase {
         keys.add("two");
 
         EasyMock.expect(context.getInitParameter(
-                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesContextFactory.class.getName());
         EasyMock.expect(context.getInitParameterNames()).andReturn(keys.elements());
         EasyMock.expect(context.getInitParameterNames()).andReturn(keys.elements());
         EasyMock.expect(context.getInitParameter("one")).andReturn("oneValue").anyTimes();

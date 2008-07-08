@@ -21,10 +21,10 @@
 package org.apache.tiles.factory;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-import javax.servlet.ServletContext;
+import junit.framework.TestCase;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
@@ -39,6 +39,7 @@ import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
+import org.apache.tiles.mock.RepeaterTilesContextFactory;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
@@ -48,10 +49,7 @@ import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.renderer.impl.UntypedAttributeRenderer;
-import org.apache.tiles.util.RollingVectorEnumeration;
 import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
 
 /**
  * Tests {@link BasicTilesContainerFactory}.
@@ -68,7 +66,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /**
      * The context object.
      */
-    private ServletContext context;
+    private TilesApplicationContext context;
 
     /**
      * The URL to load.
@@ -78,19 +76,11 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
-        context = EasyMock.createMock(ServletContext.class);
-        Vector<String> v = new Vector<String>();
-        v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
-        EasyMock.expect(context.getInitParameterNames()).andReturn(
-                new RollingVectorEnumeration<String>(v));
-        EasyMock.expect(context.getInitParameter(
-                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
-                .andReturn(BasicTilesContainerFactory.class.getName());
+        context = EasyMock.createMock(TilesApplicationContext.class);
         url = getClass().getResource("/org/apache/tiles/config/tiles-defs.xml");
         EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
         EasyMock.replay(context);
-        factory = (BasicTilesContainerFactory) AbstractTilesContainerFactory
-                .getTilesContainerFactory(context);
+        factory = new CustomBasicTilesContainerFactory(context);
     }
 
     /**
@@ -259,5 +249,26 @@ public class BasicTilesContainerFactoryTest extends TestCase {
                 evaluator);
         assertTrue("The default renderer class is not correct",
                 renderer instanceof UntypedAttributeRenderer);
+    }
+    
+    public static class CustomBasicTilesContainerFactory extends BasicTilesContainerFactory {
+
+        private TilesApplicationContext applicationContext;
+        
+        public CustomBasicTilesContainerFactory(TilesApplicationContext applicationContext) {
+            this.applicationContext = applicationContext;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected void registerChainedContextFactories(Object context,
+                ChainedTilesContextFactory contextFactory) {
+            List<TilesContextFactory> factories =
+                new ArrayList<TilesContextFactory>(1);
+            TilesContextFactory factory = new RepeaterTilesContextFactory(applicationContext);
+            factories.add(factory);
+            contextFactory.setFactories(factories);
+        }
+
     }
 }

@@ -42,7 +42,7 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
      * Factory class names initialization parameter to use.
      */
     public static final String FACTORY_CLASS_NAMES =
-        "org.apache.tiles.context.ChainTilesContextFactory.FACTORY_CLASS_NAMES";
+        "org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES";
 
     /**
      * The default class names to instantiate that compose the chain..

@@ -23,17 +23,11 @@ package org.apache.tiles.context;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.shale.test.mock.MockHttpServletRequest;
-import org.apache.shale.test.mock.MockHttpServletResponse;
-import org.apache.shale.test.mock.MockHttpSession;
-import org.apache.shale.test.mock.MockServletContext;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
-
 import junit.framework.TestCase;
+
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.mock.RepeaterTilesContextFactory;
+import org.easymock.EasyMock;
 
 /**
  * @version $Rev$ $Date$
@@ -41,31 +35,22 @@ import junit.framework.TestCase;
 public class ChainedTilesContextFactoryTest extends TestCase {
 
     /**
-     * The request object.
-     */
-    private HttpServletRequest request;
-
-    /**
-     * The request object.
-     */
-    private HttpServletResponse response;
-
-    /**
      * The Tiles application context.
      */
     private TilesApplicationContext appContext;
+
+    /**
+     * The request context.
+     */
+    private TilesRequestContext requestContext;
 
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        MockServletContext servletContext = new MockServletContext();
-        appContext = new ServletTilesApplicationContext(servletContext);
-        MockHttpSession session = new MockHttpSession(servletContext);
-        MockHttpServletRequest request = new MockHttpServletRequest(session);
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        this.request = request;
-        this.response = response;
+        appContext = EasyMock.createMock(TilesApplicationContext.class);
+        requestContext = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.replay(appContext);
     }
 
     /**
@@ -77,11 +62,10 @@ public class ChainedTilesContextFactoryTest extends TestCase {
         Map<String, String> config = new HashMap<String, String>();
         config.put(ChainedTilesContextFactory.FACTORY_CLASS_NAMES,
                 "this.is.not.a.class.Name,"
-                + "org.apache.tiles.servlet.context.ServletTilesContextFactory");
+                + RepeaterTilesContextFactory.class.getName());
         ChainedTilesContextFactory factory = new ChainedTilesContextFactory();
         factory.init(config);
-        TilesRequestContext context = factory.createRequestContext(appContext,
-                request, response);
+        TilesRequestContext context = factory.createRequestContext(appContext, requestContext);
         assertNotNull("The request context cannot be null", context);
     }
 }

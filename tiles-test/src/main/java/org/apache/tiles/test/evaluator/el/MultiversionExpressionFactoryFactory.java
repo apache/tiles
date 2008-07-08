@@ -25,7 +25,7 @@ import javax.el.ExpressionFactory;
 import javax.servlet.jsp.JspFactory;
 
 import org.apache.el.ExpressionFactoryImpl;
-import org.apache.tiles.evaluator.el.JspExpressionFactoryFactory;
+import org.apache.tiles.jsp.evaluator.el.JspExpressionFactoryFactory;
 
 /**
  * Tries to use JSP 2.1 expression factory first, then Tomcat one.

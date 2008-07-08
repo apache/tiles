@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.el;
+package org.apache.tiles.jsp.evaluator.el;
 
 import javax.el.ExpressionFactory;
 import javax.servlet.ServletContext;
@@ -27,6 +27,7 @@ import javax.servlet.jsp.JspFactory;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
+import org.apache.tiles.evaluator.el.ExpressionFactoryFactory;
 
 /**
  * Uses the JSP 2.1 {@link ExpressionFactory} to be used in Tiles.

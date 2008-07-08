@@ -30,11 +30,11 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>tiles-jsp</artifactId>
+  <artifactId>tiles-servlet</artifactId>
   <packaging>jar</packaging>
-  <name>Tiles - JSP support</name>
-  <description>Tiles JSP support: Classes and tag libraries to use Tiles in a
-  JSP environment.</description>
+  <name>Tiles - Servlet support</name>
+  <description>Tiles servlet support, to enable use of Tiles inside a Servlet environment.
+  </description>
 
   <build>
     <resources>
@@ -80,39 +80,39 @@
 
   <profiles>
 
-        <profile>
-            <id>j4</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>retrotranslator-maven-plugin</artifactId>
-                        <version>1.0-alpha-2</version>
-                        <executions>
-                            <execution>
-                                <id>retrotranslate</id>
-                                <goals>
-                                    <goal>translate-project</goal>
-                                </goals>
-                                <configuration>
-                                    <classifier>j4</classifier>
-                                    <attach>true</attach>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+    <profile>
+      <id>j4</id>
+      <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>retrotranslator-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <id>retrotranslate</id>
+                        <goals>
+                            <goal>translate-project</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>j4</classifier>
+                            <attach>true</attach>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
   <reporting>
     <plugins>
       <plugin>
-        <groupId>net.sourceforge.maven-taglib</groupId>
-        <artifactId>maven-taglib-plugin</artifactId>
+        <groupId>net.sf.dtddoc</groupId>
+        <artifactId>dtddoc-maven-plugin</artifactId>
         <configuration>
-          <parseHtml>true</parseHtml>
+          <docTitle>Tiles Definition File</docTitle>
         </configuration>
       </plugin>
     </plugins>
@@ -122,7 +122,7 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-servlet</artifactId>
+      <artifactId>tiles-core</artifactId>
       <version>${pom.version}</version>
     </dependency>
 
@@ -152,13 +152,6 @@
     </dependency>
 
     <dependency>
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>jsp-api</artifactId>
-      <version>2.1</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.0</version>
@@ -173,13 +166,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymockclassextension</artifactId>
-      <version>2.3</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.apache.shale</groupId>
       <artifactId>shale-test</artifactId>
       <version>1.0.4</version>
@@ -187,5 +173,23 @@
     </dependency>
 
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>dtddoc</id>
+      <url>http://dtddoc.sf.net/maven2</url>
+    </repository>
+    <repository>
+      <id>java_net</id>
+      <url>http://download.java.net/maven/1/</url>
+      <layout>legacy</layout>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>dtddoc</id>
+      <url>http://dtddoc.sf.net/maven2</url>
+    </pluginRepository>
+  </pluginRepositories>
 
 </project>

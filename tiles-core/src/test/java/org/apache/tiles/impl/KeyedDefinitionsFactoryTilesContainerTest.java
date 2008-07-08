@@ -20,25 +20,27 @@
  */
 package org.apache.tiles.impl;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import junit.framework.TestCase;
 
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.ChainedTilesContextFactory;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.DefaultKeyExtractor;
-import org.apache.tiles.locale.impl.DefaultLocaleResolver;
+import org.apache.tiles.mock.RepeaterTilesContextFactory;
 import org.apache.tiles.util.RollingVectorEnumeration;
 import org.easymock.EasyMock;
 
@@ -61,7 +63,8 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
     /** {@inheritDoc} */
     @Override
     public void setUp() {
-        ServletContext context = EasyMock.createMock(ServletContext.class);
+        ContextLikeTilesApplicationContext context = EasyMock
+                .createMock(ContextLikeTilesApplicationContext.class);
 
         Vector<String> v = new Vector<String>();
         v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
@@ -70,11 +73,21 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
                 + "one");
         v.add(KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
                 + "two");
+        v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
+
+        Map<String, String> initParameters = new HashMap<String, String>();
+        EasyMock.expect(context.getInitParams()).andReturn(initParameters);
 
         EasyMock.expect(context.getInitParameter(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
-                .andReturn(KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
+                .andReturn(KeyedDefinitionsFactoryTilesContainerFactory.class
+                        .getName());
+        EasyMock.expect(context.getInitParameter(TilesContainerFactory
+                .CONTAINER_FACTORY_MUTABLE_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesContextFactory.class.getName());
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(
                 KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))
@@ -87,6 +100,21 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
                 + "two")).andReturn("/WEB-INF/tiles-two.xml").anyTimes();
         EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
         EasyMock.expect(context.getInitParameterNames()).andReturn(new RollingVectorEnumeration<String>(v)).anyTimes();
+        initParameters.put(
+                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
+                KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
+        initParameters.put(
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES,
+                RepeaterTilesContextFactory.class.getName());
+        initParameters.put(
+                KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM,
+                "one,two");
+        initParameters.put(
+                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
+                        + "one", "/WEB-INF/tiles-one.xml");
+        initParameters.put(
+                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
+                + "two", "/WEB-INF/tiles-two.xml");
         try {
             URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
             EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
@@ -95,6 +123,9 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
             url = getClass().getResource("/org/apache/tiles/factory/test-defs-key-two.xml");
             EasyMock.expect(context.getResource("/WEB-INF/tiles-two.xml")).andReturn(url);
         } catch (MalformedURLException e) {
+            throw new RuntimeException("Error getting Tiles configuration URL",
+                    e);
+        } catch (IOException e) {
             throw new RuntimeException("Error getting Tiles configuration URL",
                     e);
         }
@@ -128,11 +159,17 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         ServletContext context = EasyMock.createMock(ServletContext.class);
 
         Vector<String> v = new Vector<String>();
+        v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
+        v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
 
         EasyMock.reset(context);
         EasyMock.expect(context.getInitParameter(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
-                .andReturn(KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
+                .andReturn(KeyedDefinitionsFactoryTilesContainerFactory.class.getName())
+                .anyTimes();
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesContextFactory.class.getName());
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(DefinitionsFactory.DEFINITIONS_CONFIG)).andReturn(null);
@@ -181,58 +218,68 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
      * Tests if the definitions factory has been used.
      */
     public void testDefinitionsFactoryUse() {
-        HttpServletRequest request = EasyMock.createMock(
-                HttpServletRequest.class);
-        HttpSession session = EasyMock.createMock(HttpSession.class);
-        HttpServletResponse response = EasyMock.createMock(
-                HttpServletResponse.class);
+        TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        Map<String, Object> sessionScope = new HashMap<String, Object>();
+        EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
+                .anyTimes();
+        EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
+                .anyTimes();
+        EasyMock.expect(request.getRequestLocale()).andReturn(null).anyTimes();
+        EasyMock.replay(request);
+        assertTrue(container.isValidDefinition("test.def1", request));
+        assertFalse(container.isValidDefinition("test.def.one", request));
+        assertFalse(container.isValidDefinition("test.def.two", request));
 
         EasyMock.reset(request);
-        EasyMock.reset(session);
-        EasyMock.reset(response);
-        EasyMock.expect(request.getSession(false)).andReturn(session).anyTimes();
-        EasyMock.expect(session.getAttribute(DefaultLocaleResolver.LOCALE_KEY)).andReturn(null).anyTimes();
-        EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
-        EasyMock.expect(request.getAttribute(
-                DefaultKeyExtractor.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
-                .andReturn(null).anyTimes();
+        requestScope.clear();
+        requestScope.put(
+                DefaultKeyExtractor.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME,
+                "one");
+        EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
+                .anyTimes();
+        EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
+                .anyTimes();
+        EasyMock.expect(request.getRequestLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
-        EasyMock.replay(session);
-        EasyMock.replay(response);
-        assertTrue(container.isValidDefinition("test.def1", request, response));
-        assertFalse(container.isValidDefinition("test.def.one", request, response));
-        assertFalse(container.isValidDefinition("test.def.two", request, response));
+        assertTrue(container.isValidDefinition("test.def1", request));
+        assertTrue(container.isValidDefinition("test.def.one", request));
+        assertFalse(container.isValidDefinition("test.def.two", request));
 
         EasyMock.reset(request);
-        EasyMock.reset(session);
-        EasyMock.reset(response);
-        EasyMock.expect(request.getAttribute(
-                DefaultKeyExtractor.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
-                .andReturn("one").anyTimes();
-        EasyMock.expect(request.getSession(false)).andReturn(session).anyTimes();
-        EasyMock.expect(session.getAttribute(DefaultLocaleResolver.LOCALE_KEY)).andReturn(null).anyTimes();
-        EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
+        requestScope.clear();
+        requestScope.put(
+                DefaultKeyExtractor.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME,
+                "two");
+        EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
+                .anyTimes();
+        EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
+                .anyTimes();
+        EasyMock.expect(request.getRequestLocale()).andReturn(null).anyTimes();
         EasyMock.replay(request);
-        EasyMock.replay(session);
-        EasyMock.replay(response);
-        assertTrue(container.isValidDefinition("test.def1", request, response));
-        assertTrue(container.isValidDefinition("test.def.one", request, response));
-        assertFalse(container.isValidDefinition("test.def.two", request, response));
+        assertTrue(container.isValidDefinition("test.def1", request));
+        assertFalse(container.isValidDefinition("test.def.one", request));
+        assertTrue(container.isValidDefinition("test.def.two", request));
+    }
 
-        EasyMock.reset(request);
-        EasyMock.reset(session);
-        EasyMock.reset(response);
-        EasyMock.expect(request.getAttribute(
-                DefaultKeyExtractor.DEFINITIONS_FACTORY_KEY_ATTRIBUTE_NAME))
-                .andReturn("two").anyTimes();
-        EasyMock.expect(request.getSession(false)).andReturn(session).anyTimes();
-        EasyMock.expect(session.getAttribute(DefaultLocaleResolver.LOCALE_KEY)).andReturn(null).anyTimes();
-        EasyMock.expect(request.getLocale()).andReturn(null).anyTimes();
-        EasyMock.replay(request);
-        EasyMock.replay(session);
-        EasyMock.replay(response);
-        assertTrue(container.isValidDefinition("test.def1", request, response));
-        assertFalse(container.isValidDefinition("test.def.one", request, response));
-        assertTrue(container.isValidDefinition("test.def.two", request, response));
+    /**
+     * Extends {@link TilesApplicationContext} to act like a ServletContext.
+     */
+    private static interface ContextLikeTilesApplicationContext extends TilesApplicationContext {
+
+        /**
+         * Returns an initialization parameter.
+         *
+         * @param parameterName The name of the parameter.
+         * @return The value of the parameter.
+         */
+        String getInitParameter(String parameterName);
+
+        /**
+         * Returns the init parameter names.
+         *
+         * @return The parameter names.
+         */
+        Enumeration<String> getInitParameterNames();
     }
 }

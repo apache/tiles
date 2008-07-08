@@ -97,7 +97,12 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
             efFactory = (ExpressionFactoryFactory) ClassUtil
                     .instantiate(expressionFactoryClassName);
         } else {
-            efFactory = new JspExpressionFactoryFactory();
+            efFactory = (ExpressionFactoryFactory) ClassUtil
+                    .instantiate(
+                    "org.apache.tiles.evaluator.el.JspExpressionFactoryFactory", true);
+            if (efFactory == null) {
+                efFactory = new TomcatExpressionFactoryFactory();
+            }
         }
         if (efFactory instanceof TilesApplicationContextAware) {
             ((TilesApplicationContextAware) efFactory)

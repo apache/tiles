@@ -46,7 +46,6 @@ import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
-import org.apache.tiles.portlet.context.PortletTilesContextFactory;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
@@ -56,7 +55,6 @@ import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.renderer.impl.UntypedAttributeRenderer;
-import org.apache.tiles.servlet.context.ServletTilesContextFactory;
 
 /**
  * Factory that builds a standard Tiles container using only Java code.
@@ -112,7 +110,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Create a Tiles context factory. By default it creates a
-     * {@link ServletTilesContextFactory}.
+     * {@link ChainedTilesContextFactory}.
      *
      * @param context The context.
      * @return The context factory.
@@ -120,7 +118,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected TilesContextFactory createContextFactory(Object context) {
         ChainedTilesContextFactory contextFactory = new ChainedTilesContextFactory();
-        registerChainContextFactories(context, contextFactory);
+        registerChainedContextFactories(context, contextFactory);
 
         return contextFactory;
     }
@@ -132,17 +130,35 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @param contextFactory The context factory to use.
      * @since 2.1.0
      */
-    protected void registerChainContextFactories(Object context,
+    protected void registerChainedContextFactories(Object context,
             ChainedTilesContextFactory contextFactory) {
         List<TilesContextFactory> factories = new ArrayList<TilesContextFactory>(
                 CONTEXT_FACTORY_CHAIN_COUNT);
-        factories.add(new ServletTilesContextFactory());
-        factories.add(new PortletTilesContextFactory());
+        registerContextFactory(
+                "org.apache.tiles.servlet.context.ServletTilesContextFactory",
+                factories);
+        registerContextFactory(
+                "org.apache.tiles.portlet.context.PortletTilesContextFactory",
+                factories);
+        registerContextFactory(
+                "org.apache.tiles.jsp.context.JspTilesContextFactory",
+                factories);
+        contextFactory.setFactories(factories);
+    }
+
+    /**
+     * Registers a {@link TilesContextFactory} specifying its classname.
+     *
+     * @param className The name of the class to instantiate.
+     * @param factories The list of factories to add to.
+     */
+    protected void registerContextFactory(String className,
+            List<TilesContextFactory> factories) {
+        TilesContextFactory retValue = null;
         try {
             Class<? extends TilesContextFactory> clazz = Class.forName(
-                    "org.apache.tiles.jsp.context.JspTilesContextFactory")
-                    .asSubclass(TilesContextFactory.class);
-            factories.add(clazz.newInstance());
+                    className).asSubclass(TilesContextFactory.class);
+            retValue = clazz.newInstance();
         } catch (ClassNotFoundException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Cannot find JspTilesContextFactory, ignoring problem", e);
@@ -155,7 +171,9 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
                     "Cannot access default constructor JspTilesContextFactory",
                     e);
         }
-        contextFactory.setFactories(factories);
+        if (retValue != null) {
+            factories.add(retValue);
+        }
     }
 
     /**

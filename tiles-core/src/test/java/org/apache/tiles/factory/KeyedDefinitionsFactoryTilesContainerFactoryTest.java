@@ -28,7 +28,9 @@ import org.easymock.EasyMock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.context.ChainedTilesContextFactory;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
+import org.apache.tiles.mock.RepeaterTilesContextFactory;
 
 import java.util.Map;
 import java.util.Vector;
@@ -65,6 +67,9 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
         EasyMock.expect(context.getInitParameter(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(
                 KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesContextFactory.class.getName());
         defaults = new HashMap<String, String>();
     }
 
@@ -74,6 +79,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
     public void testGetFactory() {
         Vector<String> v = new Vector<String>();
         v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
+        v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
 
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
         EasyMock.replay(context);
@@ -94,6 +100,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
     public void testCreateContainer() throws MalformedURLException {
         Vector<String> enumeration = new Vector<String>();
         enumeration.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
+        enumeration.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(

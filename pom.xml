@@ -49,6 +49,7 @@
     <modules>
         <module>tiles-api</module>
         <module>tiles-core</module>
+        <module>tiles-servlet</module>
         <module>tiles-jsp</module>
         <module>tiles-compat</module>
         <module>tiles-test</module>
