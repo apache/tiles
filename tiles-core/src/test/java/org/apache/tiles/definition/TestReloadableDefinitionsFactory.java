@@ -29,7 +29,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesApplicationContext;
@@ -107,7 +109,10 @@ public class TestReloadableDefinitionsFactory extends TestCase {
 
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext.getResource(urlPath)).andReturn(url);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url);
+        EasyMock.expect(applicationContext.getResources(urlPath)).andReturn(
+                urlSet);
         EasyMock.replay(applicationContext);
         ((TilesApplicationContextAware) factory)
                 .setApplicationContext(applicationContext);

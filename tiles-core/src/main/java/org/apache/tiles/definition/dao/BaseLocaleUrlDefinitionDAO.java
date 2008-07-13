@@ -185,15 +185,22 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
 
         try {
             for (int i = 0; i < resources.length; i++) {
-                URL resourceUrl = applicationContext.getResource(resources[i]);
-                if (resourceUrl != null) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Adding resource '" + resourceUrl
-                                + "' to definitions factory.");
+                Set<URL> urls = applicationContext.getResources(resources[i]);
+                if (urls != null && !urls.isEmpty()) {
+                    for (URL resourceUrl : urls) {
+                        if (resourceUrl != null) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Adding resource '" + resourceUrl
+                                        + "' to definitions factory.");
+                            }
+                            sourceURLs.add(resourceUrl);
+                        } else {
+                            LOG.warn("Unable to find configured definition '"
+                                    + resources[i] + "'");
+                        }
                     }
-                    sourceURLs.add(resourceUrl);
                 } else {
-                    LOG.warn("Unable to find configured definition '"
+                    LOG.warn("Unable to find resources under the name '"
                             + resources[i] + "'");
                 }
             }
