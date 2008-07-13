@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.el.ArrayELResolver;
 import javax.el.CompositeELResolver;
@@ -35,8 +36,8 @@ import javax.el.ResourceBundleELResolver;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
+import org.apache.tiles.context.ChainedTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
-import org.apache.tiles.context.enhanced.EnhancedContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.evaluator.AttributeEvaluator;
@@ -46,8 +47,10 @@ import org.apache.tiles.evaluator.el.TilesContextELResolver;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
+import org.apache.tiles.jsp.context.JspTilesContextFactory;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
+import org.apache.tiles.servlet.context.wildcard.WildcardServletTilesContextFactory;
 import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 
@@ -57,6 +60,11 @@ import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
  * @version $Rev$ $Date$
  */
 public class TestTilesContainerFactory extends BasicTilesContainerFactory {
+
+    /**
+     * The count of elements in the Tiles context factory chain.
+     */
+    private static final int CONTEXT_FACTORY_CHAIN_COUNT = 2;
 
     /**
      * The number of URLs to load..
@@ -71,10 +79,13 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
 
     /** {@inheritDoc} */
     @Override
-    protected TilesContextFactory createContextFactory(Object context) {
-        EnhancedContextFactory factory = new  EnhancedContextFactory();
-        registerChainedContextFactories(context, factory);
-        return factory;
+    protected void registerChainedContextFactories(Object context,
+            ChainedTilesContextFactory contextFactory) {
+        List<TilesContextFactory> factories = new ArrayList<TilesContextFactory>(
+                CONTEXT_FACTORY_CHAIN_COUNT);
+        factories.add(new WildcardServletTilesContextFactory());
+        factories.add(new JspTilesContextFactory());
+        contextFactory.setFactories(factories);
     }
 
     /** {@inheritDoc} */
@@ -125,9 +136,15 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
             TilesContextFactory contextFactory) {
         List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
-            urls.add(applicationContext.getResource("/WEB-INF/tiles-defs.xml"));
-            urls.add(applicationContext.getResource("/org/apache/tiles/classpath-defs.xml"));
-            urls.add(applicationContext.getResource("/WEB-INF/tiles-defs-1.1.xml"));
+            Set<URL> urlSet = applicationContext
+                    .getResources("/WEB-INF/tiles-defs*.xml");
+            for (URL url : urlSet) {
+                if (!url.toExternalForm().contains("_")) {
+                    urls.add(url);
+                }
+            }
+            urls.add(applicationContext.getResource(
+                    "classpath:/org/apache/tiles/classpath-defs.xml"));
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);
