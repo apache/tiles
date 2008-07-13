@@ -24,12 +24,10 @@
     <dependencySets>
         <dependencySet>
             <outputDirectory>/lib</outputDirectory>
-            <excludes>
-                <exclude>org.apache.tiles:tiles-api</exclude>
-                <exclude>org.apache.tiles:tiles-core</exclude>
-                <exclude>org.apache.tiles:tiles-jsp</exclude>
-                <exclude>org.apache.tiles:tiles-test</exclude>
-            </excludes>
+            <includes>
+                <include>net.sf.retrotranslator:retrotranslator-runtime</include>
+                <include>backport-util-concurrent:backport-util-concurrent</include>
+            </includes>
         </dependencySet>
         <dependencySet>
             <outputFileNameMapping>${artifactId}-${version}-j4.${extension}</outputFileNameMapping>
@@ -37,7 +35,10 @@
             <includes>
                 <include>org.apache.tiles:tiles-api:jar:j4</include>
                 <include>org.apache.tiles:tiles-core:jar:j4</include>
+                <include>org.apache.tiles:tiles-servlet:jar:j4</include>
                 <include>org.apache.tiles:tiles-jsp:jar:j4</include>
+                <include>org.apache.tiles:tiles-portlet:jar:j4</include>
+                <include>org.apache.tiles:tiles-compat:jar:j4</include>
             </includes>
         </dependencySet>
     </dependencySets>

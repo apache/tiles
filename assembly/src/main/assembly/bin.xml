@@ -24,13 +24,27 @@
     <dependencySets>
         <dependencySet>
             <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>commons-logging:commons-logging-api</include>
+                <include>commons-beanutils:commons-beanutils</include>
+                <include>commons-digester:commons-digester</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/lib/optional</outputDirectory>
             <excludes>
                 <exclude>org.apache.tiles:tiles-api</exclude>
                 <exclude>org.apache.tiles:tiles-core</exclude>
+                <exclude>org.apache.tiles:tiles-servlet</exclude>
                 <exclude>org.apache.tiles:tiles-jsp</exclude>
+                <exclude>org.apache.tiles:tiles-portlet</exclude>
+                <exclude>org.apache.tiles:tiles-compat</exclude>
                 <exclude>org.apache.tiles:tiles-test</exclude>
-		        <exclude>net.sf.retrotranslator:retrotranslator-runtime</exclude>
-		        <exclude>backport-util-concurrent:backport-util-concurrent</exclude>
+                <exclude>commons-logging:commons-logging-api</exclude>
+                <exclude>commons-beanutils:commons-beanutils</exclude>
+                <exclude>commons-digester:commons-digester</exclude>
+                <exclude>net.sf.retrotranslator:retrotranslator-runtime</exclude>
+                <exclude>backport-util-concurrent:backport-util-concurrent</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
@@ -38,7 +52,10 @@
             <includes>
                 <include>org.apache.tiles:tiles-api</include>
                 <include>org.apache.tiles:tiles-core</include>
+                <include>org.apache.tiles:tiles-servlet</include>
                 <include>org.apache.tiles:tiles-jsp</include>
+                <include>org.apache.tiles:tiles-portlet</include>
+                <include>org.apache.tiles:tiles-compat</include>
             </includes>
             <excludes>
                 <exclude>*:j4</exclude>
