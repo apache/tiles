@@ -444,6 +444,8 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs2.xml");
         URL url3 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs3.xml");
+        URL url4 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs1_en_US.xml");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         Set<URL> urlSet = new HashSet<URL>();
@@ -464,12 +466,19 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
                 applicationContext
                         .getResources("org/apache/tiles/config/defs3.xml"))
                 .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url4);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs1_en_US.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml,"
                         + "org/apache/tiles/config/defs2.xml,"
-                        + "org/apache/tiles/config/defs3.xml");
+                        + "org/apache/tiles/config/defs3.xml,"
+                        + "org/apache/tiles/config/defs1_en_US.xml");
         definitionDao.setApplicationContext(applicationContext);
         definitionDao.setSourceURLs(new ArrayList<URL>());
         definitionDao.identifySources(params);

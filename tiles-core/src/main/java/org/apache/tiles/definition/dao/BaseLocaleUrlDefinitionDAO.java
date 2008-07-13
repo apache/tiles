@@ -193,7 +193,14 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
                                 LOG.debug("Adding resource '" + resourceUrl
                                         + "' to definitions factory.");
                             }
-                            sourceURLs.add(resourceUrl);
+                            if (!resourceUrl.toExternalForm().contains("_")) {
+                                sourceURLs.add(resourceUrl);
+                            } else if (LOG.isDebugEnabled()) {
+                                LOG.debug("Not adding resource '" + resourceUrl
+                                        + "' to definitions factory because it is "
+                                        + "supposed to be an internationalization.");
+                            }
+
                         } else {
                             LOG.warn("Unable to find configured definition '"
                                     + resources[i] + "'");
