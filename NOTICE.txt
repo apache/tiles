@@ -6,4 +6,6 @@
 
    The binary distribution contains software developed by:
    SpringSource: http://www.springsource.com/
+   
+   The Java 1.4-compatible distribution contains software developed by:
    Retrotranslator (http://retrotranslator.sourceforge.net/).

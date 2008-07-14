@@ -40,6 +40,7 @@
                 <exclude>org.apache.tiles:tiles-portlet</exclude>
                 <exclude>org.apache.tiles:tiles-compat</exclude>
                 <exclude>org.apache.tiles:tiles-test</exclude>
+                <exclude>commons-logging:commons-logging</exclude>
                 <exclude>commons-logging:commons-logging-api</exclude>
                 <exclude>commons-beanutils:commons-beanutils</exclude>
                 <exclude>commons-digester:commons-digester</exclude>
