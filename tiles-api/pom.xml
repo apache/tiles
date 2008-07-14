@@ -36,6 +36,10 @@
     <description>Tiles APIs, containing interfaces and classes to interact with
     Tiles.</description>
 
+    <properties>
+        <tiles.osgi.symbolicName>org.apache.tiles.api</tiles.osgi.symbolicName>
+    </properties>
+
     <build>
 
         <resources>
