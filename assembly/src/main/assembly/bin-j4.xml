@@ -51,5 +51,12 @@
                 <include>NOTICE.txt</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>RETROTRANSLATOR-LICENSE.txt</include>
+            </includes>
+        </fileSet>
     </fileSets>
 </assembly>
