@@ -36,6 +36,10 @@
   <description>Tiles Core Library, including basic implementation of the APIs.
   </description>
 
+  <properties>
+      <tiles.osgi.symbolicName>org.apache.tiles.core</tiles.osgi.symbolicName>
+  </properties>
+
   <build>
     <resources>
       <resource>

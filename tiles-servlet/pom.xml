@@ -36,6 +36,10 @@
   <description>Tiles servlet support, to enable use of Tiles inside a Servlet environment.
   </description>
 
+  <properties>
+      <tiles.osgi.symbolicName>org.apache.tiles.servlet</tiles.osgi.symbolicName>
+  </properties>
+
   <build>
     <resources>
       <resource>

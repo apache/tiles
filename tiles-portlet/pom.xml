@@ -36,6 +36,10 @@
   <description>Tiles portlet support, to enable use of Tiles inside a Portlet container.
   </description>
 
+  <properties>
+      <tiles.osgi.symbolicName>org.apache.tiles.portlet</tiles.osgi.symbolicName>
+  </properties>
+
   <build>
     <resources>
       <resource>
