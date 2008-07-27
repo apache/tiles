@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
+import org.apache.tiles.reflect.ClassUtil;
 
 import java.lang.reflect.Method;
 
@@ -121,8 +122,9 @@ public final class TilesAccess {
     private static Object getAttribute(Object context, String attributeName) {
         try {
             Class<?> contextClass = context.getClass();
-            Method attrMethod = contextClass.getMethod("getAttribute", String.class);
-            return attrMethod.invoke(context, attributeName);
+            Method attrMethod = ClassUtil.getForcedAccessibleMethod(
+                    contextClass, "getAttribute", String.class);
+            return ClassUtil.invokeMethod(context, attrMethod, attributeName);
         } catch (Exception e) {
             LOG.warn("Unable to retrieve container from specified context: '" + context + "'", e);
             return null;
@@ -140,13 +142,10 @@ public final class TilesAccess {
      */
     private static void setAttribute(Object context, String name, Object value)
         throws TilesException {
-        try {
-            Class<?> contextClass = context.getClass();
-            Method attrMethod = contextClass.getMethod("setAttribute", String.class, Object.class);
-            attrMethod.invoke(context, name, value);
-        } catch (Exception e) {
-            throw new TilesException("Unable to set attribute for specified context: '" + context + "'");
-        }
+        Class<?> contextClass = context.getClass();
+        Method attrMethod = ClassUtil.getForcedAccessibleMethod(
+                contextClass, "setAttribute", String.class, Object.class);
+        ClassUtil.invokeMethod(context, attrMethod, name, value);
     }
 
     /**
@@ -158,12 +157,9 @@ public final class TilesAccess {
      */
     private static void removeAttribute(Object context, String name)
         throws TilesException {
-        try {
-            Class<?> contextClass = context.getClass();
-            Method attrMethod = contextClass.getMethod("removeAttribute", String.class);
-            attrMethod.invoke(context, name);
-        } catch (Exception e) {
-            throw new TilesException("Unable to remove attribute for specified context: '" + context + "'");
-        }
+        Class<?> contextClass = context.getClass();
+        Method attrMethod = ClassUtil.getForcedAccessibleMethod(
+                contextClass, "removeAttribute", String.class);
+        ClassUtil.invokeMethod(context, attrMethod, name);
     }
 }

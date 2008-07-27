@@ -32,7 +32,7 @@ import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
-import org.apache.tiles.util.ClassUtil;
+import org.apache.tiles.reflect.ClassUtil;
 
 import java.lang.reflect.Method;
 import java.util.Enumeration;

@@ -31,7 +31,7 @@ import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor;
 import org.apache.tiles.impl.mgmt.CachingKeyedDefinitionsFactoryTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
-import org.apache.tiles.util.ClassUtil;
+import org.apache.tiles.reflect.ClassUtil;
 
 /**
  * Factory that creates instances of container that will extend the
