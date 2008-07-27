@@ -39,9 +39,9 @@ import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
+import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
-import org.apache.tiles.util.ClassUtil;
 
 import java.util.HashMap;
 import java.util.Map;

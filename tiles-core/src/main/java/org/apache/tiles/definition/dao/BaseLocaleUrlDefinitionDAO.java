@@ -44,7 +44,7 @@ import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.RefreshMonitor;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.impl.BasicTilesContainer;
-import org.apache.tiles.util.ClassUtil;
+import org.apache.tiles.reflect.ClassUtil;
 
 /**
  * Base abstract class for a DAO that is based on URLs and locale as a
@@ -193,7 +193,9 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
                                 LOG.debug("Adding resource '" + resourceUrl
                                         + "' to definitions factory.");
                             }
-                            if (!resourceUrl.toExternalForm().contains("_")) {
+                            String externalForm = resourceUrl.toExternalForm();
+                            if (externalForm.indexOf('_', externalForm
+                                    .lastIndexOf("/")) < 0) {
                                 sourceURLs.add(resourceUrl);
                             } else if (LOG.isDebugEnabled()) {
                                 LOG.debug("Not adding resource '" + resourceUrl

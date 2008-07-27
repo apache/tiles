@@ -36,7 +36,7 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
-import org.apache.tiles.util.ClassUtil;
+import org.apache.tiles.reflect.ClassUtil;
 
 /**
  * Evaluates string expression with typical EL syntax.<br>

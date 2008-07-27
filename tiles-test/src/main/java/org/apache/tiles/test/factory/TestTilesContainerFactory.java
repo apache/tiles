@@ -139,7 +139,8 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
             Set<URL> urlSet = applicationContext
                     .getResources("/WEB-INF/tiles-defs*.xml");
             for (URL url : urlSet) {
-                if (!url.toExternalForm().contains("_")) {
+                String externalForm = url.toExternalForm();
+                if (externalForm.indexOf('_', externalForm.lastIndexOf("/")) < 0) {
                     urls.add(url);
                 }
             }
