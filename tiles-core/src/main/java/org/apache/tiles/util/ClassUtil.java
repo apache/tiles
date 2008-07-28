@@ -27,7 +27,9 @@ import org.apache.tiles.TilesException;
  * Utilities to work with dynamic class loading and instantiation.
  *
  * @version $Rev$ $Date$
+ * @deprecated Use {@link org.apache.tiles.reflect.ClassUtil}.
  */
+@Deprecated
 public final class ClassUtil {
 
     /**
