@@ -31,10 +31,10 @@ import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorAware;
+import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererException;
 import org.apache.tiles.renderer.RendererFactory;
-import org.apache.tiles.util.ClassUtil;
 
 /**
  * Basic renderer factory implementation.

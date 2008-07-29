@@ -25,10 +25,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
-
-import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
@@ -116,12 +116,19 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
                 KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
                 + "two", "/WEB-INF/tiles-two.xml");
         try {
+            Set<URL> urlSet;
             URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
-            EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
+            urlSet = new HashSet<URL>();
+            urlSet.add(url);
+            EasyMock.expect(context.getResources("/WEB-INF/tiles.xml")).andReturn(urlSet);
             url = getClass().getResource("/org/apache/tiles/factory/test-defs-key-one.xml");
-            EasyMock.expect(context.getResource("/WEB-INF/tiles-one.xml")).andReturn(url);
+            urlSet = new HashSet<URL>();
+            urlSet.add(url);
+            EasyMock.expect(context.getResources("/WEB-INF/tiles-one.xml")).andReturn(urlSet);
             url = getClass().getResource("/org/apache/tiles/factory/test-defs-key-two.xml");
-            EasyMock.expect(context.getResource("/WEB-INF/tiles-two.xml")).andReturn(url);
+            urlSet = new HashSet<URL>();
+            urlSet.add(url);
+            EasyMock.expect(context.getResources("/WEB-INF/tiles-two.xml")).andReturn(urlSet);
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error getting Tiles configuration URL",
                     e);
@@ -150,19 +157,20 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
     /**
      * Tests initialization for postponed definitions factories.
      *
-     * @throws MalformedURLException If sources are not valid (that should not
-     * happen).
+     * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("deprecation")
-    public void testPostponedDefinitionsFactoryInitialization() throws MalformedURLException {
+    public void testPostponedDefinitionsFactoryInitialization()
+            throws IOException {
         KeyedDefinitionsFactoryTilesContainer container;
-        ServletContext context = EasyMock.createMock(ServletContext.class);
+        ContextLikeTilesApplicationContext context = EasyMock
+                .createMock(ContextLikeTilesApplicationContext.class);
+
 
         Vector<String> v = new Vector<String>();
         v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
         v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
 
-        EasyMock.reset(context);
         EasyMock.expect(context.getInitParameter(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
                 .andReturn(KeyedDefinitionsFactoryTilesContainerFactory.class.getName())
@@ -180,12 +188,19 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         EasyMock.expect(context.getInitParameter(
                 KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))
                 .andReturn(null);
+        Set<URL> urlSet = new HashSet<URL>();
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
-        EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url);
+        EasyMock.expect(context.getResources("/WEB-INF/tiles.xml")).andReturn(urlSet);
         url = getClass().getResource("/org/apache/tiles/factory/test-defs-key-one.xml");
-        EasyMock.expect(context.getResource("/WEB-INF/tiles-one.xml")).andReturn(url);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url);
+        EasyMock.expect(context.getResources("/WEB-INF/tiles-one.xml")).andReturn(urlSet);
         url = getClass().getResource("/org/apache/tiles/factory/test-defs-key-two.xml");
-        EasyMock.expect(context.getResource("/WEB-INF/tiles-two.xml")).andReturn(url);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url);
+        EasyMock.expect(context.getResources("/WEB-INF/tiles-two.xml")).andReturn(urlSet);
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements()).anyTimes();
         EasyMock.replay(context);
         KeyedDefinitionsFactoryTilesContainerFactory factory =

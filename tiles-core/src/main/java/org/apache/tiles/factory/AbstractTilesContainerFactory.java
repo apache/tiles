@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.util.ClassUtil;
+import org.apache.tiles.reflect.ClassUtil;
 
 /**
  * Abstract Factory that creates instances of {@link TilesContainerFactory}.
@@ -104,22 +104,19 @@ public abstract class AbstractTilesContainerFactory {
     protected static Map<String, String> getInitParameterMap(Object context) {
         Map<String, String> initParameters = new HashMap<String, String>();
         Class<?> contextClass = context.getClass();
-        try {
-            Method method = contextClass.getMethod("getInitParameterNames");
-            Enumeration<String> e = (Enumeration<String>) method
-                    .invoke(context);
+        Method method = ClassUtil.getForcedAccessibleMethod(contextClass,
+                "getInitParameterNames");
+        Enumeration<String> e = (Enumeration<String>) ClassUtil
+                .invokeMethod(context, method);
 
-            method = contextClass.getMethod("getInitParameter", String.class);
-            while (e.hasMoreElements()) {
-                String key = e.nextElement();
-                initParameters.put(key, (String) method.invoke(context, key));
-            }
-        } catch (Exception e) {
-            throw new TilesContainerFactoryException(
-                    "Unable to retrieve init parameters."
-                    + " Is this context a ServletContext, PortletContext,"
-                    + " or similar object?", e);
+        method = ClassUtil.getForcedAccessibleMethod(contextClass,
+                "getInitParameter", String.class);
+        while (e.hasMoreElements()) {
+            String key = e.nextElement();
+            initParameters.put(key, (String) ClassUtil.invokeMethod(
+                    context, method, key));
         }
+
         return initParameters;
     }
 
@@ -136,16 +133,13 @@ public abstract class AbstractTilesContainerFactory {
     protected static String getInitParameter(Object context,
             String parameterName) {
         Object value;
-        try {
-            Class<?> contextClass = context.getClass();
-            Method getInitParameterMethod =
-                contextClass.getMethod("getInitParameter", String.class);
-            value = getInitParameterMethod.invoke(context, parameterName);
-        } catch (Exception e) {
-            throw new TilesContainerFactoryException(
-                    "Unrecognized context.  Is this context"
-                    + " a ServletContext, PortletContext, or similar?", e);
-        }
+        Class<?> contextClass = context.getClass();
+        Method getInitParameterMethod = ClassUtil
+                .getForcedAccessibleMethod(contextClass,
+                        "getInitParameter", String.class);
+        value = ClassUtil.invokeMethod(context, getInitParameterMethod,
+                parameterName);
+
         return value == null ? null : value.toString();
     }
 }

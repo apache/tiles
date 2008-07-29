@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id: CannotInstantiateObjectException.java 637434 2008-03-15 15:48:38Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,14 +18,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.util;
+package org.apache.tiles.reflect;
 
 import org.apache.tiles.TilesException;
 
 /**
  * Indicates that an object cannot be instantiated.
  *
- * @version $Rev$ $Date$
+ * @version $Rev: 637434 $ $Date: 2008-03-15 16:48:38 +0100 (sab, 15 mar 2008) $
  * @since 2.1.0
  */
 public class CannotInstantiateObjectException extends TilesException {
@@ -67,7 +67,6 @@ public class CannotInstantiateObjectException extends TilesException {
      */
     public CannotInstantiateObjectException(String message, Exception e) {
         super(message, e);
-        // TODO Auto-generated constructor stub
     }
 
 }

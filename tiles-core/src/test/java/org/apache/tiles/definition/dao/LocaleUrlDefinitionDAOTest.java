@@ -31,9 +31,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+
+import junit.framework.TestCase;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesApplicationContext;
@@ -45,8 +49,6 @@ import org.apache.tiles.definition.MockDefinitionsReader;
 import org.apache.tiles.definition.RefreshMonitor;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
 
 /**
  * Tests {@link LocaleUrlDefinitionDAO}.
@@ -92,18 +94,24 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
 
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url1);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
+                        .getResources("org/apache/tiles/config/defs1.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url2);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs2.xml"))
-                .andReturn(url2);
+                        .getResources("org/apache/tiles/config/defs2.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url3);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs3.xml"))
-                .andReturn(url3);
+                        .getResources("org/apache/tiles/config/defs3.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         definitionDao.setApplicationContext(applicationContext);
 
@@ -190,18 +198,24 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
 
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url1);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
+                        .getResources("org/apache/tiles/config/defs1.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url2);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs2.xml"))
-                .andReturn(url2);
+                        .getResources("org/apache/tiles/config/defs2.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url3);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs3.xml"))
-                .andReturn(url3);
+                        .getResources("org/apache/tiles/config/defs3.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         definitionDao.setApplicationContext(applicationContext);
 
@@ -361,8 +375,10 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext.getResource("/WEB-INF/tiles.xml"))
-                .andReturn(url1);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url1);
+        EasyMock.expect(applicationContext.getResources("/WEB-INF/tiles.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         Map<String, String> params = new HashMap<String, String>();
         definitionDao.setApplicationContext(applicationContext);
@@ -377,18 +393,24 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
         EasyMock.reset(applicationContext);
 
         applicationContext = EasyMock.createMock(TilesApplicationContext.class);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url1);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
+                        .getResources("org/apache/tiles/config/defs1.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url2);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs2.xml"))
-                .andReturn(url2);
+                        .getResources("org/apache/tiles/config/defs2.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url3);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs3.xml"))
-                .andReturn(url3);
+                        .getResources("org/apache/tiles/config/defs3.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         params.clear();
         params.put(DefinitionsFactory.READER_IMPL_PROPERTY,
@@ -422,26 +444,41 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs2.xml");
         URL url3 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs3.xml");
+        URL url4 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs1_en_US.xml");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url1);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
+                        .getResources("org/apache/tiles/config/defs1.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url2);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs2.xml"))
-                .andReturn(url2);
+                        .getResources("org/apache/tiles/config/defs2.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url3);
         EasyMock.expect(
                 applicationContext
-                        .getResource("org/apache/tiles/config/defs3.xml"))
-                .andReturn(url3);
+                        .getResources("org/apache/tiles/config/defs3.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url4);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs1_en_US.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml,"
                         + "org/apache/tiles/config/defs2.xml,"
-                        + "org/apache/tiles/config/defs3.xml");
+                        + "org/apache/tiles/config/defs3.xml,"
+                        + "org/apache/tiles/config/defs1_en_US.xml");
         definitionDao.setApplicationContext(applicationContext);
         definitionDao.setSourceURLs(new ArrayList<URL>());
         definitionDao.identifySources(params);
@@ -505,7 +542,10 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
 
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext.getResource(urlPath)).andReturn(url);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url);
+        EasyMock.expect(applicationContext.getResources(urlPath)).andReturn(
+                urlSet);
         EasyMock.replay(applicationContext);
         ((TilesApplicationContextAware) definitionDao)
                 .setApplicationContext(applicationContext);

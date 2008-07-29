@@ -26,7 +26,7 @@
   <parent>
     <groupId>org.apache.tiles</groupId>
     <artifactId>tiles-parent</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>2.1.0</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -35,6 +35,10 @@
   <name>Tiles - Servlet support</name>
   <description>Tiles servlet support, to enable use of Tiles inside a Servlet environment.
   </description>
+
+  <properties>
+      <tiles.osgi.symbolicName>org.apache.tiles.servlet</tiles.osgi.symbolicName>
+  </properties>
 
   <build>
     <resources>
@@ -127,21 +131,16 @@
     </dependency>
 
     <dependency>
-      <groupId>commons-digester</groupId>
-      <artifactId>commons-digester</artifactId>
-      <version>1.8</version>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging-api</artifactId>
       <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>2.5.5</version>
+      <optional>true</optional>
     </dependency>
 
     <dependency>

@@ -44,7 +44,7 @@ import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.RefreshMonitor;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.impl.BasicTilesContainer;
-import org.apache.tiles.util.ClassUtil;
+import org.apache.tiles.reflect.ClassUtil;
 
 /**
  * Base abstract class for a DAO that is based on URLs and locale as a
@@ -185,15 +185,31 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
 
         try {
             for (int i = 0; i < resources.length; i++) {
-                URL resourceUrl = applicationContext.getResource(resources[i]);
-                if (resourceUrl != null) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Adding resource '" + resourceUrl
-                                + "' to definitions factory.");
+                Set<URL> urls = applicationContext.getResources(resources[i]);
+                if (urls != null && !urls.isEmpty()) {
+                    for (URL resourceUrl : urls) {
+                        if (resourceUrl != null) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Adding resource '" + resourceUrl
+                                        + "' to definitions factory.");
+                            }
+                            String externalForm = resourceUrl.toExternalForm();
+                            if (externalForm.indexOf('_', externalForm
+                                    .lastIndexOf("/")) < 0) {
+                                sourceURLs.add(resourceUrl);
+                            } else if (LOG.isDebugEnabled()) {
+                                LOG.debug("Not adding resource '" + resourceUrl
+                                        + "' to definitions factory because it is "
+                                        + "supposed to be an internationalization.");
+                            }
+
+                        } else {
+                            LOG.warn("Unable to find configured definition '"
+                                    + resources[i] + "'");
+                        }
                     }
-                    sourceURLs.add(resourceUrl);
                 } else {
-                    LOG.warn("Unable to find configured definition '"
+                    LOG.warn("Unable to find resources under the name '"
                             + resources[i] + "'");
                 }
             }

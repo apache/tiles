@@ -33,7 +33,7 @@ import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
-import org.apache.tiles.util.ClassUtil;
+import org.apache.tiles.reflect.ClassUtil;
 
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation that manages

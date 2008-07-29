@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id: ClassUtil.java 637434 2008-03-15 15:48:38Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,16 +18,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.util;
+package org.apache.tiles.reflect;
 
-import org.apache.tiles.reflect.CannotInstantiateObjectException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 /**
  * Utilities to work with dynamic class loading and instantiation.
  *
- * @version $Rev$ $Date$
- * @deprecated Use {@link org.apache.tiles.reflect.ClassUtil}.
+ * @version $Rev: 637434 $ $Date: 2008-03-15 16:48:38 +0100 (sab, 15 mar 2008) $
+ * @since 2.0.7
  */
 public final class ClassUtil {
 
@@ -45,6 +46,7 @@ public final class ClassUtil {
      * @return The new instance of the class name.
      * @throws CannotInstantiateObjectException If something goes wrong during
      * instantiation.
+     * @since 2.0.7
      */
     public static Object instantiate(String className) {
         return instantiate(className, false);
@@ -60,6 +62,7 @@ public final class ClassUtil {
      * <code>TilesException</code>.
      * @return The new instance of the class name.
      * @throws CannotInstantiateObjectException If something goes wrong during instantiation.
+     * @since 2.0.7
      */
     public static Object instantiate(String className, boolean returnNull) {
         ClassLoader original = Thread.currentThread().getContextClassLoader();
@@ -86,6 +89,62 @@ public final class ClassUtil {
                     e);
         } finally {
             Thread.currentThread().setContextClassLoader(original);
+        }
+    }
+
+    /**
+     * Gets a method and forces it to be accessible, even if it is not.
+     *
+     * @param clazz The class from which the method will be got.
+     * @param methodName The name of the method.
+     * @param parameterTypes The parameter types that the method must match.
+     * @return The method, if it is found.
+     * @since 2.0.7
+     */
+    public static Method getForcedAccessibleMethod(Class<?> clazz,
+            String methodName, Class<?>... parameterTypes) {
+        Method method;
+        try {
+            method = clazz.getMethod(methodName, parameterTypes);
+        } catch (SecurityException e) {
+            throw new CannotAccessMethodException("Cannot access method '"
+                    + methodName + "' in class '" + clazz.getName()
+                    + "' for security reasons", e);
+        } catch (NoSuchMethodException e) {
+            throw new CannotAccessMethodException("The method '"
+                    + methodName + "' in class '" + clazz.getName()
+                    + "' does not exist", e);
+        }
+        if (!method.isAccessible()) {
+            method.setAccessible(true);
+        }
+        return method;
+    }
+
+    /**
+     * Invokes a method, masking with a runtime exception all the exceptions.
+     *
+     * @param obj The object from which a method will be called.
+     * @param method The method to call.
+     * @param args The arguments of the method.
+     * @return The object returned, if the method is not "void".
+     * @since 2.0.7
+     */
+    public static Object invokeMethod(Object obj, Method method, Object... args) {
+        try {
+            return method.invoke(obj, args);
+        } catch (IllegalArgumentException e) {
+            throw new CannotAccessMethodException("The arguments for '"
+                    + method.getName() + "' in class '"
+                    + obj.getClass().getName() + "' are not valid", e);
+        } catch (IllegalAccessException e) {
+            throw new CannotAccessMethodException("Cannot access '"
+                    + method.getName() + "' in class '"
+                    + obj.getClass().getName() + "'", e);
+        } catch (InvocationTargetException e) {
+            throw new CannotAccessMethodException(
+                    "An exception has been thrown inside '" + method.getName()
+                    + "' in class '" + obj.getClass().getName() + "'", e);
         }
     }
 }

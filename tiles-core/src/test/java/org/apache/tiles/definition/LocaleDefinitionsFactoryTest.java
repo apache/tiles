@@ -23,8 +23,10 @@ package org.apache.tiles.definition;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -99,15 +101,24 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
 
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs2.xml"))
-                .andReturn(url2);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs3.xml"))
-                .andReturn(url3);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url1);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs1.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url2);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs2.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url3);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs3.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         factory.setApplicationContext(applicationContext);
 
@@ -144,15 +155,24 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
 
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs2.xml"))
-                .andReturn(url2);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs3.xml"))
-                .andReturn(url3);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url1);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs1.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url2);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs2.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url3);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs3.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         factory.setApplicationContext(applicationContext);
 
@@ -241,15 +261,24 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
 
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs2.xml"))
-                .andReturn(url2);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs3.xml"))
-                .andReturn(url3);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url1);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs1.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url2);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs2.xml"))
+                .andReturn(urlSet);
+        urlSet = new HashSet<URL>();
+        urlSet.add(url3);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs3.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         factory.setApplicationContext(applicationContext);
 
@@ -307,9 +336,12 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
 
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs1.xml"))
-                .andReturn(url1);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url1);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs1.xml"))
+                .andReturn(urlSet);
         EasyMock.replay(applicationContext);
         factory.setApplicationContext(applicationContext);
 

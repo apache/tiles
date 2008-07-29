@@ -26,7 +26,8 @@ import org.apache.tiles.context.TilesRequestContext;
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-import java.net.MalformedURLException;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Set;
@@ -133,12 +134,12 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
 
 
     /** {@inheritDoc} */
-    public URL getResource(String path) throws MalformedURLException {
+    public URL getResource(String path) throws IOException {
         return context.getResource(path);
     }
 
     /** {@inheritDoc} */
-    public Set<URL> getResources(String path) throws MalformedURLException {
+    public Set<URL> getResources(String path) throws IOException {
         HashSet<URL> set = new HashSet<URL>();
         set.add(getResource(path));
         return set;

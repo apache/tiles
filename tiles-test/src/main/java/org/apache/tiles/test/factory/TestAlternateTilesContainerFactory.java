@@ -53,7 +53,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
             TilesContextFactory contextFactory) {
         List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
-            urls.add(applicationContext.getResource("/WEB-INF/tiles-defs-alt.xml"));
+            urls.add(applicationContext.getResource("/WEB-INF/tiles-alt-defs.xml"));
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);
