@@ -137,6 +137,12 @@
     </dependency>
 
     <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+    </dependency>
+
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.0</version>
@@ -154,13 +160,6 @@
       <groupId>org.apache.shale</groupId>
       <artifactId>shale-test</artifactId>
       <version>1.0.4</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
       <scope>test</scope>
     </dependency>
 
