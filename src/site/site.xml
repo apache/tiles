@@ -45,6 +45,122 @@
                    name="Home"
                    href="../index.html"/>
         </menu>
+        <menu name="Documentation">
+            <item   
+                    name="Getting Started"
+                    href="getting_started.html"/>
+            <item   
+                    name="Tutorial"
+                    href="tutorial/index.html"
+                    collapse="true">
+                <item   
+                        name="Quickstart"
+                        href="quickstart/index.html"/>
+                <item   
+                        name="The composite view pattern"
+                        href="tutorial/pattern.html"/>
+                <item   
+                        name="Configuration"
+                        href="tutorial/configuration.html"/>
+                <item   
+                        name="Basic Usage"
+                        href="tutorial/basic/index.html"
+                        collapse="true">
+                    <item   
+                            name="Tiles Concepts"
+                            href="tutorial/basic/concepts.html"/>
+                    <item   
+                            name="Creating Pages"
+                            href="tutorial/basic/pages.html"/>
+                </item>
+                <item   
+                        name="Advanced Topics"
+                        href="tutorial/advanced/index.html"
+                        collapse="true">
+                    <item   
+                            name="Nesting and Extending"
+                            href="tutorial/advanced/nesting-extending.html"/>
+                    <item   
+                            name="List Attributes"
+                            href="tutorial/advanced/list-attributes.html"/>
+                    <item   
+                            name="Runtime Composition"
+                            href="tutorial/advanced/runtime.html"/>
+                    <item   
+                            name="View Preparers"
+                            href="tutorial/advanced/preparer.html"/>
+                    <item   
+                            name="Rendering Utilities"
+                            href="tutorial/advanced/utils.html"/>
+                    <item   
+                            name="Localization"
+                            href="tutorial/advanced/l10n.html"/>
+                    <item   
+                            name="Using Beans as Attributes"
+                            href="tutorial/advanced/beans.html"/>
+                    <item   
+                            name="Menu-ing"
+                            href="tutorial/advanced/menu.html"/>
+                </item>
+                <item   
+                        name="Integrations"
+                        href="tutorial/integration/index.html"
+                        collapse="true">
+                    <item   
+                            name="Frameworks"
+                            href="tutorial/integration/frameworks.html"/>
+                    <item   
+                            name="View technologies"
+                            href="tutorial/integration/view.html"/>
+                </item>
+                <item   
+                        name="Extensions"
+                        href="tutorial/extension/index.html"
+                        collapse="true">
+                     <item   
+                            name="Extension Points"
+                            href="tutorial/extension/points.html"/>
+                     <item   
+                            name="UrlDefinitionsFactory"
+                            href="tutorial/extension/url_definitions_factory.html"/>
+                </item>
+            <item   
+                    name="Migration from Struts Tiles"
+                    href="migration/index.html"/>
+            </item>
+        </menu>
+        <menu name="Reference">
+            <item
+                    name="Configuration reference"
+                    href="config-reference.html"/>
+            <item
+                    name="Javadoc"
+                    href="apidocs/index.html"/>
+            <item
+                    name="Taglibdoc"
+                    href="tiles-jsp/tlddoc/index.html"/>
+            <item
+                    name="Taglib Reference"
+                    href="tiles-jsp/tagreference.html"/>
+            <item
+                    name="DTD Doc"
+                    href="tiles-core/dtddoc/index.html"/>
+        </menu>
+
+        <menu name="Developers">
+            <item
+                    name="Building"
+                    href="/dev/building.html"/>
+            <item
+                    name="Snapshots"
+                    href="/dev/snapshots.html"/>
+            <item
+                    name="Release Process"
+                    href="/dev/release.html"/>
+            <item
+                    name="Selenium Testing"
+                    href="/selenium.html"/>
+        </menu>
 
         ${modules}
         ${reports}
