@@ -1,0 +1,268 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles Configuration reference
+         -----------
+
+Configuration reference
+
+  In this page you can find a fast reference on configuring the various parts of
+  Tiles. These configuration parameters can be used as context parameters of a
+  web application, or as init parameters of servlets, filters or portlets.
+
+Summary
+
+* Standard configuration
+
+  [[1]] {{{config-reference.html#Main configuration}Main configuration}}.
+
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.factory.TilesContainerFactory}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}    | Class name of the container factory  |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.factory.TilesContainerFactory.MUTABLE}<<<org.apache.tiles.factory.TilesContainerFactory.MUTABLE>>>}} | Flag to use a mutable container |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.context.TilesContextFactory}<<<org.apache.tiles.context.TilesContextFactory>>>}}      | Tiles context factory class name     |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.definition.DefinitionsFactory}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}  | Definitions factory class name       |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.preparer.PreparerFactory}<<<org.apache.tiles.preparer.PreparerFactory>>>}}     | View preparer factory class name     |
+*---------------------------------------------+--------------------------------------+
+
+  [[2]] {{{config-reference.html#BasicTilesContainer configuration}<<<BasicTilesContainer>>> configuration}}.
+
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG}<<<org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG>>>}}   | List of paths that contain Tiles definitions |
+*---------------------------------------------+--------------------------------------+
+
+  [[3]] {{{config-reference.html#ChainedTilesContextFactory configuration}<<<ChainedTilesContextFactory>>> configuration}}.
+
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES>>>}} | List of elementary factory class names |
+*---------------------------------------------+--------------------------------------+
+
+  [[4]] {{{config-reference.html#DigesterDefinitionsReader configuration}<<<DigesterDefinitionsReader>>> configuration}}.
+
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE}<<<org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE>>>}} | Flag to deactivate XML parser validation |
+*---------------------------------------------+--------------------------------------+
+
+  [[5]] {{{config-reference.html#UrlDefinitionsFactory configuration}<<<UrlDefinitionsFactory>>> configuration}}.
+
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.definition.DefinitionsReader}<<<org.apache.tiles.definition.DefinitionsReader>>>}} | Definitions reader class name |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.locale.LocaleResolver}<<<org.apache.tiles.locale.LocaleResolver>>>}} | Locale resolver class name          |
+*---------------------------------------------+--------------------------------------+
+
+* Extended configuration
+
+  [[1]] {{{config-reference.html#KeyedDefinitionsFactoryTilesContainerFactory configuration}<<<KeyedDefinitionsFactoryTilesContainerFactory>>> configuration}}.
+
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor}<<<org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor>>>}} | Key extractor class name           |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory.KEYS}<<<org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory.KEYS>>>}} | List of keys to be used              |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.DEFINITIONS_CONFIG@$\{key\}}<<<org.apache.tiles.DEFINITIONS_CONFIG@$\{key\}>>>}} | List of paths containing definitions for the given <<<key>>> |
+*---------------------------------------------+--------------------------------------+
+
+Standard configuration parameters
+
+* {Main configuration}
+
+** {<<<org.apache.tiles.factory.TilesContainerFactory>>>}
+
+  Specifies the container factory class name to use.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#CONTAINER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.factory.TilesContainerFactory>>>.
+    
+  * <<Usage>>: when specified, it must contain the name of a class that
+  extends the <<<TilesContainerFactory>>> class.
+
+** {<<<org.apache.tiles.factory.TilesContainerFactory.MUTABLE>>>}
+
+  Flag to use a mutable container.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#CONTAINER_FACTORY_MUTABLE_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<false>>> (the container is not mutable).
+    
+  * <<Usage>>: when specified and when its value is <<<true>>>, the container to
+  be created will be <mutable>, i.e. definitions can be created at runtime.
+
+** {<<<org.apache.tiles.context.TilesContextFactory>>>}
+
+  Specifies the context factory class name to use.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#CONTEXT_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.context.ChainedTilesContextFactory>>>.
+    
+  * <<Usage>>: when specified, it must contain the name of a class that
+  implements the <<<TilesContextFactory>>> interface.
+
+** {<<<org.apache.tiles.definition.DefinitionsFactory>>>}
+
+  Specifies the context factory class name to use.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#DEFINITIONS_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.definition.UrlDefinitionsFactory>>>.
+    
+  * <<Usage>>: when specified, it must contain the name of a class that
+  implements the <<<DefinitionsFactory>>> interface.
+
+** {<<<org.apache.tiles.preparer.PreparerFactory>>>}
+
+  Specifies the view preparer factory class name to use.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#PREPARER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.preparer.BasicPreparerFactory>>>.
+    
+  * <<Usage>>: when specified, it must contain the name of a class that
+  implements the <<<PreparerFactory>>> interface.
+  
+* {<<<BasicTilesContainer>>> configuration}
+
+** {<<<org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG>>>}
+
+  Specifies the list of files that contain the definitions.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/impl/BasicTilesContainer.html#DEFINITIONS_CONFIG}<<<org.apache.tiles.impl.BasicTilesContainer>>>}}.
+    
+  * <<Default>>: <<</WEB-INF/tiles.xml>>>.
+    
+  * <<Usage>>: when specified, it must contain a comma-separated list of paths
+  of files that contain Tiles definitions.
+  
+* {<<<ChainedTilesContextFactory>>> configuration}
+
+** {<<<org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES>>>}
+
+  Specifies the list of elementary Tiles context factory class names.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/context/ChainedTilesContextFactory.html#FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesContextFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.servlet.context.ServletTilesContextFactory,
+  org.apache.tiles.portlet.context.PortletTilesContextFactory,
+  org.apache.tiles.jsp.context.JspTilesContextFactory>>>
+    
+  * <<Usage>>: when specified, it must contain a comma-separated list of class
+  names implementing
+  {{{framework/apidocs/org/apache/tiles/context/TilesContextFactory.html}<<<TilesContextFactory>>>}}.
+  
+* {<<<DigesterDefinitionsReader>>> configuration}
+
+** {<<<org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE>>>}
+
+  Specifies if the digester should validate input XML files.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/definition/digester/DigesterDefinitionsReader.html#PARSER_VALIDATE_PARAMETER_NAME}<<<org.apache.tiles.definition.digester.DigesterDefinitionsReader>>>}}.
+    
+  * <<Default>>: <<<true>>>
+    
+  * <<Usage>>: when specified, it must be <<<true>>> if you want to enable
+  validation, <<<false>>> otherwise..
+  
+* {<<<UrlDefinitionsFactory>>> configuration}
+
+** {<<<org.apache.tiles.definition.DefinitionsReader>>>}
+
+  Specifies the implementation of
+  {{{framework/apidocs/org/apache/tiles/definition/DefinitionsReader.html}<<<DefinitionsReader>>>}}
+  to use.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/constant-values.html#org.apache.tiles.definition.DefinitionsFactory.READER_IMPL_PROPERTY}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.definition.digester.DigesterDefinitionsReader>>>
+    
+  * <<Usage>>: when specified, it must contain the name of a class implementing
+  {{{framework/apidocs/org/apache/tiles/definition/DefinitionsReader.html}<<<DefinitionsReader>>>}}.
+
+** {<<<org.apache.tiles.locale.LocaleResolver>>>}
+
+  Specifies the implementation of
+  {{{framework/apidocs/org/apache/tiles/locale/LocaleResolver.html}<<<LocaleResolver>>>}}
+  to use.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/constant-values.html#org.apache.tiles.definition.DefinitionsFactory.LOCALE_RESOLVER_IMPL_PROPERTY}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.locale.impl.DefaultLocaleResolver>>>
+    
+  * <<Usage>>: when specified, it must contain the name of a class implementing
+  {{{framework/apidocs/org/apache/tiles/locale/LocaleResolver.html}<<<LocaleResolver>>>}}.
+
+Extended configuration parameters
+  
+* {<<<KeyedDefinitionsFactoryTilesContainerFactory>>> configuration}
+
+** {<<<org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor>>>}
+
+  Specifies the implementation of
+  {{{framework/apidocs/org/apache/tiles/impl/KeyedDefinitionsFactoryTilesContainer.KeyExtractor.html}<<<KeyExtractor>>>}}
+  to use.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/factory/KeyedDefinitionsFactoryTilesContainerFactory.html#KEY_EXTRACTOR_CLASS_INIT_PARAM}<<<org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.DefaultKeyExtractor>>>
+    
+  * <<Usage>>: when specified, it must contain the name of a class implementing
+  {{{framework/apidocs/org/apache/tiles/impl/KeyedDefinitionsFactoryTilesContainer.KeyExtractor.html}<<<KeyExtractor>>>}}.
+
+** {<<<org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory.KEYS>>>}
+
+  Specifies the list of keys to be used to assign a key to each Definitions
+  Factory.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/factory/KeyedDefinitionsFactoryTilesContainerFactory.html#CONTAINER_KEYS_INIT_PARAM}<<<org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory>>>}}.
+    
+  * <<Default>>: None, it must be specified explicitly.
+    
+  * <<Usage>>: when specified, it must contain a comma-separated list of keys
+  to be used to assign a key to each definitions factory.
+
+** {<<<org.apache.tiles.DEFINITIONS_CONFIG@$\{key\}>>>}
+
+  Specifies the list of files that contain the definitions for the corresponding
+  <<<$\{key\}>>>.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/impl/KeyedDefinitionsFactoryTilesContainer.html#DEFINITIONS_CONFIG_PREFIX}<<<org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer>>>}}.
+    
+  * <<Default>>: <<</WEB-INF/tiles.xml>>>.
+    
+  * <<Usage>>:  when specified, it must contain a comma-separated list of paths
+  of files that contain Tiles definitions to assign to the needed
+  <<<$\{key\}>>>.

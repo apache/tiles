@@ -1,0 +1,87 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Getting started
+         -----------
+
+Requirements
+
+  To use Tiles in your application you need:
+  
+  * a Java Runtime Environment following the <<Java SE 5.0>> specifications;
+
+  * a servlet container that supports <<Servlet 2.4>> (or above) and <<JSP
+  2.0>> (or above).
+
+Installation
+
+  To install Tiles in your web application:
+  
+  * {{{download.html}download}} a distribution of Tiles;
+
+  * if you downloaded the binary distribution, unpack it;
+
+  * copy the <<<tiles-core-VERSION.jar>>> and <<<tiles-api-VERSION.jar>>> files
+  in the <<<WEB-INF/lib>>> directory of your web application. It is <<not
+  reccomended>> to put them in a location where they are shared across the
+  container;
+
+  * copy the Tiles dependencies JARs:
+  
+    ** {{{http://jakarta.apache.org/commons/beanutils/}Jakarta Commons BeanUtils}}
+    1.7.0 or above;
+    
+    ** {{{http://jakarta.apache.org/commons/digester/}Jakarta Commons Digester}}
+    1.8 or above;
+    
+    ** {{{http://jakarta.apache.org/commons/logging/}Jakarta Commons Logging}}
+    (at least API) 1.1 or above.
+  
+  These dependencies are present in the <<<lib>>> directory of the binary
+  distribution;
+
+  * if you need JSP support, copy the <<<tiles-jsp-VERSION.jar>>> in the
+  <<<WEB-INF/lib>>> directory of your web application.
+
+Usage
+
+  If you are using Tiles for the first time, read the
+  {{{quickstart/index.html}Quickstart}} and the
+  {{{tutorial/index.html}Tutorial}}.
+
+  If you are migrating from Struts-Tiles, see the
+  {{{migration/index.html}Migration guide}}.
+
+Examples
+
+  To see Tiles in action, there are two examples:
+  
+  * The Tiles test web application, included in <<<examples>>> directory of the
+  binary distribution ({{{download.html}download it}}).
+  
+  * The Tiles showcase, that shows Tiles features and integration with other
+  technologies and frameworks (currently only Struts 1).
+  
+  Currently it is still under development, and you can access it through its
+  subversion repository:
+
+-----------------------------
+http://svn.apache.org/repos/asf/tiles/examples/trunk/tiles-showcase/
+-----------------------------

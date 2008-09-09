@@ -1,0 +1,123 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Attribute as Beans
+         -----------
+
+Beans as attributes
+
+  You can put objects (usually beans) as attribute values. This feature is
+  useful if you want to use Tiles-scoped objects (for example menus,
+  layout-related objects, etc.), instead of relying on servlet scopes (request,
+  session, application).
+
+* Declaring beans in definitions file
+
+  You can declare a bean by using the
+  {{{../../framework/tiles-core/dtddoc/tiles-config_2_0.dtd.html#bean}<<<\<bean\>>>>}}
+  element in Tiles definition  files. It can be used only in
+  {{{list-attributes.html}list attributes}}.
+
+---------------------------------------
+<definition name="myapp.homepage.objects" template="/layouts/variable_objects.jsp">
+  <put-list-attribute name="items">
+    <bean classtype="my.package.MyClassName">
+      <set-property name="propertyName1" value="value1" />
+      <set-property name="propertyName2" value="value2" />
+    </bean>
+    <add-attribute value="/tiles/common_menu.jsp" />
+    <add-attribute value="/tiles/credits.jsp" />
+  </put-list-attribute>
+</definition>
+---------------------------------------
+
+  This feature is not very powerful, and it has been maintained for backward
+  compatibility.
+
+* Bean injection
+
+  Attribute values can be "injected" when needed, getting them from an external
+  area, such as servlet scopes (request, session, application). It can be done
+  by using the APIs or JSP tags.
+
+** Bean injection using APIs
+
+  Beans can be injected by using the APIs, before rendering a definition, by
+  filling <<<AttributeContext>>> attributes with the desired values.
+
+-----------------------------------
+TilesContainer container = TilesAccess.getContainer(
+        request.getSession().getServletContext());
+AttributeContext attributeContext = container.startContext(request, response);
+attributeContext.putAttribute("attributeName", new MyClass());
+container.render("myapp.homepage", request, response);
+container.endContext(request, response);
+-----------------------------------
+  
+  The <<<attributeName>>> attribute will be filled with an instance of
+  <<<MyClass>>>.
+  
+  The best way to inject beans in definitions is by using
+  {{{preparer.html}preparers}}. The <<<AttributeContext>>> in the <<<execute>>>
+  method of a view preparer is exactly the attribute context of the definition
+  that is going to be rendered.
+
+** Bean injection using JSP tags
+
+  You can inject beans as attributes by using <<<\<tiles:putAttribute\>>>> JSP
+  tag: its <<<value>>> attribute can accept EL expressions, so, if you have a
+  bean stored in some accessible scope (such as request, session and
+  application) you can inject it as an attribute value.
+
+--------------------------------------
+<tiles:insertDefinition name="my.definition">
+  <tiles:putAttribute name="myAttribute" value="${requestScope.myBean}" />
+</tiles:insertDefinition>
+--------------------------------------
+
+  In this case, the <<<my.definition>>> definition is rendered using as
+  "myAttribute" value the bean resolved by the EL expression.
+
+* Using attribute beans
+
+  To use an attribute value that is a bean, you must <<import>> it or <<use>>
+  it.
+  
+  To import an attribute you have to use the
+  {{{../../framework/tiles-jsp/tlddoc/tiles/importAttribute.html}<<<\<tiles:importAttribute\>>>>}}
+  tag:
+
+--------------------------------------
+<tiles:importAttribute name="myAttribute" />
+--------------------------------------
+
+  In this case, the "myAttribute" value is imported as a bean in page scope,
+  named "myAttribute" too.
+  
+  To use an attribute, you have to use the
+  {{{../../framework/tiles-jsp/tlddoc/tiles/useAttribute.html}<<<\<tiles:useAttribute\>>>>}}
+  tag:
+
+--------------------------------------
+<tiles:useAttribute name="myAttribute" />
+--------------------------------------
+  
+  A scripting variable, called "myAttribute" will be created, together with a
+  paged scoped bean as in <<<\<tiles:importAttribute\>>>>.

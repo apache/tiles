@@ -1,0 +1,154 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles Runtime Composition
+         -----------
+
+Tiles Runtime Composition
+
+  Tiles allows to create statically-determined page structures, like we've seen
+  in {{{../basic/pages.html}Creating Pages}}. But Tiles allows to fill
+  templates, modify definitions and create new definitions during the execution.
+
+Runtime Composition in JSP pages
+
+  Making runtime changes in JSP pages is pretty simple. You can use special JSP
+  tags that allow to create page structures on-the-fly.
+
+* Inserting templates
+
+  You can insert a template directly inside a JSP page, filling its attributes
+  at runtime. To do it, you can use the <<<\<tiles:insertTemplate\>>>> tag. The
+  attributes can be put using <<<\<tiles:putAttribute\>>>> and related tags.
+
+-----------------------------------
+<tiles:insertTemplate template="/layouts/classic.jsp">
+  <tiles:putAttribute name="title" value="Tiles tutorial homepage" />
+  <tiles:putAttribute name="header" value="/tiles/banner.jsp" />
+  <tiles:putAttribute name="menu" value="/tiles/common_menu.jsp" />
+  <tiles:putAttribute name="body">
+    <tiles:insertTemplate template="/layouts/variable_rows.jsp">
+      <tiles:putListAttribute name="items">
+        <tiles:addAttribute value="/tiles/banner.jsp" />
+        <tiles:addAttribute value="/tiles/common_menu.jsp" />
+        <tiles:addAttribute value="/tiles/credits.jsp" />
+      </tiles:putListAttribute>
+    </tiles:insertTemplate>
+  </tiles:putAttribute
+  <tiles:putAttribute name="footer" value="/tiles/credits.jsp" />
+</tiles:insertTemplate>
+-----------------------------------
+
+* Inserting modified definitions
+
+  Definitions can be inserted not only just as they are, but also overriding
+  their attributes at runtime:
+
+------------------------------------
+<tiles:insertDefinition name="myapp.homepage.customer">
+  <tiles:putAttribute name="menu" value="/tiles/common_menu_for_customers.jsp" />
+</tiles:insertDefinition>
+------------------------------------
+
+  Note: Currently it is not possible to override a template at runtime.
+
+* Creating Definitions
+
+  To create definitions at runtime, first of all you need to configure your
+  Tiles-based application to use a
+  {{{../../config-reference.html#org.apache.tiles.factory.TilesContainerFactory.MUTABLE}mutable container}}.
+  
+  In your JSP page, now you can create definitions. This definition will be
+  available during the request, and then it will expire.
+
+-----------------------------------------
+<tiles:definition name="myapp.homepage.customer" extends="myapp.homepage">
+  <tiles:putAttribute name="menu" value="/tiles/common_menu_for_customers.jsp" />
+</tiles:insertDefinition>
+<tiles:insertDefinition name="myapp.homepage.customer" />
+-----------------------------------------
+
+Runtime Composition using APIs
+
+  If you want to compose pages using the Tiles APIs, for example in a servlet
+  environment, you can use the <<container>> feature of Tiles. Essentially Tiles
+  is a container that stores definitions, allow to render pages and allows to
+  modify the configuration at runtime.
+  
+* Using the Tiles container
+
+  To get the current container (in a servlet environment) you can use the
+  <<TilesAccess>> class:
+  
+-------------------------------------
+TilesContainer container = TilesAccess.getContainer(
+        request.getSession().getServletContext());
+-------------------------------------
+
+  If you want to render a template including the values of its attributes, you
+  can use an <<<AttributeContext>>>: this object stores the current values of
+  all the configured attributes.
+
+--------------------------------------
+TilesAttributeContext attributeContext = container.getAttributeContext(request,
+        response);
+--------------------------------------
+
+  You can create (push) and destroy (pop) a temporary attribute context during
+  your execution, by using the <<startContext>> and <<endContext>> methods of
+  the Tiles container:
+
+--------------------------------------
+TilesAttributeContext attributeContext = container.startContext(request,
+        response);
+attributeContext.setAttribute("body", "/tiles/body_customer.jsp");
+container.render("myapp.homepage", request, response);
+container.endContext(request, response);
+--------------------------------------
+
+  You can forward/include a template page: if there is an attribute context that
+  contains all of its attributes filled, it will be rendered correctly.
+
+--------------------------------------
+TilesAttributeContext attributeContext = container.startContext(request,
+        response);
+attributeContext.setAttribute("body", "/tiles/body_customer.jsp");
+// Put all the other attributes.
+RequestDispatcher rd = request.getRequestDispatcher("/layouts/my_template.jsp");
+rd.forward(request, response);
+container.endContext(request, response);
+--------------------------------------
+
+* Creating Definitions
+
+  To create definitions at runtime, first of all you need to configure your
+  Tiles-based application to use a
+  {{{../../config-reference.html#org.apache.tiles.factory.TilesContainerFactory.MUTABLE}mutable container}}.
+
+  This is a snippet to show how to create a definition.
+
+-------------------------------------
+MutableTilesContainer container = TilesAccess.getContainer(
+        request.getSession().getServletContext());
+TileDefinition definition = new TileDefinition();
+definition.setTemplate("/layouts/my_layout.jsp");
+definition.putAttribute("body", new Attribute("/tiles/body.jsp");
+container.register(definition, request, response);
+-------------------------------------
