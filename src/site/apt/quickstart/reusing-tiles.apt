@@ -1,0 +1,137 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles Quickstart : Step 2, Reusing Tiles
+         -----------
+
+Reusing Tiles
+
+* Configuring Tiles
+
+  After deploying our application, the Dean of the School of Tiles
+  informs us that because of an upcoming event, we must change the
+  header of the application for the next two weeks.  Because we
+  know we will need to revert these changes in a couple of weeks
+  we have an itch to implement this in a different template and
+  change the references from header.jsp to header-event.jsp.  Realizing
+  that we now have 32 pages for Tiles 101, which utilize the header
+  template we created, we decide to look into figuring out how to
+  accomplish this so that when we have to revert back to the
+  original header we don't need find and replace content throughout
+  all 32 jsps. Here's what we find:
+
+  By adding a simple tiles.xml file, we can configure any templates
+  we have created into something called a definition.  Definitions
+  can then be included in the same way the attributes have been.
+
+  /101/index.jsp
+  
+------------------------------------------------------------
+<html>
+  <head><title>Tiles Quickstart</title><head>
+  <body>
+    <tiles:insertDefinition name="header">
+      <tiles:putAttribute name="className" value="Tiles 101"/>
+    </tiles:insertDefinition>
+
+    <div id="body">
+      Tiles 101 body content.
+    </div>
+
+    <tiles:insertTemplate path="/fragments/footer.jsp"/>
+  </body>
+</html>
+------------------------------------------------------------
+
+  /WEB-INF/tiles.xml
+
+------------------------------------------------------------
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://struts.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+  <definition name="header" template="/fragments/header.jsp">
+	  <put name="className" value="Default Class Name" />
+  </definition>
+</tiles-definitions>
+------------------------------------------------------------
+
+* Parameterizing and Extending Definitions
+
+  Realizing how easy that was, and noticing that the DTD
+  referenced a put element, we decide to look a little further
+  to investigate whether or not we can remove the put attribute
+  tag from our jsps. We've found it very tedious to have to
+  remember to put that in each time.
+
+  Sure enough, we find that if we add a new definition,
+  tell it to extend the first, and provide the name
+  of the class, we can utilize that tiles - preconfigured
+  with the class name, from in our jsps.
+
+   /101/index.jsp
+
+------------------------------------------------------------
+<html>
+  <head><title>Tiles Quickstart</title><head>
+  <body>
+    <tiles:insertDefinition name="header-101"/>
+
+    <div id="body">
+      Tiles 101 body content.
+    </div>
+
+    <tiles:insertTemplate path="/fragments/footer.jsp"/>
+  </body>
+</html>
+------------------------------------------------------------
+
+  /WEB-INF/tiles.xml
+
+------------------------------------------------------------
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://struts.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+  <definition name="header" template="/fragments/header.jsp">
+	  <put name="className" value="Default Class Name" />
+  </definition>
+
+  <definition name="header-101" extends="header">
+	  <put name="className" value="Tiles 101" />
+  </definition>
+</tiles-definitions>
+------------------------------------------------------------
+
+
+   * Previous Quickstart Pages
+
+     ** {{{index.html}Introduction }}
+
+     ** {{{abstracting-tiles.html}Abstracting Tiles }}
+
+   * Next Quickstart Pages
+
+     ** {{{implementing-templates.html}Implementing Templates}}
+
+     ** {{{removing-configuration.html}Removing Configuration}}
+
