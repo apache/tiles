@@ -140,7 +140,7 @@ public class InitContainerTag extends BodyTagSupport
             TilesAccess.getContainer(pageContext.getServletContext(), containerKey);
 
         if (container != null) {
-            LOG.warn("TilesContainer allready instantiated for this context under key '"
+            LOG.warn("TilesContainer already instantiated for this context under key '"
                     + containerKey + "'. Ignoring request to define.");
             return SKIP_BODY;
         }
