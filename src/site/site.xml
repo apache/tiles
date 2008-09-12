@@ -44,6 +44,9 @@
             <item
                    name="Home"
                    href="../index.html"/>
+            <item
+                   name="Tiles project start page"
+                   href="./index.html"/>
         </menu>
         <menu name="Documentation">
             <item   
