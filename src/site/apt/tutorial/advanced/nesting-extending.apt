@@ -28,9 +28,11 @@ Nesting Definitions
   body is made of certain number of sections. In this case, nesting a definition
   (the one for the body) inside another definition (the main layout) can be
   useful.
-  
-  Tiles supports nesting definitions natively. The inner definition must be put
-  as an attribute value of a template. For example:
+
+* Named subdefinitions
+
+  Tiles supports nesting definitions natively. One way of usng nested definitions
+  is creating a named "subdefinition" and using it as an attribute. For example:
 
 ------------------------------------
 <definition name="myapp.homepage.body" template="/layouts/three_rows.jsp">
@@ -51,6 +53,37 @@ Nesting Definitions
   The <<<myapp.homepage.body>>> definition will be put inside the
   <<<myapp.homepage>>>, by putting it inside its <<<body>>> attribute. You will
   be seeing the definition one inside the other.
+
+* Anonymous nested definitions
+
+  What you can do with named subdefinitions can be done with nested anonymous
+  definitions. The above example can be rewritten in:
+  
+------------------------------------
+<definition name="myapp.homepage.body" template="/layouts/three_rows.jsp">
+  <put-attribute name="one" value="/tiles/headlines.jsp" />
+  <put-attribute name="two" value="/tiles/topics.jsp" />
+  <put-attribute name="one" value="/tiles/comments.jsp" />
+</definition>
+
+<definition name="myapp.homepage" template="/layouts/classic.jsp">
+  <put-attribute name="title" value="Tiles tutorial homepage" />
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="body">
+    <definition template="/layouts/three_rows.jsp">
+      <put-attribute name="one" value="/tiles/headlines.jsp" />
+      <put-attribute name="two" value="/tiles/topics.jsp" />
+      <put-attribute name="one" value="/tiles/comments.jsp" />
+    </definition>
+  </put-attribute>
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+</definition>
+------------------------------------
+
+  The anonymous definition put under the "body" attribute can be used only by
+  the surrounding definition. Moreover, you can nest a definition into a nested
+  definition, with the desired level of depth.
 
 Extending Definitions
 
