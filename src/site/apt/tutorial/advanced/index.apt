@@ -42,3 +42,6 @@ Tiles Advanced Topics
   [[7]] {{{beans.html}Using Beans as attributes}}
   
   [[8]] {{{menu.html}Menu-ing support}}
+  
+  [[9]] {{{wildcard.html}Wildcard support}}
+  

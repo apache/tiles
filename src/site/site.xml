@@ -104,6 +104,9 @@
                     <item   
                             name="Menu-ing"
                             href="tutorial/advanced/menu.html"/>
+                    <item   
+                            name="Wildcard support"
+                            href="tutorial/advanced/wildcard.html"/>
                 </item>
                 <item   
                         name="Integrations"

@@ -57,6 +57,8 @@ Summary
   
         [[8]] {{{advanced/menu.html}Menu-ing support}}
   
+        [[9]] {{{advanced/wildcard.html}Wildcard support}}
+  
   [[6]] {{{integration/index.html}Integration with other technologies}}
   
         [[1]] {{{integration/frameworks.html}Integration with other frameworks}}
