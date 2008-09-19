@@ -107,6 +107,9 @@
                     <item   
                             name="Wildcard support"
                             href="tutorial/advanced/wildcard.html"/>
+                    <item   
+                            name="EL support"
+                            href="tutorial/advanced/el-support.html"/>
                 </item>
                 <item   
                         name="Integrations"

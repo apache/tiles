@@ -42,6 +42,8 @@ Summary
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.definition.DefinitionsFactory}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}  | Definitions factory class name       |
 *---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.evaluator.AttributeEvaluator}<<<org.apache.tiles.evaluator.AttributeEvaluator>>>}}  | Attribute evaluator class name       |
+*---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.preparer.PreparerFactory}<<<org.apache.tiles.preparer.PreparerFactory>>>}}     | View preparer factory class name     |
 *---------------------------------------------+--------------------------------------+
 
@@ -134,6 +136,18 @@ Standard configuration parameters
     
   * <<Usage>>: when specified, it must contain the name of a class that
   implements the <<<DefinitionsFactory>>> interface.
+
+** {<<<org.apache.tiles.evaluator.AttributeEvaluator>>>}
+
+  Specifies the attribute evaluator class name to use.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#ATTRIBUTE_EVALUATOR_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.evaluator.impl.DirectAttributeEvaluator>>>.
+    
+  * <<Usage>>: when specified, it must contain the name of a class that
+  implements the <<<AttributeEvaluator>>> interface.
 
 ** {<<<org.apache.tiles.preparer.PreparerFactory>>>}
 

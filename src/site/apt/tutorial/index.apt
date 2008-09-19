@@ -59,6 +59,8 @@ Summary
   
         [[9]] {{{advanced/wildcard.html}Wildcard support}}
   
+        [[10]] {{{advanced/el-support.html}EL support}}
+  
   [[6]] {{{integration/index.html}Integration with other technologies}}
   
         [[1]] {{{integration/frameworks.html}Integration with other frameworks}}
