@@ -59,15 +59,13 @@ Runtime Composition in JSP pages
 * Inserting modified definitions
 
   Definitions can be inserted not only just as they are, but also overriding
-  their attributes at runtime:
+  their attributes and their template at runtime:
 
 ------------------------------------
-<tiles:insertDefinition name="myapp.homepage.customer">
+<tiles:insertDefinition name="myapp.homepage.customer" template="/layouts/alternative_layout.jsp">
   <tiles:putAttribute name="menu" value="/tiles/common_menu_for_customers.jsp" />
 </tiles:insertDefinition>
 ------------------------------------
-
-  Note: Currently it is not possible to override a template at runtime.
 
 * Creating Definitions
 
@@ -147,7 +145,7 @@ container.endContext(request, response);
 -------------------------------------
 MutableTilesContainer container = TilesAccess.getContainer(
         request.getSession().getServletContext());
-TileDefinition definition = new TileDefinition();
+Definition definition = new Definition();
 definition.setTemplate("/layouts/my_layout.jsp");
 definition.putAttribute("body", new Attribute("/tiles/body.jsp");
 container.register(definition, request, response);
