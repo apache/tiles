@@ -114,7 +114,8 @@ public class InsertAttributeTag extends RenderTagSupport {
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
 
         // Checks if the attribute can be rendered with the current user.
-        if (role != null && !req.isUserInRole(role)) {
+        if ((role != null && !req.isUserInRole(role))
+                || (attribute == null && ignore)) {
             return;
         }
         render(attribute);
