@@ -34,7 +34,7 @@ Summary
   [[1]] {{{config-reference.html#Main configuration}Main configuration}}.
 
 *---------------------------------------------+--------------------------------------+
-| {{{config-reference.html#org.apache.tiles.factory.TilesContainerFactory}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}    | Class name of the container factory  |
+| {{{config-reference.html#org.apache.tiles.factory.AbstractTilesContainerFactory}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}    | Class name of the container factory  |
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.factory.TilesContainerFactory.MUTABLE}<<<org.apache.tiles.factory.TilesContainerFactory.MUTABLE>>>}} | Flag to use a mutable container |
 *---------------------------------------------+--------------------------------------+
@@ -89,17 +89,17 @@ Standard configuration parameters
 
 * {Main configuration}
 
-** {<<<org.apache.tiles.factory.TilesContainerFactory>>>}
+** {<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}
 
   Specifies the container factory class name to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#CONTAINER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+  {{{framework/apidocs/org/apache/tiles/factory/AbstractTilesContainerFactory.html#CONTAINER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.factory.TilesContainerFactory>>>.
     
   * <<Usage>>: when specified, it must contain the name of a class that
-  extends the <<<TilesContainerFactory>>> class.
+  extends the <<<AbstractTilesContainerFactory>>> class.
 
 ** {<<<org.apache.tiles.factory.TilesContainerFactory.MUTABLE>>>}
 

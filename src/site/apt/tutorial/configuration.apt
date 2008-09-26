@@ -115,6 +115,8 @@ Starting Tiles in a portlet application
 
 Configuring Tiles internals
 
+* Main configuration
+
   You can configure Tiles internal behaviour by specifying:
   
   * in a web application environment, by using context parameters or init
@@ -123,3 +125,33 @@ Configuring Tiles internals
   * in a portlet environment, by using portlet init parameters.
   
   For the details see {{{../config-reference.html}Tiles configuration reference}}.
+
+* Pure Java configuration
+  
+  In both environments, it is possible to use pure <<Java configuration>>,
+  without messing with the deployment descriptors.
+
+  All you have to do is create a class that extends
+  {{{../apidocs/org/apache/tiles/factory/AbstractTilesContainerFactory.html}AbstractTilesContainerFactory}}.
+  In particular you can use {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html}BasicTilesContainerFactory}}
+  as a basis for your extended configuration. <<<BasicTilesContainerFactory>>>
+  is the configuration that replicates the default configuration of Tiles,
+  i.e. the one that assumes when no additional parameter is provided.
+  The
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html}Javadoc documentation of BasicTilesContainerFactory}}
+  documents all the methods that can be overridden to use your own
+  configuration.
+
+  To enable pure Java configuration, provide the
+  {{{../config-reference.html#org.apache.tiles.factory.AbstractTilesContainerFactory}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}
+  parameter this way:
+
+--------------------------------
+<init-param>
+    <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
+    <param-value>org.apache.tiles.test.factory.TestTilesContainerFactory</param-value>
+</init-param>
+--------------------------------
+
+  Where <<<TestTilesContainerFactory>>> is a class that extends
+  <<<AbstractTilesContainerFactory>>>.
