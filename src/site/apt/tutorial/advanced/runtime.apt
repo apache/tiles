@@ -38,6 +38,10 @@ Runtime Composition in JSP pages
   at runtime. To do it, you can use the <<<\<tiles:insertTemplate\>>>> tag. The
   attributes can be put using <<<\<tiles:putAttribute\>>>> and related tags.
 
+  Notice that you have all the features present in XML definition files, such as
+  {{{nesting-extending.html#Anonymous_nested_definitions}anonymous nested definitions}}
+  and {{{nesting-extending.html#Cascaded_attributes}cascade attributes}}.
+
 -----------------------------------
 <tiles:insertTemplate template="/layouts/classic.jsp">
   <tiles:putAttribute name="title" value="Tiles tutorial homepage" />

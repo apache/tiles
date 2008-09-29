@@ -29,7 +29,7 @@ Nesting Definitions
   (the one for the body) inside another definition (the main layout) can be
   useful.
 
-* Named subdefinitions
+* {Named subdefinitions}
 
   Tiles supports nesting definitions natively. One way of usng nested definitions
   is creating a named "subdefinition" and using it as an attribute. For example:
@@ -54,7 +54,7 @@ Nesting Definitions
   <<<myapp.homepage>>>, by putting it inside its <<<body>>> attribute. You will
   be seeing the definition one inside the other.
 
-* Anonymous nested definitions
+* {Anonymous nested definitions}
 
   What you can do with named subdefinitions can be done with nested anonymous
   definitions. The above example can be rewritten in:
@@ -84,6 +84,33 @@ Nesting Definitions
   The anonymous definition put under the "body" attribute can be used only by
   the surrounding definition. Moreover, you can nest a definition into a nested
   definition, with the desired level of depth.
+
+* {Cascaded attributes}
+
+  Attributes defined into a definition can be cascaded to be available to all
+  nested definitions and templates. For example the
+  {{{#Named_subdefinitions}sample definition}} detailed above can be rewritten
+  this way:
+
+------------------------------------
+<definition name="myapp.homepage" template="/layouts/classic.jsp">
+  <put-attribute name="title" value="Tiles tutorial homepage" />
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="body" value="/layouts/three_rows.jsp" />
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+
+  <put-attribute name="one" value="/tiles/headlines.jsp" cascade="true" />
+  <put-attribute name="two" value="/tiles/topics.jsp" cascade="true" />
+  <put-attribute name="one" value="/tiles/comments.jsp" cascade="true" />
+</definition>
+------------------------------------
+
+  The template of <<<myapp.homepage.body>>> definitionhas been used as the
+  <<<body>>> attribute in the <<<myapp.homepage>>> definition. All of the
+  attributes of <<<myapp.homepage.body>>> has been then moved as attributes
+  of <<<myapp.homepage>>> definition, but with the addition of the "cascade"
+  flag.
 
 Extending Definitions
 
