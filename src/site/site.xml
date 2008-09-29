@@ -110,6 +110,9 @@
                     <item   
                             name="EL support"
                             href="tutorial/advanced/el-support.html"/>
+                    <item   
+                            name="Attribute rendering"
+                            href="tutorial/advanced/attribute-rendering.html"/>
                 </item>
                 <item   
                         name="Integrations"

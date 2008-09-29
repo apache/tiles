@@ -46,6 +46,12 @@ Summary
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.preparer.PreparerFactory}<<<org.apache.tiles.preparer.PreparerFactory>>>}}     | View preparer factory class name     |
 *---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.renderer.RendererFactory}<<<org.apache.tiles.renderer.RendererFactory>>>}}     | Attribute renderer factory class name     |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS}<<<org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS>>>}}     | Attribute renderers class name     |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER}<<<org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER>>>}}     | Default attribute renderer class name     |
+*---------------------------------------------+--------------------------------------+
 
   [[2]] {{{config-reference.html#BasicTilesContainer configuration}<<<BasicTilesContainer>>> configuration}}.
 
@@ -160,7 +166,49 @@ Standard configuration parameters
     
   * <<Usage>>: when specified, it must contain the name of a class that
   implements the <<<PreparerFactory>>> interface.
+
+** {<<<org.apache.tiles.renderer.RendererFactory>>>}
+
+  Specify the class of the attribute renderer factory to use.
   
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#RENDERER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.renderer.impl.BasicRendererFactory>>>
+    
+  * <<Usage>>: when specified, it must contain the class name of the attribute
+  renderer factory to use.
+
+** {<<<org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS>>>}
+
+  Specifies the named attribute renderers that can be used.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/renderer/impl/BasicRendererFactory.html#TYPE_RENDERERS_INIT_PARAM}<<<org.apache.tiles.renderer.impl.BasicRendererFactory>>>}}.
+    
+  * <<Default>>: <<<string,org.apache.tiles.renderer.impl;
+  definition,org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
+  template,org.apache.tiles.renderer.impl.TemplateAttributeRenderer>>>.
+    
+  * <<Usage>>: when specified, it must contain a semicolon (;) separated list
+  of comma-separated pairs (,) in which:
+
+  ** the first element is the name of the renderer;
+
+  ** the second element is the class name of the attribute renderer.
+
+** {<<<org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER>>>}
+
+  Specifies the named attribute renderers that can be used.
+  
+  * <<Specified in>>:
+  {{{framework/apidocs/org/apache/tiles/renderer/impl/BasicRendererFactory.html#DEFAULT_RENDERER_INIT_PARAM}<<<org.apache.tiles.renderer.impl.BasicRendererFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.renderer.impl.UntypedAttributeRenderer>>>
+    
+  * <<Usage>>: when specified, it must contain the class name of the attribute
+  renderer to use in case the type of an attribute is not specified.
+
 * {<<<BasicTilesContainer>>> configuration}
 
 ** {<<<org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG>>>}
