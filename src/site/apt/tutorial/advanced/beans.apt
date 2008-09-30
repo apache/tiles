@@ -31,7 +31,7 @@ Beans as attributes
 * Declaring beans in definitions file
 
   You can declare a bean by using the
-  {{{../../framework/tiles-core/dtddoc/tiles-config_2_0.dtd.html#bean}<<<\<bean\>>>>}}
+  {{{../../tiles-core/dtddoc/tiles-config_2_0.dtd.html#bean}<<<\<bean\>>>>}}
   element in Tiles definition  files. It can be used only in
   {{{list-attributes.html}list attributes}}.
 
@@ -101,7 +101,7 @@ container.endContext(request, response);
   it.
   
   To import an attribute you have to use the
-  {{{../../framework/tiles-jsp/tlddoc/tiles/importAttribute.html}<<<\<tiles:importAttribute\>>>>}}
+  {{{../../tiles-jsp/tlddoc/tiles/importAttribute.html}<<<\<tiles:importAttribute\>>>>}}
   tag:
 
 --------------------------------------
@@ -112,7 +112,7 @@ container.endContext(request, response);
   named "myAttribute" too.
   
   To use an attribute, you have to use the
-  {{{../../framework/tiles-jsp/tlddoc/tiles/useAttribute.html}<<<\<tiles:useAttribute\>>>>}}
+  {{{../../tiles-jsp/tlddoc/tiles/useAttribute.html}<<<\<tiles:useAttribute\>>>>}}
   tag:
 
 --------------------------------------

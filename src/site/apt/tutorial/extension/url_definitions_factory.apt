@@ -26,7 +26,7 @@ Customizing UrlDefinitionsFactory
   The
   {{{../../config-reference.html#UrlDefinitionsFactory configuration}<<<UrlDefinitionsFactory>>>}}
   is the default implementation of
-  {{{../../framework/apidocs/org/apache/tiles/definition/DefinitionsFactory.html}<<<DefinitionsFactory>>>}}.
+  {{{../../apidocs/org/apache/tiles/definition/DefinitionsFactory.html}<<<DefinitionsFactory>>>}}.
 
 * Definitions reader
 
@@ -34,7 +34,7 @@ Customizing UrlDefinitionsFactory
   {{{../../config-reference.html#org.apache.tiles.definition.DefinitionsReader}<<<DefinitionsReader>>>}}
   interfaces reads a source (usually an URL) to return a map of raw (i.e. with
   their inheritance <<not resolved>>) definitions. The default implementation,
-  {{{../../framework/apidocs/org/apache/tiles/definition/digester/DigesterDefinitionsReader.html}<<<DigesterDefinitionsReader>>>}}
+  {{{../../apidocs/org/apache/tiles/definition/digester/DigesterDefinitionsReader.html}<<<DigesterDefinitionsReader>>>}}
   reads from usual Tiles XML definition files using Jakarta Commons Digester.
   
   If you need to read definitions from other kind of sources, this is the item
@@ -46,7 +46,7 @@ Customizing UrlDefinitionsFactory
   {{{../../config-reference.html#org.apache.tiles.locale.LocaleResolver}<<<LocaleResolver>>>}}
   interface resolves the current locale requested by the user. The default
   implementation,
-  {{{../../framework/apidocs/org/apache/tiles/locale/impl/DefaultLocaleResolver.html}<<<DefaultLocaleResolver>>>}}
+  {{{../../apidocs/org/apache/tiles/locale/impl/DefaultLocaleResolver.html}<<<DefaultLocaleResolver>>>}}
   takes the current locale from a session-scoped Locale object under the
   <<<org.apache.tiles.LOCALE>>> key. If it is not found, the default locale of
   the request will be taken.

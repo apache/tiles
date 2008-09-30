@@ -31,7 +31,7 @@ Summary
 
 * Standard configuration
 
-  [[1]] {{{config-reference.html#Main configuration}Main configuration}}.
+  [[1]] {{{config-reference.html#Main_configuration}Main configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.factory.AbstractTilesContainerFactory}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}    | Class name of the container factory  |
@@ -55,19 +55,19 @@ Summary
 | {{{config-reference.html#org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER}<<<org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER>>>}}     | Default attribute renderer class name     |
 *---------------------------------------------+--------------------------------------+
 
-  [[2]] {{{config-reference.html#ChainedTilesContextFactory configuration}<<<ChainedTilesContextFactory>>> configuration}}.
+  [[2]] {{{config-reference.html#ChainedTilesContextFactory_configuration}<<<ChainedTilesContextFactory>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES>>>}} | List of elementary factory class names |
 *---------------------------------------------+--------------------------------------+
 
-  [[3]] {{{config-reference.html#DigesterDefinitionsReader configuration}<<<DigesterDefinitionsReader>>> configuration}}.
+  [[3]] {{{config-reference.html#DigesterDefinitionsReader_configuration}<<<DigesterDefinitionsReader>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE}<<<org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE>>>}} | Flag to deactivate XML parser validation |
 *---------------------------------------------+--------------------------------------+
 
-  [[4]] {{{config-reference.html#UrlDefinitionsFactory configuration}<<<UrlDefinitionsFactory>>> configuration}}.
+  [[4]] {{{config-reference.html#UrlDefinitionsFactory_configuration}<<<UrlDefinitionsFactory>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.definition.DefinitionsReader}<<<org.apache.tiles.definition.DefinitionsReader>>>}} | Definitions reader class name |
@@ -77,7 +77,7 @@ Summary
 
 * Extended configuration
 
-  [[1]] {{{config-reference.html#KeyedDefinitionsFactoryTilesContainerFactory configuration}<<<KeyedDefinitionsFactoryTilesContainerFactory>>> configuration}}.
+  [[1]] {{{config-reference.html#KeyedDefinitionsFactoryTilesContainerFactory_configuration}<<<KeyedDefinitionsFactoryTilesContainerFactory>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor}<<<org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor>>>}} | Key extractor class name           |
@@ -96,7 +96,7 @@ Standard configuration parameters
   Specifies the container factory class name to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/AbstractTilesContainerFactory.html#CONTAINER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/factory/AbstractTilesContainerFactory.html#CONTAINER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.factory.TilesContainerFactory>>>.
     
@@ -108,7 +108,7 @@ Standard configuration parameters
   Flag to use a mutable container.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#CONTAINER_FACTORY_MUTABLE_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#CONTAINER_FACTORY_MUTABLE_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
     
   * <<Default>>: <<<false>>> (the container is not mutable).
     
@@ -120,7 +120,7 @@ Standard configuration parameters
   Specifies the context factory class name to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#CONTEXT_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#CONTEXT_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.context.ChainedTilesContextFactory>>>.
     
@@ -132,7 +132,7 @@ Standard configuration parameters
   Specifies the context factory class name to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#DEFINITIONS_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#DEFINITIONS_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.definition.UrlDefinitionsFactory>>>.
     
@@ -144,7 +144,7 @@ Standard configuration parameters
   Specifies the attribute evaluator class name to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#ATTRIBUTE_EVALUATOR_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#ATTRIBUTE_EVALUATOR_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.evaluator.impl.DirectAttributeEvaluator>>>.
     
@@ -156,7 +156,7 @@ Standard configuration parameters
   Specifies the view preparer factory class name to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#PREPARER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#PREPARER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.preparer.BasicPreparerFactory>>>.
     
@@ -168,7 +168,7 @@ Standard configuration parameters
   Specify the class of the attribute renderer factory to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html#RENDERER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#RENDERER_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.renderer.impl.BasicRendererFactory>>>
     
@@ -180,7 +180,7 @@ Standard configuration parameters
   Specifies the named attribute renderers that can be used.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/renderer/impl/BasicRendererFactory.html#TYPE_RENDERERS_INIT_PARAM}<<<org.apache.tiles.renderer.impl.BasicRendererFactory>>>}}.
+  {{{apidocs/org/apache/tiles/renderer/impl/BasicRendererFactory.html#TYPE_RENDERERS_INIT_PARAM}<<<org.apache.tiles.renderer.impl.BasicRendererFactory>>>}}.
     
   * <<Default>>: <<<string,org.apache.tiles.renderer.impl;
   definition,org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
@@ -198,7 +198,7 @@ Standard configuration parameters
   Specifies the named attribute renderers that can be used.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/renderer/impl/BasicRendererFactory.html#DEFAULT_RENDERER_INIT_PARAM}<<<org.apache.tiles.renderer.impl.BasicRendererFactory>>>}}.
+  {{{apidocs/org/apache/tiles/renderer/impl/BasicRendererFactory.html#DEFAULT_RENDERER_INIT_PARAM}<<<org.apache.tiles.renderer.impl.BasicRendererFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.renderer.impl.UntypedAttributeRenderer>>>
     
@@ -212,7 +212,7 @@ Standard configuration parameters
   Specifies the list of files that contain the definitions.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/definition/DefinitionsFactory.html#DEFINITIONS_CONFIG}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}.
+  {{{apidocs/org/apache/tiles/definition/DefinitionsFactory.html#DEFINITIONS_CONFIG}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}.
     
   * <<Default>>: <<</WEB-INF/tiles.xml>>>.
     
@@ -226,7 +226,7 @@ Standard configuration parameters
   Specifies the list of elementary Tiles context factory class names.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/context/ChainedTilesContextFactory.html#FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesContextFactory>>>}}.
+  {{{apidocs/org/apache/tiles/context/ChainedTilesContextFactory.html#FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesContextFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.servlet.context.ServletTilesContextFactory,
   org.apache.tiles.portlet.context.PortletTilesContextFactory,
@@ -234,7 +234,7 @@ Standard configuration parameters
     
   * <<Usage>>: when specified, it must contain a comma-separated list of class
   names implementing
-  {{{framework/apidocs/org/apache/tiles/context/TilesContextFactory.html}<<<TilesContextFactory>>>}}.
+  {{{apidocs/org/apache/tiles/context/TilesContextFactory.html}<<<TilesContextFactory>>>}}.
   
 * {<<<DigesterDefinitionsReader>>> configuration}
 
@@ -243,7 +243,7 @@ Standard configuration parameters
   Specifies if the digester should validate input XML files.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/definition/digester/DigesterDefinitionsReader.html#PARSER_VALIDATE_PARAMETER_NAME}<<<org.apache.tiles.definition.digester.DigesterDefinitionsReader>>>}}.
+  {{{apidocs/org/apache/tiles/definition/digester/DigesterDefinitionsReader.html#PARSER_VALIDATE_PARAMETER_NAME}<<<org.apache.tiles.definition.digester.DigesterDefinitionsReader>>>}}.
     
   * <<Default>>: <<<true>>>
     
@@ -255,30 +255,30 @@ Standard configuration parameters
 ** {<<<org.apache.tiles.definition.DefinitionsReader>>>}
 
   Specifies the implementation of
-  {{{framework/apidocs/org/apache/tiles/definition/DefinitionsReader.html}<<<DefinitionsReader>>>}}
+  {{{apidocs/org/apache/tiles/definition/DefinitionsReader.html}<<<DefinitionsReader>>>}}
   to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/constant-values.html#org.apache.tiles.definition.DefinitionsFactory.READER_IMPL_PROPERTY}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}.
+  {{{apidocs/constant-values.html#org.apache.tiles.definition.DefinitionsFactory.READER_IMPL_PROPERTY}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.definition.digester.DigesterDefinitionsReader>>>
     
   * <<Usage>>: when specified, it must contain the name of a class implementing
-  {{{framework/apidocs/org/apache/tiles/definition/DefinitionsReader.html}<<<DefinitionsReader>>>}}.
+  {{{apidocs/org/apache/tiles/definition/DefinitionsReader.html}<<<DefinitionsReader>>>}}.
 
 ** {<<<org.apache.tiles.locale.LocaleResolver>>>}
 
   Specifies the implementation of
-  {{{framework/apidocs/org/apache/tiles/locale/LocaleResolver.html}<<<LocaleResolver>>>}}
+  {{{apidocs/org/apache/tiles/locale/LocaleResolver.html}<<<LocaleResolver>>>}}
   to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/constant-values.html#org.apache.tiles.definition.DefinitionsFactory.LOCALE_RESOLVER_IMPL_PROPERTY}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}.
+  {{{apidocs/constant-values.html#org.apache.tiles.definition.DefinitionsFactory.LOCALE_RESOLVER_IMPL_PROPERTY}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.locale.impl.DefaultLocaleResolver>>>
     
   * <<Usage>>: when specified, it must contain the name of a class implementing
-  {{{framework/apidocs/org/apache/tiles/locale/LocaleResolver.html}<<<LocaleResolver>>>}}.
+  {{{apidocs/org/apache/tiles/locale/LocaleResolver.html}<<<LocaleResolver>>>}}.
 
 Extended configuration parameters
   
@@ -287,16 +287,16 @@ Extended configuration parameters
 ** {<<<org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.KeyExtractor>>>}
 
   Specifies the implementation of
-  {{{framework/apidocs/org/apache/tiles/impl/KeyedDefinitionsFactoryTilesContainer.KeyExtractor.html}<<<KeyExtractor>>>}}
+  {{{apidocs/org/apache/tiles/impl/KeyedDefinitionsFactoryTilesContainer.KeyExtractor.html}<<<KeyExtractor>>>}}
   to use.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/KeyedDefinitionsFactoryTilesContainerFactory.html#KEY_EXTRACTOR_CLASS_INIT_PARAM}<<<org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/factory/KeyedDefinitionsFactoryTilesContainerFactory.html#KEY_EXTRACTOR_CLASS_INIT_PARAM}<<<org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.DefaultKeyExtractor>>>
     
   * <<Usage>>: when specified, it must contain the name of a class implementing
-  {{{framework/apidocs/org/apache/tiles/impl/KeyedDefinitionsFactoryTilesContainer.KeyExtractor.html}<<<KeyExtractor>>>}}.
+  {{{apidocs/org/apache/tiles/impl/KeyedDefinitionsFactoryTilesContainer.KeyExtractor.html}<<<KeyExtractor>>>}}.
 
 ** {<<<org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory.KEYS>>>}
 
@@ -304,7 +304,7 @@ Extended configuration parameters
   Factory.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/factory/KeyedDefinitionsFactoryTilesContainerFactory.html#CONTAINER_KEYS_INIT_PARAM}<<<org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/factory/KeyedDefinitionsFactoryTilesContainerFactory.html#CONTAINER_KEYS_INIT_PARAM}<<<org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory>>>}}.
     
   * <<Default>>: None, it must be specified explicitly.
     
@@ -317,7 +317,7 @@ Extended configuration parameters
   <<<$\{key\}>>>.
   
   * <<Specified in>>:
-  {{{framework/apidocs/org/apache/tiles/impl/KeyedDefinitionsFactoryTilesContainer.html#DEFINITIONS_CONFIG_PREFIX}<<<org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer>>>}}.
+  {{{apidocs/org/apache/tiles/impl/KeyedDefinitionsFactoryTilesContainer.html#DEFINITIONS_CONFIG_PREFIX}<<<org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer>>>}}.
     
   * <<Default>>: <<</WEB-INF/tiles.xml>>>.
     

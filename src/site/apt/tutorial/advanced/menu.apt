@@ -25,7 +25,7 @@ Menu-ing support
 
   Tiles offers a (pretty small) support to create menus. It consists in allowing
   creation of menu-like beans, to be defined in Tiles definition files, using
-  the {{{../../framework/tiles-core/dtddoc/tiles-config_2_0.dtd.html#item}<<<\<item\>>>>}}
+  the {{{../../tiles-core/dtddoc/tiles-config_2_0.dtd.html#item}<<<\<item\>>>>}}
   element:
 
 -------------------------------------------
