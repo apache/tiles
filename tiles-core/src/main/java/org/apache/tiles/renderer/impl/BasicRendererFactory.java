@@ -52,7 +52,7 @@ public class BasicRendererFactory implements RendererFactory,
      * @since 2.1.0
      */
     public static final String TYPE_RENDERERS_INIT_PARAM =
-        "org.apache.tiles.renderer.impl.BasicRendereFactory.TYPE_RENDERERS";
+        "org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS";
 
     /**
      * The default renderer init parameter.
@@ -60,7 +60,7 @@ public class BasicRendererFactory implements RendererFactory,
      * @since 2.1.0
      */
     public static final String DEFAULT_RENDERER_INIT_PARAM =
-        "org.apache.tiles.rendere.impl.BasicRendereFactory.DEFAULT_RENDERER";
+        "org.apache.tiles.rendere.impl.BasicRendererFactory.DEFAULT_RENDERER";
 
     /**
      * The default renderer class name.
