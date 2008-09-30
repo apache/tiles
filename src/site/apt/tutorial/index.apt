@@ -33,13 +33,15 @@ Summary
   
   [[3]] {{{configuration.html}Configuring your web application}}
   
-  [[4]] {{{basic/index.html}Basic Usage}}
+  [[4]] {{{wildcard-configuration.html}Wildcards in configuration files}}
+  
+  [[5]] {{{basic/index.html}Basic Usage}}
   
         [[1]] {{{basic/concepts.html}Tiles Concepts}}
         
         [[2]] {{{basic/pages.html}Creating Tiles Pages}}
         
-  [[5]] {{{advanced/index.html}Advanced Topics}}
+  [[6]] {{{advanced/index.html}Advanced Topics}}
   
         [[1]] {{{advanced/nesting-extending.html}Nesting and Extending Definitions}}
 
@@ -63,13 +65,13 @@ Summary
 
         [[11]] {{{advanced/attribute-rendering.html}Attribute rendering}}
 
-  [[6]] {{{integration/index.html}Integration with other technologies}}
+  [[7]] {{{integration/index.html}Integration with other technologies}}
   
         [[1]] {{{integration/frameworks.html}Integration with other frameworks}}
   
         [[2]] {{{integration/view.html}Integration with other view technologies}}
   
-  [[7]] {{{extension/index.html}Extending Tiles}}
+  [[8]] {{{extension/index.html}Extending Tiles}}
   
         [[1]] {{{extension/points.html}Tiles Extension Points}}
   

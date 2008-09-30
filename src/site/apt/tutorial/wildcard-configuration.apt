@@ -1,0 +1,142 @@
+~~ $Id: configuration.apt 699348 2008-09-26 14:56:42Z apetrelli $
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Load XML definition files using wildcards
+         -----------
+
+Load XML definition files using wildcards
+
+  XML definition files can be loaded using wildcard, but this behaviour is not
+  the default, due to compatibility reasons to Tiles 2.0.x.
+
+* Prerequisites
+
+  To use wildcards in XML definition files, you need to put the following libraries
+  in your classpath:
+
+  * spring-core.jar
+
+  * spring-web.jar
+
+  * spring-context.jar
+
+  * spring-beans.jar
+
+  * aopalliance.jar
+
+  If you are using Maven, simply depend on <<<spring-web>>> package.
+
+* Configuration
+
+  To be able to specify Tiles XML definition files using wildcards, there is the
+  need for some configuration:
+
+  * If you are using parameter-based initialization, provide a new value for the
+  {{{../config-reference.html#org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES>>>}}
+  init parameter. For example:
+
+----------------------------------------
+<init-param>
+    <param-name>org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES</param-name>
+    <param-value>org.apache.tiles.servlet.context.wildcard.WildcardServletTilesContextFactory,
+      org.apache.tiles.jsp.context.JspTilesContextFactory</param-value>
+</init-param>
+----------------------------------------
+
+  * If you are using Java-based configuration, override the 
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#registerChainedContextFactories(java.lang.Object,%20org.apache.tiles.context.ChainedTilesContextFactory)}registerChainedContextFactories}}
+  of <<<BasicTilesContainerFactory>>> this way:
+
+----------------------------------------
+/** {@inheritDoc} */
+@Override
+protected void registerChainedContextFactories(Object context,
+        ChainedTilesContextFactory contextFactory) {
+    List<TilesContextFactory> factories = new ArrayList<TilesContextFactory>(
+            CONTEXT_FACTORY_CHAIN_COUNT);
+    factories.add(new WildcardServletTilesContextFactory());
+    factories.add(new JspTilesContextFactory());
+    contextFactory.setFactories(factories);
+}
+----------------------------------------
+
+* Usage
+
+  To load XML definition files using wilcards you can proceed, as usual, in two
+  ways:
+
+
+  * If you are using parameter-based initialization, provide a new value for the
+  {{{../config-reference.html#org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG}<<<org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG>>>}}
+  init parameter. The files that have an underscore (_) in their name will be
+  skipped. You can specify, for example:
+
+----------------------------------------
+<init-param>
+    <param-name>org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG</param-name>
+    <param-value>/WEB-INF/tiles-defs*.xml,
+      classpath:/org/apache/**/tiles-defs.xml</param-value>
+</init-param>
+----------------------------------------
+
+  * If you are using Java-based configuration, override the 
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#getSourceURLs(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesContextFactory)}getSourceURLs}}
+  of <<<BasicTilesContainerFactory>>>. In the following example, notice the
+  manual exclusion of files including underscores (_):
+
+----------------------------------------
+/** {@inheritDoc} */
+@Override
+protected List<URL> getSourceURLs(Object context,
+        TilesApplicationContext applicationContext,
+        TilesContextFactory contextFactory) {
+    List<URL> urls = new ArrayList<URL>(URL_COUNT);
+    try {
+        Set<URL> urlSet = applicationContext
+                .getResources("/WEB-INF/tiles-defs*.xml");
+        for (URL url : urlSet) {
+            String externalForm = url.toExternalForm();
+            if (externalForm.indexOf('_', externalForm.lastIndexOf("/")) < 0) {
+                urls.add(url);
+            }
+        }
+        urls.add(applicationContext.getResource(
+                "classpath:/org/apache/tiles/classpath-defs.xml"));
+    } catch (IOException e) {
+        throw new DefinitionsFactoryException(
+                "Cannot load definition URLs", e);
+    }
+    return urls;
+}
+----------------------------------------
+
+* Syntax
+
+  Wildcard support uses Spring Framework syntax for loading files. For example:
+
+  * one asterisk (*) for a single placeholder;
+
+  * two asterisks (**) to say "in every directory under the specified one";
+
+  * the <<<classpath:>>> prefix loads files from the classpath.
+
+  * etc.
+
+  For everything else, see Spring's documentation.

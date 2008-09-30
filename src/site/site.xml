@@ -66,6 +66,9 @@
                         name="Configuration"
                         href="tutorial/configuration.html"/>
                 <item   
+                        name="Wildcards in configuration files"
+                        href="tutorial/wildcard-configuration.html"/>
+                <item   
                         name="Basic Usage"
                         href="tutorial/basic/index.html"
                         collapse="true">
