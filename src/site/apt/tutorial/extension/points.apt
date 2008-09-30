@@ -91,3 +91,11 @@ Tiles Extension Points
   {{{../../config-reference.html#org.apache.tiles.preparer.PreparerFactory}<<<PreparerFactory>>>}}.
   For example, the Struts 1 plugin contains an implementation that takes an URL
   or an action mapping as a preparer name, and creates an instance accordingly.
+
+* Attribute rendering
+
+  Attribute rendering is the process that renders attributes, depending on
+  configured renderers. This behaviour can be customized to render different
+  types of attributes and to provide integration with other frameworks. See
+  the {{{../advanced/attribute-rendering.html}Attribute rendering}}
+  customization tutorial.
