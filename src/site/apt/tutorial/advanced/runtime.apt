@@ -60,7 +60,7 @@ Runtime Composition in JSP pages
 </tiles:insertTemplate>
 -----------------------------------
 
-* Inserting modified definitions
+* {Inserting modified definitions}
 
   Definitions can be inserted not only just as they are, but also overriding
   their attributes and their template at runtime:

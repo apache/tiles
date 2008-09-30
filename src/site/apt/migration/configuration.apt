@@ -21,7 +21,7 @@
          Migrating Tiles configuration files
          -----------
 
-Reusing old Tiles configuration files
+{Reusing old Tiles configuration files}
 
   With Tiles 2.1 it is possible to use old Struts-Tiles definition files, since
   1.1 version.

@@ -126,7 +126,7 @@ Configuring Tiles internals
   
   For the details see {{{../config-reference.html}Tiles configuration reference}}.
 
-* Pure Java configuration
+* {Pure Java configuration}
   
   In both environments, it is possible to use pure <<Java configuration>>,
   without messing with the deployment descriptors.

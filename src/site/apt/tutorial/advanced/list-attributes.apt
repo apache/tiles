@@ -60,7 +60,7 @@ List Attributes
   it is iterated using the <<<\<c:forEach\>>>> tag. The compound attributes are
   then rendered one after the other.
 
-* List attribute inheritance
+* {List attribute inheritance}
 
   When you extend a definition that contains a list attribute, you can
   "inherit" its elements. For example:

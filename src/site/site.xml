@@ -50,6 +50,9 @@
         </menu>
         <menu name="Documentation">
             <item   
+                    name="What's new"
+                    href="whats-new.html"/>
+            <item   
                     name="Getting Started"
                     href="getting_started.html"/>
             <item   
