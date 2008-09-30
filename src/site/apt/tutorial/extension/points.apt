@@ -30,23 +30,23 @@ Tiles Extension Points
 
   The Tiles container is the object responsible of loading and rendering all
   Tiles artifacts. It is not created directly, but through a
-  {{{../../framework/apidocs/org/apache/tiles/factory/TilesContainerFactory.html}<<<TilesContainerFactory>>>}}.
+  {{{../../apidocs/org/apache/tiles/factory/TilesContainerFactory.html}<<<TilesContainerFactory>>>}}.
   The default implementation is
-  {{{../../framework/apidocs/org/apache/tiles/impl/BasicTilesContainer.html}<<<BasicTilesContainer>>>}}.
+  {{{../../apidocs/org/apache/tiles/impl/BasicTilesContainer.html}<<<BasicTilesContainer>>>}}.
 
   It is unlikely that you need to customize your Tiles container (and container
   factory) and we suggest to use the default container factory.
   
   As an exception, you can use
-  {{{../../config-reference.html#KeyedDefinitionsFactoryTilesContainerFactory configuration}KeyedDefinitionsFactoryTilesContainerFactory}}
+  {{{../../config-reference.html#KeyedDefinitionsFactoryTilesContainerFactory_configuration}KeyedDefinitionsFactoryTilesContainerFactory}}
   that allows to create multiple definitions factory for different "keys".
 
 * Tiles Context Factory
 
   The
-  {{{../../framework/apidocs/org/apache/tiles/context/TilesRequestContext.html}<<<TilesRequestContext>>>}}
+  {{{../../apidocs/org/apache/tiles/context/TilesRequestContext.html}<<<TilesRequestContext>>>}}
   and
-  {{{../../framework/apidocs/org/apache/tiles/context/TilesApplicationContext.html}<<<TilesApplicationContext>>>}}
+  {{{../../apidocs/org/apache/tiles/context/TilesApplicationContext.html}<<<TilesApplicationContext>>>}}
   interfaces are used to abstract the Tiles context from the particular
   technology. The
   {{{../../config-reference.html#org.apache.tiles.context.TilesContextFactory}<<<TilesContextFactory>>>}}
@@ -59,7 +59,7 @@ Tiles Extension Points
   need to support a new technology, we suggest to configure
   {{{../../config-reference.html#ChainedTilesContextFactory configuration}<<<ChainedTilesContextFactory>>>}}
   and create a new instance of
-  {{{../../framework/apidocs/org/apache/tiles/context/TilesContextFactory.html}<<<TilesContextFactory>>>}}.
+  {{{../../apidocs/org/apache/tiles/context/TilesContextFactory.html}<<<TilesContextFactory>>>}}.
 
 * Tiles Definitions Factory
 
@@ -80,10 +80,10 @@ Tiles Extension Points
   The
   {{{../../config-reference.html#org.apache.tiles.preparer.PreparerFactory}<<<PreparerFactory>>>}}
   is responsible of creating instances of
-  {{{../../framework/apidocs/org/apache/tiles/preparer/ViewPreparer.html}<<<ViewPreparer>>>}}.
+  {{{../../apidocs/org/apache/tiles/preparer/ViewPreparer.html}<<<ViewPreparer>>>}}.
   
   The default implementation,
-  {{{../../framework/apidocs/org/apache/tiles/preparer/BasicPreparerFactory.html}<<<BasicPreparerFactory>>>}}
+  {{{../../apidocs/org/apache/tiles/preparer/BasicPreparerFactory.html}<<<BasicPreparerFactory>>>}}
   takes the preparer name as a class name, instantiates an object per each
   class name and returns it.
   
