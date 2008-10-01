@@ -146,6 +146,14 @@
                     name="Migration from Struts Tiles"
                     href="migration/index.html"/>
             </item>
+            <item   
+                    name="HOW-TOs"
+                    href="how-to/index.html"
+                    collapse="true">
+                <item   
+                        name="Loading definitions from a database"
+                        href="how-to/definitions-db.html"/>
+            </item>
         </menu>
         <menu name="Reference">
             <item

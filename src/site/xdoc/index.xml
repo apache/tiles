@@ -50,6 +50,7 @@
             <li><a href="getting_started.html">Getting Started</a></li>
             <li><a href="tutorial/index.html">Tutorial</a></li>
             <li><a href="migration/index.html">Migration from Struts-Tiles</a></li>
+            <li><a href="how-to/index.html">HOW-TOs</a></li>
             <li><a href="config-reference.html">Configuration Reference</a></li>
             <li><a href="apidocs/index.html">Javadocs</a></li>
             <li><a href="tlddoc/index.html">Tag library documentation</a></li>
