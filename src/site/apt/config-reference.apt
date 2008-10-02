@@ -93,6 +93,16 @@ Summary
 | {{{config-reference.html#org.apache.tiles.DEFINITIONS_CONFIG@$\{key\}}<<<org.apache.tiles.DEFINITIONS_CONFIG@$\{key\}>>>}} | List of paths containing definitions for the given <<<key>>> |
 *---------------------------------------------+--------------------------------------+
 
+* Deprecated configuration
+
+  The following configuration parameters are deprecated:
+
+  * <<<org.apache.tiles.factory.TilesContainerFactory>>>: use
+  {{{config-reference.html#org.apache.tiles.factory.AbstractTilesContainerFactory}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}
+
+  * <<<org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG>>>: use
+  {{{config-reference.html#org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG}<<<org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG>>>}}
+
 Standard configuration parameters
 
 * {Main configuration}
