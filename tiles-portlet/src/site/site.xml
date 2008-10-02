@@ -21,7 +21,7 @@
  * under the License.
  */
 -->
-<project name="Apache Tiles - Compatibility Library">
+<project name="Apache Tiles - Portlet Support">
     <body>
 
         <menu name="Apache Tiles">

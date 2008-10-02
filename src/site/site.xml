@@ -191,8 +191,8 @@
                     href="/selenium.html"/>
         </menu>
 
-        ${modules}
-        ${reports}
+        <menu ref="modules" />
+        <menu ref="reports" />
 
     </body>
 </project>

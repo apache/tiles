@@ -304,16 +304,6 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
-        <repository>
-            <id>tiles.build</id>
-            <url>http://people.apache.org/builds/tiles/${pom.version}/m2-staging-repository/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
