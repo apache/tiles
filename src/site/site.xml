@@ -119,6 +119,9 @@
                     <item   
                             name="Attribute rendering"
                             href="tutorial/advanced/attribute-rendering.html"/>
+                    <item   
+                            name="Multiple containers"
+                            href="tutorial/advanced/multiple-containers.html"/>
                 </item>
                 <item   
                         name="Integrations"

@@ -65,6 +65,8 @@ Summary
 
         [[11]] {{{advanced/attribute-rendering.html}Attribute rendering}}
 
+        [[12]] {{{advanced/multiple-containers.html}Using multiple containers}}
+
   [[7]] {{{integration/index.html}Integration with other technologies}}
   
         [[1]] {{{integration/frameworks.html}Integration with other frameworks}}

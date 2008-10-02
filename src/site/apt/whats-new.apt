@@ -64,6 +64,8 @@ What's new in Tiles 2.1
   * Customize {{{tutorial/advanced/attribute-rendering.html}rendering of attributes}},
   for example to write integrations with other frameworks.
 
+  * Usage of {{{tutorial/advanced/multiple-containers.html}more than one Tiles container}}.
+
 * Under the hood
 
   * Tiles exceptions are all unchecked now: you can now remove all your
