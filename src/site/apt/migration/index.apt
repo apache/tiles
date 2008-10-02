@@ -33,9 +33,14 @@ Migration from Struts-Tiles
   
   * <<<tiles-core.jar>>>: it contains the "engine" of Tiles, and the basic
   implementation of the APIs.
+  
+  * <<<tiles-servlet.jar>>>: it contains the servlet support in Tiles.
 
   * <<<tiles-jsp.jar>>>: it contains the JSP support to Tiles, i.e. JSP specific
   classes and the tag library.
+  
+  * <<<tiles-compat.jar>>>: it contains the compatibility layer of Tiles to
+  support Struts-Tiles 1.x XML definition files.
 
 * Further steps
 

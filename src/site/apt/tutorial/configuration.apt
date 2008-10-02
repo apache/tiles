@@ -46,7 +46,7 @@ Starting Tiles in a web application
     <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
     <init-param>
         <param-name>
-          org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG
+          org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG
         </param-name>
         <param-value>
           /WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml
@@ -57,7 +57,7 @@ Starting Tiles in a web application
 --------------------------
 
   As you can see, the init parameter
-  <<<org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG>>>
+  <<<org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG>>>
   specifies the path of the {{{basic/index.html}Tiles configuration files}}.
   You can specify it also as a context parameters.
   

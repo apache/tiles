@@ -38,10 +38,11 @@ Installation
 
   * if you downloaded the binary distribution, unpack it;
 
-  * copy the <<<tiles-core-VERSION.jar>>> and <<<tiles-api-VERSION.jar>>> files
-  in the <<<WEB-INF/lib>>> directory of your web application. It is <<not
-  reccomended>> to put them in a location where they are shared across the
-  container;
+  * copy the <<<tiles-core-VERSION.jar>>>, <<<tiles-api-VERSION.jar>>>,
+  <<<tiles-servlet-VERSION.jar>>> and <<<tiles-jsp-VERSION.jar>>> files
+  in the <<<WEB-INF/lib>>> directory of your web application. It is
+  <<not reccomended>> to put them in a location where they are shared
+  across the container;
 
   * copy the Tiles dependencies JARs:
   
@@ -58,7 +59,22 @@ Installation
   distribution;
 
   * if you need JSP support, copy the <<<tiles-jsp-VERSION.jar>>> in the
-  <<<WEB-INF/lib>>> directory of your web application.
+  <<<WEB-INF/lib>>> directory of your web application;
+
+  * if you need to load Tiles definition files using wildcards, copy the 
+  <<<spring-web-VERSION.jar>>>, <<<spring-core-VERSION.jar>>>,
+  <<<spring-context-VERSION.jar>>>, <<<spring-beans-VERSION.jar>>>,
+  <<<aopalliance-VERSION.jar>>> files under the <<<WEB-INF/lib>>> directory;
+
+  * if you need to load Tiles definition files using wildcards under a
+  <<portlet environment>>, copy the <<<spring-webmvc-portlet-VERSION.jar>>>,
+  <<<spring-core-VERSION.jar>>>, <<<spring-context-VERSION.jar>>>,
+  <<<spring-beans-VERSION.jar>>>, <<<aopalliance-VERSION.jar>>> files under the
+  <<<WEB-INF/lib>>> directory;
+
+  * if you need to use EL in XML definition files under a Servlet 2.4/JSP 2.0
+  environment, copy <<<el-api-VERSION.jar>>> and <<<jasper-el-VERSION.jar>>>
+  files under the <<<WEB-INF/lib>>> directory.
 
 Usage
 
