@@ -57,9 +57,6 @@
                     href="tutorial/index.html"
                     collapse="true">
                 <item   
-                        name="Quickstart"
-                        href="quickstart/index.html"/>
-                <item   
                         name="The composite view pattern"
                         href="tutorial/pattern.html"/>
                 <item   
