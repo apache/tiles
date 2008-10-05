@@ -26,22 +26,20 @@ Introduction
   This tutorial is intended to provide a help for first-time Tiles users.
 
 Summary
-
-  [[1]] {{{../quickstart/index.html}Quickstart}}
   
-  [[2]] {{{pattern.html}The "composite view" pattern}}
+  [[1]] {{{pattern.html}The "composite view" pattern}}
   
-  [[3]] {{{configuration.html}Configuring your web application}}
+  [[2]] {{{configuration.html}Configuring your web application}}
   
-  [[4]] {{{wildcard-configuration.html}Wildcards in configuration files}}
+  [[3]] {{{wildcard-configuration.html}Wildcards in configuration files}}
   
-  [[5]] {{{basic/index.html}Basic Usage}}
+  [[4]] {{{basic/index.html}Basic Usage}}
   
         [[1]] {{{basic/concepts.html}Tiles Concepts}}
         
         [[2]] {{{basic/pages.html}Creating Tiles Pages}}
         
-  [[6]] {{{advanced/index.html}Advanced Topics}}
+  [[5]] {{{advanced/index.html}Advanced Topics}}
   
         [[1]] {{{advanced/nesting-extending.html}Nesting and Extending Definitions}}
 
@@ -67,15 +65,14 @@ Summary
 
         [[12]] {{{advanced/multiple-containers.html}Using multiple containers}}
 
-  [[7]] {{{integration/index.html}Integration with other technologies}}
+  [[6]] {{{integration/index.html}Integration with other technologies}}
   
         [[1]] {{{integration/frameworks.html}Integration with other frameworks}}
   
         [[2]] {{{integration/view.html}Integration with other view technologies}}
   
-  [[8]] {{{extension/index.html}Extending Tiles}}
+  [[7]] {{{extension/index.html}Extending Tiles}}
   
         [[1]] {{{extension/points.html}Tiles Extension Points}}
   
         [[2]] {{{extension/url_definitions_factory.html}Customizing <<<UrlDefinitionsFactory>>>}}
-  

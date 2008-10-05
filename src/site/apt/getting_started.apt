@@ -79,7 +79,6 @@ Installation
 Usage
 
   If you are using Tiles for the first time, read the
-  {{{quickstart/index.html}Quickstart}} and the
   {{{tutorial/index.html}Tutorial}}.
 
   If you are migrating from Struts-Tiles, see the
