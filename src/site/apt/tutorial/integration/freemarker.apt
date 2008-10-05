@@ -1,0 +1,79 @@
+~~ $Id: view.apt 538978 2007-05-17 15:43:58Z apetrelli $
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Integration with FreeMarker
+         -----------
+
+Integration with FreeMarker
+
+  {{{http://freemarker.sourceforge.net/}FreeMarker}} is a templating framework
+  that can be used as a replacement for JavaServer Pages (JSP). Tiles can be
+  used with FreeMarker because FreeMarker templates can use JSP tag libraries.
+
+* Configuration
+
+  To use JSP support in FreeMarker, add this piece of configuration
+  (the parameters can be modified as needed).
+
+----------------------------------
+<servlet>
+    <servlet-name>freemarker</servlet-name>
+    <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
+    
+    <!-- FreemarkerServlet settings: -->
+    <init-param>
+        <param-name>TemplatePath</param-name>
+        <param-value>/</param-value>
+    </init-param>
+    <init-param>
+        <param-name>NoCache</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+        <param-name>ContentType</param-name>
+        <param-value>text/html</param-value>
+    </init-param>
+    
+    <!-- FreeMarker settings: -->
+    <init-param>
+        <param-name>template_update_delay</param-name>
+        <param-value>0</param-value> <!-- 0 is for development only! Use higher value otherwise. -->
+    </init-param>
+    <init-param>
+        <param-name>default_encoding</param-name>
+        <param-value>ISO-8859-1</param-value>
+    </init-param>
+    <init-param>
+        <param-name>number_format</param-name>
+        <param-value>0.##########</param-value>
+    </init-param>
+    
+    <load-on-startup>5</load-on-startup>
+</servlet>
+----------------------------------
+
+* Usage in FreeMarker templates
+
+  To use Tiles JSP tag libraries in FreeMarker templates, add this line in
+  every page that needs Tiles:
+
+----------------------------------
+<#assign tiles=JspTaglibs["http://tiles.apache.org/tags-tiles"]>
+----------------------------------

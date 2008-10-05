@@ -23,6 +23,6 @@
 
 Integration with other View Technologies
 
-  Currently Tiles 2 is only integrated with JavaServer Pages. Hopefully it will
-  soon support {{{http://freemarker.sourceforge.net/}FreeMarker}} and
-  {{{http://velocity.apache.org/}Velocity}}.
+  Currently Tiles 2 is only integrated with JavaServer Pages but it can be used
+  with {{{freemarker.html}FreeMarker}}.
+  Hopefully it will {{{http://velocity.apache.org/}Velocity}}.

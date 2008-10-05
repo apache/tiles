@@ -129,7 +129,11 @@
                             href="tutorial/integration/frameworks.html"/>
                     <item   
                             name="View technologies"
-                            href="tutorial/integration/view.html"/>
+                            href="tutorial/integration/view.html">
+                        <item   
+                                name="FreeMarker"
+                                href="tutorial/integration/freemarker.html"/>
+                    </item>
                 </item>
                 <item   
                         name="Extensions"
