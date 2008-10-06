@@ -119,6 +119,9 @@
                     <item   
                             name="Multiple containers"
                             href="tutorial/advanced/multiple-containers.html"/>
+                    <item   
+                            name="Security"
+                            href="tutorial/advanced/security.html"/>
                 </item>
                 <item   
                         name="Integrations"

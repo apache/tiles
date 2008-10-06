@@ -65,6 +65,8 @@ Summary
 
         [[12]] {{{advanced/multiple-containers.html}Using multiple containers}}
 
+        [[13]] {{{advanced/security.html}Security}}
+
   [[6]] {{{integration/index.html}Integration with other technologies}}
   
         [[1]] {{{integration/frameworks.html}Integration with other frameworks}}
