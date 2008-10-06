@@ -1,0 +1,309 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.apache.tiles</groupId>
+        <artifactId>tiles-master</artifactId>
+        <version>1</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.apache.tiles</groupId>
+    <artifactId>tiles-sandbox</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Tiles Sandbox</name>
+    <description>Tiles Sandbox</description>
+    <url>http://tiles.apache.org/tiles-sandbox/</url>
+
+    <scm>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/sandbox/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/sandbox/trunk/</developerConnection>
+        <url>http://svn.apache.org/viewvc/tiles/sandbox/trunk/</url>
+    </scm>
+
+    <ciManagement />
+    
+    <distributionManagement>
+        <repository>
+            <id>tiles-staging</id>
+            <name>Apache Tiles Staging Repository</name>
+            <url>scp://people.apache.org/www/people.apache.org/builds/tiles-sandbox/${pom.version}/m2-staging-repository</url>
+        </repository>
+        <site>
+            <id>apache-site</id>
+            <url>scp://people.apache.org/www/tiles.apache.org/framework</url>
+        </site>
+    </distributionManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifestFile>${tiles.manifestfile}</manifestFile>
+                            <manifest>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>1.4.0</version>
+                    <inherited>true</inherited>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <excludeDependencies>true</excludeDependencies>
+                    <manifestLocation>target/osgi</manifestLocation>
+                    <instructions>
+                        <_nouses>true</_nouses>
+                        <Bundle-SymbolicName>${tiles.osgi.symbolicName}</Bundle-SymbolicName>
+                        <Export-Package>${tiles.osgi.export}</Export-Package>
+                        <Private-Package>${tiles.osgi.private}</Private-Package>
+                        <Import-Package>${tiles.osgi.import}</Import-Package>
+                        <DynamicImport-Package>${tiles.osgi.dynamicImport}</DynamicImport-Package>
+                        <Bundle-DocURL>${project.url}</Bundle-DocURL>
+                        <Specification-Title>${project.name}</Specification-Title>
+                        <Specification-Version>${project.version}</Specification-Version>
+                        <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                        <Implementation-Title>${project.name}</Implementation-Title>
+                        <Implementation-Version>${project.version}</Implementation-Version>
+                        <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                        <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+                    </instructions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <defaultGoal>install</defaultGoal>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>http://svn.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks.xml
+                    </configLocation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jxr-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <configuration>
+                  <targetJdk>1.5</targetJdk>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <excludePackageNames>org.apache.tiles.test</excludePackageNames>
+                    <links>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+                        <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
+                        <link>http://commons.apache.org/chain/apidocs</link>
+                        <link>http://commons.apache.org/digester/commons-digester-1.6/docs/api</link>
+                        <link>http://commons.apache.org/logging/commons-logging-1.1/apidocs</link>
+                    </links>
+                    <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
+                    <docletArtifact>
+                        <groupId>gr.spinellis</groupId>
+                        <artifactId>UmlGraph</artifactId>
+                        <version>4.6</version>
+                    </docletArtifact>
+                    <additionalparam>
+                        -inferrel -inferdep -quiet -hide java.*
+                        -collpackages java.util.* -qualify
+                        -postfixpackage -nodefontsize 9
+                        -nodefontpackagesize 7
+                    </additionalparam>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>rat-maven-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>pom.xml</include>
+                        <include>src/**</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <properties>
+        <tiles.osgi.symbolicName>org.apache.${artifactId}</tiles.osgi.symbolicName>
+        <tiles.osgi.export>org.apache.tiles.*;version=${pom.version}</tiles.osgi.export>
+        <tiles.osgi.import>*</tiles.osgi.import>
+        <tiles.osgi.dynamicImport />
+        <tiles.osgi.private />
+        <tiles.manifestfile>target/osgi/MANIFEST.MF</tiles.manifestfile>
+    </properties>
+
+    <dependencies />
+    
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.0-alpha-3</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-source</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadoc</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- This configuration will be useful when the RAT plugin
+                    will be able to fail when a license header is missing
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>rat-maven-plugin</artifactId>
+                        <version>1.0-alpha-1</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <configuration>
+                                    <addDefaultLicenseMatchers>false</addDefaultLicenseMatchers>
+                                        <licenseMatchers>
+                                        <classNames>
+                                            <className>rat.license.standard.ApacheSoftwareLicense20</className>
+                                        </classNames>
+                                    </licenseMatchers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                     -->                    
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <!-- Needs to be commented out for releases -->
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
