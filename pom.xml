@@ -212,6 +212,7 @@
         <tiles.osgi.dynamicImport />
         <tiles.osgi.private />
         <tiles.manifestfile>target/osgi/MANIFEST.MF</tiles.manifestfile>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies />
