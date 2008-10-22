@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
@@ -94,6 +95,11 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     public Map<String, Object> getSessionScope() {
         return null;
     }
+
+    /** {@inheritDoc} */
+	public TilesApplicationContext getApplicationContext() {
+		return null;
+	}
 
     /** {@inheritDoc} */
     public void include(String path) throws IOException {

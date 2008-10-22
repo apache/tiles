@@ -33,6 +33,7 @@ import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.util.TilesIOException;
 
@@ -227,6 +228,11 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         }
         return (sessionScope);
     }
+
+    /** {@inheritDoc} */
+	public TilesApplicationContext getApplicationContext() {
+		return this;
+	}
 
     /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {

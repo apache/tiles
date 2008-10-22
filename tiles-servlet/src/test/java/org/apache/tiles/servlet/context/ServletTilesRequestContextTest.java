@@ -160,6 +160,14 @@ public class ServletTilesRequestContextTest extends TestCase {
     }
 
     /**
+     * Tests {@link ServletTilesRequestContext#getApplicationContext()}.
+     */
+    public void testGetApplicationContext() {
+    	assertTrue("The objects are not the same", context == context
+				.getApplicationContext());
+    }
+    
+    /**
      * Tests getting application scope attributes.
      */
     public void testGetApplicationScope() {

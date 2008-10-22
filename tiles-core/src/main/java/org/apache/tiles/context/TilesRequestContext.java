@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.tiles.TilesApplicationContext;
+
 /**
  * Encapsulation of request information.
  *
@@ -64,6 +66,14 @@ public interface TilesRequestContext {
      * @return The request scope map.
      */
     Map<String, Object> getSessionScope();
+
+    /**
+     * Returns the associated application context.
+     *
+     * @return The application context associated to this request.
+     * @since 2.1.1
+     */
+    TilesApplicationContext getApplicationContext();
 
     /**
      * Dispatches the request to a specified path.

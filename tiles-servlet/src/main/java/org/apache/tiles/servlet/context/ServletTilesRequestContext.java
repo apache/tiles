@@ -30,6 +30,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.util.TilesIOException;
 
@@ -170,6 +171,11 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         return (sessionScope);
 
     }
+
+    /** {@inheritDoc} */
+	public TilesApplicationContext getApplicationContext() {
+		return this;
+	}
 
     /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {

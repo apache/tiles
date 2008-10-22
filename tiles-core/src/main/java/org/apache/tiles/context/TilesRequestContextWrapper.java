@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Locale;
 import java.io.IOException;
 
+import org.apache.tiles.TilesApplicationContext;
+
 /**
  * Delegate for ease of customization.
  *
@@ -66,6 +68,11 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
     public Map<String, Object> getSessionScope() {
         return context.getSessionScope();
     }
+
+    /** {@inheritDoc} */
+	public TilesApplicationContext getApplicationContext() {
+		return context.getApplicationContext();
+	}
 
     /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {
