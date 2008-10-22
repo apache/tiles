@@ -151,7 +151,7 @@ public class BasicRendererFactory implements RendererFactory,
         Map<String, String> completeParams = new HashMap<String, String>(
                 DEFAULT_TYPE_2_RENDERER);
         if (typeRenderersParam != null) {
-            String[] pairs = typeRenderersParam.split("\\s*;\\s");
+            String[] pairs = typeRenderersParam.split("\\s*;\\s*");
             for (int i = 0; i < pairs.length; i++) {
                 String[] pair = pairs[i].split("\\s*,\\s*");
                 if (pair == null || pair.length != 2) {

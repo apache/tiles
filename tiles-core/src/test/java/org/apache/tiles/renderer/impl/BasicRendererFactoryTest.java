@@ -66,12 +66,16 @@ public class BasicRendererFactoryTest extends TestCase {
     public void testInitAndGetRenderer() {
         Map<String, String> params = new HashMap<String, String>();
         params.put(BasicRendererFactory.TYPE_RENDERERS_INIT_PARAM, "test,"
-                + StringAttributeRenderer.class.getName());
+				+ StringAttributeRenderer.class.getName() + ";test2,"
+				+ StringAttributeRenderer.class.getName());
         rendererFactory.init(params);
         AttributeRenderer renderer = rendererFactory.getRenderer("string");
         assertNotNull("The renderer is null", renderer);
         assertTrue("The class of the renderer is wrong", renderer instanceof StringAttributeRenderer);
         renderer = rendererFactory.getRenderer("test");
+        assertNotNull("The renderer is null", renderer);
+        assertTrue("The class of the renderer is wrong", renderer instanceof StringAttributeRenderer);
+        renderer = rendererFactory.getRenderer("test2");
         assertNotNull("The renderer is null", renderer);
         assertTrue("The class of the renderer is wrong", renderer instanceof StringAttributeRenderer);
         renderer = rendererFactory.getRenderer(StringAttributeRenderer.class
