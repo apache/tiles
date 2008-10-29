@@ -22,13 +22,13 @@ package org.apache.tiles.util;
 
 import org.apache.tiles.reflect.CannotInstantiateObjectException;
 
-
 /**
  * Utilities to work with dynamic class loading and instantiation.
  *
  * @version $Rev$ $Date$
  * @deprecated Use {@link org.apache.tiles.reflect.ClassUtil}.
  */
+@Deprecated
 public final class ClassUtil {
 
     /**
@@ -45,9 +45,12 @@ public final class ClassUtil {
      * @return The new instance of the class name.
      * @throws CannotInstantiateObjectException If something goes wrong during
      * instantiation.
+     * @deprecated Use
+     * {@link org.apache.tiles.reflect.ClassUtil#instantiate(String)}.
      */
+    @Deprecated
     public static Object instantiate(String className) {
-        return instantiate(className, false);
+        return org.apache.tiles.reflect.ClassUtil.instantiate(className);
     }
 
     /**
@@ -59,33 +62,14 @@ public final class ClassUtil {
      * returns <code>true</code>, otherwise it throws a
      * <code>TilesException</code>.
      * @return The new instance of the class name.
-     * @throws CannotInstantiateObjectException If something goes wrong during instantiation.
+     * @throws CannotInstantiateObjectException If something goes wrong during
+     * instantiation.
+     * @deprecated Use
+     * {@link org.apache.tiles.reflect.ClassUtil#instantiate(String, boolean)}.
      */
+    @Deprecated
     public static Object instantiate(String className, boolean returnNull) {
-        ClassLoader original = Thread.currentThread().getContextClassLoader();
-        if (original == null) {
-            Thread.currentThread().setContextClassLoader(ClassUtil.class.getClassLoader());
-        }
-        try {
-            Class<?> namedClass = Class.forName(className);
-            return namedClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            if (returnNull) {
-                return null;
-            }
-            throw new CannotInstantiateObjectException(
-                    "Unable to resolve factory class: '" + className + "'", e);
-        } catch (IllegalAccessException e) {
-            throw new CannotInstantiateObjectException(
-                    "Unable to access factory class: '" + className + "'", e);
-        } catch (InstantiationException e) {
-            throw new CannotInstantiateObjectException(
-                    "Unable to instantiate factory class: '"
-                            + className
-                            + "'. Make sure that this class has a default constructor",
-                    e);
-        } finally {
-            Thread.currentThread().setContextClassLoader(original);
-        }
+        return org.apache.tiles.reflect.ClassUtil.instantiate(className,
+                returnNull);
     }
 }
