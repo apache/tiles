@@ -91,7 +91,11 @@ public final class ClassUtil {
                             + "'. Make sure that this class has a default constructor",
                     e);
         } finally {
-            Thread.currentThread().setContextClassLoader(original);
+            // If the original context classloader of the current thread was
+            // null, it must be reset.
+            if (original == null) {
+                Thread.currentThread().setContextClassLoader(null);
+            }
         }
     }
 

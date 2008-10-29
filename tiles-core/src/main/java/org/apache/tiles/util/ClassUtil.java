@@ -45,9 +45,12 @@ public final class ClassUtil {
      * @param className The class name to load and to instantiate.
      * @return The new instance of the class name.
      * @throws TilesException If something goes wrong during instantiation.
+     * @deprecated Use
+     * {@link org.apache.tiles.reflect.ClassUtil#instantiate(String)}.
      */
+    @Deprecated
     public static Object instantiate(String className) throws TilesException {
-        return instantiate(className, false);
+        return org.apache.tiles.reflect.ClassUtil.instantiate(className);
     }
 
     /**
@@ -60,29 +63,14 @@ public final class ClassUtil {
      * <code>TilesException</code>.
      * @return The new instance of the class name.
      * @throws TilesException If something goes wrong during instantiation.
+     * @deprecated Use
+     * {@link org.apache.tiles.reflect.ClassUtil#instantiate(String, boolean)}.
      */
+    @Deprecated
     public static Object instantiate(String className, boolean returnNull)
         throws TilesException {
-        ClassLoader original = Thread.currentThread().getContextClassLoader();
-        if (original == null) {
-            Thread.currentThread().setContextClassLoader(ClassUtil.class.getClassLoader());
-        }
-        try {
-            Class<?> namedClass = Class.forName(className);
-            return namedClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            if (returnNull) {
-                return null;
-            }
-            throw new TilesException("Unable to resolve factory class: '" + className + "'");
-        } catch (IllegalAccessException e) {
-            throw new TilesException("Unable to access factory class: '" + className + "'");
-        } catch (InstantiationException e) {
-            throw new TilesException("Unable to instantiate factory class: '"
-                + className + "'. Make sure that this class has a default constructor");
-        } finally {
-            Thread.currentThread().setContextClassLoader(original);
-        }
+        return org.apache.tiles.reflect.ClassUtil.instantiate(className,
+                returnNull);
     }
 
 }
