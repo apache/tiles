@@ -1,0 +1,14 @@
+<project name="Velocity Tiles2 Spring MVC integration layer">
+   <body>
+      <menu name="Velocity Tiles2 Plugin">
+         <item name="Velocity Tiles2 Plugin home" href="http://anydoby.com/velocity"/>
+      </menu>
+      <menu name="Velocity Tiles2 Plugin Quickstart">
+      	 <item name="Introduction" href="./intro.html"/>
+         <item name="Maven2 Configuration" href="./maven.html"/>
+         <item name="Spring Configuration" href="./spring.html"/>
+         <item name="Usage from Velocity Templates" href="./velocity.html"/>
+      </menu>
+      ${reports}
+   </body>
+</project>

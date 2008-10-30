@@ -1,0 +1,11 @@
+Introduction
+
+  This plugin for Spring MVC will enable you to use Velocity as the rendering technology 
+  along with Tiles2 templating abilities.
+  
+  It provides many of the functions offered by Tiles2 JSP integration layer (which is available
+  in Tiles2 out of the box). Some things like adding an item to the list were not included in the
+  tiles tool, because this task is better performed in the controller, not in the view.
+  
+  You can include the jar file with plugin to your build classpath directly or by using 
+  Maven dependency. For instructions on using the plugin with Maven2, see this page {{maven.html}}.

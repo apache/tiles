@@ -1,0 +1,34 @@
+Usage with Maven2
+
+  Here is the sample pom that will get you up and running in no time 
+  
++------------------------------------------+
+<project>
+    ...
+    <dependencies>
+        ...
+        <dependency>
+            <groupId>com.anydoby</groupId>
+            <artifactId>velocity-tiles2</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        ...
+    </dependencies>
+    ...
+</project>
++------------------------------------------+
+
+  Do not forget to include the repository with plugin into your pom file:
+
++------------------------------------------+
+<project>
+...
+  <repositories>
+    <repository>
+      <id>anydoby.com</id>
+      <url>http://anydoby.com/maven</url>
+    </repository>
+  </repositories>
+...
+</project>
++------------------------------------------+

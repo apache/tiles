@@ -1,0 +1,26 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+  
+  <definition name="main" template="main_template.vm">
+    <put-attribute name="title" value="Title"/>
+    <put-attribute name="right" value="right" type="definition"/>
+  </definition>  
+
+  <definition name="index.tile" extends="main">
+    <put-attribute name="left" value="left" type="definition"/>
+    <put-attribute name="center" value="central part" type="string"/>
+  </definition>
+  
+  <definition name="left" template="tiles/left.vm">
+    <put-attribute name="title" value="left_title"/>
+  </definition>
+  
+  <definition name="right" template="tiles/right.vm">
+    <put-attribute name="title" value="right_title"/>
+  </definition>
+  
+  <definition name="bottom" template="tiles/bottom.vm">
+    <put-attribute name="bottomwords" value="hello bottom"></put-attribute>
+  </definition>
+ 
+</tiles-definitions>

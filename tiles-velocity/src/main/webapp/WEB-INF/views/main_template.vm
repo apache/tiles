@@ -1,0 +1,25 @@
+<html>
+	<head>
+	   <title>$tiles.getAsString("title")</title>	
+	</head>
+	<body>
+		<table border="1">
+			<tr>
+				<td>
+					$tiles.insertDefinition("left")
+				</td>
+				<td>
+					$tiles.insertAttribute("center")
+				</td>
+				<td>
+					$tiles.insertAttribute("right")
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					$tiles.insertDefinition("bottom")
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
