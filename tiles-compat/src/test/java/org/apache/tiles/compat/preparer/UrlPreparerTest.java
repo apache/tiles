@@ -34,6 +34,7 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
+import org.apache.tiles.servlet.context.ServletUtil;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
@@ -66,6 +67,7 @@ public class UrlPreparerTest extends TestCase {
     public void testExecute() throws ServletException, IOException {
         HttpServletRequest request = EasyMock
                 .createMock(HttpServletRequest.class);
+        request.setAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME, true);
         HttpServletResponse response = EasyMock
                 .createMock(HttpServletResponse.class);
         ServletContext servletContext = EasyMock
@@ -78,7 +80,7 @@ public class UrlPreparerTest extends TestCase {
         AttributeContext attributeContext = EasyMock
                 .createMock(AttributeContext.class);
 
-        EasyMock.expect(servletContext.getRequestDispatcher("/my/url.do"))
+        EasyMock.expect(request.getRequestDispatcher("/my/url.do"))
                 .andReturn(rd);
         rd.include(request, response);
         EasyMock

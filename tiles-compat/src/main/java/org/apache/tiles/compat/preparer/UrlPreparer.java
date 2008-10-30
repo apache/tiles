@@ -23,17 +23,10 @@ package org.apache.tiles.compat.preparer;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.ViewPreparerSupport;
-import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
 /**
  * Uses a URL that acts as a preparer. When
@@ -64,32 +57,11 @@ public class UrlPreparer extends ViewPreparerSupport {
     public void execute(TilesRequestContext tilesContext,
             AttributeContext attributeContext) {
 
-        if (tilesContext instanceof ServletTilesRequestContext) {
-            ServletTilesRequestContext servletTilesContext =
-                (ServletTilesRequestContext) tilesContext;
-            HttpServletRequest request = servletTilesContext.getRequest();
-            HttpServletResponse response = servletTilesContext.getResponse();
-            ServletContext servletContext = (ServletContext) servletTilesContext
-                    .getApplicationContext().getContext();
-            RequestDispatcher rd = servletContext.getRequestDispatcher(url);
-            if (rd == null) {
-                throw new PreparerException(
-                    "Controller can't find url '" + url + "'.");
-            }
-
-            try {
-                rd.include(request, response);
-            } catch (ServletException e) {
-                throw new PreparerException(
-                        "The request dispatcher threw an exception", e);
-            } catch (IOException e) {
-                throw new PreparerException(
-                        "The request dispatcher threw an I/O exception", e);
-            }
-        } else {
-            throw new PreparerException("Cannot dispatch url '" + url
-                    + "' since this preparer has not been called under a servlet environment");
+        try {
+            tilesContext.include(url);
+        } catch (IOException e) {
+            throw new PreparerException("The inclusion of the URL " + url
+                    + " threw an I/O exception", e);
         }
     }
-
 }
