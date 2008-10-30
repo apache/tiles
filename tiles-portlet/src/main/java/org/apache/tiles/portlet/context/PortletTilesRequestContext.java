@@ -34,6 +34,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.TilesApplicationContextWrapper;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.util.TilesIOException;
 
@@ -42,7 +43,8 @@ import org.apache.tiles.util.TilesIOException;
  *
  * @version $Rev$ $Date$
  */
-public class PortletTilesRequestContext extends PortletTilesApplicationContext implements TilesRequestContext {
+public class PortletTilesRequestContext extends TilesApplicationContextWrapper
+        implements TilesRequestContext {
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -57,6 +59,10 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
      */
     private Map<String, String[]> headerValues = null;
 
+    /**
+     * The <code>PortletContext</code> for this application.
+     */
+    private PortletContext context = null;
 
     /**
      * <p>The <code>PortletRequest</code> for this request.</p>
@@ -103,13 +109,35 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
     /**
      * Creates a new instance of PortletTilesRequestContext.
      *
+     * @param applicationContext The Tiles application context.
      * @param context The portlet context to use.
      * @param request The request object to use.
      * @param response The response object to use.
+     * @since 2.1.1
      */
+    public PortletTilesRequestContext(
+            TilesApplicationContext applicationContext, PortletContext context,
+            PortletRequest request, PortletResponse response) {
+        super(applicationContext);
+        this.context = context;
+        initialize(request, response);
+    }
+
+    /**
+     * Creates a new instance of PortletTilesRequestContext.
+     *
+     * @param context The portlet context to use.
+     * @param request The request object to use.
+     * @param response The response object to use.
+     * @deprecated Use
+     * {@link #PortletTilesRequestContext(TilesApplicationContext, PortletContext, PortletRequest, PortletResponse)}
+     * .
+     */
+    @Deprecated
     public PortletTilesRequestContext(PortletContext context, PortletRequest request,
                                       PortletResponse response) {
-        super(context);
+        super(new PortletTilesApplicationContext(context));
+        this.context = context;
         initialize(request, response);
     }
 
@@ -133,7 +161,6 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
                 isRenderRequest = true;
             }
         }
-
     }
 
     /**
@@ -156,8 +183,6 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
         context = null;
         request = null;
         response = null;
-        super.release();
-
     }
 
     /**
@@ -230,9 +255,9 @@ public class PortletTilesRequestContext extends PortletTilesApplicationContext i
     }
 
     /** {@inheritDoc} */
-	public TilesApplicationContext getApplicationContext() {
-		return this;
-	}
+    public TilesApplicationContext getApplicationContext() {
+        return getWrappedApplicationContext();
+    }
 
     /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {

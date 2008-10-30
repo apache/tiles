@@ -30,7 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.easymock.EasyMock;
 
@@ -69,8 +71,10 @@ public class UrlPreparerTest extends TestCase {
         ServletContext servletContext = EasyMock
                 .createMock(ServletContext.class);
         RequestDispatcher rd = EasyMock.createMock(RequestDispatcher.class);
+        TilesApplicationContext applicationContext = new ServletTilesApplicationContext(
+                servletContext);
         TilesRequestContext requestContext = new ServletTilesRequestContext(
-                servletContext, request, response);
+                applicationContext, request, response);
         AttributeContext attributeContext = EasyMock
                 .createMock(AttributeContext.class);
 

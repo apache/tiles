@@ -22,9 +22,9 @@
 package org.apache.tiles.servlet.context;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,6 +34,7 @@ import org.apache.shale.test.mock.MockHttpSession;
 import org.apache.shale.test.mock.MockServletContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
 
@@ -57,13 +58,26 @@ public class ServletTilesRequestContextTest extends TestCase {
      */
     private MockServletContext servletContext;
 
+    /**
+     * The Tiles application context.
+     */
+    private TilesApplicationContext applicationContext;
+
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         servletContext = new MockServletContext();
-        servletContext
-                .addInitParameter("initParameter1", "initParameterValue1");
+        applicationContext = EasyMock.createMock(TilesApplicationContext.class);
+        Map<String, Object> applicationScope = new HashMap<String, Object>();
+        applicationScope.put("applicationAttribute1", "applicationValue1");
+        applicationScope.put("applicationAttribute2", "applicationValue2");
+        EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
+                applicationScope);
+        Map<String, String> initParams = new HashMap<String, String>();
+        initParams.put("initParameter1", "initParameterValue1");
+        EasyMock.expect(applicationContext.getInitParams()).andReturn(
+                initParams);
         MockHttpSession session = new MockHttpSession(servletContext);
         MockHttpServletRequest request = new MockHttpServletRequest(session);
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -71,7 +85,7 @@ public class ServletTilesRequestContextTest extends TestCase {
         request.addParameter("myParam", "value1");
         request.addParameter("myParam", "value2");
 
-        context = new ServletTilesRequestContext(servletContext, request,
+        context = new ServletTilesRequestContext(applicationContext, request,
                 response);
 
         Map<String, Object> requestScope = context.getRequestScope();
@@ -81,11 +95,7 @@ public class ServletTilesRequestContextTest extends TestCase {
         Map<String, Object> sessionScope = context.getSessionScope();
         sessionScope.put("sessionAttribute1", "sessionValue1");
         sessionScope.put("sessionAttribute2", "sessionValue2");
-
-        Map<String, Object> applicationScope = ((TilesApplicationContext) context)
-                .getApplicationScope();
-        applicationScope.put("applicationAttribute1", "applicationValue1");
-        applicationScope.put("applicationAttribute2", "applicationValue2");
+        EasyMock.replay(applicationContext);
     }
 
     /**
@@ -163,10 +173,10 @@ public class ServletTilesRequestContextTest extends TestCase {
      * Tests {@link ServletTilesRequestContext#getApplicationContext()}.
      */
     public void testGetApplicationContext() {
-    	assertTrue("The objects are not the same", context == context
-				.getApplicationContext());
+        assertTrue("The objects are not the same",
+                applicationContext == context.getApplicationContext());
     }
-    
+
     /**
      * Tests getting application scope attributes.
      */
@@ -201,7 +211,7 @@ public class ServletTilesRequestContextTest extends TestCase {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new CommitSupportMockHttpServletResponse();
         MockServletTilesRequestContext context = new MockServletTilesRequestContext(
-                servletContext, request, response);
+                applicationContext, request, response);
         context.dispatch(TEST_PATH);
         assertEquals("Forward has not been called", 1, context.getForwardCount());
         assertEquals("Include has been called", 0, context.getIncludeCount());
@@ -275,13 +285,14 @@ public class ServletTilesRequestContextTest extends TestCase {
         /**
          * Constructor.
          *
-         * @param servletContext The servlet context.
+         * @param applicationContext The Tiles application context.
          * @param request The request.
          * @param response The response.
          */
-        public MockServletTilesRequestContext(ServletContext servletContext,
+        public MockServletTilesRequestContext(
+                TilesApplicationContext applicationContext,
                 HttpServletRequest request, HttpServletResponse response) {
-            super(servletContext, request, response);
+            super(applicationContext, request, response);
         }
 
         /** {@inheritDoc} */

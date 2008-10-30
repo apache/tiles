@@ -53,14 +53,12 @@ public class ServletTilesContextFactory implements TilesContextFactory {
     /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
-        if (requestItems.length == 2) {
-            ServletContext servletContext = (ServletContext) context
-                    .getContext();
-            if (servletContext != null) {
-                return new ServletTilesRequestContext(servletContext,
-                    (HttpServletRequest) requestItems[0],
-                    (HttpServletResponse) requestItems[1]);
-            }
+        if (requestItems.length == 2
+                && requestItems[0] instanceof HttpServletRequest
+                && requestItems[1] instanceof HttpServletResponse) {
+            return new ServletTilesRequestContext(context,
+                (HttpServletRequest) requestItems[0],
+                (HttpServletResponse) requestItems[1]);
         }
 
         return null;

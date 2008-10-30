@@ -70,7 +70,7 @@ public class UrlPreparer extends ViewPreparerSupport {
             HttpServletRequest request = servletTilesContext.getRequest();
             HttpServletResponse response = servletTilesContext.getResponse();
             ServletContext servletContext = (ServletContext) servletTilesContext
-                    .getContext();
+                    .getApplicationContext().getContext();
             RequestDispatcher rd = servletContext.getRequestDispatcher(url);
             if (rd == null) {
                 throw new PreparerException(

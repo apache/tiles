@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.TilesApplicationContextWrapper;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.util.TilesIOException;
 
@@ -39,7 +40,8 @@ import org.apache.tiles.util.TilesIOException;
  *
  * @version $Rev$ $Date$
  */
-public class ServletTilesRequestContext extends ServletTilesApplicationContext implements TilesRequestContext {
+public class ServletTilesRequestContext extends TilesApplicationContextWrapper
+        implements TilesRequestContext {
 
     /**
      * The request object to use.
@@ -50,7 +52,6 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
      * The response object to use.
      */
     private HttpServletResponse response;
-
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -95,14 +96,33 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     /**
      * Creates a new instance of ServletTilesRequestContext.
      *
+     * @param applicationContext The application context.
+     * @param request The request object.
+     * @param response The response object.
+     * @since 2.1.1
+     */
+    public ServletTilesRequestContext(
+            TilesApplicationContext applicationContext,
+            HttpServletRequest request, HttpServletResponse response) {
+        super(applicationContext);
+        initialize(request, response);
+    }
+
+    /**
+     * Creates a new instance of ServletTilesRequestContext.
+     *
      * @param servletContext The servlet context.
      * @param request The request object.
      * @param response The response object.
+     * @deprecated Use
+     * {@link #ServletTilesRequestContext(TilesApplicationContext, HttpServletRequest, HttpServletResponse)}
+     * .
      */
+    @Deprecated
     public ServletTilesRequestContext(ServletContext servletContext,
                                       HttpServletRequest request,
                                       HttpServletResponse response) {
-        super(servletContext);
+        super(new ServletTilesApplicationContext(servletContext));
         initialize(request, response);
     }
 
@@ -173,9 +193,9 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
     }
 
     /** {@inheritDoc} */
-	public TilesApplicationContext getApplicationContext() {
-		return this;
-	}
+    public TilesApplicationContext getApplicationContext() {
+        return getWrappedApplicationContext();
+    }
 
     /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {
@@ -277,8 +297,6 @@ public class ServletTilesRequestContext extends ServletTilesApplicationContext i
         // Release references to Servlet API objects
         request = null;
         response = null;
-        super.release();
-
     }
 
 

@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.jsp.context;
 
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
@@ -52,9 +53,26 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
     /**
      * Constructor.
      *
-     * @param context The servlet context to use.
+     * @param applicationContext The Tiles application context.
      * @param pageContext The page context to use.
      */
+    public JspTilesRequestContext(TilesApplicationContext applicationContext,
+            PageContext pageContext) {
+        super(applicationContext,
+            (HttpServletRequest) pageContext.getRequest(),
+            (HttpServletResponse) pageContext.getResponse());
+        this.pageContext = pageContext;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param context The servlet context to use.
+     * @param pageContext The page context to use.
+     * @deprecated Use
+     * {@link #JspTilesRequestContext(TilesApplicationContext, PageContext)}.
+     */
+    @Deprecated
     public JspTilesRequestContext(ServletContext context, PageContext pageContext) {
         super(context,
             (HttpServletRequest) pageContext.getRequest(),

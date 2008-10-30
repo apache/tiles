@@ -70,9 +70,9 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
     }
 
     /** {@inheritDoc} */
-	public TilesApplicationContext getApplicationContext() {
-		return context.getApplicationContext();
-	}
+    public TilesApplicationContext getApplicationContext() {
+        return context.getApplicationContext();
+    }
 
     /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {

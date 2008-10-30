@@ -57,10 +57,9 @@ public class PortletTilesContextFactory implements TilesContextFactory {
         if (requestItems.length == 2) {
             PortletContext portletContext = getPortletContext(context);
             if (portletContext != null) {
-                PortletTilesApplicationContext app = (PortletTilesApplicationContext) context;
-                return new PortletTilesRequestContext(app.getPortletContext(),
-                    (PortletRequest) requestItems[0],
-                    (PortletResponse) requestItems[1]);
+                return new PortletTilesRequestContext(context, portletContext,
+                        (PortletRequest) requestItems[0],
+                        (PortletResponse) requestItems[1]);
             }
         }
 

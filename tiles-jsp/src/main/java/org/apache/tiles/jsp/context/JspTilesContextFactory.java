@@ -54,11 +54,8 @@ public class JspTilesContextFactory implements TilesContextFactory {
     /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
-        if (requestItems.length == 1) {
-            ServletContext servletContext = getServletContext(context);
-            if (servletContext != null) {
-                return new JspTilesRequestContext(servletContext, (PageContext) requestItems[0]);
-            }
+        if (requestItems.length == 1 && requestItems[0] instanceof PageContext) {
+            return new JspTilesRequestContext(context, (PageContext) requestItems[0]);
         }
 
         return null;
