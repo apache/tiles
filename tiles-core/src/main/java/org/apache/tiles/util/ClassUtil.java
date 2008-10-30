@@ -20,8 +20,6 @@
  */
 package org.apache.tiles.util;
 
-import org.apache.tiles.reflect.CannotInstantiateObjectException;
-
 /**
  * Utilities to work with dynamic class loading and instantiation.
  *
@@ -43,8 +41,8 @@ public final class ClassUtil {
      *
      * @param className The class name to load and to instantiate.
      * @return The new instance of the class name.
-     * @throws CannotInstantiateObjectException If something goes wrong during
-     * instantiation.
+     * @throws org.apache.tiles.reflect.CannotInstantiateObjectException If
+     * something goes wrong during instantiation.
      * @deprecated Use
      * {@link org.apache.tiles.reflect.ClassUtil#instantiate(String)}.
      */
@@ -62,8 +60,8 @@ public final class ClassUtil {
      * returns <code>true</code>, otherwise it throws a
      * <code>TilesException</code>.
      * @return The new instance of the class name.
-     * @throws CannotInstantiateObjectException If something goes wrong during
-     * instantiation.
+     * @throws org.apache.tiles.reflect.CannotInstantiateObjectException If
+     * something goes wrong during instantiation.
      * @deprecated Use
      * {@link org.apache.tiles.reflect.ClassUtil#instantiate(String, boolean)}.
      */

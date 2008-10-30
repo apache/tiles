@@ -97,9 +97,9 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     }
 
     /** {@inheritDoc} */
-	public TilesApplicationContext getApplicationContext() {
-		return null;
-	}
+    public TilesApplicationContext getApplicationContext() {
+        return null;
+    }
 
     /** {@inheritDoc} */
     public void include(String path) throws IOException {

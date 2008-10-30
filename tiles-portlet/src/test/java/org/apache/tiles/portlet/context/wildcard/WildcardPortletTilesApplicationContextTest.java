@@ -1,5 +1,5 @@
 /*
- * $Id: WildcardServletTilesApplicationContextTest.java 676174 2008-07-12 13:01:03Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -38,7 +38,7 @@ import javax.portlet.PortletContext;
 /**
  * Tests {@link WildcardPortletTilesApplicationContext}.
  *
- * @version $Rev: 676174 $ $Date: 2008-07-12 15:01:03 +0200 (sab, 12 lug 2008) $
+ * @version $Rev$ $Date$
  */
 public class WildcardPortletTilesApplicationContextTest extends TestCase {
 

@@ -1,5 +1,5 @@
 /*
- * $Id: ClassUtil.java 637434 2008-03-15 15:48:38Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
 /**
  * Utilities to work with dynamic class loading and instantiation.
  *
- * @version $Rev: 637434 $ $Date: 2008-03-15 16:48:38 +0100 (sab, 15 mar 2008) $
+ * @version $Rev$ $Date$
  * @since 2.0.7
  */
 public final class ClassUtil {

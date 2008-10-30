@@ -1,5 +1,5 @@
 /*
- * $Id: StrutsPreparerFactory.java 603355 2007-12-11 20:48:27Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -27,7 +27,7 @@ import org.apache.tiles.preparer.ViewPreparer;
 /**
  * Factory used to instantiate preparers in a Struts 1 / Tiles 2 environment.
  *
- * @version $Rev: 603355 $ $Date: 2007-12-11 21:48:27 +0100 (mar, 11 dic 2007) $
+ * @version $Rev$ $Date$
  * @since 2.1.0
  */
 public class CompatibilityPreparerFactory extends BasicPreparerFactory {

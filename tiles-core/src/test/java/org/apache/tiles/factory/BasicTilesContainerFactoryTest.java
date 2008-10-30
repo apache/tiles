@@ -250,11 +250,22 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         assertTrue("The default renderer class is not correct",
                 renderer instanceof UntypedAttributeRenderer);
     }
-    
+
+    /**
+     * A test Tiles container factory.
+     */
     public static class CustomBasicTilesContainerFactory extends BasicTilesContainerFactory {
 
+        /**
+         * The application context.
+         */
         private TilesApplicationContext applicationContext;
-        
+
+        /**
+         * Constructor.
+         *
+         * @param applicationContext The Tiles application context.
+         */
         public CustomBasicTilesContainerFactory(TilesApplicationContext applicationContext) {
             this.applicationContext = applicationContext;
         }
