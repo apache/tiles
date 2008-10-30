@@ -35,4 +35,22 @@
   	<groupId>org.apache.tiles</groupId>
   	<version>1.0-SNAPSHOT</version>
   </parent>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.apache.tiles</groupId>
+  		<artifactId>tiles-servlet</artifactId>
+  		<version>2.1.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.freemarker</groupId>
+  		<artifactId>freemarker</artifactId>
+  		<version>2.3.14</version>
+  	</dependency>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.5</version>
+        <scope>provided</scope>
+    </dependency>
+  </dependencies>
 </project>
