@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.awareness.TilesContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 
@@ -36,12 +37,18 @@ import org.apache.tiles.context.TilesRequestContext;
  *
  * @version $Rev$ $Date$
  */
-public class RepeaterTilesContextFactory implements TilesContextFactory {
+public class RepeaterTilesContextFactory implements TilesContextFactory,
+        TilesContextFactoryAware {
 
     /**
      * The application context.
      */
     private TilesApplicationContext applicationContext;
+
+    /**
+     * The parent context factory.
+     */
+    private TilesContextFactory parent;
 
     /**
      * Constructor.
@@ -60,6 +67,11 @@ public class RepeaterTilesContextFactory implements TilesContextFactory {
     }
 
     /** {@inheritDoc} */
+    public void setContextFactory(TilesContextFactory contextFactory) {
+        this.parent = contextFactory;
+    }
+
+    /** {@inheritDoc} */
     public TilesApplicationContext createApplicationContext(Object context) {
         if (context instanceof TilesApplicationContext) {
             return (TilesApplicationContext) context;
@@ -71,6 +83,9 @@ public class RepeaterTilesContextFactory implements TilesContextFactory {
     /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(
             TilesApplicationContext context, Object... requestItems) {
+        if (parent == null) {
+            throw new RuntimeException("The parent is null");
+        }
         TilesRequestContext retValue = null;
         if (requestItems.length > 0) {
             retValue = (TilesRequestContext) requestItems[0];

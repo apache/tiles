@@ -49,6 +49,16 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
         this.context = context;
     }
 
+    /**
+     * Returns the wrapped Tiles request.
+     *
+     * @return The wrapped Tiles request.
+     * @since 2.1.1
+     */
+    public TilesRequestContext getWrappedRequest() {
+        return context;
+    }
+
     /** {@inheritDoc} */
     public Map<String, String> getHeader() {
         return context.getHeader();

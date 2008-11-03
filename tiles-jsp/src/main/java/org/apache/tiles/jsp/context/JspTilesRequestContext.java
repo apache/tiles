@@ -20,9 +20,10 @@
  */
 package org.apache.tiles.jsp.context;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextWrapper;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
+import org.apache.tiles.servlet.context.ServletUtil;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -37,7 +38,7 @@ import java.io.IOException;
  *
  * @version $Rev$ $Date$
  */
-public class JspTilesRequestContext extends ServletTilesRequestContext
+public class JspTilesRequestContext extends TilesRequestContextWrapper
     implements TilesRequestContext {
 
     /**
@@ -53,14 +54,12 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
     /**
      * Constructor.
      *
-     * @param applicationContext The Tiles application context.
+     * @param enclosedRequest The request that is wrapped here.
      * @param pageContext The page context to use.
      */
-    public JspTilesRequestContext(TilesApplicationContext applicationContext,
+    public JspTilesRequestContext(TilesRequestContext enclosedRequest,
             PageContext pageContext) {
-        super(applicationContext,
-            (HttpServletRequest) pageContext.getRequest(),
-            (HttpServletResponse) pageContext.getResponse());
+        super(enclosedRequest);
         this.pageContext = pageContext;
     }
 
@@ -70,14 +69,13 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
      * @param context The servlet context to use.
      * @param pageContext The page context to use.
      * @deprecated Use
-     * {@link #JspTilesRequestContext(TilesApplicationContext, PageContext)}.
+     * {@link #JspTilesRequestContext(TilesRequestContext, PageContext)}.
      */
     @Deprecated
     public JspTilesRequestContext(ServletContext context, PageContext pageContext) {
-        super(context,
-            (HttpServletRequest) pageContext.getRequest(),
-            (HttpServletResponse) pageContext.getResponse());
-        this.pageContext = pageContext;
+        this(new ServletTilesRequestContext(context,
+                (HttpServletRequest) pageContext.getRequest(),
+                (HttpServletResponse) pageContext.getResponse()), pageContext);
     }
 
     /**
@@ -97,7 +95,7 @@ public class JspTilesRequestContext extends ServletTilesRequestContext
         try {
             pageContext.include(path, false);
         } catch (ServletException e) {
-            throw wrapServletException(e, "JSPException including path '"
+            throw ServletUtil.wrapServletException(e, "JSPException including path '"
                     + path + "'.");
         }
     }

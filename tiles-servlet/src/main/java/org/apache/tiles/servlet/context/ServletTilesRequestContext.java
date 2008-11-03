@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesApplicationContextWrapper;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.util.TilesIOException;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.
@@ -223,7 +222,7 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
         try {
             rd.forward(request, response);
         } catch (ServletException ex) {
-            throw wrapServletException(ex, "ServletException including path '"
+            throw ServletUtil.wrapServletException(ex, "ServletException including path '"
                     + path + "'.");
         }
     }
@@ -242,7 +241,7 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
         try {
             rd.include(request, response);
         } catch (ServletException ex) {
-            throw wrapServletException(ex, "ServletException including path '"
+            throw ServletUtil.wrapServletException(ex, "ServletException including path '"
                     + path + "'.");
         }
     }
@@ -306,24 +305,20 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
     }
 
     /**
-     * Wraps a ServletException to create an IOException with the root cause if present.
+     * Wraps a ServletException to create an IOException with the root cause if
+     * present.
      *
      * @param ex The exception to wrap.
      * @param message The message of the exception.
      * @return The wrapped exception.
      * @since 2.0.6
+     * @deprecated Use
+     * {@link ServletUtil#wrapServletException(ServletException,String)}
+     * instead.
      */
-    protected IOException wrapServletException(ServletException ex, String message) {
-        IOException retValue;
-        Throwable rootCause = ex.getRootCause();
-        if (rootCause != null) {
-            // Replace the ServletException with an IOException, with the root
-            // cause of the first as the cause of the latter.
-            retValue = new TilesIOException(message, rootCause);
-        } else {
-            retValue = new TilesIOException(message, ex);
-        }
-
-        return retValue;
+    @Deprecated
+    protected IOException wrapServletException(ServletException ex,
+            String message) {
+        return ServletUtil.wrapServletException(ex, message);
     }
 }

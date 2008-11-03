@@ -20,7 +20,9 @@
  */
 package org.apache.tiles.context;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -55,10 +57,8 @@ public class ChainedTilesContextFactoryTest extends TestCase {
 
     /**
      * Tests the initialization method.
-     *
-     * @throws Exception If something goes wrong during testing.
      */
-    public void testInit() throws Exception {
+    public void testInit() {
         Map<String, String> config = new HashMap<String, String>();
         config.put(ChainedTilesContextFactory.FACTORY_CLASS_NAMES,
                 "this.is.not.a.class.Name,"
@@ -66,6 +66,21 @@ public class ChainedTilesContextFactoryTest extends TestCase {
         ChainedTilesContextFactory factory = new ChainedTilesContextFactory();
         factory.init(config);
         TilesRequestContext context = factory.createRequestContext(appContext, requestContext);
-        assertNotNull("The request context cannot be null", context);
+        assertNotNull("The request context is not correct",
+                context == requestContext);
+    }
+
+    /**
+     * Tests {@link ChainedTilesContextFactory#setFactories(java.util.List)}.
+     */
+    public void testSetFactories() {
+        ChainedTilesContextFactory factory = new ChainedTilesContextFactory();
+        List<TilesContextFactory> factories = new ArrayList<TilesContextFactory>();
+        RepeaterTilesContextFactory repFactory = new RepeaterTilesContextFactory();
+        factories.add(repFactory);
+        factory.setFactories(factories);
+        TilesRequestContext context = factory.createRequestContext(appContext, requestContext);
+        assertNotNull("The request context is not correct",
+                context == requestContext);
     }
 }

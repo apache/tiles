@@ -21,13 +21,17 @@
 
 package org.apache.tiles.servlet.context;
 
+import java.io.IOException;
+
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.impl.NoSuchContainerException;
+import org.apache.tiles.util.TilesIOException;
 
 
 /**
@@ -140,5 +144,28 @@ public final class ServletUtil {
         }
 
         return container;
+    }
+
+    /**
+     * Wraps a ServletException to create an IOException with the root cause if present.
+     *
+     * @param ex The exception to wrap.
+     * @param message The message of the exception.
+     * @return The wrapped exception.
+     * @since 2.1.1
+     */
+    public static IOException wrapServletException(ServletException ex,
+            String message) {
+        IOException retValue;
+        Throwable rootCause = ex.getRootCause();
+        if (rootCause != null) {
+            // Replace the ServletException with an IOException, with the root
+            // cause of the first as the cause of the latter.
+            retValue = new TilesIOException(message, rootCause);
+        } else {
+            retValue = new TilesIOException(message, ex);
+        }
+
+        return retValue;
     }
 }
