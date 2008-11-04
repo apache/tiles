@@ -34,7 +34,7 @@
                value="true"/>
     <tiles:putAttribute name="org.apache.tiles.definition.DefinitionsReader"
                value="org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader"/>
-    <tiles:putAttribute name="org.apache.tiles.renderer.impl.BasicRendereFactory.TYPE_RENDERERS"
+    <tiles:putAttribute name="org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS"
                value="reversed,org.apache.tiles.test.renderer.ReverseStringAttributeRenderer"/>
     <tiles:putAttribute name="org.apache.tiles.evaluator.AttributeEvaluator"
                value="org.apache.tiles.evaluator.el.ELAttributeEvaluator"/>
