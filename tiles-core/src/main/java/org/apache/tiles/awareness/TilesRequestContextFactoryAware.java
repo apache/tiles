@@ -18,16 +18,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context;
+package org.apache.tiles.awareness;
+
+import org.apache.tiles.context.TilesRequestContextFactory;
 
 /**
- * Creates an instance of the appropriate TilesApplicationContext
- * implementation.
+ * It represents an object that can have a reference to the
+ * {@link TilesRequestContextFactory}.
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link TilesApplicationContextFactory} or
- * {@link TilesRequestContextFactory}.
+ * @since 2.1.1
  */
-public interface TilesContextFactory extends TilesApplicationContextFactory,
-        TilesRequestContextFactory {
+public interface TilesRequestContextFactoryAware {
+
+    /**
+     * Sets the Tiles request context factory.
+     *
+     * @param contextFactory The Tiles context factory.
+     * @since 2.1.1
+     */
+    void setRequestContextFactory(TilesRequestContextFactory contextFactory);
 }

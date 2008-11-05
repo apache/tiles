@@ -20,14 +20,26 @@
  */
 package org.apache.tiles.context;
 
+import org.apache.tiles.Initializable;
+import org.apache.tiles.TilesApplicationContext;
+
 /**
- * Creates an instance of the appropriate TilesApplicationContext
+ * Creates an instance of the appropriate {@link TilesRequestContext}
  * implementation.
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link TilesApplicationContextFactory} or
- * {@link TilesRequestContextFactory}.
+ * @since 2.1.1
  */
-public interface TilesContextFactory extends TilesApplicationContextFactory,
-        TilesRequestContextFactory {
+public interface TilesRequestContextFactory extends Initializable {
+
+    /**
+     * Create a TilesRequestContext for the given context,
+     * request, and response.
+     *
+     * @param context  the associated {@link TilesApplicationContext}
+     * @param requestItems  the associated request items, typically a request and a response.
+     * @return TilesRequestContext
+     */
+    TilesRequestContext createRequestContext(TilesApplicationContext context,
+            Object... requestItems);
 }

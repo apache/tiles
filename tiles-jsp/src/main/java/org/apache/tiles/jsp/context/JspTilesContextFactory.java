@@ -22,9 +22,10 @@
 package org.apache.tiles.jsp.context;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.awareness.TilesContextFactoryAware;
+import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
@@ -41,19 +42,21 @@ import java.util.Map;
  *
  * @version $Rev$ $Date$
  */
-public class JspTilesContextFactory implements TilesContextFactory, TilesContextFactoryAware {
+public class JspTilesContextFactory implements TilesContextFactory,
+        TilesRequestContextFactoryAware {
 
     /**
      * Parent Tiles context factory.
      */
-    private TilesContextFactory parent;
+    private TilesRequestContextFactory parent;
 
     /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {
     }
 
     /** {@inheritDoc} */
-    public void setContextFactory(TilesContextFactory contextFactory) {
+    public void setRequestContextFactory(
+            TilesRequestContextFactory contextFactory) {
         parent = contextFactory;
     }
 

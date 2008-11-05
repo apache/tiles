@@ -26,9 +26,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.awareness.TilesContextFactoryAware;
+import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 
 /**
  * "Repeats" (i.e. returns back) the context as a
@@ -38,7 +39,7 @@ import org.apache.tiles.context.TilesRequestContext;
  * @version $Rev$ $Date$
  */
 public class RepeaterTilesContextFactory implements TilesContextFactory,
-        TilesContextFactoryAware {
+        TilesRequestContextFactoryAware {
 
     /**
      * The application context.
@@ -48,7 +49,7 @@ public class RepeaterTilesContextFactory implements TilesContextFactory,
     /**
      * The parent context factory.
      */
-    private TilesContextFactory parent;
+    private TilesRequestContextFactory parent;
 
     /**
      * Constructor.
@@ -67,7 +68,8 @@ public class RepeaterTilesContextFactory implements TilesContextFactory,
     }
 
     /** {@inheritDoc} */
-    public void setContextFactory(TilesContextFactory contextFactory) {
+    public void setRequestContextFactory(
+            TilesRequestContextFactory contextFactory) {
         this.parent = contextFactory;
     }
 

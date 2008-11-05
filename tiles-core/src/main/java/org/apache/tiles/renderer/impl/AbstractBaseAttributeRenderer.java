@@ -30,9 +30,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
-import org.apache.tiles.awareness.TilesContextFactoryAware;
-import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorAware;
 import org.apache.tiles.renderer.AttributeRenderer;
@@ -44,7 +44,7 @@ import org.apache.tiles.renderer.AttributeRenderer;
  * @since 2.1.0
  */
 public abstract class AbstractBaseAttributeRenderer implements
-        AttributeRenderer, TilesContextFactoryAware,
+        AttributeRenderer, TilesRequestContextFactoryAware,
         TilesApplicationContextAware, AttributeEvaluatorAware {
 
     /**
@@ -54,11 +54,11 @@ public abstract class AbstractBaseAttributeRenderer implements
             .getLog(AbstractBaseAttributeRenderer.class);
 
     /**
-     * The Tiles context factory.
+     * The Tiles request context factory.
      *
-     * @since 2.1.0
+     * @since 2.1.1
      */
-    protected TilesContextFactory contextFactory;
+    protected TilesRequestContextFactory contextFactory;
 
     /**
      * The Tiles application context.
@@ -75,7 +75,7 @@ public abstract class AbstractBaseAttributeRenderer implements
     protected AttributeEvaluator evaluator;
 
     /** {@inheritDoc} */
-    public void setContextFactory(TilesContextFactory contextFactory) {
+    public void setRequestContextFactory(TilesRequestContextFactory contextFactory) {
         this.contextFactory = contextFactory;
     }
 

@@ -74,7 +74,7 @@ public class DefinitionAttributeRendererTest extends TestCase {
         EasyMock.replay(applicationContext, contextFactory, requestContext,
                 container);
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
         renderer.render(attribute, writer);
         writer.close();

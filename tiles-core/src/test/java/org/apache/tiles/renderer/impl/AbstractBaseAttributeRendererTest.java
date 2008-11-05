@@ -62,7 +62,7 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
         TilesContextFactory contextFactory = EasyMock
                 .createMock(TilesContextFactory.class);
         EasyMock.replay(contextFactory);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         assertNotNull("The context factory is null", renderer.contextFactory);
     }
 
@@ -97,7 +97,7 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
                 .andReturn(requestContext);
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, writer);
         writer.close();
         assertEquals("Wrongly written", "wrote", writer.toString());
@@ -117,7 +117,7 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
                 .andReturn(requestContext);
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         assertTrue("This is not the expected request",
                 requestContext == renderer.getRequestContext());
     }
@@ -141,7 +141,7 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
                 Boolean.FALSE).anyTimes();
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         Set<String> roles = new HashSet<String>();
         roles.add("first");
         assertTrue("The role is not permitted", renderer.isPermitted(

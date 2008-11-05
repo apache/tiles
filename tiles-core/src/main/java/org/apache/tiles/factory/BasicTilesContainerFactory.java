@@ -360,7 +360,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             AttributeEvaluator evaluator) {
         BasicRendererFactory retValue = new BasicRendererFactory();
         retValue.setApplicationContext(applicationContext);
-        retValue.setContextFactory(contextFactory);
+        retValue.setRequestContextFactory(contextFactory);
         retValue.setContainer(container);
         retValue.setEvaluator(evaluator);
         retValue.setDefaultRenderer(createDefaultAttributeRenderer(context,
@@ -388,7 +388,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
         UntypedAttributeRenderer retValue = new UntypedAttributeRenderer();
         retValue.setApplicationContext(applicationContext);
         retValue.setContainer(container);
-        retValue.setContextFactory(contextFactory);
+        retValue.setRequestContextFactory(contextFactory);
         retValue.setEvaluator(evaluator);
         return retValue;
     }
@@ -413,20 +413,20 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             AttributeEvaluator evaluator) {
         StringAttributeRenderer stringRenderer = new StringAttributeRenderer();
         stringRenderer.setApplicationContext(applicationContext);
-        stringRenderer.setContextFactory(contextFactory);
+        stringRenderer.setRequestContextFactory(contextFactory);
         stringRenderer.setEvaluator(evaluator);
         rendererFactory.registerRenderer("string", stringRenderer);
 
         TemplateAttributeRenderer templateRenderer = new TemplateAttributeRenderer();
         templateRenderer.setApplicationContext(applicationContext);
-        templateRenderer.setContextFactory(contextFactory);
+        templateRenderer.setRequestContextFactory(contextFactory);
         templateRenderer.setEvaluator(evaluator);
         rendererFactory.registerRenderer("template", templateRenderer);
 
         DefinitionAttributeRenderer definitionRenderer = new DefinitionAttributeRenderer();
         definitionRenderer.setApplicationContext(applicationContext);
         definitionRenderer.setContainer(container);
-        definitionRenderer.setContextFactory(contextFactory);
+        definitionRenderer.setRequestContextFactory(contextFactory);
         definitionRenderer.setEvaluator(evaluator);
         rendererFactory.registerRenderer("definition", definitionRenderer);
     }

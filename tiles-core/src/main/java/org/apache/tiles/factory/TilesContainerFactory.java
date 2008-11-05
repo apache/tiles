@@ -26,7 +26,7 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
-import org.apache.tiles.awareness.TilesContextFactoryAware;
+import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.ChainedTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
@@ -305,11 +305,6 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
         AttributeEvaluator evaluator = (AttributeEvaluator) createFactory(
                 configuration, ATTRIBUTE_EVALUATOR_INIT_PARAM);
 
-        if (evaluator instanceof TilesContextFactoryAware) {
-            ((TilesContextFactoryAware) evaluator)
-                    .setContextFactory(contextFactory);
-        }
-
         if (evaluator instanceof TilesApplicationContextAware) {
             ((TilesApplicationContextAware) evaluator)
                     .setApplicationContext(tilesContext);
@@ -321,9 +316,9 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
         evaluator.init(configuration);
 
-        if (rendererFactory instanceof TilesContextFactoryAware) {
-            ((TilesContextFactoryAware) rendererFactory)
-                    .setContextFactory(contextFactory);
+        if (rendererFactory instanceof TilesRequestContextFactoryAware) {
+            ((TilesRequestContextFactoryAware) rendererFactory)
+                    .setRequestContextFactory(contextFactory);
         }
 
         if (rendererFactory instanceof TilesApplicationContextAware) {

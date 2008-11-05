@@ -24,7 +24,7 @@ package org.apache.tiles.context;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.awareness.TilesContextFactoryAware;
+import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -162,8 +162,9 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
      */
     protected void injectParentTilesContextFactory() {
         for (TilesContextFactory factory : factories) {
-            if (factory instanceof TilesContextFactoryAware) {
-                ((TilesContextFactoryAware) factory).setContextFactory(this);
+            if (factory instanceof TilesRequestContextFactoryAware) {
+                ((TilesRequestContextFactoryAware) factory)
+                        .setRequestContextFactory(this);
             }
         }
     }

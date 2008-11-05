@@ -71,7 +71,7 @@ public class TemplateAttributeRendererTest extends TestCase {
         requestContext.dispatch("/myTemplate.jsp");
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, writer);
         writer.close();
     }

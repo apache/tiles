@@ -99,7 +99,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
                 contextFactory, container, evaluator);
         ReverseStringAttributeRenderer renderer = new ReverseStringAttributeRenderer();
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         renderer.setEvaluator(evaluator);
         rendererFactory.registerRenderer("reversed", renderer);
     }

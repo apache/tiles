@@ -54,7 +54,7 @@ public class BasicRendererFactoryTest extends TestCase {
                 .createMock(TilesContextFactory.class);
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         rendererFactory.setApplicationContext(applicationContext);
-        rendererFactory.setContextFactory(contextFactory);
+        rendererFactory.setRequestContextFactory(contextFactory);
         rendererFactory.setContainer(container);
         EasyMock.replay(applicationContext, contextFactory, container);
     }

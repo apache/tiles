@@ -77,7 +77,7 @@ public class UntypedAttributeRendererTest extends TestCase {
         EasyMock.replay(applicationContext, contextFactory, requestContext,
                 container);
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
         renderer.render(attribute, writer);
         writer.close();
@@ -106,7 +106,7 @@ public class UntypedAttributeRendererTest extends TestCase {
                 .andReturn(Boolean.TRUE);
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
         renderer.render(attribute, writer);
         writer.close();
@@ -137,7 +137,7 @@ public class UntypedAttributeRendererTest extends TestCase {
                 .andReturn(Boolean.TRUE);
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
         renderer.render(attribute, writer);
         writer.close();

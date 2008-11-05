@@ -70,7 +70,7 @@ public class StringAttributeRendererTest extends TestCase {
                 .andReturn(requestContext);
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setContextFactory(contextFactory);
+        renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, writer);
         writer.close();
         assertEquals("Not written 'Result'", "Result", writer.toString());
