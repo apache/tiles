@@ -34,11 +34,13 @@ Summary
   [[1]] {{{config-reference.html#Main_configuration}Main configuration}}.
 
 *---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.context.TilesApplicationContextFactory}<<<org.apache.tiles.context.TilesApplicationContextFactory>>>}}      | Tiles application context factory class name     |
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.context.TilesRequestContextFactory}<<<org.apache.tiles.context.TilesRequestContextFactory>>>}}      | Tiles request context factory class name     |
+*---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.factory.AbstractTilesContainerFactory}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}    | Class name of the container factory  |
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.factory.TilesContainerFactory.MUTABLE}<<<org.apache.tiles.factory.TilesContainerFactory.MUTABLE>>>}} | Flag to use a mutable container |
-*---------------------------------------------+--------------------------------------+
-| {{{config-reference.html#org.apache.tiles.context.TilesContextFactory}<<<org.apache.tiles.context.TilesContextFactory>>>}}      | Tiles context factory class name     |
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.definition.DefinitionsFactory}<<<org.apache.tiles.definition.DefinitionsFactory>>>}}  | Definitions factory class name       |
 *---------------------------------------------+--------------------------------------+
@@ -55,19 +57,25 @@ Summary
 | {{{config-reference.html#org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER}<<<org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER>>>}}     | Default attribute renderer class name     |
 *---------------------------------------------+--------------------------------------+
 
-  [[2]] {{{config-reference.html#ChainedTilesContextFactory_configuration}<<<ChainedTilesContextFactory>>> configuration}}.
+  [[2]] {{{config-reference.html#ChainedTilesApplicationContextFactory_configuration}<<<ChainedTilesApplicationContextFactory>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
-| {{{config-reference.html#org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES>>>}} | List of elementary factory class names |
+| {{{config-reference.html#org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES>>>}} | List of elementary application factory class names |
 *---------------------------------------------+--------------------------------------+
 
-  [[3]] {{{config-reference.html#DigesterDefinitionsReader_configuration}<<<DigesterDefinitionsReader>>> configuration}}.
+  [[3]] {{{config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>> configuration}}.
+
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES>>>}} | List of elementary request factory class names |
+*---------------------------------------------+--------------------------------------+
+
+  [[4]] {{{config-reference.html#DigesterDefinitionsReader_configuration}<<<DigesterDefinitionsReader>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE}<<<org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE>>>}} | Flag to deactivate XML parser validation |
 *---------------------------------------------+--------------------------------------+
 
-  [[4]] {{{config-reference.html#UrlDefinitionsFactory_configuration}<<<UrlDefinitionsFactory>>> configuration}}.
+  [[5]] {{{config-reference.html#UrlDefinitionsFactory_configuration}<<<UrlDefinitionsFactory>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.definition.DefinitionsReader}<<<org.apache.tiles.definition.DefinitionsReader>>>}} | Definitions reader class name |
@@ -75,7 +83,7 @@ Summary
 | {{{config-reference.html#org.apache.tiles.locale.LocaleResolver}<<<org.apache.tiles.locale.LocaleResolver>>>}} | Locale resolver class name          |
 *---------------------------------------------+--------------------------------------+
 
-  [[5]] {{{config-reference.html#TilesListener_configuration}<<<TilesListener>>> configuration}}.
+  [[6]] {{{config-reference.html#TilesListener_configuration}<<<TilesListener>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY}<<<org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY>>>}} | Container key |
@@ -97,6 +105,16 @@ Summary
 
   The following configuration parameters are deprecated:
 
+  * <<<org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES>>>: use
+  {{{config-reference.html#org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES>>>}}
+  or
+  {{{config-reference.html#org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES>>>}}
+
+  * <<<org.apache.tiles.context.TilesContextFactory>>>: use
+  {{{config-reference.html#org.apache.tiles.context.TilesApplicationContextFactory}<<<org.apache.tiles.context.TilesApplicationContextFactory>>>}}
+  or
+  {{{config-reference.html#org.apache.tiles.context.TilesRequestContextFactory}<<<org.apache.tiles.context.TilesRequestContextFactory>>>}}
+
   * <<<org.apache.tiles.factory.TilesContainerFactory>>>: use
   {{{config-reference.html#org.apache.tiles.factory.AbstractTilesContainerFactory}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}
 
@@ -106,6 +124,30 @@ Summary
 Standard configuration parameters
 
 * {Main configuration}
+
+** {<<<org.apache.tiles.context.TilesApplicationContextFactory>>>}
+
+  Specifies the application context factory class name to use.
+  
+  * <<Specified in>>:
+  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#APPLICATION_CONTEXT_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.context.ChainedTilesApplicationContextFactory>>>.
+    
+  * <<Usage>>: when specified, it must contain the name of a class that
+  implements the <<<TilesApplicationContextFactory>>> interface.
+
+** {<<<org.apache.tiles.context.TilesRequestContextFactory>>>}
+
+  Specifies the request context factory class name to use.
+  
+  * <<Specified in>>:
+  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#REQUEST_CONTEXT_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.context.ChainedTilesRequestContextFactory>>>.
+    
+  * <<Usage>>: when specified, it must contain the name of a class that
+  implements the <<<TilesContextFactory>>> interface.
 
 ** {<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}
 
@@ -130,18 +172,6 @@ Standard configuration parameters
     
   * <<Usage>>: when specified and when its value is <<<true>>>, the container to
   be created will be <mutable>, i.e. definitions can be created at runtime.
-
-** {<<<org.apache.tiles.context.TilesContextFactory>>>}
-
-  Specifies the context factory class name to use.
-  
-  * <<Specified in>>:
-  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#CONTEXT_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
-    
-  * <<Default>>: <<<org.apache.tiles.context.ChainedTilesContextFactory>>>.
-    
-  * <<Usage>>: when specified, it must contain the name of a class that
-  implements the <<<TilesContextFactory>>> interface.
 
 ** {<<<org.apache.tiles.definition.DefinitionsFactory>>>}
 
@@ -234,23 +264,39 @@ Standard configuration parameters
     
   * <<Usage>>: when specified, it must contain a comma-separated list of paths
   of files that contain Tiles definitions.
-  
-* {<<<ChainedTilesContextFactory>>> configuration}
 
-** {<<<org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES>>>}
+* {<<<ChainedTilesApplicationContextFactory>>> configuration}
 
-  Specifies the list of elementary Tiles context factory class names.
+** {<<<org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES>>>}
+
+  Specifies the list of elementary Tiles application context factory class names.
   
   * <<Specified in>>:
-  {{{apidocs/org/apache/tiles/context/ChainedTilesContextFactory.html#FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesContextFactory>>>}}.
+  {{{apidocs/org/apache/tiles/context/ChainedTilesApplicationContextFactory.html#FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesApplicationContextFactory>>>}}.
     
-  * <<Default>>: <<<org.apache.tiles.servlet.context.ServletTilesContextFactory,
-  org.apache.tiles.portlet.context.PortletTilesContextFactory,
-  org.apache.tiles.jsp.context.JspTilesContextFactory>>>
+  * <<Default>>: <<<org.apache.tiles.servlet.context.ServletTilesApplicationContextFactory,
+  org.apache.tiles.portlet.context.PortletApplicationTilesContextFactory>>>
     
   * <<Usage>>: when specified, it must contain a comma-separated list of class
   names implementing
-  {{{apidocs/org/apache/tiles/context/TilesContextFactory.html}<<<TilesContextFactory>>>}}.
+  {{{apidocs/org/apache/tiles/context/TilesApplicationContextFactory.html}<<<TilesContextFactory>>>}}.
+
+* {<<<ChainedTilesRequestContextFactory>>> configuration}
+
+** {<<<org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES>>>}
+
+  Specifies the list of elementary Tiles request context factory class names.
+  
+  * <<Specified in>>:
+  {{{apidocs/org/apache/tiles/context/ChainedTilesRequestContextFactory.html#FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesRequestContextFactory>>>}}.
+    
+  * <<Default>>: <<<org.apache.tiles.servlet.context.ServletTilesRequestContextFactory,
+  org.apache.tiles.portlet.context.PortletTilesRequestContextFactory,
+  org.apache.tiles.jsp.context.JspTilesRequestContextFactory>>>
+    
+  * <<Usage>>: when specified, it must contain a comma-separated list of class
+  names implementing
+  {{{apidocs/org/apache/tiles/context/TilesRequestContextFactory.html}<<<TilesRequestContextFactory>>>}}.
   
 * {<<<DigesterDefinitionsReader>>> configuration}
 
