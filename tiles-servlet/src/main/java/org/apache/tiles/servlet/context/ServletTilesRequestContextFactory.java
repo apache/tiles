@@ -19,52 +19,41 @@
  * under the License.
  */
 
-package org.apache.tiles.jsp.context;
-
-
-import javax.servlet.ServletContext;
+package org.apache.tiles.servlet.context;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.servlet.context.ServletTilesContextFactory;
+import org.apache.tiles.context.TilesRequestContextFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
- * Creates an instance of the appropriate TilesApplicationContext implementation.
+ * Creates an instance of the appropriate {@link TilesRequestContext}
+ * implementation in a servlet environment.
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link JspTilesRequestContextFactory}.
+ * @since 2.1.1
  */
-public class JspTilesContextFactory extends ServletTilesContextFactory {
+public class ServletTilesRequestContextFactory implements
+        TilesRequestContextFactory {
 
-    /**
-     * The real factory.
-     */
-    private JspTilesRequestContextFactory factory;
-
-    /**
-     * Constructor.
-     *
-     * @deprecated Do not use! No replacement.
-     */
-    @Deprecated
-    public JspTilesContextFactory() {
-        factory = new JspTilesRequestContextFactory();
+    /** {@inheritDoc} */
+    public void init(Map<String, String> configParameters) {
     }
 
     /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
-        return factory.createRequestContext(context, requestItems);
-    }
+        if (requestItems.length == 2
+                && requestItems[0] instanceof HttpServletRequest
+                && requestItems[1] instanceof HttpServletResponse) {
+            return new ServletTilesRequestContext(context,
+                (HttpServletRequest) requestItems[0],
+                (HttpServletResponse) requestItems[1]);
+        }
 
-    /**
-     * Returns the original servlet context.
-     *
-     * @param context The application context.
-     * @return The original servlet context, if found.
-     * @deprecated Use {@link TilesApplicationContext#getContext()}.
-     */
-    protected ServletContext getServletContext(TilesApplicationContext context) {
-        return (ServletContext) context.getContext();
+        return null;
     }
 }

@@ -20,14 +20,10 @@
  */
 package org.apache.tiles.mock;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 
@@ -38,48 +34,18 @@ import org.apache.tiles.context.TilesRequestContextFactory;
  *
  * @version $Rev$ $Date$
  */
-public class RepeaterTilesContextFactory implements TilesContextFactory,
+public class RepeaterTilesRequestContextFactory implements TilesRequestContextFactory,
         TilesRequestContextFactoryAware {
-
-    /**
-     * The application context.
-     */
-    private TilesApplicationContext applicationContext;
 
     /**
      * The parent context factory.
      */
     private TilesRequestContextFactory parent;
 
-    /**
-     * Constructor.
-     */
-    public RepeaterTilesContextFactory() {
-        applicationContext = new MockTilesApplicationContext();
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param applicationContext The application context to use.
-     */
-    public RepeaterTilesContextFactory(TilesApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
-
     /** {@inheritDoc} */
     public void setRequestContextFactory(
             TilesRequestContextFactory contextFactory) {
         this.parent = contextFactory;
-    }
-
-    /** {@inheritDoc} */
-    public TilesApplicationContext createApplicationContext(Object context) {
-        if (context instanceof TilesApplicationContext) {
-            return (TilesApplicationContext) context;
-        } else {
-            return applicationContext;
-        }
     }
 
     /** {@inheritDoc} */
@@ -98,37 +64,5 @@ public class RepeaterTilesContextFactory implements TilesContextFactory,
     /** {@inheritDoc} */
     public void init(Map<String, String> configurationParameters) {
         // Do nothing
-    }
-
-    /**
-     * Empty application context that does nothing.
-     */
-    public class MockTilesApplicationContext implements TilesApplicationContext {
-
-        /** {@inheritDoc} */
-        public Map<String, Object> getApplicationScope() {
-            return null;
-        }
-
-        /** {@inheritDoc} */
-        public Object getContext() {
-            return null;
-        }
-
-        /** {@inheritDoc} */
-        public Map<String, String> getInitParams() {
-            return null;
-        }
-
-        /** {@inheritDoc} */
-        public URL getResource(String path) throws IOException {
-            return null;
-        }
-
-        /** {@inheritDoc} */
-        public Set<URL> getResources(String path) throws IOException {
-            return null;
-        }
-
     }
 }

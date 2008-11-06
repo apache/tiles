@@ -44,10 +44,8 @@ public class CachingTilesContainer extends BasicTilesContainer
 
     /** {@inheritDoc} */
     public void register(Definition definition, Object... requestItems) {
-        TilesRequestContext requestContext = getContextFactory().createRequestContext(
-                getApplicationContext(),
-                requestItems
-            );
+        TilesRequestContext requestContext = getRequestContextFactory()
+                .createRequestContext(getApplicationContext(), requestItems);
         register(definition, requestContext);
     }
 

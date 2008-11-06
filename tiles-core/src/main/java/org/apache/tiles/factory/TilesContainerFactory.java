@@ -27,8 +27,10 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.ChainedTilesContextFactory;
-import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
+import org.apache.tiles.context.ChainedTilesRequestContextFactory;
+import org.apache.tiles.context.TilesApplicationContextFactory;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.tiles.evaluator.AttributeEvaluator;
@@ -74,9 +76,24 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Initialization parameter that represents the context factory class name.
+     *
+     * @deprecated Use {@link #APPLICATION_CONTEXT_FACTORY_INIT_PARAM} or
+     * {@link #REQUEST_CONTEXT_FACTORY_INIT_PARAM}.
      */
     public static final String CONTEXT_FACTORY_INIT_PARAM =
         "org.apache.tiles.context.TilesContextFactory";
+
+    /**
+     * Initialization parameter that represents the context factory class name.
+     */
+    public static final String APPLICATION_CONTEXT_FACTORY_INIT_PARAM =
+        "org.apache.tiles.context.TilesApplicationContextFactory";
+
+    /**
+     * Initialization parameter that represents the context factory class name.
+     */
+    public static final String REQUEST_CONTEXT_FACTORY_INIT_PARAM =
+        "org.apache.tiles.context.TilesRequestContextFactory";
 
     /**
      * Initialization parameter that represents the definitions factory class
@@ -119,7 +136,10 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
         new HashMap<String, String>();
 
     static {
-        DEFAULTS.put(CONTEXT_FACTORY_INIT_PARAM, ChainedTilesContextFactory.class.getName());
+        DEFAULTS.put(APPLICATION_CONTEXT_FACTORY_INIT_PARAM,
+                ChainedTilesApplicationContextFactory.class.getName());
+        DEFAULTS.put(REQUEST_CONTEXT_FACTORY_INIT_PARAM,
+                ChainedTilesRequestContextFactory.class.getName());
         DEFAULTS.put(DEFINITIONS_FACTORY_INIT_PARAM, UrlDefinitionsFactory.class.getName());
         DEFAULTS.put(PREPARER_FACTORY_INIT_PARAM, BasicPreparerFactory.class.getName());
         DEFAULTS.put(RENDERER_FACTORY_INIT_PARAM, BasicRendererFactory.class.getName());
@@ -290,13 +310,18 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
     protected void storeContainerDependencies(Object context,
             Map<String, String> initParameters,
             Map<String, String> configuration, BasicTilesContainer container) {
-        TilesContextFactory contextFactory =
-            (TilesContextFactory) createFactory(configuration,
-                CONTEXT_FACTORY_INIT_PARAM);
+        TilesApplicationContextFactory contextFactory =
+            (TilesApplicationContextFactory) createFactory(configuration,
+                APPLICATION_CONTEXT_FACTORY_INIT_PARAM);
         contextFactory.init(configuration);
 
         TilesApplicationContext tilesContext =
             contextFactory.createApplicationContext(context);
+
+        TilesRequestContextFactory requestContextFactory =
+            (TilesRequestContextFactory) createFactory(configuration,
+                REQUEST_CONTEXT_FACTORY_INIT_PARAM);
+        requestContextFactory.init(configuration);
 
         RendererFactory rendererFactory =
             (RendererFactory) createFactory(configuration,
@@ -318,7 +343,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
         if (rendererFactory instanceof TilesRequestContextFactoryAware) {
             ((TilesRequestContextFactoryAware) rendererFactory)
-                    .setRequestContextFactory(contextFactory);
+                    .setRequestContextFactory(requestContextFactory);
         }
 
         if (rendererFactory instanceof TilesApplicationContextAware) {
@@ -339,10 +364,11 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
             (PreparerFactory) createFactory(configuration,
                 PREPARER_FACTORY_INIT_PARAM);
 
-        postCreationOperations(contextFactory, tilesContext, rendererFactory,
-                evaluator, initParameters, configuration, container);
+        postCreationOperations(requestContextFactory, tilesContext,
+                rendererFactory, evaluator, initParameters, configuration,
+                container);
 
-        container.setContextFactory(contextFactory);
+        container.setRequestContextFactory(requestContextFactory);
         container.setPreparerFactory(prepFactory);
         container.setApplicationContext(tilesContext);
         container.setRendererFactory(rendererFactory);
@@ -361,9 +387,9 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * @param configuration The merged configuration parameters (both defaults
      * and context ones).
      * @param container The container to use.
-     * @since 2.1.0
+     * @since 2.1.1
      */
-    protected void postCreationOperations(TilesContextFactory contextFactory,
+    protected void postCreationOperations(TilesRequestContextFactory contextFactory,
             TilesApplicationContext tilesContext,
             RendererFactory rendererFactory, AttributeEvaluator evaluator,
             Map<String, String> initParameters,

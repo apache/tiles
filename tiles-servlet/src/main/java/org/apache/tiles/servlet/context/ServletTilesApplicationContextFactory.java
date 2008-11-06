@@ -18,35 +18,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.enhanced;
+
+package org.apache.tiles.servlet.context;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.ChainedTilesContextFactory;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesApplicationContextFactory;
+
+import javax.servlet.ServletContext;
+import java.util.Map;
 
 /**
- * Tiles context factory to be used together with
- * {@link EnhancedTilesApplicationContext}.
+ * Creates an instance of the appropriate TilesApplicationContext implementation
+ * under a servlet environment.
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link EnhancedTilesApplicationContextFactory}.
+ * @since 2.1.1
  */
-public class EnhancedContextFactory extends ChainedTilesContextFactory {
+public class ServletTilesApplicationContextFactory implements
+        TilesApplicationContextFactory {
 
     /** {@inheritDoc} */
-    @Override
-    public TilesApplicationContext createApplicationContext(Object context) {
-        TilesApplicationContext root = super.createApplicationContext(context);
-        return new EnhancedTilesApplicationContext(root);
+    public void init(Map<String, String> configParameters) {
     }
 
     /** {@inheritDoc} */
-    @Override
-    public TilesRequestContext createRequestContext(TilesApplicationContext context,
-            Object... requestItems) {
-        if (context instanceof EnhancedTilesApplicationContext) {
-            context = ((EnhancedTilesApplicationContext) context).getRootContext();
+    public TilesApplicationContext createApplicationContext(Object context) {
+        if (context instanceof ServletContext) {
+            ServletContext servletContext = (ServletContext) context;
+            return new ServletTilesApplicationContext(servletContext);
         }
-        return super.createRequestContext(context, requestItems);
+        return null;
     }
 }

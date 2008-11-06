@@ -25,8 +25,8 @@ import java.io.StringWriter;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.easymock.EasyMock;
 
@@ -62,8 +62,8 @@ public class StringAttributeRendererTest extends TestCase {
         Attribute attribute = new Attribute("Result", null, "string");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        TilesContextFactory contextFactory = EasyMock
-                .createMock(TilesContextFactory.class);
+        TilesRequestContextFactory contextFactory = EasyMock
+                .createMock(TilesRequestContextFactory.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))

@@ -34,11 +34,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.context.ChainedTilesContextFactory;
+import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
+import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
-import org.apache.tiles.mock.RepeaterTilesContextFactory;
+import org.apache.tiles.mock.RepeaterTilesApplicationContextFactory;
+import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
 import org.easymock.EasyMock;
 
 
@@ -71,11 +73,16 @@ public class BasicTilesContainerTest extends TestCase {
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
 
         Vector<String> v = new Vector<String>();
-        v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
+        v.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
+        v.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
 
         EasyMock.expect(context.getInitParameter(
-                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesContextFactory.class.getName());
+                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesApplicationContextFactory.class
+                        .getName());
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesRequestContextFactory.class.getName());
         EasyMock.expect(context.getInitParameter(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
@@ -100,7 +107,7 @@ public class BasicTilesContainerTest extends TestCase {
      */
     public void testInitialization() {
         assertNotNull(container);
-        assertNotNull(container.getContextFactory());
+        assertNotNull(container.getRequestContextFactory());
         assertNotNull(container.getPreparerFactory());
         assertNotNull(container.getDefinitionsFactory());
     }

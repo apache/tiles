@@ -20,23 +20,25 @@
  */
 package org.apache.tiles.factory;
 
-import junit.framework.TestCase;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.ServletContext;
 
-import org.easymock.EasyMock;
+import junit.framework.TestCase;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.context.ChainedTilesContextFactory;
+import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
+import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer;
-import org.apache.tiles.mock.RepeaterTilesContextFactory;
-
-import java.util.Map;
-import java.util.Vector;
-import java.util.HashMap;
-import java.net.URL;
-import java.net.MalformedURLException;
+import org.apache.tiles.mock.RepeaterTilesApplicationContextFactory;
+import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
+import org.easymock.EasyMock;
 
 
 /**
@@ -68,8 +70,12 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(
                 KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
         EasyMock.expect(context.getInitParameter(
-                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesContextFactory.class.getName());
+                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesApplicationContextFactory.class
+                        .getName());
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesRequestContextFactory.class.getName());
         defaults = new HashMap<String, String>();
     }
 
@@ -79,7 +85,8 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
     public void testGetFactory() {
         Vector<String> v = new Vector<String>();
         v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
-        v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
+        v.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
+        v.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
 
         EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
         EasyMock.replay(context);
@@ -100,8 +107,12 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
     public void testCreateContainer() throws MalformedURLException {
         Vector<String> enumeration = new Vector<String>();
         enumeration.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
-        enumeration.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
+        enumeration.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
+        enumeration.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
+        EasyMock.expect(context.getInitParameter(TilesContainerFactory
+                .APPLICATION_CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
+        EasyMock.expect(context.getInitParameter(TilesContainerFactory
+                .REQUEST_CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(
                 KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))

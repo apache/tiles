@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
-import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
@@ -125,7 +125,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
 
     /** {@inheritDoc} */
     @Override
-    protected void postCreationOperations(TilesContextFactory contextFactory,
+    protected void postCreationOperations(TilesRequestContextFactory contextFactory,
             TilesApplicationContext tilesContext,
             RendererFactory rendererFactory, AttributeEvaluator evaluator,
             Map<String, String> initParameters,

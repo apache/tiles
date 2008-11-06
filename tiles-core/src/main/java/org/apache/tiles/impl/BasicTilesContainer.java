@@ -28,8 +28,8 @@ import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
@@ -116,9 +116,9 @@ public class BasicTilesContainer implements TilesContainer {
     private AttributeEvaluator evaluator;
 
     /**
-     * The Tiles context factory.
+     * The Tiles request context factory.
      */
-    private TilesContextFactory contextFactory;
+    private TilesRequestContextFactory contextFactory;
 
     /**
      * Initialization flag. If set, this container cannot be changed.
@@ -214,9 +214,22 @@ public class BasicTilesContainer implements TilesContainer {
     /**
      * Returns the context factory.
      *
-     * @return The context factory.
+     * @return Always <code>null</code>.
+     * @deprecated Do not use it, it returns <code>null</code>. Use
+     * {@link #getRequestContextFactory()}.
      */
-    public TilesContextFactory getContextFactory() {
+    @Deprecated
+    public org.apache.tiles.context.TilesContextFactory getContextFactory() {
+        return null;
+    }
+
+    /**
+     * Returns the request context factory.
+     *
+     * @return The request context factory.
+     * @since 2.1.1
+     */
+    protected TilesRequestContextFactory getRequestContextFactory() {
         return contextFactory;
     }
 
@@ -224,8 +237,20 @@ public class BasicTilesContainer implements TilesContainer {
      * Sets the context factory.
      *
      * @param contextFactory The context factory.
+     * @deprecated Use
+     * {@link #setRequestContextFactory(TilesRequestContextFactory)}.
      */
-    public void setContextFactory(TilesContextFactory contextFactory) {
+    public void setContextFactory(org.apache.tiles.context.TilesContextFactory contextFactory) {
+        // Does nothing
+    }
+
+    /**
+     * Sets the request context factory.
+     *
+     * @param contextFactory The context factory.
+     * @since 2.1.1
+     */
+    public void setRequestContextFactory(TilesRequestContextFactory contextFactory) {
         checkInit();
         this.contextFactory = contextFactory;
     }
@@ -291,7 +316,7 @@ public class BasicTilesContainer implements TilesContainer {
 
     /** {@inheritDoc} */
     public void prepare(String preparer, Object... requestItems) {
-        TilesRequestContext requestContext = getContextFactory().createRequestContext(
+        TilesRequestContext requestContext = getRequestContextFactory().createRequestContext(
             getApplicationContext(),
             requestItems
         );
@@ -300,7 +325,7 @@ public class BasicTilesContainer implements TilesContainer {
 
     /** {@inheritDoc} */
     public void render(String definitionName, Object... requestItems) {
-        TilesRequestContext requestContext = getContextFactory().createRequestContext(
+        TilesRequestContext requestContext = getRequestContextFactory().createRequestContext(
             getApplicationContext(),
             requestItems
         );
@@ -326,8 +351,8 @@ public class BasicTilesContainer implements TilesContainer {
 
     /** {@inheritDoc} */
     public Object evaluate(Attribute attribute, Object... requestItems) {
-        TilesRequestContext request = getContextFactory().createRequestContext(
-                context, requestItems);
+        TilesRequestContext request = getRequestContextFactory()
+                .createRequestContext(context, requestItems);
         return evaluator.evaluate(attribute, request);
     }
 
@@ -524,10 +549,8 @@ public class BasicTilesContainer implements TilesContainer {
      * @return The created Tiles request context.
      */
     private TilesRequestContext getRequestContext(Object... requestItems) {
-        return getContextFactory().createRequestContext(
-            getApplicationContext(),
-            requestItems
-        );
+        return getRequestContextFactory().createRequestContext(
+                getApplicationContext(), requestItems);
     }
 
     /**

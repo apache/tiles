@@ -33,14 +33,16 @@ import java.util.Vector;
 import junit.framework.TestCase;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.ChainedTilesContextFactory;
+import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
+import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.KeyedDefinitionsFactoryTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.DefaultKeyExtractor;
-import org.apache.tiles.mock.RepeaterTilesContextFactory;
+import org.apache.tiles.mock.RepeaterTilesApplicationContextFactory;
+import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
 import org.apache.tiles.util.RollingVectorEnumeration;
 import org.easymock.EasyMock;
 
@@ -73,7 +75,8 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
                 + "one");
         v.add(KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
                 + "two");
-        v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
+        v.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
+        v.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
 
         Map<String, String> initParameters = new HashMap<String, String>();
         EasyMock.expect(context.getInitParams()).andReturn(initParameters);
@@ -84,10 +87,17 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
                         .getName());
         EasyMock.expect(context.getInitParameter(TilesContainerFactory
                 .CONTAINER_FACTORY_MUTABLE_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
+        EasyMock.expect(context.getInitParameter(TilesContainerFactory
+                .APPLICATION_CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
+        EasyMock.expect(context.getInitParameter(TilesContainerFactory
+                .REQUEST_CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(
-                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesContextFactory.class.getName());
+                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesApplicationContextFactory.class
+                        .getName());
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesRequestContextFactory.class.getName());
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(
                 KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))
@@ -104,8 +114,11 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
                 KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
         initParameters.put(
-                ChainedTilesContextFactory.FACTORY_CLASS_NAMES,
-                RepeaterTilesContextFactory.class.getName());
+                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES,
+                RepeaterTilesApplicationContextFactory.class.getName());
+        initParameters.put(
+                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES,
+                RepeaterTilesRequestContextFactory.class.getName());
         initParameters.put(
                 KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM,
                 "one,two");
@@ -147,7 +160,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
      */
     public void testInitialization() {
         assertNotNull(container);
-        assertNotNull(container.getContextFactory());
+        assertNotNull(container.getRequestContextFactory());
         assertNotNull(container.getPreparerFactory());
         assertNotNull(container.getDefinitionsFactory());
         assertNotNull(container.getProperDefinitionsFactory("one"));
@@ -169,15 +182,20 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
 
         Vector<String> v = new Vector<String>();
         v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
-        v.add(ChainedTilesContextFactory.FACTORY_CLASS_NAMES);
+        v.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
+        v.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
 
         EasyMock.expect(context.getInitParameter(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
                 .andReturn(KeyedDefinitionsFactoryTilesContainerFactory.class.getName())
                 .anyTimes();
         EasyMock.expect(context.getInitParameter(
-                ChainedTilesContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesContextFactory.class.getName());
+                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesApplicationContextFactory.class
+                        .getName());
+        EasyMock.expect(context.getInitParameter(
+                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES))
+                .andReturn(RepeaterTilesRequestContextFactory.class.getName());
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
         EasyMock.expect(context.getInitParameter(DefinitionsFactory.DEFINITIONS_CONFIG)).andReturn(null);

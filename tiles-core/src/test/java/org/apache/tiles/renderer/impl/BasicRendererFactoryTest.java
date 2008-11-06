@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.easymock.EasyMock;
 
@@ -50,8 +50,8 @@ public class BasicRendererFactoryTest extends TestCase {
         rendererFactory = new BasicRendererFactory();
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        TilesContextFactory contextFactory = EasyMock
-                .createMock(TilesContextFactory.class);
+        TilesRequestContextFactory contextFactory = EasyMock
+                .createMock(TilesRequestContextFactory.class);
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         rendererFactory.setApplicationContext(applicationContext);
         rendererFactory.setRequestContextFactory(contextFactory);

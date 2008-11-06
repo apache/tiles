@@ -19,29 +19,34 @@
  * under the License.
  */
 
-package org.apache.tiles.portlet.context.wildcard;
+package org.apache.tiles.servlet.context.wildcard;
 
-import javax.portlet.PortletContext;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.portlet.context.PortletTilesContextFactory;
+import org.apache.tiles.context.TilesApplicationContextFactory;
 
 /**
- * Acts like {@link ServletTilesContextFactory}, except in the
- * {@link #createApplicationContext(Object)} method that creates an instance of
- * {@link WildcardPortletTilesApplicationContext}.
+ * In the {@link #createApplicationContext(Object)} method creates an instance
+ * of {@link WildcardServletTilesApplicationContext}.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.1
  */
-public class WildcardPortletTilesContextFactory extends
-        PortletTilesContextFactory {
+public class WildcardServletTilesApplicationContextFactory implements TilesApplicationContextFactory {
 
     /** {@inheritDoc} */
-    @Override
+    public void init(Map<String, String> params) {
+        // Does nothing.
+    }
+
+    /** {@inheritDoc} */
     public TilesApplicationContext createApplicationContext(Object context) {
-        if (context instanceof PortletContext) {
-            PortletContext portletContext = (PortletContext) context;
-            return new WildcardPortletTilesApplicationContext(portletContext);
+        if (context instanceof ServletContext) {
+            ServletContext servletContext = (ServletContext) context;
+            return new WildcardServletTilesApplicationContext(servletContext);
         }
         return null;
     }

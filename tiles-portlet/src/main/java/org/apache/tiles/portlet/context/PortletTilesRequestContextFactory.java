@@ -22,8 +22,8 @@
 package org.apache.tiles.portlet.context;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
@@ -31,27 +31,17 @@ import javax.portlet.PortletResponse;
 import java.util.Map;
 
 /**
- * Creates an instance of the appropriate TilesApplicationContext
- * implementation.
+ * Creates an instance of the appropriate {@link TilesRequestContext}
+ * implementation under a portlet environment.
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link PortletTilesApplicationContextFactory} or
- * {@link PortletTilesRequestContextFactory}.
+ * @since 2.1.1
  */
-public class PortletTilesContextFactory implements TilesContextFactory {
+public class PortletTilesRequestContextFactory implements
+        TilesRequestContextFactory {
 
     /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {
-    }
-
-    /** {@inheritDoc} */
-    public TilesApplicationContext createApplicationContext(Object context) {
-        if (context instanceof PortletContext) {
-            PortletContext portletContext = (PortletContext) context;
-            return new PortletTilesApplicationContext(portletContext);
-        }
-
-        return null;
     }
 
     /** {@inheritDoc} */
@@ -74,11 +64,7 @@ public class PortletTilesContextFactory implements TilesContextFactory {
      *
      * @param context The application context.
      * @return The original portlet context, if found.
-     * @deprecated Use
-     * {@link PortletTilesRequestContextFactory#getPortletContext(TilesApplicationContext)}
-     * .
      */
-    @Deprecated
     protected PortletContext getPortletContext(TilesApplicationContext context) {
         if (context instanceof PortletTilesApplicationContext) {
             PortletTilesApplicationContext app = (PortletTilesApplicationContext) context;

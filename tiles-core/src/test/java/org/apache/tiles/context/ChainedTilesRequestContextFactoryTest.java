@@ -28,13 +28,15 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.mock.RepeaterTilesContextFactory;
+import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
 import org.easymock.EasyMock;
 
 /**
+ * Tests {@link ChainedTilesRequestContextFactory}.
+ *
  * @version $Rev$ $Date$
  */
-public class ChainedTilesContextFactoryTest extends TestCase {
+public class ChainedTilesRequestContextFactoryTest extends TestCase {
 
     /**
      * The Tiles application context.
@@ -60,10 +62,10 @@ public class ChainedTilesContextFactoryTest extends TestCase {
      */
     public void testInit() {
         Map<String, String> config = new HashMap<String, String>();
-        config.put(ChainedTilesContextFactory.FACTORY_CLASS_NAMES,
+        config.put(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES,
                 "this.is.not.a.class.Name,"
-                + RepeaterTilesContextFactory.class.getName());
-        ChainedTilesContextFactory factory = new ChainedTilesContextFactory();
+                + RepeaterTilesRequestContextFactory.class.getName());
+        ChainedTilesRequestContextFactory factory = new ChainedTilesRequestContextFactory();
         factory.init(config);
         TilesRequestContext context = factory.createRequestContext(appContext, requestContext);
         assertNotNull("The request context is not correct",
@@ -74,9 +76,9 @@ public class ChainedTilesContextFactoryTest extends TestCase {
      * Tests {@link ChainedTilesContextFactory#setFactories(java.util.List)}.
      */
     public void testSetFactories() {
-        ChainedTilesContextFactory factory = new ChainedTilesContextFactory();
-        List<TilesContextFactory> factories = new ArrayList<TilesContextFactory>();
-        RepeaterTilesContextFactory repFactory = new RepeaterTilesContextFactory();
+        ChainedTilesRequestContextFactory factory = new ChainedTilesRequestContextFactory();
+        List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>();
+        RepeaterTilesRequestContextFactory repFactory = new RepeaterTilesRequestContextFactory();
         repFactory.setRequestContextFactory(factory);
         factories.add(repFactory);
         factory.setFactories(factories);

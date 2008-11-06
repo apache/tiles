@@ -26,29 +26,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.easymock.classextension.EasyMock;
 
 import junit.framework.TestCase;
 
 /**
- * Tests {@link JspTilesContextFactory}.
+ * Tests {@link JspTilesRequestContextFactory}.
  *
  * @version $Rev: 657919 $ $Date: 2008-05-19 20:52:49 +0200 (lun, 19 mag 2008) $
  */
-public class JspTilesContextFactoryTest extends TestCase {
+public class JspTilesRequestContextFactoryTest extends TestCase {
 
     /**
      * The object under test.
      */
-    private JspTilesContextFactory factory;
+    private JspTilesRequestContextFactory factory;
 
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
-        factory = new JspTilesContextFactory();
+        factory = new JspTilesRequestContextFactory();
     }
 
     /**
@@ -90,8 +90,8 @@ public class JspTilesContextFactoryTest extends TestCase {
         EasyMock.expect(pageContext.getRequest()).andReturn(httpRequest);
         EasyMock.expect(pageContext.getResponse()).andReturn(httpResponse);
 
-        TilesContextFactory parent = EasyMock
-                .createMock(TilesContextFactory.class);
+        TilesRequestContextFactory parent = EasyMock
+                .createMock(TilesRequestContextFactory.class);
         TilesRequestContext enclosedRequest = EasyMock
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(parent.createRequestContext(context, httpRequest,

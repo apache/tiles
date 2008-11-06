@@ -35,8 +35,8 @@ public interface TilesApplicationContextFactoryAware {
      * Sets the Tiles application context factory.
      *
      * @param contextFactory The Tiles application context factory.
-     * @since 2.1.0
+     * @since 2.1.1
      */
-    void setAppplicationContextFactory(
+    void setApplicationContextFactory(
             TilesApplicationContextFactory contextFactory);
 }

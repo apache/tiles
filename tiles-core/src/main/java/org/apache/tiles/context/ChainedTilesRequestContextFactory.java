@@ -32,55 +32,51 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Default implementation for TilesContextFactory, that creates a chain of
- * sub-factories, trying each one until it returns a not-null value.
+ * Default implementation for TilesRequestContextFactory, that creates a chain
+ * of sub-factories, trying each one until it returns a not-null value.
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link ChainedTilesApplicationContextFactory}
- * and {@link ChainedTilesRequestContextFactory}.
+ * @since 2.1.1
  */
-public class ChainedTilesContextFactory implements TilesContextFactory {
+public class ChainedTilesRequestContextFactory implements TilesRequestContextFactory {
 
     /**
      * Factory class names initialization parameter to use.
      *
-     * @deprecated Simply do not use it.
+     * @since 2.1.1
      */
-    @Deprecated
     public static final String FACTORY_CLASS_NAMES =
-        "org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES";
+        "org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES";
 
     /**
      * The default class names to instantiate that compose the chain..
      *
-     * @deprecated Simply do not use it.
+     * @since 2.1.1
      */
-    @Deprecated
     public static final String[] DEFAULT_FACTORY_CLASS_NAMES = {
-            "org.apache.tiles.servlet.context.ServletTilesContextFactory",
-            "org.apache.tiles.portlet.context.PortletTilesContextFactory",
-            "org.apache.tiles.jsp.context.JspTilesContextFactory" };
+            "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
+            "org.apache.tiles.portlet.context.PortletTilesRequestContextFactory",
+            "org.apache.tiles.jsp.context.JspTilesRequestContextFactory" };
 
     /**
      * The logging object.
      */
     private static final Log LOG = LogFactory
-            .getLog(ChainedTilesContextFactory.class);
+            .getLog(ChainedTilesRequestContextFactory.class);
 
     /**
      * The Tiles context factories composing the chain.
      */
-    private List<TilesContextFactory> factories;
+    private List<TilesRequestContextFactory> factories;
 
     /**
      * Sets the factories to be used.
      *
      * @param factories The factories to be used.
-     * @deprecated Simply do not use it.
      */
-    @Deprecated
-    public void setFactories(List<TilesContextFactory> factories) {
+    public void setFactories(List<TilesRequestContextFactory> factories) {
         this.factories = factories;
+        injectParentTilesContextFactory();
     }
 
     /** {@inheritDoc} */
@@ -95,59 +91,39 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
             classNames = DEFAULT_FACTORY_CLASS_NAMES;
         }
 
-        factories = new ArrayList<TilesContextFactory>();
+        factories = new ArrayList<TilesRequestContextFactory>();
         for (int i = 0; i < classNames.length; i++) {
             try {
-                Class<TilesContextFactory> clazz = (Class<TilesContextFactory>) Class
+                Class<TilesRequestContextFactory> clazz = (Class<TilesRequestContextFactory>) Class
                         .forName(classNames[i]);
-                if (TilesContextFactory.class.isAssignableFrom(clazz)) {
-                    TilesContextFactory factory = clazz.newInstance();
-                    if (factory instanceof TilesRequestContextFactoryAware) {
-                        ((TilesRequestContextFactoryAware) factory)
-                                .setRequestContextFactory(this);
-                    }
+                if (TilesRequestContextFactory.class.isAssignableFrom(clazz)) {
+                    TilesRequestContextFactory factory = clazz.newInstance();
                     factories.add(factory);
                 } else {
                     throw new IllegalArgumentException("The class "
                             + classNames[i]
-                            + " does not implement TilesContextFactory");
+                            + " does not implement TilesRequestContextFactory");
                 }
             } catch (ClassNotFoundException e) {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.
-                LOG.warn("Cannot find TilesContextFactory class "
+                LOG.warn("Cannot find TilesRequestContextFactory class "
                         + classNames[i]);
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Cannot find TilesContextFactory class "
+                    LOG.debug("Cannot find TilesRequestContextFactory class "
                             + classNames[i], e);
                 }
             } catch (InstantiationException e) {
                 throw new IllegalArgumentException(
-                        "Cannot instantiate TilesFactoryClass " + classNames[i],
+                        "Cannot instantiate TilesRequestContextFactory class " + classNames[i],
                         e);
             } catch (IllegalAccessException e) {
                 throw new IllegalArgumentException(
-                        "Cannot access TilesFactoryClass " + classNames[i]
+                        "Cannot access TilesRequestContextFactory class " + classNames[i]
                                 + " default constructor", e);
             }
         }
-    }
-
-    /** {@inheritDoc} */
-    public TilesApplicationContext createApplicationContext(Object context) {
-        TilesApplicationContext retValue = null;
-
-        for (Iterator<TilesContextFactory> factoryIt = factories.iterator(); factoryIt
-                .hasNext() && retValue == null;) {
-            retValue = factoryIt.next().createApplicationContext(context);
-        }
-
-        if (retValue == null) {
-            throw new IllegalArgumentException(
-                    "Cannot find a factory to create the application context");
-        }
-
-        return retValue;
+        injectParentTilesContextFactory();
     }
 
     /** {@inheritDoc} */
@@ -155,8 +131,8 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
             TilesApplicationContext context, Object... requestItems) {
         TilesRequestContext retValue = null;
 
-        for (Iterator<TilesContextFactory> factoryIt = factories.iterator(); factoryIt
-                .hasNext() && retValue == null;) {
+        for (Iterator<TilesRequestContextFactory> factoryIt = factories
+                .iterator(); factoryIt.hasNext() && retValue == null;) {
             retValue = factoryIt.next().createRequestContext(context,
                     requestItems);
         }
@@ -167,5 +143,17 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
         }
 
         return retValue;
+    }
+
+    /**
+     * Injects this context factory to all chained context factories.
+     */
+    protected void injectParentTilesContextFactory() {
+        for (TilesRequestContextFactory factory : factories) {
+            if (factory instanceof TilesRequestContextFactoryAware) {
+                ((TilesRequestContextFactoryAware) factory)
+                        .setRequestContextFactory(this);
+            }
+        }
     }
 }

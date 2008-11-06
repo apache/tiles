@@ -22,46 +22,74 @@
 package org.apache.tiles.servlet.context;
 
 import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.TilesApplicationContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * Creates an instance of the appropriate TilesApplicationContext implementation.
+ * Creates an instance of the appropriate TilesApplicationContext
+ * implementation.
  *
  * @version $Rev$ $Date$
+ * @deprecated Use {@link ServletTilesApplicationContext} or
+ * {@link ServletTilesRequestContext}.
  */
+/**
+ * @author PTRNTN77A26E506O
+ *
+ */
+/**
+ * @author PTRNTN77A26E506O
+ *
+ */
+/**
+ * @author PTRNTN77A26E506O
+ *
+ */
+@Deprecated
 public class ServletTilesContextFactory implements TilesContextFactory {
+
+    /**
+     * The application context factory.
+     */
+    private TilesApplicationContextFactory contextFactory;
+
+    /**
+     * The request context factory.
+     */
+    private TilesRequestContextFactory requestContextFactory;
+
+    /**
+     * Constructor.
+     *
+     * @deprecated Do not use! No replacement.
+     */
+    @Deprecated
+    public ServletTilesContextFactory() {
+        contextFactory = new ServletTilesApplicationContextFactory();
+        requestContextFactory = new ServletTilesRequestContextFactory();
+    }
 
     /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {
+        contextFactory.init(configParameters);
+        requestContextFactory.init(configParameters);
     }
 
     /** {@inheritDoc} */
     public TilesApplicationContext createApplicationContext(Object context) {
-        if (context instanceof ServletContext) {
-            ServletContext servletContext = (ServletContext) context;
-            return new ServletTilesApplicationContext(servletContext);
-        }
-        return null;
+        return contextFactory.createApplicationContext(context);
     }
 
     /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
-        if (requestItems.length == 2
-                && requestItems[0] instanceof HttpServletRequest
-                && requestItems[1] instanceof HttpServletResponse) {
-            return new ServletTilesRequestContext(context,
-                (HttpServletRequest) requestItems[0],
-                (HttpServletResponse) requestItems[1]);
-        }
-
-        return null;
+        return requestContextFactory
+                .createRequestContext(context, requestItems);
     }
 
     /**
@@ -71,6 +99,7 @@ public class ServletTilesContextFactory implements TilesContextFactory {
      * @return The original servlet context, if found.
      * @deprecated Use {@link TilesApplicationContext#getContext()}.
      */
+    @Deprecated
     protected ServletContext getServletContext(TilesApplicationContext context) {
         if (context instanceof ServletTilesApplicationContext) {
             ServletTilesApplicationContext app = (ServletTilesApplicationContext) context;

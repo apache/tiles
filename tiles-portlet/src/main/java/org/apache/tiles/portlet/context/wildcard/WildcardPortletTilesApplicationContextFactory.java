@@ -18,35 +18,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context.enhanced;
+
+package org.apache.tiles.portlet.context.wildcard;
+
+import javax.portlet.PortletContext;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.ChainedTilesContextFactory;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.portlet.context.PortletTilesApplicationContextFactory;
 
 /**
- * Tiles context factory to be used together with
- * {@link EnhancedTilesApplicationContext}.
+ * In the {@link #createApplicationContext(Object)} method creates an instance
+ * of {@link WildcardPortletTilesApplicationContext}.
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link EnhancedTilesApplicationContextFactory}.
+ * @since 2.1.1
  */
-public class EnhancedContextFactory extends ChainedTilesContextFactory {
+public class WildcardPortletTilesApplicationContextFactory extends
+        PortletTilesApplicationContextFactory {
 
     /** {@inheritDoc} */
     @Override
     public TilesApplicationContext createApplicationContext(Object context) {
-        TilesApplicationContext root = super.createApplicationContext(context);
-        return new EnhancedTilesApplicationContext(root);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public TilesRequestContext createRequestContext(TilesApplicationContext context,
-            Object... requestItems) {
-        if (context instanceof EnhancedTilesApplicationContext) {
-            context = ((EnhancedTilesApplicationContext) context).getRootContext();
+        if (context instanceof PortletContext) {
+            PortletContext portletContext = (PortletContext) context;
+            return new WildcardPortletTilesApplicationContext(portletContext);
         }
-        return super.createRequestContext(context, requestItems);
+        return null;
     }
 }

@@ -26,14 +26,14 @@ import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
 
 /**
  * Tests {@link AbstractBaseAttributeRenderer}.
@@ -59,8 +59,8 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
      * {@link AbstractBaseAttributeRenderer#setContextFactory(TilesContextFactory)}.
      */
     public void testSetContextFactory() {
-        TilesContextFactory contextFactory = EasyMock
-                .createMock(TilesContextFactory.class);
+        TilesRequestContextFactory contextFactory = EasyMock
+                .createMock(TilesRequestContextFactory.class);
         EasyMock.replay(contextFactory);
         renderer.setRequestContextFactory(contextFactory);
         assertNotNull("The context factory is null", renderer.contextFactory);
@@ -89,8 +89,8 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
         StringWriter writer = new StringWriter();
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        TilesContextFactory contextFactory = EasyMock
-                .createMock(TilesContextFactory.class);
+        TilesRequestContextFactory contextFactory = EasyMock
+                .createMock(TilesRequestContextFactory.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
@@ -109,8 +109,8 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
     public void testGetRequestContext() {
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        TilesContextFactory contextFactory = EasyMock
-                .createMock(TilesContextFactory.class);
+        TilesRequestContextFactory contextFactory = EasyMock
+                .createMock(TilesRequestContextFactory.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
@@ -129,8 +129,8 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
     public void testIsPermitted() {
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        TilesContextFactory contextFactory = EasyMock
-                .createMock(TilesContextFactory.class);
+        TilesRequestContextFactory contextFactory = EasyMock
+                .createMock(TilesRequestContextFactory.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))

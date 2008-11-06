@@ -26,7 +26,7 @@ import java.util.Locale;
 import javax.sql.DataSource;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
@@ -44,7 +44,7 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
     @Override
     protected DefinitionDAO<Locale> createLocaleDefinitionDao(Object context,
             TilesApplicationContext applicationContext,
-            TilesContextFactory contextFactory, LocaleResolver resolver) {
+            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         LocaleDbDefinitionDAO definitionDao = new LocaleDbDefinitionDAO();
         definitionDao.setDataSource((DataSource) applicationContext
                 .getApplicationScope().get("dataSource"));
@@ -55,7 +55,7 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
     @Override
     protected LocaleDefinitionsFactory instantiateDefinitionsFactory(
             Object context, TilesApplicationContext applicationContext,
-            TilesContextFactory contextFactory, LocaleResolver resolver) {
+            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         return new LocaleDefinitionsFactory();
    }
 }

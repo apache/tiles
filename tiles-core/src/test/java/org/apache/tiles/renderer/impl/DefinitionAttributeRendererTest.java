@@ -26,8 +26,8 @@ import java.io.StringWriter;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.easymock.EasyMock;
 
@@ -63,8 +63,8 @@ public class DefinitionAttributeRendererTest extends TestCase {
         Attribute attribute = new Attribute("my.definition", null, "definition");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
-        TilesContextFactory contextFactory = EasyMock
-                .createMock(TilesContextFactory.class);
+        TilesRequestContextFactory contextFactory = EasyMock
+                .createMock(TilesRequestContextFactory.class);
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);

@@ -19,9 +19,9 @@
  * under the License.
  */
 
-package org.apache.tiles.portlet.context.wildcard;
+package org.apache.tiles.servlet.context.wildcard;
 
-import javax.portlet.PortletContext;
+import javax.servlet.ServletContext;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.easymock.EasyMock;
@@ -29,36 +29,36 @@ import org.easymock.EasyMock;
 import junit.framework.TestCase;
 
 /**
- * Tests {@link WildcardPortletTilesContextFactory}.
+ * Tests {@link WildcardServletTilesApplicationContextFactory}.
  */
-public class WildcardPortletTilesContextFactoryTest extends TestCase {
+public class WildcardServletTilesApplicationContextFactoryTest extends TestCase {
 
     /**
      * The factory to test.
      */
-    private WildcardPortletTilesContextFactory factory;
+    private WildcardServletTilesApplicationContextFactory factory;
 
     /**
      * The servlet context.
      */
-    private PortletContext servletContext;
+    private ServletContext servletContext;
 
     /** {@inheritDoc} */
     public void setUp() {
-        servletContext = EasyMock.createMock(PortletContext.class);
-        factory = new WildcardPortletTilesContextFactory();
+        servletContext = EasyMock.createMock(ServletContext.class);
+        factory = new WildcardServletTilesApplicationContextFactory();
         EasyMock.replay(servletContext);
     }
 
     /**
      * Test method for
-     * {@link org.apache.tiles.servlet.context.wildcard.WildcardPortletTilesContextFactory
+     * {@link org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContextFactory
      * #createApplicationContext(java.lang.Object)}.
      */
     public void testCreateApplicationContext() {
         TilesApplicationContext context = factory
                 .createApplicationContext(servletContext);
         assertTrue("The class of the application context is not correct",
-                context instanceof WildcardPortletTilesApplicationContext);
+                context instanceof WildcardServletTilesApplicationContext);
     }
 }
