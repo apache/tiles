@@ -84,7 +84,9 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
         List<TilesContextFactory> factories = new ArrayList<TilesContextFactory>(
                 CONTEXT_FACTORY_CHAIN_COUNT);
         factories.add(new WildcardServletTilesContextFactory());
-        factories.add(new JspTilesContextFactory());
+        JspTilesContextFactory factory = new JspTilesContextFactory();
+        factory.setRequestContextFactory(contextFactory);
+        factories.add(factory);
         contextFactory.setFactories(factories);
     }
 

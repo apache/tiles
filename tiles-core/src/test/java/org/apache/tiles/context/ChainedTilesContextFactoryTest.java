@@ -77,6 +77,7 @@ public class ChainedTilesContextFactoryTest extends TestCase {
         ChainedTilesContextFactory factory = new ChainedTilesContextFactory();
         List<TilesContextFactory> factories = new ArrayList<TilesContextFactory>();
         RepeaterTilesContextFactory repFactory = new RepeaterTilesContextFactory();
+        repFactory.setRequestContextFactory(factory);
         factories.add(repFactory);
         factory.setFactories(factories);
         TilesRequestContext context = factory.createRequestContext(appContext, requestContext);

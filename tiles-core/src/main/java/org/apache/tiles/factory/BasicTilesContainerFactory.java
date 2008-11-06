@@ -30,6 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.ChainedTilesContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
@@ -136,13 +137,13 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
                 CONTEXT_FACTORY_CHAIN_COUNT);
         registerContextFactory(
                 "org.apache.tiles.servlet.context.ServletTilesContextFactory",
-                factories);
+                factories, contextFactory);
         registerContextFactory(
                 "org.apache.tiles.portlet.context.PortletTilesContextFactory",
-                factories);
+                factories, contextFactory);
         registerContextFactory(
                 "org.apache.tiles.jsp.context.JspTilesContextFactory",
-                factories);
+                factories, contextFactory);
         contextFactory.setFactories(factories);
     }
 
@@ -151,14 +152,22 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      *
      * @param className The name of the class to instantiate.
      * @param factories The list of factories to add to.
+     * @param parent The parent {@link TilesContextFactory}. If null it won't be
+     * considered.
+     * @since 2.1.1
      */
     protected void registerContextFactory(String className,
-            List<TilesContextFactory> factories) {
+            List<TilesContextFactory> factories, TilesContextFactory parent) {
         TilesContextFactory retValue = null;
         try {
             Class<? extends TilesContextFactory> clazz = Class.forName(
                     className).asSubclass(TilesContextFactory.class);
             retValue = clazz.newInstance();
+            if (parent != null
+                    && retValue instanceof TilesRequestContextFactoryAware) {
+                ((TilesRequestContextFactoryAware) retValue)
+                        .setRequestContextFactory(parent);
+            }
         } catch (ClassNotFoundException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Cannot find JspTilesContextFactory, ignoring problem", e);

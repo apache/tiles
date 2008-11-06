@@ -276,7 +276,8 @@ public class BasicTilesContainerFactoryTest extends TestCase {
                 ChainedTilesContextFactory contextFactory) {
             List<TilesContextFactory> factories =
                 new ArrayList<TilesContextFactory>(1);
-            TilesContextFactory factory = new RepeaterTilesContextFactory(applicationContext);
+            RepeaterTilesContextFactory factory = new RepeaterTilesContextFactory(applicationContext);
+            factory.setRequestContextFactory(contextFactory);
             factories.add(factory);
             contextFactory.setFactories(factories);
         }

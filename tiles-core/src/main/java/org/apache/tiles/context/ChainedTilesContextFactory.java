@@ -71,7 +71,6 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
      */
     public void setFactories(List<TilesContextFactory> factories) {
         this.factories = factories;
-        injectParentTilesContextFactory();
     }
 
     /** {@inheritDoc} */
@@ -93,6 +92,10 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
                         .forName(classNames[i]);
                 if (TilesContextFactory.class.isAssignableFrom(clazz)) {
                     TilesContextFactory factory = clazz.newInstance();
+                    if (factory instanceof TilesRequestContextFactoryAware) {
+                        ((TilesRequestContextFactoryAware) factory)
+                                .setRequestContextFactory(this);
+                    }
                     factories.add(factory);
                 } else {
                     throw new IllegalArgumentException("The class "
@@ -118,7 +121,6 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
                                 + " default constructor", e);
             }
         }
-        injectParentTilesContextFactory();
     }
 
     /** {@inheritDoc} */
@@ -155,17 +157,5 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
         }
 
         return retValue;
-    }
-
-    /**
-     * Injects this context factory to all chained context factories.
-     */
-    protected void injectParentTilesContextFactory() {
-        for (TilesContextFactory factory : factories) {
-            if (factory instanceof TilesRequestContextFactoryAware) {
-                ((TilesRequestContextFactoryAware) factory)
-                        .setRequestContextFactory(this);
-            }
-        }
     }
 }
