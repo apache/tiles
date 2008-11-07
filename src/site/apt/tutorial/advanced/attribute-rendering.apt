@@ -69,7 +69,7 @@ Customize attribute rendering
   init parameter, if you are using parameter-based initialization;
 
   * overriding the
-  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#registerAttributeRenderers(org.apache.tiles.renderer.impl.BasicRendererFactory,%20java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}registerAttributeRenderers}}
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#registerAttributeRenderers(org.apache.tiles.renderer.impl.BasicRendererFactory,%20java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}registerAttributeRenderers}}
   of <<<BasicTilesContainerFactory>>> if you are using Java-based configuration.
 
 * Custom default attribute renderer
@@ -82,7 +82,7 @@ Customize attribute rendering
   init parameter, if you are using parameter-based initialization;
 
   * overriding the
-  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createDefaultAttributeRenderer(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}createDefaultAttributeRenderer}}
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createDefaultAttributeRenderer(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}createDefaultAttributeRenderer}}
   of <<<BasicTilesContainerFactory>>> if you are using Java-based configuration.
 
 * Custom attribute renderer factory
@@ -96,6 +96,6 @@ Customize attribute rendering
   init parameter, if you are using parameter-based initialization;
 
   * overriding the
-  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createRendererFactory(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}createRendererFactory}}
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createRendererFactory(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}createRendererFactory}}
   of <<<BasicTilesContainerFactory>>> if you are using Java-based configuration.
     

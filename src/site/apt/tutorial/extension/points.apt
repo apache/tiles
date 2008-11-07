@@ -41,7 +41,7 @@ Tiles Extension Points
   {{{../../config-reference.html#KeyedDefinitionsFactoryTilesContainerFactory_configuration}KeyedDefinitionsFactoryTilesContainerFactory}}
   that allows to create multiple definitions factory for different "keys".
 
-* Tiles Context Factory
+* Tiles Application and Request Context Factory
 
   The
   {{{../../apidocs/org/apache/tiles/context/TilesRequestContext.html}<<<TilesRequestContext>>>}}
@@ -49,17 +49,25 @@ Tiles Extension Points
   {{{../../apidocs/org/apache/tiles/context/TilesApplicationContext.html}<<<TilesApplicationContext>>>}}
   interfaces are used to abstract the Tiles context from the particular
   technology. The
-  {{{../../config-reference.html#org.apache.tiles.context.TilesContextFactory}<<<TilesContextFactory>>>}}
+  {{{../../config-reference.html#org.apache.tiles.context.TilesApplicationContextFactory}<<<TilesApplicationContextFactory>>>}}
+  and the
+  {{{../../config-reference.html#org.apache.tiles.context.TilesRequestContextFactory}<<<TilesRequestContextFactory>>>}}
   interface is used to create instances of the 2 classes above.
 
-  The default implementation,
-  {{{../../config-reference.html#ChainedTilesContextFactory configuration}<<<ChainedTilesContextFactory>>>}} 
+  The default implementations,
+  {{{../../config-reference.html#ChainedTilesApplicationContextFactory_configuration}<<<ChainedTilesApplicationContextFactory>>>}}
+  and 
+  {{{../../config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>>}} 
   links together different implementation. The default configuration links
   together the implementation for Servlet, Portlet and JSP technologies. If you
   need to support a new technology, we suggest to configure
-  {{{../../config-reference.html#ChainedTilesContextFactory configuration}<<<ChainedTilesContextFactory>>>}}
+  {{{../../config-reference.html#ChainedTilesApplicationContextFactory_configuration}<<<ChainedTilesApplicationContextFactory>>>}}
+  and
+  {{{../../config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>>}}
   and create a new instance of
-  {{{../../apidocs/org/apache/tiles/context/TilesContextFactory.html}<<<TilesContextFactory>>>}}.
+  {{{../../apidocs/org/apache/tiles/context/TilesApplicationContextFactory.html}<<<TilesApplicationContextFactory>>>}}
+  and
+  {{{../../apidocs/org/apache/tiles/context/TilesRequestContextFactory.html}<<<TilesRequestContextFactory>>>}}.
 
 * Tiles Definitions Factory
 

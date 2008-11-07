@@ -47,7 +47,7 @@ Expression Language (EL) support
 ------------------------------------
 
   If you are using programmatic configuration via Java, override the
-  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createEvaluator(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesContextFactory,%20org.apache.tiles.locale.LocaleResolver)} createEvaluator}}
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createEvaluator(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.locale.LocaleResolver)} createEvaluator}}
   method, providing <<only the creation>> of the instance of the
   <<<AttributeEvaluator>>>.
   
@@ -58,7 +58,7 @@ Expression Language (EL) support
     @Override
     protected AttributeEvaluator createEvaluator(Object context,
             TilesApplicationContext applicationContext,
-            TilesContextFactory contextFactory, LocaleResolver resolver) {
+            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
         evaluator.setApplicationContext(applicationContext);
         MultiversionExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();

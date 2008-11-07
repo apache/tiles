@@ -49,30 +49,30 @@ Load XML definition files using wildcards
   need for some configuration:
 
   * If you are using parameter-based initialization, provide a new value for the
-  {{{../config-reference.html#org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES>>>}}
+  {{{../config-reference.html#org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES>>>}}
   init parameter. For example:
 
 ----------------------------------------
 <init-param>
-    <param-name>org.apache.tiles.context.ChainedTilesContextFactory.FACTORY_CLASS_NAMES</param-name>
-    <param-value>org.apache.tiles.servlet.context.wildcard.WildcardServletTilesContextFactory,
-      org.apache.tiles.jsp.context.JspTilesContextFactory</param-value>
+    <param-name>org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES</param-name>
+    <param-value>
+      org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContextFactory
+    </param-value>
 </init-param>
 ----------------------------------------
 
   * If you are using Java-based configuration, override the 
-  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#registerChainedContextFactories(java.lang.Object,%20org.apache.tiles.context.ChainedTilesContextFactory)}registerChainedContextFactories}}
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#registerChainedApplicationContextFactories(java.lang.Object,%20org.apache.tiles.context.ChainedTilesApplicationContextFactory)}registerChainedContextFactories}}
   of <<<BasicTilesContainerFactory>>> this way:
 
 ----------------------------------------
 /** {@inheritDoc} */
 @Override
-protected void registerChainedContextFactories(Object context,
-        ChainedTilesContextFactory contextFactory) {
-    List<TilesContextFactory> factories = new ArrayList<TilesContextFactory>(
+protected void registerChainedApplicationContextFactories(Object context,
+        ChainedTilesApplicationContextFactory contextFactory) {
+    List<TilesApplicationContextFactory> factories = new ArrayList<TilesApplicationContextFactory>(
             CONTEXT_FACTORY_CHAIN_COUNT);
-    factories.add(new WildcardServletTilesContextFactory());
-    factories.add(new JspTilesContextFactory());
+    factories.add(new WildcardServletTilesApplicationContextFactory());
     contextFactory.setFactories(factories);
 }
 ----------------------------------------
@@ -97,7 +97,7 @@ protected void registerChainedContextFactories(Object context,
 ----------------------------------------
 
   * If you are using Java-based configuration, override the 
-  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#getSourceURLs(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesContextFactory)}getSourceURLs}}
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#getSourceURLs(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesApplicationContextFactory)}getSourceURLs}}
   of <<<BasicTilesContainerFactory>>>. In the following example, notice the
   manual exclusion of files including underscores (_):
 
@@ -106,7 +106,7 @@ protected void registerChainedContextFactories(Object context,
 @Override
 protected List<URL> getSourceURLs(Object context,
         TilesApplicationContext applicationContext,
-        TilesContextFactory contextFactory) {
+        TilesRequestContextFactory contextFactory) {
     List<URL> urls = new ArrayList<URL>(URL_COUNT);
     try {
         Set<URL> urlSet = applicationContext
