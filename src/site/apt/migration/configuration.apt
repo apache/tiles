@@ -36,17 +36,40 @@
 * Configuration using Java
 
   If you are using Java-based configuration, override the 
-  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createDefinitionsReader(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesContextFactory)}createDefinitionsReader}}
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createDefinitionsReader(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory)}createDefinitionsReader}}
   method this way:
 
 ---------------------------------------
 @Override
 protected DefinitionsReader createDefinitionsReader(Object context,
         TilesApplicationContext applicationContext,
-        TilesContextFactory contextFactory) {
+        TilesRequestContextFactory contextFactory) {
     return new CompatibilityDigesterDefinitionsReader();
 }
 ---------------------------------------
+
+  You need to add a renderer for the "page" attribute type, that is in fact the "template" type.
+  So override the
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#registerAttributeRenderers(org.apache.tiles.renderer.impl.BasicRendererFactory,%20java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}registerAttributeRenderers}}
+  method.
+
+---------------------------------------
+@Override
+protected void registerAttributeRenderers(
+        BasicRendererFactory rendererFactory, Object context,
+        TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory, TilesContainer container,
+        AttributeEvaluator evaluator) {
+    super.registerAttributeRenderers(rendererFactory, context,
+            applicationContext, contextFactory, container, evaluator);
+    TemplateAttributeRenderer templateRenderer = new TemplateAttributeRenderer();
+    templateRenderer.setApplicationContext(applicationContext);
+    templateRenderer.setRequestContextFactory(contextFactory);
+    templateRenderer.setEvaluator(evaluator);
+    rendererFactory.registerRenderer("page", templateRenderer);
+}
+---------------------------------------
+
 
 * Configuration using initialization parameters
 
@@ -59,6 +82,23 @@ protected DefinitionsReader createDefinitionsReader(Object context,
 <init-param>
     <param-name>org.apache.tiles.definition.DefinitionsReader</param-name>
     <param-value>org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader</param-value>
+</init-param>
+---------------------------------------
+
+  You need to add a renderer for the "page" attribute type, that is in fact the "template" type.
+  So set the
+  {{{../config-reference.html#org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS}<<<org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS>>>}}
+  this way: 
+
+---------------------------------------
+<init-param>
+    <param-name>org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS</param-name>
+    <param-value>
+        string,org.apache.tiles.renderer.impl.StringAttributeRenderer;
+        definition,org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
+        template,org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
+        page,org.apache.tiles.renderer.impl.TemplateAttributeRenderer
+    </param-value>
 </init-param>
 ---------------------------------------
 

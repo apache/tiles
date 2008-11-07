@@ -147,7 +147,7 @@ Standard configuration parameters
   * <<Default>>: <<<org.apache.tiles.context.ChainedTilesRequestContextFactory>>>.
     
   * <<Usage>>: when specified, it must contain the name of a class that
-  implements the <<<TilesContextFactory>>> interface.
+  implements the <<<TilesRequestContextFactory>>> interface.
 
 ** {<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}
 
@@ -228,7 +228,7 @@ Standard configuration parameters
   * <<Specified in>>:
   {{{apidocs/org/apache/tiles/renderer/impl/BasicRendererFactory.html#TYPE_RENDERERS_INIT_PARAM}<<<org.apache.tiles.renderer.impl.BasicRendererFactory>>>}}.
     
-  * <<Default>>: <<<string,org.apache.tiles.renderer.impl;
+  * <<Default>>: <<<string,org.apache.tiles.renderer.impl.StringAttributeRenderer;
   definition,org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
   template,org.apache.tiles.renderer.impl.TemplateAttributeRenderer>>>.
     
@@ -275,11 +275,11 @@ Standard configuration parameters
   {{{apidocs/org/apache/tiles/context/ChainedTilesApplicationContextFactory.html#FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesApplicationContextFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.servlet.context.ServletTilesApplicationContextFactory,
-  org.apache.tiles.portlet.context.PortletApplicationTilesContextFactory>>>
+  org.apache.tiles.portlet.context.PortletApplicationTilesApplicationContextFactory>>>
     
   * <<Usage>>: when specified, it must contain a comma-separated list of class
   names implementing
-  {{{apidocs/org/apache/tiles/context/TilesApplicationContextFactory.html}<<<TilesContextFactory>>>}}.
+  {{{apidocs/org/apache/tiles/context/TilesApplicationContextFactory.html}<<<TilesApplicationContextFactory>>>}}.
 
 * {<<<ChainedTilesRequestContextFactory>>> configuration}
 
