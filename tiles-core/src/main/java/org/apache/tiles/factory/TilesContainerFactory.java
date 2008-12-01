@@ -22,14 +22,15 @@ package org.apache.tiles.factory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
+import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
-import org.apache.tiles.context.TilesApplicationContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
@@ -77,7 +78,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * Initialization parameter that represents the context factory class name.
      *
-     * @deprecated Use {@link #APPLICATION_CONTEXT_FACTORY_INIT_PARAM} or
+     * @deprecated Use {@link AbstractTilesApplicationContextFactory#APPLICATION_CONTEXT_FACTORY_INIT_PARAM} or
      * {@link #REQUEST_CONTEXT_FACTORY_INIT_PARAM}.
      */
     public static final String CONTEXT_FACTORY_INIT_PARAM =
@@ -85,12 +86,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Initialization parameter that represents the context factory class name.
-     */
-    public static final String APPLICATION_CONTEXT_FACTORY_INIT_PARAM =
-        "org.apache.tiles.context.TilesApplicationContextFactory";
-
-    /**
-     * Initialization parameter that represents the context factory class name.
+     *
+     * @since 2.1.1
      */
     public static final String REQUEST_CONTEXT_FACTORY_INIT_PARAM =
         "org.apache.tiles.context.TilesRequestContextFactory";
@@ -136,7 +133,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
         new HashMap<String, String>();
 
     static {
-        DEFAULTS.put(APPLICATION_CONTEXT_FACTORY_INIT_PARAM,
+        DEFAULTS.put(AbstractTilesApplicationContextFactory.APPLICATION_CONTEXT_FACTORY_INIT_PARAM,
                 ChainedTilesApplicationContextFactory.class.getName());
         DEFAULTS.put(REQUEST_CONTEXT_FACTORY_INIT_PARAM,
                 ChainedTilesRequestContextFactory.class.getName());
@@ -209,9 +206,23 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The created container.
      * @throws TilesContainerFactoryException If something goes wrong during
      * instantiation.
+     * @deprecated Use {@link #createContainer(TilesApplicationContext)}.
      */
+    @Deprecated
     public TilesContainer createContainer(Object context) {
-        String value = getInitParameter(context, CONTAINER_FACTORY_MUTABLE_INIT_PARAM);
+        if (context instanceof TilesApplicationContext) {
+            return createContainer((TilesApplicationContext) context);
+        }
+
+        throw new UnsupportedOperationException("Class "
+                + context.getClass().getName()
+                + " not recognized a TilesApplicationContext");
+    }
+
+    /** {@inheritDoc} */
+    public TilesContainer createContainer(TilesApplicationContext context) {
+        String value = context.getInitParams().get(
+                CONTAINER_FACTORY_MUTABLE_INIT_PARAM);
         if (Boolean.parseBoolean(value)) {
             return createMutableTilesContainer(context);
         } else {
@@ -247,22 +258,65 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The created Tiles container.
      * @throws TilesContainerFactoryException If something goes wrong during
      * initialization.
+     * @deprecated Use {@link #createTilesContainer(TilesApplicationContext)}.
      */
+    @Deprecated
     public TilesContainer createTilesContainer(Object context) {
+        if (context instanceof TilesApplicationContext) {
+            return createTilesContainer((TilesApplicationContext) context);
+        }
+
+        throw new UnsupportedOperationException("Class "
+                + context.getClass().getName()
+                + " not recognized a TilesApplicationContext");
+    }
+
+    /**
+     * Creates an immutable Tiles container.
+     *
+     * @param context The Tiles application context object.
+     * @return The created Tiles container.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * initialization.
+     * @since 2.1.1
+     */
+    public TilesContainer createTilesContainer(TilesApplicationContext context) {
         BasicTilesContainer container = new BasicTilesContainer();
         initializeContainer(context, container);
         return container;
     }
 
     /**
-     * Creates a mutable Tiles container.
+     * Creates an immutable Tiles container.
      *
      * @param context The (application) context object.
      * @return The created Tiles container.
      * @throws TilesContainerFactoryException If something goes wrong during
      * initialization.
+     * @deprecated Use
+     * {@link #createMutableTilesContainer(TilesApplicationContext)}.
      */
-    public MutableTilesContainer createMutableTilesContainer(Object context) {
+    @Deprecated
+    public TilesContainer createMutableTilesContainer(Object context) {
+        if (context instanceof TilesApplicationContext) {
+            return createMutableTilesContainer((TilesApplicationContext) context);
+        }
+
+        throw new UnsupportedOperationException("Class "
+                + context.getClass().getName()
+                + " not recognized a TilesApplicationContext");
+    }
+
+    /**
+     * Creates a mutable Tiles container.
+     *
+     * @param context The Tiles application context object.
+     * @return The created Tiles container.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * initialization.
+     */
+    public MutableTilesContainer createMutableTilesContainer(
+            TilesApplicationContext context) {
         CachingTilesContainer container = new CachingTilesContainer();
         initializeContainer(context, container);
         return container;
@@ -275,8 +329,30 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * @param container The container to be initialized.
      * @throws TilesContainerFactoryException If something goes wrong during
      * initialization.
+     * @deprecated Use
+     * {@link #initializeContainer(TilesApplicationContext, BasicTilesContainer)}.
      */
+    @Deprecated
     protected void initializeContainer(Object context,
+            BasicTilesContainer container) {
+        if (context instanceof TilesApplicationContext) {
+            initializeContainer((TilesApplicationContext) context, container);
+        }
+
+        throw new UnsupportedOperationException("Class "
+                + context.getClass().getName()
+                + " not recognized a TilesApplicationContext");
+    }
+
+    /**
+     * Initializes a container.
+     *
+     * @param context The Tiles application context object to use.
+     * @param container The container to be initialized.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * initialization.
+     */
+    protected void initializeContainer(TilesApplicationContext context,
             BasicTilesContainer container) {
         Map <String, String> initParameterMap;
 
@@ -284,7 +360,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
             LOG.info("Initializing Tiles2 container. . .");
         }
 
-        initParameterMap = getInitParameterMap(context);
+        initParameterMap = context.getInitParams();
         Map<String, String> configuration = new HashMap<String, String>(defaultConfiguration);
         configuration.putAll(initParameterMap);
         storeContainerDependencies(context, initParameterMap, configuration, container);
@@ -310,13 +386,37 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
     protected void storeContainerDependencies(Object context,
             Map<String, String> initParameters,
             Map<String, String> configuration, BasicTilesContainer container) {
-        TilesApplicationContextFactory contextFactory =
-            (TilesApplicationContextFactory) createFactory(configuration,
-                APPLICATION_CONTEXT_FACTORY_INIT_PARAM);
-        contextFactory.init(configuration);
+        if (context instanceof TilesApplicationContext) {
+            storeContainerDependencies((TilesApplicationContext) context,
+                    initParameters, configuration, container);
+        }
 
-        TilesApplicationContext tilesContext =
-            contextFactory.createApplicationContext(context);
+        throw new UnsupportedOperationException("Class "
+                + context.getClass().getName()
+                + " not recognized a TilesApplicationContext");
+    }
+
+    /**
+     * Stores container dependencies, that is called before
+     * {@link TilesContainer#init(Map)}.
+     *
+     * @param context The (application) context object to use.
+     * @param initParameters The initialization parameters.
+     * @param configuration The merged configuration parameters (both defaults
+     * and context ones).
+     * @param container The container to use.
+     * @throws TilesContainerFactoryException If something goes wrong during
+     * initialization.
+     */
+    protected void storeContainerDependencies(TilesApplicationContext context,
+            Map<String, String> initParameters,
+            Map<String, String> configuration, BasicTilesContainer container) {
+        AbstractTilesApplicationContextFactory contextFactory =
+            (AbstractTilesApplicationContextFactory) createFactory(configuration,
+                AbstractTilesApplicationContextFactory.APPLICATION_CONTEXT_FACTORY_INIT_PARAM);
+        if (contextFactory instanceof Initializable) {
+            ((Initializable) contextFactory).init(configuration);
+        }
 
         TilesRequestContextFactory requestContextFactory =
             (TilesRequestContextFactory) createFactory(configuration,
@@ -332,7 +432,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
         if (evaluator instanceof TilesApplicationContextAware) {
             ((TilesApplicationContextAware) evaluator)
-                    .setApplicationContext(tilesContext);
+                    .setApplicationContext(context);
         }
 
         if (evaluator instanceof TilesContainerAware) {
@@ -348,7 +448,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
         if (rendererFactory instanceof TilesApplicationContextAware) {
             ((TilesApplicationContextAware) rendererFactory)
-                    .setApplicationContext(tilesContext);
+                    .setApplicationContext(context);
         }
 
         if (rendererFactory instanceof TilesContainerAware) {
@@ -364,13 +464,12 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
             (PreparerFactory) createFactory(configuration,
                 PREPARER_FACTORY_INIT_PARAM);
 
-        postCreationOperations(requestContextFactory, tilesContext,
-                rendererFactory, evaluator, initParameters, configuration,
-                container);
+        postCreationOperations(requestContextFactory, context, rendererFactory,
+                evaluator, initParameters, configuration, container);
 
         container.setRequestContextFactory(requestContextFactory);
         container.setPreparerFactory(prepFactory);
-        container.setApplicationContext(tilesContext);
+        container.setApplicationContext(context);
         container.setRendererFactory(rendererFactory);
         container.setEvaluator(evaluator);
     }

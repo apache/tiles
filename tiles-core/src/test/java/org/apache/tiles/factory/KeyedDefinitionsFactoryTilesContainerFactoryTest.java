@@ -20,18 +20,18 @@
  */
 package org.apache.tiles.factory;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.Vector;
-
-import javax.servlet.ServletContext;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
@@ -53,10 +53,15 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
             .getLog(KeyedDefinitionsFactoryTilesContainerFactoryTest.class);
 
     /**
-     * The servlet context.
+     * The application context.
      */
-    private ServletContext context;
+    private TilesApplicationContext context;
 
+    /**
+     * Initialization parameters.
+     */
+    private Map<String, String> initParams;
+    
     /**
      * Default configuration parameters.
      */
@@ -65,17 +70,19 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
     /** {@inheritDoc} */
     @Override
     public void setUp() {
-        context = EasyMock.createMock(ServletContext.class);
-        EasyMock.expect(context.getInitParameter(
-                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(
+        context = EasyMock.createMock(TilesApplicationContext.class);
+        initParams = new HashMap<String, String>();
+        initParams.put(
+                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
                 KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
-        EasyMock.expect(context.getInitParameter(
-                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesApplicationContextFactory.class
-                        .getName());
-        EasyMock.expect(context.getInitParameter(
-                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesRequestContextFactory.class.getName());
+        initParams.put(
+                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES,
+                RepeaterTilesApplicationContextFactory.class.getName());
+        initParams.put(
+                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES,
+                RepeaterTilesRequestContextFactory.class.getName());
+        EasyMock.expect(context.getInitParams()).andReturn(initParams)
+                .anyTimes();
         defaults = new HashMap<String, String>();
     }
 
@@ -83,12 +90,6 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
      * Tests getting a container factory.
      */
     public void testGetFactory() {
-        Vector<String> v = new Vector<String>();
-        v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
-        v.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
-        v.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
-
-        EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements());
         EasyMock.replay(context);
         TilesContainerFactory factory = (TilesContainerFactory) AbstractTilesContainerFactory
                 .getTilesContainerFactory(context);
@@ -100,38 +101,26 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests creating a container.
-     *
-     * @throws MalformedURLException If the resources have an invalid form (that
-     * should not happen).
+     * @throws IOException If something goes wrong.
      */
-    public void testCreateContainer() throws MalformedURLException {
-        Vector<String> enumeration = new Vector<String>();
-        enumeration.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
-        enumeration.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
-        enumeration.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory
-                .APPLICATION_CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory
-                .REQUEST_CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(
-                KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))
-                .andReturn("one,two").anyTimes();
-        EasyMock.expect(context.getInitParameter(
-                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
-                + "one"))
-                .andReturn("/WEB-INF/tiles-one.xml").anyTimes();
-        EasyMock.expect(context.getInitParameter(
-                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
-                + "@two")).andReturn("/WEB-INF/tiles-two.xml").anyTimes();
-        EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
-        EasyMock.expect(context.getInitParameterNames()).andReturn(enumeration.elements()).anyTimes();
+    public void testCreateContainer() throws IOException {
+        initParams.put(KeyedDefinitionsFactoryTilesContainerFactory
+                .CONTAINER_KEYS_INIT_PARAM, "one,two");
+        initParams.put(KeyedDefinitionsFactoryTilesContainer
+                .DEFINITIONS_CONFIG_PREFIX + "one", "/WEB-INF/tiles-one.xml");
+        initParams.put(KeyedDefinitionsFactoryTilesContainer
+                .DEFINITIONS_CONFIG_PREFIX + "two", "/WEB-INF/tiles-two.xml");
         URL url = getClass().getResource("test-defs.xml");
-        EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
+        Set<URL> urls = new HashSet<URL>();
+        urls.add(url);
+        EasyMock.expect(context.getResources("/WEB-INF/tiles.xml")).andReturn(
+                urls);
         url = getClass().getResource("test-defs-key-one.xml");
-        EasyMock.expect(context.getResource("/WEB-INF/tiles-one.xml")).andReturn(url);
+        EasyMock.expect(context.getResources("/WEB-INF/tiles-one.xml"))
+                .andReturn(urls);
         url = getClass().getResource("test-defs-key-two.xml");
-        EasyMock.expect(context.getResource("/WEB-INF/tiles-two.xml")).andReturn(url);
+        EasyMock.expect(context.getResources("/WEB-INF/tiles-two.xml"))
+                .andReturn(urls);
         EasyMock.replay(context);
 
         TilesContainerFactory factory = (TilesContainerFactory) AbstractTilesContainerFactory

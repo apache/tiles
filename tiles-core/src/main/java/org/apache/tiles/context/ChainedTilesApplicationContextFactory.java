@@ -23,8 +23,9 @@ package org.apache.tiles.context;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.awareness.TilesApplicationContextFactoryAware;
+import org.apache.tiles.awareness.AbstractTilesApplicationContextFactoryAware;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,7 +39,8 @@ import java.util.Map;
  * @version $Rev$ $Date$
  * @since 2.1.1
  */
-public class ChainedTilesApplicationContextFactory implements TilesApplicationContextFactory {
+public class ChainedTilesApplicationContextFactory extends
+        AbstractTilesApplicationContextFactory implements Initializable {
 
     /**
      * Factory class names initialization parameter to use.
@@ -66,14 +68,15 @@ public class ChainedTilesApplicationContextFactory implements TilesApplicationCo
     /**
      * The Tiles context factories composing the chain.
      */
-    private List<TilesApplicationContextFactory> factories;
+    private List<AbstractTilesApplicationContextFactory> factories;
 
     /**
      * Sets the factories to be used.
      *
      * @param factories The factories to be used.
      */
-    public void setFactories(List<TilesApplicationContextFactory> factories) {
+    public void setFactories(
+            List<AbstractTilesApplicationContextFactory> factories) {
         this.factories = factories;
     }
 
@@ -89,15 +92,18 @@ public class ChainedTilesApplicationContextFactory implements TilesApplicationCo
             classNames = DEFAULT_FACTORY_CLASS_NAMES;
         }
 
-        factories = new ArrayList<TilesApplicationContextFactory>();
+        factories = new ArrayList<AbstractTilesApplicationContextFactory>();
         for (int i = 0; i < classNames.length; i++) {
             try {
-                Class<TilesApplicationContextFactory> clazz = (Class<TilesApplicationContextFactory>) Class
+                Class<AbstractTilesApplicationContextFactory> clazz =
+                    (Class<AbstractTilesApplicationContextFactory>) Class
                         .forName(classNames[i]);
-                if (TilesApplicationContextFactory.class.isAssignableFrom(clazz)) {
-                    TilesApplicationContextFactory factory = clazz.newInstance();
-                    if (factory instanceof TilesApplicationContextFactoryAware) {
-                        ((TilesApplicationContextFactoryAware) factory)
+                if (AbstractTilesApplicationContextFactory.class
+                        .isAssignableFrom(clazz)) {
+                    AbstractTilesApplicationContextFactory factory = clazz
+                            .newInstance();
+                    if (factory instanceof AbstractTilesApplicationContextFactoryAware) {
+                        ((AbstractTilesApplicationContextFactoryAware) factory)
                                 .setApplicationContextFactory(this);
                     }
                     factories.add(factory);
@@ -131,7 +137,7 @@ public class ChainedTilesApplicationContextFactory implements TilesApplicationCo
     public TilesApplicationContext createApplicationContext(Object context) {
         TilesApplicationContext retValue = null;
 
-        for (Iterator<TilesApplicationContextFactory> factoryIt = factories
+        for (Iterator<AbstractTilesApplicationContextFactory> factoryIt = factories
                 .iterator(); factoryIt.hasNext() && retValue == null;) {
             retValue = factoryIt.next().createApplicationContext(context);
         }

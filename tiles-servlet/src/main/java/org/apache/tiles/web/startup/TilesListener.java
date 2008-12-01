@@ -22,10 +22,14 @@ package org.apache.tiles.web.startup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.Initializable;
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
+import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -89,9 +93,17 @@ public class TilesListener
      * @return The created container
      */
     protected TilesContainer createContainer(ServletContext context) {
-        AbstractTilesContainerFactory factory =
-            AbstractTilesContainerFactory.getTilesContainerFactory(context);
-        return factory.createContainer(context);
+        TilesApplicationContext applicationContext = new ServletTilesApplicationContext(
+                context);
+        AbstractTilesApplicationContextFactory acFactory = AbstractTilesApplicationContextFactory
+                .createFactory(applicationContext);
+        if (acFactory instanceof Initializable) {
+            ((Initializable) acFactory).init(applicationContext.getInitParams());
+        }
+        applicationContext = acFactory.createApplicationContext(context);
+        AbstractTilesContainerFactory factory = AbstractTilesContainerFactory
+                .getTilesContainerFactory(applicationContext);
+        return factory.createContainer(applicationContext);
     }
 
 }

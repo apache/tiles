@@ -42,9 +42,9 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
 
     /** {@inheritDoc} */
     @Override
-    protected DefinitionDAO<Locale> createLocaleDefinitionDao(Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+    protected DefinitionDAO<Locale> createLocaleDefinitionDao(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            LocaleResolver resolver) {
         LocaleDbDefinitionDAO definitionDao = new LocaleDbDefinitionDAO();
         definitionDao.setDataSource((DataSource) applicationContext
                 .getApplicationScope().get("dataSource"));
@@ -54,8 +54,8 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
     /** {@inheritDoc} */
     @Override
     protected LocaleDefinitionsFactory instantiateDefinitionsFactory(
-            Object context, TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+            TilesApplicationContext applicationContext, TilesRequestContextFactory contextFactory,
+            LocaleResolver resolver) {
         return new LocaleDefinitionsFactory();
    }
 }

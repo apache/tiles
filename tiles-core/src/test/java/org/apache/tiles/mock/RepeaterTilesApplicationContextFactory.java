@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesApplicationContextFactory;
+import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 
 /**
  * "Repeats" (i.e. returns back) the context as a
@@ -34,8 +34,8 @@ import org.apache.tiles.context.TilesApplicationContextFactory;
  *
  * @version $Rev$ $Date$
  */
-public class RepeaterTilesApplicationContextFactory implements
-        TilesApplicationContextFactory {
+public class RepeaterTilesApplicationContextFactory extends
+        AbstractTilesApplicationContextFactory {
 
     /**
      * The application context.

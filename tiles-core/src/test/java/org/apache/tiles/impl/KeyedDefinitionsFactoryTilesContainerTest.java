@@ -23,12 +23,10 @@ package org.apache.tiles.impl;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 
 import junit.framework.TestCase;
 
@@ -43,7 +41,6 @@ import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.impl.KeyedDefinitionsFactoryTilesContainer.DefaultKeyExtractor;
 import org.apache.tiles.mock.RepeaterTilesApplicationContextFactory;
 import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
-import org.apache.tiles.util.RollingVectorEnumeration;
 import org.easymock.EasyMock;
 
 
@@ -65,51 +62,11 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
     /** {@inheritDoc} */
     @Override
     public void setUp() {
-        ContextLikeTilesApplicationContext context = EasyMock
-                .createMock(ContextLikeTilesApplicationContext.class);
-
-        Vector<String> v = new Vector<String>();
-        v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
-        v.add(KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM);
-        v.add(KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
-                + "one");
-        v.add(KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
-                + "two");
-        v.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
-        v.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
+        TilesApplicationContext context = EasyMock
+                .createMock(TilesApplicationContext.class);
 
         Map<String, String> initParameters = new HashMap<String, String>();
-        EasyMock.expect(context.getInitParams()).andReturn(initParameters);
 
-        EasyMock.expect(context.getInitParameter(
-                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
-                .andReturn(KeyedDefinitionsFactoryTilesContainerFactory.class
-                        .getName());
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory
-                .CONTAINER_FACTORY_MUTABLE_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory
-                .APPLICATION_CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory
-                .REQUEST_CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(
-                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesApplicationContextFactory.class
-                        .getName());
-        EasyMock.expect(context.getInitParameter(
-                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesRequestContextFactory.class.getName());
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(
-                KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))
-                .andReturn("one,two").anyTimes();
-        EasyMock.expect(context.getInitParameter(
-                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
-                + "one")).andReturn("/WEB-INF/tiles-one.xml").anyTimes();
-        EasyMock.expect(context.getInitParameter(
-                KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
-                + "two")).andReturn("/WEB-INF/tiles-two.xml").anyTimes();
-        EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
-        EasyMock.expect(context.getInitParameterNames()).andReturn(new RollingVectorEnumeration<String>(v)).anyTimes();
         initParameters.put(
                 AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
                 KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
@@ -128,6 +85,8 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         initParameters.put(
                 KeyedDefinitionsFactoryTilesContainer.DEFINITIONS_CONFIG_PREFIX
                 + "two", "/WEB-INF/tiles-two.xml");
+        EasyMock.expect(context.getInitParams()).andReturn(initParameters)
+                .anyTimes();
         try {
             Set<URL> urlSet;
             URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
@@ -172,40 +131,23 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
      *
      * @throws IOException If something goes wrong.
      */
-    @SuppressWarnings("deprecation")
     public void testPostponedDefinitionsFactoryInitialization()
             throws IOException {
         KeyedDefinitionsFactoryTilesContainer container;
-        ContextLikeTilesApplicationContext context = EasyMock
-                .createMock(ContextLikeTilesApplicationContext.class);
+        TilesApplicationContext context = EasyMock
+                .createMock(TilesApplicationContext.class);
 
-
-        Vector<String> v = new Vector<String>();
-        v.add(AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
-        v.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
-        v.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
-
-        EasyMock.expect(context.getInitParameter(
-                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM))
-                .andReturn(KeyedDefinitionsFactoryTilesContainerFactory.class.getName())
+        Map<String, String> initParams = new HashMap<String, String>();
+        initParams.put(
+                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM,
+                KeyedDefinitionsFactoryTilesContainerFactory.class.getName());
+        initParams.put(
+                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES,
+                RepeaterTilesApplicationContextFactory.class.getName());
+        initParams.put(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES,
+                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
+        EasyMock.expect(context.getInitParams()).andReturn(initParams)
                 .anyTimes();
-        EasyMock.expect(context.getInitParameter(
-                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesApplicationContextFactory.class
-                        .getName());
-        EasyMock.expect(context.getInitParameter(
-                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesRequestContextFactory.class.getName());
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(DefinitionsFactory.DEFINITIONS_CONFIG)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(BasicTilesContainer.DEFINITIONS_CONFIG)).andReturn(null);
-        EasyMock.expect(context.getInitParameter("definitions-config")).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory
-                .CONTAINER_FACTORY_MUTABLE_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(
-                KeyedDefinitionsFactoryTilesContainerFactory.CONTAINER_KEYS_INIT_PARAM))
-                .andReturn(null);
         Set<URL> urlSet = new HashSet<URL>();
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
         urlSet = new HashSet<URL>();
@@ -219,7 +161,6 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         urlSet = new HashSet<URL>();
         urlSet.add(url);
         EasyMock.expect(context.getResources("/WEB-INF/tiles-two.xml")).andReturn(urlSet);
-        EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements()).anyTimes();
         EasyMock.replay(context);
         KeyedDefinitionsFactoryTilesContainerFactory factory =
             (KeyedDefinitionsFactoryTilesContainerFactory)
@@ -232,7 +173,7 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         assertNull(container.getProperDefinitionsFactory("one"));
         assertNull(container.getProperDefinitionsFactory("two"));
 
-        Map<String, String> initParams = new HashMap<String, String>();
+        initParams = new HashMap<String, String>();
         initParams.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "/WEB-INF/tiles-one.xml");
         DefinitionsFactory defsFactory = factory.createDefinitionsFactory(context);
@@ -293,26 +234,5 @@ public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
         assertTrue(container.isValidDefinition("test.def1", request));
         assertFalse(container.isValidDefinition("test.def.one", request));
         assertTrue(container.isValidDefinition("test.def.two", request));
-    }
-
-    /**
-     * Extends {@link TilesApplicationContext} to act like a ServletContext.
-     */
-    private static interface ContextLikeTilesApplicationContext extends TilesApplicationContext {
-
-        /**
-         * Returns an initialization parameter.
-         *
-         * @param parameterName The name of the parameter.
-         * @return The value of the parameter.
-         */
-        String getInitParameter(String parameterName);
-
-        /**
-         * Returns the init parameter names.
-         *
-         * @return The parameter names.
-         */
-        Enumeration<String> getInitParameterNames();
     }
 }

@@ -28,9 +28,7 @@ import junit.framework.TestCase;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
-import org.apache.tiles.context.TilesApplicationContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -41,7 +39,6 @@ import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
-import org.apache.tiles.mock.RepeaterTilesApplicationContextFactory;
 import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
@@ -69,7 +66,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /**
      * The context object.
      */
-    private TilesApplicationContext context;
+    private TilesApplicationContext applicationContext;
 
     /**
      * The URL to load.
@@ -79,30 +76,20 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
-        context = EasyMock.createMock(TilesApplicationContext.class);
+        applicationContext = EasyMock.createMock(TilesApplicationContext.class);
         url = getClass().getResource("/org/apache/tiles/config/tiles-defs.xml");
-        EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
-        EasyMock.replay(context);
+        EasyMock.expect(applicationContext.getResource("/WEB-INF/tiles.xml")).andReturn(url);
+        EasyMock.replay(applicationContext);
         factory = new CustomBasicTilesContainerFactory();
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createContainer(Object)}.
+     * Tests {@link BasicTilesContainerFactory#createContainer(TilesApplicationContext)}.
      */
     public void testCreateContainer() {
-        TilesContainer container = factory.createContainer(context);
+        TilesContainer container = factory.createContainer(applicationContext);
         assertTrue("The class of the container is not correct",
                 container instanceof BasicTilesContainer);
-    }
-
-    /**
-     * Tests {@link BasicTilesContainerFactory#createApplicationContextFactory(Object)}.
-     */
-    public void testCreateApplicationContextFactory() {
-        TilesApplicationContextFactory contextFactory = factory
-                .createApplicationContextFactory(context);
-        assertTrue("The class of the context factory is not correct",
-                contextFactory instanceof ChainedTilesApplicationContextFactory);
     }
 
     /**
@@ -110,137 +97,107 @@ public class BasicTilesContainerFactoryTest extends TestCase {
      */
     public void testCreateRequestContextFactory() {
         TilesRequestContextFactory contextFactory = factory
-                .createRequestContextFactory();
+                .createRequestContextFactory(null);
         assertTrue("The class of the context factory is not correct",
                 contextFactory instanceof ChainedTilesRequestContextFactory);
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createDefinitionsFactory(Object,
-     * TilesApplicationContext, TilesContextFactory, LocaleResolver)}.
+     * Tests {@link BasicTilesContainerFactory#createDefinitionsFactory(TilesApplicationContext,
+     * TilesContextFactory, LocaleResolver)}.
      */
     public void testCreateDefinitionsFactory() {
-        TilesApplicationContextFactory contextFactory = factory
-                .createApplicationContextFactory(context);
-        TilesApplicationContext applicationContext = contextFactory
-                .createApplicationContext(context);
         TilesRequestContextFactory requestContextFactory = factory
-                .createRequestContextFactory();
-        LocaleResolver resolver = factory.createLocaleResolver(context,
-                applicationContext, requestContextFactory);
+                .createRequestContextFactory(applicationContext);
+        LocaleResolver resolver = factory.createLocaleResolver(applicationContext,
+                requestContextFactory);
         DefinitionsFactory defsFactory = factory.createDefinitionsFactory(
-                context, applicationContext, requestContextFactory, resolver);
+                applicationContext, requestContextFactory, resolver);
         assertTrue("The class of the definitions factory is not correct",
                 defsFactory instanceof UrlDefinitionsFactory);
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createLocaleResolver(Object,
-     * TilesApplicationContext, TilesContextFactory)}.
+     * Tests {@link BasicTilesContainerFactory#createLocaleResolver(TilesApplicationContext,
+     * TilesContextFactory)}.
      */
     public void testCreateLocaleResolver() {
-        TilesApplicationContextFactory contextFactory = factory
-                .createApplicationContextFactory(context);
-        TilesApplicationContext applicationContext = contextFactory
-                .createApplicationContext(context);
         TilesRequestContextFactory requestContextFactory = factory
-                .createRequestContextFactory();
-        LocaleResolver localeResolver = factory.createLocaleResolver(context,
-                applicationContext, requestContextFactory);
+                .createRequestContextFactory(applicationContext);
+        LocaleResolver localeResolver = factory.createLocaleResolver(applicationContext,
+                requestContextFactory);
         assertTrue("The class of the locale resolver is not correct",
                 localeResolver instanceof DefaultLocaleResolver);
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createDefinitionsReader(Object,
-     * TilesApplicationContext, TilesContextFactory)}.
+     * Tests {@link BasicTilesContainerFactory#createDefinitionsReader(TilesApplicationContext,
+     * TilesContextFactory)}.
      */
     public void testCreateDefinitionsReader() {
-        TilesApplicationContextFactory contextFactory = factory
-                .createApplicationContextFactory(context);
-        TilesApplicationContext applicationContext = contextFactory
-                .createApplicationContext(context);
         TilesRequestContextFactory requestContextFactory = factory
-                .createRequestContextFactory();
-        DefinitionsReader reader = factory.createDefinitionsReader(context,
-                applicationContext, requestContextFactory);
+                .createRequestContextFactory(applicationContext);
+        DefinitionsReader reader = factory.createDefinitionsReader(applicationContext,
+                requestContextFactory);
         assertTrue("The class of the reader is not correct",
                 reader instanceof DigesterDefinitionsReader);
     }
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#getSourceURLs(Object, TilesApplicationContext, TilesContextFactory)}.
+     * {@link BasicTilesContainerFactory#getSourceURLs(TilesApplicationContext, TilesContextFactory)}.
      */
     public void testGetSourceURLs() {
-        TilesApplicationContextFactory contextFactory = factory
-                .createApplicationContextFactory(context);
-        TilesApplicationContext applicationContext = contextFactory
-                .createApplicationContext(context);
         TilesRequestContextFactory requestContextFactory = factory
-                .createRequestContextFactory();
-        List<URL> urls = factory.getSourceURLs(context, applicationContext,
-                requestContextFactory);
+                .createRequestContextFactory(applicationContext);
+        List<URL> urls = factory.getSourceURLs(applicationContext, requestContextFactory);
         assertEquals("The urls list is not one-sized", 1, urls.size());
         assertEquals("The URL is not correct", url, urls.get(0));
     }
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#createEvaluator(Object,
-     * TilesApplicationContext, TilesContextFactory, LocaleResolver)}.
+     * {@link BasicTilesContainerFactory#createEvaluator(TilesApplicationContext,
+     * TilesContextFactory, LocaleResolver)}.
      */
     public void testCreateEvaluator() {
-        TilesApplicationContextFactory contextFactory = factory
-                .createApplicationContextFactory(context);
-        TilesApplicationContext applicationContext = contextFactory
-                .createApplicationContext(context);
         TilesRequestContextFactory requestContextFactory = factory
-                .createRequestContextFactory();
-        LocaleResolver resolver = factory.createLocaleResolver(context,
-                applicationContext, requestContextFactory);
-        AttributeEvaluator evaluator = factory.createEvaluator(context,
-                applicationContext, requestContextFactory, resolver);
+                .createRequestContextFactory(applicationContext);
+        LocaleResolver resolver = factory.createLocaleResolver(applicationContext,
+                requestContextFactory);
+        AttributeEvaluator evaluator = factory.createEvaluator(applicationContext,
+                requestContextFactory, resolver);
         assertTrue("The class of the evaluator is not correct",
                 evaluator instanceof DirectAttributeEvaluator);
     }
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#createPreparerFactory(Object, TilesApplicationContext, TilesContextFactory)}.
+     * {@link BasicTilesContainerFactory#createPreparerFactory(TilesApplicationContext, TilesContextFactory)}.
      */
     public void testCreatePreparerFactory() {
-        TilesApplicationContextFactory contextFactory = factory
-                .createApplicationContextFactory(context);
-        TilesApplicationContext applicationContext = contextFactory
-                .createApplicationContext(context);
         TilesRequestContextFactory requestContextFactory = factory
-                .createRequestContextFactory();
+                .createRequestContextFactory(applicationContext);
         PreparerFactory preparerFactory = factory.createPreparerFactory(
-                context, applicationContext, requestContextFactory);
+                applicationContext, requestContextFactory);
         assertTrue("The class of the preparer factory is not correct",
                 preparerFactory instanceof BasicPreparerFactory);
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createRendererFactory(Object,
-     * TilesApplicationContext, TilesContextFactory, TilesContainer, AttributeEvaluator)}.
+     * Tests {@link BasicTilesContainerFactory#createRendererFactory(TilesApplicationContext,
+     * TilesContextFactory, TilesContainer, AttributeEvaluator)}.
      */
     public void testCreateRendererFactory() {
-        TilesContainer container = factory.createContainer(context);
-        TilesApplicationContextFactory contextFactory = factory
-                .createApplicationContextFactory(context);
-        TilesApplicationContext applicationContext = contextFactory
-                .createApplicationContext(context);
+        TilesContainer container = factory.createContainer(applicationContext);
         TilesRequestContextFactory requestContextFactory = factory
-                .createRequestContextFactory();
-        LocaleResolver resolver = factory.createLocaleResolver(context,
-                applicationContext, requestContextFactory);
-        AttributeEvaluator evaluator = factory.createEvaluator(context,
-                applicationContext, requestContextFactory, resolver);
+                .createRequestContextFactory(applicationContext);
+        LocaleResolver resolver = factory.createLocaleResolver(applicationContext,
+                requestContextFactory);
+        AttributeEvaluator evaluator = factory.createEvaluator(applicationContext,
+                requestContextFactory, resolver);
         RendererFactory rendererFactory = factory.createRendererFactory(
-                context, applicationContext, requestContextFactory, container,
-                evaluator);
+                applicationContext, requestContextFactory, container, evaluator);
         assertTrue("The class of the renderer factory is not correct",
                 rendererFactory instanceof BasicRendererFactory);
         AttributeRenderer renderer = rendererFactory.getRenderer("string");
@@ -258,24 +215,19 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createDefaultAttributeRenderer(Object,
-     * TilesApplicationContext, TilesContextFactory, TilesContainer, AttributeEvaluator)}.
+     * Tests {@link BasicTilesContainerFactory#createDefaultAttributeRenderer(TilesApplicationContext,
+     * TilesContextFactory, TilesContainer, AttributeEvaluator)}.
      */
     public void testCreateDefaultAttributeRenderer() {
-        TilesContainer container = factory.createContainer(context);
-        TilesApplicationContextFactory contextFactory = factory
-                .createApplicationContextFactory(context);
-        TilesApplicationContext applicationContext = contextFactory
-                .createApplicationContext(context);
+        TilesContainer container = factory.createContainer(applicationContext);
         TilesRequestContextFactory requestContextFactory = factory
-                .createRequestContextFactory();
-        LocaleResolver resolver = factory.createLocaleResolver(context,
-                applicationContext, requestContextFactory);
-        AttributeEvaluator evaluator = factory.createEvaluator(context,
-                applicationContext, requestContextFactory, resolver);
+                .createRequestContextFactory(applicationContext);
+        LocaleResolver resolver = factory.createLocaleResolver(applicationContext,
+                requestContextFactory);
+        AttributeEvaluator evaluator = factory.createEvaluator(applicationContext,
+                requestContextFactory, resolver);
         AttributeRenderer renderer = factory.createDefaultAttributeRenderer(
-                context, applicationContext, requestContextFactory, container,
-                evaluator);
+                applicationContext, requestContextFactory, container, evaluator);
         assertTrue("The default renderer class is not correct",
                 renderer instanceof UntypedAttributeRenderer);
     }
@@ -296,18 +248,5 @@ public class BasicTilesContainerFactoryTest extends TestCase {
             factories.add(factory);
             contextFactory.setFactories(factories);
         }
-
-        /** {@inheritDoc} */
-        @Override
-        protected void registerChainedApplicationContextFactories(
-                Object context,
-                ChainedTilesApplicationContextFactory contextFactory) {
-            List<TilesApplicationContextFactory> factories =
-                new ArrayList<TilesApplicationContextFactory>(1);
-            RepeaterTilesApplicationContextFactory factory = new RepeaterTilesApplicationContextFactory();
-            factories.add(factory);
-            contextFactory.setFactories(factories);
-        }
-
     }
 }

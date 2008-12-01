@@ -71,6 +71,10 @@
             <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
             <param-value>org.apache.tiles.test.factory.TestTilesContainerFactory</param-value>
         </init-param>
+        <init-param>
+            <param-name>org.apache.tiles.context.AbstractTilesApplicationContextFactory</param-name>
+            <param-value>org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContextFactory</param-value>
+        </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet>

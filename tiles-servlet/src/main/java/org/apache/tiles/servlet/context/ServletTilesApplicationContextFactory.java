@@ -22,7 +22,7 @@
 package org.apache.tiles.servlet.context;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesApplicationContextFactory;
+import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 
 import javax.servlet.ServletContext;
 import java.util.Map;
@@ -34,8 +34,8 @@ import java.util.Map;
  * @version $Rev$ $Date$
  * @since 2.1.1
  */
-public class ServletTilesApplicationContextFactory implements
-        TilesApplicationContextFactory {
+public class ServletTilesApplicationContextFactory extends
+        AbstractTilesApplicationContextFactory {
 
     /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {

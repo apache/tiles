@@ -26,7 +26,7 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesApplicationContextFactory;
+import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 
 /**
  * In the {@link #createApplicationContext(Object)} method creates an instance
@@ -35,7 +35,8 @@ import org.apache.tiles.context.TilesApplicationContextFactory;
  * @version $Rev$ $Date$
  * @since 2.1.1
  */
-public class WildcardServletTilesApplicationContextFactory implements TilesApplicationContextFactory {
+public class WildcardServletTilesApplicationContextFactory extends
+        AbstractTilesApplicationContextFactory {
 
     /** {@inheritDoc} */
     public void init(Map<String, String> params) {

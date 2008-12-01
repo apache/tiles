@@ -36,8 +36,6 @@ import javax.el.ResourceBundleELResolver;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
-import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
-import org.apache.tiles.context.TilesApplicationContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -50,7 +48,6 @@ import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
-import org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContextFactory;
 import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 
@@ -62,40 +59,25 @@ import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 public class TestTilesContainerFactory extends BasicTilesContainerFactory {
 
     /**
-     * The count of elements in the Tiles context factory chain.
-     */
-    private static final int CONTEXT_FACTORY_CHAIN_COUNT = 2;
-
-    /**
      * The number of URLs to load..
      */
     private static final int URL_COUNT = 3;
 
     /** {@inheritDoc} */
     @Override
-    protected BasicTilesContainer instantiateContainer(Object context) {
+    protected BasicTilesContainer instantiateContainer(
+            TilesApplicationContext applicationContext) {
         return new CachingTilesContainer();
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void registerChainedApplicationContextFactories(Object context,
-            ChainedTilesApplicationContextFactory contextFactory) {
-        List<TilesApplicationContextFactory> factories = new ArrayList<TilesApplicationContextFactory>(
-                CONTEXT_FACTORY_CHAIN_COUNT);
-        factories.add(new WildcardServletTilesApplicationContextFactory());
-        contextFactory.setFactories(factories);
-    }
-
-    /** {@inheritDoc} */
-    @Override
     protected void registerAttributeRenderers(
-            BasicRendererFactory rendererFactory, Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, TilesContainer container,
-            AttributeEvaluator evaluator) {
-        super.registerAttributeRenderers(rendererFactory, context, applicationContext,
-                contextFactory, container, evaluator);
+            BasicRendererFactory rendererFactory, TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            TilesContainer container, AttributeEvaluator evaluator) {
+        super.registerAttributeRenderers(rendererFactory, applicationContext, contextFactory,
+                container, evaluator);
         ReverseStringAttributeRenderer renderer = new ReverseStringAttributeRenderer();
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
@@ -105,9 +87,9 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
 
     /** {@inheritDoc} */
     @Override
-    protected AttributeEvaluator createEvaluator(Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+    protected AttributeEvaluator createEvaluator(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            LocaleResolver resolver) {
         ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
         evaluator.setApplicationContext(applicationContext);
         MultiversionExpressionFactoryFactory efFactory = new MultiversionExpressionFactoryFactory();
@@ -130,8 +112,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(Object context,
-            TilesApplicationContext applicationContext,
+    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
@@ -154,8 +135,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
 
     /** {@inheritDoc} */
     @Override
-    protected DefinitionsReader createDefinitionsReader(Object context,
-            TilesApplicationContext applicationContext,
+    protected DefinitionsReader createDefinitionsReader(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         return new CompatibilityDigesterDefinitionsReader();
     }

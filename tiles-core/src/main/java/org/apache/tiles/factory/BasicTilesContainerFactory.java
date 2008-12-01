@@ -30,11 +30,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.awareness.TilesApplicationContextFactoryAware;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
-import org.apache.tiles.context.TilesApplicationContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -80,88 +77,52 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /** {@inheritDoc} */
     @Override
-    public TilesContainer createContainer(Object context) {
-        BasicTilesContainer container = instantiateContainer(context);
-        TilesApplicationContextFactory contextFactory = createApplicationContextFactory(context);
-        TilesApplicationContext applicationContext = contextFactory
-                .createApplicationContext(context);
-        TilesRequestContextFactory requestContextFactory = createRequestContextFactory();
+    public TilesContainer createContainer(TilesApplicationContext applicationContext) {
+        BasicTilesContainer container = instantiateContainer(applicationContext);
+        TilesRequestContextFactory requestContextFactory =
+            createRequestContextFactory(applicationContext);
         container.setRequestContextFactory(requestContextFactory);
         container.setApplicationContext(applicationContext);
-        LocaleResolver resolver = createLocaleResolver(context,
-                applicationContext, requestContextFactory);
-        container.setDefinitionsFactory(createDefinitionsFactory(context,
-                applicationContext, requestContextFactory, resolver));
-        AttributeEvaluator evaluator = createEvaluator(context,
-                applicationContext, requestContextFactory, resolver);
+        LocaleResolver resolver = createLocaleResolver(applicationContext,
+                requestContextFactory);
+        container.setDefinitionsFactory(createDefinitionsFactory(applicationContext,
+                requestContextFactory, resolver));
+        AttributeEvaluator evaluator = createEvaluator(applicationContext,
+                requestContextFactory, resolver);
         container.setEvaluator(evaluator);
-        container.setPreparerFactory(createPreparerFactory(context,
-                applicationContext, requestContextFactory));
-        container.setRendererFactory(createRendererFactory(context,
-                applicationContext, requestContextFactory, container,
-                evaluator));
+        container.setPreparerFactory(createPreparerFactory(applicationContext,
+                requestContextFactory));
+        container.setRendererFactory(createRendererFactory(applicationContext,
+                requestContextFactory, container, evaluator));
         return container;
     }
 
     /**
      * Instantiate the container, without initialization.
      *
-     * @param context The context object.
+     * @param context The Tiles application context object.
      * @return The instantiated container.
-     * @since 2.1.0
-     */
-    protected BasicTilesContainer instantiateContainer(Object context) {
-        return new BasicTilesContainer();
-    }
-
-    /**
-     * Create a Tiles applicaitoncontext factory. By default it creates a
-     * {@link ChainedTilesApplicationContextFactory}.
-     *
-     * @param context The context.
-     * @return The application context factory.
      * @since 2.1.1
      */
-    protected TilesApplicationContextFactory createApplicationContextFactory(
-            Object context) {
-        ChainedTilesApplicationContextFactory contextFactory = new ChainedTilesApplicationContextFactory();
-        registerChainedApplicationContextFactories(context, contextFactory);
-
-        return contextFactory;
+    protected BasicTilesContainer instantiateContainer(
+            TilesApplicationContext context) {
+        return new BasicTilesContainer();
     }
 
     /**
      * Create a Tiles request context factory. By default it creates a
      * {@link ChainedTilesRequestContextFactory}.
      *
+     * @param context The Tiles application context.
      * @return The request context factory.
      * @since 2.1.1
      */
-    protected TilesRequestContextFactory createRequestContextFactory() {
+    protected TilesRequestContextFactory createRequestContextFactory(
+            TilesApplicationContext context) {
         ChainedTilesRequestContextFactory contextFactory = new ChainedTilesRequestContextFactory();
         registerChainedRequestContextFactories(contextFactory);
 
         return contextFactory;
-    }
-
-    /**
-     * Register elements of a chained application context factory.
-     *
-     * @param context The context.
-     * @param contextFactory The application context factory to use.
-     * @since 2.1.1
-     */
-    protected void registerChainedApplicationContextFactories(Object context,
-            ChainedTilesApplicationContextFactory contextFactory) {
-        List<TilesApplicationContextFactory> factories = new ArrayList<TilesApplicationContextFactory>(
-                CONTEXT_FACTORY_CHAIN_COUNT);
-        registerApplicationContextFactory(
-                "org.apache.tiles.servlet.context.ServletTilesApplicationContextFactory",
-                factories, contextFactory);
-        registerApplicationContextFactory(
-                "org.apache.tiles.portlet.context.PortletTilesApplicationContextFactory",
-                factories, contextFactory);
-        contextFactory.setFactories(factories);
     }
 
     /**
@@ -184,47 +145,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
                 "org.apache.tiles.jsp.context.JspTilesRequestContextFactory",
                 factories, contextFactory);
         contextFactory.setFactories(factories);
-    }
-
-    /**
-     * Registers a {@link TilesApplicationContextFactory} specifying its
-     * classname.
-     *
-     * @param className The name of the class to instantiate.
-     * @param factories The list of factories to add to.
-     * @param parent The parent {@link TilesApplicationContextFactory}. If null
-     * it won't be considered.
-     * @since 2.1.1
-     */
-    protected void registerApplicationContextFactory(String className,
-            List<TilesApplicationContextFactory> factories,
-            TilesApplicationContextFactory parent) {
-        TilesApplicationContextFactory retValue = null;
-        try {
-            Class<? extends TilesApplicationContextFactory> clazz = Class
-                    .forName(className).asSubclass(
-                            TilesApplicationContextFactory.class);
-            retValue = clazz.newInstance();
-            if (parent != null
-                    && retValue instanceof TilesApplicationContextFactoryAware) {
-                ((TilesApplicationContextFactoryAware) retValue)
-                        .setApplicationContextFactory(parent);
-            }
-        } catch (ClassNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Cannot find JspTilesContextFactory, ignoring problem", e);
-            }
-        } catch (InstantiationException e) {
-            throw new TilesContainerFactoryException(
-                    "Cannot instantiate JspTilesContextFactory", e);
-        } catch (IllegalAccessException e) {
-            throw new TilesContainerFactoryException(
-                    "Cannot access default constructor JspTilesContextFactory",
-                    e);
-        }
-        if (retValue != null) {
-            factories.add(retValue);
-        }
     }
 
     /**
@@ -271,23 +191,22 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * Creates the definitions factory. By default it creates a
      * {@link UrlDefinitionsFactory} with default dependencies.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param resolver The locale resolver.
+     *
      * @return The definitions factory.
      * @since 2.1.1
      */
-    protected DefinitionsFactory createDefinitionsFactory(Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+    protected DefinitionsFactory createDefinitionsFactory(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            LocaleResolver resolver) {
         LocaleDefinitionsFactory factory = instantiateDefinitionsFactory(
-                context, applicationContext, contextFactory, resolver);
+                applicationContext, contextFactory, resolver);
         factory.setApplicationContext(applicationContext);
         factory.setLocaleResolver(resolver);
-        factory.setDefinitionDAO(createLocaleDefinitionDao(context,
-                applicationContext, contextFactory, resolver));
+        factory.setDefinitionDAO(createLocaleDefinitionDao(applicationContext,
+                contextFactory, resolver));
         if (factory instanceof Refreshable) {
             ((Refreshable) factory).refresh();
         }
@@ -296,56 +215,51 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Instantiate a new definitions factory based on Locale.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param resolver The locale resolver.
+     *
      * @return The definitions factory.
      * @since 2.1.1
      */
-    protected LocaleDefinitionsFactory instantiateDefinitionsFactory(Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+    protected LocaleDefinitionsFactory instantiateDefinitionsFactory(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            LocaleResolver resolver) {
         return new UrlDefinitionsFactory();
     }
 
 
     /**
      * Instantiate (and does not initialize) a Locale-based definition DAO.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param resolver The locale resolver.
+     *
      * @return The definition DAO.
      * @since 2.1.1
      */
-    protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+    protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            LocaleResolver resolver) {
         return new ResolvingLocaleUrlDefinitionDAO();
     }
 
     /**
      * Creates a Locale-based definition DAO.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param resolver The locale resolver.
+     *
      * @return The definition DAO.
      * @since 2.1.1
      */
-    protected DefinitionDAO<Locale> createLocaleDefinitionDao(Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+    protected DefinitionDAO<Locale> createLocaleDefinitionDao(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            LocaleResolver resolver) {
         BaseLocaleUrlDefinitionDAO definitionDao = instantiateLocaleDefinitionDao(
-                context, applicationContext, contextFactory, resolver);
-        definitionDao.setReader(createDefinitionsReader(context, applicationContext,
-                contextFactory));
-        definitionDao.setSourceURLs(getSourceURLs(context, applicationContext,
-                contextFactory));
+                applicationContext, contextFactory, resolver);
+        definitionDao.setReader(createDefinitionsReader(applicationContext, contextFactory));
+        definitionDao.setSourceURLs(getSourceURLs(applicationContext, contextFactory));
         definitionDao.setApplicationContext(applicationContext);
         return definitionDao;
     }
@@ -353,15 +267,13 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * Creates the locale resolver. By default it creates a
      * {@link DefaultLocaleResolver}.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
+     *
      * @return The locale resolver.
      * @since 2.1.1
      */
-    protected LocaleResolver createLocaleResolver(Object context,
-            TilesApplicationContext applicationContext,
+    protected LocaleResolver createLocaleResolver(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         return new DefaultLocaleResolver();
     }
@@ -369,14 +281,13 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * Creates the definitions reader. By default it creates a
      * {@link DigesterDefinitionsReader}.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
+     *
      * @return The definitions reader.
      * @since 2.1.1
      */
-    protected DefinitionsReader createDefinitionsReader(Object context,
+    protected DefinitionsReader createDefinitionsReader(
             TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         return new DigesterDefinitionsReader();
@@ -385,15 +296,13 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * Returns a list containing the URLs to be parsed. By default, it returns a
      * list containing the URL point to "/WEB-INF/tiles.xml".
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
+     *
      * @return The source URLs.
      * @since 2.1.1
      */
-    protected List<URL> getSourceURLs(Object context,
-            TilesApplicationContext applicationContext,
+    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         List<URL> retValue = new ArrayList<URL>(1);
         try {
@@ -407,31 +316,28 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Creates the attribute evaluator to use. By default it returns a {@link DirectAttributeEvaluator}.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param resolver The locale resolver.
+     *
      * @return The evaluator.
      */
-    protected AttributeEvaluator createEvaluator(Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+    protected AttributeEvaluator createEvaluator(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            LocaleResolver resolver) {
         return new DirectAttributeEvaluator();
     }
 
     /**
      * Creates the preparer factory to use. By default it returns a
      * {@link BasicPreparerFactory}.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
+     *
      * @return The preparer factory.
      * @since 2.1.1
      */
-    protected PreparerFactory createPreparerFactory(Object context,
-            TilesApplicationContext applicationContext,
+    protected PreparerFactory createPreparerFactory(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         return new BasicPreparerFactory();
     }
@@ -442,47 +348,44 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * {@link UntypedAttributeRenderer} as default, and
      * {@link StringAttributeRenderer}, {@link TemplateAttributeRenderer} and
      * {@link DefinitionAttributeRenderer}.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param container The container.
      * @param evaluator The evaluator.
+     *
      * @return The renderer factory.
      * @since 2.1.1
      */
-    protected RendererFactory createRendererFactory(Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, TilesContainer container,
-            AttributeEvaluator evaluator) {
+    protected RendererFactory createRendererFactory(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            TilesContainer container, AttributeEvaluator evaluator) {
         BasicRendererFactory retValue = new BasicRendererFactory();
         retValue.setApplicationContext(applicationContext);
         retValue.setRequestContextFactory(contextFactory);
         retValue.setContainer(container);
         retValue.setEvaluator(evaluator);
-        retValue.setDefaultRenderer(createDefaultAttributeRenderer(context,
-                applicationContext, contextFactory, container, evaluator));
-        registerAttributeRenderers(retValue, context, applicationContext,
-                contextFactory, container, evaluator);
+        retValue.setDefaultRenderer(createDefaultAttributeRenderer(applicationContext,
+                contextFactory, container, evaluator));
+        registerAttributeRenderers(retValue, applicationContext, contextFactory,
+                container, evaluator);
         return retValue;
     }
 
     /**
      * Creates the default attribute renderer. By default it is an
      * {@link UntypedAttributeRenderer}.
-     *
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param container The container.
      * @param evaluator The evaluator.
+     *
      * @return The default attribute renderer.
      * @since 2.1.1
      */
-    protected AttributeRenderer createDefaultAttributeRenderer(Object context,
-            TilesApplicationContext applicationContext,
+    protected AttributeRenderer createDefaultAttributeRenderer(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
-            TilesContainer container, AttributeEvaluator evaluator) {
+            TilesContainer container,
+            AttributeEvaluator evaluator) {
         UntypedAttributeRenderer retValue = new UntypedAttributeRenderer();
         retValue.setApplicationContext(applicationContext);
         retValue.setContainer(container);
@@ -498,7 +401,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * {@link DefinitionAttributeRenderer}.
      *
      * @param rendererFactory The renderer factory to configure.
-     * @param context The context.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param container The container.
@@ -506,10 +408,9 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @since 2.1.1
      */
     protected void registerAttributeRenderers(
-            BasicRendererFactory rendererFactory, Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, TilesContainer container,
-            AttributeEvaluator evaluator) {
+            BasicRendererFactory rendererFactory, TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            TilesContainer container, AttributeEvaluator evaluator) {
         StringAttributeRenderer stringRenderer = new StringAttributeRenderer();
         stringRenderer.setApplicationContext(applicationContext);
         stringRenderer.setRequestContextFactory(contextFactory);

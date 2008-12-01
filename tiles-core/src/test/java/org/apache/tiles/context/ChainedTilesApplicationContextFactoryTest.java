@@ -77,7 +77,8 @@ public class ChainedTilesApplicationContextFactoryTest extends TestCase {
      */
     public void testSetFactories() {
         ChainedTilesApplicationContextFactory factory = new ChainedTilesApplicationContextFactory();
-        List<TilesApplicationContextFactory> factories = new ArrayList<TilesApplicationContextFactory>();
+        List<AbstractTilesApplicationContextFactory> factories =
+            new ArrayList<AbstractTilesApplicationContextFactory>();
         RepeaterTilesApplicationContextFactory repFactory = new RepeaterTilesApplicationContextFactory();
         factories.add(repFactory);
         factory.setFactories(factories);

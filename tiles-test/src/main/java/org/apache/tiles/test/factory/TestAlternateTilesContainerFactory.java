@@ -48,8 +48,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(Object context,
-            TilesApplicationContext applicationContext,
+    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
@@ -64,7 +63,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
     /** {@inheritDoc} */
     @Override
     protected LocaleDefinitionsFactory instantiateDefinitionsFactory(
-            Object context, TilesApplicationContext applicationContext,
+            TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         return new LocaleDefinitionsFactory();
    }
@@ -72,7 +71,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
     /** {@inheritDoc} */
     @Override
     protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(
-            Object context, TilesApplicationContext applicationContext,
+            TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         return new CachingLocaleUrlDefinitionDAO();
     }

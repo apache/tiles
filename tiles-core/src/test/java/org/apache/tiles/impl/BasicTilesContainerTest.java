@@ -22,23 +22,23 @@ package org.apache.tiles.impl;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Vector;
-
-import javax.servlet.ServletContext;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
-import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.mock.RepeaterTilesApplicationContextFactory;
 import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
 import org.easymock.EasyMock;
@@ -66,36 +66,30 @@ public class BasicTilesContainerTest extends TestCase {
     private BasicTilesContainer container;
 
     /** {@inheritDoc} */
-    @SuppressWarnings("deprecation")
     @Override
     public void setUp() {
-        ServletContext context = EasyMock.createMock(ServletContext.class);
+        TilesApplicationContext context = EasyMock
+                .createMock(TilesApplicationContext.class);
+        Map<String, String> initParams = new HashMap<String, String>();
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
 
-        Vector<String> v = new Vector<String>();
-        v.add(ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES);
-        v.add(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES);
-
-        EasyMock.expect(context.getInitParameter(
-                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesApplicationContextFactory.class
-                        .getName());
-        EasyMock.expect(context.getInitParameter(
-                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES))
-                .andReturn(RepeaterTilesRequestContextFactory.class.getName());
-        EasyMock.expect(context.getInitParameter(
-                AbstractTilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.CONTEXT_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(TilesContainerFactory.DEFINITIONS_FACTORY_INIT_PARAM)).andReturn(null);
-        EasyMock.expect(context.getInitParameter(EasyMock.isA(String.class))).andReturn(null).anyTimes();
-        EasyMock.expect(context.getInitParameterNames()).andReturn(v.elements()).anyTimes();
+        initParams.put(
+                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES,
+                RepeaterTilesApplicationContextFactory.class.getName());
+        initParams.put(
+                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES,
+                RepeaterTilesRequestContextFactory.class.getName());
         try {
-            EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(url);
-        } catch (MalformedURLException e) {
+            Set<URL> urls = new HashSet<URL>();
+            urls.add(url);
+            EasyMock.expect(context.getResources("/WEB-INF/tiles.xml"))
+                    .andReturn(urls);
+        } catch (IOException e) {
             throw new RuntimeException("Error getting Tiles configuration URL",
                     e);
         }
+        EasyMock.expect(context.getInitParams()).andReturn(initParams)
+                .anyTimes();
         EasyMock.replay(context);
         AbstractTilesContainerFactory factory = AbstractTilesContainerFactory
                 .getTilesContainerFactory(context);

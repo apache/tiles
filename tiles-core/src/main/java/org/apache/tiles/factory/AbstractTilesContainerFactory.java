@@ -25,6 +25,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.reflect.ClassUtil;
 
@@ -62,14 +63,16 @@ public abstract class AbstractTilesContainerFactory {
      * @return The created factory.
      * @throws TilesContainerFactoryException If something goes wrong during
      * creation.
-     * @since 2.1.0
+     * @since 2.1.1
      */
     @SuppressWarnings("deprecation")
-    public static AbstractTilesContainerFactory getTilesContainerFactory(Object context) {
+    public static AbstractTilesContainerFactory getTilesContainerFactory(
+            TilesApplicationContext context) {
         AbstractTilesContainerFactory retValue;
-        String factoryName = getInitParameter(context, CONTAINER_FACTORY_INIT_PARAM);
+        String factoryName = context.getInitParams().get(
+                CONTAINER_FACTORY_INIT_PARAM);
         if (factoryName == null) {
-            factoryName = getInitParameter(context,
+            factoryName = context.getInitParams().get(
                     TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
         }
         if (factoryName != null) {
@@ -83,13 +86,13 @@ public abstract class AbstractTilesContainerFactory {
     /**
      * Creates a Tiles container.
      *
-     * @param context The (application) context object.
+     * @param preliminaryContext The Tiles application context object.
      * @return The created container.
      * @throws TilesContainerFactoryException If something goes wrong during
      * instantiation.
-     * @since 2.1.0
+     * @since 2.1.1
      */
-    public abstract TilesContainer createContainer(Object context);
+    public abstract TilesContainer createContainer(TilesApplicationContext applicationContext);
 
     /**
      * Returns a map containing parameters name-value entries.

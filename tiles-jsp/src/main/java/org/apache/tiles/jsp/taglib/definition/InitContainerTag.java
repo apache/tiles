@@ -24,12 +24,15 @@ package org.apache.tiles.jsp.taglib.definition;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
+import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -163,8 +166,15 @@ public class InitContainerTag extends BodyTagSupport
             context.setInitParameter(entry.getKey(), entry.getValue());
         }
 
+        TilesApplicationContext applicationContext = new ServletTilesApplicationContext(
+                context);
+        AbstractTilesApplicationContextFactory acFactory = AbstractTilesApplicationContextFactory
+                .createFactory(applicationContext);
+        applicationContext = acFactory.createApplicationContext(context);
+
         TilesContainer mutableContainer = AbstractTilesContainerFactory
-                .getTilesContainerFactory(context).createContainer(context);
+                .getTilesContainerFactory(applicationContext).createContainer(
+                        applicationContext);
         TilesAccess.setContainer(context, mutableContainer, containerKey);
 
         return EVAL_PAGE;

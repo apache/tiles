@@ -68,7 +68,8 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
 
     /** {@inheritDoc} */
     @Override
-    public MutableTilesContainer createMutableTilesContainer(Object context) {
+    public MutableTilesContainer createMutableTilesContainer(
+            TilesApplicationContext context) {
         CachingKeyedDefinitionsFactoryTilesContainer container =
             new CachingKeyedDefinitionsFactoryTilesContainer();
         initializeContainer(context, container);
@@ -77,26 +78,43 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
 
     /** {@inheritDoc} */
     @Override
-    public TilesContainer createTilesContainer(Object context) {
+    public TilesContainer createTilesContainer(TilesApplicationContext context) {
         KeyedDefinitionsFactoryTilesContainer container =
             new KeyedDefinitionsFactoryTilesContainer();
         initializeContainer(context, container);
         return container;
     }
 
-    // FIXME Probably we should create some sort of "FactoryUtils" to create
-    // factories dynamically depending on a configuration.
-    // I think this method does not belong here.
     /**
      * Creates a definitions factory.
      * @param context The context object to use.
      * @return The newly created definitions factory.
      * @throws TilesContainerFactoryException If something goes wrong.
+     * @deprecated Use
+     * {@link #createDefinitionsFactory(TilesApplicationContext)}.
      */
+    @Deprecated
     public DefinitionsFactory createDefinitionsFactory(Object context) {
+        if (context instanceof TilesApplicationContext) {
+            createDefinitionsFactory((TilesApplicationContext) context);
+        }
+
+        throw new UnsupportedOperationException("Class "
+                + context.getClass().getName()
+                + " not recognized a TilesApplicationContext");
+    }
+
+    /**
+     * Creates a definitions factory.
+     * @param context The Tiles application context object to use.
+     * @return The newly created definitions factory.
+     * @throws TilesContainerFactoryException If something goes wrong.
+     */
+    public DefinitionsFactory createDefinitionsFactory(
+            TilesApplicationContext context) {
         DefinitionsFactory retValue;
         Map<String, String> config = new HashMap<String, String>(defaultConfiguration);
-        config.putAll(getInitParameterMap(context));
+        config.putAll(context.getInitParams());
         retValue = (DefinitionsFactory) createFactory(config,
                     DEFINITIONS_FACTORY_INIT_PARAM);
         if (retValue instanceof TilesApplicationContextAware) {

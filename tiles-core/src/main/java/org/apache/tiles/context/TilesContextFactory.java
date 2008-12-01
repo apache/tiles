@@ -20,6 +20,8 @@
  */
 package org.apache.tiles.context;
 
+import org.apache.tiles.TilesApplicationContext;
+
 /**
  * Creates an instance of the appropriate TilesApplicationContext
  * implementation.
@@ -28,6 +30,14 @@ package org.apache.tiles.context;
  * @deprecated Use {@link TilesApplicationContextFactory} or
  * {@link TilesRequestContextFactory}.
  */
-public interface TilesContextFactory extends TilesApplicationContextFactory,
-        TilesRequestContextFactory {
+public interface TilesContextFactory extends TilesRequestContextFactory {
+
+    /**
+     * Create a TilesApplicationContext for the given context.
+     *
+     * @param context The (application) context to use.
+     * @return TilesApplicationContext The Tiles application context.
+     */
+    TilesApplicationContext createApplicationContext(
+            Object context);
 }

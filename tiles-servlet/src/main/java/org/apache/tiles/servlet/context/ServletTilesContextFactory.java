@@ -21,8 +21,9 @@
 
 package org.apache.tiles.servlet.context;
 
+import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesApplicationContextFactory;
+import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 import org.apache.tiles.context.TilesContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
@@ -56,7 +57,7 @@ public class ServletTilesContextFactory implements TilesContextFactory {
     /**
      * The application context factory.
      */
-    private TilesApplicationContextFactory contextFactory;
+    private AbstractTilesApplicationContextFactory contextFactory;
 
     /**
      * The request context factory.
@@ -76,7 +77,9 @@ public class ServletTilesContextFactory implements TilesContextFactory {
 
     /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {
-        contextFactory.init(configParameters);
+        if (contextFactory instanceof Initializable) {
+            ((Initializable) contextFactory).init(configParameters);
+        }
         requestContextFactory.init(configParameters);
     }
 
