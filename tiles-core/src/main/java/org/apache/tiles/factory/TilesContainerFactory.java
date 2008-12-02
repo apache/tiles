@@ -46,6 +46,8 @@ import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 
+import java.lang.reflect.Method;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -191,7 +193,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
     public static TilesContainerFactory getFactory(Object context,
             Map<String, String> defaults) {
         Map<String, String> configuration = new HashMap<String, String>(defaults);
-        configuration.putAll(getInitParameterMap(context));
+        configuration.putAll(TilesContainerFactory.getInitParameterMap(context));
         TilesContainerFactory factory =
             (TilesContainerFactory) TilesContainerFactory.createFactory(configuration,
                 CONTAINER_FACTORY_INIT_PARAM);
@@ -539,5 +541,59 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
         return factoryName == null
             ? DEFAULTS.get(parameterName)
             : factoryName.toString();
+    }
+    /**
+     * Returns the value of an initialization parameter.
+     *
+     * @param context The (application) context object to use.
+     * @param parameterName The parameter name to retrieve.
+     * @return The parameter value.
+     * @throws TilesContainerFactoryException If the context has not been
+     * recognized.
+     * @deprecated Do not use.
+     */
+    @Deprecated
+    protected static String getInitParameter(Object context,
+            String parameterName) {
+        Object value;
+        Class<?> contextClass = context.getClass();
+        Method getInitParameterMethod = ClassUtil
+                .getForcedAccessibleMethod(contextClass,
+                        "getInitParameter", String.class);
+        value = ClassUtil.invokeMethod(context, getInitParameterMethod,
+                parameterName);
+
+        return value == null ? null : value.toString();
+    }
+
+
+    /**
+     * Returns a map containing parameters name-value entries.
+     *
+     * @param context The (application) context object to use.
+     * @return The initialization parameters map.
+     * @throws TilesContainerFactoryException If the context object has not been
+     * recognized.
+     * @deprecated Do not use.
+     */
+    @Deprecated
+    @SuppressWarnings("unchecked")
+    protected static Map<String, String> getInitParameterMap(Object context) {
+        Map<String, String> initParameters = new HashMap<String, String>();
+        Class<?> contextClass = context.getClass();
+        Method method = ClassUtil.getForcedAccessibleMethod(contextClass,
+                "getInitParameterNames");
+        Enumeration<String> e = (Enumeration<String>) ClassUtil
+                .invokeMethod(context, method);
+
+        method = ClassUtil.getForcedAccessibleMethod(contextClass,
+                "getInitParameter", String.class);
+        while (e.hasMoreElements()) {
+            String key = e.nextElement();
+            initParameters.put(key, (String) ClassUtil.invokeMethod(
+                    context, method, key));
+        }
+
+        return initParameters;
     }
 }

@@ -20,8 +20,6 @@
  */
 package org.apache.tiles.factory;
 
-import java.lang.reflect.Method;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,56 +91,4 @@ public abstract class AbstractTilesContainerFactory {
      * @since 2.1.1
      */
     public abstract TilesContainer createContainer(TilesApplicationContext applicationContext);
-
-    /**
-     * Returns a map containing parameters name-value entries.
-     *
-     * @param context The (application) context object to use.
-     * @return The initialization parameters map.
-     * @throws TilesContainerFactoryException If the context object has not been
-     * recognized.
-     * @since 2.1.0
-     */
-    @SuppressWarnings("unchecked")
-    protected static Map<String, String> getInitParameterMap(Object context) {
-        Map<String, String> initParameters = new HashMap<String, String>();
-        Class<?> contextClass = context.getClass();
-        Method method = ClassUtil.getForcedAccessibleMethod(contextClass,
-                "getInitParameterNames");
-        Enumeration<String> e = (Enumeration<String>) ClassUtil
-                .invokeMethod(context, method);
-
-        method = ClassUtil.getForcedAccessibleMethod(contextClass,
-                "getInitParameter", String.class);
-        while (e.hasMoreElements()) {
-            String key = e.nextElement();
-            initParameters.put(key, (String) ClassUtil.invokeMethod(
-                    context, method, key));
-        }
-
-        return initParameters;
-    }
-
-    /**
-     * Returns the value of an initialization parameter.
-     *
-     * @param context The (application) context object to use.
-     * @param parameterName The parameter name to retrieve.
-     * @return The parameter value.
-     * @throws TilesContainerFactoryException If the context has not been
-     * recognized.
-     * @since 2.1.0
-     */
-    protected static String getInitParameter(Object context,
-            String parameterName) {
-        Object value;
-        Class<?> contextClass = context.getClass();
-        Method getInitParameterMethod = ClassUtil
-                .getForcedAccessibleMethod(contextClass,
-                        "getInitParameter", String.class);
-        value = ClassUtil.invokeMethod(context, getInitParameterMethod,
-                parameterName);
-
-        return value == null ? null : value.toString();
-    }
 }
