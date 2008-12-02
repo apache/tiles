@@ -86,7 +86,7 @@ public abstract class AbstractTilesContainerFactory {
     /**
      * Creates a Tiles container.
      *
-     * @param preliminaryContext The Tiles application context object.
+     * @param applicationContext The Tiles application context object.
      * @return The created container.
      * @throws TilesContainerFactoryException If something goes wrong during
      * instantiation.

@@ -48,6 +48,11 @@ import org.easymock.EasyMock;
 public class TilesContainerFactoryTest extends TestCase {
 
     /**
+     * Size of init parameters.
+     */
+    private static final int INIT_PARAMS_SIZE = 4;
+
+    /**
      * The logging object.
      */
     private static final Log LOG = LogFactory
@@ -198,7 +203,7 @@ public class TilesContainerFactoryTest extends TestCase {
 
         Map<String, String> map = context.getInitParams();
 
-        assertEquals(4, map.size());
+        assertEquals(INIT_PARAMS_SIZE, map.size());
         assertTrue(map.containsKey("one"));
         assertTrue(map.containsKey("two"));
         assertEquals("oneValue", map.get("one"));

@@ -61,7 +61,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
      * Initialization parameters.
      */
     private Map<String, String> initParams;
-    
+
     /**
      * Default configuration parameters.
      */

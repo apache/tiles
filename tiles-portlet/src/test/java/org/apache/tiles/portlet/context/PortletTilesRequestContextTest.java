@@ -119,8 +119,8 @@ public class PortletTilesRequestContextTest extends TestCase {
      * Tests {@link PortletTilesRequestContext#getApplicationContext()}.
      */
     public void testGetApplicationContext() {
-//    	assertTrue("The objects are not the same", context == context
-//				.getApplicationContext());
+//      assertTrue("The objects are not the same", context == context
+//              .getApplicationContext());
     }
 
     /**
