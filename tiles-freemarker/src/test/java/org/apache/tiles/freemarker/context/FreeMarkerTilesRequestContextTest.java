@@ -1,20 +1,28 @@
 package org.apache.tiles.freemarker.context;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Locale;
 
+import junit.framework.TestCase;
+
+import org.apache.tiles.context.TilesRequestContext;
 import org.easymock.classextension.EasyMock;
 
 import freemarker.core.Environment;
 import freemarker.template.Template;
 import freemarker.template.TemplateHashModel;
-import junit.framework.TestCase;
 
 public class FreeMarkerTilesRequestContextTest extends TestCase {
 
     private FreeMarkerTilesRequestContext context;
     
     private StringWriter writer;
+
+    private Environment env;
+    
+    private Locale locale;
     
     protected void setUp() throws Exception {
         Template template = EasyMock.createMock(Template.class);
@@ -22,27 +30,42 @@ public class FreeMarkerTilesRequestContextTest extends TestCase {
         writer = new StringWriter();
         EasyMock.expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
         EasyMock.replay(template, model);
-        Environment env = new Environment(template, model, writer);
+        env = new Environment(template, model, writer);
+        locale = Locale.ITALY;
+        env.setLocale(locale);
     }
 
-    public void testGetRequestScope() {
-        fail("Not yet implemented");
-    }
-
-    public void testDispatch() {
-        fail("Not yet implemented");
+    public void testDispatch() throws IOException {
+        String path = "this way";
+        TilesRequestContext enclosedRequest = EasyMock.createMock(TilesRequestContext.class);
+        enclosedRequest.include(path);
+        EasyMock.replay(enclosedRequest);
+        context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
+        context.dispatch(path);
+        EasyMock.verify(enclosedRequest);
     }
 
     public void testGetRequestLocale() {
-        fail("Not yet implemented");
+        TilesRequestContext enclosedRequest = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.replay(enclosedRequest);
+        context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
+        assertEquals(locale, context.getRequestLocale());
+        EasyMock.verify(enclosedRequest);
     }
 
     public void testGetRequest() {
-        fail("Not yet implemented");
+        TilesRequestContext enclosedRequest = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.replay(enclosedRequest);
+        context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
+        assertEquals(env, context.getRequest());
+        EasyMock.verify(enclosedRequest);
     }
 
-    public void testFreeMarkerTilesRequestContext() {
-        fail("Not yet implemented");
+    public void testGetResponse() {
+        TilesRequestContext enclosedRequest = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.replay(enclosedRequest);
+        context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
+        assertEquals(env, context.getResponse());
+        EasyMock.verify(enclosedRequest);
     }
-
 }
