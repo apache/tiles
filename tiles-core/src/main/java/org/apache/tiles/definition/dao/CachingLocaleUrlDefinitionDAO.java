@@ -203,7 +203,6 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         }
 
         localeDefsMap = loadDefinitionsFromURLs(customizationKey);
-        postDefinitionLoadOperations(localeDefsMap, customizationKey);
         return localeDefsMap;
     }
 
@@ -243,6 +242,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             }
         }
         locale2definitionMap.put(customizationKey, localeDefsMap);
+        postDefinitionLoadOperations(localeDefsMap, customizationKey);
 
         return localeDefsMap;
     }
@@ -259,7 +259,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     }
 
     /**
-     * Tries to load definitions if necessary.
+     * Operations to be done after definitions are loaded.
      *
      * @param localeDefsMap The loaded definitions.
      * @param customizationKey The locale to use when loading URLs.

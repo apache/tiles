@@ -634,7 +634,17 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
                 .setApplicationContext(applicationContext);
         definitionDao.setReader(new DigesterDefinitionsReader());
 
-        Definition definition = definitionDao.getDefinition("test.defName.subLayered", null);
+        Definition definition = definitionDao.getDefinition("test.defName.subLayered", Locale.ITALY);
+        assertEquals("The template is not correct", "/testName.jsp", definition.getTemplate());
+        assertEquals("The header attribute is not correct",
+                "/common/headerLayered.jsp", definition.getAttribute("header")
+                        .getValue());
+        definition = definitionDao.getDefinition("test.defName.subLayered", Locale.ITALIAN);
+        assertEquals("The template is not correct", "/testName.jsp", definition.getTemplate());
+        assertEquals("The header attribute is not correct",
+                "/common/headerLayered.jsp", definition.getAttribute("header")
+                        .getValue());
+        definition = definitionDao.getDefinition("test.defName.subLayered", null);
         assertEquals("The template is not correct", "/testName.jsp", definition.getTemplate());
         assertEquals("The header attribute is not correct",
                 "/common/headerLayered.jsp", definition.getAttribute("header")
