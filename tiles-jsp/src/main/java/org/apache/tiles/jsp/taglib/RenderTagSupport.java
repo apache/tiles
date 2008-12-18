@@ -126,11 +126,14 @@ public abstract class RenderTagSupport extends ContainerTagSupport
 
 
     /** {@inheritDoc} */
-    public void release() {
+    @Override
+    protected void reset() {
+        super.reset();
         preparer = null;
         flush = false;
         ignore = false;
-        super.release();
+        container = null;
+        attributeContext = null;
     }
 
     /** {@inheritDoc} */

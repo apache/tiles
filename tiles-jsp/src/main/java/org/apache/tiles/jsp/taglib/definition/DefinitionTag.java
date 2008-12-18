@@ -26,12 +26,12 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
+import org.apache.tiles.jsp.taglib.TilesTag;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.Attribute.AttributeType;
 import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -42,7 +42,7 @@ import java.util.HashMap;
  *
  * @version $Rev$ $Date$
  */
-public class DefinitionTag extends TagSupport
+public class DefinitionTag extends TilesTag
     implements PutAttributeTagParent {
 
 
@@ -174,8 +174,9 @@ public class DefinitionTag extends TagSupport
     }
 
     /** {@inheritDoc} */
-    public void release() {
-        super.release();
+    @Override
+    protected void reset() {
+        super.reset();
         name = null;
         template = null;
         extend = null;

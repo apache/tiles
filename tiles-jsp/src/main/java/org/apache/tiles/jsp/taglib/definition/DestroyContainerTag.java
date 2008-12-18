@@ -22,16 +22,16 @@ package org.apache.tiles.jsp.taglib.definition;
 
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.jsp.taglib.TilesTag;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * Destroys the accessible container.
  *
  * @version $Rev$ $Date$
  */
-public class DestroyContainerTag extends TagSupport {
+public class DestroyContainerTag extends TilesTag {
 
     /** {@inheritDoc} */
     @Override

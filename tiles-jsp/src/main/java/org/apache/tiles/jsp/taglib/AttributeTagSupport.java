@@ -27,7 +27,6 @@ import org.apache.tiles.access.TilesAccess;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,7 @@ import java.util.Map;
  *
  * @version $Rev$ $Date$
  */
-public abstract class AttributeTagSupport extends TagSupport {
+public abstract class AttributeTagSupport extends TilesTag {
 
 
     /**
@@ -110,9 +109,14 @@ public abstract class AttributeTagSupport extends TagSupport {
     }
 
     /** {@inheritDoc} */
-    public void release() {
+    @Override
+    protected void reset() {
+        super.reset();
         scopeName = null;
         scope = PageContext.PAGE_SCOPE;
+        ignore = false;
+        attribute = null;
+        attributeContext = null;
     }
 
     /** {@inheritDoc} */

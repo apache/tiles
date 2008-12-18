@@ -63,6 +63,13 @@ public class InsertTemplateTag extends RenderTagSupport
     }
 
     /** {@inheritDoc} */
+    @Override
+    protected void reset() {
+        super.reset();
+        this.template = null;
+    }
+
+    /** {@inheritDoc} */
     protected void render() throws JspException {
         // FIXME This code should be changed once the overriding template
         // facility will be available, so it can be managed by the Tiles

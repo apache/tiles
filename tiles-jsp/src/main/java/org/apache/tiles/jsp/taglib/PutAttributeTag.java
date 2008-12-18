@@ -170,11 +170,10 @@ public class PutAttributeTag extends RoleSecurityTagSupport {
         this.type = type;
     }
 
-    /**
-     * Release all allocated resources.
-     */
-    public void release() {
-        super.release();
+    /** {@inheritDoc} */
+    @Override
+    protected void reset() {
+        super.reset();
         name = null;
         value = null;
         type = null;

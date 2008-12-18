@@ -42,15 +42,6 @@ public class UseAttributeTag extends AttributeTagSupport {
     private String classname = null;
 
     /**
-     * Release all allocated resources.
-     */
-    public void release() {
-        super.release();
-        classname = null;
-        id = null;
-    }
-
-    /**
      * Get class name.
      *
      * @return class name
@@ -69,6 +60,12 @@ public class UseAttributeTag extends AttributeTagSupport {
         this.classname = name;
     }
 
+    /** {@inheritDoc} */
+    protected void reset() {
+        super.reset();
+        classname = null;
+        id = null;
+    }
 
     /**
      * Expose the requested attribute from attribute context.

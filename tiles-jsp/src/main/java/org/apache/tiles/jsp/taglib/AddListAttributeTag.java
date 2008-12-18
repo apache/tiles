@@ -71,15 +71,6 @@ public class AddListAttributeTag extends AddAttributeTag
     }
 
     /**
-     * Release the state of this put list by
-     * clearing the contents of the list.
-     */
-    public void release() {
-        super.setValue(null);
-        super.release();
-    }
-
-    /**
      * Process nested &lg;addAttribute&gt; tag.
      * <p/>
      * Places the value of the nested tag within the

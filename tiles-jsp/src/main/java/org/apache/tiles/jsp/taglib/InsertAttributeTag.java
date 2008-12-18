@@ -91,8 +91,9 @@ public class InsertAttributeTag extends RenderTagSupport {
     }
 
     /** {@inheritDoc} */
-    public void release() {
-        super.release();
+    @Override
+    protected void reset() {
+        super.reset();
         this.name = null;
         this.value = null;
     }

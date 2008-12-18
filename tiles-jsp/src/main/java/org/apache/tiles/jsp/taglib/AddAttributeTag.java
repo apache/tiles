@@ -135,8 +135,8 @@ public class AddAttributeTag extends RoleSecurityTagSupport {
      * Release all allocated resources.
      */
     @Override
-    public void release() {
-        super.release();
+    protected void reset() {
+        super.reset();
         value = null;
         type = null;
     }
