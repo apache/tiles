@@ -21,11 +21,10 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.jsp.taglib.definition.DefinitionTagParent;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
+
+import org.apache.tiles.jsp.taglib.definition.DefinitionTagParent;
 
 /**
  * <p><strong>Adds an attribute in enclosing attribute container tag.</strong></p>
@@ -56,7 +55,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  * @version $Rev$ $Date$
  */
-public class AddAttributeTag extends BodyTagSupport implements DefinitionTagParent {
+public class AddAttributeTag extends TilesBodyTag implements DefinitionTagParent {
 
     /**
      * The role to check. If the user is in the specified role, the tag is taken
@@ -152,11 +151,10 @@ public class AddAttributeTag extends BodyTagSupport implements DefinitionTagPare
         this.type = type;
     }
 
-    /**
-     * Release all allocated resources.
-     */
+    /** {@inheritDoc} */
     @Override
-    public void release() {
+    protected void reset() {
+        super.reset();
         role = null;
         value = null;
         type = null;

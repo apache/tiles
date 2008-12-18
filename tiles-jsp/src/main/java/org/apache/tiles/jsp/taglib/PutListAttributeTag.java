@@ -100,14 +100,11 @@ public class PutListAttributeTag extends PutAttributeTag
         return (SKIP_BODY);
     }
 
-    /**
-     * Release the state of this put list by
-     * clearing the contents of the list.
-     */
-    public void release() {
+    /** {@inheritDoc} */
+    @Override
+    protected void reset() {
+        super.reset();
         inherit = false;
-        super.setValue(null);
-        super.release();
     }
 
     /**

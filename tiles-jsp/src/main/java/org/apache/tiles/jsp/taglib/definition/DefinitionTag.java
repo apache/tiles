@@ -30,9 +30,8 @@ import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
 import org.apache.tiles.jsp.taglib.PutListAttributeTag;
 import org.apache.tiles.jsp.taglib.PutListAttributeTagParent;
 import org.apache.tiles.jsp.taglib.TilesJspException;
+import org.apache.tiles.jsp.taglib.TilesTag;
 import org.apache.tiles.mgmt.MutableTilesContainer;
-
-import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * This is the tag handler for &lt;tiles:definition&gt;, which creates a custom
@@ -41,7 +40,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  * @version $Rev$ $Date$
  */
-public class DefinitionTag extends TagSupport implements PutAttributeTagParent,
+public class DefinitionTag extends TilesTag implements PutAttributeTagParent,
         PutListAttributeTagParent {
 
 
@@ -172,8 +171,9 @@ public class DefinitionTag extends TagSupport implements PutAttributeTagParent,
     }
 
     /** {@inheritDoc} */
-    public void release() {
-        super.release();
+    @Override
+    protected void reset() {
+        super.reset();
         name = null;
         template = null;
         extend = null;

@@ -20,6 +20,12 @@
  */
 package org.apache.tiles.jsp.taglib;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.jsp.PageContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
@@ -28,18 +34,12 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.jsp.context.JspUtil;
 
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.TagSupport;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Support for Scoped tags.
  *
  * @version $Rev$ $Date$
  */
-public abstract class AttributeTagSupport extends TagSupport {
+public abstract class AttributeTagSupport extends TilesTag {
 
     /**
      * The logging object.
@@ -122,7 +122,9 @@ public abstract class AttributeTagSupport extends TagSupport {
     }
 
     /** {@inheritDoc} */
-    public void release() {
+    @Override
+    protected void reset() {
+        super.reset();
         scopeName = null;
         scope = PageContext.PAGE_SCOPE;
         ignore = false;

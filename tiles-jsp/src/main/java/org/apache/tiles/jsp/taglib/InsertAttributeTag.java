@@ -93,20 +93,21 @@ public class InsertAttributeTag extends RenderTagSupport {
 
     /** {@inheritDoc} */
     @Override
+    protected void reset() {
+        super.reset();
+        this.name = null;
+        this.value = null;
+        this.attribute = null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public int doStartTag() throws TilesJspException {
         if (value == null && name == null) {
             throw new TilesJspException(
                     "No attribute name or value has been provided.");
         }
         return super.doStartTag();
-    }
-
-    /** {@inheritDoc} */
-    public void release() {
-        super.release();
-        this.name = null;
-        this.value = null;
-        this.attribute = null;
     }
 
     /** {@inheritDoc} */

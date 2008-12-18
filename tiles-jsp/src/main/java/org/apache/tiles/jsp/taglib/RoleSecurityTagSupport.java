@@ -20,12 +20,12 @@
  */
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-import java.io.IOException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Base tag for the tiles tags which provides standard support for security.
@@ -34,7 +34,7 @@ import java.io.IOException;
  * @version $Rev$ $Date$
  * @deprecated Use {@link AddAttributeTag} and {@link PutAttributeTag} directly.
  */
-public abstract class RoleSecurityTagSupport extends BodyTagSupport {
+public abstract class RoleSecurityTagSupport extends TilesBodyTag {
 
     /**
      * The log instance for this tag.
@@ -68,6 +68,13 @@ public abstract class RoleSecurityTagSupport extends BodyTagSupport {
     }
 
     /** {@inheritDoc} */
+    @Override
+    protected void reset() {
+        super.reset();
+        this.role = null;
+    }
+
+    /** {@inheritDoc} */
     public int doEndTag() throws TilesJspException {
         try {
             if (isAccessAllowed()) {
@@ -80,14 +87,6 @@ public abstract class RoleSecurityTagSupport extends BodyTagSupport {
         }
 
         return EVAL_PAGE;
-    }
-
-
-
-    /** {@inheritDoc} */
-    public void release() {
-        super.release();
-        this.role = null;
     }
 
     /**

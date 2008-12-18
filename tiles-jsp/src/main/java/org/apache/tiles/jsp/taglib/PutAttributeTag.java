@@ -123,11 +123,10 @@ public class PutAttributeTag extends AddAttributeTag {
         this.cascade = cascade;
     }
 
-    /**
-     * Release all allocated resources.
-     */
-    public void release() {
-        super.release();
+    /** {@inheritDoc} */
+    @Override
+    protected void reset() {
+        super.reset();
         name = null;
         cascade = false;
     }

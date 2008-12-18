@@ -21,15 +21,14 @@
 package org.apache.tiles.jsp.taglib.definition;
 
 import org.apache.tiles.access.TilesAccess;
-
-import javax.servlet.jsp.tagext.TagSupport;
+import org.apache.tiles.jsp.taglib.TilesTag;
 
 /**
  * Destroys the accessible container.
  *
  * @version $Rev$ $Date$
  */
-public class DestroyContainerTag extends TagSupport {
+public class DestroyContainerTag extends TilesTag {
 
     /**
      * The key of the container to destroy.
@@ -54,6 +53,13 @@ public class DestroyContainerTag extends TagSupport {
      */
     public void setContainerKey(String containerKey) {
         this.containerKey = containerKey;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void reset() {
+        super.reset();
+        this.containerKey = null;
     }
 
     /** {@inheritDoc} */

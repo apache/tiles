@@ -22,23 +22,6 @@
 
 package org.apache.tiles.jsp.taglib.definition;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
-import org.apache.tiles.factory.AbstractTilesContainerFactory;
-import org.apache.tiles.factory.TilesContainerFactory;
-import org.apache.tiles.jsp.taglib.PutAttributeTag;
-import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
-import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -49,12 +32,30 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.Servlet;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
+import org.apache.tiles.factory.AbstractTilesContainerFactory;
+import org.apache.tiles.factory.TilesContainerFactory;
+import org.apache.tiles.jsp.taglib.PutAttributeTag;
+import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
+import org.apache.tiles.jsp.taglib.TilesBodyTag;
+import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+
 /**
  * Init definitions impl.
  *
  * @version $Rev$ $Date$
  */
-public class InitContainerTag extends BodyTagSupport
+public class InitContainerTag extends TilesBodyTag
     implements PutAttributeTagParent {
 
     /**
@@ -123,8 +124,9 @@ public class InitContainerTag extends BodyTagSupport
     }
 
     /** {@inheritDoc} */
-    public void release() {
-        super.release();
+    @Override
+    protected void reset() {
+        super.reset();
         containerFactory = null;
         containerKey = null;
         initParameters = null;

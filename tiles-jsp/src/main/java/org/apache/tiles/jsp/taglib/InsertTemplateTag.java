@@ -64,6 +64,13 @@ public class InsertTemplateTag extends RenderTagSupport {
 
     /** {@inheritDoc} */
     @Override
+    protected void reset() {
+        super.reset();
+        this.template = null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     protected void render() throws IOException {
         attributeContext.setTemplate(template);
         attributeContext.setPreparer(preparer);

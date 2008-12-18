@@ -20,6 +20,11 @@
  */
 package org.apache.tiles.jsp.taglib;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
@@ -27,12 +32,6 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.context.JspUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-
-import java.io.IOException;
 
 /**
  * <p>
@@ -50,7 +49,7 @@ import java.io.IOException;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public abstract class RenderTagSupport extends BodyTagSupport implements
+public abstract class RenderTagSupport extends TilesBodyTag implements
         PutAttributeTagParent, PutListAttributeTagParent {
 
     /**
@@ -172,9 +171,10 @@ public abstract class RenderTagSupport extends BodyTagSupport implements
         this.ignore = ignore;
     }
 
-
     /** {@inheritDoc} */
-    public void release() {
+    @Override
+    protected void reset() {
+        super.reset();
         preparer = null;
         flush = false;
         ignore = false;

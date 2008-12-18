@@ -72,6 +72,13 @@ public class ImportAttributeTag extends AttributeTagSupport {
         this.toName = toName;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void reset() {
+        super.reset();
+        this.toName = null;
+    }
+
     /**
      * Expose the requested property from attribute context.
      *

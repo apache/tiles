@@ -22,9 +22,9 @@
 package org.apache.tiles.jsp.taglib.definition;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.jsp.taglib.TilesTag;
 
 /**
  * Sets the current container, to be used by Tiles tags.
@@ -32,7 +32,7 @@ import org.apache.tiles.jsp.context.JspUtil;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class SetCurrentContainerTag extends TagSupport {
+public class SetCurrentContainerTag extends TilesTag {
 
     /**
      * The key under which the container is stored.
@@ -61,7 +61,8 @@ public class SetCurrentContainerTag extends TagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void release() {
+    protected void reset() {
+        super.reset();
         this.containerKey = null;
     }
 
