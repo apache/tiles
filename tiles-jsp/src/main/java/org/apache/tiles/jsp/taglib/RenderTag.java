@@ -22,7 +22,6 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
@@ -47,7 +46,7 @@ import org.apache.tiles.jsp.context.JspUtil;
  * that all all included attributes in subsequent tiles are scoped properly and
  * do not bleed outside their intended scope.
  *
- * @since Tiles 2.0
+ * @since 2.1.1
  * @version $Rev$ $Date$
  */
 public abstract class RenderTag extends TilesBodyTag implements
@@ -61,32 +60,44 @@ public abstract class RenderTag extends TilesBodyTag implements
     /**
      * The role to check. If the user is in the specified role, the tag is taken
      * into account; otherwise, the tag is ignored (skipped).
+     *
+     * @since 2.1.1
      */
     protected String role;
 
     /**
      * The view preparer to use before the rendering.
+     *
+     * @since 2.1.1
      */
     protected String preparer;
 
     /**
      * This flag, if <code>true</code>, flushes the content before rendering.
+     *
+     * @since 2.1.1
      */
     protected boolean flush;
 
     /**
      * This flag, if <code>true</code>, ignores exception thrown by preparers
      * and those caused by problems with definitions.
+     *
+     * @since 2.1.1
      */
     protected boolean ignore;
 
     /**
      * The Tiles container that can be used inside the tag.
+     *
+     * @since 2.1.1
      */
     protected TilesContainer container;
 
     /**
      * The attribute context to use to store and read attribute values.
+     *
+     * @since 2.1.1
      */
     protected AttributeContext attributeContext;
 
@@ -95,6 +106,7 @@ public abstract class RenderTag extends TilesBodyTag implements
      * taken into account; otherwise, the tag is ignored (skipped).
      *
      * @return The role to check.
+     * @since 2.1.1
      */
     public String getRole() {
         return role;
@@ -105,6 +117,7 @@ public abstract class RenderTag extends TilesBodyTag implements
      * taken into account; otherwise, the tag is ignored (skipped).
      *
      * @param role The role to check.
+     * @since 2.1.1
      */
     public void setRole(String role) {
         this.role = role;
@@ -114,6 +127,7 @@ public abstract class RenderTag extends TilesBodyTag implements
      * Returns the preparer name.
      *
      * @return The preparer name.
+     * @since 2.1.1
      */
     public String getPreparer() {
         return preparer;
@@ -123,6 +137,7 @@ public abstract class RenderTag extends TilesBodyTag implements
      * Sets the preparer name.
      *
      * @param preparer The preparer name.
+     * @since 2.1.1
      */
     public void setPreparer(String preparer) {
         this.preparer = preparer;
@@ -133,6 +148,7 @@ public abstract class RenderTag extends TilesBodyTag implements
      * is flushed before insertion.
      *
      * @return The flush flag.
+     * @since 2.1.1
      */
     public boolean isFlush() {
         return flush;
@@ -143,6 +159,7 @@ public abstract class RenderTag extends TilesBodyTag implements
      * is flushed before insertion.
      *
      * @param flush The flush flag.
+     * @since 2.1.1
      */
     public void setFlush(boolean flush) {
         this.flush = flush;
@@ -155,6 +172,7 @@ public abstract class RenderTag extends TilesBodyTag implements
      * exception to be thrown.
      *
      * @return The ignore flag.
+     * @since 2.1.1
      */
     public boolean isIgnore() {
         return ignore;
@@ -167,6 +185,7 @@ public abstract class RenderTag extends TilesBodyTag implements
      * exception to be thrown.
      *
      * @param ignore The ignore flag.
+     * @since 2.1.1
      */
     public void setIgnore(boolean ignore) {
         this.ignore = ignore;
@@ -210,24 +229,6 @@ public abstract class RenderTag extends TilesBodyTag implements
             throw new TilesJspException(message, io);
         } finally {
             endContext(pageContext);
-        }
-    }
-
-    /**
-     * Execute the tag by invoking the preparer, if defined, and then
-     * rendering.
-     *
-     * @throws TilesJspException if a jsp exception occurs.
-     * @throws IOException if an io exception occurs.
-     * @deprecated Use {@link #render()}.
-     */
-    protected void execute() throws TilesJspException, IOException {
-        if (preparer != null) {
-            container.prepare(preparer, pageContext);
-        }
-        render();
-        if (flush) {
-            pageContext.getOut().flush();
         }
     }
 
@@ -291,17 +292,5 @@ public abstract class RenderTag extends TilesBodyTag implements
 
         attributeContext.putAttribute(nestedTag.getName(), attribute, nestedTag
                 .isCascade());
-    }
-
-    /**
-     * Checks if the user is inside the specified role.
-     *
-     * @return <code>true</code> if the user is allowed to have the tag
-     * rendered.
-     * @deprecated Implement access allowance in your own tag.
-     */
-    protected boolean isAccessAllowed() {
-        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
-        return (role == null || req.isUserInRole(role));
     }
 }
