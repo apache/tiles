@@ -35,7 +35,8 @@ import org.apache.tiles.jsp.context.JspUtil;
 
 /**
  * <p>
- * Support for all tags which render (an attribute, a template, or definition).
+ * Abstracts class for all tags which render (an attribute, a template, or
+ * definition).
  * </p>
  * <p>
  * Properly invokes the defined preparer and invokes the abstract render method
@@ -49,13 +50,13 @@ import org.apache.tiles.jsp.context.JspUtil;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public abstract class RenderTagSupport extends TilesBodyTag implements
+public abstract class RenderTag extends TilesBodyTag implements
         PutAttributeTagParent, PutListAttributeTagParent {
 
     /**
      * The log instance for this tag.
      */
-    private static final Log LOG = LogFactory.getLog(RenderTagSupport.class);
+    private static final Log LOG = LogFactory.getLog(RenderTag.class);
 
     /**
      * The role to check. If the user is in the specified role, the tag is taken

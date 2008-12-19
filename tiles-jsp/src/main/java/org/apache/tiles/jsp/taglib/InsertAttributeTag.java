@@ -36,7 +36,7 @@ import java.io.IOException;
  *
  * @version $Rev$ $Date$
  */
-public class InsertAttributeTag extends RenderTagSupport {
+public class InsertAttributeTag extends RenderTag {
 
     /**
      * Name to insert.

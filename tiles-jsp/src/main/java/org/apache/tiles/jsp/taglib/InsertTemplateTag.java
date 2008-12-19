@@ -31,7 +31,7 @@ import org.apache.tiles.jsp.context.JspUtil;
  *
  * @version $Rev$ $Date$
  */
-public class InsertTemplateTag extends RenderTagSupport {
+public class InsertTemplateTag extends RenderTag {
 
     /**
      * A string representing the URI of a template (for example, a JSP page).
