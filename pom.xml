@@ -39,9 +39,9 @@
     <url>http://tiles.apache.org/framework/</url>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/trunk/</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/trunk/</developerConnection>
-        <url>http://svn.apache.org/viewvc/tiles/framework/trunk/</url>
+        <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/trunk/</connection>
+        <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/trunk/</developerConnection>
+        <url>http://svn.eu.apache.org/viewvc/tiles/framework/trunk/</url>
     </scm>
 
     <ciManagement />
@@ -156,7 +156,7 @@
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
-                    <configLocation>http://svn.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks.xml
+                    <configLocation>http://svn.eu.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks.xml
                     </configLocation>
                 </configuration>
             </plugin>
