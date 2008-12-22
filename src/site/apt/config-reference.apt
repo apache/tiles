@@ -34,7 +34,7 @@ Summary
   [[1]] {{{config-reference.html#Main_configuration}Main configuration}}.
 
 *---------------------------------------------+--------------------------------------+
-| {{{config-reference.html#org.apache.tiles.context.TilesApplicationContextFactory}<<<org.apache.tiles.context.TilesApplicationContextFactory>>>}}      | Tiles application context factory class name     |
+| {{{config-reference.html#org.apache.tiles.context.AbstractTilesApplicationContextFactory}<<<org.apache.tiles.context.AbstractTilesApplicationContextFactory>>>}}      | Tiles application context factory class name     |
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.context.TilesRequestContextFactory}<<<org.apache.tiles.context.TilesRequestContextFactory>>>}}      | Tiles request context factory class name     |
 *---------------------------------------------+--------------------------------------+
@@ -111,7 +111,7 @@ Summary
   {{{config-reference.html#org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES>>>}}
 
   * <<<org.apache.tiles.context.TilesContextFactory>>>: use
-  {{{config-reference.html#org.apache.tiles.context.TilesApplicationContextFactory}<<<org.apache.tiles.context.TilesApplicationContextFactory>>>}}
+  {{{config-reference.html#org.apache.tiles.context.AbstractTilesApplicationContextFactory}<<<org.apache.tiles.context.AbstractTilesApplicationContextFactory>>>}}
   or
   {{{config-reference.html#org.apache.tiles.context.TilesRequestContextFactory}<<<org.apache.tiles.context.TilesRequestContextFactory>>>}}
 
@@ -125,17 +125,17 @@ Standard configuration parameters
 
 * {Main configuration}
 
-** {<<<org.apache.tiles.context.TilesApplicationContextFactory>>>}
+** {<<<org.apache.tiles.context.AbstractTilesApplicationContextFactory>>>}
 
   Specifies the application context factory class name to use.
   
   * <<Specified in>>:
-  {{{apidocs/org/apache/tiles/factory/TilesContainerFactory.html#APPLICATION_CONTEXT_FACTORY_INIT_PARAM}<<<org.apache.tiles.factory.TilesContainerFactory>>>}}.
+  {{{apidocs/org/apache/tiles/context/AbstractTilesApplicationContextFactory.html#APPLICATION_CONTEXT_FACTORY_INIT_PARAM}<<<org.apache.tiles.context.AbstractTilesApplicationContextFactory>>>}}.
     
   * <<Default>>: <<<org.apache.tiles.context.ChainedTilesApplicationContextFactory>>>.
     
   * <<Usage>>: when specified, it must contain the name of a class that
-  implements the <<<TilesApplicationContextFactory>>> interface.
+  implements the <<<AbstractTilesApplicationContextFactory>>> interface.
 
 ** {<<<org.apache.tiles.context.TilesRequestContextFactory>>>}
 
@@ -278,8 +278,8 @@ Standard configuration parameters
   org.apache.tiles.portlet.context.PortletApplicationTilesApplicationContextFactory>>>
     
   * <<Usage>>: when specified, it must contain a comma-separated list of class
-  names implementing
-  {{{apidocs/org/apache/tiles/context/TilesApplicationContextFactory.html}<<<TilesApplicationContextFactory>>>}}.
+  names extending
+  {{{apidocs/org/apache/tiles/context/AbstractTilesApplicationContextFactory.html}<<<AbstractTilesApplicationContextFactory>>>}}.
 
 * {<<<ChainedTilesRequestContextFactory>>> configuration}
 

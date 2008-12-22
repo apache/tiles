@@ -41,32 +41,50 @@ Tiles Extension Points
   {{{../../config-reference.html#KeyedDefinitionsFactoryTilesContainerFactory_configuration}KeyedDefinitionsFactoryTilesContainerFactory}}
   that allows to create multiple definitions factory for different "keys".
 
-* Tiles Application and Request Context Factory
+* {Tiles Application Context Factory}
+
+  The
+  {{{../../apidocs/org/apache/tiles/TilesApplicationContext.html}<<<TilesApplicationContext>>>}}
+  interface is used to abstract the Tiles context from the particular
+  technology. The same instance will be used in the whole application.
+  It is used to:
+  
+  * obtain application-scoped attributes;
+  
+  * obtain initialization parameters;
+  
+  * load resources.
+  
+  []
+  
+  The
+  {{{../../config-reference.html#org.apache.tiles.context.AbstractTilesApplicationContextFactory}<<<AbstractTilesApplicationContextFactory>>>}}
+  abstract factory is used to create instances of the class above.
+
+  The default implementation,
+  {{{../../config-reference.html#ChainedTilesApplicationContextFactory_configuration}<<<ChainedTilesApplicationContextFactory>>>}},
+  links together different implementations. The default configuration tries to
+  instantiate an implementation for Servlet and, if it fails, for Portlet
+  technology. If you need to support a new technology, we suggest to configure
+  {{{../../apidocs/org/apache/tiles/context/AbstractTilesApplicationContextFactory.html}<<<AbstractTilesApplicationContextFactory>>>}}
+  (and not using the configuration of ChainedTilesApplicationContextFactory).
+
+* Tiles Request Context Factory
 
   The
   {{{../../apidocs/org/apache/tiles/context/TilesRequestContext.html}<<<TilesRequestContext>>>}}
-  and
-  {{{../../apidocs/org/apache/tiles/context/TilesApplicationContext.html}<<<TilesApplicationContext>>>}}
-  interfaces are used to abstract the Tiles context from the particular
+  interface is used to abstract the Tiles context from the particular
   technology. The
-  {{{../../config-reference.html#org.apache.tiles.context.TilesApplicationContextFactory}<<<TilesApplicationContextFactory>>>}}
-  and the
   {{{../../config-reference.html#org.apache.tiles.context.TilesRequestContextFactory}<<<TilesRequestContextFactory>>>}}
-  interface is used to create instances of the 2 classes above.
+  interface is used to create instances of the class above.
 
-  The default implementations,
-  {{{../../config-reference.html#ChainedTilesApplicationContextFactory_configuration}<<<ChainedTilesApplicationContextFactory>>>}}
-  and 
-  {{{../../config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>>}} 
-  links together different implementation. The default configuration links
+  The default implementation,
+  {{{../../config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>>}}, 
+  links together different implementations. The default configuration links
   together the implementation for Servlet, Portlet and JSP technologies. If you
   need to support a new technology, we suggest to configure
-  {{{../../config-reference.html#ChainedTilesApplicationContextFactory_configuration}<<<ChainedTilesApplicationContextFactory>>>}}
-  and
   {{{../../config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>>}}
   and create a new instance of
-  {{{../../apidocs/org/apache/tiles/context/TilesApplicationContextFactory.html}<<<TilesApplicationContextFactory>>>}}
-  and
   {{{../../apidocs/org/apache/tiles/context/TilesRequestContextFactory.html}<<<TilesRequestContextFactory>>>}}.
 
 * Tiles Definitions Factory

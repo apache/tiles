@@ -68,6 +68,9 @@ What's new in Tiles 2.1
 
 * Under the hood
 
+  * <<<TilesApplicationContext>>> is now created externally of the Tiles
+  container and {{{tutorial/extension/points.html#Tiles_Application_Context_Factory}must be configured externally}}.
+
   * Tiles exceptions are all unchecked now: you can now remove all your
   try-catches.
 

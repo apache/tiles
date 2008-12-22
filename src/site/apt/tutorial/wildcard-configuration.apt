@@ -46,35 +46,18 @@ Load XML definition files using wildcards
 * Configuration
 
   To be able to specify Tiles XML definition files using wildcards, there is the
-  need for some configuration:
-
-  * If you are using parameter-based initialization, provide a new value for the
-  {{{../config-reference.html#org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES>>>}}
+  need to override the Tiles application context creation. For example, if you
+  are using parameter-based initialization, provide a new value for the
+  {{{../config-reference.html#org.apache.tiles.context.AbstractTilesApplicationContextFactory}<<<org.apache.tiles.context.AbstractTilesApplicationContextFactory>>>}}
   init parameter. For example:
 
 ----------------------------------------
 <init-param>
-    <param-name>org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES</param-name>
+    <param-name>org.apache.tiles.context.AbstractTilesApplicationContextFactory</param-name>
     <param-value>
       org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContextFactory
     </param-value>
 </init-param>
-----------------------------------------
-
-  * If you are using Java-based configuration, override the 
-  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#registerChainedApplicationContextFactories(java.lang.Object,%20org.apache.tiles.context.ChainedTilesApplicationContextFactory)}registerChainedContextFactories}}
-  of <<<BasicTilesContainerFactory>>> this way:
-
-----------------------------------------
-/** {@inheritDoc} */
-@Override
-protected void registerChainedApplicationContextFactories(Object context,
-        ChainedTilesApplicationContextFactory contextFactory) {
-    List<TilesApplicationContextFactory> factories = new ArrayList<TilesApplicationContextFactory>(
-            CONTEXT_FACTORY_CHAIN_COUNT);
-    factories.add(new WildcardServletTilesApplicationContextFactory());
-    contextFactory.setFactories(factories);
-}
 ----------------------------------------
 
 * Usage
