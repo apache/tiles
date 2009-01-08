@@ -57,6 +57,7 @@ public class ELAttributeEvaluatorTest extends TestCase {
         requestScope.put("object1", "value");
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
+        requestScope.put("paulaBean", new PaulaBean());
         request = EasyMock.createMock(TilesRequestContext.class);
         EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
                 .anyTimes();
@@ -99,6 +100,9 @@ public class ELAttributeEvaluatorTest extends TestCase {
         attribute.setValue("${object3}");
         assertEquals("The value is not correct", new Float(2.0), evaluator
                 .evaluate(attribute, request));
+        attribute.setValue("${paulaBean.paula}");
+        assertEquals("The value is not correct", "Brillant", evaluator
+                .evaluate(attribute, request));
         attribute.setValue("String literal");
         assertEquals("The value is not correct", "String literal", evaluator
                 .evaluate(attribute, request));
@@ -130,8 +134,33 @@ public class ELAttributeEvaluatorTest extends TestCase {
         expression = "${object3}";
         assertEquals("The value is not correct", new Float(2.0), evaluator
                 .evaluate(expression, request));
+        expression = "${paulaBean.paula}";
+        assertEquals("The value is not correct", "Brillant", evaluator
+                .evaluate(expression, request));
         expression = "String literal";
         assertEquals("The value is not correct", expression, evaluator
                 .evaluate(expression, request));
+    }
+
+    /**
+     * This is The Brillant Paula Bean (sic) just like it was posted to:
+     * http://thedailywtf.com/Articles/The_Brillant_Paula_Bean.aspx
+     * I hope that there is no copyright on it.
+     */
+    public static class PaulaBean {
+
+        /**
+         * Paula is brillant, really.
+         */
+        private String paula = "Brillant";
+
+        /**
+         * Returns brillant.
+         *
+         * @return "Brillant".
+         */
+        public String getPaula() {
+            return paula;
+        }
     }
 }

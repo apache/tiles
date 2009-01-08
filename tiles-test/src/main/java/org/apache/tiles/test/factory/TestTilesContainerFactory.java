@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.el.ArrayELResolver;
+import javax.el.BeanELResolver;
 import javax.el.CompositeELResolver;
 import javax.el.ELResolver;
 import javax.el.ListELResolver;
@@ -103,6 +104,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
                 add(new ListELResolver(false));
                 add(new MapELResolver(false));
                 add(new ResourceBundleELResolver());
+                add(new BeanELResolver(false));
             }
         };
         evaluator.setResolver(elResolver);

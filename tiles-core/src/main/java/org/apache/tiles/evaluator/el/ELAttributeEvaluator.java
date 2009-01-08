@@ -23,6 +23,7 @@ package org.apache.tiles.evaluator.el;
 import java.util.Map;
 
 import javax.el.ArrayELResolver;
+import javax.el.BeanELResolver;
 import javax.el.CompositeELResolver;
 import javax.el.ELResolver;
 import javax.el.ExpressionFactory;
@@ -117,6 +118,7 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
                 add(new ListELResolver(false));
                 add(new MapELResolver(false));
                 add(new ResourceBundleELResolver());
+                add(new BeanELResolver(false));
             }
         };
     }
