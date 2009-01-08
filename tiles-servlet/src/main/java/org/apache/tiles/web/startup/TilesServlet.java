@@ -20,15 +20,17 @@
  */
 package org.apache.tiles.web.startup;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesException;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.web.util.ServletContextAdapter;
 
 import javax.servlet.http.HttpServlet;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 
 /**
- * Initialization Servlet. Provided for backwards compatibility.
- * The prefered method of initialization is to use the TilesListener.
+ * Initialization Servlet.
  *
  * @see org.apache.tiles.web.startup.TilesListener
  * @version $Rev$ $Date$
@@ -36,33 +38,58 @@ import javax.servlet.ServletException;
 public class TilesServlet extends HttpServlet {
 
     /**
+     * Log instance.
+     */
+    protected static final Log LOG =
+        LogFactory.getLog(TilesServlet.class);
+
+    /**
      * The private listener instance, that is used to initialize Tiles
      * container.
      */
-    private TilesListener listener = new TilesListener();
+    private TilesServletInitializer initializer;
+
+    /**
+     * Constructor.
+     *
+     * @since 2.1.2
+     */
+    public TilesServlet() {
+        initializer = createTilesServletInitializer();
+    }
+
+    /**
+     * Constructor with injected initializer.
+     *
+     * @param initializer The initializer to use.
+     */
+    public TilesServlet(TilesServletInitializer initializer) {
+        this.initializer = initializer;
+    }
 
     /** {@inheritDoc} */
     @Override
     public void destroy() {
-        listener.contextDestroyed(createEvent());
+        try {
+            TilesAccess.setContainer(getServletContext(), null);
+        } catch (TilesException e) {
+            LOG.warn("Unable to remove tiles container from service.", e);
+        }
     }
 
     /** {@inheritDoc} */
     @Override
     public void init() throws ServletException {
-        listener.contextInitialized(createEvent());
+        initializer.initialize(new ServletContextAdapter(getServletConfig()));
     }
 
     /**
-     * Creates an servlet context event starting for the servlet configuration
-     * object.
+     * Creates a new instance of {@link BasicTilesServletInitializer}. Override it to use a different initializer.
      *
-     * @return The servlet context event.
+     * @return The Tiles servlet-based initializer.
+     * @since 2.1.2
      */
-    private ServletContextEvent createEvent() {
-        return new ServletContextEvent(
-            new ServletContextAdapter(getServletConfig())
-        );
+    protected TilesServletInitializer createTilesServletInitializer() {
+        return new BasicTilesServletInitializer();
     }
-
 }

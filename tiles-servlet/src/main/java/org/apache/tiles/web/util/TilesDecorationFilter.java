@@ -26,7 +26,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.web.startup.TilesListener;
+import org.apache.tiles.web.startup.BasicTilesServletInitializer;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -147,7 +147,7 @@ public class TilesDecorationFilter implements Filter {
         filterConfig = config;
 
         containerKey = filterConfig.getInitParameter(
-                TilesListener.CONTAINER_KEY_INIT_PARAMETER);
+                BasicTilesServletInitializer.CONTAINER_KEY_INIT_PARAMETER);
 
         String temp = config.getInitParameter("attribute-name");
         if (temp != null) {

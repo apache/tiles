@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.web.startup.TilesListener;
+import org.apache.tiles.web.startup.BasicTilesServletInitializer;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -63,7 +63,7 @@ public class TilesDispatchServlet extends HttpServlet {
         super.init();
 
         containerKey = getServletConfig().getInitParameter(
-                TilesListener.CONTAINER_KEY_INIT_PARAMETER);
+                BasicTilesServletInitializer.CONTAINER_KEY_INIT_PARAMETER);
 
         String temp = getInitParameter("mutator");
         if (temp != null) {

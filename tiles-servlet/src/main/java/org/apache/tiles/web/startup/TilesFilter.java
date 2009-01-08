@@ -41,6 +41,11 @@ import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
  * Processes Reloadable Tiles Definitions.
  *
  * @version $Rev$ $Date$
+ * @deprecated Use {@link TilesServlet} or {@link TilesListener}. If you want a
+ * decoration Filter, use
+ * {@link org.apache.tiles.web.util.TilesDecorationFilter}. Moreover, definition
+ * files reload themselves if the {@link .apache.tiles.definition.dao.DefinitionDAO} implements
+ * {@link org.apache.tiles.definition.Refreshable}.
  */
 
 public class TilesFilter extends TilesServlet implements Filter {
@@ -120,7 +125,7 @@ public class TilesFilter extends TilesServlet implements Filter {
         super.init(createServletConfig());
 
         containerKey = filterConfig.getInitParameter(
-                TilesListener.CONTAINER_KEY_INIT_PARAMETER);
+                BasicTilesServletInitializer.CONTAINER_KEY_INIT_PARAMETER);
 
         if (DEBUG) {
             log("TilesDecorationFilter:Initializing filter");
