@@ -18,9 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.web.startup;
-
-import javax.servlet.ServletContext;
+package org.apache.tiles.startup;
 
 import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
@@ -28,7 +26,6 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
-import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 
 /**
  * Default Tiles initialization delegate implementation under a servlet
@@ -38,7 +35,7 @@ import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
  * @version $Rev: 531864 $ $Date: 2007-04-24 12:24:30 +0200 (mar, 24 apr 2007) $
  * @since 2.1.2
  */
-public class BasicTilesServletInitializer implements TilesServletInitializer {
+public class BasicTilesInitializer implements TilesInitializer {
 
     /**
      * Init parameter to define the key under which the container will be
@@ -50,32 +47,29 @@ public class BasicTilesServletInitializer implements TilesServletInitializer {
         "org.apache.tiles.web.startup.TilesServletInitializer.CONTAINER_KEY";
 
     /** {@inheritDoc} */
-    public void initialize(ServletContext servletContext) {
-        TilesApplicationContext applicationContext = createTilesApplicationContext(servletContext);
+    public void initialize(TilesApplicationContext applicationContext) {
+        applicationContext = createTilesApplicationContext(applicationContext);
         String key = getContainerKey(applicationContext);
         TilesContainer container = createContainer(applicationContext);
-        TilesAccess.setContainer(servletContext, container, key);
+        TilesAccess.setContainer(applicationContext, container, key);
     }
 
     /**
      * Creates the Tiles application context, to be used across all the
      * Tiles-based application.
      *
-     * @param context The Servlet context to use.
+     * @param preliminaryContext The preliminary application context to use.
      * @return The Tiles application context.
      * @since 2.1.2
      */
     protected TilesApplicationContext createTilesApplicationContext(
-            ServletContext context) {
-        TilesApplicationContext applicationContext = new ServletTilesApplicationContext(
-                context);
+            TilesApplicationContext preliminaryContext) {
         AbstractTilesApplicationContextFactory acFactory = AbstractTilesApplicationContextFactory
-                .createFactory(applicationContext);
+                .createFactory(preliminaryContext);
         if (acFactory instanceof Initializable) {
-            ((Initializable) acFactory).init(applicationContext.getInitParams());
+            ((Initializable) acFactory).init(preliminaryContext.getInitParams());
         }
-        applicationContext = acFactory.createApplicationContext(context);
-        return applicationContext;
+        return acFactory.createApplicationContext(preliminaryContext.getContext());
     }
 
     /**
@@ -87,7 +81,7 @@ public class BasicTilesServletInitializer implements TilesServletInitializer {
      */
     protected String getContainerKey(TilesApplicationContext applicationContext) {
         String key = applicationContext.getInitParams().get(
-                BasicTilesServletInitializer.CONTAINER_KEY_INIT_PARAMETER);
+                CONTAINER_KEY_INIT_PARAMETER);
         return key;
     }
 

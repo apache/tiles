@@ -24,9 +24,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+import org.apache.tiles.startup.BasicTilesInitializer;
+import org.apache.tiles.startup.TilesInitializer;
 import org.apache.tiles.web.util.ServletContextAdapter;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 /**
@@ -47,7 +51,7 @@ public class TilesServlet extends HttpServlet {
      * The private listener instance, that is used to initialize Tiles
      * container.
      */
-    private TilesServletInitializer initializer;
+    private TilesInitializer initializer;
 
     /**
      * Constructor.
@@ -56,15 +60,6 @@ public class TilesServlet extends HttpServlet {
      */
     public TilesServlet() {
         initializer = createTilesServletInitializer();
-    }
-
-    /**
-     * Constructor with injected initializer.
-     *
-     * @param initializer The initializer to use.
-     */
-    public TilesServlet(TilesServletInitializer initializer) {
-        this.initializer = initializer;
     }
 
     /** {@inheritDoc} */
@@ -80,16 +75,20 @@ public class TilesServlet extends HttpServlet {
     /** {@inheritDoc} */
     @Override
     public void init() throws ServletException {
-        initializer.initialize(new ServletContextAdapter(getServletConfig()));
+        ServletContext adaptedContext = new ServletContextAdapter(
+                getServletConfig());
+        ServletTilesApplicationContext preliminaryContext = new ServletTilesApplicationContext(
+                adaptedContext);
+        initializer.initialize(preliminaryContext);
     }
 
     /**
-     * Creates a new instance of {@link BasicTilesServletInitializer}. Override it to use a different initializer.
+     * Creates a new instance of {@link BasicTilesInitializer}. Override it to use a different initializer.
      *
      * @return The Tiles servlet-based initializer.
      * @since 2.1.2
      */
-    protected TilesServletInitializer createTilesServletInitializer() {
-        return new BasicTilesServletInitializer();
+    protected TilesInitializer createTilesServletInitializer() {
+        return new BasicTilesInitializer();
     }
 }

@@ -96,6 +96,48 @@ public final class TilesAccess {
     /**
      * Configures the default container to be used in the application.
      *
+     * @param context The Tiles application context object to use.
+     * @param container The container object to set.
+     * @throws TilesAccessException If something goes wrong during manipulation of the
+     * context.
+     * @since 2.1.2
+     */
+    public static void setContainer(TilesApplicationContext context,
+            TilesContainer container) {
+        setContainer(context, container, CONTAINER_ATTRIBUTE);
+    }
+
+    /**
+     * Configures the container to be used in the application.
+     *
+     * @param context The Tiles application context object to use.
+     * @param container The container object to set.
+     * @param key The key under which the container will be stored.
+     * @throws TilesAccessException If something goes wrong during manipulation of the
+     * context.
+     * @since 2.1.2
+     */
+    public static void setContainer(TilesApplicationContext context,
+            TilesContainer container, String key) {
+        if (key == null) {
+            key = CONTAINER_ATTRIBUTE;
+        }
+
+        if (container == null) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Removing TilesContext for context: " + context.getClass().getName());
+            }
+            context.getApplicationScope().remove(key);
+        }
+        if (container != null && LOG.isInfoEnabled()) {
+            LOG.info("Publishing TilesContext for context: " + context.getClass().getName());
+        }
+        context.getApplicationScope().put(key, container);
+    }
+
+    /**
+     * Configures the default container to be used in the application.
+     *
      * @param context The (application) context object to use.
      * @param container The container object to set.
      * @throws TilesAccessException If something goes wrong during manipulation of the

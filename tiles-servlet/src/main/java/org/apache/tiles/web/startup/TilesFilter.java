@@ -36,6 +36,7 @@ import javax.servlet.ServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
+import org.apache.tiles.startup.BasicTilesInitializer;
 
 /**
  * Processes Reloadable Tiles Definitions.
@@ -125,7 +126,7 @@ public class TilesFilter extends TilesServlet implements Filter {
         super.init(createServletConfig());
 
         containerKey = filterConfig.getInitParameter(
-                BasicTilesServletInitializer.CONTAINER_KEY_INIT_PARAMETER);
+                BasicTilesInitializer.CONTAINER_KEY_INIT_PARAMETER);
 
         if (DEBUG) {
             log("TilesDecorationFilter:Initializing filter");

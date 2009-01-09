@@ -22,10 +22,14 @@ package org.apache.tiles.web.startup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+import org.apache.tiles.startup.BasicTilesInitializer;
+import org.apache.tiles.startup.TilesInitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -50,7 +54,7 @@ public class TilesListener
      *
      * @since 2.1.2
      */
-    protected TilesServletInitializer initializer;
+    protected TilesInitializer initializer;
 
     /**
      * Constructor.
@@ -62,15 +66,6 @@ public class TilesListener
     }
 
     /**
-     * Constructor with injected initializer.
-     *
-     * @param initializer The initializer to use.
-     */
-    public TilesListener(TilesServletInitializer initializer) {
-        this.initializer = initializer;
-    }
-
-    /**
      * Initialize the TilesContainer and place it
      * into service.
      *
@@ -78,7 +73,8 @@ public class TilesListener
      */
     public void contextInitialized(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();
-        initializer.initialize(servletContext);
+        initializer.initialize(new ServletTilesApplicationContext(
+                servletContext));
     }
 
     /**
@@ -96,13 +92,13 @@ public class TilesListener
     }
 
     /**
-     * Creates a new instance of {@link BasicTilesServletInitializer}. Override it to use a different initializer.
+     * Creates a new instance of {@link BasicTilesInitializer}. Override it to use a different initializer.
      *
      * @return The Tiles servlet-based initializer.
      * @since 2.1.2
      */
-    protected TilesServletInitializer createTilesServletInitializer() {
-        return new BasicTilesServletInitializer();
+    protected TilesInitializer createTilesServletInitializer() {
+        return new BasicTilesInitializer();
     }
 
     /**
@@ -110,11 +106,14 @@ public class TilesListener
      *
      * @param context The servlet context to use.
      * @return The created container.
-     * @deprecated Use {@link BasicTilesServletInitializer#createContainer(org.apache.tiles.TilesApplicationContext)}
+     * @deprecated Use {@link BasicTilesInitializer#createContainer(org.apache.tiles.TilesApplicationContext)}
      * instead.
      */
     protected TilesContainer createContainer(ServletContext context) {
-        return new BasicTilesServletInitializer()
-                .createContainer(new ServletTilesApplicationContext(context));
+        TilesApplicationContext applicationContext = new ServletTilesApplicationContext(
+                context);
+        AbstractTilesContainerFactory factory = AbstractTilesContainerFactory
+                .getTilesContainerFactory(applicationContext);
+        return factory.createContainer(applicationContext);
     }
 }
