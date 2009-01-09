@@ -29,7 +29,7 @@ Defining multiple containers
 * Configuration
 
   To use an alternate container, it must be configured through the use of the
-  {{{../../config-reference.html#org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY}org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY}}
+  {{{../../config-reference.html#org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY}org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY}}
   initialization parameter. For example:
 
 ------------------------------------
@@ -37,7 +37,7 @@ Defining multiple containers
     <servlet-name>tiles-alt</servlet-name>
     <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
     <init-param>
-        <param-name>org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY</param-name>
+        <param-name>org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY</param-name>
         <param-value>alternate</param-value>
     </init-param>
 </servlet>

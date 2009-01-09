@@ -44,7 +44,7 @@ public class BasicTilesInitializer implements TilesInitializer {
      * @since 2.1.2
      */
     public static final String CONTAINER_KEY_INIT_PARAMETER =
-        "org.apache.tiles.web.startup.TilesServletInitializer.CONTAINER_KEY";
+        "org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY";
 
     /** {@inheritDoc} */
     public void initialize(TilesApplicationContext applicationContext) {

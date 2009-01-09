@@ -83,10 +83,10 @@ Summary
 | {{{config-reference.html#org.apache.tiles.locale.LocaleResolver}<<<org.apache.tiles.locale.LocaleResolver>>>}} | Locale resolver class name          |
 *---------------------------------------------+--------------------------------------+
 
-  [[6]] {{{config-reference.html#TilesListener_configuration}<<<TilesListener>>> configuration}}.
+  [[6]] {{{config-reference.html#Initialization_configuration}<<<Initialization>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
-| {{{config-reference.html#org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY}<<<org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY>>>}} | Container key |
+| {{{config-reference.html#org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY}<<<org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY>>>}} | Container key |
 *---------------------------------------------+--------------------------------------+
 
 * Extended configuration
@@ -342,14 +342,14 @@ Standard configuration parameters
   * <<Usage>>: when specified, it must contain the name of a class implementing
   {{{apidocs/org/apache/tiles/locale/LocaleResolver.html}<<<LocaleResolver>>>}}.
 
-* {<<<TilesListener>>> configuration}
+* {Initialization configuration}
 
-** {<<<org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY>>>}
+** {<<<org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY>>>}
 
   Specifies the key under which the Tiles container will be stored. 
 
   * <<Specified in>>:
-  {{{apidocs/org/apache/tiles/web/startup/TilesListener.html#CONTAINER_KEY_INIT_PARAMETER}<<<org.apache.tiles.web.startup.TilesListener>>>}}.
+  {{{apidocs/org/apache/tiles/startup/BasicTilesInitializer.html#CONTAINER_KEY_INIT_PARAMETER}<<<org.apache.tiles.startup.BasicTilesInitializer>>>}}.
 
   * <<Default>>: <<<null>>> (default container)
 

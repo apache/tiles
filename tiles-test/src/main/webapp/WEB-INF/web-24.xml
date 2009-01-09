@@ -85,7 +85,7 @@
             <param-value>org.apache.tiles.test.factory.TestAlternateTilesContainerFactory</param-value>
         </init-param>
         <init-param>
-            <param-name>org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY</param-name>
+            <param-name>org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY</param-name>
             <param-value>alternate</param-value>
         </init-param>
         <load-on-startup>3</load-on-startup>
@@ -98,7 +98,7 @@
             <param-value>org.apache.tiles.test.factory.TestDbTilesContainerFactory</param-value>
         </init-param>
         <init-param>
-            <param-name>org.apache.tiles.web.startup.TilesListener.CONTAINER_KEY</param-name>
+            <param-name>org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY</param-name>
             <param-value>db</param-value>
         </init-param>
         <load-on-startup>4</load-on-startup>
