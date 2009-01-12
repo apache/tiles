@@ -25,7 +25,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.web.startup.BasicTilesServletInitializer;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -39,6 +38,14 @@ import java.io.IOException;
  * a definition directly.
  */
 public class TilesDispatchServlet extends HttpServlet {
+
+    /**
+     * Init parameter to define the key of the container to use.
+     *
+     * @since 2.1.2
+     */
+    public static final String CONTAINER_KEY_INIT_PARAMETER =
+        "org.apache.tiles.web.util.TilesDispatchServlet.CONTAINER_KEY";
 
     /**
      * The logging object.
@@ -63,7 +70,7 @@ public class TilesDispatchServlet extends HttpServlet {
         super.init();
 
         containerKey = getServletConfig().getInitParameter(
-                BasicTilesServletInitializer.CONTAINER_KEY_INIT_PARAMETER);
+                CONTAINER_KEY_INIT_PARAMETER);
 
         String temp = getInitParameter("mutator");
         if (temp != null) {

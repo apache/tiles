@@ -26,7 +26,6 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.web.startup.BasicTilesServletInitializer;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -77,6 +76,14 @@ import java.util.HashMap;
  * "layout".
  */
 public class TilesDecorationFilter implements Filter {
+
+    /**
+     * Init parameter to define the key of the container to use.
+     *
+     * @since 2.1.2
+     */
+    public static final String CONTAINER_KEY_INIT_PARAMETER =
+        "org.apache.tiles.web.util.TilesDecorationFilter.CONTAINER_KEY";
 
     /**
      * The logging object.
@@ -146,8 +153,8 @@ public class TilesDecorationFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
         filterConfig = config;
 
-        containerKey = filterConfig.getInitParameter(
-                BasicTilesServletInitializer.CONTAINER_KEY_INIT_PARAMETER);
+        containerKey = filterConfig
+                .getInitParameter(CONTAINER_KEY_INIT_PARAMETER);
 
         String temp = config.getInitParameter("attribute-name");
         if (temp != null) {

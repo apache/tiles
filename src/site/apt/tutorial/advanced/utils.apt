@@ -49,6 +49,10 @@ Tiles Rendering Utilities
 </servlet-mapping>
 ------------------------------------
 
+  By using the <<<org.apache.tiles.web.util.TilesDispatchServlet.CONTAINER_KEY>>>
+  you can use a different container. The value of this parameter will be used
+  as the key under which the container is stored.
+
 * <<<TilesDecorationFilter>>>
 
   You can use the <<<TilesDecorationFilter>>> to use Tiles as a <decorator>
@@ -72,3 +76,7 @@ Tiles Rendering Utilities
     </init-param>
 </filter>
 ------------------------------------
+
+  By using the <<<org.apache.tiles.web.util.TilesDecorationFilter.CONTAINER_KEY>>>
+  you can use a different container. The value of this parameter will be used
+  as the key under which the container is stored.
