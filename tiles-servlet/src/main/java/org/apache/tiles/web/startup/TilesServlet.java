@@ -59,7 +59,7 @@ public class TilesServlet extends HttpServlet {
      * @since 2.1.2
      */
     public TilesServlet() {
-        initializer = createTilesServletInitializer();
+        initializer = createTilesInitializer();
     }
 
     /** {@inheritDoc} */
@@ -88,7 +88,7 @@ public class TilesServlet extends HttpServlet {
      * @return The Tiles servlet-based initializer.
      * @since 2.1.2
      */
-    protected TilesInitializer createTilesServletInitializer() {
+    protected TilesInitializer createTilesInitializer() {
         return new BasicTilesInitializer();
     }
 }

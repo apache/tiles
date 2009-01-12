@@ -62,7 +62,7 @@ public class TilesListener
      * @since 2.1.2
      */
     public TilesListener() {
-        initializer = createTilesServletInitializer();
+        initializer = createTilesInitializer();
     }
 
     /**
@@ -97,7 +97,7 @@ public class TilesListener
      * @return The Tiles servlet-based initializer.
      * @since 2.1.2
      */
-    protected TilesInitializer createTilesServletInitializer() {
+    protected TilesInitializer createTilesInitializer() {
         return new BasicTilesInitializer();
     }
 
