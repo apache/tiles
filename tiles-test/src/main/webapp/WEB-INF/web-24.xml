@@ -33,6 +33,15 @@
     <listener>
       <listener-class>org.apache.tiles.test.init.InitContextListener</listener-class>
     </listener>
+    <listener>
+      <listener-class>org.apache.tiles.test.listener.TestTilesListener</listener-class>
+    </listener>
+    <listener>
+      <listener-class>org.apache.tiles.test.listener.TestAlternateTilesListener</listener-class>
+    </listener>
+    <listener>
+      <listener-class>org.apache.tiles.test.listener.TestDbTilesListener</listener-class>
+    </listener>
     <filter>
         <filter-name>Tiles Decoration Filter</filter-name>
         <filter-class>org.apache.tiles.web.util.TilesDecorationFilter</filter-class>
@@ -64,45 +73,6 @@
     </filter-mapping>
 
     <!-- Standard Action Servlet Configuration -->
-    <servlet>
-        <servlet-name>tiles</servlet-name>
-        <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-        <init-param>
-            <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
-            <param-value>org.apache.tiles.test.factory.TestTilesContainerFactory</param-value>
-        </init-param>
-        <init-param>
-            <param-name>org.apache.tiles.context.AbstractTilesApplicationContextFactory</param-name>
-            <param-value>org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContextFactory</param-value>
-        </init-param>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-    <servlet>
-        <servlet-name>tiles-alt</servlet-name>
-        <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-        <init-param>
-            <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
-            <param-value>org.apache.tiles.test.factory.TestAlternateTilesContainerFactory</param-value>
-        </init-param>
-        <init-param>
-            <param-name>org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY</param-name>
-            <param-value>alternate</param-value>
-        </init-param>
-        <load-on-startup>3</load-on-startup>
-    </servlet>
-    <servlet>
-        <servlet-name>tiles-db</servlet-name>
-        <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-        <init-param>
-            <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
-            <param-value>org.apache.tiles.test.factory.TestDbTilesContainerFactory</param-value>
-        </init-param>
-        <init-param>
-            <param-name>org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY</param-name>
-            <param-value>db</param-value>
-        </init-param>
-        <load-on-startup>4</load-on-startup>
-    </servlet>
     <servlet>
         <servlet-name>freemarker</servlet-name>
         <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>

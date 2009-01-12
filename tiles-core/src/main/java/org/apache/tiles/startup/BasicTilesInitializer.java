@@ -64,12 +64,28 @@ public class BasicTilesInitializer implements TilesInitializer {
      */
     protected TilesApplicationContext createTilesApplicationContext(
             TilesApplicationContext preliminaryContext) {
+        AbstractTilesApplicationContextFactory acFactory =
+            createAndInitializeTilesApplicationContextFactory(preliminaryContext);
+        return acFactory.createApplicationContext(preliminaryContext.getContext());
+    }
+
+    /**
+     * Creates and initializes the Tiles application context factory, to create
+     * a {@link TilesApplicationContext} to be used across all the Tiles-based
+     * application.
+     *
+     * @param preliminaryContext The preliminary application context to use.
+     * @return The Tiles application context factory.
+     * @since 2.1.2
+     */
+    protected AbstractTilesApplicationContextFactory createAndInitializeTilesApplicationContextFactory(
+            TilesApplicationContext preliminaryContext) {
         AbstractTilesApplicationContextFactory acFactory = AbstractTilesApplicationContextFactory
                 .createFactory(preliminaryContext);
         if (acFactory instanceof Initializable) {
             ((Initializable) acFactory).init(preliminaryContext.getInitParams());
         }
-        return acFactory.createApplicationContext(preliminaryContext.getContext());
+        return acFactory;
     }
 
     /**
@@ -93,8 +109,21 @@ public class BasicTilesInitializer implements TilesInitializer {
      * @since 2.1.2
      */
     protected TilesContainer createContainer(TilesApplicationContext context) {
+        AbstractTilesContainerFactory factory = createContainerFactory(context);
+        return factory.createContainer(context);
+    }
+
+    /**
+     * Creates a Tiles container factory.
+     *
+     * @param context The servlet context to use.
+     * @return The created container factory.
+     * @since 2.1.2
+     */
+    protected AbstractTilesContainerFactory createContainerFactory(
+            TilesApplicationContext context) {
         AbstractTilesContainerFactory factory = AbstractTilesContainerFactory
                 .getTilesContainerFactory(context);
-        return factory.createContainer(context);
+        return factory;
     }
 }
