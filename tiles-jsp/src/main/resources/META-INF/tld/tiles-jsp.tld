@@ -317,6 +317,44 @@
               The fully qualified name of the preparer.
           </description>
       </attribute>
+      <attribute>
+         <name>defaultValue</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.Object</type>
+         <description>
+         <![CDATA[
+         <p>This value is evaluated only if <code>value</code> is null and the
+         attribute with the associated <code>name</code> is null.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>defaultValueType</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.Object</type>
+         <description>
+         <![CDATA[
+         <p>The type of the <code>defaultValue</code>, if it is a string.
+         To be used in conjunction with <code>defaultValue</code> attribute.</p>
+         ]]>
+         </description>
+      </attribute>
+      <attribute>
+         <name>defaultValueRole</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.Object</type>
+         <description>
+         <![CDATA[
+         <p>The role to check for the default value. If the user is in the specified
+         role, the default value is taken into account; otherwise, it is ignored
+         (skipped).
+         To be used in conjunction with <code>defaultValue</code> attribute.</p>
+         ]]>
+         </description>
+      </attribute>
    </tag>
    <tag>
       <name>definition</name>

@@ -49,6 +49,30 @@ public class InsertAttributeTag extends RenderTag {
     protected Object value = null;
 
     /**
+     * This value is evaluated only if <code>value</code> is null and the
+     * attribute with the associated <code>name</code> is null.
+     *
+     * @since 2.1.2
+     */
+    protected Object defaultValue;
+
+    /**
+     * The type of the {@link #defaultValue}, if it is a string.
+     *
+     * @since 2.1.2
+     */
+    protected String defaultValueType;
+
+    /**
+     * The role to check for the default value. If the user is in the specified
+     * role, the default value is taken into account; otherwise, it is ignored
+     * (skipped).
+     *
+     * @since 2.1.2
+     */
+    protected String defaultValueRole;
+
+    /**
      * The evaluated attribute.
      *
      * @since 2.1.0
@@ -91,12 +115,77 @@ public class InsertAttributeTag extends RenderTag {
         this.value = value;
     }
 
+    /**
+     * Returns the default value, that is evaluated only if <code>value</code>
+     * is null and the attribute with the associated <code>name</code> is null.
+     *
+     * @return The default value.
+     */
+    public Object getDefaultValue() {
+        return defaultValue;
+    }
+
+    /**
+     * Sets the default value, that is evaluated only if <code>value</code> is
+     * null and the attribute with the associated <code>name</code> is null.
+     *
+     * @param defaultValue The default value to set.
+     */
+    public void setDefaultValue(Object defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    /**
+     * Returns the default value type. It will be used only if
+     * {@link #getDefaultValue()} is a string.
+     *
+     * @return The default value type.
+     */
+    public String getDefaultValueType() {
+        return defaultValueType;
+    }
+
+    /**
+     * Sets the default value type. To be used in conjunction with
+     * {@link #setDefaultValue(Object)} when passing a string.
+     *
+     * @param defaultValueType The default value type.
+     */
+    public void setDefaultValueType(String defaultValueType) {
+        this.defaultValueType = defaultValueType;
+    }
+
+    /**
+     * Returns the role to check for the default value. If the user is in the specified
+     * role, the default value is taken into account; otherwise, it is ignored
+     * (skipped).
+     *
+     * @return The default value role.
+     */
+    public String getDefaultValueRole() {
+        return defaultValueRole;
+    }
+
+    /**
+     * Sets the role to check for the default value. If the user is in the specified
+     * role, the default value is taken into account; otherwise, it is ignored
+     * (skipped).
+     *
+     * @param defaultValueRole The default value role.
+     */
+    public void setDefaultValueRole(String defaultValueRole) {
+        this.defaultValueRole = defaultValueRole;
+    }
+
     /** {@inheritDoc} */
     @Override
     protected void reset() {
         super.reset();
         this.name = null;
         this.value = null;
+        this.defaultValue = null;
+        this.defaultValueType = null;
+        this.defaultValueType = null;
         this.attribute = null;
     }
 
@@ -129,17 +218,7 @@ public class InsertAttributeTag extends RenderTag {
             container.prepare(preparer, context);
         }
 
-        attribute = (Attribute) value;
-
-        if (attribute == null) {
-            AttributeContext evaluatingContext = container
-                    .getAttributeContext(context);
-            attribute = evaluatingContext.getAttribute(name);
-            if (attribute == null && !ignore) {
-                throw new NoSuchAttributeException("Attribute '" + name
-                        + "' not found.");
-            }
-        }
+        attribute = computeAttribute(context);
 
         super.startContext(context);
     }
@@ -153,5 +232,47 @@ public class InsertAttributeTag extends RenderTag {
      */
     protected void render(Attribute attr) throws IOException {
         container.render(attr, pageContext.getOut(), pageContext);
+    }
+
+    /**
+     * Computes the attribute to render, evaluating the various tag attributes.
+     *
+     * @param context The page context.
+     * @return The computed attribute.
+     */
+    private Attribute computeAttribute(PageContext context) {
+        Attribute attribute = (Attribute) value;
+
+        if (attribute == null) {
+            AttributeContext evaluatingContext = container
+                    .getAttributeContext(context);
+            attribute = evaluatingContext.getAttribute(name);
+            if (attribute == null) {
+                attribute = computeDefaultAttribute();
+                if (attribute == null && !ignore) {
+                    throw new NoSuchAttributeException("Attribute '" + name
+                            + "' not found.");
+                }
+            }
+        }
+        return attribute;
+    }
+
+    /**
+     * Computes the default attribute.
+     *
+     * @return The default attribute.
+     */
+    private Attribute computeDefaultAttribute() {
+        Attribute attribute = null;
+        if (defaultValue != null) {
+            if (defaultValue instanceof Attribute) {
+                attribute = (Attribute) defaultValue;
+            } else if (defaultValue instanceof String) {
+                attribute = new Attribute(defaultValue,
+                        defaultValueRole, defaultValueType);
+            }
+        }
+        return attribute;
     }
 }

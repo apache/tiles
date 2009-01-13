@@ -46,6 +46,7 @@
     <a href="testinsertdefinition_exception.jsp">Test Insert Configured Definition with an exception in an attribute page</a><br/>
     <a href="testinsertdefinition_freemarker.jsp">Test Insert Configured Definition with FreeMarker</a><br/>
     <a href="testinsertdefinition_openbody.jsp">Test Insert Configured Definition with Open Body</a><br/>
+    <a href="testinsertdefinition_defaultvalues.jsp">Test Insert Configured Definition with Default Values</a><br/>
     <a href="testput.jsp">Test Put Tag</a><br/>
     <a href="testput_flush.jsp">Test Put Tag with Flush</a><br/>
     <a href="testput_el.jsp">Test Put Tag using EL</a><br/>

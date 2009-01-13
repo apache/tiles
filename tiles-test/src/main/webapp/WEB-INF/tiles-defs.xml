@@ -237,4 +237,8 @@
       <put-attribute name="header" value="/header.jsp"/>
       <put-attribute name="body"   value="/layout.jsp" />
   </definition>
+
+  <definition name="test.defaultvalues.definition" template="/layout_default.jsp">
+      <put-attribute name="title"  value="This is the title."/>
+  </definition>
 </tiles-definitions>
