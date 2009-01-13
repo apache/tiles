@@ -56,7 +56,9 @@ public class BasicTilesInitializer implements TilesInitializer {
 
     /**
      * Creates the Tiles application context, to be used across all the
-     * Tiles-based application.
+     * Tiles-based application. If you override this class, please override this
+     * method or
+     * {@link #createAndInitializeTilesApplicationContextFactory(TilesApplicationContext)}.
      *
      * @param preliminaryContext The preliminary application context to use.
      * @return The Tiles application context.
@@ -72,7 +74,8 @@ public class BasicTilesInitializer implements TilesInitializer {
     /**
      * Creates and initializes the Tiles application context factory, to create
      * a {@link TilesApplicationContext} to be used across all the Tiles-based
-     * application.
+     * application. If you override this class, please override this method or
+     * {@link #createTilesApplicationContext(TilesApplicationContext)}.
      *
      * @param preliminaryContext The preliminary application context to use.
      * @return The Tiles application context factory.
@@ -102,7 +105,8 @@ public class BasicTilesInitializer implements TilesInitializer {
     }
 
     /**
-     * Creates a Tiles container.
+     * Creates a Tiles container. If you override this class, please override
+     * this method or {@link #createContainerFactory(TilesApplicationContext)}.
      *
      * @param context The servlet context to use.
      * @return The created container.
@@ -114,7 +118,8 @@ public class BasicTilesInitializer implements TilesInitializer {
     }
 
     /**
-     * Creates a Tiles container factory.
+     * Creates a Tiles container factory. If you override this class, please
+     * override this method or {@link #createContainer(TilesApplicationContext)}.
      *
      * @param context The servlet context to use.
      * @return The created container factory.
