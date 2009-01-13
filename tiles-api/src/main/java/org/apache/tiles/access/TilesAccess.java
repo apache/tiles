@@ -70,27 +70,12 @@ public final class TilesAccess {
      * @return The container if it has been configured previously, otherwise
      * <code>null</code>.
      * @see #setContainer(Object, TilesContainer)
+     * @deprecated Use one of the environment-specific Utilities (e.g.
+     * ServletUtil).
      */
+    @Deprecated
     public static TilesContainer getContainer(Object context) {
         return (TilesContainer) getAttribute(context, CONTAINER_ATTRIBUTE);
-    }
-
-    /**
-     * Finds and returns a Tiles container object, if it was previously initialized.
-     *
-     * @param context The (application) context object to use.
-     * @return The container if it has been configured previously, otherwise
-     * <code>null</code>.
-     * @param key The key under which the container is stored.
-     * @see #setContainer(Object, TilesContainer)
-     * @since 2.1.0
-     */
-    public static TilesContainer getContainer(Object context, String key) {
-        if (key == null) {
-            key = CONTAINER_ATTRIBUTE;
-        }
-
-        return (TilesContainer) getAttribute(context, key);
     }
 
     /**
@@ -142,35 +127,21 @@ public final class TilesAccess {
      * @param container The container object to set.
      * @throws TilesAccessException If something goes wrong during manipulation of the
      * context.
+     * @deprecated Use {@link #setContainer(TilesApplicationContext, TilesContainer)}.
      */
+    @Deprecated
     public static void setContainer(Object context, TilesContainer container) {
-        setContainer(context, container, CONTAINER_ATTRIBUTE);
-    }
-
-    /**
-     * Configures the container to be used in the application.
-     *
-     * @param context The (application) context object to use.
-     * @param container The container object to set.
-     * @param key The key under which the container will be stored.
-     * @throws TilesAccessException If something goes wrong during manipulation of the
-     * context.
-     */
-    public static void setContainer(Object context, TilesContainer container, String key) {
-        if (key == null) {
-            key = CONTAINER_ATTRIBUTE;
-        }
 
         if (container == null) {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Removing TilesContext for context: " + context.getClass().getName());
             }
-            removeAttribute(context, key);
+            removeAttribute(context, CONTAINER_ATTRIBUTE);
         }
         if (container != null && LOG.isInfoEnabled()) {
             LOG.info("Publishing TilesContext for context: " + context.getClass().getName());
         }
-        setAttribute(context, key, container);
+        setAttribute(context, CONTAINER_ATTRIBUTE, container);
     }
 
     /**
@@ -178,21 +149,12 @@ public final class TilesAccess {
      *
      * @param context The (application) context to use.
      * @return The required Tiles application context.
+     * @deprecated Use one of the environment-specific Utilities (e.g.
+     * ServletUtil).
      */
+    @Deprecated
     public static TilesApplicationContext getApplicationContext(Object context) {
-        return getApplicationContext(context, null);
-    }
-
-    /**
-     * Returns the Tiles application context object.
-     *
-     * @param context The (application) context to use.
-     * @param key The key under which the container is stored.
-     * @return The required Tiles application context.
-     * @since 2.1.0
-     */
-    public static TilesApplicationContext getApplicationContext(Object context, String key) {
-        TilesContainer container = getContainer(context, key);
+        TilesContainer container = getContainer(context);
         if (container != null) {
             return container.getApplicationContext();
         }

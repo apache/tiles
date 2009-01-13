@@ -39,25 +39,80 @@ import junit.framework.TestCase;
 public class JspUtilTest extends TestCase {
 
     /**
+     * Tests {@link ServletUtil#getContainer(ServletContext)}.
+     */
+    public void testGetContainer() {
+        PageContext context = EasyMock.createMock(PageContext.class);
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        EasyMock.expect(
+                context.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE,
+                        PageContext.APPLICATION_SCOPE)).andReturn(container);
+        EasyMock.replay(context, container);
+        assertEquals(container, JspUtil.getContainer(context));
+        EasyMock.verify(context, container);
+    }
+
+    /**
+     * Tests {@link ServletUtil#getContainer(ServletContext, String)}.
+     */
+    public void testGetContainerWithKey() {
+        PageContext context = EasyMock.createMock(PageContext.class);
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        EasyMock.expect(
+                context.getAttribute("myKey", PageContext.APPLICATION_SCOPE))
+                .andReturn(container);
+        EasyMock.replay(context, container);
+        assertEquals(container, JspUtil.getContainer(context, "myKey"));
+        EasyMock.verify(context, container);
+    }
+
+    /**
+     * Tests {@link ServletUtil#setContainer(ServletContext, TilesContainer)}.
+     */
+    public void testSetContainer() {
+        PageContext context = EasyMock.createMock(PageContext.class);
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        context.setAttribute(TilesAccess.CONTAINER_ATTRIBUTE, container,
+                PageContext.APPLICATION_SCOPE);
+        EasyMock.replay(context, container);
+        JspUtil.setContainer(context, container);
+        EasyMock.verify(context, container);
+    }
+
+    /**
+     * Tests
+     * {@link ServletUtil#setContainer(ServletContext, TilesContainer, String)}.
+     */
+    public void testSetContainerWithKey() {
+        PageContext context = EasyMock.createMock(PageContext.class);
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        context.setAttribute("myKey", container, PageContext.APPLICATION_SCOPE);
+        EasyMock.replay(context, container);
+        JspUtil.setContainer(context, container, "myKey");
+        EasyMock.verify(context, container);
+    }
+
+    /**
      * Tests
      * {@link JspUtil#setCurrentContainer(PageContext, String)}.
      */
     public void testSetCurrentContainer() {
         PageContext pageContext = EasyMock.createMock(PageContext.class);
-        ServletContext context = EasyMock.createMock(ServletContext.class);
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        EasyMock.expect(pageContext.getServletContext()).andReturn(context);
-        EasyMock.expect(context.getAttribute("myKey")).andReturn(container);
+        EasyMock.expect(
+                pageContext
+                        .getAttribute("myKey", PageContext.APPLICATION_SCOPE))
+                .andReturn(container);
         pageContext.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                 container, PageContext.REQUEST_SCOPE);
         EasyMock.expect(pageContext.getAttribute(ServletUtil
                 .CURRENT_CONTAINER_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE))
                 .andReturn(container);
-        EasyMock.replay(pageContext, context, container);
+        EasyMock.replay(pageContext, container);
         JspUtil.setCurrentContainer(pageContext, "myKey");
         assertTrue("The containers are not the same", JspUtil
                 .getCurrentContainer(pageContext) == container);
-        EasyMock.verify(pageContext, context, container);
+        EasyMock.verify(pageContext, container);
     }
 
     /**
@@ -85,17 +140,17 @@ public class JspUtilTest extends TestCase {
      */
     public void testGetCurrentContainer() {
         PageContext pageContext = EasyMock.createMock(PageContext.class);
-        ServletContext context = EasyMock.createMock(ServletContext.class);
         TilesContainer defaultContainer = EasyMock.createMock(
                 TilesContainer.class);
         TilesContainer alternateContainer = EasyMock.createMock(
                 TilesContainer.class);
-        EasyMock.expect(pageContext.getServletContext()).andReturn(context);
         EasyMock.expect(pageContext.getAttribute(ServletUtil
                 .CURRENT_CONTAINER_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE))
                 .andReturn(null);
-        EasyMock.expect(context.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE))
-                .andReturn(defaultContainer);
+        EasyMock.expect(
+                pageContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE,
+                        PageContext.APPLICATION_SCOPE)).andReturn(
+                defaultContainer);
         pageContext.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                 defaultContainer, PageContext.REQUEST_SCOPE);
         pageContext.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
@@ -103,13 +158,13 @@ public class JspUtilTest extends TestCase {
         EasyMock.expect(pageContext.getAttribute(ServletUtil
                 .CURRENT_CONTAINER_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE))
                 .andReturn(alternateContainer);
-        EasyMock.replay(pageContext, context, defaultContainer, alternateContainer);
+        EasyMock.replay(pageContext, defaultContainer, alternateContainer);
         TilesContainer currentContainer = JspUtil.getCurrentContainer(pageContext);
         assertTrue("The containers are not the same",
                 currentContainer == defaultContainer);
         JspUtil.setCurrentContainer(pageContext, alternateContainer);
         currentContainer = JspUtil.getCurrentContainer(pageContext);
-        EasyMock.verify(pageContext, context, defaultContainer, alternateContainer);
+        EasyMock.verify(pageContext, defaultContainer, alternateContainer);
         assertTrue("The containers are not the same",
                 currentContainer == alternateContainer);
     }

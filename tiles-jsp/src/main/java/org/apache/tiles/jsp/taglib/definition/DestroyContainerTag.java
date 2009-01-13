@@ -20,7 +20,7 @@
  */
 package org.apache.tiles.jsp.taglib.definition;
 
-import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.jsp.taglib.TilesTag;
 
 /**
@@ -65,8 +65,7 @@ public class DestroyContainerTag extends TilesTag {
     /** {@inheritDoc} */
     @Override
     public int doEndTag() {
-        TilesAccess.setContainer(pageContext.getServletContext(), null,
-                containerKey);
+        JspUtil.setContainer(pageContext, null, containerKey);
         return EVAL_PAGE;
     }
 }

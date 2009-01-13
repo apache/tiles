@@ -25,9 +25,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.startup.BasicTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
 
@@ -85,7 +85,7 @@ public class TilesListener
     public void contextDestroyed(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();
         try {
-            TilesAccess.setContainer(servletContext, null);
+            ServletUtil.setContainer(servletContext, null);
         } catch (TilesException e) {
             LOG.warn("Unable to remove tiles container from service.", e);
         }

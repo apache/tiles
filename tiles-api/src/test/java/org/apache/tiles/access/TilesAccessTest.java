@@ -20,10 +20,12 @@
  */
 package org.apache.tiles.access;
 
-import org.easymock.EasyMock;
-import org.apache.tiles.TilesContainer;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.servlet.ServletContext;
+import org.easymock.EasyMock;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.TilesContainer;
 
 import junit.framework.TestCase;
 
@@ -35,55 +37,38 @@ public class TilesAccessTest extends TestCase {
     /**
      * The servlet context to use.
      */
-    private ServletContext context;
+    private TilesApplicationContext context;
 
     /** {@inheritDoc} */
     public void setUp() {
-        context = EasyMock.createMock(ServletContext.class);
+        context = EasyMock.createMock(TilesApplicationContext.class);
     }
 
     /**
      * Tests the setting of the context.
      */
-    public void testSetContext() {
+    public void testSetContainer() {
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        context.setAttribute(TilesAccess.CONTAINER_ATTRIBUTE, container);
+        Map<String, Object> attribs = new HashMap<String, Object>();
+        EasyMock.expect(context.getApplicationScope()).andReturn(attribs);
         EasyMock.replay(context);
         TilesAccess.setContainer(context, container);
+        assertEquals(attribs.size(), 1);
+        assertEquals(attribs.get(TilesAccess.CONTAINER_ATTRIBUTE), container);
         EasyMock.verify(context);
     }
 
     /**
      * Tests the setting of the context.
      */
-    public void testSetContextWithKey() {
+    public void testSetContainerWithKey() {
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        context.setAttribute("myKey", container);
+        Map<String, Object> attribs = new HashMap<String, Object>();
+        EasyMock.expect(context.getApplicationScope()).andReturn(attribs);
         EasyMock.replay(context);
         TilesAccess.setContainer(context, container, "myKey");
+        assertEquals(attribs.size(), 1);
+        assertEquals(attribs.get("myKey"), container);
         EasyMock.verify(context);
     }
-
-    /**
-     * Tests the getting of the context.
-     */
-    public void testGetContext() {
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        EasyMock.expect(context.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
-        EasyMock.replay(context);
-        assertEquals(container, TilesAccess.getContainer(context));
-        EasyMock.verify(context);
-    }
-
-    /**
-     * Tests the getting of the context.
-     */
-    public void testGetContextWithKey() {
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        EasyMock.expect(context.getAttribute("myKey")).andReturn(container);
-        EasyMock.replay(context);
-        assertEquals(container, TilesAccess.getContainer(context, "myKey"));
-        EasyMock.verify(context);
-    }
-
 }

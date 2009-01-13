@@ -21,6 +21,8 @@
 
 package org.apache.tiles.jsp.context;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.impl.NoSuchContainerException;
@@ -34,6 +36,12 @@ import javax.servlet.jsp.PageContext;
  * @version $Rev$ $Date$
  */
 public final class JspUtil {
+
+    /**
+     * The logging object.
+     */
+    private static final Log LOG =
+        LogFactory.getLog(ServletUtil.class);
 
     /**
      * Constructor, private to avoid instantiation.
@@ -71,6 +79,72 @@ public final class JspUtil {
     }
 
     /**
+     * Returns the default Tiles container.
+     *
+     * @param context The page context to use.
+     * @return The default Tiles container.
+     * @since 2.1.2
+     */
+    public static TilesContainer getContainer(PageContext context) {
+        return getContainer(context, TilesAccess.CONTAINER_ATTRIBUTE);
+    }
+
+    /**
+     * Returns a specific Tiles container.
+     *
+     * @param context The page context to use.
+     * @param key The key under which the container is stored. If null, the
+     * default container will be returned.
+     * @return The requested Tiles container.
+     * @since 2.1.2
+     */
+    public static TilesContainer getContainer(PageContext context, String key) {
+        if (key == null) {
+            key = TilesAccess.CONTAINER_ATTRIBUTE;
+        }
+        return (TilesContainer) context.getAttribute(key,
+                PageContext.APPLICATION_SCOPE);
+    }
+
+    /**
+     * Configures the default container to be used in the application.
+     *
+     * @param context The page context object to use.
+     * @param container The container object to set.
+     * @since 2.1.2
+     */
+    public static void setContainer(PageContext context,
+            TilesContainer container) {
+        setContainer(context, container, TilesAccess.CONTAINER_ATTRIBUTE);
+    }
+
+    /**
+     * Configures the container to be used in the application.
+     *
+     * @param context The page context object to use.
+     * @param container The container object to set.
+     * @param key The key under which the container will be stored.
+     * @since 2.1.2
+     */
+    public static void setContainer(PageContext context,
+            TilesContainer container, String key) {
+        if (key == null) {
+            key = TilesAccess.CONTAINER_ATTRIBUTE;
+        }
+
+        if (container == null) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Removing TilesContext for context: " + context.getClass().getName());
+            }
+            context.removeAttribute(key, PageContext.APPLICATION_SCOPE);
+        }
+        if (container != null && LOG.isInfoEnabled()) {
+            LOG.info("Publishing TilesContext for context: " + context.getClass().getName());
+        }
+        context.setAttribute(key, container, PageContext.APPLICATION_SCOPE);
+    }
+
+    /**
      * Sets the current container to use in web pages.
      *
      * @param context The page context to use.
@@ -78,8 +152,7 @@ public final class JspUtil {
      * @since 2.1.0
      */
     public static void setCurrentContainer(PageContext context, String key) {
-        TilesContainer container = TilesAccess.getContainer(context
-                .getServletContext(), key);
+        TilesContainer container = getContainer(context, key);
         if (container != null) {
             context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                     container, PageContext.REQUEST_SCOPE);
@@ -118,7 +191,7 @@ public final class JspUtil {
                 ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                 PageContext.REQUEST_SCOPE);
         if (container == null) {
-            container = TilesAccess.getContainer(context.getServletContext());
+            container = getContainer(context);
             context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                     container, PageContext.REQUEST_SCOPE);
         }

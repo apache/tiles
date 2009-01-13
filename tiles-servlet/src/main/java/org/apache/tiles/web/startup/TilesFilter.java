@@ -36,7 +36,6 @@ import javax.servlet.ServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
-import org.apache.tiles.startup.BasicTilesInitializer;
 
 /**
  * Processes Reloadable Tiles Definitions.
@@ -65,11 +64,6 @@ public class TilesFilter extends TilesServlet implements Filter {
     private FilterConfig filterConfig = null;
 
     /**
-     * The key under which the container is stored.
-     */
-    private String containerKey;
-
-    /**
      * Checks whether Tiles Definitions need to be reloaded.
      *
      * @param request  The servlet request we are processing
@@ -84,7 +78,7 @@ public class TilesFilter extends TilesServlet implements Filter {
 
         try {
             DefinitionsFactoryUtil.reloadDefinitionsFactory(
-                    getServletContext(), containerKey);
+                    getServletContext());
             chain.doFilter(request, response);
         } catch (Exception e) {
             throw new ServletException("Error processing request.", e);
@@ -124,9 +118,6 @@ public class TilesFilter extends TilesServlet implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
         super.init(createServletConfig());
-
-        containerKey = filterConfig.getInitParameter(
-                BasicTilesInitializer.CONTAINER_KEY_INIT_PARAMETER);
 
         if (DEBUG) {
             log("TilesDecorationFilter:Initializing filter");

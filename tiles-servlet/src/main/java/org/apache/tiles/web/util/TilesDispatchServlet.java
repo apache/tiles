@@ -24,7 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.AttributeContext;
-import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.servlet.context.ServletUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -89,7 +89,7 @@ public class TilesDispatchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
 
-        TilesContainer container = TilesAccess.getContainer(
+        TilesContainer container = ServletUtil.getContainer(
                 getServletContext(), containerKey);
         mutator.mutate(container.getAttributeContext(req, res), req);
         String definition = getDefinitionName(req);

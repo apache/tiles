@@ -23,8 +23,8 @@ package org.apache.tiles.web.startup;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.startup.BasicTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
 import org.apache.tiles.web.util.ServletContextAdapter;
@@ -66,7 +66,7 @@ public class TilesServlet extends HttpServlet {
     @Override
     public void destroy() {
         try {
-            TilesAccess.setContainer(getServletContext(), null);
+            ServletUtil.setContainer(getServletContext(), null);
         } catch (TilesException e) {
             LOG.warn("Unable to remove tiles container from service.", e);
         }

@@ -38,6 +38,55 @@ import junit.framework.TestCase;
 public class ServletUtilTest extends TestCase {
 
     /**
+     * Tests {@link ServletUtil#getContainer(ServletContext)}.
+     */
+    public void testGetContainer() {
+        ServletContext context = EasyMock.createMock(ServletContext.class);
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        EasyMock.expect(context.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
+        EasyMock.replay(context, container);
+        assertEquals(container, ServletUtil.getContainer(context));
+        EasyMock.verify(context, container);
+    }
+
+    /**
+     * Tests {@link ServletUtil#getContainer(ServletContext, String)}.
+     */
+    public void testGetContainerWithKey() {
+        ServletContext context = EasyMock.createMock(ServletContext.class);
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        EasyMock.expect(context.getAttribute("myKey")).andReturn(container);
+        EasyMock.replay(context, container);
+        assertEquals(container, ServletUtil.getContainer(context, "myKey"));
+        EasyMock.verify(context, container);
+    }
+
+    /**
+     * Tests {@link ServletUtil#setContainer(ServletContext, TilesContainer)}.
+     */
+    public void testSetContainer() {
+        ServletContext context = EasyMock.createMock(ServletContext.class);
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        context.setAttribute(TilesAccess.CONTAINER_ATTRIBUTE, container);
+        EasyMock.replay(context, container);
+        ServletUtil.setContainer(context, container);
+        EasyMock.verify(context, container);
+    }
+
+    /**
+     * Tests
+     * {@link ServletUtil#setContainer(ServletContext, TilesContainer, String)}.
+     */
+    public void testSetContainerWithKey() {
+        ServletContext context = EasyMock.createMock(ServletContext.class);
+        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        context.setAttribute("myKey", container);
+        EasyMock.replay(context, container);
+        ServletUtil.setContainer(context, container, "myKey");
+        EasyMock.verify(context, container);
+    }
+
+    /**
      * Tests
      * {@link ServletUtil#setCurrentContainer(ServletRequest, ServletContext, String)}.
      */

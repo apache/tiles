@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.servlet.context.ServletUtil;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -228,7 +228,7 @@ public class TilesDecorationFilter implements Filter {
             return;
         }
 
-        TilesContainer container = TilesAccess.getContainer(
+        TilesContainer container = ServletUtil.getContainer(
                 getServletContext(), containerKey);
         mutator.mutate(container.getAttributeContext(req, res), req);
         if (preventDecorationToken != null) {

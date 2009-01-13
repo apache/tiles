@@ -41,10 +41,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
+import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.jsp.taglib.PutAttributeTag;
 import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
 import org.apache.tiles.jsp.taglib.TilesBodyTag;
@@ -142,7 +142,7 @@ public class InitContainerTag extends TilesBodyTag
     // TODO Add a MutableContainer so that this can be done?
     public int doEndTag() {
         TilesContainer container =
-            TilesAccess.getContainer(pageContext.getServletContext(), containerKey);
+            JspUtil.getContainer(pageContext, containerKey);
 
         if (container != null) {
             LOG.warn("TilesContainer already instantiated for this context under key '"
@@ -177,7 +177,7 @@ public class InitContainerTag extends TilesBodyTag
         TilesContainer mutableContainer = AbstractTilesContainerFactory
                 .getTilesContainerFactory(applicationContext).createContainer(
                         applicationContext);
-        TilesAccess.setContainer(context, mutableContainer, containerKey);
+        JspUtil.setContainer(pageContext, mutableContainer, containerKey);
 
         return EVAL_PAGE;
     }

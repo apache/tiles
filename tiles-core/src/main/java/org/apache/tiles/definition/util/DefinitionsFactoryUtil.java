@@ -41,29 +41,16 @@ public final class DefinitionsFactoryUtil {
     }
 
     /**
-     * Reloads the definitions factory content, if necessary, of the default
-     * container.
-     *
-     * @param context The context object to use
-     * @throws org.apache.tiles.definition.DefinitionsFactoryException If
-     * something goes wrong during reload.
-     */
-    public static void reloadDefinitionsFactory(Object context) {
-        reloadDefinitionsFactory(context, null);
-    }
-
-    /**
      * Reloads the definitions factory content, if necessary.
      *
      * @param context The context object to use
-     * @param containerKey The key under which the container is stored.
      * @throws org.apache.tiles.definition.DefinitionsFactoryException If
      * something goes wrong during reload.
+     * @deprecated Let the definitions DAO manage auto-reload.
      */
-    public static void reloadDefinitionsFactory(Object context,
-            String containerKey) {
-        TilesContainer container = TilesAccess.getContainer(context,
-                containerKey);
+    @Deprecated
+    public static void reloadDefinitionsFactory(Object context) {
+        TilesContainer container = TilesAccess.getContainer(context);
         if (container instanceof BasicTilesContainer) {
             BasicTilesContainer basic = (BasicTilesContainer) container;
             DefinitionsFactory factory = basic.getDefinitionsFactory();
