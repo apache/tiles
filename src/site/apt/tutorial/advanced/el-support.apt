@@ -92,11 +92,11 @@ Expression Language (EL) support
   Let's use this example:
   
 ------------------------------------
-  <definition name="test.composite.el.definition" template="${layout}"
+  <definition name="test.composite.el.definition" templateExpression="${layout}"
         preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
       <put-attribute name="title"  value="This is a configured composite definition."/>
       <put-attribute name="header" value="/header.jsp"/>
-      <put-attribute name="body"   value="${requestScope.body}"/>
+      <put-attribute name="body"   expression="${requestScope.body}"/>
   </definition>
 ------------------------------------
 
