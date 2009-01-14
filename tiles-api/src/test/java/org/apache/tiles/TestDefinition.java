@@ -70,7 +70,7 @@ public class TestDefinition extends TestCase {
         def.setName("test1");
         def.setTemplate("/page1.jsp");
         Attribute attr1 = new Attribute("test.definition.name", null,
-                "definition");
+                null, "definition");
         def.putAttribute("attr1",  attr1);
 
         attr1 = def.getAttribute("attr1");
@@ -113,6 +113,7 @@ public class TestDefinition extends TestCase {
         toCopy.setPreparer("ExtendedPreparer");
         toCopy.setRole("extendedRole");
         toCopy.setTemplate("extendedTemplate.jsp");
+        toCopy.setTemplateExpression("expression");
         context = new Definition();
         context.inherit(toCopy);
         assertEquals("Preparer not inherited", "ExtendedPreparer", context
@@ -123,10 +124,13 @@ public class TestDefinition extends TestCase {
                 "extendedRole"));
         assertEquals("Template not inherited", "extendedTemplate.jsp", context
                 .getTemplate());
+        assertEquals("Template expression not inherited", "expression", context
+                .getTemplateExpression());
         context = new Definition();
         context.setPreparer("LocalPreparer");
         context.setRole("localRole");
         context.setTemplate("localTemplate.jsp");
+        context.setTemplateExpression("localExpression");
         assertEquals("Preparer inherited", "LocalPreparer", context
                 .getPreparer());
         assertNotNull("Roles not correct", context.getRoles());
@@ -135,6 +139,7 @@ public class TestDefinition extends TestCase {
                 "localRole"));
         assertEquals("Template inherited", "localTemplate.jsp", context
                 .getTemplate());
+        assertEquals("Template expression inherited", "localExpression",
+                context.getTemplateExpression());
     }
-
 }

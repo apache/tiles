@@ -25,10 +25,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
-<c:set var="bodyContent" value="Body Content defined by and el" />
+<c:set var="doNotShowBody" value="${'${'}requestScope.doNotShow}" />
 
-<tiles:insertTemplate template="/layout.jsp" preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+<tiles:insertTemplate template="/layout.jsp">
   <tiles:putAttribute name="title"  value="This is the title." />
   <tiles:putAttribute name="header" value="/header.jsp" />
-  <tiles:putAttribute name="body"   value="${bodyContent}" />
+  <tiles:putAttribute name="body"   value="${doNotShowBody}" />
 </tiles:insertTemplate>

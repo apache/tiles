@@ -20,6 +20,8 @@
  */
 package org.apache.tiles.test.preparer;
 
+import java.util.Map;
+
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.AttributeContext;
@@ -35,7 +37,10 @@ public class RequestSettingViewPreparer implements ViewPreparer {
     /** {@inheritDoc} */
     public void execute(TilesRequestContext tilesContext,
             AttributeContext attributeContext) {
-        tilesContext.getRequestScope().put("body", "test.inner.definition");
-        tilesContext.getRequestScope().put("layout", "/layout.jsp");
+        Map<String, Object> requestScope = tilesContext.getRequestScope();
+        requestScope.put("body", "test.inner.definition");
+        requestScope.put("layout", "/layout.jsp");
+        requestScope.put("doNotShow", "DO NOT SHOW!!!");
+        requestScope.put("doNotShowBody", "${requestScope.doNotShow}");
     }
 }

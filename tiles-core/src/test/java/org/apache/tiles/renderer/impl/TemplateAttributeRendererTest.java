@@ -59,7 +59,7 @@ public class TemplateAttributeRendererTest extends TestCase {
      */
     public void testWrite() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("/myTemplate.jsp", null, "template");
+        Attribute attribute = new Attribute("/myTemplate.jsp", null, null, "template");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock

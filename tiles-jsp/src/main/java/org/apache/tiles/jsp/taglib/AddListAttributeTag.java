@@ -77,8 +77,8 @@ public class AddListAttributeTag extends AddAttributeTag
      * @param nestedTag the put tag desciendent.
      */
     public void processNestedTag(AddAttributeTag nestedTag) {
-        Attribute attribute = new Attribute(nestedTag.getValue(), nestedTag
-                .getRole(), nestedTag.getType());
+        Attribute attribute = new Attribute(nestedTag.getValue(), null, nestedTag
+                        .getRole(), nestedTag.getType());
 
         this.addValue(attribute);
     }

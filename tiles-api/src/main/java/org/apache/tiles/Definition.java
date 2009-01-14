@@ -158,7 +158,7 @@ public class Definition extends BasicAttributeContext {
      */
     @Deprecated
     public void put(String name, Object content, String role) {
-        Attribute attribute = new Attribute(content, role, (String) null);
+        Attribute attribute = new Attribute(content, null, role, (String) null);
         putAttribute(name, attribute);
     }
 

@@ -59,7 +59,7 @@ public class StringAttributeRendererTest extends TestCase {
      */
     public void testWrite() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("Result", null, "string");
+        Attribute attribute = new Attribute("Result", null, null, "string");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock

@@ -47,12 +47,13 @@ public class DirectAttributeEvaluatorTest extends TestCase {
      */
     public void testEvaluate() {
         String expression = "This is an expression";
-        Attribute attribute = new Attribute(expression);
+        Attribute attribute = new Attribute(null, expression, null,
+                (String) null);
         Object result = evaluator.evaluate(attribute, null);
         assertEquals("The expression has not been evaluated correctly", result,
                 expression);
         expression = "${attributeName}";
-        attribute.setValue(expression);
+        attribute.setExpression(expression);
         result = evaluator.evaluate(attribute, null);
         assertEquals("The expression has not been evaluated correctly", result,
                 expression);

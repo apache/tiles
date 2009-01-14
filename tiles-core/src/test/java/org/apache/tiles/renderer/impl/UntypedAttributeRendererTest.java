@@ -61,7 +61,7 @@ public class UntypedAttributeRendererTest extends TestCase {
      */
     public void testWriteDefinition() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("my.definition", null, "definition");
+        Attribute attribute = new Attribute("my.definition", null, null, "definition");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
@@ -92,7 +92,7 @@ public class UntypedAttributeRendererTest extends TestCase {
      */
     public void testWriteString() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("Result", null, "string");
+        Attribute attribute = new Attribute("Result", null, null, "string");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
@@ -122,7 +122,7 @@ public class UntypedAttributeRendererTest extends TestCase {
      */
     public void testWriteTemplate() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("/myTemplate.jsp", null, "template");
+        Attribute attribute = new Attribute("/myTemplate.jsp", null, null, "template");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock

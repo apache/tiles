@@ -673,33 +673,53 @@ public class BasicTilesContainer implements TilesContainer {
                 prepare(request, attributeContext.getPreparer(), true);
             }
 
-            String dispatchPath = attributeContext.getTemplate();
-
-            if (dispatchPath != null) {
-                Object value = evaluator.evaluate(dispatchPath, request);
-                if (value instanceof String) {
-                    dispatchPath = (String) value;
-                } else {
-                    throw new InvalidTemplateException(
-                            "Cannot render a template that is not an object: "
-                                    + value.toString());
-                }
-            }
-
-            if (dispatchPath == null) {
-                throw new InvalidTemplateException(
-                        "Cannot render a null template");
-            }
+            String dispatchPath = computeDispatchPath(request, attributeContext);
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Dispatching to definition path '"
                         + attributeContext.getTemplate() + " '");
             }
             request.dispatch(dispatchPath);
-
-            // tiles exception so that it doesn't need to be rethrown.
         } catch (IOException e) {
             throw new CannotRenderException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Calculates the dispatch path, that will be the path it will be dispatched to.
+     *
+     * @param request The Tiles request.
+     * @param attributeContext The Tiles attribute context.
+     * @return The calculated dispatch path.
+     * @throws InvalidTemplateException If the template is not valid.
+     */
+    private String computeDispatchPath(TilesRequestContext request,
+            AttributeContext attributeContext) {
+        String dispatchPath = attributeContext.getTemplate();
+
+        if (dispatchPath != null) {
+            return dispatchPath;
+        }
+
+        String expression = attributeContext.getTemplateExpression();
+        if (expression != null) {
+            Object value = evaluator.evaluate(expression, request);
+
+            if (value != null) {
+                if (value instanceof String) {
+                    return (String) value;
+                } else {
+                    throw new InvalidTemplateException(
+                            "Cannot render a template that is not an object: "
+                                    + value.toString());
+                }
+            } else {
+                throw new InvalidTemplateException(
+                "Cannot render a null template");
+            }
+        } else {
+            throw new InvalidTemplateException(
+                    "No template or template expression has been specified");
         }
     }
 

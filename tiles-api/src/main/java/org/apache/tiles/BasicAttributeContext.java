@@ -46,6 +46,14 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     protected String template = null;
 
     /**
+     * Template expression to evaluate. If {@link #template} is not
+     * <code>null</code> it is ignored.
+     *
+     * @since 2.1.2
+     */
+    protected String templateExpression = null;
+
+    /**
      * The roles that can render this definition.
      *
      * @since 2.1.0
@@ -104,6 +112,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             copyBasicAttributeContext((BasicAttributeContext) context);
         } else {
             this.template = context.getTemplate();
+            this.templateExpression = context.getTemplateExpression();
             Set<String> roles = context.getRoles();
             if (roles != null && !roles.isEmpty()) {
                 this.roles = new HashSet<String>(roles);
@@ -135,6 +144,26 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     /** {@inheritDoc} */
     public void setTemplate(String template) {
         this.template = template;
+    }
+
+    /**
+     * Returns the template expression to evaluate. If {@link #getTemplate()} is
+     * not <code>null</code> it is ignored.
+     *
+     * @return The template expression.
+     */
+    public String getTemplateExpression() {
+        return templateExpression;
+    }
+
+    /**
+     * Sets the template expression to evaluate. If {@link #getTemplate()} is
+     * not <code>null</code> it is ignored.
+     *
+     * @param templateExpression The template expression.
+     */
+    public void setTemplateExpression(String templateExpression) {
+        this.templateExpression = templateExpression;
     }
 
     /** {@inheritDoc} */
@@ -212,6 +241,9 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             if (template == null) {
                 template = parent.getTemplate();
             }
+            if (templateExpression == null) {
+                templateExpression = parent.getTemplateExpression();
+            }
             Set<String> parentRoles = parent.getRoles();
             if ((roles == null || roles.isEmpty()) && parentRoles != null
                     && !parentRoles.isEmpty()) {
@@ -264,6 +296,9 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         // Set template, roles and preparer if not set.
         if (template == null) {
             template = parent.template;
+        }
+        if (templateExpression == null) {
+            templateExpression = parent.templateExpression;
         }
         if ((roles == null || roles.isEmpty()) && parent.roles != null
                 && !parent.roles.isEmpty()) {
@@ -435,6 +470,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     /** {@inheritDoc} */
     public void clear() {
         template = null;
+        templateExpression = null;
         preparer = null;
         roles = null;
         attributes.clear();
@@ -448,6 +484,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      */
     private void copyBasicAttributeContext(BasicAttributeContext context) {
         template = context.template;
+        templateExpression = context.templateExpression;
         Set<String> roles = context.roles;
         if (roles != null && !roles.isEmpty()) {
             this.roles = new HashSet<String>(roles);

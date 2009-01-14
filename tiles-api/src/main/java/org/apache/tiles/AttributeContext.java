@@ -40,6 +40,14 @@ public interface AttributeContext {
     String getTemplate();
 
     /**
+     * Returns the template expression to evaluate. If {@link #getTemplate()} is
+     * not <code>null</code> it is ignored.
+     *
+     * @return The template expression.
+     */
+    String getTemplateExpression();
+
+    /**
      * Sets the value of the template property.
      *
      * @param template the new value of the path property

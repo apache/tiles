@@ -165,6 +165,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
                 throws Exception {
             Attribute attribute = (Attribute) digester.peek();
             attribute.setValue(attributes.getValue("value"));
+            attribute.setExpression(attributes.getValue("expression"));
             attribute.setRole(attributes.getValue("role"));
             attribute.setRenderer(attributes.getValue("type"));
         }

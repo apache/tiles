@@ -60,7 +60,7 @@ public class DefinitionAttributeRendererTest extends TestCase {
      */
     public void testWrite() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("my.definition", null, "definition");
+        Attribute attribute = new Attribute("my.definition", null, null, "definition");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock

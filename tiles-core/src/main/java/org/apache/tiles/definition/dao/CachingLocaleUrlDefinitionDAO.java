@@ -336,6 +336,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         nudef.setPreparer(replace(d.getPreparer(), vars));
         nudef.setRole(replace(d.getRole(), vars));
         nudef.setTemplate(replace(d.getTemplate(), vars));
+        nudef.setTemplateExpression(d.getTemplateExpression());
 
         for (String attributeName : d.getLocalAttributeNames()) {
             Attribute attr = d.getLocalAttribute(attributeName);
@@ -343,6 +344,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
 
             nuattr.setRole(replace(attr.getRole(), vars));
             nuattr.setRenderer(attr.getRenderer());
+            nuattr.setExpression(attr.getExpression());
 
             Object value = attr.getValue();
             if (value instanceof String) {

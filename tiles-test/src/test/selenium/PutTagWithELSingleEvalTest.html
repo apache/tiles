@@ -1,5 +1,4 @@
-<%@ page session="false" %>
-<%--
+<!--
 /*
  * $Id$
  *
@@ -19,16 +18,44 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
---%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Put Tag using EL with Single Evaluation Test</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Put Tag using EL with Single Evaluation Test</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/tiles-test/index.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Test Put Tag using EL to test Single Evaluation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>This is the title.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>This is the header</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>${requestScope.doNotShow}</td>
+	<td></td>
+</tr>
 
-<c:set var="bodyContent" value="Body Content defined by and el" />
-
-<tiles:insertTemplate template="/layout.jsp" preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
-  <tiles:putAttribute name="title"  value="This is the title." />
-  <tiles:putAttribute name="header" value="/header.jsp" />
-  <tiles:putAttribute name="body"   value="${bodyContent}" />
-</tiles:insertTemplate>
+</tbody></table>
+</body>
+</html>

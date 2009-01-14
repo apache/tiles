@@ -222,7 +222,7 @@ public class DefinitionTag extends TilesTag implements PutAttributeTagParent,
      */
     public void processNestedTag(PutAttributeTag nestedTag) throws TilesJspException {
         Attribute attr = new Attribute(nestedTag.getValue(),
-            nestedTag.getRole(), nestedTag.getType());
+            null, nestedTag.getRole(), nestedTag.getType());
         definition.putAttribute(nestedTag.getName(), attr, nestedTag
                 .isCascade());
     }

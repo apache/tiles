@@ -32,11 +32,10 @@ import javax.el.MapELResolver;
 import javax.el.ResourceBundleELResolver;
 import javax.el.ValueExpression;
 
-import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.evaluator.AttributeEvaluator;
+import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
 import org.apache.tiles.reflect.ClassUtil;
 
 /**
@@ -48,7 +47,7 @@ import org.apache.tiles.reflect.ClassUtil;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class ELAttributeEvaluator implements AttributeEvaluator,
+public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
         TilesApplicationContextAware {
 
     /**
@@ -154,20 +153,9 @@ public class ELAttributeEvaluator implements AttributeEvaluator,
         context.putContext(TilesRequestContext.class, request);
         context.putContext(TilesApplicationContext.class,
                 applicationContext);
-        ValueExpression valueExpression = expressionFactory.createValueExpression(
-                context, expression.toString(), Object.class);
+        ValueExpression valueExpression = expressionFactory
+                .createValueExpression(context, expression, Object.class);
 
         return valueExpression.getValue(context);
-    }
-
-    /** {@inheritDoc} */
-    public Object evaluate(Attribute attribute, TilesRequestContext request) {
-        Object retValue = attribute.getValue();
-
-        if (retValue instanceof String) {
-            retValue = evaluate((String) retValue, request);
-        }
-
-        return retValue;
     }
 }

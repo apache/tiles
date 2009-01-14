@@ -125,6 +125,14 @@ public class Attribute implements Serializable {
     protected Object value = null;
 
     /**
+     * The expression to evaluate. Ignored if {@link #value} is not
+     * <code>null</code>.
+     *
+     * @since 2.1.2
+     */
+    protected String expression = null;
+
+    /**
      * The renderer name of the attribute. Default names are <code>string</code>,
      * <code>template</code>, <code>definition</code>, <code>object</code>.
      */
@@ -194,7 +202,7 @@ public class Attribute implements Serializable {
      * @param value Object to store.
      * @param role Associated role.
      * @param type Attribute type.
-     * @deprecated Use {@link Attribute#Attribute(Object, String, String)}.
+     * @deprecated Use {@link Attribute#Attribute(Object, String, String, String)}.
      */
     @Deprecated
     public Attribute(Object value, String role, AttributeType type) {
@@ -206,13 +214,17 @@ public class Attribute implements Serializable {
     /**
      * Constructor.
      *
-     * @param value Object to store.
+     * @param value Object to store. If specified, the <code>expression</code>
+     * parameter will be ignored.
+     * @param expression The expression to be evaluated. Ignored if the
+     * <code>value</code> is not null.
      * @param role Associated role.
      * @param rendererName The renderer name.
-     * @since 2.1.0
+     * @since 2.1.2
      */
-    public Attribute(Object value, String role, String rendererName) {
+    public Attribute(Object value, String expression, String role, String rendererName) {
         this.value = value;
+        this.expression = expression;
         this.renderer = rendererName;
         setRole(role);
     }
@@ -310,6 +322,28 @@ public class Attribute implements Serializable {
      */
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    /**
+     * Returns The expression to evaluate. Ignored if {@link #value} is not
+     * <code>null</code>.
+     *
+     * @return The expression to be evaluated.
+     * @since 2.1.2
+     */
+    public String getExpression() {
+        return expression;
+    }
+
+    /**
+     * Sets The expression to evaluate. Ignored if {@link #value} is not
+     * <code>null</code>.
+     *
+     * @param expression The expression to be evaluated.
+     * @since 2.1.2
+     */
+    public void setExpression(String expression) {
+        this.expression = expression;
     }
 
     /** {@inheritDoc} */

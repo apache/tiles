@@ -22,13 +22,6 @@
  *
  */
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
-<c:set var="bodyContent" value="Body Content defined by and el" />
-
-<tiles:insertTemplate template="/layout.jsp" preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
-  <tiles:putAttribute name="title"  value="This is the title." />
-  <tiles:putAttribute name="header" value="/header.jsp" />
-  <tiles:putAttribute name="body"   value="${bodyContent}" />
-</tiles:insertTemplate>
+<tiles:insertDefinition name="test.composite.el.doNotShow.definition" />

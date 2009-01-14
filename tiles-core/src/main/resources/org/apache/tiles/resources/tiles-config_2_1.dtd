@@ -125,6 +125,12 @@
                      containing appropriate attributes will be available.
 -->
 <!ATTLIST definition       template         %RequestPath;    #IMPLIED>
+<!--
+@attr expression     The expression that will evaluate to a template for this definition.
+					 This attribute will be ignored if template is specified.
+					 
+-->
+<!ATTLIST definition       templateExpression       CDATA    #IMPLIED>
 
 
 <!-- The "put-attribute" element describes an attribute of a definition. It allows to
@@ -149,6 +155,12 @@
                      be specified with this tag attribute, or in the body of the tag.
 -->
 <!ATTLIST put-attribute     value            CDATA           #IMPLIED>
+<!--
+@attr expression     The expression associated to this tiles attribute. This
+					 attribute will be ignored if value is specified.
+					 
+-->
+<!ATTLIST put-attribute     expression       CDATA           #IMPLIED>
 <!--
 @attr role           Security role name that is allowed access to this attribute
                      object. The attribute is inserted only if the role name is
@@ -211,6 +223,12 @@
                      be specified with this tag attribute, or in the body of the tag.
 -->
 <!ATTLIST add-attribute              value            CDATA           #IMPLIED>
+<!--
+@attr expression     The expression associated to this tiles attribute. This
+					 attribute will be ignored if value is specified.
+					 
+-->
+<!ATTLIST add-attribute              expression       CDATA           #IMPLIED>
 <!--
 @attr role           Security role name that is allowed access to this attribute
                      object. The attribute will be added to the parent list

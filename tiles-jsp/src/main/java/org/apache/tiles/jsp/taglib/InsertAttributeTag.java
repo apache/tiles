@@ -270,7 +270,7 @@ public class InsertAttributeTag extends RenderTag {
                 attribute = (Attribute) defaultValue;
             } else if (defaultValue instanceof String) {
                 attribute = new Attribute(defaultValue,
-                        defaultValueRole, defaultValueType);
+                        null, defaultValueRole, defaultValueType);
             }
         }
         return attribute;

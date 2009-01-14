@@ -277,8 +277,8 @@ public abstract class RenderTag extends TilesBodyTag implements
      */
     public void processNestedTag(PutAttributeTag nestedTag) {
         Attribute attribute = new Attribute(
-            nestedTag.getValue(), nestedTag.getRole(),
-            nestedTag.getType());
+            nestedTag.getValue(), null,
+            nestedTag.getRole(), nestedTag.getType());
 
         attributeContext.putAttribute(nestedTag.getName(), attribute, nestedTag
                 .isCascade());

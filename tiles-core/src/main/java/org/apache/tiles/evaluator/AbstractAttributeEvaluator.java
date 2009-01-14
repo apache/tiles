@@ -18,29 +18,32 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.evaluator.impl;
+package org.apache.tiles.evaluator;
 
-import java.util.Map;
-
+import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
 
 /**
- * Resolves a string and returns the string itself. It is useful for backward
- * compatibility.
+ * Abstract class to link a correct evaluation of an attribute, by evaluating
+ * {@link Attribute#getValue()} and then {@link Attribute#getExpression()}.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 2.1.2
  */
-public class DirectAttributeEvaluator extends AbstractAttributeEvaluator {
+public abstract class AbstractAttributeEvaluator implements AttributeEvaluator {
 
     /** {@inheritDoc} */
-    public void init(Map<String, String> initParameters) {
-        // Does nothing.
-    }
+    public Object evaluate(Attribute attribute, TilesRequestContext request) {
+        if (attribute == null) {
+            throw new IllegalArgumentException("The attribute cannot be null");
+        }
 
-    /** {@inheritDoc} */
-    public Object evaluate(String expression, TilesRequestContext request) {
-        return expression;
+        Object retValue = attribute.getValue();
+
+        if (retValue == null) {
+            retValue = evaluate(attribute.getExpression(), request);
+        }
+
+        return retValue;
     }
 }

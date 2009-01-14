@@ -94,6 +94,7 @@ public class BasicAttributeContextTest extends TestCase {
         EasyMock.expect(toCopy.getCascadedAttribute("cascaded2")).andReturn(
                 new Attribute("value4")).anyTimes();
         EasyMock.expect(toCopy.getTemplate()).andReturn("/template.jsp");
+        EasyMock.expect(toCopy.getTemplateExpression()).andReturn("expression");
         Set<String> roles = new HashSet<String>();
         roles.add("role1");
         roles.add("role2");
@@ -103,6 +104,8 @@ public class BasicAttributeContextTest extends TestCase {
         BasicAttributeContext context = new BasicAttributeContext(toCopy);
         assertEquals("The template has not been set correctly",
                 "/template.jsp", context.getTemplate());
+        assertEquals("The template expression has not been set correctly",
+                "expression", context.getTemplateExpression());
         assertEquals("The roles are not the same", roles, context.getRoles());
         assertEquals("The preparer has not been set correctly",
                 "my.preparer.Preparer", context.getPreparer());

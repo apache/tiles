@@ -82,32 +82,35 @@ public class ELAttributeEvaluatorTest extends TestCase {
      */
     public void testEvaluate() {
         Attribute attribute = new Attribute();
-        attribute.setValue("${requestScope.object1}");
+        attribute.setExpression("${requestScope.object1}");
         assertEquals("The value is not correct", "value", evaluator.evaluate(
                 attribute, request));
-        attribute.setValue("${sessionScope.object2}");
+        attribute.setExpression("${sessionScope.object2}");
         assertEquals("The value is not correct", new Integer(1), evaluator
                 .evaluate(attribute, request));
-        attribute.setValue("${applicationScope.object3}");
+        attribute.setExpression("${applicationScope.object3}");
         assertEquals("The value is not correct", new Float(2.0), evaluator
                 .evaluate(attribute, request));
-        attribute.setValue("${object1}");
+        attribute.setExpression("${object1}");
         assertEquals("The value is not correct", "value", evaluator.evaluate(
                 attribute, request));
-        attribute.setValue("${object2}");
+        attribute.setExpression("${object2}");
         assertEquals("The value is not correct", new Integer(1), evaluator
                 .evaluate(attribute, request));
-        attribute.setValue("${object3}");
+        attribute.setExpression("${object3}");
         assertEquals("The value is not correct", new Float(2.0), evaluator
                 .evaluate(attribute, request));
-        attribute.setValue("${paulaBean.paula}");
+        attribute.setExpression("${paulaBean.paula}");
         assertEquals("The value is not correct", "Brillant", evaluator
                 .evaluate(attribute, request));
-        attribute.setValue("String literal");
+        attribute.setExpression("String literal");
         assertEquals("The value is not correct", "String literal", evaluator
                 .evaluate(attribute, request));
         attribute.setValue(new Integer(2));
         assertEquals("The value is not correct", new Integer(2), evaluator
+                .evaluate(attribute, request));
+        attribute.setValue("${object1}");
+        assertEquals("The value has been evaluated", "${object1}", evaluator
                 .evaluate(attribute, request));
     }
 
