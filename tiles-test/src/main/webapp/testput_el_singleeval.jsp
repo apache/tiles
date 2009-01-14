@@ -26,6 +26,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <c:set var="doNotShowBody" value="${'${'}requestScope.doNotShow}" />
+<c:set var="doNotShow" scope="request" value="DO NOT SHOW!!!" />
 
 <tiles:insertTemplate template="/layout.jsp">
   <tiles:putAttribute name="title"  value="This is the title." />
