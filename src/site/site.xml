@@ -47,6 +47,9 @@
             <item
                    name="Tiles project start page"
                    href="./index.html"/>
+            <item
+                   name="Security bulletins"
+                   href="security/index.html"/>
         </menu>
         <menu name="Documentation">
             <item   
