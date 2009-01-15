@@ -37,7 +37,7 @@ Security bulletin 1
 | Recommendation          | Developers should not install Tiles 2.1.1 under a production environment, |
 |                         | wait for the Tiles 2.1.2 release |
 *-------------------------+-----------+
-| Affected Software       | Tiles 2.1.0/2.1.1 (Tiles 2.0.x are safe) |
+| Affected Software       | Tiles 2.1.0/2.1.1 (Tiles 2.0.x versions are safe) |
 *-------------------------+-----------+
 | Original JIRA Ticket    | {{{https://issues.apache.org/struts/browse/TILES-351}TILES-351}}       |
 *-------------------------+-----------+
