@@ -96,15 +96,10 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     private static final String ADD_DEFINITION_TAG = "*/add-attribute/definition";
 
     /**
-     * Intercepts a &lt;put-list-attribute&gt; tag.
-     */
-    private static final String LIST_TAG = "put-list-attribute";
-
-    /**
      * Intercepts a &lt;put-list-attribute&gt; tag inside a %lt;definition&gt;
      * tag.
      */
-    private static final String DEF_LIST_TAG = DEFINITION_TAG + "/" + LIST_TAG;
+    private static final String DEF_LIST_TAG = "*/definition/put-list-attribute";
 
     /**
      * Intercepts a &lt;add-attribute&gt; tag.

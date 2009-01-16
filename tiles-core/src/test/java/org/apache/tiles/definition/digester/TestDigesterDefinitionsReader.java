@@ -303,4 +303,28 @@ public class TestDigesterDefinitionsReader extends TestCase {
             fail("Exception reading configuration." + e);
         }
     }
+
+    /**
+     * Regression test for bug TILES-352.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @SuppressWarnings("unchecked")
+    public void testRegressionTiles352() throws IOException {
+        reader.init(new HashMap<String, String>());
+
+        URL configFile = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs_regression_TILES-352.xml");
+        assertNotNull("Config file not found", configFile);
+
+        InputStream source = configFile.openStream();
+        Map<String, Definition> name2defs = reader.read(source);
+        source.close();
+        Definition root = name2defs.get("root");
+        Attribute attribute = root.getAttribute("body");
+        Definition child = name2defs.get((String) attribute.getValue());
+        ListAttribute listAttribute = (ListAttribute) child.getAttribute("list");
+        List<Object> list = (List<Object>) listAttribute.getValue();
+        assertEquals(((Attribute) list.get(0)).getValue(), "This is a value");
+    }
 }
