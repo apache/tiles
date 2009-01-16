@@ -54,7 +54,7 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
     /**
      * The logging object.
      */
-    private static final Log LOG =
+    private final Log log =
         LogFactory.getLog(EnhancedTilesApplicationContext.class);
 
     /**
@@ -164,7 +164,7 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
                 resources.add(e.nextElement());
             }
         } catch (IOException e) {
-            LOG.warn("Unable to retrieved resources from classloader: "
+            log.warn("Unable to retrieved resources from classloader: "
                     + loader, e);
         }
         return resources;

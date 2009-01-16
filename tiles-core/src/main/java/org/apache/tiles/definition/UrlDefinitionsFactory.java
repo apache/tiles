@@ -62,7 +62,7 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
     /**
      * LOG instance for all UrlDefinitionsFactory instances.
      */
-    private static final Log LOG = LogFactory.getLog(UrlDefinitionsFactory.class);
+    private final Log log = LogFactory.getLog(UrlDefinitionsFactory.class);
 
     /**
      * Contains the URL objects identifying where configuration data is found.
@@ -106,7 +106,7 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
 
     /** {@inheritDoc} */
     public synchronized void refresh() {
-        LOG.debug("Updating Tiles definitions. . .");
+        log.debug("Updating Tiles definitions. . .");
         if (definitionDao instanceof Refreshable) {
             ((Refreshable) definitionDao).refresh();
         }

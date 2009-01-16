@@ -45,7 +45,7 @@ public class DefinitionsImpl implements Definitions {
     /**
      * Commons Logging instance.
      */
-    private static Log log = LogFactory.getLog(DefinitionsImpl.class);
+    private final Log log = LogFactory.getLog(DefinitionsImpl.class);
 
     /**
      * The base set of Definition objects not discriminated by locale.

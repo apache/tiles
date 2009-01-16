@@ -87,7 +87,7 @@ public class BasicTilesContainer implements TilesContainer {
      * Log instance for all BasicTilesContainer
      * instances.
      */
-    private static final Log LOG =
+    private final Log log =
         LogFactory.getLog(BasicTilesContainer.class);
 
     /**
@@ -176,8 +176,8 @@ public class BasicTilesContainer implements TilesContainer {
         AttributeContext attributeContext = getAttributeContext(request);
 
         if (!isPermitted(request, attributeContext.getRoles())) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Access to current attribute context denied. "
+            if (log.isDebugEnabled()) {
+                log.debug("Access to current attribute context denied. "
                         + "User not in role '" + attributeContext.getRoles());
             }
             return;
@@ -460,8 +460,8 @@ public class BasicTilesContainer implements TilesContainer {
 
         definitionsFactory.init(initParameters);
 
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Tiles2 container initialization complete.");
+        if (log.isInfoEnabled()) {
+            log.info("Tiles2 container initialization complete.");
         }
     }
 
@@ -592,8 +592,8 @@ public class BasicTilesContainer implements TilesContainer {
      */
     private void prepare(TilesRequestContext context, String preparerName, boolean ignoreMissing) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Prepare request received for '" + preparerName);
+        if (log.isDebugEnabled()) {
+            log.debug("Prepare request received for '" + preparerName);
         }
 
         ViewPreparer preparer = preparerFactory.getPreparer(preparerName, context);
@@ -621,16 +621,16 @@ public class BasicTilesContainer implements TilesContainer {
      */
     private void render(TilesRequestContext request, String definitionName) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Render request recieved for definition '" + definitionName + "'");
+        if (log.isDebugEnabled()) {
+            log.debug("Render request recieved for definition '" + definitionName + "'");
         }
 
         Definition definition = getDefinition(definitionName, request);
 
         if (definition == null) {
-            if (LOG.isWarnEnabled()) {
+            if (log.isWarnEnabled()) {
                 String message = "Unable to find the definition '" + definitionName + "'";
-                LOG.warn(message);
+                log.warn(message);
             }
             throw new NoSuchDefinitionException(definitionName);
         }
@@ -640,8 +640,8 @@ public class BasicTilesContainer implements TilesContainer {
         subContext.inherit(definition);
 
         if (!isPermitted(request, subContext.getRoles())) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Access to definition '" + definitionName
+            if (log.isDebugEnabled()) {
+                log.debug("Access to definition '" + definitionName
                         + "' denied.  User not in role '"
                         + definition.getRoles());
             }
@@ -675,8 +675,8 @@ public class BasicTilesContainer implements TilesContainer {
 
             String dispatchPath = computeDispatchPath(request, attributeContext);
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Dispatching to definition path '"
+            if (log.isDebugEnabled()) {
+                log.debug("Dispatching to definition path '"
                         + attributeContext.getTemplate() + " '");
             }
             request.dispatch(dispatchPath);

@@ -126,7 +126,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory.getLog(TilesContainerFactory.class);
+    private final Log log = LogFactory.getLog(TilesContainerFactory.class);
 
     /**
      * Default configuration parameters.
@@ -358,8 +358,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
             BasicTilesContainer container) {
         Map <String, String> initParameterMap;
 
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Initializing Tiles2 container. . .");
+        if (log.isInfoEnabled()) {
+            log.info("Initializing Tiles2 container. . .");
         }
 
         initParameterMap = context.getInitParams();
@@ -368,8 +368,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
         storeContainerDependencies(context, initParameterMap, configuration, container);
         container.init(initParameterMap);
 
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Tiles2 container initialized");
+        if (log.isInfoEnabled()) {
+            log.info("Tiles2 container initialized");
         }
     }
 

@@ -41,7 +41,7 @@ public class ImportAttributeTag extends AttributeTagSupport {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory.getLog(ImportAttributeTag.class);
+    private final Log log = LogFactory.getLog(ImportAttributeTag.class);
 
     /**
      * The destination attribute name.
@@ -128,8 +128,8 @@ public class ImportAttributeTag extends AttributeTagSupport {
                 } catch (TilesException e) {
                     if (!ignore) {
                         throw e;
-                    } else if (LOG.isDebugEnabled()) {
-                        LOG.debug("Ignoring Tiles Exception", e);
+                    } else if (log.isDebugEnabled()) {
+                        log.debug("Ignoring Tiles Exception", e);
                     }
                 }
             } else if (!ignore) {

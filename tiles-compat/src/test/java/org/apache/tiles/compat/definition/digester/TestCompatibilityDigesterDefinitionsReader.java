@@ -47,7 +47,7 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(TestCompatibilityDigesterDefinitionsReader.class);
 
     /**
@@ -174,8 +174,8 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Exception caught, it is OK", e);
+            if (log.isDebugEnabled()) {
+                log.debug("Exception caught, it is OK", e);
             }
         } catch (Exception e) {
             fail("Exception reading configuration." + e);

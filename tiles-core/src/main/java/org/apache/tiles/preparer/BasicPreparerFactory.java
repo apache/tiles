@@ -41,7 +41,7 @@ public class BasicPreparerFactory implements PreparerFactory {
     /**
      * The logging object.
      */
-    private static final Log LOG =
+    private final Log log =
         LogFactory.getLog(BasicPreparerFactory.class);
 
     /**
@@ -82,12 +82,12 @@ public class BasicPreparerFactory implements PreparerFactory {
      */
     protected ViewPreparer createPreparer(String name) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Creating ViewPreparer '" + name + "' . . .");
+        if (log.isDebugEnabled()) {
+            log.debug("Creating ViewPreparer '" + name + "' . . .");
         }
 
         Object instance = ClassUtil.instantiate(name, true);
-        LOG.debug("ViewPreparer created successfully");
+        log.debug("ViewPreparer created successfully");
         return (ViewPreparer) instance;
 
     }

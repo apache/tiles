@@ -71,7 +71,7 @@ public class PutAttributeTag extends AddAttributeTag {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory.getLog(PutAttributeTag.class);
+    private final Log log = LogFactory.getLog(PutAttributeTag.class);
 
     /**
      * Name of attribute to put in attribute context.
@@ -142,7 +142,7 @@ public class PutAttributeTag extends AddAttributeTag {
             String message = "Error: enclosing tag '"
                     + getParent().getClass().getName()
                     + " doesn't accept 'put' tag.";
-            LOG.error(message);
+            log.error(message);
             throw new TilesJspException(message);
         }
 

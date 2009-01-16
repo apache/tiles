@@ -61,7 +61,7 @@ public class ChainedTilesRequestContextFactory implements TilesRequestContextFac
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(ChainedTilesRequestContextFactory.class);
 
     /**
@@ -107,10 +107,10 @@ public class ChainedTilesRequestContextFactory implements TilesRequestContextFac
             } catch (ClassNotFoundException e) {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.
-                LOG.warn("Cannot find TilesRequestContextFactory class "
+                log.warn("Cannot find TilesRequestContextFactory class "
                         + classNames[i]);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Cannot find TilesRequestContextFactory class "
+                if (log.isDebugEnabled()) {
+                    log.debug("Cannot find TilesRequestContextFactory class "
                             + classNames[i], e);
                 }
             } catch (InstantiationException e) {

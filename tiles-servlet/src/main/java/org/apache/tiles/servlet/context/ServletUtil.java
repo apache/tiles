@@ -45,12 +45,6 @@ import org.apache.tiles.util.TilesIOException;
 public final class ServletUtil {
 
     /**
-     * The logging object.
-     */
-    private static final Log LOG =
-        LogFactory.getLog(ServletUtil.class);
-
-    /**
      * Name of the attribute used to store the force-include option.
      * @since 2.0.6
      */
@@ -147,18 +141,19 @@ public final class ServletUtil {
      */
     public static void setContainer(ServletContext context,
             TilesContainer container, String key) {
+        Log log = LogFactory.getLog(ServletUtil.class);
         if (key == null) {
             key = TilesAccess.CONTAINER_ATTRIBUTE;
         }
 
         if (container == null) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Removing TilesContext for context: " + context.getClass().getName());
+            if (log.isInfoEnabled()) {
+                log.info("Removing TilesContext for context: " + context.getClass().getName());
             }
             context.removeAttribute(key);
         }
-        if (container != null && LOG.isInfoEnabled()) {
-            LOG.info("Publishing TilesContext for context: " + context.getClass().getName());
+        if (container != null && log.isInfoEnabled()) {
+            log.info("Publishing TilesContext for context: " + context.getClass().getName());
         }
         context.setAttribute(key, container);
     }

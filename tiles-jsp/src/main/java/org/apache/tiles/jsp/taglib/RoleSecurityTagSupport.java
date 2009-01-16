@@ -39,7 +39,7 @@ public abstract class RoleSecurityTagSupport extends TilesBodyTag {
     /**
      * The log instance for this tag.
      */
-    private static final Log LOG = LogFactory.getLog(RoleSecurityTagSupport.class);
+    private final Log log = LogFactory.getLog(RoleSecurityTagSupport.class);
 
     /**
      * The role to check. If the user is in the specified role, the tag is taken
@@ -82,7 +82,7 @@ public abstract class RoleSecurityTagSupport extends TilesBodyTag {
             }
         } catch (IOException io) {
             String message = "IO Error executing tag: " + io.getMessage();
-            LOG.error(message, io);
+            log.error(message, io);
             throw new TilesJspException(message, io);
         }
 

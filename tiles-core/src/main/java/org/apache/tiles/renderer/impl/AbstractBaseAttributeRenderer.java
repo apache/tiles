@@ -50,7 +50,7 @@ public abstract class AbstractBaseAttributeRenderer implements
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(AbstractBaseAttributeRenderer.class);
 
     /**
@@ -95,8 +95,8 @@ public abstract class AbstractBaseAttributeRenderer implements
         TilesRequestContext request = getRequestContext(requestItems);
 
         if (!isPermitted(request, attribute.getRoles())) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Access to attribute denied.  User not in role '"
+            if (log.isDebugEnabled()) {
+                log.debug("Access to attribute denied.  User not in role '"
                         + attribute.getRoles() + "'");
             }
             return;

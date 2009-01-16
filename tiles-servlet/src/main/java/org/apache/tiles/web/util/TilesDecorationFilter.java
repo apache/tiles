@@ -88,7 +88,7 @@ public class TilesDecorationFilter implements Filter {
     /**
      * The logging object.
      */
-    private static final Log LOG =
+    private final Log log =
         LogFactory.getLog(TilesDecorationFilter.class);
 
     /**
@@ -202,7 +202,7 @@ public class TilesDecorationFilter implements Filter {
                 String mask = parm.substring("definition(".length());
                 mask = mask.substring(0, mask.lastIndexOf("*)"));
                 map.put(mask, value);
-                LOG.info("Mapping all requests matching '" + mask
+                log.info("Mapping all requests matching '" + mask
                         + "*' to definition '" + value + "'");
             }
         }

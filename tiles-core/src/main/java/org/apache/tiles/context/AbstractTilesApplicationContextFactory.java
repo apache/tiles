@@ -37,12 +37,6 @@ import org.apache.tiles.reflect.ClassUtil;
 public abstract class AbstractTilesApplicationContextFactory  {
 
     /**
-     * The logging object.
-     */
-    private static final Log LOG = LogFactory
-            .getLog(AbstractTilesApplicationContextFactory.class);
-
-    /**
      * Initialization parameter that represents the context factory class name.
      *
      * @since 2.1.1
@@ -70,10 +64,12 @@ public abstract class AbstractTilesApplicationContextFactory  {
      */
     public static AbstractTilesApplicationContextFactory createFactory(
             TilesApplicationContext preliminaryContext) {
+        Log log = LogFactory
+                .getLog(AbstractTilesApplicationContextFactory.class);
         AbstractTilesApplicationContextFactory retValue;
 
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Initializing Tiles2 application context. . .");
+        if (log.isInfoEnabled()) {
+            log.info("Initializing Tiles2 application context. . .");
         }
 
         Map<String, String> params = preliminaryContext.getInitParams();
@@ -91,8 +87,8 @@ public abstract class AbstractTilesApplicationContextFactory  {
             ((Initializable) retValue).init(params);
         }
 
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Finished initializing Tiles2 application context.");
+        if (log.isInfoEnabled()) {
+            log.info("Finished initializing Tiles2 application context.");
         }
 
         return retValue;

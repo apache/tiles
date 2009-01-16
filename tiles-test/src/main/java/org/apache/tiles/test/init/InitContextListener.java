@@ -47,7 +47,7 @@ public class InitContextListener implements ServletContextListener {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory.getLog(InitContextListener.class);
+    private final Log log = LogFactory.getLog(InitContextListener.class);
 
     /** {@inheritDoc} */
     public void contextInitialized(ServletContextEvent event) {
@@ -92,7 +92,7 @@ public class InitContextListener implements ServletContextListener {
             try {
                 stream.close();
             } catch (IOException e) {
-                LOG.error("Error during close of the stream containing the SQL schema", e);
+                log.error("Error during close of the stream containing the SQL schema", e);
             }
         }
         return text.split(";");
@@ -118,7 +118,7 @@ public class InitContextListener implements ServletContextListener {
             try {
                 conn.rollback();
             } catch (SQLException e1) {
-                LOG.error("Error during rollback", e);
+                log.error("Error during rollback", e);
             }
             throw new TilesTestRuntimeException("Error during execution of SQL commands", e);
         } finally {
@@ -130,7 +130,7 @@ public class InitContextListener implements ServletContextListener {
                     stmt.close();
                 }
             } catch (SQLException e) {
-                LOG.error("Error during closing resources", e);
+                log.error("Error during closing resources", e);
             }
         }
     }

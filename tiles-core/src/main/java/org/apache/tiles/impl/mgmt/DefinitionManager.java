@@ -43,7 +43,7 @@ public class DefinitionManager {
     /**
      * The logging object.
      */
-    private static final Log LOG =
+    private final Log log =
         LogFactory.getLog(DefinitionManager.class);
 
     /**
@@ -190,8 +190,8 @@ public class DefinitionManager {
             return;
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Resolve definition for child name='"
+        if (log.isDebugEnabled()) {
+            log.debug("Resolve definition for child name='"
                 + definition.getName()
                 + "' extends='" + definition.getExtends() + "'.");
         }
@@ -208,7 +208,7 @@ public class DefinitionManager {
                 + "' can't find its ancestor '"
                 + definition.getExtends()
                 + "'. Please check your description file.";
-            LOG.error(msg);
+            log.error(msg);
             // to do : find better exception
             throw new NoSuchDefinitionException(msg);
         }

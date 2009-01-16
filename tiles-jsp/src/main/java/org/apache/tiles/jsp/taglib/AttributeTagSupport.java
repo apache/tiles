@@ -44,7 +44,7 @@ public abstract class AttributeTagSupport extends TilesTag {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory.getLog(AttributeTagSupport.class);
+    private final Log log = LogFactory.getLog(AttributeTagSupport.class);
 
     /**
      * Maps scope names to their constants.
@@ -157,8 +157,8 @@ public abstract class AttributeTagSupport extends TilesTag {
             } catch (TilesException e) {
                 if (!ignore) {
                     throw e;
-                } else if (LOG.isDebugEnabled()) {
-                    LOG.debug("Ignoring Tiles Exception", e);
+                } else if (log.isDebugEnabled()) {
+                    log.debug("Ignoring Tiles Exception", e);
                 }
             }
 

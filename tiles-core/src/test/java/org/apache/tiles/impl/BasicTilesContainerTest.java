@@ -52,7 +52,7 @@ public class BasicTilesContainerTest extends TestCase {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(BasicTilesContainerTest.class);
 
     /**
@@ -122,7 +122,7 @@ public class BasicTilesContainerTest extends TestCase {
         try {
             container.render(attribute, null, request);
         } catch (TilesException e) {
-            LOG.debug("Intercepted a TilesException, it is correct", e);
+            log.debug("Intercepted a TilesException, it is correct", e);
             exceptionFound = true;
         }
 

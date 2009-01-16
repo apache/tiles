@@ -55,7 +55,7 @@ public abstract class RenderTag extends TilesBodyTag implements
     /**
      * The log instance for this tag.
      */
-    private static final Log LOG = LogFactory.getLog(RenderTag.class);
+    private final Log log = LogFactory.getLog(RenderTag.class);
 
     /**
      * The role to check. If the user is in the specified role, the tag is taken
@@ -225,7 +225,7 @@ public abstract class RenderTag extends TilesBodyTag implements
             return EVAL_PAGE;
         } catch (IOException io) {
             String message = "IO Error executing tag: " + io.getMessage();
-            LOG.error(message, io);
+            log.error(message, io);
             throw new TilesJspException(message, io);
         } finally {
             endContext(pageContext);

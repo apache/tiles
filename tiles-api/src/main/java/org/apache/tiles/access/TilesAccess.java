@@ -43,12 +43,6 @@ public final class TilesAccess {
     }
 
     /**
-     * The logging object.
-     */
-    private static final Log LOG =
-        LogFactory.getLog(TilesAccess.class);
-
-    /**
      * The name of the attribute to use when getting and setting the container
      * object in a context.
      */
@@ -104,18 +98,19 @@ public final class TilesAccess {
      */
     public static void setContainer(TilesApplicationContext context,
             TilesContainer container, String key) {
+        Log log = LogFactory.getLog(TilesAccess.class);
         if (key == null) {
             key = CONTAINER_ATTRIBUTE;
         }
 
         if (container == null) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Removing TilesContext for context: " + context.getClass().getName());
+            if (log.isInfoEnabled()) {
+                log.info("Removing TilesContext for context: " + context.getClass().getName());
             }
             context.getApplicationScope().remove(key);
         }
-        if (container != null && LOG.isInfoEnabled()) {
-            LOG.info("Publishing TilesContext for context: " + context.getClass().getName());
+        if (container != null && log.isInfoEnabled()) {
+            log.info("Publishing TilesContext for context: " + context.getClass().getName());
         }
         context.getApplicationScope().put(key, container);
     }
@@ -131,15 +126,15 @@ public final class TilesAccess {
      */
     @Deprecated
     public static void setContainer(Object context, TilesContainer container) {
-
+        Log log = LogFactory.getLog(TilesAccess.class);
         if (container == null) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Removing TilesContext for context: " + context.getClass().getName());
+            if (log.isInfoEnabled()) {
+                log.info("Removing TilesContext for context: " + context.getClass().getName());
             }
             removeAttribute(context, CONTAINER_ATTRIBUTE);
         }
-        if (container != null && LOG.isInfoEnabled()) {
-            LOG.info("Publishing TilesContext for context: " + context.getClass().getName());
+        if (container != null && log.isInfoEnabled()) {
+            log.info("Publishing TilesContext for context: " + context.getClass().getName());
         }
         setAttribute(context, CONTAINER_ATTRIBUTE, container);
     }

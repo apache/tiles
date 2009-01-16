@@ -49,7 +49,7 @@ public class TilesContextELResolver extends BeanELResolver {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(TilesContextBeanELResolver.class);
 
     /**
@@ -194,8 +194,8 @@ public class TilesContextELResolver extends BeanELResolver {
         try {
             info = Introspector.getBeanInfo(clazz);
         } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Cannot inspect class " + clazz, ex);
+            if (log.isDebugEnabled()) {
+                log.debug("Cannot inspect class " + clazz, ex);
             }
         }
         if (info == null) {

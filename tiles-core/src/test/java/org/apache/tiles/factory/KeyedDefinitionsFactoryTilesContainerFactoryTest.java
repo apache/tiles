@@ -49,7 +49,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(KeyedDefinitionsFactoryTilesContainerFactoryTest.class);
 
     /**
@@ -141,8 +141,8 @@ public class KeyedDefinitionsFactoryTilesContainerFactoryTest extends TestCase {
             container.init(new HashMap<String, String>());
             fail("Container should have already been initialized");
         } catch (IllegalStateException te) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("The container has been initialized, the exception is ok", te);
+            if (log.isDebugEnabled()) {
+                log.debug("The container has been initialized, the exception is ok", te);
             }
         }
 

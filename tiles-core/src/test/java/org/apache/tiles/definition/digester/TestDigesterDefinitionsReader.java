@@ -49,7 +49,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(TestDigesterDefinitionsReader.class);
 
     /**
@@ -223,8 +223,8 @@ public class TestDigesterDefinitionsReader extends TestCase {
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Exception caught, it is OK", e);
+            if (log.isDebugEnabled()) {
+                log.debug("Exception caught, it is OK", e);
             }
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
@@ -247,8 +247,8 @@ public class TestDigesterDefinitionsReader extends TestCase {
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Exception caught, it is OK", e);
+            if (log.isDebugEnabled()) {
+                log.debug("Exception caught, it is OK", e);
             }
         } catch (Exception e) {
             fail("Exception reading configuration." + e);
@@ -276,8 +276,8 @@ public class TestDigesterDefinitionsReader extends TestCase {
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {
             // correct.
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Exception caught, it is OK", e);
+            if (log.isDebugEnabled()) {
+                log.debug("Exception caught, it is OK", e);
             }
         } catch (Exception e) {
             fail("Exception reading configuration." + e);

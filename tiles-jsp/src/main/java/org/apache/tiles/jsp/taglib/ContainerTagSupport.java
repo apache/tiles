@@ -43,7 +43,7 @@ public abstract class ContainerTagSupport extends RoleSecurityTagSupport {
      * The log instance for this tag.
      */
     @SuppressWarnings("unused")
-    private static final Log LOG = LogFactory.getLog(ContainerTagSupport.class);
+    private final Log log = LogFactory.getLog(ContainerTagSupport.class);
 
     /**
      * The Tiles container that can be used inside the tag.

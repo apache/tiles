@@ -60,7 +60,7 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(BaseLocaleUrlDefinitionDAO.class);
 
     /**
@@ -162,7 +162,7 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
                 }
             }
         } catch (Exception e) {
-            LOG.warn("Exception while monitoring update times.", e);
+            log.warn("Exception while monitoring update times.", e);
             return true;
         }
         return status;
@@ -189,27 +189,27 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
                 if (urls != null && !urls.isEmpty()) {
                     for (URL resourceUrl : urls) {
                         if (resourceUrl != null) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Adding resource '" + resourceUrl
+                            if (log.isDebugEnabled()) {
+                                log.debug("Adding resource '" + resourceUrl
                                         + "' to definitions factory.");
                             }
                             String externalForm = resourceUrl.toExternalForm();
                             if (externalForm.indexOf('_', externalForm
                                     .lastIndexOf("/")) < 0) {
                                 sourceURLs.add(resourceUrl);
-                            } else if (LOG.isDebugEnabled()) {
-                                LOG.debug("Not adding resource '" + resourceUrl
+                            } else if (log.isDebugEnabled()) {
+                                log.debug("Not adding resource '" + resourceUrl
                                         + "' to definitions factory because it is "
                                         + "supposed to be an internationalization.");
                             }
 
                         } else {
-                            LOG.warn("Unable to find configured definition '"
+                            log.warn("Unable to find configured definition '"
                                     + resources[i] + "'");
                         }
                     }
                 } else {
-                    LOG.warn("Unable to find resources under the name '"
+                    log.warn("Unable to find resources under the name '"
                             + resources[i] + "'");
                 }
             }
@@ -274,8 +274,8 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
             defsMap = reader.read(connection.getInputStream());
         } catch (FileNotFoundException e) {
             // File not found. continue.
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("File " + null + " not found, continue");
+            if (log.isDebugEnabled()) {
+                log.debug("File " + null + " not found, continue");
             }
         } catch (IOException e) {
             throw new DefinitionsFactoryException(

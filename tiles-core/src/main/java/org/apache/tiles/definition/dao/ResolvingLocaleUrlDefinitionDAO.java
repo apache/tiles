@@ -49,7 +49,7 @@ public class ResolvingLocaleUrlDefinitionDAO extends
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory.getLog(ResolvingLocaleUrlDefinitionDAO.class);
+    private final Log log = LogFactory.getLog(ResolvingLocaleUrlDefinitionDAO.class);
 
     /** {@inheritDoc} */
     @Override
@@ -107,8 +107,8 @@ public class ResolvingLocaleUrlDefinitionDAO extends
             return;
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Resolve definition for child name='"
+        if (log.isDebugEnabled()) {
+            log.debug("Resolve definition for child name='"
                 + definition.getName()
                 + "' extends='" + definition.getExtends() + "'.");
         }

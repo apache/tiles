@@ -46,7 +46,7 @@ public class TilesListener
     /**
      * Log instance.
      */
-    protected static final Log LOG =
+    protected final Log log =
         LogFactory.getLog(TilesListener.class);
 
     /**
@@ -87,7 +87,7 @@ public class TilesListener
         try {
             ServletUtil.setContainer(servletContext, null);
         } catch (TilesException e) {
-            LOG.warn("Unable to remove tiles container from service.", e);
+            log.warn("Unable to remove tiles container from service.", e);
         }
     }
 

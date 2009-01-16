@@ -33,8 +33,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
 
 /**
@@ -49,12 +47,6 @@ import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
  */
 
 public class TilesFilter extends TilesServlet implements Filter {
-
-    /**
-     * The logging object.
-     */
-    @SuppressWarnings("unused")
-    private static final Log LOG = LogFactory.getLog(TilesFilter.class);
 
     /**
      * The filter configuration object we are associated with.  If

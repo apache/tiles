@@ -61,7 +61,7 @@ public class InitContainerTag extends TilesBodyTag
     /**
      * The logging object.
      */
-    private static final Log LOG =
+    private final Log log =
         LogFactory.getLog(InitContainerTag.class);
 
     /**
@@ -145,7 +145,7 @@ public class InitContainerTag extends TilesBodyTag
             JspUtil.getContainer(pageContext, containerKey);
 
         if (container != null) {
-            LOG.warn("TilesContainer already instantiated for this context under key '"
+            log.warn("TilesContainer already instantiated for this context under key '"
                     + containerKey + "'. Ignoring request to define.");
             return SKIP_BODY;
         }

@@ -38,12 +38,6 @@ import javax.servlet.jsp.PageContext;
 public final class JspUtil {
 
     /**
-     * The logging object.
-     */
-    private static final Log LOG =
-        LogFactory.getLog(ServletUtil.class);
-
-    /**
      * Constructor, private to avoid instantiation.
      */
     private JspUtil() {
@@ -128,18 +122,19 @@ public final class JspUtil {
      */
     public static void setContainer(PageContext context,
             TilesContainer container, String key) {
+        Log log = LogFactory.getLog(ServletUtil.class);
         if (key == null) {
             key = TilesAccess.CONTAINER_ATTRIBUTE;
         }
 
         if (container == null) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Removing TilesContext for context: " + context.getClass().getName());
+            if (log.isInfoEnabled()) {
+                log.info("Removing TilesContext for context: " + context.getClass().getName());
             }
             context.removeAttribute(key, PageContext.APPLICATION_SCOPE);
         }
-        if (container != null && LOG.isInfoEnabled()) {
-            LOG.info("Publishing TilesContext for context: " + context.getClass().getName());
+        if (container != null && log.isInfoEnabled()) {
+            log.info("Publishing TilesContext for context: " + context.getClass().getName());
         }
         context.setAttribute(key, container, PageContext.APPLICATION_SCOPE);
     }

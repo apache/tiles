@@ -50,7 +50,7 @@ public class TilesDispatchServlet extends HttpServlet {
     /**
      * The logging object.
      */
-    private static final Log LOG =
+    private final Log log =
         LogFactory.getLog(TilesDispatchServlet.class);
 
     /**
@@ -93,8 +93,8 @@ public class TilesDispatchServlet extends HttpServlet {
                 getServletContext(), containerKey);
         mutator.mutate(container.getAttributeContext(req, res), req);
         String definition = getDefinitionName(req);
-        if (LOG.isDebugEnabled()) {
-            LOG.info("Dispatching to tile '" + definition + "'");
+        if (log.isDebugEnabled()) {
+            log.info("Dispatching to tile '" + definition + "'");
         }
         container.render(definition, req, res);
     }
@@ -120,7 +120,7 @@ public class TilesDispatchServlet extends HttpServlet {
     /** {@inheritDoc} */
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-        LOG.info("Tiles dispatch request received. Redirecting POST to GET.");
+        log.info("Tiles dispatch request received. Redirecting POST to GET.");
         doGet(req, res);
     }
 

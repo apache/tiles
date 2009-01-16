@@ -55,7 +55,7 @@ public class TilesContainerFactoryTest extends TestCase {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(TilesContainerFactoryTest.class);
 
     /**
@@ -134,8 +134,8 @@ public class TilesContainerFactoryTest extends TestCase {
             AbstractTilesContainerFactory.getTilesContainerFactory(context);
             fail("Invalid classname.  Exception should have been thrown.");
         } catch (TilesException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("The classname is invalid, it is ok", e);
+            if (log.isDebugEnabled()) {
+                log.debug("The classname is invalid, it is ok", e);
             }
         }
     }
@@ -172,8 +172,8 @@ public class TilesContainerFactoryTest extends TestCase {
             container.init(new HashMap<String, String>());
             fail("Container should have already been initialized");
         } catch (IllegalStateException te) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Intercepted an exception, it is OK", te);
+            if (log.isDebugEnabled()) {
+                log.debug("Intercepted an exception, it is OK", te);
             }
         }
 

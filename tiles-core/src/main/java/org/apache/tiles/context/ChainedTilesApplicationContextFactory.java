@@ -62,7 +62,7 @@ public class ChainedTilesApplicationContextFactory extends
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory
+    private final Log log = LogFactory
             .getLog(ChainedTilesApplicationContextFactory.class);
 
     /**
@@ -115,10 +115,10 @@ public class ChainedTilesApplicationContextFactory extends
             } catch (ClassNotFoundException e) {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.
-                LOG.warn("Cannot find TilesContextFactory class "
+                log.warn("Cannot find TilesContextFactory class "
                         + classNames[i]);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Cannot find TilesContextFactory class "
+                if (log.isDebugEnabled()) {
+                    log.debug("Cannot find TilesContextFactory class "
                             + classNames[i], e);
                 }
             } catch (InstantiationException e) {

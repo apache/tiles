@@ -44,7 +44,7 @@ public class TilesServlet extends HttpServlet {
     /**
      * Log instance.
      */
-    protected static final Log LOG =
+    protected final Log log =
         LogFactory.getLog(TilesServlet.class);
 
     /**
@@ -68,7 +68,7 @@ public class TilesServlet extends HttpServlet {
         try {
             ServletUtil.setContainer(getServletContext(), null);
         } catch (TilesException e) {
-            LOG.warn("Unable to remove tiles container from service.", e);
+            log.warn("Unable to remove tiles container from service.", e);
         }
     }
 

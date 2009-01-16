@@ -73,7 +73,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * The logging object.
      */
-    private static final Log LOG = LogFactory.getLog(BasicTilesContainerFactory.class);
+    private final Log log = LogFactory.getLog(BasicTilesContainerFactory.class);
 
     /** {@inheritDoc} */
     @Override
@@ -172,8 +172,8 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
                         .setRequestContextFactory(parent);
             }
         } catch (ClassNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Cannot find JspTilesContextFactory, ignoring problem", e);
+            if (log.isDebugEnabled()) {
+                log.debug("Cannot find JspTilesContextFactory, ignoring problem", e);
             }
         } catch (InstantiationException e) {
             throw new TilesContainerFactoryException(
