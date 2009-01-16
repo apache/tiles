@@ -58,7 +58,7 @@ public abstract class AbstractRenderModel extends NestableTemplateDirectiveModel
     /**
      * The log instance for this tag.
      */
-    private static final Log LOG = LogFactory.getLog(AbstractRenderModel.class);
+    private final Log log = LogFactory.getLog(AbstractRenderModel.class);
 
     protected TilesContainer container;
     
@@ -87,7 +87,7 @@ public abstract class AbstractRenderModel extends NestableTemplateDirectiveModel
             }
         } catch (IOException io) {
             String message = "IO Error executing tag: " + io.getMessage();
-            LOG.error(message, io);
+            log.error(message, io);
             throw new FreeMarkerTilesException(message, io);
         } finally {
             endContext(env, params, loopVars, body);

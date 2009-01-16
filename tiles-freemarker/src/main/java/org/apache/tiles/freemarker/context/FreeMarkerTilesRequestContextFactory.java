@@ -20,7 +20,7 @@ import freemarker.ext.servlet.HttpRequestHashModel;
 public class FreeMarkerTilesRequestContextFactory implements
         TilesRequestContextFactory, TilesRequestContextFactoryAware {
 
-    private static final Log LOG = LogFactory.getLog(FreeMarkerTilesRequestContextFactory.class);
+    private final Log log = LogFactory.getLog(FreeMarkerTilesRequestContextFactory.class);
     
     /**
      * Parent Tiles context factory.
@@ -41,7 +41,7 @@ public class FreeMarkerTilesRequestContextFactory implements
             try {
                 requestModel = FreeMarkerUtil.getRequestHashModel(env);
             } catch (FreeMarkerTilesException e) {
-                LOG.warn("Cannot evaluate as a FreeMarker in Servlet Environment, skipping", e);
+                log.warn("Cannot evaluate as a FreeMarker in Servlet Environment, skipping", e);
                 return null;
             }
             HttpServletRequest request = requestModel.getRequest();
