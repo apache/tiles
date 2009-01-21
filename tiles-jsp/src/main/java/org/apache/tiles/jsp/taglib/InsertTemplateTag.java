@@ -23,6 +23,7 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
+import org.apache.tiles.Attribute;
 import org.apache.tiles.jsp.context.JspUtil;
 
 /**
@@ -72,9 +73,11 @@ public class InsertTemplateTag extends RenderTag {
     /** {@inheritDoc} */
     @Override
     protected void render() throws IOException {
-        attributeContext.setTemplate(template);
+        Attribute templateAttribute = Attribute
+                .createTemplateAttribute(template);
+        templateAttribute.setRole(role);
         attributeContext.setPreparer(preparer);
-        attributeContext.setRole(role);
+        attributeContext.setTemplateAttribute(templateAttribute);
         renderContext();
     }
 

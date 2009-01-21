@@ -59,7 +59,7 @@ public class JspWriterResponse extends HttpServletResponseWrapper {
     /** {@inheritDoc} */
     public PrintWriter getWriter() throws IOException {
         if (writer == null) {
-            writer = new PrintWriter(context.getOut());
+            writer = new JspPrintWriterAdapter(context.getOut());
         }
         return writer;
     }

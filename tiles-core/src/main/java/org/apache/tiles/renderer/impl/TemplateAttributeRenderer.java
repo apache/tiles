@@ -21,10 +21,10 @@
 package org.apache.tiles.renderer.impl;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.impl.InvalidTemplateException;
 
 /**
  * Renders an attribute that contains a reference to a template.
@@ -37,8 +37,18 @@ public class TemplateAttributeRenderer extends AbstractBaseAttributeRenderer {
     /** {@inheritDoc} */
     @Override
     public void write(Object value, Attribute attribute,
-            Writer writer, TilesRequestContext request, Object... requestItems)
+            TilesRequestContext request)
             throws IOException {
-        request.dispatch(value.toString());
+        if (value != null) {
+            if (value instanceof String) {
+                request.dispatch(value.toString());
+            } else {
+                throw new InvalidTemplateException(
+                        "Cannot render a template that is not an object: "
+                                + value.toString());
+            }
+        } else {
+            throw new InvalidTemplateException("Cannot render a null template");
+        }
     }
 }

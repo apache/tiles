@@ -148,6 +148,34 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         ListAttribute.class.getName();
 
     /**
+     * Digester rule to manage definition filling.
+     *
+     * @since 2.1.2
+     */
+    public static class FillDefinitionRule extends Rule {
+
+        /** {@inheritDoc} */
+        @Override
+        public void begin(String namespace, String name, Attributes attributes)
+                throws Exception {
+            Definition definition = (Definition) digester.peek();
+            definition.setName(attributes.getValue("name"));
+            definition.setPreparer(attributes.getValue("preparer"));
+            definition.setExtends(attributes.getValue("extends"));
+
+            String template = attributes.getValue("template");
+            Attribute attribute = Attribute.createTemplateAttribute(template);
+            attribute.setExpression(attributes.getValue("templateExpression"));
+            attribute.setRole(attributes.getValue("role"));
+            String templateType = attributes.getValue("templateType");
+            if (templateType != null) {
+                attribute.setRenderer(templateType);
+            }
+            definition.setTemplateAttribute(attribute);
+        }
+    }
+
+    /**
      * Digester rule to manage attribute filling.
      *
      * @since 2.1.0
@@ -347,16 +375,16 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     private void initDigesterForTilesDefinitionsSyntax(Digester digester) {
         // syntax rules
         digester.addObjectCreate(DEFINITION_TAG, DEFINITION_HANDLER_CLASS);
-        digester.addSetProperties(DEFINITION_TAG);
+        digester.addRule(DEFINITION_TAG, new FillDefinitionRule());
         digester.addSetNext(DEFINITION_TAG, "addDefinition", DEFINITION_HANDLER_CLASS);
 
         // nested definition rules
         digester.addObjectCreate(PUT_DEFINITION_TAG, DEFINITION_HANDLER_CLASS);
-        digester.addSetProperties(PUT_DEFINITION_TAG);
+        digester.addRule(PUT_DEFINITION_TAG, new FillDefinitionRule());
         digester.addSetRoot(PUT_DEFINITION_TAG, "addDefinition");
         digester.addRule(PUT_DEFINITION_TAG, new AddNestedDefinitionRule());
         digester.addObjectCreate(ADD_DEFINITION_TAG, DEFINITION_HANDLER_CLASS);
-        digester.addSetProperties(ADD_DEFINITION_TAG);
+        digester.addRule(ADD_DEFINITION_TAG, new FillDefinitionRule());
         digester.addSetRoot(ADD_DEFINITION_TAG, "addDefinition");
         digester.addRule(ADD_DEFINITION_TAG, new AddNestedDefinitionRule());
 

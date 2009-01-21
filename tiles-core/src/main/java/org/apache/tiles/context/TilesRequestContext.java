@@ -21,6 +21,9 @@
 package org.apache.tiles.context;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
@@ -92,6 +95,34 @@ public interface TilesRequestContext {
     void include(String path) throws IOException;
 
     /**
+     * Returns an output stream to be used to write directly in the response.
+     *
+     * @return The output stream that writes in the response.
+     * @throws IOException If something goes wrong when getting the output stream.
+     * @since 2.1.2
+     */
+    OutputStream getOutputStream() throws IOException;
+
+    /**
+     * Returns a writer to be used to write directly in the response.
+     *
+     * @return The writer that writes in the response.
+     * @throws IOException If something goes wrong when getting the writer.
+     * @since 2.1.2
+     */
+    Writer getWriter() throws IOException;
+
+    /**
+     * Returns a print writer to be used to write directly in the response.
+     *
+     * @return The print writer that writes in the response.
+     * @throws IOException If something goes wrong when getting the print
+     * writer.
+     * @since 2.1.2
+     */
+    PrintWriter getPrintWriter() throws IOException;
+
+    /**
      * Return an immutable Map that maps request parameter names to the first
      * (or only) value (as a String).
      *
@@ -125,16 +156,28 @@ public interface TilesRequestContext {
     boolean isUserInRole(String role);
 
     /**
+     * Returns the original request objects used to create this request.
+     *
+     * @return The request objects.
+     * @since 2.1.2
+     */
+    Object[] getRequestObjects();
+
+    /**
      * Get the underlying request.
      *
      * @return The current request object.
+     * @deprecated Use {@link #getRequestObjects()}.
      */
+    @Deprecated
     Object getRequest();
 
     /**
      * Get the underlying response.
      *
      * @return The current request object.
+     * @deprecated Use {@link #getRequestObjects()}.
      */
+    @Deprecated
     Object getResponse();
 }

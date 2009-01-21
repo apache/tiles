@@ -231,7 +231,7 @@ public class InsertAttributeTag extends RenderTag {
      * definition files.
      */
     protected void render(Attribute attr) throws IOException {
-        container.render(attr, pageContext.getOut(), pageContext);
+        container.render(attr, pageContext);
     }
 
     /**

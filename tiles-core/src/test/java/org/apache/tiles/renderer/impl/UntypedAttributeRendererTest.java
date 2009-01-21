@@ -54,7 +54,7 @@ public class UntypedAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}
+     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}
      * writing a Definition.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -71,6 +71,8 @@ public class UntypedAttributeRendererTest extends TestCase {
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
                 .andReturn(requestContext);
+        Object[] requestObjects = new Object[0];
+        EasyMock.expect(requestContext.getRequestObjects()).andReturn(requestObjects);
         EasyMock.expect(container.isValidDefinition("my.definition"))
                 .andReturn(Boolean.TRUE);
         container.render("my.definition");
@@ -79,13 +81,13 @@ public class UntypedAttributeRendererTest extends TestCase {
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
-        renderer.render(attribute, writer);
+        renderer.render(attribute, requestContext);
         writer.close();
     }
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}
+     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}
      * writing a string.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -100,22 +102,25 @@ public class UntypedAttributeRendererTest extends TestCase {
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
+        Object[] requestObjects = new Object[0];
+        EasyMock.expect(requestContext.getRequestObjects()).andReturn(requestObjects);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
                 .andReturn(requestContext);
         EasyMock.expect(container.isValidDefinition("my.definition"))
                 .andReturn(Boolean.TRUE);
+        EasyMock.expect(requestContext.getWriter()).andReturn(writer);
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
-        renderer.render(attribute, writer);
+        renderer.render(attribute, requestContext);
         writer.close();
         assertEquals("Not written 'Result'", "Result", writer.toString());
     }
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}
+     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}
      * writing a template.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -132,6 +137,8 @@ public class UntypedAttributeRendererTest extends TestCase {
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
                 .andReturn(requestContext);
+        Object[] requestObjects = new Object[0];
+        EasyMock.expect(requestContext.getRequestObjects()).andReturn(requestObjects);
         requestContext.dispatch("/myTemplate.jsp");
         EasyMock.expect(container.isValidDefinition("my.definition"))
                 .andReturn(Boolean.TRUE);
@@ -139,7 +146,7 @@ public class UntypedAttributeRendererTest extends TestCase {
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
-        renderer.render(attribute, writer);
+        renderer.render(attribute, requestContext);
         writer.close();
     }
 }

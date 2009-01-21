@@ -21,7 +21,6 @@
 package org.apache.tiles.test.renderer;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
@@ -37,7 +36,7 @@ public class ReverseStringAttributeRenderer extends StringAttributeRenderer {
     /** {@inheritDoc} */
     @Override
     public void write(Object value, Attribute attribute,
-            Writer writer, TilesRequestContext request, Object... requestItems)
+            TilesRequestContext request)
             throws IOException {
         String original = attribute.getValue().toString();
         char[] array = original.toCharArray();
@@ -45,6 +44,6 @@ public class ReverseStringAttributeRenderer extends StringAttributeRenderer {
         for (int i = 0; i < array.length; i++) {
             newArray[array.length - i - 1] = array[i];
         }
-        writer.write(String.valueOf(newArray));
+        request.getWriter().write(String.valueOf(newArray));
     }
 }

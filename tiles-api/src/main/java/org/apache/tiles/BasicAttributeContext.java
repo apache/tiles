@@ -39,26 +39,11 @@ import java.util.Set;
 public class BasicAttributeContext implements AttributeContext, Serializable {
 
     /**
-     * Template path.
-     *
-     * @since 2.1.0
-     */
-    protected String template = null;
-
-    /**
-     * Template expression to evaluate. If {@link #template} is not
-     * <code>null</code> it is ignored.
+     * The template attribute, to render a template.
      *
      * @since 2.1.2
      */
-    protected String templateExpression = null;
-
-    /**
-     * The roles that can render this definition.
-     *
-     * @since 2.1.0
-     */
-    protected Set<String> roles = null;
+    protected Attribute templateAttribute;
 
     /**
      * Associated ViewPreparer URL or classname, if defined.
@@ -111,11 +96,9 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         if (context instanceof BasicAttributeContext) {
             copyBasicAttributeContext((BasicAttributeContext) context);
         } else {
-            this.template = context.getTemplate();
-            this.templateExpression = context.getTemplateExpression();
-            Set<String> roles = context.getRoles();
-            if (roles != null && !roles.isEmpty()) {
-                this.roles = new HashSet<String>(roles);
+            Attribute parentTemplateAttribute = context.getTemplateAttribute();
+            if (parentTemplateAttribute != null) {
+                this.templateAttribute = new Attribute(parentTemplateAttribute);
             }
             this.preparer = context.getPreparer();
             this.attributes = new HashMap<String, Attribute>();
@@ -137,76 +120,13 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     }
 
     /** {@inheritDoc} */
-    public String getTemplate() {
-        return template;
+    public Attribute getTemplateAttribute() {
+        return templateAttribute;
     }
 
     /** {@inheritDoc} */
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
-    /**
-     * Returns the template expression to evaluate. If {@link #getTemplate()} is
-     * not <code>null</code> it is ignored.
-     *
-     * @return The template expression.
-     */
-    public String getTemplateExpression() {
-        return templateExpression;
-    }
-
-    /**
-     * Sets the template expression to evaluate. If {@link #getTemplate()} is
-     * not <code>null</code> it is ignored.
-     *
-     * @param templateExpression The template expression.
-     */
-    public void setTemplateExpression(String templateExpression) {
-        this.templateExpression = templateExpression;
-    }
-
-    /** {@inheritDoc} */
-    public String getRole() {
-        String retValue = null;
-
-        if (roles != null && !roles.isEmpty()) {
-            StringBuilder builder = new StringBuilder();
-            Iterator<String> roleIt = roles.iterator();
-            if (roleIt.hasNext()) {
-                builder.append(roleIt.next());
-                while (roleIt.hasNext()) {
-                    builder.append(",");
-                    builder.append(roleIt.next());
-                }
-                retValue = builder.toString();
-            }
-        }
-
-        return retValue;
-    }
-
-    /** {@inheritDoc} */
-    public Set<String> getRoles() {
-        return roles;
-    }
-
-    /** {@inheritDoc} */
-    public void setRole(String role) {
-        if (role != null && role.trim().length() > 0) {
-            String[] rolesStrings = role.split("\\s*,\\s*");
-            roles = new HashSet<String>();
-            for (int i = 0; i < rolesStrings.length; i++) {
-                roles.add(rolesStrings[i]);
-            }
-        } else {
-            roles = null;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
+    public void setTemplateAttribute(Attribute templateAttribute) {
+        this.templateAttribute = templateAttribute;
     }
 
     /** {@inheritDoc} */
@@ -238,17 +158,8 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             inherit((BasicAttributeContext) parent);
         } else {
             // Inheriting template, roles and preparer.
-            if (template == null) {
-                template = parent.getTemplate();
-            }
-            if (templateExpression == null) {
-                templateExpression = parent.getTemplateExpression();
-            }
-            Set<String> parentRoles = parent.getRoles();
-            if ((roles == null || roles.isEmpty()) && parentRoles != null
-                    && !parentRoles.isEmpty()) {
-                roles = new HashSet<String>(parentRoles);
-            }
+            Attribute parentTemplateAttribute = parent.getTemplateAttribute();
+            inheritParentTemplateAttribute(parentTemplateAttribute);
             if (preparer == null) {
                 preparer = parent.getPreparer();
             }
@@ -294,16 +205,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      */
     public void inherit(BasicAttributeContext parent) {
         // Set template, roles and preparer if not set.
-        if (template == null) {
-            template = parent.template;
-        }
-        if (templateExpression == null) {
-            templateExpression = parent.templateExpression;
-        }
-        if ((roles == null || roles.isEmpty()) && parent.roles != null
-                && !parent.roles.isEmpty()) {
-            roles = new HashSet<String>(parent.roles);
-        }
+        inheritParentTemplateAttribute(parent.getTemplateAttribute());
         if (preparer == null) {
             preparer = parent.preparer;
         }
@@ -469,12 +371,26 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
 
     /** {@inheritDoc} */
     public void clear() {
-        template = null;
-        templateExpression = null;
+        templateAttribute = null;
         preparer = null;
-        roles = null;
         attributes.clear();
         cascadedAttributes.clear();
+    }
+
+    /**
+     * Inherits the parent template attribute.
+     *
+     * @param parentTemplateAttribute The parent template attribute.
+     */
+    private void inheritParentTemplateAttribute(
+            Attribute parentTemplateAttribute) {
+        if (parentTemplateAttribute != null) {
+            if (templateAttribute == null) {
+                templateAttribute = new Attribute(parentTemplateAttribute);
+            } else {
+                templateAttribute.inherit(parentTemplateAttribute);
+            }
+        }
     }
 
     /**
@@ -483,11 +399,9 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * @param context The context to copy.
      */
     private void copyBasicAttributeContext(BasicAttributeContext context) {
-        template = context.template;
-        templateExpression = context.templateExpression;
-        Set<String> roles = context.roles;
-        if (roles != null && !roles.isEmpty()) {
-            this.roles = new HashSet<String>(roles);
+        Attribute parentTemplateAttribute = context.getTemplateAttribute();
+        if (parentTemplateAttribute != null) {
+            this.templateAttribute = new Attribute(parentTemplateAttribute);
         }
         preparer = context.preparer;
         if (context.attributes != null && !context.attributes.isEmpty()) {

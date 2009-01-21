@@ -23,6 +23,9 @@ package org.apache.tiles.context;
 import java.util.Map;
 import java.util.Locale;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 
 import org.apache.tiles.TilesApplicationContext;
 
@@ -95,6 +98,21 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
     }
 
     /** {@inheritDoc} */
+    public OutputStream getOutputStream() throws IOException {
+        return context.getOutputStream();
+    }
+
+    /** {@inheritDoc} */
+    public Writer getWriter() throws IOException {
+        return context.getWriter();
+    }
+
+    /** {@inheritDoc} */
+    public PrintWriter getPrintWriter() throws IOException {
+        return context.getPrintWriter();
+    }
+
+    /** {@inheritDoc} */
     public Map<String, String> getParam() {
         return context.getParam();
     }
@@ -114,13 +132,19 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
         return context.isUserInRole(role);
     }
 
+    /** {@inheritDoc} */
+    public Object[] getRequestObjects() {
+        return context.getRequestObjects();
+    }
 
     /** {@inheritDoc} */
+    @Deprecated
     public Object getResponse() {
         return context.getResponse();
     }
 
     /** {@inheritDoc} */
+    @Deprecated
     public Object getRequest() {
         return context.getRequest();
     }

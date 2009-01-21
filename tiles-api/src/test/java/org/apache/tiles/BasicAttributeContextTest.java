@@ -93,20 +93,21 @@ public class BasicAttributeContextTest extends TestCase {
                 new Attribute("value3")).anyTimes();
         EasyMock.expect(toCopy.getCascadedAttribute("cascaded2")).andReturn(
                 new Attribute("value4")).anyTimes();
-        EasyMock.expect(toCopy.getTemplate()).andReturn("/template.jsp");
-        EasyMock.expect(toCopy.getTemplateExpression()).andReturn("expression");
+        Attribute templateAttribute = new Attribute("/template.jsp",
+                "expression", "role1,role2", "template");
+        EasyMock.expect(toCopy.getTemplateAttribute()).andReturn(templateAttribute);
         Set<String> roles = new HashSet<String>();
         roles.add("role1");
         roles.add("role2");
-        EasyMock.expect(toCopy.getRoles()).andReturn(roles);
         EasyMock.expect(toCopy.getPreparer()).andReturn("my.preparer.Preparer");
         EasyMock.replay(toCopy);
         BasicAttributeContext context = new BasicAttributeContext(toCopy);
         assertEquals("The template has not been set correctly",
-                "/template.jsp", context.getTemplate());
+                "/template.jsp", context.getTemplateAttribute().getValue());
         assertEquals("The template expression has not been set correctly",
-                "expression", context.getTemplateExpression());
-        assertEquals("The roles are not the same", roles, context.getRoles());
+                "expression", context.getTemplateAttribute().getExpression());
+        assertEquals("The roles are not the same", roles, context
+                .getTemplateAttribute().getRoles());
         assertEquals("The preparer has not been set correctly",
                 "my.preparer.Preparer", context.getPreparer());
         Attribute attribute = context.getLocalAttribute("local1");
@@ -135,16 +136,19 @@ public class BasicAttributeContextTest extends TestCase {
         AttributeContext toCopy = new BasicAttributeContext();
         toCopy.putAttribute("name1", new Attribute("value1"), false);
         toCopy.putAttribute("name2", new Attribute("value2"), true);
-        toCopy.setTemplate("/template.jsp");
+        Attribute templateAttribute = Attribute
+                .createTemplateAttribute("/template.jsp");
         Set<String> roles = new HashSet<String>();
         roles.add("role1");
         roles.add("role2");
-        toCopy.setRoles(roles);
+        templateAttribute.setRoles(roles);
+        toCopy.setTemplateAttribute(templateAttribute);
         toCopy.setPreparer("my.preparer.Preparer");
         AttributeContext context = new BasicAttributeContext(toCopy);
         assertEquals("The template has not been set correctly",
-                "/template.jsp", context.getTemplate());
-        assertEquals("The roles are not the same", roles, context.getRoles());
+                "/template.jsp", context.getTemplateAttribute().getValue());
+        assertEquals("The roles are not the same", roles, context
+                .getTemplateAttribute().getRoles());
         assertEquals("The preparer has not been set correctly",
                 "my.preparer.Preparer", context.getPreparer());
         Attribute attribute = context.getLocalAttribute("name1");

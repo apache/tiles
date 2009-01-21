@@ -164,6 +164,8 @@ public class TestDigesterDefinitionsReader extends TestCase {
 
         def = definitions.get("test.nesting.definitions");
         assertNotNull("Couldn't find test.nesting.definitions tile.", def);
+        assertEquals("/layout.jsp", def.getTemplateAttribute().getValue());
+        assertEquals("template", def.getTemplateAttribute().getRenderer());
         attribute = def.getAttribute("body");
         assertNotNull("Couldn't Find body attribute.", attribute);
         assertEquals("Attribute not of 'definition' type", "definition",
@@ -206,6 +208,16 @@ public class TestDigesterDefinitionsReader extends TestCase {
         listAttribute = (ListAttribute) def.getAttribute("list");
         assertEquals("This definition inherits its list attribute",
                 false, listAttribute.isInherit());
+
+        defName = "test.new.attributes";
+        def = definitions.get(defName);
+        assertNotNull("Couldn't find " + defName + " tile.", def);
+        Attribute templateAttribute = def.getTemplateAttribute();
+        assertEquals(templateAttribute.getExpression(), "${my.expression}");
+        assertEquals("mytype", templateAttribute.getRenderer());
+        attribute = def.getAttribute("body");
+        assertNotNull("Couldn't Find body attribute.", attribute);
+        assertEquals("${my.attribute.expression}", attribute.getExpression());
     }
 
     /**

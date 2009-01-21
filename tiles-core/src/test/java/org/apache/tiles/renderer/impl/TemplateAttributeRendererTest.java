@@ -53,7 +53,7 @@ public class TemplateAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}.
+     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
@@ -72,7 +72,7 @@ public class TemplateAttributeRendererTest extends TestCase {
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
-        renderer.render(attribute, writer);
+        renderer.render(attribute, requestContext);
         writer.close();
     }
 }

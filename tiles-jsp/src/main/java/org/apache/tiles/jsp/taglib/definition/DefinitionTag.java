@@ -186,9 +186,11 @@ public class DefinitionTag extends TilesTag implements PutAttributeTagParent,
     public int doStartTag() throws TilesJspException {
         definition = new Definition();
         definition.setName(name);
-        definition.setTemplate(template);
+        Attribute templateAttribute = Attribute
+                .createTemplateAttribute(template);
+        templateAttribute.setRole(role);
+        definition.setTemplateAttribute(templateAttribute);
         definition.setExtends(extend);
-        definition.setRole(role);
         definition.setPreparer(preparer);
 
         TilesContainer c = JspUtil.getCurrentContainer(pageContext);

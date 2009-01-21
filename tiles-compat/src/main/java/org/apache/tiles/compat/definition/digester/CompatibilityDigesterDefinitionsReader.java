@@ -68,7 +68,7 @@ public class CompatibilityDigesterDefinitionsReader extends
 
         // syntax rules
         digester.addObjectCreate(definitionTag, DEFINITION_HANDLER_CLASS);
-        digester.addSetProperties(definitionTag);
+        digester.addRule(definitionTag, new FillDefinitionRule());
         digester.addSetNext(definitionTag, "addDefinition",
                 DEFINITION_HANDLER_CLASS);
         // put / putAttribute rules
@@ -161,7 +161,7 @@ public class CompatibilityDigesterDefinitionsReader extends
 
         // component instance rules
         digester.addObjectCreate(instanceTag, DEFINITION_HANDLER_CLASS);
-        digester.addSetProperties(instanceTag);
+        digester.addRule(instanceTag, new FillDefinitionRule());
         digester
                 .addSetNext(instanceTag, "addDefinition", DEFINITION_HANDLER_CLASS);
         // put / putAttribute rules

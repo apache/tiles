@@ -21,6 +21,9 @@
 package org.apache.tiles.portlet.context;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
@@ -82,6 +85,11 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
      */
     protected PortletResponse response = null;
 
+
+    /**
+     * The request objects, lazily initialized.
+     */
+    private Object[] requestObjects;
 
     /**
      * <p>The lazily instantiated <code>Map</code> of session scope
@@ -284,6 +292,31 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
                         e);
             }
         }
+    }
+
+    /** {@inheritDoc} */
+    public OutputStream getOutputStream() throws IOException {
+        return ((RenderResponse) response).getPortletOutputStream();
+    }
+
+    /** {@inheritDoc} */
+    public PrintWriter getPrintWriter() throws IOException {
+        return ((RenderResponse) response).getWriter();
+    }
+
+    /** {@inheritDoc} */
+    public Writer getWriter() throws IOException {
+        return ((RenderResponse) response).getWriter();
+    }
+
+    /** {@inheritDoc} */
+    public Object[] getRequestObjects() {
+        if (requestObjects == null) {
+            requestObjects = new Object[2];
+            requestObjects[0] = request;
+            requestObjects[1] = response;
+        }
+        return requestObjects;
     }
 
     /** {@inheritDoc} */

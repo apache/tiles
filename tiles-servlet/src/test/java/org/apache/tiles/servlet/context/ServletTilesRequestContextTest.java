@@ -22,11 +22,15 @@
 package org.apache.tiles.servlet.context;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import junit.framework.TestCase;
 
 import org.apache.shale.test.mock.MockHttpServletRequest;
 import org.apache.shale.test.mock.MockHttpServletResponse;
@@ -34,9 +38,7 @@ import org.apache.shale.test.mock.MockHttpSession;
 import org.apache.shale.test.mock.MockServletContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
-import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
+import org.easymock.classextension.EasyMock;
 
 /**
  * @version $Rev$ $Date$
@@ -200,6 +202,69 @@ public class ServletTilesRequestContextTest extends TestCase {
                 "initParameterValue1".equals(map.get("initParameter1")));
         doTestReadMap(map, String.class, String.class,
                 "init parameters scope map");
+    }
+
+    /**
+     * Tests {@link ServletTilesRequestContext#getOutputStream()}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testGetOutputStream() throws IOException {
+        HttpServletRequest request = EasyMock
+                .createMock(HttpServletRequest.class);
+        HttpServletResponse response = EasyMock
+                .createMock(HttpServletResponse.class);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        ServletOutputStream os = EasyMock.createMock(ServletOutputStream.class);
+        EasyMock.expect(response.getOutputStream()).andReturn(os);
+        EasyMock.replay(request, response, applicationContext, os);
+        ServletTilesRequestContext requestContext = new ServletTilesRequestContext(
+                applicationContext, request, response);
+        assertEquals(os, requestContext.getOutputStream());
+        EasyMock.verify(request, response, applicationContext, os);
+    }
+
+    /**
+     * Tests {@link ServletTilesRequestContext#getWriter()}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testGetWriter() throws IOException {
+        HttpServletRequest request = EasyMock
+                .createMock(HttpServletRequest.class);
+        HttpServletResponse response = EasyMock
+                .createMock(HttpServletResponse.class);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        PrintWriter writer = EasyMock.createMock(PrintWriter.class);
+        EasyMock.expect(response.getWriter()).andReturn(writer);
+        EasyMock.replay(request, response, applicationContext, writer);
+        ServletTilesRequestContext requestContext = new ServletTilesRequestContext(
+                applicationContext, request, response);
+        assertEquals(writer, requestContext.getWriter());
+        EasyMock.verify(request, response, applicationContext, writer);
+    }
+
+    /**
+     * Tests {@link ServletTilesRequestContext#getPrintWriter()}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testGetPrintWriter() throws IOException {
+        HttpServletRequest request = EasyMock
+                .createMock(HttpServletRequest.class);
+        HttpServletResponse response = EasyMock
+                .createMock(HttpServletResponse.class);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        PrintWriter writer = EasyMock.createMock(PrintWriter.class);
+        EasyMock.expect(response.getWriter()).andReturn(writer);
+        EasyMock.replay(request, response, applicationContext, writer);
+        ServletTilesRequestContext requestContext = new ServletTilesRequestContext(
+                applicationContext, request, response);
+        assertEquals(writer, requestContext.getPrintWriter());
+        EasyMock.verify(request, response, applicationContext, writer);
     }
 
     /**

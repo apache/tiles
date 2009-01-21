@@ -200,7 +200,7 @@ public class LocaleDbDefinitionDAO extends JdbcDaoSupport implements
          */
         public DbDefinition(String name, String template,
                 Map<String, Attribute> attributes) {
-            super(name, template, attributes);
+            super(name, Attribute.createTemplateAttribute(template), attributes);
         }
 
         /**
@@ -233,7 +233,8 @@ public class LocaleDbDefinitionDAO extends JdbcDaoSupport implements
             DbDefinition definition = new DbDefinition();
             definition.setId(numberToLong((Number) rs.getObject("ID")));
             definition.setName(rs.getString("NAME"));
-            definition.setTemplate(rs.getString("TEMPLATE"));
+            definition.setTemplateAttribute(Attribute
+                    .createTemplateAttribute(rs.getString("TEMPLATE")));
             definition.setPreparer(rs.getString("PREPARER"));
             definition.setExtends(rs.getString("PARENT_NAME"));
             return definition;

@@ -75,4 +75,9 @@
           <add-attribute value="second" />
       </put-list-attribute>
   </definition>
+
+  <definition name="test.new.attributes" templateExpression="${my.expression}"
+          templateType="mytype" >
+      <put-attribute name="body" expression="${my.attribute.expression}" />
+  </definition>
 </tiles-definitions>

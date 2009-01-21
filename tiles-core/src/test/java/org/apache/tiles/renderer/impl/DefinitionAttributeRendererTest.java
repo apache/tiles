@@ -54,7 +54,7 @@ public class DefinitionAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}.
+     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
@@ -68,6 +68,8 @@ public class DefinitionAttributeRendererTest extends TestCase {
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
+        Object[] requestObjects = new Object[0];
+        EasyMock.expect(requestContext.getRequestObjects()).andReturn(requestObjects);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
                 .andReturn(requestContext);
         container.render("my.definition");
@@ -76,7 +78,7 @@ public class DefinitionAttributeRendererTest extends TestCase {
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
-        renderer.render(attribute, writer);
+        renderer.render(attribute, requestContext);
         writer.close();
     }
 }

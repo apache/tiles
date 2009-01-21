@@ -36,6 +36,11 @@ import java.util.Set;
 public class Attribute implements Serializable {
 
     /**
+     * The name of the template renderer.
+     */
+    private static final String TEMPLATE_RENDERER = "template";
+
+    /**
      * Attribute types.
      *
      * @deprecated Use {@link Attribute#setRenderer(String)} and
@@ -171,6 +176,7 @@ public class Attribute implements Serializable {
         this.name = attribute.name;
         this.roles = attribute.roles;
         this.value = attribute.getValue();
+        this.expression = attribute.expression;
         this.renderer = attribute.renderer;
     }
 
@@ -245,6 +251,36 @@ public class Attribute implements Serializable {
         this.value = value;
         setType(type);
         setRole(role);
+    }
+
+    /**
+     * Creates a template attribute, starting from the name of the template.
+     *
+     * @param template The template that will be rendered.
+     * @return The template attribute.
+     * @since 2.1.2
+     */
+    public static Attribute createTemplateAttribute(String template) {
+        Attribute attribute = new Attribute();
+        attribute.setValue(template);
+        attribute.setRenderer(TEMPLATE_RENDERER);
+        return attribute;
+    }
+
+    /**
+     * Creates a template attribute, starting from the expression to evaluate to
+     * obtain the template.
+     *
+     * @param templateExpression The expression to evaluate.
+     * @return The template attribute.
+     * @since 2.1.2
+     */
+    public static Attribute createTemplateAttributeWithExpression(
+            String templateExpression) {
+        Attribute attribute = new Attribute();
+        attribute.setExpression(templateExpression);
+        attribute.setRenderer(TEMPLATE_RENDERER);
+        return attribute;
     }
 
     /**
@@ -431,6 +467,28 @@ public class Attribute implements Serializable {
     public void setBody(String body) {
         if (body != null && body.length() != 0) {
             setValue(body);
+        }
+    }
+
+    /**
+     * Inherits an attribute, i.e. overwrites null properties with the ones
+     * provided by the attribute.
+     *
+     * @param attribute The attribute to inherit.
+     * @since 2.1.2
+     */
+    public void inherit(Attribute attribute) {
+        if (value == null) {
+            value = attribute.getValue();
+        }
+        if (expression == null) {
+            expression = attribute.getExpression();
+        }
+        if (roles == null || roles.isEmpty()) {
+            roles = attribute.getRoles();
+        }
+        if (renderer == null) {
+            renderer = attribute.getRenderer();
         }
     }
 }

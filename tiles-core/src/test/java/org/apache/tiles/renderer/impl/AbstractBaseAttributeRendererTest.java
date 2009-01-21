@@ -22,7 +22,6 @@ package org.apache.tiles.renderer.impl;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -80,7 +79,7 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link AbstractBaseAttributeRenderer#render(Attribute, Writer, Object...)}.
+     * {@link AbstractBaseAttributeRenderer#render(Attribute, TilesRequestContext)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
@@ -95,10 +94,11 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
                 .andReturn(requestContext);
+        EasyMock.expect(requestContext.getWriter()).andReturn(writer);
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
-        renderer.render(attribute, writer);
+        renderer.render(attribute, requestContext);
         writer.close();
         assertEquals("Wrongly written", "wrote", writer.toString());
     }
@@ -160,9 +160,9 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
         /** {@inheritDoc} */
         @Override
         public void write(Object value, Attribute attribute,
-                Writer writer, TilesRequestContext request, Object... requestItems)
+                TilesRequestContext request)
                 throws IOException {
-            writer.write("wrote");
+            request.getWriter().write("wrote");
         }
     }
 }

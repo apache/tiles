@@ -67,12 +67,26 @@ public class Definition extends BasicAttributeContext {
      * @param name The name of the definition.
      * @param template The template of the definition.
      * @param attributes The attribute map of the definition.
+     * @deprecated Use {@link #Definition(String, Attribute, Map)}.
      */
     public Definition(String name, String template,
                                Map<String, Attribute> attributes) {
+        this(name, Attribute.createTemplateAttribute(template), attributes);
+    }
+
+    /**
+     * Constructor.
+     * @param name The name of the definition.
+     * @param templateAttribute The template attribute of the definition.
+     * @param attributes The attribute map of the definition.
+     *
+     * @since 2.1.2
+     */
+    public Definition(String name, Attribute templateAttribute,
+                               Map<String, Attribute> attributes) {
         super(attributes);
         this.name = name;
-        this.template = template;
+        this.templateAttribute = templateAttribute;
     }
 
     /**
@@ -91,6 +105,65 @@ public class Definition extends BasicAttributeContext {
      */
     public void setName(String aName) {
         name = aName;
+    }
+
+    /**
+     * Access method for the template property.
+     *
+     * @return the current value of the template property
+     * @deprecated Use {@link #getTemplateAttribute()}.
+     */
+    @Deprecated
+    public String getTemplate() {
+        if (templateAttribute == null) {
+            templateAttribute = Attribute.createTemplateAttribute(null);
+        }
+        return (String) templateAttribute.getValue();
+    }
+
+    /**
+     * Sets the value of the template property.
+     *
+     * @param template the new value of the path property
+     * @deprecated Use {@link #getTemplateAttribute()}.
+     */
+    @Deprecated
+    public void setTemplate(String template) {
+        if (templateAttribute == null) {
+            templateAttribute = Attribute.createTemplateAttribute(template);
+        } else {
+            templateAttribute.setValue(template);
+        }
+    }
+
+    /**
+     * Access method for the role property.
+     *
+     * @return the current value of the role property
+     * @deprecated Use {@link #getTemplateAttribute()}.
+     */
+    @Deprecated
+    public String getRole() {
+        if (templateAttribute == null) {
+            templateAttribute = Attribute.createTemplateAttribute(null);
+        }
+
+        return templateAttribute.getRole();
+    }
+
+    /**
+     * Sets the value of the role property.
+     *
+     * @param role the new value of the role property
+     * @deprecated Use {@link #getTemplateAttribute()}.
+     */
+    @Deprecated
+    public void setRole(String role) {
+        if (templateAttribute == null) {
+            templateAttribute = Attribute.createTemplateAttribute(null);
+        }
+
+        templateAttribute.setRole(role);
     }
 
     /**
@@ -225,9 +298,9 @@ public class Definition extends BasicAttributeContext {
         return "{name="
             + name
             + ", template="
-            + template
+            + templateAttribute.getValue()
             + ", role="
-            + getRoles()
+            + templateAttribute.getRoles()
             + ", preparerInstance="
             + preparer
             + ", attributes="

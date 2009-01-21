@@ -31,61 +31,23 @@ import java.util.Set;
  * @version $Rev$ $Date$
  */
 public interface AttributeContext {
-    /**
-     * Access method for the template property.
-     *
-     * @return the current value of the template property
-     * @since 2.1.0
-     */
-    String getTemplate();
 
     /**
-     * Returns the template expression to evaluate. If {@link #getTemplate()} is
-     * not <code>null</code> it is ignored.
+     * Returns the attribute that will be used to render a template.
      *
-     * @return The template expression.
+     * @return The template attribute.
+     * @since 2.1.2
      */
-    String getTemplateExpression();
+    Attribute getTemplateAttribute();
 
     /**
-     * Sets the value of the template property.
+     * Sets the template attribute, that will be used to render the template
+     * page.
      *
-     * @param template the new value of the path property
-     * @since 2.1.0
+     * @param templateAttribute The template attribute.
+     * @since 2.1.2
      */
-    void setTemplate(String template);
-
-    /**
-     * Access method for the role property.
-     *
-     * @return the current value of the role property
-     * @since 2.1.0
-     */
-    String getRole();
-
-    /**
-     * Returns the roles that can render this attribute.
-     *
-     * @return The enabled roles.
-     * @since 2.1.0
-     */
-    Set<String> getRoles();
-
-    /**
-     * Sets the value of the role property.
-     *
-     * @param role the new value of the role property
-     * @since 2.1.0
-     */
-    void setRole(String role);
-
-    /**
-     * Sets the roles that can render this attribute.
-     *
-     * @param roles The enabled roles.
-     * @since 2.1.0
-     */
-    void setRoles(Set<String> roles);
+    void setTemplateAttribute(Attribute templateAttribute);
 
     /**
      * Get associated preparer instance.

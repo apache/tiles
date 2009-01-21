@@ -68,7 +68,8 @@ public class TestDefinition extends TestCase {
     public void testPutAttribute() {
         Definition def = new Definition();
         def.setName("test1");
-        def.setTemplate("/page1.jsp");
+        def.setTemplateAttribute(Attribute
+                .createTemplateAttribute("/page1.jsp"));
         Attribute attr1 = new Attribute("test.definition.name", null,
                 null, "definition");
         def.putAttribute("attr1",  attr1);
@@ -111,35 +112,39 @@ public class TestDefinition extends TestCase {
 
         toCopy = new Definition();
         toCopy.setPreparer("ExtendedPreparer");
-        toCopy.setRole("extendedRole");
-        toCopy.setTemplate("extendedTemplate.jsp");
-        toCopy.setTemplateExpression("expression");
+        Attribute templateAttribute = new Attribute("extendedTemplate.jsp", "expression", "extendedRole", "template");
+        toCopy.setTemplateAttribute(templateAttribute);
         context = new Definition();
         context.inherit(toCopy);
         assertEquals("Preparer not inherited", "ExtendedPreparer", context
                 .getPreparer());
-        assertNotNull("Roles not inherited", context.getRoles());
-        assertEquals("Roles not inherited", context.getRoles().size(), 1);
-        assertTrue("Roles not inherited", context.getRoles().contains(
+        assertNotNull("Roles not inherited", context.getTemplateAttribute()
+                .getRoles());
+        assertEquals("Roles not inherited", context.getTemplateAttribute()
+                .getRoles().size(), 1);
+        assertTrue("Roles not inherited", context.getTemplateAttribute()
+                .getRoles().contains(
                 "extendedRole"));
         assertEquals("Template not inherited", "extendedTemplate.jsp", context
-                .getTemplate());
+                .getTemplateAttribute().getValue());
         assertEquals("Template expression not inherited", "expression", context
-                .getTemplateExpression());
+                .getTemplateAttribute().getExpression());
         context = new Definition();
         context.setPreparer("LocalPreparer");
-        context.setRole("localRole");
-        context.setTemplate("localTemplate.jsp");
-        context.setTemplateExpression("localExpression");
+        templateAttribute = new Attribute("localTemplate.jsp",
+                "localExpression", "localRole", "template");
+        context.setTemplateAttribute(templateAttribute);
         assertEquals("Preparer inherited", "LocalPreparer", context
                 .getPreparer());
-        assertNotNull("Roles not correct", context.getRoles());
-        assertEquals("Roles not correct", context.getRoles().size(), 1);
-        assertTrue("Roles inherited", context.getRoles().contains(
-                "localRole"));
+        assertNotNull("Roles not correct", context.getTemplateAttribute()
+                .getRoles());
+        assertEquals("Roles not correct", context.getTemplateAttribute()
+                .getRoles().size(), 1);
+        assertTrue("Roles inherited", context.getTemplateAttribute().getRoles()
+                .contains("localRole"));
         assertEquals("Template inherited", "localTemplate.jsp", context
-                .getTemplate());
+                .getTemplateAttribute().getValue());
         assertEquals("Template expression inherited", "localExpression",
-                context.getTemplateExpression());
+                context.getTemplateAttribute().getExpression());
     }
 }

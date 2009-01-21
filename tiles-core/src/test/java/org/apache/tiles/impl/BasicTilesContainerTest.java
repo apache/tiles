@@ -120,7 +120,7 @@ public class BasicTilesContainerTest extends TestCase {
 
         attribute.setValue(new Integer(SAMPLE_INT)); // A simple object
         try {
-            container.render(attribute, null, request);
+            container.render(attribute, request);
         } catch (TilesException e) {
             log.debug("Intercepted a TilesException, it is correct", e);
             exceptionFound = true;
@@ -138,11 +138,12 @@ public class BasicTilesContainerTest extends TestCase {
     public void testAttributeCredentials() throws IOException {
         TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
         EasyMock.expect(request.isUserInRole("myrole")).andReturn(Boolean.TRUE);
+        StringWriter writer = new StringWriter();
+        EasyMock.expect(request.getWriter()).andReturn(writer);
         EasyMock.replay(request);
         Attribute attribute = new Attribute((Object) "This is the value", "myrole");
         attribute.setRenderer("string");
-        StringWriter writer = new StringWriter();
-        container.render(attribute, writer, request);
+        container.render(attribute, request);
         writer.close();
         assertEquals("The attribute should have been rendered",
                 "This is the value", writer.toString());
@@ -151,7 +152,7 @@ public class BasicTilesContainerTest extends TestCase {
         EasyMock.expect(request.isUserInRole("myrole")).andReturn(Boolean.FALSE);
         EasyMock.replay(request);
         writer = new StringWriter();
-        container.render(attribute, writer, request);
+        container.render(attribute, request);
         writer.close();
         assertNotSame("The attribute should have not been rendered",
                 "This is the value", writer);

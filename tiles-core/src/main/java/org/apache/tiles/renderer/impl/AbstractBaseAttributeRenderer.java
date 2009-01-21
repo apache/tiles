@@ -21,7 +21,6 @@
 package org.apache.tiles.renderer.impl;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -90,10 +89,7 @@ public abstract class AbstractBaseAttributeRenderer implements
     }
 
     /** {@inheritDoc} */
-    public void render(Attribute attribute, Writer writer,
-            Object... requestItems) throws IOException {
-        TilesRequestContext request = getRequestContext(requestItems);
-
+    public void render(Attribute attribute, TilesRequestContext request) throws IOException {
         if (!isPermitted(request, attribute.getRoles())) {
             if (log.isDebugEnabled()) {
                 log.debug("Access to attribute denied.  User not in role '"
@@ -104,7 +100,7 @@ public abstract class AbstractBaseAttributeRenderer implements
 
         Object value = evaluator.evaluate(attribute, request);
 
-        write(value, attribute, writer, request, requestItems);
+        write(value, attribute, request);
     }
 
     /**
@@ -112,15 +108,12 @@ public abstract class AbstractBaseAttributeRenderer implements
      * will be authorized.
      * @param value The value of the attribute to be rendered.
      * @param attribute The attribute to render.
-     * @param writer The writer to use.
      * @param request The Tiles request object.
-     * @param requestItems The original request items.
-     *
      * @throws IOException If something goes wrong during rendition.
-     * @since 2.1.0
+     * @since 2.1.2
      */
     public abstract void write(Object value, Attribute attribute,
-            Writer writer, TilesRequestContext request, Object... requestItems)
+            TilesRequestContext request)
             throws IOException;
 
     /**

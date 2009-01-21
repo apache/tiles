@@ -53,7 +53,7 @@ public class StringAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, java.io.Writer, TilesRequestContext, Object...)}.
+     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
@@ -68,10 +68,11 @@ public class StringAttributeRendererTest extends TestCase {
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
                 .andReturn(requestContext);
+        EasyMock.expect(requestContext.getWriter()).andReturn(writer);
         EasyMock.replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
-        renderer.render(attribute, writer);
+        renderer.render(attribute, requestContext);
         writer.close();
         assertEquals("Not written 'Result'", "Result", writer.toString());
     }

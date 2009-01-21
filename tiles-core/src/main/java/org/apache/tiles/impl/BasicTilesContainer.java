@@ -43,10 +43,8 @@ import org.apache.tiles.renderer.RendererFactory;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -174,14 +172,6 @@ public class BasicTilesContainer implements TilesContainer {
     public void renderContext(Object... requestItems) {
         TilesRequestContext request = getRequestContext(requestItems);
         AttributeContext attributeContext = getAttributeContext(request);
-
-        if (!isPermitted(request, attributeContext.getRoles())) {
-            if (log.isDebugEnabled()) {
-                log.debug("Access to current attribute context denied. "
-                        + "User not in role '" + attributeContext.getRoles());
-            }
-            return;
-        }
 
         render(request, attributeContext);
     }
@@ -333,20 +323,18 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /** {@inheritDoc} */
+    @Deprecated
     public void render(Attribute attr, Writer writer, Object... requestItems)
         throws IOException {
-        if (attr == null) {
-            throw new CannotRenderException("Cannot render a null attribute");
-        }
+        render(attr, requestItems);
+    }
 
-        AttributeRenderer renderer = rendererFactory.getRenderer(attr
-                .getRenderer());
-        if (renderer == null) {
-            throw new CannotRenderException(
-                    "Cannot render an attribute with renderer name "
-                            + attr.getRenderer());
-        }
-        renderer.render(attr, writer, requestItems);
+    /** {@inheritDoc} */
+    public void render(Attribute attr, Object... requestItems)
+        throws IOException {
+        TilesRequestContext requestContext = getRequestContextFactory()
+                .createRequestContext(getApplicationContext(), requestItems);
+        render(attr, requestContext);
     }
 
     /** {@inheritDoc} */
@@ -639,15 +627,6 @@ public class BasicTilesContainer implements TilesContainer {
         BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
         subContext.inherit(definition);
 
-        if (!isPermitted(request, subContext.getRoles())) {
-            if (log.isDebugEnabled()) {
-                log.debug("Access to definition '" + definitionName
-                        + "' denied.  User not in role '"
-                        + definition.getRoles());
-            }
-            return;
-        }
-
         pushContext(subContext, request);
 
         try {
@@ -655,6 +634,29 @@ public class BasicTilesContainer implements TilesContainer {
         } finally {
             popContext(request);
         }
+    }
+
+    /**
+     * Renders an attribute.
+     *
+     * @param attr The attribute to render.
+     * @param requestContext The Tiles request context.
+     * @throws IOException If something goes wrong during rendering.
+     */
+    private void render(Attribute attr, TilesRequestContext requestContext)
+            throws IOException {
+        if (attr == null) {
+            throw new CannotRenderException("Cannot render a null attribute");
+        }
+
+        AttributeRenderer renderer = rendererFactory.getRenderer(attr
+                .getRenderer());
+        if (renderer == null) {
+            throw new CannotRenderException(
+                    "Cannot render an attribute with renderer name "
+                            + attr.getRenderer());
+        }
+        renderer.render(attr, requestContext);
     }
 
     /**
@@ -673,77 +675,10 @@ public class BasicTilesContainer implements TilesContainer {
                 prepare(request, attributeContext.getPreparer(), true);
             }
 
-            String dispatchPath = computeDispatchPath(request, attributeContext);
-
-            if (log.isDebugEnabled()) {
-                log.debug("Dispatching to definition path '"
-                        + attributeContext.getTemplate() + " '");
-            }
-            request.dispatch(dispatchPath);
+            render(attributeContext.getTemplateAttribute(), request);
         } catch (IOException e) {
             throw new CannotRenderException(e.getMessage(), e);
         }
-    }
-
-    /**
-     * Calculates the dispatch path, that will be the path it will be dispatched to.
-     *
-     * @param request The Tiles request.
-     * @param attributeContext The Tiles attribute context.
-     * @return The calculated dispatch path.
-     * @throws InvalidTemplateException If the template is not valid.
-     */
-    private String computeDispatchPath(TilesRequestContext request,
-            AttributeContext attributeContext) {
-        String dispatchPath = attributeContext.getTemplate();
-
-        if (dispatchPath != null) {
-            return dispatchPath;
-        }
-
-        String expression = attributeContext.getTemplateExpression();
-        if (expression != null) {
-            Object value = evaluator.evaluate(expression, request);
-
-            if (value != null) {
-                if (value instanceof String) {
-                    return (String) value;
-                } else {
-                    throw new InvalidTemplateException(
-                            "Cannot render a template that is not an object: "
-                                    + value.toString());
-                }
-            } else {
-                throw new InvalidTemplateException(
-                "Cannot render a null template");
-            }
-        } else {
-            throw new InvalidTemplateException(
-                    "No template or template expression has been specified");
-        }
-    }
-
-    /**
-     * Checks if the current user is in one of the comma-separated roles
-     * specified in the <code>role</code> parameter.
-     *
-     * @param request The request context.
-     * @param roles The list of roles.
-     * @return <code>true</code> if the current user is in one of those roles.
-     */
-    private boolean isPermitted(TilesRequestContext request, Set<String> roles) {
-        if (roles == null || roles.isEmpty()) {
-            return true;
-        }
-
-        boolean retValue = false;
-
-        for (Iterator<String> roleIt = roles.iterator(); roleIt.hasNext()
-                && !retValue;) {
-            retValue = request.isUserInRole(roleIt.next());
-        }
-
-        return retValue;
     }
 
     /**

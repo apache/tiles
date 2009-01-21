@@ -160,7 +160,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         Definition definition = factory.getDefinition("rewrite.test", context);
         assertNotNull("rewrite.test definition not found.", definition);
         assertEquals("Incorrect initial template value", "/test.jsp",
-                definition.getTemplate());
+                definition.getTemplateAttribute().getValue());
 
         Refreshable reloadable = (Refreshable) factory;
         assertEquals("Factory should be fresh.", false,
@@ -193,6 +193,6 @@ public class TestReloadableDefinitionsFactory extends TestCase {
         definition = factory.getDefinition("rewrite.test", context);
         assertNotNull("rewrite.test definition not found.", definition);
         assertEquals("Incorrect initial template value", "/newtest.jsp",
-                definition.getTemplate());
+                definition.getTemplateAttribute().getValue());
     }
 }

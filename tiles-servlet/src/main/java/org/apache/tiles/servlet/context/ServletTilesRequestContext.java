@@ -21,6 +21,9 @@
 package org.apache.tiles.servlet.context;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
@@ -51,6 +54,21 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
      * The response object to use.
      */
     private HttpServletResponse response;
+
+    /**
+     * The request objects, lazily initialized.
+     */
+    private Object[] requestObjects;
+
+    /**
+     * The response output stream, lazily initialized.
+     */
+    private OutputStream outputStream;
+
+    /**
+     * The response writer, lazily initialized.
+     */
+    private PrintWriter writer;
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -247,8 +265,39 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
     }
 
     /** {@inheritDoc} */
+    public OutputStream getOutputStream() throws IOException {
+        if (outputStream == null) {
+            outputStream = response.getOutputStream();
+        }
+        return outputStream;
+    }
+
+    /** {@inheritDoc} */
+    public Writer getWriter() throws IOException {
+        return getPrintWriter();
+    }
+
+    /** {@inheritDoc} */
+    public PrintWriter getPrintWriter() throws IOException {
+        if (writer == null) {
+            writer = response.getWriter();
+        }
+        return writer;
+    }
+
+    /** {@inheritDoc} */
     public Locale getRequestLocale() {
         return request.getLocale();
+    }
+
+    /** {@inheritDoc} */
+    public Object[] getRequestObjects() {
+        if (requestObjects == null) {
+            requestObjects = new Object[2];
+            requestObjects[0] = request;
+            requestObjects[1] = response;
+        }
+        return requestObjects;
     }
 
     /** {@inheritDoc} */

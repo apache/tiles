@@ -22,6 +22,9 @@
 package org.apache.tiles.definition;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
@@ -72,6 +75,21 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     }
 
     /** {@inheritDoc} */
+    public OutputStream getOutputStream() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public Writer getWriter() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public PrintWriter getPrintWriter() throws IOException {
+        return null;
+    }
+
+    /** {@inheritDoc} */
     public Map<String, String[]> getHeaderValues() {
         return null;
     }
@@ -108,6 +126,11 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     /** {@inheritDoc} */
     public boolean isUserInRole(String role) {
         return false;
+    }
+
+    /** {@inheritDoc} */
+    public Object[] getRequestObjects() {
+        return null;
     }
 
     /** {@inheritDoc} */

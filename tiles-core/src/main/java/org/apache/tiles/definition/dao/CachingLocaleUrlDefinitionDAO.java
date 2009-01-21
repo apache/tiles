@@ -335,27 +335,42 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         nudef.setName(name);
         nudef.setPreparer(replace(d.getPreparer(), vars));
         nudef.setRole(replace(d.getRole(), vars));
-        nudef.setTemplate(replace(d.getTemplate(), vars));
-        nudef.setTemplateExpression(d.getTemplateExpression());
+        nudef.setTemplateAttribute(replaceVarsInAttribute(d
+                .getTemplateAttribute(), vars));
 
         for (String attributeName : d.getLocalAttributeNames()) {
             Attribute attr = d.getLocalAttribute(attributeName);
-            Attribute nuattr = new Attribute();
-
-            nuattr.setRole(replace(attr.getRole(), vars));
-            nuattr.setRenderer(attr.getRenderer());
-            nuattr.setExpression(attr.getExpression());
-
-            Object value = attr.getValue();
-            if (value instanceof String) {
-                value = replace((String) value, vars);
-            }
-            nuattr.setValue(value);
+            Attribute nuattr = replaceVarsInAttribute(attr, vars);
 
             nudef.putAttribute(replace(attributeName, vars), nuattr);
         }
 
         return nudef;
+    }
+
+    /**
+     * Replaces variables into an attribute.
+     *
+     * @param attr The attribute to be used as a basis, containing placeholders
+     * for variables.
+     * @param vars The variables to replace.
+     * @return A new instance of an attribute, whose properties have been
+     * replaced with variables' values.
+     */
+    private Attribute replaceVarsInAttribute(Attribute attr,
+            Map<Integer, String> vars) {
+        Attribute nuattr = new Attribute();
+
+        nuattr.setRole(replace(attr.getRole(), vars));
+        nuattr.setRenderer(attr.getRenderer());
+        nuattr.setExpression(attr.getExpression());
+
+        Object value = attr.getValue();
+        if (value instanceof String) {
+            value = replace((String) value, vars);
+        }
+        nuattr.setValue(value);
+        return nuattr;
     }
 
     /**

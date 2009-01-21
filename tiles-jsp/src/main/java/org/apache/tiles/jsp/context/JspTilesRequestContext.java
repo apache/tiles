@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 
 /**
  * Context implementation used for executing tiles within a
@@ -50,6 +52,11 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
      * The writer response to use.
      */
     private JspWriterResponse response;
+
+    /**
+     * The request objects, lazily initialized.
+     */
+    private Object[] requestObjects;
 
     /**
      * Constructor.
@@ -101,6 +108,44 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
     }
 
     /** {@inheritDoc} */
+    @Override
+    public PrintWriter getPrintWriter() throws IOException {
+        return new JspPrintWriterAdapter(pageContext.getOut());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Writer getWriter() throws IOException {
+        return pageContext.getOut();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Object[] getRequestObjects() {
+        if (requestObjects == null) {
+            requestObjects = new Object[1];
+            requestObjects[0] = pageContext;
+        }
+        return requestObjects;
+    }
+
+    /**
+     * Returns the page context that originated the request.
+     *
+     * @return The page context.
+     */
+    public PageContext getPageContext() {
+        return pageContext;
+    }
+
+    /**
+     * Returns the response object, obtained by the JSP page context. The print
+     * writer will use the object obtained by {@link PageContext#getOut()}.
+     *
+     * @return The response object.
+     * @deprecated Use {@link #getPageContext()} or {@link #getPrintWriter()}.
+     */
+    @Deprecated
     public HttpServletResponse getResponse() {
         if (response == null) {
             response = new JspWriterResponse(pageContext);

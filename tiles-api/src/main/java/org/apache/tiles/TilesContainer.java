@@ -106,12 +106,24 @@ public interface TilesContainer {
      * Render the given Attribute.
      *
      * @param attribute The attribute to render.
-     * @param writer The writer to use when rendering an attribute of "string"
-     * type.
+     * @param writer A writer. <strong>IT WON'T BE EVALUATED!!!</strong>
      * @param requestItems the current request objects.
      * @throws IOException If something goes wrong during writing to the output.
+     * @deprecated Use {@link #render(Attribute, Object...)}.
      */
+    @Deprecated
     void render(Attribute attribute, Writer writer, Object... requestItems)
+        throws IOException;
+
+    /**
+     * Render the given Attribute.
+     *
+     * @param attribute The attribute to render.
+     * @param requestItems the current request objects.
+     * @throws IOException If something goes wrong during writing to the output.
+     * @since 2.1.2
+     */
+    void render(Attribute attribute, Object... requestItems)
         throws IOException;
 
     /**

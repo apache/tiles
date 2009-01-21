@@ -126,12 +126,18 @@
 -->
 <!ATTLIST definition       template         %RequestPath;    #IMPLIED>
 <!--
-@attr expression     The expression that will evaluate to a template for this definition.
-					 This attribute will be ignored if template is specified.
+@attr templateExpression The expression that will evaluate to a template for this definition.
+					     This attribute will be ignored if template is specified.
 					 
 -->
 <!ATTLIST definition       templateExpression       CDATA    #IMPLIED>
-
+<!--
+@attr templateType   The type of the template attribute. Can be: string,
+					 template or definition.
+                     By default, the type is "template". If a type is
+                     associated, the desidered renderer will be invoked.
+-->
+<!ATTLIST definition       templateType             %ContentType;   #IMPLIED>
 
 <!-- The "put-attribute" element describes an attribute of a definition. It allows to
      specify the tiles attribute name and its value. The tiles value can be

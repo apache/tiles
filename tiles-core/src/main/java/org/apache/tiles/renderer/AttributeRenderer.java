@@ -21,9 +21,9 @@
 package org.apache.tiles.renderer;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.context.TilesRequestContext;
 
 /**
  * An object that can render an attribute. For each attribute, if it needs to be
@@ -38,12 +38,11 @@ public interface AttributeRenderer {
      * Renders an attribute.
      *
      * @param attribute The attribute to render.
-     * @param writer The writer to use.
-     * @param requestItems The request items.
+     * @param request The Tiles request context.
      * @throws IOException If something goes wrong during rendition.
      * @throws RendererException If something goes wrong during rendition.
-     * @since 2.1.0
+     * @since 2.1.2
      */
-    void render(Attribute attribute, Writer writer, Object... requestItems)
+    void render(Attribute attribute, TilesRequestContext request)
             throws IOException;
 }
