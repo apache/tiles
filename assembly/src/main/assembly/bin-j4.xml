@@ -30,7 +30,7 @@
             </includes>
         </dependencySet>
         <dependencySet>
-            <outputFileNameMapping>${artifactId}-${version}-j4.${extension}</outputFileNameMapping>
+            <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>org.apache.tiles:tiles-api:jar:j4</include>
