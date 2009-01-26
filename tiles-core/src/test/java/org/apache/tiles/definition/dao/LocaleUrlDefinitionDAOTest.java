@@ -594,7 +594,7 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
                 null);
         assertNotNull("rewrite.test definition not found.", definition);
         assertEquals("Incorrect initial template value", "/test.jsp",
-                definition.getTemplate());
+                definition.getTemplateAttribute().getValue());
 
         RefreshMonitor reloadable = (RefreshMonitor) definitionDao;
         assertEquals("Factory should be fresh.", false, reloadable

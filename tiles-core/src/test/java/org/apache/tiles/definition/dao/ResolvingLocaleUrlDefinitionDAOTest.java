@@ -598,7 +598,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 null);
         assertNotNull("rewrite.test definition not found.", definition);
         assertEquals("Incorrect initial template value", "/test.jsp",
-                definition.getTemplate());
+                definition.getTemplateAttribute().getValue());
 
         RefreshMonitor reloadable = (RefreshMonitor) definitionDao;
         assertEquals("Factory should be fresh.", false, reloadable
@@ -648,7 +648,8 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         definitionDao.setReader(new DigesterDefinitionsReader());
 
         Definition definition = definitionDao.getDefinition("test.defName.subLayered", null);
-        assertEquals("The template is not correct", "/testName.jsp", definition.getTemplate());
+        assertEquals("The template is not correct", "/testName.jsp", definition
+                .getTemplateAttribute().getValue());
         assertEquals("The header attribute is not correct",
                 "/common/headerLayered.jsp", definition.getAttribute("header")
                         .getValue());

@@ -334,7 +334,6 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         nudef.setExtends(replace(d.getExtends(), vars));
         nudef.setName(name);
         nudef.setPreparer(replace(d.getPreparer(), vars));
-        nudef.setRole(replace(d.getRole(), vars));
         nudef.setTemplateAttribute(replaceVarsInAttribute(d
                 .getTemplateAttribute(), vars));
 
