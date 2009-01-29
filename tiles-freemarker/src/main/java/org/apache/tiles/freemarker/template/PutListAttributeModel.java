@@ -75,8 +75,8 @@ public class PutListAttributeModel extends PutAttributeModel {
      * @param nestedTag the put tag desciendent.
      */
     public void processNestedModel(AddAttributeModel nestedTag) {
-        Attribute attribute = new Attribute(nestedTag.getValue(), nestedTag
-                .getRole(), nestedTag.getType());
+        Attribute attribute = new Attribute(nestedTag.getValue(), null,
+                nestedTag.getRole(), nestedTag.getType());
 
         this.addValue(attribute);
     }

@@ -144,9 +144,8 @@ public abstract class AbstractRenderModel extends NestableTemplateDirectiveModel
      * @param nestedTag the put tag desciendent.
      */
     public void processNestedModel(PutAttributeModel nestedTag) {
-        Attribute attribute = new Attribute(
-            nestedTag.getValue(), nestedTag.getRole(),
-            nestedTag.getType());
+        Attribute attribute = new Attribute(nestedTag.getValue(), null,
+                nestedTag.getRole(), nestedTag.getType());
 
         attributeContext.putAttribute(nestedTag.getName(), attribute, nestedTag
                 .isCascade());
