@@ -16,7 +16,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
-public class PutListAttributeModel extends PutAttributeModel implements PutAttributeModelParent {
+public class AddListAttributeModel extends PutAttributeModel implements AddAttributeModelParent {
 
     /**
      * If true, the attribute will put the elements of the attribute with the
@@ -75,7 +75,7 @@ public class PutListAttributeModel extends PutAttributeModel implements PutAttri
      *
      * @param nestedTag the put tag desciendent.
      */
-    public void processNestedModel(PutAttributeModel nestedTag) {
+    public void processNestedModel(AddAttributeModel nestedTag) {
         Attribute attribute = new Attribute(nestedTag.getValue(), null,
                 nestedTag.getRole(), nestedTag.getType());
 
@@ -89,19 +89,5 @@ public class PutListAttributeModel extends PutAttributeModel implements PutAttri
      */
     private void addValue(Attribute attribute) {
         this.getAttributes().add(attribute);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void execute(Environment env) {
-        PutListAttributeModelParent parent = (PutListAttributeModelParent) findAncestorWithClass(
-                env, PutListAttributeModelParent.class);
-
-        if (parent == null) {
-            // Try with the old method.
-            super.execute(env);
-        }
-
-        parent.processNestedModel(this);
     }
 }

@@ -168,7 +168,7 @@ public class AddAttributeModel extends NestableTemplateDirectiveModel implements
             throw new FreeMarkerTilesException("Error: cannot find an AddAttributeModelParent ancestor'");
         }
 
-        parent.processNestedTag(this);
+        parent.processNestedModel(this);
     }
 
     /**

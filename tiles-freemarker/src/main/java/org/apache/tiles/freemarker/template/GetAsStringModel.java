@@ -18,22 +18,32 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.apache.tiles.freemarker.template;
 
+import org.apache.tiles.Attribute;
+import org.apache.tiles.freemarker.FreeMarkerTilesException;
+
+import freemarker.core.Environment;
+
+import java.io.IOException;
+
 /**
- * Tag classes implementing this interface can contain nested {@link AddAttributeTag}.
- * This interface defines a method called by nested tags.
+ * Retrieve the value of the specified definition/template attribute property,
+ * and render it to the current JspWriter as a String.
+ * The usual toString() conversion is applied on the found value.
  *
  * @version $Rev$ $Date$
  */
-public interface AddAttributeModelParent {
-    /**
-     * Process the nested tag.
-     *
-     * @param nestedTag Nested tag to process.
-     * @throws TilesJspException If something goes wrong during processing.
-     */
-    void processNestedModel(AddAttributeModel nestedTag);
+public class GetAsStringModel extends InsertAttributeModel {
 
+    /** {@inheritDoc} */
+    @Override
+    protected void render(Attribute attr, Environment env) {
+        try {
+            env.getOut().write(attr.getValue().toString());
+        } catch (IOException e) {
+            throw new FreeMarkerTilesException("Cannot write the attribute: "
+                    + attr.getValue(), e);
+        }
+    }
 }

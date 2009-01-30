@@ -86,7 +86,7 @@ public class InsertAttributeModel extends AbstractRenderModel {
      */
     protected void render(Attribute attr, Environment env) {
         try {
-            container.render(attr, env.getOut(), env);
+            container.render(attr, env);
         } catch (IOException e) {
             throw new FreeMarkerTilesException(
                     "I/O Exception during rendition of the attribute", e);
