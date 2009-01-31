@@ -21,9 +21,6 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
@@ -67,11 +64,6 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @version $Rev$ $Date$
  */
 public class PutAttributeTag extends AddAttributeTag {
-
-    /**
-     * The logging object.
-     */
-    private final Log log = LogFactory.getLog(PutAttributeTag.class);
 
     /**
      * Name of attribute to put in attribute context.
@@ -139,11 +131,8 @@ public class PutAttributeTag extends AddAttributeTag {
 
 
         if (parent == null) {
-            String message = "Error: enclosing tag '"
-                    + getParent().getClass().getName()
-                    + " doesn't accept 'put' tag.";
-            log.error(message);
-            throw new TilesJspException(message);
+            throw new TilesJspException(
+                    "Error: no enclosing tag accepts 'putAttribute' tag.");
         }
 
         parent.processNestedTag(this);

@@ -200,9 +200,8 @@ public class AddAttributeTag extends TilesBodyTag implements DefinitionTagParent
             TagSupport.findAncestorWithClass(this, AddAttributeTagParent.class);
 
         if (parent == null) {
-            throw new TilesJspException("Error: enclosing tag '"
-                    + getParent().getClass().getName()
-                    + " doesn't accept 'put' tag.");
+            throw new TilesJspException(
+                    "Error: no enclosing tag accepts 'addAttribute' tag.");
         }
 
         parent.processNestedTag(this);
