@@ -7,6 +7,8 @@ import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 import freemarker.core.Environment;
+import freemarker.ext.beans.BeanModel;
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.servlet.FreemarkerServlet;
 import freemarker.ext.servlet.HttpRequestHashModel;
 import freemarker.ext.servlet.ServletContextHashModel;
@@ -104,7 +106,7 @@ public class FreeMarkerUtil {
                     e);
         }
     }
-    
+
     public static String getAsString(TemplateModel model) {
         try {
             return (String) DeepUnwrap.unwrap(model);
@@ -112,7 +114,7 @@ public class FreeMarkerUtil {
             throw new FreeMarkerTilesException("Cannot unwrap a model", e);
         }
     }
-    
+
     public static boolean getAsBoolean(TemplateModel model, boolean defaultValue) {
         try {
             Boolean retValue = (Boolean) DeepUnwrap.unwrap(model);
@@ -121,12 +123,32 @@ public class FreeMarkerUtil {
             throw new FreeMarkerTilesException("Cannot unwrap a model", e);
         }
     }
-    
+
     public static Object getAsObject(TemplateModel model) {
         try {
             return DeepUnwrap.unwrap(model);
         } catch (TemplateModelException e) {
             throw new FreeMarkerTilesException("Cannot unwrap a model", e);
+        }
+    }
+
+    public static void setAttribute(Environment env, String name, Object obj,
+            String scope) {
+        if (scope == null) {
+            scope = "page";
+        }
+        if ("page".equals(scope)) {
+            TemplateModel model = new BeanModel(obj, BeansWrapper
+                    .getDefaultInstance());
+            env.setVariable(name, model);
+        } else if ("request".equals(scope)) {
+            getRequestHashModel(env).getRequest().setAttribute(name, obj);
+        } else if ("session".equals(scope)) {
+            getRequestHashModel(env).getRequest().getSession().setAttribute(
+                    name, obj);
+        } else if ("application".equals("scope")) {
+            getServletContextHashModel(env).getServlet().getServletContext()
+                    .setAttribute(name, obj);
         }
     }
 }
