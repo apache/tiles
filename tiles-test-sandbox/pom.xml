@@ -23,17 +23,17 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-   <parent>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-parent</artifactId>
-      <version>2.1.3-SNAPSHOT</version>
-   </parent>
+  <parent>
+  	<artifactId>tiles-sandbox</artifactId>
+  	<groupId>org.apache.tiles</groupId>
+  	<version>1.0-SNAPSHOT</version>
+  </parent>
 
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>tiles-test</artifactId>
+   <artifactId>tiles-test-sandbox</artifactId>
    <packaging>war</packaging>
-   <name>Tiles - Apps - Test</name>
-   <description>Tiles Test web application: tests Tiles functionality.
+   <name>Tiles Test Sandbox Webapp</name>
+   <description>Tiles Test web application to test sandboxed projects.
    </description>
    
    <dependencies>
