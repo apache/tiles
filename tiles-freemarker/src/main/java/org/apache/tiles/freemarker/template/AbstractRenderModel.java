@@ -62,7 +62,7 @@ public abstract class AbstractRenderModel extends NestableTemplateDirectiveModel
 
     protected TilesContainer container;
     
-    private AttributeContext attributeContext;
+    protected AttributeContext attributeContext;
     
     /** {@inheritDoc} */
     public void doStart(Environment env,
