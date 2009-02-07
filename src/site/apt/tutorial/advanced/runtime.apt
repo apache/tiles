@@ -83,7 +83,7 @@ Runtime Composition in JSP pages
 -----------------------------------------
 <tiles:definition name="myapp.homepage.customer" extends="myapp.homepage">
   <tiles:putAttribute name="menu" value="/tiles/common_menu_for_customers.jsp" />
-</tiles:insertDefinition>
+</tiles:definition>
 <tiles:insertDefinition name="myapp.homepage.customer" />
 -----------------------------------------
 
