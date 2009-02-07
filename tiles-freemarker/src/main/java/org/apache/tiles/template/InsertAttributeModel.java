@@ -11,27 +11,30 @@ import org.apache.tiles.TilesContainer;
 public class InsertAttributeModel {
 
     private Log log = LogFactory.getLog(getClass());
-    
+
     private AttributeResolver attributeResolver;
-    
+
     public InsertAttributeModel(AttributeResolver attributeResolver) {
         this.attributeResolver = attributeResolver;
     }
 
-    public void start(TilesContainer container, String preparer, Object... requestItems) {
+    public void start(Stack<Object> composeStack, TilesContainer container,
+            boolean ignore, String preparer, String role, Object defaultValue,
+            String defaultValueRole, String defaultValueType, String name,
+            Attribute value, Object... requestItems) {
         if (preparer != null) {
             container.prepare(preparer, requestItems);
         }
-        container.startContext(requestItems);
-    }
-    
-    public void end(Stack<Object> composeStack, TilesContainer container,
-            boolean flush, boolean ignore, String preparer, String role,
-            Object defaultValue, String defaultValueRole, String defaultValueType,
-            String name, Attribute value, Object... requestItems) throws IOException {
         Attribute attribute = attributeResolver.computeAttribute(container,
                 value, name, ignore, defaultValue, defaultValueRole,
                 defaultValueType, requestItems);
+        composeStack.push(attribute);
+        container.startContext(requestItems);
+    }
+
+    public void end(Stack<Object> composeStack, TilesContainer container,
+            boolean ignore, Object... requestItems) throws IOException {
+        Attribute attribute = (Attribute) composeStack.pop();
         if (attribute == null && ignore) {
             return;
         }

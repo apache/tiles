@@ -19,20 +19,24 @@ public class GetAsStringModel {
         this.attributeResolver = attributeResolver;
     }
 
-    public void start(TilesContainer container, String preparer, Object... requestItems) {
+    public void start(Stack<Object> composeStack, TilesContainer container,
+            boolean ignore, String preparer, String role, Object defaultValue,
+            String defaultValueRole, String defaultValueType, String name,
+            Attribute value, Object... requestItems) {
         if (preparer != null) {
             container.prepare(preparer, requestItems);
         }
+        Attribute attribute = attributeResolver.computeAttribute(container,
+                value, name, ignore, defaultValue, defaultValueRole,
+                defaultValueType, requestItems);
+        composeStack.push(attribute);
         container.startContext(requestItems);
     }
     
     public void end(Stack<Object> composeStack, TilesContainer container,
-            Writer writer, boolean flush, boolean ignore, String preparer, String role,
-            Object defaultValue, String defaultValueRole, String defaultValueType,
-            String name, Attribute value, Object... requestItems) throws IOException {
-        Attribute attribute = attributeResolver.computeAttribute(container,
-                value, name, ignore, defaultValue, defaultValueRole,
-                defaultValueType, requestItems);
+            Writer writer, boolean ignore, Object... requestItems)
+            throws IOException {
+        Attribute attribute = (Attribute) composeStack.pop();
         if (attribute == null && ignore) {
             return;
         }

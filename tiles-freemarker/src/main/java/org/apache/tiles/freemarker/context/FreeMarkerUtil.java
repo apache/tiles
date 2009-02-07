@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Stack;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
@@ -186,29 +188,40 @@ public class FreeMarkerUtil {
     
     @SuppressWarnings("unchecked")
     public static Stack<Object> getComposeStack(Environment env) {
-        return (Stack<Object>) getRequestHashModel(env).getRequest()
+        HttpServletRequest request = getRequestHashModel(env).getRequest();
+        Stack<Object> composeStack = (Stack<Object>) request
                 .getAttribute(COMPOSE_STACK_ATTRIBUTE_NAME);
+        if (composeStack == null) {
+            composeStack = new Stack<Object>();
+            request.setAttribute(COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        }
+        return composeStack;
     }
 
     public static void evaluateBody(TemplateDirectiveBody body)
             throws TemplateException, IOException {
-        NullWriter writer = new NullWriter();
-        try {
-            body.render(writer);
-        } finally {
-            writer.close();
+        if (body != null) {
+            NullWriter writer = new NullWriter();
+            try {
+                body.render(writer);
+            } finally {
+                writer.close();
+            }
         }
     }
 
     public static String renderAsString(TemplateDirectiveBody body)
             throws TemplateException, IOException {
-        StringWriter stringWriter = new StringWriter();
-        try {
-            body.render(stringWriter);
-        } finally {
-            stringWriter.close();
+        String bodyString = null;
+        if (body != null) {
+            StringWriter stringWriter = new StringWriter();
+            try {
+                body.render(stringWriter);
+            } finally {
+                stringWriter.close();
+            }
+            bodyString = stringWriter.toString();
         }
-        String bodyString = stringWriter.toString();
         return bodyString;
     }
 }
