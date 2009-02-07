@@ -35,7 +35,7 @@ Security bulletin 1
 | Maximum security rating | High (read-only exposure) |
 *-------------------------+-----------+
 | Recommendation          | Developers should not install Tiles 2.1.1 under a production environment, |
-|                         | wait for the Tiles 2.1.2 release |
+|                         | upgrade to Tiles 2.1.2 |
 *-------------------------+-----------+
 | Affected Software       | Tiles 2.1.0/2.1.1 (Tiles 2.0.x versions are safe) |
 *-------------------------+-----------+
