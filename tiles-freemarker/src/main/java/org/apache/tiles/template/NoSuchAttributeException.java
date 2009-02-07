@@ -18,24 +18,55 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.freemarker.template;
+package org.apache.tiles.template;
+
+import org.apache.tiles.TilesException;
 
 /**
- * Tag classes implementing this interface can contain nested
- * {@link DefinitionTag}. This interface defines a method called by nested
- * tags.
+ * Indicates that a named attribute has not been found.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public interface DefinitionModelParent {
+public class NoSuchAttributeException extends TilesException {
 
     /**
-     * Process the nested &lt;tiles:definition&gt; tag.
+     * Constructor.
      *
-     * @param definitionName Nested definition name.
-     * @throws TilesJspException If something goes wrong during the processing.
      * @since 2.1.0
      */
-    void processNestedDefinitionName(String definitionName);
+    public NoSuchAttributeException() {
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param message The detail message.
+     * @since 2.1.0
+     */
+    public NoSuchAttributeException(String message) {
+        super(message);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param e The exception to be wrapped.
+     * @since 2.1.0
+     */
+    public NoSuchAttributeException(Exception e) {
+        super(e);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param message The detail message.
+     * @param e The exception to be wrapped.
+     * @since 2.1.0
+     */
+    public NoSuchAttributeException(String message, Exception e) {
+        super(message, e);
+    }
+
 }

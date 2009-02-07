@@ -1,9 +1,14 @@
 package org.apache.tiles.freemarker.context;
 
-import javax.servlet.ServletContext;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Stack;
 
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
+import org.apache.tiles.freemarker.io.NullWriter;
+import org.apache.tiles.impl.NoSuchContainerException;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 import freemarker.core.Environment;
@@ -12,11 +17,15 @@ import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.servlet.FreemarkerServlet;
 import freemarker.ext.servlet.HttpRequestHashModel;
 import freemarker.ext.servlet.ServletContextHashModel;
+import freemarker.template.TemplateDirectiveBody;
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DeepUnwrap;
 
 public class FreeMarkerUtil {
+
+    public static final String COMPOSE_STACK_ATTRIBUTE_NAME = "org.apache.tiles.template.COMPOSE_STACK";
 
     private FreeMarkerUtil() {
     }
@@ -46,16 +55,39 @@ public class FreeMarkerUtil {
     }
 
     /**
+     * Returns a specific Tiles container.
+     *
+     * @param context The page context to use.
+     * @param key The key under which the container is stored. If null, the
+     * default container will be returned.
+     * @return The requested Tiles container.
+     * @since 2.1.2
+     */
+    public static TilesContainer getContainer(Environment env, String key) {
+        if (key == null) {
+            key = TilesAccess.CONTAINER_ATTRIBUTE;
+        }
+        return (TilesContainer) getServletContextHashModel(env).getServlet()
+                .getServletContext().getAttribute(key);
+    }
+
+    /**
      * Sets the current container to use in web pages.
      * 
      * @param request The request to use.
      * @param context The servlet context to use.
      * @param key The key under which the container is stored.
      */
-    public static void setCurrentContainer(Environment env,
-            ServletContext context, String key) {
-        ServletUtil.setCurrentContainer(getRequestHashModel(env).getRequest(),
-                context, key);
+    public static void setCurrentContainer(Environment env, String key) {
+        TilesContainer container = getContainer(env, key);
+        if (container != null) {
+            getServletContextHashModel(env).getServlet().getServletContext()
+                    .setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+                            container);
+        } else {
+            throw new NoSuchContainerException("The container with the key '"
+                    + key + "' cannot be found");
+        }
     }
 
     /**
@@ -150,5 +182,33 @@ public class FreeMarkerUtil {
             getServletContextHashModel(env).getServlet().getServletContext()
                     .setAttribute(name, obj);
         }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static Stack<Object> getComposeStack(Environment env) {
+        return (Stack<Object>) getRequestHashModel(env).getRequest()
+                .getAttribute(COMPOSE_STACK_ATTRIBUTE_NAME);
+    }
+
+    public static void evaluateBody(TemplateDirectiveBody body)
+            throws TemplateException, IOException {
+        NullWriter writer = new NullWriter();
+        try {
+            body.render(writer);
+        } finally {
+            writer.close();
+        }
+    }
+
+    public static String renderAsString(TemplateDirectiveBody body)
+            throws TemplateException, IOException {
+        StringWriter stringWriter = new StringWriter();
+        try {
+            body.render(stringWriter);
+        } finally {
+            stringWriter.close();
+        }
+        String bodyString = stringWriter.toString();
+        return bodyString;
     }
 }
