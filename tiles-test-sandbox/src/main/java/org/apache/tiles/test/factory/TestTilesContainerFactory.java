@@ -37,6 +37,7 @@ import javax.el.ResourceBundleELResolver;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
+import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -45,6 +46,7 @@ import org.apache.tiles.evaluator.el.ELAttributeEvaluator;
 import org.apache.tiles.evaluator.el.TilesContextBeanELResolver;
 import org.apache.tiles.evaluator.el.TilesContextELResolver;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
@@ -69,6 +71,27 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
     protected BasicTilesContainer instantiateContainer(
             TilesApplicationContext applicationContext) {
         return new CachingTilesContainer();
+    }
+    /**
+     * Register elements of a chained request context factory.
+     *
+     * @param contextFactory The request context factory to use.
+     * @since 2.1.1
+     */
+    protected void registerChainedRequestContextFactories(
+            ChainedTilesRequestContextFactory contextFactory) {
+        List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
+                3);
+        registerRequestContextFactory(
+                "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
+                factories, contextFactory);
+        registerRequestContextFactory(
+                "org.apache.tiles.jsp.context.JspTilesRequestContextFactory",
+                factories, contextFactory);
+        registerRequestContextFactory(
+                FreeMarkerTilesRequestContextFactory.class.getName(),
+                factories, contextFactory);
+        contextFactory.setFactories(factories);
     }
 
     /** {@inheritDoc} */
