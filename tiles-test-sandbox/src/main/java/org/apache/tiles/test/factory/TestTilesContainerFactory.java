@@ -64,7 +64,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
     /**
      * The number of URLs to load..
      */
-    private static final int URL_COUNT = 3;
+    private static final int URL_COUNT = 6;
 
     /** {@inheritDoc} */
     @Override
@@ -142,7 +142,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
         List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
             Set<URL> urlSet = applicationContext
-                    .getResources("/WEB-INF/tiles-defs*.xml");
+                    .getResources("/WEB-INF/**/tiles-defs*.xml");
             for (URL url : urlSet) {
                 String externalForm = url.toExternalForm();
                 if (externalForm.indexOf('_', externalForm.lastIndexOf("/")) < 0) {
