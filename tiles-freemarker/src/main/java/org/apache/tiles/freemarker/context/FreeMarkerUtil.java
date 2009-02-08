@@ -14,8 +14,6 @@ import org.apache.tiles.impl.NoSuchContainerException;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 import freemarker.core.Environment;
-import freemarker.ext.beans.BeanModel;
-import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.servlet.FreemarkerServlet;
 import freemarker.ext.servlet.HttpRequestHashModel;
 import freemarker.ext.servlet.ServletContextHashModel;
@@ -172,9 +170,13 @@ public class FreeMarkerUtil {
             scope = "page";
         }
         if ("page".equals(scope)) {
-            TemplateModel model = new BeanModel(obj, BeansWrapper
-                    .getDefaultInstance());
-            env.setVariable(name, model);
+            try {
+                TemplateModel model = env.getObjectWrapper().wrap(obj);
+                env.setVariable(name, model);
+            } catch (TemplateModelException e) {
+                throw new FreeMarkerTilesException(
+                        "Error when wrapping an object", e);
+            }
         } else if ("request".equals(scope)) {
             getRequestHashModel(env).getRequest().setAttribute(name, obj);
         } else if ("session".equals(scope)) {
