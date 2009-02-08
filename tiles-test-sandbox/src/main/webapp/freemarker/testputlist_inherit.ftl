@@ -21,8 +21,8 @@
  *
  */
 -->
-<@tiles.insertDefinition name="test.putAttributes">
+<@tiles.insertDefinition name="freemarker.test.putAttributes">
   <@tiles.putListAttribute name="list" inherit="true">
     <@tiles.addAttribute value="valueFour" type="string" />
-  </tiles:putListAttribute>
-</tiles:insertDefinition>
+  </@tiles.putListAttribute>
+</@tiles.insertDefinition>

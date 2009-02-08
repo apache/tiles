@@ -21,8 +21,8 @@
  *
  */
 -->
-<@tiles.insertDefinition name="test.definition">
+<@tiles.insertDefinition name="freemarker.test.definition">
   <@tiles.putAttribute name="body">
   <div align="center"><b><i>This is an inline content</i></b></div>
-  </tiles:putAttribute>
-</tiles:insertDefinition>
+  </@tiles.putAttribute>
+</@tiles.insertDefinition>

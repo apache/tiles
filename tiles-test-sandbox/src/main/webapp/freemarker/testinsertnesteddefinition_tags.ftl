@@ -21,15 +21,15 @@
  *
  */
 -->
-<@tiles.definition name="test.nesting.definitions.tags" template="/layout.jsp">
+<@tiles.definition name="test.nesting.definitions.tags" template="/freemarker/layout.jsp">
     <@tiles.putAttribute name="title"  value="This is the title."/>
-    <@tiles.putAttribute name="header" value="/header.jsp"/>
+    <@tiles.putAttribute name="header" value="/freemarker/header.jsp"/>
     <@tiles.putAttribute name="body">
-        <@tiles.definition template="/layout.jsp">
+        <@tiles.definition template="/freemarker/layout.jsp">
             <@tiles.putAttribute name="title"  value="This is a nested definition."/>
-            <@tiles.putAttribute name="header" value="/header.jsp"/>
-            <@tiles.putAttribute name="body"   value="/body.jsp"/>
-        </tiles:definition>
-    </tiles:putAttribute>
-</tiles:definition>
-<@tiles.insertDefinition name="test.nesting.definitions.tags" />
+            <@tiles.putAttribute name="header" value="/freemarker/header.jsp"/>
+            <@tiles.putAttribute name="body"   value="/freemarker/body.jsp"/>
+        </@tiles.definition>
+    </@tiles.putAttribute>
+</@tiles.definition>
+<@tiles.insertDefinition name="freemarker.test.nesting.definitions.tags" />

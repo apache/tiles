@@ -22,6 +22,6 @@
  */
 -->
 <@tiles.setCurrentContainer containerKey="alternate" />
-<@tiles.insertDefinition name="test.definition" />
+<@tiles.insertDefinition name="freemarker.test.definition" />
 <@tiles.setCurrentContainer />
-<@tiles.insertDefinition name="test.definition" />
+<@tiles.insertDefinition name="freemarker.test.definition" />

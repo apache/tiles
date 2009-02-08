@@ -21,4 +21,4 @@
  *
  */
 -->
-<@tiles.insertDefinition name="test.reversed.definition" />
+<@tiles.insertDefinition name="freemarker.test.reversed.definition" />

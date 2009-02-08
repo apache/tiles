@@ -21,6 +21,6 @@
  *
  */
 -->
-<@tiles.insertDefinition name="test.definition">
-  <@tiles.putAttribute name="body"   value="/override.jsp" />
-</tiles:insertDefinition>
+<@tiles.insertDefinition name="freemarker.test.definition">
+  <@tiles.putAttribute name="body"   value="/freemarker/override.jsp" />
+</@tiles.insertDefinition>

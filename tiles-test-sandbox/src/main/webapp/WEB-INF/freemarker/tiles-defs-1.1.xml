@@ -30,7 +30,7 @@
 
 <tiles-definitions>
 
-  <definition name="test.definition.old_format" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.definition.old_format" template="/freemarker/layout.ftl">
       <put name="title"  value="This is a definition configured in 1.1 format."/>
       <put name="header" value="/freemarker/header.ftl"/>
       <put name="body"   value="/freemarker/body.ftl"/>

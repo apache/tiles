@@ -22,4 +22,4 @@
  */
 -->
 <@tiles.setCurrentContainer containerKey="db"/>
-<@tiles.insertDefinition name="test.definition" />
+<@tiles.insertDefinition name="freemarker.test.definition" />

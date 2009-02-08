@@ -35,48 +35,48 @@
   <!-- =======================================================  -->
 
   <!-- Doc index page description  -->
-  <definition name="test.inner.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.inner.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is a configured inner definition."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body"   value="/freemarker/body.ftl"/>
   </definition>
 
-  <definition name="test.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body"   value="/freemarker/body.ftl"/>
   </definition>
 
-  <definition name="test.definition.ignore" template="/freemarker/layout_ignore.ftl">
+  <definition name="freemarker.test.definition.ignore" template="/freemarker/layout_ignore.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="body"   value="/freemarker/body.ftl"/>
   </definition>
 
-  <definition name="test.definition.freemarker" template="/freemarker/layout.ftl">
-      <put-attribute name="title"  value="This is the title."/>
-      <put-attribute name="header" value="/freemarker/header.ftl"/>
-      <put-attribute name="body"   value="/freemarker/body.ftl"/>
-  </definition>
-
-  <definition name="test.definition.flush" template="/freemarker/layout_flush.ftl">
+  <definition name="freemarker.test.definition.freemarker" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body"   value="/freemarker/body.ftl"/>
   </definition>
 
-  <definition name="test.definition.exception" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.definition.flush" template="/freemarker/layout_flush.ftl">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/freemarker/header.ftl"/>
+      <put-attribute name="body"   value="/freemarker/body.ftl"/>
+  </definition>
+
+  <definition name="freemarker.test.definition.exception" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/exception.ftl"/>
       <put-attribute name="body"   value="/freemarker/body.ftl"/>
   </definition>
 
-  <definition name="test.composite.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.composite.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is a configured composite definition."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body"   value="test.inner.definition"/>
   </definition>
 
-  <definition name="test.putAttributes" template="/freemarker/putattributeslayout.ftl">
+  <definition name="freemarker.test.putAttributes" template="/freemarker/putattributeslayout.ftl">
     <put-attribute name="stringTest" value="This is a string" type="string" />
     <put-list-attribute name="list">
       <add-attribute value="valueOne" type="string" />
@@ -85,91 +85,91 @@
     </put-list-attribute>
   </definition>
 
-  <definition name="test.putAttributes.inherit" extends="test.putAttributes">
+  <definition name="freemarker.test.putAttributes.inherit" extends="test.putAttributes">
     <put-list-attribute name="list" inherit="true">
       <add-attribute value="valueFour" type="string" />
     </put-list-attribute>
   </definition>
 
-  <definition name="test.putAttributes.inherit" extends="test.putAttributes">
+  <definition name="freemarker.test.putAttributes.inherit" extends="test.putAttributes">
     <put-list-attribute name="list" inherit="true">
       <add-attribute value="valueFour" type="string" />
     </put-list-attribute>
   </definition>
 
-  <definition name="test.putAttributes.inherit" extends="test.putAttributes">
+  <definition name="freemarker.test.putAttributes.inherit" extends="test.putAttributes">
     <put-list-attribute name="list" inherit="true">
       <add-attribute value="valueFour" type="string" />
     </put-list-attribute>
   </definition>
 
-  <definition name="test.putAllAttributes" template="/freemarker/putallattributeslayout.ftl">
+  <definition name="freemarker.test.putAllAttributes" template="/freemarker/putallattributeslayout.ftl">
     <put-attribute name="one" value="There should be three more strings" type="string" />
     <put-attribute name="two" value="One" type="string" />
     <put-attribute name="three" value="Two" type="string" />
     <put-attribute name="four" value="Three" type="string" />
   </definition>
 
-  <definition name="preparer.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.preparer.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
   </definition>
 
-    <definition name="testdispatchservlet" extends="test.definition"/>
+    <definition name="freemarker.testdispatchservlet" extends="test.definition"/>
 
-  <definition name="preparer.definition.configured" extends="preparer.definition" preparer="org.apache.tiles.test.preparer.TestViewPreparer" />
+  <definition name="freemarker.preparer.definition.configured" extends="preparer.definition" preparer="org.apache.tiles.test.preparer.TestViewPreparer" />
   
-  <definition name="test.localized.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.localized.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title" value="Default locale" />
       <put-attribute name="header" value="/freemarker/header.ftl" />
       <put-attribute name="body" value="/freemarker/defaultlocale.ftl" />
   </definition>
 
-  <definition name="test.definition.appears" extends="test.definition">
+  <definition name="freemarker.test.definition.appears" extends="test.definition">
       <put-attribute name="title"  value="This definition appears."/>
   </definition>
 
-  <definition name="test.definition.does_not_appear" extends="test.definition">
+  <definition name="freemarker.test.definition.does_not_appear" extends="test.definition">
       <put-attribute name="title"  value="This definition does
        not appear."/>
   </definition>
 
-  <definition name="test.definition.appears.configured"
+  <definition name="freemarker.test.definition.appears.configured"
     extends="test.definition.appears" role="goodrole" />
 
-  <definition name="test.definition.does_not_appear.configured"
+  <definition name="freemarker.test.definition.does_not_appear.configured"
     extends="test.definition.does_not_appear" role="badrole" />
 
-  <definition name="test.definition.roles" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.definition.roles" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/header.ftl" role="goodrole" />
       <put-attribute name="body"   value="/freemarker/body.ftl" role="badrole" />
   </definition>
 
   <!-- Tests for cascaded attributes -->
-  <definition name="test.overridden.cascaded.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.overridden.cascaded.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title." cascade="true" />
       <put-attribute name="header" value="/freemarker/alternate-header.ftl" cascade="true"/>
       <put-attribute name="body"   value="test.inner.definition"/>
   </definition>
 
-  <definition name="test.inner.cascadable.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.inner.cascadable.definition" template="/freemarker/layout.ftl">
       <put-attribute name="body"   value="/freemarker/body.ftl"/>
   </definition>
 
-  <definition name="test.cascaded.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.cascaded.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title." cascade="true" />
       <put-attribute name="header" value="/freemarker/header.ftl" cascade="true"/>
       <put-attribute name="body"   value="test.inner.cascadable.definition"/>
   </definition>
 
-  <definition name="test.cascaded.template.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.cascaded.template.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title." cascade="true" />
       <put-attribute name="header" value="/freemarker/header.ftl" cascade="true"/>
       <put-attribute name="body"   value="/freemarker/layout_nobody.ftl"/>
   </definition>
 
-  <definition name="test.cascaded.list.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.cascaded.list.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title." cascade="true" />
       <put-attribute name="header" value="/freemarker/header.ftl" cascade="true"/>
       <put-attribute name="body"   value="/freemarker/putattributeslayout.ftl"/>
@@ -181,20 +181,20 @@
       </put-list-attribute>
   </definition>
 
-  <definition name="test.reversed.definition" template="/freemarker/layout_alt_title.ftl">
+  <definition name="freemarker.test.reversed.definition" template="/freemarker/layout_alt_title.ftl">
       <put-attribute name="title"  value="This is the title." type="reversed"/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body"   value="/freemarker/body.ftl"/>
   </definition>
 
-  <definition name="test.reversed.explicit.definition" template="/freemarker/layout_alt_title.ftl">
+  <definition name="freemarker.test.reversed.explicit.definition" template="/freemarker/layout_alt_title.ftl">
       <put-attribute name="title"  value="This is the title."
           type="org.apache.tiles.test.renderer.ReverseStringAttributeRenderer"/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body"   value="/freemarker/body.ftl"/>
   </definition>
 
-  <definition name="test.nesting.definitions" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.nesting.definitions" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body">
@@ -206,7 +206,7 @@
       </put-attribute>
   </definition>
 
-  <definition name="test.nesting.list.definitions" template="/freemarker/layout_list.ftl">
+  <definition name="freemarker.test.nesting.list.definitions" template="/freemarker/layout_list.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-list-attribute name="list">
@@ -220,32 +220,32 @@
       </put-list-attribute>
   </definition>
 
-  <definition name="test.composite.el.definition" templateExpression="${layout}"
+  <definition name="freemarker.test.composite.el.definition" templateExpression="${layout}"
         preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
       <put-attribute name="title"  value="This is a configured composite definition."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body"   expression="${requestScope.body}"/>
   </definition>
 
-  <definition name="test.composite.el.doNotShow.definition" templateExpression="${layout}"
+  <definition name="freemarker.test.composite.el.doNotShow.definition" templateExpression="${layout}"
         preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
       <put-attribute name="title"  value="This is a configured definition."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body"   expression="${requestScope.doNotShowBody}"/>
   </definition>
 
-  <definition name="test.definition.attribute.preparer" template="/freemarker/layout_preparer.ftl">
+  <definition name="freemarker.test.definition.attribute.preparer" template="/freemarker/layout_preparer.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
   </definition>
 
-  <definition name="test.openbody.definition" template="/freemarker/layout_closebody.ftl">
+  <definition name="freemarker.test.openbody.definition" template="/freemarker/layout_closebody.ftl">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/header.ftl"/>
       <put-attribute name="body"   value="/freemarker/layout.ftl" />
   </definition>
 
-  <definition name="test.defaultvalues.definition" template="/freemarker/layout_default.ftl">
+  <definition name="freemarker.test.defaultvalues.definition" template="/freemarker/layout_default.ftl">
       <put-attribute name="title"  value="This is the title."/>
   </definition>
 </tiles-definitions>

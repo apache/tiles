@@ -21,8 +21,8 @@
  *
  */
 -->
-<@tiles.insertTemplate template="/layout.jsp">
+<@tiles.insertTemplate template="/freemarker/layout.jsp">
   <@tiles.putAttribute name="title"  value="This is the title." cascade="true" />
-  <@tiles.putAttribute name="header" value="/alternate-header.jsp" cascade="true" />
+  <@tiles.putAttribute name="header" value="/freemarker/alternate-header.jsp" cascade="true" />
   <@tiles.putAttribute name="body"   value="test.inner.definition" />
-</tiles:insertTemplate>
+</@tiles.insertTemplate>

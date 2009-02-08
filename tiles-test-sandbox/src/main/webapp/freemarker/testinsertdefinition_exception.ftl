@@ -21,4 +21,4 @@
  *
  */
 -->
-<@tiles.insertDefinition name="test.definition.exception" />
+<@tiles.insertDefinition name="freemarker.test.definition.exception" />

@@ -21,4 +21,4 @@
  *
  */
 -->
-<@tiles.insertDefinition name="test.definition.old_format" />
+<@tiles.insertDefinition name="freemarker.test.definition.old_format" />

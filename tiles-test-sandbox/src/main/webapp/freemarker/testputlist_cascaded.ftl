@@ -21,14 +21,14 @@
  *
  */
 -->
-<@tiles.insertTemplate template="/layout.jsp">
+<@tiles.insertTemplate template="/freemarker/layout.jsp">
   <@tiles.putAttribute name="title"  value="This is the title." />
-  <@tiles.putAttribute name="header" value="/header.jsp" />
-  <@tiles.putAttribute name="body"   value="/putattributeslayout.jsp" />
+  <@tiles.putAttribute name="header" value="/freemarker/header.jsp" />
+  <@tiles.putAttribute name="body"   value="/freemarker/putattributeslayout.jsp" />
   <@tiles.putAttribute name="stringTest" value="This is a string" type="string" cascade="true" />
   <@tiles.putListAttribute name="list" cascade="true">
     <@tiles.addAttribute value="valueOne" type="string" />
     <@tiles.addAttribute value="valueTwo" type="string" />
     <@tiles.addAttribute value="valueThree" type="string" />
-  </tiles:putListAttribute>
-</tiles:insertTemplate>
+  </@tiles.putListAttribute>
+</@tiles.insertTemplate>

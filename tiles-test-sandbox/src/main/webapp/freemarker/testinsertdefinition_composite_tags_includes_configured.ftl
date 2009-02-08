@@ -21,14 +21,14 @@
  *
  */
 -->
-<@tiles.definition name="test.inner.definition.tags" template="/layout.jsp">
+<@tiles.definition name="test.inner.definition.tags" template="/freemarker/layout.jsp">
     <@tiles.putAttribute name="title"  value="This is an inner definition with tags."/>
-    <@tiles.putAttribute name="header" value="/header.jsp"/>
-    <@tiles.putAttribute name="body"   value="/body.jsp"/>
-</tiles:definition>
-<@tiles.definition name="test.composite.definition.tags" template="/layout.jsp">
+    <@tiles.putAttribute name="header" value="/freemarker/header.jsp"/>
+    <@tiles.putAttribute name="body"   value="/freemarker/body.jsp"/>
+</@tiles.definition>
+<@tiles.definition name="test.composite.definition.tags" template="/freemarker/layout.jsp">
     <@tiles.putAttribute name="title"  value="This is a composite definition with tags."/>
-    <@tiles.putAttribute name="header" value="/header.jsp"/>
+    <@tiles.putAttribute name="header" value="/freemarker/header.jsp"/>
     <@tiles.putAttribute name="body"   value="test.inner.definition" type="definition"/>
-</tiles:definition>
-<@tiles.insertDefinition name="test.composite.definition.tags" />
+</@tiles.definition>
+<@tiles.insertDefinition name="freemarker.test.composite.definition.tags" />

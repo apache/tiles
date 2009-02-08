@@ -29,7 +29,7 @@
 <!-- Definitions for Tiles documentation   -->
 
 <tiles-definitions>
-  <definition name="test.localized.definition" template="/freemarker/layout.ftl">
+  <definition name="freemarker.test.localized.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title" value="Italian locale" />
       <put-attribute name="header" value="/freemarker/header.ftl" />
       <put-attribute name="body" value="/freemarker/defaultlocale.ftl" />

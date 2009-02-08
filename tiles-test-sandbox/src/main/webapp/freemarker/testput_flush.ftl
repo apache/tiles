@@ -21,8 +21,8 @@
  *
  */
 -->
-<@tiles.insertTemplate template="/layout.jsp" flush="true">
+<@tiles.insertTemplate template="/freemarker/layout.jsp" flush="true">
   <@tiles.putAttribute name="title"  value="This is the title." />
-  <@tiles.putAttribute name="header" value="/header.jsp" />
-  <@tiles.putAttribute name="body"   value="/body.jsp" />
-</tiles:insertTemplate>
+  <@tiles.putAttribute name="header" value="/freemarker/header.jsp" />
+  <@tiles.putAttribute name="body"   value="/freemarker/body.jsp" />
+</@tiles.insertTemplate>

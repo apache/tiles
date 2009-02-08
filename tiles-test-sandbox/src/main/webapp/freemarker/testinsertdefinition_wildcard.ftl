@@ -22,5 +22,5 @@
  */
 -->
 <@tiles.setCurrentContainer containerKey="alternate" />
-<@tiles.insertDefinition name="test.definitionOne.messageHello" />
-<@tiles.insertDefinition name="test.definitionTwo.messageBye" />
+<@tiles.insertDefinition name="freemarker.test.definitionOne.messageHello" />
+<@tiles.insertDefinition name="freemarker.test.definitionTwo.messageBye" />

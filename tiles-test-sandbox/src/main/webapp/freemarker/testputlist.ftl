@@ -21,11 +21,11 @@
  *
  */
 -->
-<@tiles.insertTemplate template="/putattributeslayout.jsp">
+<@tiles.insertTemplate template="/freemarker/putattributeslayout.jsp">
   <@tiles.putAttribute name="stringTest" value="This is a string" type="string" />
   <@tiles.putListAttribute name="list">
     <@tiles.addAttribute value="valueOne" type="string" />
     <@tiles.addAttribute value="valueTwo" type="string" />
     <@tiles.addAttribute value="valueThree" type="string" />
-  </tiles:putListAttribute>
-</tiles:insertTemplate>
+  </@tiles.putListAttribute>
+</@tiles.insertTemplate>

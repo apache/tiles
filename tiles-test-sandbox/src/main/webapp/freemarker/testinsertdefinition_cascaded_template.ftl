@@ -21,4 +21,4 @@
  *
  */
 -->
-<@tiles.insertDefinition name="test.cascaded.template.definition" />
+<@tiles.insertDefinition name="freemarker.test.cascaded.template.definition" />

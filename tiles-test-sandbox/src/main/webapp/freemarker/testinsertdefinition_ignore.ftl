@@ -21,4 +21,4 @@
  *
  */
 -->
-<@tiles.insertDefinition name="test.definition.ignore" />
+<@tiles.insertDefinition name="freemarker.test.definition.ignore" />

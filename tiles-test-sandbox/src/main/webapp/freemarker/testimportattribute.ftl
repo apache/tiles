@@ -21,4 +21,4 @@
  *
  */
 -->
-<@tiles.insertDefinition name="test.putAttributes" />
+<@tiles.insertDefinition name="freemarker.test.putAttributes" />

@@ -21,4 +21,4 @@
  *
  */
 -->
-<@tiles.insertDefinition name="classpath.definition" />
+<@tiles.insertDefinition name="freemarker.classpath.definition" />

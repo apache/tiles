@@ -21,8 +21,8 @@
  *
  */
 -->
-<@tiles.insertTemplate template="/layout_alt_title.jsp">
+<@tiles.insertTemplate template="/freemarker/layout_alt_title.jsp">
   <@tiles.putAttribute name="title"  value="This is the title." type="reversed" />
-  <@tiles.putAttribute name="header" value="/header.jsp" />
-  <@tiles.putAttribute name="body"   value="/body.jsp" />
-</tiles:insertTemplate>
+  <@tiles.putAttribute name="header" value="/freemarker/header.jsp" />
+  <@tiles.putAttribute name="body"   value="/freemarker/body.jsp" />
+</@tiles.insertTemplate>

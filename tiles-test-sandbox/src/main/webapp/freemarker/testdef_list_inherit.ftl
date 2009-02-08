@@ -25,6 +25,6 @@
   <@tiles.putAttribute name="stringTest" value="This is a string" type="string"/>
   <@tiles.putListAttribute name="list" inherit="true">
     <@tiles.addAttribute value="valueFour" type="string" />
-  </tiles:putListAttribute>
-</tiles:definition>
-<@tiles.insertDefinition name="templateDefinition" />
+  </@tiles.putListAttribute>
+</@tiles.definition>
+<@tiles.insertDefinition name="freemarker.templateDefinition" />
