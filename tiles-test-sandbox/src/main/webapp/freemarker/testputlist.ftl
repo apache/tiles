@@ -21,7 +21,7 @@
  *
  */
 -->
-<@tiles.insertTemplate template="/freemarker/putattributeslayout.jsp">
+<@tiles.insertTemplate template="/freemarker/putattributeslayout.ftl">
   <@tiles.putAttribute name="stringTest" value="This is a string" type="string" />
   <@tiles.putListAttribute name="list">
     <@tiles.addAttribute value="valueOne" type="string" />

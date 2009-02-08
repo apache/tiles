@@ -64,7 +64,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
     /**
      * The number of URLs to load..
      */
-    private static final int URL_COUNT = 6;
+    private static final int URL_COUNT = 7;
 
     /** {@inheritDoc} */
     @Override
@@ -151,6 +151,8 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
             }
             urls.add(applicationContext.getResource(
                     "classpath:/org/apache/tiles/classpath-defs.xml"));
+            urls.add(applicationContext.getResource(
+                    "classpath:/org/apache/tiles/freemarker-classpath-defs.xml"));
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);

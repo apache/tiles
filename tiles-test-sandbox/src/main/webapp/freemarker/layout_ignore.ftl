@@ -26,7 +26,7 @@
     <td  bgcolor="Blue"><strong><@tiles.getAsString name="title"/></strong></td>
   </tr>
   <tr>
-    <td><@tiles.insertAttribute name="header" ignore="true"/></td>
+    <td><@tiles.insertAttribute name="header" ignore=true /></td>
   </tr>
   <tr>
     <td><@tiles.insertAttribute name="body"/></td>

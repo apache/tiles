@@ -24,4 +24,4 @@
 <div align="center"><b><i>
 <div id="defaultLocaleMessage">Your default Locale is <%=request.getLocale().toString() %></div>
 </i></b></div>
-<a href="../selectlocale_db.jsp">Select another locale</a>
+<a href="../selectlocale_db.ftl">Select another locale</a>

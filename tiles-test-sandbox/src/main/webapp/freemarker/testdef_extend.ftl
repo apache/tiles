@@ -22,7 +22,7 @@
  */
 -->
 <@tiles.definition name="test.definition.override.one" extends="test.definition">
-  <@tiles.putAttribute name="body"   value="/freemarker/override.jsp" />
+  <@tiles.putAttribute name="body"   value="/freemarker/override.ftl" />
 </@tiles.definition>
 <@tiles.definition name="test.definition.override.two" extends="test.definition.override.one">
   <@tiles.putAttribute name="title"   value="This is an overridden title" />

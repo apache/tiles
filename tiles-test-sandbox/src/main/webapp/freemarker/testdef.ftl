@@ -21,9 +21,9 @@
  *
  */
 -->
-<@tiles.definition name="templateDefinition" template="/freemarker/layout.jsp">
+<@tiles.definition name="templateDefinition" template="/freemarker/layout.ftl">
   <@tiles.putAttribute name="title"  value="This is the title." />
-  <@tiles.putAttribute name="header" value="/freemarker/header.jsp" />
-  <@tiles.putAttribute name="body"   value="/freemarker/body.jsp" />
+  <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
+  <@tiles.putAttribute name="body"   value="/freemarker/body.ftl" />
 </@tiles.definition>
 <@tiles.insertDefinition name="freemarker.templateDefinition" />

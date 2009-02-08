@@ -32,8 +32,8 @@
     <td>
     <@tiles.insertAttribute name="body">
         <@tiles.putAttribute name="title"  value="This is a customized context" />
-        <@tiles.putAttribute name="header" value="/freemarker/header.jsp" />
-        <@tiles.putAttribute name="body"   value="/freemarker/body.jsp" />
+        <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
+        <@tiles.putAttribute name="body"   value="/freemarker/body.ftl" />
     </@tiles.insertAttribute>
     </td>
   </tr>

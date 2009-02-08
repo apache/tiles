@@ -23,7 +23,7 @@
 -->
 Overridden content:<br/>
 <@tiles.insertDefinition name="freemarker.test.definition">
-  <@tiles.putAttribute name="body"   value="/freemarker/override.jsp" />
+  <@tiles.putAttribute name="body"   value="/freemarker/override.ftl" />
 </@tiles.insertDefinition>
 <br/>
 Not overridden content:<br/>
