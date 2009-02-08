@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.putAttributes.inherit" />
+<@tiles.insertDefinition name="test.putAttributes.inherit" />

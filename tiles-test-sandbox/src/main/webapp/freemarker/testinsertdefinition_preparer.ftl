@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="preparer.definition" preparer="org.apache.tiles.test.preparer.TestViewPreparer" />
+<@tiles.insertDefinition name="preparer.definition" preparer="org.apache.tiles.test.preparer.TestViewPreparer" />

@@ -21,9 +21,9 @@
  *
  */
 -->
-<tiles:definition name="templateDefinition" template="/layout.jsp">
-  <tiles:putAttribute name="title"  value="This is the title." />
-  <tiles:putAttribute name="header" value="/header.jsp" />
-  <tiles:putAttribute name="body"   value="/body.jsp" />
+<@tiles.definition name="templateDefinition" template="/layout.jsp">
+  <@tiles.putAttribute name="title"  value="This is the title." />
+  <@tiles.putAttribute name="header" value="/header.jsp" />
+  <@tiles.putAttribute name="body"   value="/body.jsp" />
 </tiles:definition>
-<tiles:insertDefinition name="templateDefinition" />
+<@tiles.insertDefinition name="templateDefinition" />

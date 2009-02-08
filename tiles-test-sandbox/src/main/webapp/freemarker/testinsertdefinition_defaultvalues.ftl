@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.defaultvalues.definition" />
+<@tiles.insertDefinition name="test.defaultvalues.definition" />

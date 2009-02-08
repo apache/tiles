@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.putAllAttributes" />
+<@tiles.insertDefinition name="test.putAllAttributes" />

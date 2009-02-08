@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.definition.flush" flush="true"/>
+<@tiles.insertDefinition name="test.definition.flush" flush="true"/>

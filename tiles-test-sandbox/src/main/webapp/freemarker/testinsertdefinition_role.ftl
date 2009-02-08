@@ -21,5 +21,5 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.definition.appears.configured" />
-<tiles:insertDefinition name="test.definition.does_not_appear.configured" />
+<@tiles.insertDefinition name="test.definition.appears.configured" />
+<@tiles.insertDefinition name="test.definition.does_not_appear.configured" />

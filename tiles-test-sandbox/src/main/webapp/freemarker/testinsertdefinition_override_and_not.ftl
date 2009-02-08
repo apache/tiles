@@ -22,9 +22,9 @@
  */
 -->
 Overridden content:<br/>
-<tiles:insertDefinition name="test.definition">
-  <tiles:putAttribute name="body"   value="/override.jsp" />
+<@tiles.insertDefinition name="test.definition">
+  <@tiles.putAttribute name="body"   value="/override.jsp" />
 </tiles:insertDefinition>
 <br/>
 Not overridden content:<br/>
-<tiles:insertDefinition name="test.definition" />
+<@tiles.insertDefinition name="test.definition" />

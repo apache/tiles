@@ -23,17 +23,17 @@
 -->
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
-    <td  bgcolor="Blue"><strong><tiles:getAsString name="title"/></strong></td>
+    <td  bgcolor="Blue"><strong><@tiles.getAsString name="title"/></strong></td>
   </tr>
   <tr>
-    <td><tiles:insertAttribute name="header"/></td>
+    <td><@tiles.insertAttribute name="header"/></td>
   </tr>
   <tr>
     <td>
-    <tiles:insertAttribute name="body">
-        <tiles:putAttribute name="title"  value="This is a customized context" />
-        <tiles:putAttribute name="header" value="/header.jsp" />
-        <tiles:putAttribute name="body"   value="/body.jsp" />
+    <@tiles.insertAttribute name="body">
+        <@tiles.putAttribute name="title"  value="This is a customized context" />
+        <@tiles.putAttribute name="header" value="/header.jsp" />
+        <@tiles.putAttribute name="body"   value="/body.jsp" />
     </tiles:insertAttribute>
     </td>
   </tr>

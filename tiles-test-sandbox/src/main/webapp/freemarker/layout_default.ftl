@@ -23,12 +23,12 @@
 -->
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
-    <td  bgcolor="Blue"><strong><tiles:insertAttribute name="title" defaultValue="This is the default title."/></strong></td>
+    <td  bgcolor="Blue"><strong><@tiles.insertAttribute name="title" defaultValue="This is the default title."/></strong></td>
   </tr>
   <tr>
-    <td><tiles:insertAttribute name="header" defaultValue="alternate-header.jsp" defaultValueType="template"/></td>
+    <td><@tiles.insertAttribute name="header" defaultValue="alternate-header.jsp" defaultValueType="template"/></td>
   </tr>
   <tr>
-    <td><tiles:insertAttribute name="body" defaultValue="This is the default body in the tag."/></td>
+    <td><@tiles.insertAttribute name="body" defaultValue="This is the default body in the tag."/></td>
   </tr>
 </table>           

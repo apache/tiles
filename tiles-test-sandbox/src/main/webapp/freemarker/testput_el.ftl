@@ -24,8 +24,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="bodyContent" value="Body Content defined by and el" />
 
-<tiles:insertTemplate template="/layout.jsp">
-  <tiles:putAttribute name="title"  value="This is the title." />
-  <tiles:putAttribute name="header" value="/header.jsp" />
-  <tiles:putAttribute name="body"   value="${bodyContent}" />
+<@tiles.insertTemplate template="/layout.jsp">
+  <@tiles.putAttribute name="title"  value="This is the title." />
+  <@tiles.putAttribute name="header" value="/header.jsp" />
+  <@tiles.putAttribute name="body"   value="${bodyContent}" />
 </tiles:insertTemplate>

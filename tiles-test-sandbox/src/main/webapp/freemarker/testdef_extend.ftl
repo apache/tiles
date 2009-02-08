@@ -21,10 +21,10 @@
  *
  */
 -->
-<tiles:definition name="test.definition.override.one" extends="test.definition">
-  <tiles:putAttribute name="body"   value="/override.jsp" />
+<@tiles.definition name="test.definition.override.one" extends="test.definition">
+  <@tiles.putAttribute name="body"   value="/override.jsp" />
 </tiles:definition>
-<tiles:definition name="test.definition.override.two" extends="test.definition.override.one">
-  <tiles:putAttribute name="title"   value="This is an overridden title" />
+<@tiles.definition name="test.definition.override.two" extends="test.definition.override.one">
+  <@tiles.putAttribute name="title"   value="This is an overridden title" />
 </tiles:definition>
-<tiles:insertDefinition name="test.definition.override.two" />
+<@tiles.insertDefinition name="test.definition.override.two" />

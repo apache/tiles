@@ -25,16 +25,16 @@
 
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
-    <td  bgcolor="Blue"><strong><tiles:getAsString name="title"/></strong></td>
+    <td  bgcolor="Blue"><strong><@tiles.getAsString name="title"/></strong></td>
   </tr>
   <tr>
-    <td><tiles:insertAttribute name="header"/></td>
+    <td><@tiles.insertAttribute name="header"/></td>
   </tr>
   <tr>
     <td>
-        <tiles:importAttribute name="list"/>
+        <@tiles.importAttribute name="list"/>
         <c:forEach var="attribute" items="${list}">
-            <tiles:insertAttribute value="${attribute}" />
+            <@tiles.insertAttribute value="${attribute}" />
         </c:forEach>
     </td>
   </tr>

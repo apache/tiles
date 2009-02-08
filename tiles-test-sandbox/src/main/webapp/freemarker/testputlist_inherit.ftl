@@ -21,8 +21,8 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.putAttributes">
-  <tiles:putListAttribute name="list" inherit="true">
-    <tiles:addAttribute value="valueFour" type="string" />
+<@tiles.insertDefinition name="test.putAttributes">
+  <@tiles.putListAttribute name="list" inherit="true">
+    <@tiles.addAttribute value="valueFour" type="string" />
   </tiles:putListAttribute>
 </tiles:insertDefinition>

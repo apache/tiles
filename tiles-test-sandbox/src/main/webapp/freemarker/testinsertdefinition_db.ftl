@@ -21,5 +21,5 @@
  *
  */
 -->
-<tiles:setCurrentContainer containerKey="db"/>
-<tiles:insertDefinition name="test.definition" />
+<@tiles.setCurrentContainer containerKey="db"/>
+<@tiles.insertDefinition name="test.definition" />

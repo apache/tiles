@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="preparer.definition.configured"/>
+<@tiles.insertDefinition name="preparer.definition.configured"/>

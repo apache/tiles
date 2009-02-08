@@ -21,9 +21,9 @@
  *
  */
 -->
-<tiles:insertTemplate template="/layout_alt_title.jsp">
-  <tiles:putAttribute name="title"  value="This is the title."
+<@tiles.insertTemplate template="/layout_alt_title.jsp">
+  <@tiles.putAttribute name="title"  value="This is the title."
     type="org.apache.tiles.test.renderer.ReverseStringAttributeRenderer" />
-  <tiles:putAttribute name="header" value="/header.jsp" />
-  <tiles:putAttribute name="body"   value="/body.jsp" />
+  <@tiles.putAttribute name="header" value="/header.jsp" />
+  <@tiles.putAttribute name="body"   value="/body.jsp" />
 </tiles:insertTemplate>

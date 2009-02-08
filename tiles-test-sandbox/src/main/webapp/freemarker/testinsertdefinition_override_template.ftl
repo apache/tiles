@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.definition" template="/layout_override.jsp" />
+<@tiles.insertDefinition name="test.definition" template="/layout_override.jsp" />

@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.definition.roles" />
+<@tiles.insertDefinition name="test.definition.roles" />

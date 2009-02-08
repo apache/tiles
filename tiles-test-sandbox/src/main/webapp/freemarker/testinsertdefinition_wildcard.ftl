@@ -21,6 +21,6 @@
  *
  */
 -->
-<tiles:setCurrentContainer containerKey="alternate" />
-<tiles:insertDefinition name="test.definitionOne.messageHello" />
-<tiles:insertDefinition name="test.definitionTwo.messageBye" />
+<@tiles.setCurrentContainer containerKey="alternate" />
+<@tiles.insertDefinition name="test.definitionOne.messageHello" />
+<@tiles.insertDefinition name="test.definitionTwo.messageBye" />

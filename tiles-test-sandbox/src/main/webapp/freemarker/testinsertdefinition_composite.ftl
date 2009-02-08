@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.composite.definition" />
+<@tiles.insertDefinition name="test.composite.definition" />

@@ -22,12 +22,12 @@
  */
 -->
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-<tiles:importAttribute name="stringTest"/>
-<tiles:importAttribute name="list"/>
+<@tiles.importAttribute name="stringTest"/>
+<@tiles.importAttribute name="list"/>
 Single attribute "stringTest" value: <c:out value="${stringTest}" /> <br/><br/>
 The attribute "list" contains these values:
 <ul>
 <c:forEach var="item" items="${list}">
-<li><tiles:insertAttribute value="${item}" /></li>
+<li><@tiles.insertAttribute value="${item}" /></li>
 </c:forEach>
 </ul>

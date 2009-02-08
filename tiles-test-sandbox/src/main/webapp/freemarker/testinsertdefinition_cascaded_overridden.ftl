@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.overridden.cascaded.definition" />
+<@tiles.insertDefinition name="test.overridden.cascaded.definition" />

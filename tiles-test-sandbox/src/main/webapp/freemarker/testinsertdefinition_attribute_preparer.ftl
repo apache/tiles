@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.definition.attribute.preparer" />
+<@tiles.insertDefinition name="test.definition.attribute.preparer" />

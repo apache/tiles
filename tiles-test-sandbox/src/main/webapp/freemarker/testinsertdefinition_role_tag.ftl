@@ -21,5 +21,5 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.definition.appears" role="goodrole" />
-<tiles:insertDefinition name="test.definition.does_not_appear" role="badrole" />
+<@tiles.insertDefinition name="test.definition.appears" role="goodrole" />
+<@tiles.insertDefinition name="test.definition.does_not_appear" role="badrole" />

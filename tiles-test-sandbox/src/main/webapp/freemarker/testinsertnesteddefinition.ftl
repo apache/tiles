@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.nesting.definitions" />
+<@tiles.insertDefinition name="test.nesting.definitions" />

@@ -25,8 +25,8 @@
 <c:set var="doNotShowBody" value="${'${'}requestScope.doNotShow}" />
 <c:set var="doNotShow" scope="request" value="DO NOT SHOW!!!" />
 
-<tiles:insertTemplate template="/layout.jsp">
-  <tiles:putAttribute name="title"  value="This is the title." />
-  <tiles:putAttribute name="header" value="/header.jsp" />
-  <tiles:putAttribute name="body"   value="${doNotShowBody}" />
+<@tiles.insertTemplate template="/layout.jsp">
+  <@tiles.putAttribute name="title"  value="This is the title." />
+  <@tiles.putAttribute name="header" value="/header.jsp" />
+  <@tiles.putAttribute name="body"   value="${doNotShowBody}" />
 </tiles:insertTemplate>

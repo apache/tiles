@@ -21,4 +21,4 @@
  *
  */
 -->
-<tiles:insertDefinition name="test.openbody.definition" />
+<@tiles.insertDefinition name="test.openbody.definition" />
