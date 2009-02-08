@@ -21,8 +21,6 @@
  *
  */
 -->
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
 <tiles:definition name="test.definition.override.one" extends="test.definition">
   <tiles:putAttribute name="body"   value="/override.jsp" />
 </tiles:definition>

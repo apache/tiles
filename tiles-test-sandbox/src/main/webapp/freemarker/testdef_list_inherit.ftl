@@ -21,8 +21,6 @@
  *
  */
 -->
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
 <tiles:definition name="templateDefinition" extends="test.putAttributes">
   <tiles:putAttribute name="stringTest" value="This is a string" type="string"/>
   <tiles:putListAttribute name="list" inherit="true">

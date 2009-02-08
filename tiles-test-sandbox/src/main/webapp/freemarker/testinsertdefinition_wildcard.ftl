@@ -21,7 +21,6 @@
  *
  */
 -->
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <tiles:setCurrentContainer containerKey="alternate" />
 <tiles:insertDefinition name="test.definitionOne.messageHello" />
 <tiles:insertDefinition name="test.definitionTwo.messageBye" />

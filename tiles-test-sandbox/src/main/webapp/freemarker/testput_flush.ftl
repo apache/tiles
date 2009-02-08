@@ -21,8 +21,6 @@
  *
  */
 -->
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
 <tiles:insertTemplate template="/layout.jsp" flush="true">
   <tiles:putAttribute name="title"  value="This is the title." />
   <tiles:putAttribute name="header" value="/header.jsp" />

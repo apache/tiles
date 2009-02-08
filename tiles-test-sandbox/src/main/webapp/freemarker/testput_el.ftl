@@ -22,8 +22,6 @@
  */
 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
 <c:set var="bodyContent" value="Body Content defined by and el" />
 
 <tiles:insertTemplate template="/layout.jsp">

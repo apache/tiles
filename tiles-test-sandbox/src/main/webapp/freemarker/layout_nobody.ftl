@@ -21,8 +21,6 @@
  *
  */
 -->
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
     <td  bgcolor="Blue"><strong><tiles:getAsString name="title"/></strong></td>

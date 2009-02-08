@@ -21,7 +21,5 @@
  *
  */
 -->
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
 <tiles:insertDefinition name="test.definition.appears.configured" />
 <tiles:insertDefinition name="test.definition.does_not_appear.configured" />

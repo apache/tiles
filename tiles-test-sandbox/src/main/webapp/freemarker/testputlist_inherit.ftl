@@ -21,8 +21,6 @@
  *
  */
 -->
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
 <tiles:insertDefinition name="test.putAttributes">
   <tiles:putListAttribute name="list" inherit="true">
     <tiles:addAttribute value="valueFour" type="string" />

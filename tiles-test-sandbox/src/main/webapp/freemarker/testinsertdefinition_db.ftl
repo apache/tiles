@@ -21,7 +21,5 @@
  *
  */
 -->
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
 <tiles:setCurrentContainer containerKey="db"/>
 <tiles:insertDefinition name="test.definition" />

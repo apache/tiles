@@ -21,8 +21,6 @@
  *
  */
 -->
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
 <tiles:insertDefinition name="test.definition">
   <tiles:putAttribute name="body"   value="/override.jsp" />
 </tiles:insertDefinition>
