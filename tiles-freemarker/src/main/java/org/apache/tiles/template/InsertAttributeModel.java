@@ -35,10 +35,10 @@ public class InsertAttributeModel {
     public void end(Stack<Object> composeStack, TilesContainer container,
             boolean ignore, Object... requestItems) throws IOException {
         Attribute attribute = (Attribute) composeStack.pop();
-        if (attribute == null && ignore) {
-            return;
-        }
         try {
+            if (attribute == null && ignore) {
+                return;
+            }
             container.render(attribute, requestItems);
         } catch (IOException e) {
             if (!ignore) {
