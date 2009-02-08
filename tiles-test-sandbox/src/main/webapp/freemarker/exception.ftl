@@ -22,4 +22,4 @@
  */
 -->
 <strong>This throws an exception</strong>
-<% throw new Exception("This is a test exception"); %>
+<#assign testValue=1/0 />

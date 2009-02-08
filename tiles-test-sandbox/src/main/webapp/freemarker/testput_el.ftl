@@ -21,11 +21,10 @@
  *
  */
 -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="bodyContent" value="Body Content defined by and el" />
+<#assign bodyContent="Body Content defined by and el" />
 
 <@tiles.insertTemplate template="/freemarker/layout.ftl">
   <@tiles.putAttribute name="title"  value="This is the title." />
   <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
-  <@tiles.putAttribute name="body"   value="${bodyContent}" />
+  <@tiles.putAttribute name="body"   value=bodyContent />
 </@tiles.insertTemplate>

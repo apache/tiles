@@ -21,7 +21,7 @@
  *
  */
 -->
-<@tiles.insertTemplate template="/freemarker/servlets/layoutServlet">
+<@tiles.insertTemplate template="/servlets/layoutServlet">
   <@tiles.putAttribute name="title"  value="This is the title." />
   <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
   <@tiles.putAttribute name="body"   value="/freemarker/body.ftl" />
