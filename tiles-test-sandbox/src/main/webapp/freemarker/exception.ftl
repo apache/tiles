@@ -1,5 +1,4 @@
-<%@ page session="false" %>
-<%--
+<#--
 /*
  * $Id$
  *
@@ -21,6 +20,6 @@
  * under the License.
  *
  */
---%>
+-->
 <strong>This throws an exception</strong>
 <% throw new Exception("This is a test exception"); %>

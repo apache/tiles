@@ -1,5 +1,4 @@
-<%@ page session="false" %>
-<%--
+<#--
 /*
  * $Id$
  *
@@ -21,7 +20,7 @@
  * under the License.
  *
  */
---%>
+-->
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <tiles:insertDefinition name="test.definition.roles" />

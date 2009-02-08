@@ -1,5 +1,4 @@
-<%@ page session="false" %>
-<%--
+<#--
 /*
  * $Id$
  *
@@ -21,5 +20,5 @@
  * under the License.
  *
  */
---%>
+-->
 The "force include" attribute has not been set.

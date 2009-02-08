@@ -1,5 +1,4 @@
-<%@ page session="false" %>
-<%--
+<#--
 /*
  * $Id$
  *
@@ -21,5 +20,5 @@
  * under the License.
  *
  */
---%>
+-->
 <div align="center"><b><i>This is an overridden content</i></b></div>

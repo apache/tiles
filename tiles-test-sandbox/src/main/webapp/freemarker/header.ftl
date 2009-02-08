@@ -1,5 +1,4 @@
-<%@ page session="false" %>
-<%--
+<#--
 /*
  * $Id$
  *
@@ -21,6 +20,6 @@
  * under the License.
  *
  */
---%>
+-->
 <strong>This is the header</strong>
     

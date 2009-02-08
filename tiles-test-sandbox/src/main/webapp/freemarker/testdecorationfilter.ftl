@@ -1,5 +1,4 @@
-<%@ page session="false" %>
-<%--
+<#--
 /*
  * $Id$
  *
@@ -21,5 +20,5 @@
  * under the License.
  *
  */
---%>
+-->
 <i>This Content should be wrapped with the standard layout.</i>

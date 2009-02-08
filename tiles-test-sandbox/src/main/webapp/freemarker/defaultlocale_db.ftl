@@ -1,5 +1,4 @@
-<%@ page session="false" %>
-<%--
+<#--
 /*
  * $Id$
  *
@@ -21,7 +20,7 @@
  * under the License.
  *
  */
---%>
+-->
 <div align="center"><b><i>
 <div id="defaultLocaleMessage">Your default Locale is <%=request.getLocale().toString() %></div>
 </i></b></div>
