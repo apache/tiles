@@ -21,7 +21,7 @@ public class InsertDefinitionModel {
             templateAttribute.setRole(role);
             attributeContext.setPreparer(preparer);
             attributeContext.setTemplateAttribute(templateAttribute);
-            container.renderContext(definitionName, requestItems);
+            container.render(definitionName, requestItems);
         } finally {
             container.endContext(requestItems);
         }
