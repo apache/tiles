@@ -67,6 +67,12 @@
     </filter-mapping>
 
     <filter-mapping>
+        <filter-name>Tiles Decoration Filter</filter-name>
+        <url-pattern>/freemarker/testdecorationfilter.ftl</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
         <filter-name>Security Wrapping Filter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
@@ -129,13 +135,29 @@
     <servlet>
         <servlet-name>selectLocaleServlet</servlet-name>
         <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME</param-name>
+            <param-value>test.localized.definition</param-value>
+        </init-param>
     </servlet>
     <servlet>
         <servlet-name>selectLocaleServletDb</servlet-name>
         <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
         <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME</param-name>
+            <param-value>test.localized.definition</param-value>
+        </init-param>
+        <init-param>
             <param-name>org.apache.tiles.test.servlet.ServletConfig.CONTAINER_KEY</param-name>
             <param-value>db</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>selectLocaleServletFreemarker</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME</param-name>
+            <param-value>freemarker.test.localized.definition</param-value>
         </init-param>
     </servlet>
 
@@ -160,6 +182,11 @@
     <servlet-mapping>
         <servlet-name>selectLocaleServletDb</servlet-name>
         <url-pattern>/servlets/selectLocaleServletDb</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>selectLocaleServletFreemarker</servlet-name>
+        <url-pattern>/freemarker/servlets/selectLocaleServlet</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

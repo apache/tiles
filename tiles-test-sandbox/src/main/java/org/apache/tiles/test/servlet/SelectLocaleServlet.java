@@ -45,6 +45,11 @@ public class SelectLocaleServlet extends HttpServlet {
      * The key of the container to use.
      */
     private String containerKey;
+    
+    /**
+     * The name of the definition to render.
+     */
+    private String definitionName;
 
     /** {@inheritDoc} */
     @Override
@@ -52,6 +57,8 @@ public class SelectLocaleServlet extends HttpServlet {
         super.init(config);
         containerKey = config
                 .getInitParameter("org.apache.tiles.test.servlet.ServletConfig.CONTAINER_KEY");
+        definitionName = config
+                .getInitParameter("org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME");
     }
 
     /** {@inheritDoc} */
@@ -98,6 +105,6 @@ public class SelectLocaleServlet extends HttpServlet {
                 .getSession().getServletContext(), containerKey);
         TilesContainer container = ServletUtil.getCurrentContainer(request, request
                 .getSession().getServletContext());
-        container.render("test.localized.definition", request, response);
+        container.render(definitionName, request, response);
     }
 }

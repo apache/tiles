@@ -1,4 +1,3 @@
-<%@ page session="false" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <#--
 /*
@@ -40,6 +39,6 @@ Select your locale:
 </select>
 <input type="submit" value="Submit" />
 </form>
-<div id="defaultLocaleMessage">Your default Locale is <%=request.getLocale().toString() %></div>
+<div id="defaultLocaleMessage">Your default Locale is ${.locale}</div>
 </body>
 </html>

@@ -22,6 +22,6 @@
  */
 -->
 <div align="center"><b><i>
-<div id="defaultLocaleMessage">Your default Locale is <%=request.getLocale().toString() %></div>
+<div id="defaultLocaleMessage">Your default Locale is ${.locale}</div>
 </i></b></div>
 <a href="../selectlocale.ftl">Select another locale</a>

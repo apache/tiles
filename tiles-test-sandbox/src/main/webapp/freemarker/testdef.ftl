@@ -26,4 +26,4 @@
   <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
   <@tiles.putAttribute name="body"   value="/freemarker/body.ftl" />
 </@tiles.definition>
-<@tiles.insertDefinition name="freemarker.templateDefinition" />
+<@tiles.insertDefinition name="templateDefinition" />

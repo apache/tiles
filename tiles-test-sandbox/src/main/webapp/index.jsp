@@ -138,7 +138,7 @@
     <a href="freemarker/testimportattribute.ftl">FreeMarker: Test importAttribute Tag</a><br/>
     <a href="freemarker/testimportattribute_all.ftl">FreeMarker: Test importAttribute Tag with no name</a><br/>
     <a href="freemarker/testdecorationfilter.ftl">FreeMarker: Test Tiles Definition Filter</a><br/>
-    <a href="freemarker/testdispatchservlet.tiles">FreeMarker: Test Tiles Dispatch Servlet</a><br/>
+    <a href="freemarker.testdispatchservlet.tiles">FreeMarker: Test Tiles Dispatch Servlet</a><br/>
     <a href="freemarker/selectlocale.ftl">FreeMarker: Test Localization</a><br/>
 
     <h3>Mutable Container Tests</h3>
