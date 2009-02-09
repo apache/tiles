@@ -25,6 +25,11 @@ public class DefinitionModel {
             Stack<Object> composeStack, String name, Object... requestItems) {
         Definition definition = (Definition) composeStack.pop();
         container.register(definition, requestItems);
+        
+        if (composeStack.isEmpty()) {
+            return;
+        }
+        
         Object obj = composeStack.peek();
         if (obj instanceof Attribute) {
             Attribute attribute = (Attribute) obj;
