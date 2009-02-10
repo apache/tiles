@@ -9,14 +9,14 @@ import org.apache.tiles.mgmt.MutableTilesContainer;
 public class DefinitionModel {
 
     public void start(Stack<Object> composeStack, String name, String template,
-            String role, String extend, String preparer) {
+            String role, String extendsParam, String preparer) {
         Definition definition = new Definition();
         definition.setName(name);
         Attribute templateAttribute = Attribute
                 .createTemplateAttribute(template);
         templateAttribute.setRole(role);
         definition.setTemplateAttribute(templateAttribute);
-        definition.setExtends(extend);
+        definition.setExtends(extendsParam);
         definition.setPreparer(preparer);
         composeStack.push(definition);
     }

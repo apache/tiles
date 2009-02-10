@@ -30,7 +30,7 @@ public class PutAttributeModel {
         }
         if(value != null) {
             attribute.setValue(value);
-        } else if (body != null) {
+        } else if (attribute.getValue() == null && body != null) {
             attribute.setValue(body);
         }
         if (expression != null) {

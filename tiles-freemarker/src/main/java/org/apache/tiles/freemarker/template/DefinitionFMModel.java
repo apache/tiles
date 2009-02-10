@@ -29,7 +29,7 @@ public class DefinitionFMModel implements TemplateDirectiveModel {
                 FreeMarkerUtil.getAsString(parms.get("name")),
                 FreeMarkerUtil.getAsString(parms.get("template")),
                 FreeMarkerUtil.getAsString(parms.get("role")),
-                FreeMarkerUtil.getAsString(parms.get("extend")),
+                FreeMarkerUtil.getAsString(parms.get("extends")),
                 FreeMarkerUtil.getAsString(parms.get("preparer")));
         FreeMarkerUtil.evaluateBody(body);
         model.end((MutableTilesContainer) FreeMarkerUtil
