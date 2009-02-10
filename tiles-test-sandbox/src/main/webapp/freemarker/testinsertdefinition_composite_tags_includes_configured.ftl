@@ -31,4 +31,4 @@
     <@tiles.putAttribute name="header" value="/freemarker/header.ftl"/>
     <@tiles.putAttribute name="body"   value="test.inner.definition" type="definition"/>
 </@tiles.definition>
-<@tiles.insertDefinition name="freemarker.test.composite.definition.tags" />
+<@tiles.insertDefinition name="test.composite.definition.tags" />

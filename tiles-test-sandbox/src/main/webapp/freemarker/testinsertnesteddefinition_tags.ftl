@@ -32,4 +32,4 @@
         </@tiles.definition>
     </@tiles.putAttribute>
 </@tiles.definition>
-<@tiles.insertDefinition name="freemarker.test.nesting.definitions.tags" />
+<@tiles.insertDefinition name="test.nesting.definitions.tags" />
