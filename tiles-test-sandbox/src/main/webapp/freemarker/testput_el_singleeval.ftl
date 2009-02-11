@@ -21,12 +21,11 @@
  *
  */
 -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="doNotShowBody" value="${'${'}requestScope.doNotShow}" />
-<c:set var="doNotShow" scope="request" value="DO NOT SHOW!!!" />
+<#assign doNotShowBody="$" + "{" + "requestScope.doNotShow}" />
+<#assign doNotShow="DO NOT SHOW!!!" />
 
 <@tiles.insertTemplate template="/freemarker/layout.ftl">
   <@tiles.putAttribute name="title"  value="This is the title." />
   <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
-  <@tiles.putAttribute name="body"   value="${doNotShowBody}" />
+  <@tiles.putAttribute name="body"   value=doNotShowBody />
 </@tiles.insertTemplate>

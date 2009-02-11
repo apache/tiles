@@ -85,19 +85,7 @@
     </put-list-attribute>
   </definition>
 
-  <definition name="freemarker.test.putAttributes.inherit" extends="test.putAttributes">
-    <put-list-attribute name="list" inherit="true">
-      <add-attribute value="valueFour" type="string" />
-    </put-list-attribute>
-  </definition>
-
-  <definition name="freemarker.test.putAttributes.inherit" extends="test.putAttributes">
-    <put-list-attribute name="list" inherit="true">
-      <add-attribute value="valueFour" type="string" />
-    </put-list-attribute>
-  </definition>
-
-  <definition name="freemarker.test.putAttributes.inherit" extends="test.putAttributes">
+  <definition name="freemarker.test.putAttributes.inherit" extends="freemarker.test.putAttributes">
     <put-list-attribute name="list" inherit="true">
       <add-attribute value="valueFour" type="string" />
     </put-list-attribute>

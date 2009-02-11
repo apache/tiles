@@ -25,8 +25,8 @@
   <@tiles.putAttribute name="title"  value="This is the title." />
   <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
   <@tiles.putAttribute name="body"   value="/freemarker/putattributeslayout.ftl" />
-  <@tiles.putAttribute name="stringTest" value="This is a string" type="string" cascade="true" />
-  <@tiles.putListAttribute name="list" cascade="true">
+  <@tiles.putAttribute name="stringTest" value="This is a string" type="string" cascade=true />
+  <@tiles.putListAttribute name="list" cascade=true>
     <@tiles.addAttribute value="valueOne" type="string" />
     <@tiles.addAttribute value="valueTwo" type="string" />
     <@tiles.addAttribute value="valueThree" type="string" />

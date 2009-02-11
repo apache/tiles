@@ -22,7 +22,7 @@
  */
 -->
 <@tiles.insertTemplate template="/freemarker/layout.ftl">
-  <@tiles.putAttribute name="title"  value="This is the title." cascade="true" />
-  <@tiles.putAttribute name="header" value="/freemarker/header.ftl" cascade="true" />
+  <@tiles.putAttribute name="title"  value="This is the title." cascade=true />
+  <@tiles.putAttribute name="header" value="/freemarker/header.ftl" cascade=true />
   <@tiles.putAttribute name="body"   value="/freemarker/layout_nobody.ftl" />
 </@tiles.insertTemplate>

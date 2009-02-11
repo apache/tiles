@@ -21,8 +21,6 @@
  *
  */
 -->
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
     <td  bgcolor="Blue"><strong><@tiles.getAsString name="title"/></strong></td>
@@ -33,9 +31,9 @@
   <tr>
     <td>
         <@tiles.importAttribute name="list"/>
-        <c:forEach var="attribute" items="${list}">
-            <@tiles.insertAttribute value="${attribute}" />
-        </c:forEach>
+        <#list list as attribute>
+            <@tiles.insertAttribute value=attribute />
+        </#list>
     </td>
   </tr>
 </table>           
