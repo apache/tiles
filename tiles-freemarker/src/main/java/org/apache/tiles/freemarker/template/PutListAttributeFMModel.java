@@ -27,7 +27,7 @@ public class PutListAttributeFMModel implements TemplateDirectiveModel {
         Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
         Stack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
         model.start(composeStack, FreeMarkerUtil.getAsString(parms.get("role")),
-                FreeMarkerUtil.getAsBoolean(parms.get("role"), false));
+                FreeMarkerUtil.getAsBoolean(parms.get("inherit"), false));
         FreeMarkerUtil.evaluateBody(body);
         model.end(FreeMarkerUtil.getCurrentContainer(env), composeStack,
                 FreeMarkerUtil.getAsString(parms.get("name")), FreeMarkerUtil

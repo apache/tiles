@@ -81,9 +81,8 @@ public class FreeMarkerUtil {
     public static void setCurrentContainer(Environment env, String key) {
         TilesContainer container = getContainer(env, key);
         if (container != null) {
-            getServletContextHashModel(env).getServlet().getServletContext()
-                    .setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
-                            container);
+            getRequestHashModel(env).getRequest().setAttribute(
+                    ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         } else {
             throw new NoSuchContainerException("The container with the key '"
                     + key + "' cannot be found");
