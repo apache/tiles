@@ -54,7 +54,7 @@ public class ResolvingLocaleUrlDefinitionDAO extends
     /** {@inheritDoc} */
     @Override
     protected Map<String, Definition> loadParentDefinitions(Locale parentLocale) {
-        return loadDefinitionsFromURLs(parentLocale);
+        return loadRawDefinitionsFromURLs(parentLocale);
     }
 
     /** {@inheritDoc} */

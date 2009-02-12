@@ -214,6 +214,21 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      * @since 2.1.0
      */
     protected Map<String, Definition> loadDefinitionsFromURLs(Locale customizationKey) {
+        Map<String, Definition> localeDefsMap = loadRawDefinitionsFromURLs(customizationKey);
+        postDefinitionLoadOperations(localeDefsMap, customizationKey);
+
+        return localeDefsMap;
+    }
+
+    /**
+     * Loads the raw definitions from the URLs associated with a locale.
+     *
+     * @param customizationKey The locale to use when loading URLs.
+     * @return The loaded definitions.
+     * @since 2.1.3
+     */
+    protected Map<String, Definition> loadRawDefinitionsFromURLs(
+            Locale customizationKey) {
         Map<String, Definition> localeDefsMap;
 
         String postfix = LocaleUtil.calculatePostfix(customizationKey);
@@ -242,8 +257,6 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             }
         }
         locale2definitionMap.put(customizationKey, localeDefsMap);
-        postDefinitionLoadOperations(localeDefsMap, customizationKey);
-
         return localeDefsMap;
     }
 
