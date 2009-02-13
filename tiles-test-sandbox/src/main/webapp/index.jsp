@@ -192,6 +192,5 @@
     <h3>Database Verification tests</h3>
     <a href="freemarker/testinsertdefinition_db.ftl">FreeMarker: Test Insert Configured Definition from DB</a><br/>
     <a href="freemarker/testinsertdefinition_extended_db.ftl">FreeMarker: Test Insert Extended Configured Definition from DB</a><br/>
-    <a href="freemarker/selectlocale_db.ftl">FreeMarker: Test Localization from DB</a><br/>
 
 </html>
