@@ -37,6 +37,7 @@ import javax.el.ResourceBundleELResolver;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
+import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -45,6 +46,7 @@ import org.apache.tiles.evaluator.el.ELAttributeEvaluator;
 import org.apache.tiles.evaluator.el.TilesContextBeanELResolver;
 import org.apache.tiles.evaluator.el.TilesContextELResolver;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
@@ -62,13 +64,34 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
     /**
      * The number of URLs to load..
      */
-    private static final int URL_COUNT = 3;
+    private static final int URL_COUNT = 7;
 
     /** {@inheritDoc} */
     @Override
     protected BasicTilesContainer instantiateContainer(
             TilesApplicationContext applicationContext) {
         return new CachingTilesContainer();
+    }
+    /**
+     * Register elements of a chained request context factory.
+     *
+     * @param contextFactory The request context factory to use.
+     * @since 2.1.1
+     */
+    protected void registerChainedRequestContextFactories(
+            ChainedTilesRequestContextFactory contextFactory) {
+        List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
+                3);
+        registerRequestContextFactory(
+                "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
+                factories, contextFactory);
+        registerRequestContextFactory(
+                "org.apache.tiles.jsp.context.JspTilesRequestContextFactory",
+                factories, contextFactory);
+        registerRequestContextFactory(
+                FreeMarkerTilesRequestContextFactory.class.getName(),
+                factories, contextFactory);
+        contextFactory.setFactories(factories);
     }
 
     /** {@inheritDoc} */
@@ -119,7 +142,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
         List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
             Set<URL> urlSet = applicationContext
-                    .getResources("/WEB-INF/tiles-defs*.xml");
+                    .getResources("/WEB-INF/**/tiles-defs*.xml");
             for (URL url : urlSet) {
                 String externalForm = url.toExternalForm();
                 if (externalForm.indexOf('_', externalForm.lastIndexOf("/")) < 0) {
@@ -128,6 +151,8 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
             }
             urls.add(applicationContext.getResource(
                     "classpath:/org/apache/tiles/classpath-defs.xml"));
+            urls.add(applicationContext.getResource(
+                    "classpath:/org/apache/tiles/freemarker-classpath-defs.xml"));
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);

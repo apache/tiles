@@ -30,6 +30,8 @@
 <body>
     <h1>Tiles 2 Test Application</h1>
     
+    <h1>JSP-based tests</h1>
+    
     <h2>Features in Tiles 2.0.x</h2>
 
     <h3>Standard Render/Attribute Tests</h3>
@@ -110,5 +112,85 @@
     <a href="testinsertdefinition_db.jsp">Test Insert Configured Definition from DB</a><br/>
     <a href="testinsertdefinition_extended_db.jsp">Test Insert Extended Configured Definition from DB</a><br/>
     <a href="selectlocale_db.jsp">Test Localization from DB</a><br/>
+
+	<h1>FreeMarker-based tests</h1>
+    
+    <h2>Features in Tiles 2.0.x</h2>
+
+    <h3>Standard Render/Attribute Tests</h3>
+    <a href="freemarker/testinsertdefinition.ftl">FreeMarker: Test Insert Configured Definition</a><br/>
+    <a href="freemarker/testinsertdefinition_ignore.ftl">FreeMarker: Test Insert Configured Definition with Ignore</a><br/>
+    <a href="freemarker/testinsertdefinition_flush.ftl">FreeMarker: Test Insert Configured Definition with Flush</a><br/>
+    <a href="freemarker/testinsertdefinition_preparer.ftl">FreeMarker: Test Insert Configured Definition with Preparer</a><br/>
+    <a href="freemarker/testinsertdefinition_preparer_configured.ftl">FreeMarker: Test Insert Configured Definition with Preparer configured in the definition itself</a><br/>
+    <a href="freemarker/testinsertdefinition_classpath.ftl">FreeMarker: Test Insert Configured Classpath Definition</a><br/>
+    <a href="freemarker/testinsertdefinition_override.ftl">FreeMarker: Test Insert Configured Definition with an overridden content</a><br/>
+    <a href="freemarker/testinsertdefinition_override_and_not.ftl">FreeMarker: Test Insert Configured Definition with an overridden content and one with original content</a><br/>
+    <a href="freemarker/testinsertdefinition_inline.ftl">FreeMarker: Test Insert Configured Definition with an inline content</a><br/>
+    <a href="freemarker/testinsertdefinition_composite.ftl">FreeMarker: Test Insert Configured Definition that contains another definition inside</a><br/>
+    <a href="freemarker/testinsertdefinition_exception.ftl">FreeMarker: Test Insert Configured Definition with an exception in an attribute page</a><br/>
+    <a href="freemarker/testinsertdefinition_openbody.ftl">FreeMarker: Test Insert Configured Definition with Open Body</a><br/>
+    <a href="freemarker/testput.ftl">FreeMarker: Test Put Tag</a><br/>
+    <a href="freemarker/testput_flush.ftl">FreeMarker: Test Put Tag with Flush</a><br/>
+    <a href="freemarker/testput_el.ftl">FreeMarker: Test Put Tag using EL</a><br/>
+    <a href="freemarker/testput_servlet.ftl">FreeMarker: Test Put Tag using a servlet mapping as a template</a><br/>
+    <a href="freemarker/testputlist.ftl">FreeMarker: Test Put List Tag</a><br/>
+    <a href="freemarker/testimportattribute.ftl">FreeMarker: Test importAttribute Tag</a><br/>
+    <a href="freemarker/testimportattribute_all.ftl">FreeMarker: Test importAttribute Tag with no name</a><br/>
+    <a href="freemarker/testdecorationfilter.ftl">FreeMarker: Test Tiles Definition Filter</a><br/>
+    <a href="freemarker.testdispatchservlet.tiles">FreeMarker: Test Tiles Dispatch Servlet</a><br/>
+    <a href="freemarker/selectlocale.ftl">FreeMarker: Test Localization</a><br/>
+
+    <h3>Mutable Container Tests</h3>
+    <a href="freemarker/testdef.ftl">FreeMarker: Test Definition Tag</a><br/>
+    <a href="freemarker/testdef_extend.ftl">FreeMarker: Test Definition Tag extending configured and custom definitions</a><br/>
+    <a href="freemarker/testdef_preparer.ftl">FreeMarker: Test Definition Tag with Preparer</a><br/>
+    <a href="freemarker/testinsertdefinition_composite_tags_includes_configured.ftl">FreeMarker: Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags</a><br/>
+    <a href="freemarker/testinsertdefinition_composite_tags.ftl">FreeMarker: Test Insert Definition that contains another definition inside using JSP tags</a><br/>
+    <a href="freemarker/testinsertdefinition_composite_tags_includes_configured_notype.ftl">FreeMarker: Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags without types</a><br/>
+    <a href="freemarker/testinsertdefinition_composite_tags_notype.ftl">FreeMarker: Test Insert Definition that contains another definition inside using JSP tags without types</a><br/>
+    
+    <h3>Roles Verification tests</h3>
+    <a href="freemarker/testinsertdefinition_role.ftl">FreeMarker: Test Insert Configured Definition with Specified Role</a><br/>
+    <a href="freemarker/testinsertdefinition_role_tag.ftl">FreeMarker: Test Insert Configured Definition with Specified Role in Tag</a><br/>
+    <a href="freemarker/testinsertdefinition_attribute_roles.ftl">FreeMarker: Test Insert Configured Definition with Attribute that have Roles</a><br/>
+
+    <h2>Features in Tiles 2.1.x</h2>
+
+    <h3>Standard Render/Attribute Tests</h3>
+    <a href="freemarker/testinsertdefinition_override_template.ftl">FreeMarker: Test Insert Configured Definition with an overridden template</a><br/>
+    <a href="freemarker/testinsertdefinition_old.ftl">FreeMarker: Test Insert Configured Definition in Old Format</a><br/>
+    <a href="freemarker/testinsertdefinition_cascaded.ftl">FreeMarker: Test Insert Configured Cascaded Definition</a><br/>
+    <a href="freemarker/testinsertdefinition_cascaded_overridden.ftl">FreeMarker: Test Insert Configured Cascaded Definition with Override</a><br/>
+    <a href="freemarker/testinsertdefinition_cascaded_template.ftl">FreeMarker: Test Insert Configured Cascaded Definition with Template</a><br/>
+    <a href="freemarker/testinsertdefinition_cascaded_list.ftl">FreeMarker: Test Insert Configured Cascaded Definition with List</a><br/>
+    <a href="freemarker/testinsertdefinition_reversed.ftl">FreeMarker: Test Insert Configured Definition with Reversed Attribute</a><br/>
+    <a href="freemarker/testinsertdefinition_reversed_explicit.ftl">FreeMarker: Test Insert Configured Definition with Reversed Explicit Attribute</a><br/>
+    <a href="freemarker/testinsertdefinition_attribute_preparer.ftl">FreeMarker: Test Insert Configured Definition with Attribute Preparer</a><br/>
+    <a href="freemarker/testinsertnesteddefinition.ftl">FreeMarker: Test Insert Nested Definition</a><br/>
+    <a href="freemarker/testinsertnesteddefinition_tags.ftl">FreeMarker: Test Insert Nested Definition only using JSP tags</a><br/>
+    <a href="freemarker/testinsertnestedlistdefinition.ftl">FreeMarker: Test Insert Nested List Definition</a><br/>
+    <a href="freemarker/testinsertnestedlistdefinition_tags.ftl">FreeMarker: Test Insert Nested List Definition only using JSP tags</a><br/>
+    <a href="freemarker/testinsertdefinition_el.ftl">FreeMarker: Test Insert Configured Definition with EL</a><br/>
+    <a href="freemarker/testinsertdefinition_el_singleeval.ftl">FreeMarker: Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
+    <a href="freemarker/testinsertdefinition_wildcard.ftl">FreeMarker: Test Insert Configured Definition with Wildcards</a><br/>
+    <a href="freemarker/testinsertdefinition_defaultvalues.ftl">FreeMarker: Test Insert Configured Definition with Default Values</a><br/>
+    <a href="freemarker/testput_cascaded.ftl">FreeMarker: Test Put Tag with Cascaded Attributes</a><br/>
+    <a href="freemarker/testput_cascaded_overridden.ftl">FreeMarker: Test Put Tag with Overridden Cascaded Attributes</a><br/>
+    <a href="freemarker/testput_cascaded_template.ftl">FreeMarker: Test Put Tag with Cascaded Attributes and Template</a><br/>
+    <a href="freemarker/testput_el_singleeval.ftl">FreeMarker: Test Put Tag using EL to test Single Evaluation</a><br/>
+    <a href="freemarker/testput_reversed.ftl">FreeMarker: Test Put Tag with Reversed Attribute</a><br/>
+    <a href="freemarker/testput_reversed_explicit.ftl">FreeMarker: Test Put Tag with Reversed Explicit Attribute</a><br/>
+    <a href="freemarker/testputlist_cascaded.ftl">FreeMarker: Test Put List Cascaded Tag</a><br/>
+    <a href="freemarker/testputlist_inherit.ftl">FreeMarker: Test Put List Tag with Inherit</a><br/>
+    <a href="freemarker/testimportattribute_inherit.ftl">FreeMarker: Test importAttribute Tag with List Inherit</a><br/>
+    <a href="freemarker/testsetcurrentcontainer.ftl">FreeMarker: Test setCurrentContainer Tag</a><br/>
+
+    <h3>Mutable Container Tests</h3>
+    <a href="freemarker/testdef_list_inherit.ftl">FreeMarker: Test Definition Tag with a List Inherit</a><br/>
+
+    <h3>Database Verification tests</h3>
+    <a href="freemarker/testinsertdefinition_db.ftl">FreeMarker: Test Insert Configured Definition from DB</a><br/>
+    <a href="freemarker/testinsertdefinition_extended_db.ftl">FreeMarker: Test Insert Extended Configured Definition from DB</a><br/>
 
 </html>

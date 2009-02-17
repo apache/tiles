@@ -21,15 +21,19 @@
 
 package org.apache.tiles.test.factory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.sql.DataSource;
 
 import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.test.definition.dao.LocaleDbDefinitionDAO;
 
@@ -57,5 +61,23 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
             TilesApplicationContext applicationContext, TilesRequestContextFactory contextFactory,
             LocaleResolver resolver) {
         return new LocaleDefinitionsFactory();
-   }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void registerChainedRequestContextFactories(
+            ChainedTilesRequestContextFactory contextFactory) {
+        List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
+                3);
+        registerRequestContextFactory(
+                "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
+                factories, contextFactory);
+        registerRequestContextFactory(
+                "org.apache.tiles.jsp.context.JspTilesRequestContextFactory",
+                factories, contextFactory);
+        registerRequestContextFactory(
+                FreeMarkerTilesRequestContextFactory.class.getName(),
+                factories, contextFactory);
+        contextFactory.setFactories(factories);
+    }
 }

@@ -48,6 +48,11 @@
          <version>${pom.version}</version>
       </dependency>
       <dependency>
+         <groupId>${pom.groupId}</groupId>
+         <artifactId>tiles-freemarker</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+      <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>servlet-api</artifactId>
          <version>2.5</version>
