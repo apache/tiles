@@ -36,12 +36,12 @@
     <packaging>pom</packaging>
     <name>Tiles 2</name>
     <description>Tiles 2: A framework for page composition.</description>
-    <url>http://tiles.apache.org/framework/</url>
+    <url>http://tiles.apache.org/2.1/framework/</url>
 
     <scm>
-        <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/trunk/</connection>
-        <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/trunk/</developerConnection>
-        <url>http://svn.eu.apache.org/viewvc/tiles/framework/trunk/</url>
+        <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/branches/TILES_2_1_X/</connection>
+        <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/branches/TILES_2_1_X/</developerConnection>
+        <url>http://svn.eu.apache.org/viewvc/tiles/framework/branches/TILES_2_1_X/</url>
     </scm>
 
     <ciManagement />
@@ -65,7 +65,7 @@
         </repository>
         <site>
             <id>apache-site</id>
-            <url>scp://people.apache.org/www/tiles.apache.org/framework</url>
+            <url>scp://people.apache.org/www/tiles.apache.org/2.1/framework</url>
         </site>
     </distributionManagement>
 
