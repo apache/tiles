@@ -101,6 +101,11 @@
       <artifactId>tiles-servlet</artifactId>
       <version>${pom.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-template</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>

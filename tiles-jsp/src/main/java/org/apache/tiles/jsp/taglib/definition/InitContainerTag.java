@@ -26,11 +26,10 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -39,14 +38,14 @@ import javax.servlet.ServletException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.jsp.context.JspUtil;
-import org.apache.tiles.jsp.taglib.PutAttributeTag;
-import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
 import org.apache.tiles.jsp.taglib.TilesBodyTag;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 
@@ -55,8 +54,7 @@ import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
  *
  * @version $Rev$ $Date$
  */
-public class InitContainerTag extends TilesBodyTag
-    implements PutAttributeTagParent {
+public class InitContainerTag extends TilesBodyTag {
 
     /**
      * The logging object.
@@ -73,11 +71,6 @@ public class InitContainerTag extends TilesBodyTag
      * The key under which the container will be stored.
      */
     private String containerKey;
-
-    /**
-     * Init parameters map.
-     */
-    private Map<String, String> initParameters;
 
 
     /**
@@ -119,28 +112,26 @@ public class InitContainerTag extends TilesBodyTag
     }
 
     /** {@inheritDoc} */
-    public void processNestedTag(PutAttributeTag nestedTag) {
-        initParameters.put(nestedTag.getName(), nestedTag.getValue().toString());
-    }
-
-    /** {@inheritDoc} */
     @Override
     protected void reset() {
         super.reset();
         containerFactory = null;
         containerKey = null;
-        initParameters = null;
     }
 
     /** {@inheritDoc} */
     public int doStartTag() {
-        initParameters = new HashMap<String, String>();
+        Stack<Object> composeStack = JspUtil.getComposeStack(pageContext);
+        composeStack.push(new BasicAttributeContext());
         return EVAL_BODY_INCLUDE;
     }
 
     /** {@inheritDoc} */
     // TODO Add a MutableContainer so that this can be done?
     public int doEndTag() {
+        Stack<Object> composeStack = JspUtil.getComposeStack(pageContext);
+        AttributeContext attributeContext = (AttributeContext) composeStack.pop();
+
         TilesContainer container =
             JspUtil.getContainer(pageContext, containerKey);
 
@@ -164,8 +155,9 @@ public class InitContainerTag extends TilesBodyTag
                 TilesContainerFactory.CONTAINER_FACTORY_MUTABLE_INIT_PARAM,
                 "true");
 
-        for (Map.Entry<String, String> entry : initParameters.entrySet()) {
-            context.setInitParameter(entry.getKey(), entry.getValue());
+        for (String name : attributeContext.getLocalAttributeNames()) {
+            context.setInitParameter(name, (String) attributeContext
+                    .getAttribute(name).getValue());
         }
 
         TilesApplicationContext applicationContext = new ServletTilesApplicationContext(

@@ -21,13 +21,12 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.AttributeContext;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
-
 import java.io.IOException;
+
+import org.apache.tiles.Attribute;
+import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.template.DefaultAttributeResolver;
+import org.apache.tiles.template.InsertAttributeModel;
 
 /**
  * This is the tag handler for &lt;tiles:attribute&gt;, which defines an
@@ -36,17 +35,23 @@ import java.io.IOException;
  *
  * @version $Rev$ $Date$
  */
-public class InsertAttributeTag extends RenderTag {
+public class InsertAttributeTag extends TilesBodyTag {
+
+    /**
+     * The template model.
+     */
+    private InsertAttributeModel model = new InsertAttributeModel(
+            new DefaultAttributeResolver());
 
     /**
      * Name to insert.
      */
-    protected String name;
+    private String name;
 
     /**
      * The value of the attribute.
      */
-    protected Object value = null;
+    private Object value = null;
 
     /**
      * This value is evaluated only if <code>value</code> is null and the
@@ -54,14 +59,14 @@ public class InsertAttributeTag extends RenderTag {
      *
      * @since 2.1.2
      */
-    protected Object defaultValue;
+    private Object defaultValue;
 
     /**
      * The type of the {@link #defaultValue}, if it is a string.
      *
      * @since 2.1.2
      */
-    protected String defaultValueType;
+    private String defaultValueType;
 
     /**
      * The role to check for the default value. If the user is in the specified
@@ -70,14 +75,37 @@ public class InsertAttributeTag extends RenderTag {
      *
      * @since 2.1.2
      */
-    protected String defaultValueRole;
+    private String defaultValueRole;
 
     /**
-     * The evaluated attribute.
+     * The role to check. If the user is in the specified role, the tag is taken
+     * into account; otherwise, the tag is ignored (skipped).
      *
-     * @since 2.1.0
+     * @since 2.1.1
      */
-    protected Attribute attribute;
+    private String role;
+
+    /**
+     * The view preparer to use before the rendering.
+     *
+     * @since 2.1.1
+     */
+    private String preparer;
+
+    /**
+     * This flag, if <code>true</code>, flushes the content before rendering.
+     *
+     * @since 2.1.1
+     */
+    private boolean flush;
+
+    /**
+     * This flag, if <code>true</code>, ignores exception thrown by preparers
+     * and those caused by problems with definitions.
+     *
+     * @since 2.1.1
+     */
+    private boolean ignore;
 
     /**
      * Sets the name of the attribute.
@@ -177,102 +205,130 @@ public class InsertAttributeTag extends RenderTag {
         this.defaultValueRole = defaultValueRole;
     }
 
+    /**
+     * Returns the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @return The role to check.
+     * @since 2.1.1
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * Sets the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @param role The role to check.
+     * @since 2.1.1
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    /**
+     * Returns the preparer name.
+     *
+     * @return The preparer name.
+     * @since 2.1.1
+     */
+    public String getPreparer() {
+        return preparer;
+    }
+
+    /**
+     * Sets the preparer name.
+     *
+     * @param preparer The preparer name.
+     * @since 2.1.1
+     */
+    public void setPreparer(String preparer) {
+        this.preparer = preparer;
+    }
+
+    /**
+     * Returns the flush flag. If <code>true</code>, current page out stream
+     * is flushed before insertion.
+     *
+     * @return The flush flag.
+     * @since 2.1.1
+     */
+    public boolean isFlush() {
+        return flush;
+    }
+
+    /**
+     * Sets the flush flag. If <code>true</code>, current page out stream
+     * is flushed before insertion.
+     *
+     * @param flush The flush flag.
+     * @since 2.1.1
+     */
+    public void setFlush(boolean flush) {
+        this.flush = flush;
+    }
+
+    /**
+     * Returns the ignore flag. If it is set to true, and the attribute
+     * specified by the name does not exist, simply return without writing
+     * anything. The default value is false, which will cause a runtime
+     * exception to be thrown.
+     *
+     * @return The ignore flag.
+     * @since 2.1.1
+     */
+    public boolean isIgnore() {
+        return ignore;
+    }
+
+    /**
+     * Sets the ignore flag. If this attribute is set to true, and the attribute
+     * specified by the name does not exist, simply return without writing
+     * anything. The default value is false, which will cause a runtime
+     * exception to be thrown.
+     *
+     * @param ignore The ignore flag.
+     * @since 2.1.1
+     */
+    public void setIgnore(boolean ignore) {
+        this.ignore = ignore;
+    }
+
     /** {@inheritDoc} */
     @Override
     protected void reset() {
         super.reset();
-        this.name = null;
-        this.value = null;
-        this.defaultValue = null;
-        this.defaultValueType = null;
-        this.defaultValueType = null;
-        this.attribute = null;
+        name = null;
+        value = null;
+        defaultValue = null;
+        defaultValueType = null;
+        defaultValueType = null;
+        preparer = null;
+        flush = false;
+        ignore = false;
+        role = null;
     }
 
     /** {@inheritDoc} */
     @Override
     public int doStartTag() throws TilesJspException {
-        if (value == null && name == null) {
-            throw new TilesJspException(
-                    "No attribute name or value has been provided.");
-        }
-        return super.doStartTag();
-    }
-
-    /** {@inheritDoc} */
-    protected void render() throws TilesJspException, IOException {
-        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
-
-        // Checks if the attribute can be rendered with the current user.
-        if ((role != null && !req.isUserInRole(role))
-                || (attribute == null && ignore)) {
-            return;
-        }
-        render(attribute);
+        model.start(JspUtil.getComposeStack(pageContext), JspUtil
+                .getCurrentContainer(pageContext), ignore, preparer, role,
+                defaultValue, defaultValueRole, defaultValueType, name,
+                (Attribute) value, pageContext);
+        return EVAL_BODY_INCLUDE;
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void startContext(PageContext context) {
-        if (preparer != null) {
-            container.prepare(preparer, context);
+    public int doEndTag() throws TilesJspException {
+        try {
+            model.end(JspUtil.getComposeStack(pageContext), JspUtil
+                    .getContainer(pageContext), ignore, pageContext);
+        } catch (IOException e) {
+            throw new TilesJspException("Cannot insert an attribute", e);
         }
-
-        attribute = computeAttribute(context);
-
-        super.startContext(context);
-    }
-
-    /**
-     * Renders an attribute for real.
-     *
-     * @param attr The attribute to render.
-     * @throws IOException If something goes wrong during the reading of
-     * definition files.
-     */
-    protected void render(Attribute attr) throws IOException {
-        container.render(attr, pageContext);
-    }
-
-    /**
-     * Computes the attribute to render, evaluating the various tag attributes.
-     *
-     * @param context The page context.
-     * @return The computed attribute.
-     */
-    private Attribute computeAttribute(PageContext context) {
-        Attribute attribute = (Attribute) value;
-
-        if (attribute == null) {
-            AttributeContext evaluatingContext = container
-                    .getAttributeContext(context);
-            attribute = evaluatingContext.getAttribute(name);
-            if (attribute == null) {
-                attribute = computeDefaultAttribute();
-                if (attribute == null && !ignore) {
-                    throw new NoSuchAttributeException("Attribute '" + name
-                            + "' not found.");
-                }
-            }
-        }
-        return attribute;
-    }
-
-    /**
-     * Computes the default attribute.
-     *
-     * @return The default attribute.
-     */
-    private Attribute computeDefaultAttribute() {
-        Attribute attribute = null;
-        if (defaultValue != null) {
-            if (defaultValue instanceof Attribute) {
-                attribute = (Attribute) defaultValue;
-            } else if (defaultValue instanceof String) {
-                attribute = new Attribute(defaultValue,
-                        null, defaultValueRole, defaultValueType);
-            }
-        }
-        return attribute;
+        return EVAL_PAGE;
     }
 }

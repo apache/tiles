@@ -21,12 +21,10 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.Attribute;
+import javax.servlet.jsp.JspException;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.jsp.tagext.TagSupport;
+import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.template.PutListAttributeModel;
 
 /**
  * PutList tag implementation.
@@ -34,8 +32,34 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class PutListAttributeTag extends PutAttributeTag
-    implements AddAttributeTagParent {
+public class PutListAttributeTag extends TilesBodyTag {
+
+    /**
+     * The template model.
+     */
+    private PutListAttributeModel model = new PutListAttributeModel();
+
+    /**
+     * Name of attribute to put in attribute context.
+     */
+    private String name = null;
+
+    /**
+     * If <code>true</code>, the attribute will be cascaded to all nested
+     * definitions.
+     */
+    private boolean cascade = false;
+
+    /**
+     * The role to check. If the user is in the specified role, the tag is taken
+     * into account; otherwise, the tag is ignored (skipped).
+     */
+    private String role;
+
+    /**
+     * Requested type for the value.
+     */
+    private String type = null;
 
     /**
      * If true, the attribute will put the elements of the attribute with the
@@ -43,6 +67,105 @@ public class PutListAttributeTag extends PutAttributeTag
      * default, it is 'false'.
      */
     private boolean inherit = false;
+
+    /**
+     * Returns  the name of the attribute.
+     *
+     * @return The name of the attribute.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name of the attribute.
+     *
+     * @param name The name of the attribute.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Checks if the attribute should be cascaded to nested definitions.
+     *
+     * @return <code>true</code> if the attribute will be cascaded.
+     * @since 2.1.0
+     */
+    public boolean isCascade() {
+        return cascade;
+    }
+
+    /**
+     * Sets the property that tells if the attribute should be cascaded to
+     * nested definitions.
+     *
+     * @param cascade <code>true</code> if the attribute will be cascaded.
+     * @since 2.1.0
+     */
+    public void setCascade(boolean cascade) {
+        this.cascade = cascade;
+    }
+
+    /**
+     * Returns the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @return The role to check.
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * Sets the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @param role The role to check.
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    /**
+     * <p>
+     * Returns content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml
+     * file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @return The attribute type.
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * <p>
+     * Sets content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml
+     * file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @param type The attribute type.
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
 
     /**
      * If true, the attribute will put the elements of the attribute with the
@@ -68,82 +191,29 @@ public class PutListAttributeTag extends PutAttributeTag
         return inherit;
     }
 
-    /**
-     * Get list defined in tag.
-     *
-     * @return The value of this list attribute.
-     */
-    @SuppressWarnings("unchecked")
-    public List<Attribute> getAttributes() {
-        return (List<Attribute>) super.getValue();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setValue(Object object) {
-        throw new IllegalStateException("The value of the PutListAttributeTag must be the originally defined list.");
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doStartTag() {
-        super.setValue(new ArrayList<Attribute>());
-        return EVAL_BODY_BUFFERED;
-    }
-
-    /**
-     * PutListAttributeTag may not have any body, except for PutAttribute tags.
-     *
-     * @return <code>SKIP_BODY</code>.
-     */
-    public int doAfterBody() {
-        return (SKIP_BODY);
-    }
-
     /** {@inheritDoc} */
     @Override
     protected void reset() {
         super.reset();
+        name = null;
+        cascade = false;
+        role = null;
+        type = null;
         inherit = false;
-    }
-
-    /**
-     * Process nested &lg;putAttribute&gt; tag.
-     * <p/>
-     * Places the value of the nested tag within the
-     * {@link org.apache.tiles.AttributeContext}.It is the responsibility
-     * of the descendent to check security.  Security will be managed by called
-     * tags.
-     *
-     * @param nestedTag the put tag desciendent.
-     */
-    public void processNestedTag(AddAttributeTag nestedTag) {
-        Attribute attribute = new Attribute(nestedTag.getValue(), null, nestedTag
-                        .getRole(), nestedTag.getType());
-
-        this.addValue(attribute);
-    }
-
-    /**
-     * Adds an attribute value to the list.
-     *
-     * @param attribute The attribute to add.
-     */
-    private void addValue(Attribute attribute) {
-        this.getAttributes().add(attribute);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void execute() throws TilesJspException {
-        PutListAttributeTagParent parent = (PutListAttributeTagParent) TagSupport
-                .findAncestorWithClass(this, PutListAttributeTagParent.class);
+    public int doStartTag() throws JspException {
+        model.start(JspUtil.getComposeStack(pageContext), role, inherit);
+        return EVAL_BODY_BUFFERED;
+    }
 
-        if (parent == null) {
-            // Try with the old method.
-            super.execute();
-        }
+    /** {@inheritDoc} */
+    public int doEndTag() throws TilesJspException {
+        model.end(JspUtil.getCurrentContainer(pageContext), JspUtil
+                .getComposeStack(pageContext), name, cascade, pageContext);
 
-        parent.processNestedTag(this);
+        return EVAL_PAGE;
     }
 }

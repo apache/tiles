@@ -21,10 +21,8 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.tiles.Attribute;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.template.AddListAttributeModel;
 
 /**
  * AddListAttribute tag implementation.
@@ -32,63 +30,93 @@ import java.util.List;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class AddListAttributeTag extends AddAttributeTag
-    implements AddAttributeTagParent {
+public class AddListAttributeTag extends TilesBodyTag {
 
     /**
-     * Get list defined in tag.
-     *
-     * @return The list of attributes.
+     * The template model.
      */
-    @SuppressWarnings("unchecked")
-    public List<Attribute> getAttributes() {
-        return (List<Attribute>) super.getValue();
+    private AddListAttributeModel model = new AddListAttributeModel();
+
+    /**
+     * The role to check. If the user is in the specified role, the tag is taken
+     * into account; otherwise, the tag is ignored (skipped).
+     */
+    private String role;
+
+    /**
+     * Requested type for the value.
+     */
+    private String type = null;
+
+    /**
+     * Returns the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @return The role to check.
+     */
+    public String getRole() {
+        return role;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void setValue(Object object) {
-        throw new IllegalStateException("The value of the PutListAttributeTag must be the originally defined list.");
+    /**
+     * Sets the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @param role The role to check.
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    /**
+     * <p>
+     * Returns content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml
+     * file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @return The attribute type.
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * <p>
+     * Sets content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml
+     * file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @param type The attribute type.
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 
     /** {@inheritDoc} */
     public int doStartTag() {
-        super.setValue(new ArrayList<Attribute>());
+        model.start(JspUtil.getComposeStack(pageContext), role);
         return EVAL_BODY_BUFFERED;
     }
 
-    /**
-     * PutListAttributeTag may not have any body, except for PutAttribute tags.
-     *
-     * @return <code>SKIP_BODY</code>.
-     */
-    public int doAfterBody() {
-        return (SKIP_BODY);
-    }
-
-    /**
-     * Process nested &lg;addAttribute&gt; tag.
-     * <p/>
-     * Places the value of the nested tag within the
-     * {@link org.apache.tiles.AttributeContext}.It is the responsibility
-     * of the descendent to check security.  Security will be managed by called
-     * tags.
-     *
-     * @param nestedTag the put tag desciendent.
-     */
-    public void processNestedTag(AddAttributeTag nestedTag) {
-        Attribute attribute = new Attribute(nestedTag.getValue(), null, nestedTag
-                        .getRole(), nestedTag.getType());
-
-        this.addValue(attribute);
-    }
-
-    /**
-     * Adds a value in this list.
-     *
-     * @param attribute The attribute to add.
-     */
-    private void addValue(Attribute attribute) {
-        this.getAttributes().add(attribute);
+    /** {@inheritDoc} */
+    public int doEndTag() throws TilesJspException {
+        model.end(JspUtil.getComposeStack(pageContext));
+        return EVAL_PAGE;
     }
 }

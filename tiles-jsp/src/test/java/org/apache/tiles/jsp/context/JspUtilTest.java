@@ -21,11 +21,16 @@
 
 package org.apache.tiles.jsp.context;
 
+import java.util.Stack;
+
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.easymock.classextension.EasyMock;
 
@@ -37,6 +42,11 @@ import junit.framework.TestCase;
  * @version $Rev$ $Date$
  */
 public class JspUtilTest extends TestCase {
+
+    /**
+     * The logging object.
+     */
+    private Log log = LogFactory.getLog(getClass());
 
     /**
      * Tests {@link ServletUtil#getContainer(ServletContext)}.
@@ -167,5 +177,52 @@ public class JspUtilTest extends TestCase {
         EasyMock.verify(pageContext, defaultContainer, alternateContainer);
         assertTrue("The containers are not the same",
                 currentContainer == alternateContainer);
+    }
+
+    /**
+     * Tests {@link JspUtil#getComposeStack(PageContext)}.
+     */
+    public void testGetComposeStack() {
+        PageContext pageContext = EasyMock.createMock(PageContext.class);
+
+        Stack<Object> stack = new Stack<Object>();
+
+        EasyMock.expect(
+                pageContext.getAttribute(
+                        "org.apache.tiles.template.COMPOSE_STACK",
+                        PageContext.REQUEST_SCOPE)).andReturn(null);
+        EasyMock.expect(
+                pageContext.getAttribute(
+                        "org.apache.tiles.template.COMPOSE_STACK",
+                        PageContext.REQUEST_SCOPE)).andReturn(stack);
+        pageContext.setAttribute(EasyMock
+                .eq("org.apache.tiles.template.COMPOSE_STACK"), EasyMock
+                .isA(Stack.class), EasyMock.eq(PageContext.REQUEST_SCOPE));
+
+        EasyMock.replay(pageContext);
+        assertTrue(JspUtil.getComposeStack(pageContext).isEmpty());
+        assertEquals(stack, JspUtil.getComposeStack(pageContext));
+        EasyMock.verify(pageContext);
+    }
+
+    /**
+     * Tests {@link JspUtil#getScope(String)}.
+     * @throws TilesJspException If something goes wrong.
+     */
+    public void testGetScope() throws TilesJspException {
+        assertEquals(PageContext.PAGE_SCOPE, JspUtil.getScope(null));
+        assertEquals(PageContext.PAGE_SCOPE, JspUtil.getScope("page"));
+        assertEquals(PageContext.REQUEST_SCOPE, JspUtil.getScope("request"));
+        assertEquals(PageContext.SESSION_SCOPE, JspUtil.getScope("session"));
+        assertEquals(PageContext.APPLICATION_SCOPE, JspUtil.getScope("application"));
+
+        try {
+            JspUtil.getScope("blah");
+            fail("A TilesJspException should have been raised");
+        } catch (TilesJspException e) {
+            if (log.isDebugEnabled()) {
+                log.debug("Got correct exception, ignoring", e);
+            }
+        }
     }
 }

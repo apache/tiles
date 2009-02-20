@@ -21,11 +21,16 @@
 
 package org.apache.tiles.jsp.context;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.impl.NoSuchContainerException;
+import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 import javax.servlet.jsp.PageContext;
@@ -36,6 +41,24 @@ import javax.servlet.jsp.PageContext;
  * @version $Rev$ $Date$
  */
 public final class JspUtil {
+
+    /**
+     * The name of the attribute that will contain the compose stack.
+     */
+    public static final String COMPOSE_STACK_ATTRIBUTE_NAME = "org.apache.tiles.template.COMPOSE_STACK";
+
+    /**
+     * Maps scope names to their constants.
+     */
+    private static final Map<String, Integer> SCOPES =
+        new HashMap<String, Integer>();
+
+    static {
+        JspUtil.SCOPES.put("page", PageContext.PAGE_SCOPE);
+        JspUtil.SCOPES.put("request", PageContext.REQUEST_SCOPE);
+        JspUtil.SCOPES.put("session", PageContext.SESSION_SCOPE);
+        JspUtil.SCOPES.put("application", PageContext.APPLICATION_SCOPE);
+    }
 
     /**
      * Constructor, private to avoid instantiation.
@@ -192,5 +215,49 @@ public final class JspUtil {
         }
 
         return container;
+    }
+
+    /**
+     * Returns the compose stack, that is used by the tags to compose
+     * definitions, attributes, etc.
+     *
+     * @param context The page context.
+     * @return The compose stack.
+     * @since 2.2.0
+     */
+    @SuppressWarnings("unchecked")
+    public static Stack<Object> getComposeStack(PageContext context) {
+        Stack<Object> composeStack = (Stack<Object>) context.getAttribute(
+                COMPOSE_STACK_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE);
+        if (composeStack == null) {
+            composeStack = new Stack<Object>();
+            context.setAttribute(COMPOSE_STACK_ATTRIBUTE_NAME, composeStack,
+                    PageContext.REQUEST_SCOPE);
+        }
+        return composeStack;
+    }
+
+    /**
+     * Converts the scope name into its corresponding PageContext constant value.
+     *
+     * @param scopeName Can be "page", "request", "session", or "application" in any
+     *                  case.
+     * @return The constant representing the scope (ie. PageContext.REQUEST_SCOPE).
+     * @throws TilesJspException if the scopeName is not a valid name.
+     * @since 2.2.0
+     */
+    public static int getScope(String scopeName) throws TilesJspException {
+        if (scopeName == null) {
+            return PageContext.PAGE_SCOPE;
+        }
+
+        Integer scope = JspUtil.SCOPES.get(scopeName.toLowerCase());
+
+        if (scope == null) {
+            throw new TilesJspException("Unable to retrieve the scope "
+                    + scopeName);
+        }
+
+        return scope;
     }
 }

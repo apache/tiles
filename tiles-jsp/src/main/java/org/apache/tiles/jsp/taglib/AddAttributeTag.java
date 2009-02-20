@@ -21,10 +21,10 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.tagext.TagSupport;
+import javax.servlet.jsp.JspException;
 
-import org.apache.tiles.jsp.taglib.definition.DefinitionTagParent;
+import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.template.AddAttributeModel;
 
 /**
  * <p><strong>Adds an attribute in enclosing attribute container tag.</strong></p>
@@ -55,13 +55,18 @@ import org.apache.tiles.jsp.taglib.definition.DefinitionTagParent;
  *
  * @version $Rev$ $Date$
  */
-public class AddAttributeTag extends TilesBodyTag implements DefinitionTagParent {
+public class AddAttributeTag extends TilesBodyTag {
+
+    /**
+     * The template model.
+     */
+    private AddAttributeModel model = new AddAttributeModel();
 
     /**
      * The role to check. If the user is in the specified role, the tag is taken
      * into account; otherwise, the tag is ignored (skipped).
      */
-    protected String role;
+    private String role;
 
     /**
      * Associated attribute value.
@@ -160,61 +165,22 @@ public class AddAttributeTag extends TilesBodyTag implements DefinitionTagParent
         type = null;
     }
 
-    /**
-     * Save the body content of this tag (if any).
-     *
-     * @return It returns <code>SKIP_BODY</code>.
-     */
-    public int doAfterBody() {
-        if (value == null && bodyContent != null) {
-            value = bodyContent.getString();
-            type = "string";
-        }
-        return (SKIP_BODY);
+    /** {@inheritDoc} */
+    @Override
+    public int doStartTag() throws JspException {
+        model.start(JspUtil.getComposeStack(pageContext));
+        return EVAL_BODY_BUFFERED;
     }
 
     /** {@inheritDoc} */
     public int doEndTag() throws TilesJspException {
-        if (isAccessAllowed()) {
-            execute();
+        String body = null;
+        if (bodyContent != null) {
+            body = bodyContent.getString();
         }
+        model.end(JspUtil.getComposeStack(pageContext), value, null, body,
+                role, type);
 
         return EVAL_PAGE;
-    }
-
-    /** {@inheritDoc} */
-    public void processNestedDefinitionName(String definitionName) {
-        value = definitionName;
-        if (type == null) {
-            type = "definition";
-        }
-    }
-
-    /**
-     * Executes the processing of this tag, calling its parent tag.
-     *
-     * @throws TilesJspException If something goes wrong during execution.
-     */
-    protected void execute() throws TilesJspException {
-        AddAttributeTagParent parent = (AddAttributeTagParent)
-            TagSupport.findAncestorWithClass(this, AddAttributeTagParent.class);
-
-        if (parent == null) {
-            throw new TilesJspException(
-                    "Error: no enclosing tag accepts 'addAttribute' tag.");
-        }
-
-        parent.processNestedTag(this);
-    }
-
-    /**
-     * Checks if the user is inside the specified role.
-     *
-     * @return <code>true</code> if the user is allowed to have the tag
-     * rendered.
-     */
-    protected boolean isAccessAllowed() {
-        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
-        return (role == null || req.isUserInRole(role));
     }
 }

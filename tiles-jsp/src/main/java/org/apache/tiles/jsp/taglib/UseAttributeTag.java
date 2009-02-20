@@ -22,9 +22,15 @@
 
 package org.apache.tiles.jsp.taglib;
 
+import java.util.Map;
+
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
+
+import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.template.ImportAttributeModel;
 
 
 /**
@@ -33,12 +39,88 @@ import javax.servlet.jsp.tagext.VariableInfo;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class UseAttributeTag extends AttributeTagSupport {
+public class UseAttributeTag extends TilesTag {
+
+    /**
+     * The template model.
+     */
+    private ImportAttributeModel model = new ImportAttributeModel();
+
+    /**
+     * The scope name.
+     */
+    private String scopeName = null;
+
+    /**
+     * The name of the attribute.
+     */
+    private String name = null;
+
+    /**
+     * Flag that, if <code>true</code>, ignores exceptions.
+     */
+    private boolean ignore = false;
 
     /**
      * Class name of object.
      */
     private String classname = null;
+
+    /**
+     * Set the scope.
+     *
+     * @param scope Scope.
+     */
+    public void setScope(String scope) {
+        this.scopeName = scope;
+    }
+
+    /**
+     * Get scope.
+     *
+     * @return Scope.
+     */
+    public String getScope() {
+        return scopeName;
+    }
+
+    /**
+     * Get the name.
+     *
+     * @return Name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set the name.
+     *
+     * @param name The new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Set ignore flag.
+     *
+     * @param ignore default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
+     *               true</code> to ignore missing attributes silently
+     */
+    public void setIgnore(boolean ignore) {
+        this.ignore = ignore;
+    }
+
+    /**
+     * Get ignore flag.
+     *
+     * @return default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
+     *         true</code> to ignore missing attributes silently
+     */
+    public boolean isIgnore() {
+        return ignore;
+    }
 
     /**
      * Get class name.
@@ -62,15 +144,25 @@ public class UseAttributeTag extends AttributeTagSupport {
     /** {@inheritDoc} */
     protected void reset() {
         super.reset();
+        name = null;
+        scopeName = null;
+        ignore = false;
         classname = null;
         id = null;
     }
 
-    /**
-     * Expose the requested attribute from attribute context.
-     */
-    public void execute() {
-        pageContext.setAttribute(getScriptingVariable(), attributeValue, scope);
+    /** {@inheritDoc} */
+    @Override
+    public int doStartTag() throws JspException {
+        Map<String, Object> attributes = model.getImportedAttributes(JspUtil
+                .getCurrentContainer(pageContext), name, id, ignore,
+                pageContext);
+        if (!attributes.isEmpty()) {
+            int scopeId = JspUtil.getScope(scopeName);
+            pageContext.setAttribute(getScriptingVariable(), attributes
+                    .values().iterator().next(), scopeId);
+        }
+        return EVAL_PAGE;
     }
 
     /**

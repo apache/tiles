@@ -20,18 +20,12 @@
  */
 package org.apache.tiles.jsp.taglib.definition;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.Definition;
-import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.context.JspUtil;
-import org.apache.tiles.jsp.taglib.PutAttributeTag;
-import org.apache.tiles.jsp.taglib.PutAttributeTagParent;
-import org.apache.tiles.jsp.taglib.PutListAttributeTag;
-import org.apache.tiles.jsp.taglib.PutListAttributeTagParent;
+import org.apache.tiles.jsp.taglib.TilesBodyTag;
 import org.apache.tiles.jsp.taglib.TilesJspException;
-import org.apache.tiles.jsp.taglib.TilesTag;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.template.DefinitionModel;
 
 /**
  * This is the tag handler for &lt;tiles:definition&gt;, which creates a custom
@@ -40,9 +34,12 @@ import org.apache.tiles.mgmt.MutableTilesContainer;
  *
  * @version $Rev$ $Date$
  */
-public class DefinitionTag extends TilesTag implements PutAttributeTagParent,
-        PutListAttributeTagParent {
+public class DefinitionTag extends TilesBodyTag {
 
+    /**
+     * The template model.
+     */
+    private DefinitionModel model = new DefinitionModel();
 
     /**
      * Name of the definition to configure.
@@ -68,17 +65,6 @@ public class DefinitionTag extends TilesTag implements PutAttributeTagParent,
      * The definition view preparer.
      */
     private String preparer;
-
-
-    /**
-     * The mutable Tiles container to use.
-     */
-    private MutableTilesContainer container;
-
-    /**
-     * The definition currently being built.
-     */
-    private Definition definition;
 
     /**
      * Returns the name of the definition to configure.
@@ -179,103 +165,23 @@ public class DefinitionTag extends TilesTag implements PutAttributeTagParent,
         extend = null;
         role = null;
         preparer = null;
-        definition = null;
     }
 
     /** {@inheritDoc} */
     public int doStartTag() throws TilesJspException {
-        definition = new Definition();
-        definition.setName(name);
-        Attribute templateAttribute = Attribute
-                .createTemplateAttribute(template);
-        templateAttribute.setRole(role);
-        definition.setTemplateAttribute(templateAttribute);
-        definition.setExtends(extend);
-        definition.setPreparer(preparer);
-
-        TilesContainer c = JspUtil.getCurrentContainer(pageContext);
-
-        if (c == null) {
-            throw new TilesJspException("TilesContainer not initialized");
-        }
-        if (!(c instanceof MutableTilesContainer)) {
-            throw new TilesJspException(
-                    "Unable to define definition for a "
-                            + "container which does not implement MutableTilesContainer");
-        }
-
-        container = (MutableTilesContainer) c;
+        model.start(JspUtil.getComposeStack(pageContext), name, template, role, extend, preparer);
         return EVAL_BODY_INCLUDE;
     }
 
     /** {@inheritDoc} */
     public int doEndTag() throws TilesJspException {
-        container.register(definition, pageContext);
-        callParent();
+        TilesContainer container = JspUtil.getCurrentContainer(pageContext);
+        if (container instanceof MutableTilesContainer) {
+            model.end((MutableTilesContainer) container, JspUtil
+                    .getComposeStack(pageContext), name, pageContext);
+        } else {
+            throw new TilesJspException("The current container is not mutable");
+        }
         return EVAL_PAGE;
-    }
-
-    /**
-     * Reset member values for reuse. This method calls super.release(),
-     * which invokes TagSupport.release(), which typically does nothing.
-     *
-     * @param nestedTag The nested <code>PutAttributeTag</code>
-     * @throws TilesJspException Never thrown, it's here for API compatibility.
-     */
-    public void processNestedTag(PutAttributeTag nestedTag) throws TilesJspException {
-        Attribute attr = new Attribute(nestedTag.getValue(),
-            null, nestedTag.getRole(), nestedTag.getType());
-        definition.putAttribute(nestedTag.getName(), attr, nestedTag
-                .isCascade());
-    }
-
-    /** {@inheritDoc} */
-    public void processNestedTag(PutListAttributeTag nestedTag) {
-        ListAttribute attribute = new ListAttribute(nestedTag.getAttributes());
-        attribute.setRole(nestedTag.getRole());
-        attribute.setInherit(nestedTag.getInherit());
-        definition.putAttribute(nestedTag.getName(), attribute, nestedTag
-                .isCascade());
-    }
-
-    /**
-     * Find parent tag which must implement {@link DefinitionTagParent}.
-     * @throws TilesJspException If we can't find an appropriate enclosing tag.
-     * @since 2.1.0
-     */
-    protected void callParent() throws TilesJspException {
-        // Get enclosing parent
-        DefinitionTagParent enclosingParent =
-                findEnclosingDefinitionTagParent();
-        if (enclosingParent != null) {
-            enclosingParent.processNestedDefinitionName(definition.getName());
-        }
-    }
-
-    /**
-     * Find parent tag which must implement AttributeContainer.
-     * @throws TilesJspException If we can't find an appropriate enclosing tag.
-     * @return The parent tag.
-     * @since 2.1.0
-     */
-    protected DefinitionTagParent findEnclosingDefinitionTagParent()
-            throws TilesJspException {
-        try {
-            DefinitionTagParent parent =
-                    (DefinitionTagParent) findAncestorWithClass(this,
-                            DefinitionTagParent.class);
-
-            if (parent == null && name == null) {
-                throw new TilesJspException(
-                        "Error - tag definition : enclosing tag doesn't accept 'definition'"
-                                + " tag and a name was not specified.");
-            }
-
-            return parent;
-
-        } catch (ClassCastException ex) { // Is it possibile?
-            throw new TilesJspException(
-                    "Error - tag definition : enclosing tag doesn't accept 'definition' tag.", ex);
-        }
     }
 }

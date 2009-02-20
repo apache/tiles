@@ -4,7 +4,6 @@ import java.util.Stack;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
-import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
 
 public class PutAttributeModel {
@@ -21,7 +20,7 @@ public class PutAttributeModel {
         AttributeContext attributeContext = null;
         if (!composeStack.isEmpty()) {
             Object obj = composeStack.peek();
-            if (obj instanceof Definition) {
+            if (obj instanceof AttributeContext) {
                 attributeContext = (AttributeContext) obj;
             }
         }

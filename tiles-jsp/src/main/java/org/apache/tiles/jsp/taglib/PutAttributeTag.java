@@ -21,7 +21,10 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import javax.servlet.jsp.tagext.TagSupport;
+import javax.servlet.jsp.JspException;
+
+import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.template.PutAttributeModel;
 
 /**
  * <p><strong>Put an attribute in enclosing attribute container tag.</strong></p>
@@ -63,18 +66,39 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  * @version $Rev$ $Date$
  */
-public class PutAttributeTag extends AddAttributeTag {
+public class PutAttributeTag extends TilesBodyTag {
+
+    /**
+     * The template model.
+     */
+    private PutAttributeModel model = new PutAttributeModel();
 
     /**
      * Name of attribute to put in attribute context.
      */
-    protected String name = null;
+    private String name = null;
 
     /**
      * If <code>true</code>, the attribute will be cascaded to all nested
      * definitions.
      */
     private boolean cascade = false;
+
+    /**
+     * The role to check. If the user is in the specified role, the tag is taken
+     * into account; otherwise, the tag is ignored (skipped).
+     */
+    private String role;
+
+    /**
+     * Associated attribute value.
+     */
+    private Object value = null;
+
+    /**
+     * Requested type for the value.
+     */
+    private String type = null;
 
     /**
      * Returns  the name of the attribute.
@@ -115,26 +139,112 @@ public class PutAttributeTag extends AddAttributeTag {
         this.cascade = cascade;
     }
 
+    /**
+     * Returns the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @return The role to check.
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * Sets the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @param role The role to check.
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    /**
+     * Returns the attribute value.
+     *
+     * @return Attribute value. Can be a String or Object.
+     */
+    public Object getValue() {
+        return value;
+    }
+
+    /**
+     * Sets the attribute value.
+     *
+     * @param value Attribute value. Can be a String or Object.
+     */
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    /**
+     * <p>
+     * Returns content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml
+     * file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @return The attribute type.
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * <p>
+     * Sets content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml
+     * file). Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @param type The attribute type.
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
     /** {@inheritDoc} */
     @Override
     protected void reset() {
         super.reset();
         name = null;
         cascade = false;
+        role = null;
+        value = null;
+        type = null;
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void execute() throws TilesJspException {
-        PutAttributeTagParent parent = (PutAttributeTagParent)
-            TagSupport.findAncestorWithClass(this, PutAttributeTagParent.class);
+    public int doStartTag() throws JspException {
+        model.start(JspUtil.getComposeStack(pageContext));
+        return EVAL_BODY_BUFFERED;
+    }
 
-
-        if (parent == null) {
-            throw new TilesJspException(
-                    "Error: no enclosing tag accepts 'putAttribute' tag.");
+    /** {@inheritDoc} */
+    public int doEndTag() throws TilesJspException {
+        String body = null;
+        if (bodyContent != null) {
+            body = bodyContent.getString();
         }
+        model.end(JspUtil.getCurrentContainer(pageContext), JspUtil
+                .getComposeStack(pageContext), name, value, null, body, role,
+                type, cascade, pageContext);
 
-        parent.processNestedTag(this);
+        return EVAL_PAGE;
     }
 }

@@ -20,12 +20,12 @@
  */
 package org.apache.tiles.jsp.taglib;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesException;
+import java.util.Map;
 
-import java.util.Collection;
+import javax.servlet.jsp.JspException;
+
+import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.template.ImportAttributeModel;
 
 
 /**
@@ -36,17 +36,88 @@ import java.util.Collection;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class ImportAttributeTag extends AttributeTagSupport {
+public class ImportAttributeTag extends TilesTag {
 
     /**
-     * The logging object.
+     * The template model.
      */
-    private final Log log = LogFactory.getLog(ImportAttributeTag.class);
+    private ImportAttributeModel model = new ImportAttributeModel();
+
+    /**
+     * The scope name.
+     */
+    private String scopeName = null;
+
+    /**
+     * The name of the attribute.
+     */
+    private String name = null;
+
+    /**
+     * Flag that, if <code>true</code>, ignores exceptions.
+     */
+    private boolean ignore = false;
 
     /**
      * The destination attribute name.
      */
     private String toName;
+
+    /**
+     * Set the scope.
+     *
+     * @param scope Scope.
+     */
+    public void setScope(String scope) {
+        this.scopeName = scope;
+    }
+
+    /**
+     * Get scope.
+     *
+     * @return Scope.
+     */
+    public String getScope() {
+        return scopeName;
+    }
+
+    /**
+     * Get the name.
+     *
+     * @return Name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set the name.
+     *
+     * @param name The new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Set ignore flag.
+     *
+     * @param ignore default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
+     *               true</code> to ignore missing attributes silently
+     */
+    public void setIgnore(boolean ignore) {
+        this.ignore = ignore;
+    }
+
+    /**
+     * Get ignore flag.
+     *
+     * @return default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
+     *         true</code> to ignore missing attributes silently
+     */
+    public boolean isIgnore() {
+        return ignore;
+    }
 
     /**
      * <p>
@@ -76,67 +147,22 @@ public class ImportAttributeTag extends AttributeTagSupport {
     @Override
     protected void reset() {
         super.reset();
-        this.toName = null;
+        name = null;
+        scopeName = null;
+        ignore = false;
+        toName = null;
     }
 
-    /**
-     * Expose the requested property from attribute context.
-     *
-     * @throws TilesJspException On errors processing tag.
-     */
-    public void execute() throws TilesJspException {
-        if (attributeValue != null) {
-            pageContext.setAttribute(toName != null ? toName : name,
-                    attributeValue, scope);
-        } else {
-            importAttributes(attributeContext.getCascadedAttributeNames());
-            importAttributes(attributeContext.getLocalAttributeNames());
+    /** {@inheritDoc} */
+    @Override
+    public int doStartTag() throws JspException {
+        Map<String, Object> attributes = model.getImportedAttributes(JspUtil
+                .getCurrentContainer(pageContext), name, toName, ignore,
+                pageContext);
+        int scopeId = JspUtil.getScope(scopeName);
+        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+            pageContext.setAttribute(entry.getKey(), entry.getValue(), scopeId);
         }
-    }
-
-    /**
-     * Imports an attribute set.
-     *
-     * @param names The names of the attributes to be imported.
-     * @throws TilesJspException If something goes wrong during the import.
-     */
-    private void importAttributes(Collection<String> names)
-            throws TilesJspException {
-        if (names == null || names.isEmpty()) {
-            return;
-        }
-
-        for (String name : names) {
-            if (name == null && !ignore) {
-                throw new TilesJspException("Error importing attributes. "
-                        + "Attribute with null key found.");
-            } else if (name == null) {
-                continue;
-            }
-
-            Attribute attr = attributeContext.getAttribute(name);
-
-            if (attr != null) {
-                try {
-                    Object attributeValue = container.evaluate(attr, pageContext);
-                    if (attributeValue == null) {
-                        throw new TilesJspException(
-                                "Error importing attributes. " + "Attribute '"
-                                        + name + "' has a null value ");
-                    }
-                    pageContext.setAttribute(name, attributeValue, scope);
-                } catch (TilesException e) {
-                    if (!ignore) {
-                        throw e;
-                    } else if (log.isDebugEnabled()) {
-                        log.debug("Ignoring Tiles Exception", e);
-                    }
-                }
-            } else if (!ignore) {
-                throw new TilesJspException("Error importing attributes. "
-                        + "Attribute '" + name + "' is null");
-            }
-
-        }
+        return EVAL_PAGE;
     }
 }

@@ -21,10 +21,8 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import java.io.IOException;
-
-import org.apache.tiles.Attribute;
 import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.template.InsertTemplateModel;
 
 /**
  * This is the tag handler for &lt;tiles:insertTemplate&gt;, which includes a
@@ -32,14 +30,139 @@ import org.apache.tiles.jsp.context.JspUtil;
  *
  * @version $Rev$ $Date$
  */
-public class InsertTemplateTag extends RenderTag {
+public class InsertTemplateTag extends TilesBodyTag {
+
+    /**
+     * The template model.
+     */
+    private InsertTemplateModel model = new InsertTemplateModel();
+
+    /**
+     * The role to check. If the user is in the specified role, the tag is taken
+     * into account; otherwise, the tag is ignored (skipped).
+     *
+     * @since 2.1.1
+     */
+    private String role;
+
+    /**
+     * The view preparer to use before the rendering.
+     *
+     * @since 2.1.1
+     */
+    private String preparer;
+
+    /**
+     * This flag, if <code>true</code>, flushes the content before rendering.
+     *
+     * @since 2.1.1
+     */
+    private boolean flush;
+
+    /**
+     * This flag, if <code>true</code>, ignores exception thrown by preparers
+     * and those caused by problems with definitions.
+     *
+     * @since 2.1.1
+     */
+    private boolean ignore;
 
     /**
      * A string representing the URI of a template (for example, a JSP page).
      *
      * @since 2.1.0
      */
-    protected String template;
+    private String template;
+
+    /**
+     * Returns the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @return The role to check.
+     * @since 2.1.1
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * Sets the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @param role The role to check.
+     * @since 2.1.1
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    /**
+     * Returns the preparer name.
+     *
+     * @return The preparer name.
+     * @since 2.1.1
+     */
+    public String getPreparer() {
+        return preparer;
+    }
+
+    /**
+     * Sets the preparer name.
+     *
+     * @param preparer The preparer name.
+     * @since 2.1.1
+     */
+    public void setPreparer(String preparer) {
+        this.preparer = preparer;
+    }
+
+    /**
+     * Returns the flush flag. If <code>true</code>, current page out stream
+     * is flushed before insertion.
+     *
+     * @return The flush flag.
+     * @since 2.1.1
+     */
+    public boolean isFlush() {
+        return flush;
+    }
+
+    /**
+     * Sets the flush flag. If <code>true</code>, current page out stream
+     * is flushed before insertion.
+     *
+     * @param flush The flush flag.
+     * @since 2.1.1
+     */
+    public void setFlush(boolean flush) {
+        this.flush = flush;
+    }
+
+    /**
+     * Returns the ignore flag. If it is set to true, and the attribute
+     * specified by the name does not exist, simply return without writing
+     * anything. The default value is false, which will cause a runtime
+     * exception to be thrown.
+     *
+     * @return The ignore flag.
+     * @since 2.1.1
+     */
+    public boolean isIgnore() {
+        return ignore;
+    }
+
+    /**
+     * Sets the ignore flag. If this attribute is set to true, and the attribute
+     * specified by the name does not exist, simply return without writing
+     * anything. The default value is false, which will cause a runtime
+     * exception to be thrown.
+     *
+     * @param ignore The ignore flag.
+     * @since 2.1.1
+     */
+    public void setIgnore(boolean ignore) {
+        this.ignore = ignore;
+    }
 
     /**
      * Returns a string representing the URI of a template (for example, a JSP
@@ -67,27 +190,24 @@ public class InsertTemplateTag extends RenderTag {
     @Override
     protected void reset() {
         super.reset();
-        this.template = null;
+        preparer = null;
+        flush = false;
+        ignore = false;
+        role = null;
+        template = null;
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void render() throws IOException {
-        Attribute templateAttribute = Attribute
-                .createTemplateAttribute(template);
-        templateAttribute.setRole(role);
-        attributeContext.setPreparer(preparer);
-        attributeContext.setTemplateAttribute(templateAttribute);
-        renderContext();
+    public int doStartTag() throws TilesJspException {
+        model.start(JspUtil.getCurrentContainer(pageContext), pageContext);
+        return EVAL_BODY_INCLUDE;
     }
 
-    /**
-     * Renders the current context.
-     *
-     * @throws IOException if an io exception occurs.
-     */
-    protected void renderContext() throws IOException {
-        JspUtil.setForceInclude(pageContext, true);
-        container.renderContext(pageContext);
+    /** {@inheritDoc} */
+    @Override
+    public int doEndTag() throws TilesJspException {
+        model.end(JspUtil.getCurrentContainer(pageContext), template, role, preparer, pageContext);
+        return EVAL_PAGE;
     }
 }
