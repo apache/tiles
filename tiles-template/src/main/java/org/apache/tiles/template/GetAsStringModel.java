@@ -27,8 +27,8 @@ public class GetAsStringModel {
             container.prepare(preparer, requestItems);
         }
         Attribute attribute = attributeResolver.computeAttribute(container,
-                value, name, ignore, defaultValue, defaultValueRole,
-                defaultValueType, requestItems);
+                value, name, role, ignore, defaultValue,
+                defaultValueRole, defaultValueType, requestItems);
         composeStack.push(attribute);
         container.startContext(requestItems);
     }

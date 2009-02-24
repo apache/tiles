@@ -5,6 +5,6 @@ import org.apache.tiles.TilesContainer;
 
 public interface AttributeResolver {
     Attribute computeAttribute(TilesContainer container, Attribute attribute,
-            String name, boolean ignore, Object defaultValue,
-            String defaultValueRole, String defaultValueType, Object... requestItems);
+            String name, String role, boolean ignore,
+            Object defaultValue, String defaultValueRole, String defaultValueType, Object... requestItems);
 }

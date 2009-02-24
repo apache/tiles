@@ -8,13 +8,13 @@ public class DefaultAttributeResolver implements AttributeResolver {
 
     /**
      * Computes the attribute to render, evaluating the various tag attributes.
-     *
      * @param context The page context.
+     *
      * @return The computed attribute.
      */
     public Attribute computeAttribute(TilesContainer container, Attribute attribute,
-            String name, boolean ignore, Object defaultValue,
-            String defaultValueRole, String defaultValueType, Object... requestItems) {
+            String name, String role, boolean ignore,
+            Object defaultValue, String defaultValueRole, String defaultValueType, Object... requestItems) {
         if (attribute == null) {
             AttributeContext evaluatingContext = container
                     .getAttributeContext(requestItems);
@@ -27,6 +27,10 @@ public class DefaultAttributeResolver implements AttributeResolver {
                             + "' not found.");
                 }
             }
+        }
+        if (attribute != null && role != null && !"".equals(role.trim())) {
+            attribute = new Attribute(attribute);
+            attribute.setRole(role);
         }
         return attribute;
     }
