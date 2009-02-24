@@ -73,6 +73,7 @@
     <a href="testinsertdefinition_role.jsp">Test Insert Configured Definition with Specified Role</a><br/>
     <a href="testinsertdefinition_role_tag.jsp">Test Insert Configured Definition with Specified Role in Tag</a><br/>
     <a href="testinsertdefinition_attribute_roles.jsp">Test Insert Configured Definition with Attribute that have Roles</a><br/>
+    <a href="testinsertdefinition_attribute_roles_tags.jsp">Test Insert Configured Definition with Attribute that have Roles in Tags</a><br/>
 
     <h2>Features in Tiles 2.1.x</h2>
 
@@ -154,6 +155,7 @@
     <a href="freemarker/testinsertdefinition_role.ftl">FreeMarker: Test Insert Configured Definition with Specified Role</a><br/>
     <a href="freemarker/testinsertdefinition_role_tag.ftl">FreeMarker: Test Insert Configured Definition with Specified Role in Tag</a><br/>
     <a href="freemarker/testinsertdefinition_attribute_roles.ftl">FreeMarker: Test Insert Configured Definition with Attribute that have Roles</a><br/>
+    <a href="freemarker/testinsertdefinition_attribute_roles_tags.ftl">FreeMarker: Test Insert Configured Definition with Attribute that have Roles in Tags</a><br/>
 
     <h2>Features in Tiles 2.1.x</h2>
 

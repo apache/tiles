@@ -146,6 +146,12 @@
       <put-attribute name="body"   value="/body.jsp" role="badrole" />
   </definition>
 
+  <definition name="test.definition.roles.tags" template="/layout_roles.jsp">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/header.jsp" />
+      <put-attribute name="body"   value="/body.jsp" />
+  </definition>
+
   <!-- Tests for cascaded attributes -->
   <definition name="test.overridden.cascaded.definition" template="/layout.jsp">
       <put-attribute name="title"  value="This is the title." cascade="true" />
