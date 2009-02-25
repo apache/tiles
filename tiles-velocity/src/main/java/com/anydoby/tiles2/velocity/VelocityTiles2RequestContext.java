@@ -22,53 +22,42 @@ package com.anydoby.tiles2.velocity;
 
 import java.io.IOException;
 
-import org.apache.tiles.servlet.context.ServletTilesRequestContext;
-import org.apache.velocity.Template;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.tools.view.context.ChainedContext;
-
-import static org.apache.tiles.access.TilesAccess.getContainer;
+import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextWrapper;
+import org.apache.velocity.context.Context;
 
 /**
  * 
  * @author SergeyZ
  * 
  */
-public class VelocityTiles2RequestContext extends ServletTilesRequestContext {
+public class VelocityTiles2RequestContext extends TilesRequestContextWrapper {
 
-    private final ChainedContext ctx;
+    private final Context ctx;
+    
+    private Object[] requestObjects;
 
-    public VelocityTiles2RequestContext(ChainedContext ctx) {
-        super(ctx.getServletContext(), ctx.getRequest(), ctx.getResponse());
+    public VelocityTiles2RequestContext(TilesRequestContext enclosedRequest, Context ctx) {
+        super(enclosedRequest);
         this.ctx = ctx;
-        ctx.put("tiles", new Tiles2Tool(getContainer(ctx.getServletContext()), this));
+        // FIXME This should go into a renderer
+        //ctx.put("tiles", new Tiles2Tool(getContainer(ctx.getServletContext()), this));
     }
 
     public void dispatch(String path) throws IOException {
         include(path);
     }
 
-    public ChainedContext getContext() {
-        return ctx;
-    }
-
-    public VelocityEngine getEngine() {
-        VelocityEngine velocityEngine = ctx.getVelocityEngine();
-        return velocityEngine;
-    }
-
     @Override
-    public void include(String path) throws IOException {
-        try {
-            Template template = ctx.getVelocityEngine().getTemplate(path);
-            template.merge(ctx, getResponse().getWriter());
-        } catch (Exception e) {
-            throw new IOException(e.getMessage(), e);
+    public Object[] getRequestObjects() {
+        if (requestObjects == null) {
+            Object[] parentRequestObjects = super.getRequestObjects();
+            requestObjects = new Object[parentRequestObjects.length + 1];
+            requestObjects[0] = ctx;
+            for (int i = 0; i < parentRequestObjects.length; i++) {
+                requestObjects[i+1] = parentRequestObjects[i];
+            }
         }
+        return requestObjects;
     }
-
-    public void put(String toName, Object attribute) {
-        ctx.put(toName, attribute);
-    }
-
 }

@@ -22,14 +22,15 @@ package com.anydoby.tiles2.velocity;
 
 import java.util.Map;
 
-import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesContextFactory;
+import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.tools.view.context.ChainedContext;
 
 /**
  * 
@@ -37,25 +38,33 @@ import org.apache.velocity.tools.view.context.ChainedContext;
  * 
  * @since Mar 15, 2008
  */
-public class VelocityContextFactory implements TilesContextFactory {
+public class VelocityContextFactory implements TilesRequestContextFactory, TilesRequestContextFactoryAware {
 
-    public TilesApplicationContext createApplicationContext(Object context) {
-        if (context instanceof ServletContext) {
-            ServletContext servletContext = (ServletContext) context;
-            return new ServletTilesApplicationContext(servletContext);
-        }
-        return null;
-    }
+    /**
+     * Parent Tiles context factory.
+     */
+    private TilesRequestContextFactory parent;
 
     public TilesRequestContext createRequestContext(TilesApplicationContext context, Object... requestItems) {
-        if (requestItems.length == 1) {
-            if (requestItems[0] instanceof Context) {
-                ChainedContext ctx = (ChainedContext) requestItems[0];
-                return new VelocityTiles2RequestContext(ctx);
-            } else if (requestItems[0] instanceof VelocityTiles2RequestContext) {
-                VelocityTiles2RequestContext ctx = (VelocityTiles2RequestContext) requestItems[0];
-                return ctx;
+        if (requestItems.length == 3 && requestItems[0] instanceof Context
+                && requestItems[1] instanceof HttpServletRequest
+                && requestItems[2] instanceof HttpServletResponse) {
+            Context ctx = (Context) requestItems[0];
+            HttpServletRequest request = (HttpServletRequest) requestItems[1];
+            HttpServletResponse response = (HttpServletResponse) requestItems[2];
+            TilesRequestContext enclosedRequest;
+            if (parent != null) {
+                enclosedRequest = parent.createRequestContext(context, request, response);
+            } else {
+                enclosedRequest = new ServletTilesRequestContext(context, request, response);
             }
+            return new VelocityTiles2RequestContext(enclosedRequest, ctx);
+        } else if (requestItems.length == 1
+            && requestItems[0] instanceof VelocityTiles2RequestContext) {
+            // FIXME is it necessary?
+            
+            VelocityTiles2RequestContext ctx = (VelocityTiles2RequestContext) requestItems[0];
+            return ctx;
         }
         return null;
     }
@@ -65,4 +74,8 @@ public class VelocityContextFactory implements TilesContextFactory {
 
     }
 
+    public void setRequestContextFactory(
+            TilesRequestContextFactory contextFactory) {
+        this.parent = contextFactory;
+    }
 }
