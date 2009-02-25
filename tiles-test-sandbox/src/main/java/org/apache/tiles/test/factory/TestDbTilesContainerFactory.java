@@ -36,8 +36,8 @@ import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.test.definition.dao.LocaleDbDefinitionDAO;
+import org.apache.tiles.velocity.VelocityContextFactory;
 
-import com.anydoby.tiles2.velocity.VelocityContextFactory;
 
 /**
  * Test alternate Tiles container factory that uses a DB to store definitions.

@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.anydoby.tiles2.velocity;
+package org.apache.tiles.velocity;
 
 import java.io.IOException;
 

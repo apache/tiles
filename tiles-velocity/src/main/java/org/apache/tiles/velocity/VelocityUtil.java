@@ -1,4 +1,4 @@
-package com.anydoby.tiles2.velocity;
+package org.apache.tiles.velocity;
 
 import javax.servlet.ServletContext;
 
