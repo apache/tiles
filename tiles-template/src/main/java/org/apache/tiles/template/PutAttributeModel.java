@@ -17,6 +17,21 @@ public class PutAttributeModel {
             String name, Object value, String expression, String body,
             String role, String type, boolean cascade, Object... requestItems) {
         Attribute attribute = (Attribute) composeStack.pop();
+        putAttributeInParent(attribute, container, composeStack, name, value,
+                expression, body, role, type, cascade, requestItems);
+    }
+
+    public void execute(TilesContainer container, Stack<Object> composeStack,
+            String name, Object value, String expression, String body,
+            String role, String type, boolean cascade, Object... requestItems) {
+        putAttributeInParent(new Attribute(), container, composeStack, name,
+                value, expression, body, role, type, cascade, requestItems);
+    }
+    
+    private void putAttributeInParent(Attribute attribute,
+            TilesContainer container, Stack<Object> composeStack, String name,
+            Object value, String expression, String body, String role,
+            String type, boolean cascade, Object... requestItems) {
         AttributeContext attributeContext = null;
         if (!composeStack.isEmpty()) {
             Object obj = composeStack.peek();

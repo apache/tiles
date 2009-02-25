@@ -10,6 +10,28 @@ public class DefinitionModel {
 
     public void start(Stack<Object> composeStack, String name, String template,
             String role, String extendsParam, String preparer) {
+        Definition definition = createDefinition(name, template, role,
+                extendsParam, preparer);
+        composeStack.push(definition);
+    }
+    
+    public void end(MutableTilesContainer container,
+            Stack<Object> composeStack, String name, Object... requestItems) {
+        Definition definition = (Definition) composeStack.pop();
+        registerDefinition(definition, container, composeStack, requestItems);
+    }
+    
+    public void execute(MutableTilesContainer container,
+            Stack<Object> composeStack, String name, String template,
+            String role, String extendsParam, String preparer,
+            Object... requestItems) {
+        Definition definition = createDefinition(name, template, role,
+                extendsParam, preparer);
+        registerDefinition(definition, container, composeStack, requestItems);
+    }
+
+    private Definition createDefinition(String name, String template,
+            String role, String extendsParam, String preparer) {
         Definition definition = new Definition();
         definition.setName(name);
         Attribute templateAttribute = Attribute
@@ -18,12 +40,12 @@ public class DefinitionModel {
         definition.setTemplateAttribute(templateAttribute);
         definition.setExtends(extendsParam);
         definition.setPreparer(preparer);
-        composeStack.push(definition);
+        return definition;
     }
-    
-    public void end(MutableTilesContainer container,
-            Stack<Object> composeStack, String name, Object... requestItems) {
-        Definition definition = (Definition) composeStack.pop();
+
+    private void registerDefinition(Definition definition,
+            MutableTilesContainer container, Stack<Object> composeStack,
+            Object... requestItems) {
         container.register(definition, requestItems);
         
         if (composeStack.isEmpty()) {

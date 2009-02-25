@@ -14,9 +14,22 @@ public class AddAttributeModel {
     
     public void end(Stack<Object> composeStack, Object value,
             String expression, String body, String role, String type) {
+        Attribute attribute = (Attribute) composeStack.pop();
+        addAttributeToList(attribute, composeStack, value, expression, body,
+                role, type);
+    }
+
+    public void execute(Stack<Object> composeStack, Object value,
+            String expression, String body, String role, String type) {
+        addAttributeToList(new Attribute(), composeStack, value, expression,
+                body, role, type);
+    }
+    
+    private void addAttributeToList(Attribute attribute,
+            Stack<Object> composeStack, Object value, String expression,
+            String body, String role, String type) {
         ListAttribute listAttribute = (ListAttribute) ComposeStackUtil
                 .findAncestorWithClass(composeStack, ListAttribute.class);
-        Attribute attribute = (Attribute) composeStack.pop();
         if(value != null) {
             attribute.setValue(value);
         } else if (attribute.getValue() == null && body != null) {

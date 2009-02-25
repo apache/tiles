@@ -23,20 +23,46 @@ public class GetAsStringModel {
             boolean ignore, String preparer, String role, Object defaultValue,
             String defaultValueRole, String defaultValueType, String name,
             Attribute value, Object... requestItems) {
-        if (preparer != null) {
-            container.prepare(preparer, requestItems);
-        }
-        Attribute attribute = attributeResolver.computeAttribute(container,
-                value, name, role, ignore, defaultValue,
-                defaultValueRole, defaultValueType, requestItems);
+        Attribute attribute = resolveAttribute(container, ignore, preparer,
+                role, defaultValue, defaultValueRole, defaultValueType, name,
+                value, requestItems);
         composeStack.push(attribute);
-        container.startContext(requestItems);
     }
     
     public void end(Stack<Object> composeStack, TilesContainer container,
             Writer writer, boolean ignore, Object... requestItems)
             throws IOException {
         Attribute attribute = (Attribute) composeStack.pop();
+        renderAttribute(attribute, container, writer, ignore, requestItems);
+    }
+
+    public void execute(TilesContainer container, Writer writer,
+            boolean ignore, String preparer, String role, Object defaultValue,
+            String defaultValueRole, String defaultValueType, String name,
+            Attribute value, Object... requestItems) throws IOException {
+        Attribute attribute = resolveAttribute(container, ignore, preparer,
+                role, defaultValue, defaultValueRole, defaultValueType, name,
+                value, requestItems);
+        renderAttribute(attribute, container, writer, ignore, requestItems);
+    }
+
+    private Attribute resolveAttribute(TilesContainer container,
+            boolean ignore, String preparer, String role, Object defaultValue,
+            String defaultValueRole, String defaultValueType, String name,
+            Attribute value, Object... requestItems) {
+        if (preparer != null) {
+            container.prepare(preparer, requestItems);
+        }
+        Attribute attribute = attributeResolver.computeAttribute(container,
+                value, name, role, ignore, defaultValue,
+                defaultValueRole, defaultValueType, requestItems);
+        container.startContext(requestItems);
+        return attribute;
+    }
+
+    private void renderAttribute(Attribute attribute, TilesContainer container,
+            Writer writer, boolean ignore, Object... requestItems)
+            throws IOException {
         if (attribute == null && ignore) {
             return;
         }

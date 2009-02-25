@@ -26,4 +26,11 @@ public class InsertDefinitionModel {
             container.endContext(requestItems);
         }
     }
+    
+    public void execute(TilesContainer container, String definitionName,
+            String template, String role, String preparer,
+            Object... requestItems) {
+        start(container, requestItems);
+        end(container, definitionName, template, role, preparer, requestItems);
+    }
 }

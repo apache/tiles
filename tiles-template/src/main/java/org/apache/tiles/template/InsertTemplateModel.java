@@ -25,4 +25,10 @@ public class InsertTemplateModel {
             container.endContext(requestItems);
         }
     }
+
+    public void execute(TilesContainer container, String template, String role,
+            String preparer, Object... requestItems) {
+        start(container, requestItems);
+        end(container, template, role, preparer, requestItems);
+    }
 }
