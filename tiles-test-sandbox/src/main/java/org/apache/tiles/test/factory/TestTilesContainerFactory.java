@@ -54,6 +54,8 @@ import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 
+import com.anydoby.tiles2.velocity.VelocityContextFactory;
+
 /**
  * Test Tiles container factory to customize Tiles behaviour.
  *
@@ -90,6 +92,9 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
                 factories, contextFactory);
         registerRequestContextFactory(
                 FreeMarkerTilesRequestContextFactory.class.getName(),
+                factories, contextFactory);
+        registerRequestContextFactory(
+                VelocityContextFactory.class.getName(),
                 factories, contextFactory);
         contextFactory.setFactories(factories);
     }

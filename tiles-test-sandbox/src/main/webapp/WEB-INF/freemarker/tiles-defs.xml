@@ -134,6 +134,12 @@
       <put-attribute name="body"   value="/freemarker/body.ftl" role="badrole" />
   </definition>
 
+  <definition name="freemarker.test.definition.roles.tags" template="/freemarker/layout_roles.ftl">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/freemarker/header.ftl" />
+      <put-attribute name="body"   value="/freemarker/body.ftl" />
+  </definition>
+
   <!-- Tests for cascaded attributes -->
   <definition name="freemarker.test.overridden.cascaded.definition" template="/freemarker/layout.ftl">
       <put-attribute name="title"  value="This is the title." cascade="true" />
