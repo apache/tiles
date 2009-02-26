@@ -53,7 +53,7 @@ import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
-import org.apache.tiles.velocity.VelocityContextFactory;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 
 
 /**
@@ -94,7 +94,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
                 FreeMarkerTilesRequestContextFactory.class.getName(),
                 factories, contextFactory);
         registerRequestContextFactory(
-                VelocityContextFactory.class.getName(),
+                VelocityTilesRequestContextFactory.class.getName(),
                 factories, contextFactory);
         contextFactory.setFactories(factories);
     }

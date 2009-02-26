@@ -36,7 +36,7 @@ import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.test.definition.dao.LocaleDbDefinitionDAO;
-import org.apache.tiles.velocity.VelocityContextFactory;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 
 
 /**
@@ -81,7 +81,7 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
                 FreeMarkerTilesRequestContextFactory.class.getName(),
                 factories, contextFactory);
         registerRequestContextFactory(
-                VelocityContextFactory.class.getName(),
+                VelocityTilesRequestContextFactory.class.getName(),
                 factories, contextFactory);
         contextFactory.setFactories(factories);
     }
