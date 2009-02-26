@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -18,14 +17,8 @@
  specific language governing permissions and limitations
  under the License.
 -->
-
 <tools>
-  <data type="string" key="version" value="2.0"/>
-  <!-- ordinarily the SecureLinkTool would simply replace the StrutsLinkTool
-  	if SSL Ext. is in use - in that case the key would be 'link' but it's
-        'slink' here to distinguish between the two. -->
   <toolbox scope="request">
-    <tool key="tiles" class="com.anydoby.tiles2.velocity.Tiles2Tool"/>
+    <tool key="tiles" class="org.apache.tiles.velocity.Tiles2Tool"/>
   </toolbox>
-
 </tools>

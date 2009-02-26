@@ -37,9 +37,34 @@ public class Tiles2Tool extends ContextHolder {
 
     private static final String TILES_VELOCITY_REPOSITORY_KEY = "org.apache.tiles.velocity.TilesVelocityRepository";
     
-    private BodyExecutable currentBodyExecutable;
+    private BodyExecutable currentExecutable;
     
     private TilesVelocityRepository repository;
+    
+    public Tiles2Tool addAttribute(Map<String, Object> params) {
+        execute(getRepository().getAddAttribute(), params);
+        return this;
+    }
+    
+    public Tiles2Tool addAttribute() {
+        currentExecutable = getRepository().getAddAttribute();
+        return this;
+    }
+    
+    public Tiles2Tool addListAttribute() {
+        currentExecutable = getRepository().getAddListAttribute();
+        return this;
+    }
+    
+    public Tiles2Tool definition(Map<String, Object> params) {
+        execute(getRepository().getDefinition(), params);
+        return this;
+    }
+    
+    public Tiles2Tool definition() {
+        currentExecutable = getRepository().getDefinition();
+        return this;
+    }
 
     /**
      * Returns a string representation of attribute value. If the attribute is
@@ -61,24 +86,81 @@ public class Tiles2Tool extends ContextHolder {
      * 
      * @throws IOException If something goes wrong.
      */
-    public Tiles2Tool getAsString() throws IOException {
-        currentBodyExecutable = getRepository().getGetAsString();
+    public Tiles2Tool getAsString() {
+        currentExecutable = getRepository().getGetAsString();
+        return this;
+    }
+    
+    public Tiles2Tool importAttribute(Map<String, Object> params) {
+        execute(getRepository().getImportAttribute(), params);
+        return this;
+    }
+    
+    public Tiles2Tool insertAttribute(Map<String, Object> params) {
+        execute(getRepository().getInsertAttribute(), params);
+        return this;
+    }
+    
+    public Tiles2Tool insertAttribute() {
+        currentExecutable = getRepository().getInsertAttribute();
+        return this;
+    }
+    
+    public Tiles2Tool insertDefinition(Map<String, Object> params) {
+        execute(getRepository().getInsertDefinition(), params);
+        return this;
+    }
+    
+    public Tiles2Tool insertDefinition() {
+        currentExecutable = getRepository().getInsertDefinition();
+        return this;
+    }
+    
+    public Tiles2Tool insertTemplate(Map<String, Object> params) {
+        execute(getRepository().getInsertTemplate(), params);
+        return this;
+    }
+    
+    public Tiles2Tool insertTemplate() {
+        currentExecutable = getRepository().getInsertTemplate();
+        return this;
+    }
+    
+    public Tiles2Tool putAttribute(Map<String, Object> params) {
+        execute(getRepository().getPutAttribute(), params);
+        return this;
+    }
+    
+    public Tiles2Tool putAttribute() {
+        currentExecutable = getRepository().getPutAttribute();
+        return this;
+    }
+    
+    public Tiles2Tool putListAttribute() {
+        currentExecutable = getRepository().getPutListAttribute();
+        return this;
+    }
+    
+    public Tiles2Tool setCurrentContainer(String containerKey) {
+        ServletUtil.setCurrentContainer(getRequest(), getServletContext(),
+                containerKey);
         return this;
     }
     
     public Tiles2Tool start(Map<String, Object> params) {
-        if (currentBodyExecutable == null) {
+        if (currentExecutable == null) {
             throw new NullPointerException("The current model to start has not been set");
         }
-        currentBodyExecutable.start(getRequest(), getResponse(), getVelocityContext(), params);
+        currentExecutable.start(getRequest(), getResponse(), getVelocityContext(), params);
         return this;
     }
     
     public Tiles2Tool end() {
-        if (currentBodyExecutable == null) {
+        if (currentExecutable == null) {
             throw new NullPointerException("The current model to start has not been set");
         }
-        currentBodyExecutable.end(getRequest(), getResponse(), getVelocityContext());
+        currentExecutable.end(getRequest(), getResponse(), getVelocityContext());
+        currentExecutable = null;
         return this;
     }
 
@@ -89,12 +171,6 @@ public class Tiles2Tool extends ContextHolder {
                 getVelocityContext(), getRequest(), getResponse());
         Attribute attribute = attributeContext.getAttribute(key);
         return attribute;
-    }
-    
-    public Tiles2Tool setCurrentContainer(String containerKey) {
-        ServletUtil.setCurrentContainer(getRequest(), getServletContext(),
-                containerKey);
-        return this;
     }
 
     private TilesVelocityRepository getRepository() {
