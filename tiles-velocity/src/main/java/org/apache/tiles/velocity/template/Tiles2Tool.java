@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.velocity;
+package org.apache.tiles.velocity.template;
 
 import java.io.IOException;
 import java.util.Map;

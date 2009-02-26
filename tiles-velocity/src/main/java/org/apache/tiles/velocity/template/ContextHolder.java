@@ -1,4 +1,4 @@
-package org.apache.tiles.velocity;
+package org.apache.tiles.velocity.template;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;

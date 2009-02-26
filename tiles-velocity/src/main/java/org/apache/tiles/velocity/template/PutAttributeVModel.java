@@ -1,4 +1,4 @@
-package org.apache.tiles.velocity;
+package org.apache.tiles.velocity.template;
 
 import java.util.Map;
 
@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.PutAttributeModel;
+import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 
 public class PutAttributeVModel implements Executable, BodyExecutable {

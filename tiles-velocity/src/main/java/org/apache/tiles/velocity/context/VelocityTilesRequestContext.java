@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.velocity;
+package org.apache.tiles.velocity.context;
 
 import java.io.IOException;
 
@@ -31,13 +31,13 @@ import org.apache.velocity.context.Context;
  * @author SergeyZ
  * 
  */
-public class VelocityTiles2RequestContext extends TilesRequestContextWrapper {
+public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
 
     private final Context ctx;
     
     private Object[] requestObjects;
 
-    public VelocityTiles2RequestContext(TilesRequestContext enclosedRequest, Context ctx) {
+    public VelocityTilesRequestContext(TilesRequestContext enclosedRequest, Context ctx) {
         super(enclosedRequest);
         this.ctx = ctx;
         // FIXME This should go into a renderer

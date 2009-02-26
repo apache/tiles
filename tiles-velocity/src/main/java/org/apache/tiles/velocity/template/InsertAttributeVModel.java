@@ -1,4 +1,4 @@
-package org.apache.tiles.velocity;
+package org.apache.tiles.velocity.template;
 
 import java.io.IOException;
 import java.util.Map;
@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertAttributeModel;
+import org.apache.tiles.velocity.TilesVelocityException;
+import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 
 public class InsertAttributeVModel implements Executable, BodyExecutable {

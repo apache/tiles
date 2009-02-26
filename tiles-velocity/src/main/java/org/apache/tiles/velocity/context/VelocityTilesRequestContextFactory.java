@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.velocity;
+package org.apache.tiles.velocity.context;
 
 import java.util.Map;
 
@@ -38,7 +38,7 @@ import org.apache.velocity.context.Context;
  * 
  * @since Mar 15, 2008
  */
-public class VelocityContextFactory implements TilesRequestContextFactory, TilesRequestContextFactoryAware {
+public class VelocityTilesRequestContextFactory implements TilesRequestContextFactory, TilesRequestContextFactoryAware {
 
     /**
      * Parent Tiles context factory.
@@ -58,12 +58,12 @@ public class VelocityContextFactory implements TilesRequestContextFactory, Tiles
             } else {
                 enclosedRequest = new ServletTilesRequestContext(context, request, response);
             }
-            return new VelocityTiles2RequestContext(enclosedRequest, ctx);
+            return new VelocityTilesRequestContext(enclosedRequest, ctx);
         } else if (requestItems.length == 1
-            && requestItems[0] instanceof VelocityTiles2RequestContext) {
+            && requestItems[0] instanceof VelocityTilesRequestContext) {
             // FIXME is it necessary?
             
-            VelocityTiles2RequestContext ctx = (VelocityTiles2RequestContext) requestItems[0];
+            VelocityTilesRequestContext ctx = (VelocityTilesRequestContext) requestItems[0];
             return ctx;
         }
         return null;

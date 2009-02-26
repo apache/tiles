@@ -1,4 +1,4 @@
-package org.apache.tiles.velocity;
+package org.apache.tiles.velocity.context;
 
 import java.util.Map;
 import java.util.Stack;
