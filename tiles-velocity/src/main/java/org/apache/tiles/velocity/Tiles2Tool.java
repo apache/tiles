@@ -27,87 +27,92 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
-import org.apache.tiles.template.AttributeResolver;
-import org.apache.tiles.template.DefaultAttributeResolver;
-import org.apache.tiles.template.GetAsStringModel;
-import org.apache.velocity.context.Context;
-import org.apache.velocity.tools.view.ImportSupport;
 
 /**
  * 
  * @author SergeyZ
  * 
  */
-public class Tiles2Tool extends ImportSupport {
+public class Tiles2Tool extends ContextHolder {
 
-    private Context velocityContext;
+    private static final String TILES_VELOCITY_REPOSITORY_KEY = "org.apache.tiles.velocity.TilesVelocityRepository";
     
-    private GetAsStringModel getAsStringModel;
+    private BodyExecutable currentBodyExecutable;
     
-    public Tiles2Tool() {
-        AttributeResolver attributeResolver = new DefaultAttributeResolver();
-        getAsStringModel = new GetAsStringModel(attributeResolver);
+    private TilesVelocityRepository repository;
+
+    /**
+     * Returns a string representation of attribute value. If the attribute is
+     * <code>null</code> or if the attribute value is <code>null</code>,
+     * <code>null</code> is returned
+     * 
+     * @throws IOException If something goes wrong.
+     */
+    public Tiles2Tool getAsString(Map<String, Object> params)
+            throws IOException {
+        execute(getRepository().getGetAsString(), params);
+        return this;
     }
 
     /**
-     * Initializes this tool.
-     *
-     * @param context the current {@link Context}
-     * @throws IllegalArgumentException if the param is not a {@link Context}
+     * Returns a string representation of attribute value. If the attribute is
+     * <code>null</code> or if the attribute value is <code>null</code>,
+     * <code>null</code> is returned
+     * 
+     * @throws IOException If something goes wrong.
      */
-    public void setVelocityContext(Context context)
-    {
-        if (context == null)
-        {
-            throw new NullPointerException("velocity context should not be null");
+    public Tiles2Tool getAsString() throws IOException {
+        currentBodyExecutable = getRepository().getGetAsString();
+        return this;
+    }
+    
+    public Tiles2Tool start(Map<String, Object> params) {
+        if (currentBodyExecutable == null) {
+            throw new NullPointerException("The current model to start has not been set");
         }
-        this.velocityContext = context;
+        currentBodyExecutable.start(getRequest(), getResponse(), getVelocityContext(), params);
+        return this;
     }
     
-    /**
-     * Returns a string representation of attribute value. If the attribute is
-     * <code>null</code> or if the attribute value is <code>null</code>,
-     * <code>null</code> is returned
-     * 
-     * @throws IOException If something goes wrong.
-     */
-    public void getAsString_start(Map<String, Object> params) throws IOException {
-        getAsStringModel.start(ServletUtil.getComposeStack(request),
-                ServletUtil.getCurrentContainer(request, application),
-                VelocityUtil.toSimpleBoolean((Boolean) params.get("ignore"),
-                        false), (String) params.get("preparer"),
-                (String) params.get("role"), params.get("defaultValue"),
-                (String) params.get("defaultValueRole"), (String) params
-                        .get("defaultValueType"), (String) params.get("name"),
-                (Attribute) params.get("value"), velocityContext, request,
-                response);
-    }
-    
-    /**
-     * Returns a string representation of attribute value. If the attribute is
-     * <code>null</code> or if the attribute value is <code>null</code>,
-     * <code>null</code> is returned
-     * 
-     * @throws IOException If something goes wrong.
-     */
-    public void getAsString(Map<String, Object> params) throws IOException {
-        TilesContainer container = ServletUtil.getCurrentContainer(request, application);
-        getAsStringModel.execute(container, response.getWriter(), VelocityUtil
-                .toSimpleBoolean((Boolean) params.get("ignore"), false),
-                (String) params.get("preparer"), (String) params.get("role"),
-                params.get("defaultValue"), (String) params
-                        .get("defaultValueRole"), (String) params
-                        .get("defaultValueType"), (String) params.get("name"),
-                (Attribute) params.get("value"), velocityContext, request,
-                response);
+    public Tiles2Tool end() {
+        if (currentBodyExecutable == null) {
+            throw new NullPointerException("The current model to start has not been set");
+        }
+        currentBodyExecutable.end(getRequest(), getResponse(), getVelocityContext());
+        return this;
     }
 
     public Attribute getAttribute(String key) {
-        TilesContainer container = ServletUtil.getCurrentContainer(request,
-                application);
+        TilesContainer container = ServletUtil.getCurrentContainer(
+                getRequest(), getServletContext());
         AttributeContext attributeContext = container.getAttributeContext(
-                velocityContext, request, response);
+                getVelocityContext(), getRequest(), getResponse());
         Attribute attribute = attributeContext.getAttribute(key);
         return attribute;
+    }
+    
+    public Tiles2Tool setCurrentContainer(String containerKey) {
+        ServletUtil.setCurrentContainer(getRequest(), getServletContext(),
+                containerKey);
+        return this;
+    }
+
+    private TilesVelocityRepository getRepository() {
+        if (repository != null) {
+            return repository;
+        }
+
+        repository = (TilesVelocityRepository) getServletContext()
+                .getAttribute(TILES_VELOCITY_REPOSITORY_KEY);
+        if (repository == null) {
+            repository = new TilesVelocityRepository(getServletContext());
+            getServletContext().setAttribute(TILES_VELOCITY_REPOSITORY_KEY,
+                    repository);
+        }
+        return repository;
+    }
+    
+    private void execute(Executable executable, Map<String, Object> params) {
+        executable.execute(getRequest(), getResponse(), getVelocityContext(), params);
     }
 }
