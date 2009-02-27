@@ -9,6 +9,7 @@ import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.AddAttributeModel;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.runtime.Renderable;
 
 public class AddAttributeVModel implements Executable, BodyExecutable {
 
@@ -18,13 +19,13 @@ public class AddAttributeVModel implements Executable, BodyExecutable {
         this.model = model;
     }
 
-    public void execute(HttpServletRequest request,
+    public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
         model.execute(ServletUtil.getComposeStack(request),
                 params.get("value"), (String) params.get("expression"), null,
                 (String) params.get("role"), (String) params.get("type"));
-
+        return null;
     }
 
     public void end(HttpServletRequest request, HttpServletResponse response,

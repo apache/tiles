@@ -13,6 +13,7 @@ import org.apache.tiles.template.InsertAttributeModel;
 import org.apache.tiles.velocity.TilesVelocityException;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.runtime.Renderable;
 
 public class InsertAttributeVModel implements Executable, BodyExecutable {
 
@@ -50,7 +51,7 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
         
     }
 
-    public void execute(HttpServletRequest request,
+    public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
         try {
@@ -63,6 +64,7 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
         } catch (IOException e) {
             throw new TilesVelocityException("Cannot execute insertAttribute", e);
         }
+        return null;
     }
 
 }

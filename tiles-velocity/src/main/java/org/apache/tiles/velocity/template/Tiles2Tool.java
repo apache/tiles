@@ -27,6 +27,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.velocity.runtime.Renderable;
 
 /**
  * 
@@ -106,9 +107,8 @@ public class Tiles2Tool extends ContextHolder {
         return this;
     }
     
-    public Tiles2Tool insertDefinition(Map<String, Object> params) {
-        execute(getRepository().getInsertDefinition(), params);
-        return this;
+    public Renderable insertDefinition(Map<String, Object> params) {
+        return execute(getRepository().getInsertDefinition(), params);
     }
     
     public Tiles2Tool insertDefinition() {
@@ -173,6 +173,11 @@ public class Tiles2Tool extends ContextHolder {
         return attribute;
     }
 
+    @Override
+    public String toString() {
+        return "";
+    }
+
     private TilesVelocityRepository getRepository() {
         if (repository != null) {
             return repository;
@@ -188,7 +193,7 @@ public class Tiles2Tool extends ContextHolder {
         return repository;
     }
     
-    private void execute(Executable executable, Map<String, Object> params) {
-        executable.execute(getRequest(), getResponse(), getVelocityContext(), params);
+    private Renderable execute(Executable executable, Map<String, Object> params) {
+        return executable.execute(getRequest(), getResponse(), getVelocityContext(), params);
     }
 }

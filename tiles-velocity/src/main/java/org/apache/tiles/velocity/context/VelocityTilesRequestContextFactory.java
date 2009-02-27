@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.velocity.context;
 
+import java.io.Writer;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,19 +47,22 @@ public class VelocityTilesRequestContextFactory implements TilesRequestContextFa
     private TilesRequestContextFactory parent;
 
     public TilesRequestContext createRequestContext(TilesApplicationContext context, Object... requestItems) {
-        if (requestItems.length == 3 && requestItems[0] instanceof Context
+        if (requestItems.length == 4 && requestItems[0] instanceof Context
                 && requestItems[1] instanceof HttpServletRequest
-                && requestItems[2] instanceof HttpServletResponse) {
+                && requestItems[2] instanceof HttpServletResponse
+                && requestItems[3] instanceof Writer) {
             Context ctx = (Context) requestItems[0];
             HttpServletRequest request = (HttpServletRequest) requestItems[1];
             HttpServletResponse response = (HttpServletResponse) requestItems[2];
+            Writer writer = (Writer) requestItems[3];
             TilesRequestContext enclosedRequest;
             if (parent != null) {
                 enclosedRequest = parent.createRequestContext(context, request, response);
             } else {
                 enclosedRequest = new ServletTilesRequestContext(context, request, response);
             }
-            return new VelocityTilesRequestContext(enclosedRequest, ctx);
+            return new VelocityTilesRequestContext(enclosedRequest,
+                    ctx, writer);
         } else if (requestItems.length == 1
             && requestItems[0] instanceof VelocityTilesRequestContext) {
             // FIXME is it necessary?

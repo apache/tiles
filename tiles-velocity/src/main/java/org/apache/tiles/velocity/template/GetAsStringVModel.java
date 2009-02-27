@@ -15,6 +15,7 @@ import org.apache.tiles.template.GetAsStringModel;
 import org.apache.tiles.velocity.TilesVelocityException;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.runtime.Renderable;
 
 public class GetAsStringVModel implements Executable, BodyExecutable {
 
@@ -27,7 +28,7 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
         this.servletContext = servletContext;
     }
     
-    public void execute(HttpServletRequest request, HttpServletResponse response, Context velocityContext, Map<String, Object> params) {
+    public Renderable execute(HttpServletRequest request, HttpServletResponse response, Context velocityContext, Map<String, Object> params) {
         TilesContainer container = ServletUtil.getCurrentContainer(request,
                 servletContext);
         try {
@@ -42,6 +43,7 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
         } catch (IOException e) {
             throw new TilesVelocityException("Cannot execute getAsString", e);
         }
+        return null;
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response, Context velocityContext, Map<String, Object> params) {

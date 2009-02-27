@@ -19,6 +19,6 @@
 -->
 <tools>
   <toolbox scope="request">
-    <tool key="tiles" class="org.apache.tiles.velocity.Tiles2Tool"/>
+    <tool key="tiles" class="org.apache.tiles.velocity.template.Tiles2Tool"/>
   </toolbox>
 </tools>

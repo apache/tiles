@@ -10,6 +10,7 @@ import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertTemplateModel;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.runtime.Renderable;
 
 public class InsertTemplateVModel implements Executable, BodyExecutable {
 
@@ -23,13 +24,14 @@ public class InsertTemplateVModel implements Executable, BodyExecutable {
         this.servletContext = servletContext;
     }
 
-    public void execute(HttpServletRequest request,
+    public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
         model.execute(ServletUtil.getCurrentContainer(request, servletContext),
                 (String) params.get("template"), (String) params.get("role"),
                 (String) params.get("preparer"), velocityContext, request,
                 response);
+        return null;
     }
 
     public void end(HttpServletRequest request, HttpServletResponse response,

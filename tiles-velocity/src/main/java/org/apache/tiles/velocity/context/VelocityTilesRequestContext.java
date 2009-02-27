@@ -21,9 +21,17 @@
 package org.apache.tiles.velocity.context;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextWrapper;
+import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.context.Context;
 
 /**
@@ -36,16 +44,57 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
     private final Context ctx;
     
     private Object[] requestObjects;
+    
+    private Writer writer;
 
-    public VelocityTilesRequestContext(TilesRequestContext enclosedRequest, Context ctx) {
+    public VelocityTilesRequestContext(
+            TilesRequestContext enclosedRequest, Context ctx, Writer writer) {
         super(enclosedRequest);
         this.ctx = ctx;
-        // FIXME This should go into a renderer
-        //ctx.put("tiles", new Tiles2Tool(getContainer(ctx.getServletContext()), this));
+        this.writer = writer;
     }
 
     public void dispatch(String path) throws IOException {
         include(path);
+    }
+
+    @Override
+    public void include(String path) throws IOException {
+        Object[] requestObjects = super.getRequestObjects();
+        HttpServletRequest request = (HttpServletRequest) requestObjects[0];
+        HttpServletResponse response = (HttpServletResponse) requestObjects[1];
+        ServletUtil.setForceInclude(request, true);
+        RequestDispatcher rd = request.getRequestDispatcher(path);
+
+        if (rd == null) {
+            throw new IOException("No request dispatcher returned for path '"
+                    + path + "'");
+        }
+
+        PrintWriter printWriter = getPrintWriter();
+        try {
+            rd.include(request, new ExternalWriterHttpServletResponse(response,
+                    printWriter));
+        } catch (ServletException ex) {
+            throw ServletUtil.wrapServletException(ex, "ServletException including path '"
+                    + path + "'.");
+        } finally {
+            printWriter.flush();
+        }
+    }
+
+    @Override
+    public PrintWriter getPrintWriter() throws IOException {
+        if (writer instanceof PrintWriter) {
+            return (PrintWriter) writer;
+        } else {
+            return new PrintWriter(writer);
+        }
+    }
+
+    @Override
+    public Writer getWriter() throws IOException {
+        return writer;
     }
 
     @Override

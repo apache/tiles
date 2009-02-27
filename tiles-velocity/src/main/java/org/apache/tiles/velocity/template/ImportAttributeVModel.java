@@ -10,6 +10,7 @@ import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.ImportAttributeModel;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.runtime.Renderable;
 
 public class ImportAttributeVModel implements Executable {
 
@@ -23,7 +24,7 @@ public class ImportAttributeVModel implements Executable {
         this.servletContext = servletContext;
     }
 
-    public void execute(HttpServletRequest request,
+    public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
         Map<String, Object> attributes = model.getImportedAttributes(
@@ -36,6 +37,7 @@ public class ImportAttributeVModel implements Executable {
             VelocityUtil.setAttribute(velocityContext, request, servletContext,
                     entry.getKey(), entry.getValue(), scope);
         }
+        return null;
     }
 
 }
