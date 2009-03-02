@@ -22,18 +22,20 @@ public class AddAttributeVModel implements Executable, BodyExecutable {
     public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
-        model.execute(ServletUtil.getComposeStack(request),
-                params.get("value"), (String) params.get("expression"), null,
-                (String) params.get("role"), (String) params.get("type"));
-        return null;
+        model.execute(ServletUtil.getComposeStack(request), params
+                .get("value"), (String) params.get("expression"), null,
+                (String) params.get("role"), (String) params
+                        .get("type"));
+        return VelocityUtil.EMPTY_RENDERABLE;
     }
 
     public void end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
-        Map<String, Object> params = VelocityUtil.getParameterStack(velocityContext).pop();
-        model.end(ServletUtil.getComposeStack(request),
-                params.get("value"), (String) params.get("expression"), null,
-                (String) params.get("role"), (String) params.get("type"));
+        Map<String, Object> params = VelocityUtil.getParameterStack(
+                velocityContext).pop();
+        model.end(ServletUtil.getComposeStack(request), params.get("value"),
+                (String) params.get("expression"), null, (String) params
+                        .get("role"), (String) params.get("type"));
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response,

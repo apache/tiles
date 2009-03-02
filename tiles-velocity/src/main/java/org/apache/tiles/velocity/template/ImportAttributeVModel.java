@@ -37,7 +37,7 @@ public class ImportAttributeVModel implements Executable {
             VelocityUtil.setAttribute(velocityContext, request, servletContext,
                     entry.getKey(), entry.getValue(), scope);
         }
-        return null;
+        return VelocityUtil.EMPTY_RENDERABLE;
     }
 
 }
