@@ -37,16 +37,15 @@ public class DefinitionVModel implements Executable, BodyExecutable {
         return VelocityUtil.EMPTY_RENDERABLE;
     }
 
-    public void end(HttpServletRequest request, HttpServletResponse response,
+    public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
-        model
-                .end((MutableTilesContainer) ServletUtil.getCurrentContainer(
-                        request, servletContext), ServletUtil
-                        .getComposeStack(request), (String) params.get("name"),
-                        velocityContext, request, response);
-
+        model.end((MutableTilesContainer) ServletUtil.getCurrentContainer(
+                request, servletContext), ServletUtil
+                .getComposeStack(request), (String) params.get("name"),
+                velocityContext, request, response);
+        return VelocityUtil.EMPTY_RENDERABLE;
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response,

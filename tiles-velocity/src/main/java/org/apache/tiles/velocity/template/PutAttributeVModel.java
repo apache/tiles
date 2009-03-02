@@ -39,7 +39,7 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
         return VelocityUtil.EMPTY_RENDERABLE;
     }
 
-    public void end(HttpServletRequest request, HttpServletResponse response,
+    public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
@@ -48,6 +48,7 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
                 (String) params.get("expression"), null, (String) params.get("role"),
                 (String) params.get("type"), VelocityUtil.toSimpleBoolean((Boolean) params.get("value"), false),
                 velocityContext, request, response);
+        return VelocityUtil.EMPTY_RENDERABLE;
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response,

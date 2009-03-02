@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.context.Context;
+import org.apache.velocity.runtime.Renderable;
 
 
 
@@ -28,7 +29,8 @@ public interface BodyExecutable {
      * @param request TODO
      * @param response TODO
      * @param velocityContext TODO
+     * @return TODO
      */
-    void end(HttpServletRequest request, HttpServletResponse response, Context velocityContext);
+    Renderable end(HttpServletRequest request, HttpServletResponse response, Context velocityContext);
 
 }

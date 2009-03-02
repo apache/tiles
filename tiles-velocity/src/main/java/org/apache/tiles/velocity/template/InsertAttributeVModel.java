@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertAttributeModel;
-import org.apache.tiles.velocity.TilesVelocityException;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -32,16 +31,23 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
 
     private ServletContext servletContext;
     
-    public void end(HttpServletRequest request, HttpServletResponse response,
+    public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(velocityContext).pop();
-        try {
-            model.end(ServletUtil.getComposeStack(request), ServletUtil.getCurrentContainer(request, servletContext),
-                    VelocityUtil.toSimpleBoolean((Boolean) params.get("ignore"), false),
-                    velocityContext, request, response);
-        } catch (IOException e) {
-            throw new TilesVelocityException("Cannot end insertAttribute", e);
-        }
+        return new AbstractDefaultToStringRenderable(velocityContext, params,
+                response, request) {
+
+            public boolean render(InternalContextAdapter context, Writer writer)
+                    throws IOException, MethodInvocationException,
+                    ParseErrorException, ResourceNotFoundException {
+                model.end(ServletUtil.getComposeStack(request), ServletUtil
+                        .getCurrentContainer(request, servletContext),
+                        VelocityUtil.toSimpleBoolean((Boolean) params
+                                .get("ignore"), false), velocityContext,
+                        request, response, writer);
+                return true;
+            }
+        };
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response,

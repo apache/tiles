@@ -29,13 +29,14 @@ public class AddAttributeVModel implements Executable, BodyExecutable {
         return VelocityUtil.EMPTY_RENDERABLE;
     }
 
-    public void end(HttpServletRequest request, HttpServletResponse response,
+    public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
         model.end(ServletUtil.getComposeStack(request), params.get("value"),
                 (String) params.get("expression"), null, (String) params
                         .get("role"), (String) params.get("type"));
+        return VelocityUtil.EMPTY_RENDERABLE;
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response,

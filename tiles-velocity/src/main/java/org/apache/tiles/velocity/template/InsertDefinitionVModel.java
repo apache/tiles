@@ -47,13 +47,23 @@ public class InsertDefinitionVModel implements Executable, BodyExecutable {
         };
     }
 
-    public void end(HttpServletRequest request, HttpServletResponse response,
+    public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(velocityContext).pop();
-        model.execute(ServletUtil.getCurrentContainer(request, servletContext),
-                (String) params.get("name"), (String) params.get("template"),
-                (String) params.get("role"), (String) params.get("preparer"),
-                velocityContext, request, response);
+        return new AbstractDefaultToStringRenderable(velocityContext, params,
+                response, request) {
+
+            public boolean render(InternalContextAdapter context, Writer writer)
+                    throws IOException, MethodInvocationException,
+                    ParseErrorException, ResourceNotFoundException {
+                model.execute(ServletUtil.getCurrentContainer(request,
+                        servletContext), (String) params.get("name"),
+                        (String) params.get("template"), (String) params
+                                .get("role"), (String) params.get("preparer"),
+                        velocityContext, request, response, writer);
+                return true;
+            }
+        };
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response,

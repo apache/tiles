@@ -10,6 +10,7 @@ import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.PutListAttributeModel;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.runtime.Renderable;
 
 public class PutListAttributeVModel implements BodyExecutable {
 
@@ -23,7 +24,7 @@ public class PutListAttributeVModel implements BodyExecutable {
         this.servletContext = servletContext;
     }
 
-    public void end(HttpServletRequest request, HttpServletResponse response,
+    public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
@@ -32,6 +33,7 @@ public class PutListAttributeVModel implements BodyExecutable {
                         .get("name"), VelocityUtil.toSimpleBoolean(
                         (Boolean) params.get("cascade"), false),
                 velocityContext, request, response);
+        return VelocityUtil.EMPTY_RENDERABLE;
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response,

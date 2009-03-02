@@ -152,13 +152,14 @@ public class Tiles2Tool extends ContextHolder {
         return this;
     }
     
-    public Tiles2Tool end() {
+    public Renderable end() {
         if (currentExecutable == null) {
             throw new NullPointerException("The current model to start has not been set");
         }
-        currentExecutable.end(getRequest(), getResponse(), getVelocityContext());
+        Renderable retValue = currentExecutable.end(getRequest(),
+                getResponse(), getVelocityContext());
         currentExecutable = null;
-        return this;
+        return retValue;
     }
 
     public Attribute getAttribute(String key) {

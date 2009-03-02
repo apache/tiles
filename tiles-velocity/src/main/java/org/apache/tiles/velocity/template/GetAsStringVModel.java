@@ -12,7 +12,6 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.GetAsStringModel;
-import org.apache.tiles.velocity.TilesVelocityException;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -72,17 +71,22 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
                 response);
     }
 
-    public void end(HttpServletRequest request, HttpServletResponse response,
+    public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
-        try {
-            model.end(ServletUtil.getComposeStack(request), ServletUtil
-                    .getCurrentContainer(request, servletContext), response
-                    .getWriter(), VelocityUtil.toSimpleBoolean((Boolean) params
-                    .get("ignore"), false), velocityContext, request, response);
-        } catch (IOException e) {
-            throw new TilesVelocityException("Cannot end getAsString", e);
-        }
+        return new AbstractDefaultToStringRenderable(velocityContext, params, response, request){
+        
+            public boolean render(InternalContextAdapter context, Writer writer)
+                    throws IOException, MethodInvocationException, ParseErrorException,
+                    ResourceNotFoundException {
+                model.end(ServletUtil.getComposeStack(request), ServletUtil
+                        .getCurrentContainer(request, servletContext), response
+                        .getWriter(), VelocityUtil.toSimpleBoolean(
+                        (Boolean) params.get("ignore"), false),
+                        velocityContext, request, response, writer);
+                return true;
+            }
+        };
     }
 }
