@@ -74,10 +74,9 @@ public class Tiles2Tool extends ContextHolder {
      * 
      * @throws IOException If something goes wrong.
      */
-    public Tiles2Tool getAsString(Map<String, Object> params)
+    public Renderable getAsString(Map<String, Object> params)
             throws IOException {
-        execute(getRepository().getGetAsString(), params);
-        return this;
+        return execute(getRepository().getGetAsString(), params);
     }
 
     /**
@@ -97,9 +96,8 @@ public class Tiles2Tool extends ContextHolder {
         return this;
     }
     
-    public Tiles2Tool insertAttribute(Map<String, Object> params) {
-        execute(getRepository().getInsertAttribute(), params);
-        return this;
+    public Renderable insertAttribute(Map<String, Object> params) {
+        return execute(getRepository().getInsertAttribute(), params);
     }
     
     public Tiles2Tool insertAttribute() {
@@ -116,9 +114,8 @@ public class Tiles2Tool extends ContextHolder {
         return this;
     }
     
-    public Tiles2Tool insertTemplate(Map<String, Object> params) {
-        execute(getRepository().getInsertTemplate(), params);
-        return this;
+    public Renderable insertTemplate(Map<String, Object> params) {
+        return execute(getRepository().getInsertTemplate(), params);
     }
     
     public Tiles2Tool insertTemplate() {
