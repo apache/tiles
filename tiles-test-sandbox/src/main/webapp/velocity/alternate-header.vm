@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: alternate-header.ftl 742104 2009-02-08 14:24:40Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,7 +18,6 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <strong>This is the alternate header</strong>
     

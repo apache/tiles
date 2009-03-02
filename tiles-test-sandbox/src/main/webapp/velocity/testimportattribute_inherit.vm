@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: testimportattribute_inherit.ftl 742115 2009-02-08 14:57:41Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,6 +18,5 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <@tiles.insertDefinition name="freemarker.test.putAttributes.inherit" />

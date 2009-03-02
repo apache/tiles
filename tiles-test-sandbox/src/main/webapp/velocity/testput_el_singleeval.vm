@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: testput_el_singleeval.ftl 743333 2009-02-11 13:22:57Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <#assign doNotShowBody="$" + "{" + "requestScope.doNotShow}" />
 <#assign doNotShow="DO NOT SHOW!!!" />
 

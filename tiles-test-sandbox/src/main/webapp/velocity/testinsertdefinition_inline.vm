@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: testinsertdefinition_inline.ftl 742115 2009-02-08 14:57:41Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <@tiles.insertDefinition name="freemarker.test.definition">
   <@tiles.putAttribute name="body">
   <div align="center"><b><i>This is an inline content</i></b></div>

@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: testinsertnesteddefinition_tags.ftl 742994 2009-02-10 15:23:34Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <@tiles.definition name="test.nesting.definitions.tags" template="/freemarker/layout.ftl">
     <@tiles.putAttribute name="title"  value="This is the title."/>
     <@tiles.putAttribute name="header" value="/freemarker/header.ftl"/>

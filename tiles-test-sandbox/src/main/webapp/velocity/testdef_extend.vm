@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: testdef_extend.ftl 742994 2009-02-10 15:23:34Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <@tiles.definition name="test.definition.override.one" extends="freemarker.test.definition">
   <@tiles.putAttribute name="body"   value="/freemarker/override.ftl" />
 </@tiles.definition>

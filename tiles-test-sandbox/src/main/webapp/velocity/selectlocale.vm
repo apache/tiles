@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<#--
-/*
+#*
  * $Id: selectlocale.ftl 742469 2009-02-09 13:07:15Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,8 +19,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">

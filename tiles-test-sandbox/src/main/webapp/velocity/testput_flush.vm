@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: testput_flush.ftl 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <@tiles.insertTemplate template="/freemarker/layout.ftl" flush="true">
   <@tiles.putAttribute name="title"  value="This is the title." />
   <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />

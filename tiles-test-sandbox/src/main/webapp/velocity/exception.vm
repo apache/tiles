@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: exception.ftl 742199 2009-02-08 23:05:44Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,7 +18,6 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <strong>This throws an exception</strong>
 <#assign testValue=1/0 />

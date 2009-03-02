@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: testdef_list_inherit.ftl 744100 2009-02-13 12:37:06Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <@tiles.definition name="templateDefinition" extends="test.putAttributes">
   <@tiles.putAttribute name="stringTest" value="This is a string" type="string"/>
   <@tiles.putListAttribute name="list" inherit=true>

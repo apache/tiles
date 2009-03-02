@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: testputlist.ftl 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <@tiles.insertTemplate template="/freemarker/putattributeslayout.ftl">
   <@tiles.putAttribute name="stringTest" value="This is a string" type="string" />
   <@tiles.putListAttribute name="list">

@@ -1,5 +1,4 @@
-<#--
-/*
+#*
  * $Id: testinsertdefinition_wildcard.ftl 742115 2009-02-08 14:57:41Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,8 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- */
--->
+ *#
 <@tiles.setCurrentContainer containerKey="alternate" />
 <@tiles.insertDefinition name="freemarker.test.definitionOne.messageHello" />
 <@tiles.insertDefinition name="freemarker.test.definitionTwo.messageBye" />
