@@ -1,5 +1,6 @@
-#*
- * $Id: testinsertdefinition.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+<#--
+/*
+ * $Id: defaultlocale_db.ftl 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,5 +19,9 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *#
-$tiles.insertDefinition({"name" : "velocity.test.definition"})
+ */
+-->
+<div align="center"><b><i>
+<div id="defaultLocaleMessage">Your default Locale is <%=request.getLocale().toString() %></div>
+</i></b></div>
+<a href="../selectlocale_db.ftl">Select another locale</a>

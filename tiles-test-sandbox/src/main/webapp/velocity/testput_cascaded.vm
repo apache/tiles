@@ -1,5 +1,6 @@
-#*
- * $Id: testinsertdefinition.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+<#--
+/*
+ * $Id: testput_cascaded.ftl 743333 2009-02-11 13:22:57Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,5 +19,10 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *#
-$tiles.insertDefinition({"name" : "velocity.test.definition"})
+ */
+-->
+<@tiles.insertTemplate template="/freemarker/layout.ftl">
+  <@tiles.putAttribute name="title"  value="This is the title." cascade=true />
+  <@tiles.putAttribute name="header" value="/freemarker/header.ftl" cascade=true />
+  <@tiles.putAttribute name="body"   value="test.inner.cascadable.definition" />
+</@tiles.insertTemplate>

@@ -1,5 +1,6 @@
-#*
- * $Id: testinsertdefinition.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+<#--
+/*
+ * $Id: putallattributeslayout.ftl 742469 2009-02-09 13:07:15Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,5 +19,13 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *#
-$tiles.insertDefinition({"name" : "velocity.test.definition"})
+ */
+-->
+<@tiles.importAttribute/>
+
+${one}
+<ul>
+  <li>${two}</li>
+  <li>${three}</li>
+  <li>${four}</li>
+</ul>

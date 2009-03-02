@@ -1,5 +1,6 @@
-#*
- * $Id: testinsertdefinition.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+<#--
+/*
+ * $Id: testputlist.ftl 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,5 +19,13 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *#
-$tiles.insertDefinition({"name" : "velocity.test.definition"})
+ */
+-->
+<@tiles.insertTemplate template="/freemarker/putattributeslayout.ftl">
+  <@tiles.putAttribute name="stringTest" value="This is a string" type="string" />
+  <@tiles.putListAttribute name="list">
+    <@tiles.addAttribute value="valueOne" type="string" />
+    <@tiles.addAttribute value="valueTwo" type="string" />
+    <@tiles.addAttribute value="valueThree" type="string" />
+  </@tiles.putListAttribute>
+</@tiles.insertTemplate>

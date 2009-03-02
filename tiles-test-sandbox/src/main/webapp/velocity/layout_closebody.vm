@@ -1,5 +1,6 @@
-#*
- * $Id: testinsertdefinition.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+<#--
+/*
+ * $Id: layout_closebody.ftl 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,5 +19,22 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *#
-$tiles.insertDefinition({"name" : "velocity.test.definition"})
+ */
+-->
+<table  border="2"  width="300"  bordercolor="Gray">
+  <tr>
+    <td  bgcolor="Blue"><strong><@tiles.getAsString name="title"/></strong></td>
+  </tr>
+  <tr>
+    <td><@tiles.insertAttribute name="header"/></td>
+  </tr>
+  <tr>
+    <td>
+    <@tiles.insertAttribute name="body">
+        <@tiles.putAttribute name="title"  value="This is a customized context" />
+        <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
+        <@tiles.putAttribute name="body"   value="/freemarker/body.ftl" />
+    </@tiles.insertAttribute>
+    </td>
+  </tr>
+</table>           

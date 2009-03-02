@@ -1,5 +1,7 @@
-#*
- * $Id: testinsertdefinition.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+/*
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,6 +19,20 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
- *#
-$tiles.insertDefinition({"name" : "velocity.test.definition"})
+ */
+-->
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+  <definition name="velocity.test.localized.definition" template="/velocity/layout.ftl">
+      <put-attribute name="title" value="Italian locale" />
+      <put-attribute name="header" value="/velocity/header.ftl" />
+      <put-attribute name="body" value="/velocity/defaultlocale.ftl" />
+  </definition>
+
+</tiles-definitions>

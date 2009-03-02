@@ -1,5 +1,6 @@
-#*
- * $Id: testinsertdefinition.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+<#--
+/*
+ * $Id: testputlist_inherit.ftl 743333 2009-02-11 13:22:57Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,5 +19,10 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *#
-$tiles.insertDefinition({"name" : "velocity.test.definition"})
+ */
+-->
+<@tiles.insertDefinition name="freemarker.test.putAttributes">
+  <@tiles.putListAttribute name="list" inherit=true>
+    <@tiles.addAttribute value="valueFour" type="string" />
+  </@tiles.putListAttribute>
+</@tiles.insertDefinition>

@@ -1,5 +1,6 @@
-#*
- * $Id: testinsertdefinition.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+<#--
+/*
+ * $Id: layout_override.ftl 742111 2009-02-08 14:43:29Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,5 +19,19 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *#
-$tiles.insertDefinition({"name" : "velocity.test.definition"})
+ */
+-->
+<table  border="2"  width="300"  bordercolor="Gray">
+  <tr>
+    <td  bgcolor="Green"><strong>This is the overridden template.</strong></td>
+  </tr>
+  <tr>
+    <td  bgcolor="Blue"><strong><@tiles.getAsString name="title"/></strong></td>
+  </tr>
+  <tr>
+    <td><@tiles.insertAttribute name="header"/></td>
+  </tr>
+  <tr>
+    <td><@tiles.insertAttribute name="body"/></td>
+  </tr>
+</table>           

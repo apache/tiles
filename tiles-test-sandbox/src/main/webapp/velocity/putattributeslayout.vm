@@ -1,5 +1,6 @@
-#*
- * $Id: testinsertdefinition.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+<#--
+/*
+ * $Id: putattributeslayout.ftl 742199 2009-02-08 23:05:44Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,5 +19,14 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *#
-$tiles.insertDefinition({"name" : "velocity.test.definition"})
+ */
+-->
+<@tiles.importAttribute name="stringTest"/>
+<@tiles.importAttribute name="list"/>
+Single attribute "stringTest" value: ${stringTest?html} <br/><br/>
+The attribute "list" contains these values:
+<ul>
+<#list list as item>
+<li><@tiles.insertAttribute value=item /></li>
+</#list>
+</ul>
