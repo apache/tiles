@@ -19,7 +19,7 @@ public interface BodyExecutable {
      * @param response TODO
      * @param velocityContext TODO
      */
-    public abstract void start(HttpServletRequest request, HttpServletResponse response, Context velocityContext, Map<String, Object> params);
+    void start(HttpServletRequest request, HttpServletResponse response, Context velocityContext, Map<String, Object> params);
 
     /**
      * Returns a string representation of attribute value. If the attribute is
@@ -29,6 +29,6 @@ public interface BodyExecutable {
      * @param response TODO
      * @param velocityContext TODO
      */
-    public abstract void end(HttpServletRequest request, HttpServletResponse response, Context velocityContext);
+    void end(HttpServletRequest request, HttpServletResponse response, Context velocityContext);
 
 }

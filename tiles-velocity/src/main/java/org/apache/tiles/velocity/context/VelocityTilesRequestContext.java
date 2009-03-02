@@ -85,6 +85,10 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
 
     @Override
     public PrintWriter getPrintWriter() throws IOException {
+        if (writer == null) {
+            throw new IllegalStateException(
+                    "A writer-less Tiles request has been created, cannot return a PrintWriter");
+        }
         if (writer instanceof PrintWriter) {
             return (PrintWriter) writer;
         } else {
@@ -94,6 +98,10 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
 
     @Override
     public Writer getWriter() throws IOException {
+        if (writer == null) {
+            throw new IllegalStateException(
+                    "A writer-less Tiles request has been created, cannot return a PrintWriter");
+        }
         return writer;
     }
 
