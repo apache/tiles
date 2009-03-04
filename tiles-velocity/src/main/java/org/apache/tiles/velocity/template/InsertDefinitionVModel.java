@@ -56,7 +56,7 @@ public class InsertDefinitionVModel implements Executable, BodyExecutable {
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException, MethodInvocationException,
                     ParseErrorException, ResourceNotFoundException {
-                model.execute(ServletUtil.getCurrentContainer(request,
+                model.end(ServletUtil.getCurrentContainer(request,
                         servletContext), (String) params.get("name"),
                         (String) params.get("template"), (String) params
                                 .get("role"), (String) params.get("preparer"),
@@ -68,8 +68,8 @@ public class InsertDefinitionVModel implements Executable, BodyExecutable {
 
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
-        // TODO Auto-generated method stub
-
+        VelocityUtil.getParameterStack(velocityContext).push(params);
+        model.start(ServletUtil.getCurrentContainer(request,
+                servletContext), velocityContext, request, response);
     }
-
 }

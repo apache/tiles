@@ -109,10 +109,17 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
     public Object[] getRequestObjects() {
         if (requestObjects == null) {
             Object[] parentRequestObjects = super.getRequestObjects();
-            requestObjects = new Object[parentRequestObjects.length + 1];
+            if (writer == null) {
+                requestObjects = new Object[parentRequestObjects.length + 1];
+            } else {
+                requestObjects = new Object[parentRequestObjects.length + 2];
+            }
             requestObjects[0] = ctx;
             for (int i = 0; i < parentRequestObjects.length; i++) {
                 requestObjects[i+1] = parentRequestObjects[i];
+            }
+            if (writer != null) {
+                requestObjects[parentRequestObjects.length + 1] = writer;
             }
         }
         return requestObjects;

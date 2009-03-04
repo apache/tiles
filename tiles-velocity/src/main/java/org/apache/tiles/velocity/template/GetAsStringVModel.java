@@ -43,7 +43,7 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
                     ParseErrorException, ResourceNotFoundException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
-                model.execute(container, response.getWriter(),
+                model.execute(container, writer,
                         VelocityUtil.toSimpleBoolean((Boolean) params
                                 .get("ignore"), false), (String) params
                                 .get("preparer"), (String) params.get("role"),

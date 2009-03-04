@@ -33,7 +33,7 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
                 (String) params.get("expression"), null,
                 (String) params.get("role"), (String) params
                         .get("type"), VelocityUtil.toSimpleBoolean(
-                        (Boolean) params.get("value"), false),
+                        (Boolean) params.get("cascade"), false),
                 velocityContext, request, response);
 
         return VelocityUtil.EMPTY_RENDERABLE;
