@@ -599,15 +599,16 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /**
-     * Renders the specified definition.
+     * Renders the definition with specified name.
      *
      * @param request The request context.
      * @param definitionName The name of the definition to render.
      * @throws NoSuchDefinitionException If the definition has not been found.
      * @throws DefinitionsFactoryException If something goes wrong when
      * obtaining the definition.
+     * @since 2.1.3
      */
-    private void render(TilesRequestContext request, String definitionName) {
+    protected void render(TilesRequestContext request, String definitionName) {
 
         if (log.isDebugEnabled()) {
             log.debug("Render request recieved for definition '" + definitionName + "'");
@@ -622,7 +623,16 @@ public class BasicTilesContainer implements TilesContainer {
             }
             throw new NoSuchDefinitionException(definitionName);
         }
+        render(request, definition);
+    }
 
+    /**
+     * Renders the specified definition
+     * @param request The request context.
+     * @param definition The definition to render.
+     * @since 2.1.3
+     */
+    protected void render(TilesRequestContext request, Definition definition) {
         AttributeContext originalContext = getAttributeContext(request);
         BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
         subContext.inherit(definition);
@@ -666,8 +676,9 @@ public class BasicTilesContainer implements TilesContainer {
      * @param attributeContext The context to render.
      * @throws InvalidTemplateException If the template is not valid.
      * @throws CannotRenderException If something goes wrong during rendering.
+     * @since 2.1.3
      */
-    private void render(TilesRequestContext request,
+    protected void render(TilesRequestContext request,
             AttributeContext attributeContext) {
 
         try {
