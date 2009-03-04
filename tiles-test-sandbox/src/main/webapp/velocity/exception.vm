@@ -1,5 +1,5 @@
 #*
- * $Id: exception.ftl 742199 2009-02-08 23:05:44Z apetrelli $
+ * $Id: exception.vm 742199 2009-02-08 23:05:44Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,4 +20,4 @@
  *
  *#
 <strong>This throws an exception</strong>
-<#assign testValue=1/0 />
+$exc.throwRuntimeException()

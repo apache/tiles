@@ -1,5 +1,5 @@
 #*
- * $Id: testinsertdefinition_override_and_not.ftl 742191 2009-02-08 22:43:19Z apetrelli $
+ * $Id: testinsertdefinition_override_and_not.vm 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,9 +20,9 @@
  *
  *#
 Overridden content:<br/>
-<@tiles.insertDefinition name="freemarker.test.definition">
-  <@tiles.putAttribute name="body"   value="/freemarker/override.ftl" />
-</@tiles.insertDefinition>
+$tiles.insertDefinition().start({"name":"velocity.test.definition"})
+  $tiles.putAttribute({"name":"body", "value":"/velocity/override.vm"})
+$tiles.insertDefinition().end()
 <br/>
 Not overridden content:<br/>
-<@tiles.insertDefinition name="freemarker.test.definition" />
+$tiles.insertDefinition({"name":"velocity.test.definition"})

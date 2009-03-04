@@ -1,5 +1,5 @@
 #*
- * $Id: testinsertdefinition_extended_db.ftl 744100 2009-02-13 12:37:06Z apetrelli $
+ * $Id: testinsertdefinition_extended_db.vm 744100 2009-02-13 12:37:06Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,5 +19,5 @@
  * under the License.
  *
  *#
-<@tiles.setCurrentContainer containerKey="db"/>
-<@tiles.insertDefinition name="test.definition.extended" />
+$tiles.setCurrentContainer containerKey="db"/>
+$tiles.insertDefinition name="test.definition.extended" />

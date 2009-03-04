@@ -1,5 +1,5 @@
 #*
- * $Id: testputlist_cascaded.ftl 743333 2009-02-11 13:22:57Z apetrelli $
+ * $Id: testputlist_cascaded.vm 743333 2009-02-11 13:22:57Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,14 +19,14 @@
  * under the License.
  *
  *#
-<@tiles.insertTemplate template="/freemarker/layout.ftl">
-  <@tiles.putAttribute name="title"  value="This is the title." />
-  <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
-  <@tiles.putAttribute name="body"   value="/freemarker/putattributeslayout.ftl" />
-  <@tiles.putAttribute name="stringTest" value="This is a string" type="string" cascade=true />
-  <@tiles.putListAttribute name="list" cascade=true>
-    <@tiles.addAttribute value="valueOne" type="string" />
-    <@tiles.addAttribute value="valueTwo" type="string" />
-    <@tiles.addAttribute value="valueThree" type="string" />
+$tiles.insertTemplate template="/velocity/layout.vm">
+  $tiles.putAttribute name="title"  value="This is the title." />
+  $tiles.putAttribute name="header" value="/velocity/header.vm" />
+  $tiles.putAttribute name="body"   value="/velocity/putattributeslayout.vm" />
+  $tiles.putAttribute name="stringTest" value="This is a string" type="string" cascade=true />
+  $tiles.putListAttribute name="list" cascade=true>
+    $tiles.addAttribute value="valueOne" type="string" />
+    $tiles.addAttribute value="valueTwo" type="string" />
+    $tiles.addAttribute value="valueThree" type="string" />
   </@tiles.putListAttribute>
 </@tiles.insertTemplate>

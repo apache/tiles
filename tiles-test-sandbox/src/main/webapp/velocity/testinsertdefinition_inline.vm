@@ -1,5 +1,5 @@
 #*
- * $Id: testinsertdefinition_inline.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+ * $Id: testinsertdefinition_inline.vm 742115 2009-02-08 14:57:41Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,8 +19,9 @@
  * under the License.
  *
  *#
-<@tiles.insertDefinition name="freemarker.test.definition">
-  <@tiles.putAttribute name="body">
+#define($inlineContent)
   <div align="center"><b><i>This is an inline content</i></b></div>
-  </@tiles.putAttribute>
-</@tiles.insertDefinition>
+#end
+$tiles.insertDefinition().start({"name":"velocity.test.definition"})
+  $tiles.putAttribute({"name":"body", "value":$inlineContent.toString()})
+$tiles.insertDefinition().end()

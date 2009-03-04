@@ -1,5 +1,5 @@
 #*
- * $Id: testsetcurrentcontainer.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+ * $Id: testsetcurrentcontainer.vm 742115 2009-02-08 14:57:41Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,7 +19,7 @@
  * under the License.
  *
  *#
-<@tiles.setCurrentContainer containerKey="alternate" />
-<@tiles.insertDefinition name="freemarker.test.definition" />
-<@tiles.setCurrentContainer />
-<@tiles.insertDefinition name="freemarker.test.definition" />
+$tiles.setCurrentContainer containerKey="alternate" />
+$tiles.insertDefinition name="velocity.test.definition" />
+$tiles.setCurrentContainer />
+$tiles.insertDefinition name="velocity.test.definition" />

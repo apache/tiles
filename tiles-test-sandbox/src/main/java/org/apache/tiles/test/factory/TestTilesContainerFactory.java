@@ -158,6 +158,8 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
                     "classpath:/org/apache/tiles/classpath-defs.xml"));
             urls.add(applicationContext.getResource(
                     "classpath:/org/apache/tiles/freemarker-classpath-defs.xml"));
+            urls.add(applicationContext.getResource(
+                "classpath:/org/apache/tiles/velocity-classpath-defs.xml"));
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);

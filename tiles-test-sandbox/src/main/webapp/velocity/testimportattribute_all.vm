@@ -1,5 +1,5 @@
 #*
- * $Id: testimportattribute_all.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+ * $Id: testimportattribute_all.vm 742115 2009-02-08 14:57:41Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-<@tiles.insertDefinition name="freemarker.test.putAllAttributes" />
+$tiles.insertDefinition name="velocity.test.putAllAttributes" />

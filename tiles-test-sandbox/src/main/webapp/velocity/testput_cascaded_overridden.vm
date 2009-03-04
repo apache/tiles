@@ -1,5 +1,5 @@
 #*
- * $Id: testput_cascaded_overridden.ftl 743333 2009-02-11 13:22:57Z apetrelli $
+ * $Id: testput_cascaded_overridden.vm 743333 2009-02-11 13:22:57Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,8 +19,8 @@
  * under the License.
  *
  *#
-<@tiles.insertTemplate template="/freemarker/layout.ftl">
-  <@tiles.putAttribute name="title"  value="This is the title." cascade=true />
-  <@tiles.putAttribute name="header" value="/freemarker/alternate-header.ftl" cascade=true />
-  <@tiles.putAttribute name="body"   value="test.inner.definition" />
+$tiles.insertTemplate template="/velocity/layout.vm">
+  $tiles.putAttribute name="title"  value="This is the title." cascade=true />
+  $tiles.putAttribute name="header" value="/velocity/alternate-header.vm" cascade=true />
+  $tiles.putAttribute name="body"   value="test.inner.definition" />
 </@tiles.insertTemplate>

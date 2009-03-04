@@ -1,5 +1,5 @@
 #*
- * $Id: testinsertdefinition_override_template.ftl 742191 2009-02-08 22:43:19Z apetrelli $
+ * $Id: testinsertdefinition_override_template.vm 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-<@tiles.insertDefinition name="freemarker.test.definition" template="/freemarker/layout_override.ftl" />
+$tiles.insertDefinition name="velocity.test.definition" template="/velocity/layout_override.vm" />

@@ -1,5 +1,5 @@
 #*
- * $Id: testputlist_inherit.ftl 743333 2009-02-11 13:22:57Z apetrelli $
+ * $Id: testputlist_inherit.vm 743333 2009-02-11 13:22:57Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,8 +19,8 @@
  * under the License.
  *
  *#
-<@tiles.insertDefinition name="freemarker.test.putAttributes">
-  <@tiles.putListAttribute name="list" inherit=true>
-    <@tiles.addAttribute value="valueFour" type="string" />
+$tiles.insertDefinition name="velocity.test.putAttributes">
+  $tiles.putListAttribute name="list" inherit=true>
+    $tiles.addAttribute value="valueFour" type="string" />
   </@tiles.putListAttribute>
 </@tiles.insertDefinition>

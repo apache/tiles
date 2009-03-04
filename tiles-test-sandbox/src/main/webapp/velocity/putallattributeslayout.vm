@@ -1,5 +1,5 @@
 #*
- * $Id: putallattributeslayout.ftl 742469 2009-02-09 13:07:15Z apetrelli $
+ * $Id: putallattributeslayout.vm 742469 2009-02-09 13:07:15Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,7 +19,7 @@
  * under the License.
  *
  *#
-<@tiles.importAttribute/>
+$tiles.importAttribute/>
 
 ${one}
 <ul>

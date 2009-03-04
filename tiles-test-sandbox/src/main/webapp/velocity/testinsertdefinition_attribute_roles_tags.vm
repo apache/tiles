@@ -1,5 +1,5 @@
 #*
- * $Id: testinsertdefinition_attribute_roles_tags.ftl 747725 2009-02-25 10:22:04Z apetrelli $
+ * $Id: testinsertdefinition_attribute_roles_tags.vm 747725 2009-02-25 10:22:04Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-<@tiles.insertDefinition name="freemarker.test.definition.roles.tags" />
+$tiles.insertDefinition name="velocity.test.definition.roles.tags" />

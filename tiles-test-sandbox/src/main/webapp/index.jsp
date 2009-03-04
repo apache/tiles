@@ -195,4 +195,86 @@
     <a href="freemarker/testinsertdefinition_db.ftl">FreeMarker: Test Insert Configured Definition from DB</a><br/>
     <a href="freemarker/testinsertdefinition_extended_db.ftl">FreeMarker: Test Insert Extended Configured Definition from DB</a><br/>
 
+
+    <h1>Velocity-based tests</h1>
+    
+    <h2>Features in Tiles 2.0.x</h2>
+
+    <h3>Standard Render/Attribute Tests</h3>
+    <a href="velocity/testinsertdefinition.vm">Velocity: Test Insert Configured Definition</a><br/>
+    <a href="velocity/testinsertdefinition_ignore.vm">Velocity: Test Insert Configured Definition with Ignore</a><br/>
+    <a href="velocity/testinsertdefinition_flush.vm">Velocity: Test Insert Configured Definition with Flush</a><br/>
+    <a href="velocity/testinsertdefinition_preparer.vm">Velocity: Test Insert Configured Definition with Preparer</a><br/>
+    <a href="velocity/testinsertdefinition_preparer_configured.vm">Velocity: Test Insert Configured Definition with Preparer configured in the definition itself</a><br/>
+    <a href="velocity/testinsertdefinition_classpath.vm">Velocity: Test Insert Configured Classpath Definition</a><br/>
+    <a href="velocity/testinsertdefinition_override.vm">Velocity: Test Insert Configured Definition with an overridden content</a><br/>
+    <a href="velocity/testinsertdefinition_override_and_not.vm">Velocity: Test Insert Configured Definition with an overridden content and one with original content</a><br/>
+    <a href="velocity/testinsertdefinition_inline.vm">Velocity: Test Insert Configured Definition with an inline content</a><br/>
+    <a href="velocity/testinsertdefinition_composite.vm">Velocity: Test Insert Configured Definition that contains another definition inside</a><br/>
+    <a href="velocity/testinsertdefinition_exception.vm">Velocity: Test Insert Configured Definition with an exception in an attribute page</a><br/>
+    <a href="velocity/testinsertdefinition_openbody.vm">Velocity: Test Insert Configured Definition with Open Body</a><br/>
+    <a href="velocity/testput.vm">Velocity: Test Put Tag</a><br/>
+    <a href="velocity/testput_flush.vm">Velocity: Test Put Tag with Flush</a><br/>
+    <a href="velocity/testput_el.vm">Velocity: Test Put Tag using EL</a><br/>
+    <a href="velocity/testput_servlet.vm">Velocity: Test Put Tag using a servlet mapping as a template</a><br/>
+    <a href="velocity/testputlist.vm">Velocity: Test Put List Tag</a><br/>
+    <a href="velocity/testimportattribute.vm">Velocity: Test importAttribute Tag</a><br/>
+    <a href="velocity/testimportattribute_all.vm">Velocity: Test importAttribute Tag with no name</a><br/>
+    <a href="velocity/testdecorationfilter.vm">Velocity: Test Tiles Definition Filter</a><br/>
+    <a href="velocity.testdispatchservlet.tiles">Velocity: Test Tiles Dispatch Servlet</a><br/>
+    <a href="velocity/selectlocale.vm">Velocity: Test Localization</a><br/>
+
+    <h3>Mutable Container Tests</h3>
+    <a href="velocity/testdef.vm">Velocity: Test Definition Tag</a><br/>
+    <a href="velocity/testdef_extend.vm">Velocity: Test Definition Tag extending configured and custom definitions</a><br/>
+    <a href="velocity/testdef_preparer.vm">Velocity: Test Definition Tag with Preparer</a><br/>
+    <a href="velocity/testinsertdefinition_composite_tags_includes_configured.vm">Velocity: Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags</a><br/>
+    <a href="velocity/testinsertdefinition_composite_tags.vm">Velocity: Test Insert Definition that contains another definition inside using JSP tags</a><br/>
+    <a href="velocity/testinsertdefinition_composite_tags_includes_configured_notype.vm">Velocity: Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags without types</a><br/>
+    <a href="velocity/testinsertdefinition_composite_tags_notype.vm">Velocity: Test Insert Definition that contains another definition inside using JSP tags without types</a><br/>
+    
+    <h3>Roles Verification tests</h3>
+    <a href="velocity/testinsertdefinition_role.vm">Velocity: Test Insert Configured Definition with Specified Role</a><br/>
+    <a href="velocity/testinsertdefinition_role_tag.vm">Velocity: Test Insert Configured Definition with Specified Role in Tag</a><br/>
+    <a href="velocity/testinsertdefinition_attribute_roles.vm">Velocity: Test Insert Configured Definition with Attribute that have Roles</a><br/>
+    <a href="velocity/testinsertdefinition_attribute_roles_tags.vm">Velocity: Test Insert Configured Definition with Attribute that have Roles in Tags</a><br/>
+
+    <h2>Features in Tiles 2.1.x</h2>
+
+    <h3>Standard Render/Attribute Tests</h3>
+    <a href="velocity/testinsertdefinition_override_template.vm">Velocity: Test Insert Configured Definition with an overridden template</a><br/>
+    <a href="velocity/testinsertdefinition_old.vm">Velocity: Test Insert Configured Definition in Old Format</a><br/>
+    <a href="velocity/testinsertdefinition_cascaded.vm">Velocity: Test Insert Configured Cascaded Definition</a><br/>
+    <a href="velocity/testinsertdefinition_cascaded_overridden.vm">Velocity: Test Insert Configured Cascaded Definition with Override</a><br/>
+    <a href="velocity/testinsertdefinition_cascaded_template.vm">Velocity: Test Insert Configured Cascaded Definition with Template</a><br/>
+    <a href="velocity/testinsertdefinition_cascaded_list.vm">Velocity: Test Insert Configured Cascaded Definition with List</a><br/>
+    <a href="velocity/testinsertdefinition_reversed.vm">Velocity: Test Insert Configured Definition with Reversed Attribute</a><br/>
+    <a href="velocity/testinsertdefinition_reversed_explicit.vm">Velocity: Test Insert Configured Definition with Reversed Explicit Attribute</a><br/>
+    <a href="velocity/testinsertdefinition_attribute_preparer.vm">Velocity: Test Insert Configured Definition with Attribute Preparer</a><br/>
+    <a href="velocity/testinsertnesteddefinition.vm">Velocity: Test Insert Nested Definition</a><br/>
+    <a href="velocity/testinsertnesteddefinition_tags.vm">Velocity: Test Insert Nested Definition only using JSP tags</a><br/>
+    <a href="velocity/testinsertnestedlistdefinition.vm">Velocity: Test Insert Nested List Definition</a><br/>
+    <a href="velocity/testinsertnestedlistdefinition_tags.vm">Velocity: Test Insert Nested List Definition only using JSP tags</a><br/>
+    <a href="velocity/testinsertdefinition_el.vm">Velocity: Test Insert Configured Definition with EL</a><br/>
+    <a href="velocity/testinsertdefinition_el_singleeval.vm">Velocity: Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
+    <a href="velocity/testinsertdefinition_wildcard.vm">Velocity: Test Insert Configured Definition with Wildcards</a><br/>
+    <a href="velocity/testinsertdefinition_defaultvalues.vm">Velocity: Test Insert Configured Definition with Default Values</a><br/>
+    <a href="velocity/testput_cascaded.vm">Velocity: Test Put Tag with Cascaded Attributes</a><br/>
+    <a href="velocity/testput_cascaded_overridden.vm">Velocity: Test Put Tag with Overridden Cascaded Attributes</a><br/>
+    <a href="velocity/testput_cascaded_template.vm">Velocity: Test Put Tag with Cascaded Attributes and Template</a><br/>
+    <a href="velocity/testput_el_singleeval.vm">Velocity: Test Put Tag using EL to test Single Evaluation</a><br/>
+    <a href="velocity/testput_reversed.vm">Velocity: Test Put Tag with Reversed Attribute</a><br/>
+    <a href="velocity/testput_reversed_explicit.vm">Velocity: Test Put Tag with Reversed Explicit Attribute</a><br/>
+    <a href="velocity/testputlist_cascaded.vm">Velocity: Test Put List Cascaded Tag</a><br/>
+    <a href="velocity/testputlist_inherit.vm">Velocity: Test Put List Tag with Inherit</a><br/>
+    <a href="velocity/testimportattribute_inherit.vm">Velocity: Test importAttribute Tag with List Inherit</a><br/>
+    <a href="velocity/testsetcurrentcontainer.vm">Velocity: Test setCurrentContainer Tag</a><br/>
+
+    <h3>Mutable Container Tests</h3>
+    <a href="velocity/testdef_list_inherit.vm">Velocity: Test Definition Tag with a List Inherit</a><br/>
+
+    <h3>Database Verification tests</h3>
+    <a href="velocity/testinsertdefinition_db.vm">Velocity: Test Insert Configured Definition from DB</a><br/>
+    <a href="velocity/testinsertdefinition_extended_db.vm">Velocity: Test Insert Extended Configured Definition from DB</a><br/>
+
 </html>

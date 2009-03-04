@@ -1,5 +1,5 @@
 #*
- * $Id: testinsertdefinition_role_tag.ftl 742115 2009-02-08 14:57:41Z apetrelli $
+ * $Id: testinsertdefinition_role_tag.vm 742115 2009-02-08 14:57:41Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,5 +19,5 @@
  * under the License.
  *
  *#
-<@tiles.insertDefinition name="freemarker.test.definition.appears" role="goodrole" />
-<@tiles.insertDefinition name="freemarker.test.definition.does_not_appear" role="badrole" />
+$tiles.insertDefinition name="velocity.test.definition.appears" role="goodrole" />
+$tiles.insertDefinition name="velocity.test.definition.does_not_appear" role="badrole" />

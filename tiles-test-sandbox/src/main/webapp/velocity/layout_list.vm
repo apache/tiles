@@ -1,5 +1,5 @@
 #*
- * $Id: layout_list.ftl 743333 2009-02-11 13:22:57Z apetrelli $
+ * $Id: layout_list.vm 743333 2009-02-11 13:22:57Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,16 +21,16 @@
  *#
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
-    <td  bgcolor="Blue"><strong><@tiles.getAsString name="title"/></strong></td>
+    <td  bgcolor="Blue"><strong>$tiles.getAsString name="title"/></strong></td>
   </tr>
   <tr>
-    <td><@tiles.insertAttribute name="header"/></td>
+    <td>$tiles.insertAttribute name="header"/></td>
   </tr>
   <tr>
     <td>
-        <@tiles.importAttribute name="list"/>
+        $tiles.importAttribute name="list"/>
         <#list list as attribute>
-            <@tiles.insertAttribute value=attribute />
+            $tiles.insertAttribute value=attribute />
         </#list>
     </td>
   </tr>

@@ -1,5 +1,5 @@
 #*
- * $Id: defaultlocale.ftl 742469 2009-02-09 13:07:15Z apetrelli $
+ * $Id: defaultlocale.vm 742469 2009-02-09 13:07:15Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +20,6 @@
  *
  *#
 <div align="center"><b><i>
-<div id="defaultLocaleMessage">Your default Locale is ${.locale}</div>
+<div id="defaultLocaleMessage">Your default Locale is $request.locale</div>
 </i></b></div>
-<a href="../selectlocale.ftl">Select another locale</a>
+<a href="../selectlocale.vm">Select another locale</a>

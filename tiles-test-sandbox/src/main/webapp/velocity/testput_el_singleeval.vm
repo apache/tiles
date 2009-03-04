@@ -1,5 +1,5 @@
 #*
- * $Id: testput_el_singleeval.ftl 743333 2009-02-11 13:22:57Z apetrelli $
+ * $Id: testput_el_singleeval.vm 743333 2009-02-11 13:22:57Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,8 +22,8 @@
 <#assign doNotShowBody="$" + "{" + "requestScope.doNotShow}" />
 <#assign doNotShow="DO NOT SHOW!!!" />
 
-<@tiles.insertTemplate template="/freemarker/layout.ftl">
-  <@tiles.putAttribute name="title"  value="This is the title." />
-  <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
-  <@tiles.putAttribute name="body"   value=doNotShowBody />
+$tiles.insertTemplate template="/velocity/layout.vm">
+  $tiles.putAttribute name="title"  value="This is the title." />
+  $tiles.putAttribute name="header" value="/velocity/header.vm" />
+  $tiles.putAttribute name="body"   value=doNotShowBody />
 </@tiles.insertTemplate>

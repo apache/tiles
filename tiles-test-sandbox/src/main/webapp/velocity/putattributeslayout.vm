@@ -1,5 +1,5 @@
 #*
- * $Id: putattributeslayout.ftl 742199 2009-02-08 23:05:44Z apetrelli $
+ * $Id: putattributeslayout.vm 742199 2009-02-08 23:05:44Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,12 +19,12 @@
  * under the License.
  *
  *#
-<@tiles.importAttribute name="stringTest"/>
-<@tiles.importAttribute name="list"/>
+$tiles.importAttribute name="stringTest"/>
+$tiles.importAttribute name="list"/>
 Single attribute "stringTest" value: ${stringTest?html} <br/><br/>
 The attribute "list" contains these values:
 <ul>
 <#list list as item>
-<li><@tiles.insertAttribute value=item /></li>
+<li>$tiles.insertAttribute value=item /></li>
 </#list>
 </ul>

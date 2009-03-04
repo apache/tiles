@@ -30,10 +30,10 @@
 
 <tiles-definitions>
 
-  <definition name="velocity.test.definition.old_format" template="/velocity/layout.ftl">
+  <definition name="velocity.test.definition.old_format" template="/velocity/layout.vm">
       <put name="title"  value="This is a definition configured in 1.1 format."/>
-      <put name="header" value="/velocity/header.ftl"/>
-      <put name="body"   value="/velocity/body.ftl"/>
+      <put name="header" value="/velocity/header.vm"/>
+      <put name="body"   value="/velocity/body.vm"/>
   </definition>
 
 </tiles-definitions>

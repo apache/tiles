@@ -1,5 +1,5 @@
 #*
- * $Id: layout_closebody.ftl 742191 2009-02-08 22:43:19Z apetrelli $
+ * $Id: layout_closebody.vm 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,18 +21,18 @@
  *#
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
-    <td  bgcolor="Blue"><strong><@tiles.getAsString name="title"/></strong></td>
+    <td  bgcolor="Blue"><strong>$tiles.getAsString({"name":"title"})</strong></td>
   </tr>
   <tr>
-    <td><@tiles.insertAttribute name="header"/></td>
+    <td>$tiles.insertAttribute({"name":"header"})</td>
   </tr>
   <tr>
     <td>
-    <@tiles.insertAttribute name="body">
-        <@tiles.putAttribute name="title"  value="This is a customized context" />
-        <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
-        <@tiles.putAttribute name="body"   value="/freemarker/body.ftl" />
-    </@tiles.insertAttribute>
+    $tiles.insertAttribute().start({"name":"body"})
+        $tiles.putAttribute({"name":"title", "value":"This is a customized context"})
+        $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm"})
+        $tiles.putAttribute({"name":"body", "value":"/velocity/body.vm"})
+    $tiles.insertAttribute().end()
     </td>
   </tr>
 </table>           

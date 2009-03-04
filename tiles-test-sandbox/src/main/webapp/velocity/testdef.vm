@@ -1,5 +1,5 @@
 #*
- * $Id: testdef.ftl 742469 2009-02-09 13:07:15Z apetrelli $
+ * $Id: testdef.vm 742469 2009-02-09 13:07:15Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,9 +19,9 @@
  * under the License.
  *
  *#
-<@tiles.definition name="templateDefinition" template="/freemarker/layout.ftl">
-  <@tiles.putAttribute name="title"  value="This is the title." />
-  <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
-  <@tiles.putAttribute name="body"   value="/freemarker/body.ftl" />
+$tiles.definition name="templateDefinition" template="/velocity/layout.vm">
+  $tiles.putAttribute name="title"  value="This is the title." />
+  $tiles.putAttribute name="header" value="/velocity/header.vm" />
+  $tiles.putAttribute name="body"   value="/velocity/body.vm" />
 </@tiles.definition>
-<@tiles.insertDefinition name="templateDefinition" />
+$tiles.insertDefinition name="templateDefinition" />

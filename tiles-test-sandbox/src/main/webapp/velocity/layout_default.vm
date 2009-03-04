@@ -1,5 +1,5 @@
 #*
- * $Id: layout_default.ftl 742191 2009-02-08 22:43:19Z apetrelli $
+ * $Id: layout_default.vm 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,12 +21,12 @@
  *#
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
-    <td  bgcolor="Blue"><strong><@tiles.insertAttribute name="title" defaultValue="This is the default title."/></strong></td>
+    <td  bgcolor="Blue"><strong>$tiles.insertAttribute({"name":"title", "defaultValue":"This is the default title."})</strong></td>
   </tr>
   <tr>
-    <td><@tiles.insertAttribute name="header" defaultValue="alternate-header.ftl" defaultValueType="template"/></td>
+    <td>$tiles.insertAttribute({"name":"header", "defaultValue":"alternate-header.vm", "defaultValueType":"template"})</td>
   </tr>
   <tr>
-    <td><@tiles.insertAttribute name="body" defaultValue="This is the default body in the tag."/></td>
+    <td>$tiles.insertAttribute({"name":"body", "defaultValue":"This is the default body in the tag."})</td>
   </tr>
 </table>           

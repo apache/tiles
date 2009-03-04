@@ -1,5 +1,5 @@
-#*
- * $Id: defaultlocale_db.ftl 742191 2009-02-08 22:43:19Z apetrelli $
+/*
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,9 +17,22 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
+ */
+package org.apache.tiles.test.velocity;
+
+/**
+ * Tool to generate exceptions.
  *
- *#
-<div align="center"><b><i>
-<div id="defaultLocaleMessage">Your default Locale is <%=request.getLocale().toString() %></div>
-</i></b></div>
-<a href="../selectlocale_db.ftl">Select another locale</a>
+ * @version $Rev$ $Date$
+ */
+public class ExceptionTool {
+
+    /**
+     * Throws an exception.
+     *
+     * @return Nothing.
+     */
+    public String throwRuntimeException() {
+        throw new RuntimeException("It is an exception!");
+    }
+}

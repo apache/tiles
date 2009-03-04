@@ -1,5 +1,5 @@
 #*
- * $Id: testputlist.ftl 742191 2009-02-08 22:43:19Z apetrelli $
+ * $Id: testputlist.vm 742191 2009-02-08 22:43:19Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,11 +19,11 @@
  * under the License.
  *
  *#
-<@tiles.insertTemplate template="/freemarker/putattributeslayout.ftl">
-  <@tiles.putAttribute name="stringTest" value="This is a string" type="string" />
-  <@tiles.putListAttribute name="list">
-    <@tiles.addAttribute value="valueOne" type="string" />
-    <@tiles.addAttribute value="valueTwo" type="string" />
-    <@tiles.addAttribute value="valueThree" type="string" />
+$tiles.insertTemplate template="/velocity/putattributeslayout.vm">
+  $tiles.putAttribute name="stringTest" value="This is a string" type="string" />
+  $tiles.putListAttribute name="list">
+    $tiles.addAttribute value="valueOne" type="string" />
+    $tiles.addAttribute value="valueTwo" type="string" />
+    $tiles.addAttribute value="valueThree" type="string" />
   </@tiles.putListAttribute>
 </@tiles.insertTemplate>

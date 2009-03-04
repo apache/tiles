@@ -18,4 +18,7 @@
  under the License.
 -->
 <tools>
+  <toolbox scope="request">
+    <tool key="exc" class="org.apache.tiles.test.velocity.ExceptionTool"/>
+  </toolbox>
 </tools>
