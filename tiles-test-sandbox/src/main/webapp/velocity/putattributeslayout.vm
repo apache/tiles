@@ -19,12 +19,12 @@
  * under the License.
  *
  *#
-$tiles.importAttribute name="stringTest"/>
-$tiles.importAttribute name="list"/>
-Single attribute "stringTest" value: ${stringTest?html} <br/><br/>
+$tiles.importAttribute({"name":"stringTest"})
+$tiles.importAttribute({"name":"list"})
+Single attribute "stringTest" value: $esc.html($stringTest) <br/><br/>
 The attribute "list" contains these values:
 <ul>
-<#list list as item>
-<li>$tiles.insertAttribute value=item /></li>
-</#list>
+#foreach($item in $list))
+<li>$tiles.insertAttribute({"value":$item})></li>
+#end
 </ul>

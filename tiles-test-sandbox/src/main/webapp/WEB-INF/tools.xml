@@ -20,5 +20,9 @@
 <tools>
   <toolbox scope="request">
     <tool key="exc" class="org.apache.tiles.test.velocity.ExceptionTool"/>
+    <tool class="org.apache.velocity.tools.generic.ContextTool"/>
   </toolbox>
+  <toolbox scope="application">
+     <tool class="org.apache.velocity.tools.generic.EscapeTool"/>
+   </toolbox>
 </tools>

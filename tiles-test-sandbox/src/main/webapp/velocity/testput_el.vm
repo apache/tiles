@@ -19,10 +19,10 @@
  * under the License.
  *
  *#
-<#assign bodyContent="Body Content defined by and el" />
+#set($bodyContent="Body Content defined by and el")
 
-$tiles.insertTemplate template="/velocity/layout.vm">
-  $tiles.putAttribute name="title"  value="This is the title." />
-  $tiles.putAttribute name="header" value="/velocity/header.vm" />
-  $tiles.putAttribute name="body"   value=bodyContent />
-</@tiles.insertTemplate>
+$tiles.insertTemplate().start({"template":"/velocity/layout.vm"})
+  $tiles.putAttribute({"name":"title",  "value":"This is the title."})
+  $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm"})
+  $tiles.putAttribute({"name":"body",   "value":$bodyContent})
+$tiles.insertTemplate().end()
