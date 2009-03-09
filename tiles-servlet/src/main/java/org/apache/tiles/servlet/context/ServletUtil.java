@@ -22,6 +22,7 @@
 package org.apache.tiles.servlet.context;
 
 import java.io.IOException;
+import java.util.Stack;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -43,6 +44,11 @@ import org.apache.tiles.util.TilesIOException;
  * @since 2.0.6
  */
 public final class ServletUtil {
+
+    /**
+     * The name of the attribute that will contain the compose stack.
+     */
+    public static final String COMPOSE_STACK_ATTRIBUTE_NAME = "org.apache.tiles.template.COMPOSE_STACK";
 
     /**
      * Name of the attribute used to store the force-include option.
@@ -235,5 +241,24 @@ public final class ServletUtil {
         }
 
         return retValue;
+    }
+
+    /**
+     * Returns the compose stack, that is used by the tags to compose
+     * definitions, attributes, etc.
+     *
+     * @param request The HTTP request.
+     * @return The compose stack.
+     * @since 2.2.0
+     */
+    @SuppressWarnings("unchecked")
+    public static Stack<Object> getComposeStack(HttpServletRequest request) {
+        Stack<Object> composeStack = (Stack<Object>) request.getAttribute(
+                COMPOSE_STACK_ATTRIBUTE_NAME);
+        if (composeStack == null) {
+            composeStack = new Stack<Object>();
+            request.setAttribute(COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        }
+        return composeStack;
     }
 }
