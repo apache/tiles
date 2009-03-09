@@ -19,14 +19,14 @@
  * under the License.
  *
  *#
-$tiles.insertTemplate template="/velocity/layout.vm">
-  $tiles.putAttribute name="title"  value="This is the title." />
-  $tiles.putAttribute name="header" value="/velocity/header.vm" />
-  $tiles.putAttribute name="body"   value="/velocity/putattributeslayout.vm" />
-  $tiles.putAttribute name="stringTest" value="This is a string" type="string" cascade=true />
-  $tiles.putListAttribute name="list" cascade=true>
-    $tiles.addAttribute value="valueOne" type="string" />
-    $tiles.addAttribute value="valueTwo" type="string" />
-    $tiles.addAttribute value="valueThree" type="string" />
-  </@tiles.putListAttribute>
-</@tiles.insertTemplate>
+$tiles.insertTemplate().start({"template":"/velocity/layout.vm"})
+  $tiles.putAttribute({"name":"title", "value":"This is the title."})
+  $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm"})
+  $tiles.putAttribute({"name":"body", "value":"/velocity/putattributeslayout.vm"})
+  $tiles.putAttribute({"name":"stringTest", "value":"This is a string", "type":"string", "cascade":true})
+  $tiles.putListAttribute().start({"name":"list", "cascade":true})
+    $tiles.addAttribute({"value":"valueOne", "type":"string"})
+    $tiles.addAttribute({"value":"valueTwo", "type":"string"})
+    $tiles.addAttribute({"value":"valueThree", "type":"string"})
+  $tiles.putListAttribute().end()
+$tiles.insertTemplate().end()

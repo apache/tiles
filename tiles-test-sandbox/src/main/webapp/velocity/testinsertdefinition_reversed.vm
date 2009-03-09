@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition name="velocity.test.reversed.definition" />
+$tiles.insertDefinition({"name":"velocity.test.reversed.definition"})

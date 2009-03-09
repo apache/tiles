@@ -19,9 +19,9 @@
  * under the License.
  *
  *#
-$tiles.definition name="templateDefinition" template="/velocity/layout.vm" preparer="org.apache.tiles.test.preparer.TestViewPreparer">
-  $tiles.putAttribute name="title"  value="This is the title." />
-  $tiles.putAttribute name="header" value="/velocity/header.vm" />
-  $tiles.putAttribute name="body"   value="/velocity/body.vm" />
-</@tiles.definition>
-$tiles.insertDefinition name="templateDefinition" />
+$tiles.definition().start({"name":"templateDefinition", "template":"/velocity/layout.vm", "preparer":"org.apache.tiles.test.preparer.TestViewPreparer"})
+  $tiles.putAttribute({"name":"title", "value":"This is the title."})
+  $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm"})
+  $tiles.putAttribute({"name":"body", "value":"/velocity/body.vm"})
+$tiles.definition().end()
+$tiles.insertDefinition({"name":"templateDefinition"})

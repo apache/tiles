@@ -19,9 +19,9 @@
  * under the License.
  *
  *#
-$tiles.insertTemplate template="/velocity/layout_alt_title.vm">
-  $tiles.putAttribute name="title"  value="This is the title."
-    type="org.apache.tiles.test.renderer.ReverseStringAttributeRenderer" />
-  $tiles.putAttribute name="header" value="/velocity/header.vm" />
-  $tiles.putAttribute name="body"   value="/velocity/body.vm" />
-</@tiles.insertTemplate>
+$tiles.insertTemplate().start({"template":"/velocity/layout_alt_title.vm"})
+  $tiles.putAttribute({"name":"title", "value":"This is the title.",
+    "type":"org.apache.tiles.test.renderer.ReverseStringAttributeRenderer"})
+  $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm"})
+  $tiles.putAttribute({"name":"body", "value":"/velocity/body.vm"})
+$tiles.insertTemplate().end()

@@ -19,15 +19,15 @@
  * under the License.
  *
  *#
-$tiles.definition name="test.nesting.definitions.tags" template="/velocity/layout.vm">
-    $tiles.putAttribute name="title"  value="This is the title."/>
-    $tiles.putAttribute name="header" value="/velocity/header.vm"/>
-    $tiles.putAttribute name="body">
-        $tiles.definition template="/velocity/layout.vm">
-            $tiles.putAttribute name="title"  value="This is a nested definition."/>
-            $tiles.putAttribute name="header" value="/velocity/header.vm"/>
-            $tiles.putAttribute name="body"   value="/velocity/body.vm"/>
-        </@tiles.definition>
-    </@tiles.putAttribute>
-</@tiles.definition>
-$tiles.insertDefinition name="test.nesting.definitions.tags" />
+$tiles.definition().start({"name":"test.nesting.definitions.tags", "template":"/velocity/layout.vm"})
+    $tiles.putAttribute({"name":"title", "value":"This is the title."})
+    $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm"})
+    $tiles.putAttribute().start({"name":"body"})
+        $tiles.definition().start({"template":"/velocity/layout.vm"})
+            $tiles.putAttribute({"name":"title", "value":"This is a nested definition."})
+            $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm"})
+            $tiles.putAttribute({"name":"body", "value":"/velocity/body.vm"})
+        $tiles.definition().end()
+    $tiles.putAttribute().end()
+$tiles.definition().end()
+$tiles.insertDefinition({"name":"test.nesting.definitions.tags"})

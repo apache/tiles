@@ -19,5 +19,5 @@
  * under the License.
  *
  *#
-$tiles.setCurrentContainer containerKey="db"/>
-$tiles.insertDefinition name="test.definition.extended" />
+$tiles.setCurrentContainer("db")
+$tiles.insertDefinition({"name":"test.definition.extended"})

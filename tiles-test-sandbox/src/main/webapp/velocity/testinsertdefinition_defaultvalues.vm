@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition name="velocity.test.defaultvalues.definition" />
+$tiles.insertDefinition({"name":"velocity.test.defaultvalues.definition"})

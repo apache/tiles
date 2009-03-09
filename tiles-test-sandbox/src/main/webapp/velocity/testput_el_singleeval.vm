@@ -19,11 +19,11 @@
  * under the License.
  *
  *#
-<#assign doNotShowBody="$" + "{" + "requestScope.doNotShow}" />
-<#assign doNotShow="DO NOT SHOW!!!" />
+#set($doNotShowBody="$" + "{" + "requestScope.doNotShow}")
+#set($doNotShow="DO NOT SHOW!!!")
 
-$tiles.insertTemplate template="/velocity/layout.vm">
-  $tiles.putAttribute name="title"  value="This is the title." />
-  $tiles.putAttribute name="header" value="/velocity/header.vm" />
-  $tiles.putAttribute name="body"   value=doNotShowBody />
-</@tiles.insertTemplate>
+$tiles.insertTemplate().start({"template":"/velocity/layout.vm"})
+  $tiles.putAttribute({"name":"title", "value":"This is the title."})
+  $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm"})
+  $tiles.putAttribute({"name":"body", "value":$doNotShowBody})
+$tiles.insertTemplate().end()

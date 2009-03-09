@@ -37,6 +37,6 @@ Select your locale:
 </select>
 <input type="submit" value="Submit" />
 </form>
-<div id="defaultLocaleMessage">Your default Locale is ${.locale}</div>
+<div id="defaultLocaleMessage">Your default Locale is ${request.locale}</div>
 </body>
 </html>

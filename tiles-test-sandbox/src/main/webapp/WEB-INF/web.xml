@@ -73,6 +73,12 @@
     </filter-mapping>
 
     <filter-mapping>
+        <filter-name>Tiles Decoration Filter</filter-name>
+        <url-pattern>/velocity/testdecorationfilter.vm</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
         <filter-name>Security Wrapping Filter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
@@ -182,6 +188,14 @@
             <param-value>freemarker.test.localized.definition</param-value>
         </init-param>
     </servlet>
+    <servlet>
+        <servlet-name>selectLocaleServletVelocity</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME</param-name>
+            <param-value>velocity.test.localized.definition</param-value>
+        </init-param>
+    </servlet>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -210,6 +224,12 @@
         <servlet-name>selectLocaleServletFreemarker</servlet-name>
         <url-pattern>/freemarker/servlets/selectLocaleServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>selectLocaleServletVelocity</servlet-name>
+        <url-pattern>/velocity/servlets/selectLocaleServlet</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>velocity</servlet-name>
         <url-pattern>*.vm</url-pattern>

@@ -19,10 +19,10 @@
  * under the License.
  *
  *#
-$tiles.definition name="templateDefinition" extends="test.putAttributes">
-  $tiles.putAttribute name="stringTest" value="This is a string" type="string"/>
-  $tiles.putListAttribute name="list" inherit=true>
-    $tiles.addAttribute value="valueFour" type="string" />
-  </@tiles.putListAttribute>
-</@tiles.definition>
-$tiles.insertDefinition name="templateDefinition" />
+$tiles.definition().start({"name":"templateDefinition", "extends":"test.putAttributes"})
+  $tiles.putAttribute({"name":"stringTest", "value":"This is a string", "type":"string"})
+  $tiles.putListAttribute().start({"name":"list", "inherit":true})
+    $tiles.addAttribute({"value":"valueFour", "type":"string"})
+  $tiles.putListAttribute().end()
+$tiles.definition().end()
+$tiles.insertDefinition({"name":"templateDefinition"})

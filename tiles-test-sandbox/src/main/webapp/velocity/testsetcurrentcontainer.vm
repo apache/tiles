@@ -19,7 +19,7 @@
  * under the License.
  *
  *#
-$tiles.setCurrentContainer containerKey="alternate" />
-$tiles.insertDefinition name="velocity.test.definition" />
-$tiles.setCurrentContainer />
-$tiles.insertDefinition name="velocity.test.definition" />
+$tiles.setCurrentContainer("alternate")
+$tiles.insertDefinition({"name":"velocity.test.definition"})
+$tiles.setCurrentContainer(null)
+$tiles.insertDefinition({"name":"velocity.test.definition"})

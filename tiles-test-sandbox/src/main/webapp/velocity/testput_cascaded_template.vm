@@ -19,8 +19,8 @@
  * under the License.
  *
  *#
-$tiles.insertTemplate template="/velocity/layout.vm">
-  $tiles.putAttribute name="title"  value="This is the title." cascade=true />
-  $tiles.putAttribute name="header" value="/velocity/header.vm" cascade=true />
-  $tiles.putAttribute name="body"   value="/velocity/layout_nobody.vm" />
-</@tiles.insertTemplate>
+$tiles.insertTemplate().start({"template":"/velocity/layout.vm"})
+  $tiles.putAttribute({"name":"title", "value":"This is the title.", "cascade":true})
+  $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm", "cascade":true})
+  $tiles.putAttribute({"name":"body", "value":"/velocity/layout_nobody.vm"})
+$tiles.insertTemplate().end()

@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition name="velocity.test.overridden.cascaded.definition" />
+$tiles.insertDefinition({"name":"velocity.test.overridden.cascaded.definition"}) 
