@@ -60,7 +60,7 @@ public class VelocityUtil {
             HttpServletRequest request, ServletContext servletContext,
             String name, Object obj, String scope) {
         if (scope == null) {
-            scope = "page";
+            scope = "request"; // FIXME Use "page"
         }
         if ("page".equals(scope)) {
             velocityContext.put(name, obj);
