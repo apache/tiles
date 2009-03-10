@@ -53,6 +53,8 @@ import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
+
 
 /**
  * Test Tiles container factory to customize Tiles behaviour.
@@ -90,6 +92,9 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
                 factories, contextFactory);
         registerRequestContextFactory(
                 FreeMarkerTilesRequestContextFactory.class.getName(),
+                factories, contextFactory);
+        registerRequestContextFactory(
+                VelocityTilesRequestContextFactory.class.getName(),
                 factories, contextFactory);
         contextFactory.setFactories(factories);
     }
@@ -153,6 +158,8 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
                     "classpath:/org/apache/tiles/classpath-defs.xml"));
             urls.add(applicationContext.getResource(
                     "classpath:/org/apache/tiles/freemarker-classpath-defs.xml"));
+            urls.add(applicationContext.getResource(
+                "classpath:/org/apache/tiles/velocity-classpath-defs.xml"));
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);

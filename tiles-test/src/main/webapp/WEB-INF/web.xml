@@ -73,6 +73,12 @@
     </filter-mapping>
 
     <filter-mapping>
+        <filter-name>Tiles Decoration Filter</filter-name>
+        <url-pattern>/velocity/testdecorationfilter.vm</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
         <filter-name>Security Wrapping Filter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
@@ -113,6 +119,28 @@
         
         <load-on-startup>5</load-on-startup>
     </servlet>
+
+    <servlet>
+      <servlet-name>velocity</servlet-name>
+      <servlet-class>org.apache.velocity.tools.view.VelocityViewServlet</servlet-class>
+    
+      <!--
+        Unless you plan to put your tools.xml and velocity.properties under
+        different folders or give them different names, then these two
+        init-params are unnecessary. The VelocityViewServlet will
+        automatically look for these files in the following locations.
+      -->
+      <init-param>
+        <param-name>org.apache.velocity.toolbox</param-name>
+        <param-value>/WEB-INF/tools.xml</param-value>
+      </init-param>
+    
+      <init-param>
+        <param-name>org.apache.velocity.properties</param-name>
+        <param-value>/WEB-INF/velocity.properties</param-value>
+      </init-param>
+    </servlet>
+
 
     <servlet>
         <servlet-name>Tiles Dispatch Servlet</servlet-name>
@@ -160,6 +188,14 @@
             <param-value>freemarker.test.localized.definition</param-value>
         </init-param>
     </servlet>
+    <servlet>
+        <servlet-name>selectLocaleServletVelocity</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME</param-name>
+            <param-value>velocity.test.localized.definition</param-value>
+        </init-param>
+    </servlet>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -187,6 +223,16 @@
     <servlet-mapping>
         <servlet-name>selectLocaleServletFreemarker</servlet-name>
         <url-pattern>/freemarker/servlets/selectLocaleServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>selectLocaleServletVelocity</servlet-name>
+        <url-pattern>/velocity/servlets/selectLocaleServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>velocity</servlet-name>
+        <url-pattern>*.vm</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

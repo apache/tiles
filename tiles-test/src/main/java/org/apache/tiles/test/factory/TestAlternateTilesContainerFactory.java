@@ -44,7 +44,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
     /**
      * The number of URLs to load..
      */
-    private static final int URL_COUNT = 2;
+    private static final int URL_COUNT = 3;
 
     /** {@inheritDoc} */
     @Override
@@ -54,6 +54,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
         try {
             urls.add(applicationContext.getResource("/WEB-INF/tiles-alt-defs.xml"));
             urls.add(applicationContext.getResource("/WEB-INF/freemarker/tiles-alt-defs.xml"));
+            urls.add(applicationContext.getResource("/WEB-INF/velocity/tiles-alt-defs.xml"));
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);
