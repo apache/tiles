@@ -23,9 +23,9 @@
 -->
 <project>
   <parent>
-    <artifactId>tiles-sandbox</artifactId>
+    <artifactId>tiles-parent</artifactId>
     <groupId>org.apache.tiles</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -37,12 +37,12 @@
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-servlet</artifactId>
-      <version>2.2.0-SNAPSHOT</version>
+      <version>${pom.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-template</artifactId>
-      <version>2.2.0-SNAPSHOT</version>
+      <version>${pom.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>

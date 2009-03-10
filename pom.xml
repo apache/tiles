@@ -53,6 +53,7 @@
         <module>tiles-servlet</module>
         <module>tiles-jsp</module>
         <module>tiles-freemarker</module>
+        <module>tiles-velocity</module>
         <module>tiles-portlet</module>
         <module>tiles-compat</module>
         <module>tiles-test</module>
