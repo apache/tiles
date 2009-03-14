@@ -78,8 +78,6 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
         } catch (ServletException ex) {
             throw ServletUtil.wrapServletException(ex, "ServletException including path '"
                     + path + "'.");
-        } finally {
-            printWriter.flush();
         }
     }
 
