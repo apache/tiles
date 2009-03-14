@@ -42,6 +42,10 @@ public class Tiles2Tool extends ContextHolder {
     
     private TilesVelocityRepository repository;
     
+    public Tiles2Tool() {
+        System.out.println("Hello");
+    }
+    
     public Tiles2Tool addAttribute(Map<String, Object> params) {
         execute(getRepository().getAddAttribute(), params);
         return this;
@@ -91,9 +95,8 @@ public class Tiles2Tool extends ContextHolder {
         return this;
     }
     
-    public Tiles2Tool importAttribute(Map<String, Object> params) {
-        execute(getRepository().getImportAttribute(), params);
-        return this;
+    public Renderable importAttribute(Map<String, Object> params) {
+        return execute(getRepository().getImportAttribute(), params);
     }
     
     public Renderable insertAttribute(Map<String, Object> params) {
