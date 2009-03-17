@@ -26,14 +26,14 @@ import org.apache.tiles.TilesException;
  * Indicates that a named attribute has not been found.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 2.2.0
  */
 public class NoSuchAttributeException extends TilesException {
 
     /**
      * Constructor.
      *
-     * @since 2.1.0
+     * @since 2.2.0
      */
     public NoSuchAttributeException() {
     }
@@ -42,7 +42,7 @@ public class NoSuchAttributeException extends TilesException {
      * Constructor.
      *
      * @param message The detail message.
-     * @since 2.1.0
+     * @since 2.2.0
      */
     public NoSuchAttributeException(String message) {
         super(message);
@@ -52,7 +52,7 @@ public class NoSuchAttributeException extends TilesException {
      * Constructor.
      *
      * @param e The exception to be wrapped.
-     * @since 2.1.0
+     * @since 2.2.0
      */
     public NoSuchAttributeException(Exception e) {
         super(e);
@@ -63,7 +63,7 @@ public class NoSuchAttributeException extends TilesException {
      *
      * @param message The detail message.
      * @param e The exception to be wrapped.
-     * @since 2.1.0
+     * @since 2.2.0
      */
     public NoSuchAttributeException(String message, Exception e) {
         super(message, e);

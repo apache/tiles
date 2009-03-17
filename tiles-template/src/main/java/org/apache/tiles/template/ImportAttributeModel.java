@@ -1,3 +1,24 @@
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package org.apache.tiles.template;
 
 import java.util.Collection;
@@ -10,16 +31,43 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 
+/**
+ * <p>
+ * <strong>Import attribute(s) in specified context.</strong>
+ * </p>
+ * <p>
+ * Import attribute(s) to requested scope. Attribute name and scope are
+ * optional. If not specified, all attributes are imported in page scope. Once
+ * imported, an attribute can be used as any other beans from jsp contexts.
+ * </p>
+ * 
+ * @version $Rev$ $Date$
+ * @since 2.2.0
+ */
 public class ImportAttributeModel {
 
+    /**
+     * The logging object.
+     */
     private Log log = LogFactory.getLog(getClass());
-    
+
+    /**
+     * Retuns a Map that contains the attributes to be imported. The importing code must be done by the caller.
+     * 
+     * @param container The Tiles container to use.
+     * @param name The attribute to import. If null, all the attributes will be imported.
+     * @param toName The destination name of the attribute to import. Valid only if <code>name</code> is specified.
+     * @param ignore If <code>true</code> and the attribute is not found, or an exception happens, the problem will be ignored.
+     * @param requestItems The request objects.
+     * @return A Map of the attributes to be imported: the key is the name of an attribute, the value is the value of that attribute.
+     * @since 2.2.0
+     */
     public Map<String, Object> getImportedAttributes(TilesContainer container,
             String name, String toName, boolean ignore, Object... requestItems) {
         Map<String, Object> retValue = new HashMap<String, Object>();
         AttributeContext attributeContext = container
                 .getAttributeContext(requestItems);
-        // Some tags allow for unspecified attributes.  This
+        // Some tags allow for unspecified attributes. This
         // implies that the tag should use all of the attributes.
         if (name != null) {
             importSingleAttribute(container, attributeContext, name, toName,
@@ -33,6 +81,17 @@ public class ImportAttributeModel {
         return retValue;
     }
 
+    /**
+     * Imports a single attribute.
+     * 
+     * @param container The Tiles container to use.
+     * @param attributeContext The context from which the attributes will be got.
+     * @param name The name of the attribute.
+     * @param toName The name of the destination attribute. If null, <code>name</code> will be used.
+     * @param ignore If <code>true</code> and the attribute is not found, or an exception happens, the problem will be ignored.
+     * @param attributes The map of the attributes to fill.
+     * @param requestItems The request objects.
+     */
     private void importSingleAttribute(TilesContainer container,
             AttributeContext attributeContext, String name, String toName,
             boolean ignore, Map<String, Object> attributes,
@@ -48,7 +107,7 @@ public class ImportAttributeModel {
         }
 
         Object attributeValue = null;
-        
+
         try {
             attributeValue = container.evaluate(attribute, requestItems);
         } catch (RuntimeException e) {
@@ -60,10 +119,10 @@ public class ImportAttributeModel {
         }
 
         if (attributeValue == null && !ignore) {
-            throw new NoSuchAttributeException("Attribute with name '"
-                    + name + "' has a null value.");
+            throw new NoSuchAttributeException("Attribute with name '" + name
+                    + "' has a null value.");
         }
-        
+
         if (toName != null) {
             attributes.put(toName, attributeValue);
         } else {
@@ -72,10 +131,14 @@ public class ImportAttributeModel {
     }
 
     /**
-     * Imports an attribute set.
-     *
+     * Imports all the attributes.
+     * 
      * @param names The names of the attributes to be imported.
-     * @throws TilesJspException If something goes wrong during the import.
+     * @param container The Tiles container to use.
+     * @param attributeContext The context from which the attributes will be got.
+     * @param attributes The map of the attributes to fill.
+     * @param ignore If <code>true</code> and the attribute is not found, or an exception happens, the problem will be ignored.
+     * @param requestItems The request objects.
      */
     private void importAttributes(Collection<String> names,
             TilesContainer container, AttributeContext attributeContext,
@@ -98,7 +161,8 @@ public class ImportAttributeModel {
 
             if (attr != null) {
                 try {
-                    Object attributeValue = container.evaluate(attr, requestItems);
+                    Object attributeValue = container.evaluate(attr,
+                            requestItems);
                     if (attributeValue == null && !ignore) {
                         throw new NoSuchAttributeException(
                                 "Error importing attributes. " + "Attribute '"
