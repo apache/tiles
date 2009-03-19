@@ -34,10 +34,10 @@ import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.velocity.context.Context;
 
 /**
+ * The implementation of the Tiles request context factory specific for Velocity.
  * 
- * @author anydoby
- * 
- * @since Mar 15, 2008
+ * @version $Rev$ $Date$
+ * @since 2.2.0
  */
 public class VelocityTilesRequestContextFactory implements TilesRequestContextFactory, TilesRequestContextFactoryAware {
 
@@ -46,6 +46,7 @@ public class VelocityTilesRequestContextFactory implements TilesRequestContextFa
      */
     private TilesRequestContextFactory parent;
 
+    /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(TilesApplicationContext context, Object... requestItems) {
         if ((requestItems.length == 3 || requestItems.length == 4)
                 && requestItems[0] instanceof Context
@@ -77,11 +78,12 @@ public class VelocityTilesRequestContextFactory implements TilesRequestContextFa
         return null;
     }
 
+    /** {@inheritDoc} */
     public void init(Map<String, String> configurationParameters) {
-        // TODO Auto-generated method stub
-
+        // Nothing to initialize.
     }
 
+    /** {@inheritDoc} */
     public void setRequestContextFactory(
             TilesRequestContextFactory contextFactory) {
         this.parent = contextFactory;

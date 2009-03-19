@@ -18,6 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.apache.tiles.velocity.context;
 
 import java.io.IOException;
@@ -35,18 +36,36 @@ import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.context.Context;
 
 /**
+ * The implementation of the Tiles request context specific for Velocity.
  * 
- * @author SergeyZ
- * 
+ * @version $Rev$ $Date$
+ * @since 2.2.0
  */
 public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
 
+    /**
+     * The Velocity current context.
+     */
     private final Context ctx;
     
+    /**
+     * The request objects.
+     */
     private Object[] requestObjects;
     
+    /**
+     * The writer to use to render the response. It may be null, if not necessary.
+     */
     private Writer writer;
 
+    /**
+     * Constructor.
+     * 
+     * @param enclosedRequest The request that exposes non-Velocity specific properties
+     * @param ctx The Velocity current context.
+     * @param writer The writer to use to render the response. It may be null, if not necessary.
+     * @since 2.2.0
+     */
     public VelocityTilesRequestContext(
             TilesRequestContext enclosedRequest, Context ctx, Writer writer) {
         super(enclosedRequest);
@@ -54,10 +73,12 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
         this.writer = writer;
     }
 
+    /** {@inheritDoc} */
     public void dispatch(String path) throws IOException {
         include(path);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void include(String path) throws IOException {
         Object[] requestObjects = super.getRequestObjects();
@@ -81,6 +102,7 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public PrintWriter getPrintWriter() throws IOException {
         if (writer == null) {
@@ -94,6 +116,7 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public Writer getWriter() throws IOException {
         if (writer == null) {
@@ -103,6 +126,7 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
         return writer;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object[] getRequestObjects() {
         if (requestObjects == null) {
