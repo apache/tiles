@@ -91,8 +91,8 @@ public class DefinitionVModel implements Executable, BodyExecutable {
         model
                 .end((MutableTilesContainer) ServletUtil.getCurrentContainer(
                         request, servletContext), ServletUtil
-                        .getComposeStack(request), (String) params.get("name"),
-                        velocityContext, request, response);
+                        .getComposeStack(request), velocityContext,
+                        request, response);
         return VelocityUtil.EMPTY_RENDERABLE;
     }
 

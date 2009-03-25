@@ -49,7 +49,7 @@ public class DefinitionModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.DefinitionModel#end(org.apache.tiles.mgmt.MutableTilesContainer, java.util.Stack, java.lang.String, java.lang.Object[])}.
+     * Test method for {@link org.apache.tiles.template.DefinitionModel#end(org.apache.tiles.mgmt.MutableTilesContainer, java.util.Stack, java.lang.Object[])}.
      */
     @Test
     public void testEnd() {
@@ -62,12 +62,12 @@ public class DefinitionModelTest {
         container.register(definition, requestItem);
         
         replay(container);
-        model.end(container, composeStack, "myName", requestItem);
+        model.end(container, composeStack, requestItem);
         verify(container);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.DefinitionModel#end(org.apache.tiles.mgmt.MutableTilesContainer, java.util.Stack, java.lang.String, java.lang.Object[])}.
+     * Test method for {@link org.apache.tiles.template.DefinitionModel#end(org.apache.tiles.mgmt.MutableTilesContainer, java.util.Stack, java.lang.Object[])}.
      */
     @Test
     public void testEndInAttribute() {
@@ -82,7 +82,7 @@ public class DefinitionModelTest {
         container.register(definition, requestItem);
         
         replay(container);
-        model.end(container, composeStack, "myName", requestItem);
+        model.end(container, composeStack, requestItem);
         assertEquals(1, composeStack.size());
         attribute = (Attribute) composeStack.peek();
         assertEquals(definition.getName(), attribute.getValue());

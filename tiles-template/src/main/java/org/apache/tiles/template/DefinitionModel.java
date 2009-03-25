@@ -65,12 +65,11 @@ public class DefinitionModel {
      * 
      * @param container The Tiles container to use. It must be "mutable".
      * @param composeStack The compose stack.
-     * @param name The name of the definition to create. If not specified, an anonymous definition will be created.
      * @param requestItems The request objects.
      * @since 2.2.0
      */
     public void end(MutableTilesContainer container,
-            Stack<Object> composeStack, String name, Object... requestItems) {
+            Stack<Object> composeStack, Object... requestItems) {
         Definition definition = (Definition) composeStack.pop();
         registerDefinition(definition, container, composeStack, requestItems);
     }

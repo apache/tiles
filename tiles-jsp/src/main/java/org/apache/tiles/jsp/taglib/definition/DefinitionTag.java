@@ -178,7 +178,7 @@ public class DefinitionTag extends TilesBodyTag {
         TilesContainer container = JspUtil.getCurrentContainer(pageContext);
         if (container instanceof MutableTilesContainer) {
             model.end((MutableTilesContainer) container, JspUtil
-                    .getComposeStack(pageContext), name, pageContext);
+                    .getComposeStack(pageContext), pageContext);
         } else {
             throw new TilesJspException("The current container is not mutable");
         }

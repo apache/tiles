@@ -38,7 +38,7 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link DefinitionModel} to be used in FreeMarker. For the list of
  * parameters, see {@link DefinitionModel#start(Stack, String, String, String, String, String)} and
- * {@link DefinitionModel#end(MutableTilesContainer, Stack, String, Object...)}.
+ * {@link DefinitionModel#end(MutableTilesContainer, Stack, Object...)}.
  * 
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -74,7 +74,7 @@ public class DefinitionFMModel implements TemplateDirectiveModel {
         FreeMarkerUtil.evaluateBody(body);
         model.end((MutableTilesContainer) FreeMarkerUtil
                 .getCurrentContainer(env), FreeMarkerUtil.getComposeStack(env),
-                FreeMarkerUtil.getAsString(parms.get("name")), env);
+                env);
     }
 
 }
