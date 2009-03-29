@@ -260,7 +260,7 @@ public class FreeMarkerUtil {
         } else if ("session".equals(scope)) {
             getRequestHashModel(env).getRequest().getSession().setAttribute(
                     name, obj);
-        } else if ("application".equals("scope")) {
+        } else if ("application".equals(scope)) {
             getServletContextHashModel(env).getServlet().getServletContext()
                     .setAttribute(name, obj);
         }
