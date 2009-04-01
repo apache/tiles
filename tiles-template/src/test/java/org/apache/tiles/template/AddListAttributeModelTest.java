@@ -5,8 +5,10 @@ package org.apache.tiles.template;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Stack;
 
+import org.apache.tiles.Attribute;
 import org.apache.tiles.ListAttribute;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,13 +47,20 @@ public class AddListAttributeModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.AddListAttributeModel#end(java.util.Stack)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testEnd() {
         Stack<Object> composeStack = new Stack<Object>();
         ListAttribute listAttribute = new ListAttribute();
+        ListAttribute parent = new ListAttribute();
+        composeStack.push(parent);
         composeStack.push(listAttribute);
         model.end(composeStack);
-        assertEquals(0, composeStack.size());
+        assertEquals(1, composeStack.size());
+        assertEquals(parent, composeStack.peek());
+        List<Attribute> attributes = (List<Attribute>) parent.getValue();
+        assertEquals(1, attributes.size());
+        assertEquals(listAttribute, attributes.get(0));
     }
 
 }

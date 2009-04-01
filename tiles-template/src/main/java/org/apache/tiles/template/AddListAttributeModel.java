@@ -58,10 +58,11 @@ public class AddListAttributeModel {
      * Ends the operation.
      * 
      * @param composeStack The composing stack.
-     * @return The composed list attributes.
      * @since 2.2.0
      */
-    public ListAttribute end(Stack<Object> composeStack) {
-        return (ListAttribute) composeStack.pop();
+    public void end(Stack<Object> composeStack) {
+        ListAttribute listAttribute = (ListAttribute) composeStack.pop();
+        ListAttribute parent = (ListAttribute) composeStack.peek();
+        parent.add(listAttribute);
     }
 }
