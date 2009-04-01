@@ -652,6 +652,9 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals("The header attribute is not correct",
                 "/common/headerLayered.jsp", definition.getAttribute("header")
                         .getValue());
+        definition = definitionDao.getDefinition("test.defName.noAttribute", null);
+        assertEquals("/testName.jsp", definition.getTemplateAttribute().getValue());
+        assertEquals(null, definition.getLocalAttributeNames());
         definition = definitionDao.getDefinition("test.def3", null);
         assertNotNull("The simple definition is null", definition);
     }

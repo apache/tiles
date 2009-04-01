@@ -44,5 +44,6 @@
       <put-attribute name="footer" value="/common/footer.jsp" />
       <put-attribute name="body"   value="doc.portal.body" />
   </definition>
+  <definition name="test.def*.noAttribute" template="/test{1}.jsp" />
 
 </tiles-definitions>
