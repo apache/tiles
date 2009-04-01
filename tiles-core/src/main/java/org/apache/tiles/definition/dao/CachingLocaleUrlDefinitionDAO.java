@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
@@ -350,11 +351,14 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         nudef.setTemplateAttribute(replaceVarsInAttribute(d
                 .getTemplateAttribute(), vars));
 
-        for (String attributeName : d.getLocalAttributeNames()) {
-            Attribute attr = d.getLocalAttribute(attributeName);
-            Attribute nuattr = replaceVarsInAttribute(attr, vars);
-
-            nudef.putAttribute(replace(attributeName, vars), nuattr);
+        Set<String> localAttributeNames = d.getLocalAttributeNames();
+        if (localAttributeNames != null && !localAttributeNames.isEmpty()) {
+            for (String attributeName : localAttributeNames) {
+                Attribute attr = d.getLocalAttribute(attributeName);
+                Attribute nuattr = replaceVarsInAttribute(attr, vars);
+    
+                nudef.putAttribute(replace(attributeName, vars), nuattr);
+            }
         }
 
         return nudef;
