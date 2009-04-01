@@ -57,25 +57,31 @@ Summary
 | {{{config-reference.html#org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER}<<<org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER>>>}}     | Default attribute renderer class name     |
 *---------------------------------------------+--------------------------------------+
 
-  [[2]] {{{config-reference.html#ChainedTilesApplicationContextFactory_configuration}<<<ChainedTilesApplicationContextFactory>>> configuration}}.
+  [[2]] {{{config-reference.html#CachingLocaleUrlDefinitionDAO_configuration}<<<CachingLocaleUrlDefinitionDAO>>> configuration}}.
+
+*---------------------------------------------+--------------------------------------+
+| {{{config-reference.html#org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO.CHECK_REFRESH}<<<org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO.CHECK_REFRESH>>>}} | Flag to enable automatic refresh check |
+*---------------------------------------------+--------------------------------------+
+
+  [[3]] {{{config-reference.html#ChainedTilesApplicationContextFactory_configuration}<<<ChainedTilesApplicationContextFactory>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES>>>}} | List of elementary application factory class names |
 *---------------------------------------------+--------------------------------------+
 
-  [[3]] {{{config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>> configuration}}.
+  [[4]] {{{config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES}<<<org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES>>>}} | List of elementary request factory class names |
 *---------------------------------------------+--------------------------------------+
 
-  [[4]] {{{config-reference.html#DigesterDefinitionsReader_configuration}<<<DigesterDefinitionsReader>>> configuration}}.
+  [[5]] {{{config-reference.html#DigesterDefinitionsReader_configuration}<<<DigesterDefinitionsReader>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE}<<<org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE>>>}} | Flag to deactivate XML parser validation |
 *---------------------------------------------+--------------------------------------+
 
-  [[5]] {{{config-reference.html#UrlDefinitionsFactory_configuration}<<<UrlDefinitionsFactory>>> configuration}}.
+  [[6]] {{{config-reference.html#UrlDefinitionsFactory_configuration}<<<UrlDefinitionsFactory>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.definition.DefinitionsReader}<<<org.apache.tiles.definition.DefinitionsReader>>>}} | Definitions reader class name |
@@ -83,7 +89,7 @@ Summary
 | {{{config-reference.html#org.apache.tiles.locale.LocaleResolver}<<<org.apache.tiles.locale.LocaleResolver>>>}} | Locale resolver class name          |
 *---------------------------------------------+--------------------------------------+
 
-  [[6]] {{{config-reference.html#Initialization_configuration}<<<Initialization>>> configuration}}.
+  [[7]] {{{config-reference.html#Initialization_configuration}<<<Initialization>>> configuration}}.
 
 *---------------------------------------------+--------------------------------------+
 | {{{config-reference.html#org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY}<<<org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY>>>}} | Container key |
@@ -264,6 +270,19 @@ Standard configuration parameters
     
   * <<Usage>>: when specified, it must contain a comma-separated list of paths
   of files that contain Tiles definitions.
+
+* {<<<CachingLocaleUrlDefinitionDAO>>> configuration}
+
+** {<<<org.apache.tiles.definition.dao.LocaleUrlDefinitionDAO.CHECK_REFRESH>>>}
+
+  Flag that indicates whether to auto-refresh definitions when definition files are modified.
+  
+  * <<Specified in>>:
+  {{{apidocs/org/apache/tiles/definition/dao/CachingLocaleUrlDefinitionDAO.html#CHECK_REFRESH_INIT_PARAMETER}<<<org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO>>>}}.
+    
+  * <<Default>>: <<<false>>> (no caching)
+    
+  * <<Usage>>: Set to <<<true>>> if you want to enable auto refresh of definitions files.
 
 * {<<<ChainedTilesApplicationContextFactory>>> configuration}
 
