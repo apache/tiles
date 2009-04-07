@@ -86,8 +86,6 @@ public class DefinitionVModel implements Executable, BodyExecutable {
     /** {@inheritDoc} */
     public Renderable end(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext) {
-        Map<String, Object> params = VelocityUtil.getParameterStack(
-                velocityContext).pop();
         model
                 .end((MutableTilesContainer) ServletUtil.getCurrentContainer(
                         request, servletContext), ServletUtil
@@ -99,7 +97,6 @@ public class DefinitionVModel implements Executable, BodyExecutable {
     /** {@inheritDoc} */
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
-        VelocityUtil.getParameterStack(velocityContext).push(params);
         model.start(ServletUtil.getComposeStack(request), (String) params
                 .get("name"), (String) params.get("template"), (String) params
                 .get("role"), (String) params.get("extends"), (String) params
