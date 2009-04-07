@@ -134,7 +134,7 @@ public class VelocityUtil {
             request.setAttribute(name, obj);
         } else if ("session".equals(scope)) {
             request.getSession().setAttribute(name, obj);
-        } else if ("application".equals("scope")) {
+        } else if ("application".equals(scope)) {
             servletContext.setAttribute(name, obj);
         }
     }
