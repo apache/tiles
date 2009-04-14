@@ -92,7 +92,7 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
         model.end(ServletUtil.getCurrentContainer(request, servletContext), ServletUtil.getComposeStack(request),
                 (String) params.get("name"), params.get("value"),
                 (String) params.get("expression"), null, (String) params.get("role"),
-                (String) params.get("type"), VelocityUtil.toSimpleBoolean((Boolean) params.get("value"), false),
+                (String) params.get("type"), VelocityUtil.toSimpleBoolean((Boolean) params.get("cascade"), false),
                 velocityContext, request, response);
         return VelocityUtil.EMPTY_RENDERABLE;
     }
