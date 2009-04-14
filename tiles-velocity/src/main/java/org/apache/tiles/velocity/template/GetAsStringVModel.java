@@ -128,10 +128,10 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
                     throws IOException, MethodInvocationException, ParseErrorException,
                     ResourceNotFoundException {
                 model.end(ServletUtil.getComposeStack(request), ServletUtil
-                        .getCurrentContainer(request, servletContext), response
-                        .getWriter(), VelocityUtil.toSimpleBoolean(
-                        (Boolean) params.get("ignore"), false),
-                        velocityContext, request, response, writer);
+                        .getCurrentContainer(request, servletContext), writer,
+                        VelocityUtil.toSimpleBoolean((Boolean) params
+                                .get("ignore"), false), velocityContext,
+                        request, response, writer);
                 return true;
             }
         };
