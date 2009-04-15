@@ -54,7 +54,6 @@ public class AddListAttributeVModelTest {
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
         Stack<Object> composeStack = new Stack<Object>();
-        Stack<Map<String, Object>> parameterMapStack = new Stack<Map<String,Object>>();
 
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
@@ -62,7 +61,6 @@ public class AddListAttributeVModelTest {
         
         replay(tModel, request, response, velocityContext);
         model.start(request, response, velocityContext, params);
-        assertTrue(parameterMapStack.isEmpty());
         verify(tModel, request, response, velocityContext);
     }
 
@@ -75,7 +73,6 @@ public class AddListAttributeVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         Stack<Object> composeStack = new Stack<Object>();
-        Stack<Map<String, Object>> parameterMapStack = new Stack<Map<String,Object>>();
         
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
@@ -83,7 +80,6 @@ public class AddListAttributeVModelTest {
         
         replay(tModel, request, response, velocityContext);
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));
-        assertTrue(parameterMapStack.isEmpty());
         verify(tModel, request, response, velocityContext);
     }
 
