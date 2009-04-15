@@ -36,7 +36,7 @@ import org.apache.tiles.template.PutListAttributeModel;
 
 /**
  * Collects all Tiles FreeMarker directives to be used in an application.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -99,7 +99,7 @@ public class TilesFMModelRepository {
 
     /**
      * Constructor.
-     * 
+     *
      * @since 2.2.0
      */
     public TilesFMModelRepository() {
@@ -123,7 +123,7 @@ public class TilesFMModelRepository {
     }
     /**
      * Returns the "addAttribute" directive.
-     * 
+     *
      * @return The "addAttribute" directive.
      * @since 2.2.0
      */
@@ -133,7 +133,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "addListAttribute" directive.
-     * 
+     *
      * @return The "addListAttribute" directive.
      * @since 2.2.0
      */
@@ -143,7 +143,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "definition" directive.
-     * 
+     *
      * @return The "definition" directive.
      * @since 2.2.0
      */
@@ -153,7 +153,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "getAsString" directive.
-     * 
+     *
      * @return The "getAsString" directive.
      * @since 2.2.0
      */
@@ -163,7 +163,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "importAttribute" directive.
-     * 
+     *
      * @return The "importAttribute" directive.
      * @since 2.2.0
      */
@@ -173,7 +173,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "insertAttribute" directive.
-     * 
+     *
      * @return The "insertAttribute" directive.
      * @since 2.2.0
      */
@@ -183,7 +183,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "insertDefinition" directive.
-     * 
+     *
      * @return The "insertDefinition" directive.
      * @since 2.2.0
      */
@@ -193,7 +193,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "insertTemplate" directive.
-     * 
+     *
      * @return The "insertTemplate" directive.
      * @since 2.2.0
      */
@@ -203,7 +203,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "putAttribute" directive.
-     * 
+     *
      * @return The "putAttribute" directive.
      * @since 2.2.0
      */
@@ -213,7 +213,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "putListAttribute" directive.
-     * 
+     *
      * @return The "putListAttribute" directive.
      * @since 2.2.0
      */
@@ -223,7 +223,7 @@ public class TilesFMModelRepository {
 
     /**
      * Returns the "setCurrentContainer" directive.
-     * 
+     *
      * @return The "setCurrentContainer" directive.
      * @since 2.2.0
      */

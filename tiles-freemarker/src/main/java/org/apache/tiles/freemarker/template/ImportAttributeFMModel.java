@@ -39,7 +39,7 @@ import freemarker.template.TemplateModel;
  * parameters, see
  * {@link ImportAttributeModel#getImportedAttributes(TilesContainer, String, String, boolean, Object...)}
  * .
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -52,7 +52,7 @@ public class ImportAttributeFMModel implements TemplateDirectiveModel {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @since 2.2.0
      */

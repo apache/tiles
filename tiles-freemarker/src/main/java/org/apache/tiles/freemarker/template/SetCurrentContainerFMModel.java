@@ -35,7 +35,7 @@ import freemarker.template.TemplateModel;
 /**
  * Sets the current container, to be used in Tiles templates. Use the
  * "containerKey" parameter to indicate the name of the container to use.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */

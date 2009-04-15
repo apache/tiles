@@ -43,7 +43,7 @@ import freemarker.template.TemplateModel;
  * and
  * {@link InsertAttributeModel#end(Stack, TilesContainer, boolean, Object...)}
  * .
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -56,7 +56,7 @@ public class InsertAttributeFMModel implements TemplateDirectiveModel {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @since 2.2.0
      */

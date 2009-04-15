@@ -23,7 +23,6 @@ package org.apache.tiles.freemarker.template;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Stack;
 
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.mgmt.MutableTilesContainer;
@@ -37,9 +36,9 @@ import freemarker.template.TemplateModel;
 
 /**
  * Wraps {@link DefinitionModel} to be used in FreeMarker. For the list of
- * parameters, see {@link DefinitionModel#start(Stack, String, String, String, String, String)} and
- * {@link DefinitionModel#end(MutableTilesContainer, Stack, Object...)}.
- * 
+ * parameters, see {@link DefinitionModel#start(java.util.Stack, String, String, String, String, String)} and
+ * {@link DefinitionModel#end(MutableTilesContainer, java.util.Stack, Object...)}.
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -49,10 +48,10 @@ public class DefinitionFMModel implements TemplateDirectiveModel {
      * The template model.
      */
     private DefinitionModel model;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @since 2.2.0
      */

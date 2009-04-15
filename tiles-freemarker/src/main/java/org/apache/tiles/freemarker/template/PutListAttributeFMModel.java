@@ -41,7 +41,7 @@ import freemarker.template.TemplateModel;
  * and
  * {@link PutListAttributeModel#end(org.apache.tiles.TilesContainer, Stack, String, boolean, Object...)}
  * .
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -51,10 +51,10 @@ public class PutListAttributeFMModel implements TemplateDirectiveModel {
      * The template model.
      */
     private PutListAttributeModel model;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @since 2.2.0
      */

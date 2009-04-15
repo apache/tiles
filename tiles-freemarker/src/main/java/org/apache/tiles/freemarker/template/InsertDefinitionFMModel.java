@@ -41,7 +41,7 @@ import freemarker.template.TemplateModel;
  * and
  * {@link InsertDefinitionModel#end(TilesContainer, String, String, String, String, Object...)}
  * .
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -54,7 +54,7 @@ public class InsertDefinitionFMModel implements TemplateDirectiveModel {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @since 2.2.0
      */

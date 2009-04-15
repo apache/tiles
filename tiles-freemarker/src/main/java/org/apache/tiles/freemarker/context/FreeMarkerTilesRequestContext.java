@@ -33,25 +33,25 @@ import freemarker.core.Environment;
 
 /**
  * The FreeMarker-specific request context.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
 public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper implements TilesRequestContext {
-    
+
     /**
      * The FreeMarker current environment.
      */
     private Environment env;
-    
+
     /**
      * The request objects.
      */
     private transient Object[] requestObjects;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param enclosedRequest The request that exposes non-FreeMarker specific properties
      * @param env The FreeMarker environment.
      */
@@ -60,26 +60,26 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper im
         super(enclosedRequest);
         this.env = env;
     }
-    
-    /** {@inheritDoc} */
-	public void dispatch(String path) throws IOException {
-	    include(path);
-	}
 
     /** {@inheritDoc} */
-	public Object getRequest() {
-		return env;
-	}
+    public void dispatch(String path) throws IOException {
+        include(path);
+    }
 
     /** {@inheritDoc} */
-	public Locale getRequestLocale() {
-		return env.getLocale();
-	}
+    public Object getRequest() {
+        return env;
+    }
 
     /** {@inheritDoc} */
-	public Object getResponse() {
-		return env;
-	}
+    public Locale getRequestLocale() {
+        return env.getLocale();
+    }
+
+    /** {@inheritDoc} */
+    public Object getResponse() {
+        return env;
+    }
 
     /** {@inheritDoc} */
     @Override

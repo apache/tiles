@@ -46,11 +46,11 @@ import freemarker.template.utility.DeepUnwrap;
 
 /**
  * Utilities for FreeMarker usage in Tiles.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class FreeMarkerUtil {
+public final class FreeMarkerUtil {
 
     /**
      * The name of the attribute that holds the compose stack.
@@ -65,7 +65,7 @@ public class FreeMarkerUtil {
 
     /**
      * Returns true if forced include of the result is needed.
-     * 
+     *
      * @param env The current FreeMarker environment.
      * @return If <code>true</code> the include operation must be forced.
      * @since 2.2.0
@@ -77,7 +77,7 @@ public class FreeMarkerUtil {
 
     /**
      * Sets the option that enables the forced include of the response.
-     * 
+     *
      * @param env The current FreeMarker environment.
      * @param forceInclude If <code>true</code> the include operation must be
      * forced.
@@ -107,7 +107,7 @@ public class FreeMarkerUtil {
 
     /**
      * Sets the current container to use in web pages.
-     * 
+     *
      * @param env The current FreeMarker environment.
      * @param key The key under which the container is stored.
      * @since 2.2.0
@@ -125,7 +125,7 @@ public class FreeMarkerUtil {
 
     /**
      * Sets the current container to use in web pages.
-     * 
+     *
      * @param env The current FreeMarker environment.
      * @param container The container to use as the current container.
      * @since 2.2.0
@@ -139,7 +139,7 @@ public class FreeMarkerUtil {
 
     /**
      * Returns the current container that has been set, or the default one.
-     * 
+     *
      * @param env The current FreeMarker environment.
      * @return The current Tiles container to use in web pages.
      * @since 2.2.0
@@ -152,7 +152,7 @@ public class FreeMarkerUtil {
 
     /**
      * Returns the HTTP request hash model.
-     * 
+     *
      * @param env The current FreeMarker environment.
      * @return The request hash model.
      * @since 2.2.0
@@ -169,7 +169,7 @@ public class FreeMarkerUtil {
 
     /**
      * Returns the servlet context hash model.
-     * 
+     *
      * @param env The current FreeMarker environment.
      * @return The servlet context hash model.
      * @since 2.2.0
@@ -188,7 +188,7 @@ public class FreeMarkerUtil {
 
     /**
      * Unwraps a TemplateModel to extract a string.
-     * 
+     *
      * @param model The TemplateModel to unwrap.
      * @return The unwrapped string.
      * @since 2.2.0
@@ -203,7 +203,7 @@ public class FreeMarkerUtil {
 
     /**
      * Unwraps a TemplateModel to extract a boolean.
-     * 
+     *
      * @param model The TemplateModel to unwrap.
      * @param defaultValue If the value is null, this value will be returned.
      * @return The unwrapped boolean.
@@ -220,7 +220,7 @@ public class FreeMarkerUtil {
 
     /**
      * Unwraps a TemplateModel to extract an object.
-     * 
+     *
      * @param model The TemplateModel to unwrap.
      * @return The unwrapped object.
      * @since 2.2.0
@@ -235,11 +235,12 @@ public class FreeMarkerUtil {
 
     /**
      * Sets an attribute in the desired scope.
-     * 
+     *
      * @param env The FreeMarker current environment.
      * @param name The name of the attribute.
      * @param obj The value of the attribute.
-     * @param scope The scope. It can be <code>page</code>, <code>request</code>, <code>session</code>, <code>application</code>.
+     * @param scope The scope. It can be <code>page</code>, <code>request</code>
+     * , <code>session</code>, <code>application</code>.
      * @since 2.2.0
      */
     public static void setAttribute(Environment env, String name, Object obj,
@@ -265,10 +266,10 @@ public class FreeMarkerUtil {
                     .setAttribute(name, obj);
         }
     }
-    
+
     /**
      * Returns the current compose stack, or creates a new one if not present.
-     * 
+     *
      * @param env The current FreeMarker environment.
      * @return The compose stack.
      * @since 2.2.0
@@ -287,7 +288,7 @@ public class FreeMarkerUtil {
 
     /**
      * Evaluates the body without rendering it.
-     * 
+     *
      * @param body The body to evaluate.
      * @throws TemplateException If something goes wrong during evaluation.
      * @throws IOException If something goes wrong during writing the result.
@@ -307,7 +308,7 @@ public class FreeMarkerUtil {
 
     /**
      * Renders the body as a string.
-     * 
+     *
      * @param body The body to render.
      * @return The rendered string.
      * @throws TemplateException If something goes wrong during evaluation.

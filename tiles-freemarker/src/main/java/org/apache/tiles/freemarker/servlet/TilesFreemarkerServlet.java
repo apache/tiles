@@ -30,7 +30,7 @@ import freemarker.template.Configuration;
 
 /**
  * Extends FreemarkerServlet to load Tiles directives as a shared variable.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */

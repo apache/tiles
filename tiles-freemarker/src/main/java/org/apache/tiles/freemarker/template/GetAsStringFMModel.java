@@ -23,7 +23,6 @@ package org.apache.tiles.freemarker.template;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Stack;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
@@ -39,11 +38,13 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link GetAsStringModel} to be used in FreeMarker. For the list of
  * parameters, see
- * {@link GetAsStringModel#start(Stack, TilesContainer, boolean, String, String, Object, String, String, String, Attribute, Object...)}
+ * {@link GetAsStringModel
+ * #start(java.util.Stack, TilesContainer, boolean, String, String, Object, String, String, String,
+ * Attribute, Object...)}
  * and
- * {@link GetAsStringModel#end(Stack, TilesContainer, java.io.Writer, boolean, Object...)}
+ * {@link GetAsStringModel#end(java.util.Stack, TilesContainer, java.io.Writer, boolean, Object...)}
  * .
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -56,7 +57,7 @@ public class GetAsStringFMModel implements TemplateDirectiveModel {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @since 2.2.0
      */

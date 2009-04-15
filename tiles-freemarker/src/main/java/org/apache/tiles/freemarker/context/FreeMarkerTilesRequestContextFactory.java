@@ -40,7 +40,7 @@ import freemarker.ext.servlet.HttpRequestHashModel;
 
 /**
  * The FreeMarker-specific request context factory.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -51,7 +51,7 @@ public class FreeMarkerTilesRequestContextFactory implements
      * The logging object.
      */
     private final Log log = LogFactory.getLog(getClass());
-    
+
     /**
      * Parent Tiles context factory.
      */

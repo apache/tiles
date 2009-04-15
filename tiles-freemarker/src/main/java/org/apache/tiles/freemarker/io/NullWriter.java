@@ -26,7 +26,7 @@ import java.io.Writer;
 
 /**
  * A writer that does not write anything.
- * 
+ *
  * @version $Rev: 751886 $ $Date: 2009-03-09 23:39:50 +0100 (lun, 09 mar 2009) $
  * @since 2.2.0
  */

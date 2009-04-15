@@ -25,7 +25,7 @@ import org.apache.tiles.TilesException;
 
 /**
  * Exception connected to the usage of FreeMarker and Tiles.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -33,7 +33,7 @@ public class FreeMarkerTilesException extends TilesException {
 
     /**
      * Constructor.
-     * 
+     *
      * @since 2.2.0
      */
     public FreeMarkerTilesException() {
@@ -42,7 +42,7 @@ public class FreeMarkerTilesException extends TilesException {
 
     /**
      * Constructor.
-     * 
+     *
      * @param message The message of the exception.
      * @since 2.2.0
      */
@@ -52,7 +52,7 @@ public class FreeMarkerTilesException extends TilesException {
 
     /**
      * Constructor.
-     * 
+     *
      * @param e The cause of the exception.
      * @since 2.2.0
      */
@@ -62,7 +62,7 @@ public class FreeMarkerTilesException extends TilesException {
 
     /**
      * Constructor.
-     * 
+     *
      * @param message The message of the exception.
      * @param e The cause of the exception.
      * @since 2.2.0

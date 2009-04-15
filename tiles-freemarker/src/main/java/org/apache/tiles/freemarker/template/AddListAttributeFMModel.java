@@ -38,7 +38,7 @@ import freemarker.template.TemplateModel;
  * Wraps {@link AddListAttributeModel} to be used in FreeMarker. For the list of
  * parameters, see {@link AddListAttributeModel#start(Stack, String)} and
  * {@link AddListAttributeModel#end(Stack)}.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -48,10 +48,10 @@ public class AddListAttributeFMModel implements TemplateDirectiveModel {
      * The template model.
      */
     private AddListAttributeModel model;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @since 2.2.0
      */
