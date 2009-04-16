@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.velocity.template;
 
 import static org.junit.Assert.*;
@@ -22,9 +40,6 @@ import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertTemplateModel;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.Renderable;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,27 +48,27 @@ import org.junit.Test;
  * Tests {@link InsertTemplateVModel}.
  */
 public class InsertTemplateVModelTest {
-    
+
     /**
      * The attribute key that will be used to store the parameter map, to use across Velocity tool calls.
      */
-    private final static String PARAMETER_MAP_STACK_KEY = "org.apache.tiles.velocity.PARAMETER_MAP_STACK"; 
+    private static final String PARAMETER_MAP_STACK_KEY = "org.apache.tiles.velocity.PARAMETER_MAP_STACK";
 
     /**
      * The model to test.
      */
     private InsertTemplateVModel model;
-    
+
     /**
      * The template model.
      */
     private InsertTemplateModel tModel;
-    
+
     /**
      * The servlet context.
      */
     private ServletContext servletContext;
-    
+
     /**
      * Sets up the model to test.
      */
@@ -64,14 +79,13 @@ public class InsertTemplateVModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.InsertTemplateVModel#execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.apache.velocity.context.Context, java.util.Map)}.
+     * Test method for {@link org.apache.tiles.velocity.template.InsertTemplateVModel
+     * #execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     * org.apache.velocity.context.Context, java.util.Map)}.
      * @throws IOException If something goes wrong.
-     * @throws ResourceNotFoundException If something goes wrong.
-     * @throws ParseErrorException If something goes wrong.
-     * @throws MethodInvocationException If something goes wrong.
      */
     @Test
-    public void testExecute() throws MethodInvocationException, ParseErrorException, ResourceNotFoundException, IOException {
+    public void testExecute() throws IOException {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
@@ -79,11 +93,11 @@ public class InsertTemplateVModelTest {
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
         Map<String, Object> params = createParams();
-        
+
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         tModel.execute(container, "myTemplate", "myRole", "myPreparer",
                 velocityContext, request, response, writer);
-        
+
         replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
         initializeModel();
         Renderable renderable = model.execute(request, response, velocityContext, params);
@@ -92,7 +106,9 @@ public class InsertTemplateVModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.InsertTemplateVModel#start(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.apache.velocity.context.Context, java.util.Map)}.
+     * Test method for {@link org.apache.tiles.velocity.template.InsertTemplateVModel
+     * #start(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     * org.apache.velocity.context.Context, java.util.Map)}.
      */
     @Test
     public void testStart() {
@@ -101,12 +117,12 @@ public class InsertTemplateVModelTest {
         Context velocityContext = createMock(Context.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
-        Stack<Map<String, Object>> paramStack = new Stack<Map<String,Object>>();
+        Stack<Map<String, Object>> paramStack = new Stack<Map<String, Object>>();
 
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
         tModel.start(container, velocityContext, request, response);
-        
+
         replay(tModel, servletContext, container, request, response, velocityContext);
         initializeModel();
         model.start(request, response, velocityContext, params);
@@ -116,14 +132,13 @@ public class InsertTemplateVModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.InsertTemplateVModel#end(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.apache.velocity.context.Context)}.
+     * Test method for {@link org.apache.tiles.velocity.template.InsertTemplateVModel
+     * #end(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     * org.apache.velocity.context.Context)}.
      * @throws IOException If something goes wrong.
-     * @throws ResourceNotFoundException If something goes wrong.
-     * @throws ParseErrorException If something goes wrong.
-     * @throws MethodInvocationException If something goes wrong.
      */
     @Test
-    public void testEnd() throws MethodInvocationException, ParseErrorException, ResourceNotFoundException, IOException {
+    public void testEnd() throws IOException {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
@@ -131,14 +146,14 @@ public class InsertTemplateVModelTest {
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
         Map<String, Object> params = createParams();
-        Stack<Map<String, Object>> paramStack = new Stack<Map<String,Object>>();
+        Stack<Map<String, Object>> paramStack = new Stack<Map<String, Object>>();
         paramStack.push(params);
-        
+
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
         tModel.end(container, "myTemplate", "myRole", "myPreparer",
                 velocityContext, request, response, writer);
-        
+
         replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
         initializeModel();
         Renderable renderable = model.end(request, response, velocityContext);
@@ -156,7 +171,7 @@ public class InsertTemplateVModelTest {
 
     /**
      * Creates the parameters to work with the model.
-     * 
+     *
      * @return The parameters.
      */
     private Map<String, Object> createParams() {

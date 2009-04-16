@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.freemarker.template;
 
 import static org.easymock.classextension.EasyMock.*;
@@ -38,16 +56,22 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
 
 /**
- * @author antonio
+ * Tests {@link InsertAttributeFMModel}.
  *
+ * @version $Rev$ $Date$
  */
 public class InsertAttributeFMModelTest {
+
+    /**
+     * The number of times the method is called.
+     */
+    private static final int CALL_COUNT = 3;
 
     /**
      * The FreeMarker environment.
      */
     private Environment env;
-    
+
     /**
      * The locale object.
      */
@@ -62,7 +86,7 @@ public class InsertAttributeFMModelTest {
      * The template model.
      */
     private TemplateHashModel model;
-    
+
     /**
      * The writer.
      */
@@ -86,7 +110,9 @@ public class InsertAttributeFMModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.template.InsertAttributeFMModel#execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[], freemarker.template.TemplateDirectiveBody)}.
+     * Test method for {@link org.apache.tiles.freemarker.template.InsertAttributeFMModel
+     * #execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[],
+     * freemarker.template.TemplateDirectiveBody)}.
      * @throws IOException If something goes wrong.
      * @throws TemplateException If something goes wrong.
      */
@@ -103,14 +129,14 @@ public class InsertAttributeFMModelTest {
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        
+
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).times(3);
+        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).times(CALL_COUNT);
         expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel);
         initEnvironment();
 
@@ -124,12 +150,12 @@ public class InsertAttributeFMModelTest {
         params.put("defaultValueType", objectWrapper.wrap("myDefaultValueType"));
         params.put("name", objectWrapper.wrap("myName"));
         params.put("value", objectWrapper.wrap(attribute));
-     
+
         tModel.start(composeStack, container, false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole",
                 "myDefaultValueType", "myName", attribute, env);
         tModel.end(composeStack, container, false, env);
         body.render(isA(NullWriter.class));
-        
+
         replay(tModel, body, container, attribute);
         fmModel.execute(env, params, null, body);
         verify(template, model, request, tModel, body, container, servlet, servletContext, attribute);

@@ -43,17 +43,17 @@ import org.apache.tiles.TilesContainer;
  * assigned a type, it will be treated as a String and included without any
  * special handling.
  * </p>
- * 
+ *
  * <p>
  * <strong>Example : </strong>
  * </p>
- * 
+ *
  * <pre>
  * &lt;code&gt;
  *           &lt;tiles:insertAttribute name=&quot;body&quot; /&gt;
  *         &lt;/code&gt;
  * </pre>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -71,7 +71,7 @@ public class InsertAttributeModel {
 
     /**
      * Constructor.
-     * 
+     *
      * @param attributeResolver The attribute resolver to use.
      * @since 2.2.0
      */
@@ -81,16 +81,20 @@ public class InsertAttributeModel {
 
     /**
      * Starts the operation.
-     * 
+     *
      * @param composeStack The compose stack,
      * @param container The Tiles container to use.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param preparer The preparer to invoke before rendering the attribute.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
-     * @param defaultValue The default value of the attribute. To use only if the attribute was not computed.
-     * @param defaultValueRole The default comma-separated list of roles. To use only if the attribute was not computed.
-     * @param defaultValueType The default type of the attribute. To use only if the attribute was not computed.
+     * @param defaultValue The default value of the attribute. To use only if
+     * the attribute was not computed.
+     * @param defaultValueRole The default comma-separated list of roles. To use
+     * only if the attribute was not computed.
+     * @param defaultValueType The default type of the attribute. To use only if
+     * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param requestItems The request objects.
@@ -108,10 +112,11 @@ public class InsertAttributeModel {
 
     /**
      * Ends the operation.
-     * 
+     *
      * @param composeStack The compose stack,
      * @param container The Tiles container to use.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param requestItems The request objects.
      * @throws IOException If an I/O error happens during rendering.
      */
@@ -123,15 +128,19 @@ public class InsertAttributeModel {
 
     /**
      * Executes the operation.
-     * 
+     *
      * @param container The Tiles container to use.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param preparer The preparer to invoke before rendering the attribute.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
-     * @param defaultValue The default value of the attribute. To use only if the attribute was not computed.
-     * @param defaultValueRole The default comma-separated list of roles. To use only if the attribute was not computed.
-     * @param defaultValueType The default type of the attribute. To use only if the attribute was not computed.
+     * @param defaultValue The default value of the attribute. To use only if
+     * the attribute was not computed.
+     * @param defaultValueRole The default comma-separated list of roles. To use
+     * only if the attribute was not computed.
+     * @param defaultValueType The default type of the attribute. To use only if
+     * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param requestItems The request objects.
@@ -150,15 +159,19 @@ public class InsertAttributeModel {
 
     /**
      * Resolves the attribute. and starts the context.
-     * 
+     *
      * @param container The Tiles container to use.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param preparer The preparer to invoke before rendering the attribute.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
-     * @param defaultValue The default value of the attribute. To use only if the attribute was not computed.
-     * @param defaultValueRole The default comma-separated list of roles. To use only if the attribute was not computed.
-     * @param defaultValueType The default type of the attribute. To use only if the attribute was not computed.
+     * @param defaultValue The default value of the attribute. To use only if
+     * the attribute was not computed.
+     * @param defaultValueRole The default comma-separated list of roles. To use
+     * only if the attribute was not computed.
+     * @param defaultValueType The default type of the attribute. To use only if
+     * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param requestItems The request objects.
@@ -180,10 +193,11 @@ public class InsertAttributeModel {
 
     /**
      * Renders the attribute as a string.
-     * 
-     * @param attribute The attribute to use, previously resolved. 
+     *
+     * @param attribute The attribute to use, previously resolved.
      * @param container The Tiles container to use.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param requestItems The request objects.
      * @throws IOException If an I/O error happens during rendering.
      */

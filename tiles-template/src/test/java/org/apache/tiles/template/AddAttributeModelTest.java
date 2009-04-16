@@ -36,7 +36,6 @@ import org.junit.Test;
  * Tests {@link AddAttributeModel}.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class AddAttributeModelTest {
 
@@ -44,13 +43,13 @@ public class AddAttributeModelTest {
      * The model to test.
      */
     private AddAttributeModel model;
-    
+
     /** Sets up the test. */
     @Before
     public void setUp() {
         model = new AddAttributeModel();
     }
-    
+
     /**
      * Test method for {@link org.apache.tiles.template.AddAttributeModel#start(java.util.Stack)}.
      */
@@ -59,16 +58,19 @@ public class AddAttributeModelTest {
     public void testStart() {
         Stack<Object> composeStack = createMock(Stack.class);
         Attribute attribute = new Attribute();
-        
+
         expect(composeStack.push(isA(Attribute.class))).andReturn(attribute);
-        
+
         replay(composeStack);
         model.start(composeStack);
         verify(composeStack);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.AddAttributeModel#end(java.util.Stack, java.lang.Object, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+     * Test method for
+     * {@link org.apache.tiles.template.AddAttributeModel
+     * #end(java.util.Stack, java.lang.Object, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}
+     * .
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -78,9 +80,9 @@ public class AddAttributeModelTest {
         Attribute attribute = new Attribute();
         composeStack.push(listAttribute);
         composeStack.push(attribute);
-        
+
         model.end(composeStack, "myValue", "myExpression", "myBody", "myRole", "myType");
-        assertEquals(1, ((List<Attribute>)listAttribute.getValue()).size());
+        assertEquals(1, ((List<Attribute>) listAttribute.getValue()).size());
         assertEquals("myValue", attribute.getValue());
         assertEquals("myExpression", attribute.getExpression());
         assertEquals("myRole", attribute.getRole());
@@ -91,9 +93,9 @@ public class AddAttributeModelTest {
         attribute = new Attribute();
         composeStack.push(listAttribute);
         composeStack.push(attribute);
-        
+
         model.end(composeStack, null, "myExpression", "myBody", "myRole", "myType");
-        assertEquals(1, ((List<Attribute>)listAttribute.getValue()).size());
+        assertEquals(1, ((List<Attribute>) listAttribute.getValue()).size());
         assertEquals("myBody", attribute.getValue());
         assertEquals("myExpression", attribute.getExpression());
         assertEquals("myRole", attribute.getRole());
@@ -101,7 +103,9 @@ public class AddAttributeModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.AddAttributeModel#execute(java.util.Stack, java.lang.Object, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.template.AddAttributeModel
+     * #execute(java.util.Stack, java.lang.Object, java.lang.String, java.lang.String,
+     * java.lang.String, java.lang.String)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -110,9 +114,9 @@ public class AddAttributeModelTest {
         ListAttribute listAttribute = new ListAttribute();
         Attribute attribute;
         composeStack.push(listAttribute);
-        
+
         model.execute(composeStack, "myValue", "myExpression", "myBody", "myRole", "myType");
-        List<Attribute> attributes = (List<Attribute>)listAttribute.getValue();
+        List<Attribute> attributes = (List<Attribute>) listAttribute.getValue();
         assertEquals(1, attributes.size());
         attribute = attributes.iterator().next();
         assertEquals("myValue", attribute.getValue());
@@ -125,9 +129,9 @@ public class AddAttributeModelTest {
         attribute = new Attribute();
         composeStack.push(listAttribute);
         composeStack.push(attribute);
-        
+
         model.execute(composeStack, null, "myExpression", "myBody", "myRole", "myType");
-        attributes = (List<Attribute>)listAttribute.getValue();
+        attributes = (List<Attribute>) listAttribute.getValue();
         assertEquals(1, attributes.size());
         attribute = attributes.iterator().next();
         assertEquals("myBody", attribute.getValue());

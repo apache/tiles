@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.velocity.template;
 
 import static org.junit.Assert.*;
@@ -23,8 +41,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author antonio
- *
+ * Tests {@link Tiles2Tool}.
  */
 public class Tiles2ToolTest {
 
@@ -37,27 +54,27 @@ public class Tiles2ToolTest {
      * The tool to test.
      */
     private Tiles2Tool tool;
-    
+
     /**
      * The request object.
      */
     private HttpServletRequest request;
-    
+
     /**
      * The response object.
      */
     private HttpServletResponse response;
-    
+
     /**
      * The servlet context.
      */
     private ServletContext servletContext;
-    
+
     /**
      * The current velocity context.
      */
     private Context velocityContext;
-    
+
     /**
      * @throws java.lang.Exception If something goes wrong.
      */
@@ -79,11 +96,11 @@ public class Tiles2ToolTest {
         AddAttributeVModel model = createMock(AddAttributeVModel.class);
         Renderable renderable = createMock(Renderable.class);
         Map<String, Object> params = createParams();
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getAddAttribute()).andReturn(model);
         expect(model.execute(request, response, velocityContext, params)).andReturn(renderable);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model, renderable);
         initializeTool();
         assertEquals(tool, tool.addAttribute(params));
@@ -97,10 +114,10 @@ public class Tiles2ToolTest {
     public void testAddAttribute() {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         AddAttributeVModel model = createMock(AddAttributeVModel.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getAddAttribute()).andReturn(model);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.addAttribute());
@@ -114,10 +131,10 @@ public class Tiles2ToolTest {
     public void testAddListAttribute() {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         AddListAttributeVModel model = createMock(AddListAttributeVModel.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getAddListAttribute()).andReturn(model);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.addListAttribute());
@@ -133,11 +150,11 @@ public class Tiles2ToolTest {
         DefinitionVModel model = createMock(DefinitionVModel.class);
         Renderable renderable = createMock(Renderable.class);
         Map<String, Object> params = createParams();
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getDefinition()).andReturn(model);
         expect(model.execute(request, response, velocityContext, params)).andReturn(renderable);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model, renderable);
         initializeTool();
         assertEquals(tool, tool.definition(params));
@@ -151,10 +168,10 @@ public class Tiles2ToolTest {
     public void testDefinition() {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         DefinitionVModel model = createMock(DefinitionVModel.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getDefinition()).andReturn(model);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.definition());
@@ -170,11 +187,11 @@ public class Tiles2ToolTest {
         GetAsStringVModel model = createMock(GetAsStringVModel.class);
         Renderable renderable = createMock(Renderable.class);
         Map<String, Object> params = createParams();
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getGetAsString()).andReturn(model);
         expect(model.execute(request, response, velocityContext, params)).andReturn(renderable);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model, renderable);
         initializeTool();
         assertEquals(renderable, tool.getAsString(params));
@@ -188,10 +205,10 @@ public class Tiles2ToolTest {
     public void testGetAsString() {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         GetAsStringVModel model = createMock(GetAsStringVModel.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getGetAsString()).andReturn(model);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.getAsString());
@@ -207,11 +224,11 @@ public class Tiles2ToolTest {
         ImportAttributeVModel model = createMock(ImportAttributeVModel.class);
         Renderable renderable = createMock(Renderable.class);
         Map<String, Object> params = createParams();
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getImportAttribute()).andReturn(model);
         expect(model.execute(request, response, velocityContext, params)).andReturn(renderable);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model, renderable);
         initializeTool();
         assertEquals(renderable, tool.importAttribute(params));
@@ -227,11 +244,11 @@ public class Tiles2ToolTest {
         InsertAttributeVModel model = createMock(InsertAttributeVModel.class);
         Renderable renderable = createMock(Renderable.class);
         Map<String, Object> params = createParams();
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getInsertAttribute()).andReturn(model);
         expect(model.execute(request, response, velocityContext, params)).andReturn(renderable);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model, renderable);
         initializeTool();
         assertEquals(renderable, tool.insertAttribute(params));
@@ -245,10 +262,10 @@ public class Tiles2ToolTest {
     public void testInsertAttribute() {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         InsertAttributeVModel model = createMock(InsertAttributeVModel.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getInsertAttribute()).andReturn(model);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.insertAttribute());
@@ -264,11 +281,11 @@ public class Tiles2ToolTest {
         InsertDefinitionVModel model = createMock(InsertDefinitionVModel.class);
         Renderable renderable = createMock(Renderable.class);
         Map<String, Object> params = createParams();
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getInsertDefinition()).andReturn(model);
         expect(model.execute(request, response, velocityContext, params)).andReturn(renderable);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model, renderable);
         initializeTool();
         assertEquals(renderable, tool.insertDefinition(params));
@@ -282,10 +299,10 @@ public class Tiles2ToolTest {
     public void testInsertDefinition() {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         InsertDefinitionVModel model = createMock(InsertDefinitionVModel.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getInsertDefinition()).andReturn(model);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.insertDefinition());
@@ -301,11 +318,11 @@ public class Tiles2ToolTest {
         InsertTemplateVModel model = createMock(InsertTemplateVModel.class);
         Renderable renderable = createMock(Renderable.class);
         Map<String, Object> params = createParams();
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getInsertTemplate()).andReturn(model);
         expect(model.execute(request, response, velocityContext, params)).andReturn(renderable);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model, renderable);
         initializeTool();
         assertEquals(renderable, tool.insertTemplate(params));
@@ -319,10 +336,10 @@ public class Tiles2ToolTest {
     public void testInsertTemplate() {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         InsertTemplateVModel model = createMock(InsertTemplateVModel.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getInsertTemplate()).andReturn(model);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.insertTemplate());
@@ -338,11 +355,11 @@ public class Tiles2ToolTest {
         PutAttributeVModel model = createMock(PutAttributeVModel.class);
         Renderable renderable = createMock(Renderable.class);
         Map<String, Object> params = createParams();
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getPutAttribute()).andReturn(model);
         expect(model.execute(request, response, velocityContext, params)).andReturn(renderable);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model, renderable);
         initializeTool();
         assertEquals(tool, tool.putAttribute(params));
@@ -356,10 +373,10 @@ public class Tiles2ToolTest {
     public void testPutAttribute() {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         PutAttributeVModel model = createMock(PutAttributeVModel.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getPutAttribute()).andReturn(model);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.putAttribute());
@@ -373,10 +390,10 @@ public class Tiles2ToolTest {
     public void testPutListAttribute() {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         PutListAttributeVModel model = createMock(PutListAttributeVModel.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getPutListAttribute()).andReturn(model);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.putListAttribute());
@@ -389,10 +406,10 @@ public class Tiles2ToolTest {
     @Test
     public void testSetCurrentContainer() {
         TilesContainer container = createMock(TilesContainer.class);
-        
+
         expect(servletContext.getAttribute("myKey")).andReturn(container);
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        
+
         replay(velocityContext, request, response, servletContext, container);
         initializeTool();
         assertEquals(tool, tool.setCurrentContainer("myKey"));
@@ -407,11 +424,11 @@ public class Tiles2ToolTest {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         PutAttributeVModel model = createMock(PutAttributeVModel.class);
         Map<String, Object> params = createParams();
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getPutAttribute()).andReturn(model);
         model.start(request, response, velocityContext, params);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model);
         initializeTool();
         assertEquals(tool, tool.putAttribute().start(params));
@@ -426,11 +443,11 @@ public class Tiles2ToolTest {
         TilesVelocityRepository repository = createMock(TilesVelocityRepository.class);
         PutAttributeVModel model = createMock(PutAttributeVModel.class);
         Renderable renderable = createMock(Renderable.class);
-        
+
         expect(servletContext.getAttribute(TILES_VELOCITY_REPOSITORY_KEY)).andReturn(repository);
         expect(repository.getPutAttribute()).andReturn(model);
         expect(model.end(request, response, velocityContext)).andReturn(renderable);
-        
+
         replay(velocityContext, request, response, servletContext, repository, model, renderable);
         initializeTool();
         assertEquals(renderable, tool.putAttribute().end());
@@ -445,11 +462,11 @@ public class Tiles2ToolTest {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute attribute = new Attribute("myAttributeValue");
-        
+
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(container.getAttributeContext(velocityContext, request, response)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myAttribute")).andReturn(attribute);
-        
+
         replay(velocityContext, request, response, servletContext, container, attributeContext);
         initializeTool();
         assertEquals(attribute, tool.getAttribute("myAttribute"));
@@ -473,10 +490,10 @@ public class Tiles2ToolTest {
         tool.setServletContext(servletContext);
         tool.setVelocityContext(velocityContext);
     }
-    
+
     /**
      * Creates some mock params.
-     * 
+     *
      * @return The parameters.
      */
     private Map<String, Object> createParams() {

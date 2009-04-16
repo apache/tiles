@@ -29,22 +29,19 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.ImportAttributeModel;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.Renderable;
 
 /**
  * Wraps {@link ImportAttributeModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link ImportAttributeModel#getImportedAttributes(TilesContainer, String, String, boolean, Object...)}.
- * 
+ * {@link ImportAttributeModel#getImportedAttributes(org.apache.tiles.TilesContainer,
+ * String, String, boolean, Object...)}.
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -62,7 +59,7 @@ public class ImportAttributeVModel implements Executable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @param servletContext The servlet context.
      * @since 2.2.0
@@ -81,8 +78,7 @@ public class ImportAttributeVModel implements Executable {
                 response, request) {
 
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException,
-                    ParseErrorException, ResourceNotFoundException {
+                    throws IOException {
                 Map<String, Object> attributes = model.getImportedAttributes(
                         ServletUtil
                                 .getCurrentContainer(request, servletContext),
@@ -96,7 +92,7 @@ public class ImportAttributeVModel implements Executable {
                             servletContext, entry.getKey(), entry.getValue(),
                             scope);
                 }
-                
+
                 return true;
             }
         };

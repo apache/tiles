@@ -23,7 +23,6 @@ package org.apache.tiles.freemarker.template;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Stack;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
@@ -39,9 +38,12 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link InsertAttributeModel} to be used in FreeMarker. For the list of
  * parameters, see
- * {@link InsertAttributeModel#start(Stack, TilesContainer, boolean, String, String, Object, String, String, String, Attribute, Object...)}
+ * {@link InsertAttributeModel
+ * #start(java.util.Stack, TilesContainer, boolean, String, String,
+ * Object, String, String, String, Attribute, Object...)}
  * and
- * {@link InsertAttributeModel#end(Stack, TilesContainer, boolean, Object...)}
+ * {@link InsertAttributeModel
+ * #end(java.util.Stack, TilesContainer, boolean, Object...)}
  * .
  *
  * @version $Rev$ $Date$

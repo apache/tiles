@@ -31,7 +31,7 @@ import org.apache.velocity.runtime.Renderable;
 
 /**
  * It represents an object that can be executed under a Velocity+Servlet context.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -39,7 +39,7 @@ public interface Executable {
 
     /**
      * Executes the command.
-     * 
+     *
      * @param request The HTTP request.
      * @param response The HTTP response-
      * @param velocityContext The Velocity context.
@@ -47,5 +47,7 @@ public interface Executable {
      * @return A renderable object. It does not necessary render anything.
      * @since 2.2.0
      */
-    Renderable execute(HttpServletRequest request, HttpServletResponse response, Context velocityContext, Map<String, Object> params);
+    Renderable execute(HttpServletRequest request,
+            HttpServletResponse response, Context velocityContext,
+            Map<String, Object> params);
 }

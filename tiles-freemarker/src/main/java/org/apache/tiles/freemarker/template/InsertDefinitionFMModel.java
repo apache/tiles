@@ -24,7 +24,6 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.template.InsertDefinitionModel;
 
@@ -37,9 +36,9 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link InsertDefinitionModel} to be used in FreeMarker. For the list of
  * parameters, see
- * {@link InsertDefinitionModel#start(TilesContainer, Object...)}
+ * {@link InsertDefinitionModel#start(org.apache.tiles.TilesContainer, Object...)}
  * and
- * {@link InsertDefinitionModel#end(TilesContainer, String, String, String, String, Object...)}
+ * {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer, String, String, String, String, Object...)}
  * .
  *
  * @version $Rev$ $Date$

@@ -37,7 +37,7 @@ import org.apache.tiles.TilesContainer;
  * added using the tags 'addAttribute' or 'addListAttribute'. This tag can only
  * be used inside 'insertTemplate', 'insertDefinition', 'definition' tags.
  * </p>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -49,7 +49,8 @@ public class PutListAttributeModel {
      * @param composeStack The composing stack.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
-     * @param inherit If <code>true</code> the list contained in the in the same attribute of the parent definition will be extended.
+     * @param inherit If <code>true</code> the list contained in the in the same
+     * attribute of the parent definition will be extended.
      * @since 2.2.0
      */
     public void start(Stack<Object> composeStack, String role, boolean inherit) {
@@ -61,7 +62,7 @@ public class PutListAttributeModel {
 
     /**
      * Ends the operation.
-     * 
+     *
      * @param container The Tiles container to use.
      * @param composeStack The composing stack.
      * @param name The name of the attribute to put.

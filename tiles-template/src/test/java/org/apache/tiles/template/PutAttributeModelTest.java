@@ -37,7 +37,6 @@ import org.junit.Test;
  * Tests {@link PutAttributeModel}.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class PutAttributeModelTest {
 
@@ -45,13 +44,13 @@ public class PutAttributeModelTest {
      * The model to test.
      */
     private PutAttributeModel model;
-    
+
     /** Sets up the test. */
     @Before
     public void setUp() {
         model = new PutAttributeModel();
     }
-    
+
     /**
      * Test method for {@link org.apache.tiles.template.PutAttributeModel#start(Stack)}.
      */
@@ -60,16 +59,18 @@ public class PutAttributeModelTest {
     public void testStart() {
         Stack<Object> composeStack = createMock(Stack.class);
         Attribute attribute = new Attribute();
-        
+
         expect(composeStack.push(isA(Attribute.class))).andReturn(attribute);
-        
+
         replay(composeStack);
         model.start(composeStack);
         verify(composeStack);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.PutAttributeModel#end(org.apache.tiles.TilesContainer, Stack, String, Object, String, String, String, String, boolean, Object...)}.
+     * Test method for {@link org.apache.tiles.template.PutAttributeModel
+     * #end(org.apache.tiles.TilesContainer, Stack, String, Object, String,
+     * String, String, String, boolean, Object...)}.
      */
     @Test
     public void testEnd() {
@@ -79,10 +80,10 @@ public class PutAttributeModelTest {
         Attribute attribute = new Attribute();
         Integer requestItem = new Integer(1);
         composeStack.push(attribute);
-        
+
         expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", attribute, false);
-        
+
         replay(container, attributeContext);
         model.end(container, composeStack, "myName", "myValue", "myExpression",
                 "myBody", "myRole", "myType", false, requestItem);
@@ -94,7 +95,9 @@ public class PutAttributeModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.PutAttributeModel#end(org.apache.tiles.TilesContainer, Stack, String, Object, String, String, String, String, boolean, Object...)}.
+     * Test method for {@link org.apache.tiles.template.PutAttributeModel
+     * #end(org.apache.tiles.TilesContainer, Stack, String, Object, String,
+     * String, String, String, boolean, Object...)}.
      */
     @Test
     public void testEndBody() {
@@ -104,10 +107,10 @@ public class PutAttributeModelTest {
         Attribute attribute = new Attribute();
         Integer requestItem = new Integer(1);
         composeStack.push(attribute);
-        
+
         expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", attribute, false);
-        
+
         replay(container, attributeContext);
         model.end(container, composeStack, "myName", "myValue", "myExpression",
                 "myBody", "myRole", "myType", false, requestItem);
@@ -119,7 +122,9 @@ public class PutAttributeModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.PutAttributeModel#execute(org.apache.tiles.TilesContainer, Stack, String, Object, String, String, String, String, boolean, Object...)}.
+     * Test method for {@link org.apache.tiles.template.PutAttributeModel
+     * #execute(org.apache.tiles.TilesContainer, Stack, String, Object, String,
+     * String, String, String, boolean, Object...)}.
      */
     @Test
     public void testExecuteListAttribute() {
@@ -129,10 +134,10 @@ public class PutAttributeModelTest {
         ListAttribute listAttribute = new ListAttribute();
         Integer requestItem = new Integer(1);
         composeStack.push(listAttribute);
-        
+
         expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
         attributeContext.putAttribute(eq("myName"), (Attribute) notNull(), eq(false));
-        
+
         replay(container, attributeContext);
         model.execute(container, composeStack, "myName", "myValue",
                 "myExpression", "myBody", "myRole", "myType", false,

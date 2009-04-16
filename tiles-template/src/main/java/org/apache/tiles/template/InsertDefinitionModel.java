@@ -45,7 +45,7 @@ import org.apache.tiles.TilesContainer;
  * <p>
  * <strong>Example : </strong>
  * </p>
- * 
+ *
  * <pre>
  * &lt;code&gt;
  *           &lt;tiles:insertDefinition name=&quot;.my.tiles.defininition flush=&quot;true&quot;&gt;
@@ -57,7 +57,7 @@ import org.apache.tiles.TilesContainer;
  *           &lt;/tiles:insertDefinition&gt;
  *         &lt;/code&gt;
  * </pre>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -65,7 +65,7 @@ public class InsertDefinitionModel {
 
     /**
      * Starts the operation.
-     * 
+     *
      * @param container The Tiles container.
      * @param requestItems The request objects.
      * @since 2.2.0
@@ -76,7 +76,7 @@ public class InsertDefinitionModel {
 
     /**
      * Ends the operation.
-     * 
+     *
      * @param container The Tiles container.
      * @param definitionName The name of the definition to render.
      * @param template If specified, this template will be used instead of the
@@ -108,7 +108,7 @@ public class InsertDefinitionModel {
 
     /**
      * Executes the operation.
-     * 
+     *
      * @param container The Tiles container.
      * @param definitionName The name of the definition to render.
      * @param template If specified, this template will be used instead of the

@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
-import org.apache.tiles.template.AddListAttributeModel;
 import org.apache.tiles.template.DefinitionModel;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
@@ -39,9 +38,10 @@ import org.apache.velocity.runtime.Renderable;
  * Wraps {@link DefinitionModel} to be used in Velocity. For the list of
  * parameters, see
  * {@link DefinitionModel#start(java.util.Stack, String, String, String, String, String)}
- * , {@link AddListAttributeModel#end(java.util.Stack)} and
- * {@link DefinitionModel#execute(MutableTilesContainer, java.util.Stack, String, String, String, String, String, Object...)}.
- * 
+ * , {@link DefinitionModel#end(MutableTilesContainer, java.util.Stack, Object...)} and
+ * {@link DefinitionModel#execute(MutableTilesContainer, java.util.Stack, String, String,
+ * String, String, String, Object...)}.
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -59,7 +59,7 @@ public class DefinitionVModel implements Executable, BodyExecutable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @param servletContext The servlet context.
      * @since 2.2.0

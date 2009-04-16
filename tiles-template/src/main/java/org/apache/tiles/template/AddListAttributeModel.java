@@ -34,7 +34,7 @@ import org.apache.tiles.ListAttribute;
  * using the tag 'addAttribute' or 'addListAttribute'. This tag can only be used
  * inside 'insertTemplate', 'insertDefinition' or 'definition' tag.
  * </p>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -56,7 +56,7 @@ public class AddListAttributeModel {
 
     /**
      * Ends the operation.
-     * 
+     *
      * @param composeStack The composing stack.
      * @since 2.2.0
      */

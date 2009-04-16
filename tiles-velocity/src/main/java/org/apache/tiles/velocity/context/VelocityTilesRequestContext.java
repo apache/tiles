@@ -37,7 +37,7 @@ import org.apache.velocity.context.Context;
 
 /**
  * The implementation of the Tiles request context specific for Velocity.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -47,12 +47,12 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
      * The Velocity current context.
      */
     private final Context ctx;
-    
+
     /**
      * The request objects.
      */
     private Object[] requestObjects;
-    
+
     /**
      * The writer to use to render the response. It may be null, if not necessary.
      */
@@ -60,7 +60,7 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
 
     /**
      * Constructor.
-     * 
+     *
      * @param enclosedRequest The request that exposes non-Velocity specific properties
      * @param ctx The Velocity current context.
      * @param writer The writer to use to render the response. It may be null, if not necessary.
@@ -138,7 +138,7 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
             }
             requestObjects[0] = ctx;
             for (int i = 0; i < parentRequestObjects.length; i++) {
-                requestObjects[i+1] = parentRequestObjects[i];
+                requestObjects[i + 1] = parentRequestObjects[i];
             }
             if (writer != null) {
                 requestObjects[parentRequestObjects.length + 1] = writer;

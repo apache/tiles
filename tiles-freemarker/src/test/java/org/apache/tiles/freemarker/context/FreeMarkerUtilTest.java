@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.freemarker.context;
 
 import static org.junit.Assert.*;
@@ -37,11 +55,17 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 /**
- * @author antonio
+ * Tests {@link FreeMarkerUtil}.
  *
+ * @version $Rev$ $Date$
  */
 public class FreeMarkerUtilTest {
-    
+
+    /**
+     * A dummy value.
+     */
+    private static final int DUMMY_VALUE = 10;
+
     /**
      * A string writer.
      */
@@ -51,7 +75,7 @@ public class FreeMarkerUtilTest {
      * The FreeMarker environment.
      */
     private Environment env;
-    
+
     /**
      * The locale object.
      */
@@ -79,7 +103,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#isForceInclude(freemarker.core.Environment)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #isForceInclude(freemarker.core.Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -87,10 +112,10 @@ public class FreeMarkerUtilTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel);
         expect(request.getAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME)).andReturn(true);
-        
+
         replay(template, model, request, objectWrapper);
         env = new Environment(template, model, writer);
         locale = Locale.ITALY;
@@ -100,7 +125,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#setForceInclude(freemarker.core.Environment, boolean)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #setForceInclude(freemarker.core.Environment, boolean)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -108,10 +134,10 @@ public class FreeMarkerUtilTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel);
         request.setAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME, true);
-        
+
         replay(template, model, request, objectWrapper);
         env = new Environment(template, model, writer);
         locale = Locale.ITALY;
@@ -121,7 +147,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#getContainer(freemarker.core.Environment, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #getContainer(freemarker.core.Environment, java.lang.String)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -133,10 +160,10 @@ public class FreeMarkerUtilTest {
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         replay(servlet, objectWrapper);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        
+
         expect(model.get("Application")).andReturn(servletContextModel);
         expect(servletContext.getAttribute("myKey")).andReturn(container);
-        
+
         replay(template, model, servletContext, container);
         env = new Environment(template, model, writer);
         locale = Locale.ITALY;
@@ -146,7 +173,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#setCurrentContainer(freemarker.core.Environment, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #setCurrentContainer(freemarker.core.Environment, java.lang.String)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -160,7 +188,7 @@ public class FreeMarkerUtilTest {
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         replay(servlet, objectWrapper);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel);
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         expect(model.get("Application")).andReturn(servletContextModel);
@@ -175,7 +203,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#setCurrentContainer(freemarker.core.Environment, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #setCurrentContainer(freemarker.core.Environment, java.lang.String)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test(expected = NoSuchContainerException.class)
@@ -188,7 +217,7 @@ public class FreeMarkerUtilTest {
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         replay(servlet, objectWrapper);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel);
         expect(model.get("Application")).andReturn(servletContextModel);
         expect(servletContext.getAttribute("myKey")).andReturn(null);
@@ -202,7 +231,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#setCurrentContainer(freemarker.core.Environment, org.apache.tiles.TilesContainer)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #setCurrentContainer(freemarker.core.Environment, org.apache.tiles.TilesContainer)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -216,7 +246,7 @@ public class FreeMarkerUtilTest {
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         replay(servlet, objectWrapper);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel);
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         expect(model.get("Application")).andReturn(servletContextModel);
@@ -230,7 +260,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#getCurrentContainer(freemarker.core.Environment)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #getCurrentContainer(freemarker.core.Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -244,7 +275,7 @@ public class FreeMarkerUtilTest {
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         replay(servlet, objectWrapper);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(model.get("Application")).andReturn(servletContextModel);
@@ -258,7 +289,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#getRequestHashModel(freemarker.core.Environment)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #getRequestHashModel(freemarker.core.Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -266,9 +298,9 @@ public class FreeMarkerUtilTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel);
-        
+
         replay(template, model, request, objectWrapper);
         env = new Environment(template, model, writer);
         locale = Locale.ITALY;
@@ -278,7 +310,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#getServletContextHashModel(freemarker.core.Environment)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #getServletContextHashModel(freemarker.core.Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -289,9 +322,9 @@ public class FreeMarkerUtilTest {
         expect(servlet.getServletContext()).andReturn(servletContext);
         replay(servlet, objectWrapper);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        
+
         expect(model.get("Application")).andReturn(servletContextModel);
-        
+
         replay(template, model, servletContext);
         env = new Environment(template, model, writer);
         locale = Locale.ITALY;
@@ -301,7 +334,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -309,10 +343,10 @@ public class FreeMarkerUtilTest {
         ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
         GenericServlet servlet = createMock(GenericServlet.class);
         TemplateModel wrappedObj = createMock(TemplateModel.class);
-        Integer myObj = new Integer(10);
+        Integer myObj = new Integer(DUMMY_VALUE);
         expect(objectWrapper.wrap(myObj)).andReturn(wrappedObj);
         replay(servlet, objectWrapper);
-        
+
         expect(template.getObjectWrapper()).andReturn(objectWrapper);
 
         replay(template, model, wrappedObj);
@@ -324,7 +358,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -334,9 +369,9 @@ public class FreeMarkerUtilTest {
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
         GenericServlet servlet = createMock(GenericServlet.class);
         TemplateModel wrappedObj = createMock(TemplateModel.class);
-        Integer myObj = new Integer(10);
+        Integer myObj = new Integer(DUMMY_VALUE);
         replay(servlet, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel);
         request.setAttribute("myObj", myObj);
 
@@ -349,7 +384,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -360,9 +396,9 @@ public class FreeMarkerUtilTest {
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
         GenericServlet servlet = createMock(GenericServlet.class);
         TemplateModel wrappedObj = createMock(TemplateModel.class);
-        Integer myObj = new Integer(10);
+        Integer myObj = new Integer(DUMMY_VALUE);
         replay(servlet, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel);
         expect(request.getSession()).andReturn(session);
         session.setAttribute("myObj", myObj);
@@ -376,7 +412,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -386,11 +423,11 @@ public class FreeMarkerUtilTest {
         GenericServlet servlet = createMock(GenericServlet.class);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         TemplateModel wrappedObj = createMock(TemplateModel.class);
-        Integer myObj = new Integer(10);
+        Integer myObj = new Integer(DUMMY_VALUE);
         servletContext.setAttribute("myObj", myObj);
         replay(servlet, objectWrapper, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        
+
         expect(model.get("Application")).andReturn(servletContextModel);
 
         replay(template, model, wrappedObj);
@@ -402,7 +439,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#getComposeStack(freemarker.core.Environment)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #getComposeStack(freemarker.core.Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -413,7 +451,7 @@ public class FreeMarkerUtilTest {
         GenericServlet servlet = createMock(GenericServlet.class);
         TemplateModel wrappedObj = createMock(TemplateModel.class);
         replay(servlet, objectWrapper);
-        
+
         expect(model.get("Request")).andReturn(requestModel).times(2);
         expect(request.getAttribute(COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(null);
         request.setAttribute(eq(COMPOSE_STACK_ATTRIBUTE_NAME), isA(Stack.class));
@@ -430,7 +468,8 @@ public class FreeMarkerUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#evaluateBody(freemarker.template.TemplateDirectiveBody)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #evaluateBody(freemarker.template.TemplateDirectiveBody)}.
      * @throws IOException If something goes wrong.
      * @throws TemplateException If something goes wrong.
      */
@@ -438,14 +477,15 @@ public class FreeMarkerUtilTest {
     public void testEvaluateBody() throws TemplateException, IOException {
         TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
         body.render(isA(NullWriter.class));
-        
+
         replay(body);
         evaluateBody(body);
         verify(body);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil#renderAsString(freemarker.template.TemplateDirectiveBody)}.
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
+     * #renderAsString(freemarker.template.TemplateDirectiveBody)}.
      * @throws IOException If something goes wrong.
      * @throws TemplateException If something goes wrong.
      */
@@ -453,7 +493,7 @@ public class FreeMarkerUtilTest {
     public void testRenderAsString() throws TemplateException, IOException {
         TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
         body.render(isA(StringWriter.class));
-        
+
         replay(body);
         assertEquals("", renderAsString(body));
         verify(body);

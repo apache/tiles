@@ -27,7 +27,7 @@ import org.apache.tiles.TilesContainer;
 
 /**
  * The default implementation of AttributeResolver.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */

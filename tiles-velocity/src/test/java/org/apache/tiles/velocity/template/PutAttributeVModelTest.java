@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.velocity.template;
 
 import static org.junit.Assert.*;
@@ -26,27 +44,27 @@ import org.junit.Test;
  * Tests {@link PutAttributeVModel}.
  */
 public class PutAttributeVModelTest {
-    
+
     /**
      * The attribute key that will be used to store the parameter map, to use across Velocity tool calls.
      */
-    private final static String PARAMETER_MAP_STACK_KEY = "org.apache.tiles.velocity.PARAMETER_MAP_STACK"; 
+    private static final String PARAMETER_MAP_STACK_KEY = "org.apache.tiles.velocity.PARAMETER_MAP_STACK";
 
     /**
      * The model to test.
      */
     private PutAttributeVModel model;
-    
+
     /**
      * The template model.
      */
     private PutAttributeModel tModel;
-    
+
     /**
      * The servlet context.
      */
     private ServletContext servletContext;
-    
+
     /**
      * Sets up the model to test.
      */
@@ -57,7 +75,9 @@ public class PutAttributeVModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.PutAttributeVModel#execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.apache.velocity.context.Context, java.util.Map)}.
+     * Test method for {@link org.apache.tiles.velocity.template.PutAttributeVModel
+     * #execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     * org.apache.velocity.context.Context, java.util.Map)}.
      */
     @Test
     public void testExecute() {
@@ -67,13 +87,13 @@ public class PutAttributeVModelTest {
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
         Stack<Object> composeStack = new Stack<Object>();
-        
+
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
         tModel.execute(container, composeStack, "myName", "myValue", "myExpression", null, "myRole", "myType",
                 false, velocityContext, request, response);
-        
+
         replay(tModel, container, servletContext, request, response, velocityContext);
         initializeModel();
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.execute(request, response, velocityContext, params));
@@ -81,7 +101,9 @@ public class PutAttributeVModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.PutAttributeVModel#start(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.apache.velocity.context.Context, java.util.Map)}.
+     * Test method for {@link org.apache.tiles.velocity.template.PutAttributeVModel
+     * #start(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     * org.apache.velocity.context.Context, java.util.Map)}.
      */
     @Test
     public void testStart() {
@@ -90,13 +112,13 @@ public class PutAttributeVModelTest {
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
         Stack<Object> composeStack = new Stack<Object>();
-        Stack<Map<String, Object>> parameterMapStack = new Stack<Map<String,Object>>();
+        Stack<Map<String, Object>> parameterMapStack = new Stack<Map<String, Object>>();
 
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
         tModel.start(composeStack);
-        
+
         replay(tModel, servletContext, request, response, velocityContext);
         initializeModel();
         model.start(request, response, velocityContext, params);
@@ -106,7 +128,9 @@ public class PutAttributeVModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.PutAttributeVModel#end(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.apache.velocity.context.Context)}.
+     * Test method for {@link org.apache.tiles.velocity.template.PutAttributeVModel
+     * #end(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     * org.apache.velocity.context.Context)}.
      */
     @Test
     public void testEnd() {
@@ -116,9 +140,9 @@ public class PutAttributeVModelTest {
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
         Stack<Object> composeStack = new Stack<Object>();
-        Stack<Map<String, Object>> parameterMapStack = new Stack<Map<String,Object>>();
+        Stack<Map<String, Object>> parameterMapStack = new Stack<Map<String, Object>>();
         parameterMapStack.push(params);
-        
+
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
@@ -126,7 +150,7 @@ public class PutAttributeVModelTest {
         tModel.end(container, composeStack, "myName", "myValue",
                 "myExpression", null, "myRole", "myType", false,
                 velocityContext, request, response);
-        
+
         replay(tModel, container, servletContext, request, response, velocityContext);
         initializeModel();
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));
@@ -136,7 +160,7 @@ public class PutAttributeVModelTest {
 
     /**
      * Creates the parameters to work with the model.
-     * 
+     *
      * @return The parameters.
      */
     private Map<String, Object> createParams() {

@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.velocity.context;
 
 import static org.apache.tiles.velocity.context.VelocityUtil.*;
@@ -19,18 +37,23 @@ import org.apache.velocity.context.Context;
 import org.junit.Test;
 
 /**
- * @author antonio
- *
+ * Tests {@link VelocityUtil}.
  */
 public class VelocityUtilTest {
-    
+
+    /**
+     * A dummy value.
+     */
+    private static final Integer DUMMY_VALUE = new Integer(10);
+
     /**
      * The parameter stack key.
      */
-    private final static String PARAMETER_MAP_STACK_KEY = "org.apache.tiles.velocity.PARAMETER_MAP_STACK"; 
+    private static final String PARAMETER_MAP_STACK_KEY = "org.apache.tiles.velocity.PARAMETER_MAP_STACK";
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil#toSimpleBoolean(java.lang.Boolean, boolean)}.
+     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil
+     * #toSimpleBoolean(java.lang.Boolean, boolean)}.
      */
     @Test
     public void testToSimpleBoolean() {
@@ -43,12 +66,13 @@ public class VelocityUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil#getParameterStack(org.apache.velocity.context.Context)}.
+     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil
+     * #getParameterStack(org.apache.velocity.context.Context)}.
      */
     @Test
     public void testGetParameterStack() {
         Context velocityContext = createMock(Context.class);
-        
+
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(null);
         expect(velocityContext.put(eq(PARAMETER_MAP_STACK_KEY), isA(Stack.class))).andReturn(null);
         replay(velocityContext);
@@ -56,10 +80,10 @@ public class VelocityUtilTest {
         assertNotNull(paramStack);
         assertEquals(0, paramStack.size());
         verify(velocityContext);
-        
+
         reset(velocityContext);
 
-        paramStack = new Stack<Map<String,Object>>();
+        paramStack = new Stack<Map<String, Object>>();
         paramStack.push(new HashMap<String, Object>());
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
 
@@ -69,14 +93,16 @@ public class VelocityUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil#setAttribute(org.apache.velocity.context.Context, javax.servlet.http.HttpServletRequest, javax.servlet.ServletContext, java.lang.String, java.lang.Object, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil
+     * #setAttribute(org.apache.velocity.context.Context, javax.servlet.http.HttpServletRequest,
+     * javax.servlet.ServletContext, java.lang.String, java.lang.Object, java.lang.String)}.
      */
     @Test
     public void testSetAttributePage() {
         Context velocityContext = createMock(Context.class);
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ServletContext servletContext = createMock(ServletContext.class);
-        Object value = new Integer(10);
+        Object value = DUMMY_VALUE;
         expect(velocityContext.put("myName", value)).andReturn(value);
 
         replay(velocityContext, request, servletContext);
@@ -85,14 +111,16 @@ public class VelocityUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil#setAttribute(org.apache.velocity.context.Context, javax.servlet.http.HttpServletRequest, javax.servlet.ServletContext, java.lang.String, java.lang.Object, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil
+     * #setAttribute(org.apache.velocity.context.Context, javax.servlet.http.HttpServletRequest,
+     * javax.servlet.ServletContext, java.lang.String, java.lang.Object, java.lang.String)}.
      */
     @Test
     public void testSetAttributeRequest() {
         Context velocityContext = createMock(Context.class);
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ServletContext servletContext = createMock(ServletContext.class);
-        Object value = new Integer(10);
+        Object value = DUMMY_VALUE;
         request.setAttribute("myName", value);
 
         replay(velocityContext, request, servletContext);
@@ -101,7 +129,9 @@ public class VelocityUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil#setAttribute(org.apache.velocity.context.Context, javax.servlet.http.HttpServletRequest, javax.servlet.ServletContext, java.lang.String, java.lang.Object, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil
+     * #setAttribute(org.apache.velocity.context.Context, javax.servlet.http.HttpServletRequest,
+     * javax.servlet.ServletContext, java.lang.String, java.lang.Object, java.lang.String)}.
      */
     @Test
     public void testSetAttributeSession() {
@@ -109,7 +139,7 @@ public class VelocityUtilTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpSession session = createMock(HttpSession.class);
         ServletContext servletContext = createMock(ServletContext.class);
-        Object value = new Integer(10);
+        Object value = DUMMY_VALUE;
         expect(request.getSession()).andReturn(session);
         session.setAttribute("myName", value);
 
@@ -119,14 +149,16 @@ public class VelocityUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil#setAttribute(org.apache.velocity.context.Context, javax.servlet.http.HttpServletRequest, javax.servlet.ServletContext, java.lang.String, java.lang.Object, java.lang.String)}.
+     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil
+     * #setAttribute(org.apache.velocity.context.Context, javax.servlet.http.HttpServletRequest,
+     * javax.servlet.ServletContext, java.lang.String, java.lang.Object, java.lang.String)}.
      */
     @Test
     public void testSetAttributeApplication() {
         Context velocityContext = createMock(Context.class);
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ServletContext servletContext = createMock(ServletContext.class);
-        Object value = new Integer(10);
+        Object value = DUMMY_VALUE;
         servletContext.setAttribute("myName", value);
 
         replay(velocityContext, request, servletContext);

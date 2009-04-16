@@ -59,7 +59,7 @@ import org.apache.tiles.TilesContainer;
  * value is not set by one of the tag attributes. In this case Attribute type is
  * "string", unless tag body define another type.
  * </p>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -67,7 +67,7 @@ public class PutAttributeModel {
 
     /**
      * Starts the operation.
-     * 
+     *
      * @param composeStack The compose stack.
      * @since 2.2.0
      */
@@ -131,7 +131,7 @@ public class PutAttributeModel {
 
     /**
      * Determines the parent and puts the attribute inside it.
-     * 
+     *
      * @param attribute The attribute to put;
      * @param container The Tiles container to use.
      * @param composeStack The composing stack.

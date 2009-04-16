@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.velocity.template;
 
 import static org.junit.Assert.*;
@@ -17,19 +35,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.junit.Test;
 
 /**
- * @author antonio
- *
+ * Tests {@link AbstractDefaultToStringRenderable}.
  */
 public class AbstractDefaultToStringRenderableTest {
-    
+
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.AbstractDefaultToStringRenderable#AbstractDefaultToStringRenderable(org.apache.velocity.context.Context, java.util.Map, javax.servlet.http.HttpServletResponse, javax.servlet.http.HttpServletRequest)}.
+     * Test method for {@link org.apache.tiles.velocity.template.AbstractDefaultToStringRenderable
+     * #AbstractDefaultToStringRenderable(org.apache.velocity.context.Context,
+     * java.util.Map, javax.servlet.http.HttpServletResponse, javax.servlet.http.HttpServletRequest)}.
      */
     @Test
     public void testAbstractDefaultToStringRenderable() {
@@ -37,7 +53,7 @@ public class AbstractDefaultToStringRenderableTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Map<String, Object> params = new HashMap<String, Object>();
-        
+
         replay(velociContext, request, response);
         DefaultRenderable renderable = new DefaultRenderable(velociContext,
                 params, response, request);
@@ -58,11 +74,11 @@ public class AbstractDefaultToStringRenderableTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("one", "value1");
-        
+
         replay(velociContext, request, response);
         DefaultRenderable renderable = new DefaultRenderable(velociContext,
                 params, response, request);
-        
+
         assertEquals("Hello!", renderable.toString());
         assertTrue(renderable.getWriter() instanceof StringWriter);
         assertNull(renderable.getInternalContextAdapter());
@@ -78,15 +94,15 @@ public class AbstractDefaultToStringRenderableTest {
          * The internal context.
          */
         private InternalContextAdapter internalContextAdapter;
-        
+
         /**
          * The writer.
          */
         private Writer writer;
-        
+
         /**
          * Constructor.
-         * 
+         *
          * @param velocityContext The Velocity context.
          * @param params The parameters used in the current tool call.
          * @param response The HTTP response.
@@ -100,44 +116,43 @@ public class AbstractDefaultToStringRenderableTest {
 
         /** {@inheritDoc} */
         public boolean render(InternalContextAdapter context, Writer writer)
-                throws IOException, MethodInvocationException,
-                ParseErrorException, ResourceNotFoundException {
+                throws IOException {
             this.internalContextAdapter = context;
             this.writer = writer;
             writer.write("Hello!");
             return true;
         }
-        
+
         /**
-         * Returns the Velocity context. 
-         * 
+         * Returns the Velocity context.
+         *
          * @return The velocity context.
          */
         public Context getVelocityContext() {
             return velocityContext;
         }
-        
+
         /**
          * Returns the parameters.
-         * 
+         *
          * @return The parameters.
          */
         public Map<String, Object> getParams() {
             return params;
         }
-        
+
         /**
          * Returns the request.
-         * 
+         *
          * @return The request.
          */
         public HttpServletRequest getRequest() {
             return request;
         }
-        
+
         /**
          * Returns the respnse.
-         * 
+         *
          * @return The response.
          */
         public HttpServletResponse getResponse() {
@@ -146,7 +161,7 @@ public class AbstractDefaultToStringRenderableTest {
 
         /**
          * Returns the internal context.
-         * 
+         *
          * @return The internal context.
          */
         public InternalContextAdapter getInternalContextAdapter() {
@@ -155,7 +170,7 @@ public class AbstractDefaultToStringRenderableTest {
 
         /**
          * Returns the writer.
-         * 
+         *
          * @return The writer.
          */
         public Writer getWriter() {

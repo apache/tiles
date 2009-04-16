@@ -37,9 +37,11 @@ import org.apache.velocity.runtime.Renderable;
  * Wraps {@link PutAttributeModel} to be used in Velocity. For the list of
  * parameters, see
  * {@link PutAttributeModel#start(java.util.Stack)}
- * , {@link PutAttributeModel#end(org.apache.tiles.TilesContainer, java.util.Stack, String, Object, String, String, String, String, boolean, Object...)} and
- * {@link PutAttributeModel#execute(org.apache.tiles.TilesContainer, java.util.Stack, String, Object, String, String, String, String, boolean, Object...)}.
- * 
+ * , {@link PutAttributeModel#end(org.apache.tiles.TilesContainer,
+ * java.util.Stack, String, Object, String, String, String, String, boolean, Object...)} and
+ * {@link PutAttributeModel#execute(org.apache.tiles.TilesContainer,
+ * java.util.Stack, String, Object, String, String, String, String, boolean, Object...)}.
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -54,10 +56,10 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
      * The Servlet context.
      */
     private ServletContext servletContext;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @param servletContext The servlet context.
      * @since 2.2.0
@@ -67,7 +69,7 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
         this.model = model;
         this.servletContext = servletContext;
     }
-    
+
     /** {@inheritDoc} */
     public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,

@@ -40,37 +40,37 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * Renderable that provides a default implementation of {@link Renderable#toString()}
  * and allows access to parameters and context objects.
- * 
+ *
  * @version $Rev: 751886 $ $Date: 2009-03-09 23:39:50 +0100 (lun, 09 mar 2009) $
  * @since 2.2.0
  */
 public abstract class AbstractDefaultToStringRenderable implements Renderable {
-    
-    
+
+
     /**
      * The Velocity context.
-     * 
+     *
      * @since 2.2.0
      */
     protected final Context velocityContext;
-    
+
     /**
      * The parameters used in the current tool call.
-     * 
+     *
      * @since 2.2.0
      */
     protected final Map<String, Object> params;
-    
+
     /**
      * The HTTP response.
-     * 
+     *
      * @since 2.2.0
      */
     protected final HttpServletResponse response;
-    
+
     /**
      * The HTTP request.
-     * 
+     *
      * @since 2.2.0
      */
     protected final HttpServletRequest request;
@@ -82,7 +82,7 @@ public abstract class AbstractDefaultToStringRenderable implements Renderable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param velocityContext The Velocity context.
      * @param params The parameters used in the current tool call.
      * @param response The HTTP response.

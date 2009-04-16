@@ -38,7 +38,7 @@ import org.apache.velocity.runtime.Renderable;
  * parameters, see
  * {@link PutListAttributeModel#start(java.util.Stack, String, boolean)}
  * AND {@link PutListAttributeModel#end(org.apache.tiles.TilesContainer, java.util.Stack, String, boolean, Object...)}.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -56,7 +56,7 @@ public class PutListAttributeVModel implements BodyExecutable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @param servletContext The servlet context.
      * @since 2.2.0

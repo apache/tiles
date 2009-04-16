@@ -30,24 +30,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertAttributeModel;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.Renderable;
 
 /**
  * Wraps {@link InsertAttributeModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link InsertAttributeModel#start(java.util.Stack, TilesContainer, boolean, String, String, Object, String, String, String, Attribute, Object...)}
- * , {@link InsertAttributeModel#end(java.util.Stack, TilesContainer, boolean, Object...)} and
- * {@link InsertAttributeModel#execute(TilesContainer, boolean, String, String, Object, String, String, String, Attribute, Object...)}.
- * 
+ * {@link InsertAttributeModel#start(java.util.Stack, org.apache.tiles.TilesContainer, boolean,
+ * String, String, Object, String, String, String, Attribute, Object...)}
+ * , {@link InsertAttributeModel#end(java.util.Stack, org.apache.tiles.TilesContainer, boolean, Object...)} and
+ * {@link InsertAttributeModel#execute(org.apache.tiles.TilesContainer, boolean, String, String,
+ * Object, String, String, String, Attribute, Object...)}.
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -62,10 +60,10 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
      * The Servlet context.
      */
     private ServletContext servletContext;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @param servletContext The servlet context.
      * @since 2.2.0
@@ -75,7 +73,7 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
         this.model = model;
         this.servletContext = servletContext;
     }
-    
+
     /** {@inheritDoc} */
     public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
@@ -84,8 +82,7 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
                 response, request) {
 
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException,
-                    ParseErrorException, ResourceNotFoundException {
+                    throws IOException {
                 model.end(ServletUtil.getComposeStack(request), ServletUtil
                         .getCurrentContainer(request, servletContext),
                         VelocityUtil.toSimpleBoolean((Boolean) params
@@ -106,18 +103,17 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
                 params.get("defaultValue"), (String) params.get("defaultValueRole"),
                 (String) params.get("defaultValueType"), (String) params.get("name"),
                 (Attribute) params.get("value"), velocityContext, request, response);
-        
+
     }
 
     /** {@inheritDoc} */
     public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
-        return new AbstractDefaultToStringRenderable(velocityContext, params, response, request){
-        
+        return new AbstractDefaultToStringRenderable(velocityContext, params, response, request) {
+
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException, ParseErrorException,
-                    ResourceNotFoundException {
+                    throws IOException {
                 model.execute(ServletUtil.getCurrentContainer(request,
                         servletContext), VelocityUtil.toSimpleBoolean(
                         (Boolean) params.get("ignore"), false), (String) params

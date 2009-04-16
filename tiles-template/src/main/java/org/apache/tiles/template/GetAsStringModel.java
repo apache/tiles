@@ -35,13 +35,13 @@ import org.apache.tiles.TilesContainer;
  * <strong> Render the value of the specified template attribute to the current
  * Writer</strong>
  * </p>
- * 
+ *
  * <p>
  * Retrieve the value of the specified template attribute property, and render
  * it to the current Writer as a String. The usual toString() conversions is
  * applied on found value.
  * </p>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -59,7 +59,7 @@ public class GetAsStringModel {
 
     /**
      * Constructor.
-     * 
+     *
      * @param attributeResolver The attribute resolver to use.
      * @since 2.2.0
      */
@@ -69,16 +69,20 @@ public class GetAsStringModel {
 
     /**
      * Starts the operation.
-     * 
+     *
      * @param composeStack The compose stack,
      * @param container The Tiles container to use.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param preparer The preparer to invoke before rendering the attribute.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
-     * @param defaultValue The default value of the attribute. To use only if the attribute was not computed.
-     * @param defaultValueRole The default comma-separated list of roles. To use only if the attribute was not computed.
-     * @param defaultValueType The default type of the attribute. To use only if the attribute was not computed.
+     * @param defaultValue The default value of the attribute. To use only if
+     * the attribute was not computed.
+     * @param defaultValueRole The default comma-separated list of roles. To use
+     * only if the attribute was not computed.
+     * @param defaultValueType The default type of the attribute. To use only if
+     * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param requestItems The request objects.
@@ -96,11 +100,12 @@ public class GetAsStringModel {
 
     /**
      * Ends the operation.
-     * 
+     *
      * @param composeStack The compose stack,
      * @param container The Tiles container to use.
      * @param writer The writer into which the attribute will be written.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param requestItems The request objects.
      * @throws IOException If an I/O error happens during rendering.
      */
@@ -113,16 +118,20 @@ public class GetAsStringModel {
 
     /**
      * Executes the operation.
-     * 
+     *
      * @param container The Tiles container to use.
      * @param writer The writer into which the attribute will be written.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param preparer The preparer to invoke before rendering the attribute.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
-     * @param defaultValue The default value of the attribute. To use only if the attribute was not computed.
-     * @param defaultValueRole The default comma-separated list of roles. To use only if the attribute was not computed.
-     * @param defaultValueType The default type of the attribute. To use only if the attribute was not computed.
+     * @param defaultValue The default value of the attribute. To use only if
+     * the attribute was not computed.
+     * @param defaultValueRole The default comma-separated list of roles. To use
+     * only if the attribute was not computed.
+     * @param defaultValueType The default type of the attribute. To use only if
+     * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param requestItems The request objects.
@@ -141,15 +150,19 @@ public class GetAsStringModel {
 
     /**
      * Resolves the attribute. and starts the context.
-     * 
+     *
      * @param container The Tiles container to use.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param preparer The preparer to invoke before rendering the attribute.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
-     * @param defaultValue The default value of the attribute. To use only if the attribute was not computed.
-     * @param defaultValueRole The default comma-separated list of roles. To use only if the attribute was not computed.
-     * @param defaultValueType The default type of the attribute. To use only if the attribute was not computed.
+     * @param defaultValue The default value of the attribute. To use only if
+     * the attribute was not computed.
+     * @param defaultValueRole The default comma-separated list of roles. To use
+     * only if the attribute was not computed.
+     * @param defaultValueType The default type of the attribute. To use only if
+     * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param requestItems The request objects.
@@ -171,11 +184,12 @@ public class GetAsStringModel {
 
     /**
      * Renders the attribute as a string.
-     * 
-     * @param attribute The attribute to use, previously resolved. 
+     *
+     * @param attribute The attribute to use, previously resolved.
      * @param container The Tiles container to use.
      * @param writer The writer into which the attribute will be written.
-     * @param ignore If <code>true</code>, if an exception happens during rendering, of if the attribute is null, the problem will be ignored.
+     * @param ignore If <code>true</code>, if an exception happens during
+     * rendering, of if the attribute is null, the problem will be ignored.
      * @param requestItems The request objects.
      * @throws IOException If an I/O error happens during rendering.
      */

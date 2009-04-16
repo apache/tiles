@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.freemarker.template;
 
 import static org.easymock.classextension.EasyMock.*;
@@ -36,16 +54,22 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
 
 /**
- * @author antonio
+ * Tests {@link InsertTemplateFMModel}.
  *
+ * @version $Rev$ $Date$
  */
 public class InsertTemplateFMModelTest {
+
+    /**
+     * The number of times the method is called.
+     */
+    private static final int CALL_COUNT = 3;
 
     /**
      * The FreeMarker environment.
      */
     private Environment env;
-    
+
     /**
      * The locale object.
      */
@@ -60,7 +84,7 @@ public class InsertTemplateFMModelTest {
      * The template model.
      */
     private TemplateHashModel model;
-    
+
     /**
      * The writer.
      */
@@ -84,7 +108,9 @@ public class InsertTemplateFMModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.template.InsertTemplateFMModel#execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[], freemarker.template.TemplateDirectiveBody)}.
+     * Test method for {@link org.apache.tiles.freemarker.template.InsertTemplateFMModel
+     * #execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[],
+     * freemarker.template.TemplateDirectiveBody)}.
      * @throws IOException If something goes wrong.
      * @throws TemplateException If something goes wrong.
      */
@@ -101,14 +127,14 @@ public class InsertTemplateFMModelTest {
         request.setAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME, true);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        
+
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
-        expect(servlet.getServletContext()).andReturn(servletContext).times(3);
+        expect(servlet.getServletContext()).andReturn(servletContext).times(CALL_COUNT);
         expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container).times(2);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).times(3);
+        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).times(CALL_COUNT);
         expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel).times(2);
         initEnvironment();
 
@@ -118,11 +144,11 @@ public class InsertTemplateFMModelTest {
         params.put("template", objectWrapper.wrap("myTemplate"));
         params.put("role", objectWrapper.wrap("myRole"));
         params.put("preparer", objectWrapper.wrap("myPreparer"));
-     
+
         tModel.start(container, env);
         tModel.end(container, "myTemplate", "myRole", "myPreparer", env);
         body.render(isA(NullWriter.class));
-        
+
         replay(tModel, body, container, attribute);
         fmModel.execute(env, params, null, body);
         verify(template, model, request, tModel, body, container, servlet, servletContext, attribute);

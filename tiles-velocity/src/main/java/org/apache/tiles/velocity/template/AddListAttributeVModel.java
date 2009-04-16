@@ -37,7 +37,7 @@ import org.apache.velocity.runtime.Renderable;
  * parameters, see
  * {@link AddListAttributeModel#start(java.util.Stack, String)}
  * and {@link AddListAttributeModel#end(java.util.Stack)}.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -47,17 +47,17 @@ public class AddListAttributeVModel implements BodyExecutable {
      * The template model.
      */
     private AddListAttributeModel model;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @since 2.2.0
      */
     public AddListAttributeVModel(AddListAttributeModel model) {
         this.model = model;
     }
-    
+
     /** {@inheritDoc} */
     public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {

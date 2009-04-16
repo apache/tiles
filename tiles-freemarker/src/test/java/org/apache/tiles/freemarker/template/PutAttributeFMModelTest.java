@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.freemarker.template;
 
 import static org.easymock.EasyMock.expect;
@@ -37,8 +55,9 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
 
 /**
- * @author antonio
+ * Tests {@link PutAttributeFMModel}.
  *
+ * @version $Rev$ $Date$
  */
 public class PutAttributeFMModelTest {
 
@@ -46,7 +65,7 @@ public class PutAttributeFMModelTest {
      * The FreeMarker environment.
      */
     private Environment env;
-    
+
     /**
      * The locale object.
      */
@@ -61,7 +80,7 @@ public class PutAttributeFMModelTest {
      * The template model.
      */
     private TemplateHashModel model;
-    
+
     /**
      * The writer.
      */
@@ -85,7 +104,9 @@ public class PutAttributeFMModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.freemarker.template.PutAttributeFMModel#execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[], freemarker.template.TemplateDirectiveBody)}.
+     * Test method for {@link org.apache.tiles.freemarker.template.PutAttributeFMModel
+     * #execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[],
+     * freemarker.template.TemplateDirectiveBody)}.
      * @throws IOException If something goes wrong.
      * @throws TemplateException If something goes wrong.
      */
@@ -122,12 +143,12 @@ public class PutAttributeFMModelTest {
         params.put("role", objectWrapper.wrap("myRole"));
         params.put("type", objectWrapper.wrap("myType"));
         params.put("cascade", objectWrapper.wrap(false));
-     
+
         tModel.start(composeStack);
         tModel.end(container, composeStack, "myName", value, "myExpression",
                 "", "myRole", "myType", false, env);
         body.render(isA(StringWriter.class));
-        
+
         replay(tModel, body, container);
         fmModel.execute(env, params, null, body);
         verify(template, model, request, tModel, body, container);

@@ -36,18 +36,17 @@ import org.apache.tiles.template.GetAsStringModel;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.Renderable;
 
 /**
  * Wraps {@link GetAsStringModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link GetAsStringModel#start(java.util.Stack, TilesContainer, boolean, String, String, Object, String, String, String, Attribute, Object...)}
+ * {@link GetAsStringModel#start(java.util.Stack, TilesContainer, boolean,
+ * String, String, Object, String, String, String, Attribute, Object...)}
  * , {@link GetAsStringModel#end(java.util.Stack, TilesContainer, Writer, boolean, Object...)} and
- * {@link GetAsStringModel#execute(TilesContainer, Writer, boolean, String, String, Object, String, String, String, Attribute, Object...)}.
- * 
+ * {@link GetAsStringModel#execute(TilesContainer, Writer, boolean, String,
+ * String, Object, String, String, String, Attribute, Object...)}.
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -65,7 +64,7 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @param servletContext The servlet context.
      * @since 2.2.0
@@ -84,8 +83,7 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
                 response, request) {
 
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException,
-                    ParseErrorException, ResourceNotFoundException {
+                    throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
                 model.execute(container, writer,
@@ -122,11 +120,10 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
-        return new AbstractDefaultToStringRenderable(velocityContext, params, response, request){
-        
+        return new AbstractDefaultToStringRenderable(velocityContext, params, response, request) {
+
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException, ParseErrorException,
-                    ResourceNotFoundException {
+                    throws IOException {
                 model.end(ServletUtil.getComposeStack(request), ServletUtil
                         .getCurrentContainer(request, servletContext), writer,
                         VelocityUtil.toSimpleBoolean((Boolean) params

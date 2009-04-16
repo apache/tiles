@@ -26,7 +26,7 @@ import org.apache.tiles.TilesContainer;
 
 /**
  * Resolves an attribute, depending on the given parameters.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -34,7 +34,7 @@ public interface AttributeResolver {
 
     /**
      * Computes the attribute.
-     * 
+     *
      * @param container The Tiles container to use.
      * @param attribute The attribute to return immediately, if not null.
      * @param name The name of the attribute.

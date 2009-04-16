@@ -25,22 +25,22 @@ import java.util.Stack;
 
 /**
  * Utilities to work with compose stacks.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class ComposeStackUtil {
+public final class ComposeStackUtil {
 
     /**
      * Private constructor to avoid instantiation.
      */
     private ComposeStackUtil() {
-        
+
     }
 
     /**
      * Finds the first ancestor in the stack, that is assignable to the given class.
-     * 
+     *
      * @param composeStack The compose stack to evaluate.
      * @param clazz The class to check.
      * @return The first ancestor that is assignable to the class, or null if not found.
@@ -54,7 +54,7 @@ public class ComposeStackUtil {
                 retValue = obj;
             }
         }
-        
+
         return retValue;
     }
 }

@@ -29,7 +29,7 @@ import org.apache.velocity.context.Context;
 
 /**
  * An object that holds the current state of Velocity in a Servlet environment.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -39,17 +39,17 @@ public class ContextHolder {
      * The Velocity context.
      */
     private Context velocityContext;
-    
+
     /**
      * The HTTP request.
      */
     private HttpServletRequest request;
-    
+
     /**
      * The HTTP response.
      */
     private HttpServletResponse response;
-    
+
     /**
      * The servlet context.
      */
@@ -59,7 +59,7 @@ public class ContextHolder {
      * Sets the current {@link HttpServletRequest}. This is required for this
      * tool to operate and will throw a NullPointerException if this is not set
      * or is set to {@code null}.
-     * 
+     *
      * @param request The HTTP request.
      * @since 2.2.0
      */
@@ -74,7 +74,7 @@ public class ContextHolder {
      * Sets the current {@link HttpServletResponse}. This is required for this
      * tool to operate and will throw a NullPointerException if this is not set
      * or is set to {@code null}.
-     * 
+     *
      * @param response The HTTP response.
      * @since 2.2.0
      */
@@ -89,7 +89,7 @@ public class ContextHolder {
      * Sets the {@link ServletContext}. This is required for this tool to
      * operate and will throw a NullPointerException if this is not set or is
      * set to {@code null}.
-     * 
+     *
      * @param application The Servlet context.
      * @since 2.2.0
      */
@@ -104,7 +104,7 @@ public class ContextHolder {
      * Sets the Velocity {@link Context}. This is required for this tool to
      * operate and will throw a NullPointerException if this is not set or is
      * set to {@code null}.
-     * 
+     *
      * @param context The Velocity context.
      * @since 2.2.0
      */
@@ -118,7 +118,7 @@ public class ContextHolder {
 
     /**
      * Returns the HTTP request.
-     * 
+     *
      * @return The HTTP request.
      * @since 2.2.0
      */
@@ -128,7 +128,7 @@ public class ContextHolder {
 
     /**
      * Returns the HTTP response.
-     * 
+     *
      * @return The HTTP response.
      * @since 2.2.0
      */
@@ -138,7 +138,7 @@ public class ContextHolder {
 
     /**
      * Returns the Servlet context.
-     * 
+     *
      * @return The Servlet context..
      * @since 2.2.0
      */
@@ -148,7 +148,7 @@ public class ContextHolder {
 
     /**
      * Returns the Velocity context..
-     * 
+     *
      * @return The Velocity context.
      * @since 2.2.0
      */

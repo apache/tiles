@@ -39,7 +39,8 @@ import freemarker.template.TemplateModel;
  * parameters, see
  * {@link PutAttributeModel#start(Stack)}
  * and
- * {@link PutAttributeModel#end(org.apache.tiles.TilesContainer, Stack, String, Object, String, String, String, String, boolean, Object...)}
+ * {@link PutAttributeModel
+ * #end(org.apache.tiles.TilesContainer, Stack, String, Object, String, String, String, String, boolean, Object...)}
  * .
  *
  * @version $Rev$ $Date$

@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.velocity.template;
 
 import static org.junit.Assert.*;
@@ -29,12 +47,12 @@ public class AddListAttributeVModelTest {
      * The model to test.
      */
     private AddListAttributeVModel model;
-    
+
     /**
      * The template model.
      */
     private AddListAttributeModel tModel;
-    
+
     /**
      * Sets up the model to test.
      */
@@ -45,7 +63,9 @@ public class AddListAttributeVModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.AddListAttributeVModel#start(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.apache.velocity.context.Context, java.util.Map)}.
+     * Test method for {@link org.apache.tiles.velocity.template.AddListAttributeVModel
+     * #start(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     * org.apache.velocity.context.Context, java.util.Map)}.
      */
     @Test
     public void testStart() {
@@ -58,14 +78,16 @@ public class AddListAttributeVModelTest {
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
         tModel.start(composeStack, "myRole");
-        
+
         replay(tModel, request, response, velocityContext);
         model.start(request, response, velocityContext, params);
         verify(tModel, request, response, velocityContext);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.AddListAttributeVModel#end(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.apache.velocity.context.Context)}.
+     * Test method for {@link org.apache.tiles.velocity.template.AddListAttributeVModel
+     * #end(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     * org.apache.velocity.context.Context)}.
      */
     @Test
     public void testEnd() {
@@ -73,11 +95,11 @@ public class AddListAttributeVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         Stack<Object> composeStack = new Stack<Object>();
-        
+
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
         tModel.end(composeStack);
-        
+
         replay(tModel, request, response, velocityContext);
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));
         verify(tModel, request, response, velocityContext);
@@ -85,7 +107,7 @@ public class AddListAttributeVModelTest {
 
     /**
      * Creates the parameters to work with the model.
-     * 
+     *
      * @return The parameters.
      */
     private Map<String, Object> createParams() {

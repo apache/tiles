@@ -35,7 +35,7 @@ import org.apache.tiles.mgmt.MutableTilesContainer;
  * Create a new definition at runtime. Newly created definition will be
  * available across the entire request.
  * </p>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -43,7 +43,7 @@ public class DefinitionModel {
 
     /**
      * Starts the operation.
-     * 
+     *
      * @param composeStack The compose stack,
      * @param name The name of the definition to create. If not specified, an anonymous definition will be created.
      * @param template The template of this definition.
@@ -62,7 +62,7 @@ public class DefinitionModel {
 
     /**
      * Ends the operation.
-     * 
+     *
      * @param container The Tiles container to use. It must be "mutable".
      * @param composeStack The compose stack.
      * @param requestItems The request objects.
@@ -76,7 +76,7 @@ public class DefinitionModel {
 
     /**
      * Executes the operation.
-     * 
+     *
      * @param container The Tiles container to use. It must be "mutable".
      * @param composeStack The compose stack.
      * @param name The name of the definition to create. If not specified, an anonymous definition will be created.
@@ -99,7 +99,7 @@ public class DefinitionModel {
 
     /**
      * Creates the definition to store.
-     * 
+     *
      * @param name The name of the definition to create. If not specified, an anonymous definition will be created.
      * @param template The template of this definition.
      * @param role A comma-separated list of roles. If present, the definition
@@ -123,9 +123,9 @@ public class DefinitionModel {
 
     /**
      * Registers a definition in the container.
-     * 
+     *
      * @param definition The definition to register.
-     * @param container The container into which the definition will be registered. 
+     * @param container The container into which the definition will be registered.
      * @param composeStack The compose stack,
      * @param requestItems The request object.
      */

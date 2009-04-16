@@ -37,7 +37,7 @@ import org.apache.velocity.runtime.Renderable;
  * parameters, see {@link AddAttributeModel#start(java.util.Stack)},
  * {@link AddAttributeModel#end(java.util.Stack, Object, String, String, String, String)}
  * and {@link AddAttributeModel#execute(java.util.Stack, Object, String, String, String, String)}
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -50,7 +50,7 @@ public class AddAttributeVModel implements Executable, BodyExecutable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @since 2.2.0
      */

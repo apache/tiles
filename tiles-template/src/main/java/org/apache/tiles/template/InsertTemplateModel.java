@@ -41,11 +41,11 @@ import org.apache.tiles.TilesContainer;
  * <p>
  * You must specify <code>template</code> attribute, for inserting a template
  * </p>
- * 
+ *
  * <p>
  * <strong>Example : </strong>
  * </p>
- * 
+ *
  * <pre>
  * &lt;code&gt;
  *           &lt;tiles:insertTemplate template=&quot;/basic/myLayout.jsp&quot; flush=&quot;true&quot;&gt;
@@ -57,7 +57,7 @@ import org.apache.tiles.TilesContainer;
  *           &lt;/tiles:insertTemplate&gt;
  *         &lt;/code&gt;
  * </pre>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -65,7 +65,7 @@ public class InsertTemplateModel {
 
     /**
      * Starts the operation.
-     * 
+     *
      * @param container The Tiles container.
      * @param requestItems The request objects.
      * @since 2.2.0
@@ -76,7 +76,7 @@ public class InsertTemplateModel {
 
     /**
      * Ends the operation.
-     * 
+     *
      * @param container The Tiles container.
      * @param template The template to render.
      * @param role A comma-separated list of roles. If present, the template
@@ -105,7 +105,7 @@ public class InsertTemplateModel {
 
     /**
      * Executes the operation.
-     * 
+     *
      * @param container The Tiles container.
      * @param template The template to render.
      * @param role A comma-separated list of roles. If present, the template

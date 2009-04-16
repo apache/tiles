@@ -1,6 +1,24 @@
-/**
- * 
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.template;
 
 import static org.junit.Assert.*;
@@ -16,8 +34,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author antonio
+ * Tests {@link InsertAttributeModel}.
  *
+ * @version $Rev$ $Date$
  */
 public class InsertAttributeModelTest {
 
@@ -25,23 +44,25 @@ public class InsertAttributeModelTest {
      * The mock resolver.
      */
     private AttributeResolver resolver;
-    
+
     /**
      * The model to test.
      */
     private InsertAttributeModel model;
-    
+
     /**
-     * @throws java.lang.Exception
+     * Sets up the test.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         resolver = createMock(AttributeResolver.class);
         model = new InsertAttributeModel(resolver);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.InsertAttributeModel#start(Stack, TilesContainer, boolean, String, String, Object, String, String, String, Attribute, Object...)}.
+     * Test method for {@link org.apache.tiles.template.InsertAttributeModel
+     * #start(Stack, TilesContainer, boolean, String, String, Object, String,
+     * String, String, Attribute, Object...)}.
      */
     @Test
     public void testStart() {
@@ -50,12 +71,12 @@ public class InsertAttributeModelTest {
         Integer requestItem = new Integer(1);
         Attribute attribute = new Attribute();
         AttributeContext attributeContext = createMock(AttributeContext.class);
-        
+
         container.prepare("myPreparer", requestItem);
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
                 "myDefaultValueRole", "myDefaultValueType", requestItem)).andReturn(attribute);
         expect(container.startContext(requestItem)).andReturn(attributeContext);
-        
+
         replay(resolver, container, attributeContext);
         model.start(composeStack, container, false, "myPreparer", "myRole", "myDefaultValue",
                 "myDefaultValueRole", "myDefaultValueType", "myName", attribute, requestItem);
@@ -65,7 +86,8 @@ public class InsertAttributeModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.InsertAttributeModel#end(Stack, TilesContainer, boolean, Object...)}.
+     * Test method for {@link org.apache.tiles.template.InsertAttributeModel
+     * #end(Stack, TilesContainer, boolean, Object...)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -75,17 +97,19 @@ public class InsertAttributeModelTest {
         composeStack.push(attribute);
         TilesContainer container = createMock(TilesContainer.class);
         Integer requestItem = new Integer(1);
-        
+
         container.endContext(requestItem);
         container.render(attribute, requestItem);
-        
+
         replay(resolver, container);
         model.end(composeStack, container, false, requestItem);
         verify(resolver, container);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.InsertAttributeModel#execute(TilesContainer, boolean, String, String, Object, String, String, String, Attribute, Object...)}.
+     * Test method for {@link org.apache.tiles.template.InsertAttributeModel
+     * #execute(TilesContainer, boolean, String, String, Object, String, String,
+     * String, Attribute, Object...)}.
      * @throws IOException If something goes wrong.
      */
     @Test

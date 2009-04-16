@@ -26,8 +26,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author antonio
+ * Tests {@link NullWriter}.
  *
+ * @version $Rev$ $Date$
  */
 public class NullWriterTest {
 

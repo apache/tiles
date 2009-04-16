@@ -40,7 +40,7 @@ import org.apache.tiles.TilesContainer;
  * optional. If not specified, all attributes are imported in page scope. Once
  * imported, an attribute can be used as any other beans from jsp contexts.
  * </p>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -52,14 +52,19 @@ public class ImportAttributeModel {
     private Log log = LogFactory.getLog(getClass());
 
     /**
-     * Retuns a Map that contains the attributes to be imported. The importing code must be done by the caller.
-     * 
+     * Retuns a Map that contains the attributes to be imported. The importing
+     * code must be done by the caller.
+     *
      * @param container The Tiles container to use.
-     * @param name The attribute to import. If null, all the attributes will be imported.
-     * @param toName The destination name of the attribute to import. Valid only if <code>name</code> is specified.
-     * @param ignore If <code>true</code> and the attribute is not found, or an exception happens, the problem will be ignored.
+     * @param name The attribute to import. If null, all the attributes will be
+     * imported.
+     * @param toName The destination name of the attribute to import. Valid only
+     * if <code>name</code> is specified.
+     * @param ignore If <code>true</code> and the attribute is not found, or an
+     * exception happens, the problem will be ignored.
      * @param requestItems The request objects.
-     * @return A Map of the attributes to be imported: the key is the name of an attribute, the value is the value of that attribute.
+     * @return A Map of the attributes to be imported: the key is the name of an
+     * attribute, the value is the value of that attribute.
      * @since 2.2.0
      */
     public Map<String, Object> getImportedAttributes(TilesContainer container,
@@ -83,12 +88,15 @@ public class ImportAttributeModel {
 
     /**
      * Imports a single attribute.
-     * 
+     *
      * @param container The Tiles container to use.
-     * @param attributeContext The context from which the attributes will be got.
+     * @param attributeContext The context from which the attributes will be
+     * got.
      * @param name The name of the attribute.
-     * @param toName The name of the destination attribute. If null, <code>name</code> will be used.
-     * @param ignore If <code>true</code> and the attribute is not found, or an exception happens, the problem will be ignored.
+     * @param toName The name of the destination attribute. If null,
+     * <code>name</code> will be used.
+     * @param ignore If <code>true</code> and the attribute is not found, or an
+     * exception happens, the problem will be ignored.
      * @param attributes The map of the attributes to fill.
      * @param requestItems The request objects.
      */
@@ -132,12 +140,14 @@ public class ImportAttributeModel {
 
     /**
      * Imports all the attributes.
-     * 
+     *
      * @param names The names of the attributes to be imported.
      * @param container The Tiles container to use.
-     * @param attributeContext The context from which the attributes will be got.
+     * @param attributeContext The context from which the attributes will be
+     * got.
      * @param attributes The map of the attributes to fill.
-     * @param ignore If <code>true</code> and the attribute is not found, or an exception happens, the problem will be ignored.
+     * @param ignore If <code>true</code> and the attribute is not found, or an
+     * exception happens, the problem will be ignored.
      * @param requestItems The request objects.
      */
     private void importAttributes(Collection<String> names,

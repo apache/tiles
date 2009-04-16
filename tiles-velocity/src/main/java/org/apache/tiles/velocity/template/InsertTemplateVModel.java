@@ -34,9 +34,6 @@ import org.apache.tiles.template.InsertTemplateModel;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.Renderable;
 
 /**
@@ -45,7 +42,7 @@ import org.apache.velocity.runtime.Renderable;
  * {@link InsertTemplateModel#start(org.apache.tiles.TilesContainer, Object...)}
  * , {@link InsertTemplateModel#end(org.apache.tiles.TilesContainer, String, String, String, Object...)} and
  * {@link InsertTemplateModel#execute(org.apache.tiles.TilesContainer, String, String, String, Object...)}.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -63,7 +60,7 @@ public class InsertTemplateVModel implements Executable, BodyExecutable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param model The template model.
      * @param servletContext The servlet context.
      * @since 2.2.0
@@ -81,8 +78,7 @@ public class InsertTemplateVModel implements Executable, BodyExecutable {
         return new AbstractDefaultToStringRenderable(velocityContext, params, response, request) {
 
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException,
-                    ParseErrorException, ResourceNotFoundException {
+                    throws IOException {
                 model.execute(ServletUtil.getCurrentContainer(request,
                         servletContext), (String) params.get("template"),
                         (String) params.get("role"), (String) params
@@ -99,10 +95,9 @@ public class InsertTemplateVModel implements Executable, BodyExecutable {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
         return new AbstractDefaultToStringRenderable(velocityContext, params, response, request) {
-        
+
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException, ParseErrorException,
-                    ResourceNotFoundException {
+                    throws IOException {
                 model.end(ServletUtil.getCurrentContainer(request, servletContext),
                         (String) params.get("template"), (String) params.get("role"),
                         (String) params.get("preparer"), velocityContext, request,

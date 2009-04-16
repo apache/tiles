@@ -38,7 +38,7 @@ import org.apache.tiles.template.PutListAttributeModel;
 
 /**
  * Collects all Tiles+Velocity models.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -96,7 +96,7 @@ public class TilesVelocityRepository {
 
     /**
      * Constructor.
-     * 
+     *
      * @param servletContext The servlet context.
      * @since 2.2.0
      */
@@ -125,7 +125,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "addAttribute" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */
@@ -135,7 +135,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "addListAttribute" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */
@@ -145,7 +145,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "definition" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */
@@ -155,7 +155,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "getAsString" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */
@@ -165,7 +165,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "importAttribute" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */
@@ -175,7 +175,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "insertAttribute" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */
@@ -185,7 +185,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "insertDefinition" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */
@@ -195,7 +195,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "insertTemplate" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */
@@ -205,7 +205,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "putAttribute" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */
@@ -215,7 +215,7 @@ public class TilesVelocityRepository {
 
     /**
      * Returns the "putListAttribute" model.
-     * 
+     *
      * @return The model.
      * @since 2.2.0
      */

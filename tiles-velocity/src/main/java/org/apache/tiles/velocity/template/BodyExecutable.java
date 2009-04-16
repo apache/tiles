@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * It represents an object that can be executed, with a body with "start" and
  * "end" operation, under a Velocity+Servlet context.
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -40,18 +40,19 @@ public interface BodyExecutable {
 
     /**
      * Starts the execution of the commands.
-     * 
+     *
      * @param request The HTTP request.
      * @param response The HTTP response-
      * @param velocityContext The Velocity context.
      * @param params The map of the parameters.
      * @since 2.2.0
      */
-    void start(HttpServletRequest request, HttpServletResponse response, Context velocityContext, Map<String, Object> params);
+    void start(HttpServletRequest request, HttpServletResponse response,
+            Context velocityContext, Map<String, Object> params);
 
     /**
      * Ends the execution of the commands.
-     * 
+     *
      * @param request The HTTP request.
      * @param response The HTTP response-
      * @param velocityContext The Velocity context.

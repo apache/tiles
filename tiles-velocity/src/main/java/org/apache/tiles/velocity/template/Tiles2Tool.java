@@ -36,7 +36,7 @@ import org.apache.velocity.runtime.Renderable;
  * <li>calling methods without parameters: useful to include composition code inside a block.
  * You need to call then {@link #start(Map)}, then your code in the block, and then {@link #end()}.</li>
  * </ul>
- * 
+ *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
@@ -46,20 +46,20 @@ public class Tiles2Tool extends ContextHolder {
      * The key of the attribute that will be used to store the repository of "models".
      */
     private static final String TILES_VELOCITY_REPOSITORY_KEY = "org.apache.tiles.velocity.TilesVelocityRepository";
-    
+
     /**
      * The current executable object to use. Set in {@link #start(Map)} and used in {@link #end()}.
      */
     private BodyExecutable currentExecutable;
-    
+
     /**
      * The repository of Tiles+Velocity models.
      */
     private TilesVelocityRepository repository;
-    
+
     /**
      * Executes the {@link AddAttributeVModel}.
-     * 
+     *
      * @param params The map of parameters.
      * @return The tool itself.
      * @since 2.2.0
@@ -73,7 +73,7 @@ public class Tiles2Tool extends ContextHolder {
     /**
      * Prepares the {@link AddAttributeVModel} for the execution with a block
      * inside {@link #start(Map)} and {@link #end()} calls.
-     * 
+     *
      * @return The tool itself.
      * @since 2.2.0
      * @see org.apache.tiles.template.AddAttributeModel
@@ -82,11 +82,11 @@ public class Tiles2Tool extends ContextHolder {
         currentExecutable = getRepository().getAddAttribute();
         return this;
     }
-    
+
     /**
      * Prepares the {@link AddListAttributeVModel} for the execution with a block
      * inside {@link #start(Map)} and {@link #end()} calls.
-     * 
+     *
      * @return The tool itself.
      * @since 2.2.0
      * @see org.apache.tiles.template.AddListAttributeModel
@@ -95,10 +95,10 @@ public class Tiles2Tool extends ContextHolder {
         currentExecutable = getRepository().getAddListAttribute();
         return this;
     }
-    
+
     /**
      * Executes the {@link DefinitionVModel}.
-     * 
+     *
      * @param params The map of parameters.
      * @return The tool itself.
      * @since 2.2.0
@@ -108,11 +108,11 @@ public class Tiles2Tool extends ContextHolder {
         execute(getRepository().getDefinition(), params);
         return this;
     }
-    
+
     /**
      * Prepares the {@link DefinitionVModel} for the execution with a block
      * inside {@link #start(Map)} and {@link #end()} calls.
-     * 
+     *
      * @return The tool itself.
      * @since 2.2.0
      * @see org.apache.tiles.template.DefinitionModel
@@ -124,7 +124,7 @@ public class Tiles2Tool extends ContextHolder {
 
     /**
      * Executes the {@link GetAsStringVModel}.
-     * 
+     *
      * @param params The map of parameters.
      * @return A renderable object that renders an attribute as a string.
      * @since 2.2.0
@@ -137,7 +137,7 @@ public class Tiles2Tool extends ContextHolder {
     /**
      * Prepares the {@link GetAsStringVModel} for the execution with a block
      * inside {@link #start(Map)} and {@link #end()} calls.
-     * 
+     *
      * @return The tool itself.
      * @since 2.2.0
      * @see org.apache.tiles.template.GetAsStringModel
@@ -146,10 +146,10 @@ public class Tiles2Tool extends ContextHolder {
         currentExecutable = getRepository().getGetAsString();
         return this;
     }
-    
+
     /**
      * Executes the {@link ImportAttributeVModel}.
-     * 
+     *
      * @param params The map of parameters.
      * @return A renderable object that does not write anything, but imports attribute values when invoked.
      * @since 2.2.0
@@ -158,10 +158,10 @@ public class Tiles2Tool extends ContextHolder {
     public Renderable importAttribute(Map<String, Object> params) {
         return execute(getRepository().getImportAttribute(), params);
     }
-    
+
     /**
      * Executes the {@link InsertAttributeVModel}.
-     * 
+     *
      * @param params The map of parameters.
      * @return A renderable object that renders an attribute.
      * @since 2.2.0
@@ -170,11 +170,11 @@ public class Tiles2Tool extends ContextHolder {
     public Renderable insertAttribute(Map<String, Object> params) {
         return execute(getRepository().getInsertAttribute(), params);
     }
-    
+
     /**
      * Prepares the {@link InsertAttributeVModel} for the execution with a block
      * inside {@link #start(Map)} and {@link #end()} calls.
-     * 
+     *
      * @return The tool itself.
      * @since 2.2.0
      * @see org.apache.tiles.template.InsertAttributeModel
@@ -183,10 +183,10 @@ public class Tiles2Tool extends ContextHolder {
         currentExecutable = getRepository().getInsertAttribute();
         return this;
     }
-    
+
     /**
      * Executes the {@link InsertDefinitionVModel}.
-     * 
+     *
      * @param params The map of parameters.
      * @return A renderable object that renders a definition.
      * @since 2.2.0
@@ -195,11 +195,11 @@ public class Tiles2Tool extends ContextHolder {
     public Renderable insertDefinition(Map<String, Object> params) {
         return execute(getRepository().getInsertDefinition(), params);
     }
-    
+
     /**
      * Prepares the {@link InsertDefinitionVModel} for the execution with a block
      * inside {@link #start(Map)} and {@link #end()} calls.
-     * 
+     *
      * @return The tool itself.
      * @since 2.2.0
      * @see org.apache.tiles.template.InsertDefinitionModel
@@ -208,10 +208,10 @@ public class Tiles2Tool extends ContextHolder {
         currentExecutable = getRepository().getInsertDefinition();
         return this;
     }
-    
+
     /**
      * Executes the {@link InsertTemplateVModel}.
-     * 
+     *
      * @param params The map of parameters.
      * @return A renderable object that renders a template.
      * @since 2.2.0
@@ -220,11 +220,11 @@ public class Tiles2Tool extends ContextHolder {
     public Renderable insertTemplate(Map<String, Object> params) {
         return execute(getRepository().getInsertTemplate(), params);
     }
-    
+
     /**
      * Prepares the {@link InsertTemplateVModel} for the execution with a block
      * inside {@link #start(Map)} and {@link #end()} calls.
-     * 
+     *
      * @return The tool itself.
      * @since 2.2.0
      * @see org.apache.tiles.template.InsertTemplateModel
@@ -233,10 +233,10 @@ public class Tiles2Tool extends ContextHolder {
         currentExecutable = getRepository().getInsertTemplate();
         return this;
     }
-    
+
     /**
      * Executes the {@link PutAttributeVModel}.
-     * 
+     *
      * @param params The map of parameters.
      * @return The tool itself.
      * @since 2.2.0
@@ -246,11 +246,11 @@ public class Tiles2Tool extends ContextHolder {
         execute(getRepository().getPutAttribute(), params);
         return this;
     }
-    
+
     /**
      * Prepares the {@link PutAttributeVModel} for the execution with a block
      * inside {@link #start(Map)} and {@link #end()} calls.
-     * 
+     *
      * @return The tool itself.
      * @since 2.2.0
      * @see org.apache.tiles.template.PutAttributeModel
@@ -259,11 +259,11 @@ public class Tiles2Tool extends ContextHolder {
         currentExecutable = getRepository().getPutAttribute();
         return this;
     }
-    
+
     /**
      * Prepares the {@link PutListAttributeVModel} for the execution with a block
      * inside {@link #start(Map)} and {@link #end()} calls.
-     * 
+     *
      * @return The tool itself.
      * @since 2.2.0
      * @see org.apache.tiles.template.PutListAttributeModel
@@ -272,10 +272,10 @@ public class Tiles2Tool extends ContextHolder {
         currentExecutable = getRepository().getPutListAttribute();
         return this;
     }
-    
+
     /**
      * Sets the current container for the current request.
-     * 
+     *
      * @param containerKey The key of the container to set as "current" for the current request.
      * @return The tool itself.
      * @since 2.2.0
@@ -285,10 +285,10 @@ public class Tiles2Tool extends ContextHolder {
                 containerKey);
         return this;
     }
-    
+
     /**
      * Starts a "model" for the execution in a block.
-     * 
+     *
      * @param params The map of parameters.
      * @return The tool itself.
      * @since 2.2.0
@@ -303,7 +303,7 @@ public class Tiles2Tool extends ContextHolder {
 
     /**
      * Ends a "model" after the execution of a block.
-     * 
+     *
      * @return A renderable object. It can render actually something, or execute
      * code needed to the execution of parent models.
      * @since 2.2.0
@@ -320,7 +320,7 @@ public class Tiles2Tool extends ContextHolder {
 
     /**
      * Returns an attribute.
-     * 
+     *
      * @param key The name of the attribute to get.
      * @return The Attribute.
      * @since 2.2.0
@@ -342,7 +342,7 @@ public class Tiles2Tool extends ContextHolder {
 
     /**
      * Gets or creates the Tiles+Velocity model repository from the servlet context.
-     * 
+     *
      * @return The model repository.
      */
     private TilesVelocityRepository getRepository() {
@@ -359,10 +359,10 @@ public class Tiles2Tool extends ContextHolder {
         }
         return repository;
     }
-    
+
     /**
      * Executes an "executable" model.
-     * 
+     *
      * @param executable The object to execute.
      * @param params The parameters map.
      * @return A renderable object. It can render actually something, or execute
