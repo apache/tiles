@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextWrapper;
+import org.apache.tiles.servlet.context.ExternalWriterHttpServletResponse;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.context.Context;
 

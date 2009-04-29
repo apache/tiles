@@ -68,7 +68,7 @@ public class InsertTemplateModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #end(TilesContainer, String, String, String, Object...)}.
+     * #end(TilesContainer, String, String, String, String, String, Object...)}.
      */
     @Test
     public void testEnd() {
@@ -83,13 +83,13 @@ public class InsertTemplateModelTest {
         container.renderContext(requestItem);
 
         replay(container, attributeContext);
-        model.end(container, "myTemplate", "myRole", "myPreparer", requestItem);
+        model.end(container, "myTemplate", "myTemplateType", "myTemplateExpression", "myRole", "myPreparer", requestItem);
         verify(container, attributeContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #execute(TilesContainer, String, String, String, Object...)}.
+     * #execute(TilesContainer, String, String, String, String, String, Object...)}.
      */
     @Test
     public void testExecute() {
@@ -105,7 +105,7 @@ public class InsertTemplateModelTest {
         container.renderContext(requestItem);
 
         replay(container, attributeContext);
-        model.execute(container, "myTemplate", "myRole", "myPreparer", requestItem);
+        model.execute(container, "myTemplate", "myTemplateType", "myTemplateExpression", "myRole", "myPreparer", requestItem);
         verify(container, attributeContext);
     }
 

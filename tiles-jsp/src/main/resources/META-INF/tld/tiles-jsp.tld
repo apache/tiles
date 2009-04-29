@@ -41,17 +41,17 @@
       <description>
       <![CDATA[
       <p><strong>Insert a template.</strong></p>
-      <p>Insert a template with the possibility to pass 
+      <p>Insert a template with the possibility to pass
       parameters (called attributes).
       A template can be seen as a procedure that can take parameters or attributes.
-      <code>&lt;tiles:insertTemplate&gt;</code> allows to define these attributes 
+      <code>&lt;tiles:insertTemplate&gt;</code> allows to define these attributes
       and pass them to the inserted jsp page, called template.
       Attributes are defined using nested tag
       <code>&lt;tiles:putAttribute&gt;</code> or
       <code>&lt;tiles:putListAttribute&gt;</code>.
       </p>
       <p>You must specify <code>template</code> attribute, for inserting a template</p>
-     
+
       <p><strong>Example : </strong></p>
       <pre>
         <code>
@@ -85,7 +85,7 @@
          <type>boolean</type>
          <description>
          <![CDATA[
-         <p>True or false. If true, current page out stream is flushed 
+         <p>True or false. If true, current page out stream is flushed
          before insertion.</p>
          ]]>
          </description>
@@ -132,16 +132,16 @@
       <description>
       <![CDATA[
       <p><strong>Insert a definition.</strong></p>
-      <p>Insert a definition with the possibility to override and specify 
+      <p>Insert a definition with the possibility to override and specify
       parameters (called attributes).
       A definition can be seen as a (partially or totally) filled template that
       can override or complete attribute values.
-      <code>&lt;tiles:insertDefinition&gt;</code> allows to define these attributes 
+      <code>&lt;tiles:insertDefinition&gt;</code> allows to define these attributes
       and pass them to the inserted jsp page, called template.
       Attributes are defined using nested tag <code>&lt;tiles:putAttribute&gt;</code> or
       <code>&lt;tiles:putListAttribute&gt;</code>.
       </p>
-      <p>You must specify <code>name</code> tag attribute, for inserting a definition from 
+      <p>You must specify <code>name</code> tag attribute, for inserting a definition from
         definitions factory.</p>
       <p><strong>Example : </strong></p>
       <pre>
@@ -174,7 +174,7 @@
          <description>
          <![CDATA[
          <p>A string representing the URI of a template (for example, a JSP
-         page) that will override the one used by the definition itself. 
+         page) that will override the one used by the definition itself.
          </p>
          ]]>
          </description>
@@ -186,7 +186,7 @@
          <type>boolean</type>
          <description>
          <![CDATA[
-         <p>True or false. If true, current page out stream is flushed 
+         <p>True or false. If true, current page out stream is flushed
          before insertion.</p>
          ]]>
          </description>
@@ -234,13 +234,13 @@
       <![CDATA[
       <p><strong>Inserts the value of an attribute into the page.</strong></p>
       <p>This tag can be flexibly used to insert the value of an attribute into a page.
-      As in other usages in Tiles, every attribute can be determined to have a "type", 
+      As in other usages in Tiles, every attribute can be determined to have a "type",
       either set explicitly when it was defined, or "computed".  If the type is not explicit, then
       if the attribute value is a valid definition, it will be inserted as such.  Otherwise,
-      if it begins with a "/" character, it will be treated as a "template".  Finally, if it 
-      has not otherwise been assigned a type, it will be treated as a String and included without 
+      if it begins with a "/" character, it will be treated as a "template".  Finally, if it
+      has not otherwise been assigned a type, it will be treated as a String and included without
       any special handling.</p>
-     
+
       <p><strong>Example : </strong></p>
       <pre>
         <code>
@@ -279,7 +279,7 @@
          <type>boolean</type>
          <description>
          <![CDATA[
-         <p>True or false. If true, current page out stream is flushed 
+         <p>True or false. If true, current page out stream is flushed
          before insertion.</p>
          ]]>
          </description>
@@ -374,7 +374,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Specifies the name under which the newly created definition bean 
+         <p>Specifies the name under which the newly created definition bean
          will be saved.</p>
          ]]>
          </description>
@@ -385,7 +385,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>A string representing the URI of a template 
+         <p>A string representing the URI of a template
          (a JSP page).</p>
          ]]>
          </description>
@@ -396,7 +396,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Role to check before inserting this definition. If role is not 
+         <p>Role to check before inserting this definition. If role is not
          defined for current user, definition is not inserted. Checking is
          done at insert time, not during definition process.</p>
          ]]>
@@ -408,7 +408,7 @@
          <rtexprvalue>true</rtexprvalue>
          <description>
          <![CDATA[
-         <p>Name of a parent definition that is used to initialize this new 
+         <p>Name of a parent definition that is used to initialize this new
          definition. Parent definition is searched in definitions factory.</p>
          ]]>
          </description>
@@ -433,11 +433,11 @@
       <![CDATA[
       <p><strong>Put an attribute in enclosing attribute container tag.</strong></p>
 		<p>
-		Enclosing attribute container tag can be : 
+		Enclosing attribute container tag can be :
 		<ul>
-		<li>&lt;initContainer&gt;</li> 
-		<li>&lt;definition&gt;</li> 
-		<li>&lt;insertAttribute&gt;</li> 
+		<li>&lt;initContainer&gt;</li>
+		<li>&lt;definition&gt;</li>
+		<li>&lt;insertAttribute&gt;</li>
 		<li>&lt;insertDefinition&gt;</li>
 		<li>&lt;putListAttribute&gt;</li>
 		</ul>
@@ -591,7 +591,7 @@
       <![CDATA[
       <p><strong>Add an element to the surrounding list.
       Equivalent to 'putAttribute', but for list element.</strong></p>
-          
+
       <p>Add an element to the surrounding list.
       This tag can only be used inside 'putListAttribute' or 'addListAttribute' tags.
       Value can come from a direct assignment (value="aValue")</p>
@@ -662,8 +662,8 @@
       <p><strong>
       Render the value of the specified template attribute to the current JspWriter
       </strong></p>
-          
-      <p>Retrieve the value of the specified template attribute 
+
+      <p>Retrieve the value of the specified template attribute
       property, and render it to the current JspWriter as a String.
       The usual toString() conversions is applied on found value.</p>
       <p>Throw a JSPException if named value is not found.</p>
@@ -716,7 +716,7 @@
       <description>
       <![CDATA[
       <p><strong>Use attribute value inside page.</strong></p>
-      <p>Declare a Java variable, and an attribute in the specified scope, 
+      <p>Declare a Java variable, and an attribute in the specified scope,
       using its attribute value.</p>
       <p>Java variable and attribute will have the name specified by 'id',
       or the original name if not specified.</p>
@@ -788,7 +788,7 @@
       <p>Import attribute(s) to requested scope.
       Attribute name and scope are optional. If not specified, all
       attributes are imported in page scope.
-      Once imported, an attribute can be used as any other beans from jsp 
+      Once imported, an attribute can be used as any other beans from jsp
       contexts.</p>
       ]]>
       </description>
@@ -831,8 +831,8 @@
          <type>boolean</type>
          <description>
          <![CDATA[
-         <p>If this attribute is set to true, and the attribute specified by 
-         the name does not exist, simply return without error. The default 
+         <p>If this attribute is set to true, and the attribute specified by
+         the name does not exist, simply return without error. The default
          value is false, which will cause a runtime exception to be thrown.</p>
          ]]>
          </description>
@@ -844,6 +844,8 @@
       <body-content>JSP</body-content>
       <description>
       <![CDATA[
+      <p><strong>THIS TAG HAS BEEN DEPRECATED! Please use TilesInitializer or a
+      servlet-based way, like TilesServlet, for initialization!</strong></p>
       <p><strong>Initialize the TilesContainer.</strong></p>
       <p>
       In order to use the Tiles system, a TilesContainer must be instantiated.

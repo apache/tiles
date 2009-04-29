@@ -113,6 +113,16 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
     }
 
     /** {@inheritDoc} */
+    public boolean isResponseCommitted() {
+        return context.isResponseCommitted();
+    }
+
+    /** {@inheritDoc} */
+    public void setContentType(String contentType) {
+        context.setContentType(contentType);
+    }
+
+    /** {@inheritDoc} */
     public Map<String, String> getParam() {
         return context.getParam();
     }

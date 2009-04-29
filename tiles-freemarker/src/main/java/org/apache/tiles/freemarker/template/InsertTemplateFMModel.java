@@ -38,7 +38,7 @@ import freemarker.template.TemplateModel;
  * parameters, see
  * {@link InsertTemplateModel#start(org.apache.tiles.TilesContainer, Object...)}
  * and
- * {@link InsertTemplateModel#end(org.apache.tiles.TilesContainer, String, String, String, Object...)}
+ * {@link InsertTemplateModel#end(org.apache.tiles.TilesContainer, String, String, String, String, String, Object...)}
  * .
  *
  * @version $Rev$ $Date$
@@ -71,6 +71,8 @@ public class InsertTemplateFMModel implements TemplateDirectiveModel {
         FreeMarkerUtil.setForceInclude(env, true);
         model.end(FreeMarkerUtil.getCurrentContainer(env), FreeMarkerUtil
                 .getAsString(parms.get("template")), FreeMarkerUtil
+                .getAsString(parms.get("templateType")), FreeMarkerUtil
+                .getAsString(parms.get("templateExpression")), FreeMarkerUtil
                 .getAsString(parms.get("role")), FreeMarkerUtil
                 .getAsString(parms.get("preparer")), env);
     }

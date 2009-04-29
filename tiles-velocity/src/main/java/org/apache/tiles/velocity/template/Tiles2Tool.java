@@ -23,10 +23,6 @@ package org.apache.tiles.velocity.template;
 
 import java.util.Map;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.AttributeContext;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.runtime.Renderable;
 
 /**
@@ -40,7 +36,7 @@ import org.apache.velocity.runtime.Renderable;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class Tiles2Tool extends ContextHolder {
+public class Tiles2Tool extends VelocityStyleTilesTool {
 
     /**
      * The key of the attribute that will be used to store the repository of "models".
@@ -274,19 +270,6 @@ public class Tiles2Tool extends ContextHolder {
     }
 
     /**
-     * Sets the current container for the current request.
-     *
-     * @param containerKey The key of the container to set as "current" for the current request.
-     * @return The tool itself.
-     * @since 2.2.0
-     */
-    public Tiles2Tool setCurrentContainer(String containerKey) {
-        ServletUtil.setCurrentContainer(getRequest(), getServletContext(),
-                containerKey);
-        return this;
-    }
-
-    /**
      * Starts a "model" for the execution in a block.
      *
      * @param params The map of parameters.
@@ -316,28 +299,6 @@ public class Tiles2Tool extends ContextHolder {
                 getResponse(), getVelocityContext());
         currentExecutable = null;
         return retValue;
-    }
-
-    /**
-     * Returns an attribute.
-     *
-     * @param key The name of the attribute to get.
-     * @return The Attribute.
-     * @since 2.2.0
-     */
-    public Attribute getAttribute(String key) {
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                getRequest(), getServletContext());
-        AttributeContext attributeContext = container.getAttributeContext(
-                getVelocityContext(), getRequest(), getResponse());
-        Attribute attribute = attributeContext.getAttribute(key);
-        return attribute;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String toString() {
-        return "";
     }
 
     /**

@@ -310,6 +310,16 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
     }
 
     /** {@inheritDoc} */
+    public boolean isResponseCommitted() {
+        return ((RenderResponse) response).isCommitted();
+    }
+
+    /** {@inheritDoc} */
+    public void setContentType(String contentType) {
+        ((RenderResponse) response).setContentType(contentType);
+    }
+
+    /** {@inheritDoc} */
     public Object[] getRequestObjects() {
         if (requestObjects == null) {
             requestObjects = new Object[2];

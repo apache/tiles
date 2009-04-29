@@ -21,6 +21,7 @@
 
 package org.apache.tiles;
 
+import static org.apache.tiles.CompareUtil.*;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -490,5 +491,15 @@ public class Attribute implements Serializable {
         if (renderer == null) {
             renderer = attribute.getRenderer();
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        Attribute attribute = (Attribute) obj;
+        return nullSafeEquals(value, attribute.value)
+                || nullSafeEquals(renderer, attribute.renderer)
+                || nullSafeEquals(roles, attribute.roles)
+                || nullSafeEquals(expression, attribute.expression);
     }
 }

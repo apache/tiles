@@ -21,6 +21,6 @@
  *#
 $tiles.insertTemplate().start({"template":"/velocity/layout.vm"})
   $tiles.putAttribute({"name":"title", "value":"This is the title.", "cascade":true})
-  $tiles.putAttribute({"name":"header", "value":"/velocity/alternate-header.vm", "cascade":true})
+  $tiles.putAttribute({"name":"header", "value":"/velocity/alternate-header.vm", "type":"velocity", "cascade":true})
   $tiles.putAttribute({"name":"body", "value":"test.inner.definition"})
 $tiles.insertTemplate().end()

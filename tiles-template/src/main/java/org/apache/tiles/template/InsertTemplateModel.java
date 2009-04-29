@@ -79,6 +79,8 @@ public class InsertTemplateModel {
      *
      * @param container The Tiles container.
      * @param template The template to render.
+     * @param templateType The type of the template attribute.
+     * @param templateExpression The expression to evaluate to get the value of the template.
      * @param role A comma-separated list of roles. If present, the template
      * will be rendered only if the current user belongs to one of the roles.
      * @param preparer The preparer to use to invoke before the definition is
@@ -87,14 +89,18 @@ public class InsertTemplateModel {
      * @param requestItems The request objects.
      * @since 2.2.0
      */
-    public void end(TilesContainer container, String template, String role,
-            String preparer, Object... requestItems) {
+    public void end(TilesContainer container, String template, String templateType,
+            String templateExpression, String role, String preparer, Object... requestItems) {
         try {
             AttributeContext attributeContext = container
                     .getAttributeContext(requestItems);
             Attribute templateAttribute = Attribute
                     .createTemplateAttribute(template);
             templateAttribute.setRole(role);
+            if (templateType != null) {
+                templateAttribute.setRenderer(templateType);
+            }
+            templateAttribute.setExpression(templateExpression);
             attributeContext.setPreparer(preparer);
             attributeContext.setTemplateAttribute(templateAttribute);
             container.renderContext(requestItems);
@@ -108,6 +114,8 @@ public class InsertTemplateModel {
      *
      * @param container The Tiles container.
      * @param template The template to render.
+     * @param templateType The type of the template attribute.
+     * @param templateExpression The expression to evaluate to get the value of the template.
      * @param role A comma-separated list of roles. If present, the template
      * will be rendered only if the current user belongs to one of the roles.
      * @param preparer The preparer to use to invoke before the definition is
@@ -116,9 +124,9 @@ public class InsertTemplateModel {
      * @param requestItems The request objects.
      * @since 2.2.0
      */
-    public void execute(TilesContainer container, String template, String role,
-            String preparer, Object... requestItems) {
+    public void execute(TilesContainer container, String template, String templateType,
+            String templateExpression, String role, String preparer, Object... requestItems) {
         start(container, requestItems);
-        end(container, template, role, preparer, requestItems);
+        end(container, template, templateType, templateExpression, role, preparer, requestItems);
     }
 }

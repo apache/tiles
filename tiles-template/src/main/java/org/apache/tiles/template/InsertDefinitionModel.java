@@ -81,6 +81,8 @@ public class InsertDefinitionModel {
      * @param definitionName The name of the definition to render.
      * @param template If specified, this template will be used instead of the
      * one used by the definition.
+     * @param templateType The type of the template attribute.
+     * @param templateExpression The expression to evaluate to get the value of the template.
      * @param role A comma-separated list of roles. If present, the definition
      * will be rendered only if the current user belongs to one of the roles.
      * @param preparer The preparer to use to invoke before the definition is
@@ -90,8 +92,8 @@ public class InsertDefinitionModel {
      * @since 2.2.0
      */
     public void end(TilesContainer container, String definitionName,
-            String template, String role, String preparer,
-            Object... requestItems) {
+            String template, String templateType, String templateExpression,
+            String role, String preparer, Object... requestItems) {
         try {
             AttributeContext attributeContext = container
                     .getAttributeContext(requestItems);
@@ -113,6 +115,8 @@ public class InsertDefinitionModel {
      * @param definitionName The name of the definition to render.
      * @param template If specified, this template will be used instead of the
      * one used by the definition.
+     * @param templateType The type of the template attribute.
+     * @param templateExpression The expression to evaluate to get the value of the template.
      * @param role A comma-separated list of roles. If present, the definition
      * will be rendered only if the current user belongs to one of the roles.
      * @param preparer The preparer to use to invoke before the definition is
@@ -122,9 +126,9 @@ public class InsertDefinitionModel {
      * @since 2.2.0
      */
     public void execute(TilesContainer container, String definitionName,
-            String template, String role, String preparer,
-            Object... requestItems) {
+            String template, String templateType, String templateExpression,
+            String role, String preparer, Object... requestItems) {
         start(container, requestItems);
-        end(container, definitionName, template, role, preparer, requestItems);
+        end(container, definitionName, template, templateType, templateExpression, role, preparer, requestItems);
     }
 }

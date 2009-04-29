@@ -20,5 +20,5 @@
  *
  *#
 $tiles.insertDefinition().start({"name":"velocity.test.definition"})
-  $tiles.putAttribute({"name":"body", "value":"/velocity/override.vm"})
+  $tiles.putAttribute({"name":"body", "value":"/velocity/override.vm", "type":"velocity"})
 $tiles.insertDefinition().end()

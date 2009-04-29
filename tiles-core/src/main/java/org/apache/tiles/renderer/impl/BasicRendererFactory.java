@@ -23,6 +23,7 @@ package org.apache.tiles.renderer.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
@@ -113,6 +114,11 @@ public class BasicRendererFactory implements RendererFactory,
     protected Map<String, AttributeRenderer> renderers;
 
     /**
+     * Initialization parameters, as passed by the constructor.
+     */
+    private Map<String, String> initParameters;
+
+    /**
      * The default renderer.
      *
      * @since 2.1.0
@@ -140,6 +146,7 @@ public class BasicRendererFactory implements RendererFactory,
 
     /** {@inheritDoc} */
     public void init(Map<String, String> parameters) {
+        this.initParameters = parameters;
         String defaultRendererParam = parameters.get(DEFAULT_RENDERER_INIT_PARAM);
         if (defaultRendererParam == null) {
             defaultRendererParam = DEFAULT_RENDERER_CLASS_NAME;
@@ -249,6 +256,9 @@ public class BasicRendererFactory implements RendererFactory,
         }
         if (renderer instanceof AttributeEvaluatorAware) {
             ((AttributeEvaluatorAware) renderer).setEvaluator(evaluator);
+        }
+        if (renderer instanceof Initializable && initParameters != null) {
+            ((Initializable) renderer).init(initParameters);
         }
     }
 }

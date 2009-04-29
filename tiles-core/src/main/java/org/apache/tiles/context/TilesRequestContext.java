@@ -123,6 +123,23 @@ public interface TilesRequestContext {
     PrintWriter getPrintWriter() throws IOException;
 
     /**
+     * Sets the content type when rendering the result.
+     *
+     * @param contentType The content type. It should follow the specifications
+     * from W3C about content types.
+     * @since 2.2.0
+     */
+    void setContentType(String contentType);
+
+    /**
+     * Checks if the response has been committed.
+     *
+     * @return <code>true</code> only if the response has been committed.
+     * @since 2.2.0
+     */
+    boolean isResponseCommitted();
+
+    /**
      * Return an immutable Map that maps request parameter names to the first
      * (or only) value (as a String).
      *

@@ -69,7 +69,7 @@ public class InsertDefinitionModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.InsertDefinitionModel
      * #end(org.apache.tiles.TilesContainer, java.lang.String, java.lang.String,
-     * java.lang.String, java.lang.String, java.lang.Object[])}.
+     * String, String, java.lang.String, java.lang.String, java.lang.Object[])}.
      */
     @Test
     public void testEnd() {
@@ -84,14 +84,16 @@ public class InsertDefinitionModelTest {
         container.render("myDefinitionName", requestItem);
 
         replay(container, attributeContext);
-        model.end(container, "myDefinitionName", "myTemplate", "myRole", "myPreparer", requestItem);
+        model.end(container, "myDefinitionName", "myTemplate",
+                "myTemplateType", "myTemplateExpression", "myRole",
+                "myPreparer", requestItem);
         verify(container, attributeContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertDefinitionModel
      * #execute(org.apache.tiles.TilesContainer, java.lang.String, java.lang.String,
-     * java.lang.String, java.lang.String, java.lang.Object[])}.
+     * String, String, java.lang.String, java.lang.String, java.lang.Object[])}.
      */
     @Test
     public void testExecute() {
@@ -107,7 +109,9 @@ public class InsertDefinitionModelTest {
         container.render("myDefinitionName", requestItem);
 
         replay(container, attributeContext);
-        model.execute(container, "myDefinitionName", "myTemplate", "myRole", "myPreparer", requestItem);
+        model.execute(container, "myDefinitionName", "myTemplate",
+                "myTemplateType", "myTemplateExpression", "myRole",
+                "myPreparer", requestItem);
         verify(container, attributeContext);
     }
 

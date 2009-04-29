@@ -40,8 +40,8 @@ import org.apache.velocity.runtime.Renderable;
  * Wraps {@link InsertDefinitionModel} to be used in Velocity. For the list of
  * parameters, see
  * {@link InsertDefinitionModel#start(org.apache.tiles.TilesContainer, Object...)}
- * , {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer, String, String, String, String, Object...)} and
- * {@link InsertDefinitionModel#execute(org.apache.tiles.TilesContainer, String, String, String, String, Object...)}.
+ * , {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer, String, String, String, String, String, String, Object...)} and
+ * {@link InsertDefinitionModel#execute(org.apache.tiles.TilesContainer, String, String, String, String, String, String, Object...)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -79,9 +79,12 @@ public class InsertDefinitionVModel implements Executable, BodyExecutable {
 
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
-                model.execute(ServletUtil.getCurrentContainer(request, servletContext),
-                        (String) params.get("name"), (String) params.get("template"),
-                        (String) params.get("role"), (String) params.get("preparer"),
+                model.execute(ServletUtil.getCurrentContainer(request,
+                        servletContext), (String) params.get("name"),
+                        (String) params.get("template"), (String) params
+                                .get("templateType"), (String) params
+                                .get("templateExpression"), (String) params
+                                .get("role"), (String) params.get("preparer"),
                         velocityContext, request, response, writer);
                 return true;
             }
@@ -100,6 +103,8 @@ public class InsertDefinitionVModel implements Executable, BodyExecutable {
                 model.end(ServletUtil.getCurrentContainer(request,
                         servletContext), (String) params.get("name"),
                         (String) params.get("template"), (String) params
+                                .get("templateType"), (String) params
+                                .get("templateExpression"), (String) params
                                 .get("role"), (String) params.get("preparer"),
                         velocityContext, request, response, writer);
                 return true;

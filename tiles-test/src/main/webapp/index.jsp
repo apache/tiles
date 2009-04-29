@@ -29,9 +29,9 @@
 
 <body>
     <h1>Tiles 2 Test Application</h1>
-    
+
     <h1>JSP-based tests</h1>
-    
+
     <h2>Features in Tiles 2.0.x</h2>
 
     <h3>Standard Render/Attribute Tests</h3>
@@ -60,7 +60,6 @@
     <a href="selectlocale.jsp">Test Localization</a><br/>
 
     <h3>Mutable Container Tests</h3>
-    <a href="testinitcontainer.jsp">Test Initialize Container</a><br/>
     <a href="testdef.jsp">Test Definition Tag</a><br/>
     <a href="testdef_extend.jsp">Test Definition Tag extending configured and custom definitions</a><br/>
     <a href="testdef_preparer.jsp">Test Definition Tag with Preparer</a><br/>
@@ -68,7 +67,7 @@
     <a href="testinsertdefinition_composite_tags.jsp">Test Insert Definition that contains another definition inside using JSP tags</a><br/>
     <a href="testinsertdefinition_composite_tags_includes_configured_notype.jsp">Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags without types</a><br/>
     <a href="testinsertdefinition_composite_tags_notype.jsp">Test Insert Definition that contains another definition inside using JSP tags without types</a><br/></body>
-    
+
     <h3>Roles Verification tests</h3>
     <a href="testinsertdefinition_role.jsp">Test Insert Configured Definition with Specified Role</a><br/>
     <a href="testinsertdefinition_role_tag.jsp">Test Insert Configured Definition with Specified Role in Tag</a><br/>
@@ -115,7 +114,7 @@
     <a href="selectlocale_db.jsp">Test Localization from DB</a><br/>
 
 	<h1>FreeMarker-based tests</h1>
-    
+
     <h2>Features in Tiles 2.0.x</h2>
 
     <h3>Standard Render/Attribute Tests</h3>
@@ -150,7 +149,7 @@
     <a href="freemarker/testinsertdefinition_composite_tags.ftl">FreeMarker: Test Insert Definition that contains another definition inside using JSP tags</a><br/>
     <a href="freemarker/testinsertdefinition_composite_tags_includes_configured_notype.ftl">FreeMarker: Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags without types</a><br/>
     <a href="freemarker/testinsertdefinition_composite_tags_notype.ftl">FreeMarker: Test Insert Definition that contains another definition inside using JSP tags without types</a><br/>
-    
+
     <h3>Roles Verification tests</h3>
     <a href="freemarker/testinsertdefinition_role.ftl">FreeMarker: Test Insert Configured Definition with Specified Role</a><br/>
     <a href="freemarker/testinsertdefinition_role_tag.ftl">FreeMarker: Test Insert Configured Definition with Specified Role in Tag</a><br/>
@@ -197,7 +196,7 @@
 
 
     <h1>Velocity-based tests</h1>
-    
+
     <h2>Features in Tiles 2.0.x</h2>
 
     <h3>Standard Render/Attribute Tests</h3>
@@ -232,7 +231,7 @@
     <a href="velocity/testinsertdefinition_composite_tags.vm">Velocity: Test Insert Definition that contains another definition inside using JSP tags</a><br/>
     <a href="velocity/testinsertdefinition_composite_tags_includes_configured_notype.vm">Velocity: Test Insert Definition that contains another definition inside (configured via tiles-defs.xml) using JSP tags without types</a><br/>
     <a href="velocity/testinsertdefinition_composite_tags_notype.vm">Velocity: Test Insert Definition that contains another definition inside using JSP tags without types</a><br/>
-    
+
     <h3>Roles Verification tests</h3>
     <a href="velocity/testinsertdefinition_role.vm">Velocity: Test Insert Configured Definition with Specified Role</a><br/>
     <a href="velocity/testinsertdefinition_role_tag.vm">Velocity: Test Insert Configured Definition with Specified Role in Tag</a><br/>

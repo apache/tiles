@@ -53,7 +53,11 @@ import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
  * Init definitions impl.
  *
  * @version $Rev$ $Date$
+ * @deprecated Don't use it, to initialize Tiles use
+ * {@link org.apache.tiles.startup.TilesInitializer} and the various ways to
+ * initialize Tiles, like {@link org.apache.tiles.web.startup.TilesServlet}.
  */
+@Deprecated
 public class InitContainerTag extends TilesBodyTag {
 
     /**
@@ -258,19 +262,18 @@ public class InitContainerTag extends TilesBodyTag {
         }
 
         /** {@inheritDoc} */
-        @SuppressWarnings("deprecation")
         public Servlet getServlet(String string) throws ServletException {
             return rootContext.getServlet(string);
         }
 
         /** {@inheritDoc} */
-        @SuppressWarnings({ "deprecation", "unchecked" })
+        @SuppressWarnings({ "unchecked" })
         public Enumeration getServlets() {
             return rootContext.getServlets();
         }
 
         /** {@inheritDoc} */
-        @SuppressWarnings({ "deprecation", "unchecked" })
+        @SuppressWarnings({ "unchecked" })
         public Enumeration getServletNames() {
             return rootContext.getServletNames();
         }
@@ -281,7 +284,6 @@ public class InitContainerTag extends TilesBodyTag {
         }
 
         /** {@inheritDoc} */
-        @SuppressWarnings("deprecation")
         public void log(Exception exception, String string) {
             rootContext.log(exception, string);
         }

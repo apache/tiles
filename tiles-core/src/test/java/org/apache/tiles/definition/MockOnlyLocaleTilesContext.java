@@ -90,6 +90,16 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     }
 
     /** {@inheritDoc} */
+    public boolean isResponseCommitted() {
+        return false;
+    }
+
+    /** {@inheritDoc} */
+    public void setContentType(String contentType) {
+        // Does nothing
+    }
+
+    /** {@inheritDoc} */
     public Map<String, String[]> getHeaderValues() {
         return null;
     }

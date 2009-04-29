@@ -148,7 +148,7 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
     public Map<String, String> getHeader() {
 
         if ((header == null) && (request != null)) {
-            header = new ServletHeaderMap(request);
+            header = new ServletHeaderMap(request, response);
         }
         return (header);
 
@@ -283,6 +283,16 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
             writer = response.getWriter();
         }
         return writer;
+    }
+
+    /** {@inheritDoc} */
+    public boolean isResponseCommitted() {
+        return response.isCommitted();
+    }
+
+    /** {@inheritDoc} */
+    public void setContentType(String contentType) {
+        response.setContentType(contentType);
     }
 
     /** {@inheritDoc} */

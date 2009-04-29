@@ -95,8 +95,9 @@ public class InsertDefinitionVModelTest {
         Map<String, Object> params = createParams();
 
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        tModel.execute(container, "myDefinitionName", "myTemplate", "myRole", "myPreparer",
-                velocityContext, request, response, writer);
+        tModel.execute(container, "myDefinitionName", "myTemplate",
+                "myTemplateType", "myTemplateExpression", "myRole",
+                "myPreparer", velocityContext, request, response, writer);
 
         replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
         initializeModel();
@@ -151,8 +152,9 @@ public class InsertDefinitionVModelTest {
 
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
-        tModel.end(container, "myDefinitionName", "myTemplate", "myRole", "myPreparer",
-                velocityContext, request, response, writer);
+        tModel.end(container, "myDefinitionName", "myTemplate",
+                "myTemplateType", "myTemplateExpression", "myRole",
+                "myPreparer", velocityContext, request, response, writer);
 
         replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
         initializeModel();
@@ -178,6 +180,8 @@ public class InsertDefinitionVModelTest {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("name", "myDefinitionName");
         params.put("template", "myTemplate");
+        params.put("templateType", "myTemplateType");
+        params.put("templateExpression", "myTemplateExpression");
         params.put("role", "myRole");
         params.put("preparer", "myPreparer");
         return params;

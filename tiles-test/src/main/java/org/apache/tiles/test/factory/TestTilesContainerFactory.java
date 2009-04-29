@@ -47,6 +47,7 @@ import org.apache.tiles.evaluator.el.TilesContextBeanELResolver;
 import org.apache.tiles.evaluator.el.TilesContextELResolver;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
+import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
@@ -54,6 +55,8 @@ import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
+import org.apache.tiles.velocity.renderer.TilesApplicationContextJeeConfig;
+import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
 
 
 /**
@@ -112,6 +115,28 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
         renderer.setRequestContextFactory(contextFactory);
         renderer.setEvaluator(evaluator);
         rendererFactory.registerRenderer("reversed", renderer);
+
+        FreeMarkerAttributeRenderer freemarkerRenderer = new FreeMarkerAttributeRenderer();
+        freemarkerRenderer.setApplicationContext(applicationContext);
+        freemarkerRenderer.setEvaluator(evaluator);
+        freemarkerRenderer.setRequestContextFactory(contextFactory);
+        freemarkerRenderer.setParameter("TemplatePath", "/");
+        freemarkerRenderer.setParameter("NoCache", "true");
+        freemarkerRenderer.setParameter("ContentType", "text/html");
+        freemarkerRenderer.setParameter("template_update_delay", "0");
+        freemarkerRenderer.setParameter("default_encoding", "ISO-8859-1");
+        freemarkerRenderer.setParameter("number_format", "0.##########");
+        freemarkerRenderer.commit();
+        rendererFactory.registerRenderer("freemarker", freemarkerRenderer);
+
+        VelocityAttributeRenderer velocityRenderer = new VelocityAttributeRenderer();
+        velocityRenderer.setApplicationContext(applicationContext);
+        velocityRenderer.setEvaluator(evaluator);
+        velocityRenderer.setRequestContextFactory(contextFactory);
+        velocityRenderer.setParameter("org.apache.velocity.toolbox", "/WEB-INF/tools.xml");
+        velocityRenderer.setParameter("org.apache.velocity.properties", "/WEB-INF/velocity.properties");
+        velocityRenderer.commit();
+        rendererFactory.registerRenderer("velocity", velocityRenderer);
     }
 
     /** {@inheritDoc} */

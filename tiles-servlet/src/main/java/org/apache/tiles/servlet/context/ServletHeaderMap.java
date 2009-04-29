@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.context.MapEntry;
 
@@ -47,9 +48,23 @@ final class ServletHeaderMap implements Map<String, String> {
      * Constructor.
      *
      * @param request The request object to use.
+     * @deprecated Use {@link #ServletHeaderMap(HttpServletRequest,HttpServletResponse)} instead
      */
     public ServletHeaderMap(HttpServletRequest request) {
+        this(request, null);
+    }
+
+
+    /**
+     * Constructor.
+     *
+     * @param request The request object to use.
+     * @param response The response object to use.
+     * @since 2.2.0
+     */
+    public ServletHeaderMap(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
+        this.response = response;
     }
 
 
@@ -57,6 +72,11 @@ final class ServletHeaderMap implements Map<String, String> {
      * The request object to use.
      */
     private HttpServletRequest request = null;
+
+    /**
+     * The request object to use.
+     */
+    private HttpServletResponse response = null;
 
 
     /** {@inheritDoc} */
@@ -149,13 +169,17 @@ final class ServletHeaderMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     public String put(String key, String value) {
-        throw new UnsupportedOperationException();
+        response.setHeader(key, value);
+        return value;
     }
 
 
     /** {@inheritDoc} */
     public void putAll(Map<? extends String, ? extends String> map) {
-        throw new UnsupportedOperationException();
+        for (Map.Entry<? extends String, ? extends String> entry : map
+                .entrySet()) {
+            response.setHeader(entry.getKey(), entry.getValue());
+        }
     }
 
 

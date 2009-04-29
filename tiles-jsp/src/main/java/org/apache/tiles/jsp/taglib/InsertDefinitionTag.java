@@ -80,6 +80,20 @@ public class InsertDefinitionTag extends TilesBodyTag {
     private String template;
 
     /**
+     * The type of the template attribute.
+     *
+     * @since 2.2.0
+     */
+    private String templateType;
+
+    /**
+     * The expression to evaluate to get the value of the template.
+     *
+     * @since 2.2.0
+     */
+    private String templateExpression;
+
+    /**
      * Returns the name of the definition to insert.
      *
      * @return The name of the definition.
@@ -209,6 +223,46 @@ public class InsertDefinitionTag extends TilesBodyTag {
         this.template = template;
     }
 
+    /**
+     * Returns the type of the template attribute.
+     *
+     * @return The template type.
+     * @since 2.2.0
+     */
+    public String getTemplateType() {
+        return templateType;
+    }
+
+    /**
+     * Sets the type of the template attribute.
+     *
+     * @param templateType The template type.
+     * @since 2.2.0
+     */
+    public void setTemplateType(String templateType) {
+        this.templateType = templateType;
+    }
+
+    /**
+     * Returns the expression to evaluate to get the value of the template.
+     *
+     * @return The template expression.
+     * @since 2.2.0
+     */
+    public String getTemplateExpression() {
+        return templateExpression;
+    }
+
+    /**
+     * Sets the expression to evaluate to get the value of the template.
+     *
+     * @param templateExpression The template expression.
+     * @since 2.2.0
+     */
+    public void setTemplateExpression(String templateExpression) {
+        this.templateExpression = templateExpression;
+    }
+
     /** {@inheritDoc} */
     @Override
     public void release() {
@@ -232,7 +286,7 @@ public class InsertDefinitionTag extends TilesBodyTag {
     @Override
     public int doEndTag() throws TilesJspException {
         model.end(JspUtil.getCurrentContainer(pageContext), name, template,
-                role, preparer, pageContext);
+                templateType, templateExpression, role, preparer, pageContext);
         return EVAL_PAGE;
     }
 }

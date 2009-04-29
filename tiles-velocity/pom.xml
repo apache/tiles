@@ -45,11 +45,6 @@
       <version>${pom.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>2.5</version>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.5</version>
@@ -59,11 +54,25 @@
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
       <version>1.7-dev</version>
-    </dependency> 
+    </dependency>
     <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity-tools</artifactId>
       <version>2.0-SNAPSHOT</version>
+      <exclusions>
+      	<exclusion>
+      		<artifactId>struts-taglib</artifactId>
+      		<groupId>org.apache.struts</groupId>
+      	</exclusion>
+      	<exclusion>
+      		<artifactId>struts-tiles</artifactId>
+      		<groupId>org.apache.struts</groupId>
+      	</exclusion>
+      	<exclusion>
+      		<artifactId>struts-core</artifactId>
+      		<groupId>org.apache.struts</groupId>
+      	</exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

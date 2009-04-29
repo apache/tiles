@@ -142,11 +142,14 @@ public class InsertDefinitionFMModelTest {
         Attribute attribute = createMock(Attribute.class);
         params.put("name", objectWrapper.wrap("myName"));
         params.put("template", objectWrapper.wrap("myTemplate"));
+        params.put("templateType", objectWrapper.wrap("myTemplateType"));
+        params.put("templateExpression", objectWrapper.wrap("myTemplateExpression"));
         params.put("role", objectWrapper.wrap("myRole"));
         params.put("preparer", objectWrapper.wrap("myPreparer"));
 
         tModel.start(container, env);
-        tModel.end(container, "myName", "myTemplate", "myRole", "myPreparer", env);
+        tModel.end(container, "myName", "myTemplate", "myTemplateType",
+                "myTemplateExpression", "myRole", "myPreparer", env);
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, container, attribute);
