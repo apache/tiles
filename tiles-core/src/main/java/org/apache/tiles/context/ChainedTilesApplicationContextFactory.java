@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.AbstractTilesApplicationContextFactoryAware;
+import org.apache.tiles.reflect.ClassUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -81,7 +82,6 @@ public class ChainedTilesApplicationContextFactory extends
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public void init(Map<String, String> configParameters) {
         String[] classNames = null;
         String classNamesString = configParameters.get(FACTORY_CLASS_NAMES);
@@ -95,23 +95,16 @@ public class ChainedTilesApplicationContextFactory extends
         factories = new ArrayList<AbstractTilesApplicationContextFactory>();
         for (int i = 0; i < classNames.length; i++) {
             try {
-                Class<AbstractTilesApplicationContextFactory> clazz =
-                    (Class<AbstractTilesApplicationContextFactory>) Class
-                        .forName(classNames[i]);
-                if (AbstractTilesApplicationContextFactory.class
-                        .isAssignableFrom(clazz)) {
-                    AbstractTilesApplicationContextFactory factory = clazz
-                            .newInstance();
-                    if (factory instanceof AbstractTilesApplicationContextFactoryAware) {
-                        ((AbstractTilesApplicationContextFactoryAware) factory)
-                                .setApplicationContextFactory(this);
-                    }
-                    factories.add(factory);
-                } else {
-                    throw new IllegalArgumentException("The class "
-                            + classNames[i]
-                            + " does not implement TilesContextFactory");
+                Class<? extends AbstractTilesApplicationContextFactory> clazz = ClassUtil
+                        .getClass(classNames[i],
+                                AbstractTilesApplicationContextFactory.class);
+                AbstractTilesApplicationContextFactory factory = clazz
+                        .newInstance();
+                if (factory instanceof AbstractTilesApplicationContextFactoryAware) {
+                    ((AbstractTilesApplicationContextFactoryAware) factory)
+                            .setApplicationContextFactory(this);
                 }
+                factories.add(factory);
             } catch (ClassNotFoundException e) {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.

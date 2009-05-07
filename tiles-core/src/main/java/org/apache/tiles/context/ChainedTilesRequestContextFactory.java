@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
+import org.apache.tiles.reflect.ClassUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -80,7 +81,6 @@ public class ChainedTilesRequestContextFactory implements TilesRequestContextFac
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public void init(Map<String, String> configParameters) {
         String[] classNames = null;
         String classNamesString = configParameters.get(FACTORY_CLASS_NAMES);
@@ -94,16 +94,11 @@ public class ChainedTilesRequestContextFactory implements TilesRequestContextFac
         factories = new ArrayList<TilesRequestContextFactory>();
         for (int i = 0; i < classNames.length; i++) {
             try {
-                Class<TilesRequestContextFactory> clazz = (Class<TilesRequestContextFactory>) Class
-                        .forName(classNames[i]);
-                if (TilesRequestContextFactory.class.isAssignableFrom(clazz)) {
-                    TilesRequestContextFactory factory = clazz.newInstance();
-                    factories.add(factory);
-                } else {
-                    throw new IllegalArgumentException("The class "
-                            + classNames[i]
-                            + " does not implement TilesRequestContextFactory");
-                }
+                Class<? extends TilesRequestContextFactory> clazz = ClassUtil
+                        .getClass(classNames[i],
+                                TilesRequestContextFactory.class);
+                TilesRequestContextFactory factory = clazz.newInstance();
+                factories.add(factory);
             } catch (ClassNotFoundException e) {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.
