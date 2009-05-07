@@ -244,7 +244,7 @@ public class Attribute implements Serializable {
      * @param role Asociated role.
      * @param type Attribute type.
      * @deprecated Use
-     * {@link Attribute#Attribute(Object, String, String)))}.
+     * {@link Attribute#Attribute(Object, String, String, String)}.
      */
     public Attribute(String name, Object value, String role,
             AttributeType type) {
@@ -406,7 +406,7 @@ public class Attribute implements Serializable {
      * Sets the type of this attribute.
      *
      * @param type The attribute type.
-     * @deprecated Use {@link Attribute#setRenderer(String))}.
+     * @deprecated Use {@link Attribute#setRenderer(String)}.
      */
     public void setType(AttributeType type) {
         this.renderer = type.toString();
@@ -498,8 +498,15 @@ public class Attribute implements Serializable {
     public boolean equals(Object obj) {
         Attribute attribute = (Attribute) obj;
         return nullSafeEquals(value, attribute.value)
-                || nullSafeEquals(renderer, attribute.renderer)
-                || nullSafeEquals(roles, attribute.roles)
-                || nullSafeEquals(expression, attribute.expression);
+                && nullSafeEquals(renderer, attribute.renderer)
+                && nullSafeEquals(roles, attribute.roles)
+                && nullSafeEquals(expression, attribute.expression);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return nullSafeHashCode(value) + nullSafeHashCode(renderer)
+                + nullSafeHashCode(roles) + nullSafeHashCode(expression);
     }
 }
