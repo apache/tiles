@@ -59,6 +59,16 @@ public class VelocityStyleTilesTool extends ContextHolder {
     }
 
     /**
+     * Creates a new empty attribute.
+     *
+     * @return The created attribute.
+     * @since 2.2.0
+     */
+    public Attribute createAttribute() {
+        return new Attribute();
+    }
+
+    /**
      * Creates an attribute that is a copy of the one passed as a parameter.
      *
      * @param attribute The attribute to copy.

@@ -6,6 +6,9 @@ package org.apache.tiles.velocity.template;
 import static org.junit.Assert.*;
 import static org.easymock.classextension.EasyMock.*;
 
+import java.io.IOException;
+import java.io.StringWriter;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +18,8 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.Renderable;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,11 +59,10 @@ public class VelocityStyleTilesToolTest {
     /**
      * Sets up the tool to test.
      *
-     * @throws java.lang.Exception
      * @since 2.2.0
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         tool = new VelocityStyleTilesTool();
         request = createMock(HttpServletRequest.class);
         response = createMock(HttpServletResponse.class);
@@ -88,11 +92,30 @@ public class VelocityStyleTilesToolTest {
     }
 
     /**
+     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#createAttribute()}.
+     */
+    @Test
+    public void testCreateAttribute() {
+        replay(velocityContext, request, response, servletContext);
+        initializeTool();
+        Attribute attribute =  tool.createAttribute();
+        assertNull(attribute.getValue());
+        assertNull(attribute.getRenderer());
+        assertNull(attribute.getExpression());
+        verify(velocityContext, request, response, servletContext);
+    }
+
+    /**
      * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#cloneAttribute(org.apache.tiles.Attribute)}.
      */
     @Test
     public void testCloneAttribute() {
-        fail("Not yet implemented");
+        Attribute attribute = new Attribute("myValue", "myExpression", "myRole", "myRendererName");
+
+        replay(velocityContext, request, response, servletContext);
+        initializeTool();
+        assertEquals(attribute, tool.cloneAttribute(attribute));
+        verify(velocityContext, request, response, servletContext);
     }
 
     /**
@@ -100,31 +123,76 @@ public class VelocityStyleTilesToolTest {
      */
     @Test
     public void testCreateTemplateAttribute() {
-        fail("Not yet implemented");
+        replay(velocityContext, request, response, servletContext);
+        initializeTool();
+        Attribute attribute = tool.createTemplateAttribute("myTemplate");
+        assertEquals("myTemplate", attribute.getValue());
+        assertEquals("template", attribute.getRenderer());
+        verify(velocityContext, request, response, servletContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#renderAttribute(org.apache.tiles.Attribute)}.
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testRenderAttribute() {
-        fail("Not yet implemented");
+    public void testRenderAttribute() throws IOException {
+        TilesContainer container = createMock(TilesContainer.class);
+        InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
+        StringWriter writer = new StringWriter();
+        Attribute attribute = new Attribute("myValue");
+
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
+                .andReturn(container);
+        container.render(attribute, velocityContext, request, response, writer);
+
+        replay(velocityContext, request, response, servletContext, container, internalContextAdapter);
+        initializeTool();
+        Renderable renderable = tool.renderAttribute(attribute);
+        renderable.render(internalContextAdapter, writer);
+        verify(velocityContext, request, response, servletContext, container, internalContextAdapter);
     }
 
     /**
      * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#renderDefinition(java.lang.String)}.
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testRenderDefinition() {
-        fail("Not yet implemented");
+    public void testRenderDefinition() throws IOException {
+        TilesContainer container = createMock(TilesContainer.class);
+        InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
+        StringWriter writer = new StringWriter();
+
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
+                .andReturn(container);
+        container.render("myDefinition", velocityContext, request, response, writer);
+
+        replay(velocityContext, request, response, servletContext, container, internalContextAdapter);
+        initializeTool();
+        Renderable renderable = tool.renderDefinition("myDefinition");
+        renderable.render(internalContextAdapter, writer);
+        verify(velocityContext, request, response, servletContext, container, internalContextAdapter);
     }
 
     /**
      * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#renderAttributeContext()}.
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testRenderAttributeContext() {
-        fail("Not yet implemented");
+    public void testRenderAttributeContext() throws IOException {
+        TilesContainer container = createMock(TilesContainer.class);
+        InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
+        StringWriter writer = new StringWriter();
+
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
+                .andReturn(container);
+        container.renderContext(velocityContext, request, response, writer);
+
+        replay(velocityContext, request, response, servletContext, container, internalContextAdapter);
+        initializeTool();
+        Renderable renderable = tool.renderAttributeContext();
+        renderable.render(internalContextAdapter, writer);
+        verify(velocityContext, request, response, servletContext, container, internalContextAdapter);
     }
 
     /**
@@ -132,7 +200,18 @@ public class VelocityStyleTilesToolTest {
      */
     @Test
     public void testStartAttributeContext() {
-        fail("Not yet implemented");
+        TilesContainer container = createMock(TilesContainer.class);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
+                .andReturn(container);
+        expect(container.startContext(velocityContext, request, response))
+                .andReturn(attributeContext);
+
+        replay(velocityContext, request, response, servletContext, container, attributeContext);
+        initializeTool();
+        assertEquals(attributeContext, tool.startAttributeContext());
+        verify(velocityContext, request, response, servletContext, container, attributeContext);
     }
 
     /**
@@ -140,7 +219,17 @@ public class VelocityStyleTilesToolTest {
      */
     @Test
     public void testEndAttributeContext() {
-        fail("Not yet implemented");
+        TilesContainer container = createMock(TilesContainer.class);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
+                .andReturn(container);
+        container.endContext(velocityContext, request, response);
+
+        replay(velocityContext, request, response, servletContext, container, attributeContext);
+        initializeTool();
+        tool.endAttributeContext();
+        verify(velocityContext, request, response, servletContext, container, attributeContext);
     }
 
     /**
@@ -148,7 +237,18 @@ public class VelocityStyleTilesToolTest {
      */
     @Test
     public void testGetAttributeContext() {
-        fail("Not yet implemented");
+        TilesContainer container = createMock(TilesContainer.class);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
+                .andReturn(container);
+        expect(container.getAttributeContext(velocityContext, request, response))
+                .andReturn(attributeContext);
+
+        replay(velocityContext, request, response, servletContext, container, attributeContext);
+        initializeTool();
+        assertEquals(attributeContext, tool.getAttributeContext());
+        verify(velocityContext, request, response, servletContext, container, attributeContext);
     }
 
     /**
@@ -156,7 +256,15 @@ public class VelocityStyleTilesToolTest {
      */
     @Test
     public void testSetCurrentContainer() {
-        fail("Not yet implemented");
+        TilesContainer container = createMock(TilesContainer.class);
+
+        expect(servletContext.getAttribute("myKey")).andReturn(container);
+        request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+
+        replay(velocityContext, request, response, servletContext, container);
+        initializeTool();
+        assertEquals(tool, tool.setCurrentContainer("myKey"));
+        verify(velocityContext, request, response, servletContext, container);
     }
 
     /**
@@ -164,7 +272,7 @@ public class VelocityStyleTilesToolTest {
      */
     @Test
     public void testToString() {
-        fail("Not yet implemented");
+        assertEquals("", tool.toString());
     }
 
     /**
