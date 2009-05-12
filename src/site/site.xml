@@ -52,115 +52,121 @@
                    href="security/index.html"/>
         </menu>
         <menu name="Documentation">
-            <item   
+            <item
                     name="What's new"
                     href="whats-new.html"/>
-            <item   
+            <item
                     name="Getting Started"
                     href="getting_started.html"/>
-            <item   
+            <item
                     name="Tutorial"
                     href="tutorial/index.html"
                     collapse="true">
-                <item   
+                <item
                         name="The composite view pattern"
                         href="tutorial/pattern.html"/>
-                <item   
+                <item
                         name="Configuration"
                         href="tutorial/configuration.html"/>
-                <item   
+                <item
                         name="Wildcards in configuration files"
                         href="tutorial/wildcard-configuration.html"/>
-                <item   
+                <item
                         name="Basic Usage"
                         href="tutorial/basic/index.html"
                         collapse="true">
-                    <item   
+                    <item
                             name="Tiles Concepts"
                             href="tutorial/basic/concepts.html"/>
-                    <item   
+                    <item
                             name="Creating Pages"
                             href="tutorial/basic/pages.html"/>
                 </item>
-                <item   
+                <item
                         name="Advanced Topics"
                         href="tutorial/advanced/index.html"
                         collapse="true">
-                    <item   
+                    <item
                             name="Nesting and Extending"
                             href="tutorial/advanced/nesting-extending.html"/>
-                    <item   
+                    <item
                             name="List Attributes"
                             href="tutorial/advanced/list-attributes.html"/>
-                    <item   
+                    <item
                             name="Runtime Composition"
                             href="tutorial/advanced/runtime.html"/>
-                    <item   
+                    <item
                             name="View Preparers"
                             href="tutorial/advanced/preparer.html"/>
-                    <item   
+                    <item
                             name="Rendering Utilities"
                             href="tutorial/advanced/utils.html"/>
-                    <item   
+                    <item
                             name="Localization"
                             href="tutorial/advanced/l10n.html"/>
-                    <item   
+                    <item
                             name="Using Beans as Attributes"
                             href="tutorial/advanced/beans.html"/>
-                    <item   
+                    <item
                             name="Menu-ing"
                             href="tutorial/advanced/menu.html"/>
-                    <item   
+                    <item
                             name="Wildcard support"
                             href="tutorial/advanced/wildcard.html"/>
-                    <item   
+                    <item
                             name="EL support"
                             href="tutorial/advanced/el-support.html"/>
-                    <item   
+                    <item
                             name="Attribute rendering"
                             href="tutorial/advanced/attribute-rendering.html"/>
-                    <item   
+                    <item
                             name="Multiple containers"
                             href="tutorial/advanced/multiple-containers.html"/>
-                    <item   
+                    <item
                             name="Security"
                             href="tutorial/advanced/security.html"/>
                 </item>
-                <item   
+                <item
                         name="Integrations"
                         href="tutorial/integration/index.html"
                         collapse="true">
-                    <item   
+                    <item
                             name="Frameworks"
                             href="tutorial/integration/frameworks.html"/>
-                    <item   
+                    <item
                             name="View technologies"
                             href="tutorial/integration/view.html">
-                        <item   
+                        <item
                                 name="FreeMarker"
                                 href="tutorial/integration/freemarker.html"/>
+                        <item
+                                name="Velocity"
+                                href="tutorial/integration/velocity.html"/>
                     </item>
                 </item>
-                <item   
+                <item
                         name="Extensions"
                         href="tutorial/extension/index.html"
                         collapse="true">
-                     <item   
+                     <item
                             name="Extension Points"
                             href="tutorial/extension/points.html"/>
-                     <item   
+                     <item
+                            name="Template languages"
+                            href="tutorial/extension/template.html"/>
+                     <item
                             name="UrlDefinitionsFactory"
                             href="tutorial/extension/url_definitions_factory.html"/>
                 </item>
-            <item   
+            <item
                     name="Migration from Struts Tiles"
                     href="migration/index.html"/>
             </item>
-            <item   
+            <item
                     name="HOW-TOs"
                     href="how-to/index.html"
                     collapse="true">
-                <item   
+                <item
                         name="Loading definitions from a database"
                         href="how-to/definitions-db.html"/>
             </item>

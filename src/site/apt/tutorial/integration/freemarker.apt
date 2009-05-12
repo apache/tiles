@@ -25,18 +25,25 @@ Integration with FreeMarker
 
   {{{http://freemarker.sourceforge.net/}FreeMarker}} is a templating framework
   that can be used as a replacement for JavaServer Pages (JSP). Tiles can be
-  used with FreeMarker because FreeMarker templates can use JSP tag libraries.
+  used with FreeMarker through the use of Tiles FreeMarker package.
 
 * Configuration
 
-  To use JSP support in FreeMarker, add this piece of configuration
+  To use FreeMarker together with Tiles
+
+  * Add FreeMarker jars (tested with FreeMarker 2.3.15).
+
+  * Add <<<tiles-template-x.x.x.jar>>> and <<<tiles-freemarker-x.x.x.jar>>> files
+  to your application
+
+  * To access ".ftl" files from HTTP requests, add this piece of configuration in <<<web.xml>>>
   (the parameters can be modified as needed).
 
 ----------------------------------
 <servlet>
     <servlet-name>freemarker</servlet-name>
-    <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
-    
+    <servlet-class>org.apache.tiles.freemarker.servlet.TilesFreemarkerServlet</servlet-class>
+
     <!-- FreemarkerServlet settings: -->
     <init-param>
         <param-name>TemplatePath</param-name>
@@ -50,7 +57,7 @@ Integration with FreeMarker
         <param-name>ContentType</param-name>
         <param-value>text/html</param-value>
     </init-param>
-    
+
     <!-- FreeMarker settings: -->
     <init-param>
         <param-name>template_update_delay</param-name>
@@ -64,16 +71,51 @@ Integration with FreeMarker
         <param-name>number_format</param-name>
         <param-value>0.##########</param-value>
     </init-param>
-    
+
     <load-on-startup>5</load-on-startup>
 </servlet>
 ----------------------------------
 
+  * To access ".ftl" files as attributes, register FreeMarkerAttributeRenderer
+  this way (only available in a servlet environment):
+
+----------------------------------
+@Override
+protected void registerAttributeRenderers(
+        BasicRendererFactory rendererFactory, TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory,
+        TilesContainer container, AttributeEvaluator evaluator) {
+    super.registerAttributeRenderers(rendererFactory, applicationContext, contextFactory,
+            container, evaluator);
+    FreeMarkerAttributeRenderer freemarkerRenderer = new FreeMarkerAttributeRenderer();
+    freemarkerRenderer.setApplicationContext(applicationContext);
+    freemarkerRenderer.setEvaluator(evaluator);
+    freemarkerRenderer.setRequestContextFactory(contextFactory);
+    freemarkerRenderer.setParameter("TemplatePath", "/");
+    freemarkerRenderer.setParameter("NoCache", "true");
+    freemarkerRenderer.setParameter("ContentType", "text/html");
+    freemarkerRenderer.setParameter("template_update_delay", "0");
+    freemarkerRenderer.setParameter("default_encoding", "ISO-8859-1");
+    freemarkerRenderer.setParameter("number_format", "0.##########");
+    freemarkerRenderer.commit();
+    rendererFactory.registerRenderer("freemarker", freemarkerRenderer);
+}
+----------------------------------
+
+  This way you can specify an attribute that is rendered directly using this syntax:
+
+----------------------------------
+<put-attribute name="myAttribute" value="/pages/myPage.ftl" type="freemarker" />
+----------------------------------
+
 * Usage in FreeMarker templates
 
-  To use Tiles JSP tag libraries in FreeMarker templates, add this line in
-  every page that needs Tiles:
+  Tiles directives are available this way:
 
 ----------------------------------
-<#assign tiles=JspTaglibs["http://tiles.apache.org/tags-tiles"]>
+<@tiles.nameOfDirective>
+  Other stuff...
+</@tiles.nameOfDirective>
 ----------------------------------
+
+  For details about directives see the {{{../../apidocs/index.html}Javadocs}}.

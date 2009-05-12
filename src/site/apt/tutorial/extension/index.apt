@@ -25,8 +25,9 @@ Extending Tiles
 
   Tiles is not a static framework: it can be customized and extended for your
   needs, to provide custom behaviour to different aspects of the application.
-  
+
   [[1]] {{{points.html}Extension Points}}.
 
-  [[2]] {{{url_definitions_factory.html}Customizing <<<UrlDefinitionsFactory>>>}}.
-  
+  [[2]] {{{template.html}Adding support to a template language}}.
+
+  [[3]] {{{url_definitions_factory.html}Customizing <<<UrlDefinitionsFactory>>>}}.
