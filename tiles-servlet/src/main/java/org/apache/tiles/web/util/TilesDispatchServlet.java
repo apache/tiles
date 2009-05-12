@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 import javax.servlet.ServletException;
@@ -75,8 +76,7 @@ public class TilesDispatchServlet extends HttpServlet {
         String temp = getInitParameter("mutator");
         if (temp != null) {
             try {
-                mutator = (AttributeContextMutator) Class.forName(temp)
-                        .newInstance();
+                mutator = (AttributeContextMutator) ClassUtil.instantiate(temp);
             } catch (Exception e) {
                 throw new ServletException("Unable to instantiate specified context mutator.", e);
             }
