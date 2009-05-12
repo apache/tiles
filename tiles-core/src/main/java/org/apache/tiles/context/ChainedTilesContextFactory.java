@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
+import org.apache.tiles.reflect.ClassUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -84,7 +85,6 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public void init(Map<String, String> configParameters) {
         String[] classNames = null;
         String classNamesString = configParameters.get(FACTORY_CLASS_NAMES);
@@ -98,20 +98,14 @@ public class ChainedTilesContextFactory implements TilesContextFactory {
         factories = new ArrayList<TilesContextFactory>();
         for (int i = 0; i < classNames.length; i++) {
             try {
-                Class<TilesContextFactory> clazz = (Class<TilesContextFactory>) Class
-                        .forName(classNames[i]);
-                if (TilesContextFactory.class.isAssignableFrom(clazz)) {
-                    TilesContextFactory factory = clazz.newInstance();
-                    if (factory instanceof TilesRequestContextFactoryAware) {
-                        ((TilesRequestContextFactoryAware) factory)
-                                .setRequestContextFactory(this);
-                    }
-                    factories.add(factory);
-                } else {
-                    throw new IllegalArgumentException("The class "
-                            + classNames[i]
-                            + " does not implement TilesContextFactory");
+                Class<? extends TilesContextFactory> clazz = ClassUtil
+                        .getClass(classNames[i], TilesContextFactory.class);
+                TilesContextFactory factory = clazz.newInstance();
+                if (factory instanceof TilesRequestContextFactoryAware) {
+                    ((TilesRequestContextFactoryAware) factory)
+                            .setRequestContextFactory(this);
                 }
+                factories.add(factory);
             } catch (ClassNotFoundException e) {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.

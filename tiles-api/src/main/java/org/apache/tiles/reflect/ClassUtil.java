@@ -39,6 +39,29 @@ public final class ClassUtil {
     }
 
     /**
+     * Returns the class and casts it to the correct subclass.<br>
+     * It tries to use the thread's current classloader first and, if it does
+     * not succeed, uses the classloader of ClassUtil.
+     *
+     * @param <T> The subclass to use.
+     * @param className The name of the class to load.
+     * @param baseClass The base class to subclass to.
+     * @return The loaded class.
+     * @throws ClassNotFoundException If the class has not been found.
+     * @since 2.1.3
+     */
+    public static <T> Class<? extends T> getClass(String className,
+            Class<T> baseClass) throws ClassNotFoundException {
+        ClassLoader classLoader = Thread.currentThread()
+                .getContextClassLoader();
+        if (classLoader == null) {
+            classLoader = ClassUtil.class.getClassLoader();
+        }
+        return Class.forName(className, true, classLoader)
+                .asSubclass(baseClass);
+    }
+
+    /**
      * Returns an instance of the given class name, by calling the default
      * constructor.
      *
@@ -65,12 +88,12 @@ public final class ClassUtil {
      * @since 2.0.7
      */
     public static Object instantiate(String className, boolean returnNull) {
-        ClassLoader original = Thread.currentThread().getContextClassLoader();
-        if (original == null) {
-            Thread.currentThread().setContextClassLoader(ClassUtil.class.getClassLoader());
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        if (classLoader == null) {
+            classLoader = ClassUtil.class.getClassLoader();
         }
         try {
-            Class<?> namedClass = Class.forName(className);
+            Class<? extends Object> namedClass = getClass(className, Object.class);
             return namedClass.newInstance();
         } catch (ClassNotFoundException e) {
             if (returnNull) {
@@ -87,12 +110,6 @@ public final class ClassUtil {
                             + className
                             + "'. Make sure that this class has a default constructor",
                     e);
-        } finally {
-            // If the original context classloader of the current thread was
-            // null, it must be reset.
-            if (original == null) {
-                Thread.currentThread().setContextClassLoader(null);
-            }
         }
     }
 

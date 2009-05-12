@@ -49,6 +49,7 @@ import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
+import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
@@ -162,9 +163,8 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             TilesRequestContextFactory parent) {
         TilesRequestContextFactory retValue = null;
         try {
-            Class<? extends TilesRequestContextFactory> clazz = Class
-                    .forName(className).asSubclass(
-                            TilesRequestContextFactory.class);
+            Class<? extends TilesRequestContextFactory> clazz = ClassUtil
+                    .getClass(className, TilesRequestContextFactory.class);
             retValue = clazz.newInstance();
             if (parent != null
                     && retValue instanceof TilesRequestContextFactoryAware) {
@@ -173,14 +173,14 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             }
         } catch (ClassNotFoundException e) {
             if (log.isDebugEnabled()) {
-                log.debug("Cannot find JspTilesContextFactory, ignoring problem", e);
+                log.debug("Cannot find class '" + className + "', ignoring problem", e);
             }
         } catch (InstantiationException e) {
             throw new TilesContainerFactoryException(
-                    "Cannot instantiate JspTilesContextFactory", e);
+                    "Cannot instantiate '" + className + "'", e);
         } catch (IllegalAccessException e) {
             throw new TilesContainerFactoryException(
-                    "Cannot access default constructor JspTilesContextFactory",
+                    "Cannot access default constructor '" + className + "'",
                     e);
         }
         if (retValue != null) {
