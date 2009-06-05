@@ -1,5 +1,5 @@
 /*
- * $Id: ServletUtil.java 751886 2009-03-09 22:39:50Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -27,7 +27,7 @@ import java.io.Writer;
 /**
  * A writer that does not write anything.
  *
- * @version $Rev: 751886 $ $Date: 2009-03-09 23:39:50 +0100 (lun, 09 mar 2009) $
+ * @version $Rev$ $Date$
  * @since 2.2.0
  */
 public class NullWriter extends Writer {

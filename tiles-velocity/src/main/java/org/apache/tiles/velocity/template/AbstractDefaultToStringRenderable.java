@@ -1,5 +1,5 @@
 /*
- * $Id: ServletUtil.java 751886 2009-03-09 22:39:50Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -41,7 +41,7 @@ import org.apache.velocity.runtime.Renderable;
  * Renderable that provides a default implementation of {@link Renderable#toString()}
  * and allows access to parameters and context objects.
  *
- * @version $Rev: 751886 $ $Date: 2009-03-09 23:39:50 +0100 (lun, 09 mar 2009) $
+ * @version $Rev$ $Date$
  * @since 2.2.0
  */
 public abstract class AbstractDefaultToStringRenderable implements Renderable {

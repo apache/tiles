@@ -1,5 +1,5 @@
 /*
- * $Id: TilesServlet.java 531864 2007-04-24 10:24:30Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -32,7 +32,7 @@ import org.apache.tiles.factory.AbstractTilesContainerFactory;
  * environment. It uses init parameters to create the
  * {@link TilesApplicationContext} and the {@link TilesContainer}.
  *
- * @version $Rev: 531864 $ $Date: 2007-04-24 12:24:30 +0200 (mar, 24 apr 2007) $
+ * @version $Rev$ $Date$
  * @since 2.1.2
  */
 public class BasicTilesInitializer implements TilesInitializer {

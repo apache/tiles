@@ -1,5 +1,5 @@
 /*
- * $Id: JspUtilTest.java 657919 2008-05-19 18:52:49Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -36,7 +36,7 @@ import junit.framework.TestCase;
 /**
  * Tests {@link JspTilesRequestContextFactory}.
  *
- * @version $Rev: 657919 $ $Date: 2008-05-19 20:52:49 +0200 (lun, 19 mag 2008) $
+ * @version $Rev$ $Date$
  */
 public class JspTilesRequestContextFactoryTest extends TestCase {
 

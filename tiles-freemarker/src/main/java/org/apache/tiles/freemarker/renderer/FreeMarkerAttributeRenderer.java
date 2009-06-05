@@ -1,5 +1,5 @@
 /*
- * $Id: TilesFreemarkerServlet.java 765386 2009-04-15 21:56:54Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -51,7 +51,7 @@ import org.apache.tiles.servlet.context.ServletUtil;
  * To initialize it correctly, call {@link #setParameter(String, String)} for all the
  * parameters that you want to set, and then call {@link #commit()}.
  *
- * @version $Rev: 765386 $ $Date: 2009-04-15 23:56:54 +0200 (mer, 15 apr 2009) $
+ * @version $Rev$ $Date$
  * @since 2.2.0
  */
 public class FreeMarkerAttributeRenderer extends AbstractBaseAttributeRenderer implements Initializable {

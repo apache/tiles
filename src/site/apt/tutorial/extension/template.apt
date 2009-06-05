@@ -1,4 +1,4 @@
-~~ $Id: index.apt 538978 2007-05-17 15:43:58Z apetrelli $
+~~ $Id$
 ~~
 ~~ Licensed to the Apache Software Foundation (ASF) under one
 ~~ or more contributor license agreements.  See the NOTICE file
@@ -41,7 +41,7 @@ Supporting a template language
 
   * <<<end>>>: to be called at the end of the directive;
 
-  * <<<execute>>>: when you eed to use directives with and without body.
+  * <<<execute>>>: when you need to use directives with and without body.
 
   []
 
@@ -100,3 +100,13 @@ public void execute(Environment env, Map params, TemplateModel[] loopVars,
   Template language files (for example ".ftl" files for FreeMarker, ".vm" for Velocity
   can be rendered using specific servlets (respectively FreemarkerServlet
   and VelocityViewServlet).
+
+  However, Tiles attributes can be rendered through the use of
+  {{{../advanced/attribute-rendering.html}attribute renderers}}.
+  Currently, the implementations for Velocity and FreeMarker use their servlets
+  as delegate for the real rendering. This means that these renderes use the
+  servlet <<directly>> through calling some specific method, and not forwarding to an URL.
+
+  This is particularly useful if the attribute to render points to a file
+  not accessible as an URL, but allowing the correct initialization of these
+  attributes and their integration with the rest of the layout.

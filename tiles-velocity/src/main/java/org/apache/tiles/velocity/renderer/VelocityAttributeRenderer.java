@@ -1,5 +1,5 @@
 /*
- * $Id: BasicRendererFactoryTest.java 711885 2008-11-06 16:06:38Z apetrelli $
+ * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
