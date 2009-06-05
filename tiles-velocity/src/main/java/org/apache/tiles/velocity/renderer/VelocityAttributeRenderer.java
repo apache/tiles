@@ -38,7 +38,7 @@ import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.tools.view.AbstractJeeConfigImpl;
+import org.apache.velocity.tools.view.JeeConfig;
 import org.apache.velocity.tools.view.VelocityView;
 
 /**
@@ -123,11 +123,24 @@ public class VelocityAttributeRenderer extends AbstractBaseAttributeRenderer
      * @version $Rev$ $Date$
      * @since 2.2.0
      */
-    private class TilesApplicationContextJeeConfig extends AbstractJeeConfigImpl {
+    private class TilesApplicationContextJeeConfig implements JeeConfig {
 
         /** {@inheritDoc} */
         public String getInitParameter(String name) {
             return params.get("name");
+        }
+
+        /** {@inheritDoc} */
+        public String findInitParameter(String key) {
+            String initParameter = getInitParameter(key);
+            if (initParameter != null) {
+                return initParameter;
+            }
+            ServletContext servletContext = getServletContext();
+            if (servletContext == null) {
+                return null;
+            }
+            return servletContext.getInitParameter(key);
         }
 
         /** {@inheritDoc} */
