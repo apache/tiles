@@ -21,7 +21,11 @@
 
 package org.apache.tiles.jsp.taglib;
 
+import java.io.IOException;
+
+import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.template.PutAttributeModel;
@@ -36,7 +40,6 @@ import org.apache.tiles.template.PutAttributeModel;
  * <li>&lt;insertDefinition&gt;</li>
  * <li>&lt;putList&gt;</li>
  * </ul>
- * (or any other tag which implements the <code>{@link PutAttributeTagParent}</code> interface.
  * Exception is thrown if no appropriate tag can be found.</p>
  * <p>Put tag can have following atributes :
  * <ul>
@@ -66,7 +69,7 @@ import org.apache.tiles.template.PutAttributeModel;
  *
  * @version $Rev$ $Date$
  */
-public class PutAttributeTag extends TilesBodyTag {
+public class PutAttributeTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -219,32 +222,12 @@ public class PutAttributeTag extends TilesBodyTag {
 
     /** {@inheritDoc} */
     @Override
-    protected void reset() {
-        super.reset();
-        name = null;
-        cascade = false;
-        role = null;
-        value = null;
-        type = null;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doStartTag() throws JspException {
-        model.start(JspUtil.getComposeStack(pageContext));
-        return EVAL_BODY_BUFFERED;
-    }
-
-    /** {@inheritDoc} */
-    public int doEndTag() throws TilesJspException {
-        String body = null;
-        if (bodyContent != null) {
-            body = bodyContent.getString();
-        }
-        model.end(JspUtil.getCurrentContainer(pageContext), JspUtil
-                .getComposeStack(pageContext), name, value, null, body, role,
-                type, cascade, pageContext);
-
-        return EVAL_PAGE;
+    public void doTag() throws JspException, IOException {
+        JspContext jspContext = getJspContext();
+        model.start(JspUtil.getComposeStack(jspContext));
+        String body = JspUtil.evaluateFragmentAsString(getJspBody());
+        model.end(JspUtil.getCurrentContainer(jspContext), JspUtil
+                .getComposeStack(jspContext), name, value, null, body, role,
+                type, cascade, jspContext);
     }
 }

@@ -22,7 +22,9 @@ package org.apache.tiles.jsp.taglib;
 
 import java.util.Map;
 
+import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.template.ImportAttributeModel;
@@ -36,7 +38,7 @@ import org.apache.tiles.template.ImportAttributeModel;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class ImportAttributeTag extends TilesTag {
+public class ImportAttributeTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -145,24 +147,14 @@ public class ImportAttributeTag extends TilesTag {
 
     /** {@inheritDoc} */
     @Override
-    protected void reset() {
-        super.reset();
-        name = null;
-        scopeName = null;
-        ignore = false;
-        toName = null;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doStartTag() throws JspException {
+    public void doTag() throws JspException {
+        JspContext jspContext = getJspContext();
         Map<String, Object> attributes = model.getImportedAttributes(JspUtil
-                .getCurrentContainer(pageContext), name, toName, ignore,
-                pageContext);
+                .getCurrentContainer(jspContext), name, toName, ignore,
+                jspContext);
         int scopeId = JspUtil.getScope(scopeName);
         for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-            pageContext.setAttribute(entry.getKey(), entry.getValue(), scopeId);
+            jspContext.setAttribute(entry.getKey(), entry.getValue(), scopeId);
         }
-        return EVAL_PAGE;
     }
 }

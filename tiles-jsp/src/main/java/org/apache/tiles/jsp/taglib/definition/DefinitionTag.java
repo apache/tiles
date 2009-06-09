@@ -20,9 +20,14 @@
  */
 package org.apache.tiles.jsp.taglib.definition;
 
+import java.io.IOException;
+
+import javax.servlet.jsp.JspContext;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.context.JspUtil;
-import org.apache.tiles.jsp.taglib.TilesBodyTag;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.template.DefinitionModel;
@@ -34,7 +39,7 @@ import org.apache.tiles.template.DefinitionModel;
  *
  * @version $Rev$ $Date$
  */
-public class DefinitionTag extends TilesBodyTag {
+public class DefinitionTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -158,30 +163,16 @@ public class DefinitionTag extends TilesBodyTag {
 
     /** {@inheritDoc} */
     @Override
-    protected void reset() {
-        super.reset();
-        name = null;
-        template = null;
-        extend = null;
-        role = null;
-        preparer = null;
-    }
-
-    /** {@inheritDoc} */
-    public int doStartTag() throws TilesJspException {
-        model.start(JspUtil.getComposeStack(pageContext), name, template, role, extend, preparer);
-        return EVAL_BODY_INCLUDE;
-    }
-
-    /** {@inheritDoc} */
-    public int doEndTag() throws TilesJspException {
-        TilesContainer container = JspUtil.getCurrentContainer(pageContext);
+    public void doTag() throws JspException, IOException {
+        JspContext jspContext = getJspContext();
+        model.start(JspUtil.getComposeStack(jspContext), name, template, role, extend, preparer);
+        JspUtil.evaluateFragment(getJspBody());
+        TilesContainer container = JspUtil.getCurrentContainer(jspContext);
         if (container instanceof MutableTilesContainer) {
             model.end((MutableTilesContainer) container, JspUtil
-                    .getComposeStack(pageContext), pageContext);
+                    .getComposeStack(jspContext), jspContext);
         } else {
             throw new TilesJspException("The current container is not mutable");
         }
-        return EVAL_PAGE;
     }
 }

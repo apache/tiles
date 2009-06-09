@@ -22,9 +22,9 @@
 package org.apache.tiles.jsp.taglib.definition;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.jsp.context.JspUtil;
-import org.apache.tiles.jsp.taglib.TilesTag;
 
 /**
  * Sets the current container, to be used by Tiles tags.
@@ -32,7 +32,7 @@ import org.apache.tiles.jsp.taglib.TilesTag;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class SetCurrentContainerTag extends TilesTag {
+public class SetCurrentContainerTag extends SimpleTagSupport {
 
     /**
      * The key under which the container is stored.
@@ -61,15 +61,7 @@ public class SetCurrentContainerTag extends TilesTag {
 
     /** {@inheritDoc} */
     @Override
-    protected void reset() {
-        super.reset();
-        this.containerKey = null;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doEndTag() throws JspException {
-        JspUtil.setCurrentContainer(pageContext, containerKey);
-        return SKIP_BODY;
+    public void doTag() throws JspException {
+        JspUtil.setCurrentContainer(getJspContext(), containerKey);
     }
 }

@@ -21,9 +21,16 @@
 
 package org.apache.tiles.jsp.context;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+
+import javax.servlet.jsp.JspContext;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.JspFragment;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,8 +39,6 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.impl.NoSuchContainerException;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.servlet.context.ServletUtil;
-
-import javax.servlet.jsp.PageContext;
 
 /**
  * Utility class for working within a Jsp environment.
@@ -73,7 +78,7 @@ public final class JspUtil {
      * @return If <code>true</code> the include operation must be forced.
      * @since 2.0.6
      */
-    public static boolean isForceInclude(PageContext context) {
+    public static boolean isForceInclude(JspContext context) {
         Boolean retValue = (Boolean) context.getAttribute(
                 ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
                 PageContext.REQUEST_SCOPE);
@@ -88,7 +93,7 @@ public final class JspUtil {
      * forced.
      * @since 2.0.6
      */
-    public static void setForceInclude(PageContext context, boolean forceInclude) {
+    public static void setForceInclude(JspContext context, boolean forceInclude) {
         Boolean retValue = Boolean.valueOf(forceInclude);
         context.setAttribute(
                 ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
@@ -102,7 +107,7 @@ public final class JspUtil {
      * @return The default Tiles container.
      * @since 2.1.2
      */
-    public static TilesContainer getContainer(PageContext context) {
+    public static TilesContainer getContainer(JspContext context) {
         return getContainer(context, TilesAccess.CONTAINER_ATTRIBUTE);
     }
 
@@ -115,7 +120,7 @@ public final class JspUtil {
      * @return The requested Tiles container.
      * @since 2.1.2
      */
-    public static TilesContainer getContainer(PageContext context, String key) {
+    public static TilesContainer getContainer(JspContext context, String key) {
         if (key == null) {
             key = TilesAccess.CONTAINER_ATTRIBUTE;
         }
@@ -130,7 +135,7 @@ public final class JspUtil {
      * @param container The container object to set.
      * @since 2.1.2
      */
-    public static void setContainer(PageContext context,
+    public static void setContainer(JspContext context,
             TilesContainer container) {
         setContainer(context, container, TilesAccess.CONTAINER_ATTRIBUTE);
     }
@@ -143,7 +148,7 @@ public final class JspUtil {
      * @param key The key under which the container will be stored.
      * @since 2.1.2
      */
-    public static void setContainer(PageContext context,
+    public static void setContainer(JspContext context,
             TilesContainer container, String key) {
         Log log = LogFactory.getLog(ServletUtil.class);
         if (key == null) {
@@ -169,7 +174,7 @@ public final class JspUtil {
      * @param key The key under which the container is stored.
      * @since 2.1.0
      */
-    public static void setCurrentContainer(PageContext context, String key) {
+    public static void setCurrentContainer(JspContext context, String key) {
         TilesContainer container = getContainer(context, key);
         if (container != null) {
             context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
@@ -187,7 +192,7 @@ public final class JspUtil {
      * @param container The container to use as the current container.
      * @since 2.1.0
      */
-    public static void setCurrentContainer(PageContext context,
+    public static void setCurrentContainer(JspContext context,
             TilesContainer container) {
         if (container != null) {
             context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
@@ -204,7 +209,7 @@ public final class JspUtil {
      * @return The current Tiles container to use in web pages.
      * @since 2.1.0
      */
-    public static TilesContainer getCurrentContainer(PageContext context) {
+    public static TilesContainer getCurrentContainer(JspContext context) {
         TilesContainer container = (TilesContainer) context.getAttribute(
                 ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                 PageContext.REQUEST_SCOPE);
@@ -226,7 +231,7 @@ public final class JspUtil {
      * @since 2.2.0
      */
     @SuppressWarnings("unchecked")
-    public static Stack<Object> getComposeStack(PageContext context) {
+    public static Stack<Object> getComposeStack(JspContext context) {
         Stack<Object> composeStack = (Stack<Object>) context.getAttribute(
                 COMPOSE_STACK_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE);
         if (composeStack == null) {
@@ -259,5 +264,42 @@ public final class JspUtil {
         }
 
         return scope;
+    }
+
+    /**
+     * Evaluates the fragment (invokes it with a null Writer) if not null.
+     *
+     * @param fragment The fragment to evaluate.
+     * @throws JspException If the fragment invocation fails.
+     * @throws IOException If the fragment invocation fails.
+     * @since 2.2.0
+     */
+    public static void evaluateFragment(JspFragment fragment) throws JspException, IOException {
+        if (fragment != null) {
+            fragment.invoke(null);
+        }
+    }
+
+    /**
+     * Evaluates the fragment and returns its content as a string.
+     *
+     * @param fragment The fragment to evaluate.
+     * @return The fragment evaluated as a string.
+     * @throws JspException If the fragment invocation fails.
+     * @throws IOException If the fragment invocation fails with an I/O error.
+     * @since 2.2.0
+     */
+    public static String evaluateFragmentAsString(JspFragment fragment) throws JspException, IOException {
+        String body = null;
+        if (fragment != null) {
+            StringWriter writer = new StringWriter();
+            try {
+                fragment.invoke(writer);
+            } finally {
+                writer.close();
+            }
+            body = writer.toString();
+        }
+        return body;
     }
 }

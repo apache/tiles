@@ -29,7 +29,9 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
  *
  * @version $Rev$ $Date$
  * @since 2.1.1
+ * @deprecated Since simple style of tags is used, this class is useless.
  */
+@Deprecated
 public abstract class TilesBodyTag extends BodyTagSupport implements
         TryCatchFinally {
 

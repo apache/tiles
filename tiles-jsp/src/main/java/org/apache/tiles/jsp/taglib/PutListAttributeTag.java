@@ -21,7 +21,11 @@
 
 package org.apache.tiles.jsp.taglib;
 
+import java.io.IOException;
+
+import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.template.PutListAttributeModel;
@@ -32,7 +36,7 @@ import org.apache.tiles.template.PutListAttributeModel;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class PutListAttributeTag extends TilesBodyTag {
+public class PutListAttributeTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -193,27 +197,11 @@ public class PutListAttributeTag extends TilesBodyTag {
 
     /** {@inheritDoc} */
     @Override
-    protected void reset() {
-        super.reset();
-        name = null;
-        cascade = false;
-        role = null;
-        type = null;
-        inherit = false;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doStartTag() throws JspException {
-        model.start(JspUtil.getComposeStack(pageContext), role, inherit);
-        return EVAL_BODY_BUFFERED;
-    }
-
-    /** {@inheritDoc} */
-    public int doEndTag() throws TilesJspException {
-        model.end(JspUtil.getCurrentContainer(pageContext), JspUtil
-                .getComposeStack(pageContext), name, cascade, pageContext);
-
-        return EVAL_PAGE;
+    public void doTag() throws JspException, IOException {
+        JspContext jspContext = getJspContext();
+        model.start(JspUtil.getComposeStack(jspContext), role, inherit);
+        JspUtil.evaluateFragment(getJspBody());
+        model.end(JspUtil.getCurrentContainer(jspContext), JspUtil
+                .getComposeStack(jspContext), name, cascade, jspContext);
     }
 }

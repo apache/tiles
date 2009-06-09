@@ -21,6 +21,12 @@
 
 package org.apache.tiles.jsp.taglib;
 
+import java.io.IOException;
+
+import javax.servlet.jsp.JspContext;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.template.AddListAttributeModel;
 
@@ -30,7 +36,7 @@ import org.apache.tiles.template.AddListAttributeModel;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class AddListAttributeTag extends TilesBodyTag {
+public class AddListAttributeTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -109,14 +115,11 @@ public class AddListAttributeTag extends TilesBodyTag {
     }
 
     /** {@inheritDoc} */
-    public int doStartTag() {
-        model.start(JspUtil.getComposeStack(pageContext), role);
-        return EVAL_BODY_BUFFERED;
-    }
-
-    /** {@inheritDoc} */
-    public int doEndTag() throws TilesJspException {
-        model.end(JspUtil.getComposeStack(pageContext));
-        return EVAL_PAGE;
+    @Override
+    public void doTag() throws JspException, IOException {
+        JspContext jspContext = getJspContext();
+        model.start(JspUtil.getComposeStack(jspContext), role);
+        JspUtil.evaluateFragment(getJspBody());
+        model.end(JspUtil.getComposeStack(jspContext));
     }
 }

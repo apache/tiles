@@ -24,7 +24,9 @@ package org.apache.tiles.jsp.taglib;
 
 import java.util.Map;
 
+import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
@@ -39,12 +41,17 @@ import org.apache.tiles.template.ImportAttributeModel;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class UseAttributeTag extends TilesTag {
+public class UseAttributeTag extends SimpleTagSupport {
 
     /**
      * The template model.
      */
     private ImportAttributeModel model = new ImportAttributeModel();
+
+    /**
+     * The id of the imported scripting variable.
+     */
+    private String id;
 
     /**
      * The scope name.
@@ -65,6 +72,26 @@ public class UseAttributeTag extends TilesTag {
      * Class name of object.
      */
     private String classname = null;
+
+    /**
+     * Returns the id of the imported scripting variable.
+     *
+     * @return The id of the imported scripting variable.
+     * @since 2.2.0
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id of the imported scripting variable.
+     *
+     * @param id The id of the imported scripting variable.
+     * @since 2.2.0
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * Set the scope.
@@ -142,18 +169,9 @@ public class UseAttributeTag extends TilesTag {
     }
 
     /** {@inheritDoc} */
-    protected void reset() {
-        super.reset();
-        name = null;
-        scopeName = null;
-        ignore = false;
-        classname = null;
-        id = null;
-    }
-
-    /** {@inheritDoc} */
     @Override
-    public int doStartTag() throws JspException {
+    public void doTag() throws JspException {
+        JspContext pageContext = getJspContext();
         Map<String, Object> attributes = model.getImportedAttributes(JspUtil
                 .getCurrentContainer(pageContext), name, id, ignore,
                 pageContext);
@@ -162,7 +180,6 @@ public class UseAttributeTag extends TilesTag {
             pageContext.setAttribute(getScriptingVariable(), attributes
                     .values().iterator().next(), scopeId);
         }
-        return EVAL_PAGE;
     }
 
     /**

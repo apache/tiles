@@ -21,6 +21,12 @@
 
 package org.apache.tiles.jsp.taglib;
 
+import java.io.IOException;
+
+import javax.servlet.jsp.JspContext;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.template.InsertDefinitionModel;
 
@@ -30,7 +36,7 @@ import org.apache.tiles.template.InsertDefinitionModel;
  *
  * @version $Rev$ $Date$
  */
-public class InsertDefinitionTag extends TilesBodyTag {
+public class InsertDefinitionTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -265,28 +271,11 @@ public class InsertDefinitionTag extends TilesBodyTag {
 
     /** {@inheritDoc} */
     @Override
-    public void release() {
-        super.release();
-        name = null;
-        preparer = null;
-        flush = false;
-        ignore = false;
-        role = null;
-        template = null;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doStartTag() throws TilesJspException {
-        model.start(JspUtil.getCurrentContainer(pageContext), pageContext);
-        return EVAL_BODY_INCLUDE;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doEndTag() throws TilesJspException {
-        model.end(JspUtil.getCurrentContainer(pageContext), name, template,
-                templateType, templateExpression, role, preparer, pageContext);
-        return EVAL_PAGE;
+    public void doTag() throws JspException, IOException {
+        JspContext jspContext = getJspContext();
+        model.start(JspUtil.getCurrentContainer(jspContext), jspContext);
+        JspUtil.evaluateFragment(getJspBody());
+        model.end(JspUtil.getCurrentContainer(jspContext), name, template,
+                templateType, templateExpression, role, preparer, jspContext);
     }
 }

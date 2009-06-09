@@ -21,7 +21,11 @@
 
 package org.apache.tiles.jsp.taglib;
 
+import java.io.IOException;
+
+import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.template.AddAttributeModel;
@@ -33,7 +37,6 @@ import org.apache.tiles.template.AddAttributeModel;
  * <li>&lt;putListAttribute&gt;</li>
  * <li>&lt;putAttribute&gt;</li>
  * </ul>
- * (or any other tag which implements the <code>{@link AddAttributeTagParent}</code> interface.
  * Exception is thrown if no appropriate tag can be found.</p>
  * <p>Put tag can have following atributes :
  * <ul>
@@ -55,7 +58,7 @@ import org.apache.tiles.template.AddAttributeModel;
  *
  * @version $Rev$ $Date$
  */
-public class AddAttributeTag extends TilesBodyTag {
+public class AddAttributeTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -158,29 +161,11 @@ public class AddAttributeTag extends TilesBodyTag {
 
     /** {@inheritDoc} */
     @Override
-    protected void reset() {
-        super.reset();
-        role = null;
-        value = null;
-        type = null;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doStartTag() throws JspException {
+    public void doTag() throws JspException, IOException {
+        JspContext pageContext = getJspContext();
         model.start(JspUtil.getComposeStack(pageContext));
-        return EVAL_BODY_BUFFERED;
-    }
-
-    /** {@inheritDoc} */
-    public int doEndTag() throws TilesJspException {
-        String body = null;
-        if (bodyContent != null) {
-            body = bodyContent.getString();
-        }
+        String body = JspUtil.evaluateFragmentAsString(getJspBody());
         model.end(JspUtil.getComposeStack(pageContext), value, null, body,
                 role, type);
-
-        return EVAL_PAGE;
     }
 }

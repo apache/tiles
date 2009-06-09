@@ -23,6 +23,10 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
+import javax.servlet.jsp.JspContext;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import org.apache.tiles.Attribute;
 import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.template.DefaultAttributeResolver;
@@ -35,7 +39,7 @@ import org.apache.tiles.template.InsertAttributeModel;
  *
  * @version $Rev$ $Date$
  */
-public class InsertAttributeTag extends TilesBodyTag {
+public class InsertAttributeTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -297,38 +301,14 @@ public class InsertAttributeTag extends TilesBodyTag {
 
     /** {@inheritDoc} */
     @Override
-    protected void reset() {
-        super.reset();
-        name = null;
-        value = null;
-        defaultValue = null;
-        defaultValueType = null;
-        defaultValueType = null;
-        preparer = null;
-        flush = false;
-        ignore = false;
-        role = null;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doStartTag() throws TilesJspException {
-        model.start(JspUtil.getComposeStack(pageContext), JspUtil
-                .getCurrentContainer(pageContext), ignore, preparer, role,
+    public void doTag() throws JspException, IOException {
+        JspContext jspContext = getJspContext();
+        model.start(JspUtil.getComposeStack(jspContext), JspUtil
+                .getCurrentContainer(jspContext), ignore, preparer, role,
                 defaultValue, defaultValueRole, defaultValueType, name,
-                (Attribute) value, pageContext);
-        return EVAL_BODY_INCLUDE;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int doEndTag() throws TilesJspException {
-        try {
-            model.end(JspUtil.getComposeStack(pageContext), JspUtil
-                    .getContainer(pageContext), ignore, pageContext);
-        } catch (IOException e) {
-            throw new TilesJspException("Cannot insert an attribute", e);
-        }
-        return EVAL_PAGE;
+                (Attribute) value, jspContext);
+        JspUtil.evaluateFragment(getJspBody());
+        model.end(JspUtil.getComposeStack(jspContext), JspUtil
+                .getContainer(jspContext), ignore, jspContext);
     }
 }

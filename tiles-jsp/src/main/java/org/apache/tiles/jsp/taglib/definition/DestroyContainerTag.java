@@ -20,15 +20,16 @@
  */
 package org.apache.tiles.jsp.taglib.definition;
 
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import org.apache.tiles.jsp.context.JspUtil;
-import org.apache.tiles.jsp.taglib.TilesTag;
 
 /**
  * Destroys the accessible container.
  *
  * @version $Rev$ $Date$
  */
-public class DestroyContainerTag extends TilesTag {
+public class DestroyContainerTag extends SimpleTagSupport {
 
     /**
      * The key of the container to destroy.
@@ -55,17 +56,10 @@ public class DestroyContainerTag extends TilesTag {
         this.containerKey = containerKey;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected void reset() {
-        super.reset();
-        this.containerKey = null;
-    }
 
     /** {@inheritDoc} */
     @Override
-    public int doEndTag() {
-        JspUtil.setContainer(pageContext, null, containerKey);
-        return EVAL_PAGE;
+    public void doTag() {
+        JspUtil.setContainer(getJspContext(), null, containerKey);
     }
 }
