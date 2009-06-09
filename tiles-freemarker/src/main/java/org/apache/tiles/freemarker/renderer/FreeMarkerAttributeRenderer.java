@@ -114,7 +114,7 @@ public class FreeMarkerAttributeRenderer extends AbstractBaseAttributeRenderer i
                 }
             } else {
                 throw new InvalidTemplateException(
-                        "Cannot render a template that is not an object: "
+                        "Cannot render a template that is not a string: "
                                 + value.toString());
             }
         } else {

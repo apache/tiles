@@ -108,7 +108,7 @@ public class VelocityAttributeRenderer extends AbstractBaseAttributeRenderer
                 velocityView.merge(template, context, request.getWriter());
             } else {
                 throw new InvalidTemplateException(
-                        "Cannot render a template that is not an object: "
+                        "Cannot render a template that is not a string: "
                                 + value.toString());
             }
         } else {
