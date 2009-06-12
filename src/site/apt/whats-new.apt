@@ -21,13 +21,29 @@
          What's new in Tiles 2.1
          -----------
 
-What's new in Tiles 2.1
+What's new in Tiles 2.2
 
-  Tiles 2.1 is a completely compatible enhancement of Tiles 2.0.x. It introduces
-  new features, while modifying the internal structure to allow an easier API
-  usage.  
+  Tiles 2.2 is a binary-compatible enhancement of Tiles 2.1.x, with some incompatible changes in JSP tags,
+  but, for the user perspective, it is perfectly compatible.
 
-* New features
+* New features in Tiles 2.2
+
+  Tiles 2.2 has several new features:
+
+  * {{{tutorial/integration/freemarker.html}Native support for FreeMarker}},
+  instead of a support based on JSP.
+
+  * {{{tutorial/integration/velocity.html}Support for Velocity}}.
+
+  * Support for wildcard mathing using
+  {{{tutorial/advanced/wildcard.html}regular expressions}}.
+
+  * {{{tutorial/advanced/ognl-support.html}OGNL support}}
+  and
+  {{{tutorial/advanced/mvel-support.html}MVEL support}}
+  in Tiles definition files, when specifying attributes and templates.
+
+* New features in Tiles 2.1
 
   Tiles 2.1 introduces new features, but remaining compatible to Tiles 2.0.x.
   The new features are:
@@ -51,7 +67,7 @@ What's new in Tiles 2.1
   * {{{tutorial/configuration.html#Pure_Java_configuration}Pure Java configuration}},
   except for the configuration of the Tiles container factory.
 
-  * List attributes can now 
+  * List attributes can now
   {{{tutorial/advanced/list-attributes.html#List_attribute_inheritance}inherit members from the extending definition}}.
 
   * Attribute values can be
@@ -66,7 +82,7 @@ What's new in Tiles 2.1
 
   * Usage of {{{tutorial/advanced/multiple-containers.html}more than one Tiles container}}.
 
-* Under the hood
+** Under the hood
 
   * <<<TilesApplicationContext>>> is now created externally of the Tiles
   container and {{{tutorial/extension/points.html#Tiles_Application_Context_Factory}must be configured externally}}.
