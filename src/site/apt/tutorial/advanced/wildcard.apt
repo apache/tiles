@@ -23,8 +23,12 @@
 
 Wildcard support
 
-  By default, Tiles 2.1 supports wildcards in definition names. Wilcards help a
-  lot in writing less code to declare your definitions. Take this example:
+  By default, Tiles 2.2 supports wildcards in definition names. Wilcards help a
+  lot in writing less code to declare your definitions.
+
+  There are two styles:
+
+  * the wildcard-based style (available by default):
 
 ------------------------------------
 <definition name="test.definition*.message*" template="/layout{1}.jsp">
@@ -34,7 +38,21 @@ Wildcard support
 </definition>
 ------------------------------------
 
-  If you insert a definition that matches the definition, for example:
+  * the regular expression style (notice the ~ character that indicates that a regexp will be used), available by calling
+  {{{../../apidocs/org/apache/tiles/definition/dao/CachingLocaleUrlDefinitionDAO.html#setPatternDefinitionResolver(org.apache.tiles.definition.pattern.PatternDefinitionResolver)}CachingLocaleUrlDefinitionDAO.setPatternDefinitionResolver}}
+  with an instance of
+  {{{../../apidocs/org/apache/tiles/definition/pattern/RegexpPatternDefinitionResolver.html}RegexpPatternDefinitionResolver}}
+  :
+
+------------------------------------
+<definition name="~test\.definition(.*)\.message(.*)" template="/layout{1}.jsp">
+    <put-attribute name="title"  value="This definition has a message: {2}."/>
+    <put-attribute name="header" value="/header.jsp"/>
+    <put-attribute name="body"   value="/body.jsp"/>
+</definition>
+------------------------------------
+
+  In both cases, if you insert a definition that matches the definition, for example:
 
 ------------------------------------
 <tiles:insertDefinition name="test.definitionOne.messageThisIsAMessage" />
