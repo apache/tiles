@@ -48,6 +48,7 @@ import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.MockDefinitionsReader;
 import org.apache.tiles.definition.RefreshMonitor;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.apache.tiles.definition.pattern.WildcardPatternDefinitionResolver;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
@@ -75,6 +76,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         definitionDao = new ResolvingLocaleUrlDefinitionDAO();
+        definitionDao.setPatternDefinitionResolver(new WildcardPatternDefinitionResolver<Locale>());
     }
 
     /**
@@ -675,7 +677,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 .createMock(TilesApplicationContext.class);
         definitionDao.setReader(new DigesterDefinitionsReader());
         EasyMock.replay(applicationContext);
-        
+
         Definition definition = definitionDao.getDefinition(
                 "test.inherit.list", Locale.ITALIAN);
         ListAttribute listAttribute = (ListAttribute) definition

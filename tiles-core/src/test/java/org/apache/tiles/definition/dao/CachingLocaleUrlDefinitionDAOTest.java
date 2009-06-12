@@ -48,6 +48,7 @@ import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.MockDefinitionsReader;
 import org.apache.tiles.definition.RefreshMonitor;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.apache.tiles.definition.pattern.WildcardPatternDefinitionResolver;
 import org.easymock.EasyMock;
 
 /**
@@ -61,7 +62,7 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
      * The time (in milliseconds) to wait to be sure that the system updates the
      * modify date of a file.
      */
-    private static final int SLEEP_MILLIS = 30000;
+    private static final int SLEEP_MILLIS = 2000;
 
     /**
      * The object to test.
@@ -73,6 +74,7 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         definitionDao = new CachingLocaleUrlDefinitionDAO();
+        definitionDao.setPatternDefinitionResolver(new WildcardPatternDefinitionResolver<Locale>());
     }
 
     /**
