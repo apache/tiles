@@ -104,7 +104,7 @@ public class JspUtilTest extends TestCase {
 
     /**
      * Tests
-     * {@link JspUtil#setCurrentContainer(PageContext, String)}.
+     * {@link JspUtil#setCurrentContainer(javax.servlet.jsp.JspContext, String)}.
      */
     public void testSetCurrentContainer() {
         PageContext pageContext = EasyMock.createMock(PageContext.class);
@@ -127,7 +127,7 @@ public class JspUtilTest extends TestCase {
 
     /**
      * Tests
-     * {@link JspUtil#setCurrentContainer(PageContext, TilesContainer)}.
+     * {@link JspUtil#setCurrentContainer(javax.servlet.jsp.JspContext, TilesContainer)}.
      */
     public void testSetCurrentContainerWithContainer() {
         PageContext pageContext = EasyMock.createMock(PageContext.class);
@@ -146,7 +146,7 @@ public class JspUtilTest extends TestCase {
     }
 
     /**
-     * Tests {@link JspUtil#getCurrentContainer(PageContext)}.
+     * Tests {@link JspUtil#getCurrentContainer(javax.servlet.jsp.JspContext)}.
      */
     public void testGetCurrentContainer() {
         PageContext pageContext = EasyMock.createMock(PageContext.class);
@@ -180,7 +180,7 @@ public class JspUtilTest extends TestCase {
     }
 
     /**
-     * Tests {@link JspUtil#getComposeStack(PageContext)}.
+     * Tests {@link JspUtil#getComposeStack(javax.servlet.jsp.JspContext)}.
      */
     public void testGetComposeStack() {
         PageContext pageContext = EasyMock.createMock(PageContext.class);

@@ -20,7 +20,9 @@
  */
 package org.apache.tiles.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -177,10 +179,36 @@ public class WildcardHelper {
      * @return True if a match
      * @throws NullPointerException If any parameters are null
      * @since 2.1.0
+     * @deprecated Use {@link #match(List, String, int[])}.
      */
     public boolean match(Map<Integer, String> map, String data, int[] expr) {
         if (map == null) {
             throw new NullPointerException("No map provided");
+        }
+        List<String> varsValues = new ArrayList<String>();
+        boolean retValue = match(varsValues, data, expr);
+        int i = 0;
+        for (String value: varsValues) {
+            map.put(i, value);
+            i++;
+        }
+        return retValue;
+    }
+
+    /**
+     * Match a pattern agains a string and isolates wildcard replacement into a
+     * <code>Stack</code>.
+     *
+     * @param varsValues The list to store matched values into.
+     * @param data The string to match
+     * @param expr The compiled wildcard expression
+     * @return True if a match
+     * @throws NullPointerException If any parameters are null
+     * @since 2.2.0
+     */
+    public boolean match(List<String> varsValues, String data, int[] expr) {
+        if (varsValues == null) {
+            throw new NullPointerException("No value list provided");
         }
 
         if (data == null) {
@@ -206,11 +234,8 @@ public class WildcardHelper {
         int rsltpos = 0;
         int offset = -1;
 
-        // The matching count
-        int mcount = 0;
-
         // We want the complete data be in {0}
-        map.put(mcount, data);
+        varsValues.add(data);
 
         // First check for MATCH_BEGIN
         boolean matchBegin = false;
@@ -261,14 +286,14 @@ public class WildcardHelper {
             // Check for END's
             if (exprchr == MATCH_END) {
                 if (rsltpos > 0) {
-                    map.put(++mcount, new String(rslt, 0, rsltpos));
+                    varsValues.add(new String(rslt, 0, rsltpos));
                 }
 
                 // Don't care about rest of input buffer
                 return (true);
             } else if (exprchr == MATCH_THEEND) {
                 if (rsltpos > 0) {
-                    map.put(++mcount, new String(rslt, 0, rsltpos));
+                    varsValues.add(new String(rslt, 0, rsltpos));
                 }
 
                 // Check that we reach buffer's end
@@ -312,7 +337,7 @@ public class WildcardHelper {
                 }
             }
 
-            map.put(++mcount, new String(rslt, 0, rsltpos));
+            varsValues.add(new String(rslt, 0, rsltpos));
             rsltpos = 0;
         }
     }

@@ -53,7 +53,7 @@ public class JspTilesRequestContextFactoryTest extends TestCase {
 
     /**
      * Tests
-     * {@link JspTilesContextFactory#createRequestContext(org.apache.tiles.TilesApplicationContext, Object...)}
+     * {@link JspTilesRequestContextFactory#createRequestContext(org.apache.tiles.TilesApplicationContext, Object...)}
      * .
      */
     public void testCreateRequestContextWithoutParent() {
@@ -76,7 +76,7 @@ public class JspTilesRequestContextFactoryTest extends TestCase {
 
     /**
      * Tests
-     * {@link JspTilesContextFactory#createRequestContext(org.apache.tiles.TilesApplicationContext, Object...)}
+     * {@link JspTilesRequestContextFactory#createRequestContext(org.apache.tiles.TilesApplicationContext, Object...)}
      * .
      */
     public void testCreateRequestContextWithParent() {

@@ -21,6 +21,7 @@
 
 package org.apache.tiles.servlet.context;
 
+import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 
@@ -35,7 +36,7 @@ import java.util.Map;
  * @since 2.1.1
  */
 public class ServletTilesApplicationContextFactory extends
-        AbstractTilesApplicationContextFactory {
+        AbstractTilesApplicationContextFactory implements Initializable {
 
     /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {

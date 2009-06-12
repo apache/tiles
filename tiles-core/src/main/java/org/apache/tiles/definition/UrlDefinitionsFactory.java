@@ -55,7 +55,8 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
     /**
      * Compatibility constant.
      *
-     * @deprecated use {@link DEFINITIONS_CONFIG} to avoid namespace collisions.
+     * @deprecated use {@link DefinitionsFactory#DEFINITIONS_CONFIG} to avoid
+     * namespace collisions.
      */
     private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
 
@@ -67,7 +68,7 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
     /**
      * Contains the URL objects identifying where configuration data is found.
      *
-     * @deprecated Use {@link #sourceURLs}.
+     * @deprecated Use {@link URLReader#addSourceURL(URL)}.
      */
     protected List<Object> sources;
 

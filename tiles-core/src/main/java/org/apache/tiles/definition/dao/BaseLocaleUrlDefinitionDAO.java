@@ -66,7 +66,8 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
     /**
      * Compatibility constant.
      *
-     * @deprecated use {@link DEFINITIONS_CONFIG} to avoid namespace collisions.
+     * @deprecated use {@link DefinitionsFactory#DEFINITIONS_CONFIG} to avoid
+     * namespace collisions.
      */
     private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
 

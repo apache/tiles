@@ -27,8 +27,7 @@ import org.apache.tiles.TilesApplicationContext;
  * implementation.
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link TilesApplicationContextFactory} or
- * {@link TilesRequestContextFactory}.
+ * @deprecated Use {@link TilesRequestContextFactory}.
  */
 public interface TilesContextFactory extends TilesRequestContextFactory {
 

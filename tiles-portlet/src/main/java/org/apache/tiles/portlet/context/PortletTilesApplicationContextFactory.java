@@ -25,6 +25,7 @@ import java.util.Map;
 
 import javax.portlet.PortletContext;
 
+import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 
@@ -36,7 +37,7 @@ import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
  * @since 2.1.1
  */
 public class PortletTilesApplicationContextFactory extends
-        AbstractTilesApplicationContextFactory {
+        AbstractTilesApplicationContextFactory implements Initializable {
 
     /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {

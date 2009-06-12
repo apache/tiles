@@ -34,6 +34,7 @@ import junit.framework.TestCase;
  *
  * @version $Rev$ $Date$
  */
+@Deprecated
 public class TestRuntimeConfiguredContext extends TestCase {
 
     /**

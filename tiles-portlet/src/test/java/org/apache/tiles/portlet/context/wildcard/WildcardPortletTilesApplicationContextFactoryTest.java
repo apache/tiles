@@ -52,7 +52,7 @@ public class WildcardPortletTilesApplicationContextFactoryTest extends TestCase 
 
     /**
      * Test method for
-     * {@link org.apache.tiles.servlet.context.wildcard.WildcardPortletTilesApplicationContextFactory
+     * {@link org.apache.tiles.portlet.context.wildcard.WildcardPortletTilesApplicationContextFactory
      * #createApplicationContext(java.lang.Object)}.
      */
     public void testCreateApplicationContext() {

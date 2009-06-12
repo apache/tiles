@@ -84,7 +84,7 @@ public class BasicAttributeContext extends
      *
      * @param tilesContext current Tiles application context.
      * @return BasicAttributeContext or null if context is not found.
-     * @deprecated Use {@link TilesContainer#getAttributeContext(Object...)}.
+     * @deprecated Use {@link org.apache.tiles.TilesContainer#getAttributeContext(Object...)}.
      */
     @Deprecated
     public static AttributeContext getContext(TilesRequestContext tilesContext) {
@@ -101,9 +101,9 @@ public class BasicAttributeContext extends
      *
      * @param tilesContext The Tiles context object to use.
      * @return The needed stack of contexts.
-     * @deprecated Use {@link TilesContainer#getAttributeContext(Object...)},
-     * {@link TilesContainer#startContext(Object...)} or
-     * {@link TilesContainer#endContext(Object...)}.
+     * @deprecated Use {@link org.apache.tiles.TilesContainer#getAttributeContext(Object...)},
+     * {@link org.apache.tiles.TilesContainer#startContext(Object...)} or
+     * {@link org.apache.tiles.TilesContainer#endContext(Object...)}.
      */
     @Deprecated
     @SuppressWarnings("unchecked")
@@ -125,7 +125,7 @@ public class BasicAttributeContext extends
      *
      * @param context The context to push.
      * @param tilesContext The Tiles context object to use.
-     * @deprecated Use {@link TilesContainer#startContext(Object...)}.
+     * @deprecated Use {@link org.apache.tiles.TilesContainer#startContext(Object...)}.
      */
     @Deprecated
     public static void pushContext(AttributeContext context,
@@ -139,7 +139,7 @@ public class BasicAttributeContext extends
      *
      * @param tilesContext The Tiles context object to use.
      * @return The popped context object.
-     * @deprecated Use {@link TilesContainer#endContext(Object...)}.
+     * @deprecated Use {@link org.apache.tiles.TilesContainer#endContext(Object...)}.
      */
     @Deprecated
     public static AttributeContext popContext(TilesRequestContext tilesContext) {

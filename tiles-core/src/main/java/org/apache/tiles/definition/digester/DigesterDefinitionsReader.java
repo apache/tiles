@@ -294,8 +294,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      *               will be read.
      * @return a Map of <code>Definition</code> objects read from
      *         the source.
-     * @throws org.apache.tiles.definition.DefinitionsFactoryException
-     *          if the source is invalid or
+     * @throws DefinitionsFactoryException If the source is invalid or
      *          an error occurs when reading definitions.
      */
     public Map<String, Definition> read(Object source) {
@@ -343,9 +342,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * This method must be called before the {@link #read} method is called.
      *
      * @param params A map of properties used to set up the reader.
-     * @throws org.apache.tiles.definition.DefinitionsFactoryException
-     *          if required properties are not
-     *          passed in or the initialization fails.
+     * @throws DefinitionsFactoryException if required properties are not passed
+     * in or the initialization fails.
      */
     public void init(Map<String, String> params) {
         if (params != null) {

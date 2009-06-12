@@ -42,7 +42,8 @@ import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
  * @deprecated Use {@link TilesServlet} or {@link TilesListener}. If you want a
  * decoration Filter, use
  * {@link org.apache.tiles.web.util.TilesDecorationFilter}. Moreover, definition
- * files reload themselves if the {@link .apache.tiles.definition.dao.DefinitionDAO} implements
+ * files reload themselves if the
+ * {@link org.apache.tiles.definition.dao.DefinitionDAO} implements
  * {@link org.apache.tiles.definition.Refreshable}.
  */
 

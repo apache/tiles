@@ -81,7 +81,7 @@ public class TestDefinition extends TestCase {
     }
 
     /**
-     * Tests the {@link Definition#inherit(Definition)} method.
+     * Tests the {@link Definition#inherit(BasicAttributeContext)} method.
      */
     public void testInherit() {
         Definition toCopy = new Definition();

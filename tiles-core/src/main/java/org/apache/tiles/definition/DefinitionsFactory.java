@@ -27,13 +27,14 @@ import org.apache.tiles.Definition;
 import java.util.Map;
 
 /**
- * Interface for creating a {@link org.apache.tiles.definition.Definitions} object and managing
- * its contents.
+ * Interface for creating a {@link Definition}s and managing their contents.
  * <p/>
- * <p>DefinitionsFactory implementations are responsible for maintaining the data
- * sources of Tiles configuration data and using the data to create
- * Definitions sets.  Implementations also know how to append
- * locale-specific configuration data to an existing Definitions set.</p>
+ * <p>
+ * DefinitionsFactory implementations are responsible for maintaining the data
+ * sources of Tiles configuration data and using the data to create Definitions
+ * sets. Implementations also know how to append locale-specific configuration
+ * data to an existing Definitions set.
+ * </p>
  *
  * @version $Rev$ $Date$
  */

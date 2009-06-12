@@ -165,7 +165,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * factory.
      * @since 2.1.0
      * @deprecated Use
-     * {@link AbstractTilesContainerFactory#getTilesContainerFactory(Object)}.
+     * {@link AbstractTilesContainerFactory#getTilesContainerFactory(TilesApplicationContext)}.
      */
     @Deprecated
     public static TilesContainerFactory getFactory(Object context) {
@@ -187,7 +187,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * @throws TilesContainerFactoryException if an error occurs creating the
      * factory.
      * @deprecated Use
-     * {@link AbstractTilesContainerFactory#getTilesContainerFactory(Object)}
+     * {@link AbstractTilesContainerFactory#getTilesContainerFactory(TilesApplicationContext)}
      * and then {@link #setDefaultConfiguration(Map)}.
      */
     public static TilesContainerFactory getFactory(Object context,

@@ -42,6 +42,9 @@ import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.definition.dao.ResolvingLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
+import org.apache.tiles.definition.pattern.PatternDefinitionResolverAware;
+import org.apache.tiles.definition.pattern.WildcardPatternDefinitionResolver;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
@@ -241,7 +244,8 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             LocaleResolver resolver) {
-        return new ResolvingLocaleUrlDefinitionDAO();
+        ResolvingLocaleUrlDefinitionDAO dao = new ResolvingLocaleUrlDefinitionDAO();
+        return dao;
     }
 
     /**
@@ -253,6 +257,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The definition DAO.
      * @since 2.1.1
      */
+    @SuppressWarnings("unchecked")
     protected DefinitionDAO<Locale> createLocaleDefinitionDao(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             LocaleResolver resolver) {
@@ -261,6 +266,10 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
         definitionDao.setReader(createDefinitionsReader(applicationContext, contextFactory));
         definitionDao.setSourceURLs(getSourceURLs(applicationContext, contextFactory));
         definitionDao.setApplicationContext(applicationContext);
+        if (definitionDao instanceof PatternDefinitionResolverAware) {
+            ((PatternDefinitionResolverAware<Locale>) definitionDao)
+                    .setPatternDefinitionResolver(createPatternDefinitionResolver(Locale.class));
+        }
         return definitionDao;
     }
 
@@ -392,6 +401,19 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
         retValue.setRequestContextFactory(contextFactory);
         retValue.setEvaluator(evaluator);
         return retValue;
+    }
+
+    /**
+     * Creates a new pattern definition resolver. By default, it instantiate a {@link WildcardPatternDefinitionResolver}.
+     *
+     * @param <T> The type of the customization key.
+     * @param customizationKeyClass The customization key class.
+     * @return The pattern definition resolver.
+     * @since 2.2.0
+     */
+    protected <T> PatternDefinitionResolver<T> createPatternDefinitionResolver(
+            Class<T> customizationKeyClass) {
+        return new WildcardPatternDefinitionResolver<T>();
     }
 
     /**
