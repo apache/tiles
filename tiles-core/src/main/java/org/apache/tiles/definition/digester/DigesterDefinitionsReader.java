@@ -24,7 +24,7 @@ package org.apache.tiles.definition.digester;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.digester.Digester;
@@ -302,7 +302,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // This is an instance variable instead of a local variable because
         // we want to be able to call the addDefinition method to populate it.
         // But we reset the Map here, which, of course, has threading implications.
-        definitions = new HashMap<String, Definition>();
+        definitions = new LinkedHashMap<String, Definition>();
 
         if (source == null) {
             // Perhaps we should throw an exception here.
