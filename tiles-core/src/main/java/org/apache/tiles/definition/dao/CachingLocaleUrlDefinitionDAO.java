@@ -24,6 +24,7 @@ package org.apache.tiles.definition.dao;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -231,7 +232,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
 
         String postfix = LocaleUtil.calculatePostfix(customizationKey);
         Locale parentLocale = LocaleUtil.getParentLocale(customizationKey);
-        localeDefsMap = new HashMap<String, Definition>();
+        localeDefsMap = new LinkedHashMap<String, Definition>();
         if (parentLocale != null) {
             Map<String, Definition> parentDefs = loadParentDefinitions(parentLocale);
             if (parentDefs != null) {

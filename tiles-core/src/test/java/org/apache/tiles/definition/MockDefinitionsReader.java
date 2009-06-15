@@ -21,7 +21,7 @@
 
 package org.apache.tiles.definition;
 
-import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.tiles.Definition;
@@ -65,7 +65,7 @@ public class MockDefinitionsReader implements DefinitionsReader {
      */
     @SuppressWarnings("unchecked")
     public Map<String, Definition> read(Object source) {
-        return Collections.EMPTY_MAP;
+        return new LinkedHashMap();
     }
 
     /**
