@@ -45,6 +45,8 @@
       <put-attribute name="body"   value="doc.portal.body" />
   </definition>
 
+  <definition name="test.def*.noAttribute" template="/test{1}.jsp" />
+
   <!-- Never used on purpose, if there is the TILES-416 the test will fail -->
   <definition name="test.def*" template="/test{1}.jsp">
       <put-attribute name="country" value="default"/>
@@ -54,7 +56,5 @@
       <put-attribute name="footer" value="/common/footer.jsp" />
       <put-attribute name="body"   value="doc.portal.body" />
   </definition>
-
-  <definition name="test.def*.noAttribute" template="/test{1}.jsp" />
 
 </tiles-definitions>
