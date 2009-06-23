@@ -133,7 +133,8 @@ public class AddAttributeVModelTest {
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
-        tModel.end(composeStack, "myValue", "myExpression", null, "myRole", "myType");
+        tModel.end(composeStack, "myValue", "myExpression",
+                null, "myRole", "myType");
 
         replay(tModel, request, response, velocityContext);
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));

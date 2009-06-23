@@ -74,12 +74,11 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
     public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
-        model.execute(ServletUtil.getCurrentContainer(request,
-                servletContext), ServletUtil.getComposeStack(request),
-                (String) params.get("name"), params.get("value"),
-                (String) params.get("expression"), null,
-                (String) params.get("role"), (String) params
-                        .get("type"), VelocityUtil.toSimpleBoolean(
+        model.execute(ServletUtil.getCurrentContainer(request, servletContext),
+                ServletUtil.getComposeStack(request), (String) params
+                        .get("name"), params.get("value"), (String) params
+                        .get("expression"), null, (String) params.get("role"),
+                (String) params.get("type"), VelocityUtil.toSimpleBoolean(
                         (Boolean) params.get("cascade"), false),
                 velocityContext, request, response);
 
@@ -91,10 +90,12 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
-        model.end(ServletUtil.getCurrentContainer(request, servletContext), ServletUtil.getComposeStack(request),
-                (String) params.get("name"), params.get("value"),
-                (String) params.get("expression"), null, (String) params.get("role"),
-                (String) params.get("type"), VelocityUtil.toSimpleBoolean((Boolean) params.get("cascade"), false),
+        model.end(ServletUtil.getCurrentContainer(request, servletContext),
+                ServletUtil.getComposeStack(request), (String) params
+                        .get("name"), params.get("value"), (String) params
+                        .get("expression"), null, (String) params.get("role"),
+                (String) params.get("type"), VelocityUtil.toSimpleBoolean(
+                        (Boolean) params.get("cascade"), false),
                 velocityContext, request, response);
         return VelocityUtil.EMPTY_RENDERABLE;
     }

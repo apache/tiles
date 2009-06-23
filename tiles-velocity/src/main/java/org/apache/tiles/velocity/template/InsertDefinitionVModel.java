@@ -40,8 +40,10 @@ import org.apache.velocity.runtime.Renderable;
  * Wraps {@link InsertDefinitionModel} to be used in Velocity. For the list of
  * parameters, see
  * {@link InsertDefinitionModel#start(org.apache.tiles.TilesContainer, Object...)}
- * , {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer, String, String, String, String, String, String, Object...)} and
- * {@link InsertDefinitionModel#execute(org.apache.tiles.TilesContainer, String, String, String, String, String, String, Object...)}.
+ * , {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer,
+ * String, String, String, String, String, String, Object...)} and
+ * {@link InsertDefinitionModel#execute(org.apache.tiles.TilesContainer,
+ * String, String, String, String, String, String, Object...)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0

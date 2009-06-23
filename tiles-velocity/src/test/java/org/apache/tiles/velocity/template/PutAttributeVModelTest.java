@@ -91,7 +91,8 @@ public class PutAttributeVModelTest {
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
-        tModel.execute(container, composeStack, "myName", "myValue", "myExpression", null, "myRole", "myType",
+        tModel.execute(container, composeStack, "myName", "myValue",
+                "myExpression", null, "myRole", "myType",
                 false, velocityContext, request, response);
 
         replay(tModel, container, servletContext, request, response, velocityContext);
@@ -148,8 +149,8 @@ public class PutAttributeVModelTest {
                 .andReturn(composeStack);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
         tModel.end(container, composeStack, "myName", "myValue",
-                "myExpression", null, "myRole", "myType", false,
-                velocityContext, request, response);
+                "myExpression", null, "myRole", "myType",
+                false, velocityContext, request, response);
 
         replay(tModel, container, servletContext, request, response, velocityContext);
         initializeModel();

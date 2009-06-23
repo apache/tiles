@@ -40,8 +40,10 @@ import org.apache.velocity.runtime.Renderable;
  * Wraps {@link InsertTemplateModel} to be used in Velocity. For the list of
  * parameters, see
  * {@link InsertTemplateModel#start(org.apache.tiles.TilesContainer, Object...)}
- * , {@link InsertTemplateModel#end(org.apache.tiles.TilesContainer, String, String, String, String, String, Object...)} and
- * {@link InsertTemplateModel#execute(org.apache.tiles.TilesContainer, String, String, String, String, String, Object...)}.
+ * , {@link InsertTemplateModel#end(org.apache.tiles.TilesContainer,
+ * String, String, String, String, String, Object...)} and
+ * {@link InsertTemplateModel#execute(org.apache.tiles.TilesContainer,
+ * String, String, String, String, String, Object...)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -82,9 +84,10 @@ public class InsertTemplateVModel implements Executable, BodyExecutable {
                 model.execute(ServletUtil.getCurrentContainer(request,
                         servletContext), (String) params.get("template"),
                         (String) params.get("templateType"), (String) params
-                                .get("templateExpression"), (String) params
-                                .get("role"), (String) params.get("preparer"),
-                        velocityContext, request, response, writer);
+                                .get("templateExpression"), (String) params.get("role"),
+                        (String) params
+                                .get("preparer"), velocityContext, request, response,
+                        writer);
                 return true;
             }
         };
@@ -102,9 +105,10 @@ public class InsertTemplateVModel implements Executable, BodyExecutable {
                 model.end(ServletUtil.getCurrentContainer(request,
                         servletContext), (String) params.get("template"),
                         (String) params.get("templateType"), (String) params
-                                .get("templateExpression"), (String) params
-                                .get("role"), (String) params.get("preparer"),
-                        velocityContext, request, response, writer);
+                                .get("templateExpression"), (String) params.get("role"),
+                        (String) params
+                                .get("preparer"), velocityContext, request, response,
+                        writer);
                 return true;
             }
         };

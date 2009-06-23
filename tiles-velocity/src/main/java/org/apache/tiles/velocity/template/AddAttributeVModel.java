@@ -62,10 +62,9 @@ public class AddAttributeVModel implements Executable, BodyExecutable {
     public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
-        model.execute(ServletUtil.getComposeStack(request), params
-                .get("value"), (String) params.get("expression"), null,
-                (String) params.get("role"), (String) params
-                        .get("type"));
+        model.execute(ServletUtil.getComposeStack(request),
+                params.get("value"), (String) params.get("expression"), null,
+                (String) params.get("role"), (String) params.get("type"));
         return VelocityUtil.EMPTY_RENDERABLE;
     }
 

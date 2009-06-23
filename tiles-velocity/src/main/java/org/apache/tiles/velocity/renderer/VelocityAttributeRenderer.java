@@ -87,7 +87,7 @@ public class VelocityAttributeRenderer extends AbstractBaseAttributeRenderer
      * @since 2.2.0
      */
     public void commit() {
-    	velocityView = new VelocityView(new TilesApplicationContextJeeConfig());
+        velocityView = new VelocityView(new TilesApplicationContextJeeConfig());
     }
 
     /** {@inheritDoc} */

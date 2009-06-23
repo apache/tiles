@@ -1,6 +1,24 @@
-/**
+/*
+ * $Id$
  *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.tiles.velocity.template;
 
 import static org.junit.Assert.*;
@@ -15,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.context.Context;
@@ -24,7 +43,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * TODO
+ * Tests {@link VelocityStyleTilesTool}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -101,16 +120,19 @@ public class VelocityStyleTilesToolTest {
         Attribute attribute =  tool.createAttribute();
         assertNull(attribute.getValue());
         assertNull(attribute.getRenderer());
-        assertNull(attribute.getExpression());
+        assertNull(attribute.getExpressionObject());
         verify(velocityContext, request, response, servletContext);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#cloneAttribute(org.apache.tiles.Attribute)}.
+     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool
+     * #cloneAttribute(org.apache.tiles.Attribute)}.
      */
     @Test
     public void testCloneAttribute() {
-        Attribute attribute = new Attribute("myValue", "myExpression", "myRole", "myRendererName");
+        Attribute attribute = new Attribute("myValue", Expression
+                .createExpression("myExpression", null), "myRole",
+                "myRendererName");
 
         replay(velocityContext, request, response, servletContext);
         initializeTool();
@@ -119,7 +141,8 @@ public class VelocityStyleTilesToolTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#createTemplateAttribute(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool
+     * #createTemplateAttribute(java.lang.String)}.
      */
     @Test
     public void testCreateTemplateAttribute() {
@@ -132,7 +155,8 @@ public class VelocityStyleTilesToolTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#renderAttribute(org.apache.tiles.Attribute)}.
+     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool
+     * #renderAttribute(org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -154,7 +178,8 @@ public class VelocityStyleTilesToolTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#renderDefinition(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool
+     * #renderDefinition(java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -252,7 +277,8 @@ public class VelocityStyleTilesToolTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#setCurrentContainer(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool
+     * #setCurrentContainer(java.lang.String)}.
      */
     @Test
     public void testSetCurrentContainer() {

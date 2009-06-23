@@ -153,8 +153,8 @@ public class InsertTemplateVModelTest {
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
         tModel.end(container, "myTemplate", "myTemplateType",
-                "myTemplateExpression", "myRole", "myPreparer",
-                velocityContext, request, response, writer);
+                "myTemplateExpression", "myRole",
+                "myPreparer", velocityContext, request, response, writer);
 
         replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
         initializeModel();
