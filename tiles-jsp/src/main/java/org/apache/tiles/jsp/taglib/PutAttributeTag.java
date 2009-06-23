@@ -227,7 +227,7 @@ public class PutAttributeTag extends SimpleTagSupport {
         model.start(JspUtil.getComposeStack(jspContext));
         String body = JspUtil.evaluateFragmentAsString(getJspBody());
         model.end(JspUtil.getCurrentContainer(jspContext), JspUtil
-                .getComposeStack(jspContext), name, value, null, body, role,
-                type, cascade, jspContext);
+                .getComposeStack(jspContext), name, value, null,
+                body, role, type, cascade, jspContext);
     }
 }
