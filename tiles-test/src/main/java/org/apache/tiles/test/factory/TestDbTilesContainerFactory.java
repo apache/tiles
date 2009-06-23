@@ -46,6 +46,11 @@ import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
  */
 public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
 
+    /**
+     * The number of registered factories.
+     */
+    private static final int FACTORY_SIZE = 4;
+
     /** {@inheritDoc} */
     @Override
     protected DefinitionDAO<Locale> createLocaleDefinitionDao(TilesApplicationContext applicationContext,
@@ -70,7 +75,7 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
     protected void registerChainedRequestContextFactories(
             ChainedTilesRequestContextFactory contextFactory) {
         List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
-                3);
+                FACTORY_SIZE);
         registerRequestContextFactory(
                 "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
                 factories, contextFactory);

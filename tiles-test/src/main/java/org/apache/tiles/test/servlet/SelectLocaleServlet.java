@@ -45,7 +45,7 @@ public class SelectLocaleServlet extends HttpServlet {
      * The key of the container to use.
      */
     private String containerKey;
-    
+
     /**
      * The name of the definition to render.
      */
