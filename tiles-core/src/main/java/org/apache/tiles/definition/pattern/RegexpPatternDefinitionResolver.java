@@ -86,7 +86,7 @@ public class RegexpPatternDefinitionResolver<T> implements
      */
     private void addRegexpMappings(Map<String, Definition> localeDefsMap,
             List<PatternMapping> patternMappingList) {
-        for (Map.Entry<String, Definition> entry: localeDefsMap.entrySet()) {
+        for (Map.Entry<String, Definition> entry : localeDefsMap.entrySet()) {
             String name = entry.getKey();
             if (name.startsWith("~")) {
                 patternMappingList.add(new PatternMapping(name.substring(1),
@@ -101,7 +101,7 @@ public class RegexpPatternDefinitionResolver<T> implements
      * @version $Rev$ $Date$
      * @since 2.2.0
      */
-    private static class PatternMapping {
+    private static final class PatternMapping {
 
         /**
          * The pattern.
@@ -120,7 +120,7 @@ public class RegexpPatternDefinitionResolver<T> implements
          * @param definition The definition.
          * @since 2.2.0
          */
-        public PatternMapping(String regexp, Definition definition) {
+        private PatternMapping(String regexp, Definition definition) {
             pattern = Pattern.compile(regexp);
             this.definition = definition;
         }

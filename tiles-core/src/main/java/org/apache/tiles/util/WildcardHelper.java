@@ -188,7 +188,7 @@ public class WildcardHelper {
         List<String> varsValues = new ArrayList<String>();
         boolean retValue = match(varsValues, data, expr);
         int i = 0;
-        for (String value: varsValues) {
+        for (String value : varsValues) {
             map.put(i, value);
             i++;
         }

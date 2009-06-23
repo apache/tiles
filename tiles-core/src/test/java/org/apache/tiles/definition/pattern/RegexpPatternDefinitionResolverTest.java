@@ -53,7 +53,9 @@ public class RegexpPatternDefinitionResolverTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.definition.pattern.RegexpPatternDefinitionResolver#resolveDefinition(java.lang.String, java.lang.Object)}.
+     * Test method for
+     * {@link org.apache.tiles.definition.pattern.RegexpPatternDefinitionResolver
+     * #resolveDefinition(java.lang.String, java.lang.Object)}.
      */
     @Test
     public void testResolveDefinition() {

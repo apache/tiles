@@ -68,11 +68,6 @@ public class RepeaterTilesApplicationContextFactory extends
         }
     }
 
-    /** {@inheritDoc} */
-    public void init(Map<String, String> configurationParameters) {
-        // Do nothing
-    }
-
     /**
      * Empty application context that does nothing.
      */
