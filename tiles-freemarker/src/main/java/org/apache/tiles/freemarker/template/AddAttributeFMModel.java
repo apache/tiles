@@ -69,7 +69,6 @@ public class AddAttributeFMModel implements TemplateDirectiveModel {
         Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
         model.end(composeStack, FreeMarkerUtil.getAsObject(parms.get("value")),
                 FreeMarkerUtil.getAsString(parms.get("expression")), bodyString,
-                FreeMarkerUtil.getAsString(parms.get("role")),
-                FreeMarkerUtil.getAsString(parms.get("type")));
+                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil.getAsString(parms.get("type")));
     }
 }

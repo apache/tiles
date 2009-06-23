@@ -38,7 +38,8 @@ import freemarker.template.TemplateModel;
  * parameters, see
  * {@link InsertDefinitionModel#start(org.apache.tiles.TilesContainer, Object...)}
  * and
- * {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer, String, String, String, String, String, String, Object...)}
+ * {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer,
+ * String, String, String, String, String, String, Object...)}
  * .
  *
  * @version $Rev$ $Date$

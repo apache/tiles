@@ -125,7 +125,8 @@ public class AddAttributeFMModelTest {
 
         expect(request.getAttribute(FreeMarkerUtil.COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(composeStack);
         tModel.start(composeStack);
-        tModel.end(composeStack, value, "myExpression", "", "myRole", "myType");
+        tModel.end(composeStack, value, "myExpression", "",
+                "myRole", "myType");
         body.render(isA(StringWriter.class));
 
         replay(request, tModel, body);

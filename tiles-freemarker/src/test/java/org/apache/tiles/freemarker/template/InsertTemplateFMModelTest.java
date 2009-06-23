@@ -149,7 +149,8 @@ public class InsertTemplateFMModelTest {
 
         tModel.start(container, env);
         tModel.end(container, "myTemplate", "myTemplateType",
-                "myTemplateExpression", "myRole", "myPreparer", env);
+                "myTemplateExpression", "myRole",
+                "myPreparer", env);
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, container, attribute);

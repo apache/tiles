@@ -75,8 +75,8 @@ public class PutAttributeFMModel implements TemplateDirectiveModel {
                 FreeMarkerUtil.getAsString(parms.get("name")), FreeMarkerUtil
                         .getAsObject(parms.get("value")), FreeMarkerUtil
                         .getAsString(parms.get("expression")), bodyString,
-                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
-                        .getAsString(parms.get("type")), FreeMarkerUtil
+                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil.getAsString(parms.get("type")),
+                FreeMarkerUtil
                         .getAsBoolean(parms.get("cascade"), false), env);
     }
 

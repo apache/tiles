@@ -108,7 +108,9 @@ public class FreeMarkerAttributeRenderer extends AbstractBaseAttributeRenderer i
                 HttpServletResponse httpResponse = servletRequest.getResponse();
                 servlet.setValue((String) value);
                 try {
-                    servlet.doGet(httpRequest, new ExternalWriterHttpServletResponse(httpResponse, request.getPrintWriter()));
+                    servlet.doGet(httpRequest,
+                            new ExternalWriterHttpServletResponse(httpResponse,
+                                    request.getPrintWriter()));
                 } catch (ServletException e) {
                     throw new FreeMarkerTilesException("Exception when rendering a FreeMarker attribute", e);
                 }
