@@ -32,7 +32,7 @@ public final class CompareUtil {
     /**
      * Private constructor to avoid instantiation.
      */
-    private CompareUtil() {}
+    private CompareUtil() { }
 
     /**
      * Checks if two objects (eventually null) are the same. They are considered the same
