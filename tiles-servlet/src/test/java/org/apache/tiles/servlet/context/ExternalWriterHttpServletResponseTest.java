@@ -31,7 +31,6 @@ import java.io.Writer;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.servlet.context.ExternalWriterHttpServletResponse;
 import org.junit.Test;
 
 /**

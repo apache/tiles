@@ -106,8 +106,7 @@ public class TilesListener
      *
      * @param context The servlet context to use.
      * @return The created container.
-     * @deprecated Use {@link BasicTilesInitializer#createContainer(org.apache.tiles.TilesApplicationContext)}
-     * instead.
+     * @deprecated Extend {@link BasicTilesInitializer}.
      */
     protected TilesContainer createContainer(ServletContext context) {
         TilesApplicationContext applicationContext = new ServletTilesApplicationContext(
