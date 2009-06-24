@@ -82,7 +82,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      */
     public BasicAttributeContext(Map<String, Attribute> attributes) {
         if (attributes != null) {
-            this.attributes = new HashMap<String, Attribute>(attributes);
+            this.attributes = deepCopyAttributeMap(attributes);
         }
     }
 
@@ -103,7 +103,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             this.preparer = context.getPreparer();
             this.attributes = new HashMap<String, Attribute>();
             for (String name : context.getLocalAttributeNames()) {
-                attributes.put(name, context.getLocalAttribute(name));
+                attributes.put(name, new Attribute(context.getLocalAttribute(name)));
             }
             inheritCascadedAttributes(context);
         }
@@ -146,8 +146,8 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         } else {
             this.cascadedAttributes = new HashMap<String, Attribute>();
             for (String name : context.getCascadedAttributeNames()) {
-                cascadedAttributes
-                        .put(name, context.getCascadedAttribute(name));
+                cascadedAttributes.put(name, new Attribute(context
+                        .getCascadedAttribute(name)));
             }
         }
     }
@@ -405,7 +405,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         }
         preparer = context.preparer;
         if (context.attributes != null && !context.attributes.isEmpty()) {
-            attributes = new HashMap<String, Attribute>(context.attributes);
+            attributes = deepCopyAttributeMap(context.attributes);
         }
         copyCascadedAttributes(context);
     }
@@ -418,8 +418,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     private void copyCascadedAttributes(BasicAttributeContext context) {
         if (context.cascadedAttributes != null
                 && !context.cascadedAttributes.isEmpty()) {
-            cascadedAttributes = new HashMap<String, Attribute>(
-                    context.cascadedAttributes);
+            cascadedAttributes = deepCopyAttributeMap(context.cascadedAttributes);
         }
     }
 
@@ -451,5 +450,24 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         }
 
         return destination;
+    }
+
+    /**
+     * Deep copies the attribute map, by creating clones (using copy
+     * constructors) of the attributes.
+     *
+     * @param attributes The attribute map to copy.
+     * @return The copied map.
+     */
+    private Map<String, Attribute> deepCopyAttributeMap(
+            Map<String, Attribute> attributes) {
+        Map<String, Attribute> retValue = new HashMap<String, Attribute>(attributes.size());
+        for (Map.Entry<String, Attribute> entry : attributes.entrySet()) {
+            Attribute toCopy = entry.getValue();
+            if (toCopy != null) {
+                retValue.put(entry.getKey(), toCopy.clone());
+            }
+        }
+        return retValue;
     }
 }

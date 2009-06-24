@@ -34,7 +34,7 @@ import java.util.Set;
  *
  * @version $Rev$ $Date$
  */
-public class Attribute implements Serializable {
+public class Attribute implements Serializable, Cloneable {
 
     /**
      * The name of the template renderer.
@@ -571,5 +571,11 @@ public class Attribute implements Serializable {
     public int hashCode() {
         return nullSafeHashCode(value) + nullSafeHashCode(renderer)
                 + nullSafeHashCode(roles) + nullSafeHashCode(expressionObject);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Attribute clone() {
+        return new Attribute(this);
     }
 }
