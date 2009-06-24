@@ -73,7 +73,7 @@ public class ChainedTilesApplicationContextFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link ChainedTilesContextFactory#setFactories(java.util.List)}.
+     * Tests {@link ChainedTilesApplicationContextFactory#setFactories(List)}.
      */
     public void testSetFactories() {
         ChainedTilesApplicationContextFactory factory = new ChainedTilesApplicationContextFactory();

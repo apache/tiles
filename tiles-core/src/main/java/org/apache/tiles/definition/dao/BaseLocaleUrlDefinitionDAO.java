@@ -223,9 +223,10 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
     /**
      * Derive the resource string from the initialization parameters. If no
      * parameter {@link DefinitionsFactory#DEFINITIONS_CONFIG} is available,
-     * attempts to retrieve {@link BasicTilesContainer#DEFINITIONS_CONFIG} and
-     * {@link #LEGACY_DEFINITIONS_CONFIG}. If neither are available, returns
-     * "/WEB-INF/tiles.xml".
+     * attempts to retrieve the deprecated
+     * <code>org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG</code>
+     * parameter and {@link #LEGACY_DEFINITIONS_CONFIG}. If neither are
+     * available, returns "/WEB-INF/tiles.xml".
      *
      * @param parms The initialization parameters.
      * @return resource string to be parsed.
