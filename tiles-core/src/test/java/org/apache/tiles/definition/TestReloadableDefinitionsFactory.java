@@ -54,7 +54,7 @@ public class TestReloadableDefinitionsFactory extends TestCase {
      * The time (in milliseconds) to wait to be sure that the system updates the
      * modify date of a file.
      */
-    private static final int SLEEP_MILLIS = 30000;
+    private static final int SLEEP_MILLIS = 2000;
 
     /**
      * Creates a new instance of TestReloadableDefinitionsFactory.

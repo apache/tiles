@@ -70,8 +70,8 @@ public class TestDefinition extends TestCase {
         def.setName("test1");
         def.setTemplateAttribute(Attribute
                 .createTemplateAttribute("/page1.jsp"));
-        Attribute attr1 = new Attribute("test.definition.name", null,
-                null, "definition");
+        Attribute attr1 = new Attribute("test.definition.name",
+                (Expression) null, null, "definition");
         def.putAttribute("attr1",  attr1);
 
         attr1 = def.getAttribute("attr1");
@@ -112,7 +112,9 @@ public class TestDefinition extends TestCase {
 
         toCopy = new Definition();
         toCopy.setPreparer("ExtendedPreparer");
-        Attribute templateAttribute = new Attribute("extendedTemplate.jsp", "expression", "extendedRole", "template");
+        Attribute templateAttribute = new Attribute("extendedTemplate.jsp",
+                Expression.createExpression("expression", "language"),
+                "extendedRole", "template");
         toCopy.setTemplateAttribute(templateAttribute);
         context = new Definition();
         context.inherit(toCopy);
@@ -128,11 +130,15 @@ public class TestDefinition extends TestCase {
         assertEquals("Template not inherited", "extendedTemplate.jsp", context
                 .getTemplateAttribute().getValue());
         assertEquals("Template expression not inherited", "expression", context
-                .getTemplateAttribute().getExpression());
+                .getTemplateAttribute().getExpressionObject().getExpression());
+        assertEquals("Template expression language not inherited", "language",
+                context.getTemplateAttribute().getExpressionObject()
+                        .getLanguage());
         context = new Definition();
         context.setPreparer("LocalPreparer");
-        templateAttribute = new Attribute("localTemplate.jsp",
-                "localExpression", "localRole", "template");
+        templateAttribute = new Attribute("localTemplate.jsp", Expression
+                .createExpression("localExpression", "localLanguage"),
+                "localRole", "template");
         context.setTemplateAttribute(templateAttribute);
         assertEquals("Preparer inherited", "LocalPreparer", context
                 .getPreparer());
@@ -145,6 +151,10 @@ public class TestDefinition extends TestCase {
         assertEquals("Template inherited", "localTemplate.jsp", context
                 .getTemplateAttribute().getValue());
         assertEquals("Template expression inherited", "localExpression",
-                context.getTemplateAttribute().getExpression());
+                context.getTemplateAttribute().getExpressionObject()
+                        .getExpression());
+        assertEquals("Template expression language not inherited",
+                "localLanguage", context.getTemplateAttribute()
+                        .getExpressionObject().getLanguage());
     }
 }

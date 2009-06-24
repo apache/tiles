@@ -45,7 +45,8 @@ import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolverAware;
 import org.apache.tiles.definition.pattern.WildcardPatternDefinitionResolver;
-import org.apache.tiles.evaluator.AttributeEvaluator;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
+import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
@@ -91,13 +92,13 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
                 requestContextFactory);
         container.setDefinitionsFactory(createDefinitionsFactory(applicationContext,
                 requestContextFactory, resolver));
-        AttributeEvaluator evaluator = createEvaluator(applicationContext,
-                requestContextFactory, resolver);
-        container.setEvaluator(evaluator);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = createAttributeEvaluatorFactory(
+                applicationContext, requestContextFactory, resolver);
+        container.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         container.setPreparerFactory(createPreparerFactory(applicationContext,
                 requestContextFactory));
         container.setRendererFactory(createRendererFactory(applicationContext,
-                requestContextFactory, container, evaluator));
+                requestContextFactory, container, attributeEvaluatorFactory));
         return container;
     }
 
@@ -324,17 +325,21 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     }
 
     /**
-     * Creates the attribute evaluator to use. By default it returns a {@link DirectAttributeEvaluator}.
+     * Creates the attribute evaluator factory to use. By default it returns a
+     * {@link BasicAttributeEvaluatorFactory} containing the
+     * {@link DirectAttributeEvaluator} as the default evaluator.
+     *
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param resolver The locale resolver.
      *
-     * @return The evaluator.
+     * @return The evaluator factory.
+     * @since 2.2.0
      */
-    protected AttributeEvaluator createEvaluator(TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory,
-            LocaleResolver resolver) {
-        return new DirectAttributeEvaluator();
+    protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
+            TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+        return new BasicAttributeEvaluatorFactory(new DirectAttributeEvaluator());
     }
 
     /**
@@ -360,23 +365,23 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param container The container.
-     * @param evaluator The evaluator.
+     * @param attributeEvaluatorFactory The attribute evaluator factory.
      *
      * @return The renderer factory.
-     * @since 2.1.1
+     * @since 2.2.0
      */
     protected RendererFactory createRendererFactory(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
-            TilesContainer container, AttributeEvaluator evaluator) {
+            TilesContainer container, AttributeEvaluatorFactory attributeEvaluatorFactory) {
         BasicRendererFactory retValue = new BasicRendererFactory();
         retValue.setApplicationContext(applicationContext);
         retValue.setRequestContextFactory(contextFactory);
         retValue.setContainer(container);
-        retValue.setEvaluator(evaluator);
+        retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         retValue.setDefaultRenderer(createDefaultAttributeRenderer(applicationContext,
-                contextFactory, container, evaluator));
+                contextFactory, container, attributeEvaluatorFactory));
         registerAttributeRenderers(retValue, applicationContext, contextFactory,
-                container, evaluator);
+                container, attributeEvaluatorFactory);
         return retValue;
     }
 
@@ -386,25 +391,26 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param container The container.
-     * @param evaluator The evaluator.
+     * @param attributeEvaluatorFactory The attribute evaluator factory.
      *
      * @return The default attribute renderer.
-     * @since 2.1.1
+     * @since 2.2.0
      */
     protected AttributeRenderer createDefaultAttributeRenderer(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
-            AttributeEvaluator evaluator) {
+            AttributeEvaluatorFactory attributeEvaluatorFactory) {
         UntypedAttributeRenderer retValue = new UntypedAttributeRenderer();
         retValue.setApplicationContext(applicationContext);
         retValue.setContainer(container);
         retValue.setRequestContextFactory(contextFactory);
-        retValue.setEvaluator(evaluator);
+        retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return retValue;
     }
 
     /**
-     * Creates a new pattern definition resolver. By default, it instantiate a {@link WildcardPatternDefinitionResolver}.
+     * Creates a new pattern definition resolver. By default, it instantiate a
+     * {@link WildcardPatternDefinitionResolver}.
      *
      * @param <T> The type of the customization key.
      * @param customizationKeyClass The customization key class.
@@ -426,30 +432,32 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param container The container.
-     * @param evaluator The evaluator.
-     * @since 2.1.1
+     * @param attributeEvaluatorFactory The attribute evaluator factory.
+     * @since 2.2.0
      */
     protected void registerAttributeRenderers(
-            BasicRendererFactory rendererFactory, TilesApplicationContext applicationContext,
+            BasicRendererFactory rendererFactory,
+            TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
-            TilesContainer container, AttributeEvaluator evaluator) {
+            TilesContainer container,
+            AttributeEvaluatorFactory attributeEvaluatorFactory) {
         StringAttributeRenderer stringRenderer = new StringAttributeRenderer();
         stringRenderer.setApplicationContext(applicationContext);
         stringRenderer.setRequestContextFactory(contextFactory);
-        stringRenderer.setEvaluator(evaluator);
+        stringRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         rendererFactory.registerRenderer("string", stringRenderer);
 
         TemplateAttributeRenderer templateRenderer = new TemplateAttributeRenderer();
         templateRenderer.setApplicationContext(applicationContext);
         templateRenderer.setRequestContextFactory(contextFactory);
-        templateRenderer.setEvaluator(evaluator);
+        templateRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         rendererFactory.registerRenderer("template", templateRenderer);
 
         DefinitionAttributeRenderer definitionRenderer = new DefinitionAttributeRenderer();
         definitionRenderer.setApplicationContext(applicationContext);
         definitionRenderer.setContainer(container);
         definitionRenderer.setRequestContextFactory(contextFactory);
-        definitionRenderer.setEvaluator(evaluator);
+        definitionRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         rendererFactory.registerRenderer("definition", definitionRenderer);
     }
 }

@@ -23,6 +23,7 @@ package org.apache.tiles.template;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
 
 /**
@@ -72,8 +73,8 @@ public class DefaultAttributeResolver implements AttributeResolver {
             if (defaultValue instanceof Attribute) {
                 attribute = (Attribute) defaultValue;
             } else if (defaultValue instanceof String) {
-                attribute = new Attribute(defaultValue,
-                        null, defaultValueRole, defaultValueType);
+                attribute = new Attribute(defaultValue, (Expression) null,
+                        defaultValueRole, defaultValueType);
             }
         }
         return attribute;

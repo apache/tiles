@@ -23,14 +23,16 @@ package org.apache.tiles.renderer.impl;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import junit.framework.TestCase;
+
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Expression;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
 
 /**
  * Tests {@link TemplateAttributeRenderer}.
@@ -48,7 +50,8 @@ public class TemplateAttributeRendererTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         renderer = new TemplateAttributeRenderer();
-        renderer.setEvaluator(new DirectAttributeEvaluator());
+        renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
+                new DirectAttributeEvaluator()));
     }
 
     /**
@@ -59,7 +62,8 @@ public class TemplateAttributeRendererTest extends TestCase {
      */
     public void testWrite() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("/myTemplate.jsp", null, null, "template");
+        Attribute attribute = new Attribute("/myTemplate.jsp",
+                (Expression) null, null, "template");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock

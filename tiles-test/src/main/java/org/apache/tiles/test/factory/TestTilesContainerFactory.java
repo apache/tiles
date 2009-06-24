@@ -39,12 +39,17 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
-import org.apache.tiles.evaluator.AttributeEvaluator;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
+import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.el.ELAttributeEvaluator;
 import org.apache.tiles.evaluator.el.TilesContextBeanELResolver;
 import org.apache.tiles.evaluator.el.TilesContextELResolver;
+import org.apache.tiles.evaluator.mvel.MVELAttributeEvaluator;
+import org.apache.tiles.evaluator.mvel.TilesContextBeanVariableResolverFactory;
+import org.apache.tiles.evaluator.mvel.TilesContextVariableResolverFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
@@ -56,6 +61,7 @@ import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
+import org.mvel2.integration.VariableResolverFactory;
 
 
 /**
@@ -64,6 +70,11 @@ import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
  * @version $Rev$ $Date$
  */
 public class TestTilesContainerFactory extends BasicTilesContainerFactory {
+
+    /**
+     * The number of registered factories.
+     */
+    private static final int FACTORY_SIZE = 4;
 
     /**
      * The number of URLs to load..
@@ -82,10 +93,11 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
      * @param contextFactory The request context factory to use.
      * @since 2.1.1
      */
+    @Override
     protected void registerChainedRequestContextFactories(
             ChainedTilesRequestContextFactory contextFactory) {
         List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
-                3);
+                FACTORY_SIZE);
         registerRequestContextFactory(
                 "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
                 factories, contextFactory);
@@ -104,20 +116,22 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
     /** {@inheritDoc} */
     @Override
     protected void registerAttributeRenderers(
-            BasicRendererFactory rendererFactory, TilesApplicationContext applicationContext,
+            BasicRendererFactory rendererFactory,
+            TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
-            TilesContainer container, AttributeEvaluator evaluator) {
+            TilesContainer container,
+            AttributeEvaluatorFactory attributeEvaluatorFactory) {
         super.registerAttributeRenderers(rendererFactory, applicationContext, contextFactory,
-                container, evaluator);
+                container, attributeEvaluatorFactory);
         ReverseStringAttributeRenderer renderer = new ReverseStringAttributeRenderer();
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
-        renderer.setEvaluator(evaluator);
+        renderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         rendererFactory.registerRenderer("reversed", renderer);
 
         FreeMarkerAttributeRenderer freemarkerRenderer = new FreeMarkerAttributeRenderer();
         freemarkerRenderer.setApplicationContext(applicationContext);
-        freemarkerRenderer.setEvaluator(evaluator);
+        freemarkerRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         freemarkerRenderer.setRequestContextFactory(contextFactory);
         freemarkerRenderer.setParameter("TemplatePath", "/");
         freemarkerRenderer.setParameter("NoCache", "true");
@@ -130,7 +144,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
 
         VelocityAttributeRenderer velocityRenderer = new VelocityAttributeRenderer();
         velocityRenderer.setApplicationContext(applicationContext);
-        velocityRenderer.setEvaluator(evaluator);
+        velocityRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         velocityRenderer.setRequestContextFactory(contextFactory);
         velocityRenderer.setParameter("org.apache.velocity.toolbox", "/WEB-INF/tools.xml");
         velocityRenderer.setParameter("org.apache.velocity.properties", "/WEB-INF/velocity.properties");
@@ -140,9 +154,25 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
 
     /** {@inheritDoc} */
     @Override
-    protected AttributeEvaluator createEvaluator(TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory,
-            LocaleResolver resolver) {
+    protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
+            TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+        BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
+                createELEvaluator(applicationContext));
+        attributeEvaluatorFactory.registerAttributeEvaluator("MVEL",
+                createMVELEvaluator());
+
+        return attributeEvaluatorFactory;
+    }
+
+    /**
+     * Creates the EL evaluator.
+     *
+     * @param applicationContext The Tiles application context.
+     * @return The EL evaluator.
+     */
+    private ELAttributeEvaluator createELEvaluator(
+            TilesApplicationContext applicationContext) {
         ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
         evaluator.setApplicationContext(applicationContext);
         MultiversionExpressionFactoryFactory efFactory = new MultiversionExpressionFactoryFactory();
@@ -160,8 +190,24 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
             }
         };
         evaluator.setResolver(elResolver);
-
         return evaluator;
+    }
+
+    /**
+     * Creates the MVEL evaluator.
+     *
+     * @return The MVEL evaluator.
+     */
+    private MVELAttributeEvaluator createMVELEvaluator() {
+        TilesRequestContextHolder requestHolder = new TilesRequestContextHolder();
+        VariableResolverFactory variableResolverFactory = new TilesContextVariableResolverFactory(
+                requestHolder);
+        variableResolverFactory
+                .setNextFactory(new TilesContextBeanVariableResolverFactory(
+                        requestHolder));
+        MVELAttributeEvaluator mvelEvaluator = new MVELAttributeEvaluator(requestHolder,
+                variableResolverFactory);
+        return mvelEvaluator;
     }
 
     /** {@inheritDoc} */

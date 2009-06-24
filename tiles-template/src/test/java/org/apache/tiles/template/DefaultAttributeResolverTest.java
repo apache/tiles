@@ -26,6 +26,7 @@ import static org.easymock.EasyMock.*;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,7 +61,8 @@ public class DefaultAttributeResolverTest {
     public void testComputeAttributeInContext() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
-        Attribute attribute = new Attribute("myValue", "myExpression", "myRole", "myRenderer");
+        Attribute attribute = new Attribute("myValue", Expression
+                .createExpression("myExpression", null), "myRole", "myRenderer");
         Integer requestItem = new Integer(1);
 
         expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
@@ -81,7 +83,8 @@ public class DefaultAttributeResolverTest {
     @Test
     public void testComputeAttributeInCall() {
         TilesContainer container = createMock(TilesContainer.class);
-        Attribute attribute = new Attribute("myValue", "myExpression", "myRole", "myRenderer");
+        Attribute attribute = new Attribute("myValue", Expression
+                .createExpression("myExpression", null), "myRole", "myRenderer");
         Integer requestItem = new Integer(1);
 
         replay(container);

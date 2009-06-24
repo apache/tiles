@@ -24,6 +24,7 @@ package org.apache.tiles.template;
 import java.util.Stack;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Expression;
 import org.apache.tiles.ListAttribute;
 
 /**
@@ -128,7 +129,8 @@ public class AddAttributeModel {
             attribute.setValue(body);
         }
         if (expression != null) {
-            attribute.setExpression(expression);
+            attribute.setExpressionObject(Expression
+                    .createExpressionFromDescribedExpression(expression));
         }
         if (role != null) {
             attribute.setRole(role);

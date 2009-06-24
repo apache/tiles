@@ -34,7 +34,7 @@ import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
-import org.apache.tiles.evaluator.AttributeEvaluator;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
@@ -93,7 +93,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createRequestContextFactory()}.
+     * Tests {@link BasicTilesContainerFactory#createRequestContextFactory(TilesApplicationContext)}.
      */
     public void testCreateRequestContextFactory() {
         TilesRequestContextFactory contextFactory = factory
@@ -103,8 +103,8 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createDefinitionsFactory(TilesApplicationContext,
-     * TilesContextFactory, LocaleResolver)}.
+     * Tests {@link BasicTilesContainerFactory#createDefinitionsFactory(
+     * TilesApplicationContext, TilesRequestContextFactory, LocaleResolver)}.
      */
     public void testCreateDefinitionsFactory() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -118,8 +118,8 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createLocaleResolver(TilesApplicationContext,
-     * TilesContextFactory)}.
+     * Tests {@link BasicTilesContainerFactory#createLocaleResolver(
+     * TilesApplicationContext, TilesRequestContextFactory)}.
      */
     public void testCreateLocaleResolver() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -131,8 +131,8 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createDefinitionsReader(TilesApplicationContext,
-     * TilesContextFactory)}.
+     * Tests {@link BasicTilesContainerFactory#createDefinitionsReader(
+     * TilesApplicationContext, TilesRequestContextFactory)}.
      */
     public void testCreateDefinitionsReader() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -145,7 +145,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#getSourceURLs(TilesApplicationContext, TilesContextFactory)}.
+     * {@link BasicTilesContainerFactory#getSourceURLs(TilesApplicationContext, TilesRequestContextFactory)}.
      */
     public void testGetSourceURLs() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -157,23 +157,25 @@ public class BasicTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#createEvaluator(TilesApplicationContext,
-     * TilesContextFactory, LocaleResolver)}.
+     * {@link BasicTilesContainerFactory#createAttributeEvaluatorFactory(
+     * TilesApplicationContext, TilesRequestContextFactory, LocaleResolver)}.
      */
-    public void testCreateEvaluator() {
+    public void testCreateAttributeEvaluatorFactory() {
         TilesRequestContextFactory requestContextFactory = factory
                 .createRequestContextFactory(applicationContext);
         LocaleResolver resolver = factory.createLocaleResolver(applicationContext,
                 requestContextFactory);
-        AttributeEvaluator evaluator = factory.createEvaluator(applicationContext,
-                requestContextFactory, resolver);
-        assertTrue("The class of the evaluator is not correct",
-                evaluator instanceof DirectAttributeEvaluator);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = factory
+                .createAttributeEvaluatorFactory(applicationContext,
+                        requestContextFactory, resolver);
+        assertTrue(
+                "The class of the evaluator is not correct",
+                attributeEvaluatorFactory.getAttributeEvaluator((String) null) instanceof DirectAttributeEvaluator);
     }
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#createPreparerFactory(TilesApplicationContext, TilesContextFactory)}.
+     * {@link BasicTilesContainerFactory#createPreparerFactory(TilesApplicationContext, TilesRequestContextFactory)}.
      */
     public void testCreatePreparerFactory() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -185,8 +187,8 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createRendererFactory(TilesApplicationContext,
-     * TilesContextFactory, TilesContainer, AttributeEvaluator)}.
+     * Tests {@link BasicTilesContainerFactory#createRendererFactory(
+     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
      */
     public void testCreateRendererFactory() {
         TilesContainer container = factory.createContainer(applicationContext);
@@ -194,10 +196,12 @@ public class BasicTilesContainerFactoryTest extends TestCase {
                 .createRequestContextFactory(applicationContext);
         LocaleResolver resolver = factory.createLocaleResolver(applicationContext,
                 requestContextFactory);
-        AttributeEvaluator evaluator = factory.createEvaluator(applicationContext,
-                requestContextFactory, resolver);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = factory
+                .createAttributeEvaluatorFactory(applicationContext,
+                        requestContextFactory, resolver);
         RendererFactory rendererFactory = factory.createRendererFactory(
-                applicationContext, requestContextFactory, container, evaluator);
+                applicationContext, requestContextFactory, container,
+                attributeEvaluatorFactory);
         assertTrue("The class of the renderer factory is not correct",
                 rendererFactory instanceof BasicRendererFactory);
         AttributeRenderer renderer = rendererFactory.getRenderer("string");
@@ -215,8 +219,9 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createDefaultAttributeRenderer(TilesApplicationContext,
-     * TilesContextFactory, TilesContainer, AttributeEvaluator)}.
+     * Tests
+     * {@link BasicTilesContainerFactory#createDefaultAttributeRenderer(TilesApplicationContext,
+     * TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
      */
     public void testCreateDefaultAttributeRenderer() {
         TilesContainer container = factory.createContainer(applicationContext);
@@ -224,10 +229,12 @@ public class BasicTilesContainerFactoryTest extends TestCase {
                 .createRequestContextFactory(applicationContext);
         LocaleResolver resolver = factory.createLocaleResolver(applicationContext,
                 requestContextFactory);
-        AttributeEvaluator evaluator = factory.createEvaluator(applicationContext,
+        AttributeEvaluatorFactory attributeEvaluatorFactory = factory
+        .createAttributeEvaluatorFactory(applicationContext,
                 requestContextFactory, resolver);
         AttributeRenderer renderer = factory.createDefaultAttributeRenderer(
-                applicationContext, requestContextFactory, container, evaluator);
+                applicationContext, requestContextFactory, container,
+                attributeEvaluatorFactory);
         assertTrue("The default renderer class is not correct",
                 renderer instanceof UntypedAttributeRenderer);
     }

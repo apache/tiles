@@ -21,13 +21,11 @@
 package org.apache.tiles.evaluator.el;
 
 import java.beans.FeatureDescriptor;
-import java.util.ArrayList;
+import java.beans.PropertyDescriptor;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.el.ELContext;
 
@@ -35,6 +33,7 @@ import junit.framework.TestCase;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.reflect.ClassUtil;
 import org.easymock.EasyMock;
 
 /**
@@ -71,15 +70,12 @@ public class TilesContextELResolverTest extends TestCase {
      * {@link TilesContextELResolver#getFeatureDescriptors(javax.el.ELContext, java.lang.Object)}.
      */
     public void testGetFeatureDescriptorsELContextObject() {
-        List<FeatureDescriptor> expected = new ArrayList<FeatureDescriptor>();
-        Set<String> properties = new HashSet<String>();
-        resolver.collectBeanInfo(TilesRequestContext.class, expected,
-                properties);
-        resolver.collectBeanInfo(TilesApplicationContext.class, expected,
-                properties);
+        Map<String, PropertyDescriptor> expected = new LinkedHashMap<String, PropertyDescriptor>();
+        ClassUtil.collectBeanInfo(TilesRequestContext.class, expected);
+        ClassUtil.collectBeanInfo(TilesApplicationContext.class, expected);
         Iterator<FeatureDescriptor> featureIt = resolver.getFeatureDescriptors(
                 null, null);
-        Iterator<FeatureDescriptor> expectedIt = expected.iterator();
+        Iterator<? extends FeatureDescriptor> expectedIt = expected.values().iterator();
         while (featureIt.hasNext() && expectedIt.hasNext()) {
             assertEquals("The feature is not the same", expectedIt.next(),
                     featureIt.next());

@@ -34,6 +34,8 @@ import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.evaluator.AttributeEvaluator;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.preparer.NoSuchPreparerException;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
@@ -57,7 +59,8 @@ import java.util.StringTokenizer;
  * @since 2.0
  * @version $Rev$ $Date$
  */
-public class BasicTilesContainer implements TilesContainer {
+public class BasicTilesContainer implements TilesContainer,
+        AttributeEvaluatorFactoryAware {
 
     /**
      * Constant representing the configuration parameter used to define the
@@ -111,7 +114,7 @@ public class BasicTilesContainer implements TilesContainer {
     /**
      * The attribute evaluator.
      */
-    private AttributeEvaluator evaluator;
+    private AttributeEvaluatorFactory attributeEvaluatorFactory;
 
     /**
      * The Tiles request context factory.
@@ -145,8 +148,8 @@ public class BasicTilesContainer implements TilesContainer {
         if (definitionsFactory == null) {
             throw new IllegalStateException("DefinitionsFactory not specified");
         }
-        if (evaluator == null) {
-            throw new IllegalStateException("AttributeEvaluator not specified");
+        if (attributeEvaluatorFactory == null) {
+            throw new IllegalStateException("AttributeEvaluatorFactory not specified");
         }
         if (contextFactory == null) {
             throw new IllegalStateException("TilesContextFactory not specified");
@@ -294,14 +297,10 @@ public class BasicTilesContainer implements TilesContainer {
         this.rendererFactory = rendererFactory;
     }
 
-    /**
-     * Sets the evaluator to use.
-     *
-     * @param evaluator The evaluator to use.
-     * @since 2.1.0
-     */
-    public void setEvaluator(AttributeEvaluator evaluator) {
-        this.evaluator = evaluator;
+    /** {@inheritDoc} */
+    public void setAttributeEvaluatorFactory(
+            AttributeEvaluatorFactory attributeEvaluatorFactory) {
+        this.attributeEvaluatorFactory = attributeEvaluatorFactory;
     }
 
     /** {@inheritDoc} */
@@ -341,6 +340,8 @@ public class BasicTilesContainer implements TilesContainer {
     public Object evaluate(Attribute attribute, Object... requestItems) {
         TilesRequestContext request = getRequestContextFactory()
                 .createRequestContext(context, requestItems);
+        AttributeEvaluator evaluator = attributeEvaluatorFactory
+                .getAttributeEvaluator(attribute);
         return evaluator.evaluate(attribute, request);
     }
 
@@ -627,7 +628,7 @@ public class BasicTilesContainer implements TilesContainer {
     }
 
     /**
-     * Renders the specified definition
+     * Renders the specified definition.
      * @param request The request context.
      * @param definition The definition to render.
      * @since 2.1.3

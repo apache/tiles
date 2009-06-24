@@ -59,7 +59,7 @@ public class RegexpPatternDefinitionResolver<T> implements
                     for (int i = 0; i < groupCount; i++) {
                         vars[i] = matcher.group(i);
                     }
-                    retValue = PatternUtil.replaceDefinition(mapping.definition, name, vars);
+                    retValue = PatternUtil.replacePlaceholders(mapping.definition, name, vars);
                     break;
                 }
             }

@@ -20,6 +20,11 @@
  */
 package org.apache.tiles.factory;
 
+import java.lang.reflect.Method;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Initializable;
@@ -35,7 +40,9 @@ import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.tiles.evaluator.AttributeEvaluator;
-import org.apache.tiles.evaluator.AttributeEvaluatorAware;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
+import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
@@ -45,11 +52,6 @@ import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
-
-import java.lang.reflect.Method;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Factory provided for convenience.
@@ -431,6 +433,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
         AttributeEvaluator evaluator = (AttributeEvaluator) createFactory(
                 configuration, ATTRIBUTE_EVALUATOR_INIT_PARAM);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
+                evaluator);
 
         if (evaluator instanceof TilesApplicationContextAware) {
             ((TilesApplicationContextAware) evaluator)
@@ -457,8 +461,9 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
             ((TilesContainerAware) rendererFactory).setContainer(container);
         }
 
-        if (rendererFactory instanceof AttributeEvaluatorAware) {
-            ((AttributeEvaluatorAware) rendererFactory).setEvaluator(evaluator);
+        if (rendererFactory instanceof AttributeEvaluatorFactoryAware) {
+            ((AttributeEvaluatorFactoryAware) rendererFactory)
+                    .setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         }
         rendererFactory.init(initParameters);
 
@@ -473,7 +478,7 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
         container.setPreparerFactory(prepFactory);
         container.setApplicationContext(context);
         container.setRendererFactory(rendererFactory);
-        container.setEvaluator(evaluator);
+        container.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
     }
 
     /**

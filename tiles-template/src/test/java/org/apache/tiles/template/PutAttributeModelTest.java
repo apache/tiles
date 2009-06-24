@@ -88,7 +88,8 @@ public class PutAttributeModelTest {
         model.end(container, composeStack, "myName", "myValue", "myExpression",
                 "myBody", "myRole", "myType", false, requestItem);
         assertEquals("myValue", attribute.getValue());
-        assertEquals("myExpression", attribute.getExpression());
+        assertEquals("myExpression", attribute.getExpressionObject()
+                .getExpression());
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
         verify(container, attributeContext);
@@ -115,7 +116,8 @@ public class PutAttributeModelTest {
         model.end(container, composeStack, "myName", "myValue", "myExpression",
                 "myBody", "myRole", "myType", false, requestItem);
         assertEquals("myValue", attribute.getValue());
-        assertEquals("myExpression", attribute.getExpression());
+        assertEquals("myExpression", attribute.getExpressionObject()
+                .getExpression());
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
         verify(container, attributeContext);

@@ -107,7 +107,7 @@ public class WildcardPatternDefinitionResolver<T> implements
 
         for (WildcardMapping wm : paths) {
             if (wildcardHelper.match(vars, name, wm.getPattern())) {
-                d = PatternUtil.replaceDefinition(wm.getDefinition(), name, vars.toArray());
+                d = PatternUtil.replacePlaceholders(wm.getDefinition(), name, vars.toArray());
                 break;
             } else {
                 vars.clear();

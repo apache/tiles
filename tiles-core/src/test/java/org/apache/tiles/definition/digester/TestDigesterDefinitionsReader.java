@@ -213,11 +213,13 @@ public class TestDigesterDefinitionsReader extends TestCase {
         def = definitions.get(defName);
         assertNotNull("Couldn't find " + defName + " tile.", def);
         Attribute templateAttribute = def.getTemplateAttribute();
-        assertEquals(templateAttribute.getExpression(), "${my.expression}");
+        assertEquals(templateAttribute.getExpressionObject().getExpression(),
+                "${my.expression}");
         assertEquals("mytype", templateAttribute.getRenderer());
         attribute = def.getAttribute("body");
         assertNotNull("Couldn't Find body attribute.", attribute);
-        assertEquals("${my.attribute.expression}", attribute.getExpression());
+        assertEquals("${my.attribute.expression}", attribute
+                .getExpressionObject().getExpression());
     }
 
     /**

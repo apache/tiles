@@ -33,7 +33,8 @@ import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.AttributeEvaluator;
-import org.apache.tiles.evaluator.AttributeEvaluatorAware;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.renderer.AttributeRenderer;
 
 /**
@@ -44,7 +45,7 @@ import org.apache.tiles.renderer.AttributeRenderer;
  */
 public abstract class AbstractBaseAttributeRenderer implements
         AttributeRenderer, TilesRequestContextFactoryAware,
-        TilesApplicationContextAware, AttributeEvaluatorAware {
+        TilesApplicationContextAware, AttributeEvaluatorFactoryAware {
 
     /**
      * The logging object.
@@ -67,11 +68,11 @@ public abstract class AbstractBaseAttributeRenderer implements
     protected TilesApplicationContext applicationContext;
 
     /**
-     * The attribute evaluator.
+     * The attribute evaluator factory.
      *
-     * @since 2.1.0
+     * @since 2.2.0
      */
-    protected AttributeEvaluator evaluator;
+    protected AttributeEvaluatorFactory attributeEvaluatorFactory;
 
     /** {@inheritDoc} */
     public void setRequestContextFactory(TilesRequestContextFactory contextFactory) {
@@ -84,8 +85,8 @@ public abstract class AbstractBaseAttributeRenderer implements
     }
 
     /** {@inheritDoc} */
-    public void setEvaluator(AttributeEvaluator evaluator) {
-        this.evaluator = evaluator;
+    public void setAttributeEvaluatorFactory(AttributeEvaluatorFactory attributeEvaluatorFactory) {
+        this.attributeEvaluatorFactory = attributeEvaluatorFactory;
     }
 
     /** {@inheritDoc} */
@@ -98,6 +99,8 @@ public abstract class AbstractBaseAttributeRenderer implements
             return;
         }
 
+        AttributeEvaluator evaluator = attributeEvaluatorFactory
+                .getAttributeEvaluator(attribute);
         Object value = evaluator.evaluate(attribute, request);
 
         write(value, attribute, request);

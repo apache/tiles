@@ -83,7 +83,9 @@ public class InsertTemplateModelTest {
         container.renderContext(requestItem);
 
         replay(container, attributeContext);
-        model.end(container, "myTemplate", "myTemplateType", "myTemplateExpression", "myRole", "myPreparer", requestItem);
+        model.end(container, "myTemplate", "myTemplateType",
+                "myTemplateExpression", "myRole", "myPreparer",
+                requestItem);
         verify(container, attributeContext);
     }
 
@@ -105,7 +107,9 @@ public class InsertTemplateModelTest {
         container.renderContext(requestItem);
 
         replay(container, attributeContext);
-        model.execute(container, "myTemplate", "myTemplateType", "myTemplateExpression", "myRole", "myPreparer", requestItem);
+        model.execute(container, "myTemplate", "myTemplateType",
+                "myTemplateExpression", "myRole",
+                "myPreparer", requestItem);
         verify(container, attributeContext);
     }
 

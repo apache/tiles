@@ -20,8 +20,15 @@
  */
 package org.apache.tiles.reflect;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -166,6 +173,35 @@ public final class ClassUtil {
             throw new CannotAccessMethodException(
                     "An exception has been thrown inside '" + method.getName()
                     + "' in class '" + obj.getClass().getName() + "'", e);
+        }
+    }
+
+    /**
+     * Collects bean infos from a class and filling a list.
+     *
+     * @param clazz The class to be inspected.
+     * @param name2descriptor The map in the form: name of the property ->
+     * descriptor.
+     * @since 2.2.0
+     */
+    public static void collectBeanInfo(Class<?> clazz,
+            Map<String, PropertyDescriptor> name2descriptor) {
+        Log log = LogFactory.getLog(ClassUtil.class);
+        BeanInfo info = null;
+        try {
+            info = Introspector.getBeanInfo(clazz);
+        } catch (Exception ex) {
+            if (log.isDebugEnabled()) {
+                log.debug("Cannot inspect class " + clazz, ex);
+            }
+        }
+        if (info == null) {
+            return;
+        }
+        for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
+            pd.setValue("type", pd.getPropertyType());
+            pd.setValue("resolvableAtDesignTime", Boolean.TRUE);
+            name2descriptor.put(pd.getName(), pd);
         }
     }
 }

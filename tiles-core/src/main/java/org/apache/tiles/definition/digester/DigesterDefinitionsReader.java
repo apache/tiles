@@ -31,6 +31,7 @@ import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.Expression;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -165,7 +166,9 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
             String template = attributes.getValue("template");
             Attribute attribute = Attribute.createTemplateAttribute(template);
-            attribute.setExpression(attributes.getValue("templateExpression"));
+            attribute.setExpressionObject(Expression
+                    .createExpressionFromDescribedExpression(attributes
+                            .getValue("templateExpression")));
             attribute.setRole(attributes.getValue("role"));
             String templateType = attributes.getValue("templateType");
             if (templateType != null) {
@@ -188,7 +191,9 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
                 throws Exception {
             Attribute attribute = (Attribute) digester.peek();
             attribute.setValue(attributes.getValue("value"));
-            attribute.setExpression(attributes.getValue("expression"));
+            String expression = attributes.getValue("expression");
+            attribute.setExpressionObject(Expression
+                    .createExpressionFromDescribedExpression(expression));
             attribute.setRole(attributes.getValue("role"));
             attribute.setRenderer(attributes.getValue("type"));
         }

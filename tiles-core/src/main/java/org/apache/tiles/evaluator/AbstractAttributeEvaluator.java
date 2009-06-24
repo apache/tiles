@@ -21,11 +21,12 @@
 package org.apache.tiles.evaluator;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Expression;
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
  * Abstract class to link a correct evaluation of an attribute, by evaluating
- * {@link Attribute#getValue()} and then {@link Attribute#getExpression()}.
+ * {@link Attribute#getValue()} and then {@link Attribute#getExpressionObject()}.
  *
  * @version $Rev$ $Date$
  * @since 2.1.2
@@ -41,7 +42,11 @@ public abstract class AbstractAttributeEvaluator implements AttributeEvaluator {
         Object retValue = attribute.getValue();
 
         if (retValue == null) {
-            retValue = evaluate(attribute.getExpression(), request);
+            Expression expression = attribute.getExpressionObject();
+            if (expression != null) {
+                retValue = evaluate(attribute.getExpressionObject()
+                        .getExpression(), request);
+            }
         }
 
         return retValue;

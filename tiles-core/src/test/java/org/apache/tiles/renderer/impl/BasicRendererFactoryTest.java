@@ -92,7 +92,7 @@ public class BasicRendererFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicRendererFactory#setContextFactory(TilesContextFactory)}.
+     * Tests {@link BasicRendererFactory#setRequestContextFactory(TilesRequestContextFactory)}.
      */
     public void testSetContextFactory() {
         assertNotNull("The context factory is null",

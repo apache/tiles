@@ -135,8 +135,17 @@ public class Attribute implements Serializable {
      * <code>null</code>.
      *
      * @since 2.1.2
+     * @deprecated Use {@link #expressionObject}.
      */
     protected String expression = null;
+
+    /**
+     * The expression to evaluate. Ignored if {@link #value} is not
+     * <code>null</code>.
+     *
+     * @since 2.2.0
+     */
+    protected Expression expressionObject = null;
 
     /**
      * The renderer name of the attribute. Default names are <code>string</code>,
@@ -177,7 +186,11 @@ public class Attribute implements Serializable {
         this.name = attribute.name;
         this.roles = attribute.roles;
         this.value = attribute.getValue();
-        this.expression = attribute.expression;
+        if (attribute.expressionObject != null) {
+            this.expressionObject = new Expression(attribute.expressionObject);
+        } else {
+            this.expressionObject = null;
+        }
         this.renderer = attribute.renderer;
     }
 
@@ -228,10 +241,26 @@ public class Attribute implements Serializable {
      * @param role Associated role.
      * @param rendererName The renderer name.
      * @since 2.1.2
+     * @deprecated Use {@link #Attribute(Object, Expression, String, String)}.
      */
     public Attribute(Object value, String expression, String role, String rendererName) {
+        this(value, new Expression(expression), role, rendererName);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param value Object to store. If specified, the <code>expression</code>
+     * parameter will be ignored.
+     * @param expression The expression to be evaluated. Ignored if the
+     * <code>value</code> is not null.
+     * @param role Associated role.
+     * @param rendererName The renderer name.
+     * @since 2.2.0
+     */
+    public Attribute(Object value, Expression expression, String role, String rendererName) {
         this.value = value;
-        this.expression = expression;
+        this.expressionObject = expression;
         this.renderer = rendererName;
         setRole(role);
     }
@@ -279,7 +308,7 @@ public class Attribute implements Serializable {
     public static Attribute createTemplateAttributeWithExpression(
             String templateExpression) {
         Attribute attribute = new Attribute();
-        attribute.setExpression(templateExpression);
+        attribute.setExpressionObject(new Expression(templateExpression));
         attribute.setRenderer(TEMPLATE_RENDERER);
         return attribute;
     }
@@ -367,9 +396,13 @@ public class Attribute implements Serializable {
      *
      * @return The expression to be evaluated.
      * @since 2.1.2
+     * @deprecated Use {@link #getExpressionObject()}.
      */
     public String getExpression() {
-        return expression;
+        if (expressionObject != null) {
+            return expressionObject.getExpression();
+        }
+        return null;
     }
 
     /**
@@ -378,9 +411,36 @@ public class Attribute implements Serializable {
      *
      * @param expression The expression to be evaluated.
      * @since 2.1.2
+     * @deprecated Use {@link #setExpressionObject(Expression)}.
      */
     public void setExpression(String expression) {
-        this.expression = expression;
+        if (expression != null) {
+            expressionObject = new Expression(expression);
+        } else {
+            expressionObject = null;
+        }
+    }
+
+    /**
+     * Returns The expression to evaluate. Ignored if {@link #value} is not
+     * <code>null</code>.
+     *
+     * @return The expression to be evaluated.
+     * @since 2.2.0
+     */
+    public Expression getExpressionObject() {
+        return expressionObject;
+    }
+
+    /**
+     * Sets The expression to evaluate. Ignored if {@link #value} is not
+     * <code>null</code>.
+     *
+     * @param expressionObject The expression to be evaluated.
+     * @since 2.2.0
+     */
+    public void setExpressionObject(Expression expressionObject) {
+        this.expressionObject = expressionObject;
     }
 
     /** {@inheritDoc} */
@@ -482,8 +542,11 @@ public class Attribute implements Serializable {
         if (value == null) {
             value = attribute.getValue();
         }
-        if (expression == null) {
-            expression = attribute.getExpression();
+        Expression targetExpressionObject = attribute.getExpressionObject();
+        if (targetExpressionObject != null
+                && (expressionObject == null || expressionObject
+                        .getExpression() == null)) {
+            expressionObject = new Expression(targetExpressionObject);
         }
         if (roles == null || roles.isEmpty()) {
             roles = attribute.getRoles();
@@ -500,13 +563,13 @@ public class Attribute implements Serializable {
         return nullSafeEquals(value, attribute.value)
                 && nullSafeEquals(renderer, attribute.renderer)
                 && nullSafeEquals(roles, attribute.roles)
-                && nullSafeEquals(expression, attribute.expression);
+                && nullSafeEquals(expressionObject, attribute.expressionObject);
     }
 
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return nullSafeHashCode(value) + nullSafeHashCode(renderer)
-                + nullSafeHashCode(roles) + nullSafeHashCode(expression);
+                + nullSafeHashCode(roles) + nullSafeHashCode(expressionObject);
     }
 }

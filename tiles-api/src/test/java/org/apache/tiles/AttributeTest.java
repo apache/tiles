@@ -33,17 +33,21 @@ public class AttributeTest extends TestCase {
      * Test method for {@link org.apache.tiles.Attribute#inherit(org.apache.tiles.Attribute)}.
      */
     public void testInherit() {
-        Attribute attribute = new Attribute(null, null, null, (String) null);
-        Attribute parentAttribute = new Attribute("value", "expression", "role", "renderer");
+        Attribute attribute = new Attribute(null, (Expression) null, null, (String) null);
+        Attribute parentAttribute = new Attribute("value", Expression
+                .createExpression("expression", "language"), "role", "renderer");
         attribute.inherit(parentAttribute);
         assertEquals("value", attribute.getValue());
-        assertEquals("expression", attribute.getExpression());
+        assertEquals("expression", attribute.getExpressionObject().getExpression());
+        assertEquals("language", attribute.getExpressionObject().getLanguage());
         assertEquals("role", attribute.getRole());
         assertEquals("renderer", attribute.getRenderer());
 
-        attribute = new Attribute("myvalue", "myexpression", "myrole", (String) "myrenderer");
+        attribute = new Attribute("myvalue", Expression.createExpression(
+                "myexpression", "mylanguage"), "myrole", (String) "myrenderer");
         assertEquals("myvalue", attribute.getValue());
-        assertEquals("myexpression", attribute.getExpression());
+        assertEquals("myexpression", attribute.getExpressionObject().getExpression());
+        assertEquals("mylanguage", attribute.getExpressionObject().getLanguage());
         assertEquals("myrole", attribute.getRole());
         assertEquals("myrenderer", attribute.getRenderer());
     }

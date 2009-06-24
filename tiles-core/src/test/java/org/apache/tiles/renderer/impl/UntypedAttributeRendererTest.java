@@ -23,15 +23,17 @@ package org.apache.tiles.renderer.impl;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import junit.framework.TestCase;
+
 import org.apache.tiles.Attribute;
+import org.apache.tiles.Expression;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
 
 /**
  * Tests {@link UntypedAttributeRenderer}.
@@ -49,7 +51,8 @@ public class UntypedAttributeRendererTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         renderer = new UntypedAttributeRenderer();
-        renderer.setEvaluator(new DirectAttributeEvaluator());
+        renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
+                new DirectAttributeEvaluator()));
     }
 
     /**
@@ -61,7 +64,8 @@ public class UntypedAttributeRendererTest extends TestCase {
      */
     public void testWriteDefinition() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("my.definition", null, null, "definition");
+        Attribute attribute = new Attribute("my.definition", (Expression) null,
+                null, "definition");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
@@ -94,7 +98,8 @@ public class UntypedAttributeRendererTest extends TestCase {
      */
     public void testWriteString() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("Result", null, null, "string");
+        Attribute attribute = new Attribute("Result", (Expression) null, null,
+                "string");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
@@ -127,7 +132,8 @@ public class UntypedAttributeRendererTest extends TestCase {
      */
     public void testWriteTemplate() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("/myTemplate.jsp", null, null, "template");
+        Attribute attribute = new Attribute("/myTemplate.jsp",
+                (Expression) null, null, "template");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock

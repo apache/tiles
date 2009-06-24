@@ -31,6 +31,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.easymock.EasyMock;
 
@@ -50,12 +51,13 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         renderer = new MockAttributeRenderer();
-        renderer.setEvaluator(new DirectAttributeEvaluator());
+        renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
+                new DirectAttributeEvaluator()));
     }
 
     /**
      * Tests
-     * {@link AbstractBaseAttributeRenderer#setContextFactory(TilesContextFactory)}.
+     * {@link AbstractBaseAttributeRenderer#setRequestContextFactory(TilesRequestContextFactory)}.
      */
     public void testSetContextFactory() {
         TilesRequestContextFactory contextFactory = EasyMock

@@ -21,17 +21,46 @@
          Expression Language (EL) support
          -----------
 
-Expression Language (EL) support
+Expression Language support
 
-  With Tiles it is possible to use EL not only in JSP pages, but also in XML
+  With Tiles it is possible to use expression languages not only in JSP pages, but also in XML
   definition files.
+
+  Currently supported languages are EL (as in javax.el), i.e. the language used in JSP code,
+  and {{{http://mvel.codehaus.org/}MVEL}}.
 
 * Configuration
 
-  To enable EL support in XML definition files, you have to configure the class of the
+  To enable the use of expression languages, you are encouraged to use the
+  {{{tutorial/configuration.html#Pure_Java_configuration}Pure Java configuration}}
+  by overriding the
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createAttributeEvaluatorFactory(org.apache.tiles.TilesApplicationContext, org.apache.tiles.context.TilesRequestContextFactory, org.apache.tiles.locale.LocaleResolver)} createAttributeEvaluatorFactory}}
+  method of BasicTilesContainerFactory. For example:
+
+------------------------------------
+
+@Override
+protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
+        TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+    ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
+    // the rest of the initialization...
+    BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
+            new DirectAttributeEvaluator());
+    attributeEvaluatorFactory.registerAttributeEvaluator("EL", evaluator);
+
+    return attributeEvaluatorFactory;
+}
+
+------------------------------------
+
+** Deprecated configuration
+
+  To enable expression language support in XML definition files, you can do it with
+  init parameters by configuring the class of the
   {{{../../apidocs/org/apache/tiles/evaluator/AttributeEvaluator.html} AttributeEvaluator}}.
 
-  If you are using declarative configuration in <<<web.xml>>> file, you have to use the
+  Using declarative configuration in <<<web.xml>>> file, you have to use the
   {{{../../config-reference.html#org.apache.tiles.evaluator.AttributeEvaluator} org.apache.tiles.evaluator.AttributeEvaluator}}
   parameter. In the case of <<<TilesServlet>>>:
 
@@ -41,7 +70,7 @@ Expression Language (EL) support
     <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
     <init-param>
         <param-name>org.apache.tiles.evaluator.AttributeEvaluator</param-name>
-        <param-value>org.apache.tiles.evaluator.el.ELAttributeEvaluatr</param-value>
+        <param-value>org.apache.tiles.evaluator.el.ELAttributeEvaluator</param-value>
     </init-param>
 </servlet>
 ------------------------------------
@@ -50,47 +79,52 @@ Expression Language (EL) support
   {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createEvaluator(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.locale.LocaleResolver)} createEvaluator}}
   method, providing <<only the creation>> of the instance of the
   <<<AttributeEvaluator>>>.
-  
-  If you are using Servlet 2.5 or above, you can leverage your container EL support.
+
+* EL support
+
+  The EL language is supported since Tiles 2.1. If you are using Servlet 2.5 or above,
+  you can leverage your container EL support.
 
 ------------------------------------
-    /** {@inheritDoc} */
-    @Override
-    protected AttributeEvaluator createEvaluator(Object context,
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
-        ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
-        evaluator.setApplicationContext(applicationContext);
-        MultiversionExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();
-        efFactory.setApplicationContext(applicationContext);
-        evaluator.setExpressionFactory(efFactory.getExpressionFactory());
-        ELResolver elResolver = new CompositeELResolver() {
-            {
-                add(new TilesContextELResolver());
-                add(new TilesContextBeanELResolver());
-                add(new ArrayELResolver(false));
-                add(new ListELResolver(false));
-                add(new MapELResolver(false));
-                add(new ResourceBundleELResolver());
-            }
-        };
-        evaluator.setResolver(elResolver);
+@Override
+protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
+        TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
 
-        return evaluator;
-    }
+    //... Initialization of the factory.
+    ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
+    evaluator.setApplicationContext(applicationContext);
+    JspExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();
+    efFactory.setApplicationContext(applicationContext);
+    evaluator.setExpressionFactory(efFactory.getExpressionFactory());
+    ELResolver elResolver = new CompositeELResolver() {
+        {
+            add(new TilesContextELResolver());
+            add(new TilesContextBeanELResolver());
+            add(new ArrayELResolver(false));
+            add(new ListELResolver(false));
+            add(new MapELResolver(false));
+            add(new ResourceBundleELResolver());
+            add(new BeanELResolver(false));
+        }
+    };
+    evaluator.setResolver(elResolver);
+
+    // End of the attribute evaluator factory initialization.
+}
 ------------------------------------
 
   If you are using Servlet 2.4, you still can use Tiles EL support but:
-  
+
   * You have to put <<<jasper-el-6.0.16.jar>>> (or newer version) in your classpath.
 
   * Use <<<TomcatExpressionFactoryFactory>>> instead of
   <<<JspExpressionFactoryFactory>>>.
 
-* Usage
+** Usage
 
   Let's use this example:
-  
+
 ------------------------------------
   <definition name="test.composite.el.definition" templateExpression="${layout}"
         preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
@@ -101,7 +135,53 @@ Expression Language (EL) support
 ------------------------------------
 
   Before rendering the definition:
- 
+
+  * The template name will be taken from the "layout" attribute, searched in every scope.
+
+  * The body will be taken from the "body" attribute in request scope.
+
+* MVEL Support
+
+  To use MVEL support you need to register an instance of
+  {{{../../apidocs/org/apache/tiles/evaluator/mvel/MVELAttributeEvaluator.html} MVELAttributeEvaluator}}
+  along with other supporting objects.
+
+------------------------------------
+@Override
+protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
+        TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+    TilesRequestContextHolder requestHolder = new TilesRequestContextHolder();
+    VariableResolverFactory variableResolverFactory = new TilesContextVariableResolverFactory(
+            requestHolder);
+    variableResolverFactory
+            .setNextFactory(new TilesContextBeanVariableResolverFactory(
+                    requestHolder));
+    MVELAttributeEvaluator evaluator = new MVELAttributeEvaluator(requestHolder,
+            variableResolverFactory);
+
+    BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
+            new DirectAttributeEvaluator());
+    attributeEvaluatorFactory.registerAttributeEvaluator("MVEL", evaluator);
+    return attributeEvaluatorFactory;
+}
+------------------------------------
+
+** Usage
+
+  Let's use this example:
+
+------------------------------------
+  <definition name="test.composite.mvel.definition" templateExpression="MVEL:layout"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   expression="${requestScope.body}"/>
+  </definition>
+------------------------------------
+
+  Before rendering the definition:
+
   * The template name will be taken from the "layout" attribute, searched in every scope.
 
   * The body will be taken from the "body" attribute in request scope.

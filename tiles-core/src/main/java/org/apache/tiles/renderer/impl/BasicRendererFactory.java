@@ -30,8 +30,8 @@ import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.TilesRequestContextFactory;
-import org.apache.tiles.evaluator.AttributeEvaluator;
-import org.apache.tiles.evaluator.AttributeEvaluatorAware;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererException;
@@ -45,7 +45,7 @@ import org.apache.tiles.renderer.RendererFactory;
  */
 public class BasicRendererFactory implements RendererFactory,
         TilesContainerAware, TilesRequestContextFactoryAware,
-        TilesApplicationContextAware, AttributeEvaluatorAware {
+        TilesApplicationContextAware, AttributeEvaluatorFactoryAware {
 
     /**
      * The type renderers init parameter name.
@@ -102,9 +102,9 @@ public class BasicRendererFactory implements RendererFactory,
     /**
      * The attribute evaluator.
      *
-     * @since 2.1.0
+     * @since 2.2.0
      */
-    protected AttributeEvaluator evaluator;
+    protected AttributeEvaluatorFactory attributeEvaluatorFactory;
 
     /**
      * The renderer name/renderer map.
@@ -221,8 +221,8 @@ public class BasicRendererFactory implements RendererFactory,
     }
 
     /** {@inheritDoc} */
-    public void setEvaluator(AttributeEvaluator evaluator) {
-        this.evaluator = evaluator;
+    public void setAttributeEvaluatorFactory(AttributeEvaluatorFactory attributeEvaluatorFactory) {
+        this.attributeEvaluatorFactory = attributeEvaluatorFactory;
     }
 
     /** {@inheritDoc} */
@@ -254,8 +254,9 @@ public class BasicRendererFactory implements RendererFactory,
         if (renderer instanceof TilesContainerAware) {
             ((TilesContainerAware) renderer).setContainer(container);
         }
-        if (renderer instanceof AttributeEvaluatorAware) {
-            ((AttributeEvaluatorAware) renderer).setEvaluator(evaluator);
+        if (renderer instanceof AttributeEvaluatorFactoryAware) {
+            ((AttributeEvaluatorFactoryAware) renderer)
+                    .setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         }
         if (renderer instanceof Initializable && initParameters != null) {
             ((Initializable) renderer).init(initParameters);

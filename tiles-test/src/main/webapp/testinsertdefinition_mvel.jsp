@@ -1,3 +1,5 @@
+<%@ page session="false" %>
+<%--
 /*
  * $Id$
  *
@@ -17,21 +19,9 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- */
-package org.apache.tiles.evaluator;
-
-/**
- * It represents an object that can use an {@link AttributeEvaluator}.
  *
- * @version $Rev$ $Date$
- * @since 2.1.0
  */
-public interface AttributeEvaluatorAware {
+--%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
-    /**
-     * Sets the evaluator.
-     *
-     * @param evaluator The evaluator to set.
-     */
-    void setEvaluator(AttributeEvaluator evaluator);
-}
+<tiles:insertDefinition name="test.composite.mvel.definition" />

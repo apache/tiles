@@ -221,6 +221,13 @@
       <put-attribute name="body"   expression="${requestScope.body}"/>
   </definition>
 
+  <definition name="freemarker.test.composite.mvel.definition" templateExpression="MVEL:layout"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/freemarker/header.ftl" type="freemarker" />
+      <put-attribute name="body"   expression="MVEL:requestScope.body"/>
+  </definition>
+
   <definition name="freemarker.test.composite.el.doNotShow.definition" templateExpression="${layout}"
         preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
       <put-attribute name="title"  value="This is a configured definition."/>

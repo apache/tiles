@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.Expression;
 
 /**
  * Utilities for pattern matching and substitution.
@@ -37,13 +38,21 @@ import org.apache.tiles.Definition;
 public final class PatternUtil {
 
     /**
+     * The root locale. Notice that this is a replacement for Locale.ROOT for
+     * Java 1.6.
+     */
+    private static final Locale ROOT_LOCALE = new Locale("", "");
+
+    /**
      * Private constructor to avoid instantiation.
      */
     private PatternUtil() {
     }
 
     /**
-     * Creates a definition given its representation with wildcards.
+     * Creates a definition given its representation with wildcards and
+     * attribute values with placeholders, replacing real values into
+     * placeholders.
      *
      * @param d The definition to replace.
      * @param name The name of the definition to be created.
@@ -51,7 +60,7 @@ public final class PatternUtil {
      * @return The definition that can be rendered.
      * @since 2.2.0
      */
-    public static Definition replaceDefinition(Definition d, String name,
+    public static Definition replacePlaceholders(Definition d, String name,
             Object... vars) {
         Definition nudef = new Definition();
 
@@ -75,22 +84,6 @@ public final class PatternUtil {
     }
 
     /**
-     * Replaces a string with placeholders using values of a variable map.
-     *
-     * @param st The string to replace.
-     * @param vars The variables.
-     * @return The replaced string.
-     * @since 2.2.0
-     */
-    public static String replace(String st, Object... vars) {
-        if (st != null && st.indexOf('{') >= 0) {
-            MessageFormat format = new MessageFormat(st, Locale.ROOT);
-            return format.format(vars, new StringBuffer(), null).toString();
-        }
-        return st;
-    }
-
-    /**
      * Replaces variables into an attribute.
      *
      * @param attr The attribute to be used as a basis, containing placeholders
@@ -98,15 +91,17 @@ public final class PatternUtil {
      * @param vars The variables to replace.
      * @return A new instance of an attribute, whose properties have been
      * replaced with variables' values.
-     * @since 2.2.0
      */
-    public static Attribute replaceVarsInAttribute(Attribute attr,
+    private static Attribute replaceVarsInAttribute(Attribute attr,
             Object... vars) {
         Attribute nuattr = new Attribute();
 
         nuattr.setRole(replace(attr.getRole(), vars));
         nuattr.setRenderer(attr.getRenderer());
-        nuattr.setExpression(attr.getExpression());
+        Expression expressionObject = attr.getExpressionObject();
+        if (expressionObject != null) {
+            nuattr.setExpressionObject(new Expression(expressionObject));
+        }
 
         Object value = attr.getValue();
         if (value instanceof String) {
@@ -114,5 +109,20 @@ public final class PatternUtil {
         }
         nuattr.setValue(value);
         return nuattr;
+    }
+
+    /**
+     * Replaces a string with placeholders using values of a variable map.
+     *
+     * @param st The string to replace.
+     * @param vars The variables.
+     * @return The replaced string.
+     */
+    private static String replace(String st, Object... vars) {
+        if (st != null && st.indexOf('{') >= 0) {
+            MessageFormat format = new MessageFormat(st, ROOT_LOCALE);
+            return format.format(vars, new StringBuffer(), null).toString();
+        }
+        return st;
     }
 }

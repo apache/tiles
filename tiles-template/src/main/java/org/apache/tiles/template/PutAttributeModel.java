@@ -25,6 +25,7 @@ import java.util.Stack;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
 
 /**
@@ -168,7 +169,8 @@ public class PutAttributeModel {
             attribute.setValue(body);
         }
         if (expression != null) {
-            attribute.setExpression(expression);
+            attribute.setExpressionObject(Expression
+                    .createExpressionFromDescribedExpression(expression));
         }
         if (role != null) {
             attribute.setRole(role);
