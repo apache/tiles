@@ -37,8 +37,8 @@ public class NotAServletEnvironmentException extends TilesException {
      *
      * @since 2.2.0
      */
-	public NotAServletEnvironmentException() {
-	}
+    public NotAServletEnvironmentException() {
+    }
 
     /**
      * Constructor.
@@ -46,9 +46,9 @@ public class NotAServletEnvironmentException extends TilesException {
      * @param message The detail message.
      * @since 2.2.0
      */
-	public NotAServletEnvironmentException(String message) {
-		super(message);
-	}
+    public NotAServletEnvironmentException(String message) {
+        super(message);
+    }
 
     /**
      * Constructor.
@@ -56,9 +56,9 @@ public class NotAServletEnvironmentException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.2.0
      */
-	public NotAServletEnvironmentException(Exception e) {
-		super(e);
-	}
+    public NotAServletEnvironmentException(Exception e) {
+        super(e);
+    }
 
     /**
      * Constructor.
@@ -67,8 +67,8 @@ public class NotAServletEnvironmentException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.2.0
      */
-	public NotAServletEnvironmentException(String message, Exception e) {
-		super(message, e);
-	}
+    public NotAServletEnvironmentException(String message, Exception e) {
+        super(message, e);
+    }
 
 }

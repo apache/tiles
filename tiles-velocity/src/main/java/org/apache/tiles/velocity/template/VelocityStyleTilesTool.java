@@ -29,9 +29,6 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.Renderable;
 
 /**
@@ -102,8 +99,7 @@ public class VelocityStyleTilesTool extends ContextHolder {
                 null, getResponse(), getRequest()) {
 
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException,
-                    ParseErrorException, ResourceNotFoundException {
+                    throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(request, getServletContext());
                 container.render(attribute, velocityContext, request, response, writer);
                 return true;
@@ -126,8 +122,7 @@ public class VelocityStyleTilesTool extends ContextHolder {
                 null, getResponse(), getRequest()) {
 
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException,
-                    ParseErrorException, ResourceNotFoundException {
+                    throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(request, getServletContext());
                 container.render(definitionName, velocityContext, request, response, writer);
                 return true;
@@ -149,8 +144,7 @@ public class VelocityStyleTilesTool extends ContextHolder {
                 null, getResponse(), getRequest()) {
 
             public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException, MethodInvocationException,
-                    ParseErrorException, ResourceNotFoundException {
+                    throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(request, getServletContext());
                 container.renderContext(velocityContext, request, response, writer);
                 return true;
