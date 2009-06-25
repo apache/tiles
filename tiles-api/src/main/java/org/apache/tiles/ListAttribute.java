@@ -64,6 +64,17 @@ public class ListAttribute extends Attribute {
     }
 
     /**
+     * Copy constructor.
+     *
+     * @param toCopy The list attribute to copy.
+     * @since 2.1.3
+     */
+    public ListAttribute(ListAttribute toCopy) {
+        super(toCopy);
+        this.inherit = toCopy.inherit;
+    }
+
+    /**
      * Add an element in list.
      * We use a property to avoid rewriting a new class.
      *
@@ -141,5 +152,24 @@ public class ListAttribute extends Attribute {
         tempList.addAll((List<Object>) parent.value);
         tempList.addAll((List<Object>) value);
         setValue(tempList);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        ListAttribute attribute = (ListAttribute) obj;
+        return super.equals(attribute) && this.inherit == attribute.inherit;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return super.hashCode() + Boolean.valueOf(inherit).hashCode();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ListAttribute clone() {
+        return new ListAttribute(this);
     }
 }

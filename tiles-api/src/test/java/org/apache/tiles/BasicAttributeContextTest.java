@@ -20,6 +20,7 @@
  */
 package org.apache.tiles;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -440,5 +441,37 @@ public class BasicAttributeContextTest extends TestCase {
         names = context.getCascadedAttributeNames();
         assertTrue("There are cascaded attributes", names == null
                 || names.isEmpty());
+    }
+
+    /**
+     * Tests {@link BasicAttributeContext} for the TILES-429 bug.
+     */
+    public void testTiles429() {
+        AttributeContext toCopy = new BasicAttributeContext();
+        toCopy.putAttribute("name1", new Attribute("value1"), false);
+        toCopy.putAttribute("name2", new Attribute("value2"), true);
+        List<Object> listOfObjects = new ArrayList<Object>();
+        listOfObjects.add(1);
+        ListAttribute listAttribute = new ListAttribute(listOfObjects);
+        listAttribute.setInherit(true);
+        toCopy.putAttribute("name3", listAttribute);
+        Attribute templateAttribute = Attribute
+                .createTemplateAttribute("/template.jsp");
+        Set<String> roles = new HashSet<String>();
+        roles.add("role1");
+        roles.add("role2");
+        templateAttribute.setRoles(roles);
+        toCopy.setTemplateAttribute(templateAttribute);
+        toCopy.setPreparer("my.preparer.Preparer");
+        AttributeContext context = new BasicAttributeContext(toCopy);
+        Attribute attribute = context.getAttribute("name1");
+        attribute.setValue("newValue1");
+        attribute = context.getAttribute("name1");
+        assertEquals("newValue1", attribute.getValue());
+        attribute = toCopy.getAttribute("name1");
+        assertEquals("value1", attribute.getValue());
+        attribute = context.getAttribute("name3");
+        assertTrue(attribute instanceof ListAttribute);
+        assertTrue(((ListAttribute) attribute).isInherit());
     }
 }

@@ -33,7 +33,7 @@ import java.util.Set;
  *
  * @version $Rev$ $Date$
  */
-public class Attribute implements Serializable {
+public class Attribute implements Serializable, Cloneable {
 
     /**
      * The name of the template renderer.
@@ -490,5 +490,11 @@ public class Attribute implements Serializable {
         if (renderer == null) {
             renderer = attribute.getRenderer();
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Attribute clone() {
+        return new Attribute(this);
     }
 }
