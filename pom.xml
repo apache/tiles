@@ -45,7 +45,7 @@
     </scm>
 
     <ciManagement />
-    
+
     <modules>
         <module>tiles-api</module>
         <module>tiles-core</module>
@@ -59,7 +59,7 @@
         <module>tiles-test</module>
         <module>assembly</module>
     </modules>
-    
+
     <distributionManagement>
         <repository>
             <id>tiles-staging</id>
@@ -98,13 +98,12 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>1.4.3</version>
                     <inherited>true</inherited>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>2.0-beta-8-SNAPSHOT</version>
+                    <version>2.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -112,7 +111,6 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>1.4.3</version>
                 <configuration>
                     <excludeDependencies>true</excludeDependencies>
                     <manifestLocation>target/osgi</manifestLocation>
@@ -228,7 +226,7 @@
     </properties>
 
     <dependencies />
-    
+
     <profiles>
         <profile>
             <id>j4</id>
