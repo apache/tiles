@@ -76,7 +76,6 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
         if (value == null) {
             return (false);
@@ -93,7 +92,6 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, Object>> entrySet() {
         Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
         Enumeration<String> keys = request.getAttributeNames();
@@ -108,7 +106,6 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         PortletRequest otherRequest = ((PortletRequestScopeMap) o).request;
         boolean retValue = true;
@@ -145,7 +142,6 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
         Enumeration<String> keys = request.getAttributeNames();
@@ -188,7 +184,6 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
         Enumeration<String> keys = request.getAttributeNames();
@@ -201,7 +196,6 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public Collection<Object> values() {
         List<Object> list = new ArrayList<Object>();
         Enumeration<String> keys = request.getAttributeNames();
