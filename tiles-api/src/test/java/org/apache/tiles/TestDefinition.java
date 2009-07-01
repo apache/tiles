@@ -157,4 +157,24 @@ public class TestDefinition extends TestCase {
                 "localLanguage", context.getTemplateAttribute()
                         .getExpressionObject().getLanguage());
     }
+
+    /**
+     * Tests {@link Definition#toString()}.
+     */
+    public void testToString() {
+        Definition definition = new Definition();
+        definition.setName("myDefinitionName");
+        assertEquals(
+                "{name=myDefinitionName, template=<null>, role=<null>, preparerInstance=null, attributes=null}",
+                definition.toString());
+        definition.setTemplateAttribute(Attribute.createTemplateAttribute("myTemplate"));
+        assertEquals(
+                "{name=myDefinitionName, template=myTemplate, role=null, preparerInstance=null, attributes=null}",
+                definition.toString());
+        definition.putAttribute("myAttributeName", new Attribute("myAttributeValue"));
+        assertEquals(
+                "{name=myDefinitionName, template=myTemplate, role=null, preparerInstance=null, "
+                        + "attributes={myAttributeName=myAttributeValue}}",
+                definition.toString());
+    }
 }

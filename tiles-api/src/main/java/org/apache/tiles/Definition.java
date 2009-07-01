@@ -299,13 +299,13 @@ public class Definition extends BasicAttributeContext {
         return "{name="
             + name
             + ", template="
-            + templateAttribute.getValue()
+            + (templateAttribute != null ? templateAttribute.getValue() : "<null>")
             + ", role="
-            + templateAttribute.getRoles()
+            + (templateAttribute != null ? templateAttribute.getRoles() : "<null>")
             + ", preparerInstance="
             + preparer
             + ", attributes="
             + attributes
-            + "}\n";
+            + "}";
     }
 }
