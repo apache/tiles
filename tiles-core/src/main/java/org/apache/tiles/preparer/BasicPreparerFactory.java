@@ -20,13 +20,13 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.reflect.ClassUtil;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.reflect.ClassUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation of the {@link PreparerFactory}.
@@ -41,8 +41,8 @@ public class BasicPreparerFactory implements PreparerFactory {
     /**
      * The logging object.
      */
-    private final Log log =
-        LogFactory.getLog(BasicPreparerFactory.class);
+    private final Logger log = LoggerFactory
+            .getLogger(BasicPreparerFactory.class);
 
     /**
      * Maps a preparer name to the instantiated preparer.

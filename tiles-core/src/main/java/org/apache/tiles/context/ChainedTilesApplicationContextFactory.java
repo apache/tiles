@@ -21,17 +21,17 @@
 
 package org.apache.tiles.context;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.Initializable;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.awareness.AbstractTilesApplicationContextFactoryAware;
-import org.apache.tiles.reflect.ClassUtil;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.tiles.Initializable;
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.awareness.AbstractTilesApplicationContextFactoryAware;
+import org.apache.tiles.reflect.ClassUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation for TilesApplicationContextFactory, that creates a chain of
@@ -63,8 +63,8 @@ public class ChainedTilesApplicationContextFactory extends
     /**
      * The logging object.
      */
-    private final Log log = LogFactory
-            .getLog(ChainedTilesApplicationContextFactory.class);
+    private final Logger log = LoggerFactory
+            .getLogger(ChainedTilesApplicationContextFactory.class);
 
     /**
      * The Tiles context factories composing the chain.

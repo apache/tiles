@@ -32,10 +32,10 @@ import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.test.exception.TilesTestRuntimeException;
 import org.hsqldb.jdbc.jdbcDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Initializes the data source of the DB.
@@ -47,7 +47,8 @@ public class InitContextListener implements ServletContextListener {
     /**
      * The logging object.
      */
-    private final Log log = LogFactory.getLog(InitContextListener.class);
+    private final Logger log = LoggerFactory
+            .getLogger(InitContextListener.class);
 
     /** {@inheritDoc} */
     public void contextInitialized(ServletContextEvent event) {

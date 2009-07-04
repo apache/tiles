@@ -29,8 +29,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
@@ -38,6 +36,8 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextWrapper;
 import org.apache.tiles.impl.NoSuchContainerException;
 import org.apache.tiles.util.TilesIOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -150,7 +150,7 @@ public final class ServletUtil {
      */
     public static void setContainer(ServletContext context,
             TilesContainer container, String key) {
-        Log log = LogFactory.getLog(ServletUtil.class);
+        Logger log = LoggerFactory.getLogger(ServletUtil.class);
         if (key == null) {
             key = TilesAccess.CONTAINER_ATTRIBUTE;
         }

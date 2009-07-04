@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
@@ -36,6 +34,8 @@ import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.renderer.AttributeRenderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base abstract class that manages authorization to display the attribute.
@@ -50,8 +50,8 @@ public abstract class AbstractBaseAttributeRenderer implements
     /**
      * The logging object.
      */
-    private final Log log = LogFactory
-            .getLog(AbstractBaseAttributeRenderer.class);
+    private final Logger log = LoggerFactory
+            .getLogger(AbstractBaseAttributeRenderer.class);
 
     /**
      * The Tiles request context factory.

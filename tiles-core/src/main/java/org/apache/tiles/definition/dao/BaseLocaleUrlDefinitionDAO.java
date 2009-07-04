@@ -32,8 +32,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Definition;
 import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
@@ -45,6 +43,8 @@ import org.apache.tiles.definition.RefreshMonitor;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.reflect.ClassUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base abstract class for a DAO that is based on URLs and locale as a
@@ -60,8 +60,8 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
     /**
      * The logging object.
      */
-    private final Log log = LogFactory
-            .getLog(BaseLocaleUrlDefinitionDAO.class);
+    private final Logger log = LoggerFactory
+            .getLogger(BaseLocaleUrlDefinitionDAO.class);
 
     /**
      * Compatibility constant.

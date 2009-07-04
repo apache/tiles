@@ -19,7 +19,6 @@
  * under the License.
  */
 
-
 package org.apache.tiles.jsp.taglib.definition;
 
 import java.io.InputStream;
@@ -36,8 +35,6 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.TilesApplicationContext;
@@ -48,6 +45,8 @@ import org.apache.tiles.factory.TilesContainerFactory;
 import org.apache.tiles.jsp.context.JspUtil;
 import org.apache.tiles.jsp.taglib.TilesBodyTag;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Init definitions impl.
@@ -63,8 +62,7 @@ public class InitContainerTag extends TilesBodyTag {
     /**
      * The logging object.
      */
-    private final Log log =
-        LogFactory.getLog(InitContainerTag.class);
+    private final Logger log = LoggerFactory.getLogger(InitContainerTag.class);
 
     /**
      * The container factory class name to use.

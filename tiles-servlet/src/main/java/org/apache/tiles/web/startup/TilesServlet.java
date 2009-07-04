@@ -20,18 +20,18 @@
  */
 package org.apache.tiles.web.startup;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+
 import org.apache.tiles.TilesException;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.startup.BasicTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
 import org.apache.tiles.web.util.ServletContextAdapter;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Initialization Servlet.
@@ -44,8 +44,7 @@ public class TilesServlet extends HttpServlet {
     /**
      * Log instance.
      */
-    protected final Log log =
-        LogFactory.getLog(TilesServlet.class);
+    private Logger log = LoggerFactory.getLogger(TilesServlet.class);
 
     /**
      * The private listener instance, that is used to initialize Tiles

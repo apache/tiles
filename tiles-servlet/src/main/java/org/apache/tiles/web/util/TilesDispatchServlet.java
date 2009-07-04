@@ -20,19 +20,20 @@
  */
 package org.apache.tiles.web.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.AttributeContext;
-import org.apache.tiles.reflect.ClassUtil;
-import org.apache.tiles.servlet.context.ServletUtil;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.reflect.ClassUtil;
+import org.apache.tiles.servlet.context.ServletUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Tiles dispatching servlet.  Used to invoke
@@ -51,8 +52,8 @@ public class TilesDispatchServlet extends HttpServlet {
     /**
      * The logging object.
      */
-    private final Log log =
-        LogFactory.getLog(TilesDispatchServlet.class);
+    private final Logger log = LoggerFactory
+            .getLogger(TilesDispatchServlet.class);
 
     /**
      * The key under which the container is stored.

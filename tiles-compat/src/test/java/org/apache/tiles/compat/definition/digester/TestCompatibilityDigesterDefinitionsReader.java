@@ -30,12 +30,12 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Tests the <code>org.apache.tiles.definition.digester.DigesterDefinitionsReader</code> class.
@@ -47,8 +47,8 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
     /**
      * The logging object.
      */
-    private final Log log = LogFactory
-            .getLog(TestCompatibilityDigesterDefinitionsReader.class);
+    private final Logger log = LoggerFactory
+            .getLogger(TestCompatibilityDigesterDefinitionsReader.class);
 
     /**
      * The definitions reader.

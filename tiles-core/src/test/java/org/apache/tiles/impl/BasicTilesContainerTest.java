@@ -30,8 +30,6 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesException;
@@ -42,6 +40,8 @@ import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.mock.RepeaterTilesApplicationContextFactory;
 import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
 import org.easymock.EasyMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -52,8 +52,8 @@ public class BasicTilesContainerTest extends TestCase {
     /**
      * The logging object.
      */
-    private final Log log = LogFactory
-            .getLog(BasicTilesContainerTest.class);
+    private final Logger log = LoggerFactory
+            .getLogger(BasicTilesContainerTest.class);
 
     /**
      * A sample integer value to check object rendering.

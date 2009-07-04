@@ -50,6 +50,14 @@
   		<artifactId>freemarker</artifactId>
   		<version>2.3.15</version>
   	</dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.5.8</version>
+      <optional>true</optional>
+    </dependency>
+
     <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>

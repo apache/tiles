@@ -27,17 +27,18 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Tests the <code>org.apache.tiles.definition.digester.DigesterDefinitionsReader</code> class.
@@ -49,8 +50,8 @@ public class TestDigesterDefinitionsReader extends TestCase {
     /**
      * The logging object.
      */
-    private final Log log = LogFactory
-            .getLog(TestDigesterDefinitionsReader.class);
+    private final Logger log = LoggerFactory
+            .getLogger(TestDigesterDefinitionsReader.class);
 
     /**
      * The definitions reader.
@@ -95,6 +96,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
      * Tests the read method under normal conditions.
      * @throws IOException If something goes wrong.
      */
+    @SuppressWarnings("unchecked")
     public void testRead() throws IOException {
         reader.init(new HashMap<String, String>());
 

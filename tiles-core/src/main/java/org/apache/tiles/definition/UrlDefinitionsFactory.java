@@ -20,8 +20,13 @@
  */
 package org.apache.tiles.definition;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.StringTokenizer;
+
 import org.apache.tiles.Definition;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.dao.DefinitionDAO;
@@ -29,13 +34,8 @@ import org.apache.tiles.definition.dao.ResolvingLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.URLReader;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.util.LocaleUtil;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.StringTokenizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation that manages
@@ -63,7 +63,8 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
     /**
      * LOG instance for all UrlDefinitionsFactory instances.
      */
-    private final Log log = LogFactory.getLog(UrlDefinitionsFactory.class);
+    private final Logger log = LoggerFactory
+            .getLogger(UrlDefinitionsFactory.class);
 
     /**
      * Contains the URL objects identifying where configuration data is found.

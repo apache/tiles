@@ -32,13 +32,13 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.impl.NoSuchContainerException;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.servlet.context.ServletUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for working within a Jsp environment.
@@ -150,7 +150,7 @@ public final class JspUtil {
      */
     public static void setContainer(JspContext context,
             TilesContainer container, String key) {
-        Log log = LogFactory.getLog(ServletUtil.class);
+        Logger log = LoggerFactory.getLogger(ServletUtil.class);
         if (key == null) {
             key = TilesAccess.CONTAINER_ATTRIBUTE;
         }

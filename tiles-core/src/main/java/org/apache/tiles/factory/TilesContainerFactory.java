@@ -25,8 +25,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
@@ -52,6 +50,8 @@ import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Factory provided for convenience.
@@ -128,7 +128,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * The logging object.
      */
-    private final Log log = LogFactory.getLog(TilesContainerFactory.class);
+    private final Logger log = LoggerFactory
+            .getLogger(TilesContainerFactory.class);
 
     /**
      * Default configuration parameters.

@@ -20,17 +20,17 @@
  */
 package org.apache.tiles.impl.mgmt;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manages custom and configured definitions, so they can be used by the
@@ -43,8 +43,7 @@ public class DefinitionManager {
     /**
      * The logging object.
      */
-    private final Log log =
-        LogFactory.getLog(DefinitionManager.class);
+    private final Logger log = LoggerFactory.getLogger(DefinitionManager.class);
 
     /**
      * The default name of the attribute in which storing custom definitions.

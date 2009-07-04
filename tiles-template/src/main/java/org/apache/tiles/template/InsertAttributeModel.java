@@ -24,10 +24,10 @@ package org.apache.tiles.template;
 import java.io.IOException;
 import java.util.Stack;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -62,7 +62,7 @@ public class InsertAttributeModel {
     /**
      * The logging object.
      */
-    private Log log = LogFactory.getLog(getClass());
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     /**
      * The attribute resolver to use.

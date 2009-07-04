@@ -20,8 +20,14 @@
  */
 package org.apache.tiles.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+import java.util.StringTokenizer;
+
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.BasicAttributeContext;
@@ -41,14 +47,8 @@ import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
-
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Basic implementation of the tiles container interface.
@@ -88,8 +88,8 @@ public class BasicTilesContainer implements TilesContainer,
      * Log instance for all BasicTilesContainer
      * instances.
      */
-    private final Log log =
-        LogFactory.getLog(BasicTilesContainer.class);
+    private final Logger log = LoggerFactory
+            .getLogger(BasicTilesContainer.class);
 
     /**
      * The Tiles application context object.

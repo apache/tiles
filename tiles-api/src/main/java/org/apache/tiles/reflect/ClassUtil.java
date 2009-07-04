@@ -27,8 +27,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -186,7 +186,7 @@ public final class ClassUtil {
      */
     public static void collectBeanInfo(Class<?> clazz,
             Map<String, PropertyDescriptor> name2descriptor) {
-        Log log = LogFactory.getLog(ClassUtil.class);
+        Logger log = LoggerFactory.getLogger(ClassUtil.class);
         BeanInfo info = null;
         try {
             info = Introspector.getBeanInfo(clazz);

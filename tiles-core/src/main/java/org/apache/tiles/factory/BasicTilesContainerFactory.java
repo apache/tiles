@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
@@ -61,6 +59,8 @@ import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.renderer.impl.UntypedAttributeRenderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Factory that builds a standard Tiles container using only Java code.
@@ -78,7 +78,8 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * The logging object.
      */
-    private final Log log = LogFactory.getLog(BasicTilesContainerFactory.class);
+    private final Logger log = LoggerFactory
+            .getLogger(BasicTilesContainerFactory.class);
 
     /** {@inheritDoc} */
     @Override

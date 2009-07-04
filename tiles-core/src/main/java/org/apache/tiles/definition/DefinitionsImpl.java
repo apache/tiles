@@ -21,16 +21,16 @@
 
 package org.apache.tiles.definition;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tiles.Attribute;
-import org.apache.tiles.Definition;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.tiles.Attribute;
+import org.apache.tiles.Definition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @version $Rev$ $Date$
@@ -45,7 +45,7 @@ public class DefinitionsImpl implements Definitions {
     /**
      * Commons Logging instance.
      */
-    private final Log log = LogFactory.getLog(DefinitionsImpl.class);
+    private final Logger log = LoggerFactory.getLogger(DefinitionsImpl.class);
 
     /**
      * The base set of Definition objects not discriminated by locale.

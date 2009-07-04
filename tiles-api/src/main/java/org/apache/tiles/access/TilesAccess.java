@@ -20,13 +20,13 @@
  */
 package org.apache.tiles.access;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.lang.reflect.Method;
+
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.reflect.ClassUtil;
-
-import java.lang.reflect.Method;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -98,7 +98,7 @@ public final class TilesAccess {
      */
     public static void setContainer(TilesApplicationContext context,
             TilesContainer container, String key) {
-        Log log = LogFactory.getLog(TilesAccess.class);
+        Logger log = LoggerFactory.getLogger(TilesAccess.class);
         if (key == null) {
             key = CONTAINER_ATTRIBUTE;
         }
@@ -126,7 +126,7 @@ public final class TilesAccess {
      */
     @Deprecated
     public static void setContainer(Object context, TilesContainer container) {
-        Log log = LogFactory.getLog(TilesAccess.class);
+        Logger log = LoggerFactory.getLogger(TilesAccess.class);
         if (container == null) {
             if (log.isInfoEnabled()) {
                 log.info("Removing TilesContext for context: " + context.getClass().getName());

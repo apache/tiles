@@ -27,9 +27,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.TilesApplicationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ApplicationContext decorator used to provide
@@ -54,8 +54,8 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
     /**
      * The logging object.
      */
-    private final Log log =
-        LogFactory.getLog(EnhancedTilesApplicationContext.class);
+    private final Logger log =
+        LoggerFactory.getLogger(EnhancedTilesApplicationContext.class);
 
     /**
      * The root context to be wrapped.

@@ -44,6 +44,14 @@
       <artifactId>tiles-template</artifactId>
       <version>${pom.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.5.8</version>
+      <optional>true</optional>
+    </dependency>
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
@@ -72,6 +80,10 @@
       		<artifactId>struts-core</artifactId>
       		<groupId>org.apache.struts</groupId>
       	</exclusion>
+        <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>

@@ -26,10 +26,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -49,7 +49,7 @@ public class ResolvingLocaleUrlDefinitionDAO extends
     /**
      * The logging object.
      */
-    private final Log log = LogFactory.getLog(ResolvingLocaleUrlDefinitionDAO.class);
+    private final Logger log = LoggerFactory.getLogger(ResolvingLocaleUrlDefinitionDAO.class);
 
     /** {@inheritDoc} */
     @Override

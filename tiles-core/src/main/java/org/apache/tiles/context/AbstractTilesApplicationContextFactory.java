@@ -22,11 +22,11 @@ package org.apache.tiles.context;
 
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.reflect.ClassUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract factory to create factories for {@link TilesApplicationContext}.
@@ -64,8 +64,8 @@ public abstract class AbstractTilesApplicationContextFactory  {
      */
     public static AbstractTilesApplicationContextFactory createFactory(
             TilesApplicationContext preliminaryContext) {
-        Log log = LogFactory
-                .getLog(AbstractTilesApplicationContextFactory.class);
+        Logger log = LoggerFactory
+                .getLogger(AbstractTilesApplicationContextFactory.class);
         AbstractTilesApplicationContextFactory retValue;
 
         if (log.isInfoEnabled()) {

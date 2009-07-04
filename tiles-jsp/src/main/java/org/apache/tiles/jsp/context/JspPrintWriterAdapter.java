@@ -25,8 +25,8 @@ import java.io.PrintWriter;
 
 import javax.servlet.jsp.JspWriter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Adapts a {@link JspWriter} to a {@link PrintWriter}, swallowing {@link IOException}.
@@ -44,7 +44,7 @@ public class JspPrintWriterAdapter extends PrintWriter {
     /**
      * The logging object.
      */
-    private Log log = LogFactory.getLog(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Constructor.

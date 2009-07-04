@@ -20,8 +20,10 @@
  */
 package org.apache.tiles.web.startup;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
@@ -30,10 +32,8 @@ import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.startup.BasicTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Listener for the initialization of the Tiles container.
@@ -46,8 +46,7 @@ public class TilesListener
     /**
      * Log instance.
      */
-    protected final Log log =
-        LogFactory.getLog(TilesListener.class);
+    private Logger log = LoggerFactory.getLogger(TilesListener.class);
 
     /**
      * The initializer object.

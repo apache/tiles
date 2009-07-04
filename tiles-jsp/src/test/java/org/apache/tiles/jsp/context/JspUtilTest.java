@@ -26,15 +26,15 @@ import java.util.Stack;
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.PageContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import junit.framework.TestCase;
+
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.easymock.classextension.EasyMock;
-
-import junit.framework.TestCase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Tests {@link JspUtil}.
@@ -46,7 +46,7 @@ public class JspUtilTest extends TestCase {
     /**
      * The logging object.
      */
-    private Log log = LogFactory.getLog(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     /**
      * Tests {@link ServletUtil#getContainer(ServletContext)}.

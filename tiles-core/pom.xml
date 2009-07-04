@@ -104,9 +104,16 @@
     </dependency>
 
     <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging-api</artifactId>
-      <version>1.1</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.5.8</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.5.8</version>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -158,10 +165,10 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.mvel</groupId>
-    	<artifactId>mvel2</artifactId>
-    	<version>2.0.11</version>
-    	<optional>true</optional>
+      <groupId>org.mvel</groupId>
+      <artifactId>mvel2</artifactId>
+      <version>2.0.11</version>
+      <optional>true</optional>
     </dependency>
 
   </dependencies>
