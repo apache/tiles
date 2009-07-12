@@ -240,6 +240,13 @@
       <put-attribute name="body"   expression="MVEL:requestScope.body"/>
   </definition>
 
+  <definition name="test.composite.ognl.definition" templateExpression="OGNL:layout"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   expression="OGNL:requestScope.body"/>
+  </definition>
+
   <definition name="test.composite.el.doNotShow.definition" templateExpression="${layout}"
         preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
       <put-attribute name="title"  value="This is a configured definition."/>

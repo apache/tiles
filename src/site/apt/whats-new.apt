@@ -38,9 +38,9 @@ What's new in Tiles 2.2
   * Support for wildcard mathing using
   {{{tutorial/advanced/wildcard.html}regular expressions}}.
 
-  * {{{tutorial/advanced/ognl-support.html}OGNL support}}
+  * {{{tutorial/advanced/el-support.html#OGNL_Support}OGNL support}}
   and
-  {{{tutorial/advanced/mvel-support.html}MVEL support}}
+  {{{tutorial/advanced/el-support.html#MVEL_Support}MVEL support}}
   in Tiles definition files, when specifying attributes and templates.
 
 * New features in Tiles 2.1

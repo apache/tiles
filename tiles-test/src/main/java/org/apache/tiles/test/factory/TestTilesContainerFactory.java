@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.el.ArrayELResolver;
@@ -34,10 +35,15 @@ import javax.el.ListELResolver;
 import javax.el.MapELResolver;
 import javax.el.ResourceBundleELResolver;
 
+import ognl.OgnlException;
+import ognl.OgnlRuntime;
+import ognl.PropertyAccessor;
+
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.definition.DefinitionsFactoryException;
@@ -50,6 +56,15 @@ import org.apache.tiles.evaluator.el.TilesContextELResolver;
 import org.apache.tiles.evaluator.mvel.MVELAttributeEvaluator;
 import org.apache.tiles.evaluator.mvel.TilesContextBeanVariableResolverFactory;
 import org.apache.tiles.evaluator.mvel.TilesContextVariableResolverFactory;
+import org.apache.tiles.evaluator.ognl.ApplicationScopeNestedObjectExtractor;
+import org.apache.tiles.evaluator.ognl.DelegatePropertyAccessor;
+import org.apache.tiles.evaluator.ognl.NestedObjectDelegatePropertyAccessor;
+import org.apache.tiles.evaluator.ognl.OGNLAttributeEvaluator;
+import org.apache.tiles.evaluator.ognl.PropertyAccessorDelegateFactory;
+import org.apache.tiles.evaluator.ognl.RequestScopeNestedObjectExtractor;
+import org.apache.tiles.evaluator.ognl.SessionScopeNestedObjectExtractor;
+import org.apache.tiles.evaluator.ognl.TilesApplicationContextNestedObjectExtractor;
+import org.apache.tiles.evaluator.ognl.TilesContextPropertyAccessorDelegateFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
@@ -58,6 +73,7 @@ import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
+import org.apache.tiles.test.exception.TilesTestRuntimeException;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
@@ -161,6 +177,8 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
                 createELEvaluator(applicationContext));
         attributeEvaluatorFactory.registerAttributeEvaluator("MVEL",
                 createMVELEvaluator());
+        attributeEvaluatorFactory.registerAttributeEvaluator("OGNL",
+                createOGNLEvaluator());
 
         return attributeEvaluatorFactory;
     }
@@ -208,6 +226,41 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
         MVELAttributeEvaluator mvelEvaluator = new MVELAttributeEvaluator(requestHolder,
                 variableResolverFactory);
         return mvelEvaluator;
+    }
+
+    /**
+     * Creates the MVEL evaluator.
+     *
+     * @return The MVEL evaluator.
+     */
+    private OGNLAttributeEvaluator createOGNLEvaluator() {
+        try {
+            PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
+            PropertyAccessor mapPropertyAccessor = OgnlRuntime.getPropertyAccessor(Map.class);
+            PropertyAccessor applicationContextPropertyAccessor =
+                new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+                    new TilesApplicationContextNestedObjectExtractor(),
+                    objectPropertyAccessor);
+            PropertyAccessor requestScopePropertyAccessor =
+                new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+                    new RequestScopeNestedObjectExtractor(), mapPropertyAccessor);
+            PropertyAccessor sessionScopePropertyAccessor =
+                new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+                    new SessionScopeNestedObjectExtractor(), mapPropertyAccessor);
+            PropertyAccessor applicationScopePropertyAccessor =
+                new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+                    new ApplicationScopeNestedObjectExtractor(), mapPropertyAccessor);
+            PropertyAccessorDelegateFactory<TilesRequestContext> factory =
+                new TilesContextPropertyAccessorDelegateFactory(
+                    objectPropertyAccessor, applicationContextPropertyAccessor,
+                    requestScopePropertyAccessor, sessionScopePropertyAccessor,
+                    applicationScopePropertyAccessor);
+            PropertyAccessor tilesRequestAccessor = new DelegatePropertyAccessor<TilesRequestContext>(factory);
+            OgnlRuntime.setPropertyAccessor(TilesRequestContext.class, tilesRequestAccessor);
+            return new OGNLAttributeEvaluator();
+        } catch (OgnlException e) {
+            throw new TilesTestRuntimeException("Cannot initialize OGNL evaluator", e);
+        }
     }
 
     /** {@inheritDoc} */

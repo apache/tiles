@@ -41,13 +41,13 @@
         elements or embedded within other tiles to develop a series of reusable
         templates. These templates streamline the development of a consistent
         look and feel across an entire application.</p>
-        
+
         <p><a href="/download-21.html">Download Tiles</a></p>
         <p><a href="security/index.html">Security bulletins</a></p>
-        
+
         <subsection name="Documentation">
           <ul>
-            <li><a href="whats-new.html"><strong>What's new in Tiles 2.1</strong></a></li>
+            <li><a href="whats-new.html"><strong>What's new in Tiles 2.2</strong></a></li>
             <li><a href="getting_started.html">Getting Started</a></li>
             <li><a href="tutorial/index.html">Tutorial</a></li>
             <li><a href="migration/index.html">Migration from Struts-Tiles</a></li>

@@ -152,6 +152,13 @@
     </dependency>
 
     <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymockclassextension</artifactId>
+      <version>2.4</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.shale</groupId>
       <artifactId>shale-test</artifactId>
       <version>1.0.5</version>
@@ -168,6 +175,12 @@
       <groupId>org.mvel</groupId>
       <artifactId>mvel2</artifactId>
       <version>2.0.11</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>ognl</groupId>
+      <artifactId>ognl</artifactId>
+      <version>2.7.3</version>
       <optional>true</optional>
     </dependency>
 

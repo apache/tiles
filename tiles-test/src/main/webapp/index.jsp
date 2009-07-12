@@ -92,6 +92,7 @@
     <a href="testinsertnestedlistdefinition_tags.jsp">Test Insert Nested List Definition only using JSP tags</a><br/>
     <a href="testinsertdefinition_el.jsp">Test Insert Configured Definition with EL</a><br/>
     <a href="testinsertdefinition_mvel.jsp">Test Insert Configured Definition with MVEL</a><br/>
+    <a href="testinsertdefinition_ognl.jsp">Test Insert Configured Definition with OGNL</a><br/>
     <a href="testinsertdefinition_el_singleeval.jsp">Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
     <a href="testinsertdefinition_wildcard.jsp">Test Insert Configured Definition with Wildcards</a><br/>
     <a href="testinsertdefinition_defaultvalues.jsp">Test Insert Configured Definition with Default Values</a><br/>
@@ -175,6 +176,7 @@
     <a href="freemarker/testinsertnestedlistdefinition_tags.ftl">FreeMarker: Test Insert Nested List Definition only using JSP tags</a><br/>
     <a href="freemarker/testinsertdefinition_el.ftl">FreeMarker: Test Insert Configured Definition with EL</a><br/>
     <a href="freemarker/testinsertdefinition_mvel.ftl">FreeMarker: Test Insert Configured Definition with MVEL</a><br/>
+    <a href="freemarker/testinsertdefinition_ognl.ftl">FreeMarker: Test Insert Configured Definition with OGNL</a><br/>
     <a href="freemarker/testinsertdefinition_el_singleeval.ftl">FreeMarker: Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
     <a href="freemarker/testinsertdefinition_wildcard.ftl">FreeMarker: Test Insert Configured Definition with Wildcards</a><br/>
     <a href="freemarker/testinsertdefinition_defaultvalues.ftl">FreeMarker: Test Insert Configured Definition with Default Values</a><br/>
@@ -258,6 +260,7 @@
     <a href="velocity/testinsertnestedlistdefinition_tags.vm">Velocity: Test Insert Nested List Definition only using JSP tags</a><br/>
     <a href="velocity/testinsertdefinition_el.vm">Velocity: Test Insert Configured Definition with EL</a><br/>
     <a href="velocity/testinsertdefinition_mvel.vm">Velocity: Test Insert Configured Definition with MVEL</a><br/>
+    <a href="velocity/testinsertdefinition_ognl.vm">Velocity: Test Insert Configured Definition with OGNL</a><br/>
     <a href="velocity/testinsertdefinition_el_singleeval.vm">Velocity: Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
     <a href="velocity/testinsertdefinition_wildcard.vm">Velocity: Test Insert Configured Definition with Wildcards</a><br/>
     <a href="velocity/testinsertdefinition_defaultvalues.vm">Velocity: Test Insert Configured Definition with Default Values</a><br/>
