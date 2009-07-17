@@ -163,6 +163,9 @@ public abstract class AttributeTagSupport extends TilesTag {
             }
 
             if (attributeValue == null) {
+                if (ignore) {
+                    return SKIP_BODY;
+                }
                 throw new TilesJspException("Attribute with name '" + name
                         + "' has a null value.");
             }

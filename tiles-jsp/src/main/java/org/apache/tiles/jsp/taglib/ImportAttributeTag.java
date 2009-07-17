@@ -120,11 +120,14 @@ public class ImportAttributeTag extends AttributeTagSupport {
                 try {
                     Object attributeValue = container.evaluate(attr, pageContext);
                     if (attributeValue == null) {
-                        throw new TilesJspException(
-                                "Error importing attributes. " + "Attribute '"
-                                        + name + "' has a null value ");
+                        if (!ignore) {
+                            throw new TilesJspException(
+                                    "Error importing attributes. " + "Attribute '"
+                                            + name + "' has a null value ");
+                        }
+                    } else {
+                        pageContext.setAttribute(name, attributeValue, scope);
                     }
-                    pageContext.setAttribute(name, attributeValue, scope);
                 } catch (TilesException e) {
                     if (!ignore) {
                         throw e;
