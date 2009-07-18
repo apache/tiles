@@ -144,4 +144,133 @@ public class ImportAttributeModelTest {
         assertEquals("myEvaluatedValue3", attributes.get("myName3"));
         verify(container, attributeContext);
     }
+
+    /**
+     * Test method for {@link org.apache.tiles.template.ImportAttributeModel
+     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
+     * java.lang.String, boolean, java.lang.Object[])}.
+     */
+    @Test(expected = NoSuchAttributeException.class)
+    public void testGetImportedAttributesSingleNullAttributeException() {
+        TilesContainer container = createMock(TilesContainer.class);
+        Integer requestItem = new Integer(1);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(attributeContext.getAttribute("myName")).andReturn(null);
+
+        replay(container, attributeContext);
+        try {
+            model.getImportedAttributes(container, "myName", null, false, requestItem);
+        } finally {
+            verify(container, attributeContext);
+        }
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.template.ImportAttributeModel
+     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
+     * java.lang.String, boolean, java.lang.Object[])}.
+     */
+    @Test(expected = NoSuchAttributeException.class)
+    public void testGetImportedAttributesSingleNullAttributeValueException() {
+        TilesContainer container = createMock(TilesContainer.class);
+        Integer requestItem = new Integer(1);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+        Attribute attribute = new Attribute();
+
+        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(attributeContext.getAttribute("myName")).andReturn(attribute);
+        expect(container.evaluate(attribute, requestItem)).andReturn(null);
+
+        replay(container, attributeContext);
+        try {
+            model.getImportedAttributes(container, "myName", null, false, requestItem);
+        } finally {
+            verify(container, attributeContext);
+        }
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.template.ImportAttributeModel
+     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
+     * java.lang.String, boolean, java.lang.Object[])}.
+     */
+    @Test(expected = RuntimeException.class)
+    public void testGetImportedAttributesSingleRuntimeException() {
+        TilesContainer container = createMock(TilesContainer.class);
+        Integer requestItem = new Integer(1);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+        Attribute attribute = new Attribute();
+
+        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(attributeContext.getAttribute("myName")).andReturn(attribute);
+        expect(container.evaluate(attribute, requestItem)).andThrow(new RuntimeException());
+
+        replay(container, attributeContext);
+        try {
+            model.getImportedAttributes(container, "myName", null, false, requestItem);
+        } finally {
+            verify(container, attributeContext);
+        }
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.template.ImportAttributeModel
+     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
+     * java.lang.String, boolean, java.lang.Object[])}.
+     */
+    @Test
+    public void testGetImportedAttributesSingleNullAttributeIgnore() {
+        TilesContainer container = createMock(TilesContainer.class);
+        Integer requestItem = new Integer(1);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(attributeContext.getAttribute("myName")).andReturn(null);
+
+        replay(container, attributeContext);
+        model.getImportedAttributes(container, "myName", null, true, requestItem);
+        verify(container, attributeContext);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.template.ImportAttributeModel
+     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
+     * java.lang.String, boolean, java.lang.Object[])}.
+     */
+    @Test
+    public void testGetImportedAttributesSingleNullAttributeValueIgnore() {
+        TilesContainer container = createMock(TilesContainer.class);
+        Integer requestItem = new Integer(1);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+        Attribute attribute = new Attribute();
+
+        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(attributeContext.getAttribute("myName")).andReturn(attribute);
+        expect(container.evaluate(attribute, requestItem)).andReturn(null);
+
+        replay(container, attributeContext);
+        model.getImportedAttributes(container, "myName", null, true, requestItem);
+        verify(container, attributeContext);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.template.ImportAttributeModel
+     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
+     * java.lang.String, boolean, java.lang.Object[])}.
+     */
+    @Test
+    public void testGetImportedAttributesSingleRuntimeIgnore() {
+        TilesContainer container = createMock(TilesContainer.class);
+        Integer requestItem = new Integer(1);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+        Attribute attribute = new Attribute();
+
+        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(attributeContext.getAttribute("myName")).andReturn(attribute);
+        expect(container.evaluate(attribute, requestItem)).andThrow(new RuntimeException());
+
+        replay(container, attributeContext);
+        model.getImportedAttributes(container, "myName", null, true, requestItem);
+        verify(container, attributeContext);
+    }
 }

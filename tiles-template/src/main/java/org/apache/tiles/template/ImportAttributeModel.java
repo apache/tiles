@@ -104,37 +104,35 @@ public class ImportAttributeModel {
             AttributeContext attributeContext, String name, String toName,
             boolean ignore, Map<String, Object> attributes,
             Object... requestItems) {
-        Attribute attribute = attributeContext.getAttribute(name);
-        if ((attribute == null || attribute.getValue() == null) && ignore) {
-            return;
-        }
-
-        if (attribute == null) {
-            throw new NoSuchAttributeException("Attribute with name '" + name
-                    + "' not found");
-        }
-
-        Object attributeValue = null;
-
-        try {
-            attributeValue = container.evaluate(attribute, requestItems);
-        } catch (RuntimeException e) {
-            if (!ignore) {
-                throw e;
-            } else if (log.isDebugEnabled()) {
-                log.debug("Ignoring Tiles Exception", e);
+        Attribute attr = attributeContext.getAttribute(name);
+        if (attr != null) {
+            try {
+                Object attributeValue = container.evaluate(attr,
+                        requestItems);
+                if (attributeValue == null) {
+                    if (!ignore) {
+                        throw new NoSuchAttributeException(
+                                "Error importing attributes. " + "Attribute '"
+                                        + name + "' has a null value ");
+                    }
+                } else {
+                    if (toName != null) {
+                        attributes.put(toName, attributeValue);
+                    } else {
+                        attributes.put(name, attributeValue);
+                    }
+                }
+            } catch (RuntimeException e) {
+                if (!ignore) {
+                    throw e;
+                } else if (log.isDebugEnabled()) {
+                    log.debug("Ignoring Tiles Exception", e);
+                }
             }
-        }
-
-        if (attributeValue == null && !ignore) {
-            throw new NoSuchAttributeException("Attribute with name '" + name
-                    + "' has a null value.");
-        }
-
-        if (toName != null) {
-            attributes.put(toName, attributeValue);
-        } else {
-            attributes.put(name, attributeValue);
+        } else if (!ignore) {
+            throw new NoSuchAttributeException(
+                    "Error importing attributes. " + "Attribute '" + name
+                            + "' is null");
         }
     }
 
@@ -167,30 +165,8 @@ public class ImportAttributeModel {
                 continue;
             }
 
-            Attribute attr = attributeContext.getAttribute(name);
-
-            if (attr != null) {
-                try {
-                    Object attributeValue = container.evaluate(attr,
-                            requestItems);
-                    if (attributeValue == null && !ignore) {
-                        throw new NoSuchAttributeException(
-                                "Error importing attributes. " + "Attribute '"
-                                        + name + "' has a null value ");
-                    }
-                    attributes.put(name, attributeValue);
-                } catch (RuntimeException e) {
-                    if (!ignore) {
-                        throw e;
-                    } else if (log.isDebugEnabled()) {
-                        log.debug("Ignoring Tiles Exception", e);
-                    }
-                }
-            } else if (!ignore) {
-                throw new NoSuchAttributeException(
-                        "Error importing attributes. " + "Attribute '" + name
-                                + "' is null");
-            }
+            importSingleAttribute(container, attributeContext, name, name,
+                    ignore, attributes, requestItems);
         }
     }
 }
