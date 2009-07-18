@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.util.WildcardHelper;
 
 /**
  * Uses wildcards syntax to match definition names and its parameters.
@@ -36,29 +35,42 @@ import org.apache.tiles.util.WildcardHelper;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class WildcardPatternDefinitionResolver<T> implements
+public class BasicPatternDefinitionResolver<T> implements
         PatternDefinitionResolver<T> {
 
     /**
      * Stores patterns depending on the locale they refer to.
-     *
-     * @since 2.2.0
      */
-    private Map<T, List<WildcardMapping>> localePatternPaths =
-        new HashMap<T, List<WildcardMapping>>();
+    private Map<T, List<DefinitionPatternMatcher>> localePatternPaths =
+        new HashMap<T, List<DefinitionPatternMatcher>>();
 
     /**
-     * An object that helps in resolving definitions with wildcards.
-     *
-     * @since 2.2.0
+     * The factory of pattern matchers.
      */
-    private WildcardHelper wildcardHelper = new WildcardHelper();
+    private DefinitionPatternMatcherFactory definitionPatternMatcherFactory;
+
+    /**
+     * The pattern recognizer.
+     */
+    private PatternRecognizer patternRecognizer;
+
+    /**
+     * Constructor.
+     *
+     * @param definitionPatternMatcherFactory The definition pattern matcher factory.
+     * @param patternRecognizer The pattern recognizer.
+     */
+    public BasicPatternDefinitionResolver(DefinitionPatternMatcherFactory definitionPatternMatcherFactory,
+            PatternRecognizer patternRecognizer) {
+        this.definitionPatternMatcherFactory = definitionPatternMatcherFactory;
+        this.patternRecognizer = patternRecognizer;
+    }
 
     /** {@inheritDoc} */
     public Definition resolveDefinition(String name, T customizationKey) {
         Definition retValue = null;
         if (localePatternPaths.containsKey(customizationKey)) {
-            retValue = resolveWildcardDefinition(localePatternPaths
+            retValue = searchAndResolveDefinition(localePatternPaths
                     .get(customizationKey), name);
         }
         return retValue;
@@ -67,10 +79,10 @@ public class WildcardPatternDefinitionResolver<T> implements
     /** {@inheritDoc} */
     public void storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
             T customizationKey) {
-        List<WildcardMapping> lpaths = localePatternPaths
+        List<DefinitionPatternMatcher> lpaths = localePatternPaths
                 .get(customizationKey);
         if (lpaths == null) {
-            lpaths = new ArrayList<WildcardMapping>();
+            lpaths = new ArrayList<DefinitionPatternMatcher>();
             localePatternPaths.put(customizationKey, lpaths);
         }
 
@@ -83,86 +95,35 @@ public class WildcardPatternDefinitionResolver<T> implements
      * @param paths The list containing the currently stored paths.
      * @param defsMap The definition map to parse.
      */
-    private void addWildcardPaths(List<WildcardMapping> paths,
+    private void addWildcardPaths(List<DefinitionPatternMatcher> paths,
             Map<String, Definition> defsMap) {
         for (Map.Entry<String, Definition> de : defsMap.entrySet()) {
-            if (de.getKey().
-                    indexOf('*') != -1) {
-                paths.add(new WildcardMapping(de.getKey(), de.getValue()));
+            if (patternRecognizer.isPatternRecognized(de.getKey())) {
+                paths.add(definitionPatternMatcherFactory
+                        .createDefinitionPatternMatcher(de.getKey(), de
+                                .getValue()));
             }
         }
     }
 
     /**
-     * Try to resolve a wildcard definition.
+     * Try to resolve a definition by iterating all pattern matchers.
      *
      * @param paths The list containing the currently stored paths.
      * @param name The name of the definition to resolve.
      * @return A definition, if found, or <code>null</code> if not.
      */
-    private Definition resolveWildcardDefinition(
-            List<WildcardMapping> paths, String name) {
+    private Definition searchAndResolveDefinition(
+            List<DefinitionPatternMatcher> paths, String name) {
         Definition d = null;
 
-        for (WildcardMapping wm : paths) {
-            List<String> vars = wildcardHelper.match(name, wm.getPattern());
-            if (vars != null) {
-                d = PatternUtil.replacePlaceholders(wm.getDefinition(), name, vars.toArray());
+        for (DefinitionPatternMatcher wm : paths) {
+            d = wm.createDefinition(name);
+            if (d != null) {
                 break;
             }
         }
 
         return d;
-    }
-
-    /**
-     * Maps a pattern with a definition in cache.
-     *
-     * @since 2.2.0
-     */
-    private class WildcardMapping {
-
-        /**
-         * The compiled pattern.
-         */
-        private int[] pattern;
-
-        /**
-         * The definition that matches the pattern.
-         */
-        private Definition definition;
-
-        /**
-         * Constructor.
-         *
-         * @param pattern The compiled pattern.
-         * @param definition A definition that matches the pattern.
-         *
-         * @since 2.2.0
-         */
-        public WildcardMapping(String pattern, Definition definition) {
-            this.pattern = wildcardHelper.compilePattern(pattern);
-            this.definition = definition;
-        }
-
-        /**
-         * Returns the definition.
-         *
-         * @return The definition.
-         * @since 2.2.0
-         */
-        public Definition getDefinition() {
-            return definition;
-        }
-
-        /**
-         * Returns the compiled pattern.
-         *
-         * @return The pattern.
-         * @since 2.2.0
-         */
-        public int[] getPattern() {
-            return pattern;
-        }
     }
 }

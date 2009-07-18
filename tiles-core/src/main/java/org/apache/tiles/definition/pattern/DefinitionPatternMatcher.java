@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,28 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles support to definition pattern matching</title>
-</head>
-<body>
-Classes to manage pattern matching in definition names, and substitution in attributes.
-</body>
-</html>
+
+package org.apache.tiles.definition.pattern;
+
+import org.apache.tiles.Definition;
+
+/**
+ * Matches a definition name to a definition, through pattern-matching. The
+ * matched pattern should be a single one.
+ *
+ * @version $Rev$ $Date$
+ * @since 2.2.0
+ */
+public interface DefinitionPatternMatcher {
+
+    /**
+     * Creates a definition, given the definition name, through the use of
+     * pattern matching.
+     *
+     * @param definitionName The definition name to match.
+     * @return The created definition, if matched, or <code>null</code> if not
+     * matched.
+     * @since 2.2.0
+     */
+    Definition createDefinition(String definitionName);
+}

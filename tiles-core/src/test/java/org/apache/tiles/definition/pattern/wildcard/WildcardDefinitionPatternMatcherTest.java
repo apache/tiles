@@ -19,55 +19,36 @@
  * under the License.
  */
 
-package org.apache.tiles.definition.pattern;
+package org.apache.tiles.definition.pattern.wildcard;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
-import org.junit.Before;
+import org.apache.tiles.definition.pattern.DefinitionPatternMatcher;
+import org.apache.tiles.util.WildcardHelper;
 import org.junit.Test;
 
 /**
- * Tests {@link RegexpPatternDefinitionResolver}.
+ * Tests {@link WildcardDefinitionPatternMatcher}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class RegexpPatternDefinitionResolverTest {
+public class WildcardDefinitionPatternMatcherTest {
 
     /**
-     * The resolver to test.
-     */
-    private RegexpPatternDefinitionResolver<Integer> resolver;
-
-    /**
-     * Sets up the resolver.
-     */
-    @Before
-    public void setUp() {
-        resolver = new RegexpPatternDefinitionResolver<Integer>();
-    }
-
-    /**
-     * Test method for
-     * {@link org.apache.tiles.definition.pattern.RegexpPatternDefinitionResolver
-     * #resolveDefinition(java.lang.String, java.lang.Object)}.
+     * Test method for {@link WildcardDefinitionPatternMatcher#createDefinition(String)}.
      */
     @Test
     public void testResolveDefinition() {
-        Integer key = 1;
-        Map<String, Definition> defsMap = new HashMap<String, Definition>();
         Definition def = new Definition();
-        def.setName("~testDef(.*)\\.message(.*)");
+        def.setName("testDef*.message*");
         def.setTemplateAttribute(Attribute.createTemplateAttribute("/test{1}.jsp"));
         def.putAttribute("body", new Attribute("message{2}"));
-        defsMap.put("~testDef(.*)\\.message(.*)", def);
-        resolver.storeDefinitionPatterns(defsMap, key);
-        Definition result = resolver.resolveDefinition("testDefOne.messageTwo", key);
+        DefinitionPatternMatcher patternMatcher = new WildcardDefinitionPatternMatcher(
+                "testDef*.message*", def, new WildcardHelper());
+        Definition result = patternMatcher.createDefinition("testDefOne.messageTwo");
         assertNotNull(result);
         assertEquals("testDefOne.messageTwo", result.getName());
         assertEquals("/testOne.jsp", result.getTemplateAttribute().getValue());

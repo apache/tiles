@@ -185,31 +185,27 @@ public class WildcardHelper {
         if (map == null) {
             throw new NullPointerException("No map provided");
         }
-        List<String> varsValues = new ArrayList<String>();
-        boolean retValue = match(varsValues, data, expr);
+        List<String> varsValues = match(data, expr);
         int i = 0;
         for (String value : varsValues) {
             map.put(i, value);
             i++;
         }
-        return retValue;
+        return varsValues != null;
     }
 
     /**
      * Match a pattern agains a string and isolates wildcard replacement into a
      * <code>Stack</code>.
      *
-     * @param varsValues The list to store matched values into.
      * @param data The string to match
      * @param expr The compiled wildcard expression
-     * @return True if a match
+     * @return The list of matched variables, or <code>null</code> if it does not match.
      * @throws NullPointerException If any parameters are null
      * @since 2.2.0
      */
-    public boolean match(List<String> varsValues, String data, int[] expr) {
-        if (varsValues == null) {
-            throw new NullPointerException("No value list provided");
-        }
+    public List<String> match(String data, int[] expr) {
+        List<String> varsValues = null;
 
         if (data == null) {
             throw new NullPointerException("No data provided");
@@ -234,9 +230,6 @@ public class WildcardHelper {
         int rsltpos = 0;
         int offset = -1;
 
-        // We want the complete data be in {0}
-        varsValues.add(data);
-
         // First check for MATCH_BEGIN
         boolean matchBegin = false;
 
@@ -259,7 +252,7 @@ public class WildcardHelper {
             // expression character matches the data in the input buffer
             if (matchBegin) {
                 if (!matchArray(expr, exprpos, charpos, buff, buffpos)) {
-                    return (false);
+                    return null;
                 }
 
                 matchBegin = false;
@@ -267,14 +260,14 @@ public class WildcardHelper {
                 offset = indexOfArray(expr, exprpos, charpos, buff, buffpos);
 
                 if (offset < 0) {
-                    return (false);
+                    return null;
                 }
             }
 
             // Check for MATCH_BEGIN
             if (matchBegin) {
                 if (offset != 0) {
-                    return (false);
+                    return null;
                 }
 
                 matchBegin = false;
@@ -286,18 +279,25 @@ public class WildcardHelper {
             // Check for END's
             if (exprchr == MATCH_END) {
                 if (rsltpos > 0) {
-                    varsValues.add(new String(rslt, 0, rsltpos));
+                    varsValues = addAndCreateList(varsValues, new String(rslt,
+                            0, rsltpos));
                 }
 
                 // Don't care about rest of input buffer
-                return (true);
+                varsValues = addElementOnTop(varsValues, data);
+                return varsValues;
             } else if (exprchr == MATCH_THEEND) {
                 if (rsltpos > 0) {
-                    varsValues.add(new String(rslt, 0, rsltpos));
+                    varsValues = addAndCreateList(varsValues, new String(rslt,
+                            0, rsltpos));
                 }
 
                 // Check that we reach buffer's end
-                return (buffpos == buff.length);
+                if (buffpos == buff.length) {
+                    addElementOnTop(varsValues, data);
+                    return varsValues;
+                }
+                return null;
             }
 
             // Search the next expression character
@@ -317,7 +317,7 @@ public class WildcardHelper {
                     charpos, buff, buffpos);
 
             if (offset < 0) {
-                return (false);
+                return null;
             }
 
             // Copy the data from the source buffer into the result buffer
@@ -330,14 +330,15 @@ public class WildcardHelper {
                 // Matching file, don't copy '/'
                 while (buffpos < offset) {
                     if (buff[buffpos] == '/') {
-                        return (false);
+                        return null;
                     }
 
                     rslt[rsltpos++] = buff[buffpos++];
                 }
             }
 
-            varsValues.add(new String(rslt, 0, rsltpos));
+            varsValues = addAndCreateList(varsValues, new String(rslt, 0,
+                    rsltpos));
             rsltpos = 0;
         }
     }
@@ -536,5 +537,37 @@ public class WildcardHelper {
         }
 
         return ret.toString();
+    }
+
+    /**
+     * Adds and object to a list. If the list is null, it creates it.
+     *
+     * @param <T> The type of the element.
+     * @param list The list.
+     * @param data The data to add.
+     * @return The list itself, or a new one if it is <code>null</code>.
+     */
+    private <T> List<T> addAndCreateList(List<T> list, T data) {
+        if (list == null) {
+            list = new ArrayList<T>();
+        }
+        list.add(data);
+        return list;
+    }
+
+    /**
+     * Adds and object on top of a list. If the list is null, it creates it.
+     *
+     * @param <T> The type of the element.
+     * @param list The list.
+     * @param data The data to add.
+     * @return The list itself, or a new one if it is <code>null</code>.
+     */
+    private <T> List<T> addElementOnTop(List<T> list, T data) {
+        if (list == null) {
+            list = new ArrayList<T>();
+        }
+        list.add(0, data);
+        return list;
     }
 }

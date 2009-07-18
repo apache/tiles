@@ -40,9 +40,10 @@ import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.definition.dao.ResolvingLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.apache.tiles.definition.pattern.BasicPatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolverAware;
-import org.apache.tiles.definition.pattern.WildcardPatternDefinitionResolver;
+import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
@@ -411,7 +412,9 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Creates a new pattern definition resolver. By default, it instantiate a
-     * {@link WildcardPatternDefinitionResolver}.
+     * {@link BasicPatternDefinitionResolver} with
+     * {@link WildcardDefinitionPatternMatcherFactory} to manage wildcard
+     * substitution.
      *
      * @param <T> The type of the customization key.
      * @param customizationKeyClass The customization key class.
@@ -420,7 +423,11 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected <T> PatternDefinitionResolver<T> createPatternDefinitionResolver(
             Class<T> customizationKeyClass) {
-        return new WildcardPatternDefinitionResolver<T>();
+        WildcardDefinitionPatternMatcherFactory definitionPatternMatcherFactory =
+            new WildcardDefinitionPatternMatcherFactory();
+        return new BasicPatternDefinitionResolver<T>(
+                definitionPatternMatcherFactory,
+                definitionPatternMatcherFactory);
     }
 
     /**

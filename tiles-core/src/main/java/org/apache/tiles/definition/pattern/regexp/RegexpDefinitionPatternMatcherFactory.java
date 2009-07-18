@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles support to definition pattern matching</title>
-</head>
-<body>
-Classes to manage pattern matching in definition names, and substitution in attributes.
-</body>
-</html>
+
+package org.apache.tiles.definition.pattern.regexp;
+
+import org.apache.tiles.Definition;
+import org.apache.tiles.definition.pattern.DefinitionPatternMatcher;
+import org.apache.tiles.definition.pattern.DefinitionPatternMatcherFactory;
+
+/**
+ * Creates instances of {@link RegexpDefinitionPatternMatcher}.
+ *
+ * @version $Rev$ $Date$
+ */
+public class RegexpDefinitionPatternMatcherFactory implements
+        DefinitionPatternMatcherFactory {
+
+    /** {@inheritDoc} */
+    public DefinitionPatternMatcher createDefinitionPatternMatcher(
+            String pattern, Definition definition) {
+        return new RegexpDefinitionPatternMatcher(pattern, definition);
+    }
+}

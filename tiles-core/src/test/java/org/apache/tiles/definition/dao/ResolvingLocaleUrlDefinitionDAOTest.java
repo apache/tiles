@@ -37,6 +37,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
@@ -48,10 +50,10 @@ import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.MockDefinitionsReader;
 import org.apache.tiles.definition.RefreshMonitor;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
-import org.apache.tiles.definition.pattern.WildcardPatternDefinitionResolver;
+import org.apache.tiles.definition.pattern.BasicPatternDefinitionResolver;
+import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
+import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
 import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
 
 /**
  * Tests {@link ResolvingLocaleUrlDefinitionDAO}.
@@ -76,7 +78,12 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         definitionDao = new ResolvingLocaleUrlDefinitionDAO();
-        definitionDao.setPatternDefinitionResolver(new WildcardPatternDefinitionResolver<Locale>());
+        WildcardDefinitionPatternMatcherFactory definitionPatternMatcherFactory =
+            new WildcardDefinitionPatternMatcherFactory();
+        PatternDefinitionResolver<Locale> definitionResolver = new BasicPatternDefinitionResolver<Locale>(
+                definitionPatternMatcherFactory,
+                definitionPatternMatcherFactory);
+        definitionDao.setPatternDefinitionResolver(definitionResolver);
     }
 
     /**

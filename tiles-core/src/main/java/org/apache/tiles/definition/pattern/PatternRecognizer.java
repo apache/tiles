@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles support to definition pattern matching</title>
-</head>
-<body>
-Classes to manage pattern matching in definition names, and substitution in attributes.
-</body>
-</html>
+
+package org.apache.tiles.definition.pattern;
+
+/**
+ * Checks if a pattern (or a candidate one) is recognized as a pattern.
+ *
+ * @version $Rev$ $Date$
+ * @since 2.2.0
+ */
+public interface PatternRecognizer {
+
+    /**
+     * Checks if a pattern is recognized as a pattern.
+     *
+     * @param candidatePattern The pattern to check.
+     * @return <code>true</code> if the pattern has been recognized.
+     * @since 2.2.0
+     */
+    boolean isPatternRecognized(String candidatePattern);
+}

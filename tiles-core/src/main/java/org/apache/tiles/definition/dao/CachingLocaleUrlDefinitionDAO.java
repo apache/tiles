@@ -32,9 +32,10 @@ import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.definition.Refreshable;
+import org.apache.tiles.definition.pattern.BasicPatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolverAware;
-import org.apache.tiles.definition.pattern.WildcardPatternDefinitionResolver;
+import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
 import org.apache.tiles.util.LocaleUtil;
 
 /**
@@ -100,7 +101,11 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
 
         String param = params.get(CHECK_REFRESH_INIT_PARAMETER);
         checkRefresh = "true".equals(param);
-        definitionResolver = new WildcardPatternDefinitionResolver<Locale>();
+        WildcardDefinitionPatternMatcherFactory definitionPatternMatcherFactory =
+            new WildcardDefinitionPatternMatcherFactory();
+        definitionResolver = new BasicPatternDefinitionResolver<Locale>(
+                definitionPatternMatcherFactory,
+                definitionPatternMatcherFactory);
     }
 
     /** {@inheritDoc} */

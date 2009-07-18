@@ -31,8 +31,7 @@ package org.apache.tiles.definition.pattern;
 public interface PatternDefinitionResolverAware<T> {
 
     /**
-     * Sets the pattern definition resolver to use. If not set, the
-     * {@link WildcardPatternDefinitionResolver} will be used.
+     * Sets the pattern definition resolver to use.
      *
      * @param definitionResolver The pattern definition resolver.
      * @since 2.2.0
