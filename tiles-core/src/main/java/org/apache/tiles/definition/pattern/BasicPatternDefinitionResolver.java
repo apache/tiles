@@ -21,28 +21,24 @@
 
 package org.apache.tiles.definition.pattern;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.tiles.Definition;
 
 /**
- * Uses wildcards syntax to match definition names and its parameters.
+ * A pattern definition resolver that stores {@link DefinitionPatternMatcher}
+ * separated by customization key. <br>
+ * It delegates creation of definition pattern matchers to a
+ * {@link DefinitionPatternMatcherFactory} and recgnizes patterns through the
+ * use of a {@link PatternRecognizer}.
  *
  * @param <T> The type of the customization key.
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class BasicPatternDefinitionResolver<T> implements
-        PatternDefinitionResolver<T> {
-
-    /**
-     * Stores patterns depending on the locale they refer to.
-     */
-    private Map<T, List<DefinitionPatternMatcher>> localePatternPaths =
-        new HashMap<T, List<DefinitionPatternMatcher>>();
+public class BasicPatternDefinitionResolver<T> extends
+        AbstractPatternDefinitionResolver<T> {
 
     /**
      * The factory of pattern matchers.
@@ -66,64 +62,24 @@ public class BasicPatternDefinitionResolver<T> implements
         this.patternRecognizer = patternRecognizer;
     }
 
-    /** {@inheritDoc} */
-    public Definition resolveDefinition(String name, T customizationKey) {
-        Definition retValue = null;
-        if (localePatternPaths.containsKey(customizationKey)) {
-            retValue = searchAndResolveDefinition(localePatternPaths
-                    .get(customizationKey), name);
-        }
-        return retValue;
-    }
-
-    /** {@inheritDoc} */
-    public void storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
-            T customizationKey) {
-        List<DefinitionPatternMatcher> lpaths = localePatternPaths
-                .get(customizationKey);
-        if (lpaths == null) {
-            lpaths = new ArrayList<DefinitionPatternMatcher>();
-            localePatternPaths.put(customizationKey, lpaths);
-        }
-
-        addWildcardPaths(lpaths, localeDefsMap);
-    }
-
     /**
-     * Adds wildcard paths that are stored inside a normal definition map.
+     * Adds definitions, filtering and adding them to the list of definition
+     * pattern matchers. Only a subset of definitions will be transformed into
+     * definition pattern matchers.
      *
-     * @param paths The list containing the currently stored paths.
+     * @param matchers The list containing the currently stored definition pattern
+     * matchers.
      * @param defsMap The definition map to parse.
+     * @since 2.2.0
      */
-    private void addWildcardPaths(List<DefinitionPatternMatcher> paths,
+    protected void addDefinitionsAsPatternMatchers(List<DefinitionPatternMatcher> matchers,
             Map<String, Definition> defsMap) {
         for (Map.Entry<String, Definition> de : defsMap.entrySet()) {
             if (patternRecognizer.isPatternRecognized(de.getKey())) {
-                paths.add(definitionPatternMatcherFactory
+                matchers.add(definitionPatternMatcherFactory
                         .createDefinitionPatternMatcher(de.getKey(), de
                                 .getValue()));
             }
         }
-    }
-
-    /**
-     * Try to resolve a definition by iterating all pattern matchers.
-     *
-     * @param paths The list containing the currently stored paths.
-     * @param name The name of the definition to resolve.
-     * @return A definition, if found, or <code>null</code> if not.
-     */
-    private Definition searchAndResolveDefinition(
-            List<DefinitionPatternMatcher> paths, String name) {
-        Definition d = null;
-
-        for (DefinitionPatternMatcher wm : paths) {
-            d = wm.createDefinition(name);
-            if (d != null) {
-                break;
-            }
-        }
-
-        return d;
     }
 }
