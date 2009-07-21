@@ -38,14 +38,42 @@ Wildcard support
 </definition>
 ------------------------------------
 
-  * the regular expression style (notice the ~ character that indicates that a regexp will be used), available by calling
-  {{{../../apidocs/org/apache/tiles/definition/dao/CachingLocaleUrlDefinitionDAO.html#setPatternDefinitionResolver(org.apache.tiles.definition.pattern.PatternDefinitionResolver)}CachingLocaleUrlDefinitionDAO.setPatternDefinitionResolver}}
-  with an instance of
-  {{{../../apidocs/org/apache/tiles/definition/pattern/RegexpPatternDefinitionResolver.html}RegexpPatternDefinitionResolver}}
-  :
+* {Using different pattern matching languages}
+
+  In Tiles 2.2 it is possible to use different pattern matching languages
+  at the same time. Tiles supports Wildcard and Regular Expressions natively.
+
+  To configure it, override the
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createPatternDefinitionResolver(java.lang.Class)}createPatternDefinitionResolver}}
+  method of <<<BasicTilesContainerFactory>>> this way:
+
+-------------------------------------
+@Override
+protected <T> PatternDefinitionResolver<T> createPatternDefinitionResolver(
+        Class<T> customizationKeyClass) {
+    DefinitionPatternMatcherFactory wildcardFactory = new WildcardDefinitionPatternMatcherFactory();
+    DefinitionPatternMatcherFactory regexpFactory = new RegexpDefinitionPatternMatcherFactory();
+    PrefixedPatternDefinitionResolver<T> resolver = new PrefixedPatternDefinitionResolver<T>();
+    resolver.registerDefinitionPatternMatcherFactory("WILDCARD", wildcardFactory);
+    resolver.registerDefinitionPatternMatcherFactory("REGEXP", regexpFactory);
+    return resolver;
+}
+-------------------------------------
+
+  Now you can still use Wildcard notation, but remember to add the <<<WILDCARD:>>> prefix:
 
 ------------------------------------
-<definition name="~test\.definition(.*)\.message(.*)" template="/layout{1}.jsp">
+<definition name="WILDCARD:test.definition*.message*" template="/layout{1}.jsp">
+    <put-attribute name="title"  value="This definition has a message: {2}."/>
+    <put-attribute name="header" value="/header.jsp"/>
+    <put-attribute name="body"   value="/body.jsp"/>
+</definition>
+------------------------------------
+
+  And, if you want to use Regular Expressions:
+
+------------------------------------
+<definition name="REGEXP:test\.definition(.*)\.message(.*)" template="/layout{1}.jsp">
     <put-attribute name="title"  value="This definition has a message: {2}."/>
     <put-attribute name="header" value="/header.jsp"/>
     <put-attribute name="body"   value="/body.jsp"/>

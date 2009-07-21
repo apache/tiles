@@ -35,8 +35,8 @@ What's new in Tiles 2.2
 
   * {{{tutorial/integration/velocity.html}Support for Velocity}}.
 
-  * Support for wildcard mathing using
-  {{{tutorial/advanced/wildcard.html}regular expressions}}.
+  * Support for pattern matching using
+  {{{tutorial/advanced/wildcard.html#Using_different_pattern_matching_languages}regular expressions}}.
 
   * {{{tutorial/advanced/el-support.html#OGNL_Support}OGNL support}}
   and
