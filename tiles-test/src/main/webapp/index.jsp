@@ -95,6 +95,7 @@
     <a href="testinsertdefinition_ognl.jsp">Test Insert Configured Definition with OGNL</a><br/>
     <a href="testinsertdefinition_el_singleeval.jsp">Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
     <a href="testinsertdefinition_wildcard.jsp">Test Insert Configured Definition with Wildcards</a><br/>
+    <a href="testinsertdefinition_regexp.jsp">Test Insert Configured Definition with Regular Expression</a><br/>
     <a href="testinsertdefinition_defaultvalues.jsp">Test Insert Configured Definition with Default Values</a><br/>
     <a href="testput_cascaded.jsp">Test Put Tag with Cascaded Attributes</a><br/>
     <a href="testput_cascaded_overridden.jsp">Test Put Tag with Overridden Cascaded Attributes</a><br/>
@@ -179,6 +180,7 @@
     <a href="freemarker/testinsertdefinition_ognl.ftl">FreeMarker: Test Insert Configured Definition with OGNL</a><br/>
     <a href="freemarker/testinsertdefinition_el_singleeval.ftl">FreeMarker: Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
     <a href="freemarker/testinsertdefinition_wildcard.ftl">FreeMarker: Test Insert Configured Definition with Wildcards</a><br/>
+    <a href="freemarker/testinsertdefinition_regexp.ftl">FreeMarker: Test Insert Configured Definition with Regular Expression</a><br/>
     <a href="freemarker/testinsertdefinition_defaultvalues.ftl">FreeMarker: Test Insert Configured Definition with Default Values</a><br/>
     <a href="freemarker/testput_cascaded.ftl">FreeMarker: Test Put Tag with Cascaded Attributes</a><br/>
     <a href="freemarker/testput_cascaded_overridden.ftl">FreeMarker: Test Put Tag with Overridden Cascaded Attributes</a><br/>
@@ -263,6 +265,7 @@
     <a href="velocity/testinsertdefinition_ognl.vm">Velocity: Test Insert Configured Definition with OGNL</a><br/>
     <a href="velocity/testinsertdefinition_el_singleeval.vm">Velocity: Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
     <a href="velocity/testinsertdefinition_wildcard.vm">Velocity: Test Insert Configured Definition with Wildcards</a><br/>
+    <a href="velocity/testinsertdefinition_regexp.vm">Velocity: Test Insert Configured Definition with Regular Expression</a><br/>
     <a href="velocity/testinsertdefinition_defaultvalues.vm">Velocity: Test Insert Configured Definition with Default Values</a><br/>
     <a href="velocity/testput_cascaded.vm">Velocity: Test Put Tag with Cascaded Attributes</a><br/>
     <a href="velocity/testput_cascaded_overridden.vm">Velocity: Test Put Tag with Overridden Cascaded Attributes</a><br/>

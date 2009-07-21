@@ -32,7 +32,12 @@
       <put-attribute name="header" value="/header.jsp"/>
       <put-attribute name="body"   value="/body.jsp"/>
   </definition>
-  <definition name="test.definition*.message*" template="/layout{1}.jsp">
+  <definition name="WILDCARD:test.definition*.message*" template="/layout{1}.jsp">
+      <put-attribute name="title"  value="This definition has a message: {2}."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
+  </definition>
+  <definition name="REGEXP:test\.regexp\.definition(.*)\.message(.*)" template="/layout{1}.jsp">
       <put-attribute name="title"  value="This definition has a message: {2}."/>
       <put-attribute name="header" value="/header.jsp"/>
       <put-attribute name="body"   value="/body.jsp"/>
