@@ -77,6 +77,12 @@ public class AddAttributeTag extends SimpleTagSupport {
     private Object value = null;
 
     /**
+     * The expression to calculate the value from. Use this parameter, or value,
+     * or body.
+     */
+    private String expression = null;
+
+    /**
      * Requested type for the value.
      */
     private String type = null;
@@ -117,6 +123,28 @@ public class AddAttributeTag extends SimpleTagSupport {
      */
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    /**
+     * Returns the expression to calculate the value from. Use this parameter,
+     * or value, or body.
+     *
+     * @return The expression
+     * @since 2.2.0
+     */
+    public String getExpression() {
+        return expression;
+    }
+
+    /**
+     * Sets the expression to calculate the value from. Use this parameter, or
+     * value, or body.
+     *
+     * @param expression The expression
+     * @since 2.2.0
+     */
+    public void setExpression(String expression) {
+        this.expression = expression;
     }
 
     /**
@@ -165,7 +193,7 @@ public class AddAttributeTag extends SimpleTagSupport {
         JspContext pageContext = getJspContext();
         model.start(JspUtil.getComposeStack(pageContext));
         String body = JspUtil.evaluateFragmentAsString(getJspBody());
-        model.end(JspUtil.getComposeStack(pageContext), value, null, body,
-                role, type);
+        model.end(JspUtil.getComposeStack(pageContext), value, expression,
+                body, role, type);
     }
 }

@@ -80,6 +80,30 @@
       <attribute>
          <description>
          <![CDATA[
+         <p>The type of the template attribute.</p>
+         ]]>
+         </description>
+         <name>templateType</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.String</type>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
+         <p>The expression to evaluate to get the value of the template.
+         </p>
+         <p>If used together with <code>template</code>, this attribute will be ignored.</p>
+         ]]>
+         </description>
+         <name>templateExpression</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
          <p>True or false. If true, current page out stream is flushed
          before insertion.</p>
          ]]>
@@ -177,6 +201,30 @@
          <name>template</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
+         <p>The type of the template attribute.</p>
+         ]]>
+         </description>
+         <name>templateType</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.String</type>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
+         <p>The expression to evaluate to get the value of the template.
+         </p>
+         <p>If used together with <code>template</code>, this attribute will be ignored.</p>
+         ]]>
+         </description>
+         <name>templateExpression</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
       </attribute>
       <attribute>
          <description>
@@ -480,6 +528,17 @@
       </attribute>
       <attribute>
          <description>
+          <![CDATA[
+          <p>The expression to calculate the value from. Use this parameter, or value, or body.</p>
+          ]]>
+         </description>
+         <name>expression</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
+      </attribute>
+      <attribute>
+         <description>
          <![CDATA[
          <p>Specify content type: string, template or definition.</p>
          <ul>
@@ -600,6 +659,17 @@
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
          <type>java.lang.Object</type>
+      </attribute>
+      <attribute>
+         <description>
+          <![CDATA[
+          <p>The expression to calculate the value from. Use this parameter, or value, or body.</p>
+          ]]>
+         </description>
+         <name>expression</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
+         <type>java.lang.String</type>
       </attribute>
       <attribute>
          <description>
