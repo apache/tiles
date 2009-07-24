@@ -23,21 +23,19 @@ package org.apache.tiles.impl;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
-import org.apache.tiles.mock.RepeaterTilesApplicationContextFactory;
+import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
 import org.easymock.EasyMock;
 import org.slf4j.Logger;
@@ -70,29 +68,17 @@ public class BasicTilesContainerTest extends TestCase {
     public void setUp() {
         TilesApplicationContext context = EasyMock
                 .createMock(TilesApplicationContext.class);
-        Map<String, String> initParams = new HashMap<String, String>();
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
 
-        initParams.put(
-                ChainedTilesApplicationContextFactory.FACTORY_CLASS_NAMES,
-                RepeaterTilesApplicationContextFactory.class.getName());
-        initParams.put(
-                ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES,
-                RepeaterTilesRequestContextFactory.class.getName());
         try {
-            Set<URL> urls = new HashSet<URL>();
-            urls.add(url);
-            EasyMock.expect(context.getResources("/WEB-INF/tiles.xml"))
-                    .andReturn(urls);
+            EasyMock.expect(context.getResource("/WEB-INF/tiles.xml"))
+                    .andReturn(url);
         } catch (IOException e) {
             throw new RuntimeException("Error getting Tiles configuration URL",
                     e);
         }
-        EasyMock.expect(context.getInitParams()).andReturn(initParams)
-                .anyTimes();
         EasyMock.replay(context);
-        AbstractTilesContainerFactory factory = AbstractTilesContainerFactory
-                .getTilesContainerFactory(context);
+        AbstractTilesContainerFactory factory = new CustomTilesContainerFactory();
         container = (BasicTilesContainer) factory.createContainer(context);
     }
 
@@ -168,5 +154,25 @@ public class BasicTilesContainerTest extends TestCase {
         Object value = container.evaluate(attribute, request);
         assertEquals("The attribute has not been evaluated correctly",
                 "This is the value", value);
+    }
+
+    /**
+     * A BasicTilesContainerFactory with overridden createRequestContextFactory
+     * method.
+     *
+     * @version $Rev$ $Date$
+     */
+    private static class CustomTilesContainerFactory extends BasicTilesContainerFactory {
+
+        /** {@inheritDoc} */
+        @Override
+        protected void registerChainedRequestContextFactories(
+                ChainedTilesRequestContextFactory contextFactory) {
+            List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
+                    1);
+            factories.add(new RepeaterTilesRequestContextFactory());
+
+            contextFactory.setFactories(factories);
+        }
     }
 }

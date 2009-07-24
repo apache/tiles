@@ -47,6 +47,7 @@ import org.easymock.EasyMock;
 /**
  * @version $Rev$ $Date$
  */
+@SuppressWarnings("deprecation")
 public class KeyedDefinitionsFactoryTilesContainerTest extends TestCase {
 
     /**

@@ -108,11 +108,12 @@ public final class TilesAccess {
                 log.info("Removing TilesContext for context: " + context.getClass().getName());
             }
             context.getApplicationScope().remove(key);
+        } else {
+            if (log.isInfoEnabled()) {
+                log.info("Publishing TilesContext for context: " + context.getClass().getName());
+            }
+            context.getApplicationScope().put(key, container);
         }
-        if (container != null && log.isInfoEnabled()) {
-            log.info("Publishing TilesContext for context: " + context.getClass().getName());
-        }
-        context.getApplicationScope().put(key, container);
     }
 
     /**

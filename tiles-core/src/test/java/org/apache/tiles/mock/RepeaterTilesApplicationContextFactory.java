@@ -34,6 +34,7 @@ import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
  *
  * @version $Rev$ $Date$
  */
+@SuppressWarnings("deprecation")
 public class RepeaterTilesApplicationContextFactory extends
         AbstractTilesApplicationContextFactory {
 
