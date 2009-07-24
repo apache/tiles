@@ -30,7 +30,6 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.apache.tiles.Attribute;
-import org.apache.tiles.Initializable;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.impl.InvalidTemplateException;
 import org.apache.tiles.renderer.impl.AbstractBaseAttributeRenderer;
@@ -51,8 +50,7 @@ import org.apache.velocity.tools.view.VelocityView;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class VelocityAttributeRenderer extends AbstractBaseAttributeRenderer
-        implements Initializable {
+public class VelocityAttributeRenderer extends AbstractBaseAttributeRenderer {
 
     /**
      * The VelocityView object to use.
@@ -63,12 +61,6 @@ public class VelocityAttributeRenderer extends AbstractBaseAttributeRenderer
      * The initialization parameters for VelocityView.
      */
     private Map<String, String> params = new HashMap<String, String>();
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> params) {
-        this.params.putAll(params);
-        commit();
-    }
 
     /**
      * Sets a parameter for the internal servlet.

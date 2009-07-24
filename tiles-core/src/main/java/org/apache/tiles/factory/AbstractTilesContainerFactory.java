@@ -20,9 +20,6 @@
  */
 package org.apache.tiles.factory;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.reflect.ClassUtil;
@@ -45,16 +42,6 @@ public abstract class AbstractTilesContainerFactory {
         "org.apache.tiles.factory.AbstractTilesContainerFactory";
 
     /**
-     * Default configuration parameters.
-     */
-    private static final Map<String, String> DEFAULTS =
-        new HashMap<String, String>();
-
-    static {
-        DEFAULTS.put(CONTAINER_FACTORY_INIT_PARAM, TilesContainerFactory.class.getName());
-    }
-
-    /**
      * Creates a factory instance.
      *
      * @param context The application context object.
@@ -62,8 +49,8 @@ public abstract class AbstractTilesContainerFactory {
      * @throws TilesContainerFactoryException If something goes wrong during
      * creation.
      * @since 2.1.1
+     * @deprecated Create directly a new instance of this class.
      */
-    @SuppressWarnings("deprecation")
     public static AbstractTilesContainerFactory getTilesContainerFactory(
             TilesApplicationContext context) {
         AbstractTilesContainerFactory retValue;

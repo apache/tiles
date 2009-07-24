@@ -48,6 +48,7 @@ import org.apache.tiles.reflect.ClassUtil;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
+@SuppressWarnings("deprecation")
 public class LocaleDefinitionsFactory implements DefinitionsFactory,
         TilesApplicationContextAware, Initializable {
 

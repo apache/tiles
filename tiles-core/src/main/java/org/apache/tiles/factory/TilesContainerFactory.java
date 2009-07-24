@@ -54,12 +54,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Factory provided for convenience.
- * This factory creates a default implementation of
- * the container, initializes, and puts it into service.
+ * Factory provided for convenience. This factory creates a default
+ * implementation of the container, initializes, and puts it into service. Uses
+ * initialization parameters to configure all the objects created in this phase.
  *
  * @version $Rev$ $Date$
  * @since 2.0
+ * @deprecated Please extend {@link AbstractTilesContainerFactory} or use an
+ * already extended class. Parameter-based initialization is no longer
+ * supported.
  */
 public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
@@ -359,6 +362,10 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected void initializeContainer(TilesApplicationContext context,
             BasicTilesContainer container) {
+        log.warn("DEPRECATION WARNING! You are using parameter-based initialization, "
+                + "that is no longer supported! Please see docs: "
+                + "http://tiles.apache.org/framework/tutorial/configuration.html");
+
         Map <String, String> initParameterMap;
 
         if (log.isInfoEnabled()) {

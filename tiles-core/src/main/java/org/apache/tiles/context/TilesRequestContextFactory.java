@@ -30,6 +30,7 @@ import org.apache.tiles.TilesApplicationContext;
  * @version $Rev$ $Date$
  * @since 2.1.1
  */
+@SuppressWarnings("deprecation")
 public interface TilesRequestContextFactory extends Initializable {
 
     /**

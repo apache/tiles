@@ -42,6 +42,10 @@ import org.apache.tiles.renderer.RendererFactory;
  * {@link KeyedDefinitionsFactoryTilesContainer} class.
  *
  * @version $Rev$ $Date$
+ * @deprecated This class can be replaced by registering different
+ * {@link TilesContainer} with different keys, by overriding
+ * {@link org.apache.tiles.startup.AbstractTilesInitializer}
+ * <code>getContainerKey</code> method.
  */
 public class KeyedDefinitionsFactoryTilesContainerFactory extends
         TilesContainerFactory {

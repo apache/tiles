@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
+@SuppressWarnings("deprecation")
 public abstract class BaseLocaleUrlDefinitionDAO implements
         DefinitionDAO<Locale>, Initializable, TilesApplicationContextAware,
         RefreshMonitor, URLReader {
@@ -231,7 +232,6 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
      * @param parms The initialization parameters.
      * @return resource string to be parsed.
      */
-    @SuppressWarnings("deprecation")
     protected String getResourceString(Map<String, String> parms) {
         String resourceStr = parms.get(DefinitionsFactory.DEFINITIONS_CONFIG);
         if (resourceStr == null) {

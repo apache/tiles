@@ -20,66 +20,17 @@
  */
 package org.apache.tiles.web.startup;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-
-import org.apache.tiles.TilesException;
-import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.startup.BasicTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
-import org.apache.tiles.web.util.ServletContextAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Initialization Servlet.
  *
  * @see org.apache.tiles.web.startup.TilesListener
  * @version $Rev$ $Date$
+ * @deprecated Please extend {@link AbstractTilesInitializerServlet}.
  */
-public class TilesServlet extends HttpServlet {
-
-    /**
-     * Log instance.
-     */
-    private Logger log = LoggerFactory.getLogger(TilesServlet.class);
-
-    /**
-     * The private listener instance, that is used to initialize Tiles
-     * container.
-     */
-    private TilesInitializer initializer;
-
-    /**
-     * Constructor.
-     *
-     * @since 2.1.2
-     */
-    public TilesServlet() {
-        initializer = createTilesInitializer();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void destroy() {
-        try {
-            ServletUtil.setContainer(getServletContext(), null);
-        } catch (TilesException e) {
-            log.warn("Unable to remove tiles container from service.", e);
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void init() throws ServletException {
-        ServletContext adaptedContext = new ServletContextAdapter(
-                getServletConfig());
-        ServletTilesApplicationContext preliminaryContext = new ServletTilesApplicationContext(
-                adaptedContext);
-        initializer.initialize(preliminaryContext);
-    }
+public class TilesServlet extends AbstractTilesInitializerServlet {
 
     /**
      * Creates a new instance of {@link BasicTilesInitializer}. Override it to use a different initializer.

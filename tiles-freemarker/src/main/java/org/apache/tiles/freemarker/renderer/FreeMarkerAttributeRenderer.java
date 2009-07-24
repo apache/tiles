@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.apache.tiles.Attribute;
-import org.apache.tiles.Initializable;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.freemarker.servlet.TilesFreemarkerServlet;
@@ -54,7 +53,7 @@ import org.apache.tiles.servlet.context.ServletUtil;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class FreeMarkerAttributeRenderer extends AbstractBaseAttributeRenderer implements Initializable {
+public class FreeMarkerAttributeRenderer extends AbstractBaseAttributeRenderer {
 
     /**
      * The servlet that is used to forward the request to.
@@ -65,12 +64,6 @@ public class FreeMarkerAttributeRenderer extends AbstractBaseAttributeRenderer i
      * The initialization parameters.
      */
     private Map<String, String> params = new HashMap<String, String>();
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> params) {
-        this.params.putAll(params);
-        commit();
-    }
 
     /**
      * Sets a parameter for the internal servlet.

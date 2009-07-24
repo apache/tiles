@@ -33,6 +33,10 @@ import org.slf4j.LoggerFactory;
  *
  * @version $Rev$ $Date$
  * @since 2.1.1
+ * @deprecated Create an instance of {@link TilesApplicationContext} yourself,
+ * by implementing {@link org.apache.tiles.startup.TilesInitializer} or
+ * extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
+ * overriding <code>createTilesApplicationContext</code> method.
  */
 public abstract class AbstractTilesApplicationContextFactory  {
 

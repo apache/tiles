@@ -28,6 +28,10 @@ import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
  * {@link EnhancedTilesApplicationContext}.
  *
  * @version $Rev$ $Date$
+ * @deprecated Create an instance of {@link EnhancedTilesApplicationContext}
+ * yourself, by implementing {@link org.apache.tiles.startup.TilesInitializer}
+ * or extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
+ * overriding <code>createTilesApplicationContext</code> method.<br>
  */
 public class EnhancedTilesApplicationContextFactory extends
         ChainedTilesApplicationContextFactory {

@@ -32,6 +32,10 @@ import org.apache.tiles.portlet.context.PortletTilesApplicationContextFactory;
  *
  * @version $Rev$ $Date$
  * @since 2.1.1
+ * @deprecated Create an instance of {@link WildcardPortletTilesApplicationContext}
+ * yourself, by implementing {@link org.apache.tiles.startup.TilesInitializer}
+ * or extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
+ * overriding <code>createTilesApplicationContext</code> method.<br>
  */
 public class WildcardPortletTilesApplicationContextFactory extends
         PortletTilesApplicationContextFactory {

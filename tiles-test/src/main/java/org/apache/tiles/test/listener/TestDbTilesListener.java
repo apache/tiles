@@ -22,17 +22,17 @@ package org.apache.tiles.test.listener;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
-import org.apache.tiles.startup.BasicTilesInitializer;
+import org.apache.tiles.startup.AbstractTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
 import org.apache.tiles.test.factory.TestDbTilesContainerFactory;
-import org.apache.tiles.web.startup.TilesListener;
+import org.apache.tiles.web.startup.AbstractTilesListener;
 
 /**
  * Test Tiles listener for Tiles initialization of the db-based container.
  *
  * @version $Rev$ $Date$
  */
-public class TestDbTilesListener extends TilesListener {
+public class TestDbTilesListener extends AbstractTilesListener {
 
     /** {@inheritDoc} */
     @Override
@@ -43,7 +43,7 @@ public class TestDbTilesListener extends TilesListener {
     /**
      * Test Tiles initializer for Tiles initialization of the db-based container.
      */
-    private static class TestDbTilesInitializer extends BasicTilesInitializer {
+    private static class TestDbTilesInitializer extends AbstractTilesInitializer {
 
         /** {@inheritDoc} */
         @Override

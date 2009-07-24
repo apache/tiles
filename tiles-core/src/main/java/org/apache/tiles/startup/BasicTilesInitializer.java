@@ -22,20 +22,19 @@ package org.apache.tiles.startup;
 
 import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 
 /**
  * Default Tiles initialization delegate implementation under a servlet
  * environment. It uses init parameters to create the
- * {@link TilesApplicationContext} and the {@link TilesContainer}.
+ * {@link TilesApplicationContext} and the {@link org.apache.tiles.TilesContainer}.
  *
  * @version $Rev$ $Date$
  * @since 2.1.2
+ * @deprecated Don't use it, please extend {@link AbstractTilesInitializer}.
  */
-public class BasicTilesInitializer implements TilesInitializer {
+public class BasicTilesInitializer extends AbstractTilesInitializer {
 
     /**
      * Init parameter to define the key under which the container will be
@@ -45,14 +44,6 @@ public class BasicTilesInitializer implements TilesInitializer {
      */
     public static final String CONTAINER_KEY_INIT_PARAMETER =
         "org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY";
-
-    /** {@inheritDoc} */
-    public void initialize(TilesApplicationContext applicationContext) {
-        applicationContext = createTilesApplicationContext(applicationContext);
-        String key = getContainerKey(applicationContext);
-        TilesContainer container = createContainer(applicationContext);
-        TilesAccess.setContainer(applicationContext, container, key);
-    }
 
     /**
      * Creates the Tiles application context, to be used across all the
@@ -102,19 +93,6 @@ public class BasicTilesInitializer implements TilesInitializer {
         String key = applicationContext.getInitParams().get(
                 CONTAINER_KEY_INIT_PARAMETER);
         return key;
-    }
-
-    /**
-     * Creates a Tiles container. If you override this class, please override
-     * this method or {@link #createContainerFactory(TilesApplicationContext)}.
-     *
-     * @param context The servlet context to use.
-     * @return The created container.
-     * @since 2.1.2
-     */
-    protected TilesContainer createContainer(TilesApplicationContext context) {
-        AbstractTilesContainerFactory factory = createContainerFactory(context);
-        return factory.createContainer(context);
     }
 
     /**

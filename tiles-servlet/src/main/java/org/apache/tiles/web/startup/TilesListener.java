@@ -21,74 +21,21 @@
 package org.apache.tiles.web.startup;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.startup.BasicTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Listener for the initialization of the Tiles container.
  *
  * @version $Rev$ $Date$
+ * @deprecated Please extend {@link AbstractTilesListener}.
  */
-public class TilesListener
-    implements ServletContextListener {
-
-    /**
-     * Log instance.
-     */
-    private Logger log = LoggerFactory.getLogger(TilesListener.class);
-
-    /**
-     * The initializer object.
-     *
-     * @since 2.1.2
-     */
-    protected TilesInitializer initializer;
-
-    /**
-     * Constructor.
-     *
-     * @since 2.1.2
-     */
-    public TilesListener() {
-        initializer = createTilesInitializer();
-    }
-
-    /**
-     * Initialize the TilesContainer and place it
-     * into service.
-     *
-     * @param event The intercepted event.
-     */
-    public void contextInitialized(ServletContextEvent event) {
-        ServletContext servletContext = event.getServletContext();
-        initializer.initialize(new ServletTilesApplicationContext(
-                servletContext));
-    }
-
-    /**
-     * Remove the tiles container from service.
-     *
-     * @param event The intercepted event.
-     */
-    public void contextDestroyed(ServletContextEvent event) {
-        ServletContext servletContext = event.getServletContext();
-        try {
-            ServletUtil.setContainer(servletContext, null);
-        } catch (TilesException e) {
-            log.warn("Unable to remove tiles container from service.", e);
-        }
-    }
+public class TilesListener extends AbstractTilesListener {
 
     /**
      * Creates a new instance of {@link BasicTilesInitializer}. Override it to use a different initializer.

@@ -39,6 +39,12 @@ import org.slf4j.LoggerFactory;
  *
  * @version $Rev$ $Date$
  * @since 2.1.1
+ * @deprecated Create an instance of {@link TilesApplicationContext} yourself,
+ * by implementing {@link org.apache.tiles.startup.TilesInitializer} or
+ * extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
+ * overriding <code>createTilesApplicationContext</code> method.<br>
+ * Moreover, it does not make sense to "try" if your application is
+ * servlet-based, portlet-based, etc. You know it, right?
  */
 public class ChainedTilesApplicationContextFactory extends
         AbstractTilesApplicationContextFactory implements Initializable {

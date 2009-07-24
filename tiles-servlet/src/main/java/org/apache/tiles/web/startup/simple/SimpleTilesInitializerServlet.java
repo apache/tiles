@@ -18,27 +18,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.awareness;
 
-import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
+package org.apache.tiles.web.startup.simple;
+
+import org.apache.tiles.startup.DefaultTilesInitializer;
+import org.apache.tiles.startup.TilesInitializer;
+import org.apache.tiles.web.startup.AbstractTilesInitializerServlet;
 
 /**
- * It represents an object that can have a reference to the
- * {@link AbstractTilesApplicationContextFactoryAware}.
+ * A Tiles listener that loads Tiles in the default way.
  *
  * @version $Rev$ $Date$
- * @since 2.1.1
- * @deprecated Since {@link AbstractTilesApplicationContextFactory} is
- * deprecated, this dependency injection interface is deprecated.
+ * @since 2.2.0
  */
-public interface AbstractTilesApplicationContextFactoryAware {
+public class SimpleTilesInitializerServlet extends AbstractTilesInitializerServlet {
 
-    /**
-     * Sets the Tiles application context factory.
-     *
-     * @param contextFactory The Tiles context factory.
-     * @since 2.1.1
-     */
-    void setApplicationContextFactory(
-            AbstractTilesApplicationContextFactory contextFactory);
+    /** {@inheritDoc} */
+    @Override
+    protected TilesInitializer createTilesInitializer() {
+        return new DefaultTilesInitializer();
+    }
 }

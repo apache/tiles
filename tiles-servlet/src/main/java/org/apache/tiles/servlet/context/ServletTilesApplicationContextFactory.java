@@ -34,6 +34,10 @@ import java.util.Map;
  *
  * @version $Rev$ $Date$
  * @since 2.1.1
+ * @deprecated Create an instance of {@link ServletTilesApplicationContext}
+ * yourself, by implementing {@link org.apache.tiles.startup.TilesInitializer}
+ * or extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
+ * overriding <code>createTilesApplicationContext</code> method.<br>
  */
 public class ServletTilesApplicationContextFactory extends
         AbstractTilesApplicationContextFactory implements Initializable {

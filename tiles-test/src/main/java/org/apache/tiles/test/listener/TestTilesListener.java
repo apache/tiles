@@ -25,17 +25,17 @@ import javax.servlet.ServletContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContext;
-import org.apache.tiles.startup.BasicTilesInitializer;
+import org.apache.tiles.startup.AbstractTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
 import org.apache.tiles.test.factory.TestTilesContainerFactory;
-import org.apache.tiles.web.startup.TilesListener;
+import org.apache.tiles.web.startup.AbstractTilesListener;
 
 /**
  * Test Tiles listener for Tiles initialization of the default container.
  *
  * @version $Rev$ $Date$
  */
-public class TestTilesListener extends TilesListener {
+public class TestTilesListener extends AbstractTilesListener {
 
     /** {@inheritDoc} */
     @Override
@@ -46,7 +46,7 @@ public class TestTilesListener extends TilesListener {
     /**
      * Test Tiles initializer for Tiles initialization of the default container.
      */
-    private static class TestTilesListenerInitializer extends BasicTilesInitializer {
+    private static class TestTilesListenerInitializer extends AbstractTilesInitializer {
 
         /** {@inheritDoc} */
         @Override

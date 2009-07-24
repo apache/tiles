@@ -39,4 +39,11 @@ public interface TilesInitializer {
      * PortletTilesApplicationContext.
      */
     void initialize(TilesApplicationContext preliminaryContext);
+
+    /**
+     * Destroys the Tiles container.
+     *
+     * @since 2.2.0
+     */
+    void destroy();
 }

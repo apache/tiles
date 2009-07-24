@@ -35,6 +35,8 @@ import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
  *
  * @version $Rev$ $Date$
  * @since 2.1.1
+ * @deprecated Create an instance of
+ * {@link WildcardServletTilesApplicationContext} directly.
  */
 public class WildcardServletTilesApplicationContextFactory extends
         AbstractTilesApplicationContextFactory implements Initializable {
