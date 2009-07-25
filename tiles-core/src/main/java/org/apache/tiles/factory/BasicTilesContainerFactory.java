@@ -35,7 +35,6 @@ import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.apache.tiles.definition.Refreshable;
-import org.apache.tiles.definition.UrlDefinitionsFactory;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.definition.dao.ResolvingLocaleUrlDefinitionDAO;
@@ -196,7 +195,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Creates the definitions factory. By default it creates a
-     * {@link UrlDefinitionsFactory} with default dependencies.
+     * {@link LocaleDefinitionsFactory} with default dependencies.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param resolver The locale resolver.
@@ -231,7 +230,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     protected LocaleDefinitionsFactory instantiateDefinitionsFactory(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             LocaleResolver resolver) {
-        return new UrlDefinitionsFactory();
+        return new LocaleDefinitionsFactory();
     }
 
 

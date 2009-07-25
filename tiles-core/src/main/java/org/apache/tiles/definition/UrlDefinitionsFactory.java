@@ -40,14 +40,17 @@ import org.slf4j.LoggerFactory;
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation that manages
  * Definitions configuration data from URLs, resolving inheritance when the URL
- * is loaded. <p/>
+ * is loaded.
+ * <p/>
  * <p>
  * The Definition objects are read from the
- * {@link org.apache.tiles.definition.digester.DigesterDefinitionsReader DigesterDefinitionsReader}
- * class unless another implementation is specified.
+ * {@link org.apache.tiles.definition.digester.DigesterDefinitionsReader
+ * DigesterDefinitionsReader} class unless another implementation is specified.
  * </p>
  *
  * @version $Rev$ $Date$
+ * @deprecated Use {@link LocaleDefinitionsFactory} and using
+ * {@link ResolvingLocaleUrlDefinitionDAO} as Tiles DAO.
  */
 public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
         Refreshable {
