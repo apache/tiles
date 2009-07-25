@@ -24,8 +24,8 @@ package org.apache.tiles.template;
 import static org.junit.Assert.*;
 
 import java.util.List;
-import java.util.Stack;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.ListAttribute;
 import org.junit.Before;
@@ -56,7 +56,7 @@ public class AddListAttributeModelTest {
      */
     @Test
     public void testStart() {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         model.start(composeStack, "myRole");
         assertEquals(1, composeStack.size());
         ListAttribute listAttribute = (ListAttribute) composeStack.peek();
@@ -69,7 +69,7 @@ public class AddListAttributeModelTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testEnd() {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
         ListAttribute parent = new ListAttribute();
         composeStack.push(parent);

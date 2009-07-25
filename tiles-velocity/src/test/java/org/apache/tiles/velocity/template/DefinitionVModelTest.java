@@ -21,18 +21,19 @@
 
 package org.apache.tiles.velocity.template;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.DefinitionModel;
@@ -83,7 +84,7 @@ public class DefinitionVModelTest {
         Context velocityContext = createMock(Context.class);
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
         Map<String, Object> params = createParams();
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
 
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
@@ -108,7 +109,7 @@ public class DefinitionVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
 
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
@@ -132,7 +133,7 @@ public class DefinitionVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
 
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))

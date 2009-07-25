@@ -28,13 +28,13 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Stack;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.TilesApplicationContext;
@@ -123,7 +123,7 @@ public class InitContainerTag extends TilesBodyTag {
 
     /** {@inheritDoc} */
     public int doStartTag() {
-        Stack<Object> composeStack = JspUtil.getComposeStack(pageContext);
+        ArrayStack<Object> composeStack = JspUtil.getComposeStack(pageContext);
         composeStack.push(new BasicAttributeContext());
         return EVAL_BODY_INCLUDE;
     }
@@ -131,7 +131,7 @@ public class InitContainerTag extends TilesBodyTag {
     /** {@inheritDoc} */
     // TODO Add a MutableContainer so that this can be done?
     public int doEndTag() {
-        Stack<Object> composeStack = JspUtil.getComposeStack(pageContext);
+        ArrayStack<Object> composeStack = JspUtil.getComposeStack(pageContext);
         AttributeContext attributeContext = (AttributeContext) composeStack.pop();
 
         TilesContainer container =

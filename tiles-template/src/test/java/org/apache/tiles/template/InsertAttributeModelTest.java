@@ -21,12 +21,12 @@
 
 package org.apache.tiles.template;
 
-import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.Stack;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
@@ -61,12 +61,12 @@ public class InsertAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertAttributeModel
-     * #start(Stack, TilesContainer, boolean, String, String, Object, String,
+     * #start(ArrayStack, TilesContainer, boolean, String, String, Object, String,
      * String, String, Attribute, Object...)}.
      */
     @Test
     public void testStart() {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         TilesContainer container = createMock(TilesContainer.class);
         Integer requestItem = new Integer(1);
         Attribute attribute = new Attribute();
@@ -87,12 +87,12 @@ public class InsertAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertAttributeModel
-     * #end(Stack, TilesContainer, boolean, Object...)}.
+     * #end(ArrayStack, TilesContainer, boolean, Object...)}.
      * @throws IOException If something goes wrong.
      */
     @Test
     public void testEnd() throws IOException {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute("myValue");
         composeStack.push(attribute);
         TilesContainer container = createMock(TilesContainer.class);

@@ -23,8 +23,8 @@ package org.apache.tiles.freemarker.template;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Stack;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.template.AddAttributeModel;
 
@@ -36,8 +36,8 @@ import freemarker.template.TemplateModel;
 
 /**
  * Wraps {@link AddAttributeModel} to be used in FreeMarker. For the list of
- * parameters, see {@link AddAttributeModel#start(Stack)} and
- * {@link AddAttributeModel#end(Stack, Object, String, String, String, String)}.
+ * parameters, see {@link AddAttributeModel#start(ArrayStack)} and
+ * {@link AddAttributeModel#end(ArrayStack, Object, String, String, String, String)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -63,7 +63,7 @@ public class AddAttributeFMModel implements TemplateDirectiveModel {
     @SuppressWarnings("unchecked")
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
-        Stack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
+        ArrayStack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
         model.start(composeStack);
         String bodyString = FreeMarkerUtil.renderAsString(body);
         Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;

@@ -29,13 +29,13 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Stack;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.impl.NoSuchContainerException;
@@ -454,8 +454,9 @@ public class FreeMarkerUtilTest {
 
         expect(model.get("Request")).andReturn(requestModel).times(2);
         expect(request.getAttribute(COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(eq(COMPOSE_STACK_ATTRIBUTE_NAME), isA(Stack.class));
-        Stack<Object> myStack = new Stack<Object>();
+        request.setAttribute(eq(COMPOSE_STACK_ATTRIBUTE_NAME),
+                isA(ArrayStack.class));
+        ArrayStack<Object> myStack = new ArrayStack<Object>();
         expect(request.getAttribute(COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(myStack);
 
         replay(template, model, wrappedObj, request);

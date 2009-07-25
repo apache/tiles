@@ -22,8 +22,8 @@
 package org.apache.tiles.template;
 
 import java.io.IOException;
-import java.util.Stack;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.slf4j.Logger;
@@ -100,7 +100,7 @@ public class InsertAttributeModel {
      * @param requestItems The request objects.
      * @since 2.2.0
      */
-    public void start(Stack<Object> composeStack, TilesContainer container,
+    public void start(ArrayStack<Object> composeStack, TilesContainer container,
             boolean ignore, String preparer, String role, Object defaultValue,
             String defaultValueRole, String defaultValueType, String name,
             Attribute value, Object... requestItems) {
@@ -120,7 +120,7 @@ public class InsertAttributeModel {
      * @param requestItems The request objects.
      * @throws IOException If an I/O error happens during rendering.
      */
-    public void end(Stack<Object> composeStack, TilesContainer container,
+    public void end(ArrayStack<Object> composeStack, TilesContainer container,
             boolean ignore, Object... requestItems) throws IOException {
         Attribute attribute = (Attribute) composeStack.pop();
         renderAttribute(container, ignore, attribute, requestItems);

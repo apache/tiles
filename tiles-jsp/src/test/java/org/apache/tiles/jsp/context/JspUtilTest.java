@@ -21,13 +21,12 @@
 
 package org.apache.tiles.jsp.context;
 
-import java.util.Stack;
-
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.PageContext;
 
 import junit.framework.TestCase;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.jsp.taglib.TilesJspException;
@@ -185,7 +184,7 @@ public class JspUtilTest extends TestCase {
     public void testGetComposeStack() {
         PageContext pageContext = EasyMock.createMock(PageContext.class);
 
-        Stack<Object> stack = new Stack<Object>();
+        ArrayStack<Object> stack = new ArrayStack<Object>();
 
         EasyMock.expect(
                 pageContext.getAttribute(
@@ -197,7 +196,7 @@ public class JspUtilTest extends TestCase {
                         PageContext.REQUEST_SCOPE)).andReturn(stack);
         pageContext.setAttribute(EasyMock
                 .eq("org.apache.tiles.template.COMPOSE_STACK"), EasyMock
-                .isA(Stack.class), EasyMock.eq(PageContext.REQUEST_SCOPE));
+                .isA(ArrayStack.class), EasyMock.eq(PageContext.REQUEST_SCOPE));
 
         EasyMock.replay(pageContext);
         assertTrue(JspUtil.getComposeStack(pageContext).isEmpty());

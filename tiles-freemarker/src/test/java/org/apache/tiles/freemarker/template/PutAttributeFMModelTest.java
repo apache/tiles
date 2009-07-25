@@ -21,7 +21,7 @@
 
 package org.apache.tiles.freemarker.template;
 
-import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
 import java.io.IOException;
@@ -29,12 +29,12 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
@@ -117,7 +117,7 @@ public class PutAttributeFMModelTest {
         PutAttributeFMModel fmModel = new PutAttributeFMModel(tModel);
 
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         expect(request.getAttribute(FreeMarkerUtil.COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(composeStack);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);

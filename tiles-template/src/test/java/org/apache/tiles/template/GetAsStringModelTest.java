@@ -21,13 +21,14 @@
 
 package org.apache.tiles.template;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Stack;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
@@ -68,7 +69,7 @@ public class GetAsStringModelTest {
      */
     @Test
     public void testStart() {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         TilesContainer container = createMock(TilesContainer.class);
         Integer requestItem = new Integer(1);
         Attribute attribute = new Attribute();
@@ -95,7 +96,7 @@ public class GetAsStringModelTest {
      */
     @Test
     public void testEnd() throws IOException {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute("myValue");
         composeStack.push(attribute);
         TilesContainer container = createMock(TilesContainer.class);

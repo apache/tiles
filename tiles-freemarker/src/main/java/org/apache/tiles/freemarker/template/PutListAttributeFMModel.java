@@ -23,8 +23,8 @@ package org.apache.tiles.freemarker.template;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Stack;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.template.PutListAttributeModel;
 
@@ -37,9 +37,9 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link PutListAttributeModel} to be used in FreeMarker. For the list of
  * parameters, see
- * {@link PutListAttributeModel#start(Stack, String, boolean)}
+ * {@link PutListAttributeModel#start(ArrayStack, String, boolean)}
  * and
- * {@link PutListAttributeModel#end(org.apache.tiles.TilesContainer, Stack, String, boolean, Object...)}
+ * {@link PutListAttributeModel#end(org.apache.tiles.TilesContainer, ArrayStack, String, boolean, Object...)}
  * .
  *
  * @version $Rev$ $Date$
@@ -67,7 +67,7 @@ public class PutListAttributeFMModel implements TemplateDirectiveModel {
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
         Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-        Stack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
+        ArrayStack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
         model.start(composeStack, FreeMarkerUtil.getAsString(parms.get("role")),
                 FreeMarkerUtil.getAsBoolean(parms.get("inherit"), false));
         FreeMarkerUtil.evaluateBody(body);

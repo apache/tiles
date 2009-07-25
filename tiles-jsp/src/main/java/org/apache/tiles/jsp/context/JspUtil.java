@@ -25,13 +25,13 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.impl.NoSuchContainerException;
@@ -231,11 +231,11 @@ public final class JspUtil {
      * @since 2.2.0
      */
     @SuppressWarnings("unchecked")
-    public static Stack<Object> getComposeStack(JspContext context) {
-        Stack<Object> composeStack = (Stack<Object>) context.getAttribute(
+    public static ArrayStack<Object> getComposeStack(JspContext context) {
+        ArrayStack<Object> composeStack = (ArrayStack<Object>) context.getAttribute(
                 COMPOSE_STACK_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE);
         if (composeStack == null) {
-            composeStack = new Stack<Object>();
+            composeStack = new ArrayStack<Object>();
             context.setAttribute(COMPOSE_STACK_ATTRIBUTE_NAME, composeStack,
                     PageContext.REQUEST_SCOPE);
         }

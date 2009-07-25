@@ -21,6 +21,7 @@
 
 package org.apache.tiles.freemarker.template;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
 import java.io.IOException;
@@ -28,10 +29,10 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.template.AddListAttributeModel;
@@ -115,7 +116,7 @@ public class AddListAttributeFMModelTest {
         initEnvironment();
 
         TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("role", objectWrapper.wrap("myRole"));
 

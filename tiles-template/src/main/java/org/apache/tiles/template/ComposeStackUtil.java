@@ -21,7 +21,7 @@
 
 package org.apache.tiles.template;
 
-import java.util.Stack;
+import org.apache.tiles.ArrayStack;
 
 /**
  * Utilities to work with compose stacks.
@@ -46,7 +46,7 @@ public final class ComposeStackUtil {
      * @return The first ancestor that is assignable to the class, or null if not found.
      * @since 2.2.0
      */
-    public static Object findAncestorWithClass(Stack<Object> composeStack, Class<?> clazz) {
+    public static Object findAncestorWithClass(ArrayStack<Object> composeStack, Class<?> clazz) {
         Object retValue = null;
         for (int i = composeStack.size() - 1; i >= 0 && retValue == null; i--) {
             Object obj = composeStack.get(i);

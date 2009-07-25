@@ -21,8 +21,7 @@
 
 package org.apache.tiles.template;
 
-import java.util.Stack;
-
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Expression;
@@ -72,7 +71,7 @@ public class PutAttributeModel {
      * @param composeStack The compose stack.
      * @since 2.2.0
      */
-    public void start(Stack<Object> composeStack) {
+    public void start(ArrayStack<Object> composeStack) {
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
     }
@@ -96,7 +95,7 @@ public class PutAttributeModel {
      * @param requestItems The request objects.
      * @since 2.2.0
      */
-    public void end(TilesContainer container, Stack<Object> composeStack,
+    public void end(TilesContainer container, ArrayStack<Object> composeStack,
             String name, Object value, String expression, String body,
             String role, String type, boolean cascade, Object... requestItems) {
         Attribute attribute = (Attribute) composeStack.pop();
@@ -123,7 +122,7 @@ public class PutAttributeModel {
      * @param requestItems The request objects.
      * @since 2.2.0
      */
-    public void execute(TilesContainer container, Stack<Object> composeStack,
+    public void execute(TilesContainer container, ArrayStack<Object> composeStack,
             String name, Object value, String expression, String body,
             String role, String type, boolean cascade, Object... requestItems) {
         putAttributeInParent(new Attribute(), container, composeStack, name,
@@ -150,7 +149,7 @@ public class PutAttributeModel {
      * @param requestItems The request objects.
      */
     private void putAttributeInParent(Attribute attribute,
-            TilesContainer container, Stack<Object> composeStack, String name,
+            TilesContainer container, ArrayStack<Object> composeStack, String name,
             Object value, String expression, String body, String role,
             String type, boolean cascade, Object... requestItems) {
         AttributeContext attributeContext = null;

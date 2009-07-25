@@ -21,11 +21,10 @@
 
 package org.apache.tiles.template;
 
-import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
-import java.util.Stack;
-
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
@@ -53,11 +52,11 @@ public class PutListAttributeModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.PutListAttributeModel#start(Stack, String, boolean)}.
+     * Test method for {@link org.apache.tiles.template.PutListAttributeModel#start(ArrayStack, String, boolean)}.
      */
     @Test
     public void testStart() {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         model.start(composeStack, "myRole", false);
         assertEquals(1, composeStack.size());
         ListAttribute listAttribute = (ListAttribute) composeStack.peek();
@@ -66,13 +65,13 @@ public class PutListAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.PutListAttributeModel
-     * #end(org.apache.tiles.TilesContainer, Stack, String, boolean, Object...)}.
+     * #end(org.apache.tiles.TilesContainer, ArrayStack, String, boolean, Object...)}.
      */
     @Test
     public void testEnd() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
         Integer requestItem = new Integer(1);
         composeStack.push(listAttribute);

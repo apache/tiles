@@ -21,20 +21,21 @@
 
 package org.apache.tiles.velocity.template;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
@@ -126,8 +127,8 @@ public class GetAsStringVModelTest {
         Context velocityContext = createMock(Context.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
-        Stack<Object> composeStack = new Stack<Object>();
-        Stack<Map<String, Object>> paramStack = new Stack<Map<String, Object>>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        ArrayStack<Map<String, Object>> paramStack = new ArrayStack<Map<String, Object>>();
 
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
@@ -159,9 +160,9 @@ public class GetAsStringVModelTest {
         TilesContainer container = createMock(TilesContainer.class);
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Map<String, Object> params = createParams();
-        Stack<Map<String, Object>> paramStack = new Stack<Map<String, Object>>();
+        ArrayStack<Map<String, Object>> paramStack = new ArrayStack<Map<String, Object>>();
         paramStack.push(params);
 
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);

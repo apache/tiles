@@ -22,13 +22,13 @@
 package org.apache.tiles.servlet.context;
 
 import java.io.IOException;
-import java.util.Stack;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
@@ -255,11 +255,11 @@ public final class ServletUtil {
      * @since 2.2.0
      */
     @SuppressWarnings("unchecked")
-    public static Stack<Object> getComposeStack(HttpServletRequest request) {
-        Stack<Object> composeStack = (Stack<Object>) request.getAttribute(
+    public static ArrayStack<Object> getComposeStack(HttpServletRequest request) {
+        ArrayStack<Object> composeStack = (ArrayStack<Object>) request.getAttribute(
                 COMPOSE_STACK_ATTRIBUTE_NAME);
         if (composeStack == null) {
-            composeStack = new Stack<Object>();
+            composeStack = new ArrayStack<Object>();
             request.setAttribute(COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
         }
         return composeStack;

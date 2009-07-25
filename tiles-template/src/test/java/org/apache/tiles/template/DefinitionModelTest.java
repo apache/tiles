@@ -21,11 +21,10 @@
 
 package org.apache.tiles.template;
 
-import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
-import java.util.Stack;
-
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.mgmt.MutableTilesContainer;
@@ -59,7 +58,7 @@ public class DefinitionModelTest {
      */
     @Test
     public void testStart() {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         model.start(composeStack, "myName", "myTemplate", "myRole", "myExtends", "myPreparer");
         assertEquals(1, composeStack.size());
         Definition definition = (Definition) composeStack.peek();
@@ -76,7 +75,7 @@ public class DefinitionModelTest {
     @Test
     public void testEnd() {
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Definition definition = new Definition();
         composeStack.push(definition);
         Integer requestItem = new Integer(1);
@@ -95,7 +94,7 @@ public class DefinitionModelTest {
     @Test
     public void testEndInAttribute() {
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
         Definition definition = new Definition();
@@ -121,7 +120,7 @@ public class DefinitionModelTest {
     @Test
     public void testExecute() {
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
         Integer requestItem = new Integer(1);

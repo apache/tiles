@@ -21,8 +21,7 @@
 
 package org.apache.tiles.template;
 
-import java.util.Stack;
-
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.mgmt.MutableTilesContainer;
@@ -53,7 +52,7 @@ public class DefinitionModel {
      * @param preparer The preparer to use to invoke before the definition is rendered.
      * @since 2.2.0
      */
-    public void start(Stack<Object> composeStack, String name, String template,
+    public void start(ArrayStack<Object> composeStack, String name, String template,
             String role, String extendsParam, String preparer) {
         Definition definition = createDefinition(name, template, role,
                 extendsParam, preparer);
@@ -69,7 +68,7 @@ public class DefinitionModel {
      * @since 2.2.0
      */
     public void end(MutableTilesContainer container,
-            Stack<Object> composeStack, Object... requestItems) {
+            ArrayStack<Object> composeStack, Object... requestItems) {
         Definition definition = (Definition) composeStack.pop();
         registerDefinition(definition, container, composeStack, requestItems);
     }
@@ -89,7 +88,7 @@ public class DefinitionModel {
      * @since 2.2.0
      */
     public void execute(MutableTilesContainer container,
-            Stack<Object> composeStack, String name, String template,
+            ArrayStack<Object> composeStack, String name, String template,
             String role, String extendsParam, String preparer,
             Object... requestItems) {
         Definition definition = createDefinition(name, template, role,
@@ -130,7 +129,7 @@ public class DefinitionModel {
      * @param requestItems The request object.
      */
     private void registerDefinition(Definition definition,
-            MutableTilesContainer container, Stack<Object> composeStack,
+            MutableTilesContainer container, ArrayStack<Object> composeStack,
             Object... requestItems) {
         container.register(definition, requestItems);
 

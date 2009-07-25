@@ -21,17 +21,18 @@
 
 package org.apache.tiles.velocity.template;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.PutListAttributeModel;
@@ -85,8 +86,8 @@ public class PutListAttributeVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
-        Stack<Object> composeStack = new Stack<Object>();
-        Stack<Map<String, Object>> parameterMapStack = new Stack<Map<String, Object>>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
 
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
@@ -112,9 +113,9 @@ public class PutListAttributeVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         TilesContainer container = createMock(TilesContainer.class);
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Map<String, Object> params = createParams();
-        Stack<Map<String, Object>> parameterMapStack = new Stack<Map<String, Object>>();
+        ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
         parameterMapStack.push(params);
 
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))

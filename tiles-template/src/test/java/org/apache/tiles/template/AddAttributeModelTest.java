@@ -25,8 +25,8 @@ import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
-import java.util.Stack;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.ListAttribute;
 import org.junit.Before;
@@ -56,7 +56,7 @@ public class AddAttributeModelTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testStart() {
-        Stack<Object> composeStack = createMock(Stack.class);
+        ArrayStack<Object> composeStack = createMock(ArrayStack.class);
         Attribute attribute = new Attribute();
 
         expect(composeStack.push(isA(Attribute.class))).andReturn(attribute);
@@ -75,7 +75,7 @@ public class AddAttributeModelTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testEnd() {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
         Attribute attribute = new Attribute();
         composeStack.push(listAttribute);
@@ -90,7 +90,7 @@ public class AddAttributeModelTest {
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
 
-        composeStack = new Stack<Object>();
+        composeStack = new ArrayStack<Object>();
         listAttribute = new ListAttribute();
         attribute = new Attribute();
         composeStack.push(listAttribute);
@@ -114,7 +114,7 @@ public class AddAttributeModelTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testExecute() {
-        Stack<Object> composeStack = new Stack<Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
         Attribute attribute;
         composeStack.push(listAttribute);
@@ -129,7 +129,7 @@ public class AddAttributeModelTest {
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
 
-        composeStack = new Stack<Object>();
+        composeStack = new ArrayStack<Object>();
         listAttribute = new ListAttribute();
         attribute = new Attribute();
         composeStack.push(listAttribute);

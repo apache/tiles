@@ -21,8 +21,7 @@
 
 package org.apache.tiles.template;
 
-import java.util.Stack;
-
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
@@ -53,7 +52,7 @@ public class PutListAttributeModel {
      * attribute of the parent definition will be extended.
      * @since 2.2.0
      */
-    public void start(Stack<Object> composeStack, String role, boolean inherit) {
+    public void start(ArrayStack<Object> composeStack, String role, boolean inherit) {
         ListAttribute listAttribute = new ListAttribute();
         listAttribute.setRole(role);
         listAttribute.setInherit(inherit);
@@ -70,7 +69,7 @@ public class PutListAttributeModel {
      * @param requestItems The request objects.
      * @since 2.2.0
      */
-    public void end(TilesContainer container, Stack<Object> composeStack,
+    public void end(TilesContainer container, ArrayStack<Object> composeStack,
             String name, boolean cascade, Object... requestItems) {
         ListAttribute listAttribute = (ListAttribute) composeStack.pop();
         AttributeContext attributeContext = null;

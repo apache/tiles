@@ -21,8 +21,7 @@
 
 package org.apache.tiles.template;
 
-import java.util.Stack;
-
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.ListAttribute;
@@ -50,7 +49,7 @@ public class AddAttributeModel {
      * @param composeStack The composing stack.
      * @since 2.2.0
      */
-    public void start(Stack<Object> composeStack) {
+    public void start(ArrayStack<Object> composeStack) {
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
     }
@@ -70,7 +69,7 @@ public class AddAttributeModel {
      * @param type The type (renderer) of the attribute.
      * @since 2.2.0
      */
-    public void end(Stack<Object> composeStack, Object value,
+    public void end(ArrayStack<Object> composeStack, Object value,
             String expression, String body, String role, String type) {
         Attribute attribute = (Attribute) composeStack.pop();
         addAttributeToList(attribute, composeStack, value, expression, body,
@@ -92,7 +91,7 @@ public class AddAttributeModel {
      * @param type The type (renderer) of the attribute.
      * @since 2.2.0
      */
-    public void execute(Stack<Object> composeStack, Object value,
+    public void execute(ArrayStack<Object> composeStack, Object value,
             String expression, String body, String role, String type) {
         addAttributeToList(new Attribute(), composeStack, value, expression,
                 body, role, type);
@@ -115,7 +114,7 @@ public class AddAttributeModel {
      * @since 2.2.0
      */
     private void addAttributeToList(Attribute attribute,
-            Stack<Object> composeStack, Object value, String expression,
+            ArrayStack<Object> composeStack, Object value, String expression,
             String body, String role, String type) {
         ListAttribute listAttribute = (ListAttribute) ComposeStackUtil
                 .findAncestorWithClass(composeStack, ListAttribute.class);

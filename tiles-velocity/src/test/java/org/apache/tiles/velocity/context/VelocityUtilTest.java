@@ -27,12 +27,12 @@ import static org.easymock.EasyMock.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.velocity.context.Context;
 import org.junit.Test;
 
@@ -74,16 +74,17 @@ public class VelocityUtilTest {
         Context velocityContext = createMock(Context.class);
 
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(null);
-        expect(velocityContext.put(eq(PARAMETER_MAP_STACK_KEY), isA(Stack.class))).andReturn(null);
+        expect(velocityContext.put(eq(PARAMETER_MAP_STACK_KEY),
+                isA(ArrayStack.class))).andReturn(null);
         replay(velocityContext);
-        Stack<Map<String, Object>> paramStack = getParameterStack(velocityContext);
+        ArrayStack<Map<String, Object>> paramStack = getParameterStack(velocityContext);
         assertNotNull(paramStack);
         assertEquals(0, paramStack.size());
         verify(velocityContext);
 
         reset(velocityContext);
 
-        paramStack = new Stack<Map<String, Object>>();
+        paramStack = new ArrayStack<Map<String, Object>>();
         paramStack.push(new HashMap<String, Object>());
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
 

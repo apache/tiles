@@ -25,9 +25,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.BasicAttributeContext;
@@ -462,12 +462,12 @@ public class BasicTilesContainer implements TilesContainer,
      * @since 2.0.6
      */
     @SuppressWarnings("unchecked")
-    protected Stack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
-        Stack<AttributeContext> contextStack =
-            (Stack<AttributeContext>) tilesContext
+    protected ArrayStack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
+        ArrayStack<AttributeContext> contextStack =
+            (ArrayStack<AttributeContext>) tilesContext
                 .getRequestScope().get(ATTRIBUTE_CONTEXT_STACK);
         if (contextStack == null) {
-            contextStack = new Stack<AttributeContext>();
+            contextStack = new ArrayStack<AttributeContext>();
             tilesContext.getRequestScope().put(ATTRIBUTE_CONTEXT_STACK,
                     contextStack);
         }
@@ -484,7 +484,7 @@ public class BasicTilesContainer implements TilesContainer,
      */
     protected void pushContext(AttributeContext context,
             TilesRequestContext tilesContext) {
-        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
+        ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
         contextStack.push(context);
     }
 
@@ -496,7 +496,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @since 2.0.6
      */
     protected AttributeContext popContext(TilesRequestContext tilesContext) {
-        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
+        ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
         return contextStack.pop();
     }
 
@@ -508,7 +508,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @since 2.0.6
      */
     protected AttributeContext getContext(TilesRequestContext tilesContext) {
-        Stack<AttributeContext> contextStack = getContextStack(tilesContext);
+        ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
         if (!contextStack.isEmpty()) {
             return contextStack.peek();
         } else {
@@ -550,7 +550,7 @@ public class BasicTilesContainer implements TilesContainer,
      */
     private AttributeContext startContext(TilesRequestContext tilesContext) {
         AttributeContext context = new BasicAttributeContext();
-        Stack<AttributeContext>  stack = getContextStack(tilesContext);
+        ArrayStack<AttributeContext>  stack = getContextStack(tilesContext);
         if (!stack.isEmpty()) {
             AttributeContext parent = stack.peek();
             context.inheritCascadedAttributes(parent);

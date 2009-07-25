@@ -24,11 +24,11 @@ package org.apache.tiles.velocity.context;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
@@ -97,11 +97,11 @@ public final class VelocityUtil {
      * @since 2.2.0
      */
     @SuppressWarnings("unchecked")
-    public static Stack<Map<String, Object>> getParameterStack(Context context) {
-        Stack<Map<String, Object>> stack = (Stack<Map<String, Object>>) context
+    public static ArrayStack<Map<String, Object>> getParameterStack(Context context) {
+        ArrayStack<Map<String, Object>> stack = (ArrayStack<Map<String, Object>>) context
                 .get(PARAMETER_MAP_STACK_KEY);
         if (stack == null) {
-            stack = new Stack<Map<String, Object>>();
+            stack = new ArrayStack<Map<String, Object>>();
             context.put(PARAMETER_MAP_STACK_KEY, stack);
         }
         return stack;

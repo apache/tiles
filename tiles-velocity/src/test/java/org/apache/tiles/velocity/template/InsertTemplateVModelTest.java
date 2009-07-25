@@ -21,20 +21,21 @@
 
 package org.apache.tiles.velocity.template;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertTemplateModel;
@@ -118,7 +119,7 @@ public class InsertTemplateVModelTest {
         Context velocityContext = createMock(Context.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
-        Stack<Map<String, Object>> paramStack = new Stack<Map<String, Object>>();
+        ArrayStack<Map<String, Object>> paramStack = new ArrayStack<Map<String, Object>>();
 
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
@@ -147,7 +148,7 @@ public class InsertTemplateVModelTest {
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
         Map<String, Object> params = createParams();
-        Stack<Map<String, Object>> paramStack = new Stack<Map<String, Object>>();
+        ArrayStack<Map<String, Object>> paramStack = new ArrayStack<Map<String, Object>>();
         paramStack.push(params);
 
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);

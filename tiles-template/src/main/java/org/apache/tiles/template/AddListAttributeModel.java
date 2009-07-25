@@ -21,8 +21,7 @@
 
 package org.apache.tiles.template;
 
-import java.util.Stack;
-
+import org.apache.tiles.ArrayStack;
 import org.apache.tiles.ListAttribute;
 
 /**
@@ -48,7 +47,7 @@ public class AddListAttributeModel {
      * will be rendered only if the current user belongs to one of the roles.
      * @since 2.2.0
      */
-    public void start(Stack<Object> composeStack, String role) {
+    public void start(ArrayStack<Object> composeStack, String role) {
         ListAttribute listAttribute = new ListAttribute();
         listAttribute.setRole(role);
         composeStack.push(listAttribute);
@@ -60,7 +59,7 @@ public class AddListAttributeModel {
      * @param composeStack The composing stack.
      * @since 2.2.0
      */
-    public void end(Stack<Object> composeStack) {
+    public void end(ArrayStack<Object> composeStack) {
         ListAttribute listAttribute = (ListAttribute) composeStack.pop();
         ListAttribute parent = (ListAttribute) composeStack.peek();
         parent.add(listAttribute);
