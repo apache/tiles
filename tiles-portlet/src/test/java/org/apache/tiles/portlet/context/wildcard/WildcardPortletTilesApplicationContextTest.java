@@ -50,7 +50,7 @@ public class WildcardPortletTilesApplicationContextTest extends TestCase {
     /**
      * Number of test classes.
      */
-    private static final int TEST_TEST_SIZE = 2;
+    private static final int TEST_TEST_SIZE = 1;
 
     /**
      * The root Tiles application context.
