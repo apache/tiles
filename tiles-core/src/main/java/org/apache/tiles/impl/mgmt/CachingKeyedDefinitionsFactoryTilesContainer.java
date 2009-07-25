@@ -37,6 +37,10 @@ import org.apache.tiles.mgmt.MutableTilesContainer;
  * is not found in cache, it will revert back to it's definitions factory.
  *
  * @version $Rev$ $Date$
+ * @deprecated Register different containers using
+ * {@link org.apache.tiles.access.TilesAccess#setContainer(
+ * org.apache.tiles.TilesApplicationContext, org.apache.tiles.TilesContainer, String)}
+ * and using {@link CachingTilesContainer} as container implementation.
  */
 public class CachingKeyedDefinitionsFactoryTilesContainer extends
         KeyedDefinitionsFactoryTilesContainer implements MutableTilesContainer {

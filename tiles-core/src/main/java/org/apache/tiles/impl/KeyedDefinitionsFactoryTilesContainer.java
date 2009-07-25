@@ -33,6 +33,9 @@ import org.apache.tiles.definition.DefinitionsFactory;
  * instances mapped to different keys.
  *
  * @version $Rev$ $Date$
+ * @deprecated Register different containers using
+ * {@link org.apache.tiles.access.TilesAccess#setContainer(
+ * org.apache.tiles.TilesApplicationContext, org.apache.tiles.TilesContainer, String)}
  */
 public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
 
