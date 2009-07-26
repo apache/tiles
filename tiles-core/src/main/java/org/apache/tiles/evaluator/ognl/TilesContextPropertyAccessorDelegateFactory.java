@@ -25,8 +25,9 @@ import java.util.Map;
 
 import ognl.PropertyAccessor;
 
+import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.evaluator.el.TilesRequestContextBeanInfo;
+import org.apache.tiles.util.CombinedBeanInfo;
 
 /**
  * Decides the appropriate {@link PropertyAccessor} for the given property name
@@ -68,7 +69,7 @@ public class TilesContextPropertyAccessorDelegateFactory implements
      * The bean info of {@link TilesRequestContext} and
      * {@link org.apache.tiles.TilesApplicationContext}.
      */
-    private TilesRequestContextBeanInfo beanInfo;
+    private CombinedBeanInfo beanInfo;
 
     /**
      * Constructor.
@@ -89,7 +90,7 @@ public class TilesContextPropertyAccessorDelegateFactory implements
             PropertyAccessor requestScopePropertyAccessor,
             PropertyAccessor sessionScopePropertyAccessor,
             PropertyAccessor applicationScopePropertyAccessor) {
-        beanInfo = new TilesRequestContextBeanInfo();
+        beanInfo = new CombinedBeanInfo(TilesRequestContext.class, TilesApplicationContext.class);
         this.objectPropertyAccessor = objectPropertyAccessor;
         this.applicationContextPropertyAccessor = applicationContextPropertyAccessor;
         this.requestScopePropertyAccessor = requestScopePropertyAccessor;
@@ -101,10 +102,11 @@ public class TilesContextPropertyAccessorDelegateFactory implements
     public PropertyAccessor getPropertyAccessor(String propertyName,
             TilesRequestContext request) {
         PropertyAccessor retValue;
-        if (beanInfo.getRequestDescriptors().containsKey(propertyName)) {
+        if (beanInfo.getMappedDescriptors(TilesRequestContext.class)
+                .containsKey(propertyName)) {
             retValue = objectPropertyAccessor;
-        } else if (beanInfo.getApplicationDescriptors().containsKey(
-                propertyName)) {
+        } else if (beanInfo.getMappedDescriptors(TilesApplicationContext.class)
+                .containsKey(propertyName)) {
             retValue = applicationContextPropertyAccessor;
         } else {
             Map<String, Object> scopeMap = request.getRequestScope();

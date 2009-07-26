@@ -28,6 +28,7 @@ import javax.el.ELContext;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.util.CombinedBeanInfo;
 
 /**
  * Resolves properties of {@link TilesRequestContext} and
@@ -41,7 +42,8 @@ public class TilesContextELResolver extends BeanELResolver {
     /**
      * The beaninfos about {@link TilesRequestContext} and {@link TilesApplicationContext}.
      */
-    private TilesRequestContextBeanInfo requestBeanInfo = new TilesRequestContextBeanInfo();
+    private CombinedBeanInfo requestBeanInfo = new CombinedBeanInfo(
+            TilesRequestContext.class, TilesApplicationContext.class);
 
     /** {@inheritDoc} */
     @Override
@@ -75,11 +77,11 @@ public class TilesContextELResolver extends BeanELResolver {
         }
 
         Class<?> retValue = null;
-        if (requestBeanInfo.getRequestProperties().contains(property)) {
+        if (requestBeanInfo.getProperties(TilesRequestContext.class).contains(property)) {
             TilesRequestContext request = (TilesRequestContext) context
                     .getContext(TilesRequestContext.class);
             retValue = super.getType(context, request, property);
-        } else if (requestBeanInfo.getApplicationProperties().contains(property)) {
+        } else if (requestBeanInfo.getProperties(TilesApplicationContext.class).contains(property)) {
             TilesApplicationContext applicationContext = (TilesApplicationContext) context
                     .getContext(TilesApplicationContext.class);
             retValue = super.getType(context, applicationContext, property);
@@ -102,11 +104,12 @@ public class TilesContextELResolver extends BeanELResolver {
 
         Object retValue = null;
 
-        if (requestBeanInfo.getRequestProperties().contains(property)) {
+        if (requestBeanInfo.getProperties(TilesRequestContext.class).contains(property)) {
             TilesRequestContext request = (TilesRequestContext) context
                     .getContext(TilesRequestContext.class);
             retValue = super.getValue(context, request, property);
-        } else if (requestBeanInfo.getApplicationProperties().contains(property)) {
+        } else if (requestBeanInfo.getProperties(TilesApplicationContext.class)
+                .contains(property)) {
             TilesApplicationContext applicationContext = (TilesApplicationContext) context
                     .getContext(TilesApplicationContext.class);
             retValue = super.getValue(context, applicationContext, property);

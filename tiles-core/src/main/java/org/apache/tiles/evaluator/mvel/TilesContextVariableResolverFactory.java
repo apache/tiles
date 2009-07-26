@@ -26,9 +26,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextHolder;
-import org.apache.tiles.evaluator.el.TilesRequestContextBeanInfo;
 import org.apache.tiles.reflect.CannotAccessMethodException;
+import org.apache.tiles.util.CombinedBeanInfo;
 import org.mvel2.integration.VariableResolver;
 import org.mvel2.integration.impl.BaseVariableResolverFactory;
 
@@ -51,7 +53,8 @@ public class TilesContextVariableResolverFactory extends
      * Beaninfo about {@link org.apache.tiles.context.TilesRequestContext} and
      * {@link org.apache.tiles.TilesApplicationContext}.
      */
-    private TilesRequestContextBeanInfo requestBeanInfo = new TilesRequestContextBeanInfo();
+    private CombinedBeanInfo requestBeanInfo = new CombinedBeanInfo(
+            TilesRequestContext.class, TilesApplicationContext.class);
 
     /**
      * Constructor.
@@ -62,11 +65,13 @@ public class TilesContextVariableResolverFactory extends
     public TilesContextVariableResolverFactory(TilesRequestContextHolder requestHolder) {
         this.requestHolder = requestHolder;
         variableResolvers = new HashMap<String, VariableResolver>();
-        for (PropertyDescriptor descriptor : requestBeanInfo.getRequestDescriptors().values()) {
+        for (PropertyDescriptor descriptor : requestBeanInfo
+                .getMappedDescriptors(TilesRequestContext.class).values()) {
             String descriptorName = descriptor.getName();
             variableResolvers.put(descriptorName, new RequestVariableResolver(descriptorName));
         }
-        for (PropertyDescriptor descriptor : requestBeanInfo.getApplicationDescriptors().values()) {
+        for (PropertyDescriptor descriptor : requestBeanInfo
+                .getMappedDescriptors(TilesApplicationContext.class).values()) {
             String descriptorName = descriptor.getName();
             variableResolvers.put(descriptorName, new ApplicationVariableResolver(descriptorName));
         }
@@ -128,7 +133,8 @@ public class TilesContextVariableResolverFactory extends
          */
         public RequestVariableResolver(String name) {
             this.name = name;
-            descriptor = requestBeanInfo.getRequestDescriptors().get(name);
+            descriptor = requestBeanInfo.getMappedDescriptors(
+                    TilesRequestContext.class).get(name);
         }
 
         /** {@inheritDoc} */
@@ -211,7 +217,8 @@ public class TilesContextVariableResolverFactory extends
          */
         public ApplicationVariableResolver(String name) {
             this.name = name;
-            descriptor = requestBeanInfo.getApplicationDescriptors().get(name);
+            descriptor = requestBeanInfo.getMappedDescriptors(
+                    TilesApplicationContext.class).get(name);
         }
 
         /** {@inheritDoc} */
