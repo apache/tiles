@@ -91,11 +91,8 @@
     <a href="testinsertnestedlistdefinition.jsp">Test Insert Nested List Definition</a><br/>
     <a href="testinsertnestedlistdefinition_tags.jsp">Test Insert Nested List Definition only using JSP tags</a><br/>
     <a href="testinsertdefinition_el.jsp">Test Insert Configured Definition with EL</a><br/>
-    <a href="testinsertdefinition_mvel.jsp">Test Insert Configured Definition with MVEL</a><br/>
-    <a href="testinsertdefinition_ognl.jsp">Test Insert Configured Definition with OGNL</a><br/>
     <a href="testinsertdefinition_el_singleeval.jsp">Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
     <a href="testinsertdefinition_wildcard.jsp">Test Insert Configured Definition with Wildcards</a><br/>
-    <a href="testinsertdefinition_regexp.jsp">Test Insert Configured Definition with Regular Expression</a><br/>
     <a href="testinsertdefinition_defaultvalues.jsp">Test Insert Configured Definition with Default Values</a><br/>
     <a href="testput_cascaded.jsp">Test Put Tag with Cascaded Attributes</a><br/>
     <a href="testput_cascaded_overridden.jsp">Test Put Tag with Overridden Cascaded Attributes</a><br/>
@@ -115,6 +112,13 @@
     <a href="testinsertdefinition_db.jsp">Test Insert Configured Definition from DB</a><br/>
     <a href="testinsertdefinition_extended_db.jsp">Test Insert Extended Configured Definition from DB</a><br/>
     <a href="selectlocale_db.jsp">Test Localization from DB</a><br/>
+
+    <h2>Features in Tiles 2.2.x</h2>
+
+    <h3>Standard Render/Attribute Tests</h3>
+    <a href="testinsertdefinition_mvel.jsp">Test Insert Configured Definition with MVEL</a><br/>
+    <a href="testinsertdefinition_ognl.jsp">Test Insert Configured Definition with OGNL</a><br/>
+    <a href="testinsertdefinition_regexp.jsp">Test Insert Configured Definition with Regular Expression</a><br/>
 
 	<h1>FreeMarker-based tests</h1>
 
@@ -176,11 +180,8 @@
     <a href="freemarker/testinsertnestedlistdefinition.ftl">FreeMarker: Test Insert Nested List Definition</a><br/>
     <a href="freemarker/testinsertnestedlistdefinition_tags.ftl">FreeMarker: Test Insert Nested List Definition only using JSP tags</a><br/>
     <a href="freemarker/testinsertdefinition_el.ftl">FreeMarker: Test Insert Configured Definition with EL</a><br/>
-    <a href="freemarker/testinsertdefinition_mvel.ftl">FreeMarker: Test Insert Configured Definition with MVEL</a><br/>
-    <a href="freemarker/testinsertdefinition_ognl.ftl">FreeMarker: Test Insert Configured Definition with OGNL</a><br/>
     <a href="freemarker/testinsertdefinition_el_singleeval.ftl">FreeMarker: Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
     <a href="freemarker/testinsertdefinition_wildcard.ftl">FreeMarker: Test Insert Configured Definition with Wildcards</a><br/>
-    <a href="freemarker/testinsertdefinition_regexp.ftl">FreeMarker: Test Insert Configured Definition with Regular Expression</a><br/>
     <a href="freemarker/testinsertdefinition_defaultvalues.ftl">FreeMarker: Test Insert Configured Definition with Default Values</a><br/>
     <a href="freemarker/testput_cascaded.ftl">FreeMarker: Test Put Tag with Cascaded Attributes</a><br/>
     <a href="freemarker/testput_cascaded_overridden.ftl">FreeMarker: Test Put Tag with Overridden Cascaded Attributes</a><br/>
@@ -200,6 +201,12 @@
     <a href="freemarker/testinsertdefinition_db.ftl">FreeMarker: Test Insert Configured Definition from DB</a><br/>
     <a href="freemarker/testinsertdefinition_extended_db.ftl">FreeMarker: Test Insert Extended Configured Definition from DB</a><br/>
 
+    <h2>Features in Tiles 2.2.x</h2>
+
+    <h3>Standard Render/Attribute Tests</h3>
+    <a href="freemarker/testinsertdefinition_mvel.ftl">FreeMarker: Test Insert Configured Definition with MVEL</a><br/>
+    <a href="freemarker/testinsertdefinition_ognl.ftl">FreeMarker: Test Insert Configured Definition with OGNL</a><br/>
+    <a href="freemarker/testinsertdefinition_regexp.ftl">FreeMarker: Test Insert Configured Definition with Regular Expression</a><br/>
 
     <h1>Velocity-based tests</h1>
 
@@ -261,11 +268,8 @@
     <a href="velocity/testinsertnestedlistdefinition.vm">Velocity: Test Insert Nested List Definition</a><br/>
     <a href="velocity/testinsertnestedlistdefinition_tags.vm">Velocity: Test Insert Nested List Definition only using JSP tags</a><br/>
     <a href="velocity/testinsertdefinition_el.vm">Velocity: Test Insert Configured Definition with EL</a><br/>
-    <a href="velocity/testinsertdefinition_mvel.vm">Velocity: Test Insert Configured Definition with MVEL</a><br/>
-    <a href="velocity/testinsertdefinition_ognl.vm">Velocity: Test Insert Configured Definition with OGNL</a><br/>
     <a href="velocity/testinsertdefinition_el_singleeval.vm">Velocity: Test Insert Configured Definition with EL to test Single Evaluation</a><br/>
     <a href="velocity/testinsertdefinition_wildcard.vm">Velocity: Test Insert Configured Definition with Wildcards</a><br/>
-    <a href="velocity/testinsertdefinition_regexp.vm">Velocity: Test Insert Configured Definition with Regular Expression</a><br/>
     <a href="velocity/testinsertdefinition_defaultvalues.vm">Velocity: Test Insert Configured Definition with Default Values</a><br/>
     <a href="velocity/testput_cascaded.vm">Velocity: Test Put Tag with Cascaded Attributes</a><br/>
     <a href="velocity/testput_cascaded_overridden.vm">Velocity: Test Put Tag with Overridden Cascaded Attributes</a><br/>
@@ -284,5 +288,12 @@
     <h3>Database Verification tests</h3>
     <a href="velocity/testinsertdefinition_db.vm">Velocity: Test Insert Configured Definition from DB</a><br/>
     <a href="velocity/testinsertdefinition_extended_db.vm">Velocity: Test Insert Extended Configured Definition from DB</a><br/>
+
+    <h2>Features in Tiles 2.2.x</h2>
+
+    <h3>Standard Render/Attribute Tests</h3>
+    <a href="velocity/testinsertdefinition_mvel.vm">Velocity: Test Insert Configured Definition with MVEL</a><br/>
+    <a href="velocity/testinsertdefinition_ognl.vm">Velocity: Test Insert Configured Definition with OGNL</a><br/>
+    <a href="velocity/testinsertdefinition_regexp.vm">Velocity: Test Insert Configured Definition with Regular Expression</a><br/>
 
 </html>
