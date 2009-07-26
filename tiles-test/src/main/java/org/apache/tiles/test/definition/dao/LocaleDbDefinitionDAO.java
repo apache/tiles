@@ -183,27 +183,6 @@ public class LocaleDbDefinitionDAO extends JdbcDaoSupport implements
         }
 
         /**
-         * Copy constructor.
-         *
-         * @param definition The definition to copy from.
-         */
-        public DbDefinition(Definition definition) {
-            super(definition);
-        }
-
-        /**
-         * Constructor.
-         *
-         * @param name The name of the definition.
-         * @param template The template on which the definition is based.
-         * @param attributes The attributes of the definition.
-         */
-        public DbDefinition(String name, String template,
-                Map<String, Attribute> attributes) {
-            super(name, Attribute.createTemplateAttribute(template), attributes);
-        }
-
-        /**
          * Returns the Id of the definition.
          *
          * @return The id.
