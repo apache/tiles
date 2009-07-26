@@ -28,13 +28,13 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.impl.InvalidTemplateException;
 import org.apache.tiles.renderer.impl.AbstractBaseAttributeRenderer;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.util.IteratorEnumeration;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.JeeConfig;

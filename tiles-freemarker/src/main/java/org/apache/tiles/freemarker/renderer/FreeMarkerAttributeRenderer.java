@@ -32,7 +32,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
@@ -42,6 +41,7 @@ import org.apache.tiles.renderer.impl.AbstractBaseAttributeRenderer;
 import org.apache.tiles.servlet.context.ExternalWriterHttpServletResponse;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.util.IteratorEnumeration;
 
 /**
  * FreeMarker renderer for rendering FreeMarker templates as Tiles attributes.
