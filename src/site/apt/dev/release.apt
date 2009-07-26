@@ -28,17 +28,17 @@ Tiles Release Process
 Prerequisites
 
   To create a release you have to install:
-  
+
   * {{{http://java.sun.com/j2se/1.5.0/}Java 5.0}}. If you are using a newer
   version of Java, it is suggested to <<change JAVA_HOME environment variable>>
   when calling Maven, so it points to an instance of Java 5.0;
-  
+
   * {{{http://maven.apache.org/}Maven 2}};
-  
+
   * {{{http://www.gnupg.org/}GnuPG}};
-  
+
   * {{{http://www.openssh.com/}OpenSSH}};
-  
+
   * {{{http://www.graphviz.org/}GraphViz}}: use version 2.8. See
   {{{building.html}building Tiles}} for the reason of not using the latest
   version.
@@ -117,7 +117,7 @@ mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
   To perform the release, i.e. creating and deploying Maven artifacts, use:
 
 -----------------------------------
-mvn -Prelease -Darguments="-Prelease,j4" release:perform
+mvn -Prelease -Darguments="-Prelease" release:perform
 -----------------------------------
 
 * Digest and upload assemblies
@@ -142,7 +142,7 @@ done
 -----------------------------------
 
   * Upload everything to the build site:
-  
+
 -----------------------------------
 scp * user@people.apache.org:/www/people.apache.org/builds/tiles/${version}
 -----------------------------------
@@ -150,9 +150,9 @@ scp * user@people.apache.org:/www/people.apache.org/builds/tiles/${version}
 * Release the JIRA version
 
   * In JIRA go to the version that you want to release and release it.
-  
+
   * Create a new version, if it has not been done before.
-  
+
   * Create the release notes and <<write down the link>> that it uses.
 
 * Send announcement for the test build

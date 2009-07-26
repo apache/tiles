@@ -46,8 +46,6 @@
                 <exclude>commons-logging:commons-logging-api</exclude>
                 <exclude>commons-beanutils:commons-beanutils</exclude>
                 <exclude>commons-digester:commons-digester</exclude>
-                <exclude>net.sf.retrotranslator:retrotranslator-runtime</exclude>
-                <exclude>backport-util-concurrent:backport-util-concurrent</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
@@ -61,9 +59,6 @@
                 <include>org.apache.tiles:tiles-portlet</include>
                 <include>org.apache.tiles:tiles-compat</include>
             </includes>
-            <excludes>
-                <exclude>*:j4</exclude>
-            </excludes>
         </dependencySet>
         <dependencySet>
             <outputDirectory>/examples</outputDirectory>
