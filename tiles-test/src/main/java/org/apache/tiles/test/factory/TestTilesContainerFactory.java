@@ -70,9 +70,9 @@ import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
+import org.apache.tiles.jsp.evaluator.el.JspExpressionFactoryFactory;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
-import org.apache.tiles.test.evaluator.el.MultiversionExpressionFactoryFactory;
 import org.apache.tiles.test.exception.TilesTestRuntimeException;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
@@ -193,7 +193,7 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
             TilesApplicationContext applicationContext) {
         ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
         evaluator.setApplicationContext(applicationContext);
-        MultiversionExpressionFactoryFactory efFactory = new MultiversionExpressionFactoryFactory();
+        JspExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();
         efFactory.setApplicationContext(applicationContext);
         evaluator.setExpressionFactory(efFactory.getExpressionFactory());
         ELResolver elResolver = new CompositeELResolver() {

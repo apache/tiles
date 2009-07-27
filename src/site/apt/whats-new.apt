@@ -49,6 +49,14 @@ What's new in Tiles 2.2
   {{{tutorial/configuration.html}configuration}} page to know how to configure
   Tiles with Java.
 
+* Removals in Tiles 2.2
+
+  * Support of retrotranslated packages to be compatible with Java 1.4. It is possible,
+  though, to retrotranslate the packages manually.
+
+  * Support for Servlets 2.4 and JSP 2.0 when creating <<<ELAttributeEvaluator>>>.
+  {{{tutorial/advanced/el-support.html}It is still possible to use it manually}}.
+
 * New features in Tiles 2.1
 
   Tiles 2.1 introduces new features, but remaining compatible to Tiles 2.0.x.

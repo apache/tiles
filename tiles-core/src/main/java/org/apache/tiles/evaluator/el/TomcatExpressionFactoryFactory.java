@@ -30,6 +30,8 @@ import org.apache.el.ExpressionFactoryImpl;
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
+ * @deprecated Upgrade to Servlet 2.5 and JSP 2.1 and use
+ * <code>JspExpressionFactoryFactory</code>.
  */
 public class TomcatExpressionFactoryFactory implements ExpressionFactoryFactory {
 

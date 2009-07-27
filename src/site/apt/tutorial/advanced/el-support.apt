@@ -92,12 +92,59 @@ protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
 }
 ------------------------------------
 
-  If you are using Servlet 2.4, you still can use Tiles EL support but:
+** Configuration under Servlets 2.4/JSP 2.1
 
-  * You have to put <<<jasper-el-6.0.16.jar>>> (or newer version) in your classpath.
+  If you are using Servlets 2.4/JSP 2.0, you still can use Tiles EL support but:
 
-  * Use <<<TomcatExpressionFactoryFactory>>> instead of
-  <<<JspExpressionFactoryFactory>>>.
+  * You have to put <<<jasper-el-6.0.16.jar>>> (or newer version) and
+  <<<el-api-1.0.jar>>> in your classpath.
+
+  * Inject the <<<ExpressionFactoryImpl>>> from Tomcat into the attribute evaluator,
+  overriding
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createAttributeEvaluatorFactory(org.apache.tiles.TilesApplicationContext, org.apache.tiles.context.TilesRequestContextFactory, org.apache.tiles.locale.LocaleResolver)}createAttributeEvaluatorFactory}}
+  of <<<BasicTilesContainerFactory>>> class this way:
+
+------------------------------------
+    @Override
+    protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
+            TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+        BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
+                createELEvaluator(applicationContext));
+
+        return attributeEvaluatorFactory;
+    }
+
+    /**
+     * Creates the EL evaluator.
+     *
+     * @param applicationContext The Tiles application context.
+     * @return The EL evaluator.
+     */
+    private ELAttributeEvaluator createELEvaluator(
+            TilesApplicationContext applicationContext) {
+        ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
+        evaluator.setApplicationContext(applicationContext);
+
+        // This is the important piece!
+        evaluator.setExpressionFactory(new ExpressionFactoryImpl());
+        // End of the important piece!
+
+        ELResolver elResolver = new CompositeELResolver() {
+            {
+                add(new TilesContextELResolver());
+                add(new TilesContextBeanELResolver());
+                add(new ArrayELResolver(false));
+                add(new ListELResolver(false));
+                add(new MapELResolver(false));
+                add(new ResourceBundleELResolver());
+                add(new BeanELResolver(false));
+            }
+        };
+        evaluator.setResolver(elResolver);
+        return evaluator;
+    }
+------------------------------------
 
 ** Usage
 

@@ -145,20 +145,6 @@
     </dependency>
 
     <dependency>
-        <groupId>org.apache.tomcat</groupId>
-        <artifactId>jasper-el</artifactId>
-        <version>6.0.18</version>
-        <scope>runtime</scope>
-        <optional>true</optional>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>el-api</artifactId>
-          </exclusion>
-        </exclusions>
-    </dependency>
-
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
       <version>1.5.8</version>

@@ -36,6 +36,7 @@ import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
+import org.apache.tiles.evaluator.EvaluationException;
 import org.apache.tiles.reflect.ClassUtil;
 
 /**
@@ -101,7 +102,9 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
                     .instantiate(
                     "org.apache.tiles.evaluator.el.JspExpressionFactoryFactory", true);
             if (efFactory == null) {
-                efFactory = new TomcatExpressionFactoryFactory();
+                throw new EvaluationException(
+                        "Cannot instantiate JspExpressionFactoryFactory, "
+                                + "please add tiles-jsp.jar file in your classpath");
             }
         }
         if (efFactory instanceof TilesApplicationContextAware) {
