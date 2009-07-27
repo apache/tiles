@@ -43,6 +43,12 @@ What's new in Tiles 2.2
   {{{tutorial/advanced/el-support.html#MVEL_Support}MVEL support}}
   in Tiles definition files, when specifying attributes and templates.
 
+* Deprecations in Tiles 2.2
+
+  * Startup with initialization parameters is not <<deprecated>>. See the
+  {{{tutorial/configuration.html}configuration}} page to know how to configure
+  Tiles with Java.
+
 * New features in Tiles 2.1
 
   Tiles 2.1 introduces new features, but remaining compatible to Tiles 2.0.x.

@@ -197,18 +197,33 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
 }
 -------------------------------------
 
+  Create a Tiles listener this way:
+
+-------------------------------------
+public class TestDbTilesListener extends AbstractTilesListener {
+
+    @Override
+    protected TilesInitializer createTilesInitializer() {
+        return new TestDbTilesInitializer();
+    }
+
+    private static class TestDbTilesInitializer extends AbstractTilesInitializer {
+
+        @Override
+        protected AbstractTilesContainerFactory createContainerFactory(
+                TilesApplicationContext context) {
+            return new TestDbTilesContainerFactory();
+        }
+    }
+}
+-------------------------------------
+
   In <<<web.xml>>> add this piece of configuration:
 
 -------------------------------------
-<servlet>
-    <servlet-name>tiles-db</servlet-name>
-    <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-    <init-param>
-        <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
-        <param-value>org.apache.tiles.test.factory.TestDbTilesContainerFactory</param-value>
-    </init-param>
-</servlet>
+<listener>
+  <listener-class>org.apache.tiles.test.listener.TestDbTilesListener</listener-class>
+</listener>
 -------------------------------------
 
   And you're done!
-  

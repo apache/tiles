@@ -21,16 +21,20 @@
          Attribute rendering
          -----------
 
+  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
+  want to use it, please refer to
+  {{{../../../2.1/framework/tutorial/advanced/attribute-rendering.html}2.1 version of this page}}.
+
 Attribute rendering
 
-  With Tiles 2.1, attribute rendering behaviour can be customized. The "type"
+  With Tiles 2.2 and 2.1, attribute rendering behaviour can be customized. The "type"
   of an attribute can be still <<<string>>>, <<<definition>>> or <<<template>>>
   but you can define new types or use a class name directly.
 
 Default behaviour
 
   The behaviour that Tiles follows is compatible with Tiles 2.0 and it applies
-  both to XML definition files and JSP tags. Tiles follows these steps: 
+  both to XML definition files and JSP tags. Tiles follows these steps:
 
   * If the type is not specified:
 
@@ -51,7 +55,7 @@ Default behaviour
 
 Customize attribute rendering
 
-  With Tiles 2.1 you can customize rendering in three ways:
+  With Tiles 2.1+ you can customize rendering in three ways:
 
   * specifying new renderers;
 
@@ -62,26 +66,14 @@ Customize attribute rendering
 * Custom attribute renderers
 
   If you don't want to use class names as attribute types, you can use new
-  "named" custom attribute renderers. You can do it by:
-
-  * using the
-  {{{../../config-reference.html#org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS}<<<org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS>>>}}
-  init parameter, if you are using parameter-based initialization;
-
-  * overriding the
+  "named" custom attribute renderers. You can do it by overriding the
   {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#registerAttributeRenderers(org.apache.tiles.renderer.impl.BasicRendererFactory,%20java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}registerAttributeRenderers}}
   of <<<BasicTilesContainerFactory>>> if you are using Java-based configuration.
 
 * Custom default attribute renderer
 
   The behaviour of Tiles when the type of an attribute is not specified can be
-  also customized. You can do it by:
-
-  * using the
-  {{{../../config-reference.html#org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER}<<<org.apache.tiles.renderer.impl.BasicRendererFactory.DEFAULT_RENDERER>>>}}
-  init parameter, if you are using parameter-based initialization;
-
-  * overriding the
+  also customized. You can do it by overriding the
   {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createDefaultAttributeRenderer(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}createDefaultAttributeRenderer}}
   of <<<BasicTilesContainerFactory>>> if you are using Java-based configuration.
 
@@ -89,13 +81,6 @@ Customize attribute rendering
 
   The attribute renderer factory can be completely customized, leaving to you
   the maximum freedom of choice in the attribute renderer creation. You can
-  specify the factory's implementation by:
-
-  * using the
-  {{{../../config-reference.html#org.apache.tiles.renderer.RendererFactory}<<<org.apache.tiles.renderer.RendererFactory>>>}}
-  init parameter, if you are using parameter-based initialization;
-
-  * overriding the
+  specify the factory's implementation by overriding the
   {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createRendererFactory(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}createRendererFactory}}
   of <<<BasicTilesContainerFactory>>> if you are using Java-based configuration.
-    

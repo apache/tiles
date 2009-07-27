@@ -39,11 +39,6 @@
             sites and JavaDoc report itself) you need to install
             <a href="http://www.graphviz.org/">GraphViz</a>, otherwise you will
             notice missing pictures inside JavaDocs pages.</p>
-            <p>WARNING: Due to some bugs in recent versions of GraphViz, we
-            reccomend to use
-            <a href="http://www.graphviz.org/pub/graphviz/ARCHIVE">GraphViz
-            version 2.8</a>, otherwise you will notice that client HTML maps do
-            not work properly.</p>
           </subsection>
           <subsection name="Building main packages">
             <p>To build Tiles 2 from source you need to:</p>

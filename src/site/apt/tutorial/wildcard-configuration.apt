@@ -21,6 +21,10 @@
          Load XML definition files using wildcards
          -----------
 
+  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
+  want to use it, please refer to
+  {{{../../2.1/framework/tutorial/wildcard-configuration.html}2.1 version of this page}}.
+
 Load XML definition files using wildcards
 
   XML definition files can be loaded using wildcard, but this behaviour is not
@@ -46,40 +50,22 @@ Load XML definition files using wildcards
 * Configuration
 
   To be able to specify Tiles XML definition files using wildcards, there is the
-  need to override the Tiles application context creation. For example, if you
-  are using parameter-based initialization, provide a new value for the
-  {{{../config-reference.html#org.apache.tiles.context.AbstractTilesApplicationContextFactory}<<<org.apache.tiles.context.AbstractTilesApplicationContextFactory>>>}}
-  init parameter. For example:
+  need to override the Tiles application context creation, by overriding the
+  {{{../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html#createTilesApplicationContext(org.apache.tiles.TilesApplicationContext)}createTilesApplicationContext}}
+  method this way:
 
-----------------------------------------
-<init-param>
-    <param-name>org.apache.tiles.context.AbstractTilesApplicationContextFactory</param-name>
-    <param-value>
-      org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContextFactory
-    </param-value>
-</init-param>
-----------------------------------------
+-------------------------------
+@Override
+protected TilesApplicationContext createTilesApplicationContext(
+        TilesApplicationContext preliminaryContext) {
+    return new WildcardServletTilesApplicationContext(
+            (ServletContext) preliminaryContext.getContext());
+}
+-------------------------------
 
 * Usage
 
-  To load XML definition files using wilcards you can proceed, as usual, in two
-  ways:
-
-
-  * If you are using parameter-based initialization, provide a new value for the
-  {{{../config-reference.html#org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG}<<<org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG>>>}}
-  init parameter. The files that have an underscore (_) in their name will be
-  skipped. You can specify, for example:
-
-----------------------------------------
-<init-param>
-    <param-name>org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG</param-name>
-    <param-value>/WEB-INF/tiles-defs*.xml,
-      classpath:/org/apache/**/tiles-defs.xml</param-value>
-</init-param>
-----------------------------------------
-
-  * If you are using Java-based configuration, override the 
+  To load XML definition files using wilcards, override the
   {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#getSourceURLs(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesApplicationContextFactory)}getSourceURLs}}
   of <<<BasicTilesContainerFactory>>>. In the following example, notice the
   manual exclusion of files including underscores (_):

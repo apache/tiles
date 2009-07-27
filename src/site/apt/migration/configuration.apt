@@ -23,7 +23,7 @@
 
 {Reusing old Tiles configuration files}
 
-  With Tiles 2.1 it is possible to use old Struts-Tiles definition files, since
+  With Tiles 2.1 and 2.2 it is possible to use old Struts-Tiles definition files, since
   1.1 version.
 
   To use this feature it is needed to:
@@ -31,11 +31,11 @@
   * include the <<<tiles-compat-xxx.jar>>> package in the classpath;
 
   * configure the compatibility definitions reader instance, that is able to
-  read old definition files. 
+  read old definition files.
 
-* Configuration using Java
+* Configuration
 
-  If you are using Java-based configuration, override the 
+  Override the
   {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createDefinitionsReader(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory)}createDefinitionsReader}}
   method this way:
 
@@ -70,37 +70,10 @@ protected void registerAttributeRenderers(
 }
 ---------------------------------------
 
+  <<WARNING!!!>> Configuration with initialization parameter has been deprecated! If you
+  still want to use it, please refer to the
+  {{{../../2.1/framework/migration/configuration.html}2.1 version of this page}}.
 
-* Configuration using initialization parameters
-
-  If you are using configuration using initialization parameters in
-  <<<web.xml>>> you can have to override the
-  {{{../config-reference.html#org.apache.tiles.definition.DefinitionsReader}<<<org.apache.tiles.definition.DefinitionsReader>>>}}
-  parameter this way:
-
----------------------------------------
-<init-param>
-    <param-name>org.apache.tiles.definition.DefinitionsReader</param-name>
-    <param-value>org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader</param-value>
-</init-param>
----------------------------------------
-
-  You need to add a renderer for the "page" attribute type, that is in fact the "template" type.
-  So set the
-  {{{../config-reference.html#org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS}<<<org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS>>>}}
-  this way: 
-
----------------------------------------
-<init-param>
-    <param-name>org.apache.tiles.renderer.impl.BasicRendererFactory.TYPE_RENDERERS</param-name>
-    <param-value>
-        string,org.apache.tiles.renderer.impl.StringAttributeRenderer;
-        definition,org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
-        template,org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
-        page,org.apache.tiles.renderer.impl.TemplateAttributeRenderer
-    </param-value>
-</init-param>
----------------------------------------
 
 Tiles configuration files translation
 
@@ -120,9 +93,9 @@ Tiles configuration files translation
        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 ------------------------------------------------------------
- 
+
 * Definitions attributes
- 
+
 *---------------------------------+--------------------------------+
 | <<Struts-Tiles>>                | <<Tiles 2>>                    |
 *---------------------------------+--------------------------------+
@@ -171,7 +144,7 @@ Tiles configuration files translation
 
   * \[3\] <<<\<add-list-attribute\>>>> is used when it is needed to a list
   attribute as an element of another list attribute.
-  
+
   []
 
    * Previous Migration Pages

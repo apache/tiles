@@ -21,6 +21,10 @@
          Using multiple containers
          -----------
 
+  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
+  want to use it, please refer to
+  {{{../../../2.1/framework/tutorial/advanced/multiple-containers.html}2.1 version of this page}}.
+
 Defining multiple containers
 
   With Tiles 2.1 it is possible to use more that one Tiles container in your
@@ -28,19 +32,34 @@ Defining multiple containers
 
 * Configuration
 
-  To use an alternate container, it must be configured through the use of the
-  {{{../../config-reference.html#org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY}org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY}}
-  initialization parameter. For example:
+  To use an alternate container, you need to override the
+  {{{../../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html#getContainerKey(org.apache.tiles.TilesApplicationContext)}getContainerKey}}
+  method of <<<AbstractTilesInitializer>>> this way:
 
 ------------------------------------
-<servlet>
-    <servlet-name>tiles-alt</servlet-name>
-    <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-    <init-param>
-        <param-name>org.apache.tiles.startup.BasicTilesInitializer.CONTAINER_KEY</param-name>
-        <param-value>alternate</param-value>
-    </init-param>
-</servlet>
+public class TestAlternateTilesListener extends AbstractTilesListener {
+
+    /** {@inheritDoc} */
+    @Override
+    protected TilesInitializer createTilesInitializer() {
+        return new TestAlternateTilesInitializer();
+    }
+
+    /**
+     * Test Tiles initializer for Tiles initialization of the alternate container.
+     */
+    private static class TestAlternateTilesInitializer extends AbstractTilesInitializer {
+
+        // Other customizations go here.
+
+        /** {@inheritDoc} */
+        @Override
+        protected String getContainerKey(
+                TilesApplicationContext applicationContext) {
+            return "myContainerKey";
+        }
+    }
+}
 ------------------------------------
 
 Selecting one non-default container

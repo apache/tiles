@@ -21,6 +21,10 @@
          Expression Language (EL) support
          -----------
 
+  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
+  want to use it, please refer to
+  {{{../../../2.1/framework/tutorial/advanced/el-support.html}2.1 version of this page}}.
+
 Expression Language support
 
   With Tiles it is possible to use expression languages not only in JSP pages, but also in XML
@@ -53,32 +57,6 @@ protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
 }
 
 ------------------------------------
-
-** Deprecated configuration
-
-  To enable expression language support in XML definition files, you can do it with
-  init parameters by configuring the class of the
-  {{{../../apidocs/org/apache/tiles/evaluator/AttributeEvaluator.html} AttributeEvaluator}}.
-
-  Using declarative configuration in <<<web.xml>>> file, you have to use the
-  {{{../../config-reference.html#org.apache.tiles.evaluator.AttributeEvaluator} org.apache.tiles.evaluator.AttributeEvaluator}}
-  parameter. In the case of <<<TilesServlet>>>:
-
-------------------------------------
-<servlet>
-    <servlet-name>tiles-init</servlet-name>
-    <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-    <init-param>
-        <param-name>org.apache.tiles.evaluator.AttributeEvaluator</param-name>
-        <param-value>org.apache.tiles.evaluator.el.ELAttributeEvaluator</param-value>
-    </init-param>
-</servlet>
-------------------------------------
-
-  If you are using programmatic configuration via Java, override the
-  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createEvaluator(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.locale.LocaleResolver)} createEvaluator}}
-  method, providing <<only the creation>> of the instance of the
-  <<<AttributeEvaluator>>>.
 
 * EL support
 

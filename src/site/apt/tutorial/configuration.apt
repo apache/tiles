@@ -21,132 +21,76 @@
          Tiles Configuration
          -----------
 
+  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
+  want to use it, please refer to
+  {{{../../2.1/framework/tutorial/configuration.html}2.1 version of this page}}.
+
 Configuring Tiles
 
   Your application needs to be configured to work with Tiles. There are various
   options, depending on your needs, your application type, etc.
-  
+
 Starting Tiles in a web application
 
   Tiles has always been a web application package, usually used in conjunction
   with Struts. Tiles 2 evolved to the point of being technology-independent, but
   its use in a Servlet-based web application will be the most frequent use case.
-  
+
 * Starting Tiles engine
 
-  To start Tiles you can use pure
-  {{{configuration.html#Startup_with_Java_code}Java initialization}}
-  or the original
-  {{{configuration.html#Startup_with_initialization_parameters}initialization-parameter-based initialization}}.
-  In both cases, you have two options, just choose what is the best for your
-  needs:
-  
-  * Load the <<Tiles servlet>> at startup. You can do it by specifying it in
+  To start Tiles you can either extend
+  {{{../apidocs/org/apache/tiles/web/startup/AbstractTilesListener.html}AbstractTilesListener}}
+  or
+  {{{../apidocs/org/apache/tiles/web/startup/AbstractTilesServlet.html}AbstractTilesServlet}},
+  in particular implement the <<<createTilesServletInitializer>>> method:
+
+--------------------------
+protected TilesInitializer createTilesInitializer() {
+    return new MyCustomTilesInitializer();
+}
+--------------------------
+
+  You can use {{{../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html}AbstractTilesInitializer}}
+  as a basis.
+
+** Configuration of the startup class
+
+  * If you created a servlet, load i at startup. You can do it by specifying it in
   your <<<web.xml>>> file:
 
 --------------------------
 <servlet>
     <servlet-name>tiles</servlet-name>
-    <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
+    <servlet-class>my.package.MyTilesServlet</servlet-class>
     ...
     <load-on-startup>2</load-on-startup>
 </servlet>
 --------------------------
-  
+
   Note: The Tiles servlet is just a startup servlet and <<it does not serve any
   request>>. Therefore, a mapping is not needed.
 
-  * Load the <<Tiles listener>>. Specify it in your <<<web.xml>>> file:
+  * If you created a listener, load it by specifing it in your <<<web.xml>>> file:
 
 -------------------------------
 <listener>
-    <listener-class>org.apache.tiles.web.startup.TilesListener</listener-class>
+    <listener-class>my.package.MyTilesListener</listener-class>
 </listener>
 -------------------------------
 
-** {Startup with Java code}
-
-  To startup with Java code, extend <<<TilesListener>>> or <<<TilesServlet>>>
-  and override the <<<createTilesServletInitializer>>> method:
-
---------------------------
-protected TilesInitializer createTilesInitializer() {
-    return new MyCustomTilesInitializer;
-}
---------------------------
-
-** {Startup with initialization parameters}
-
-  You can configure Tiles by using initialization parameters, like in Tiles 2.0.x.
-  If you use <<<TilesServlet>>>, you can use <<<init-param>>> elements: 
-
---------------------------
-<servlet>
-    <servlet-name>tiles</servlet-name>
-    <servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
-    <init-param>
-        <param-name>
-          org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG
-        </param-name>
-        <param-value>
-          /WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml
-        </param-value>
-    </init-param>
-    <load-on-startup>2</load-on-startup>
-</servlet>
---------------------------
-
-  As you can see, the init parameter
-  <<<org.apache.tiles.definition.DefinitionsFactory.DEFINITIONS_CONFIG>>>
-  specifies the path of the {{{basic/index.html}Tiles configuration files}}.
-  You can specify it also as a context parameters.
-  
-  If you use <<<TilesListener>>>:
-
--------------------------------
-<listener>
-    <listener-class>org.apache.tiles.web.startup.TilesListener</listener-class>
-</listener>
--------------------------------
-  
-  you can specify the Tiles configuration files using a context parameter:
-
--------------------------------
-    <context-param>
-        <param-name>
-          org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG
-        </param-name>
-        <param-value>
-          /WEB-INF/tiles-defs.xml,/org/apache/tiles/classpath-defs.xml
-        </param-value>
-    </context-param>
--------------------------------
-
-Starting Tiles in a portlet application 
+Starting Tiles in a portlet application
 
   TBD
 
 Configuring Tiles internals
 
-* {Pure Java configuration}
-  
-  In both environments, it is possible to use pure <<Java configuration>>,
-  without messing with the deployment descriptors. You have two choices of configuration:
-  
-  * By using a custom
-  {{{../apidocs/org/apache/tiles/startup/TilesInitializer.html}TilesInitializer}},
-  for example by overriding
-  {{{../apidocs/org/apache/tiles/startup/BasicTilesInitializer.html}BasicTilesInitializer}}
-  methods.
-  
-  * By using a subset of initialization parameters and extending
-  {{{../apidocs/org/apache/tiles/factory/AbstractTilesContainerFactory.html}AbstractTilesContainerFactory}},
-  {{{../apidocs/org/apache/tiles/context/AbstractTilesApplicationContextFactory.html}AbstractTilesApplicationContextFactory}}
-  or both. This option can be combined with the first.
+  The container and the application context must be configured to allow custom behaviour
+  and to load definitions from various sources.
 
-** Custom Tiles container factory
+* Custom Tiles container factory
 
-  You have to do create a class that extends
+  Custom Tiles containers can be created by custom Tiles container factories.
+  You have to create a class that extends
   {{{../apidocs/org/apache/tiles/factory/AbstractTilesContainerFactory.html}AbstractTilesContainerFactory}}.
   In particular you can use {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html}BasicTilesContainerFactory}}
   as a basis for your extended configuration. <<<BasicTilesContainerFactory>>>
@@ -157,49 +101,41 @@ Configuring Tiles internals
   documents all the methods that can be overridden to use your own
   configuration.
 
-  To enable pure Java configuration, provide the
-  {{{../config-reference.html#org.apache.tiles.factory.AbstractTilesContainerFactory}<<<org.apache.tiles.factory.AbstractTilesContainerFactory>>>}}
-  parameter this way:
+* Custom Tiles application context factory
 
---------------------------------
-<init-param>
-    <param-name>org.apache.tiles.factory.AbstractTilesContainerFactory</param-name>
-    <param-value>org.apache.tiles.test.factory.TestTilesContainerFactory</param-value>
-</init-param>
---------------------------------
+  Custom Tiles application context can be provided by implementing
+  {{{../apidocs/org/apache/tiles/TilesApplicationContext.html}TilesApplicationContext}}.
+  If you are under a servlet environment, you can override
+  {{{../apidocs/org/apache/tiles/servlet/context/ServletTilesApplicationContext.html}ServletTilesApplicationContext}}.
 
-  Where <<<TestTilesContainerFactory>>> is a class that extends
-  <<<AbstractTilesContainerFactory>>>.
+  To use it, you need to override the
+  {{{../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html#createTilesApplicationContext(org.apache.tiles.TilesApplicationContext)}createTilesApplicationContext}}
+  method of AbstractTilesInitializer.
 
-** Custom Tiles application context factory
+  The reason to use a custom Tiles application context could be:
 
-  You have to do create a class that extends
-  {{{../apidocs/org/apache/tiles/context/AbstractTilesApplicationContextFactory.html}AbstractTilesApplicationContextFactory}}
-  In particular you can use
-  {{{../apidocs/org/apache/tiles/servlet/context/ServletTilesApplicationContextFactory.html}ServletTilesApplicationContextFactory}}
-  as a basis for your extended configuration under a servlet environment.
-  
-  To enable pure Java configuration for the Tiles application context, provide the
-  {{{../config-reference.html#org.apache.tiles.context.AbstractTilesApplicationContextFactory}<<<org.apache.tiles.context.AbstractTilesApplicationContextFactory>>>}}
-  parameter this way:
+  * supporting a platform not supported yet;
 
---------------------------------
-<init-param>
-    <param-name>org.apache.tiles.context.AbstractTilesApplicationContextFactory</param-name>
-    <param-value>org.apache.tiles.test.context.TestTilesApplicationContextFactory</param-value>
-</init-param>
---------------------------------
+  * providing custom behaviour, such as loading resources in a different manner.
 
-  Where <<<TestTilesApplicationContextFactory>>> is a class that extends
-  <<<AbstractTilesApplicationContextFactory>>>.
+Ready-made configuration classes
 
-* Configuration through initialization parameters
+  There are some classes that allows to play with Tiles without writing custom code.
 
-  You can configure Tiles internal behaviour by specifying:
-  
-  * in a web application environment, by using context parameters or init
-  parameters of TilesServlet or TilesFilter;
-  
-  * in a portlet environment, by using portlet init parameters.
-  
-  For the details see {{{../config-reference.html}Tiles configuration reference}}.
+* Simple configuration
+
+  {{{../apidocs/org/apache/tiles/web/startup/simple/SimpleTilesInitializerServlet.html}SimpleTilesInitializerServlet}}
+  and
+  {{{../apidocs/org/apache/tiles/web/startup/simple/SimpleTilesListener.html}SimpleTilesListener}}
+  are two ways to load Tiles in the "simple" way. This was the default for Tiles 2.1 and prior versions.
+
+  This configuration has the following characteristics:
+
+  * loads the "/WEB-INF/tiles.xml" file;
+
+  * allows support for JSP, Servlets and Portlets;
+
+  * no expression language is allowed;
+
+  * wildcard expressions can be used to declare definition names.
+

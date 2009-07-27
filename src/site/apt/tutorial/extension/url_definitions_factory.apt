@@ -21,11 +21,11 @@
          Customizing UrlDefinitionsFactory
          -----------
 
-Customizing UrlDefinitionsFactory
+Customizing LocaleDefinitionsFactory
 
   The
-  {{{../../config-reference.html#UrlDefinitionsFactory configuration}<<<UrlDefinitionsFactory>>>}}
-  is the default implementation of
+  {{{../../apidocs/org/apache/tiles/definition/LocaleDefinitionsFactory.html}<<<LocaleDefinitionsFactory>>>}}
+  class is the default implementation of
   {{{../../apidocs/org/apache/tiles/definition/DefinitionsFactory.html}<<<DefinitionsFactory>>>}}.
 
 * Definitions reader
@@ -36,7 +36,7 @@ Customizing UrlDefinitionsFactory
   their inheritance <<not resolved>>) definitions. The default implementation,
   {{{../../apidocs/org/apache/tiles/definition/digester/DigesterDefinitionsReader.html}<<<DigesterDefinitionsReader>>>}}
   reads from usual Tiles XML definition files using Jakarta Commons Digester.
-  
+
   If you need to read definitions from other kind of sources, this is the item
   to configure.
 

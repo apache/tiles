@@ -21,6 +21,10 @@
          Creating Tiles Pages
          -----------
 
+  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
+  want to use it, please refer to
+  {{{../../../2.1/framework/tutorial/basic/pages.html}2.1 version of this page}}.
+
 Creating and using Tiles pages
 
   After installing and learning some of Tiles concepts, it is time to create
@@ -79,23 +83,61 @@ page.
 
   You can put everything you want in this pages, they are just a test.
 
+* Create Tiles  configuration
+
+  To load the Tiles definition files, override the
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#getSourceURLs(org.apache.tiles.TilesApplicationContext, org.apache.tiles.context.TilesRequestContextFactory)}getSourceURLs}}
+  method of <<<BasicTilesContainerFactory>>> this way:
+
+------------------------------------
+public class TestTilesContainerFactory extends BasicTilesContainerFactory {
+
+    @Override
+    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory) {
+        List<URL> urls = new ArrayList<URL>();
+        try {
+            urls.add(applicationContext.getResource("/WEB-INF/tiles-defs.xml"));
+        } catch (IOException e) {
+            throw new DefinitionsFactoryException(
+                    "Cannot load definition URLs", e);
+        }
+        return urls;
+    }
+}
+------------------------------------
+
+  Create the Tiles listener along with an inner class that represents the initializer:
+
+------------------------------------
+public class TestTilesListener extends AbstractTilesListener {
+
+    @Override
+    protected TilesInitializer createTilesInitializer() {
+        return new TestTilesListenerInitializer();
+    }
+
+    private static class TestTilesListenerInitializer extends AbstractTilesInitializer {
+
+        @Override
+        protected AbstractTilesContainerFactory createContainerFactory(
+                TilesApplicationContext context) {
+            return new TestTilesContainerFactory();
+        }
+    }
+}
+------------------------------------
+
+  Define the listener in <<<web.xml>>>
+
+------------------------------------
+<listener>
+  <listener-class>my.package.TestTilesListener</listener-class>
+</listener>
+------------------------------------
+
+
 * Create a definition
-
-  Supposing that you configured Tiles, in <<<web.xml>>>, to startup using the
-  <<<TilesServlet>>>, you need to specify what will be the files containing the
-  Tiles definitions to load:
-
-------------------------------------
-<servlet>
-    <servlet-name>tiles</servlet-name>
-    <servlet-class>org.apache.tiles.servlet.startup.TilesServlet</servlet-class>
-    <init-param>
-        <param-name>org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG</param-name>
-        <param-value>/WEB-INF/tiles-defs.xml</param-value>
-    </init-param>
-    <load-on-startup>2</load-on-startup>
-</servlet>
-------------------------------------
 
   Create the <<</WEB-INF/tiles-defs.xml>>> file:
 
@@ -118,7 +160,7 @@ page.
 * Render the definition
 
   After creating the definition, you can render it:
-  
+
   * by using the <<<\<tiles:insertDefinition /\>>>> tag, inserting it in a JSP
   page:
 
@@ -129,7 +171,7 @@ page.
 
   * in other cases, you can render directly in the response, by using the Tiles
   container:
-  
+
 -----------------------------------
 TilesContainer container = TilesAccess.getContainer(
         request.getSession().getServletContext());
@@ -137,7 +179,7 @@ container.render("myapp.homepage", request, response);
 -----------------------------------
 
   * by using {{{../advanced/utils.html}Rendering Utilities}} provided by Tiles.
-  
+
   * by using a supporting framework. See
   {{{../integration/index.html}Integrations}} for a list of supporting
   frameworks.
