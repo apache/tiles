@@ -56,6 +56,7 @@
         <module>tiles-velocity</module>
         <module>tiles-portlet</module>
         <module>tiles-compat</module>
+        <module>tiles-extras</module>
         <module>tiles-test</module>
         <module>assembly</module>
     </modules>
