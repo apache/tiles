@@ -29,7 +29,6 @@ import java.util.List;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.pattern.DefinitionPatternMatcherFactory;
@@ -66,14 +65,6 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
         }
         return urls;
     }
-
-    /** {@inheritDoc} */
-    @Override
-    protected LocaleDefinitionsFactory instantiateDefinitionsFactory(
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
-        return new LocaleDefinitionsFactory();
-   }
 
     /** {@inheritDoc} */
     @Override
