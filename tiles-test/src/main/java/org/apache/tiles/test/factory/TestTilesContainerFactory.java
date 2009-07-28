@@ -88,11 +88,6 @@ import org.mvel2.integration.VariableResolverFactory;
 public class TestTilesContainerFactory extends BasicTilesContainerFactory {
 
     /**
-     * The number of registered factories.
-     */
-    private static final int FACTORY_SIZE = 4;
-
-    /**
      * The number of URLs to load..
      */
     private static final int URL_COUNT = 7;
@@ -103,30 +98,19 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
             TilesApplicationContext applicationContext) {
         return new CachingTilesContainer();
     }
-    /**
-     * Register elements of a chained request context factory.
-     *
-     * @param contextFactory The request context factory to use.
-     * @since 2.1.1
-     */
+
+    /** {@inheritDoc} */
     @Override
-    protected void registerChainedRequestContextFactories(
-            ChainedTilesRequestContextFactory contextFactory) {
-        List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
-                FACTORY_SIZE);
-        registerRequestContextFactory(
-                "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
-                factories, contextFactory);
-        registerRequestContextFactory(
-                "org.apache.tiles.jsp.context.JspTilesRequestContextFactory",
-                factories, contextFactory);
+    protected List<TilesRequestContextFactory> getTilesRequestContextFactoriesToBeChained(
+            ChainedTilesRequestContextFactory parent) {
+        List<TilesRequestContextFactory> factories = super.getTilesRequestContextFactoriesToBeChained(parent);
         registerRequestContextFactory(
                 FreeMarkerTilesRequestContextFactory.class.getName(),
-                factories, contextFactory);
+                factories, parent);
         registerRequestContextFactory(
                 VelocityTilesRequestContextFactory.class.getName(),
-                factories, contextFactory);
-        contextFactory.setFactories(factories);
+                factories, parent);
+        return factories;
     }
 
     /** {@inheritDoc} */

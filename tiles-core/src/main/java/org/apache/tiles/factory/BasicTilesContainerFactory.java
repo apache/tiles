@@ -71,11 +71,6 @@ import org.slf4j.LoggerFactory;
 public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
-     * The count of elements in the Tiles context factory chain.
-     */
-    private static final int CONTEXT_FACTORY_CHAIN_COUNT = 3;
-
-    /**
      * The logging object.
      */
     private final Logger log = LoggerFactory
@@ -139,18 +134,31 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected void registerChainedRequestContextFactories(
             ChainedTilesRequestContextFactory contextFactory) {
-        List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
-                CONTEXT_FACTORY_CHAIN_COUNT);
+        List<TilesRequestContextFactory> factories = getTilesRequestContextFactoriesToBeChained(contextFactory);
+        contextFactory.setFactories(factories);
+    }
+
+    /**
+     * Returns the list of {@link TilesRequestContextFactory} instances to be
+     * chained together.
+     *
+     * @param parent The parent factory.
+     * @return The list of factories.
+     * @since 2.2.0
+     */
+    protected List<TilesRequestContextFactory> getTilesRequestContextFactoriesToBeChained(
+            ChainedTilesRequestContextFactory parent) {
+        List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>();
         registerRequestContextFactory(
                 "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
-                factories, contextFactory);
+                factories, parent);
         registerRequestContextFactory(
                 "org.apache.tiles.portlet.context.PortletTilesRequestContextFactory",
-                factories, contextFactory);
+                factories, parent);
         registerRequestContextFactory(
                 "org.apache.tiles.jsp.context.JspTilesRequestContextFactory",
-                factories, contextFactory);
-        contextFactory.setFactories(factories);
+                factories, parent);
+        return factories;
     }
 
     /**

@@ -21,7 +21,6 @@
 
 package org.apache.tiles.test.factory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,11 +45,6 @@ import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
  */
 public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
 
-    /**
-     * The number of registered factories.
-     */
-    private static final int FACTORY_SIZE = 4;
-
     /** {@inheritDoc} */
     @Override
     protected DefinitionDAO<Locale> createLocaleDefinitionDao(TilesApplicationContext applicationContext,
@@ -72,22 +66,15 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
 
     /** {@inheritDoc} */
     @Override
-    protected void registerChainedRequestContextFactories(
-            ChainedTilesRequestContextFactory contextFactory) {
-        List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
-                FACTORY_SIZE);
-        registerRequestContextFactory(
-                "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
-                factories, contextFactory);
-        registerRequestContextFactory(
-                "org.apache.tiles.jsp.context.JspTilesRequestContextFactory",
-                factories, contextFactory);
+    protected List<TilesRequestContextFactory> getTilesRequestContextFactoriesToBeChained(
+            ChainedTilesRequestContextFactory parent) {
+        List<TilesRequestContextFactory> factories = super.getTilesRequestContextFactoriesToBeChained(parent);
         registerRequestContextFactory(
                 FreeMarkerTilesRequestContextFactory.class.getName(),
-                factories, contextFactory);
+                factories, parent);
         registerRequestContextFactory(
                 VelocityTilesRequestContextFactory.class.getName(),
-                factories, contextFactory);
-        contextFactory.setFactories(factories);
+                factories, parent);
+        return factories;
     }
 }
