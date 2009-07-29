@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.extras.complete.factory;
+package org.apache.tiles.extras.complete;
 
 import java.io.IOException;
 import java.net.URL;

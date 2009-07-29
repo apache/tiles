@@ -19,12 +19,11 @@
  * under the License.
  */
 
-package org.apache.tiles.extras.complete.startup;
+package org.apache.tiles.extras.complete;
 
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.extras.complete.factory.CompleteAutoloadTilesContainerFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContext;
 import org.apache.tiles.startup.AbstractTilesInitializer;
