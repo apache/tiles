@@ -22,7 +22,6 @@ package org.apache.tiles.test.factory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -75,6 +74,7 @@ import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.test.exception.TilesTestRuntimeException;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
+import org.apache.tiles.util.URLUtil;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
 import org.mvel2.integration.VariableResolverFactory;
@@ -86,11 +86,6 @@ import org.mvel2.integration.VariableResolverFactory;
  * @version $Rev$ $Date$
  */
 public class TestTilesContainerFactory extends BasicTilesContainerFactory {
-
-    /**
-     * The number of URLs to load..
-     */
-    private static final int URL_COUNT = 7;
 
     /** {@inheritDoc} */
     @Override
@@ -251,27 +246,22 @@ public class TestTilesContainerFactory extends BasicTilesContainerFactory {
     @Override
     protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
-        List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
+            List<URL> urls;
             Set<URL> urlSet = applicationContext
                     .getResources("/WEB-INF/**/tiles-defs*.xml");
-            for (URL url : urlSet) {
-                String externalForm = url.toExternalForm();
-                if (externalForm.indexOf('_', externalForm.lastIndexOf("/")) < 0) {
-                    urls.add(url);
-                }
-            }
+            urls = URLUtil.getBaseTilesDefinitionURLs(urlSet);
             urls.add(applicationContext.getResource(
                     "classpath:/org/apache/tiles/classpath-defs.xml"));
             urls.add(applicationContext.getResource(
                     "classpath:/org/apache/tiles/freemarker-classpath-defs.xml"));
             urls.add(applicationContext.getResource(
                 "classpath:/org/apache/tiles/velocity-classpath-defs.xml"));
+            return urls;
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);
         }
-        return urls;
     }
 
     /** {@inheritDoc} */
