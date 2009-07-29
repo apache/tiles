@@ -394,6 +394,9 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * @param container The container to use.
      * @throws TilesContainerFactoryException If something goes wrong during
      * initialization.
+     * @deprecated Use
+     * {@link #storeContainerDependencies(TilesApplicationContext, Map, Map, BasicTilesContainer)}
+     * .
      */
     protected void storeContainerDependencies(Object context,
             Map<String, String> initParameters,

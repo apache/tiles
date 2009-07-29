@@ -131,7 +131,7 @@ public class KeyedDefinitionsFactoryTilesContainerFactory extends
 
     /** {@inheritDoc} */
     @Override
-    protected void storeContainerDependencies(Object context,
+    protected void storeContainerDependencies(TilesApplicationContext context,
             Map<String, String> initParameters,
             Map<String, String> configuration, BasicTilesContainer container) {
         super.storeContainerDependencies(context, initParameters, configuration, container);
