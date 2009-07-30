@@ -70,6 +70,38 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>../tiles-template</directory>
+            <outputDirectory>src/tiles-template</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../tiles-freemarker</directory>
+            <outputDirectory>src/tiles-freemarker</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../tiles-velocity</directory>
+            <outputDirectory>src/tiles-velocity</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../tiles-extras</directory>
+            <outputDirectory>src/tiles-extras</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>../tiles-portlet</directory>
             <outputDirectory>src/tiles-portlet</outputDirectory>
             <includes>
