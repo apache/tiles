@@ -119,20 +119,12 @@ public class VelocityAttributeRenderer extends AbstractBaseAttributeRenderer {
 
         /** {@inheritDoc} */
         public String getInitParameter(String name) {
-            return params.get("name");
+            return params.get(name);
         }
 
         /** {@inheritDoc} */
         public String findInitParameter(String key) {
-            String initParameter = getInitParameter(key);
-            if (initParameter != null) {
-                return initParameter;
-            }
-            ServletContext servletContext = getServletContext();
-            if (servletContext == null) {
-                return null;
-            }
-            return servletContext.getInitParameter(key);
+            return params.get(key);
         }
 
         /** {@inheritDoc} */
