@@ -86,7 +86,8 @@ public class FreeMarkerAttributeRenderer extends AbstractBaseAttributeRenderer {
         try {
             servlet.init(new InitParamsServletConfig());
         } catch (ServletException e) {
-            throw new FreeMarkerTilesException("Cannot initialize internal servlet");
+            throw new FreeMarkerTilesException(
+                    "Cannot initialize internal servlet", e);
         }
     }
 
