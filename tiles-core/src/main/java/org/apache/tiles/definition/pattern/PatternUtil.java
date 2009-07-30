@@ -67,16 +67,29 @@ public final class PatternUtil {
         nudef.setExtends(replace(d.getExtends(), vars));
         nudef.setName(name);
         nudef.setPreparer(replace(d.getPreparer(), vars));
-        nudef.setTemplateAttribute(replaceVarsInAttribute(d
-                .getTemplateAttribute(), vars));
+        Attribute templateAttribute = d.getTemplateAttribute();
+        if (templateAttribute != null) {
+            nudef.setTemplateAttribute(replaceVarsInAttribute(
+                    templateAttribute, vars));
+        }
 
-        Set<String> localAttributeNames = d.getLocalAttributeNames();
-        if (localAttributeNames != null && !localAttributeNames.isEmpty()) {
-            for (String attributeName : localAttributeNames) {
+        Set<String> attributeNames = d.getLocalAttributeNames();
+        if (attributeNames != null && !attributeNames.isEmpty()) {
+            for (String attributeName : attributeNames) {
                 Attribute attr = d.getLocalAttribute(attributeName);
                 Attribute nuattr = replaceVarsInAttribute(attr, vars);
 
                 nudef.putAttribute(replace(attributeName, vars), nuattr);
+            }
+        }
+
+        attributeNames = d.getCascadedAttributeNames();
+        if (attributeNames != null && !attributeNames.isEmpty()) {
+            for (String attributeName : attributeNames) {
+                Attribute attr = d.getCascadedAttribute(attributeName);
+                Attribute nuattr = replaceVarsInAttribute(attr, vars);
+
+                nudef.putAttribute(replace(attributeName, vars), nuattr, true);
             }
         }
 

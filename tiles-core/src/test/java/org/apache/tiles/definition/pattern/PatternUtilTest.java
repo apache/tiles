@@ -59,4 +59,45 @@ public class PatternUtilTest {
         attribute = nudef.getAttribute("attrib2");
         assertEquals("valuevalue2value3", attribute.getValue());
     }
+
+    /**
+     * Test method for
+     * {@link PatternUtil#replacePlaceholders(Definition, String, Object[])}.
+     */
+    @Test
+    public void testReplacePlaceholdersNullTemplate() {
+        Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+        attributes.put("attrib1", new Attribute("value{2}"));
+        attributes.put("attrib2", new Attribute("value{2}{3}"));
+        Definition definition = new Definition("definitionName", (Attribute) null, attributes);
+        Definition nudef = PatternUtil.replacePlaceholders(definition, "nudef",
+                "value0", "value1", "value2", "value3");
+        assertEquals("nudef", nudef.getName());
+        assertNull(nudef.getTemplateAttribute());
+        Attribute attribute = nudef.getAttribute("attrib1");
+        assertEquals("valuevalue2", attribute.getValue());
+        attribute = nudef.getAttribute("attrib2");
+        assertEquals("valuevalue2value3", attribute.getValue());
+    }
+
+    /**
+     * Test method for
+     * {@link PatternUtil#replacePlaceholders(Definition, String, Object[])}.
+     */
+    @Test
+    public void testReplacePlaceholdersCascadedAttributes() {
+        Definition definition = new Definition("definitionName", new Attribute(
+                "template{1}"), null);
+        definition.putAttribute("attrib1", new Attribute("value{2}"), true);
+        definition.putAttribute("attrib2", new Attribute("value{2}{3}"), true);
+        Definition nudef = PatternUtil.replacePlaceholders(definition, "nudef",
+                "value0", "value1", "value2", "value3");
+        assertEquals("nudef", nudef.getName());
+        Attribute attribute = nudef.getTemplateAttribute();
+        assertEquals("templatevalue1", attribute.getValue());
+        attribute = nudef.getAttribute("attrib1");
+        assertEquals("valuevalue2", attribute.getValue());
+        attribute = nudef.getAttribute("attrib2");
+        assertEquals("valuevalue2value3", attribute.getValue());
+    }
 }
