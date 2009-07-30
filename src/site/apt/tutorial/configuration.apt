@@ -118,7 +118,7 @@ Configuring Tiles internals
 
   * providing custom behaviour, such as loading resources in a different manner.
 
-Ready-made configuration classes
+{Ready-made configuration classes}
 
   There are some classes that allows to play with Tiles without writing custom code.
 
@@ -139,3 +139,20 @@ Ready-made configuration classes
 
   * wildcard expressions can be used to declare definition names.
 
+* Feature-Complete configuration
+
+  It is possible to startup Tiles turning all the new features on by using
+  {{{../apidocs/org/apache/tiles/extras/complete/CompleteAutoloadTilesListener.html}CompleteAutoloadTilesListener}}
+  or
+  {{{../apidocs/org/apache/tiles/extras/complete/CompleteAutoloadTilesInitializer.html}CompleteAutoloadTilesInitializer}}
+  available in the <<<tiles-extras>>> module. This initializer turns on:
+
+  * {{{integration/freemarker.html}Freemarker}} and {{{integration/velocity.html}Velocity}} support;
+
+  * using EL, OGNL and MVEL as {{{advanced/el-support.html}evaluation languages}};
+
+  * using Wildcards and Regular expression as {{{advanced/wildcard.html}pattern matching languages}};
+
+  * loading {{{../migration/configuration.html#Reusing_old_Tiles_configuration_files}Tiles 1.x definition files}};
+
+  * loads all the files named "tiles*.xml" under /WEB-INF and under every META-INF in any part of the classpath.

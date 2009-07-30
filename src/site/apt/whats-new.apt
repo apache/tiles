@@ -43,6 +43,8 @@ What's new in Tiles 2.2
   {{{tutorial/advanced/el-support.html#MVEL_Support}MVEL support}}
   in Tiles definition files, when specifying attributes and templates.
 
+  * Ready to use {{{tutorial/configuration.html#Ready-made_configuration_classes}configuration classes}} to ease startup with minimal coding.
+
 * Deprecations in Tiles 2.2
 
   * Startup with initialization parameters is not <<deprecated>>. See the
