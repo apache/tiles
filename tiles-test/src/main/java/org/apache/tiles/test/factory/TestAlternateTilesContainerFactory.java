@@ -31,11 +31,6 @@ import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
-import org.apache.tiles.definition.pattern.DefinitionPatternMatcherFactory;
-import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
-import org.apache.tiles.definition.pattern.PrefixedPatternDefinitionResolver;
-import org.apache.tiles.definition.pattern.regexp.RegexpDefinitionPatternMatcherFactory;
-import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
 import org.apache.tiles.locale.LocaleResolver;
 
 /**
@@ -72,17 +67,5 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
             TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         return new CachingLocaleUrlDefinitionDAO();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected <T> PatternDefinitionResolver<T> createPatternDefinitionResolver(
-            Class<T> customizationKeyClass) {
-        DefinitionPatternMatcherFactory wildcardFactory = new WildcardDefinitionPatternMatcherFactory();
-        DefinitionPatternMatcherFactory regexpFactory = new RegexpDefinitionPatternMatcherFactory();
-        PrefixedPatternDefinitionResolver<T> resolver = new PrefixedPatternDefinitionResolver<T>();
-        resolver.registerDefinitionPatternMatcherFactory("WILDCARD", wildcardFactory);
-        resolver.registerDefinitionPatternMatcherFactory("REGEXP", regexpFactory);
-        return resolver;
     }
 }
