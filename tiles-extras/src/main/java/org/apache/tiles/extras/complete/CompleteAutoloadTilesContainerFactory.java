@@ -151,8 +151,6 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
         velocityRenderer.setApplicationContext(applicationContext);
         velocityRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         velocityRenderer.setRequestContextFactory(contextFactory);
-        velocityRenderer.setParameter("org.apache.velocity.toolbox", "/WEB-INF/tools.xml");
-        velocityRenderer.setParameter("org.apache.velocity.properties", "/WEB-INF/velocity.properties");
         velocityRenderer.commit();
         rendererFactory.registerRenderer("velocity", velocityRenderer);
     }
@@ -193,7 +191,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
                     .getResources("/WEB-INF/**/tiles*.xml");
             urlSet.addAll(applicationContext
                     .getResources("classpath*:META-INF/**/tiles*.xml"));
-            return URLUtil.filterLocalizedTilesDefinitionURLs(urlSet);
+            return URLUtil.getBaseTilesDefinitionURLs(urlSet);
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);
