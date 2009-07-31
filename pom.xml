@@ -184,29 +184,36 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <aggregate>true</aggregate>
-                    <excludePackageNames>org.apache.tiles.test</excludePackageNames>
-                    <links>
-                        <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-                        <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
-                        <link>http://commons.apache.org/chain/apidocs</link>
-                        <link>http://commons.apache.org/digester/commons-digester-1.6/docs/api</link>
-                        <link>http://commons.apache.org/logging/commons-logging-1.1/apidocs</link>
-                    </links>
-                    <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
-                    <docletArtifact>
-                        <groupId>gr.spinellis</groupId>
-                        <artifactId>UmlGraph</artifactId>
-                        <version>4.6</version>
-                    </docletArtifact>
-                    <additionalparam>
-                        -inferrel -inferdep -quiet -hide java.*
-                        -collpackages java.util.* -qualify
-                        -postfixpackage -nodefontsize 9
-                        -nodefontpackagesize 7
-                    </additionalparam>
-                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <id>aggregated</id>
+                        <configuration>
+                            <excludePackageNames>org.apache.tiles.test</excludePackageNames>
+                            <links>
+                                <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+                                <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
+                                <link>http://commons.apache.org/chain/apidocs</link>
+                                <link>http://commons.apache.org/digester/commons-digester-1.6/docs/api</link>
+                                <link>http://commons.apache.org/logging/commons-logging-1.1/apidocs</link>
+                            </links>
+                            <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
+                            <docletArtifact>
+                                <groupId>gr.spinellis</groupId>
+                                <artifactId>UmlGraph</artifactId>
+                                <version>4.6</version>
+                            </docletArtifact>
+                            <additionalparam>
+                                -inferrel -inferdep -quiet -hide java.*
+                                -collpackages java.util.* -qualify
+                                -postfixpackage -nodefontsize 9
+                                -nodefontpackagesize 7
+                            </additionalparam>
+                        </configuration>
+                        <reports>
+                            <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
