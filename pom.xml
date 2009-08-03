@@ -32,16 +32,16 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.tiles</groupId>
     <artifactId>tiles-parent</artifactId>
-    <version>2.2.0</version>
+    <version>2.2.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Tiles 2</name>
     <description>Tiles 2: A framework for page composition.</description>
     <url>http://tiles.apache.org/framework/</url>
 
     <scm>
-        <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/tags/tiles-2.2.0</connection>
-        <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/tags/tiles-2.2.0</developerConnection>
-        <url>http://svn.eu.apache.org/viewvc/tiles/framework/tags/tiles-2.2.0</url>
+        <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/trunk/</connection>
+        <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/trunk/</developerConnection>
+        <url>http://svn.eu.apache.org/viewvc/tiles/framework/trunk/</url>
     </scm>
 
     <ciManagement />
