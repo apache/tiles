@@ -22,6 +22,7 @@
 package org.apache.tiles.definition.dao;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -54,7 +55,7 @@ public class ResolvingLocaleUrlDefinitionDAO extends
     /** {@inheritDoc} */
     @Override
     protected Map<String, Definition> loadParentDefinitions(Locale parentLocale) {
-        return loadRawDefinitionsFromURLs(parentLocale);
+        return loadDefinitionsFromURLs(parentLocale);
     }
 
     /** {@inheritDoc} */
@@ -132,5 +133,28 @@ public class ResolvingLocaleUrlDefinitionDAO extends
                 alreadyResolvedDefinitions);
 
         definition.inherit(parent);
+    }
+
+    /**
+     * Copies the definition map to be passed to a higher level of customization
+     * key.
+     *
+     * @param localeDefsMap The map of definition to be copied.
+     * @return The copy of the definition map. This particular implementation
+     * deep-copies the <code>localeDefsMap</code> into a {@link LinkedHashMap}.
+     * @since 2.1.4
+     */
+    @Override
+    protected Map<String, Definition> copyDefinitionMap(
+            Map<String, Definition> localeDefsMap) {
+        Map<String, Definition> retValue = new LinkedHashMap<String, Definition>(
+                localeDefsMap.size());
+
+        for (Map.Entry<String, Definition> entry : localeDefsMap.entrySet()) {
+            Definition definition = new Definition(entry.getValue());
+            retValue.put(entry.getKey(), definition);
+        }
+
+        return retValue;
     }
 }
