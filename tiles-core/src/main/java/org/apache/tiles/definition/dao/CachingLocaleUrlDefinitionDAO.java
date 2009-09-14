@@ -204,8 +204,8 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             return localeDefsMap;
         }
 
-        localeDefsMap = loadDefinitionsFromURLs(customizationKey);
-        return localeDefsMap;
+        loadDefinitionsFromURLs(customizationKey);
+        return locale2definitionMap.get(customizationKey);
     }
 
     /**
@@ -216,21 +216,6 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      * @since 2.1.0
      */
     protected Map<String, Definition> loadDefinitionsFromURLs(Locale customizationKey) {
-        Map<String, Definition> localeDefsMap = loadRawDefinitionsFromURLs(customizationKey);
-        postDefinitionLoadOperations(localeDefsMap, customizationKey);
-
-        return localeDefsMap;
-    }
-
-    /**
-     * Loads the raw definitions from the URLs associated with a locale.
-     *
-     * @param customizationKey The locale to use when loading URLs.
-     * @return The loaded definitions.
-     * @since 2.1.3
-     */
-    protected Map<String, Definition> loadRawDefinitionsFromURLs(
-            Locale customizationKey) {
         Map<String, Definition> localeDefsMap;
 
         String postfix = LocaleUtil.calculatePostfix(customizationKey);
@@ -258,8 +243,23 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
                         + newPath, e);
             }
         }
+        Map<String, Definition> retValue = copyDefinitionMap(localeDefsMap);
         locale2definitionMap.put(customizationKey, localeDefsMap);
-        return localeDefsMap;
+        postDefinitionLoadOperations(localeDefsMap, customizationKey);
+        return retValue;
+    }
+
+    /**
+     * Loads the raw definitions from the URLs associated with a locale.
+     *
+     * @param customizationKey The locale to use when loading URLs.
+     * @return The loaded definitions.
+     * @since 2.1.3
+     * @deprecated Use {@link #loadDefinitionsFromURLs(Locale)}.
+     */
+    protected Map<String, Definition> loadRawDefinitionsFromURLs(
+            Locale customizationKey) {
+        return loadDefinitionsFromURLs(customizationKey);
     }
 
     /**
@@ -451,5 +451,19 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         public int[] getPattern() {
             return pattern;
         }
+    }
+
+    /**
+     * Copies the definition map to be passed to a higher level of customization
+     * key.
+     *
+     * @param localeDefsMap The map of definition to be copied.
+     * @return The copy of the definition map. This particular implementation
+     * return the <code>localeDefsMap</code> itself.
+     * @since 2.1.4
+     */
+    protected Map<String, Definition> copyDefinitionMap(
+            Map<String, Definition> localeDefsMap) {
+        return localeDefsMap;
     }
 }

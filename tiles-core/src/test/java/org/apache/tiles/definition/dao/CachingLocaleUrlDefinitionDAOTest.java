@@ -39,7 +39,9 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
@@ -657,5 +659,31 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals(null, definition.getLocalAttributeNames());
         definition = definitionDao.getDefinition("test.def3", null);
         assertNotNull("The simple definition is null", definition);
+    }
+
+    /**
+     * Tests
+     * {@link ResolvingLocaleUrlDefinitionDAO#getDefinition(String, Locale)}
+     * when loading multiple files for a locale.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @SuppressWarnings("unchecked")
+    public void testListAttributeLocaleInheritance() throws IOException {
+        URL url = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/tiles-defs-2.1.xml");
+        definitionDao.addSourceURL(url);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        definitionDao.setReader(new DigesterDefinitionsReader());
+        EasyMock.replay(applicationContext);
+
+        Definition definition = definitionDao.getDefinition(
+                "test.inherit.list", Locale.ITALIAN);
+        ListAttribute listAttribute = (ListAttribute) definition
+                .getAttribute("list");
+        List<Attribute> attributes = (List<Attribute>) listAttribute.getValue();
+        // It is right not to resolve inheritance in this DAO.
+        assertEquals(1, attributes.size());
     }
 }
