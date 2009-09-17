@@ -30,7 +30,7 @@
   <description>Tiles EL (Expression Language) support: Classes and tag libraries to use EL as an expression language in attribute expressions.	</description>
 
   <properties>
-    <tiles.osgi.symbolicName>org.apache.tiles.mvel</tiles.osgi.symbolicName>
+    <tiles.osgi.symbolicName>org.apache.tiles.el</tiles.osgi.symbolicName>
   </properties>
 
   <build>
@@ -112,6 +112,18 @@
       <groupId>javax.el</groupId>
       <artifactId>el-api</artifactId>
       <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.1</version>
       <scope>provided</scope>
     </dependency>
 
