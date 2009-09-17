@@ -54,6 +54,7 @@
         <module>tiles-jsp</module>
         <module>tiles-freemarker</module>
         <module>tiles-velocity</module>
+        <module>tiles-el</module>
         <module>tiles-mvel</module>
         <module>tiles-ognl</module>
         <module>tiles-portlet</module>
