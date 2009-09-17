@@ -3,9 +3,9 @@
 /*
  * $Id$
  *
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
+ * Lice"tiles-ognl2/tiles-ognl"nsed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file"tiles-ognl2/tiles-ognl"
+ * dist"tiles-ognl2/tiles-ognl"ributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
@@ -54,6 +54,8 @@
         <module>tiles-jsp</module>
         <module>tiles-freemarker</module>
         <module>tiles-velocity</module>
+        <module>tiles-mvel</module>
+        <module>tiles-ognl</module>
         <module>tiles-portlet</module>
         <module>tiles-compat</module>
         <module>tiles-extras</module>
