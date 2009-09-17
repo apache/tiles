@@ -83,6 +83,16 @@
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
+      <artifactId>tiles-mvel</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${pom.groupId}</groupId>
+      <artifactId>tiles-ognl</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${pom.groupId}</groupId>
       <artifactId>tiles-compat</artifactId>
       <version>${pom.version}</version>
     </dependency>
