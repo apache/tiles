@@ -51,6 +51,7 @@
         <module>tiles-core</module>
         <module>tiles-template</module>
         <module>tiles-servlet</module>
+        <module>tiles-servlet-wildcard</module>
         <module>tiles-jsp</module>
         <module>tiles-freemarker</module>
         <module>tiles-velocity</module>
