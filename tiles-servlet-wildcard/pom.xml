@@ -84,7 +84,7 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-core</artifactId>
+      <artifactId>tiles-servlet</artifactId>
       <version>${pom.version}</version>
     </dependency>
 
@@ -105,6 +105,12 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
