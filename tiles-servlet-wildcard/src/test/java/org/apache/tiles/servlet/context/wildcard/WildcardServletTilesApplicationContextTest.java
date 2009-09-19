@@ -109,8 +109,8 @@ public class WildcardServletTilesApplicationContextTest extends TestCase {
         assertEquals(TEST_PROPERTIES_SIZE, context.getResources(
                 "classpath*:/test.properties").size());
 
-        assertEquals(TEST_PROPERTIES_SIZE, context.getResources(
-                "classpath*:/org/apache/tiles/servlet/context/Servlet*Test.class").size());
+        assertEquals(1, context.getResources(
+                "classpath*:/org/apache/tiles/servlet/context/wildcard/*Test.class").size());
         EasyMock.verify(servletContext);
     }
 
