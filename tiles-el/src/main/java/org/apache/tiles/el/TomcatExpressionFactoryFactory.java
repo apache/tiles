@@ -19,23 +19,24 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.el;
+package org.apache.tiles.el;
 
 import javax.el.ExpressionFactory;
 
+import org.apache.el.ExpressionFactoryImpl;
+
 /**
- * Interface to define a factory of {@link ExpressionFactory}.
+ * Creates an expression factory using Tomcat's Jasper engine.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
+ * @deprecated Upgrade to Servlet 2.5 and JSP 2.1 and use
+ * <code>JspExpressionFactoryFactory</code>.
  */
-public interface ExpressionFactoryFactory {
+public class TomcatExpressionFactoryFactory implements ExpressionFactoryFactory {
 
-    /**
-     * Returns the expression factory to use.
-     *
-     * @return The expression factory.
-     * @since 2.1.0
-     */
-    ExpressionFactory getExpressionFactory();
+    /** {@inheritDoc} */
+    public ExpressionFactory getExpressionFactory() {
+        return new ExpressionFactoryImpl();
+    }
 }

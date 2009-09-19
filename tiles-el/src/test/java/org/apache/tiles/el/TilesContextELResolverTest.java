@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.evaluator.el;
+package org.apache.tiles.el;
 
 import java.beans.FeatureDescriptor;
 import java.beans.PropertyDescriptor;
@@ -33,6 +33,8 @@ import junit.framework.TestCase;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.el.ELContextImpl;
+import org.apache.tiles.el.TilesContextELResolver;
 import org.apache.tiles.reflect.ClassUtil;
 import org.easymock.EasyMock;
 

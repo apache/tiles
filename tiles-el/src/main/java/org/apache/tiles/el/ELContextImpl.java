@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.el;
+package org.apache.tiles.el;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

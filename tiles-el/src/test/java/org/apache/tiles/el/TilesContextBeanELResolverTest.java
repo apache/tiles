@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.evaluator.el;
+package org.apache.tiles.el;
 
 import java.beans.FeatureDescriptor;
 import java.util.ArrayList;
@@ -31,6 +31,8 @@ import javax.el.ELContext;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.el.ELContextImpl;
+import org.apache.tiles.el.TilesContextBeanELResolver;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
@@ -240,7 +242,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
 
     /**
      * Test method for
-     * {@link org.apache.tiles.evaluator.el.TilesContextBeanELResolver#getObject(java.util.Map, java.lang.String)}.
+     * {@link org.apache.tiles.el.TilesContextBeanELResolver#getObject(java.util.Map, java.lang.String)}.
      */
     public void testGetObject() {
         Map<String, Object> map = new HashMap<String, Object>();

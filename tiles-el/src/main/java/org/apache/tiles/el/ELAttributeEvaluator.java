@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.evaluator.el;
+package org.apache.tiles.el;
 
 import java.util.Map;
 
