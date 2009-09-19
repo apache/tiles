@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.el;
+package org.apache.tiles.evaluator.el;
 
 import javax.el.ExpressionFactory;
 
@@ -27,15 +27,8 @@ import javax.el.ExpressionFactory;
  * Interface to define a factory of {@link ExpressionFactory}.
  *
  * @version $Rev$ $Date$
- * @since 2.2.1
+ * @since 2.1.0
+ * @deprecated Use {@link org.apache.tiles.el.ExpressionFactoryFactory}.
  */
-public interface ExpressionFactoryFactory {
-
-    /**
-     * Returns the expression factory to use.
-     *
-     * @return The expression factory.
-     * @since 2.2.1
-     */
-    ExpressionFactory getExpressionFactory();
+public interface ExpressionFactoryFactory extends org.apache.tiles.el.ExpressionFactoryFactory {
 }

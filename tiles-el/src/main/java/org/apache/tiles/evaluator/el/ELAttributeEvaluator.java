@@ -18,24 +18,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.tiles.evaluator.el;
 
-package org.apache.tiles.el;
-
-import javax.el.ExpressionFactory;
 
 /**
- * Interface to define a factory of {@link ExpressionFactory}.
+ * Evaluates string expression with typical EL syntax.<br>
+ * You can use normal EL syntax, knowing that the root objects are
+ * {@link org.apache.tiles.TilesRequestContext},
+ * {@link org.apache.tiles.TilesApplicationContext} and beans contained in
+ * request, session and application scope.
  *
  * @version $Rev$ $Date$
- * @since 2.2.1
+ * @since 2.1.0
+ * @deprecated Use {@link org.apache.tiles.el.ELAttributeEvaluator}.
  */
-public interface ExpressionFactoryFactory {
-
-    /**
-     * Returns the expression factory to use.
-     *
-     * @return The expression factory.
-     * @since 2.2.1
-     */
-    ExpressionFactory getExpressionFactory();
+public class ELAttributeEvaluator extends org.apache.tiles.el.ELAttributeEvaluator {
 }

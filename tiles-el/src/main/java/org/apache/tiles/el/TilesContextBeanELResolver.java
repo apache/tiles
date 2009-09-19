@@ -36,7 +36,7 @@ import org.apache.tiles.context.TilesRequestContext;
  * Resolves beans in request, session and application scope.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 2.2.1
  */
 public class TilesContextBeanELResolver extends ELResolver {
 
@@ -121,6 +121,7 @@ public class TilesContextBeanELResolver extends ELResolver {
      *
      * @param map The map containing the bean to be inspected.
      * @param list The list to fill.
+     * @since 2.2.1
      */
     protected void collectBeanInfo(Map<String, ? extends Object> map,
             List<FeatureDescriptor> list) {
@@ -148,6 +149,7 @@ public class TilesContextBeanELResolver extends ELResolver {
      * @param context The context to use.
      * @param property The property used as an attribute name.
      * @return The found bean, if it exists, or <code>null</code> otherwise.
+     * @since 2.2.1
      */
     protected Object findObjectByProperty(ELContext context, Object property) {
         Object retValue = null;
@@ -177,6 +179,7 @@ public class TilesContextBeanELResolver extends ELResolver {
      * @param map The map to use.
      * @param property The property to use as a key.
      * @return The object, if present, or <code>null</code> otherwise.
+     * @since 2.2.1
      */
     protected Object getObject(Map<String, ? extends Object> map,
             String property) {

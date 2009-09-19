@@ -19,24 +19,27 @@
  * under the License.
  */
 
-package org.apache.tiles.el;
+package org.apache.tiles.evaluator.el;
 
-import javax.el.ExpressionFactory;
-
-import org.apache.el.ExpressionFactoryImpl;
+import javax.el.ELResolver;
 
 /**
- * Creates an expression factory using Tomcat's Jasper engine.
+ * Implementation of ELContext.<br>
+ * Copied from Apache Tomcat 6.0.16 source code.
  *
- * @version $Rev$ $Date$
  * @since 2.1.0
- * @deprecated Upgrade to Servlet 2.5 and JSP 2.1 and use
- * <code>JspExpressionFactoryFactory</code>.
+ * @deprecated Use {@link org.apache.tiles.el.ELContextImpl}.
  */
-public class TomcatExpressionFactoryFactory implements ExpressionFactoryFactory {
+public final class ELContextImpl extends org.apache.tiles.el.ELContextImpl {
 
-    /** {@inheritDoc} */
-    public ExpressionFactory getExpressionFactory() {
-        return new ExpressionFactoryImpl();
+    /**
+     * Constructor.
+     *
+     * @param resolver The resolver to use.
+     * @deprecated Use
+     * {@link org.apache.tiles.el.ELContextImpl#ELContextImpl(ELResolver)}.
+     */
+    public ELContextImpl(ELResolver resolver) {
+        super(resolver);
     }
 }

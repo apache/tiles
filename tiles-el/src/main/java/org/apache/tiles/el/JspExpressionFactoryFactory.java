@@ -32,7 +32,7 @@ import org.apache.tiles.awareness.TilesApplicationContextAware;
  * Uses the JSP 2.1 {@link ExpressionFactory} to be used in Tiles.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 2.2.1
  */
 public class JspExpressionFactoryFactory implements ExpressionFactoryFactory,
         TilesApplicationContextAware {
@@ -40,7 +40,7 @@ public class JspExpressionFactoryFactory implements ExpressionFactoryFactory,
     /**
      * The servlet context.
      *
-     * @since 2.1.0
+     * @since 2.2.1
      */
     protected ServletContext servletContext;
 

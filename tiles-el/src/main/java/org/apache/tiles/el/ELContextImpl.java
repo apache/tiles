@@ -35,9 +35,9 @@ import javax.el.VariableMapper;
  * Implementation of ELContext.<br>
  * Copied from Apache Tomcat 6.0.16 source code.
  *
- * @since 2.1.0
+ * @since 2.2.1
  */
-public final class ELContextImpl extends ELContext {
+public class ELContextImpl extends ELContext {
 
     /**
      * A null function mapper.
@@ -123,6 +123,7 @@ public final class ELContextImpl extends ELContext {
      * Sets the function mapper to use.
      *
      * @param functionMapper The function mapper.
+     * @since 2.2.1
      */
     public void setFunctionMapper(FunctionMapper functionMapper) {
         this.functionMapper = functionMapper;
@@ -132,6 +133,7 @@ public final class ELContextImpl extends ELContext {
      * Sets the variable mapper to use.
      *
      * @param variableMapper The variable mapper.
+     * @since 2.2.1
      */
     public void setVariableMapper(VariableMapper variableMapper) {
         this.variableMapper = variableMapper;

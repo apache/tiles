@@ -19,23 +19,17 @@
  * under the License.
  */
 
-package org.apache.tiles.el;
+package org.apache.tiles.jsp.evaluator.el;
 
 import javax.el.ExpressionFactory;
 
 /**
- * Interface to define a factory of {@link ExpressionFactory}.
+ * Uses the JSP 2.1 {@link ExpressionFactory} to be used in Tiles.
  *
  * @version $Rev$ $Date$
- * @since 2.2.1
+ * @since 2.1.0
+ * @deprecated Use {@link org.apache.tiles.el.JspExpressionFactoryFactory}.
  */
-public interface ExpressionFactoryFactory {
-
-    /**
-     * Returns the expression factory to use.
-     *
-     * @return The expression factory.
-     * @since 2.2.1
-     */
-    ExpressionFactory getExpressionFactory();
+public class JspExpressionFactoryFactory extends
+        org.apache.tiles.el.JspExpressionFactoryFactory {
 }

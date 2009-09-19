@@ -35,7 +35,7 @@ import org.apache.tiles.util.CombinedBeanInfo;
  * {@link TilesApplicationContext}.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 2.2.1
  */
 public class TilesContextELResolver extends BeanELResolver {
 

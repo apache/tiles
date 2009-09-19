@@ -46,7 +46,7 @@ import org.apache.tiles.reflect.ClassUtil;
  * contained in request, session and application scope.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 2.2.1
  */
 public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
         TilesApplicationContextAware {
@@ -55,7 +55,7 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
      * Initialization parameter to decide the implementation of
      * {@link ExpressionFactoryFactory}.
      *
-     * @since 2.1.0
+     * @since 2.2.1
      */
     public static final String EXPRESSION_FACTORY_FACTORY_INIT_PARAM =
         "org.apache.tiles.evaluator.el.ExpressionFactoryFactory";
@@ -63,28 +63,28 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
     /**
      * The Tiles application context.
      *
-     * @since 2.1.0
+     * @since 2.2.1
      */
     protected TilesApplicationContext applicationContext;
 
     /**
      * The EL expression factory.
      *
-     * @since 2.1.0
+     * @since 2.2.1
      */
     protected ExpressionFactory expressionFactory;
 
     /**
      * The EL resolver to use.
      *
-     * @since 2.1.0
+     * @since 2.2.1
      */
     protected ELResolver resolver;
 
     /**
      * Constructor.
      *
-     * @since 2.1.0
+     * @since 2.2.1
      */
     public ELAttributeEvaluator() {
     }
@@ -134,7 +134,7 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
      * Sets the expression factory to use.
      *
      * @param expressionFactory The expression factory.
-     * @since 2.1.0
+     * @since 2.2.1
      */
     public void setExpressionFactory(ExpressionFactory expressionFactory) {
         this.expressionFactory = expressionFactory;
@@ -144,7 +144,7 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
      * Sets the EL resolver to use.
      *
      * @param resolver The EL resolver.
-     * @since 2.1.0
+     * @since 2.2.1
      */
     public void setResolver(ELResolver resolver) {
         this.resolver = resolver;

@@ -30,7 +30,7 @@ import org.apache.tiles.Expression;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.el.ELAttributeEvaluator;
-import org.apache.tiles.el.TomcatExpressionFactoryFactory;
+import org.apache.tiles.evaluator.el.TomcatExpressionFactoryFactory;
 import org.easymock.EasyMock;
 
 /**

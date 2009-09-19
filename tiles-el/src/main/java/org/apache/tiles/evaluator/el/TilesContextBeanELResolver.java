@@ -18,24 +18,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.tiles.evaluator.el;
 
-package org.apache.tiles.el;
-
-import javax.el.ExpressionFactory;
 
 /**
- * Interface to define a factory of {@link ExpressionFactory}.
+ * Resolves beans in request, session and application scope.
  *
  * @version $Rev$ $Date$
- * @since 2.2.1
+ * @since 2.1.0
+ * @deprecated Use {@link TilesContextBeanELResolver}.
  */
-public interface ExpressionFactoryFactory {
-
-    /**
-     * Returns the expression factory to use.
-     *
-     * @return The expression factory.
-     * @since 2.2.1
-     */
-    ExpressionFactory getExpressionFactory();
+public class TilesContextBeanELResolver extends
+        org.apache.tiles.el.TilesContextBeanELResolver {
 }
