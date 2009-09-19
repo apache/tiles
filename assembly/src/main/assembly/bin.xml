@@ -27,6 +27,7 @@
             <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
             <includes>
                 <include>org.slf4j:slf4j-api</include>
+                <include>org.slf4j:jcl-over-slf4j</include>
                 <include>commons-beanutils:commons-beanutils</include>
                 <include>commons-digester:commons-digester</include>
             </includes>
@@ -37,6 +38,7 @@
             <excludes>
                 <exclude>org.apache.tiles:*</exclude>
                 <exclude>org.slf4j:slf4j-api</exclude>
+                <exclude>org.slf4j:jcl-over-slf4j</exclude>
                 <exclude>commons-beanutils:commons-beanutils</exclude>
                 <exclude>commons-digester:commons-digester</exclude>
             </excludes>
