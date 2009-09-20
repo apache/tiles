@@ -38,7 +38,7 @@ import org.springframework.web.context.support.ServletContextResourcePatternReso
  * can resolve resources even using wildcards.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 2.2.1
  */
 public class WildcardServletTilesApplicationContext extends
         ServletTilesApplicationContext {
@@ -46,7 +46,7 @@ public class WildcardServletTilesApplicationContext extends
     /**
      * The pattern resolver.
      *
-     * @since 2.1.0
+     * @since 2.2.1
      */
     protected ResourcePatternResolver resolver;
 
@@ -54,7 +54,7 @@ public class WildcardServletTilesApplicationContext extends
      * Constructor.
      *
      * @param servletContext The servlet context.
-     * @since 2.1.0
+     * @since 2.2.1
      */
     public WildcardServletTilesApplicationContext(ServletContext servletContext) {
         super(servletContext);

@@ -38,7 +38,7 @@ import org.springframework.web.portlet.context.PortletContextResourcePatternReso
  * can resolve resources even using wildcards.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 2.2.1
  */
 public class WildcardPortletTilesApplicationContext extends
         PortletTilesApplicationContext {
@@ -46,7 +46,7 @@ public class WildcardPortletTilesApplicationContext extends
     /**
      * The pattern resolver.
      *
-     * @since 2.1.0
+     * @since 2.2.1
      */
     protected ResourcePatternResolver resolver;
 
@@ -54,7 +54,7 @@ public class WildcardPortletTilesApplicationContext extends
      * Constructor.
      *
      * @param portletContext The portlet context.
-     * @since 2.1.0
+     * @since 2.2.1
      */
     public WildcardPortletTilesApplicationContext(PortletContext portletContext) {
         super(portletContext);

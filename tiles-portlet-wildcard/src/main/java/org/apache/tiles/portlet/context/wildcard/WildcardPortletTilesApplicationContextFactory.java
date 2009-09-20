@@ -19,12 +19,13 @@
  * under the License.
  */
 
-package org.apache.tiles.portlet.wildcard;
+package org.apache.tiles.portlet.context.wildcard;
 
 import javax.portlet.PortletContext;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.portlet.context.PortletTilesApplicationContextFactory;
+import org.apache.tiles.portlet.wildcard.WildcardPortletTilesApplicationContext;
 
 /**
  * In the {@link #createApplicationContext(Object)} method creates an instance

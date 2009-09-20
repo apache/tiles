@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.servlet.wildcard;
+package org.apache.tiles.servlet.context.wildcard;
 
 import java.util.Map;
 
@@ -28,6 +28,7 @@ import javax.servlet.ServletContext;
 import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
+import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
 
 /**
  * In the {@link #createApplicationContext(Object)} method creates an instance
