@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.servlet.context.wildcard;
+package org.apache.tiles.servlet.wildcard;
 
 import java.util.Map;
 

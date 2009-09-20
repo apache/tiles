@@ -25,7 +25,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
-import org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContext;
+import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
 import org.apache.tiles.startup.AbstractTilesInitializer;
 
 /**
