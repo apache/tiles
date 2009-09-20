@@ -18,9 +18,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.portlet.context.wildcard;
+package org.apache.tiles.portlet.wildcard;
 
 import junit.framework.TestCase;
+
+import org.apache.tiles.portlet.wildcard.WildcardPortletTilesApplicationContext;
 import org.easymock.EasyMock;
 
 import java.io.File;

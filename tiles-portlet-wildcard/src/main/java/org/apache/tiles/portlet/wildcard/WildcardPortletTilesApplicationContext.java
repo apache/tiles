@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.portlet.context.wildcard;
+package org.apache.tiles.portlet.wildcard;
 
 import java.io.IOException;
 import java.net.URL;
