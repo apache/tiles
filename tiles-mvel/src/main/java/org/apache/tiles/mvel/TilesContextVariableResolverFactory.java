@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.mvel;
+package org.apache.tiles.mvel;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;

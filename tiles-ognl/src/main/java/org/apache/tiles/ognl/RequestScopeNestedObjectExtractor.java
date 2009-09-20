@@ -19,28 +19,23 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.ognl;
+package org.apache.tiles.ognl;
 
-import ognl.PropertyAccessor;
+import java.util.Map;
+
+import org.apache.tiles.context.TilesRequestContext;
 
 /**
- * Decides a {@link PropertyAccessor} depending on the property name and the
- * object to evaluate.
+ * Extracts the request scope from a Tiles request.
  *
- * @param <T> The type of the root object to evaluate.
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public interface PropertyAccessorDelegateFactory<T> {
+public class RequestScopeNestedObjectExtractor implements
+        NestedObjectExtractor<TilesRequestContext> {
 
-    /**
-     * Returns a prooerty accessor appropriate for the property name and the
-     * object passed.
-     *
-     * @param propertyName The name of the property.
-     * @param obj The root object to evaluate.
-     * @return The appropriate property accessor.
-     * @since 2.2.0
-     */
-    PropertyAccessor getPropertyAccessor(String propertyName, T obj);
+    /** {@inheritDoc} */
+    public Map<String, Object> getNestedObject(TilesRequestContext obj) {
+        return obj.getRequestScope();
+    }
 }

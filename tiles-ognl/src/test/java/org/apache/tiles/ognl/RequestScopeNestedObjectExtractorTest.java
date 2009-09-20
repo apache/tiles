@@ -19,34 +19,41 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.ognl;
+package org.apache.tiles.ognl;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 
-import org.apache.tiles.TilesApplicationContext;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.ognl.NestedObjectExtractor;
+import org.apache.tiles.ognl.RequestScopeNestedObjectExtractor;
+import org.apache.tiles.ognl.SessionScopeNestedObjectExtractor;
 import org.junit.Test;
 
 /**
- * Tests {@link TilesApplicationContextNestedObjectExtractor}.
+ * Tests {@link RequestScopeNestedObjectExtractor}.
  *
  * @version $Rev$ $Date$
  */
-public class TilesApplicationContextNestedObjectExtractorTest {
+public class RequestScopeNestedObjectExtractorTest {
 
     /**
-     * Tests {@link TilesApplicationContextNestedObjectExtractor#getNestedObject(TilesRequestContext)}.
+     * Tests {@link SessionScopeNestedObjectExtractor#getNestedObject(TilesRequestContext)}.
      */
     @Test
     public void testGetNestedObject() {
         TilesRequestContext request = createMock(TilesRequestContext.class);
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
-        expect(request.getApplicationContext()).andReturn(applicationContext);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("attribute1", "value1");
+        expect(request.getSessionScope()).andReturn(map);
 
-        replay(request, applicationContext);
-        NestedObjectExtractor<TilesRequestContext> extractor = new TilesApplicationContextNestedObjectExtractor();
-        assertEquals(applicationContext, extractor.getNestedObject(request));
-        verify(request, applicationContext);
+        replay(request);
+        NestedObjectExtractor<TilesRequestContext> extractor = new SessionScopeNestedObjectExtractor();
+        assertEquals(map, extractor.getNestedObject(request));
+        verify(request);
     }
+
 }

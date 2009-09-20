@@ -18,33 +18,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.evaluator.ognl;
+package org.apache.tiles.mvel;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
-import ognl.OgnlRuntime;
-import ognl.PropertyAccessor;
-
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextHolder;
+import org.apache.tiles.mvel.MVELAttributeEvaluator;
+import org.apache.tiles.mvel.TilesContextBeanVariableResolverFactory;
+import org.apache.tiles.mvel.TilesContextVariableResolverFactory;
 import org.easymock.EasyMock;
+import org.mvel2.integration.VariableResolverFactory;
 
 /**
- * Tests {@link OGNLAttributeEvaluator}.
+ * Tests {@link MVELAttributeEvaluator}.
  *
  * @version $Rev$ $Date$$
  */
-public class OGNLAttributeEvaluatorTest extends TestCase {
+public class MVELAttributeEvaluatorTest extends TestCase {
 
     /**
      * The evaluator to test.
      */
-    private OGNLAttributeEvaluator evaluator;
+    private MVELAttributeEvaluator evaluator;
 
     /**
      * The request object to use.
@@ -54,26 +56,14 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
     /** {@inheritDoc} */
     protected void setUp() throws Exception {
         super.setUp();
-        PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
-        PropertyAccessor mapPropertyAccessor = OgnlRuntime.getPropertyAccessor(Map.class);
-        PropertyAccessor applicationContextPropertyAccessor =
-            new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
-                new TilesApplicationContextNestedObjectExtractor(),
-                objectPropertyAccessor);
-        PropertyAccessor requestScopePropertyAccessor = new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
-                new RequestScopeNestedObjectExtractor(), mapPropertyAccessor);
-        PropertyAccessor sessionScopePropertyAccessor = new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
-                new SessionScopeNestedObjectExtractor(), mapPropertyAccessor);
-        PropertyAccessor applicationScopePropertyAccessor =
-            new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
-                new ApplicationScopeNestedObjectExtractor(), mapPropertyAccessor);
-        PropertyAccessorDelegateFactory<TilesRequestContext> factory = new TilesContextPropertyAccessorDelegateFactory(
-                objectPropertyAccessor, applicationContextPropertyAccessor,
-                requestScopePropertyAccessor, sessionScopePropertyAccessor,
-                applicationScopePropertyAccessor);
-        PropertyAccessor tilesRequestAccessor = new DelegatePropertyAccessor<TilesRequestContext>(factory);
-        OgnlRuntime.setPropertyAccessor(TilesRequestContext.class, tilesRequestAccessor);
-        evaluator = new OGNLAttributeEvaluator();
+        TilesRequestContextHolder requestHolder = new TilesRequestContextHolder();
+        VariableResolverFactory variableResolverFactory = new TilesContextVariableResolverFactory(
+                requestHolder);
+        variableResolverFactory
+                .setNextFactory(new TilesContextBeanVariableResolverFactory(
+                        requestHolder));
+        evaluator = new MVELAttributeEvaluator(requestHolder,
+                variableResolverFactory);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
@@ -97,7 +87,7 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
 
     /**
      * Tests
-     * {@link OGNLAttributeEvaluator#evaluate(Attribute, TilesRequestContext)}.
+     * {@link MVELAttributeEvaluator#evaluate(Attribute, TilesRequestContext)}.
      */
     public void testEvaluate() {
         Attribute attribute = new Attribute();
@@ -134,7 +124,7 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
     }
 
     /**
-     * Tests {@link OGNLAttributeEvaluator#evaluate(String, TilesRequestContext)}.
+     * Tests {@link MVELAttributeEvaluator#evaluate(String, TilesRequestContext)}.
      */
     public void testEvaluateString() {
         String expression = "requestScope.object1";

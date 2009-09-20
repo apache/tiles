@@ -19,23 +19,40 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.ognl;
+package org.apache.tiles.ognl;
 
 import java.util.Map;
 
+import ognl.Ognl;
+import ognl.OgnlException;
+
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
+import org.apache.tiles.evaluator.EvaluationException;
 
 /**
- * Extracts the application scope from a Tiles request.
+ * Evaluates attribute expressions and expressions with OGNL language.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class ApplicationScopeNestedObjectExtractor implements
-        NestedObjectExtractor<TilesRequestContext> {
+public class OGNLAttributeEvaluator extends AbstractAttributeEvaluator {
 
     /** {@inheritDoc} */
-    public Map<String, Object> getNestedObject(TilesRequestContext obj) {
-        return obj.getApplicationContext().getApplicationScope();
+    public Object evaluate(String expression, TilesRequestContext request) {
+        if (expression == null) {
+            throw new IllegalArgumentException("The expression parameter cannot be null");
+        }
+        try {
+            return Ognl.getValue(expression, request);
+        } catch (OgnlException e) {
+            throw new EvaluationException("Cannot evaluate OGNL expression '"
+                    + expression + "'", e);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void init(Map<String, String> initParameters) {
+        // Nothing to initialize.
     }
 }

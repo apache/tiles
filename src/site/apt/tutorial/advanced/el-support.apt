@@ -92,7 +92,7 @@ protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
 }
 ------------------------------------
 
-** Configuration under Servlets 2.4/JSP 2.1
+** Configuration under Servlets 2.4/JSP 2.0
 
   If you are using Servlets 2.4/JSP 2.0, you still can use Tiles EL support but:
 
@@ -168,7 +168,7 @@ protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
 * {MVEL Support}
 
   To use MVEL support you need to register an instance of
-  {{{../../apidocs/org/apache/tiles/evaluator/mvel/MVELAttributeEvaluator.html} MVELAttributeEvaluator}}
+  {{{../../apidocs/org/apache/tiles/mvel/MVELAttributeEvaluator.html} MVELAttributeEvaluator}}
   along with other supporting objects.
 
 ------------------------------------
@@ -214,7 +214,7 @@ protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
 * {OGNL Support}
 
   To use OGNL support you need to register an instance of
-  {{{../../apidocs/org/apache/tiles/evaluator/ognl/OGNLAttributeEvaluator.html} OGNLAttributeEvaluator}}
+  {{{../../apidocs/org/apache/tiles/ognl/OGNLAttributeEvaluator.html} OGNLAttributeEvaluator}}
   along with other supporting objects.
 
 ------------------------------------

@@ -19,22 +19,23 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.ognl;
+package org.apache.tiles.ognl;
 
-import org.apache.tiles.TilesApplicationContext;
+import java.util.Map;
+
 import org.apache.tiles.context.TilesRequestContext;
 
 /**
- * Extracts the application context from a Tiles request.
+ * Extracts the application scope from a Tiles request.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class TilesApplicationContextNestedObjectExtractor implements
+public class ApplicationScopeNestedObjectExtractor implements
         NestedObjectExtractor<TilesRequestContext> {
 
     /** {@inheritDoc} */
-    public TilesApplicationContext getNestedObject(TilesRequestContext obj) {
-        return obj.getApplicationContext();
+    public Map<String, Object> getNestedObject(TilesRequestContext obj) {
+        return obj.getApplicationContext().getApplicationScope();
     }
 }

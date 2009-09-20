@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.ognl;
+package org.apache.tiles.ognl;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.ognl.NestedObjectExtractor;
+import org.apache.tiles.ognl.RequestScopeNestedObjectExtractor;
+import org.apache.tiles.ognl.SessionScopeNestedObjectExtractor;
 import org.junit.Test;
 
 /**

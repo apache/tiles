@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.mvel;
+package org.apache.tiles.mvel;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
@@ -30,6 +30,7 @@ import java.util.Map;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextHolder;
+import org.apache.tiles.mvel.TilesContextBeanVariableResolverFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mvel2.UnresolveablePropertyException;

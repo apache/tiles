@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.ognl;
+package org.apache.tiles.ognl;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
@@ -31,6 +31,8 @@ import ognl.PropertyAccessor;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.ognl.PropertyAccessorDelegateFactory;
+import org.apache.tiles.ognl.TilesContextPropertyAccessorDelegateFactory;
 import org.junit.Test;
 
 /**

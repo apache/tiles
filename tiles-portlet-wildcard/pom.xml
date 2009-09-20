@@ -36,7 +36,7 @@
   <description>Tiles Wildcard file loading in Portlets: Allows to load resources using wildcards.</description>
 
   <properties>
-  	<tiles.osgi.symbolicName>org.apache.tiles.servlet.wildcard</tiles.osgi.symbolicName>
+  	<tiles.osgi.symbolicName>org.apache.tiles.portlet.wildcard</tiles.osgi.symbolicName>
   </properties>
 
   <build>

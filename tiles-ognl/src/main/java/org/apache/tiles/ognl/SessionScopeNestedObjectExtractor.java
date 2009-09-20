@@ -19,23 +19,23 @@
  * under the License.
  */
 
-package org.apache.tiles.evaluator.ognl;
+package org.apache.tiles.ognl;
+
+import java.util.Map;
+
+import org.apache.tiles.context.TilesRequestContext;
 
 /**
- * Extracts an object using another object as a basis.
+ * Extracts the session scope from a Tiles request.
  *
- * @param <T> The type of the root object.
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public interface NestedObjectExtractor<T> {
+public class SessionScopeNestedObjectExtractor implements
+        NestedObjectExtractor<TilesRequestContext> {
 
-    /**
-     * Extracts the nested object.
-     *
-     * @param obj The root object.
-     * @return The extracted nested object.
-     * @since 2.2.0
-     */
-    Object getNestedObject(T obj);
+    /** {@inheritDoc} */
+    public Map<String, Object> getNestedObject(TilesRequestContext obj) {
+        return obj.getSessionScope();
+    }
 }
