@@ -99,7 +99,7 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
         } else {
             efFactory = (ExpressionFactoryFactory) ClassUtil
                     .instantiate(
-                    "org.apache.tiles.evaluator.el.JspExpressionFactoryFactory", true);
+                    "org.apache.tiles.jsp.evaluator.el.JspExpressionFactoryFactory", true);
             if (efFactory == null) {
                 efFactory = new TomcatExpressionFactoryFactory();
             }
