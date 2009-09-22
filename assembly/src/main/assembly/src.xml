@@ -62,8 +62,40 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>../tiles-servlet-wildcard</directory>
+            <outputDirectory>src/tiles-servlet-wildcard</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>../tiles-jsp</directory>
             <outputDirectory>src/tiles-jsp</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../tiles-el</directory>
+            <outputDirectory>src/tiles-el</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../tiles-mvel</directory>
+            <outputDirectory>src/tiles-mvel</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../tiles-ognl</directory>
+            <outputDirectory>src/tiles-ognl</outputDirectory>
             <includes>
                 <include>pom.xml</include>
                 <include>src/</include>
@@ -104,6 +136,14 @@
         <fileSet>
             <directory>../tiles-portlet</directory>
             <outputDirectory>src/tiles-portlet</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../tiles-portlet-wildcard</directory>
+            <outputDirectory>src/tiles-portlet-wildcard</outputDirectory>
             <includes>
                 <include>pom.xml</include>
                 <include>src/</include>

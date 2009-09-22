@@ -53,13 +53,6 @@
                 <exclude>org.apache.tiles:tiles-test</exclude>
             </excludes>
         </dependencySet>
-        <dependencySet>
-            <outputDirectory>/examples</outputDirectory>
-            <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <includes>
-                <include>org.apache.tiles:tiles-test</include>
-            </includes>
-        </dependencySet>
     </dependencySets>
 
     <fileSets>
@@ -70,18 +63,6 @@
                 <include>*LICENSE.*</include>
                 <include>NOTICE.txt</include>
             </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../target/site/apidocs</directory>
-            <outputDirectory>apidocs</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>../tiles-core/target/site/dtddoc</directory>
-            <outputDirectory>dtddoc</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>../tiles-jsp/target/site/tlddoc</directory>
-            <outputDirectory>tlddoc</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>
