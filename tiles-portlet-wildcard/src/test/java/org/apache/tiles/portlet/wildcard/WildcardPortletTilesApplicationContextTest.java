@@ -22,7 +22,6 @@ package org.apache.tiles.portlet.wildcard;
 
 import junit.framework.TestCase;
 
-import org.apache.tiles.portlet.wildcard.WildcardPortletTilesApplicationContext;
 import org.easymock.EasyMock;
 
 import java.io.File;
@@ -117,7 +116,7 @@ public class WildcardPortletTilesApplicationContextTest extends TestCase {
                 "classpath*:/test.properties").size());
 
         assertEquals(TEST_TEST_SIZE, context.getResources(
-                "classpath*:/org/apache/tiles/portlet/context/wildcard/*Test.class").size());
+                "classpath*:/org/apache/tiles/portlet/wildcard/*Test.class").size());
         EasyMock.verify(portletContext);
     }
 
