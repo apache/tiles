@@ -40,6 +40,14 @@ import java.util.Map;
 public class PortletTilesRequestContextFactory implements
         TilesRequestContextFactory {
 
+    /**
+     * The site of the request object array in case there is a request, a
+     * response and a portlet context.
+     *
+     * @since 2.1.4
+     */
+    private static final int REQUEST_OBJECTS_LENGTH = 3;
+
     /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {
     }
@@ -47,14 +55,25 @@ public class PortletTilesRequestContextFactory implements
     /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
-        if (requestItems.length == 2) {
+        if (requestItems.length == 2
+                && requestItems[0] instanceof PortletRequest
+                && requestItems[1] instanceof PortletResponse) {
             PortletContext portletContext = getPortletContext(context);
             if (portletContext != null) {
                 return new PortletTilesRequestContext(context, portletContext,
                         (PortletRequest) requestItems[0],
                         (PortletResponse) requestItems[1]);
             }
+        } else if (requestItems.length == REQUEST_OBJECTS_LENGTH
+                && requestItems[0] instanceof PortletRequest
+                && requestItems[1] instanceof PortletResponse
+                && requestItems[2] instanceof PortletContext) {
+            return new PortletTilesRequestContext(context,
+                    (PortletContext) requestItems[2],
+                    (PortletRequest) requestItems[0],
+                    (PortletResponse) requestItems[1]);
         }
+
 
         return null;
     }
