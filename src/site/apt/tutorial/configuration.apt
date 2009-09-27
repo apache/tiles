@@ -156,3 +156,26 @@ Configuring Tiles internals
   * loading {{{../migration/configuration.html#Reusing_old_Tiles_configuration_files}Tiles 1.x definition files}};
 
   * loads all the files named "tiles*.xml" under /WEB-INF and under every META-INF in any part of the classpath.
+
+* Modular initialization
+
+  It is possible to startup Tiles in a <<modular>> way, that is loading
+  modules of independent Tiles configuration.
+
+  To turn it on, you need to use
+  {{{../apidocs/org/apache/tiles/extras/module/ModularTilesListener.html}ModularTilesListener}}
+  or
+  {{{../apidocs/org/apache/tiles/extras/module/ModularTilesInitializer.html}ModularTilesInitializer}}
+  available in the <<<tiles-extras>>> module.
+
+  Add in your manifest file, under the <<<META-INF/MANIFEST.MF>>>
+  path, the <<<Tiles-Initializer>>> property, whose value is the name of the class of the
+  needed initializer. For example:
+
+---------------------------
+Manifest-Version: 1.0
+Tiles-Initializer: org.apache.tiles.extras.module.ModularTilesInitializerTest$TilesInitializer1
+---------------------------
+
+  Every initializer that is found will be loaded and "initialized", and destroyed when the
+  main initializer is destroyed.
