@@ -39,6 +39,16 @@
    <dependencies>
       <dependency>
          <groupId>${pom.groupId}</groupId>
+         <artifactId>tiles-test-alt</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>${pom.groupId}</groupId>
+         <artifactId>tiles-test-db</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>${pom.groupId}</groupId>
          <artifactId>tiles-extras</artifactId>
          <version>${pom.version}</version>
       </dependency>

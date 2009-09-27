@@ -25,17 +25,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>tiles-parent</artifactId>
+    <artifactId>tiles-test-pom</artifactId>
     <groupId>org.apache.tiles</groupId>
     <version>2.2.1-SNAPSHOT</version>
   </parent>
-  <artifactId>tiles-test-pom</artifactId>
-  <packaging>pom</packaging>
-  <name>Tiles test webapp module collector</name>
-  <description>Collects all the modules of the Tiles test web application.</description>
-  <modules>
-    <module>tiles-test-alt</module>
-    <module>tiles-test-db</module>
-  	<module>tiles-test</module>
-  </modules>
+  <artifactId>tiles-test-db</artifactId>
+  <name>Tiles - Test webapp database configuration</name>
+  <description>Tiles configuration that uses a database.</description>
 </project>
