@@ -20,11 +20,7 @@
  */
 package org.apache.tiles.test.listener;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.factory.AbstractTilesContainerFactory;
-import org.apache.tiles.startup.AbstractTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
-import org.apache.tiles.test.factory.TestAlternateTilesContainerFactory;
 import org.apache.tiles.web.startup.AbstractTilesListener;
 
 /**
@@ -38,25 +34,5 @@ public class TestAlternateTilesListener extends AbstractTilesListener {
     @Override
     protected TilesInitializer createTilesInitializer() {
         return new TestAlternateTilesInitializer();
-    }
-
-    /**
-     * Test Tiles initializer for Tiles initialization of the alternate container.
-     */
-    private static class TestAlternateTilesInitializer extends AbstractTilesInitializer {
-
-        /** {@inheritDoc} */
-        @Override
-        protected AbstractTilesContainerFactory createContainerFactory(
-                TilesApplicationContext context) {
-            return new TestAlternateTilesContainerFactory();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        protected String getContainerKey(
-                TilesApplicationContext applicationContext) {
-            return "alternate";
-        }
     }
 }

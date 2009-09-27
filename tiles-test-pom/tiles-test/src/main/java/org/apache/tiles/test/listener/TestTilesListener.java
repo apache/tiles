@@ -20,14 +20,8 @@
  */
 package org.apache.tiles.test.listener;
 
-import javax.servlet.ServletContext;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.factory.AbstractTilesContainerFactory;
-import org.apache.tiles.servlet.context.wildcard.WildcardServletTilesApplicationContext;
-import org.apache.tiles.startup.AbstractTilesInitializer;
 import org.apache.tiles.startup.TilesInitializer;
-import org.apache.tiles.test.factory.TestTilesContainerFactory;
 import org.apache.tiles.web.startup.AbstractTilesListener;
 
 /**
@@ -41,26 +35,5 @@ public class TestTilesListener extends AbstractTilesListener {
     @Override
     protected TilesInitializer createTilesInitializer() {
         return new TestTilesListenerInitializer();
-    }
-
-    /**
-     * Test Tiles initializer for Tiles initialization of the default container.
-     */
-    private static class TestTilesListenerInitializer extends AbstractTilesInitializer {
-
-        /** {@inheritDoc} */
-        @Override
-        protected AbstractTilesContainerFactory createContainerFactory(
-                TilesApplicationContext context) {
-            return new TestTilesContainerFactory();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        protected TilesApplicationContext createTilesApplicationContext(
-                TilesApplicationContext preliminaryContext) {
-            return new WildcardServletTilesApplicationContext(
-                    (ServletContext) preliminaryContext.getContext());
-        }
     }
 }
