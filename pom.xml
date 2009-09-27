@@ -64,6 +64,7 @@
         <module>tiles-extras</module>
         <module>tiles-test</module>
         <module>assembly</module>
+        <module>tiles-test-pom</module>
     </modules>
 
     <distributionManagement>
