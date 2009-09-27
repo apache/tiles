@@ -33,4 +33,7 @@
   <packaging>pom</packaging>
   <name>Tiles test webapp module collector</name>
   <description>Collects all the modules of the Tiles test web application.</description>
+  <modules>
+  	<module>tiles-test</module>
+  </modules>
 </project>
