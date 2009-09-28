@@ -18,57 +18,56 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles;
 
+package org.apache.tiles.factory;
+
+import org.apache.tiles.TilesException;
 
 /**
- * Root class for all Tiles-exceptions.
+ * Exception that indicates that a feature could not be used since it is not
+ * available.
  *
  * @version $Rev$ $Date$
+ * @since 2.1.4
  */
-public class TilesException extends RuntimeException {
+public class NotAvailableFeatureException extends TilesException {
 
     /**
      * Constructor.
+     *
+     * @since 2.1.4
      */
-    public TilesException() {
-        super();
+    public NotAvailableFeatureException() {
     }
 
     /**
      * Constructor.
      *
-     * @param message The error or warning message.
+     * @param message The detail message.
+     * @since 2.1.4
      */
-    public TilesException(String message) {
+    public NotAvailableFeatureException(String message) {
         super(message);
     }
 
-
     /**
-     * Create a new <code>TilesException</code> wrapping an existing exception.
-     * <p/>
-     * <p>The existing exception will be embedded in the new
-     * one, and its message will become the default message for
-     * the TilesException.</p>
+     * Constructor.
      *
      * @param e The cause to be wrapped.
+     * @since 2.1.4
      */
-    public TilesException(Throwable e) {
+    public NotAvailableFeatureException(Throwable e) {
         super(e);
     }
 
-
     /**
-     * Create a new <code>TilesException</code> from an existing exception.
-     * <p/>
-     * <p>The existing exception will be embedded in the new
-     * one, but the new exception will have its own message.</p>
+     * Constructor.
      *
      * @param message The detail message.
-     * @param e       The cause to be wrapped.
+     * @param e The cause to be wrapped.
+     * @since 2.1.4
      */
-    public TilesException(String message, Throwable e) {
+    public NotAvailableFeatureException(String message, Throwable e) {
         super(message, e);
     }
 }
