@@ -34,6 +34,7 @@
   <name>Tiles test webapp module collector</name>
   <description>Collects all the modules of the Tiles test web application.</description>
   <modules>
+    <module>tiles-test-common</module>
     <module>tiles-test-alt</module>
     <module>tiles-test-db</module>
   	<module>tiles-test</module>

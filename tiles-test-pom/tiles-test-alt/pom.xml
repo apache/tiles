@@ -32,4 +32,11 @@
   <artifactId>tiles-test-alt</artifactId>
   <name>Tiles - Test webapp alternate configuration</name>
   <description>Alternate configuration for the test webapp.</description>
+  <dependencies>
+    <dependency>
+       <groupId>${pom.groupId}</groupId>
+       <artifactId>tiles-test-common</artifactId>
+       <version>${pom.version}</version>
+    </dependency>
+  </dependencies>
 </project>

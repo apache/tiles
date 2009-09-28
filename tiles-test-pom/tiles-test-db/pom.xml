@@ -32,4 +32,11 @@
   <artifactId>tiles-test-db</artifactId>
   <name>Tiles - Test webapp database configuration</name>
   <description>Tiles configuration that uses a database.</description>
+  <dependencies>
+    <dependency>
+       <groupId>${pom.groupId}</groupId>
+       <artifactId>tiles-test-common</artifactId>
+       <version>${pom.version}</version>
+    </dependency>
+  </dependencies>
 </project>
