@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.test.factory;
+package org.apache.tiles.test.db;
 
 import java.util.List;
 import java.util.Locale;
@@ -34,7 +34,6 @@ import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.locale.LocaleResolver;
-import org.apache.tiles.test.definition.dao.LocaleDbDefinitionDAO;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 
 

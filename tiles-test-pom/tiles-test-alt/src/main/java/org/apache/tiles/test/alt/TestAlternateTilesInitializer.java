@@ -1,16 +1,15 @@
-package org.apache.tiles.test.listener;
+package org.apache.tiles.test.alt;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.startup.AbstractTilesInitializer;
-import org.apache.tiles.test.factory.TestAlternateTilesContainerFactory;
 
 /**
  * Test Tiles initializer for Tiles initialization of the alternate container.
  *
  * @version $Rev$ $Date$
  */
-class TestAlternateTilesInitializer extends AbstractTilesInitializer {
+public class TestAlternateTilesInitializer extends AbstractTilesInitializer {
 
     /** {@inheritDoc} */
     @Override

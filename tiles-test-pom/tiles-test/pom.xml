@@ -39,6 +39,11 @@
    <dependencies>
       <dependency>
          <groupId>${pom.groupId}</groupId>
+         <artifactId>tiles-test-common</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>${pom.groupId}</groupId>
          <artifactId>tiles-test-alt</artifactId>
          <version>${pom.version}</version>
       </dependency>
@@ -134,6 +139,15 @@
                           </includes>
                       </resource>
                   </webResources>
+                  <archive>
+                      <manifest>
+                          <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                          <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                      </manifest>
+                      <manifestEntries>
+                          <Tiles-Initializer>org.apache.tiles.test.init.TestTilesInitializer</Tiles-Initializer>
+                      </manifestEntries>
+                  </archive>
                </configuration>
            </plugin>
            <plugin>

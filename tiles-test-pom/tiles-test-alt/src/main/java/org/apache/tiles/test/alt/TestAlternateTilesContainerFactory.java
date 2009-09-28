@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.test.factory;
+package org.apache.tiles.test.alt;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,6 +32,7 @@ import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
+import org.apache.tiles.test.factory.TestTilesContainerFactory;
 
 /**
  * Test alternate Tiles container factory to customize Tiles behaviour.

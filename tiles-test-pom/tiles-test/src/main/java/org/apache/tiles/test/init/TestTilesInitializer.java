@@ -1,4 +1,4 @@
-package org.apache.tiles.test.listener;
+package org.apache.tiles.test.init;
 
 import javax.servlet.ServletContext;
 
@@ -13,7 +13,7 @@ import org.apache.tiles.test.factory.TestTilesContainerFactory;
  *
  * @version $Rev$ $Date$
  */
-class TestTilesListenerInitializer extends AbstractTilesInitializer {
+public class TestTilesInitializer extends AbstractTilesInitializer {
 
     /** {@inheritDoc} */
     @Override

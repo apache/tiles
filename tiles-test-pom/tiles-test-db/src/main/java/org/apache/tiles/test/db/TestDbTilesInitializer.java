@@ -1,16 +1,15 @@
-package org.apache.tiles.test.listener;
+package org.apache.tiles.test.db;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.startup.AbstractTilesInitializer;
-import org.apache.tiles.test.factory.TestDbTilesContainerFactory;
 
 /**
  * Test Tiles initializer for Tiles initialization of the db-based container.
  *
  * @version $Rev$ $Date$
  */
-class TestDbTilesInitializer extends AbstractTilesInitializer {
+public class TestDbTilesInitializer extends AbstractTilesInitializer {
 
     /** {@inheritDoc} */
     @Override

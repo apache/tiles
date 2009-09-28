@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.test.definition.dao;
+package org.apache.tiles.test.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

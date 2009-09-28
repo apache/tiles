@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: antonio
+Build-Jdk: 1.6.0_16
+Specification-Title: Tiles - Apps - Test
+Specification-Version: 2.2.1-SNAPSHOT
+Specification-Vendor: Apache Software Foundation
+Implementation-Title: Tiles - Apps - Test
+Implementation-Version: 2.2.1-SNAPSHOT
+Implementation-Vendor-Id: org.apache.tiles
+Implementation-Vendor: Apache Software Foundation
+Tiles-Initializer: org.apache.tiles.test.init.TestTilesInitializer
+
