@@ -52,9 +52,9 @@ public class TilesException extends RuntimeException {
      * one, and its message will become the default message for
      * the TilesException.</p>
      *
-     * @param e The exception to be wrapped.
+     * @param e The cause to be wrapped.
      */
-    public TilesException(Exception e) {
+    public TilesException(Throwable e) {
         super(e);
     }
 
@@ -66,9 +66,9 @@ public class TilesException extends RuntimeException {
      * one, but the new exception will have its own message.</p>
      *
      * @param message The detail message.
-     * @param e       The exception to be wrapped.
+     * @param e       The cause to be wrapped.
      */
-    public TilesException(String message, Exception e) {
+    public TilesException(String message, Throwable e) {
         super(message, e);
     }
 }
