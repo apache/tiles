@@ -21,14 +21,17 @@
 
 package org.apache.tiles.portlet.context;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.context.TilesRequestContextFactory;
+import java.util.Map;
 
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-import java.util.Map;
+
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Creates an instance of the appropriate {@link TilesRequestContext}
@@ -41,12 +44,31 @@ public class PortletTilesRequestContextFactory implements
         TilesRequestContextFactory {
 
     /**
+     * The logging object.
+     */
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    /**
      * The site of the request object array in case there is a request, a
      * response and a portlet context.
      *
      * @since 2.1.4
      */
     private static final int REQUEST_OBJECTS_LENGTH = 3;
+
+    /**
+     * Constructor. To see if a portlet context is available, simply accesses a
+     * portlet class.
+     */
+    public PortletTilesRequestContextFactory() {
+        try {
+            logger.debug("The portlet environment is available, "
+                    + "since the class {} is present", PortletRequest.class);
+        } catch (NoClassDefFoundError e) {
+            throw new NotAPortletEnvironmentException(
+                    "Cannot access portlet classes", e);
+        }
+    }
 
     /** {@inheritDoc} */
     public void init(Map<String, String> configParameters) {

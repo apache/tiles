@@ -188,6 +188,11 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             if (log.isDebugEnabled()) {
                 log.debug("Cannot find class '" + className + "', ignoring problem", e);
             }
+        } catch (NotAvailableFeatureException e) {
+            if (log.isDebugEnabled()) {
+                log.debug("Not available feature exception during instantiation of class '"
+                        + className + "', ignoring problem", e);
+            }
         } catch (InstantiationException e) {
             throw new TilesContainerFactoryException(
                     "Cannot instantiate '" + className + "'", e);
