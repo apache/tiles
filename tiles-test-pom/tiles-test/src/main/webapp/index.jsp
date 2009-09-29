@@ -295,5 +295,6 @@
     <a href="velocity/testinsertdefinition_mvel.vm">Velocity: Test Insert Configured Definition with MVEL</a><br/>
     <a href="velocity/testinsertdefinition_ognl.vm">Velocity: Test Insert Configured Definition with OGNL</a><br/>
     <a href="velocity/testinsertdefinition_regexp.vm">Velocity: Test Insert Configured Definition with Regular Expression</a><br/>
+    <a href="org/apache/tiles/test/alt/velocity/testinsertdefinition_alt.vm">Velocity: Test Insert Configured Definition in Module</a><br/>
 
 </html>

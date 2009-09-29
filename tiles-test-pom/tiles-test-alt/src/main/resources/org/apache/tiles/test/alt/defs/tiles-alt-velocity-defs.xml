@@ -32,6 +32,11 @@
       <put-attribute name="header" value="/velocity/header.vm"/>
       <put-attribute name="body"   value="/velocity/body.vm"/>
   </definition>
+  <definition name="velocity.test.definition.alt" template="/velocity/layout.vm">
+      <put-attribute name="title"  value="This definition is from an alternate container."/>
+      <put-attribute name="header" value="/velocity/header.vm"/>
+      <put-attribute name="body"   value="/org/apache/tiles/test/alt/velocity/body.vm"/>
+  </definition>
   <definition name="WILDCARD:velocity.test.definition*.message*" template="/velocity/layout{1}.vm">
       <put-attribute name="title"  value="This definition has a message: {2}."/>
       <put-attribute name="header" value="/velocity/header.vm"/>
