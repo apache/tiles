@@ -52,9 +52,9 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
             TilesRequestContextFactory contextFactory) {
         List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
-            urls.add(applicationContext.getResource("/WEB-INF/tiles-alt-defs.xml"));
-            urls.add(applicationContext.getResource("/WEB-INF/freemarker/tiles-alt-defs.xml"));
-            urls.add(applicationContext.getResource("/WEB-INF/velocity/tiles-alt-defs.xml"));
+            urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-defs.xml"));
+            urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-freemarker-defs.xml"));
+            urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-velocity-defs.xml"));
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);

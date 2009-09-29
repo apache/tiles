@@ -1,7 +1,10 @@
 package org.apache.tiles.test.alt;
 
+import javax.servlet.ServletContext;
+
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
+import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
 import org.apache.tiles.startup.AbstractTilesInitializer;
 
 /**
@@ -23,5 +26,13 @@ public class TestAlternateTilesInitializer extends AbstractTilesInitializer {
     protected String getContainerKey(
             TilesApplicationContext applicationContext) {
         return "alternate";
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected TilesApplicationContext createTilesApplicationContext(
+            TilesApplicationContext preliminaryContext) {
+        return new WildcardServletTilesApplicationContext(
+                (ServletContext) preliminaryContext.getContext());
     }
 }
