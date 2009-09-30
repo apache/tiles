@@ -20,6 +20,8 @@
  */
 package org.apache.tiles.factory;
 
+import static org.easymock.classextension.EasyMock.*;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,7 @@ import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
-import org.apache.tiles.renderer.impl.UntypedAttributeRenderer;
+import org.apache.tiles.renderer.impl.UntypedDelegateAttributeRenderer;
 import org.easymock.EasyMock;
 
 /**
@@ -220,23 +222,97 @@ public class BasicTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#createDefaultAttributeRenderer(TilesApplicationContext,
-     * TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     * {@link BasicTilesContainerFactory#createDefaultAttributeRenderer(BasicRendererFactory,
+     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
      */
     public void testCreateDefaultAttributeRenderer() {
-        TilesContainer container = factory.createContainer(applicationContext);
-        TilesRequestContextFactory requestContextFactory = factory
-                .createRequestContextFactory(applicationContext);
-        LocaleResolver resolver = factory.createLocaleResolver(applicationContext,
-                requestContextFactory);
-        AttributeEvaluatorFactory attributeEvaluatorFactory = factory
-        .createAttributeEvaluatorFactory(applicationContext,
-                requestContextFactory, resolver);
+        TilesContainer container = createMock(TilesContainer.class);
+        TilesRequestContextFactory requestContextFactory = createMock(TilesRequestContextFactory.class);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
+        BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
+        AttributeRenderer stringRenderer = createMock(AttributeRenderer.class);
+        AttributeRenderer templateRenderer = createMock(AttributeRenderer.class);
+        AttributeRenderer definitionRenderer = createMock(AttributeRenderer.class);
+
+        expect(rendererFactory.getRenderer("string")).andReturn(stringRenderer);
+        expect(rendererFactory.getRenderer("template")).andReturn(templateRenderer);
+        expect(rendererFactory.getRenderer("definition")).andReturn(definitionRenderer);
+
+        replay(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory);
         AttributeRenderer renderer = factory.createDefaultAttributeRenderer(
-                applicationContext, requestContextFactory, container,
-                attributeEvaluatorFactory);
+                rendererFactory, applicationContext, requestContextFactory,
+                container, attributeEvaluatorFactory);
         assertTrue("The default renderer class is not correct",
-                renderer instanceof UntypedAttributeRenderer);
+                renderer instanceof UntypedDelegateAttributeRenderer);
+        verify(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory);
+    }
+
+    /**
+     * Tests
+     * {@link BasicTilesContainerFactory#createStringAttributeRenderer(BasicRendererFactory,
+     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     */
+    public void testCreateStringAttributeRenderer() {
+        TilesContainer container = createMock(TilesContainer.class);
+        TilesRequestContextFactory requestContextFactory = createMock(TilesRequestContextFactory.class);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
+        BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
+
+        replay(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory);
+        AttributeRenderer renderer = factory.createStringAttributeRenderer(
+                rendererFactory, applicationContext, requestContextFactory,
+                container, attributeEvaluatorFactory);
+        assertTrue("The renderer class is not correct",
+                renderer instanceof StringAttributeRenderer);
+        verify(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory);
+    }
+
+    /**
+     * Tests
+     * {@link BasicTilesContainerFactory#createTemplateAttributeRenderer(BasicRendererFactory,
+     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     */
+    public void testCreateTemplateAttributeRenderer() {
+        TilesContainer container = createMock(TilesContainer.class);
+        TilesRequestContextFactory requestContextFactory = createMock(TilesRequestContextFactory.class);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
+        BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
+
+        replay(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory);
+        AttributeRenderer renderer = factory.createTemplateAttributeRenderer(
+                rendererFactory, applicationContext, requestContextFactory,
+                container, attributeEvaluatorFactory);
+        assertTrue("The renderer class is not correct",
+                renderer instanceof TemplateAttributeRenderer);
+        verify(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory);
+    }
+
+    /**
+     * Tests
+     * {@link BasicTilesContainerFactory#createDefinitionAttributeRenderer(BasicRendererFactory,
+     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     */
+    public void testCreateDefinitionAttributeRenderer() {
+        TilesContainer container = createMock(TilesContainer.class);
+        TilesRequestContextFactory requestContextFactory = createMock(TilesRequestContextFactory.class);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
+        BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
+
+        replay(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory);
+        AttributeRenderer renderer = factory.createDefinitionAttributeRenderer(
+                rendererFactory, applicationContext, requestContextFactory,
+                container, attributeEvaluatorFactory);
+        assertTrue("The renderer class is not correct",
+                renderer instanceof DefinitionAttributeRenderer);
+        verify(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory);
     }
 
     /**

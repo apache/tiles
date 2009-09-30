@@ -66,6 +66,8 @@ public class BasicRendererFactory implements RendererFactory,
      * The default renderer class name.
      *
      * @since 2.1.0
+     * @deprecated Do not use, the default renderer class should be determined
+     * when building the container.
      */
     public static final String DEFAULT_RENDERER_CLASS_NAME =
         UntypedAttributeRenderer.class.getName();

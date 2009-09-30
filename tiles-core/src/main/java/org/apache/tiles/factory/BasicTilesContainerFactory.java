@@ -58,7 +58,7 @@ import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
-import org.apache.tiles.renderer.impl.UntypedAttributeRenderer;
+import org.apache.tiles.renderer.impl.UntypedDelegateAttributeRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +70,20 @@ import org.slf4j.LoggerFactory;
  */
 public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
+    /**
+     * The string renderer name.
+     */
+    private static final String STRING_RENDERER_NAME = "string";
+
+    /**
+     * The template renderer name.
+     */
+    private static final String TEMPLATE_RENDERER_NAME = "template";
+
+    /**
+     * The definition renderer name.
+     */
+    private static final String DEFINITION_RENDERER_NAME = "definition";
     /**
      * The logging object.
      */
@@ -392,31 +406,37 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
         retValue.setRequestContextFactory(contextFactory);
         retValue.setContainer(container);
         retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        retValue.setDefaultRenderer(createDefaultAttributeRenderer(applicationContext,
-                contextFactory, container, attributeEvaluatorFactory));
         registerAttributeRenderers(retValue, applicationContext, contextFactory,
                 container, attributeEvaluatorFactory);
+        retValue.setDefaultRenderer(createDefaultAttributeRenderer(retValue,
+                applicationContext, contextFactory, container,
+                attributeEvaluatorFactory));
         return retValue;
     }
 
     /**
      * Creates the default attribute renderer. By default it is an
-     * {@link UntypedAttributeRenderer}.
+     * {@link UntypedDelegateAttributeRenderer}.
+     *
+     * @param rendererFactory The renderer factory to configure.
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param container The container.
      * @param attributeEvaluatorFactory The attribute evaluator factory.
-     *
      * @return The default attribute renderer.
-     * @since 2.2.0
+     * @since 2.2.1
      */
-    protected AttributeRenderer createDefaultAttributeRenderer(TilesApplicationContext applicationContext,
+    protected AttributeRenderer createDefaultAttributeRenderer(
+            BasicRendererFactory rendererFactory,
+            TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        UntypedAttributeRenderer retValue = new UntypedAttributeRenderer();
+        UntypedDelegateAttributeRenderer retValue = new UntypedDelegateAttributeRenderer(
+                container, rendererFactory.getRenderer(STRING_RENDERER_NAME),
+                rendererFactory.getRenderer(TEMPLATE_RENDERER_NAME), rendererFactory
+                        .getRenderer(DEFINITION_RENDERER_NAME));
         retValue.setApplicationContext(applicationContext);
-        retValue.setContainer(container);
         retValue.setRequestContextFactory(contextFactory);
         retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return retValue;
@@ -461,23 +481,90 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
+        rendererFactory.registerRenderer(STRING_RENDERER_NAME,
+                createStringAttributeRenderer(rendererFactory,
+                        applicationContext, contextFactory, container,
+                        attributeEvaluatorFactory));
+        rendererFactory.registerRenderer(TEMPLATE_RENDERER_NAME,
+                createTemplateAttributeRenderer(rendererFactory,
+                        applicationContext, contextFactory, container,
+                        attributeEvaluatorFactory));
+        rendererFactory.registerRenderer(DEFINITION_RENDERER_NAME,
+                createDefinitionAttributeRenderer(rendererFactory,
+                        applicationContext, contextFactory, container,
+                        attributeEvaluatorFactory));
+    }
+
+    /**
+     * Creates a {@link StringAttributeRenderer}.
+     *
+     * @param rendererFactory The renderer factory to configure.
+     * @param applicationContext The Tiles application context.
+     * @param contextFactory The Tiles context factory.
+     * @param container The container.
+     * @param attributeEvaluatorFactory The attribute evaluator factory.
+     * @return The renderer.
+     * @since 2.2.1
+     */
+    protected AttributeRenderer createStringAttributeRenderer(
+            BasicRendererFactory rendererFactory,
+            TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            TilesContainer container,
+            AttributeEvaluatorFactory attributeEvaluatorFactory) {
         StringAttributeRenderer stringRenderer = new StringAttributeRenderer();
         stringRenderer.setApplicationContext(applicationContext);
         stringRenderer.setRequestContextFactory(contextFactory);
         stringRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        rendererFactory.registerRenderer("string", stringRenderer);
+        return stringRenderer;
+    }
 
+    /**
+     * Creates a {@link TemplateAttributeRenderer}.
+     *
+     * @param rendererFactory The renderer factory to configure.
+     * @param applicationContext The Tiles application context.
+     * @param contextFactory The Tiles context factory.
+     * @param container The container.
+     * @param attributeEvaluatorFactory The attribute evaluator factory.
+     * @return The renderer.
+     * @since 2.2.1
+     */
+    protected AttributeRenderer createTemplateAttributeRenderer(
+            BasicRendererFactory rendererFactory,
+            TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            TilesContainer container,
+            AttributeEvaluatorFactory attributeEvaluatorFactory) {
         TemplateAttributeRenderer templateRenderer = new TemplateAttributeRenderer();
         templateRenderer.setApplicationContext(applicationContext);
         templateRenderer.setRequestContextFactory(contextFactory);
         templateRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        rendererFactory.registerRenderer("template", templateRenderer);
+        return templateRenderer;
+    }
 
+    /**
+     * Creates a {@link DefinitionAttributeRenderer}.
+     *
+     * @param rendererFactory The renderer factory to configure.
+     * @param applicationContext The Tiles application context.
+     * @param contextFactory The Tiles context factory.
+     * @param container The container.
+     * @param attributeEvaluatorFactory The attribute evaluator factory.
+     * @return The renderer.
+     * @since 2.2.1
+     */
+    protected AttributeRenderer createDefinitionAttributeRenderer(
+            BasicRendererFactory rendererFactory,
+            TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            TilesContainer container,
+            AttributeEvaluatorFactory attributeEvaluatorFactory) {
         DefinitionAttributeRenderer definitionRenderer = new DefinitionAttributeRenderer();
         definitionRenderer.setApplicationContext(applicationContext);
         definitionRenderer.setContainer(container);
         definitionRenderer.setRequestContextFactory(contextFactory);
         definitionRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        rendererFactory.registerRenderer("definition", definitionRenderer);
+        return definitionRenderer;
     }
 }

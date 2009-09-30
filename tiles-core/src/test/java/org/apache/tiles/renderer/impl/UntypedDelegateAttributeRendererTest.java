@@ -20,10 +20,10 @@
  */
 package org.apache.tiles.renderer.impl;
 
+import static org.easymock.EasyMock.*;
+
 import java.io.IOException;
 import java.io.StringWriter;
-
-import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
@@ -33,35 +33,66 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
+import org.apache.tiles.renderer.AttributeRenderer;
 import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests {@link UntypedAttributeRenderer}.
  *
  * @version $Rev$ $Date$
  */
-public class UntypedAttributeRendererTest extends TestCase {
+public class UntypedDelegateAttributeRendererTest {
 
     /**
      * The renderer.
      */
-    private UntypedAttributeRenderer renderer;
+    private UntypedDelegateAttributeRenderer renderer;
 
-    /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
-        renderer = new UntypedAttributeRenderer();
+    /**
+     * A mock container.
+     */
+    private TilesContainer container;
+
+    /**
+     * A mock string attribute renderer.
+     */
+    private AttributeRenderer stringRenderer;
+
+    /**
+     * A mock template attribute renderer.
+     */
+    private AttributeRenderer templateRenderer;
+
+    /**
+     * A mock definition attribute renderer.
+     */
+    private AttributeRenderer definitionRenderer;
+
+    /**
+     * Sets up the test.
+     */
+    @Before
+    public void setUp() {
+        container = createMock(TilesContainer.class);
+        stringRenderer = createMock(AttributeRenderer.class);
+        templateRenderer = createMock(AttributeRenderer.class);
+        definitionRenderer = createMock(AttributeRenderer.class);
+        renderer = new UntypedDelegateAttributeRenderer(container,
+                stringRenderer, templateRenderer, definitionRenderer);
         renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
                 new DirectAttributeEvaluator()));
     }
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}
-     * writing a Definition.
+     * {@link UntypedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
+     * writing a definition.
      *
      * @throws IOException If something goes wrong during rendition.
      */
+    @Test
     public void testWriteDefinition() throws IOException {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("my.definition", (Expression) null,
@@ -70,66 +101,64 @@ public class UntypedAttributeRendererTest extends TestCase {
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
-        EasyMock.expect(contextFactory.createRequestContext(applicationContext))
-                .andReturn(requestContext);
         Object[] requestObjects = new Object[0];
-        EasyMock.expect(requestContext.getRequestObjects()).andReturn(requestObjects);
-        EasyMock.expect(container.isValidDefinition("my.definition"))
+        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
+        expect(container.isValidDefinition("my.definition", requestObjects))
                 .andReturn(Boolean.TRUE);
-        container.render("my.definition");
-        EasyMock.replay(applicationContext, contextFactory, requestContext,
-                container);
+        definitionRenderer.render(attribute, requestContext);
+
+        replay(applicationContext, contextFactory, requestContext, container,
+                stringRenderer, templateRenderer, definitionRenderer);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
-        renderer.setContainer(container);
         renderer.render(attribute, requestContext);
         writer.close();
+        verify(applicationContext, contextFactory, requestContext,
+                container, stringRenderer, templateRenderer, definitionRenderer);
     }
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}
+     * {@link UntypedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
      * writing a string.
      *
      * @throws IOException If something goes wrong during rendition.
      */
+    @Test
     public void testWriteString() throws IOException {
-        StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
         TilesApplicationContext applicationContext = EasyMock
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
         Object[] requestObjects = new Object[0];
-        EasyMock.expect(requestContext.getRequestObjects()).andReturn(requestObjects);
-        EasyMock.expect(contextFactory.createRequestContext(applicationContext))
-                .andReturn(requestContext);
-        EasyMock.expect(container.isValidDefinition("my.definition"))
-                .andReturn(Boolean.TRUE);
-        EasyMock.expect(requestContext.getWriter()).andReturn(writer);
-        EasyMock.replay(applicationContext, contextFactory, requestContext);
+        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
+        expect(container.isValidDefinition("Result", requestObjects))
+                .andReturn(Boolean.FALSE);
+        stringRenderer.render(attribute, requestContext);
+
+        replay(applicationContext, contextFactory, requestContext, container,
+                stringRenderer, templateRenderer, definitionRenderer);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
-        renderer.setContainer(container);
         renderer.render(attribute, requestContext);
-        writer.close();
-        assertEquals("Not written 'Result'", "Result", writer.toString());
+        verify(applicationContext, contextFactory, requestContext, container,
+                stringRenderer, templateRenderer, definitionRenderer);
     }
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}
+     * {@link UntypedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
      * writing a template.
      *
      * @throws IOException If something goes wrong during rendition.
      */
+    @Test
     public void testWriteTemplate() throws IOException {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("/myTemplate.jsp",
@@ -138,21 +167,21 @@ public class UntypedAttributeRendererTest extends TestCase {
                 .createMock(TilesApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
-        EasyMock.expect(contextFactory.createRequestContext(applicationContext))
-                .andReturn(requestContext);
         Object[] requestObjects = new Object[0];
-        EasyMock.expect(requestContext.getRequestObjects()).andReturn(requestObjects);
-        requestContext.dispatch("/myTemplate.jsp");
-        EasyMock.expect(container.isValidDefinition("my.definition"))
-                .andReturn(Boolean.TRUE);
-        EasyMock.replay(applicationContext, contextFactory, requestContext);
+        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
+        expect(container.isValidDefinition("/myTemplate.jsp", requestObjects))
+                .andReturn(Boolean.FALSE);
+        templateRenderer.render(attribute, requestContext);
+
+        replay(applicationContext, contextFactory, requestContext, container,
+                stringRenderer, templateRenderer, definitionRenderer);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
-        renderer.setContainer(container);
         renderer.render(attribute, requestContext);
         writer.close();
+        verify(applicationContext, contextFactory, requestContext, container,
+                stringRenderer, templateRenderer, definitionRenderer);
     }
 }

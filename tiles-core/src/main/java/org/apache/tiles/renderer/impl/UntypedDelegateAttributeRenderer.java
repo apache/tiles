@@ -24,28 +24,57 @@ import java.io.IOException;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererException;
 
 /**
- * Renders an attribute that has no associated renderer.
+ * Renders an attribute that has no associated renderer using delegation to
+ * other renderers.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
- * @deprecated Use {@link UntypedDelegateAttributeRenderer}.
+ * @since 2.2.1
  */
-public class UntypedAttributeRenderer extends AbstractBaseAttributeRenderer
-        implements TilesContainerAware {
+public class UntypedDelegateAttributeRenderer extends AbstractBaseAttributeRenderer {
 
     /**
      * The Tiles container.
      */
     private TilesContainer container;
 
-    /** {@inheritDoc} */
-    public void setContainer(TilesContainer container) {
+    /**
+     * The renderer for attributes of type "string".
+     */
+    private AttributeRenderer stringRenderer;
+
+    /**
+     * The renderer for attributes of type "template".
+     */
+    private AttributeRenderer templateRenderer;
+
+    /**
+     * The renderer for attributes of type "definition".
+     */
+    private AttributeRenderer definitionRenderer;
+
+    /**
+     * Constructor.
+     *
+     * @param container The Tiles container.
+     * @param stringRenderer The renderer for attributes of type "string".
+     * @param templateRenderer The renderer for attributes of type "template".
+     * @param definitionRenderer The renderer for attributes of type
+     * "definition".
+     * @since 2.2.1
+     */
+    public UntypedDelegateAttributeRenderer(TilesContainer container,
+            AttributeRenderer stringRenderer,
+            AttributeRenderer templateRenderer,
+            AttributeRenderer definitionRenderer) {
         this.container = container;
+        this.stringRenderer = stringRenderer;
+        this.templateRenderer = templateRenderer;
+        this.definitionRenderer = definitionRenderer;
     }
 
     /** {@inheritDoc} */
@@ -57,11 +86,11 @@ public class UntypedAttributeRenderer extends AbstractBaseAttributeRenderer
             String valueString = (String) value;
             Object[] requestItems = request.getRequestObjects();
             if (container.isValidDefinition(valueString, requestItems)) {
-                container.render(valueString, requestItems);
+                definitionRenderer.render(attribute, request);
             } else if (valueString.startsWith("/")) {
-                request.dispatch(valueString);
+                templateRenderer.render(attribute, request);
             } else {
-                request.getWriter().write(valueString);
+                stringRenderer.render(attribute, request);
             }
         } else {
             throw new RendererException(
