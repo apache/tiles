@@ -78,7 +78,10 @@ import org.apache.tiles.ognl.RequestScopeNestedObjectExtractor;
 import org.apache.tiles.ognl.SessionScopeNestedObjectExtractor;
 import org.apache.tiles.ognl.TilesApplicationContextNestedObjectExtractor;
 import org.apache.tiles.ognl.TilesContextPropertyAccessorDelegateFactory;
+import org.apache.tiles.renderer.AttributeRenderer;
+import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
+import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.util.URLUtil;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
@@ -101,6 +104,16 @@ import org.mvel2.integration.VariableResolverFactory;
  * @since 2.2.0
  */
 public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFactory {
+
+    /**
+     * The freemarker renderer name.
+     */
+    private static final String FREEMARKER_RENDERER_NAME = "freemarker";
+
+    /**
+     * The velocity renderer name.
+     */
+    private static final String VELOCITY_RENDERER_NAME = "velocity";
 
     /** {@inheritDoc} */
     @Override
@@ -145,14 +158,41 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
         freemarkerRenderer.setParameter("default_encoding", "ISO-8859-1");
         freemarkerRenderer.setParameter("number_format", "0.##########");
         freemarkerRenderer.commit();
-        rendererFactory.registerRenderer("freemarker", freemarkerRenderer);
+        rendererFactory.registerRenderer(FREEMARKER_RENDERER_NAME, freemarkerRenderer);
 
         VelocityAttributeRenderer velocityRenderer = new VelocityAttributeRenderer();
         velocityRenderer.setApplicationContext(applicationContext);
         velocityRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         velocityRenderer.setRequestContextFactory(contextFactory);
         velocityRenderer.commit();
-        rendererFactory.registerRenderer("velocity", velocityRenderer);
+        rendererFactory.registerRenderer(VELOCITY_RENDERER_NAME, velocityRenderer);
+    }
+
+
+
+    /** {@inheritDoc} */
+    @Override
+    protected AttributeRenderer createDefaultAttributeRenderer(
+            BasicRendererFactory rendererFactory,
+            TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory,
+            TilesContainer container,
+            AttributeEvaluatorFactory attributeEvaluatorFactory) {
+        ChainedDelegateAttributeRenderer retValue = new ChainedDelegateAttributeRenderer();
+        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+                .getRenderer(DEFINITION_RENDERER_NAME));
+        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+                .getRenderer(VELOCITY_RENDERER_NAME));
+        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+                .getRenderer(FREEMARKER_RENDERER_NAME));
+        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+                .getRenderer(TEMPLATE_RENDERER_NAME));
+        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+                .getRenderer(STRING_RENDERER_NAME));
+        retValue.setApplicationContext(applicationContext);
+        retValue.setRequestContextFactory(contextFactory);
+        retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
+        return retValue;
     }
 
     /** {@inheritDoc} */

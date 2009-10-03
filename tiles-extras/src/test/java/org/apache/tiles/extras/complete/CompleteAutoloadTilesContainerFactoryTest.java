@@ -54,7 +54,10 @@ import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.jsp.context.JspTilesRequestContextFactory;
 import org.apache.tiles.locale.LocaleResolver;
+import org.apache.tiles.renderer.AttributeRenderer;
+import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
+import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
@@ -189,6 +192,41 @@ public class CompleteAutoloadTilesContainerFactoryTest {
                 contextFactory, container, attributeEvaluatorFactory);
         verify(rendererFactory, applicationContext, contextFactory, container,
                 attributeEvaluatorFactory, servletContext);
+    }
+
+    /**
+     * Tests
+     * {@link CompleteAutoloadTilesContainerFactory#createDefaultAttributeRenderer(BasicRendererFactory,
+     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     */
+    @Test
+    public void testCreateDefaultAttributeRenderer() {
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        TilesContainer container = createMock(TilesContainer.class);
+        TilesRequestContextFactory requestContextFactory = createMock(TilesRequestContextFactory.class);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
+        BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
+        AttributeRenderer stringRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        AttributeRenderer templateRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        AttributeRenderer definitionRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        AttributeRenderer velocityRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        AttributeRenderer freemarkerRenderer = createMock(TypeDetectingAttributeRenderer.class);
+
+        expect(rendererFactory.getRenderer("string")).andReturn(stringRenderer);
+        expect(rendererFactory.getRenderer("template")).andReturn(templateRenderer);
+        expect(rendererFactory.getRenderer("definition")).andReturn(definitionRenderer);
+        expect(rendererFactory.getRenderer("velocity")).andReturn(velocityRenderer);
+        expect(rendererFactory.getRenderer("freemarker")).andReturn(freemarkerRenderer);
+
+        replay(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory, applicationContext);
+        AttributeRenderer renderer = factory.createDefaultAttributeRenderer(
+                rendererFactory, applicationContext, requestContextFactory,
+                container, attributeEvaluatorFactory);
+        assertTrue("The default renderer class is not correct",
+                renderer instanceof ChainedDelegateAttributeRenderer);
+        verify(container, requestContextFactory, attributeEvaluatorFactory,
+                rendererFactory, applicationContext);
     }
 
     /**
