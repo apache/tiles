@@ -21,8 +21,11 @@
 
 package org.apache.tiles.freemarker.servlet;
 
+import java.io.IOException;
+
 import org.apache.tiles.freemarker.template.TilesFMModelRepository;
 
+import freemarker.cache.TemplateLoader;
 import freemarker.ext.beans.BeanModel;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.servlet.FreemarkerServlet;
@@ -45,5 +48,13 @@ public class TilesFreemarkerServlet extends FreemarkerServlet {
                 BeansWrapper.getDefaultInstance());
         configuration.setSharedVariable("tiles", tilesBeanModel);
         return configuration;
+    }
+
+    /** {@inheritDoc} */
+
+    @Override
+    protected TemplateLoader createTemplateLoader(String templatePath)
+            throws IOException {
+        return new WebappClassTemplateLoader(getServletContext());
     }
 }
