@@ -32,7 +32,7 @@ import org.apache.tiles.impl.InvalidTemplateException;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class TemplateAttributeRenderer extends AbstractBaseAttributeRenderer {
+public class TemplateAttributeRenderer extends AbstractTypeDetectingAttributeRenderer {
 
     /** {@inheritDoc} */
     @Override
@@ -50,5 +50,14 @@ public class TemplateAttributeRenderer extends AbstractBaseAttributeRenderer {
         } else {
             throw new InvalidTemplateException("Cannot render a null template");
         }
+    }
+
+    /** {@inheritDoc} */
+    public boolean isRenderable(Object value, Attribute attribute,
+            TilesRequestContext request) {
+        if (value instanceof String) {
+            return ((String) value).startsWith("/");
+        }
+        return false;
     }
 }

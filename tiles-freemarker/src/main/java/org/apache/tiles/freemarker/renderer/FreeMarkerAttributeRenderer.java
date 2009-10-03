@@ -37,7 +37,7 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.freemarker.servlet.TilesFreemarkerServlet;
 import org.apache.tiles.impl.InvalidTemplateException;
-import org.apache.tiles.renderer.impl.AbstractBaseAttributeRenderer;
+import org.apache.tiles.renderer.impl.AbstractTypeDetectingAttributeRenderer;
 import org.apache.tiles.servlet.context.ExternalWriterHttpServletResponse;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
@@ -53,7 +53,7 @@ import org.apache.tiles.util.IteratorEnumeration;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class FreeMarkerAttributeRenderer extends AbstractBaseAttributeRenderer {
+public class FreeMarkerAttributeRenderer extends AbstractTypeDetectingAttributeRenderer {
 
     /**
      * The servlet that is used to forward the request to.
@@ -116,6 +116,16 @@ public class FreeMarkerAttributeRenderer extends AbstractBaseAttributeRenderer {
         } else {
             throw new InvalidTemplateException("Cannot render a null template");
         }
+    }
+
+    /** {@inheritDoc} */
+    public boolean isRenderable(Object value, Attribute attribute,
+            TilesRequestContext request) {
+        if (value instanceof String) {
+            String string = (String) value;
+            return string.startsWith("/") && string.endsWith(".ftl");
+        }
+        return false;
     }
 
     /**

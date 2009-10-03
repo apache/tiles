@@ -18,31 +18,33 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.renderer.impl;
+package org.apache.tiles.velocity.renderer;
 
-import java.io.IOException;
+import static org.junit.Assert.*;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
+import org.junit.Test;
 
 /**
- * Renders an attribute that contains a string.
+ * Tests {@link VelocityAttributeRenderer}.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
  */
-public class StringAttributeRenderer extends AbstractTypeDetectingAttributeRenderer {
+public class VelocityAttributeRendererTest {
 
-    /** {@inheritDoc} */
-    public void write(Object value, Attribute attribute,
-            TilesRequestContext request)
-            throws IOException {
-        request.getWriter().write(value.toString());
+    /**
+     * Test method for
+     * {@link VelocityAttributeRenderer
+     * #isRenderable(Object, org.apache.tiles.Attribute, org.apache.tiles.context.TilesRequestContext)}
+     * .
+     */
+    @Test
+    public void testIsRenderable() {
+        TypeDetectingAttributeRenderer renderer = new VelocityAttributeRenderer();
+        assertTrue(renderer.isRenderable("/my/template.vm", null, null));
+        assertFalse(renderer.isRenderable("my/template.vm", null, null));
+        assertFalse(renderer.isRenderable("/my/template.jsp", null, null));
+        assertFalse(renderer.isRenderable(0, null, null));
     }
 
-    /** {@inheritDoc} */
-    public boolean isRenderable(Object value, Attribute attribute,
-            TilesRequestContext request) {
-        return value instanceof String;
-    }
 }

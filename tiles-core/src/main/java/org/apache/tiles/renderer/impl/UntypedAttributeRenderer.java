@@ -33,7 +33,7 @@ import org.apache.tiles.renderer.RendererException;
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
- * @deprecated Use {@link UntypedDelegateAttributeRenderer}.
+ * @deprecated Use {@link ChainedDelegateAttributeRenderer}.
  */
 public class UntypedAttributeRenderer extends AbstractBaseAttributeRenderer
         implements TilesContainerAware {

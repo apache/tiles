@@ -26,7 +26,6 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.renderer.AttributeRenderer;
 
 /**
  * Renders an attribute that contains a reference to a definition.
@@ -34,8 +33,8 @@ import org.apache.tiles.renderer.AttributeRenderer;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class DefinitionAttributeRenderer extends AbstractBaseAttributeRenderer
-        implements TilesContainerAware, AttributeRenderer {
+public class DefinitionAttributeRenderer extends
+        AbstractTypeDetectingAttributeRenderer implements TilesContainerAware {
 
     /**
      * The Tiles container.
@@ -55,5 +54,15 @@ public class DefinitionAttributeRenderer extends AbstractBaseAttributeRenderer
             TilesRequestContext request)
             throws IOException {
         container.render(value.toString(), request.getRequestObjects());
+    }
+
+    /** {@inheritDoc} */
+    public boolean isRenderable(Object value, Attribute attribute,
+            TilesRequestContext request) {
+        if (value instanceof String) {
+            return container.isValidDefinition((String) value, request
+                    .getRequestObjects());
+        }
+        return false;
     }
 }

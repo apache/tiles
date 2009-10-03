@@ -20,10 +20,10 @@
  */
 package org.apache.tiles.renderer.impl;
 
-import java.io.IOException;
-import java.io.StringWriter;
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
+import java.io.IOException;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
@@ -33,14 +33,15 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
-import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests {@link DefinitionAttributeRenderer}.
  *
  * @version $Rev$ $Date$
  */
-public class DefinitionAttributeRendererTest extends TestCase {
+public class DefinitionAttributeRendererTest {
 
     /**
      * The renderer.
@@ -48,8 +49,8 @@ public class DefinitionAttributeRendererTest extends TestCase {
     private DefinitionAttributeRenderer renderer;
 
     /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         renderer = new DefinitionAttributeRenderer();
         renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
                 new DirectAttributeEvaluator()));
@@ -61,28 +62,50 @@ public class DefinitionAttributeRendererTest extends TestCase {
      *
      * @throws IOException If something goes wrong during rendition.
      */
+    @Test
     public void testWrite() throws IOException {
-        StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("my.definition", (Expression) null,
                 null, "definition");
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        TilesRequestContext requestContext = EasyMock
-                .createMock(TilesRequestContext.class);
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
+        TilesContainer container = createMock(TilesContainer.class);
+        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
         Object[] requestObjects = new Object[0];
-        EasyMock.expect(requestContext.getRequestObjects()).andReturn(requestObjects);
-        EasyMock.expect(contextFactory.createRequestContext(applicationContext))
-                .andReturn(requestContext);
+        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
         container.render("my.definition");
-        EasyMock.replay(applicationContext, contextFactory, requestContext,
+        replay(applicationContext, contextFactory, requestContext,
                 container);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
         renderer.render(attribute, requestContext);
-        writer.close();
+        verify(applicationContext, contextFactory, requestContext,
+                container);
+    }
+
+    /**
+     * Tests
+     * {@link DefinitionAttributeRenderer#isRenderable(Object, Attribute, TilesRequestContext)}
+     * .
+     */
+    @Test
+    public void testIsRenderable() {
+        Attribute attribute = new Attribute("my.definition", (Expression) null,
+                null, "definition");
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
+        TilesContainer container = createMock(TilesContainer.class);
+        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
+        Object[] requestObjects = new Object[0];
+        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
+        expect(container.isValidDefinition("my.definition", requestObjects)).andReturn(Boolean.TRUE);
+        replay(applicationContext, contextFactory, requestContext,
+                container);
+        renderer.setApplicationContext(applicationContext);
+        renderer.setRequestContextFactory(contextFactory);
+        renderer.setContainer(container);
+        assertTrue(renderer.isRenderable("my.definition", attribute, requestContext));
+        verify(applicationContext, contextFactory, requestContext,
+                container);
     }
 }

@@ -54,11 +54,12 @@ import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
+import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
-import org.apache.tiles.renderer.impl.UntypedDelegateAttributeRenderer;
+import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,17 +74,17 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * The string renderer name.
      */
-    private static final String STRING_RENDERER_NAME = "string";
+    protected static final String STRING_RENDERER_NAME = "string";
 
     /**
      * The template renderer name.
      */
-    private static final String TEMPLATE_RENDERER_NAME = "template";
+    protected static final String TEMPLATE_RENDERER_NAME = "template";
 
     /**
      * The definition renderer name.
      */
-    private static final String DEFINITION_RENDERER_NAME = "definition";
+    protected static final String DEFINITION_RENDERER_NAME = "definition";
     /**
      * The logging object.
      */
@@ -416,7 +417,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Creates the default attribute renderer. By default it is an
-     * {@link UntypedDelegateAttributeRenderer}.
+     * {@link ChainedDelegateAttributeRenderer}.
      *
      * @param rendererFactory The renderer factory to configure.
      * @param applicationContext The Tiles application context.
@@ -432,10 +433,13 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        UntypedDelegateAttributeRenderer retValue = new UntypedDelegateAttributeRenderer(
-                container, rendererFactory.getRenderer(STRING_RENDERER_NAME),
-                rendererFactory.getRenderer(TEMPLATE_RENDERER_NAME), rendererFactory
-                        .getRenderer(DEFINITION_RENDERER_NAME));
+        ChainedDelegateAttributeRenderer retValue = new ChainedDelegateAttributeRenderer();
+        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+                .getRenderer(DEFINITION_RENDERER_NAME));
+        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+                .getRenderer(TEMPLATE_RENDERER_NAME));
+        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+                .getRenderer(STRING_RENDERER_NAME));
         retValue.setApplicationContext(applicationContext);
         retValue.setRequestContextFactory(contextFactory);
         retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);

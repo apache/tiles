@@ -20,10 +20,11 @@
  */
 package org.apache.tiles.renderer.impl;
 
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.StringWriter;
-
-import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
@@ -32,14 +33,15 @@ import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
-import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests {@link StringAttributeRenderer}.
  *
  * @version $Rev$ $Date$
  */
-public class StringAttributeRendererTest extends TestCase {
+public class StringAttributeRendererTest {
 
     /**
      * The renderer.
@@ -47,8 +49,8 @@ public class StringAttributeRendererTest extends TestCase {
     private StringAttributeRenderer renderer;
 
     /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         renderer = new StringAttributeRenderer();
         renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
                 new DirectAttributeEvaluator()));
@@ -60,24 +62,41 @@ public class StringAttributeRendererTest extends TestCase {
      *
      * @throws IOException If something goes wrong during rendition.
      */
+    @Test
     public void testWrite() throws IOException {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = EasyMock
-                .createMock(TilesRequestContext.class);
-        EasyMock.expect(contextFactory.createRequestContext(applicationContext))
-                .andReturn(requestContext);
-        EasyMock.expect(requestContext.getWriter()).andReturn(writer);
-        EasyMock.replay(applicationContext, contextFactory, requestContext);
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
+        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
+        expect(requestContext.getWriter()).andReturn(writer);
+        replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
         writer.close();
         assertEquals("Not written 'Result'", "Result", writer.toString());
+        verify(applicationContext, contextFactory, requestContext);
+    }
+
+    /**
+     * Tests
+     * {@link StringAttributeRenderer#isRenderable(Object, Attribute, TilesRequestContext)}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testIsRenderable() throws IOException {
+        Attribute attribute = new Attribute("Result", (Expression) null, null,
+                "string");
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
+        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
+        replay(applicationContext, contextFactory, requestContext);
+        renderer.setApplicationContext(applicationContext);
+        renderer.setRequestContextFactory(contextFactory);
+        assertTrue(renderer.isRenderable("Result", attribute, requestContext));
+        verify(applicationContext, contextFactory, requestContext);
     }
 }

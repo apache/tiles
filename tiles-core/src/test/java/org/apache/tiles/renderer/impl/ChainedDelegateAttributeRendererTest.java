@@ -28,66 +28,61 @@ import java.io.StringWriter;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
-import org.apache.tiles.renderer.AttributeRenderer;
+import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link UntypedAttributeRenderer}.
+ * Tests {@link ChainedDelegateAttributeRenderer}.
  *
  * @version $Rev$ $Date$
  */
-public class UntypedDelegateAttributeRendererTest {
+public class ChainedDelegateAttributeRendererTest {
 
     /**
      * The renderer.
      */
-    private UntypedDelegateAttributeRenderer renderer;
-
-    /**
-     * A mock container.
-     */
-    private TilesContainer container;
+    private ChainedDelegateAttributeRenderer renderer;
 
     /**
      * A mock string attribute renderer.
      */
-    private AttributeRenderer stringRenderer;
+    private TypeDetectingAttributeRenderer stringRenderer;
 
     /**
      * A mock template attribute renderer.
      */
-    private AttributeRenderer templateRenderer;
+    private TypeDetectingAttributeRenderer templateRenderer;
 
     /**
      * A mock definition attribute renderer.
      */
-    private AttributeRenderer definitionRenderer;
+    private TypeDetectingAttributeRenderer definitionRenderer;
 
     /**
      * Sets up the test.
      */
     @Before
     public void setUp() {
-        container = createMock(TilesContainer.class);
-        stringRenderer = createMock(AttributeRenderer.class);
-        templateRenderer = createMock(AttributeRenderer.class);
-        definitionRenderer = createMock(AttributeRenderer.class);
-        renderer = new UntypedDelegateAttributeRenderer(container,
-                stringRenderer, templateRenderer, definitionRenderer);
+        stringRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        templateRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        definitionRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        renderer = new ChainedDelegateAttributeRenderer();
         renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
                 new DirectAttributeEvaluator()));
+        renderer.addAttributeRenderer(definitionRenderer);
+        renderer.addAttributeRenderer(templateRenderer);
+        renderer.addAttributeRenderer(stringRenderer);
     }
 
     /**
      * Tests
-     * {@link UntypedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
+     * {@link ChainedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
      * writing a definition.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -103,25 +98,25 @@ public class UntypedDelegateAttributeRendererTest {
                 .createMock(TilesRequestContextFactory.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
-        Object[] requestObjects = new Object[0];
-        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
-        expect(container.isValidDefinition("my.definition", requestObjects))
-                .andReturn(Boolean.TRUE);
+
+        expect(
+                definitionRenderer.isRenderable("my.definition", attribute,
+                        requestContext)).andReturn(Boolean.TRUE);
         definitionRenderer.render(attribute, requestContext);
 
-        replay(applicationContext, contextFactory, requestContext, container,
+        replay(applicationContext, contextFactory, requestContext,
                 stringRenderer, templateRenderer, definitionRenderer);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
         writer.close();
         verify(applicationContext, contextFactory, requestContext,
-                container, stringRenderer, templateRenderer, definitionRenderer);
+                stringRenderer, templateRenderer, definitionRenderer);
     }
 
     /**
      * Tests
-     * {@link UntypedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
+     * {@link ChainedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
      * writing a string.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -136,24 +131,29 @@ public class UntypedDelegateAttributeRendererTest {
                 .createMock(TilesRequestContextFactory.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
-        Object[] requestObjects = new Object[0];
-        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
-        expect(container.isValidDefinition("Result", requestObjects))
-                .andReturn(Boolean.FALSE);
+        expect(
+                definitionRenderer.isRenderable("Result", attribute,
+                        requestContext)).andReturn(Boolean.FALSE);
+        expect(
+                templateRenderer.isRenderable("Result", attribute,
+                        requestContext)).andReturn(Boolean.FALSE);
+        expect(
+                stringRenderer.isRenderable("Result", attribute,
+                        requestContext)).andReturn(Boolean.TRUE);
         stringRenderer.render(attribute, requestContext);
 
-        replay(applicationContext, contextFactory, requestContext, container,
+        replay(applicationContext, contextFactory, requestContext,
                 stringRenderer, templateRenderer, definitionRenderer);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
-        verify(applicationContext, contextFactory, requestContext, container,
+        verify(applicationContext, contextFactory, requestContext,
                 stringRenderer, templateRenderer, definitionRenderer);
     }
 
     /**
      * Tests
-     * {@link UntypedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
+     * {@link ChainedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
      * writing a template.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -169,19 +169,21 @@ public class UntypedDelegateAttributeRendererTest {
                 .createMock(TilesRequestContextFactory.class);
         TilesRequestContext requestContext = EasyMock
                 .createMock(TilesRequestContext.class);
-        Object[] requestObjects = new Object[0];
-        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
-        expect(container.isValidDefinition("/myTemplate.jsp", requestObjects))
-                .andReturn(Boolean.FALSE);
         templateRenderer.render(attribute, requestContext);
+        expect(
+                definitionRenderer.isRenderable("/myTemplate.jsp", attribute,
+                        requestContext)).andReturn(Boolean.FALSE);
+        expect(
+                templateRenderer.isRenderable("/myTemplate.jsp", attribute,
+                        requestContext)).andReturn(Boolean.TRUE);
 
-        replay(applicationContext, contextFactory, requestContext, container,
+        replay(applicationContext, contextFactory, requestContext,
                 stringRenderer, templateRenderer, definitionRenderer);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
         writer.close();
-        verify(applicationContext, contextFactory, requestContext, container,
+        verify(applicationContext, contextFactory, requestContext,
                 stringRenderer, templateRenderer, definitionRenderer);
     }
 }

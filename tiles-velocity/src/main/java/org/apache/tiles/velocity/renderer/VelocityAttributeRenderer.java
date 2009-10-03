@@ -31,7 +31,7 @@ import javax.servlet.ServletContext;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.impl.InvalidTemplateException;
-import org.apache.tiles.renderer.impl.AbstractBaseAttributeRenderer;
+import org.apache.tiles.renderer.impl.AbstractTypeDetectingAttributeRenderer;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.util.IteratorEnumeration;
@@ -50,7 +50,7 @@ import org.apache.velocity.tools.view.VelocityView;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class VelocityAttributeRenderer extends AbstractBaseAttributeRenderer {
+public class VelocityAttributeRenderer extends AbstractTypeDetectingAttributeRenderer {
 
     /**
      * The VelocityView object to use.
@@ -106,6 +106,16 @@ public class VelocityAttributeRenderer extends AbstractBaseAttributeRenderer {
         } else {
             throw new InvalidTemplateException("Cannot render a null template");
         }
+    }
+
+    /** {@inheritDoc} */
+    public boolean isRenderable(Object value, Attribute attribute,
+            TilesRequestContext request) {
+        if (value instanceof String) {
+            String string = (String) value;
+            return string.startsWith("/") && string.endsWith(".vm");
+        }
+        return false;
     }
 
     /**

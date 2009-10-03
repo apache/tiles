@@ -18,31 +18,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.renderer.impl;
 
-import java.io.IOException;
+package org.apache.tiles.renderer.impl;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.evaluator.AttributeEvaluator;
+import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 
 /**
- * Renders an attribute that contains a string.
+ * Abstract implementation of {@link TypeDetectingAttributeRenderer} that
+ * implements {@link #isRenderable(Attribute, TilesRequestContext)} to delegate
+ * to {@link #isRenderable(Object, Attribute, TilesRequestContext)}.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 2.2.1
  */
-public class StringAttributeRenderer extends AbstractTypeDetectingAttributeRenderer {
+public abstract class AbstractTypeDetectingAttributeRenderer extends
+        AbstractBaseAttributeRenderer implements TypeDetectingAttributeRenderer {
 
     /** {@inheritDoc} */
-    public void write(Object value, Attribute attribute,
-            TilesRequestContext request)
-            throws IOException {
-        request.getWriter().write(value.toString());
-    }
-
-    /** {@inheritDoc} */
-    public boolean isRenderable(Object value, Attribute attribute,
-            TilesRequestContext request) {
-        return value instanceof String;
+    public boolean isRenderable(Attribute attribute, TilesRequestContext request) {
+        AttributeEvaluator evaluator = attributeEvaluatorFactory
+                .getAttributeEvaluator(attribute);
+        Object value = evaluator.evaluate(attribute, request);
+        return isRenderable(value, attribute, request);
     }
 }

@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.factory;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
 import java.net.URL;
@@ -46,11 +47,12 @@ import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
+import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
+import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
-import org.apache.tiles.renderer.impl.UntypedDelegateAttributeRenderer;
 import org.easymock.EasyMock;
 
 /**
@@ -230,9 +232,9 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         TilesRequestContextFactory requestContextFactory = createMock(TilesRequestContextFactory.class);
         AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
-        AttributeRenderer stringRenderer = createMock(AttributeRenderer.class);
-        AttributeRenderer templateRenderer = createMock(AttributeRenderer.class);
-        AttributeRenderer definitionRenderer = createMock(AttributeRenderer.class);
+        AttributeRenderer stringRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        AttributeRenderer templateRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        AttributeRenderer definitionRenderer = createMock(TypeDetectingAttributeRenderer.class);
 
         expect(rendererFactory.getRenderer("string")).andReturn(stringRenderer);
         expect(rendererFactory.getRenderer("template")).andReturn(templateRenderer);
@@ -244,7 +246,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
                 rendererFactory, applicationContext, requestContextFactory,
                 container, attributeEvaluatorFactory);
         assertTrue("The default renderer class is not correct",
-                renderer instanceof UntypedDelegateAttributeRenderer);
+                renderer instanceof ChainedDelegateAttributeRenderer);
         verify(container, requestContextFactory, attributeEvaluatorFactory,
                 rendererFactory);
     }
