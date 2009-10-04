@@ -207,6 +207,7 @@
     <a href="freemarker/testinsertdefinition_mvel.ftl">FreeMarker: Test Insert Configured Definition with MVEL</a><br/>
     <a href="freemarker/testinsertdefinition_ognl.ftl">FreeMarker: Test Insert Configured Definition with OGNL</a><br/>
     <a href="freemarker/testinsertdefinition_regexp.ftl">FreeMarker: Test Insert Configured Definition with Regular Expression</a><br/>
+    <a href="org/apache/tiles/test/alt/freemarker/testinsertdefinition_alt.ftl">FreeMarker: Test Insert Configured Definition in Module</a><br/>
 
     <h1>Velocity-based tests</h1>
 
