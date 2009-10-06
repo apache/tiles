@@ -22,12 +22,14 @@
 package org.apache.tiles.definition.pattern;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.Expression;
+import org.apache.tiles.ListAttribute;
 
 /**
  * Utilities for pattern matching and substitution.
@@ -107,7 +109,28 @@ public final class PatternUtil {
      */
     private static Attribute replaceVarsInAttribute(Attribute attr,
             Object... vars) {
-        Attribute nuattr = new Attribute();
+        Attribute nuattr;
+        if (attr instanceof ListAttribute) {
+            nuattr = replaceVarsInListAttribute((ListAttribute) attr, vars);
+        } else {
+            nuattr = replaceVarsInSimpleAttribute(attr, vars);
+        }
+        return nuattr;
+    }
+
+    /**
+     * Replaces variables into a simple (not list) attribute.
+     *
+     * @param attr The attribute to be used as a basis, containing placeholders
+     * for variables.
+     * @param vars The variables to replace.
+     * @return A new instance of an attribute, whose properties have been
+     * replaced with variables' values.
+     */
+    private static Attribute replaceVarsInSimpleAttribute(Attribute attr,
+            Object... vars) {
+        Attribute nuattr;
+        nuattr = new Attribute();
 
         nuattr.setRole(replace(attr.getRole(), vars));
         nuattr.setRenderer(attr.getRenderer());
@@ -121,6 +144,36 @@ public final class PatternUtil {
             value = replace((String) value, vars);
         }
         nuattr.setValue(value);
+        return nuattr;
+    }
+
+    /**
+     * Replaces variables into a list attribute.
+     *
+     * @param listAttr The attribute to be used as a basis, containing attributes
+     * that may contain placeholders for variables.
+     * @param vars The variables to replace.
+     * @return A new instance of an attribute, whose properties have been
+     * replaced with variables' values.
+     */
+    @SuppressWarnings("unchecked")
+    private static Attribute replaceVarsInListAttribute(ListAttribute listAttr,
+            Object... vars) {
+        Attribute nuattr;
+        ListAttribute nuListAttr = new ListAttribute();
+        nuListAttr.setInherit(listAttr.isInherit());
+        List<Object> nuItems = (List<Object>) nuListAttr.getValue();
+        for (Object item : (List<Object>) listAttr.getValue()) {
+            if (item instanceof Attribute) {
+                Attribute child = (Attribute) item;
+                child = replaceVarsInAttribute(child, vars);
+                nuItems.add(child);
+            } else {
+                // Seems improbable, but APIs permit it.
+                nuItems.add(item);
+            }
+        }
+        nuattr = nuListAttr;
         return nuattr;
     }
 

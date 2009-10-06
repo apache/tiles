@@ -24,10 +24,12 @@ package org.apache.tiles.definition.pattern;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.ListAttribute;
 import org.junit.Test;
 
 /**
@@ -37,6 +39,11 @@ import org.junit.Test;
  * @since 2.2.0
  */
 public class PatternUtilTest {
+
+    /**
+     * The size of the list in the main list attribute.
+     */
+    private static final int LIST_ATTRIBUTE_SIZE = 3;
 
     /**
      * Test method for
@@ -99,5 +106,47 @@ public class PatternUtilTest {
         assertEquals("valuevalue2", attribute.getValue());
         attribute = nudef.getAttribute("attrib2");
         assertEquals("valuevalue2value3", attribute.getValue());
+    }
+
+    /**
+     * Test method for
+     * {@link PatternUtil#replacePlaceholders(Definition, String, Object[])}.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReplacePlaceholdersListAttribute() {
+        Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+        ListAttribute listAttribute = new ListAttribute();
+        ListAttribute internalListAttribute = new ListAttribute();
+        listAttribute.setInherit(true);
+        attributes.put("myList", listAttribute);
+        listAttribute.add(new Attribute("value{2}"));
+        listAttribute.add(new Attribute("value{2}{3}"));
+        listAttribute.add(internalListAttribute);
+        internalListAttribute.add(new Attribute("secondvalue{2}"));
+        internalListAttribute.add(new Attribute("secondvalue{2}{3}"));
+        Definition definition = new Definition("definitionName", new Attribute(
+                "template{1}"), attributes);
+        Definition nudef = PatternUtil.replacePlaceholders(definition, "nudef",
+                "value0", "value1", "value2", "value3");
+        assertEquals("nudef", nudef.getName());
+        Attribute attribute = nudef.getTemplateAttribute();
+        assertEquals("templatevalue1", attribute.getValue());
+        ListAttribute nuListAttribute = (ListAttribute) nudef.getAttribute("myList");
+        assertTrue(nuListAttribute.isInherit());
+        List<Attribute> list = (List<Attribute>) nuListAttribute.getValue();
+        assertEquals(LIST_ATTRIBUTE_SIZE, list.size());
+        attribute = list.get(0);
+        assertEquals("valuevalue2", attribute.getValue());
+        attribute = list.get(1);
+        assertEquals("valuevalue2value3", attribute.getValue());
+        ListAttribute evaluatedListAttribute = (ListAttribute) list.get(2);
+        assertFalse(evaluatedListAttribute.isInherit());
+        list = (List<Attribute>) evaluatedListAttribute.getValue();
+        assertEquals(2, list.size());
+        attribute = list.get(0);
+        assertEquals("secondvaluevalue2", attribute.getValue());
+        attribute = list.get(1);
+        assertEquals("secondvaluevalue2value3", attribute.getValue());
     }
 }
