@@ -20,6 +20,8 @@
  */
 package org.apache.tiles;
 
+import static org.apache.tiles.CompareUtil.*;
+
 import java.util.Map;
 
 /**
@@ -275,10 +277,21 @@ public class Definition extends BasicAttributeContext {
         return inherit;
     }
 
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        Definition def = (Definition) obj;
+        return nullSafeEquals(name, def.name)
+                && nullSafeEquals(inherit, def.inherit) && super.equals(def);
+    }
+
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        return nullSafeHashCode(name) + nullSafeHashCode(inherit)
+                + super.hashCode();
     }
 
     /**

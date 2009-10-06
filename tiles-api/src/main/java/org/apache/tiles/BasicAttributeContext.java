@@ -21,6 +21,8 @@
 
 package org.apache.tiles;
 
+import static org.apache.tiles.CompareUtil.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -375,6 +377,24 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         preparer = null;
         attributes.clear();
         cascadedAttributes.clear();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        BasicAttributeContext bac = (BasicAttributeContext) obj;
+        return nullSafeEquals(templateAttribute, bac.templateAttribute)
+                && nullSafeEquals(preparer, bac.preparer)
+                && nullSafeEquals(attributes, bac.attributes)
+                && nullSafeEquals(cascadedAttributes, bac.cascadedAttributes);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return nullSafeHashCode(templateAttribute) + nullSafeHashCode(preparer)
+                + nullSafeHashCode(attributes)
+                + nullSafeHashCode(cascadedAttributes);
     }
 
     /**
