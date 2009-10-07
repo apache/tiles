@@ -77,6 +77,8 @@ public interface DefinitionsFactory {
      * @param params The Map of configuration properties.
      * @throws DefinitionsFactoryException If a Tiles exception, such as an initialization
      * error, occurs.
+     * @deprecated Parameter based initialization is deprecated, please compose your
+     * definitions factory using methods.
      */
     void init(Map<String, String> params);
 

@@ -35,7 +35,7 @@ import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
-import org.apache.tiles.definition.LocaleDefinitionsFactory;
+import org.apache.tiles.definition.UnresolvingLocaleDefinitionsFactory;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
@@ -118,7 +118,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         DefinitionsFactory defsFactory = factory.createDefinitionsFactory(
                 applicationContext, requestContextFactory, resolver);
         assertTrue("The class of the definitions factory is not correct",
-                defsFactory instanceof LocaleDefinitionsFactory);
+                defsFactory instanceof UnresolvingLocaleDefinitionsFactory);
     }
 
     /**

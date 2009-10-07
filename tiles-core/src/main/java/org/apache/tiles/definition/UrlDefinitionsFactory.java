@@ -49,11 +49,11 @@ import org.slf4j.LoggerFactory;
  * </p>
  *
  * @version $Rev$ $Date$
- * @deprecated Use {@link LocaleDefinitionsFactory} and using
+ * @deprecated Use {@link UnresolvingLocaleDefinitionsFactory} and using
  * {@link ResolvingLocaleUrlDefinitionDAO} as Tiles DAO.
  */
-public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
-        Refreshable {
+public class UrlDefinitionsFactory extends UnresolvingLocaleDefinitionsFactory
+        implements Refreshable {
 
     /**
      * Compatibility constant.
@@ -89,25 +89,6 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
      * @deprecated No more used.
      */
     protected Map<String, Long> lastModifiedDates;
-
-    /**
-     * Returns a Definition object that matches the given name and
-     * Tiles context.
-     *
-     * @param name         The name of the Definition to return.
-     * @param tilesContext The Tiles context to use to resolve the definition.
-     * @return the Definition matching the given name or null if none
-     *         is found.
-     * @throws DefinitionsFactoryException if an error occurs reading definitions.
-     */
-    @Override
-    public Definition getDefinition(String name,
-            TilesRequestContext tilesContext) {
-
-        Locale locale = localeResolver.resolveLocale(tilesContext);
-
-        return definitionDao.getDefinition(name, locale);
-    }
 
     /** {@inheritDoc} */
     public synchronized void refresh() {
@@ -177,8 +158,12 @@ public class UrlDefinitionsFactory extends LocaleDefinitionsFactory implements
         }
     }
 
-    /** {@inheritDoc} */
-    @Override
+    /**
+     * Creates the default definition DAO, if it has not been specified outside.
+     *
+     * @return The default definition DAO.
+     * @since 2.1.0
+     */
     protected DefinitionDAO<Locale> createDefaultDefinitionDAO() {
         return new ResolvingLocaleUrlDefinitionDAO();
     }

@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.Initializable;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
@@ -49,52 +48,8 @@ import org.apache.tiles.reflect.ClassUtil;
  * @since 2.1.0
  */
 @SuppressWarnings("deprecation")
-public class LocaleDefinitionsFactory implements DefinitionsFactory,
-        TilesApplicationContextAware, Initializable {
-
-    /**
-     * The definition DAO that extracts the definitions from the sources.
-     *
-     * @since 2.1.0
-     */
-    protected DefinitionDAO<Locale> definitionDao;
-
-    /**
-     * The application context.
-     *
-     * @since 2.1.0
-     */
-    protected TilesApplicationContext applicationContext;
-
-    /**
-     * The locale resolver object.
-     */
-    protected LocaleResolver localeResolver;
-
-    /** {@inheritDoc} */
-    public void setApplicationContext(TilesApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
-
-    /**
-     * Sets the locale resolver to use.
-     *
-     * @param localeResolver The locale resolver.
-     * @since 2.1.0
-     */
-    public void setLocaleResolver(LocaleResolver localeResolver) {
-        this.localeResolver = localeResolver;
-    }
-
-    /**
-     * Sets the definition DAO to use. It must be locale-based.
-     *
-     * @param definitionDao The definition DAO.
-     * @since 2.1.0
-     */
-    public void setDefinitionDAO(DefinitionDAO<Locale> definitionDao) {
-        this.definitionDao = definitionDao;
-    }
+public class LocaleDefinitionsFactory extends
+        UnresolvingLocaleDefinitionsFactory implements Initializable {
 
     /**
      * Initializes the DefinitionsFactory and its subcomponents.
@@ -161,20 +116,6 @@ public class LocaleDefinitionsFactory implements DefinitionsFactory,
         }
 
         return retValue;
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public void addSource(Object source) {
-        throw new UnsupportedOperationException(
-                "The addSource method is not supported");
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public Definitions readDefinitions() {
-        throw new UnsupportedOperationException(
-            "The readDefinitions method is not supported");
     }
 
     /**

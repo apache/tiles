@@ -33,8 +33,8 @@ import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
-import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.apache.tiles.definition.Refreshable;
+import org.apache.tiles.definition.UnresolvingLocaleDefinitionsFactory;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.definition.dao.ResolvingLocaleUrlDefinitionDAO;
@@ -223,7 +223,8 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Creates the definitions factory. By default it creates a
-     * {@link LocaleDefinitionsFactory} with default dependencies.
+     * {@link UnresolvingLocaleDefinitionsFactory} with default dependencies.
+     *
      * @param applicationContext The Tiles application context.
      * @param contextFactory The Tiles context factory.
      * @param resolver The locale resolver.
@@ -234,7 +235,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     protected DefinitionsFactory createDefinitionsFactory(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             LocaleResolver resolver) {
-        LocaleDefinitionsFactory factory = instantiateDefinitionsFactory(
+        UnresolvingLocaleDefinitionsFactory factory = instantiateDefinitionsFactory(
                 applicationContext, contextFactory, resolver);
         factory.setApplicationContext(applicationContext);
         factory.setLocaleResolver(resolver);
@@ -253,12 +254,12 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @param resolver The locale resolver.
      *
      * @return The definitions factory.
-     * @since 2.1.1
+     * @since 2.2.1
      */
-    protected LocaleDefinitionsFactory instantiateDefinitionsFactory(TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory,
-            LocaleResolver resolver) {
-        return new LocaleDefinitionsFactory();
+    protected UnresolvingLocaleDefinitionsFactory instantiateDefinitionsFactory(
+            TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+        return new UnresolvingLocaleDefinitionsFactory();
     }
 
 
