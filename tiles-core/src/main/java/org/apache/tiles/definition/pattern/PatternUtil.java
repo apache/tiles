@@ -22,8 +22,10 @@
 package org.apache.tiles.definition.pattern;
 
 import java.text.MessageFormat;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.tiles.Attribute;
@@ -96,6 +98,25 @@ public final class PatternUtil {
         }
 
         return nudef;
+    }
+
+    /**
+     * Creates a new map that contains all the entries of the
+     * <code>defsMap</code> whose keys are contained in <code>keys</code>.
+     *
+     * @param map The map to read.
+     * @param keys The keys to extract.
+     * @param <K> The key of the map.
+     * @param <V> The value of the map.
+     * @return The extracted map.
+     * @since 2.2.1
+     */
+    public static <K, V> Map<K, V> createExtractedMap(Map<K, V> map, Set<K> keys) {
+        Map<K, V> retValue = new LinkedHashMap<K, V>();
+        for (K key : keys) {
+            retValue.put(key, map.get(key));
+        }
+        return retValue;
     }
 
     /**

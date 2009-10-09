@@ -24,6 +24,7 @@ package org.apache.tiles.definition.pattern;
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +78,7 @@ public class AbstractPatternDefinitionResolverTest {
         PatternDefinitionResolver<Integer> resolver = new AbstractPatternDefinitionResolver<Integer>() {
 
             @Override
-            protected void addDefinitionsAsPatternMatchers(
+            protected Map<String, Definition> addDefinitionsAsPatternMatchers(
                     List<DefinitionPatternMatcher> matchers,
                     Map<String, Definition> defsMap) {
                 if (defsMap.containsKey("first")) {
@@ -86,6 +87,10 @@ public class AbstractPatternDefinitionResolverTest {
                 if (defsMap.containsKey("third")) {
                     matchers.add(thirdMatcher);
                 }
+                Map<String, Definition> retValue = new HashMap<String, Definition>(defsMap);
+                retValue.remove("first");
+                retValue.remove("third");
+                return retValue;
             }
 
         };

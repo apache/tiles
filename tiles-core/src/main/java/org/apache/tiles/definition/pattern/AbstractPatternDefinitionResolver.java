@@ -58,7 +58,7 @@ public abstract class AbstractPatternDefinitionResolver<T> implements
     }
 
     /** {@inheritDoc} */
-    public void storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
+    public Map<String, Definition> storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
             T customizationKey) {
         List<DefinitionPatternMatcher> lpaths = localePatternPaths
                 .get(customizationKey);
@@ -67,7 +67,7 @@ public abstract class AbstractPatternDefinitionResolver<T> implements
             localePatternPaths.put(customizationKey, lpaths);
         }
 
-        addDefinitionsAsPatternMatchers(lpaths, localeDefsMap);
+        return addDefinitionsAsPatternMatchers(lpaths, localeDefsMap);
     }
 
     /**
@@ -78,9 +78,12 @@ public abstract class AbstractPatternDefinitionResolver<T> implements
      * @param matchers The list containing the currently stored definition pattern
      * matchers.
      * @param defsMap The definition map to parse.
-     * @since 2.2.0
+     * @return The map of the definitions not recognized as containing
+     * definition patterns.
+     * @since 2.2.1
      */
-    protected abstract void addDefinitionsAsPatternMatchers(List<DefinitionPatternMatcher> matchers,
+    protected abstract Map<String, Definition> addDefinitionsAsPatternMatchers(
+            List<DefinitionPatternMatcher> matchers,
             Map<String, Definition> defsMap);
 
     /**

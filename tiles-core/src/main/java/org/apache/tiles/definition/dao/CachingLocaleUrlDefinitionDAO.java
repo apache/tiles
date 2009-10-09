@@ -125,8 +125,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             retValue = definitions.get(name);
 
             if (retValue == null) {
-                retValue = definitionResolver.resolveDefinition(name,
-                        customizationKey);
+                retValue = getDefinitionFromResolver(name, customizationKey);
 
                 if (retValue != null) {
                     try {
@@ -177,6 +176,19 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     }
 
     /**
+     * Returns a definition from the definition resolver.
+     *
+     * @param name The name of the definition.
+     * @param customizationKey The customization key to use.
+     * @return The resolved definition.
+     */
+    protected Definition getDefinitionFromResolver(String name,
+            Locale customizationKey) {
+        return definitionResolver.resolveDefinition(name,
+                customizationKey);
+    }
+
+    /**
      * Checks if URLs have changed. If yes, it clears the cache. Then continues
      * loading definitions.
      *
@@ -189,7 +201,8 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         if (checkRefresh && refreshRequired()) {
             locale2definitionMap.clear();
         }
-        return loadDefinitions(customizationKey);
+        loadDefinitions(customizationKey);
+        return locale2definitionMap.get(customizationKey);
     }
 
     /**
@@ -206,8 +219,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             return localeDefsMap;
         }
 
-        loadDefinitionsFromURLs(customizationKey);
-        return locale2definitionMap.get(customizationKey);
+        return loadDefinitionsFromURLs(customizationKey);
     }
 
     /**
@@ -245,10 +257,11 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
                         + newPath, e);
             }
         }
-        Map<String, Definition> retValue = copyDefinitionMap(localeDefsMap);
-        locale2definitionMap.put(customizationKey, localeDefsMap);
-        postDefinitionLoadOperations(localeDefsMap, customizationKey);
-        return retValue;
+        Map<String, Definition> defsMap = definitionResolver
+                .storeDefinitionPatterns(copyDefinitionMap(localeDefsMap),
+                        customizationKey);
+        locale2definitionMap.put(customizationKey, defsMap);
+        return localeDefsMap;
     }
 
     /**
@@ -281,6 +294,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      * @param localeDefsMap The loaded definitions.
      * @param customizationKey The locale to use when loading URLs.
      * @since 2.1.0
+     * @deprecated Never used.
      */
     protected void postDefinitionLoadOperations(
             Map<String, Definition> localeDefsMap, Locale customizationKey) {

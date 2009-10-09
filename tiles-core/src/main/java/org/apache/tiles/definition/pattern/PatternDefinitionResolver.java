@@ -37,11 +37,14 @@ public interface PatternDefinitionResolver<T> {
     /**
      * Stores definition patterns.
      *
-     * @param localeDefsMap The map of definitions that may contain also patterns.
+     * @param localeDefsMap The map of definitions that may contain also
+     * patterns.
      * @param customizationKey The customization key.
-     * @since 2.2.0
+     * @return The map of the definitions not recognized as containing
+     * definition patterns.
+     * @since 2.2.1
      */
-    void storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
+    Map<String, Definition> storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
             T customizationKey);
 
     /**

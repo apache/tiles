@@ -57,4 +57,8 @@
       <put-attribute name="body"   value="doc.portal.body" />
   </definition>
 
+  <definition name="test.extended.def*.sub*" extends="test.def{1}.sub{2}">
+      <put-attribute name="title"  value="Overridden Title" />
+  </definition>
+
 </tiles-definitions>

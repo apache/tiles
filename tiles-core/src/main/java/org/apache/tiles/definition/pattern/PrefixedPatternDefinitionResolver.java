@@ -22,8 +22,10 @@
 package org.apache.tiles.definition.pattern;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.Expression;
@@ -79,26 +81,31 @@ public class PrefixedPatternDefinitionResolver<T> extends
 
     /** {@inheritDoc} */
     @Override
-    protected void addDefinitionsAsPatternMatchers(
+    protected Map<String, Definition> addDefinitionsAsPatternMatchers(
             List<DefinitionPatternMatcher> matchers,
             Map<String, Definition> defsMap) {
+        Set<String> excludedKeys = new LinkedHashSet<String>();
         for (Map.Entry<String, Definition> entry : defsMap.entrySet()) {
+            String key = entry.getKey();
             Expression expression = Expression
-                    .createExpressionFromDescribedExpression(entry.getKey());
+                    .createExpressionFromDescribedExpression(key);
             if (expression.getLanguage() != null) {
                 DefinitionPatternMatcherFactory factory = language2matcherFactory
                         .get(expression.getLanguage());
                 if (factory != null) {
                     DefinitionPatternMatcher matcher = factory
                             .createDefinitionPatternMatcher(expression
-                                    .getExpression(), entry.getValue());
+                                    .getExpression(), new Definition(entry
+                                    .getValue()));
                     matchers.add(matcher);
                 } else {
-                    logger
-                            .warn("Cannot find a DefinitionPatternMatcherFactory for expression '"
-                                    + entry.getKey() + "'");
+                    logger.warn("Cannot find a DefinitionPatternMatcherFactory for expression '"
+                            + key + "'");
                 }
+            } else {
+                excludedKeys.add(key);
             }
         }
+        return PatternUtil.createExtractedMap(defsMap, excludedKeys);
     }
 }

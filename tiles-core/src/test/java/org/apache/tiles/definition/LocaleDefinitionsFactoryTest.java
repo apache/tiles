@@ -21,6 +21,7 @@
 
 package org.apache.tiles.definition;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +33,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.tiles.Definition;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.easymock.EasyMock;
@@ -42,6 +44,11 @@ import org.easymock.EasyMock;
  * @version $Rev$ $Date$
  */
 public class LocaleDefinitionsFactoryTest extends TestCase {
+
+    /**
+     * The number of attribute names.
+     */
+    private static final int ATTRIBUTE_NAMES_COUNT = 6;
 
     /**
      * The definitions factory.
@@ -352,5 +359,73 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
         assertEquals("MockDefinitionsReader not used.",
                 instanceCount + 1,
                 MockDefinitionsReader.getInstanceCount());
+    }
+
+    /**
+     * Tests wildcard mappings.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testWildcardMapping() throws IOException {
+        URL url1 = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs-wildcard.xml");
+
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        Set<URL> urlSet = new HashSet<URL>();
+        urlSet.add(url1);
+        EasyMock.expect(
+                applicationContext
+                        .getResources("org/apache/tiles/config/defs-wildcard.xml"))
+                .andReturn(urlSet);
+        EasyMock.replay(applicationContext);
+        factory.setApplicationContext(applicationContext);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
+                "org/apache/tiles/config/defs-wildcard.xml");
+        factory.init(params);
+
+        TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
+        EasyMock.expect(request.getRequestLocale()).andReturn(Locale.ITALY).anyTimes();
+        EasyMock.expect(request.getSessionScope()).andReturn(null).anyTimes();
+
+        EasyMock.replay(request);
+
+        Definition definition = factory.getDefinition("test.defName.subLayered", request);
+        assertEquals("The template is not correct", "/testName.jsp", definition
+                .getTemplateAttribute().getValue());
+        assertEquals("The header attribute is not correct",
+                "/common/headerLayered.jsp", definition.getAttribute("header")
+                        .getValue());
+        definition = factory.getDefinition("test.defName.subLayered", request);
+        assertEquals("The template is not correct", "/testName.jsp", definition
+                .getTemplateAttribute().getValue());
+        assertEquals("The header attribute is not correct",
+                "/common/headerLayered.jsp", definition.getAttribute("header")
+                        .getValue());
+        definition = factory.getDefinition("test.defName.subLayered", request);
+        assertEquals("The template is not correct", "/testName.jsp", definition
+                .getTemplateAttribute().getValue());
+        assertEquals("The header attribute is not correct",
+                "/common/headerLayered.jsp", definition.getAttribute("header")
+                        .getValue());
+        definition = factory.getDefinition("test.defName.noAttribute", request);
+        assertEquals("/testName.jsp", definition.getTemplateAttribute().getValue());
+        assertEquals(null, definition.getLocalAttributeNames());
+        definition = factory.getDefinition("test.def3", request);
+        assertNotNull("The simple definition is null", definition);
+
+        definition = factory.getDefinition("test.extended.defName.subLayered", request);
+        assertEquals("test.defName.subLayered", definition.getExtends());
+        assertEquals(ATTRIBUTE_NAMES_COUNT, definition.getLocalAttributeNames().size());
+        assertEquals("The template is not correct", "/testName.jsp", definition
+                .getTemplateAttribute().getValue());
+        assertEquals("Overridden Title", definition.getAttribute("title").getValue());
+        assertEquals("The header attribute is not correct",
+                "/common/headerLayered.jsp", definition.getAttribute("header")
+                        .getValue());
+
+        EasyMock.verify(applicationContext, request);
     }
 }

@@ -21,8 +21,10 @@
 
 package org.apache.tiles.definition.pattern;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tiles.Definition;
 
@@ -62,24 +64,19 @@ public class BasicPatternDefinitionResolver<T> extends
         this.patternRecognizer = patternRecognizer;
     }
 
-    /**
-     * Adds definitions, filtering and adding them to the list of definition
-     * pattern matchers. Only a subset of definitions will be transformed into
-     * definition pattern matchers.
-     *
-     * @param matchers The list containing the currently stored definition pattern
-     * matchers.
-     * @param defsMap The definition map to parse.
-     * @since 2.2.0
-     */
-    protected void addDefinitionsAsPatternMatchers(List<DefinitionPatternMatcher> matchers,
+    /** {@inheritDoc} */
+    protected Map<String, Definition> addDefinitionsAsPatternMatchers(List<DefinitionPatternMatcher> matchers,
             Map<String, Definition> defsMap) {
+        Set<String> excludedKeys = new LinkedHashSet<String>();
         for (Map.Entry<String, Definition> de : defsMap.entrySet()) {
-            if (patternRecognizer.isPatternRecognized(de.getKey())) {
+            String key = de.getKey();
+            if (patternRecognizer.isPatternRecognized(key)) {
                 matchers.add(definitionPatternMatcherFactory
-                        .createDefinitionPatternMatcher(de.getKey(), de
-                                .getValue()));
+                        .createDefinitionPatternMatcher(key, de.getValue()));
+            } else {
+                excludedKeys.add(key);
             }
         }
+        return PatternUtil.createExtractedMap(defsMap, excludedKeys);
     }
 }

@@ -668,6 +668,12 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals(null, definition.getLocalAttributeNames());
         definition = definitionDao.getDefinition("test.def3", null);
         assertNotNull("The simple definition is null", definition);
+
+        definition = definitionDao.getDefinition("test.extended.defName.subLayered", null);
+        assertEquals("test.defName.subLayered", definition.getExtends());
+        assertNull(definition.getTemplateAttribute().getValue());
+        assertEquals(1, definition.getLocalAttributeNames().size());
+        assertEquals("Overridden Title", definition.getAttribute("title").getValue());
     }
 
     /**

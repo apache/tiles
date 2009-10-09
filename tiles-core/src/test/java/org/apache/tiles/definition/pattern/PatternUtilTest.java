@@ -24,8 +24,10 @@ package org.apache.tiles.definition.pattern;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
@@ -56,9 +58,13 @@ public class PatternUtilTest {
         attributes.put("attrib2", new Attribute("value{2}{3}"));
         Definition definition = new Definition("definitionName", new Attribute(
                 "template{1}"), attributes);
+        definition.setExtends("{2}ext");
+        definition.setPreparer("{3}prep");
         Definition nudef = PatternUtil.replacePlaceholders(definition, "nudef",
                 "value0", "value1", "value2", "value3");
         assertEquals("nudef", nudef.getName());
+        assertEquals("value2ext", nudef.getExtends());
+        assertEquals("value3prep", nudef.getPreparer());
         Attribute attribute = nudef.getTemplateAttribute();
         assertEquals("templatevalue1", attribute.getValue());
         attribute = nudef.getAttribute("attrib1");
@@ -148,5 +154,24 @@ public class PatternUtilTest {
         assertEquals("secondvaluevalue2", attribute.getValue());
         attribute = list.get(1);
         assertEquals("secondvaluevalue2value3", attribute.getValue());
+    }
+
+
+    /**
+     * Tests {@link PatternUtil#createExtractedMap(Map, java.util.Set)}.
+     */
+    @Test
+    public void testCreateExtractedMap() {
+        Map<Integer, String> map = new HashMap<Integer, String>();
+        map.put(0, "value0");
+        map.put(1, "value1");
+        map.put(2, "value2");
+        Set<Integer> set = new HashSet<Integer>();
+        set.add(1);
+        set.add(2);
+        Map<Integer, String> extractedMap = PatternUtil.createExtractedMap(map, set);
+        assertEquals(2, extractedMap.size());
+        assertEquals("value1", extractedMap.get(1));
+        assertEquals("value2", extractedMap.get(2));
     }
 }

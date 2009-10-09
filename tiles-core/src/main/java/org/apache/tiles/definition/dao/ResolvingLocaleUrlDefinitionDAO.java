@@ -60,6 +60,30 @@ public class ResolvingLocaleUrlDefinitionDAO extends
 
     /** {@inheritDoc} */
     @Override
+    protected Map<String, Definition> loadDefinitionsFromURLs(
+            Locale customizationKey) {
+        Map<String, Definition> retValue = super.loadDefinitionsFromURLs(customizationKey);
+        Map<String, Definition> defsMap = locale2definitionMap.get(customizationKey);
+        resolveInheritances(defsMap, customizationKey);
+        return retValue;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Definition getDefinitionFromResolver(String name,
+            Locale customizationKey) {
+        Definition retValue = super.getDefinitionFromResolver(name, customizationKey);
+        if (retValue != null && retValue.getExtends() != null) {
+            Definition parent = getDefinition(retValue.getExtends(), customizationKey);
+            retValue.inherit(parent);
+        }
+
+        return retValue;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    @Deprecated
     protected void postDefinitionLoadOperations(
             Map<String, Definition> localeDefsMap, Locale customizationKey) {
         resolveInheritances(localeDefsMap, customizationKey);

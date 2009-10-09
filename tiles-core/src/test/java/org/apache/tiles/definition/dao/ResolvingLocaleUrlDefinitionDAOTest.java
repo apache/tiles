@@ -63,6 +63,11 @@ import org.easymock.EasyMock;
 public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
 
     /**
+     * The number of attribute names.
+     */
+    private static final int ATTRIBUTE_NAMES_COUNT = 6;
+
+    /**
      * The time (in milliseconds) to wait to be sure that the system updates the
      * modify date of a file.
      */
@@ -681,6 +686,16 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals(null, definition.getLocalAttributeNames());
         definition = definitionDao.getDefinition("test.def3", null);
         assertNotNull("The simple definition is null", definition);
+
+        definition = definitionDao.getDefinition("test.extended.defName.subLayered", null);
+        assertEquals("test.defName.subLayered", definition.getExtends());
+        assertEquals(ATTRIBUTE_NAMES_COUNT, definition.getLocalAttributeNames().size());
+        assertEquals("The template is not correct", "/testName.jsp", definition
+                .getTemplateAttribute().getValue());
+        assertEquals("Overridden Title", definition.getAttribute("title").getValue());
+        assertEquals("The header attribute is not correct",
+                "/common/headerLayered.jsp", definition.getAttribute("header")
+                        .getValue());
     }
 
     /**

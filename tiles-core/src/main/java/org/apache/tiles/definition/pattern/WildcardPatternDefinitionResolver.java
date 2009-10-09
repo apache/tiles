@@ -23,8 +23,10 @@ package org.apache.tiles.definition.pattern;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.util.WildcardHelper;
@@ -65,7 +67,7 @@ public class WildcardPatternDefinitionResolver<T> implements
     }
 
     /** {@inheritDoc} */
-    public void storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
+    public Map<String, Definition> storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
             T customizationKey) {
         List<WildcardMapping> lpaths = localePatternPaths
                 .get(customizationKey);
@@ -74,7 +76,7 @@ public class WildcardPatternDefinitionResolver<T> implements
             localePatternPaths.put(customizationKey, lpaths);
         }
 
-        addWildcardPaths(lpaths, localeDefsMap);
+        return addWildcardPaths(lpaths, localeDefsMap);
     }
 
     /**
@@ -82,15 +84,22 @@ public class WildcardPatternDefinitionResolver<T> implements
      *
      * @param paths The list containing the currently stored paths.
      * @param defsMap The definition map to parse.
+     * @return The map of the definitions not recognized as containing
+     * definition patterns.
      */
-    private void addWildcardPaths(List<WildcardMapping> paths,
+    private Map<String, Definition> addWildcardPaths(List<WildcardMapping> paths,
             Map<String, Definition> defsMap) {
+        Set<String> excludedKeys = new LinkedHashSet<String>();
         for (Map.Entry<String, Definition> de : defsMap.entrySet()) {
-            if (de.getKey().
-                    indexOf('*') != -1) {
-                paths.add(new WildcardMapping(de.getKey(), de.getValue()));
+            String key = de.getKey();
+            if (key.indexOf('*') != -1) {
+                paths.add(new WildcardMapping(key,
+                        new Definition(de.getValue())));
+            } else {
+                excludedKeys.add(key);
             }
         }
+        return PatternUtil.createExtractedMap(defsMap, excludedKeys);
     }
 
     /**

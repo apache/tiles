@@ -23,8 +23,10 @@ package org.apache.tiles.definition.pattern;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,14 +70,14 @@ public class RegexpPatternDefinitionResolver<T> implements
     }
 
     /** {@inheritDoc} */
-    public void storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
+    public Map<String, Definition> storeDefinitionPatterns(Map<String, Definition> localeDefsMap,
             T customizationKey) {
         List<PatternMapping> patternMappingList = key2patternMappingList.get(customizationKey);
         if (patternMappingList == null) {
             patternMappingList = new ArrayList<PatternMapping>();
             key2patternMappingList.put(customizationKey, patternMappingList);
         }
-        addRegexpMappings(localeDefsMap, patternMappingList);
+        return addRegexpMappings(localeDefsMap, patternMappingList);
     }
 
     /**
@@ -83,16 +85,22 @@ public class RegexpPatternDefinitionResolver<T> implements
      *
      * @param localeDefsMap The map containing the definitions.
      * @param patternMappingList The list of pattern mapping.
+     * @return The map of the definitions not recognized as containing
+     * definition patterns.
      */
-    private void addRegexpMappings(Map<String, Definition> localeDefsMap,
+    private Map<String, Definition> addRegexpMappings(Map<String, Definition> localeDefsMap,
             List<PatternMapping> patternMappingList) {
+        Set<String> excludedKeys = new LinkedHashSet<String>();
         for (Map.Entry<String, Definition> entry : localeDefsMap.entrySet()) {
             String name = entry.getKey();
             if (name.startsWith("~")) {
                 patternMappingList.add(new PatternMapping(name.substring(1),
-                        entry.getValue()));
+                        new Definition(entry.getValue())));
+            } else {
+                excludedKeys.add(name);
             }
         }
+        return PatternUtil.createExtractedMap(localeDefsMap, excludedKeys);
     }
 
     /**
