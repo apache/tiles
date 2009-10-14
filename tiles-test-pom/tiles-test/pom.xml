@@ -335,6 +335,7 @@
                                     </includes>
                                     <excludes>
                                         <exclude>**/*.sql</exclude>
+                                        <exclude>**/*MANIFEST.MF</exclude>
                                     </excludes>
                                 </configuration>
                             </execution>
