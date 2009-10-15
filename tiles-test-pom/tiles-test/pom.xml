@@ -235,6 +235,90 @@
         </profile>
 
         <profile>
+            <id>run-selenium</id>
+            <activation>
+                <property>
+                    <name>run-selenium</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven2-plugin</artifactId>
+                        <configuration>
+                            <container>
+                                <containerId>tomcat6x</containerId>
+                                <home>${cargo.tomcat6x.home}</home>
+                                <log>${project.build.directory}/tomcat6x.log</log>
+                                <output>${project.build.directory}/tomcat6x.out</output>
+                            </container>
+                            <wait>false</wait>
+                            <configuration>
+                                <home>${project.build.directory}/tomcat6x</home>
+                            </configuration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start-tomcat</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop-tomcat</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                   </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>selenium-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>run-tests</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>selenese</goal>
+                                </goals>
+                                <configuration>
+                                    <background>true</background>
+                                    <browser>*firefox</browser>
+                                    <startURL>http://localhost:8080/tiles-test/</startURL>
+                                    <suite>src/test/selenium/TestSuite.html</suite>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <!-- Skip the normal tests, we'll run them in the integration-test phase -->
+                            <skip>true</skip>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>false</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
             <id>hostedqa</id>
             <dependencies>
                 <dependency>
