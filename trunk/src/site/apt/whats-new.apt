@@ -1,0 +1,110 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         What's new in Tiles 2.1
+         -----------
+
+What's new in Tiles 2.2
+
+  Tiles 2.2 is a binary-compatible enhancement of Tiles 2.1.x, with some incompatible changes in JSP tags,
+  but, for the user perspective, it is perfectly compatible.
+
+* New features in Tiles 2.2
+
+  Tiles 2.2 has several new features:
+
+  * {{{tutorial/integration/freemarker.html}Native support for FreeMarker}},
+  instead of a support based on JSP.
+
+  * {{{tutorial/integration/velocity.html}Support for Velocity}}.
+
+  * Support for pattern matching using
+  {{{tutorial/advanced/wildcard.html#Using_different_pattern_matching_languages}regular expressions}}.
+
+  * {{{tutorial/advanced/el-support.html#OGNL_Support}OGNL support}}
+  and
+  {{{tutorial/advanced/el-support.html#MVEL_Support}MVEL support}}
+  in Tiles definition files, when specifying attributes and templates.
+
+  * Ready to use {{{tutorial/configuration.html#Ready-made_configuration_classes}configuration classes}} to ease startup with minimal coding.
+
+* Deprecations in Tiles 2.2
+
+  * Startup with initialization parameters is not <<deprecated>>. See the
+  {{{tutorial/configuration.html}configuration}} page to know how to configure
+  Tiles with Java.
+
+* Removals in Tiles 2.2
+
+  * Support of retrotranslated packages to be compatible with Java 1.4. It is possible,
+  though, to retrotranslate the packages manually.
+
+  * Support for Servlets 2.4 and JSP 2.0 when creating <<<ELAttributeEvaluator>>>.
+  {{{tutorial/advanced/el-support.html}It is still possible to use it manually}}.
+
+* New features in Tiles 2.1
+
+  Tiles 2.1 introduces new features, but remaining compatible to Tiles 2.0.x.
+  The new features are:
+
+  * {{{tutorial/advanced/nesting-extending.html#Anonymous_nested_definitions}Anonymous nested definitions}}:
+  now definitions can be put just as an attribute in an enclosing definition,
+  without the necessity to define a new named definition to use only once.
+
+  * <<Wildcard support>>: wildcards are supported:
+
+    ** in {{{tutorial/advanced/wildcard.html}XML definition files}};
+
+    ** when enumerating the {{{tutorial/wildcard-configuration.html}list of Tiles definition files to load}}.
+
+  * {{{tutorial/advanced/el-support.html}EL support}} in Tiles definition files, when specifying attributes and
+  templates.
+
+  * Ability to
+  {{{migration/configuration.html#Reusing_old_Tiles_configuration_files}load Tiles 1.x definition files}}.
+
+  * {{{tutorial/configuration.html#Pure_Java_configuration}Pure Java configuration}},
+  except for the configuration of the Tiles container factory.
+
+  * List attributes can now
+  {{{tutorial/advanced/list-attributes.html#List_attribute_inheritance}inherit members from the extending definition}}.
+
+  * Attribute values can be
+  {{{tutorial/advanced/nesting-extending.html#Cascaded_attributes}cascaded to nested definitions}},
+  so the configuration is easier to write.
+
+  * Ability to
+  {{{tutorial/advanced/runtime.html#Inserting_modified_definitions}override the template when inserting definitions}}.
+
+  * Customize {{{tutorial/advanced/attribute-rendering.html}rendering of attributes}},
+  for example to write integrations with other frameworks.
+
+  * Usage of {{{tutorial/advanced/multiple-containers.html}more than one Tiles container}}.
+
+** Under the hood
+
+  * <<<TilesApplicationContext>>> is now created externally of the Tiles
+  container and {{{tutorial/extension/points.html#Tiles_Application_Context_Factory}must be configured externally}}.
+
+  * Tiles exceptions are all unchecked now: you can now remove all your
+  try-catches.
+
+  * Added the concept of "definition DAO" that allows loading definitions from
+  various sources, for example a DB.

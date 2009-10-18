@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: 1.6.0_16 (Sun Microsystems Inc.)
+Built-By: antonio
+Build-Jdk: 1.6.0_16
+Specification-Title: Tiles - Test webapp database configuration
+Specification-Version: 2.2.1-SNAPSHOT
+Specification-Vendor: Apache Software Foundation
+Implementation-Title: Tiles - Test webapp database configuration
+Implementation-Version: 2.2.1-SNAPSHOT
+Implementation-Vendor-Id: org.apache
+Implementation-Vendor: Apache Software Foundation
+Tiles-Initializer: org.apache.tiles.test.db.TestDbTilesInitializer
+Export-Package: org.apache.tiles.test.db;version="2.2.1.SNAPSHOT"
+Tool: Bnd-0.0.311
+Bundle-Name: Tiles - Test webapp database configuration
+Bundle-Vendor: Apache Software Foundation
+Bundle-Version: 2.2.1.SNAPSHOT
+Bnd-LastModified: 1254151614318
+Bundle-ManifestVersion: 2
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-Description: Tiles configuration that uses a database.
+Import-Package: javax.sql,org.apache.tiles,org.apache.tiles.context,or
+ g.apache.tiles.definition,org.apache.tiles.definition.dao,org.apache.
+ tiles.factory,org.apache.tiles.freemarker.context,org.apache.tiles.lo
+ cale,org.apache.tiles.test.db;version="2.2",org.apache.tiles.util,org
+ .apache.tiles.velocity.context,org.springframework.jdbc.core,org.spri
+ ngframework.jdbc.core.support
+Bundle-SymbolicName: org.apache.tiles-test-db
+Bundle-DocURL: http://tiles.apache.org/framework/tiles-test-pom/tiles-
+ test-db
+

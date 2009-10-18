@@ -1,0 +1,181 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles Configuration
+         -----------
+
+  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
+  want to use it, please refer to
+  {{{../../2.1/framework/tutorial/configuration.html}2.1 version of this page}}.
+
+Configuring Tiles
+
+  Your application needs to be configured to work with Tiles. There are various
+  options, depending on your needs, your application type, etc.
+
+Starting Tiles in a web application
+
+  Tiles has always been a web application package, usually used in conjunction
+  with Struts. Tiles 2 evolved to the point of being technology-independent, but
+  its use in a Servlet-based web application will be the most frequent use case.
+
+* Starting Tiles engine
+
+  To start Tiles you can either extend
+  {{{../apidocs/org/apache/tiles/web/startup/AbstractTilesListener.html}AbstractTilesListener}}
+  or
+  {{{../apidocs/org/apache/tiles/web/startup/AbstractTilesServlet.html}AbstractTilesServlet}},
+  in particular implement the <<<createTilesServletInitializer>>> method:
+
+--------------------------
+protected TilesInitializer createTilesInitializer() {
+    return new MyCustomTilesInitializer();
+}
+--------------------------
+
+  You can use {{{../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html}AbstractTilesInitializer}}
+  as a basis.
+
+** Configuration of the startup class
+
+  * If you created a servlet, load i at startup. You can do it by specifying it in
+  your <<<web.xml>>> file:
+
+--------------------------
+<servlet>
+    <servlet-name>tiles</servlet-name>
+    <servlet-class>my.package.MyTilesServlet</servlet-class>
+    ...
+    <load-on-startup>2</load-on-startup>
+</servlet>
+--------------------------
+
+  Note: The Tiles servlet is just a startup servlet and <<it does not serve any
+  request>>. Therefore, a mapping is not needed.
+
+  * If you created a listener, load it by specifing it in your <<<web.xml>>> file:
+
+-------------------------------
+<listener>
+    <listener-class>my.package.MyTilesListener</listener-class>
+</listener>
+-------------------------------
+
+Starting Tiles in a portlet application
+
+  TBD
+
+Configuring Tiles internals
+
+  The container and the application context must be configured to allow custom behaviour
+  and to load definitions from various sources.
+
+* Custom Tiles container factory
+
+  Custom Tiles containers can be created by custom Tiles container factories.
+  You have to create a class that extends
+  {{{../apidocs/org/apache/tiles/factory/AbstractTilesContainerFactory.html}AbstractTilesContainerFactory}}.
+  In particular you can use {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html}BasicTilesContainerFactory}}
+  as a basis for your extended configuration. <<<BasicTilesContainerFactory>>>
+  is the configuration that replicates the default configuration of Tiles,
+  i.e. the one that assumes when no additional parameter is provided.
+  The
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html}Javadoc documentation of BasicTilesContainerFactory}}
+  documents all the methods that can be overridden to use your own
+  configuration.
+
+* Custom Tiles application context factory
+
+  Custom Tiles application context can be provided by implementing
+  {{{../apidocs/org/apache/tiles/TilesApplicationContext.html}TilesApplicationContext}}.
+  If you are under a servlet environment, you can override
+  {{{../apidocs/org/apache/tiles/servlet/context/ServletTilesApplicationContext.html}ServletTilesApplicationContext}}.
+
+  To use it, you need to override the
+  {{{../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html#createTilesApplicationContext(org.apache.tiles.TilesApplicationContext)}createTilesApplicationContext}}
+  method of AbstractTilesInitializer.
+
+  The reason to use a custom Tiles application context could be:
+
+  * supporting a platform not supported yet;
+
+  * providing custom behaviour, such as loading resources in a different manner.
+
+{Ready-made configuration classes}
+
+  There are some classes that allows to play with Tiles without writing custom code.
+
+* Simple configuration
+
+  {{{../apidocs/org/apache/tiles/web/startup/simple/SimpleTilesInitializerServlet.html}SimpleTilesInitializerServlet}}
+  and
+  {{{../apidocs/org/apache/tiles/web/startup/simple/SimpleTilesListener.html}SimpleTilesListener}}
+  are two ways to load Tiles in the "simple" way. This was the default for Tiles 2.1 and prior versions.
+
+  This configuration has the following characteristics:
+
+  * loads the "/WEB-INF/tiles.xml" file;
+
+  * allows support for JSP, Servlets and Portlets;
+
+  * no expression language is allowed;
+
+  * wildcard expressions can be used to declare definition names.
+
+* Feature-Complete configuration
+
+  It is possible to startup Tiles turning all the new features on by using
+  {{{../apidocs/org/apache/tiles/extras/complete/CompleteAutoloadTilesListener.html}CompleteAutoloadTilesListener}}
+  or
+  {{{../apidocs/org/apache/tiles/extras/complete/CompleteAutoloadTilesInitializer.html}CompleteAutoloadTilesInitializer}}
+  available in the <<<tiles-extras>>> module. This initializer turns on:
+
+  * {{{integration/freemarker.html}Freemarker}} and {{{integration/velocity.html}Velocity}} support;
+
+  * using EL, OGNL and MVEL as {{{advanced/el-support.html}evaluation languages}};
+
+  * using Wildcards and Regular expression as {{{advanced/wildcard.html}pattern matching languages}};
+
+  * loading {{{../migration/configuration.html#Reusing_old_Tiles_configuration_files}Tiles 1.x definition files}};
+
+  * loads all the files named "tiles*.xml" under /WEB-INF and under every META-INF in any part of the classpath.
+
+* Modular initialization
+
+  It is possible to startup Tiles in a <<modular>> way, that is loading
+  modules of independent Tiles configuration.
+
+  To turn it on, you need to use
+  {{{../apidocs/org/apache/tiles/extras/module/ModularTilesListener.html}ModularTilesListener}}
+  or
+  {{{../apidocs/org/apache/tiles/extras/module/ModularTilesInitializer.html}ModularTilesInitializer}}
+  available in the <<<tiles-extras>>> module.
+
+  Add in your manifest file, under the <<<META-INF/MANIFEST.MF>>>
+  path, the <<<Tiles-Initializer>>> property, whose value is the name of the class of the
+  needed initializer. For example:
+
+---------------------------
+Manifest-Version: 1.0
+Tiles-Initializer: org.apache.tiles.extras.module.ModularTilesInitializerTest$TilesInitializer1
+---------------------------
+
+  Every initializer that is found will be loaded and "initialized", and destroyed when the
+  main initializer is destroyed.

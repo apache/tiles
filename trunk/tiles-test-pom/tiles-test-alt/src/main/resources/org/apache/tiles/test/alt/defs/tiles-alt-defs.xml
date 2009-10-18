@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+  <definition name="test.definition" template="/layout.jsp">
+      <put-attribute name="title"  value="This definition is from an alternate container."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
+  </definition>
+  <definition name="WILDCARD:test.definition*.message*" template="/layout{1}.jsp">
+      <put-attribute name="title"  value="This definition has a message: {2}."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
+  </definition>
+  <definition name="REGEXP:test\.regexp\.definition(.*)\.message(.*)" template="/layout{1}.jsp">
+      <put-attribute name="title"  value="This definition has a message: {2}."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
+  </definition>
+</tiles-definitions>

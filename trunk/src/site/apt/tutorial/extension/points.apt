@@ -1,0 +1,127 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles Extension Points
+         -----------
+
+Tiles Extension Points
+
+  Tiles can be extended in different aspects, depending on the task of each
+  aspect.
+
+* Tiles Container
+
+  The Tiles container is the object responsible of loading and rendering all
+  Tiles artifacts. It is not created directly, but through a
+  {{{../../apidocs/org/apache/tiles/factory/TilesContainerFactory.html}<<<TilesContainerFactory>>>}}.
+  The default implementation is
+  {{{../../apidocs/org/apache/tiles/impl/BasicTilesContainer.html}<<<BasicTilesContainer>>>}}.
+
+  It is unlikely that you need to customize your Tiles container (and container
+  factory) and we suggest to use the default container factory.
+  
+  As an exception, you can use
+  {{{../../config-reference.html#KeyedDefinitionsFactoryTilesContainerFactory_configuration}KeyedDefinitionsFactoryTilesContainerFactory}}
+  that allows to create multiple definitions factory for different "keys".
+
+* {Tiles Application Context Factory}
+
+  The
+  {{{../../apidocs/org/apache/tiles/TilesApplicationContext.html}<<<TilesApplicationContext>>>}}
+  interface is used to abstract the Tiles context from the particular
+  technology. The same instance will be used in the whole application.
+  It is used to:
+  
+  * obtain application-scoped attributes;
+  
+  * obtain initialization parameters;
+  
+  * load resources.
+  
+  []
+  
+  The
+  {{{../../config-reference.html#org.apache.tiles.context.AbstractTilesApplicationContextFactory}<<<AbstractTilesApplicationContextFactory>>>}}
+  abstract factory is used to create instances of the class above.
+
+  The default implementation,
+  {{{../../config-reference.html#ChainedTilesApplicationContextFactory_configuration}<<<ChainedTilesApplicationContextFactory>>>}},
+  links together different implementations. The default configuration tries to
+  instantiate an implementation for Servlet and, if it fails, for Portlet
+  technology. If you need to support a new technology, we suggest to configure
+  {{{../../apidocs/org/apache/tiles/context/AbstractTilesApplicationContextFactory.html}<<<AbstractTilesApplicationContextFactory>>>}}
+  (and not using the configuration of ChainedTilesApplicationContextFactory).
+
+* Tiles Request Context Factory
+
+  The
+  {{{../../apidocs/org/apache/tiles/context/TilesRequestContext.html}<<<TilesRequestContext>>>}}
+  interface is used to abstract the Tiles context from the particular
+  technology. The
+  {{{../../config-reference.html#org.apache.tiles.context.TilesRequestContextFactory}<<<TilesRequestContextFactory>>>}}
+  interface is used to create instances of the class above.
+
+  The default implementation,
+  {{{../../config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>>}}, 
+  links together different implementations. The default configuration links
+  together the implementation for Servlet, Portlet and JSP technologies. If you
+  need to support a new technology, we suggest to configure
+  {{{../../config-reference.html#ChainedTilesRequestContextFactory_configuration}<<<ChainedTilesRequestContextFactory>>>}}
+  and create a new instance of
+  {{{../../apidocs/org/apache/tiles/context/TilesRequestContextFactory.html}<<<TilesRequestContextFactory>>>}}.
+
+* Tiles Definitions Factory
+
+  The
+  {{{../../config-reference.html#org.apache.tiles.definition.DefinitionsFactory}<<<DefinitionsFactory>>>}}
+  interfaces is used to create and retrieve definitions. The returned definition
+  will be used to be rendered by the Tiles container.
+
+  The default implementation, {{{url_definitions_factory.html}<<<UrlDefinitionsFactory>>>}}
+  can be configured, or can be used as a basis for an extended factory.
+  
+  You can provide your implementation of <<<UrlDefinitionsFactory>>> if you need
+  to return definitions in a non standard way (for example, getting a definition
+  depending on a value of a bean in request scope).
+
+* Preparer Factory
+
+  The
+  {{{../../config-reference.html#org.apache.tiles.preparer.PreparerFactory}<<<PreparerFactory>>>}}
+  is responsible of creating instances of
+  {{{../../apidocs/org/apache/tiles/preparer/ViewPreparer.html}<<<ViewPreparer>>>}}.
+  
+  The default implementation,
+  {{{../../apidocs/org/apache/tiles/preparer/BasicPreparerFactory.html}<<<BasicPreparerFactory>>>}}
+  takes the preparer name as a class name, instantiates an object per each
+  class name and returns it.
+  
+  You can change this behaviour by implementing
+  {{{../../config-reference.html#org.apache.tiles.preparer.PreparerFactory}<<<PreparerFactory>>>}}.
+  For example, the Struts 1 plugin contains an implementation that takes an URL
+  or an action mapping as a preparer name, and creates an instance accordingly.
+
+* Attribute rendering
+
+  Attribute rendering is the process that renders attributes, depending on
+  configured renderers. This behaviour can be customized to render different
+  types of attributes and to provide integration with other frameworks. See
+  the {{{../advanced/attribute-rendering.html}Attribute rendering}}
+  customization tutorial.

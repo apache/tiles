@@ -1,0 +1,185 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Creating Tiles Pages
+         -----------
+
+  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
+  want to use it, please refer to
+  {{{../../../2.1/framework/tutorial/basic/pages.html}2.1 version of this page}}.
+
+Creating and using Tiles pages
+
+  After installing and learning some of Tiles concepts, it is time to create
+  some pages. Here you will find the steps to create reusable Tiles pieces and
+  complete pages.
+
+* Create a template
+
+  Let's take the <<classic layout>> page structure:
+
+[../../images/tiled_page.png] The "classic layout", a typical structure of a web
+page.
+
+  Create a JSP page that acts as this layout and place it under
+  <<</layouts/classic.jsp>>> file.
+
+-------------------------------
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<html>
+  <head>
+    <title><tiles:getAsString name="title"/></title>
+  </head>
+  <body>
+	<table>
+      <tr>
+        <td colspan="2">
+          <tiles:insertAttribute name="header" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <tiles:insertAttribute name="menu" />
+        </td>
+        <td>
+          <tiles:insertAttribute name="body" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <tiles:insertAttribute name="footer" />
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+-------------------------------
+
+  This template has five attributes: <<<title>>> (of <<<string>>> type),
+  <<<header>>>, <<<menu>>>, <<<body>>> and <<<footer>>>.
+
+* Create the composing pages
+
+  In this phase, you have to create four JSP pages, that will take place of
+  <<<header>>>, <<<menu>>>, <<<body>>> and <<<footer>>> attributes in the
+  previously created template.
+
+  You can put everything you want in this pages, they are just a test.
+
+* Create Tiles  configuration
+
+  To load the Tiles definition files, override the
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#getSourceURLs(org.apache.tiles.TilesApplicationContext, org.apache.tiles.context.TilesRequestContextFactory)}getSourceURLs}}
+  method of <<<BasicTilesContainerFactory>>> this way:
+
+------------------------------------
+public class TestTilesContainerFactory extends BasicTilesContainerFactory {
+
+    @Override
+    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
+            TilesRequestContextFactory contextFactory) {
+        List<URL> urls = new ArrayList<URL>();
+        try {
+            urls.add(applicationContext.getResource("/WEB-INF/tiles-defs.xml"));
+        } catch (IOException e) {
+            throw new DefinitionsFactoryException(
+                    "Cannot load definition URLs", e);
+        }
+        return urls;
+    }
+}
+------------------------------------
+
+  Create the Tiles listener along with an inner class that represents the initializer:
+
+------------------------------------
+public class TestTilesListener extends AbstractTilesListener {
+
+    @Override
+    protected TilesInitializer createTilesInitializer() {
+        return new TestTilesListenerInitializer();
+    }
+
+    private static class TestTilesListenerInitializer extends AbstractTilesInitializer {
+
+        @Override
+        protected AbstractTilesContainerFactory createContainerFactory(
+                TilesApplicationContext context) {
+            return new TestTilesContainerFactory();
+        }
+    }
+}
+------------------------------------
+
+  Define the listener in <<<web.xml>>>
+
+------------------------------------
+<listener>
+  <listener-class>my.package.TestTilesListener</listener-class>
+</listener>
+------------------------------------
+
+
+* Create a definition
+
+  Create the <<</WEB-INF/tiles-defs.xml>>> file:
+
+------------------------------------
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+  <definition name="myapp.homepage" template="/layouts/classic.jsp">
+    <put-attribute name="title" value="Tiles tutorial homepage" />
+    <put-attribute name="header" value="/tiles/banner.jsp" />
+    <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+    <put-attribute name="body" value="/tiles/home_body.jsp" />
+    <put-attribute name="footer" value="/tiles/credits.jsp" />
+  </definition>
+</tiles-definitions>
+------------------------------------
+
+* Render the definition
+
+  After creating the definition, you can render it:
+
+  * by using the <<<\<tiles:insertDefinition /\>>>> tag, inserting it in a JSP
+  page:
+
+-------------------------------------
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<tiles:insertDefinition name="myapp.homepage" />
+-------------------------------------
+
+  * in other cases, you can render directly in the response, by using the Tiles
+  container:
+
+-----------------------------------
+TilesContainer container = TilesAccess.getContainer(
+        request.getSession().getServletContext());
+container.render("myapp.homepage", request, response);
+-----------------------------------
+
+  * by using {{{../advanced/utils.html}Rendering Utilities}} provided by Tiles.
+
+  * by using a supporting framework. See
+  {{{../integration/index.html}Integrations}} for a list of supporting
+  frameworks.

@@ -1,0 +1,121 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Integration with FreeMarker
+         -----------
+
+Integration with FreeMarker
+
+  {{{http://freemarker.sourceforge.net/}FreeMarker}} is a templating framework
+  that can be used as a replacement for JavaServer Pages (JSP). Tiles can be
+  used with FreeMarker through the use of Tiles FreeMarker package.
+
+* Configuration
+
+  To use FreeMarker together with Tiles
+
+  * Add FreeMarker jars (tested with FreeMarker 2.3.15).
+
+  * Add <<<tiles-template-x.x.x.jar>>> and <<<tiles-freemarker-x.x.x.jar>>> files
+  to your application
+
+  * To access ".ftl" files from HTTP requests, add this piece of configuration in <<<web.xml>>>
+  (the parameters can be modified as needed).
+
+----------------------------------
+<servlet>
+    <servlet-name>freemarker</servlet-name>
+    <servlet-class>org.apache.tiles.freemarker.servlet.TilesFreemarkerServlet</servlet-class>
+
+    <!-- FreemarkerServlet settings: -->
+    <init-param>
+        <param-name>TemplatePath</param-name>
+        <param-value>/</param-value>
+    </init-param>
+    <init-param>
+        <param-name>NoCache</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+        <param-name>ContentType</param-name>
+        <param-value>text/html</param-value>
+    </init-param>
+
+    <!-- FreeMarker settings: -->
+    <init-param>
+        <param-name>template_update_delay</param-name>
+        <param-value>0</param-value> <!-- 0 is for development only! Use higher value otherwise. -->
+    </init-param>
+    <init-param>
+        <param-name>default_encoding</param-name>
+        <param-value>ISO-8859-1</param-value>
+    </init-param>
+    <init-param>
+        <param-name>number_format</param-name>
+        <param-value>0.##########</param-value>
+    </init-param>
+
+    <load-on-startup>5</load-on-startup>
+</servlet>
+----------------------------------
+
+  * To access ".ftl" files as attributes, register FreeMarkerAttributeRenderer
+  this way (only available in a servlet environment):
+
+----------------------------------
+@Override
+protected void registerAttributeRenderers(
+        BasicRendererFactory rendererFactory, TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory,
+        TilesContainer container, AttributeEvaluator evaluator) {
+    super.registerAttributeRenderers(rendererFactory, applicationContext, contextFactory,
+            container, evaluator);
+    FreeMarkerAttributeRenderer freemarkerRenderer = new FreeMarkerAttributeRenderer();
+    freemarkerRenderer.setApplicationContext(applicationContext);
+    freemarkerRenderer.setEvaluator(evaluator);
+    freemarkerRenderer.setRequestContextFactory(contextFactory);
+    freemarkerRenderer.setParameter("TemplatePath", "/");
+    freemarkerRenderer.setParameter("NoCache", "true");
+    freemarkerRenderer.setParameter("ContentType", "text/html");
+    freemarkerRenderer.setParameter("template_update_delay", "0");
+    freemarkerRenderer.setParameter("default_encoding", "ISO-8859-1");
+    freemarkerRenderer.setParameter("number_format", "0.##########");
+    freemarkerRenderer.commit();
+    rendererFactory.registerRenderer("freemarker", freemarkerRenderer);
+}
+----------------------------------
+
+  This way you can specify an attribute that is rendered directly using this syntax:
+
+----------------------------------
+<put-attribute name="myAttribute" value="/pages/myPage.ftl" type="freemarker" />
+----------------------------------
+
+* Usage in FreeMarker templates
+
+  Tiles directives are available this way:
+
+----------------------------------
+<@tiles.nameOfDirective>
+  Other stuff...
+</@tiles.nameOfDirective>
+----------------------------------
+
+  For details about directives see the {{{../../apidocs/index.html}Javadocs}}.
