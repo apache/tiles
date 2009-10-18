@@ -48,6 +48,35 @@ Selenium Testing
  {{{http://www.openqa.org/selenium-ide/}
  http://www.openqa.org/selenium-ide/}}.
 
+* Run Selenium tests the easy way
+
+  To run Selenium tests you need to add a configuration parameter in your <<<settings.xml>>> file.
+
+------------------------------
+<settings xmlns="http://maven.apache.org/POM/4.0.0"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+...
+	<profiles>
+	...
+		<profile>
+			<id>run-selenium</id>
+			<properties>
+				<cargo.tomcat6x.home>/tomcat/installation/directory</cargo.tomcat6x.home>
+			</properties>
+    	</profile>
+    ...
+    </profiles>
+</settings>
+------------------------------
+
+  After that, if you have Firefox installed, you can launch Selenium tests in the command line:
+
+------------------------------
+mvn verity -Prun-selenium
+------------------------------
+
 * Package
 
  <<Package>> the webapp with the 'selenium' profile activated.
