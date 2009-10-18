@@ -1,0 +1,168 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Nesting and Extending Definitions
+         -----------
+
+Nesting Definitions
+
+  Sometimes it is useful to have a structured page with, say, a structured body.
+  Tipically, there is a main layout (for example, the "classic" layout) and the
+  body is made of certain number of sections. In this case, nesting a definition
+  (the one for the body) inside another definition (the main layout) can be
+  useful.
+
+* {Named subdefinitions}
+
+  Tiles supports nesting definitions natively. One way of usng nested definitions
+  is creating a named "subdefinition" and using it as an attribute. For example:
+
+------------------------------------
+<definition name="myapp.homepage.body" template="/layouts/three_rows.jsp">
+  <put-attribute name="one" value="/tiles/headlines.jsp" />
+  <put-attribute name="two" value="/tiles/topics.jsp" />
+  <put-attribute name="one" value="/tiles/comments.jsp" />
+</definition>
+
+<definition name="myapp.homepage" template="/layouts/classic.jsp">
+  <put-attribute name="title" value="Tiles tutorial homepage" />
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="body" value="myapp.homepage.body" />
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+</definition>
+------------------------------------
+
+  The <<<myapp.homepage.body>>> definition will be put inside the
+  <<<myapp.homepage>>>, by putting it inside its <<<body>>> attribute. You will
+  be seeing the definition one inside the other.
+
+* {Anonymous nested definitions}
+
+  What you can do with named subdefinitions can be done with nested anonymous
+  definitions. The above example can be rewritten in:
+  
+------------------------------------
+<definition name="myapp.homepage.body" template="/layouts/three_rows.jsp">
+  <put-attribute name="one" value="/tiles/headlines.jsp" />
+  <put-attribute name="two" value="/tiles/topics.jsp" />
+  <put-attribute name="one" value="/tiles/comments.jsp" />
+</definition>
+
+<definition name="myapp.homepage" template="/layouts/classic.jsp">
+  <put-attribute name="title" value="Tiles tutorial homepage" />
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="body">
+    <definition template="/layouts/three_rows.jsp">
+      <put-attribute name="one" value="/tiles/headlines.jsp" />
+      <put-attribute name="two" value="/tiles/topics.jsp" />
+      <put-attribute name="one" value="/tiles/comments.jsp" />
+    </definition>
+  </put-attribute>
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+</definition>
+------------------------------------
+
+  The anonymous definition put under the "body" attribute can be used only by
+  the surrounding definition. Moreover, you can nest a definition into a nested
+  definition, with the desired level of depth.
+
+* {Cascaded attributes}
+
+  Attributes defined into a definition can be cascaded to be available to all
+  nested definitions and templates. For example the
+  {{{#Named_subdefinitions}sample definition}} detailed above can be rewritten
+  this way:
+
+------------------------------------
+<definition name="myapp.homepage" template="/layouts/classic.jsp">
+  <put-attribute name="title" value="Tiles tutorial homepage" />
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="body" value="/layouts/three_rows.jsp" />
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+
+  <put-attribute name="one" value="/tiles/headlines.jsp" cascade="true" />
+  <put-attribute name="two" value="/tiles/topics.jsp" cascade="true" />
+  <put-attribute name="one" value="/tiles/comments.jsp" cascade="true" />
+</definition>
+------------------------------------
+
+  The template of <<<myapp.homepage.body>>> definitionhas been used as the
+  <<<body>>> attribute in the <<<myapp.homepage>>> definition. All of the
+  attributes of <<<myapp.homepage.body>>> has been then moved as attributes
+  of <<<myapp.homepage>>> definition, but with the addition of the "cascade"
+  flag.
+
+Extending Definitions
+
+  You can extend definitions like a Java class. The concepts of <abstract
+  definition>, <extension> and <override> are available.
+  
+  * <<Abstract definition>>: it is a definition in which the template attributes
+  are not completely filled. They are useful to create a base page and a number
+  of extending definitions, reusing already created layout. For example:
+
+------------------------------------
+<definition name="myapp.page.common" template="/layouts/classic.jsp">
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+</definition>
+------------------------------------
+
+  * <<Definition extension>>: a definition can inherit from another definition,
+  to reuse an already made (abstract or not) definition:
+
+------------------------------------
+<definition name="myapp.homepage" extends="myapp.page.common">
+  <put-attribute name="title" value="Tiles tutorial homepage" />
+  <put-attribute name="body" value="myapp.homepage.body" />
+</definition>
+------------------------------------
+
+  In this case, the <<<header>>>, <<<menu>>> and <<<footer>>> are inherited from
+  the <<<myapp.page.common>>> definition, while the rest is defined inside the
+  "concrete" definition.
+
+  * <<Template and attribute override>>: when extending a definition, its
+  template and attributes can be overridden.
+  
+    ** Overriding a template:
+    
+------------------------------------
+<definition name="myapp.homepage.alternate" extends="myapp.homepage"
+    template="/layouts/alternate.jsp" />
+------------------------------------
+
+    The definition has the same attributes, but its template changed. The result
+    is that the content is the same, but the layout is different.
+    
+    ** Overriding attributes:
+
+------------------------------------
+<definition name="myapp.homepage.customer" extends="myapp.homepage">
+  <put-attribute name="menu" value="/tiles/common_menu_for_customers.jsp" />
+</definition>
+------------------------------------
+    
+    In this case, the page will have the same appearance as the
+    <<<myapp.homepage>>> definition, but its menu subpage is different.

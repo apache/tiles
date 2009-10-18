@@ -1,0 +1,111 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Load XML definition files using wildcards
+         -----------
+
+  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
+  want to use it, please refer to
+  {{{../../2.1/framework/tutorial/wildcard-configuration.html}2.1 version of this page}}.
+
+Load XML definition files using wildcards
+
+  XML definition files can be loaded using wildcard, but this behaviour is not
+  the default, due to compatibility reasons to Tiles 2.0.x.
+
+* Prerequisites
+
+  To use wildcards in XML definition files, you need to put the following libraries
+  in your classpath:
+
+  * spring-core.jar
+
+  * spring-web.jar
+
+  * spring-context.jar
+
+  * spring-beans.jar
+
+  * aopalliance.jar
+
+  If you are using Maven, simply depend on <<<spring-web>>> package.
+
+* Configuration
+
+  To be able to specify Tiles XML definition files using wildcards, there is the
+  need to override the Tiles application context creation, by overriding the
+  {{{../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html#createTilesApplicationContext(org.apache.tiles.TilesApplicationContext)}createTilesApplicationContext}}
+  method this way:
+
+-------------------------------
+@Override
+protected TilesApplicationContext createTilesApplicationContext(
+        TilesApplicationContext preliminaryContext) {
+    return new WildcardServletTilesApplicationContext(
+            (ServletContext) preliminaryContext.getContext());
+}
+-------------------------------
+
+* Usage
+
+  To load XML definition files using wilcards, override the
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#getSourceURLs(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesApplicationContextFactory)}getSourceURLs}}
+  of <<<BasicTilesContainerFactory>>>. In the following example, notice the
+  manual exclusion of files including underscores (_):
+
+----------------------------------------
+/** {@inheritDoc} */
+@Override
+protected List<URL> getSourceURLs(Object context,
+        TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory) {
+    List<URL> urls = new ArrayList<URL>(URL_COUNT);
+    try {
+        Set<URL> urlSet = applicationContext
+                .getResources("/WEB-INF/tiles-defs*.xml");
+        for (URL url : urlSet) {
+            String externalForm = url.toExternalForm();
+            if (externalForm.indexOf('_', externalForm.lastIndexOf("/")) < 0) {
+                urls.add(url);
+            }
+        }
+        urls.add(applicationContext.getResource(
+                "classpath:/org/apache/tiles/classpath-defs.xml"));
+    } catch (IOException e) {
+        throw new DefinitionsFactoryException(
+                "Cannot load definition URLs", e);
+    }
+    return urls;
+}
+----------------------------------------
+
+* Syntax
+
+  Wildcard support uses Spring Framework syntax for loading files. For example:
+
+  * one asterisk (*) for a single placeholder;
+
+  * two asterisks (**) to say "in every directory under the specified one";
+
+  * the <<<classpath:>>> prefix loads files from the classpath.
+
+  * etc.
+
+  For everything else, see Spring's documentation.
