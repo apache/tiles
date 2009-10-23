@@ -361,7 +361,15 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
                 nudef.putAttribute(replace(attributeName, vars), nuattr);
             }
         }
-
+		Set<String> cascadedAttributeNames = d.getCascadedAttributeNames(); 
+        if (cascadedAttributeNames != null && !cascadedAttributeNames.isEmpty()) { 
+            for (String attributeName : cascadedAttributeNames) { 
+                Attribute attr = d.getCascadedAttribute(attributeName); 
+                Attribute nuattr = replaceVarsInAttribute(attr, vars); 
+				
+                nudef.putAttribute(replace(attributeName, vars), nuattr, true); 
+            } 
+        }
         return nudef;
     }
 
