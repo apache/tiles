@@ -57,7 +57,8 @@ public class IncludingServlet extends HttpServlet {
      * @throws ServletException Thrown by
      * {@link HttpServlet#init(ServletConfig)}
      */
-    public void init(ServletConfig config) throws ServletException {
+    @Override
+	public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
         include = config.getInitParameter("include");
@@ -72,7 +73,8 @@ public class IncludingServlet extends HttpServlet {
      * @throws ServletException Thrown by the {@link #include} method.
      * @throws IOException Thrown by the {@link #include} method.
      */
-    protected void doGet(HttpServletRequest request,
+    @Override
+	protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         if (ServletUtil.isForceInclude(request)) {
             request.getRequestDispatcher(include).include(request, response);

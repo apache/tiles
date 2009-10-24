@@ -54,7 +54,8 @@ public class MVELAttributeEvaluatorTest extends TestCase {
     private TilesRequestContext request;
 
     /** {@inheritDoc} */
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         super.setUp();
         TilesRequestContextHolder requestHolder = new TilesRequestContextHolder();
         VariableResolverFactory variableResolverFactory = new TilesContextVariableResolverFactory(

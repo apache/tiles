@@ -107,7 +107,8 @@ final class PortletSessionScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         PortletSession otherSession = ((PortletSessionScopeMap) o).session;
         boolean retValue = true;
         synchronized (session) {
@@ -131,7 +132,8 @@ final class PortletSessionScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return (session.hashCode());
     }
 

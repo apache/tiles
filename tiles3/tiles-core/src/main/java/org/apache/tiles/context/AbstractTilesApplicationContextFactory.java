@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
  * extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
  * overriding <code>createTilesApplicationContext</code> method.
  */
+@Deprecated
 public abstract class AbstractTilesApplicationContextFactory  {
 
     /**

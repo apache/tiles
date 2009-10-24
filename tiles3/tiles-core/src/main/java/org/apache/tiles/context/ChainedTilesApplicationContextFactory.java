@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
  * Moreover, it does not make sense to "try" if your application is
  * servlet-based, portlet-based, etc. You know it, right?
  */
+@Deprecated
 public class ChainedTilesApplicationContextFactory extends
         AbstractTilesApplicationContextFactory implements Initializable {
 
@@ -133,7 +134,8 @@ public class ChainedTilesApplicationContextFactory extends
     }
 
     /** {@inheritDoc} */
-    public TilesApplicationContext createApplicationContext(Object context) {
+    @Override
+	public TilesApplicationContext createApplicationContext(Object context) {
         TilesApplicationContext retValue = null;
 
         for (Iterator<AbstractTilesApplicationContextFactory> factoryIt = factories

@@ -31,6 +31,7 @@ import javax.portlet.PortletContext;
  * @since 2.1.0
  * @deprecated Use {@link org.apache.tiles.portlet.wildcard.WildcardPortletTilesApplicationContext}.
  */
+@Deprecated
 public class WildcardPortletTilesApplicationContext extends
         org.apache.tiles.portlet.wildcard.WildcardPortletTilesApplicationContext {
 
@@ -44,7 +45,8 @@ public class WildcardPortletTilesApplicationContext extends
      * #WildcardPortletTilesApplicationContext(PortletContext)}
      * .
      */
-    public WildcardPortletTilesApplicationContext(PortletContext portletContext) {
+    @Deprecated
+	public WildcardPortletTilesApplicationContext(PortletContext portletContext) {
         super(portletContext);
     }
 }

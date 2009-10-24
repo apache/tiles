@@ -106,7 +106,8 @@ final class PortletApplicationScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         PortletContext otherContext = ((PortletApplicationScopeMap) o).context;
         boolean retValue = true;
         synchronized (context) {
@@ -130,7 +131,8 @@ final class PortletApplicationScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return (context.hashCode());
     }
 

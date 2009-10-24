@@ -38,7 +38,8 @@ public class DirectAttributeEvaluatorTest extends TestCase {
     private DirectAttributeEvaluator evaluator;
 
     /** {@inheritDoc} */
-    public void setUp() throws Exception {
+    @Override
+	public void setUp() throws Exception {
         evaluator = new DirectAttributeEvaluator();
     }
 

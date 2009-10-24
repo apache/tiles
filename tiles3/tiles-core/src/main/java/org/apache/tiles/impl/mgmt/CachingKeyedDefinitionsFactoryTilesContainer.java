@@ -42,6 +42,7 @@ import org.apache.tiles.mgmt.MutableTilesContainer;
  * org.apache.tiles.TilesApplicationContext, org.apache.tiles.TilesContainer, String)}
  * and using {@link CachingTilesContainer} as container implementation.
  */
+@Deprecated
 public class CachingKeyedDefinitionsFactoryTilesContainer extends
         KeyedDefinitionsFactoryTilesContainer implements MutableTilesContainer {
 

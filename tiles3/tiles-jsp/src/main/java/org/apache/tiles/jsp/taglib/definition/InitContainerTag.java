@@ -122,7 +122,8 @@ public class InitContainerTag extends TilesBodyTag {
     }
 
     /** {@inheritDoc} */
-    public int doStartTag() {
+    @Override
+	public int doStartTag() {
         ArrayStack<Object> composeStack = JspUtil.getComposeStack(pageContext);
         composeStack.push(new BasicAttributeContext());
         return EVAL_BODY_INCLUDE;
@@ -130,7 +131,8 @@ public class InitContainerTag extends TilesBodyTag {
 
     /** {@inheritDoc} */
     // TODO Add a MutableContainer so that this can be done?
-    public int doEndTag() {
+    @Override
+	public int doEndTag() {
         ArrayStack<Object> composeStack = JspUtil.getComposeStack(pageContext);
         AttributeContext attributeContext = (AttributeContext) composeStack.pop();
 

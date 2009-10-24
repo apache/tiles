@@ -32,5 +32,6 @@ package org.apache.tiles.evaluator.el;
  * @since 2.1.0
  * @deprecated Use {@link org.apache.tiles.el.ELAttributeEvaluator}.
  */
+@Deprecated
 public class ELAttributeEvaluator extends org.apache.tiles.el.ELAttributeEvaluator {
 }

@@ -33,6 +33,7 @@ import java.util.List;
  * @version $Rev$ $Date$
  * @deprecated Use {@link org.apache.tiles.ListAttribute}.
  */
+@Deprecated
 public class ListAttribute extends org.apache.tiles.ListAttribute {
 
     /**

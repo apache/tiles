@@ -47,6 +47,7 @@ import org.apache.tiles.renderer.RendererFactory;
  * {@link org.apache.tiles.startup.AbstractTilesInitializer}
  * <code>getContainerKey</code> method.
  */
+@Deprecated
 public class KeyedDefinitionsFactoryTilesContainerFactory extends
         TilesContainerFactory {
 

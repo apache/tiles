@@ -181,7 +181,8 @@ public class WildcardHelper {
      * @since 2.1.0
      * @deprecated Use {@link #match(List, String, int[])}.
      */
-    public boolean match(Map<Integer, String> map, String data, int[] expr) {
+    @Deprecated
+	public boolean match(Map<Integer, String> map, String data, int[] expr) {
         if (map == null) {
             throw new NullPointerException("No map provided");
         }

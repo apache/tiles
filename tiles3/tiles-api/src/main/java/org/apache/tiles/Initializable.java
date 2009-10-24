@@ -30,6 +30,7 @@ import java.util.Map;
  * @deprecated Parameter-based initialization feature is deprecated and no
  * longer supported.
  */
+@Deprecated
 public interface Initializable {
 
     /**
@@ -38,5 +39,6 @@ public interface Initializable {
      * @param params The map of parameters.
      * @deprecated Do not use.
      */
-    void init(Map<String, String> params);
+    @Deprecated
+	void init(Map<String, String> params);
 }

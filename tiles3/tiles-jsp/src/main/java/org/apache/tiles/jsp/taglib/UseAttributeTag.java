@@ -199,7 +199,8 @@ public class UseAttributeTag extends SimpleTagSupport {
     public static class Tei extends TagExtraInfo {
 
         /** {@inheritDoc} */
-        public VariableInfo[] getVariableInfo(TagData data) {
+        @Override
+		public VariableInfo[] getVariableInfo(TagData data) {
             String classname = data.getAttributeString("classname");
             if (classname == null) {
                 classname = "java.lang.Object";

@@ -30,5 +30,6 @@ import javax.el.ExpressionFactory;
  * @since 2.1.0
  * @deprecated Use {@link org.apache.tiles.el.ExpressionFactoryFactory}.
  */
+@Deprecated
 public interface ExpressionFactoryFactory extends org.apache.tiles.el.ExpressionFactoryFactory {
 }

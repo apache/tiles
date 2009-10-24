@@ -31,6 +31,7 @@ import javax.servlet.ServletContext;
  * @since 2.1.0
  * @deprecated Use {@link org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext}.
  */
+@Deprecated
 public class WildcardServletTilesApplicationContext extends
         org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext {
 
@@ -44,7 +45,8 @@ public class WildcardServletTilesApplicationContext extends
      * #WildcardServletTilesApplicationContext(ServletContext)}
      * .
      */
-    public WildcardServletTilesApplicationContext(ServletContext servletContext) {
+    @Deprecated
+	public WildcardServletTilesApplicationContext(ServletContext servletContext) {
         super(servletContext);
     }
 }

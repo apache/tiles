@@ -37,6 +37,7 @@ import org.apache.tiles.definition.DefinitionsFactory;
  * {@link org.apache.tiles.access.TilesAccess#setContainer(
  * org.apache.tiles.TilesApplicationContext, org.apache.tiles.TilesContainer, String)}
  */
+@Deprecated
 public class KeyedDefinitionsFactoryTilesContainer extends BasicTilesContainer {
 
     /**

@@ -130,7 +130,8 @@ public class SimpleMenuItem implements MenuItem, Serializable {
     }
 
     /** {@inheritDoc} */
-    public String toString() {
+    @Override
+	public String toString() {
         StringBuffer buff = new StringBuffer("SimpleMenuItem[");
 
         if (getValue() != null) {

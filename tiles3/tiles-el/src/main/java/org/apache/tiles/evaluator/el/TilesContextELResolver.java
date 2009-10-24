@@ -31,6 +31,7 @@ import org.apache.tiles.context.TilesRequestContext;
  * @since 2.1.0
  * @deprecated Use {@link TilesContextELResolver}.
  */
+@Deprecated
 public class TilesContextELResolver extends
         org.apache.tiles.el.TilesContextELResolver {
 }

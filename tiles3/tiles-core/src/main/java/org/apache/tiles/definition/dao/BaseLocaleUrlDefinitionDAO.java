@@ -70,7 +70,8 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
      * @deprecated use {@link DefinitionsFactory#DEFINITIONS_CONFIG} to avoid
      * namespace collisions.
      */
-    private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
+    @Deprecated
+	private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
 
     /**
      * Contains the URL objects identifying where configuration data is found.

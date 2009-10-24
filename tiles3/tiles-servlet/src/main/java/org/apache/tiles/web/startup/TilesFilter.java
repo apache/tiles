@@ -47,6 +47,7 @@ import org.apache.tiles.definition.util.DefinitionsFactoryUtil;
  * {@link org.apache.tiles.definition.Refreshable}.
  */
 
+@Deprecated
 public class TilesFilter extends TilesServlet implements Filter {
 
     /**
@@ -102,7 +103,8 @@ public class TilesFilter extends TilesServlet implements Filter {
     /**
      * Destroy method for this filter.
      */
-    public void destroy
+    @Override
+	public void destroy
         () {
         super.destroy();
     }
@@ -118,7 +120,8 @@ public class TilesFilter extends TilesServlet implements Filter {
     }
 
     /** {@inheritDoc} */
-    public void log(String msg) {
+    @Override
+	public void log(String msg) {
         filterConfig.getServletContext().log(msg);
     }
 

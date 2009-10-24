@@ -34,6 +34,7 @@ import org.apache.tiles.factory.AbstractTilesContainerFactory;
  * @since 2.1.2
  * @deprecated Don't use it, please extend {@link AbstractTilesInitializer}.
  */
+@Deprecated
 public class BasicTilesInitializer extends AbstractTilesInitializer {
 
     /**
@@ -55,7 +56,8 @@ public class BasicTilesInitializer extends AbstractTilesInitializer {
      * @return The Tiles application context.
      * @since 2.1.2
      */
-    protected TilesApplicationContext createTilesApplicationContext(
+    @Override
+	protected TilesApplicationContext createTilesApplicationContext(
             TilesApplicationContext preliminaryContext) {
         AbstractTilesApplicationContextFactory acFactory =
             createAndInitializeTilesApplicationContextFactory(preliminaryContext);
@@ -89,7 +91,8 @@ public class BasicTilesInitializer extends AbstractTilesInitializer {
      * @return The container key.
      * @since 2.1.2
      */
-    protected String getContainerKey(TilesApplicationContext applicationContext) {
+    @Override
+	protected String getContainerKey(TilesApplicationContext applicationContext) {
         String key = applicationContext.getInitParams().get(
                 CONTAINER_KEY_INIT_PARAMETER);
         return key;
@@ -103,7 +106,8 @@ public class BasicTilesInitializer extends AbstractTilesInitializer {
      * @return The created container factory.
      * @since 2.1.2
      */
-    protected AbstractTilesContainerFactory createContainerFactory(
+    @Override
+	protected AbstractTilesContainerFactory createContainerFactory(
             TilesApplicationContext context) {
         AbstractTilesContainerFactory factory = AbstractTilesContainerFactory
                 .getTilesContainerFactory(context);

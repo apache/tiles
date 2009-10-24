@@ -71,7 +71,8 @@ public class Definition extends BasicAttributeContext {
      * @param attributes The attribute map of the definition.
      * @deprecated Use {@link #Definition(String, Attribute, Map)}.
      */
-    public Definition(String name, String template,
+    @Deprecated
+	public Definition(String name, String template,
                                Map<String, Attribute> attributes) {
         this(name, Attribute.createTemplateAttribute(template), attributes);
     }
@@ -308,7 +309,8 @@ public class Definition extends BasicAttributeContext {
      *
      * @return A string representation of the content of this definition.
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return "{name="
             + name
             + ", template="

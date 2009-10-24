@@ -107,7 +107,8 @@ final class ServletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         ServletRequest otherRequest = ((ServletRequestScopeMap) o).request;
         boolean retValue = true;
@@ -132,7 +133,8 @@ final class ServletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return (request.hashCode());
     }
 

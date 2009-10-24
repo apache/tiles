@@ -228,7 +228,8 @@ public class DefinitionManager {
      * @param child  The child that will be overloaded.
      * @deprecated Use {@link Definition#inherit(org.apache.tiles.BasicAttributeContext)}.
      */
-    protected void overload(Definition parent, Definition child) {
+    @Deprecated
+	protected void overload(Definition parent, Definition child) {
         child.inherit(parent);
     }
 

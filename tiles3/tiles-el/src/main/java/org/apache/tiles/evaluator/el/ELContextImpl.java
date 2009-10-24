@@ -30,6 +30,7 @@ import javax.el.ELResolver;
  * @since 2.1.0
  * @deprecated Use {@link org.apache.tiles.el.ELContextImpl}.
  */
+@Deprecated
 public final class ELContextImpl extends org.apache.tiles.el.ELContextImpl {
 
     /**
@@ -39,7 +40,8 @@ public final class ELContextImpl extends org.apache.tiles.el.ELContextImpl {
      * @deprecated Use
      * {@link org.apache.tiles.el.ELContextImpl#ELContextImpl(ELResolver)}.
      */
-    public ELContextImpl(ELResolver resolver) {
+    @Deprecated
+	public ELContextImpl(ELResolver resolver) {
         super(resolver);
     }
 }

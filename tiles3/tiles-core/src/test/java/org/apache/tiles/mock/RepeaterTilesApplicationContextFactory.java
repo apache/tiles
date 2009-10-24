@@ -61,7 +61,8 @@ public class RepeaterTilesApplicationContextFactory extends
     }
 
     /** {@inheritDoc} */
-    public TilesApplicationContext createApplicationContext(Object context) {
+    @Override
+	public TilesApplicationContext createApplicationContext(Object context) {
         if (context instanceof TilesApplicationContext) {
             return (TilesApplicationContext) context;
         } else {

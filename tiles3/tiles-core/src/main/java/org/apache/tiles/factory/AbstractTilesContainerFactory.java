@@ -51,7 +51,8 @@ public abstract class AbstractTilesContainerFactory {
      * @since 2.1.1
      * @deprecated Create directly a new instance of this class.
      */
-    public static AbstractTilesContainerFactory getTilesContainerFactory(
+    @Deprecated
+	public static AbstractTilesContainerFactory getTilesContainerFactory(
             TilesApplicationContext context) {
         AbstractTilesContainerFactory retValue;
         String factoryName = context.getInitParams().get(

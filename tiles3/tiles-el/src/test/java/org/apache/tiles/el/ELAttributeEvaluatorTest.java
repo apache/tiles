@@ -51,7 +51,8 @@ public class ELAttributeEvaluatorTest extends TestCase {
     private TilesRequestContext request;
 
     /** {@inheritDoc} */
-    @SuppressWarnings("deprecation")
+    @Override
+	@SuppressWarnings("deprecation")
     protected void setUp() throws Exception {
         super.setUp();
         evaluator = new ELAttributeEvaluator();

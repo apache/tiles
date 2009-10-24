@@ -75,7 +75,8 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
     }
 
     /** {@inheritDoc} */
-    public void dispatch(String path) throws IOException {
+    @Override
+	public void dispatch(String path) throws IOException {
         include(path);
     }
 

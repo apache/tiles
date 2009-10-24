@@ -34,6 +34,7 @@ import org.apache.tiles.el.ExpressionFactoryFactory;
  * @deprecated Upgrade to Servlet 2.5 and JSP 2.1 and use
  * <code>JspExpressionFactoryFactory</code>.
  */
+@Deprecated
 public class TomcatExpressionFactoryFactory implements ExpressionFactoryFactory {
 
     /** {@inheritDoc} */

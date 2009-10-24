@@ -60,7 +60,8 @@ public class LocaleDefinitionsFactory extends
      * @param params The Map of configuration properties.
      * @throws DefinitionsFactoryException if an initialization error occurs.
      */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public void init(Map<String, String> params) {
         String definitionDaoClassName = params
                 .get(DefinitionsFactory.DEFINITION_DAO_INIT_PARAM);
@@ -89,7 +90,8 @@ public class LocaleDefinitionsFactory extends
     }
 
     /** {@inheritDoc} */
-    public Definition getDefinition(String name,
+    @Override
+	public Definition getDefinition(String name,
             TilesRequestContext tilesContext) {
         Definition retValue;
         Locale locale = null;

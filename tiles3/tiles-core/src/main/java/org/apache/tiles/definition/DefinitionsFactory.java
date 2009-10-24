@@ -80,7 +80,8 @@ public interface DefinitionsFactory {
      * @deprecated Parameter based initialization is deprecated, please compose your
      * definitions factory using methods.
      */
-    void init(Map<String, String> params);
+    @Deprecated
+	void init(Map<String, String> params);
 
     /**
      * Returns a Definition object that matches the given name and

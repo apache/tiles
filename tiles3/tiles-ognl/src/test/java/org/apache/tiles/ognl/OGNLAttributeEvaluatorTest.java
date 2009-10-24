@@ -61,7 +61,8 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
     private TilesRequestContext request;
 
     /** {@inheritDoc} */
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         super.setUp();
         PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
         PropertyAccessor mapPropertyAccessor = OgnlRuntime.getPropertyAccessor(Map.class);

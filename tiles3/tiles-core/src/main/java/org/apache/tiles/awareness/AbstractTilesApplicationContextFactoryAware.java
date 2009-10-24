@@ -31,6 +31,7 @@ import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
  * @deprecated Since {@link AbstractTilesApplicationContextFactory} is
  * deprecated, this dependency injection interface is deprecated.
  */
+@Deprecated
 public interface AbstractTilesApplicationContextFactoryAware {
 
     /**

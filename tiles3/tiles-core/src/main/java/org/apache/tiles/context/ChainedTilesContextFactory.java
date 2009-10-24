@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
  * @deprecated Use {@link ChainedTilesApplicationContextFactory}
  * and {@link ChainedTilesRequestContextFactory}.
  */
+@Deprecated
 public class ChainedTilesContextFactory implements TilesContextFactory {
 
     /**

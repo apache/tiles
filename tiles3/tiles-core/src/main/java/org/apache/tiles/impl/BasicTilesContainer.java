@@ -69,14 +69,16 @@ public class BasicTilesContainer implements TilesContainer,
      * @deprecated Use
      * {@link org.apache.tiles.definition.DefinitionsFactory#DEFINITIONS_CONFIG}.
      */
-    public static final String DEFINITIONS_CONFIG = "org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG";
+    @Deprecated
+	public static final String DEFINITIONS_CONFIG = "org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG";
 
     /**
      * Compatibility constant.
      *
      * @deprecated use {@link #DEFINITIONS_CONFIG} to avoid namespace collisions.
      */
-    private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
+    @Deprecated
+	private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
 
     /**
      * Name used to store attribute context stack.
@@ -233,7 +235,8 @@ public class BasicTilesContainer implements TilesContainer,
      * @deprecated Use
      * {@link #setRequestContextFactory(TilesRequestContextFactory)}.
      */
-    public void setContextFactory(org.apache.tiles.context.TilesContextFactory contextFactory) {
+    @Deprecated
+	public void setContextFactory(org.apache.tiles.context.TilesContextFactory contextFactory) {
         // Does nothing
     }
 

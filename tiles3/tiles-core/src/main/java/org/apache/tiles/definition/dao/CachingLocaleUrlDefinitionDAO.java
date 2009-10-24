@@ -272,7 +272,8 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      * @since 2.1.3
      * @deprecated Use {@link #loadDefinitionsFromURLs(Locale)}.
      */
-    protected Map<String, Definition> loadRawDefinitionsFromURLs(
+    @Deprecated
+	protected Map<String, Definition> loadRawDefinitionsFromURLs(
             Locale customizationKey) {
         return loadDefinitionsFromURLs(customizationKey);
     }
@@ -296,7 +297,8 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      * @since 2.1.0
      * @deprecated Never used.
      */
-    protected void postDefinitionLoadOperations(
+    @Deprecated
+	protected void postDefinitionLoadOperations(
             Map<String, Definition> localeDefsMap, Locale customizationKey) {
 
         definitionResolver.storeDefinitionPatterns(localeDefsMap, customizationKey);

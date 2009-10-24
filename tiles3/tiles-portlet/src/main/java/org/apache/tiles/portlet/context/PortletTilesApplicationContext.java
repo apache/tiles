@@ -155,7 +155,8 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
      * {@link org.apache.tiles.context.TilesContextFactory#createRequestContext(TilesApplicationContext, Object...)}
      * .
      */
-    public TilesRequestContext createRequestContext(Object request, Object response) {
+    @Deprecated
+	public TilesRequestContext createRequestContext(Object request, Object response) {
         if (request instanceof PortletRequest && response instanceof PortletResponse) {
             return new PortletTilesRequestContext(
                 context,

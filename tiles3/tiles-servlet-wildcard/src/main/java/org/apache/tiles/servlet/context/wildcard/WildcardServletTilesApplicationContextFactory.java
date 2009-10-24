@@ -39,6 +39,7 @@ import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
  * @deprecated Create an instance of
  * {@link WildcardServletTilesApplicationContext} directly.
  */
+@Deprecated
 public class WildcardServletTilesApplicationContextFactory extends
         AbstractTilesApplicationContextFactory implements Initializable {
 
@@ -48,7 +49,8 @@ public class WildcardServletTilesApplicationContextFactory extends
     }
 
     /** {@inheritDoc} */
-    public TilesApplicationContext createApplicationContext(Object context) {
+    @Override
+	public TilesApplicationContext createApplicationContext(Object context) {
         if (context instanceof ServletContext) {
             ServletContext servletContext = (ServletContext) context;
             return new WildcardServletTilesApplicationContext(servletContext);

@@ -106,7 +106,8 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         PortletRequest otherRequest = ((PortletRequestScopeMap) o).request;
         boolean retValue = true;
         synchronized (request) {
@@ -130,7 +131,8 @@ final class PortletRequestScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return (request.hashCode());
     }
 

@@ -64,6 +64,7 @@ import org.slf4j.LoggerFactory;
  * already extended class. Parameter-based initialization is no longer
  * supported.
  */
+@Deprecated
 public class TilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
@@ -72,7 +73,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      *
      * @deprecated Use {@link AbstractTilesContainerFactory#CONTAINER_FACTORY_INIT_PARAM}.
      */
-    public static final String CONTAINER_FACTORY_INIT_PARAM =
+    @Deprecated
+	public static final String CONTAINER_FACTORY_INIT_PARAM =
         "org.apache.tiles.factory.TilesContainerFactory";
 
     /**
@@ -88,7 +90,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * @deprecated Use {@link AbstractTilesApplicationContextFactory#APPLICATION_CONTEXT_FACTORY_INIT_PARAM} or
      * {@link #REQUEST_CONTEXT_FACTORY_INIT_PARAM}.
      */
-    public static final String CONTEXT_FACTORY_INIT_PARAM =
+    @Deprecated
+	public static final String CONTEXT_FACTORY_INIT_PARAM =
         "org.apache.tiles.context.TilesContextFactory";
 
     /**
@@ -196,7 +199,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * {@link AbstractTilesContainerFactory#getTilesContainerFactory(TilesApplicationContext)}
      * and then {@link #setDefaultConfiguration(Map)}.
      */
-    public static TilesContainerFactory getFactory(Object context,
+    @Deprecated
+	public static TilesContainerFactory getFactory(Object context,
             Map<String, String> defaults) {
         Map<String, String> configuration = new HashMap<String, String>(defaults);
         configuration.putAll(TilesContainerFactory.getInitParameterMap(context));
@@ -228,7 +232,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
     }
 
     /** {@inheritDoc} */
-    public TilesContainer createContainer(TilesApplicationContext context) {
+    @Override
+	public TilesContainer createContainer(TilesApplicationContext context) {
         String value = context.getInitParams().get(
                 CONTAINER_FACTORY_MUTABLE_INIT_PARAM);
         if (Boolean.parseBoolean(value)) {
@@ -398,7 +403,8 @@ public class TilesContainerFactory extends AbstractTilesContainerFactory {
      * {@link #storeContainerDependencies(TilesApplicationContext, Map, Map, BasicTilesContainer)}
      * .
      */
-    protected void storeContainerDependencies(Object context,
+    @Deprecated
+	protected void storeContainerDependencies(Object context,
             Map<String, String> initParameters,
             Map<String, String> configuration, BasicTilesContainer container) {
         if (context instanceof TilesApplicationContext) {

@@ -113,7 +113,8 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
      * @return The servlet context.
      * @deprecated Use {@link #getContext()}.
      */
-    public ServletContext getServletContext() {
+    @Deprecated
+	public ServletContext getServletContext() {
         return servletContext;
     }
 
@@ -159,7 +160,8 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
      * {@link org.apache.tiles.context.TilesContextFactory#createRequestContext(TilesApplicationContext, Object...)}
      * .
      */
-    public TilesRequestContext createRequestContext(Object request, Object response) {
+    @Deprecated
+	public TilesRequestContext createRequestContext(Object request, Object response) {
         if (request instanceof HttpServletRequest) {
             return new ServletTilesRequestContext(
                 servletContext,

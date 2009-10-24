@@ -33,6 +33,7 @@ import org.apache.tiles.context.ChainedTilesApplicationContextFactory;
  * or extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
  * overriding <code>createTilesApplicationContext</code> method.<br>
  */
+@Deprecated
 public class EnhancedTilesApplicationContextFactory extends
         ChainedTilesApplicationContextFactory {
 

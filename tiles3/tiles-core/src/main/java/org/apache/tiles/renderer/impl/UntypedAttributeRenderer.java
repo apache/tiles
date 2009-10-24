@@ -35,6 +35,7 @@ import org.apache.tiles.renderer.RendererException;
  * @since 2.1.0
  * @deprecated Use {@link ChainedDelegateAttributeRenderer}.
  */
+@Deprecated
 public class UntypedAttributeRenderer extends AbstractBaseAttributeRenderer
         implements TilesContainerAware {
 

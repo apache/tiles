@@ -50,7 +50,8 @@ public class TilesContextBeanELResolverTest extends TestCase {
     private TilesContextBeanELResolver resolver;
 
     /** {@inheritDoc} */
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         super.setUp();
         resolver = new TilesContextBeanELResolver();
     }

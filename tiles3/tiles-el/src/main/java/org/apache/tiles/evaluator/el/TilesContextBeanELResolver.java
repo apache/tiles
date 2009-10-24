@@ -28,6 +28,7 @@ package org.apache.tiles.evaluator.el;
  * @since 2.1.0
  * @deprecated Use {@link TilesContextBeanELResolver}.
  */
+@Deprecated
 public class TilesContextBeanELResolver extends
         org.apache.tiles.el.TilesContextBeanELResolver {
 }

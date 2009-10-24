@@ -137,7 +137,8 @@ public class Attribute implements Serializable, Cloneable {
      * @since 2.1.2
      * @deprecated Use {@link #expressionObject}.
      */
-    protected String expression = null;
+    @Deprecated
+	protected String expression = null;
 
     /**
      * The expression to evaluate. Ignored if {@link #value} is not
@@ -243,7 +244,8 @@ public class Attribute implements Serializable, Cloneable {
      * @since 2.1.2
      * @deprecated Use {@link #Attribute(Object, Expression, String, String)}.
      */
-    public Attribute(Object value, String expression, String role, String rendererName) {
+    @Deprecated
+	public Attribute(Object value, String expression, String role, String rendererName) {
         this(value, new Expression(expression), role, rendererName);
     }
 
@@ -275,7 +277,8 @@ public class Attribute implements Serializable, Cloneable {
      * @deprecated Use
      * {@link Attribute#Attribute(Object, String, String, String)}.
      */
-    public Attribute(String name, Object value, String role,
+    @Deprecated
+	public Attribute(String name, Object value, String role,
             AttributeType type) {
         this.name = name;
         this.value = value;
@@ -398,7 +401,8 @@ public class Attribute implements Serializable, Cloneable {
      * @since 2.1.2
      * @deprecated Use {@link #getExpressionObject()}.
      */
-    public String getExpression() {
+    @Deprecated
+	public String getExpression() {
         if (expressionObject != null) {
             return expressionObject.getExpression();
         }
@@ -413,7 +417,8 @@ public class Attribute implements Serializable, Cloneable {
      * @since 2.1.2
      * @deprecated Use {@link #setExpressionObject(Expression)}.
      */
-    public void setExpression(String expression) {
+    @Deprecated
+	public void setExpression(String expression) {
         if (expression != null) {
             expressionObject = new Expression(expression);
         } else {
@@ -444,7 +449,8 @@ public class Attribute implements Serializable, Cloneable {
     }
 
     /** {@inheritDoc} */
-    public String toString() {
+    @Override
+	public String toString() {
         if (value != null) {
             return value.toString();
         }
@@ -458,7 +464,8 @@ public class Attribute implements Serializable, Cloneable {
      * <code>template</code>, <code>definition</code>, <code>object</code>.
      * @deprecated Use {@link Attribute#getRenderer()}.
      */
-    public AttributeType getType() {
+    @Deprecated
+	public AttributeType getType() {
         return AttributeType.getType(renderer);
     }
 
@@ -468,7 +475,8 @@ public class Attribute implements Serializable, Cloneable {
      * @param type The attribute type.
      * @deprecated Use {@link Attribute#setRenderer(String)}.
      */
-    public void setType(AttributeType type) {
+    @Deprecated
+	public void setType(AttributeType type) {
         this.renderer = type.toString();
     }
 

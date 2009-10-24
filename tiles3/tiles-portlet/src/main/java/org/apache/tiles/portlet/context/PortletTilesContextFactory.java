@@ -38,6 +38,7 @@ import java.util.Map;
  * @deprecated Use {@link PortletTilesApplicationContextFactory} or
  * {@link PortletTilesRequestContextFactory}.
  */
+@Deprecated
 public class PortletTilesContextFactory implements TilesContextFactory {
 
     /** {@inheritDoc} */

@@ -31,6 +31,7 @@ import org.apache.tiles.context.TilesRequestContext;
  * @version $Rev$ $Date$
  * @deprecated Use {@link EnhancedTilesApplicationContextFactory}.
  */
+@Deprecated
 public class EnhancedContextFactory extends ChainedTilesContextFactory {
 
     /** {@inheritDoc} */

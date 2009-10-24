@@ -34,6 +34,7 @@ import org.apache.tiles.servlet.context.ServletTilesContextFactory;
  * @version $Rev$ $Date$
  * @deprecated Use {@link JspTilesRequestContextFactory}.
  */
+@Deprecated
 public class JspTilesContextFactory extends ServletTilesContextFactory {
 
     /**
@@ -52,7 +53,8 @@ public class JspTilesContextFactory extends ServletTilesContextFactory {
     }
 
     /** {@inheritDoc} */
-    public TilesRequestContext createRequestContext(TilesApplicationContext context,
+    @Override
+	public TilesRequestContext createRequestContext(TilesApplicationContext context,
                                                     Object... requestItems) {
         return factory.createRequestContext(context, requestItems);
     }
@@ -64,7 +66,9 @@ public class JspTilesContextFactory extends ServletTilesContextFactory {
      * @return The original servlet context, if found.
      * @deprecated Use {@link TilesApplicationContext#getContext()}.
      */
-    protected ServletContext getServletContext(TilesApplicationContext context) {
+    @Deprecated
+	@Override
+	protected ServletContext getServletContext(TilesApplicationContext context) {
         return (ServletContext) context.getContext();
     }
 }

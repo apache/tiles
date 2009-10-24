@@ -119,7 +119,8 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         boolean retValue = true;
 
@@ -156,7 +157,8 @@ final class ServletSessionScopeMap implements Map<String, Object> {
 
 
     /** {@inheritDoc} */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return 0;

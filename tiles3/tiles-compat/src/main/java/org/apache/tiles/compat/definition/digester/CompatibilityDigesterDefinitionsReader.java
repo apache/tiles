@@ -185,7 +185,8 @@ public class CompatibilityDigesterDefinitionsReader extends
     }
 
     /** {@inheritDoc} */
-    protected String[] getRegistrations() {
+    @Override
+	protected String[] getRegistrations() {
         if (registrations == null) {
             registrations = new String[] {
                 "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",

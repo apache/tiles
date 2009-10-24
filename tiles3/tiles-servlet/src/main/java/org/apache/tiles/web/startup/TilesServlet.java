@@ -30,6 +30,7 @@ import org.apache.tiles.startup.TilesInitializer;
  * @version $Rev$ $Date$
  * @deprecated Please extend {@link AbstractTilesInitializerServlet}.
  */
+@Deprecated
 public class TilesServlet extends AbstractTilesInitializerServlet {
 
     /**
@@ -38,7 +39,8 @@ public class TilesServlet extends AbstractTilesInitializerServlet {
      * @return The Tiles servlet-based initializer.
      * @since 2.1.2
      */
-    protected TilesInitializer createTilesInitializer() {
+    @Override
+	protected TilesInitializer createTilesInitializer() {
         return new BasicTilesInitializer();
     }
 }

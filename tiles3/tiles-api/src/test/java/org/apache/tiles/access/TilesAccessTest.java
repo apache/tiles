@@ -40,7 +40,8 @@ public class TilesAccessTest extends TestCase {
     private TilesApplicationContext context;
 
     /** {@inheritDoc} */
-    public void setUp() {
+    @Override
+	public void setUp() {
         context = EasyMock.createMock(TilesApplicationContext.class);
     }
 

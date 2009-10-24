@@ -65,7 +65,8 @@ public class BasicPatternDefinitionResolver<T> extends
     }
 
     /** {@inheritDoc} */
-    protected Map<String, Definition> addDefinitionsAsPatternMatchers(List<DefinitionPatternMatcher> matchers,
+    @Override
+	protected Map<String, Definition> addDefinitionsAsPatternMatchers(List<DefinitionPatternMatcher> matchers,
             Map<String, Definition> defsMap) {
         Set<String> excludedKeys = new LinkedHashSet<String>();
         for (Map.Entry<String, Definition> de : defsMap.entrySet()) {

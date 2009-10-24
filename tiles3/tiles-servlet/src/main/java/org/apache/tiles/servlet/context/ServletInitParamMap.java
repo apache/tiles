@@ -99,7 +99,8 @@ final class ServletInitParamMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         ServletContext otherContext = ((ServletInitParamMap) o).context;
         boolean retValue = true;
@@ -124,7 +125,8 @@ final class ServletInitParamMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return (context.hashCode());
     }
 

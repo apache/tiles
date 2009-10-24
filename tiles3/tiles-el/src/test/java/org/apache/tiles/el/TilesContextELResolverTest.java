@@ -51,7 +51,8 @@ public class TilesContextELResolverTest extends TestCase {
     private TilesContextELResolver resolver;
 
     /** {@inheritDoc} */
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         super.setUp();
         resolver = new TilesContextELResolver();
     }

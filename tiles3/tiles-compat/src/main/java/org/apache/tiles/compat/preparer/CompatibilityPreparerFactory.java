@@ -33,7 +33,8 @@ import org.apache.tiles.preparer.ViewPreparer;
 public class CompatibilityPreparerFactory extends BasicPreparerFactory {
 
     /** {@inheritDoc} */
-    protected ViewPreparer createPreparer(String name) {
+    @Override
+	protected ViewPreparer createPreparer(String name) {
         ViewPreparer retValue;
 
         if (name.startsWith("/")) {

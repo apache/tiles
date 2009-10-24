@@ -34,7 +34,8 @@ import org.apache.tiles.context.TilesRequestContext;
 public class StringAttributeRenderer extends AbstractTypeDetectingAttributeRenderer {
 
     /** {@inheritDoc} */
-    public void write(Object value, Attribute attribute,
+    @Override
+	public void write(Object value, Attribute attribute,
             TilesRequestContext request)
             throws IOException {
         request.getWriter().write(value.toString());

@@ -38,6 +38,7 @@ import org.apache.tiles.portlet.wildcard.WildcardPortletTilesApplicationContext;
  * or extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
  * overriding <code>createTilesApplicationContext</code> method.<br>
  */
+@Deprecated
 public class WildcardPortletTilesApplicationContextFactory extends
         PortletTilesApplicationContextFactory {
 

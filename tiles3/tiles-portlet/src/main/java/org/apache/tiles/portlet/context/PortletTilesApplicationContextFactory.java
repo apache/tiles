@@ -40,6 +40,7 @@ import org.apache.tiles.context.AbstractTilesApplicationContextFactory;
  * or extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
  * overriding <code>createTilesApplicationContext</code> method.<br>
  */
+@Deprecated
 public class PortletTilesApplicationContextFactory extends
         AbstractTilesApplicationContextFactory implements Initializable {
 
@@ -48,7 +49,8 @@ public class PortletTilesApplicationContextFactory extends
     }
 
     /** {@inheritDoc} */
-    public TilesApplicationContext createApplicationContext(Object context) {
+    @Override
+	public TilesApplicationContext createApplicationContext(Object context) {
         if (context instanceof PortletContext) {
             PortletContext portletContext = (PortletContext) context;
             return new PortletTilesApplicationContext(portletContext);

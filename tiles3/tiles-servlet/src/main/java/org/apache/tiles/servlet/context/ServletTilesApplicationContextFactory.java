@@ -39,6 +39,7 @@ import java.util.Map;
  * or extending {@link org.apache.tiles.startup.AbstractTilesInitializer} and
  * overriding <code>createTilesApplicationContext</code> method.<br>
  */
+@Deprecated
 public class ServletTilesApplicationContextFactory extends
         AbstractTilesApplicationContextFactory implements Initializable {
 
@@ -47,7 +48,8 @@ public class ServletTilesApplicationContextFactory extends
     }
 
     /** {@inheritDoc} */
-    public TilesApplicationContext createApplicationContext(Object context) {
+    @Override
+	public TilesApplicationContext createApplicationContext(Object context) {
         if (context instanceof ServletContext) {
             ServletContext servletContext = (ServletContext) context;
             return new ServletTilesApplicationContext(servletContext);

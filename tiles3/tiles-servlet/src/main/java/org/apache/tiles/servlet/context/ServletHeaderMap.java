@@ -50,7 +50,8 @@ final class ServletHeaderMap implements Map<String, String> {
      * @param request The request object to use.
      * @deprecated Use {@link #ServletHeaderMap(HttpServletRequest,HttpServletResponse)} instead
      */
-    public ServletHeaderMap(HttpServletRequest request) {
+    @Deprecated
+	public ServletHeaderMap(HttpServletRequest request) {
         this(request, null);
     }
 
@@ -119,7 +120,8 @@ final class ServletHeaderMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         HttpServletRequest otherRequest = ((ServletHeaderMap) o).request;
         boolean retValue = true;
@@ -144,7 +146,8 @@ final class ServletHeaderMap implements Map<String, String> {
 
 
     /** {@inheritDoc} */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return (request.hashCode());
     }
 

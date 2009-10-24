@@ -62,22 +62,26 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper im
     }
 
     /** {@inheritDoc} */
-    public void dispatch(String path) throws IOException {
+    @Override
+	public void dispatch(String path) throws IOException {
         include(path);
     }
 
     /** {@inheritDoc} */
-    public Object getRequest() {
+    @Override
+	public Object getRequest() {
         return env;
     }
 
     /** {@inheritDoc} */
-    public Locale getRequestLocale() {
+    @Override
+	public Locale getRequestLocale() {
         return env.getLocale();
     }
 
     /** {@inheritDoc} */
-    public Object getResponse() {
+    @Override
+	public Object getResponse() {
         return env;
     }
 

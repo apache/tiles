@@ -35,6 +35,7 @@ import org.apache.tiles.startup.TilesInitializer;
  * @version $Rev$ $Date$
  * @deprecated Please extend {@link AbstractTilesListener}.
  */
+@Deprecated
 public class TilesListener extends AbstractTilesListener {
 
     /**
@@ -43,7 +44,8 @@ public class TilesListener extends AbstractTilesListener {
      * @return The Tiles servlet-based initializer.
      * @since 2.1.2
      */
-    protected TilesInitializer createTilesInitializer() {
+    @Override
+	protected TilesInitializer createTilesInitializer() {
         return new BasicTilesInitializer();
     }
 
@@ -54,7 +56,8 @@ public class TilesListener extends AbstractTilesListener {
      * @return The created container.
      * @deprecated Extend {@link BasicTilesInitializer}.
      */
-    protected TilesContainer createContainer(ServletContext context) {
+    @Deprecated
+	protected TilesContainer createContainer(ServletContext context) {
         TilesApplicationContext applicationContext = new ServletTilesApplicationContext(
                 context);
         AbstractTilesContainerFactory factory = AbstractTilesContainerFactory

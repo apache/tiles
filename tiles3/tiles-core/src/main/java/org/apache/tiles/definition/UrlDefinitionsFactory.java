@@ -52,6 +52,7 @@ import org.slf4j.LoggerFactory;
  * @deprecated Use {@link UnresolvingLocaleDefinitionsFactory} and using
  * {@link ResolvingLocaleUrlDefinitionDAO} as Tiles DAO.
  */
+@Deprecated
 public class UrlDefinitionsFactory extends UnresolvingLocaleDefinitionsFactory
         implements Refreshable {
 
@@ -61,7 +62,8 @@ public class UrlDefinitionsFactory extends UnresolvingLocaleDefinitionsFactory
      * @deprecated use {@link DefinitionsFactory#DEFINITIONS_CONFIG} to avoid
      * namespace collisions.
      */
-    private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
+    @Deprecated
+	private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
 
     /**
      * LOG instance for all UrlDefinitionsFactory instances.
@@ -74,21 +76,24 @@ public class UrlDefinitionsFactory extends UnresolvingLocaleDefinitionsFactory
      *
      * @deprecated Use {@link URLReader#addSourceURL(URL)}.
      */
-    protected List<Object> sources;
+    @Deprecated
+	protected List<Object> sources;
 
     /**
      * Reader used to get definitions from the sources.
      *
      * @deprecated No more used.
      */
-    protected DefinitionsReader reader;
+    @Deprecated
+	protected DefinitionsReader reader;
 
     /**
      * Contains the dates that the URL sources were last modified.
      *
      * @deprecated No more used.
      */
-    protected Map<String, Long> lastModifiedDates;
+    @Deprecated
+	protected Map<String, Long> lastModifiedDates;
 
     /** {@inheritDoc} */
     public synchronized void refresh() {
@@ -142,7 +147,9 @@ public class UrlDefinitionsFactory extends UnresolvingLocaleDefinitionsFactory
      *                                     an error occurs resolving the source to an actual data store.
      * @deprecated Use {@link URLReader#addSourceURL(URL)}.
      */
-    public void addSource(Object source) {
+    @Deprecated
+	@Override
+	public void addSource(Object source) {
         if (source == null) {
             throw new DefinitionsFactoryException(
                 "Source object must not be null");
@@ -177,7 +184,8 @@ public class UrlDefinitionsFactory extends UnresolvingLocaleDefinitionsFactory
      * sources.
      * @deprecated Let the Definitions Factory use it.
      */
-    @Deprecated
+    @Override
+	@Deprecated
     public Definitions readDefinitions() {
         return new CompatibilityDefinitionsImpl(definitionDao);
     }
@@ -237,7 +245,8 @@ public class UrlDefinitionsFactory extends UnresolvingLocaleDefinitionsFactory
      * @return Concatenated filename.
      * @deprecated Use {@link LocaleUtil#concatPostfix(String,String)} instead
      */
-    protected static String concatPostfix(String name, String postfix) {
+    @Deprecated
+	protected static String concatPostfix(String name, String postfix) {
         return LocaleUtil.concatPostfix(name, postfix);
     }
 
@@ -250,7 +259,8 @@ public class UrlDefinitionsFactory extends UnresolvingLocaleDefinitionsFactory
      * @return a list of
      * @deprecated Use {@link LocaleUtil#calculatePostfixes(Locale)} instead.
      */
-    protected static List<String> calculatePostfixes(Locale locale) {
+    @Deprecated
+	protected static List<String> calculatePostfixes(Locale locale) {
         return LocaleUtil.calculatePostfixes(locale);
     }
 

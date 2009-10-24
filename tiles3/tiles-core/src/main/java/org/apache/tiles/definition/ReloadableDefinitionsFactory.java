@@ -27,5 +27,6 @@ package org.apache.tiles.definition;
  * @version $Rev$ $Date$
  * @deprecated Use {@link Refreshable}.
  */
+@Deprecated
 public interface ReloadableDefinitionsFactory extends Refreshable {
 }

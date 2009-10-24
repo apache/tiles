@@ -92,12 +92,14 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
      * @throws IOException If something goes wrong during dispatching.
      * @see org.apache.tiles.servlet.context.ServletTilesRequestContext#dispatch(java.lang.String)
      */
-    public void dispatch(String path) throws IOException {
+    @Override
+	public void dispatch(String path) throws IOException {
         include(path);
     }
 
     /** {@inheritDoc} */
-    public void include(String path) throws IOException {
+    @Override
+	public void include(String path) throws IOException {
         JspUtil.setForceInclude(pageContext, true);
         try {
             pageContext.include(path, false);
@@ -145,7 +147,8 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
      * @return The response object.
      * @deprecated Use {@link #getPageContext()} or {@link #getPrintWriter()}.
      */
-    @Deprecated
+    @Override
+	@Deprecated
     public HttpServletResponse getResponse() {
         if (response == null) {
             response = new JspWriterResponse(pageContext);
