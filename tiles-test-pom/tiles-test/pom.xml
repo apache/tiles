@@ -425,6 +425,25 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>wagon-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>upload</goal>
+                                </goals>
+                                <configuration>
+                                    <fromDir>${settings.localRepository}/org/apache/tiles/tiles-test/${pom.version}</fromDir>
+                                    <includes>tiles-test-${pom.version}.war*</includes>
+                                    <toDir>${pom.version}</toDir>
+                                    <serverId>tiles.build</serverId>
+                                    <url>scp://people.apache.org/www/people.apache.org/builds/tiles</url>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
