@@ -68,6 +68,9 @@ public class BasicRendererFactoryTest extends TestCase {
         params.put(BasicRendererFactory.TYPE_RENDERERS_INIT_PARAM, "test,"
                 + StringAttributeRenderer.class.getName() + ";test2,"
                 + StringAttributeRenderer.class.getName());
+        rendererFactory.registerRenderer("string", new StringAttributeRenderer());
+        rendererFactory.registerRenderer("test", new StringAttributeRenderer());
+        rendererFactory.registerRenderer("test2", new StringAttributeRenderer());
         AttributeRenderer renderer = rendererFactory.getRenderer("string");
         assertNotNull("The renderer is null", renderer);
         assertTrue("The class of the renderer is wrong", renderer instanceof StringAttributeRenderer);

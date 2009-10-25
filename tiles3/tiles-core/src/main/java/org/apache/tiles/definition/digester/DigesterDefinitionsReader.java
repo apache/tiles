@@ -245,21 +245,18 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * from the source.
      */
     protected Digester digester;
-    /**
-     * Stores Definition objects.
-     */
-    private Map<String, Definition> definitions;
-    /**
-     * Should we use a validating XML parser to read the configuration file.
-     * Default is <code>true</code>.
-     */
-    protected boolean validating = true;
+
     /**
      * The set of public identifiers, and corresponding resource names for
      * the versions of the configuration file DTDs we know about.  There
      * <strong>MUST</strong> be an even number of Strings in this list!
      */
     protected String[] registrations;
+
+    /**
+     * Stores Definition objects.
+     */
+    private Map<String, Definition> definitions;
 
     /**
      * Index to be used to create unique definition names for anonymous
@@ -272,7 +269,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      */
     public DigesterDefinitionsReader() {
         digester = new Digester();
-        digester.setValidating(validating);
         digester.setNamespaceAware(true);
         digester.setUseContextClassLoader(true);
         digester.setErrorHandler(new ThrowingErrorHandler());
@@ -289,6 +285,17 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
         initSyntax(digester);
     }
+
+    /**
+     * Sets the validation of XML files.
+     *
+     * @param validating <code>true</code> means that XML validation is turned
+     * on. <code>false</code> otherwise.
+     * @since 3.3.0
+     */
+    public void setValidating(boolean validating) {
+		digester.setValidating(validating);
+	}
 
     /**
      * Reads <code>{@link Definition}</code> objects from a source.

@@ -37,24 +37,6 @@ import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 public class ChainedTilesRequestContextFactory implements TilesRequestContextFactory {
 
     /**
-     * Factory class names initialization parameter to use.
-     *
-     * @since 2.1.1
-     */
-    public static final String FACTORY_CLASS_NAMES =
-        "org.apache.tiles.context.ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES";
-
-    /**
-     * The default class names to instantiate that compose the chain..
-     *
-     * @since 2.1.1
-     */
-    public static final String[] DEFAULT_FACTORY_CLASS_NAMES = {
-            "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
-            "org.apache.tiles.portlet.context.PortletTilesRequestContextFactory",
-            "org.apache.tiles.jsp.context.JspTilesRequestContextFactory" };
-
-    /**
      * The Tiles context factories composing the chain.
      */
     private List<TilesRequestContextFactory> factories;

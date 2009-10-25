@@ -21,9 +21,7 @@
 package org.apache.tiles.context;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -55,20 +53,6 @@ public class ChainedTilesRequestContextFactoryTest extends TestCase {
         appContext = EasyMock.createMock(TilesApplicationContext.class);
         requestContext = EasyMock.createMock(TilesRequestContext.class);
         EasyMock.replay(appContext);
-    }
-
-    /**
-     * Tests the initialization method.
-     */
-    public void testInit() {
-        Map<String, String> config = new HashMap<String, String>();
-        config.put(ChainedTilesRequestContextFactory.FACTORY_CLASS_NAMES,
-                "this.is.not.a.class.Name,"
-                + RepeaterTilesRequestContextFactory.class.getName());
-        ChainedTilesRequestContextFactory factory = new ChainedTilesRequestContextFactory();
-        TilesRequestContext context = factory.createRequestContext(appContext, requestContext);
-        assertNotNull("The request context is not correct",
-                context == requestContext);
     }
 
     /**

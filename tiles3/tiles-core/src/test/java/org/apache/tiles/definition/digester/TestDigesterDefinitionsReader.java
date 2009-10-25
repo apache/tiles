@@ -35,7 +35,6 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.definition.DefinitionsReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +54,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
     /**
      * The definitions reader.
      */
-    private DefinitionsReader reader;
+    private DigesterDefinitionsReader reader;
 
     /**
      * Creates a new instance of TestDigesterDefinitionsReader.
@@ -273,6 +272,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
             assertNotNull("Config file not found", configFile);
 
             InputStream source = configFile.openStream();
+            reader.setValidating(true);
             reader.read(source);
             fail("Should've thrown an exception.");
         } catch (DefinitionsFactoryException e) {

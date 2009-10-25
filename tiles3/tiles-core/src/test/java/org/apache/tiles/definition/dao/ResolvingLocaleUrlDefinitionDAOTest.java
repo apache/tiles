@@ -21,6 +21,8 @@
 
 package org.apache.tiles.definition.dao;
 
+import static org.easymock.EasyMock.*;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,7 +55,6 @@ import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.definition.pattern.BasicPatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
-import org.easymock.EasyMock;
 
 /**
  * Tests {@link ResolvingLocaleUrlDefinitionDAO}.
@@ -108,33 +109,21 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
-        Set<URL> urlSet = new HashSet<URL>();
-        urlSet.add(url1);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs1.xml"))
-                .andReturn(urlSet);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url2);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs2.xml"))
-                .andReturn(urlSet);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url3);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs3.xml"))
-                .andReturn(urlSet);
-        EasyMock.replay(applicationContext);
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        replay(applicationContext);
         definitionDao.setApplicationContext(applicationContext);
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
                         + "org/apache/tiles/config/defs3.xml");
+        List<URL> sourceURLs = new ArrayList<URL>();
+        sourceURLs.add(url1);
+        sourceURLs.add(url2);
+        sourceURLs.add(url3);
+        definitionDao.setSourceURLs(sourceURLs);
+        DefinitionsReader reader = new DigesterDefinitionsReader();
+        definitionDao.setReader(reader);
 
         assertNotNull("test.def1 definition not found.", definitionDao
                 .getDefinition("test.def1", null));
@@ -193,6 +182,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 "Definition to be extended", definitionDao.getDefinition(
                         "test.def.overridden", Locale.FRENCH).getAttribute(
                         "title").getValue());
+        verify(applicationContext);
     }
 
     /**
@@ -212,33 +202,22 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
-        Set<URL> urlSet = new HashSet<URL>();
-        urlSet.add(url1);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs1.xml"))
-                .andReturn(urlSet);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url2);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs2.xml"))
-                .andReturn(urlSet);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url3);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs3.xml"))
-                .andReturn(urlSet);
-        EasyMock.replay(applicationContext);
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        replay(applicationContext);
         definitionDao.setApplicationContext(applicationContext);
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
                         + "org/apache/tiles/config/defs3.xml");
+
+        List<URL> sourceURLs = new ArrayList<URL>();
+        sourceURLs.add(url1);
+        sourceURLs.add(url2);
+        sourceURLs.add(url3);
+        definitionDao.setSourceURLs(sourceURLs);
+        DefinitionsReader reader = new DigesterDefinitionsReader();
+        definitionDao.setReader(reader);
 
         Map<String, Definition> defaultDefinitions = definitionDao
                 .getDefinitions(null);
@@ -302,6 +281,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals("Incorrect France title value",
                 "Definition to be extended", frenchDefinitions.get(
                         "test.def.overridden").getAttribute("title").getValue());
+        verify(applicationContext);
     }
 
     /**
@@ -331,7 +311,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
      * Tests {@link LocaleUrlDefinitionDAO#setReader(DefinitionsReader)}.
      */
     public void testSetReader() {
-        DefinitionsReader reader = EasyMock.createMock(DefinitionsReader.class);
+        DefinitionsReader reader = createMock(DefinitionsReader.class);
         definitionDao.setReader(reader);
         assertEquals("There reader has not been set correctly", reader,
                 definitionDao.reader);
@@ -370,8 +350,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
      * Tests {@link LocaleUrlDefinitionDAO#setApplicationContext(TilesApplicationContext)}.
      */
     public void testSetApplicationContext() {
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
         definitionDao.setApplicationContext(applicationContext);
         assertEquals("The application context has not been set",
                 applicationContext, definitionDao.applicationContext);
@@ -389,46 +368,28 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs2.xml");
         URL url3 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs3.xml");
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
         Set<URL> urlSet = new HashSet<URL>();
         urlSet.add(url1);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("/WEB-INF/tiles.xml"))
+        expect(applicationContext.getResources("/WEB-INF/tiles.xml"))
                 .andReturn(urlSet);
-        EasyMock.replay(applicationContext);
+        replay(applicationContext);
         Map<String, String> params = new HashMap<String, String>();
         definitionDao.setApplicationContext(applicationContext);
+        DefinitionsReader reader = new DigesterDefinitionsReader();
+        definitionDao.setReader(reader);
+        List<URL> sourceURLs = new ArrayList<URL>();
+        sourceURLs.add(url1);
+        definitionDao.setSourceURLs(sourceURLs);
         assertEquals("The reader is not of the correct class",
                 DigesterDefinitionsReader.class, definitionDao.reader
                         .getClass());
-        List<URL> sourceURLs = new ArrayList<URL>();
-        sourceURLs.add(url1);
         assertEquals("The source URLs are not correct", sourceURLs,
                 definitionDao.sourceURLs);
-        EasyMock.reset(applicationContext);
+        reset(applicationContext);
 
-        applicationContext = EasyMock.createMock(TilesApplicationContext.class);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url1);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs1.xml"))
-                .andReturn(urlSet);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url2);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs2.xml"))
-                .andReturn(urlSet);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url3);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs3.xml"))
-                .andReturn(urlSet);
-        EasyMock.replay(applicationContext);
+        applicationContext = createMock(TilesApplicationContext.class);
+        replay(applicationContext);
         params.clear();
         params.put(DefinitionsFactory.READER_IMPL_PROPERTY,
                 MockDefinitionsReader.class.getName());
@@ -437,96 +398,17 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                         + "org/apache/tiles/config/defs2.xml,"
                         + "org/apache/tiles/config/defs3.xml");
         definitionDao.setApplicationContext(applicationContext);
-        definitionDao.setSourceURLs(new ArrayList<URL>());
+        definitionDao.setReader(new MockDefinitionsReader());
         assertEquals("The reader is not of the correct class",
                 MockDefinitionsReader.class, definitionDao.reader.getClass());
         sourceURLs = new ArrayList<URL>();
         sourceURLs.add(url1);
         sourceURLs.add(url2);
         sourceURLs.add(url3);
+        definitionDao.setSourceURLs(sourceURLs);
         assertEquals("The source URLs are not correct", sourceURLs,
                 definitionDao.sourceURLs);
-    }
-
-    /**
-     * Tests {@link LocaleUrlDefinitionDAO#identifySources(Map)}.
-     *
-     * @throws IOException If something goes wrong.
-     */
-    public void testIdentifySources() throws IOException {
-        URL url1 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs1.xml");
-        URL url2 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs2.xml");
-        URL url3 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs3.xml");
-        URL url4 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs1_en_US.xml");
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
-        Set<URL> urlSet = new HashSet<URL>();
-        urlSet.add(url1);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs1.xml"))
-                .andReturn(urlSet);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url2);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs2.xml"))
-                .andReturn(urlSet);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url3);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs3.xml"))
-                .andReturn(urlSet);
-        urlSet = new HashSet<URL>();
-        urlSet.add(url4);
-        EasyMock.expect(
-                applicationContext
-                        .getResources("org/apache/tiles/config/defs1_en_US.xml"))
-                .andReturn(urlSet);
-        EasyMock.replay(applicationContext);
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
-                "org/apache/tiles/config/defs1.xml,"
-                        + "org/apache/tiles/config/defs2.xml,"
-                        + "org/apache/tiles/config/defs3.xml,"
-                        + "org/apache/tiles/config/defs1_en_US.xml");
-        definitionDao.setApplicationContext(applicationContext);
-        definitionDao.setSourceURLs(new ArrayList<URL>());
-        definitionDao.identifySources(params);
-        List<URL> sourceURLs = new ArrayList<URL>();
-        sourceURLs.add(url1);
-        sourceURLs.add(url2);
-        sourceURLs.add(url3);
-        assertEquals("The source URLs are not correct", sourceURLs,
-                definitionDao.sourceURLs);
-    }
-
-    /**
-     * Tests {@link LocaleUrlDefinitionDAO#getResourceString(Map)}.
-     */
-    public void testGetResourceString() {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(DefinitionsFactory.DEFINITIONS_CONFIG, "The string value");
-        assertEquals("The resource string has not been got correctly",
-                "The string value", definitionDao.getResourceString(params));
-    }
-
-    /**
-     * Tests {@link LocaleUrlDefinitionDAO#getResourceNames(String)}.
-     */
-    public void testGetResourceNames() {
-        String toSplit = "This,will,be,split";
-        String[] splitted = toSplit.split(",");
-        String[] result = definitionDao.getResourceNames(toSplit);
-        for (int i = 0; i < splitted.length; i++) {
-            assertEquals("The string has not been split correctly", splitted[i],
-                    result[i]);
-        }
+        verify(applicationContext);
     }
 
     /**
@@ -556,13 +438,8 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
             urlPath = "file:/" + url.getPath();
         }
 
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
-        Set<URL> urlSet = new HashSet<URL>();
-        urlSet.add(url);
-        EasyMock.expect(applicationContext.getResources(urlPath)).andReturn(
-                urlSet);
-        EasyMock.replay(applicationContext);
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        replay(applicationContext);
         ((TilesApplicationContextAware) definitionDao)
                 .setApplicationContext(applicationContext);
 
@@ -579,6 +456,12 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         } catch (URISyntaxException e) {
             uri = new URI(urlPath.replaceAll(" ", "%20"));
         }
+
+        List<URL> sourceURLs = new ArrayList<URL>();
+        sourceURLs.add(uri.toURL());
+        definitionDao.setSourceURLs(sourceURLs);
+        DefinitionsReader reader = new DigesterDefinitionsReader();
+        definitionDao.setReader(reader);
 
         String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
                 + "<!DOCTYPE tiles-definitions PUBLIC "
@@ -598,12 +481,11 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG, urlPath);
-        TilesRequestContext context = EasyMock
-                .createMock(TilesRequestContext.class);
-        EasyMock.expect(context.getSessionScope()).andReturn(
+        TilesRequestContext context = createMock(TilesRequestContext.class);
+        expect(context.getSessionScope()).andReturn(
                 new HashMap<String, Object>()).anyTimes();
-        EasyMock.expect(context.getRequestLocale()).andReturn(null).anyTimes();
-        EasyMock.replay(context);
+        expect(context.getRequestLocale()).andReturn(null).anyTimes();
+        replay(context);
 
         Definition definition = definitionDao.getDefinition("rewrite.test",
                 null);
@@ -637,6 +519,8 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
 
         assertEquals("Factory should be stale.", true, reloadable
                 .refreshRequired());
+
+        verify(applicationContext, context);
     }
 
     /**
@@ -648,12 +532,8 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs-wildcard.xml");
         definitionDao.addSourceURL(url);
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
-        EasyMock.expect(applicationContext
-                .getResource("org/apache/tiles/config/defs-wildcard.xml"))
-                .andReturn(url);
-        EasyMock.replay(applicationContext);
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        replay(applicationContext);
         ((TilesApplicationContextAware) definitionDao)
                 .setApplicationContext(applicationContext);
         definitionDao.setReader(new DigesterDefinitionsReader());
@@ -691,6 +571,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals("The header attribute is not correct",
                 "/common/headerLayered.jsp", definition.getAttribute("header")
                         .getValue());
+        verify(applicationContext);
     }
 
     /**
@@ -705,10 +586,9 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs-2.1.xml");
         definitionDao.addSourceURL(url);
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
         definitionDao.setReader(new DigesterDefinitionsReader());
-        EasyMock.replay(applicationContext);
+        replay(applicationContext);
 
         Definition definition = definitionDao.getDefinition(
                 "test.inherit.list", Locale.ITALIAN);
@@ -716,5 +596,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 .getAttribute("list");
         List<Attribute> attributes = (List<Attribute>) listAttribute.getValue();
         assertEquals(2, attributes.size());
+        verify(applicationContext);
     }
 }

@@ -23,6 +23,14 @@ package org.apache.tiles.el;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.el.ArrayELResolver;
+import javax.el.BeanELResolver;
+import javax.el.CompositeELResolver;
+import javax.el.ELResolver;
+import javax.el.ListELResolver;
+import javax.el.MapELResolver;
+import javax.el.ResourceBundleELResolver;
+
 import junit.framework.TestCase;
 
 import org.apache.el.ExpressionFactoryImpl;
@@ -74,6 +82,18 @@ public class ELAttributeEvaluatorTest extends TestCase {
 
         evaluator.setApplicationContext(applicationContext);
         evaluator.setExpressionFactory(new ExpressionFactoryImpl());
+        ELResolver elResolver = new CompositeELResolver() {
+            {
+                add(new TilesContextELResolver());
+                add(new TilesContextBeanELResolver());
+                add(new ArrayELResolver(false));
+                add(new ListELResolver(false));
+                add(new MapELResolver(false));
+                add(new ResourceBundleELResolver());
+                add(new BeanELResolver(false));
+            }
+        };
+        evaluator.setResolver(elResolver);
     }
 
     /**

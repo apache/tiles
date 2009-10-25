@@ -25,10 +25,6 @@ import java.util.Locale;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
-import org.apache.tiles.definition.dao.DefinitionDAO;
-import org.apache.tiles.locale.LocaleResolver;
-import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation that manages
@@ -75,26 +71,5 @@ public class LocaleDefinitionsFactory extends
         }
 
         return retValue;
-    }
-
-    /**
-     * Creates the default locale resolver, if it has not been specified
-     * outside.
-     *
-     * @return The default locale resolver.
-     * @since 2.1.0
-     */
-    protected LocaleResolver createDefaultLocaleResolver() {
-        return new DefaultLocaleResolver();
-    }
-
-    /**
-     * Creates the default definition DAO, if it has not been specified outside.
-     *
-     * @return The default definition DAO.
-     * @since 2.1.0
-     */
-    protected DefinitionDAO<Locale> createDefaultDefinitionDAO() {
-        return new CachingLocaleUrlDefinitionDAO();
     }
 }

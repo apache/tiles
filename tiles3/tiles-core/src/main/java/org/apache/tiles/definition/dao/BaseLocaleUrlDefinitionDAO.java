@@ -35,7 +35,6 @@ import java.util.Set;
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
-import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.RefreshMonitor;
@@ -141,87 +140,6 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
             return true;
         }
         return status;
-    }
-
-    /**
-     * Detects the sources to load.
-     *
-     * @param initParameters The initialization parameters.
-     * @since 2.1.0
-     */
-    protected void identifySources(Map<String, String> initParameters) {
-        if (applicationContext == null) {
-            throw new IllegalStateException(
-                    "The TilesApplicationContext cannot be null");
-        }
-
-        String resourceString = getResourceString(initParameters);
-        String[] resources = getResourceNames(resourceString);
-
-        try {
-            for (int i = 0; i < resources.length; i++) {
-                Set<URL> urls = applicationContext.getResources(resources[i]);
-                if (urls != null && !urls.isEmpty()) {
-                    for (URL resourceUrl : urls) {
-                        if (resourceUrl != null) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Adding resource '" + resourceUrl
-                                        + "' to definitions factory.");
-                            }
-                            String externalForm = resourceUrl.toExternalForm();
-                            if (externalForm.indexOf('_', externalForm
-                                    .lastIndexOf("/")) < 0) {
-                                sourceURLs.add(resourceUrl);
-                            } else if (log.isDebugEnabled()) {
-                                log.debug("Not adding resource '" + resourceUrl
-                                        + "' to definitions factory because it is "
-                                        + "supposed to be an internationalization.");
-                            }
-
-                        } else {
-                            log.warn("Unable to find configured definition '"
-                                    + resources[i] + "'");
-                        }
-                    }
-                } else {
-                    log.warn("Unable to find resources under the name '"
-                            + resources[i] + "'");
-                }
-            }
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException(
-                    "Unable to parse definitions from " + resourceString, e);
-        }
-    }
-
-    /**
-     * Derive the resource string from the initialization parameters. If no
-     * parameter {@link DefinitionsFactory#DEFINITIONS_CONFIG} is available,
-     * attempts to retrieve the deprecated
-     * <code>org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG</code>
-     * parameter and {@link #LEGACY_DEFINITIONS_CONFIG}. If neither are
-     * available, returns "/WEB-INF/tiles.xml".
-     *
-     * @param parms The initialization parameters.
-     * @return resource string to be parsed.
-     */
-    protected String getResourceString(Map<String, String> parms) {
-        String resourceStr = parms.get(DefinitionsFactory.DEFINITIONS_CONFIG);
-        if (resourceStr == null) {
-            resourceStr = "/WEB-INF/tiles.xml";
-        }
-        return resourceStr;
-    }
-
-    /**
-     * Parse the resourceString into a list of resource paths which can be
-     * loaded by the application context.
-     *
-     * @param resourceString comma separated resources
-     * @return parsed resources
-     */
-    protected String[] getResourceNames(String resourceString) {
-        return resourceString.split(",");
     }
 
     /**
