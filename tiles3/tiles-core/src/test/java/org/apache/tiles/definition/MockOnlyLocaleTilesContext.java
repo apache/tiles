@@ -142,14 +142,4 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     public Object[] getRequestObjects() {
         return null;
     }
-
-    /** {@inheritDoc} */
-    public Object getRequest() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /** {@inheritDoc} */
-    public Object getResponse() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 }

@@ -21,16 +21,11 @@
 
 package org.apache.tiles.context;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.reflect.ClassUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation for TilesRequestContextFactory, that creates a chain
@@ -60,12 +55,6 @@ public class ChainedTilesRequestContextFactory implements TilesRequestContextFac
             "org.apache.tiles.jsp.context.JspTilesRequestContextFactory" };
 
     /**
-     * The logging object.
-     */
-    private final Logger log = LoggerFactory
-            .getLogger(ChainedTilesRequestContextFactory.class);
-
-    /**
      * The Tiles context factories composing the chain.
      */
     private List<TilesRequestContextFactory> factories;
@@ -77,47 +66,6 @@ public class ChainedTilesRequestContextFactory implements TilesRequestContextFac
      */
     public void setFactories(List<TilesRequestContextFactory> factories) {
         this.factories = factories;
-        injectParentTilesContextFactory();
-    }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> configParameters) {
-        String[] classNames = null;
-        String classNamesString = configParameters.get(FACTORY_CLASS_NAMES);
-        if (classNamesString != null) {
-            classNames = classNamesString.split("\\s*,\\s*");
-        }
-        if (classNames == null || classNames.length <= 0) {
-            classNames = DEFAULT_FACTORY_CLASS_NAMES;
-        }
-
-        factories = new ArrayList<TilesRequestContextFactory>();
-        for (int i = 0; i < classNames.length; i++) {
-            try {
-                Class<? extends TilesRequestContextFactory> clazz = ClassUtil
-                        .getClass(classNames[i],
-                                TilesRequestContextFactory.class);
-                TilesRequestContextFactory factory = clazz.newInstance();
-                factories.add(factory);
-            } catch (ClassNotFoundException e) {
-                // We log it, because it could be a default configuration class that
-                // is simply not present.
-                log.warn("Cannot find TilesRequestContextFactory class "
-                        + classNames[i]);
-                if (log.isDebugEnabled()) {
-                    log.debug("Cannot find TilesRequestContextFactory class "
-                            + classNames[i], e);
-                }
-            } catch (InstantiationException e) {
-                throw new IllegalArgumentException(
-                        "Cannot instantiate TilesRequestContextFactory class " + classNames[i],
-                        e);
-            } catch (IllegalAccessException e) {
-                throw new IllegalArgumentException(
-                        "Cannot access TilesRequestContextFactory class " + classNames[i]
-                                + " default constructor", e);
-            }
-        }
         injectParentTilesContextFactory();
     }
 

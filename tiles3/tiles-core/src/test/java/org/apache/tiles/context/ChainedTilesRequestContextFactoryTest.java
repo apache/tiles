@@ -66,7 +66,6 @@ public class ChainedTilesRequestContextFactoryTest extends TestCase {
                 "this.is.not.a.class.Name,"
                 + RepeaterTilesRequestContextFactory.class.getName());
         ChainedTilesRequestContextFactory factory = new ChainedTilesRequestContextFactory();
-        factory.init(config);
         TilesRequestContext context = factory.createRequestContext(appContext, requestContext);
         assertNotNull("The request context is not correct",
                 context == requestContext);

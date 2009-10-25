@@ -20,23 +20,14 @@
  */
 package org.apache.tiles.el;
 
-import java.util.Map;
-
-import javax.el.ArrayELResolver;
-import javax.el.BeanELResolver;
-import javax.el.CompositeELResolver;
 import javax.el.ELResolver;
 import javax.el.ExpressionFactory;
-import javax.el.ListELResolver;
-import javax.el.MapELResolver;
-import javax.el.ResourceBundleELResolver;
 import javax.el.ValueExpression;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
-import org.apache.tiles.reflect.ClassUtil;
 
 /**
  * Evaluates string expression with typical EL syntax.<br>
@@ -86,35 +77,6 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
      * @since 2.2.1
      */
     public ELAttributeEvaluator() {
-    }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> initParameters) {
-        String expressionFactoryClassName = initParameters
-                .get(EXPRESSION_FACTORY_FACTORY_INIT_PARAM);
-        ExpressionFactoryFactory efFactory;
-        if (expressionFactoryClassName != null) {
-            efFactory = (ExpressionFactoryFactory) ClassUtil
-                    .instantiate(expressionFactoryClassName);
-        } else {
-            efFactory = new JspExpressionFactoryFactory();
-        }
-        if (efFactory instanceof TilesApplicationContextAware) {
-            ((TilesApplicationContextAware) efFactory)
-                    .setApplicationContext(applicationContext);
-        }
-        expressionFactory = efFactory.getExpressionFactory();
-        resolver = new CompositeELResolver() {
-            {
-                add(new TilesContextELResolver());
-                add(new TilesContextBeanELResolver());
-                add(new ArrayELResolver(false));
-                add(new ListELResolver(false));
-                add(new MapELResolver(false));
-                add(new ResourceBundleELResolver());
-                add(new BeanELResolver(false));
-            }
-        };
     }
 
     /** {@inheritDoc} */

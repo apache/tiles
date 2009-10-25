@@ -33,16 +33,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.RefreshMonitor;
-import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
-import org.apache.tiles.impl.BasicTilesContainer;
-import org.apache.tiles.reflect.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,25 +49,15 @@ import org.slf4j.LoggerFactory;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-@SuppressWarnings("deprecation")
 public abstract class BaseLocaleUrlDefinitionDAO implements
-        DefinitionDAO<Locale>, Initializable, TilesApplicationContextAware,
-        RefreshMonitor, URLReader {
+		DefinitionDAO<Locale>, TilesApplicationContextAware, RefreshMonitor,
+		URLReader {
 
     /**
      * The logging object.
      */
     private final Logger log = LoggerFactory
             .getLogger(BaseLocaleUrlDefinitionDAO.class);
-
-    /**
-     * Compatibility constant.
-     *
-     * @deprecated use {@link DefinitionsFactory#DEFINITIONS_CONFIG} to avoid
-     * namespace collisions.
-     */
-    @Deprecated
-	private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
 
     /**
      * Contains the URL objects identifying where configuration data is found.
@@ -130,20 +116,6 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
     /** {@inheritDoc} */
     public void setApplicationContext(TilesApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-    }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> params) {
-        identifySources(params);
-        String readerClassName = params
-                .get(DefinitionsFactory.READER_IMPL_PROPERTY);
-
-        if (readerClassName != null) {
-            reader = (DefinitionsReader) ClassUtil.instantiate(readerClassName);
-        } else {
-            reader = new DigesterDefinitionsReader();
-        }
-        reader.init(params);
     }
 
     /** {@inheritDoc} */
@@ -235,12 +207,6 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
      */
     protected String getResourceString(Map<String, String> parms) {
         String resourceStr = parms.get(DefinitionsFactory.DEFINITIONS_CONFIG);
-        if (resourceStr == null) {
-            resourceStr = parms.get(BasicTilesContainer.DEFINITIONS_CONFIG);
-        }
-        if (resourceStr == null) {
-            resourceStr = parms.get(LEGACY_DEFINITIONS_CONFIG);
-        }
         if (resourceStr == null) {
             resourceStr = "/WEB-INF/tiles.xml";
         }

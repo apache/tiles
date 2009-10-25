@@ -179,22 +179,4 @@ public interface TilesRequestContext {
      * @since 2.1.2
      */
     Object[] getRequestObjects();
-
-    /**
-     * Get the underlying request.
-     *
-     * @return The current request object.
-     * @deprecated Use {@link #getRequestObjects()}.
-     */
-    @Deprecated
-    Object getRequest();
-
-    /**
-     * Get the underlying response.
-     *
-     * @return The current request object.
-     * @deprecated Use {@link #getRequestObjects()}.
-     */
-    @Deprecated
-    Object getResponse();
 }

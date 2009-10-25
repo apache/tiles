@@ -20,18 +20,15 @@
  */
 package org.apache.tiles.servlet.context;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
+
+import javax.servlet.ServletContext;
+
+import org.apache.tiles.TilesApplicationContext;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.
@@ -108,18 +105,6 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
     }
 
     /**
-     * Returns the servlet context.
-     *
-     * @return The servlet context.
-     * @deprecated Use {@link #getContext()}.
-     */
-    @Deprecated
-	public ServletContext getServletContext() {
-        return servletContext;
-    }
-
-
-    /**
      * <p>Initialize (or reinitialize) this {@link TilesApplicationContext} instance
      * for the specified Servlet API objects.</p>
      *
@@ -148,29 +133,5 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
         // Release references to Servlet API objects
         servletContext = null;
 
-    }
-
-    /**
-     * Creates a servlet context for a given request/response pair.
-     *
-     * @param request The request object.
-     * @param response The response object.
-     * @return The corresponding Tiles request context.
-     * @deprecated Use
-     * {@link org.apache.tiles.context.TilesContextFactory#createRequestContext(TilesApplicationContext, Object...)}
-     * .
-     */
-    @Deprecated
-	public TilesRequestContext createRequestContext(Object request, Object response) {
-        if (request instanceof HttpServletRequest) {
-            return new ServletTilesRequestContext(
-                servletContext,
-                (HttpServletRequest) request,
-                (HttpServletResponse) response
-            );
-        } else {
-            throw new IllegalArgumentException("Invalid context specified. "
-                + servletContext.getClass().getName());
-        }
     }
 }

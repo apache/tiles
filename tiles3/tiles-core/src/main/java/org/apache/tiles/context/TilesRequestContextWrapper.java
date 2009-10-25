@@ -146,16 +146,4 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
     public Object[] getRequestObjects() {
         return context.getRequestObjects();
     }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public Object getResponse() {
-        return context.getResponse();
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public Object getRequest() {
-        return context.getRequest();
-    }
 }

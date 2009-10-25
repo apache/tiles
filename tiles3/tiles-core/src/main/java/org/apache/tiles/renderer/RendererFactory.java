@@ -20,7 +20,6 @@
  */
 package org.apache.tiles.renderer;
 
-import java.util.Map;
 
 /**
  * <p>
@@ -38,14 +37,6 @@ import java.util.Map;
  * @since 2.1.0
  */
 public interface RendererFactory {
-
-    /**
-     * Initialize the renderer factory.
-     *
-     * @param parameters The parameters for the initialization.
-     * @since 2.1.0
-     */
-    void init(Map<String, String> parameters);
 
     /**
      * Returns a renderer by its name.

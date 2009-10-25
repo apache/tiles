@@ -342,24 +342,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     }
 
     /**
-     * Initializes the <code>DefinitionsReader</code> object.
-     * <p/>
-     * This method must be called before the {@link #read} method is called.
-     *
-     * @param params A map of properties used to set up the reader.
-     * @throws DefinitionsFactoryException if required properties are not passed
-     * in or the initialization fails.
-     */
-    public void init(Map<String, String> params) {
-        if (params != null) {
-            String value = params.get(PARSER_VALIDATE_PARAMETER_NAME);
-            if (value != null) {
-                digester.setValidating(Boolean.valueOf(value));
-            }
-        }
-    }
-
-    /**
      * Initialised the syntax for reading XML files containing Tiles
      * definitions.
      *

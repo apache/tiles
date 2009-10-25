@@ -130,7 +130,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
                         + "org/apache/tiles/config/defs3.xml");
-        definitionDao.init(params);
 
         assertNotNull("test.def1 definition not found.", definitionDao
                 .getDefinition("test.def1", null));
@@ -234,7 +233,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
                         + "org/apache/tiles/config/defs3.xml");
-        definitionDao.init(params);
 
         Map<String, Definition> defaultDefinitions = definitionDao
                 .getDefinitions(null);
@@ -373,7 +371,7 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
     }
 
     /**
-     * Tests {@link LocaleUrlDefinitionDAO#init(Map)}.
+     * Tests execution.
      *
      * @throws IOException If something goes wrong.
      */
@@ -393,7 +391,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         EasyMock.replay(applicationContext);
         Map<String, String> params = new HashMap<String, String>();
         definitionDao.setApplicationContext(applicationContext);
-        definitionDao.init(params);
         assertEquals("The reader is not of the correct class",
                 DigesterDefinitionsReader.class, definitionDao.reader
                         .getClass());
@@ -432,7 +429,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
                         + "org/apache/tiles/config/defs3.xml");
         definitionDao.setApplicationContext(applicationContext);
         definitionDao.setSourceURLs(new ArrayList<URL>());
-        definitionDao.init(params);
         assertEquals("The reader is not of the correct class",
                 MockDefinitionsReader.class, definitionDao.reader.getClass());
         sourceURLs = new ArrayList<URL>();
@@ -584,7 +580,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG, urlPath);
-        definitionDao.init(params);
         TilesRequestContext context = EasyMock
                 .createMock(TilesRequestContext.class);
         EasyMock.expect(context.getSessionScope()).andReturn(

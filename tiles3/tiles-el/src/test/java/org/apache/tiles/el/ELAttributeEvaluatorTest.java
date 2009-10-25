@@ -25,12 +25,11 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.apache.el.ExpressionFactoryImpl;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.el.ELAttributeEvaluator;
-import org.apache.tiles.evaluator.el.TomcatExpressionFactoryFactory;
 import org.easymock.EasyMock;
 
 /**
@@ -52,7 +51,6 @@ public class ELAttributeEvaluatorTest extends TestCase {
 
     /** {@inheritDoc} */
     @Override
-	@SuppressWarnings("deprecation")
     protected void setUp() throws Exception {
         super.setUp();
         evaluator = new ELAttributeEvaluator();
@@ -75,10 +73,7 @@ public class ELAttributeEvaluatorTest extends TestCase {
         EasyMock.replay(request, applicationContext);
 
         evaluator.setApplicationContext(applicationContext);
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(ELAttributeEvaluator.EXPRESSION_FACTORY_FACTORY_INIT_PARAM,
-                TomcatExpressionFactoryFactory.class.getName());
-        evaluator.init(params);
+        evaluator.setExpressionFactory(new ExpressionFactoryImpl());
     }
 
     /**

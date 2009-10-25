@@ -218,22 +218,6 @@ public class DefinitionManager {
     }
 
     /**
-     * Overloads a child definition with a given parent.
-     * All attributes present in child are kept. All missing attributes are
-     * copied from the parent.
-     * Special attribute 'template','role' and 'extends' are overloaded in child
-     * if not defined
-     *
-     * @param parent The parent definition.
-     * @param child  The child that will be overloaded.
-     * @deprecated Use {@link Definition#inherit(org.apache.tiles.BasicAttributeContext)}.
-     */
-    @Deprecated
-	protected void overload(Definition parent, Definition child) {
-        child.inherit(parent);
-    }
-
-    /**
      * Returns the map with custom definitions for the current request.
      *
      * @param request The current request.

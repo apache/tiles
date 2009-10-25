@@ -60,7 +60,7 @@ public class BasicRendererFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicRendererFactory#init(Map)} and
+     * Tests execution and
      * {@link BasicRendererFactory#getRenderer(String)}.
      */
     public void testInitAndGetRenderer() {
@@ -68,7 +68,6 @@ public class BasicRendererFactoryTest extends TestCase {
         params.put(BasicRendererFactory.TYPE_RENDERERS_INIT_PARAM, "test,"
                 + StringAttributeRenderer.class.getName() + ";test2,"
                 + StringAttributeRenderer.class.getName());
-        rendererFactory.init(params);
         AttributeRenderer renderer = rendererFactory.getRenderer("string");
         assertNotNull("The renderer is null", renderer);
         assertTrue("The class of the renderer is wrong", renderer instanceof StringAttributeRenderer);

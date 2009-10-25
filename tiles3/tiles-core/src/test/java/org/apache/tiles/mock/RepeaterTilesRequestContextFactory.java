@@ -60,9 +60,4 @@ public class RepeaterTilesRequestContextFactory implements TilesRequestContextFa
         }
         return retValue;
     }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> configurationParameters) {
-        // Do nothing
-    }
 }

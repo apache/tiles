@@ -20,18 +20,15 @@
  */
 package org.apache.tiles.portlet.context;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
-
-import javax.portlet.PortletContext;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
+
+import javax.portlet.PortletContext;
+
+import org.apache.tiles.TilesApplicationContext;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
@@ -143,28 +140,5 @@ public class PortletTilesApplicationContext implements TilesApplicationContext {
         HashSet<URL> set = new HashSet<URL>();
         set.add(getResource(path));
         return set;
-    }
-
-    /**
-     * Creates a portlet context for a given request/response pair.
-     *
-     * @param request The request object.
-     * @param response The response object.
-     * @return The corresponding Tiles request context.
-     * @deprecated Use
-     * {@link org.apache.tiles.context.TilesContextFactory#createRequestContext(TilesApplicationContext, Object...)}
-     * .
-     */
-    @Deprecated
-	public TilesRequestContext createRequestContext(Object request, Object response) {
-        if (request instanceof PortletRequest && response instanceof PortletResponse) {
-            return new PortletTilesRequestContext(
-                context,
-                (PortletRequest) request,
-                (PortletResponse) response);
-        } else {
-            throw new IllegalArgumentException("Invalid context specified. "
-                + context.getClass().getName());
-        }
     }
 }

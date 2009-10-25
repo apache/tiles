@@ -21,7 +21,6 @@
 package org.apache.tiles.velocity.context;
 
 import java.io.Writer;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -92,11 +91,6 @@ public class VelocityTilesRequestContextFactory implements TilesRequestContextFa
             return ctx;
         }
         return null;
-    }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> configurationParameters) {
-        // Nothing to initialize.
     }
 
     /** {@inheritDoc} */

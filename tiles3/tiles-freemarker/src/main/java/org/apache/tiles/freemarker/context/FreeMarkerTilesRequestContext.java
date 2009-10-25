@@ -24,7 +24,6 @@ package org.apache.tiles.freemarker.context;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.Locale;
 
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextWrapper;
@@ -61,28 +60,20 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper im
         this.env = env;
     }
 
+	/**
+	 * Returns the environment object.
+	 *
+	 * @return The environment.
+	 * @since 3.0.0
+	 */
+	public Environment getEnvironment() {
+        return env;
+    }
+
     /** {@inheritDoc} */
     @Override
 	public void dispatch(String path) throws IOException {
         include(path);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-	public Object getRequest() {
-        return env;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-	public Locale getRequestLocale() {
-        return env.getLocale();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-	public Object getResponse() {
-        return env;
     }
 
     /** {@inheritDoc} */

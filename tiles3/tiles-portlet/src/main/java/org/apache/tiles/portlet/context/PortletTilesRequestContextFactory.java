@@ -21,8 +21,6 @@
 
 package org.apache.tiles.portlet.context;
 
-import java.util.Map;
-
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -68,10 +66,6 @@ public class PortletTilesRequestContextFactory implements
             throw new NotAPortletEnvironmentException(
                     "Cannot access portlet classes", e);
         }
-    }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> configParameters) {
     }
 
     /** {@inheritDoc} */

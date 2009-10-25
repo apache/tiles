@@ -28,7 +28,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -124,25 +123,6 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
         super(applicationContext);
         initialize(request, response);
     }
-
-    /**
-     * Creates a new instance of ServletTilesRequestContext.
-     *
-     * @param servletContext The servlet context.
-     * @param request The request object.
-     * @param response The response object.
-     * @deprecated Use
-     * {@link #ServletTilesRequestContext(TilesApplicationContext, HttpServletRequest, HttpServletResponse)}
-     * .
-     */
-    @Deprecated
-    public ServletTilesRequestContext(ServletContext servletContext,
-                                      HttpServletRequest request,
-                                      HttpServletResponse response) {
-        super(new ServletTilesApplicationContext(servletContext));
-        initialize(request, response);
-    }
-
 
     /** {@inheritDoc} */
     public Map<String, String> getHeader() {
@@ -361,23 +341,5 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
     /** {@inheritDoc} */
     public boolean isUserInRole(String role) {
         return request.isUserInRole(role);
-    }
-
-    /**
-     * Wraps a ServletException to create an IOException with the root cause if
-     * present.
-     *
-     * @param ex The exception to wrap.
-     * @param message The message of the exception.
-     * @return The wrapped exception.
-     * @since 2.0.6
-     * @deprecated Use
-     * {@link ServletUtil#wrapServletException(ServletException,String)}
-     * instead.
-     */
-    @Deprecated
-    protected IOException wrapServletException(ServletException ex,
-            String message) {
-        return ServletUtil.wrapServletException(ex, message);
     }
 }

@@ -67,17 +67,4 @@ public class MockDefinitionsReader implements DefinitionsReader {
     public Map<String, Definition> read(Object source) {
         return new LinkedHashMap();
     }
-
-    /**
-     * Initializes the <code>DefinitionsReader</code> object.
-     *
-     * This method must be called before the {@link #read} method is called.
-     *
-     * @param params A map of properties used to set up the reader.
-     * @throws org.apache.tiles.definition.DefinitionsFactoryException if required properties are not
-     *  passed in or the initialization fails.
-     */
-    public void init(Map<String, String> params) {
-    }
-
 }

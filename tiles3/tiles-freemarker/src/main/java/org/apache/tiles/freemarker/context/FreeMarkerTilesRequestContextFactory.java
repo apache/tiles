@@ -21,8 +21,6 @@
 
 package org.apache.tiles.freemarker.context;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -89,10 +87,5 @@ public class FreeMarkerTilesRequestContextFactory implements
             return new FreeMarkerTilesRequestContext(enclosedRequest, env);
         }
         return null;
-    }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> configurationParameters) {
-        // Nothing to initialize.
     }
 }

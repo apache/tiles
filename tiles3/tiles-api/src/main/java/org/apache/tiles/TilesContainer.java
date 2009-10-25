@@ -20,9 +20,7 @@
  */
 package org.apache.tiles;
 
-import java.util.Map;
 import java.io.IOException;
-import java.io.Writer;
 
 /**
  * An encapsulation of the tiles framework.  This interface is
@@ -34,14 +32,6 @@ import java.io.Writer;
  * @version $Rev$ $Date$
  */
 public interface TilesContainer {
-
-    /**
-     * Initialize the container with the given
-     * configuration.
-     *
-     * @param initParameters application context
-     */
-    void init(Map<String, String> initParameters);
 
     /**
      * Retrieve the containers context.
@@ -101,19 +91,6 @@ public interface TilesContainer {
      * @param requestItems the current request objects.
      */
     void render(String definition, Object... requestItems);
-
-    /**
-     * Render the given Attribute.
-     *
-     * @param attribute The attribute to render.
-     * @param writer A writer. <strong>IT WON'T BE EVALUATED!!!</strong>
-     * @param requestItems the current request objects.
-     * @throws IOException If something goes wrong during writing to the output.
-     * @deprecated Use {@link #render(Attribute, Object...)}.
-     */
-    @Deprecated
-    void render(Attribute attribute, Writer writer, Object... requestItems)
-        throws IOException;
 
     /**
      * Render the given Attribute.

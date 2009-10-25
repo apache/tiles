@@ -80,7 +80,7 @@ public class FreeMarkerTilesRequestContextFactoryTest {
         factory.setRequestContextFactory(parentFactory);
         FreeMarkerTilesRequestContext context = (FreeMarkerTilesRequestContext) factory
                 .createRequestContext(applicationContext, env);
-        assertEquals(env, context.getRequest());
+        assertEquals(env, context.getEnvironment());
         assertEquals(enclosedRequest, context.getWrappedRequest());
 
     }

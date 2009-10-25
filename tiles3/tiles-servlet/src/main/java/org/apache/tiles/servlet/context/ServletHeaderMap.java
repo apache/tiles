@@ -43,19 +43,6 @@ import org.apache.tiles.context.MapEntry;
 
 final class ServletHeaderMap implements Map<String, String> {
 
-
-    /**
-     * Constructor.
-     *
-     * @param request The request object to use.
-     * @deprecated Use {@link #ServletHeaderMap(HttpServletRequest,HttpServletResponse)} instead
-     */
-    @Deprecated
-	public ServletHeaderMap(HttpServletRequest request) {
-        this(request, null);
-    }
-
-
     /**
      * Constructor.
      *

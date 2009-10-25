@@ -21,7 +21,6 @@
 package org.apache.tiles;
 
 import java.util.Map;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -124,16 +123,6 @@ public interface AttributeContext {
      * @since 2.1.0
      */
     Attribute getCascadedAttribute(String name);
-
-    /**
-     * Iterator of all attribute names.
-     *
-     * @return iterator of all names.
-     * @deprecated Use {@link AttributeContext#getLocalAttributeNames()} or
-     * {@link AttributeContext#getCascadedAttributeNames()}.
-     */
-    @Deprecated
-    Iterator<String> getAttributeNames();
 
     /**
      * Returns the names of the local attributes, i.e. the one that have not

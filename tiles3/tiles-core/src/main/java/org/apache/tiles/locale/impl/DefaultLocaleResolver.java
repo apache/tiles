@@ -42,11 +42,6 @@ public class DefaultLocaleResolver implements LocaleResolver {
     public static final String LOCALE_KEY = "org.apache.tiles.LOCALE";
 
     /** {@inheritDoc} */
-    public void init(Map<String, String> params) {
-        // Does nothing.
-    }
-
-    /** {@inheritDoc} */
     public Locale resolveLocale(TilesRequestContext request) {
         Locale retValue = null;
         Map<String, Object> session = request.getSessionScope();

@@ -32,10 +32,8 @@ import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.definition.Refreshable;
-import org.apache.tiles.definition.pattern.BasicPatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolverAware;
-import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
 import org.apache.tiles.util.LocaleUtil;
 
 /**
@@ -92,20 +90,6 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      */
     public CachingLocaleUrlDefinitionDAO() {
         locale2definitionMap = new HashMap<Locale, Map<String, Definition>>();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void init(Map<String, String> params) {
-        super.init(params);
-
-        String param = params.get(CHECK_REFRESH_INIT_PARAMETER);
-        checkRefresh = "true".equals(param);
-        WildcardDefinitionPatternMatcherFactory definitionPatternMatcherFactory =
-            new WildcardDefinitionPatternMatcherFactory();
-        definitionResolver = new BasicPatternDefinitionResolver<Locale>(
-                definitionPatternMatcherFactory,
-                definitionPatternMatcherFactory);
     }
 
     /** {@inheritDoc} */
@@ -265,20 +249,6 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     }
 
     /**
-     * Loads the raw definitions from the URLs associated with a locale.
-     *
-     * @param customizationKey The locale to use when loading URLs.
-     * @return The loaded definitions.
-     * @since 2.1.3
-     * @deprecated Use {@link #loadDefinitionsFromURLs(Locale)}.
-     */
-    @Deprecated
-	protected Map<String, Definition> loadRawDefinitionsFromURLs(
-            Locale customizationKey) {
-        return loadDefinitionsFromURLs(customizationKey);
-    }
-
-    /**
      * Loads parent definitions, i.e. definitions mapped to a parent locale.
      *
      * @param parentLocale The locale to use when loading URLs.
@@ -287,21 +257,6 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      */
     protected Map<String, Definition> loadParentDefinitions(Locale parentLocale) {
         return loadDefinitions(parentLocale);
-    }
-
-    /**
-     * Operations to be done after definitions are loaded.
-     *
-     * @param localeDefsMap The loaded definitions.
-     * @param customizationKey The locale to use when loading URLs.
-     * @since 2.1.0
-     * @deprecated Never used.
-     */
-    @Deprecated
-	protected void postDefinitionLoadOperations(
-            Map<String, Definition> localeDefsMap, Locale customizationKey) {
-
-        definitionResolver.storeDefinitionPatterns(localeDefsMap, customizationKey);
     }
 
     /**

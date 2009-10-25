@@ -22,7 +22,6 @@ package org.apache.tiles.factory;
 
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.reflect.ClassUtil;
 
 /**
  * Abstract Factory that creates instances of {@link TilesContainerFactory}.
@@ -40,34 +39,6 @@ public abstract class AbstractTilesContainerFactory {
      */
     public static final String CONTAINER_FACTORY_INIT_PARAM =
         "org.apache.tiles.factory.AbstractTilesContainerFactory";
-
-    /**
-     * Creates a factory instance.
-     *
-     * @param context The application context object.
-     * @return The created factory.
-     * @throws TilesContainerFactoryException If something goes wrong during
-     * creation.
-     * @since 2.1.1
-     * @deprecated Create directly a new instance of this class.
-     */
-    @Deprecated
-	public static AbstractTilesContainerFactory getTilesContainerFactory(
-            TilesApplicationContext context) {
-        AbstractTilesContainerFactory retValue;
-        String factoryName = context.getInitParams().get(
-                CONTAINER_FACTORY_INIT_PARAM);
-        if (factoryName == null) {
-            factoryName = context.getInitParams().get(
-                    TilesContainerFactory.CONTAINER_FACTORY_INIT_PARAM);
-        }
-        if (factoryName != null) {
-            retValue = (AbstractTilesContainerFactory) ClassUtil.instantiate(factoryName);
-        } else {
-            retValue = new TilesContainerFactory();
-        }
-        return retValue;
-    }
 
     /**
      * Creates a Tiles container.

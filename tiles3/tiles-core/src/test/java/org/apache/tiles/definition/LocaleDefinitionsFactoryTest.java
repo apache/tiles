@@ -133,7 +133,6 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
                 + "org/apache/tiles/config/defs3.xml");
-        factory.init(params);
 
         assertNotNull("test.def1 definition not found.", factory.getDefinition(
                 "test.def1", (TilesRequestContext) null));
@@ -187,7 +186,6 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
                 + "org/apache/tiles/config/defs3.xml");
-        factory.init(params);
 
         TilesRequestContext emptyContext = new MockOnlyLocaleTilesContext(null);
         TilesRequestContext usContext = new MockOnlyLocaleTilesContext(Locale.US);
@@ -293,7 +291,6 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml,org/apache/tiles/config/defs2.xml,"
                 + "org/apache/tiles/config/defs3.xml");
-        factory.init(params);
 
         // Parse files.
         TilesRequestContext usContext = new MockOnlyLocaleTilesContext(Locale.US);
@@ -354,7 +351,6 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
 
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs1.xml");
-        factory.init(params);
 
         assertEquals("MockDefinitionsReader not used.",
                 instanceCount + 1,
@@ -384,7 +380,6 @@ public class LocaleDefinitionsFactoryTest extends TestCase {
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
                 "org/apache/tiles/config/defs-wildcard.xml");
-        factory.init(params);
 
         TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
         EasyMock.expect(request.getRequestLocale()).andReturn(Locale.ITALY).anyTimes();

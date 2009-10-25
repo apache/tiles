@@ -20,19 +20,16 @@
  */
 package org.apache.tiles.jsp.context;
 
-import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.context.TilesRequestContextWrapper;
-import org.apache.tiles.servlet.context.ServletTilesRequestContext;
-import org.apache.tiles.servlet.context.ServletUtil;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+
+import javax.servlet.ServletException;
+import javax.servlet.jsp.PageContext;
+
+import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextWrapper;
+import org.apache.tiles.servlet.context.ServletUtil;
 
 /**
  * Context implementation used for executing tiles within a
@@ -49,11 +46,6 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
     private PageContext pageContext;
 
     /**
-     * The writer response to use.
-     */
-    private JspWriterResponse response;
-
-    /**
      * The request objects, lazily initialized.
      */
     private Object[] requestObjects;
@@ -68,21 +60,6 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
             PageContext pageContext) {
         super(enclosedRequest);
         this.pageContext = pageContext;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param context The servlet context to use.
-     * @param pageContext The page context to use.
-     * @deprecated Use
-     * {@link #JspTilesRequestContext(TilesRequestContext, PageContext)}.
-     */
-    @Deprecated
-    public JspTilesRequestContext(ServletContext context, PageContext pageContext) {
-        this(new ServletTilesRequestContext(context,
-                (HttpServletRequest) pageContext.getRequest(),
-                (HttpServletResponse) pageContext.getResponse()), pageContext);
     }
 
     /**
@@ -139,21 +116,4 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
     public PageContext getPageContext() {
         return pageContext;
     }
-
-    /**
-     * Returns the response object, obtained by the JSP page context. The print
-     * writer will use the object obtained by {@link PageContext#getOut()}.
-     *
-     * @return The response object.
-     * @deprecated Use {@link #getPageContext()} or {@link #getPrintWriter()}.
-     */
-    @Override
-	@Deprecated
-    public HttpServletResponse getResponse() {
-        if (response == null) {
-            response = new JspWriterResponse(pageContext);
-        }
-        return response;
-    }
-
 }

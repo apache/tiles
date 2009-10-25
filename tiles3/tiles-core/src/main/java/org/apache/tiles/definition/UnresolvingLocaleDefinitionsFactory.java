@@ -22,7 +22,6 @@
 package org.apache.tiles.definition;
 
 import java.util.Locale;
-import java.util.Map;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesApplicationContext;
@@ -103,25 +102,5 @@ public class UnresolvingLocaleDefinitionsFactory implements DefinitionsFactory,
         }
 
         return definitionDao.getDefinition(name, locale);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public void addSource(Object source) {
-        throw new UnsupportedOperationException(
-                "The addSource method is not supported");
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public Definitions readDefinitions() {
-        throw new UnsupportedOperationException(
-                "The readDefinitions method is not supported");
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public void init(Map<String, String> params) {
-        // It's here only for binary compatibility reasons.
     }
 }

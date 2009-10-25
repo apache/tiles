@@ -24,7 +24,6 @@ package org.apache.tiles.definition.digester;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,8 +97,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testRead() throws IOException {
-        reader.init(new HashMap<String, String>());
-
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs.xml");
         assertNotNull("Config file not found", configFile);
@@ -142,8 +139,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testRead21Version() throws IOException {
-        reader.init(new HashMap<String, String>());
-
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs-2.1.xml");
         assertNotNull("Config file not found", configFile);
@@ -229,11 +224,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      */
     public void testBadSource() {
         try {
-            Map<String, String> params = new HashMap<String, String>();
-
-            // Initialize reader.
-            reader.init(params);
-
             // Read definitions.
             reader.read(new String("Bad Input"));
             fail("Should've thrown an exception.");
@@ -252,8 +242,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      */
     public void testBadXml() {
         try {
-            reader.init(new HashMap<String, String>());
-
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/malformed-defs.xml");
             assertNotNull("Config file not found", configFile);
@@ -280,9 +268,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
     public void testValidatingParameter() {
         // Testing with default (validation ON).
         try {
-            Map<String, String> params = new HashMap<String, String>();
-            reader.init(params);
-
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/invalid-defs.xml");
             assertNotNull("Config file not found", configFile);
@@ -302,11 +287,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
         // Testing with validation OFF.
         try {
             setUp();
-            Map<String, String> params = new HashMap<String, String>();
-            params.put(DigesterDefinitionsReader.PARSER_VALIDATE_PARAMETER_NAME,
-                    "false");
-            reader.init(params);
-
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/invalid-defs.xml");
             assertNotNull("Config file not found", configFile);
@@ -327,8 +307,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testRegressionTiles352() throws IOException {
-        reader.init(new HashMap<String, String>());
-
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs_regression_TILES-352.xml");
         assertNotNull("Config file not found", configFile);

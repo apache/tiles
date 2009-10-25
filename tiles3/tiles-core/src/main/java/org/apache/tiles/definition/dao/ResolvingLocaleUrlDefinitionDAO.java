@@ -81,15 +81,6 @@ public class ResolvingLocaleUrlDefinitionDAO extends
         return retValue;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    @Deprecated
-    protected void postDefinitionLoadOperations(
-            Map<String, Definition> localeDefsMap, Locale customizationKey) {
-        resolveInheritances(localeDefsMap, customizationKey);
-        super.postDefinitionLoadOperations(localeDefsMap, customizationKey);
-    }
-
     /**
      * Resolve locale-specific extended instances.
      *

@@ -21,7 +21,6 @@
 package org.apache.tiles.locale;
 
 import java.util.Locale;
-import java.util.Map;
 
 import org.apache.tiles.context.TilesRequestContext;
 
@@ -32,15 +31,6 @@ import org.apache.tiles.context.TilesRequestContext;
  * @version $Rev$ $Date$
  */
 public interface LocaleResolver {
-
-    /**
-     * Initializes the <code>LocaleResolver</code> object. <p/> This method
-     * must be called before the {@link #resolveLocale(TilesRequestContext)}
-     * method is called.
-     *
-     * @param params A map of properties used to set up the resolver.
-     */
-    void init(Map<String, String> params);
 
     /**
      * Resolves the locale.

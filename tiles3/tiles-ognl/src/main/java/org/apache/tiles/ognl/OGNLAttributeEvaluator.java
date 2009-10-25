@@ -21,8 +21,6 @@
 
 package org.apache.tiles.ognl;
 
-import java.util.Map;
-
 import ognl.Ognl;
 import ognl.OgnlException;
 
@@ -49,10 +47,5 @@ public class OGNLAttributeEvaluator extends AbstractAttributeEvaluator {
             throw new EvaluationException("Cannot evaluate OGNL expression '"
                     + expression + "'", e);
         }
-    }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> initParameters) {
-        // Nothing to initialize.
     }
 }

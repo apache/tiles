@@ -22,17 +22,13 @@
 package org.apache.tiles.definition;
 
 import java.util.Locale;
-import java.util.Map;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.Initializable;
-import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
-import org.apache.tiles.reflect.ClassUtil;
 
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation that manages
@@ -47,47 +43,8 @@ import org.apache.tiles.reflect.ClassUtil;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-@SuppressWarnings("deprecation")
 public class LocaleDefinitionsFactory extends
-        UnresolvingLocaleDefinitionsFactory implements Initializable {
-
-    /**
-     * Initializes the DefinitionsFactory and its subcomponents.
-     * <p/>
-     * Implementations may support configuration properties to be passed in via
-     * the params Map.
-     *
-     * @param params The Map of configuration properties.
-     * @throws DefinitionsFactoryException if an initialization error occurs.
-     */
-    @Override
-	@SuppressWarnings("unchecked")
-    public void init(Map<String, String> params) {
-        String definitionDaoClassName = params
-                .get(DefinitionsFactory.DEFINITION_DAO_INIT_PARAM);
-        if (definitionDaoClassName != null) {
-            definitionDao = (DefinitionDAO<Locale>) ClassUtil
-                    .instantiate(definitionDaoClassName);
-        } else {
-            definitionDao = createDefaultDefinitionDAO();
-        }
-        if (definitionDao instanceof TilesApplicationContextAware) {
-            ((TilesApplicationContextAware) definitionDao)
-                    .setApplicationContext(applicationContext);
-        }
-        if (definitionDao instanceof Initializable) {
-            ((Initializable) definitionDao).init(params);
-        }
-
-        String resolverClassName = params
-                .get(DefinitionsFactory.LOCALE_RESOLVER_IMPL_PROPERTY);
-        if (resolverClassName != null) {
-            localeResolver = (LocaleResolver) ClassUtil.instantiate(resolverClassName);
-        } else {
-            localeResolver = createDefaultLocaleResolver();
-        }
-        localeResolver.init(params);
-    }
+		UnresolvingLocaleDefinitionsFactory {
 
     /** {@inheritDoc} */
     @Override

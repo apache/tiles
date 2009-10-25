@@ -132,24 +132,6 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
     }
 
     /**
-     * Creates a new instance of PortletTilesRequestContext.
-     *
-     * @param context The portlet context to use.
-     * @param request The request object to use.
-     * @param response The response object to use.
-     * @deprecated Use
-     * {@link #PortletTilesRequestContext(TilesApplicationContext, PortletContext, PortletRequest, PortletResponse)}
-     * .
-     */
-    @Deprecated
-    public PortletTilesRequestContext(PortletContext context, PortletRequest request,
-                                      PortletResponse response) {
-        super(new PortletTilesApplicationContext(context));
-        this.context = context;
-        initialize(request, response);
-    }
-
-    /**
      * <p>Initialize (or reinitialize) this {@link PortletTilesRequestContext} instance
      * for the specified Portlet API objects.</p>
      *

@@ -20,7 +20,6 @@
  */
 package org.apache.tiles.context;
 
-import org.apache.tiles.Initializable;
 import org.apache.tiles.TilesApplicationContext;
 
 /**
@@ -30,8 +29,7 @@ import org.apache.tiles.TilesApplicationContext;
  * @version $Rev$ $Date$
  * @since 2.1.1
  */
-@SuppressWarnings("deprecation")
-public interface TilesRequestContextFactory extends Initializable {
+public interface TilesRequestContextFactory {
 
     /**
      * Create a TilesRequestContext for the given context,

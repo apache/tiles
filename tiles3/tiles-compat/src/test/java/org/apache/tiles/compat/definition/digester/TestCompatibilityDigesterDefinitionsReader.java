@@ -24,8 +24,8 @@ package org.apache.tiles.compat.definition.digester;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -86,8 +86,6 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      * @throws IOException If an I/O exception happens.
      */
     public void testReadOldFormat() throws IOException {
-        reader.init(new HashMap<String, String>());
-
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs-1.1.xml");
         assertNotNull("Config file not found", configFile);
@@ -111,8 +109,6 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      * @throws IOException If an I/O exception happens.
      */
     public void testReadNewFormat() throws IOException {
-        reader.init(new HashMap<String, String>());
-
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs-2.0.xml");
         assertNotNull("Config file not found", configFile);
@@ -136,8 +132,6 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      */
     public void testRead21Version() {
         try {
-            reader.init(new HashMap<String, String>());
-
             URL configFile = this.getClass().getClassLoader().getResource(
                     "org/apache/tiles/config/tiles-defs-2.1.xml");
             assertNotNull("Config file not found", configFile);
@@ -167,8 +161,6 @@ public class TestCompatibilityDigesterDefinitionsReader extends TestCase {
      */
     public void testBadSource() {
         try {
-            reader.init(new HashMap<String, String>());
-
             // Read definitions.
             reader.read(new String("Bad Input"));
             fail("Should've thrown an exception.");

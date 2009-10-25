@@ -21,18 +21,17 @@
 
 package org.apache.tiles.jsp.context;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.context.TilesRequestContextFactory;
-import org.apache.tiles.servlet.context.ServletTilesRequestContext;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
-import java.util.Map;
+
+import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
+import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
 /**
  * Creates an instance of the appropriate {@link TilesRequestContext}
@@ -48,10 +47,6 @@ public class JspTilesRequestContextFactory implements TilesRequestContextFactory
      * Parent Tiles context factory.
      */
     private TilesRequestContextFactory parent;
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> configParameters) {
-    }
 
     /** {@inheritDoc} */
     public void setRequestContextFactory(

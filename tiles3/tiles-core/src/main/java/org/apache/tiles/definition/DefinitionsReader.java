@@ -41,17 +41,6 @@ import org.apache.tiles.Definition;
 public interface DefinitionsReader {
 
     /**
-     * Initializes the <code>DefinitionsReader</code> object.
-     * <p/>
-     * This method must be called before the {@link #read(java.lang.Object)} method is called.
-     *
-     * @param params A map of properties used to set up the reader.
-     * @throws DefinitionsFactoryException if required properties are not
-     *                                     passed in or the initialization fails.
-     */
-    void init(Map<String, String> params);
-
-    /**
      * Reads <code>{@link Definition}</code> objects from a source.
      * <p/>
      * Implementations should publish what type of source object is expected.

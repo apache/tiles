@@ -21,8 +21,6 @@
 
 package org.apache.tiles.mvel;
 
-import java.util.Map;
-
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
@@ -61,11 +59,6 @@ public class MVELAttributeEvaluator extends AbstractAttributeEvaluator {
             VariableResolverFactory variableResolverFactory) {
         this.requestHolder = requestHolder;
         this.variableResolverFactory = variableResolverFactory;
-    }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> initParameters) {
-        // Does nothing.
     }
 
     /** {@inheritDoc} */

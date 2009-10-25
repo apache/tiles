@@ -33,7 +33,6 @@ import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.renderer.RendererException;
 import org.apache.tiles.renderer.RendererFactory;
 
 /**
@@ -61,17 +60,6 @@ public class BasicRendererFactory implements RendererFactory,
      */
     public static final String DEFAULT_RENDERER_INIT_PARAM =
         "org.apache.tiles.rendere.impl.BasicRendererFactory.DEFAULT_RENDERER";
-
-    /**
-     * The default renderer class name.
-     *
-     * @since 2.1.0
-     * @deprecated Do not use, the default renderer class should be determined
-     * when building the container.
-     */
-    @Deprecated
-	public static final String DEFAULT_RENDERER_CLASS_NAME =
-        UntypedAttributeRenderer.class.getName();
 
     /**
      * The default renderer name/renderer class map.
@@ -139,38 +127,6 @@ public class BasicRendererFactory implements RendererFactory,
      */
     public BasicRendererFactory() {
         renderers = new HashMap<String, AttributeRenderer>();
-    }
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> parameters) {
-        String defaultRendererParam = parameters.get(DEFAULT_RENDERER_INIT_PARAM);
-        if (defaultRendererParam == null) {
-            defaultRendererParam = DEFAULT_RENDERER_CLASS_NAME;
-        }
-        defaultRenderer = (AttributeRenderer) ClassUtil
-                .instantiate(defaultRendererParam);
-        initializeRenderer(defaultRenderer);
-        String typeRenderersParam = parameters.get(TYPE_RENDERERS_INIT_PARAM);
-        Map<String, String> completeParams = new HashMap<String, String>(
-                DEFAULT_TYPE_2_RENDERER);
-        if (typeRenderersParam != null) {
-            String[] pairs = typeRenderersParam.split("\\s*;\\s*");
-            for (int i = 0; i < pairs.length; i++) {
-                String[] pair = pairs[i].split("\\s*,\\s*");
-                if (pair == null || pair.length != 2) {
-                    throw new RendererException("The string '" + pairs[i]
-                            + "' is not a valid type-renderer pair");
-                }
-                completeParams.put(pair[0], pair[1]);
-            }
-        }
-
-        for (Map.Entry<String, String> entry : completeParams.entrySet()) {
-            AttributeRenderer renderer = (AttributeRenderer) ClassUtil
-                    .instantiate(entry.getValue());
-            initializeRenderer(renderer);
-            renderers.put(entry.getKey(), renderer);
-        }
     }
 
     /** {@inheritDoc} */

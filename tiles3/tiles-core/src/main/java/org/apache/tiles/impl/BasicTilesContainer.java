@@ -21,11 +21,6 @@
 package org.apache.tiles.impl;
 
 import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
@@ -61,24 +56,6 @@ import org.slf4j.LoggerFactory;
  */
 public class BasicTilesContainer implements TilesContainer,
         AttributeEvaluatorFactoryAware {
-
-    /**
-     * Constant representing the configuration parameter used to define the
-     * tiles definition resources.
-     *
-     * @deprecated Use
-     * {@link org.apache.tiles.definition.DefinitionsFactory#DEFINITIONS_CONFIG}.
-     */
-    @Deprecated
-	public static final String DEFINITIONS_CONFIG = "org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG";
-
-    /**
-     * Compatibility constant.
-     *
-     * @deprecated use {@link #DEFINITIONS_CONFIG} to avoid namespace collisions.
-     */
-    @Deprecated
-	private static final String LEGACY_DEFINITIONS_CONFIG = "definitions-config";
 
     /**
      * Name used to store attribute context stack.
@@ -128,39 +105,6 @@ public class BasicTilesContainer implements TilesContainer,
      */
     private boolean initialized = false;
 
-    /**
-     * Initialize the Container with the given configuration.
-     *
-     * @param initParameters application context for this container
-     * @throws IllegalStateException If the container has been already
-     * initialized.
-     * @throws DefinitionsFactoryException If something goes wrong during
-     * initialization.
-     */
-    public void init(Map<String, String> initParameters) {
-        checkInit();
-        initialized = true;
-
-        if (rendererFactory == null) {
-            throw new IllegalStateException("RendererFactory not specified");
-        }
-        if (preparerFactory == null) {
-            throw new IllegalStateException("PreparerFactory not specified");
-        }
-        if (definitionsFactory == null) {
-            throw new IllegalStateException("DefinitionsFactory not specified");
-        }
-        if (attributeEvaluatorFactory == null) {
-            throw new IllegalStateException("AttributeEvaluatorFactory not specified");
-        }
-        if (contextFactory == null) {
-            throw new IllegalStateException("TilesContextFactory not specified");
-        }
-        if (context == null) {
-            throw new IllegalStateException("TilesApplicationContext not specified");
-        }
-    }
-
     /** {@inheritDoc} */
     public AttributeContext startContext(Object... requestItems) {
         TilesRequestContext tilesContext = getRequestContext(requestItems);
@@ -207,18 +151,6 @@ public class BasicTilesContainer implements TilesContainer,
     }
 
     /**
-     * Returns the context factory.
-     *
-     * @return Always <code>null</code>.
-     * @deprecated Do not use it, it returns <code>null</code>. Use
-     * {@link #getRequestContextFactory()}.
-     */
-    @Deprecated
-    public org.apache.tiles.context.TilesContextFactory getContextFactory() {
-        return null;
-    }
-
-    /**
      * Returns the request context factory.
      *
      * @return The request context factory.
@@ -226,18 +158,6 @@ public class BasicTilesContainer implements TilesContainer,
      */
     protected TilesRequestContextFactory getRequestContextFactory() {
         return contextFactory;
-    }
-
-    /**
-     * Sets the context factory.
-     *
-     * @param contextFactory The context factory.
-     * @deprecated Use
-     * {@link #setRequestContextFactory(TilesRequestContextFactory)}.
-     */
-    @Deprecated
-	public void setContextFactory(org.apache.tiles.context.TilesContextFactory contextFactory) {
-        // Does nothing
     }
 
     /**
@@ -325,13 +245,6 @@ public class BasicTilesContainer implements TilesContainer,
     }
 
     /** {@inheritDoc} */
-    @Deprecated
-    public void render(Attribute attr, Writer writer, Object... requestItems)
-        throws IOException {
-        render(attr, requestItems);
-    }
-
-    /** {@inheritDoc} */
     public void render(Attribute attr, Object... requestItems)
         throws IOException {
         TilesRequestContext requestContext = getRequestContextFactory()
@@ -370,54 +283,6 @@ public class BasicTilesContainer implements TilesContainer,
     }
 
     /**
-     * Derive the resource string from the initialization parameters.
-     * If no parameter {@link #DEFINITIONS_CONFIG} is available, attempts
-     * to retrieve {@link #LEGACY_DEFINITIONS_CONFIG}.  If niether are
-     * available, returns "/WEB-INF/tiles.xml".
-     *
-     * @return resource string to be parsed.
-     */
-    protected String getResourceString() {
-        return getResourceString(context.getInitParams());
-    }
-
-    /**
-     * Derive the resource string from the initialization parameters.
-     * If no parameter {@link #DEFINITIONS_CONFIG} is available, attempts
-     * to retrieve {@link #LEGACY_DEFINITIONS_CONFIG}.  If niether are
-     * available, returns "/WEB-INF/tiles.xml".
-     *
-     * @param parms The initialization parameters.
-     * @return resource string to be parsed.
-     */
-    protected String getResourceString(Map<String, String> parms) {
-        String resourceStr = parms.get(DEFINITIONS_CONFIG);
-        if (resourceStr == null) {
-            resourceStr = parms.get(LEGACY_DEFINITIONS_CONFIG);
-        }
-        if (resourceStr == null) {
-            resourceStr = "/WEB-INF/tiles.xml";
-        }
-        return resourceStr;
-    }
-
-    /**
-     * Parse the resourceString into a list of resource paths
-     * which can be loaded by the application context.
-     *
-     * @param resourceString comma seperated resources
-     * @return parsed resources
-     */
-    protected List<String> getResourceNames(String resourceString) {
-        StringTokenizer tokenizer = new StringTokenizer(resourceString, ",");
-        List<String> filenames = new ArrayList<String>(tokenizer.countTokens());
-        while (tokenizer.hasMoreTokens()) {
-            filenames.add(tokenizer.nextToken().trim());
-        }
-        return filenames;
-    }
-
-    /**
      * Determine whether or not the container has been
      * initialized. Utility method used for methods which
      * can not be invoked after the container has been
@@ -428,32 +293,6 @@ public class BasicTilesContainer implements TilesContainer,
     protected void checkInit() {
         if (initialized) {
             throw new IllegalStateException("Container allready initialized");
-        }
-    }
-
-    /**
-     * Initializes a definitions factory.
-     *
-     * @param definitionsFactory The factory to initialize.
-     * @param resourceString The string containing a comma-separated-list of
-     * resources.
-     * @param initParameters A map containing the initialization parameters.
-     * @throws DefinitionsFactoryException If something goes wrong.
-     * @deprecated Do not use, the Definitions Factory should be initialized by
-     * the Tiles Container Factory.
-     */
-    @Deprecated
-    protected void initializeDefinitionsFactory(
-            DefinitionsFactory definitionsFactory, String resourceString,
-            Map<String, String> initParameters) {
-        if (rendererFactory == null) {
-            throw new IllegalStateException("No RendererFactory found");
-        }
-
-        definitionsFactory.init(initParameters);
-
-        if (log.isInfoEnabled()) {
-            log.info("Tiles2 container initialization complete.");
         }
     }
 

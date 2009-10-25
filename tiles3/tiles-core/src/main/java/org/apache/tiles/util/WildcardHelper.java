@@ -173,32 +173,6 @@ public class WildcardHelper {
      * Match a pattern agains a string and isolates wildcard replacement into a
      * <code>Stack</code>.
      *
-     * @param map The map to store matched values
-     * @param data The string to match
-     * @param expr The compiled wildcard expression
-     * @return True if a match
-     * @throws NullPointerException If any parameters are null
-     * @since 2.1.0
-     * @deprecated Use {@link #match(List, String, int[])}.
-     */
-    @Deprecated
-	public boolean match(Map<Integer, String> map, String data, int[] expr) {
-        if (map == null) {
-            throw new NullPointerException("No map provided");
-        }
-        List<String> varsValues = match(data, expr);
-        int i = 0;
-        for (String value : varsValues) {
-            map.put(i, value);
-            i++;
-        }
-        return varsValues != null;
-    }
-
-    /**
-     * Match a pattern agains a string and isolates wildcard replacement into a
-     * <code>Stack</code>.
-     *
      * @param data The string to match
      * @param expr The compiled wildcard expression
      * @return The list of matched variables, or <code>null</code> if it does not match.

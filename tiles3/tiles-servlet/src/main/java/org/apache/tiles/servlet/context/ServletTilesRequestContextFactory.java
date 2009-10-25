@@ -21,13 +21,12 @@
 
 package org.apache.tiles.servlet.context;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * Creates an instance of the appropriate {@link TilesRequestContext}
@@ -38,10 +37,6 @@ import java.util.Map;
  */
 public class ServletTilesRequestContextFactory implements
         TilesRequestContextFactory {
-
-    /** {@inheritDoc} */
-    public void init(Map<String, String> configParameters) {
-    }
 
     /** {@inheritDoc} */
     public TilesRequestContext createRequestContext(TilesApplicationContext context,

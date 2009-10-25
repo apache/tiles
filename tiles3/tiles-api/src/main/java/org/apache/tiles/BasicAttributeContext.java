@@ -24,10 +24,7 @@ package org.apache.tiles;
 import static org.apache.tiles.CompareUtil.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -304,27 +301,6 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         }
 
         return cascadedAttributes.get(name);
-    }
-
-    /** {@inheritDoc} */
-    public Iterator<String> getAttributeNames() {
-        Set<String> attributeSet = null;
-
-        if (attributes != null && !attributes.isEmpty()) {
-            attributeSet = new HashSet<String>(attributes
-                    .keySet());
-            if (cascadedAttributes != null && !cascadedAttributes.isEmpty()) {
-                attributeSet.addAll(cascadedAttributes.keySet());
-            }
-        } else if (cascadedAttributes != null && !cascadedAttributes.isEmpty()) {
-            attributeSet = new HashSet<String>(cascadedAttributes.keySet());
-        }
-
-        if (attributeSet != null) {
-            return attributeSet.iterator();
-        } else {
-            return new ArrayList<String>().iterator();
-        }
     }
 
     /** {@inheritDoc} */

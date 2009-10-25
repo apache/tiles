@@ -21,10 +21,8 @@
 
 package org.apache.tiles.definition;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.Definition;
-
-import java.util.Map;
+import org.apache.tiles.context.TilesRequestContext;
 
 /**
  * Interface for creating a {@link Definition}s and managing their contents.
@@ -68,21 +66,6 @@ public interface DefinitionsFactory {
     String DEFINITION_DAO_INIT_PARAM =
         "org.apache.tiles.definition.DefinitionsFactory.DefinitionDAO";
 
-
-    /**
-     * Initializes the DefinitionsFactory and its subcomponents. <p/>
-     * Implementations may support configuration properties to be passed in via
-     * the params Map.
-     *
-     * @param params The Map of configuration properties.
-     * @throws DefinitionsFactoryException If a Tiles exception, such as an initialization
-     * error, occurs.
-     * @deprecated Parameter based initialization is deprecated, please compose your
-     * definitions factory using methods.
-     */
-    @Deprecated
-	void init(Map<String, String> params);
-
     /**
      * Returns a Definition object that matches the given name and
      * Tiles context.
@@ -93,30 +76,4 @@ public interface DefinitionsFactory {
      *         is found.
      */
     Definition getDefinition(String name, TilesRequestContext tilesContext);
-
-    /**
-     * Adds a source where Definition objects are stored.
-     * <p/>
-     * Implementations should publish what type of source object they expect.
-     * The source should contain enough information to resolve a configuration
-     * source containing definitions.  The source should be a "base" source for
-     * configurations.  Internationalization and Localization properties will be
-     * applied by implementations to discriminate the correct data sources based
-     * on locale.
-     *
-     * @param source The configuration source for definitions.
-     * @deprecated Let the Definitions Factory load its sources by itself.
-     */
-    @Deprecated
-    void addSource(Object source);
-
-    /**
-     * Creates and returns a {@link Definitions} set by reading
-     * configuration data from the applied sources.
-     *
-     * @return The read definitions.
-     * @deprecated Let the Definitions Factory use it.
-     */
-    @Deprecated
-    Definitions readDefinitions();
 }

@@ -115,7 +115,7 @@ public class FreeMarkerTilesRequestContextTest {
         TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
-        assertEquals(env, context.getRequest());
+        assertEquals(env, context.getEnvironment());
         verify(enclosedRequest);
     }
 
@@ -127,7 +127,7 @@ public class FreeMarkerTilesRequestContextTest {
         TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
-        assertEquals(env, context.getResponse());
+        assertEquals(env, context.getEnvironment());
         verify(enclosedRequest);
     }
 
@@ -142,7 +142,7 @@ public class FreeMarkerTilesRequestContextTest {
 
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
-        assertEquals(env, context.getResponse());
+        assertEquals(env, context.getEnvironment());
         assertNotNull(context.getPrintWriter());
         verify(enclosedRequest);
     }
@@ -158,7 +158,7 @@ public class FreeMarkerTilesRequestContextTest {
 
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
-        assertEquals(env, context.getResponse());
+        assertEquals(env, context.getEnvironment());
         assertNotNull(context.getWriter());
         verify(enclosedRequest);
     }
