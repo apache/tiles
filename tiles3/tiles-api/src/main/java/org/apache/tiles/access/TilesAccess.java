@@ -20,11 +20,8 @@
  */
 package org.apache.tiles.access;
 
-import java.lang.reflect.Method;
-
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.reflect.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,26 +45,6 @@ public final class TilesAccess {
      */
     public static final String CONTAINER_ATTRIBUTE =
         "org.apache.tiles.CONTAINER";
-
-    /**
-     * The name of the attribute to get the {@link TilesApplicationContext} from
-     * a context.
-     */
-    private static final String CONTEXT_ATTRIBUTE =
-        "org.apache.tiles.APPLICATION_CONTEXT";
-
-    /**
-     * Finds and returns the default Tiles container object, if it was
-     * previously initialized.
-     *
-     * @param context The (application) context object to use.
-     * @return The container if it has been configured previously, otherwise
-     * <code>null</code>.
-     * @see #setContainer(Object, TilesContainer)
-     */
-    public static TilesContainer getContainer(Object context) {
-        return (TilesContainer) getAttribute(context, CONTAINER_ATTRIBUTE);
-    }
 
     /**
      * Configures the default container to be used in the application.
@@ -111,33 +88,5 @@ public final class TilesAccess {
             }
             context.getApplicationScope().put(key, container);
         }
-    }
-
-    /**
-     * Returns the Tiles application context object.
-     *
-     * @param context The (application) context to use.
-     * @return The required Tiles application context.
-     */
-    public static TilesApplicationContext getApplicationContext(Object context) {
-        TilesContainer container = getContainer(context);
-        if (container != null) {
-            return container.getApplicationContext();
-        }
-        return (TilesApplicationContext) getAttribute(context, CONTEXT_ATTRIBUTE);
-    }
-
-    /**
-     * Returns an attribute from a context.
-     *
-     * @param context The context object to use.
-     * @param attributeName The name of the attribute to search for.
-     * @return The object, that is the value of the specified attribute.
-     */
-    private static Object getAttribute(Object context, String attributeName) {
-        Class<?> contextClass = context.getClass();
-        Method attrMethod = ClassUtil.getForcedAccessibleMethod(
-                contextClass, "getAttribute", String.class);
-        return ClassUtil.invokeMethod(context, attrMethod, attributeName);
     }
 }

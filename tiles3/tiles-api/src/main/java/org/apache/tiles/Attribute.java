@@ -257,7 +257,7 @@ public class Attribute implements Serializable, Cloneable {
 
     /** {@inheritDoc} */
     @Override
-	public String toString() {
+    public String toString() {
         if (value != null) {
             return value.toString();
         }
@@ -282,18 +282,6 @@ public class Attribute implements Serializable, Cloneable {
      */
     public void setRenderer(String rendererName) {
         this.renderer = rendererName;
-    }
-
-    /**
-     * Sets the body of this attribute.
-     *
-     * @param body The attribute body.
-     */
-    // FIXME Is it necessary?
-    public void setBody(String body) {
-        if (body != null && body.length() != 0) {
-            setValue(body);
-        }
     }
 
     /**

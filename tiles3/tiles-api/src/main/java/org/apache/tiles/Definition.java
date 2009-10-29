@@ -147,7 +147,7 @@ public class Definition extends BasicAttributeContext {
      * @return A string representation of the content of this definition.
      */
     @Override
-	public String toString() {
+    public String toString() {
         return "{name="
             + name
             + ", template="
