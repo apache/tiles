@@ -75,7 +75,6 @@ public class CompatibilityDigesterDefinitionsReader extends
         digester.addObjectCreate(putTag, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addRule(putTag, new FillAttributeRule());
         digester.addRule(putTag, new PutAttributeRule());
-        digester.addCallMethod(putTag, "setBody", 0);
         // list rules
         digester.addObjectCreate(listTag, LIST_HANDLER_CLASS);
         digester.addSetProperties(listTag);
@@ -87,7 +86,6 @@ public class CompatibilityDigesterDefinitionsReader extends
         digester.addRule(addListElementTag, new FillAttributeRule());
         digester.addSetNext(addListElementTag, "add",
                 PUT_ATTRIBUTE_HANDLER_CLASS);
-        digester.addCallMethod(addListElementTag, "setBody", 0);
     }
 
     /**
@@ -118,7 +116,6 @@ public class CompatibilityDigesterDefinitionsReader extends
         digester.addObjectCreate(putTag, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addRule(putTag, new FillAttributeRule());
         digester.addRule(putTag, new PutAttributeRule());
-        digester.addCallMethod(putTag, "setBody", 0);
         // Definition level list rules
         // This is rules for lists nested in a definition
         digester.addObjectCreate(definitionListTag, LIST_HANDLER_CLASS);
@@ -131,7 +128,6 @@ public class CompatibilityDigesterDefinitionsReader extends
         digester.addRule(addListElementTag, new FillAttributeRule());
         digester.addSetNext(addListElementTag, "add",
                 PUT_ATTRIBUTE_HANDLER_CLASS);
-        digester.addCallMethod(addListElementTag, "setBody", 0);
 
         // nested list elements rules
         // Create a list handler, and add it to parent list

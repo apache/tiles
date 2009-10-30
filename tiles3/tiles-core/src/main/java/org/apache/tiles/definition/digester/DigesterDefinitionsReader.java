@@ -388,7 +388,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.addObjectCreate(PUT_TAG, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addRule(PUT_TAG, new FillAttributeRule());
         digester.addRule(PUT_TAG, new PutAttributeRule());
-        digester.addCallMethod(PUT_TAG, "setBody", 0);
         // Definition level list rules
         // This is rules for lists nested in a definition
         digester.addObjectCreate(DEF_LIST_TAG, LIST_HANDLER_CLASS);
@@ -400,7 +399,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.addObjectCreate(ADD_LIST_ELE_TAG, PUT_ATTRIBUTE_HANDLER_CLASS);
         digester.addRule(ADD_LIST_ELE_TAG, new FillAttributeRule());
         digester.addSetNext(ADD_LIST_ELE_TAG, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
-        digester.addCallMethod(ADD_LIST_ELE_TAG, "setBody", 0);
 
         // nested list elements rules
         // Create a list handler, and add it to parent list
