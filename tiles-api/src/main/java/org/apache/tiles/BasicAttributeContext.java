@@ -70,7 +70,6 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
      * @since 2.1.0
      */
     public BasicAttributeContext() {
-        super();
     }
 
     /**
@@ -255,8 +254,9 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         }
 
         if (attributes == null) {
-            attributes = new HashMap<String, Attribute>(defaultAttributes);
+            attributes = new HashMap<String, Attribute>();
             if (cascadedAttributes == null || cascadedAttributes.isEmpty()) {
+                attributes.putAll(defaultAttributes);
                 return;
             }
         }
@@ -265,7 +265,7 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         for (Map.Entry<String, Attribute> entry : entries) {
             String key = entry.getKey();
             if (!attributes.containsKey(key)
-                    && (cascadedAttributes == null || cascadedAttributes
+                    && (cascadedAttributes == null || !cascadedAttributes
                             .containsKey(key))) {
                 attributes.put(entry.getKey(), entry.getValue());
             }
