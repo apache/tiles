@@ -32,7 +32,6 @@ public class TilesException extends RuntimeException {
      * Constructor.
      */
     public TilesException() {
-        super();
     }
 
     /**

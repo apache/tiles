@@ -71,6 +71,18 @@ public class ListAttribute extends Attribute {
      */
     public ListAttribute(ListAttribute toCopy) {
         super(toCopy);
+        List<Attribute> attributesToCopy = toCopy.getValue();
+        if (attributesToCopy != null) {
+            List<Attribute> attributes = new ArrayList<Attribute>(attributesToCopy.size());
+            for (Attribute attribute : attributesToCopy) {
+                if (attribute != null) {
+                    attributes.add(attribute.clone());
+                } else {
+                    attributes.add(null);
+                }
+            }
+            setValue(attributes);
+        }
         this.inherit = toCopy.inherit;
     }
 
