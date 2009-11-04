@@ -86,6 +86,7 @@ public class ExpressionTest {
         expression = Expression.createExpressionFromDescribedExpression("there_:hello");
         assertEquals("there_:hello", expression.getExpression());
         assertNull(expression.getLanguage());
+        assertNull(Expression.createExpressionFromDescribedExpression(null));
     }
 
     /**

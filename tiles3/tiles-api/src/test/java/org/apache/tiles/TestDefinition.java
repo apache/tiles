@@ -21,43 +21,56 @@
 
 package org.apache.tiles;
 
+import static org.junit.Assert.*;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.Test;
 
 /**
  * Tests the Definition class.
  *
  * @version $Rev$ $Date$
  */
-public class TestDefinition extends TestCase {
+public class TestDefinition {
 
     /**
-     * Creates a new instance of TestDefinition.
-     *
-     * @param name The name of the test.
+     * Tests {@link Definition#Definition(Definition)}.
      */
-    public TestDefinition(String name) {
-        super(name);
+    @Test
+    public void testDefinitionCopy() {
+        Definition definition = new Definition();
+        definition.setName("myDefinition");
+        definition.setExtends("myExtends");
+        Attribute attribute1 = new Attribute("value1");
+        definition.putAttribute("name1", attribute1);
+        Attribute attribute2 = new Attribute("value2");
+        definition.putAttribute("name2", attribute2);
+        Definition toCheck = new Definition(definition);
+        assertEquals("myDefinition", toCheck.getName());
+        assertEquals("myExtends", toCheck.getExtends());
+        assertEquals(attribute1, toCheck.getAttribute("name1"));
+        assertEquals(attribute2, toCheck.getAttribute("name2"));
     }
 
     /**
-     * Start the tests.
-     *
-     * @param theArgs the arguments. Not used
+     * Tests {@link Definition#Definition(Definition)}.
      */
-    public static void main(String[] theArgs) {
-        junit.textui.TestRunner.main(
-            new String[] { TestDefinition.class.getName()});
-    }
-
-    /**
-     * @return a test suite (<code>TestSuite</code>) that includes all methods
-     *         starting with "test"
-     */
-    public static Test suite() {
-        return new TestSuite(TestDefinition.class);
+    @Test
+    public void testDefinitionComplete() {
+        Map<String, Attribute> attributeMap = new HashMap<String, Attribute>();
+        Attribute attribute1 = new Attribute("value1");
+        Attribute attribute2 = new Attribute("value2");
+        attributeMap.put("name1", attribute1);
+        attributeMap.put("name2", attribute2);
+        Attribute templateAttribute = Attribute.createTemplateAttribute("/my/template.jsp");
+        Definition definition = new Definition("myDefinition",
+                templateAttribute, attributeMap);
+        assertEquals("myDefinition", definition.getName());
+        assertEquals(templateAttribute, definition.getTemplateAttribute());
+        assertEquals(attribute1, definition.getAttribute("name1"));
+        assertEquals(attribute2, definition.getAttribute("name2"));
     }
 
     /**
@@ -65,6 +78,7 @@ public class TestDefinition extends TestCase {
      *
      * Attributes are added or replaced in the definition.
      */
+    @Test
     public void testPutAttribute() {
         Definition def = new Definition();
         def.setName("test1");
@@ -83,6 +97,7 @@ public class TestDefinition extends TestCase {
     /**
      * Tests the {@link Definition#inherit(BasicAttributeContext)} method.
      */
+    @Test
     public void testInherit() {
         Definition toCopy = new Definition();
         toCopy.putAttribute("name1", new Attribute("value1"), true);
@@ -161,6 +176,7 @@ public class TestDefinition extends TestCase {
     /**
      * Tests {@link Definition#toString()}.
      */
+    @Test
     public void testToString() {
         Definition definition = new Definition();
         definition.setName("myDefinitionName");
@@ -176,5 +192,61 @@ public class TestDefinition extends TestCase {
                 "{name=myDefinitionName, template=myTemplate, role=null, preparerInstance=null, "
                         + "attributes={myAttributeName=myAttributeValue}}",
                 definition.toString());
+    }
+
+    /**
+     * Tests {@link Definition#equals(Object)}.
+     */
+    @Test
+    public void testEquals() {
+        Definition definition = new Definition();
+        definition.setName("myDefinition");
+        definition.setExtends("myExtends");
+        Attribute attribute1 = new Attribute("value1");
+        definition.putAttribute("name1", attribute1);
+        Attribute attribute2 = new Attribute("value2");
+        definition.putAttribute("name2", attribute2);
+        Definition toCheck = new Definition(definition);
+        assertTrue(definition.equals(toCheck));
+        toCheck = new Definition(definition);
+        toCheck.setName("anotherDefinition");
+        assertFalse(definition.equals(toCheck));
+        toCheck = new Definition(definition);
+        toCheck.setExtends("anotherExtends");
+        assertFalse(definition.equals(toCheck));
+        toCheck = new Definition(definition);
+        toCheck.putAttribute("name1", new Attribute("anotherAttribute"));
+        assertFalse(definition.equals(toCheck));
+    }
+
+    /**
+     * Tests {@link Definition#hashCode()}.
+     */
+    @Test
+    public void testHashCode() {
+        Definition definition = new Definition();
+        definition.setName("myDefinition");
+        definition.setExtends("myExtends");
+        Attribute attribute1 = new Attribute("value1");
+        definition.putAttribute("name1", attribute1);
+        Attribute attribute2 = new Attribute("value2");
+        definition.putAttribute("name2", attribute2);
+        BasicAttributeContext attributeContext = new BasicAttributeContext();
+        attributeContext.putAttribute("name1", attribute1);
+        attributeContext.putAttribute("name2", attribute2);
+        assertEquals("myDefinition".hashCode() + "myExtends".hashCode()
+                + attributeContext.hashCode(), definition.hashCode());
+    }
+
+    /**
+     * Tests {@link Definition#isExtending()}.
+     */
+    @Test
+    public void testIsExtending() {
+        Definition definition = new Definition();
+        definition.setName("myDefinition");
+        assertFalse(definition.isExtending());
+        definition.setExtends("myExtends");
+        assertTrue(definition.isExtending());
     }
 }

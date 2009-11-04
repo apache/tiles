@@ -193,39 +193,40 @@ public class BasicAttributeContextTest {
      * Tests {@link BasicAttributeContext#inherit(BasicAttributeContext)}
      * testing inheritance between {@link ListAttribute} instances.
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testInheritListAttribute() {
         AttributeContext toCopy = new BasicAttributeContext();
         ListAttribute parentListAttribute = new ListAttribute();
-        parentListAttribute.add("first");
+        Attribute first = new Attribute("first");
+        Attribute second = new Attribute("second");
+        parentListAttribute.add(first);
         toCopy.putAttribute("list", parentListAttribute);
         AttributeContext context = new BasicAttributeContext();
         ListAttribute listAttribute = new ListAttribute();
         listAttribute.setInherit(true);
-        listAttribute.add("second");
+        listAttribute.add(second);
         context.putAttribute("list", listAttribute);
         context.inherit(toCopy);
         ListAttribute result = (ListAttribute) context.getAttribute("list");
         assertNotNull("The attribute must exist", result);
-        List<Object> value = (List<Object>) result.getValue();
+        List<Attribute> value = result.getValue();
         assertNotNull("The list must exist", value);
         assertEquals("The size is not correct", 2, value.size());
-        assertEquals("The first element is not correct", "first", value.get(0));
-        assertEquals("The second element is not correct", "second", value
+        assertEquals("The first element is not correct", first, value.get(0));
+        assertEquals("The second element is not correct", second, value
                 .get(1));
 
         context = new BasicAttributeContext();
         listAttribute = new ListAttribute();
-        listAttribute.add("second");
+        listAttribute.add(second);
         context.putAttribute("list", listAttribute);
         context.inherit(toCopy);
         result = (ListAttribute) context.getAttribute("list");
         assertNotNull("The attribute must exist", result);
-        value = (List<Object>) result.getValue();
+        value = result.getValue();
         assertNotNull("The list must exist", value);
         assertEquals("The size is not correct", 1, value.size());
-        assertEquals("The second element is not correct", "second", value
+        assertEquals("The second element is not correct", second, value
                 .get(0));
     }
 
@@ -351,7 +352,6 @@ public class BasicAttributeContextTest {
      * Tests {@link BasicAttributeContext#inherit(AttributeContext)}
      * testing inheritance between {@link ListAttribute} instances.
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testInheritAttributeContextListAttribute() {
         AttributeContext toCopy = createMock(AttributeContext.class);
@@ -359,9 +359,13 @@ public class BasicAttributeContextTest {
         expect(toCopy.getTemplateAttribute()).andReturn(templateAttribute).times(2);
         expect(toCopy.getPreparer()).andReturn("my.preparer").times(2);
         ListAttribute parentListAttribute = new ListAttribute();
-        parentListAttribute.add("first");
+        Attribute first = new Attribute("first");
+        Attribute second = new Attribute("second");
+        Attribute third = new Attribute("third");
+        Attribute fourth = new Attribute("fourth");
+        parentListAttribute.add(first);
         ListAttribute parentListAttribute2 = new ListAttribute();
-        parentListAttribute2.add("third");
+        parentListAttribute2.add(third);
         Set<String> names = new HashSet<String>();
         names.add("list");
         Set<String> cascadedNames = new HashSet<String>();
@@ -375,41 +379,41 @@ public class BasicAttributeContextTest {
         AttributeContext context = new BasicAttributeContext();
         ListAttribute listAttribute = new ListAttribute();
         listAttribute.setInherit(true);
-        listAttribute.add("second");
+        listAttribute.add(second);
         context.putAttribute("list", listAttribute, false);
         ListAttribute listAttribute2 = new ListAttribute();
         listAttribute2.setInherit(true);
-        listAttribute2.add("fourth");
+        listAttribute2.add(fourth);
         context.putAttribute("list2", listAttribute2, true);
         context.inherit(toCopy);
         ListAttribute result = (ListAttribute) context.getAttribute("list");
         assertNotNull("The attribute must exist", result);
-        List<Object> value = (List<Object>) result.getValue();
+        List<Attribute> value = result.getValue();
         assertNotNull("The list must exist", value);
         assertEquals("The size is not correct", 2, value.size());
-        assertEquals("The first element is not correct", "first", value.get(0));
-        assertEquals("The second element is not correct", "second", value
+        assertEquals("The first element is not correct", first, value.get(0));
+        assertEquals("The second element is not correct", second, value
                 .get(1));
         result = (ListAttribute) context.getAttribute("list2");
         assertNotNull("The attribute must exist", result);
-        value = (List<Object>) result.getValue();
+        value = result.getValue();
         assertNotNull("The list must exist", value);
         assertEquals("The size is not correct", 2, value.size());
-        assertEquals("The first element is not correct", "third", value.get(0));
-        assertEquals("The second element is not correct", "fourth", value
+        assertEquals("The first element is not correct", third, value.get(0));
+        assertEquals("The second element is not correct", fourth, value
                 .get(1));
 
         context = new BasicAttributeContext();
         listAttribute = new ListAttribute();
-        listAttribute.add("second");
+        listAttribute.add(second);
         context.putAttribute("list", listAttribute);
         context.inherit(toCopy);
         result = (ListAttribute) context.getAttribute("list");
         assertNotNull("The attribute must exist", result);
-        value = (List<Object>) result.getValue();
+        value = result.getValue();
         assertNotNull("The list must exist", value);
         assertEquals("The size is not correct", 1, value.size());
-        assertEquals("The second element is not correct", "second", value
+        assertEquals("The second element is not correct", second, value
                 .get(0));
         verify(toCopy);
     }
@@ -768,8 +772,9 @@ public class BasicAttributeContextTest {
         AttributeContext toCopy = new BasicAttributeContext();
         toCopy.putAttribute("name1", new Attribute("value1"), false);
         toCopy.putAttribute("name2", new Attribute("value2"), true);
-        List<Object> listOfObjects = new ArrayList<Object>();
-        listOfObjects.add(1);
+        List<Attribute> listOfObjects = new ArrayList<Attribute>();
+        Attribute attribute1 = new Attribute(1);
+        listOfObjects.add(attribute1);
         ListAttribute listAttribute = new ListAttribute(listOfObjects);
         listAttribute.setInherit(true);
         toCopy.putAttribute("name3", listAttribute);

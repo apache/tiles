@@ -47,7 +47,6 @@ public class Definition extends BasicAttributeContext {
      * Constructor.
      */
     public Definition() {
-        super();
     }
 
     /**

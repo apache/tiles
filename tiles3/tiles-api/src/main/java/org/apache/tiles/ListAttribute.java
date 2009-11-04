@@ -59,8 +59,8 @@ public class ListAttribute extends Attribute {
      * @param value List.
      * @since 2.1.0
      */
-    public ListAttribute(List<? extends Object> value) {
-        super(value);
+    public ListAttribute(List<Attribute> value) {
+        setValue(value);
     }
 
     /**
@@ -75,44 +75,36 @@ public class ListAttribute extends Attribute {
     }
 
     /**
+     * Sets the list of the attributes that are elements of this attribute.
+     *
+     * @param attributes The attributes.
+     * @since 3.0.0
+     */
+    public void setValue(List<Attribute> attributes) {
+        super.setValue(attributes);
+    }
+
+    /**
+     * Returns the list of the attributes that are elements of this attribute.
+     *
+     * @return The attributes.
+     * @since 3.0.0
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Attribute> getValue() {
+        return (List<Attribute>) super.getValue();
+    }
+
+    /**
      * Add an element in list.
      * We use a property to avoid rewriting a new class.
      *
      * @param element XmlAttribute to add.
      * @since 2.1.0
      */
-    @SuppressWarnings("unchecked")
     public void add(Attribute element) {
-        ((List<Object>) value).add(element);
-    }
-
-    /**
-     * Add an element in list.
-     *
-     * @param value Object to add.
-     * @since 2.1.0
-     */
-    @SuppressWarnings("unchecked")
-    public void add(Object value) {
-        //list.add( value );
-        // To correct a bug in digester, we need to check the object type
-        // Digester doesn't call correct method according to object type ;-(
-        if (value instanceof Attribute) {
-            add((Attribute) value);
-        } else {
-            ((List<Object>) this.value).add(value);
-        }
-    }
-
-    /**
-     * Add an element in list.
-     *
-     * @param value Object to add.
-     * @since 2.1.0
-     */
-    @SuppressWarnings("unchecked")
-    public void addObject(Object value) {
-        ((List<Object>) this.value).add(value);
+        getValue().add(element);
     }
 
     /**
@@ -148,9 +140,9 @@ public class ListAttribute extends Attribute {
      */
     @SuppressWarnings("unchecked")
     public void inherit(ListAttribute parent) {
-        List<Object> tempList = new ArrayList<Object>();
-        tempList.addAll((List<Object>) parent.value);
-        tempList.addAll((List<Object>) value);
+        List<Attribute> tempList = new ArrayList<Attribute>();
+        tempList.addAll((List<Attribute>) parent.value);
+        tempList.addAll((List<Attribute>) value);
         setValue(tempList);
     }
 
