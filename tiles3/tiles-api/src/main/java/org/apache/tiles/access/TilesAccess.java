@@ -51,8 +51,6 @@ public final class TilesAccess {
      *
      * @param context The Tiles application context object to use.
      * @param container The container object to set.
-     * @throws TilesAccessException If something goes wrong during manipulation of the
-     * context.
      * @since 2.1.2
      */
     public static void setContainer(TilesApplicationContext context,
@@ -66,8 +64,6 @@ public final class TilesAccess {
      * @param context The Tiles application context object to use.
      * @param container The container object to set.
      * @param key The key under which the container will be stored.
-     * @throws TilesAccessException If something goes wrong during manipulation of the
-     * context.
      * @since 2.1.2
      */
     public static void setContainer(TilesApplicationContext context,

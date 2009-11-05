@@ -305,7 +305,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      *
      * @throws IOException If something goes wrong.
      */
-    @SuppressWarnings("unchecked")
     public void testRegressionTiles352() throws IOException {
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs_regression_TILES-352.xml");
@@ -318,7 +317,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
         Attribute attribute = root.getAttribute("body");
         Definition child = name2defs.get((String) attribute.getValue());
         ListAttribute listAttribute = (ListAttribute) child.getAttribute("list");
-        List<Object> list = (List<Object>) listAttribute.getValue();
+        List<Attribute> list = listAttribute.getValue();
         assertEquals(((Attribute) list.get(0)).getValue(), "This is a value");
     }
 }

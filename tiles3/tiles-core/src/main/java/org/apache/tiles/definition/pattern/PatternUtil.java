@@ -177,22 +177,16 @@ public final class PatternUtil {
      * @return A new instance of an attribute, whose properties have been
      * replaced with variables' values.
      */
-    @SuppressWarnings("unchecked")
     private static Attribute replaceVarsInListAttribute(ListAttribute listAttr,
             Object... vars) {
         Attribute nuattr;
         ListAttribute nuListAttr = new ListAttribute();
         nuListAttr.setInherit(listAttr.isInherit());
-        List<Object> nuItems = (List<Object>) nuListAttr.getValue();
-        for (Object item : (List<Object>) listAttr.getValue()) {
-            if (item instanceof Attribute) {
-                Attribute child = (Attribute) item;
-                child = replaceVarsInAttribute(child, vars);
-                nuItems.add(child);
-            } else {
-                // Seems improbable, but APIs permit it.
-                nuItems.add(item);
-            }
+        List<Attribute> nuItems = nuListAttr.getValue();
+        for (Object item : listAttr.getValue()) {
+            Attribute child = (Attribute) item;
+            child = replaceVarsInAttribute(child, vars);
+            nuItems.add(child);
         }
         nuattr = nuListAttr;
         return nuattr;
