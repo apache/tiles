@@ -89,4 +89,32 @@ public final class TilesAccess {
             context.getApplicationScope().put(key, container);
         }
     }
+
+    /**
+     * Returns default the container to be used in the application.
+     *
+     * @param context The Tiles application context object to use.
+     * @return The default container object.
+     * @since 3.0.0
+     */
+    public static TilesContainer getContainer(TilesApplicationContext context) {
+        return getContainer(context, CONTAINER_ATTRIBUTE);
+    }
+
+    /**
+     * Returns the container to be used in the application registered under a specific key.
+     *
+     * @param context The Tiles application context object to use.
+     * @param key The key under which the container will be stored.
+     * @return The container object.
+     * @since 3.0.0
+     */
+    public static TilesContainer getContainer(TilesApplicationContext context,
+            String key) {
+        if (key == null) {
+            key = CONTAINER_ATTRIBUTE;
+        }
+
+        return (TilesContainer) context.getApplicationScope().get(key);
+    }
 }
