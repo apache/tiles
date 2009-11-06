@@ -136,7 +136,6 @@ public class TestDigesterDefinitionsReader extends TestCase {
      * version of the DTD.
      * @throws IOException If something goes wrong.
      */
-    @SuppressWarnings("unchecked")
     public void testRead21Version() throws IOException {
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs-2.1.xml");

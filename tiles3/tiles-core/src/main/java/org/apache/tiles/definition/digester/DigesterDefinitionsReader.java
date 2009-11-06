@@ -240,6 +240,23 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         }
     }
 
+	/**
+	 * Digester rule to manage assignment of an object as an attribute value.
+	 *
+	 * @since 3.0.0
+	 */
+    public static class SetValueToAttributeRule extends Rule {
+
+        /** {@inheritDoc} */
+        @Override
+        public void begin(String namespace, String name, Attributes attributes)
+                throws Exception {
+            Object obj = digester.pop();
+            Attribute attribute = new Attribute(obj);
+            digester.push(attribute);
+        }
+    }
+
     /**
      * <code>Digester</code> object used to read Definition data
      * from the source.
@@ -413,14 +430,16 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         // non String ADD_WILDCARD = LIST_TAG + "/addx*";
         String menuItemDefaultClass = "org.apache.tiles.beans.SimpleMenuItem";
         digester.addObjectCreate(ADD_WILDCARD, menuItemDefaultClass, "classtype");
-        digester.addSetNext(ADD_WILDCARD, "add", "java.lang.Object");
         digester.addSetProperties(ADD_WILDCARD);
+        digester.addRule(ADD_WILDCARD, new SetValueToAttributeRule());
+        digester.addSetNext(ADD_WILDCARD, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
 
         // bean elements rules
         String beanDefaultClass = "org.apache.tiles.beans.SimpleMenuItem";
         digester.addObjectCreate(BEAN_TAG, beanDefaultClass, "classtype");
         digester.addSetProperties(BEAN_TAG);
-        digester.addSetNext(BEAN_TAG, "add", "java.lang.Object");
+        digester.addRule(BEAN_TAG, new SetValueToAttributeRule());
+        digester.addSetNext(BEAN_TAG, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
 
         // Set properties to surrounding element
         digester.addSetProperty(BEAN_TAG + "/set-property", "property", "value");
