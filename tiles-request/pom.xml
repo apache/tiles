@@ -17,4 +17,7 @@
   	<developerConnection>scm:svn:https://svn.eu.apache.org/viewvc/tiles/request/trunk/</developerConnection>
   	<url>http://svn.eu.apache.org/viewvc/tiles/request/trunk/</url>
   </scm>
+  <modules>
+  	<module>tiles-request-api</module>
+  </modules>
 </project>
