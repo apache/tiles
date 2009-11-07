@@ -19,5 +19,6 @@
   </scm>
   <modules>
   	<module>tiles-request-api</module>
+  	<module>tiles-request-servlet</module>
   </modules>
 </project>
