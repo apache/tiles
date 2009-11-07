@@ -29,8 +29,8 @@ import java.util.Map;
 import javax.el.ELContext;
 import javax.el.ELResolver;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Resolves beans in request, session and application scope.
@@ -57,13 +57,13 @@ public class TilesContextBeanELResolver extends ELResolver {
             Object base) {
         List<FeatureDescriptor> list = new ArrayList<FeatureDescriptor>();
 
-        TilesRequestContext request = (TilesRequestContext) context
-                .getContext(TilesRequestContext.class);
+        Request request = (Request) context
+                .getContext(Request.class);
         collectBeanInfo(request.getRequestScope(), list);
         collectBeanInfo(request.getSessionScope(), list);
 
-        TilesApplicationContext applicationContext = (TilesApplicationContext) context
-                .getContext(TilesApplicationContext.class);
+        ApplicationContext applicationContext = (ApplicationContext) context
+                .getContext(ApplicationContext.class);
         collectBeanInfo(applicationContext.getApplicationScope(), list);
         return list.iterator();
     }
@@ -154,8 +154,8 @@ public class TilesContextBeanELResolver extends ELResolver {
     protected Object findObjectByProperty(ELContext context, Object property) {
         Object retValue = null;
 
-        TilesRequestContext request = (TilesRequestContext) context
-                .getContext(TilesRequestContext.class);
+        Request request = (Request) context
+                .getContext(Request.class);
 
         String prop = property.toString();
 
@@ -163,8 +163,8 @@ public class TilesContextBeanELResolver extends ELResolver {
         if (retValue == null) {
             retValue = getObject(request.getSessionScope(), prop);
             if (retValue == null) {
-                TilesApplicationContext applicationContext = (TilesApplicationContext) context
-                        .getContext(TilesApplicationContext.class);
+                ApplicationContext applicationContext = (ApplicationContext) context
+                        .getContext(ApplicationContext.class);
                 retValue = getObject(applicationContext.getApplicationScope(),
                         prop);
             }

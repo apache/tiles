@@ -24,12 +24,12 @@ package org.apache.tiles.servlet.context;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
- * Creates an instance of the appropriate {@link TilesRequestContext}
+ * Creates an instance of the appropriate {@link Request}
  * implementation in a servlet environment.
  *
  * @version $Rev$ $Date$
@@ -39,7 +39,7 @@ public class ServletTilesRequestContextFactory implements
         TilesRequestContextFactory {
 
     /** {@inheritDoc} */
-    public TilesRequestContext createRequestContext(TilesApplicationContext context,
+    public Request createRequestContext(ApplicationContext context,
                                                     Object... requestItems) {
         if (requestItems.length == 2
                 && requestItems[0] instanceof HttpServletRequest

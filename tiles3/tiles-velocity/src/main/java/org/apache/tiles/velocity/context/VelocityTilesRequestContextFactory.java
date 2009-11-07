@@ -25,10 +25,10 @@ import java.io.Writer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.velocity.context.Context;
 
@@ -60,7 +60,7 @@ public class VelocityTilesRequestContextFactory implements TilesRequestContextFa
     private TilesRequestContextFactory parent;
 
     /** {@inheritDoc} */
-    public TilesRequestContext createRequestContext(TilesApplicationContext context, Object... requestItems) {
+    public Request createRequestContext(ApplicationContext context, Object... requestItems) {
         if ((requestItems.length == SIZE_WITHOUT_WRITER || requestItems.length == SIZE_WITH_WRITER)
                 && requestItems[0] instanceof Context
                 && requestItems[1] instanceof HttpServletRequest
@@ -75,7 +75,7 @@ public class VelocityTilesRequestContextFactory implements TilesRequestContextFa
             if (requestItems.length == SIZE_WITH_WRITER) {
                 writer = (Writer) requestItems[WRITER_POSITION];
             }
-            TilesRequestContext enclosedRequest;
+            Request enclosedRequest;
             if (parent != null) {
                 enclosedRequest = parent.createRequestContext(context, request, response);
             } else {

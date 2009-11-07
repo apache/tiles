@@ -27,12 +27,12 @@ import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.mvel.MVELAttributeEvaluator;
 import org.apache.tiles.mvel.TilesContextBeanVariableResolverFactory;
 import org.apache.tiles.mvel.TilesContextVariableResolverFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 import org.mvel2.integration.VariableResolverFactory;
 
@@ -51,7 +51,7 @@ public class MVELAttributeEvaluatorTest extends TestCase {
     /**
      * The request object to use.
      */
-    private TilesRequestContext request;
+    private Request request;
 
     /** {@inheritDoc} */
     @Override
@@ -72,13 +72,13 @@ public class MVELAttributeEvaluatorTest extends TestCase {
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
         requestScope.put("paulaBean", new PaulaBean());
-        request = EasyMock.createMock(TilesRequestContext.class);
+        request = EasyMock.createMock(Request.class);
         EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
                 .anyTimes();
         EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
                 .anyTimes();
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         EasyMock.expect(request.getApplicationContext()).andReturn(
                 applicationContext).anyTimes();
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
@@ -88,7 +88,7 @@ public class MVELAttributeEvaluatorTest extends TestCase {
 
     /**
      * Tests
-     * {@link MVELAttributeEvaluator#evaluate(Attribute, TilesRequestContext)}.
+     * {@link MVELAttributeEvaluator#evaluate(Attribute, Request)}.
      */
     public void testEvaluate() {
         Attribute attribute = new Attribute();
@@ -125,7 +125,7 @@ public class MVELAttributeEvaluatorTest extends TestCase {
     }
 
     /**
-     * Tests {@link MVELAttributeEvaluator#evaluate(String, TilesRequestContext)}.
+     * Tests {@link MVELAttributeEvaluator#evaluate(String, Request)}.
      */
     public void testEvaluateString() {
         String expression = "requestScope.object1";

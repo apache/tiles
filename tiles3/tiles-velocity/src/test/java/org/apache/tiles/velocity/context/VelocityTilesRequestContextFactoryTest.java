@@ -29,9 +29,9 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.velocity.context.Context;
 import org.junit.Test;
 
@@ -55,17 +55,17 @@ public class VelocityTilesRequestContextFactoryTest {
     private VelocityTilesRequestContextFactory factory;
 
     /**
-     * Tests {@link VelocityTilesRequestContextFactory#createRequestContext(TilesApplicationContext, Object...)}.
+     * Tests {@link VelocityTilesRequestContextFactory#createRequestContext(ApplicationContext, Object...)}.
      */
     @Test
     public void testCreateRequestContext() {
         StringWriter writer = new StringWriter();
         TilesRequestContextFactory parentFactory = createMock(TilesRequestContextFactory.class);
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Context velocityContext = createMock(Context.class);
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
         expect(enclosedRequest.getRequestObjects()).andReturn(new Object[] {request, response});
         expect(parentFactory.createRequestContext(applicationContext, request, response)).andReturn(enclosedRequest);
         replay(parentFactory, enclosedRequest, applicationContext, velocityContext, request, response);

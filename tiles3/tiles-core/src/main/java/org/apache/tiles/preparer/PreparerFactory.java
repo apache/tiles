@@ -20,7 +20,7 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * <p>
@@ -48,5 +48,5 @@ public interface PreparerFactory {
      * @param context the context within which the preparerInstance will be invoked.
      * @return instance of the ViewPreparer
      */
-    ViewPreparer getPreparer(String name, TilesRequestContext context);
+    ViewPreparer getPreparer(String name, Request context);
 }

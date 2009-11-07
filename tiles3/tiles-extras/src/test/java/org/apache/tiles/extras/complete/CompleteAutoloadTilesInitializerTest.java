@@ -26,7 +26,7 @@ import static org.easymock.EasyMock.*;
 
 import javax.servlet.ServletContext;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,11 +52,11 @@ public class CompleteAutoloadTilesInitializerTest {
     }
 
     /**
-     * Test method for {@link CompleteAutoloadTilesInitializer#createTilesApplicationContext(TilesApplicationContext)}.
+     * Test method for {@link CompleteAutoloadTilesInitializer#createTilesApplicationContext(ApplicationContext)}.
      */
     @Test
     public void testCreateTilesApplicationContext() {
-        TilesApplicationContext preliminaryContext = createMock(TilesApplicationContext.class);
+        ApplicationContext preliminaryContext = createMock(ApplicationContext.class);
         ServletContext servletContext = createMock(ServletContext.class);
 
         expect(preliminaryContext.getContext()).andReturn(servletContext);
@@ -68,11 +68,11 @@ public class CompleteAutoloadTilesInitializerTest {
     }
 
     /**
-     * Test method for {@link CompleteAutoloadTilesInitializer#createContainerFactory(TilesApplicationContext)}.
+     * Test method for {@link CompleteAutoloadTilesInitializer#createContainerFactory(ApplicationContext)}.
      */
     @Test
     public void testCreateContainerFactory() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
 
         replay(context);
         assertTrue(initializer.createContainerFactory(context) instanceof CompleteAutoloadTilesContainerFactory);

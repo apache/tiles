@@ -22,15 +22,15 @@ package org.apache.tiles.mock;
 
 import java.util.Map;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * "Repeats" (i.e. returns back) the context as a
- * {@link TilesApplicationContext}, or the request as a
- * {@link TilesRequestContext}.
+ * {@link ApplicationContext}, or the request as a
+ * {@link Request}.
  *
  * @version $Rev$ $Date$
  */
@@ -49,14 +49,14 @@ public class RepeaterTilesRequestContextFactory implements TilesRequestContextFa
     }
 
     /** {@inheritDoc} */
-    public TilesRequestContext createRequestContext(
-            TilesApplicationContext context, Object... requestItems) {
+    public Request createRequestContext(
+            ApplicationContext context, Object... requestItems) {
         if (parent == null) {
             throw new RuntimeException("The parent is null");
         }
-        TilesRequestContext retValue = null;
+        Request retValue = null;
         if (requestItems.length > 0) {
-            retValue = (TilesRequestContext) requestItems[0];
+            retValue = (Request) requestItems[0];
         }
         return retValue;
     }

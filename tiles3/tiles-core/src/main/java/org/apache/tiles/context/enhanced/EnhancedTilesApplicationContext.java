@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public class EnhancedTilesApplicationContext implements TilesApplicationContext {
+public class EnhancedTilesApplicationContext implements ApplicationContext {
 
     /**
      * The logging object.
@@ -60,14 +60,14 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
     /**
      * The root context to be wrapped.
      */
-    private TilesApplicationContext rootContext;
+    private ApplicationContext rootContext;
 
     /**
      * Constructor.
      *
      * @param rootContext The root context to use.
      */
-    public EnhancedTilesApplicationContext(TilesApplicationContext rootContext) {
+    public EnhancedTilesApplicationContext(ApplicationContext rootContext) {
         this.rootContext = rootContext;
     }
 
@@ -81,7 +81,7 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
      *
      * @return The root context.
      */
-    public TilesApplicationContext getRootContext() {
+    public ApplicationContext getRootContext() {
         return rootContext;
     }
 
@@ -90,7 +90,7 @@ public class EnhancedTilesApplicationContext implements TilesApplicationContext 
      *
      * @param rootContext The root context.
      */
-    public void setRootContext(TilesApplicationContext rootContext) {
+    public void setRootContext(ApplicationContext rootContext) {
         this.rootContext = rootContext;
     }
 

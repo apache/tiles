@@ -23,8 +23,8 @@ package org.apache.tiles.mvel;
 
 import java.util.HashMap;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextHolder;
+import org.apache.tiles.request.Request;
 import org.mvel2.UnresolveablePropertyException;
 import org.mvel2.integration.VariableResolver;
 import org.mvel2.integration.impl.BaseVariableResolverFactory;
@@ -97,7 +97,7 @@ public class TilesContextBeanVariableResolverFactory extends
 
     /** {@inheritDoc} */
     public boolean isTarget(String name) {
-        TilesRequestContext request = requestHolder.getTilesRequestContext();
+        Request request = requestHolder.getTilesRequestContext();
         return request.getRequestScope().containsKey(name)
                 || request.getSessionScope().containsKey(name)
                 || request.getApplicationContext().getApplicationScope()
@@ -149,7 +149,7 @@ public class TilesContextBeanVariableResolverFactory extends
 
         /** {@inheritDoc} */
         public Object getValue() {
-            TilesRequestContext request = requestHolder.getTilesRequestContext();
+            Request request = requestHolder.getTilesRequestContext();
             Object value = request.getRequestScope().get(name);
             if (value == null) {
                 value = request.getSessionScope().get(name);

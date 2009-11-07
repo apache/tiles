@@ -24,10 +24,10 @@ package org.apache.tiles.ognl;
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.ognl.NestedObjectExtractor;
 import org.apache.tiles.ognl.TilesApplicationContextNestedObjectExtractor;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
@@ -38,16 +38,16 @@ import org.junit.Test;
 public class TilesApplicationContextNestedObjectExtractorTest {
 
     /**
-     * Tests {@link TilesApplicationContextNestedObjectExtractor#getNestedObject(TilesRequestContext)}.
+     * Tests {@link TilesApplicationContextNestedObjectExtractor#getNestedObject(Request)}.
      */
     @Test
     public void testGetNestedObject() {
-        TilesRequestContext request = createMock(TilesRequestContext.class);
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        Request request = createMock(Request.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         expect(request.getApplicationContext()).andReturn(applicationContext);
 
         replay(request, applicationContext);
-        NestedObjectExtractor<TilesRequestContext> extractor = new TilesApplicationContextNestedObjectExtractor();
+        NestedObjectExtractor<Request> extractor = new TilesApplicationContextNestedObjectExtractor();
         assertEquals(applicationContext, extractor.getNestedObject(request));
         verify(request, applicationContext);
     }

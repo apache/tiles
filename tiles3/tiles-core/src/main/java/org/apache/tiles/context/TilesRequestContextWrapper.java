@@ -27,7 +27,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Delegate for ease of customization.
@@ -35,12 +36,12 @@ import org.apache.tiles.TilesApplicationContext;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public class TilesRequestContextWrapper implements TilesRequestContext {
+public class TilesRequestContextWrapper implements Request {
 
     /**
      * The wrapper request context object.
      */
-    private TilesRequestContext context;
+    private Request context;
 
 
     /**
@@ -48,7 +49,7 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
      *
      * @param context The request context to wrap.
      */
-    public TilesRequestContextWrapper(TilesRequestContext context) {
+    public TilesRequestContextWrapper(Request context) {
         this.context = context;
     }
 
@@ -58,7 +59,7 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
      * @return The wrapped Tiles request.
      * @since 2.1.1
      */
-    public TilesRequestContext getWrappedRequest() {
+    public Request getWrappedRequest() {
         return context;
     }
 
@@ -83,7 +84,7 @@ public class TilesRequestContextWrapper implements TilesRequestContext {
     }
 
     /** {@inheritDoc} */
-    public TilesApplicationContext getApplicationContext() {
+    public ApplicationContext getApplicationContext() {
         return context.getApplicationContext();
     }
 

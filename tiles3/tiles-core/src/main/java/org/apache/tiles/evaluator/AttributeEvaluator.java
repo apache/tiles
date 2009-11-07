@@ -21,7 +21,7 @@
 package org.apache.tiles.evaluator;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * It represents an object that resolves a string to return an object.
@@ -39,7 +39,7 @@ public interface AttributeEvaluator {
      * @return The evaluated object.
      * @since 2.1.0
      */
-    Object evaluate(String expression, TilesRequestContext request);
+    Object evaluate(String expression, Request request);
 
     /**
      * Evaluates an attribute value.
@@ -49,5 +49,5 @@ public interface AttributeEvaluator {
      * @return The evaluated object.
      * @since 2.1.0
      */
-    Object evaluate(Attribute attribute, TilesRequestContext request);
+    Object evaluate(Attribute attribute, Request request);
 }

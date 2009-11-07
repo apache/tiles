@@ -24,9 +24,9 @@ package org.apache.tiles.ognl;
 import ognl.Ognl;
 import ognl.OgnlException;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
 import org.apache.tiles.evaluator.EvaluationException;
+import org.apache.tiles.request.Request;
 
 /**
  * Evaluates attribute expressions and expressions with OGNL language.
@@ -37,7 +37,7 @@ import org.apache.tiles.evaluator.EvaluationException;
 public class OGNLAttributeEvaluator extends AbstractAttributeEvaluator {
 
     /** {@inheritDoc} */
-    public Object evaluate(String expression, TilesRequestContext request) {
+    public Object evaluate(String expression, Request request) {
         if (expression == null) {
             throw new IllegalArgumentException("The expression parameter cannot be null");
         }

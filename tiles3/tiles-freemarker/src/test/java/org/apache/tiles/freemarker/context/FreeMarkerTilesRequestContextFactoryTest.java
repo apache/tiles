@@ -30,9 +30,9 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 import freemarker.core.Environment;
@@ -55,7 +55,7 @@ public class FreeMarkerTilesRequestContextFactoryTest {
     private FreeMarkerTilesRequestContextFactory factory;
 
     /**
-     * Tests {@link FreeMarkerTilesRequestContextFactory#createRequestContext(TilesApplicationContext, Object...)}.
+     * Tests {@link FreeMarkerTilesRequestContextFactory#createRequestContext(ApplicationContext, Object...)}.
      *
      * @throws TemplateModelException If something goes wrong.
      */
@@ -66,13 +66,13 @@ public class FreeMarkerTilesRequestContextFactoryTest {
         StringWriter writer = new StringWriter();
         expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
         TilesRequestContextFactory parentFactory = createMock(TilesRequestContextFactory.class);
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         ObjectWrapper wrapper = createMock(ObjectWrapper.class);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, response, wrapper);
         expect(model.get("Request")).andReturn(requestModel);
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
         expect(parentFactory.createRequestContext(applicationContext, request, response)).andReturn(enclosedRequest);
         replay(template, model, parentFactory, applicationContext, request, response, wrapper);
         Environment env = new Environment(template, model, writer);

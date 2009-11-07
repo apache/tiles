@@ -27,11 +27,11 @@ import java.io.IOException;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,7 +57,7 @@ public class TemplateAttributeRendererTest {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}.
+     * {@link StringAttributeRenderer#write(Object, Attribute, Request)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
@@ -65,9 +65,9 @@ public class TemplateAttributeRendererTest {
     public void testWrite() throws IOException {
         Attribute attribute = new Attribute("/myTemplate.jsp",
                 (Expression) null, null, "template");
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
+        Request requestContext = createMock(Request.class);
         requestContext.dispatch("/myTemplate.jsp");
         replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
@@ -78,7 +78,7 @@ public class TemplateAttributeRendererTest {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#isRenderable(Object, Attribute, TilesRequestContext)}.
+     * {@link StringAttributeRenderer#isRenderable(Object, Attribute, Request)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
@@ -86,9 +86,9 @@ public class TemplateAttributeRendererTest {
     public void testIsRenderable() throws IOException {
         Attribute attribute = new Attribute("/myTemplate.jsp",
                 (Expression) null, null, "template");
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
+        Request requestContext = createMock(Request.class);
         replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);

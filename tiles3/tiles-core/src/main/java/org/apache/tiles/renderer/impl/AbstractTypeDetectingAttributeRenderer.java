@@ -22,14 +22,14 @@
 package org.apache.tiles.renderer.impl;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
+import org.apache.tiles.request.Request;
 
 /**
  * Abstract implementation of {@link TypeDetectingAttributeRenderer} that
- * implements {@link #isRenderable(Attribute, TilesRequestContext)} to delegate
- * to {@link #isRenderable(Object, Attribute, TilesRequestContext)}.
+ * implements {@link #isRenderable(Attribute, Request)} to delegate
+ * to {@link #isRenderable(Object, Attribute, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.1
@@ -38,7 +38,7 @@ public abstract class AbstractTypeDetectingAttributeRenderer extends
         AbstractBaseAttributeRenderer implements TypeDetectingAttributeRenderer {
 
     /** {@inheritDoc} */
-    public boolean isRenderable(Attribute attribute, TilesRequestContext request) {
+    public boolean isRenderable(Attribute attribute, Request request) {
         AttributeEvaluator evaluator = attributeEvaluatorFactory
                 .getAttributeEvaluator(attribute);
         Object value = evaluator.evaluate(attribute, request);

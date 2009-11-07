@@ -22,7 +22,7 @@
 package org.apache.tiles.renderer;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * It represents a renderer that identifies attributes that can render.
@@ -41,7 +41,7 @@ public interface TypeDetectingAttributeRenderer extends AttributeRenderer {
      * @return <code>true</code> if this renderer can render the attribute.
      * @since 2.2.1
      */
-    boolean isRenderable(Attribute attribute, TilesRequestContext request);
+    boolean isRenderable(Attribute attribute, Request request);
 
     /**
      * Checks if this renderer can render an attribute. Note that this does not mean
@@ -54,5 +54,5 @@ public interface TypeDetectingAttributeRenderer extends AttributeRenderer {
      * @since 2.2.1
      */
     boolean isRenderable(Object value, Attribute attribute,
-            TilesRequestContext request);
+            Request request);
 }

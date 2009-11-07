@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.AttributeContext;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
@@ -60,7 +60,7 @@ public class UrlPreparerTest extends TestCase {
     /**
      * Test method for
      * {@link org.apache.tiles.compat.preparer.UrlPreparer#execute(
-     * org.apache.tiles.context.TilesRequestContext, org.apache.tiles.AttributeContext)}.
+     * org.apache.tiles.request.Request, org.apache.tiles.AttributeContext)}.
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
@@ -73,9 +73,9 @@ public class UrlPreparerTest extends TestCase {
         ServletContext servletContext = EasyMock
                 .createMock(ServletContext.class);
         RequestDispatcher rd = EasyMock.createMock(RequestDispatcher.class);
-        TilesApplicationContext applicationContext = new ServletTilesApplicationContext(
+        ApplicationContext applicationContext = new ServletTilesApplicationContext(
                 servletContext);
-        TilesRequestContext requestContext = new ServletTilesRequestContext(
+        Request requestContext = new ServletTilesRequestContext(
                 applicationContext, request, response);
         AttributeContext attributeContext = EasyMock
                 .createMock(AttributeContext.class);

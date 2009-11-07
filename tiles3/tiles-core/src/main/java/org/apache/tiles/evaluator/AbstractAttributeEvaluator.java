@@ -22,7 +22,7 @@ package org.apache.tiles.evaluator;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Abstract class to link a correct evaluation of an attribute, by evaluating
@@ -34,7 +34,7 @@ import org.apache.tiles.context.TilesRequestContext;
 public abstract class AbstractAttributeEvaluator implements AttributeEvaluator {
 
     /** {@inheritDoc} */
-    public Object evaluate(Attribute attribute, TilesRequestContext request) {
+    public Object evaluate(Attribute attribute, Request request) {
         if (attribute == null) {
             throw new IllegalArgumentException("The attribute cannot be null");
         }

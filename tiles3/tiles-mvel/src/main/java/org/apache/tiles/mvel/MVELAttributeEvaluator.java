@@ -21,9 +21,9 @@
 
 package org.apache.tiles.mvel;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
+import org.apache.tiles.request.Request;
 import org.mvel2.MVEL;
 import org.mvel2.integration.VariableResolverFactory;
 
@@ -62,7 +62,7 @@ public class MVELAttributeEvaluator extends AbstractAttributeEvaluator {
     }
 
     /** {@inheritDoc} */
-    public Object evaluate(String expression, TilesRequestContext request) {
+    public Object evaluate(String expression, Request request) {
         if (expression == null) {
             throw new IllegalArgumentException("The expression parameter cannot be null");
         }

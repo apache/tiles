@@ -24,11 +24,11 @@ package org.apache.tiles.freemarker.context;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,8 +62,8 @@ public class FreeMarkerTilesRequestContextFactory implements
     }
 
     /** {@inheritDoc} */
-    public TilesRequestContext createRequestContext(
-            TilesApplicationContext context, Object... requestItems) {
+    public Request createRequestContext(
+            ApplicationContext context, Object... requestItems) {
         if (requestItems.length == 1 && requestItems[0] instanceof Environment) {
             Environment env = (Environment) requestItems[0];
             HttpRequestHashModel requestModel;
@@ -75,7 +75,7 @@ public class FreeMarkerTilesRequestContextFactory implements
             }
             HttpServletRequest request = requestModel.getRequest();
             HttpServletResponse response = requestModel.getResponse();
-            TilesRequestContext enclosedRequest;
+            Request enclosedRequest;
             if (parent != null) {
                 enclosedRequest = parent.createRequestContext(context, request,
                         response);

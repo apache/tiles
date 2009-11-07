@@ -27,9 +27,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
@@ -42,6 +40,8 @@ import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +73,7 @@ public class BasicTilesContainer implements TilesContainer,
     /**
      * The Tiles application context object.
      */
-    private TilesApplicationContext context;
+    private ApplicationContext context;
 
     /**
      * The definitions factory.
@@ -107,19 +107,19 @@ public class BasicTilesContainer implements TilesContainer,
 
     /** {@inheritDoc} */
     public AttributeContext startContext(Object... requestItems) {
-        TilesRequestContext tilesContext = getRequestContext(requestItems);
+        Request tilesContext = getRequestContext(requestItems);
         return startContext(tilesContext);
     }
 
     /** {@inheritDoc} */
     public void endContext(Object... requestItems) {
-        TilesRequestContext tilesContext = getRequestContext(requestItems);
+        Request tilesContext = getRequestContext(requestItems);
         endContext(tilesContext);
     }
 
     /** {@inheritDoc} */
     public void renderContext(Object... requestItems) {
-        TilesRequestContext request = getRequestContext(requestItems);
+        Request request = getRequestContext(requestItems);
         AttributeContext attributeContext = getAttributeContext(request);
 
         render(request, attributeContext);
@@ -130,7 +130,7 @@ public class BasicTilesContainer implements TilesContainer,
      *
      * @return the application context for this container.
      */
-    public TilesApplicationContext getApplicationContext() {
+    public ApplicationContext getApplicationContext() {
         return context;
     }
 
@@ -139,13 +139,13 @@ public class BasicTilesContainer implements TilesContainer,
      *
      * @param context The Tiles application context.
      */
-    public void setApplicationContext(TilesApplicationContext context) {
+    public void setApplicationContext(ApplicationContext context) {
         this.context = context;
     }
 
     /** {@inheritDoc} */
     public AttributeContext getAttributeContext(Object... requestItems) {
-        TilesRequestContext tilesContext = getRequestContext(requestItems);
+        Request tilesContext = getRequestContext(requestItems);
         return getAttributeContext(tilesContext);
 
     }
@@ -228,7 +228,7 @@ public class BasicTilesContainer implements TilesContainer,
 
     /** {@inheritDoc} */
     public void prepare(String preparer, Object... requestItems) {
-        TilesRequestContext requestContext = getRequestContextFactory().createRequestContext(
+        Request requestContext = getRequestContextFactory().createRequestContext(
             getApplicationContext(),
             requestItems
         );
@@ -237,7 +237,7 @@ public class BasicTilesContainer implements TilesContainer,
 
     /** {@inheritDoc} */
     public void render(String definitionName, Object... requestItems) {
-        TilesRequestContext requestContext = getRequestContextFactory().createRequestContext(
+        Request requestContext = getRequestContextFactory().createRequestContext(
             getApplicationContext(),
             requestItems
         );
@@ -247,14 +247,14 @@ public class BasicTilesContainer implements TilesContainer,
     /** {@inheritDoc} */
     public void render(Attribute attr, Object... requestItems)
         throws IOException {
-        TilesRequestContext requestContext = getRequestContextFactory()
+        Request requestContext = getRequestContextFactory()
                 .createRequestContext(getApplicationContext(), requestItems);
         render(attr, requestContext);
     }
 
     /** {@inheritDoc} */
     public Object evaluate(Attribute attribute, Object... requestItems) {
-        TilesRequestContext request = getRequestContextFactory()
+        Request request = getRequestContextFactory()
                 .createRequestContext(context, requestItems);
         AttributeEvaluator evaluator = attributeEvaluatorFactory
                 .getAttributeEvaluator(attribute);
@@ -276,7 +276,7 @@ public class BasicTilesContainer implements TilesContainer,
      * exception.
      */
     protected Definition getDefinition(String definitionName,
-            TilesRequestContext request) {
+            Request request) {
         Definition definition =
             definitionsFactory.getDefinition(definitionName, request);
         return definition;
@@ -304,7 +304,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @since 2.0.6
      */
     @SuppressWarnings("unchecked")
-    protected ArrayStack<AttributeContext> getContextStack(TilesRequestContext tilesContext) {
+    protected ArrayStack<AttributeContext> getContextStack(Request tilesContext) {
         ArrayStack<AttributeContext> contextStack =
             (ArrayStack<AttributeContext>) tilesContext
                 .getRequestScope().get(ATTRIBUTE_CONTEXT_STACK);
@@ -325,7 +325,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @since 2.0.6
      */
     protected void pushContext(AttributeContext context,
-            TilesRequestContext tilesContext) {
+            Request tilesContext) {
         ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
         contextStack.push(context);
     }
@@ -337,7 +337,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @return The popped context object.
      * @since 2.0.6
      */
-    protected AttributeContext popContext(TilesRequestContext tilesContext) {
+    protected AttributeContext popContext(Request tilesContext) {
         ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
         return contextStack.pop();
     }
@@ -349,7 +349,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @return BasicAttributeContext or null if context is not found.
      * @since 2.0.6
      */
-    protected AttributeContext getContext(TilesRequestContext tilesContext) {
+    protected AttributeContext getContext(Request tilesContext) {
         ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
         if (!contextStack.isEmpty()) {
             return contextStack.peek();
@@ -364,7 +364,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @param tilesContext The request context to use.
      * @return The current attribute context.
      */
-    private AttributeContext getAttributeContext(TilesRequestContext tilesContext) {
+    private AttributeContext getAttributeContext(Request tilesContext) {
         AttributeContext context = getContext(tilesContext);
         if (context == null) {
             context = new BasicAttributeContext();
@@ -379,7 +379,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @param requestItems The request items.
      * @return The created Tiles request context.
      */
-    private TilesRequestContext getRequestContext(Object... requestItems) {
+    private Request getRequestContext(Object... requestItems) {
         return getRequestContextFactory().createRequestContext(
                 getApplicationContext(), requestItems);
     }
@@ -390,7 +390,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @param tilesContext The request context to use.
      * @return The newly created attribute context.
      */
-    private AttributeContext startContext(TilesRequestContext tilesContext) {
+    private AttributeContext startContext(Request tilesContext) {
         AttributeContext context = new BasicAttributeContext();
         ArrayStack<AttributeContext>  stack = getContextStack(tilesContext);
         if (!stack.isEmpty()) {
@@ -406,7 +406,7 @@ public class BasicTilesContainer implements TilesContainer,
      *
      * @param tilesContext The request context to use.
      */
-    private void endContext(TilesRequestContext tilesContext) {
+    private void endContext(Request tilesContext) {
         popContext(tilesContext);
     }
 
@@ -421,7 +421,7 @@ public class BasicTilesContainer implements TilesContainer,
      * <code>ignoreMissing</code> is not set) or if the preparer itself threw an
      * exception.
      */
-    private void prepare(TilesRequestContext context, String preparerName, boolean ignoreMissing) {
+    private void prepare(Request context, String preparerName, boolean ignoreMissing) {
 
         if (log.isDebugEnabled()) {
             log.debug("Prepare request received for '" + preparerName);
@@ -451,7 +451,7 @@ public class BasicTilesContainer implements TilesContainer,
      * obtaining the definition.
      * @since 2.1.3
      */
-    protected void render(TilesRequestContext request, String definitionName) {
+    protected void render(Request request, String definitionName) {
 
         if (log.isDebugEnabled()) {
             log.debug("Render request recieved for definition '" + definitionName + "'");
@@ -475,7 +475,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @param definition The definition to render.
      * @since 2.1.3
      */
-    protected void render(TilesRequestContext request, Definition definition) {
+    protected void render(Request request, Definition definition) {
         AttributeContext originalContext = getAttributeContext(request);
         BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
         subContext.inherit(definition);
@@ -496,7 +496,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @param requestContext The Tiles request context.
      * @throws IOException If something goes wrong during rendering.
      */
-    private void render(Attribute attr, TilesRequestContext requestContext)
+    private void render(Attribute attr, Request requestContext)
             throws IOException {
         if (attr == null) {
             throw new CannotRenderException("Cannot render a null attribute");
@@ -521,7 +521,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @throws CannotRenderException If something goes wrong during rendering.
      * @since 2.1.3
      */
-    protected void render(TilesRequestContext request,
+    protected void render(Request request,
             AttributeContext attributeContext) {
 
         try {
@@ -543,7 +543,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @return <code>true</code> if <code>definitionName</code> is a valid
      * definition name.
      */
-    private boolean isValidDefinition(TilesRequestContext context, String definitionName) {
+    private boolean isValidDefinition(Request context, String definitionName) {
         try {
             Definition definition = getDefinition(definitionName, context);
             return definition != null;

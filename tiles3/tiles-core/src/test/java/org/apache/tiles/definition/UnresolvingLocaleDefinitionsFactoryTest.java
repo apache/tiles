@@ -27,10 +27,10 @@ import static org.junit.Assert.*;
 import java.util.Locale;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
@@ -41,16 +41,16 @@ import org.junit.Test;
 public class UnresolvingLocaleDefinitionsFactoryTest {
 
     /**
-     * Test method for {@link UnresolvingLocaleDefinitionsFactory#getDefinition(String, TilesRequestContext)}.
+     * Test method for {@link UnresolvingLocaleDefinitionsFactory#getDefinition(String, Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
     public void testGetDefinition() {
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         DefinitionDAO<Locale> dao = createMock(DefinitionDAO.class);
         LocaleResolver localeResolver = createMock(LocaleResolver.class);
         UnresolvingLocaleDefinitionsFactory factory = new UnresolvingLocaleDefinitionsFactory();
-        TilesRequestContext request = createMock(TilesRequestContext.class);
+        Request request = createMock(Request.class);
         Definition definition = createMock(Definition.class);
         Locale locale = Locale.ITALY;
 

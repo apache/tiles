@@ -30,8 +30,6 @@ import ognl.PropertyAccessor;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.ognl.ApplicationScopeNestedObjectExtractor;
 import org.apache.tiles.ognl.DelegatePropertyAccessor;
 import org.apache.tiles.ognl.NestedObjectDelegatePropertyAccessor;
@@ -41,6 +39,8 @@ import org.apache.tiles.ognl.RequestScopeNestedObjectExtractor;
 import org.apache.tiles.ognl.SessionScopeNestedObjectExtractor;
 import org.apache.tiles.ognl.TilesApplicationContextNestedObjectExtractor;
 import org.apache.tiles.ognl.TilesContextPropertyAccessorDelegateFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 
 /**
@@ -58,7 +58,7 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
     /**
      * The request object to use.
      */
-    private TilesRequestContext request;
+    private Request request;
 
     /** {@inheritDoc} */
     @Override
@@ -67,22 +67,22 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
         PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
         PropertyAccessor mapPropertyAccessor = OgnlRuntime.getPropertyAccessor(Map.class);
         PropertyAccessor applicationContextPropertyAccessor =
-            new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+            new NestedObjectDelegatePropertyAccessor<Request>(
                 new TilesApplicationContextNestedObjectExtractor(),
                 objectPropertyAccessor);
-        PropertyAccessor requestScopePropertyAccessor = new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+        PropertyAccessor requestScopePropertyAccessor = new NestedObjectDelegatePropertyAccessor<Request>(
                 new RequestScopeNestedObjectExtractor(), mapPropertyAccessor);
-        PropertyAccessor sessionScopePropertyAccessor = new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+        PropertyAccessor sessionScopePropertyAccessor = new NestedObjectDelegatePropertyAccessor<Request>(
                 new SessionScopeNestedObjectExtractor(), mapPropertyAccessor);
         PropertyAccessor applicationScopePropertyAccessor =
-            new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+            new NestedObjectDelegatePropertyAccessor<Request>(
                 new ApplicationScopeNestedObjectExtractor(), mapPropertyAccessor);
-        PropertyAccessorDelegateFactory<TilesRequestContext> factory = new TilesContextPropertyAccessorDelegateFactory(
+        PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
                 requestScopePropertyAccessor, sessionScopePropertyAccessor,
                 applicationScopePropertyAccessor);
-        PropertyAccessor tilesRequestAccessor = new DelegatePropertyAccessor<TilesRequestContext>(factory);
-        OgnlRuntime.setPropertyAccessor(TilesRequestContext.class, tilesRequestAccessor);
+        PropertyAccessor tilesRequestAccessor = new DelegatePropertyAccessor<Request>(factory);
+        OgnlRuntime.setPropertyAccessor(Request.class, tilesRequestAccessor);
         evaluator = new OGNLAttributeEvaluator();
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
@@ -91,13 +91,13 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
         requestScope.put("paulaBean", new PaulaBean());
-        request = EasyMock.createMock(TilesRequestContext.class);
+        request = EasyMock.createMock(Request.class);
         EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
                 .anyTimes();
         EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
                 .anyTimes();
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         EasyMock.expect(request.getApplicationContext()).andReturn(
                 applicationContext).anyTimes();
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
@@ -107,7 +107,7 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
 
     /**
      * Tests
-     * {@link OGNLAttributeEvaluator#evaluate(Attribute, TilesRequestContext)}.
+     * {@link OGNLAttributeEvaluator#evaluate(Attribute, Request)}.
      */
     public void testEvaluate() {
         Attribute attribute = new Attribute();
@@ -144,7 +144,7 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
     }
 
     /**
-     * Tests {@link OGNLAttributeEvaluator#evaluate(String, TilesRequestContext)}.
+     * Tests {@link OGNLAttributeEvaluator#evaluate(String, Request)}.
      */
     public void testEvaluateString() {
         String expression = "requestScope.object1";

@@ -25,7 +25,7 @@ import java.io.IOException;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesContainerAware;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Renders an attribute that contains a reference to a definition.
@@ -51,14 +51,14 @@ public class DefinitionAttributeRenderer extends
     /** {@inheritDoc} */
     @Override
     public void write(Object value, Attribute attribute,
-            TilesRequestContext request)
+            Request request)
             throws IOException {
         container.render(value.toString(), request.getRequestObjects());
     }
 
     /** {@inheritDoc} */
     public boolean isRenderable(Object value, Attribute attribute,
-            TilesRequestContext request) {
+            Request request) {
         if (value instanceof String) {
             return container.isValidDefinition((String) value, request
                     .getRequestObjects());

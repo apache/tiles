@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Tests {@link TilesAccess}.
@@ -38,11 +38,11 @@ import org.apache.tiles.TilesContainer;
 public class TilesAccessTest {
 
     /**
-     * Tests {@link TilesAccess#setContainer(TilesApplicationContext, TilesContainer)}.
+     * Tests {@link TilesAccess#setContainer(ApplicationContext, TilesContainer)}.
      */
     @Test
     public void testSetContainer() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> attribs = new HashMap<String, Object>();
         expect(context.getApplicationScope()).andReturn(attribs);
@@ -54,11 +54,11 @@ public class TilesAccessTest {
     }
 
     /**
-     * Tests {@link TilesAccess#setContainer(TilesApplicationContext, TilesContainer, String)}.
+     * Tests {@link TilesAccess#setContainer(ApplicationContext, TilesContainer, String)}.
      */
     @Test
     public void testSetContainerWithKey() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> attribs = new HashMap<String, Object>();
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
@@ -77,11 +77,11 @@ public class TilesAccessTest {
     }
 
     /**
-     * Tests {@link TilesAccess#getContainer(TilesApplicationContext)}.
+     * Tests {@link TilesAccess#getContainer(ApplicationContext)}.
      */
     @Test
     public void testGetContainer() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> attribs = new HashMap<String, Object>();
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
@@ -97,7 +97,7 @@ public class TilesAccessTest {
      */
     @Test
     public void testGetContainerWithKey() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> attribs = new HashMap<String, Object>();
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();

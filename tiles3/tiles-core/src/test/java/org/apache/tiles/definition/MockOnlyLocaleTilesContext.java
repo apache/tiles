@@ -28,15 +28,15 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Creates a TilesApplicationContext that contains only a Locale.
  *
  * @version $Rev$ $Date$
  */
-public class MockOnlyLocaleTilesContext implements TilesRequestContext {
+public class MockOnlyLocaleTilesContext implements Request {
 
     /**
      * The locale object.
@@ -55,7 +55,7 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
      * Returns the locale specified in the constructor.
      *
      * @return The locale of the request.
-     * @see org.apache.tiles.context.TilesRequestContext#getRequestLocale()
+     * @see org.apache.tiles.request.Request#getRequestLocale()
      */
     public Locale getRequestLocale() {
         return locale;
@@ -125,7 +125,7 @@ public class MockOnlyLocaleTilesContext implements TilesRequestContext {
     }
 
     /** {@inheritDoc} */
-    public TilesApplicationContext getApplicationContext() {
+    public ApplicationContext getApplicationContext() {
         return null;
     }
 

@@ -21,8 +21,10 @@
 
 package org.apache.tiles.context;
 
+import org.apache.tiles.request.Request;
+
 /**
- * Holds in a {@link ThreadLocal} object a {@link TilesRequestContext}.
+ * Holds in a {@link ThreadLocal} object a {@link Request}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -32,7 +34,7 @@ public class TilesRequestContextHolder {
     /**
      * The Tiles request context holder.
      */
-    private ThreadLocal<TilesRequestContext> requestHolder = new ThreadLocal<TilesRequestContext>();
+    private ThreadLocal<Request> requestHolder = new ThreadLocal<Request>();
 
     /**
      * Sets the Tiles request context to use.
@@ -40,7 +42,7 @@ public class TilesRequestContextHolder {
      * @param request The Tiles request.
      * @since 2.2.0
      */
-    public void setTilesRequestContext(TilesRequestContext request) {
+    public void setTilesRequestContext(Request request) {
         requestHolder.set(request);
     }
 
@@ -50,7 +52,7 @@ public class TilesRequestContextHolder {
      * @return The Tiles request.
      * @since 2.2.0
      */
-    public TilesRequestContext getTilesRequestContext() {
+    public Request getTilesRequestContext() {
         return requestHolder.get();
     }
 }

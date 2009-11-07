@@ -29,14 +29,14 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,8 +66,8 @@ public class BasicTilesContainerTest extends TestCase {
     /** {@inheritDoc} */
     @Override
     public void setUp() {
-        TilesApplicationContext context = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext context = EasyMock
+                .createMock(ApplicationContext.class);
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
 
         try {
@@ -100,7 +100,7 @@ public class BasicTilesContainerTest extends TestCase {
      */
     public void testObjectAttribute() throws IOException {
         Attribute attribute = new Attribute();
-        TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
+        Request request = EasyMock.createMock(Request.class);
         EasyMock.replay(request);
         boolean exceptionFound = false;
 
@@ -122,7 +122,7 @@ public class BasicTilesContainerTest extends TestCase {
      * @throws IOException If a problem arises during rendering or writing in the writer.
      */
     public void testAttributeCredentials() throws IOException {
-        TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
+        Request request = EasyMock.createMock(Request.class);
         EasyMock.expect(request.isUserInRole("myrole")).andReturn(Boolean.TRUE);
         StringWriter writer = new StringWriter();
         EasyMock.expect(request.getWriter()).andReturn(writer);
@@ -134,7 +134,7 @@ public class BasicTilesContainerTest extends TestCase {
         assertEquals("The attribute should have been rendered",
                 "This is the value", writer.toString());
         EasyMock.reset(request);
-        request = EasyMock.createMock(TilesRequestContext.class);
+        request = EasyMock.createMock(Request.class);
         EasyMock.expect(request.isUserInRole("myrole")).andReturn(Boolean.FALSE);
         EasyMock.replay(request);
         writer = new StringWriter();
@@ -148,7 +148,7 @@ public class BasicTilesContainerTest extends TestCase {
      * Tests {@link BasicTilesContainer#evaluate(Attribute, Object...)}.
      */
     public void testEvaluate() {
-        TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
+        Request request = EasyMock.createMock(Request.class);
         EasyMock.replay(request);
         Attribute attribute = new Attribute((Object) "This is the value");
         Object value = container.evaluate(attribute, request);

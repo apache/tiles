@@ -44,9 +44,7 @@ import junit.framework.TestCase;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.MockDefinitionsReader;
@@ -55,6 +53,8 @@ import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.definition.pattern.BasicPatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Tests {@link ResolvingLocaleUrlDefinitionDAO}.
@@ -109,7 +109,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         replay(applicationContext);
         definitionDao.setApplicationContext(applicationContext);
 
@@ -202,7 +202,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
 
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         replay(applicationContext);
         definitionDao.setApplicationContext(applicationContext);
 
@@ -347,10 +347,10 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     }
 
     /**
-     * Tests {@link LocaleUrlDefinitionDAO#setApplicationContext(TilesApplicationContext)}.
+     * Tests {@link LocaleUrlDefinitionDAO#setApplicationContext(ApplicationContext)}.
      */
     public void testSetApplicationContext() {
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         definitionDao.setApplicationContext(applicationContext);
         assertEquals("The application context has not been set",
                 applicationContext, definitionDao.applicationContext);
@@ -368,7 +368,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs2.xml");
         URL url3 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs3.xml");
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Set<URL> urlSet = new HashSet<URL>();
         urlSet.add(url1);
         expect(applicationContext.getResources("/WEB-INF/tiles.xml"))
@@ -388,7 +388,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 definitionDao.sourceURLs);
         reset(applicationContext);
 
-        applicationContext = createMock(TilesApplicationContext.class);
+        applicationContext = createMock(ApplicationContext.class);
         replay(applicationContext);
         params.clear();
         params.put(DefinitionsFactory.READER_IMPL_PROPERTY,
@@ -438,7 +438,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
             urlPath = "file:/" + url.getPath();
         }
 
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         replay(applicationContext);
         ((TilesApplicationContextAware) definitionDao)
                 .setApplicationContext(applicationContext);
@@ -481,7 +481,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG, urlPath);
-        TilesRequestContext context = createMock(TilesRequestContext.class);
+        Request context = createMock(Request.class);
         expect(context.getSessionScope()).andReturn(
                 new HashMap<String, Object>()).anyTimes();
         expect(context.getRequestLocale()).andReturn(null).anyTimes();
@@ -532,7 +532,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs-wildcard.xml");
         definitionDao.addSourceURL(url);
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         replay(applicationContext);
         ((TilesApplicationContextAware) definitionDao)
                 .setApplicationContext(applicationContext);
@@ -586,7 +586,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs-2.1.xml");
         definitionDao.addSourceURL(url);
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         definitionDao.setReader(new DigesterDefinitionsReader());
         replay(applicationContext);
 

@@ -20,8 +20,8 @@
  */
 package org.apache.tiles.access;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +53,7 @@ public final class TilesAccess {
      * @param container The container object to set.
      * @since 2.1.2
      */
-    public static void setContainer(TilesApplicationContext context,
+    public static void setContainer(ApplicationContext context,
             TilesContainer container) {
         setContainer(context, container, CONTAINER_ATTRIBUTE);
     }
@@ -66,7 +66,7 @@ public final class TilesAccess {
      * @param key The key under which the container will be stored.
      * @since 2.1.2
      */
-    public static void setContainer(TilesApplicationContext context,
+    public static void setContainer(ApplicationContext context,
             TilesContainer container, String key) {
         Logger log = LoggerFactory.getLogger(TilesAccess.class);
         if (key == null) {
@@ -93,7 +93,7 @@ public final class TilesAccess {
      * @return The default container object.
      * @since 3.0.0
      */
-    public static TilesContainer getContainer(TilesApplicationContext context) {
+    public static TilesContainer getContainer(ApplicationContext context) {
         return getContainer(context, CONTAINER_ATTRIBUTE);
     }
 
@@ -105,7 +105,7 @@ public final class TilesAccess {
      * @return The container object.
      * @since 3.0.0
      */
-    public static TilesContainer getContainer(TilesApplicationContext context,
+    public static TilesContainer getContainer(ApplicationContext context,
             String key) {
         if (key == null) {
             key = CONTAINER_ATTRIBUTE;

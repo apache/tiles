@@ -25,8 +25,8 @@ import javax.el.ExpressionFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspFactory;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Uses the JSP 2.1 {@link ExpressionFactory} to be used in Tiles.
@@ -45,7 +45,7 @@ public class JspExpressionFactoryFactory implements ExpressionFactoryFactory,
     protected ServletContext servletContext;
 
     /** {@inheritDoc} */
-    public void setApplicationContext(TilesApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         Object context = applicationContext.getContext();
         if (context instanceof ServletContext) {
             this.servletContext = (ServletContext) context;

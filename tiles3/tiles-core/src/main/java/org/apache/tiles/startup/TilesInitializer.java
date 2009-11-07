@@ -20,7 +20,7 @@
  */
 package org.apache.tiles.startup;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Tiles initialization delegate. It initializes Tiles container(s) and the
@@ -38,7 +38,7 @@ public interface TilesInitializer {
      * under your current environment, like ServletTilesApplicationContext or
      * PortletTilesApplicationContext.
      */
-    void initialize(TilesApplicationContext preliminaryContext);
+    void initialize(ApplicationContext preliminaryContext);
 
     /**
      * Destroys the Tiles container.

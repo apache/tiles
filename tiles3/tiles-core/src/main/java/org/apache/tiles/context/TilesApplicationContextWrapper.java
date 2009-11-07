@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Delegate for ease of customization.
@@ -33,19 +33,19 @@ import org.apache.tiles.TilesApplicationContext;
  * @since Tiles 2.1.1
  * @version $Rev$ $Date$
  */
-public class TilesApplicationContextWrapper implements TilesApplicationContext {
+public class TilesApplicationContextWrapper implements ApplicationContext {
 
     /**
      * The original context.
      */
-    private TilesApplicationContext context;
+    private ApplicationContext context;
 
     /**
      * Constructor.
      *
      * @param context The original context.
      */
-    public TilesApplicationContextWrapper(TilesApplicationContext context) {
+    public TilesApplicationContextWrapper(ApplicationContext context) {
         this.context = context;
     }
 
@@ -54,7 +54,7 @@ public class TilesApplicationContextWrapper implements TilesApplicationContext {
      *
      * @return The wrapped application context.
      */
-    public TilesApplicationContext getWrappedApplicationContext() {
+    public ApplicationContext getWrappedApplicationContext() {
         return context;
     }
 

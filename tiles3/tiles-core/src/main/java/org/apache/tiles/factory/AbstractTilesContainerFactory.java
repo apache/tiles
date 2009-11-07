@@ -20,8 +20,8 @@
  */
 package org.apache.tiles.factory;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Abstract Factory that creates instances of {@link TilesContainerFactory}.
@@ -49,5 +49,5 @@ public abstract class AbstractTilesContainerFactory {
      * instantiation.
      * @since 2.1.1
      */
-    public abstract TilesContainer createContainer(TilesApplicationContext applicationContext);
+    public abstract TilesContainer createContainer(ApplicationContext applicationContext);
 }

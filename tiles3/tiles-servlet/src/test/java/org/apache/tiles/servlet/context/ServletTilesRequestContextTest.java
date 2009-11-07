@@ -36,8 +36,8 @@ import org.apache.shale.test.mock.MockHttpServletRequest;
 import org.apache.shale.test.mock.MockHttpServletResponse;
 import org.apache.shale.test.mock.MockHttpSession;
 import org.apache.shale.test.mock.MockServletContext;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.classextension.EasyMock;
 
 /**
@@ -53,7 +53,7 @@ public class ServletTilesRequestContextTest extends TestCase {
     /**
      * The request context.
      */
-    private TilesRequestContext context;
+    private Request context;
 
     /**
      * The servlet context.
@@ -63,14 +63,14 @@ public class ServletTilesRequestContextTest extends TestCase {
     /**
      * The Tiles application context.
      */
-    private TilesApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         servletContext = new MockServletContext();
-        applicationContext = EasyMock.createMock(TilesApplicationContext.class);
+        applicationContext = EasyMock.createMock(ApplicationContext.class);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("applicationAttribute1", "applicationValue1");
         applicationScope.put("applicationAttribute2", "applicationValue2");
@@ -183,7 +183,7 @@ public class ServletTilesRequestContextTest extends TestCase {
      * Tests getting application scope attributes.
      */
     public void testGetApplicationScope() {
-        Map<String, Object> map = ((TilesApplicationContext) context)
+        Map<String, Object> map = ((ApplicationContext) context)
                 .getApplicationScope();
         assertTrue("The application scope does not contain a set value",
                 "applicationValue1".equals(map.get("applicationAttribute1")));
@@ -196,7 +196,7 @@ public class ServletTilesRequestContextTest extends TestCase {
      * Tests getting init parameters.
      */
     public void testGetInitParams() {
-        Map<String, String> map = ((TilesApplicationContext) context)
+        Map<String, String> map = ((ApplicationContext) context)
                 .getInitParams();
         assertTrue("The init parameters do not contain a set value",
                 "initParameterValue1".equals(map.get("initParameter1")));
@@ -214,8 +214,8 @@ public class ServletTilesRequestContextTest extends TestCase {
                 .createMock(HttpServletRequest.class);
         HttpServletResponse response = EasyMock
                 .createMock(HttpServletResponse.class);
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         ServletOutputStream os = EasyMock.createMock(ServletOutputStream.class);
         EasyMock.expect(response.getOutputStream()).andReturn(os);
         EasyMock.replay(request, response, applicationContext, os);
@@ -235,8 +235,8 @@ public class ServletTilesRequestContextTest extends TestCase {
                 .createMock(HttpServletRequest.class);
         HttpServletResponse response = EasyMock
                 .createMock(HttpServletResponse.class);
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         PrintWriter writer = EasyMock.createMock(PrintWriter.class);
         EasyMock.expect(response.getWriter()).andReturn(writer);
         EasyMock.replay(request, response, applicationContext, writer);
@@ -256,8 +256,8 @@ public class ServletTilesRequestContextTest extends TestCase {
                 .createMock(HttpServletRequest.class);
         HttpServletResponse response = EasyMock
                 .createMock(HttpServletResponse.class);
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         PrintWriter writer = EasyMock.createMock(PrintWriter.class);
         EasyMock.expect(response.getWriter()).andReturn(writer);
         EasyMock.replay(request, response, applicationContext, writer);
@@ -355,7 +355,7 @@ public class ServletTilesRequestContextTest extends TestCase {
          * @param response The response.
          */
         public MockServletTilesRequestContext(
-                TilesApplicationContext applicationContext,
+                ApplicationContext applicationContext,
                 HttpServletRequest request, HttpServletResponse response) {
             super(applicationContext, request, response);
         }

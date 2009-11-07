@@ -27,14 +27,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 
 /**
- * Creates an instance of the appropriate {@link TilesRequestContext}
+ * Creates an instance of the appropriate {@link Request}
  * implementation under a JSP environment.
  *
  * @version $Rev$ $Date$
@@ -55,13 +55,13 @@ public class JspTilesRequestContextFactory implements TilesRequestContextFactory
     }
 
     /** {@inheritDoc} */
-    public TilesRequestContext createRequestContext(
-            TilesApplicationContext context, Object... requestItems) {
+    public Request createRequestContext(
+            ApplicationContext context, Object... requestItems) {
         if (requestItems.length == 1 && requestItems[0] instanceof PageContext) {
             PageContext pageContext = (PageContext) requestItems[0];
             ServletRequest request = pageContext.getRequest();
             ServletResponse response = pageContext.getResponse();
-            TilesRequestContext enclosedRequest;
+            Request enclosedRequest;
             if (parent != null) {
                 enclosedRequest = parent.createRequestContext(context, request,
                         response);

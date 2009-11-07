@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
@@ -60,6 +59,7 @@ import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
+import org.apache.tiles.request.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,7 +93,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /** {@inheritDoc} */
     @Override
-    public TilesContainer createContainer(TilesApplicationContext applicationContext) {
+    public TilesContainer createContainer(ApplicationContext applicationContext) {
         BasicTilesContainer container = instantiateContainer(applicationContext);
         TilesRequestContextFactory requestContextFactory =
             createRequestContextFactory(applicationContext);
@@ -121,7 +121,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @since 2.1.1
      */
     protected BasicTilesContainer instantiateContainer(
-            TilesApplicationContext context) {
+            ApplicationContext context) {
         return new BasicTilesContainer();
     }
 
@@ -134,7 +134,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @since 2.1.1
      */
     protected TilesRequestContextFactory createRequestContextFactory(
-            TilesApplicationContext context) {
+            ApplicationContext context) {
         ChainedTilesRequestContextFactory contextFactory = new ChainedTilesRequestContextFactory();
         registerChainedRequestContextFactories(contextFactory);
 
@@ -232,7 +232,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The definitions factory.
      * @since 2.1.1
      */
-    protected DefinitionsFactory createDefinitionsFactory(TilesApplicationContext applicationContext,
+    protected DefinitionsFactory createDefinitionsFactory(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             LocaleResolver resolver) {
         UnresolvingLocaleDefinitionsFactory factory = instantiateDefinitionsFactory(
@@ -257,7 +257,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @since 2.2.1
      */
     protected UnresolvingLocaleDefinitionsFactory instantiateDefinitionsFactory(
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         return new UnresolvingLocaleDefinitionsFactory();
     }
@@ -272,7 +272,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The definition DAO.
      * @since 2.1.1
      */
-    protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(TilesApplicationContext applicationContext,
+    protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             LocaleResolver resolver) {
         ResolvingLocaleUrlDefinitionDAO dao = new ResolvingLocaleUrlDefinitionDAO();
@@ -289,7 +289,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @since 2.1.1
      */
     @SuppressWarnings("unchecked")
-    protected DefinitionDAO<Locale> createLocaleDefinitionDao(TilesApplicationContext applicationContext,
+    protected DefinitionDAO<Locale> createLocaleDefinitionDao(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             LocaleResolver resolver) {
         BaseLocaleUrlDefinitionDAO definitionDao = instantiateLocaleDefinitionDao(
@@ -313,7 +313,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The locale resolver.
      * @since 2.1.1
      */
-    protected LocaleResolver createLocaleResolver(TilesApplicationContext applicationContext,
+    protected LocaleResolver createLocaleResolver(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         return new DefaultLocaleResolver();
     }
@@ -328,7 +328,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @since 2.1.1
      */
     protected DefinitionsReader createDefinitionsReader(
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         return new DigesterDefinitionsReader();
     }
@@ -342,7 +342,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The source URLs.
      * @since 2.1.1
      */
-    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
+    protected List<URL> getSourceURLs(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         List<URL> retValue = new ArrayList<URL>(1);
         try {
@@ -367,7 +367,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @since 2.2.0
      */
     protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         return new BasicAttributeEvaluatorFactory(new DirectAttributeEvaluator());
     }
@@ -381,7 +381,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The preparer factory.
      * @since 2.1.1
      */
-    protected PreparerFactory createPreparerFactory(TilesApplicationContext applicationContext,
+    protected PreparerFactory createPreparerFactory(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         return new BasicPreparerFactory();
     }
@@ -400,7 +400,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The renderer factory.
      * @since 2.2.0
      */
-    protected RendererFactory createRendererFactory(TilesApplicationContext applicationContext,
+    protected RendererFactory createRendererFactory(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container, AttributeEvaluatorFactory attributeEvaluatorFactory) {
         BasicRendererFactory retValue = new BasicRendererFactory();
@@ -430,7 +430,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected AttributeRenderer createDefaultAttributeRenderer(
             BasicRendererFactory rendererFactory,
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
@@ -482,7 +482,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected void registerAttributeRenderers(
             BasicRendererFactory rendererFactory,
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
@@ -513,7 +513,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected AttributeRenderer createStringAttributeRenderer(
             BasicRendererFactory rendererFactory,
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
@@ -537,7 +537,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected AttributeRenderer createTemplateAttributeRenderer(
             BasicRendererFactory rendererFactory,
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
@@ -561,7 +561,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected AttributeRenderer createDefinitionAttributeRenderer(
             BasicRendererFactory rendererFactory,
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {

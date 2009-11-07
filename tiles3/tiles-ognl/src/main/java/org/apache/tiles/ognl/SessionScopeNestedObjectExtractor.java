@@ -23,7 +23,7 @@ package org.apache.tiles.ognl;
 
 import java.util.Map;
 
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Extracts the session scope from a Tiles request.
@@ -32,10 +32,10 @@ import org.apache.tiles.context.TilesRequestContext;
  * @since 2.2.0
  */
 public class SessionScopeNestedObjectExtractor implements
-        NestedObjectExtractor<TilesRequestContext> {
+        NestedObjectExtractor<Request> {
 
     /** {@inheritDoc} */
-    public Map<String, Object> getNestedObject(TilesRequestContext obj) {
+    public Map<String, Object> getNestedObject(Request obj) {
         return obj.getSessionScope();
     }
 }

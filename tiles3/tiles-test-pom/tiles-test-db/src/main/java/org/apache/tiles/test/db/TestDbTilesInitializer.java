@@ -21,8 +21,8 @@
 
 package org.apache.tiles.test.db;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.startup.AbstractTilesInitializer;
 
 /**
@@ -35,14 +35,14 @@ public class TestDbTilesInitializer extends AbstractTilesInitializer {
     /** {@inheritDoc} */
     @Override
     protected AbstractTilesContainerFactory createContainerFactory(
-            TilesApplicationContext context) {
+            ApplicationContext context) {
         return new TestDbTilesContainerFactory();
     }
 
     /** {@inheritDoc} */
     @Override
     protected String getContainerKey(
-            TilesApplicationContext applicationContext) {
+            ApplicationContext applicationContext) {
         return "db";
     }
 }

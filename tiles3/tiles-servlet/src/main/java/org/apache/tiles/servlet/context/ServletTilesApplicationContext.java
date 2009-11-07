@@ -28,14 +28,14 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.
  *
  * @version $Rev$ $Date$
  */
-public class ServletTilesApplicationContext implements TilesApplicationContext {
+public class ServletTilesApplicationContext implements ApplicationContext {
 
     /**
      * The servlet context to use.
@@ -105,7 +105,7 @@ public class ServletTilesApplicationContext implements TilesApplicationContext {
     }
 
     /**
-     * <p>Initialize (or reinitialize) this {@link TilesApplicationContext} instance
+     * <p>Initialize (or reinitialize) this {@link ApplicationContext} instance
      * for the specified Servlet API objects.</p>
      *
      * @param context The <code>ServletContext</code> for this web application

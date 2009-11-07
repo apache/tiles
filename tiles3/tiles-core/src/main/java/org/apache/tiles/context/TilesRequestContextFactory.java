@@ -20,10 +20,11 @@
  */
 package org.apache.tiles.context;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
- * Creates an instance of the appropriate {@link TilesRequestContext}
+ * Creates an instance of the appropriate {@link Request}
  * implementation.
  *
  * @version $Rev$ $Date$
@@ -35,10 +36,10 @@ public interface TilesRequestContextFactory {
      * Create a TilesRequestContext for the given context,
      * request, and response.
      *
-     * @param context  the associated {@link TilesApplicationContext}
+     * @param context  the associated {@link ApplicationContext}
      * @param requestItems  the associated request items, typically a request and a response.
      * @return TilesRequestContext
      */
-    TilesRequestContext createRequestContext(TilesApplicationContext context,
+    Request createRequestContext(ApplicationContext context,
             Object... requestItems);
 }

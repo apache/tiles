@@ -26,9 +26,9 @@ import java.util.Set;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,7 +109,7 @@ public class DefinitionManager {
      * something goes wrong when obtaining a main definition.
      */
     public Definition getDefinition(String definition,
-            TilesRequestContext request) {
+            Request request) {
         Map<String, Definition> definitions =
             getDefinitions(request);
         if (definitions != null && definitions.containsKey(definition)) {
@@ -127,7 +127,7 @@ public class DefinitionManager {
      * something goes wrong during the addition.
      */
     public void addDefinition(Definition definition,
-            TilesRequestContext request) {
+            Request request) {
         Map<String, Definition> definitions = getOrCreateDefinitions(request);
         if (definition.getName() == null) {
             definition.setName(getNextUniqueDefinitionName(definitions));
@@ -183,7 +183,7 @@ public class DefinitionManager {
      * inheritance can not be solved.
      */
     protected void resolveInheritance(Definition definition,
-            TilesRequestContext request) {
+            Request request) {
         // Already done, or not needed ?
         if (!definition.isExtending()) {
             return;
@@ -225,7 +225,7 @@ public class DefinitionManager {
      */
     @SuppressWarnings("unchecked")
     protected Map<String, Definition> getDefinitions(
-            TilesRequestContext request) {
+            Request request) {
         return (Map<String, Definition>) request.getRequestScope()
                 .get(definitionsAttributeName);
     }
@@ -239,7 +239,7 @@ public class DefinitionManager {
      */
     @SuppressWarnings("unchecked")
     protected Map<String, Definition> getOrCreateDefinitions(
-            TilesRequestContext request) {
+            Request request) {
         Map<String, Definition> definitions =
             (Map<String, Definition>) request
                 .getRequestScope().get(definitionsAttributeName);

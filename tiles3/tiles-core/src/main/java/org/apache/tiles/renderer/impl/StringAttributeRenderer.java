@@ -23,7 +23,7 @@ package org.apache.tiles.renderer.impl;
 import java.io.IOException;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Renders an attribute that contains a string.
@@ -36,14 +36,14 @@ public class StringAttributeRenderer extends AbstractTypeDetectingAttributeRende
     /** {@inheritDoc} */
     @Override
 	public void write(Object value, Attribute attribute,
-            TilesRequestContext request)
+            Request request)
             throws IOException {
         request.getWriter().write(value.toString());
     }
 
     /** {@inheritDoc} */
     public boolean isRenderable(Object value, Attribute attribute,
-            TilesRequestContext request) {
+            Request request) {
         return value instanceof String;
     }
 }

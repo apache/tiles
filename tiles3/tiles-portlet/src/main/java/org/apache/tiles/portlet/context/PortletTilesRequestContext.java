@@ -36,9 +36,9 @@ import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesApplicationContextWrapper;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.util.TilesIOException;
 
 /**
@@ -47,7 +47,7 @@ import org.apache.tiles.util.TilesIOException;
  * @version $Rev$ $Date$
  */
 public class PortletTilesRequestContext extends TilesApplicationContextWrapper
-        implements TilesRequestContext {
+        implements Request {
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -124,7 +124,7 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
      * @since 2.1.1
      */
     public PortletTilesRequestContext(
-            TilesApplicationContext applicationContext, PortletContext context,
+            ApplicationContext applicationContext, PortletContext context,
             PortletRequest request, PortletResponse response) {
         super(applicationContext);
         this.context = context;
@@ -245,7 +245,7 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
     }
 
     /** {@inheritDoc} */
-    public TilesApplicationContext getApplicationContext() {
+    public ApplicationContext getApplicationContext() {
         return getWrappedApplicationContext();
     }
 

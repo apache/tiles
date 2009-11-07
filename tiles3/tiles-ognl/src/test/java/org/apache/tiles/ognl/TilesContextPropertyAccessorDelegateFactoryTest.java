@@ -29,10 +29,10 @@ import java.util.Map;
 
 import ognl.PropertyAccessor;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.ognl.PropertyAccessorDelegateFactory;
 import org.apache.tiles.ognl.TilesContextPropertyAccessorDelegateFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
@@ -44,7 +44,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
 
     /**
      * Test method for
-     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, TilesRequestContext)}
+     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, Request)}
      * .
      */
     @Test
@@ -54,11 +54,11 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         PropertyAccessor requestScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor sessionScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor applicationScopePropertyAccessor = createMock(PropertyAccessor.class);
-        TilesRequestContext request = createMock(TilesRequestContext.class);
+        Request request = createMock(Request.class);
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
-        PropertyAccessorDelegateFactory<TilesRequestContext> factory = new TilesContextPropertyAccessorDelegateFactory(
+        PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
                 requestScopePropertyAccessor, sessionScopePropertyAccessor,
                 applicationScopePropertyAccessor);
@@ -70,7 +70,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
 
     /**
      * Test method for
-     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, TilesRequestContext)}
+     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, Request)}
      * .
      */
     @Test
@@ -80,11 +80,11 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         PropertyAccessor requestScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor sessionScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor applicationScopePropertyAccessor = createMock(PropertyAccessor.class);
-        TilesRequestContext request = createMock(TilesRequestContext.class);
+        Request request = createMock(Request.class);
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
-        PropertyAccessorDelegateFactory<TilesRequestContext> factory = new TilesContextPropertyAccessorDelegateFactory(
+        PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
                 requestScopePropertyAccessor, sessionScopePropertyAccessor,
                 applicationScopePropertyAccessor);
@@ -96,7 +96,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
 
     /**
      * Test method for
-     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, TilesRequestContext)}
+     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, Request)}
      * .
      */
     @Test
@@ -106,14 +106,14 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         PropertyAccessor requestScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor sessionScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor applicationScopePropertyAccessor = createMock(PropertyAccessor.class);
-        TilesRequestContext request = createMock(TilesRequestContext.class);
+        Request request = createMock(Request.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute", 1);
         expect(request.getRequestScope()).andReturn(map);
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
-        PropertyAccessorDelegateFactory<TilesRequestContext> factory = new TilesContextPropertyAccessorDelegateFactory(
+        PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
                 requestScopePropertyAccessor, sessionScopePropertyAccessor,
                 applicationScopePropertyAccessor);
@@ -125,7 +125,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
 
     /**
      * Test method for
-     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, TilesRequestContext)}
+     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, Request)}
      * .
      */
     @Test
@@ -135,7 +135,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         PropertyAccessor requestScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor sessionScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor applicationScopePropertyAccessor = createMock(PropertyAccessor.class);
-        TilesRequestContext request = createMock(TilesRequestContext.class);
+        Request request = createMock(Request.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute", 1);
         Map<String, Object> emptyMap = new HashMap<String, Object>();
@@ -144,7 +144,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
-        PropertyAccessorDelegateFactory<TilesRequestContext> factory = new TilesContextPropertyAccessorDelegateFactory(
+        PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
                 requestScopePropertyAccessor, sessionScopePropertyAccessor,
                 applicationScopePropertyAccessor);
@@ -156,7 +156,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
 
     /**
      * Test method for
-     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, TilesRequestContext)}
+     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, Request)}
      * .
      */
     @Test
@@ -166,8 +166,8 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         PropertyAccessor requestScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor sessionScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor applicationScopePropertyAccessor = createMock(PropertyAccessor.class);
-        TilesRequestContext request = createMock(TilesRequestContext.class);
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        Request request = createMock(Request.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute", 1);
         Map<String, Object> emptyMap = new HashMap<String, Object>();
@@ -178,7 +178,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request, applicationContext);
-        PropertyAccessorDelegateFactory<TilesRequestContext> factory = new TilesContextPropertyAccessorDelegateFactory(
+        PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
                 requestScopePropertyAccessor, sessionScopePropertyAccessor,
                 applicationScopePropertyAccessor);
@@ -190,7 +190,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
 
     /**
      * Test method for
-     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, TilesRequestContext)}
+     * {@link TilesContextPropertyAccessorDelegateFactory#getPropertyAccessor(String, Request)}
      * .
      */
     @Test
@@ -200,8 +200,8 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         PropertyAccessor requestScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor sessionScopePropertyAccessor = createMock(PropertyAccessor.class);
         PropertyAccessor applicationScopePropertyAccessor = createMock(PropertyAccessor.class);
-        TilesRequestContext request = createMock(TilesRequestContext.class);
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        Request request = createMock(Request.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("anotherAttribute", 1);
         Map<String, Object> emptyMap = new HashMap<String, Object>();
@@ -212,7 +212,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request, applicationContext);
-        PropertyAccessorDelegateFactory<TilesRequestContext> factory = new TilesContextPropertyAccessorDelegateFactory(
+        PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
                 requestScopePropertyAccessor, sessionScopePropertyAccessor,
                 applicationScopePropertyAccessor);

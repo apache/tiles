@@ -23,10 +23,10 @@ package org.apache.tiles.renderer.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
+import org.apache.tiles.request.ApplicationContext;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
@@ -48,8 +48,8 @@ public class BasicRendererFactoryTest extends TestCase {
     @Override
     public void setUp() throws Exception {
         rendererFactory = new BasicRendererFactory();
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
@@ -103,7 +103,7 @@ public class BasicRendererFactoryTest extends TestCase {
 
     /**
      * Tests
-     * {@link BasicRendererFactory#setApplicationContext(TilesApplicationContext)}.
+     * {@link BasicRendererFactory#setApplicationContext(ApplicationContext)}.
      */
     public void testSetApplicationContext() {
         assertNotNull("The application context is null",

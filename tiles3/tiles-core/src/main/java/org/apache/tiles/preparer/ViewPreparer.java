@@ -20,7 +20,7 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.AttributeContext;
 
 /**
@@ -53,6 +53,6 @@ public interface ViewPreparer {
      * @param attributeContext Current tile context.
      * @throws PreparerException If something goes wrong during execution.
      */
-    void execute(TilesRequestContext tilesContext,
+    void execute(Request tilesContext,
         AttributeContext attributeContext);
 }

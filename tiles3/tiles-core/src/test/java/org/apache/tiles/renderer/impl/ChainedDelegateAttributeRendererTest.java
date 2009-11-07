@@ -27,12 +27,12 @@ import java.io.StringWriter;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,7 +82,7 @@ public class ChainedDelegateAttributeRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
+     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
      * writing a definition.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -92,12 +92,12 @@ public class ChainedDelegateAttributeRendererTest {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("my.definition", (Expression) null,
                 null, "definition");
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request requestContext = EasyMock
+                .createMock(Request.class);
 
         expect(
                 definitionRenderer.isRenderable("my.definition", attribute,
@@ -116,7 +116,7 @@ public class ChainedDelegateAttributeRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
+     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
      * writing a string.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -125,12 +125,12 @@ public class ChainedDelegateAttributeRendererTest {
     public void testWriteString() throws IOException {
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request requestContext = EasyMock
+                .createMock(Request.class);
         expect(
                 definitionRenderer.isRenderable("Result", attribute,
                         requestContext)).andReturn(Boolean.FALSE);
@@ -153,7 +153,7 @@ public class ChainedDelegateAttributeRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateAttributeRenderer#render(Attribute, TilesRequestContext)}
+     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
      * writing a template.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -163,12 +163,12 @@ public class ChainedDelegateAttributeRendererTest {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("/myTemplate.jsp",
                 (Expression) null, null, "template");
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request requestContext = EasyMock
+                .createMock(Request.class);
         templateRenderer.render(attribute, requestContext);
         expect(
                 definitionRenderer.isRenderable("/myTemplate.jsp", attribute,

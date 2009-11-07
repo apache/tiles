@@ -32,7 +32,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ExternalWriterHttpServletResponse;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.context.Context;
@@ -77,7 +77,7 @@ public class VelocityTilesRequestContextTest {
     @Test
     public void testDispatch() throws IOException, ServletException {
         String path = "this way";
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         RequestDispatcher dispatcher = createMock(RequestDispatcher.class);
@@ -105,7 +105,7 @@ public class VelocityTilesRequestContextTest {
     @Test
     public void testInclude() throws IOException, ServletException {
         String path = "this way";
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         RequestDispatcher dispatcher = createMock(RequestDispatcher.class);
@@ -131,7 +131,7 @@ public class VelocityTilesRequestContextTest {
      */
     @Test
     public void testGetPrintWriter() throws IOException {
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityTilesRequestContext(enclosedRequest, velocityContext, writer);
@@ -146,7 +146,7 @@ public class VelocityTilesRequestContextTest {
      */
     @Test
     public void testGetWriter() throws IOException {
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityTilesRequestContext(enclosedRequest, velocityContext, writer);
@@ -161,7 +161,7 @@ public class VelocityTilesRequestContextTest {
      */
     @Test
     public void testGetRequestObjects() throws ServletException, IOException {
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
 

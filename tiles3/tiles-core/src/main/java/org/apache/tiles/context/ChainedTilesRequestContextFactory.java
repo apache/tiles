@@ -24,8 +24,9 @@ package org.apache.tiles.context;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Default implementation for TilesRequestContextFactory, that creates a chain
@@ -52,9 +53,9 @@ public class ChainedTilesRequestContextFactory implements TilesRequestContextFac
     }
 
     /** {@inheritDoc} */
-    public TilesRequestContext createRequestContext(
-            TilesApplicationContext context, Object... requestItems) {
-        TilesRequestContext retValue = null;
+    public Request createRequestContext(
+            ApplicationContext context, Object... requestItems) {
+        Request retValue = null;
 
         for (Iterator<TilesRequestContextFactory> factoryIt = factories
                 .iterator(); factoryIt.hasNext() && retValue == null;) {

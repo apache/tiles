@@ -31,11 +31,11 @@ import javax.el.ELContext;
 
 import junit.framework.TestCase;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.el.ELContextImpl;
 import org.apache.tiles.el.TilesContextELResolver;
 import org.apache.tiles.reflect.ClassUtil;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 
 /**
@@ -74,8 +74,8 @@ public class TilesContextELResolverTest extends TestCase {
      */
     public void testGetFeatureDescriptorsELContextObject() {
         Map<String, PropertyDescriptor> expected = new LinkedHashMap<String, PropertyDescriptor>();
-        ClassUtil.collectBeanInfo(TilesRequestContext.class, expected);
-        ClassUtil.collectBeanInfo(TilesApplicationContext.class, expected);
+        ClassUtil.collectBeanInfo(Request.class, expected);
+        ClassUtil.collectBeanInfo(ApplicationContext.class, expected);
         Iterator<FeatureDescriptor> featureIt = resolver.getFeatureDescriptors(
                 null, null);
         Iterator<? extends FeatureDescriptor> expectedIt = expected.values().iterator();
@@ -92,14 +92,14 @@ public class TilesContextELResolverTest extends TestCase {
      * {@link TilesContextELResolver#getType(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
     public void testGetType() {
-        TilesRequestContext request = EasyMock
-                .createMock(TilesRequestContext.class);
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        Request request = EasyMock
+                .createMock(Request.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         ELContext context = new ELContextImpl(resolver);
         EasyMock.replay(request, applicationContext);
-        context.putContext(TilesRequestContext.class, request);
-        context.putContext(TilesApplicationContext.class, applicationContext);
+        context.putContext(Request.class, request);
+        context.putContext(ApplicationContext.class, applicationContext);
         assertEquals("The requestScope object is not a map.", Map.class,
                 resolver.getType(context, null, "requestScope"));
         assertEquals("The sessionScope object is not a map.", Map.class,
@@ -119,18 +119,18 @@ public class TilesContextELResolverTest extends TestCase {
         sessionScope.put("sessionObjectKey", "sessionObjectValue");
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("applicationObjectKey", "applicationObjectValue");
-        TilesRequestContext request = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request request = EasyMock
+                .createMock(Request.class);
         EasyMock.expect(request.getRequestScope()).andReturn(requestScope);
         EasyMock.expect(request.getSessionScope()).andReturn(sessionScope);
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
                 applicationScope);
         ELContext context = new ELContextImpl(resolver);
         EasyMock.replay(request, applicationContext);
-        context.putContext(TilesRequestContext.class, request);
-        context.putContext(TilesApplicationContext.class, applicationContext);
+        context.putContext(Request.class, request);
+        context.putContext(ApplicationContext.class, applicationContext);
         assertEquals("The requestScope map does not correspond", requestScope,
                 resolver.getValue(context, null, "requestScope"));
         assertEquals("The sessionScope map does not correspond", sessionScope,

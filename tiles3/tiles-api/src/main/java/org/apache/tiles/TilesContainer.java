@@ -22,6 +22,8 @@ package org.apache.tiles;
 
 import java.io.IOException;
 
+import org.apache.tiles.request.ApplicationContext;
+
 /**
  * An encapsulation of the tiles framework.  This interface is
  * used to expose tiles features to frameworks which leverage
@@ -38,7 +40,7 @@ public interface TilesContainer {
      *
      * @return current application context
      */
-    TilesApplicationContext getApplicationContext();
+    ApplicationContext getApplicationContext();
 
     /**
      * Retrive the attribute context of the current request.

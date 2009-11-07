@@ -27,10 +27,10 @@ import static org.easymock.EasyMock.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.ognl.ApplicationScopeNestedObjectExtractor;
 import org.apache.tiles.ognl.NestedObjectExtractor;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
@@ -41,19 +41,19 @@ import org.junit.Test;
 public class ApplicationScopeNestedObjectExtractorTest {
 
     /**
-     * Tests {@link ApplicationScopeNestedObjectExtractor#getNestedObject(TilesRequestContext)}.
+     * Tests {@link ApplicationScopeNestedObjectExtractor#getNestedObject(Request)}.
      */
     @Test
     public void testGetNestedObject() {
-        TilesRequestContext request = createMock(TilesRequestContext.class);
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        Request request = createMock(Request.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         expect(request.getApplicationContext()).andReturn(applicationContext);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute1", "value1");
         expect(applicationContext.getApplicationScope()).andReturn(map);
 
         replay(request, applicationContext);
-        NestedObjectExtractor<TilesRequestContext> extractor = new ApplicationScopeNestedObjectExtractor();
+        NestedObjectExtractor<Request> extractor = new ApplicationScopeNestedObjectExtractor();
         assertEquals(map, extractor.getNestedObject(request));
         verify(request, applicationContext);
     }

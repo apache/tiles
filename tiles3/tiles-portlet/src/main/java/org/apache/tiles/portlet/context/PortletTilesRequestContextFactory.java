@@ -25,14 +25,14 @@ import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Creates an instance of the appropriate {@link TilesRequestContext}
+ * Creates an instance of the appropriate {@link Request}
  * implementation under a portlet environment.
  *
  * @version $Rev$ $Date$
@@ -69,7 +69,7 @@ public class PortletTilesRequestContextFactory implements
     }
 
     /** {@inheritDoc} */
-    public TilesRequestContext createRequestContext(TilesApplicationContext context,
+    public Request createRequestContext(ApplicationContext context,
                                                     Object... requestItems) {
         if (requestItems.length == 2
                 && requestItems[0] instanceof PortletRequest
@@ -100,7 +100,7 @@ public class PortletTilesRequestContextFactory implements
      * @param context The application context.
      * @return The original portlet context, if found.
      */
-    protected PortletContext getPortletContext(TilesApplicationContext context) {
+    protected PortletContext getPortletContext(ApplicationContext context) {
         if (context instanceof PortletTilesApplicationContext) {
             PortletTilesApplicationContext app = (PortletTilesApplicationContext) context;
             return app.getPortletContext();

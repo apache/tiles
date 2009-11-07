@@ -21,7 +21,8 @@
 package org.apache.tiles.context.enhanced;
 
 import junit.framework.TestCase;
-import org.apache.tiles.TilesApplicationContext;
+
+import org.apache.tiles.request.ApplicationContext;
 import org.easymock.EasyMock;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class EnhancedTilesApplicationContextTest extends TestCase {
     /**
      * The root Tiles application context.
      */
-    private TilesApplicationContext root;
+    private ApplicationContext root;
 
     /**
      * The enhanced Tiles application context.
@@ -55,7 +56,7 @@ public class EnhancedTilesApplicationContextTest extends TestCase {
     /** {@inheritDoc} */
     @Override
     public void setUp() {
-        root = EasyMock.createMock(TilesApplicationContext.class);
+        root = EasyMock.createMock(ApplicationContext.class);
         context = new EnhancedTilesApplicationContext(root);
     }
 

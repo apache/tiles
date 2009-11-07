@@ -21,18 +21,18 @@
 
 package org.apache.tiles.startup;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
+import org.apache.tiles.request.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Default Tiles initialization delegate implementation under a servlet
  * environment. It uses init parameters to create the
- * {@link TilesApplicationContext} and the {@link TilesContainer}.
+ * {@link ApplicationContext} and the {@link TilesContainer}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -56,7 +56,7 @@ public abstract class AbstractTilesInitializer implements TilesInitializer {
     /**
      * The initialized application context.
      */
-    private TilesApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     /**
      * The initialized container.
@@ -64,7 +64,7 @@ public abstract class AbstractTilesInitializer implements TilesInitializer {
     private TilesContainer container;
 
     /** {@inheritDoc} */
-    public void initialize(TilesApplicationContext applicationContext) {
+    public void initialize(ApplicationContext applicationContext) {
         this.applicationContext = createTilesApplicationContext(applicationContext);
         String key = getContainerKey(this.applicationContext);
         container = createContainer(this.applicationContext);
@@ -85,7 +85,7 @@ public abstract class AbstractTilesInitializer implements TilesInitializer {
      * Creates the Tiles application context, to be used across all the
      * Tiles-based application. If you override this class, please override this
      * method or
-     * {@link #createAndInitializeTilesApplicationContextFactory(TilesApplicationContext)}
+     * {@link #createAndInitializeTilesApplicationContextFactory(ApplicationContext)}
      * .<br>
      * This implementation returns the preliminary context passed as a parameter
      *
@@ -93,8 +93,8 @@ public abstract class AbstractTilesInitializer implements TilesInitializer {
      * @return The Tiles application context.
      * @since 2.2.0
      */
-    protected TilesApplicationContext createTilesApplicationContext(
-            TilesApplicationContext preliminaryContext) {
+    protected ApplicationContext createTilesApplicationContext(
+            ApplicationContext preliminaryContext) {
         return preliminaryContext;
     }
 
@@ -107,31 +107,31 @@ public abstract class AbstractTilesInitializer implements TilesInitializer {
      * @return The container key.
      * @since 2.2.0
      */
-    protected String getContainerKey(TilesApplicationContext applicationContext) {
+    protected String getContainerKey(ApplicationContext applicationContext) {
         return null;
     }
 
     /**
      * Creates a Tiles container. If you override this class, please override
-     * this method or {@link #createContainerFactory(TilesApplicationContext)}.
+     * this method or {@link #createContainerFactory(ApplicationContext)}.
      *
      * @param context The servlet context to use.
      * @return The created container.
      * @since 2.2.0
      */
-    protected TilesContainer createContainer(TilesApplicationContext context) {
+    protected TilesContainer createContainer(ApplicationContext context) {
         AbstractTilesContainerFactory factory = createContainerFactory(context);
         return factory.createContainer(context);
     }
 
     /**
      * Creates a Tiles container factory. If you override this class, please
-     * override this method or {@link #createContainer(TilesApplicationContext)}.
+     * override this method or {@link #createContainer(ApplicationContext)}.
      *
      * @param context The servlet context to use.
      * @return The created container factory.
      * @since 2.2.0
      */
     protected abstract AbstractTilesContainerFactory createContainerFactory(
-            TilesApplicationContext context);
+            ApplicationContext context);
 }

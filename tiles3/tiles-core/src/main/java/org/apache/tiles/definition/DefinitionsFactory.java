@@ -22,7 +22,7 @@
 package org.apache.tiles.definition;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Interface for creating a {@link Definition}s and managing their contents.
@@ -75,5 +75,5 @@ public interface DefinitionsFactory {
      * @return the Definition matching the given name or null if none
      *         is found.
      */
-    Definition getDefinition(String name, TilesRequestContext tilesContext);
+    Definition getDefinition(String name, Request tilesContext);
 }

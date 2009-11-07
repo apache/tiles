@@ -26,17 +26,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.reflect.CannotAccessMethodException;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.util.CombinedBeanInfo;
 import org.mvel2.integration.VariableResolver;
 import org.mvel2.integration.impl.BaseVariableResolverFactory;
 
 /**
- * Resolves {@link org.apache.tiles.context.TilesRequestContext} and
- * {@link org.apache.tiles.TilesApplicationContext} properties as variables.
+ * Resolves {@link org.apache.tiles.request.Request} and
+ * {@link org.apache.tiles.request.ApplicationContext} properties as variables.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -50,11 +50,11 @@ public class TilesContextVariableResolverFactory extends
     private TilesRequestContextHolder requestHolder;
 
     /**
-     * Beaninfo about {@link org.apache.tiles.context.TilesRequestContext} and
-     * {@link org.apache.tiles.TilesApplicationContext}.
+     * Beaninfo about {@link org.apache.tiles.request.Request} and
+     * {@link org.apache.tiles.request.ApplicationContext}.
      */
     private CombinedBeanInfo requestBeanInfo = new CombinedBeanInfo(
-            TilesRequestContext.class, TilesApplicationContext.class);
+            Request.class, ApplicationContext.class);
 
     /**
      * Constructor.
@@ -66,12 +66,12 @@ public class TilesContextVariableResolverFactory extends
         this.requestHolder = requestHolder;
         variableResolvers = new HashMap<String, VariableResolver>();
         for (PropertyDescriptor descriptor : requestBeanInfo
-                .getMappedDescriptors(TilesRequestContext.class).values()) {
+                .getMappedDescriptors(Request.class).values()) {
             String descriptorName = descriptor.getName();
             variableResolvers.put(descriptorName, new RequestVariableResolver(descriptorName));
         }
         for (PropertyDescriptor descriptor : requestBeanInfo
-                .getMappedDescriptors(TilesApplicationContext.class).values()) {
+                .getMappedDescriptors(ApplicationContext.class).values()) {
             String descriptorName = descriptor.getName();
             variableResolvers.put(descriptorName, new ApplicationVariableResolver(descriptorName));
         }
@@ -108,7 +108,7 @@ public class TilesContextVariableResolverFactory extends
     }
 
     /**
-     * Resolves a {@link org.apache.tiles.context.TilesRequestContext} property as a variable.
+     * Resolves a {@link org.apache.tiles.request.Request} property as a variable.
      *
      * @version $Rev$ $Date$
      * @since 2.2.0
@@ -134,7 +134,7 @@ public class TilesContextVariableResolverFactory extends
         public RequestVariableResolver(String name) {
             this.name = name;
             descriptor = requestBeanInfo.getMappedDescriptors(
-                    TilesRequestContext.class).get(name);
+                    Request.class).get(name);
         }
 
         /** {@inheritDoc} */
@@ -187,7 +187,7 @@ public class TilesContextVariableResolverFactory extends
     }
 
     /**
-     * Resolves a {@link org.apache.tiles.TilesApplicationContext} property as a
+     * Resolves a {@link org.apache.tiles.request.ApplicationContext} property as a
      * variable.
      *
      * @version $Rev$ $Date$
@@ -218,7 +218,7 @@ public class TilesContextVariableResolverFactory extends
         public ApplicationVariableResolver(String name) {
             this.name = name;
             descriptor = requestBeanInfo.getMappedDescriptors(
-                    TilesApplicationContext.class).get(name);
+                    ApplicationContext.class).get(name);
         }
 
         /** {@inheritDoc} */

@@ -25,15 +25,15 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.renderer.AttributeRenderer;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +65,7 @@ public abstract class AbstractBaseAttributeRenderer implements
      *
      * @since 2.1.0
      */
-    protected TilesApplicationContext applicationContext;
+    protected ApplicationContext applicationContext;
 
     /**
      * The attribute evaluator factory.
@@ -80,7 +80,7 @@ public abstract class AbstractBaseAttributeRenderer implements
     }
 
     /** {@inheritDoc} */
-    public void setApplicationContext(TilesApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -90,7 +90,7 @@ public abstract class AbstractBaseAttributeRenderer implements
     }
 
     /** {@inheritDoc} */
-    public void render(Attribute attribute, TilesRequestContext request) throws IOException {
+    public void render(Attribute attribute, Request request) throws IOException {
         if (!isPermitted(request, attribute.getRoles())) {
             if (log.isDebugEnabled()) {
                 log.debug("Access to attribute denied.  User not in role '"
@@ -116,7 +116,7 @@ public abstract class AbstractBaseAttributeRenderer implements
      * @since 2.1.2
      */
     public abstract void write(Object value, Attribute attribute,
-            TilesRequestContext request)
+            Request request)
             throws IOException;
 
     /**
@@ -126,7 +126,7 @@ public abstract class AbstractBaseAttributeRenderer implements
      * @return The created Tiles request context.
      * @since 2.1.0
      */
-    protected TilesRequestContext getRequestContext(Object... requestItems) {
+    protected Request getRequestContext(Object... requestItems) {
         return contextFactory.createRequestContext(applicationContext,
                 requestItems);
     }
@@ -140,7 +140,7 @@ public abstract class AbstractBaseAttributeRenderer implements
      * @return <code>true</code> if the current user is in one of those roles.
      * @since 2.1.0
      */
-    protected boolean isPermitted(TilesRequestContext request, Set<String> roles) {
+    protected boolean isPermitted(Request request, Set<String> roles) {
         if (roles == null || roles.isEmpty()) {
             return true;
         }

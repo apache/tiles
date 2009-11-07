@@ -29,10 +29,10 @@ import java.util.Map;
 
 import javax.el.ELContext;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.el.ELContextImpl;
 import org.apache.tiles.el.TilesContextBeanELResolver;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
@@ -78,21 +78,21 @@ public class TilesContextBeanELResolverTest extends TestCase {
         requestScope.put("object1", "value");
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
-        TilesRequestContext request = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request request = EasyMock
+                .createMock(Request.class);
         EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
                 .anyTimes();
         EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
                 .anyTimes();
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
-        context.putContext(TilesRequestContext.class, request);
-        context.putContext(TilesApplicationContext.class, applicationContext);
+        context.putContext(Request.class, request);
+        context.putContext(ApplicationContext.class, applicationContext);
 
         List<FeatureDescriptor> expected = new ArrayList<FeatureDescriptor>();
         resolver.collectBeanInfo(requestScope, expected);
@@ -137,21 +137,21 @@ public class TilesContextBeanELResolverTest extends TestCase {
         requestScope.put("object1", "value");
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
-        TilesRequestContext request = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request request = EasyMock
+                .createMock(Request.class);
         EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
                 .anyTimes();
         EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
                 .anyTimes();
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
-        context.putContext(TilesRequestContext.class, request);
-        context.putContext(TilesApplicationContext.class, applicationContext);
+        context.putContext(Request.class, request);
+        context.putContext(ApplicationContext.class, applicationContext);
 
         assertEquals("The type is not correct", String.class, resolver.getType(
                 context, null, "object1"));
@@ -172,21 +172,21 @@ public class TilesContextBeanELResolverTest extends TestCase {
         requestScope.put("object1", "value");
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
-        TilesRequestContext request = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request request = EasyMock
+                .createMock(Request.class);
         EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
                 .anyTimes();
         EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
                 .anyTimes();
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
-        context.putContext(TilesRequestContext.class, request);
-        context.putContext(TilesApplicationContext.class, applicationContext);
+        context.putContext(Request.class, request);
+        context.putContext(ApplicationContext.class, applicationContext);
 
         assertEquals("The value is not correct", "value", resolver.getValue(
                 context, null, "object1"));
@@ -217,21 +217,21 @@ public class TilesContextBeanELResolverTest extends TestCase {
         requestScope.put("object1", "value");
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
-        TilesRequestContext request = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request request = EasyMock
+                .createMock(Request.class);
         EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
                 .anyTimes();
         EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
                 .anyTimes();
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
-        context.putContext(TilesRequestContext.class, request);
-        context.putContext(TilesApplicationContext.class, applicationContext);
+        context.putContext(Request.class, request);
+        context.putContext(ApplicationContext.class, applicationContext);
 
         assertEquals("The value is not correct", "value", resolver
                 .findObjectByProperty(context, "object1"));

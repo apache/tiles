@@ -29,7 +29,7 @@ import java.net.URL;
 
 import javax.servlet.ServletContext;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.startup.TilesInitializer;
 import org.junit.Test;
 
@@ -41,14 +41,14 @@ import org.junit.Test;
 public class ModularTilesInitializerTest {
 
     /**
-     * Tests {@link ModularTilesInitializer#initialize(TilesApplicationContext)}
+     * Tests {@link ModularTilesInitializer#initialize(ApplicationContext)}
      * and {@link ModularTilesInitializer#destroy()}.
      *
      * @throws MalformedURLException Never thrown.
      */
     @Test
     public void testInitialize() throws MalformedURLException {
-        TilesApplicationContext preliminaryContext = createMock(TilesApplicationContext.class);
+        ApplicationContext preliminaryContext = createMock(ApplicationContext.class);
         ServletContext servletContext = createMock(ServletContext.class);
         URL manifestUrl = getClass().getResource("/FAKE-MANIFEST.MF");
 
@@ -84,7 +84,7 @@ public class ModularTilesInitializerTest {
         private static boolean destroyed = false;
 
         /** {@inheritDoc} */
-        public void initialize(TilesApplicationContext preliminaryContext) {
+        public void initialize(ApplicationContext preliminaryContext) {
             initialized = true;
         }
 
@@ -112,7 +112,7 @@ public class ModularTilesInitializerTest {
         private static boolean destroyed = false;
 
         /** {@inheritDoc} */
-        public void initialize(TilesApplicationContext preliminaryContext) {
+        public void initialize(ApplicationContext preliminaryContext) {
             initialized = true;
         }
 

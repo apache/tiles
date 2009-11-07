@@ -21,9 +21,9 @@
 
 package org.apache.tiles.startup;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Loads Tiles with the default settings.
@@ -36,7 +36,7 @@ public class DefaultTilesInitializer extends AbstractTilesInitializer {
     /** {@inheritDoc} */
     @Override
     protected AbstractTilesContainerFactory createContainerFactory(
-            TilesApplicationContext context) {
+            ApplicationContext context) {
         return new BasicTilesContainerFactory();
     }
 }

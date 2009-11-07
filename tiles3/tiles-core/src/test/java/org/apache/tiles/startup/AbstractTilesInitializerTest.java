@@ -26,10 +26,10 @@ import static org.easymock.classextension.EasyMock.*;
 
 import java.util.Map;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
+import org.apache.tiles.request.ApplicationContext;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,19 +60,19 @@ public class AbstractTilesInitializerTest {
 
             @Override
             protected AbstractTilesContainerFactory createContainerFactory(
-                    TilesApplicationContext context) {
+                    ApplicationContext context) {
                 return containerFactory;
             }
         };
     }
 
     /**
-     * Test method for {@link AbstractTilesInitializer#initialize(TilesApplicationContext)}.
+     * Test method for {@link AbstractTilesInitializer#initialize(ApplicationContext)}.
      */
     @SuppressWarnings("unchecked")
     @Test
     public void testInitialize() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> scope = createMock(Map.class);
 
@@ -88,33 +88,33 @@ public class AbstractTilesInitializerTest {
     }
 
     /**
-     * Test method for {@link AbstractTilesInitializer#createTilesApplicationContext(TilesApplicationContext)}.
+     * Test method for {@link AbstractTilesInitializer#createTilesApplicationContext(ApplicationContext)}.
      */
     @Test
     public void testCreateTilesApplicationContext() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
         replay(containerFactory, context);
         assertEquals(context, initializer.createTilesApplicationContext(context));
         verify(containerFactory, context);
     }
 
     /**
-     * Test method for {@link AbstractTilesInitializer#getContainerKey(TilesApplicationContext)}.
+     * Test method for {@link AbstractTilesInitializer#getContainerKey(ApplicationContext)}.
      */
     @Test
     public void testGetContainerKey() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
         replay(containerFactory, context);
         assertNull(initializer.getContainerKey(context));
         verify(containerFactory, context);
     }
 
     /**
-     * Test method for {@link AbstractTilesInitializer#createContainer(TilesApplicationContext)}.
+     * Test method for {@link AbstractTilesInitializer#createContainer(ApplicationContext)}.
      */
     @Test
     public void testCreateContainer() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
 
         expect(containerFactory.createContainer(context)).andReturn(container);

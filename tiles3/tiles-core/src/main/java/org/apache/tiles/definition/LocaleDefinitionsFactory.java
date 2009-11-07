@@ -24,7 +24,7 @@ package org.apache.tiles.definition;
 import java.util.Locale;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation that manages
@@ -45,7 +45,7 @@ public class LocaleDefinitionsFactory extends
     /** {@inheritDoc} */
     @Override
 	public Definition getDefinition(String name,
-            TilesRequestContext tilesContext) {
+            Request tilesContext) {
         Definition retValue;
         Locale locale = null;
 

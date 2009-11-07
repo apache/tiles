@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.renderer.RendererException;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
+import org.apache.tiles.request.Request;
 
 /**
  * Renders an attribute that has no associated renderer using delegation to
@@ -65,7 +65,7 @@ public class ChainedDelegateAttributeRenderer extends AbstractBaseAttributeRende
     /** {@inheritDoc} */
     @Override
     public void write(Object value, Attribute attribute,
-            TilesRequestContext request)
+            Request request)
             throws IOException {
         if (value == null) {
             throw new NullPointerException("The attribute value is null");

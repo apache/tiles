@@ -27,7 +27,7 @@ import java.util.Map;
 //import org.apache.shale.test.mock.MockPortletRequest;
 //import org.apache.shale.test.mock.MockPortletResponse;
 //import org.apache.shale.test.mock.MockPortletSession;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 import junit.framework.TestCase;
 
@@ -39,7 +39,7 @@ public class PortletTilesRequestContextTest extends TestCase {
     /**
      * The used request context.
      */
-    private TilesRequestContext context;
+    private Request context;
 
     /** {@inheritDoc} */
     @Override

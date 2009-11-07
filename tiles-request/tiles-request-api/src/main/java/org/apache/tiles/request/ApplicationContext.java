@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles;
+package org.apache.tiles.request;
 
 import java.net.URL;
 import java.util.Map;
@@ -33,7 +33,7 @@ import java.io.IOException;
  * @since 2.0
  * @version $Rev$ $Date$
  */
-public interface TilesApplicationContext {
+public interface ApplicationContext {
 
     /**
      * Returns the original, technology-dependent, context.

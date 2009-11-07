@@ -36,8 +36,8 @@ import junit.framework.TestCase;
 import org.apache.el.ExpressionFactoryImpl;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 
 /**
@@ -55,7 +55,7 @@ public class ELAttributeEvaluatorTest extends TestCase {
     /**
      * The request object to use.
      */
-    private TilesRequestContext request;
+    private Request request;
 
     /** {@inheritDoc} */
     @Override
@@ -69,13 +69,13 @@ public class ELAttributeEvaluatorTest extends TestCase {
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
         requestScope.put("paulaBean", new PaulaBean());
-        request = EasyMock.createMock(TilesRequestContext.class);
+        request = EasyMock.createMock(Request.class);
         EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
                 .anyTimes();
         EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
                 .anyTimes();
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
                 applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
@@ -98,7 +98,7 @@ public class ELAttributeEvaluatorTest extends TestCase {
 
     /**
      * Tests
-     * {@link ELAttributeEvaluator#evaluate(Attribute, TilesRequestContext)}.
+     * {@link ELAttributeEvaluator#evaluate(Attribute, Request)}.
      */
     public void testEvaluate() {
         Attribute attribute = new Attribute();
@@ -136,7 +136,7 @@ public class ELAttributeEvaluatorTest extends TestCase {
 
     /**
      * Tests
-     * {@link ELAttributeEvaluator#evaluate(String, TilesRequestContext)}.
+     * {@link ELAttributeEvaluator#evaluate(String, Request)}.
      */
     public void testEvaluateString() {
         String expression = "${requestScope.object1}";

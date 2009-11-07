@@ -24,11 +24,11 @@ package org.apache.tiles.definition;
 import java.util.Locale;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * {@link DefinitionsFactory DefinitionsFactory} implementation that manages
@@ -58,7 +58,7 @@ public class UnresolvingLocaleDefinitionsFactory implements DefinitionsFactory,
      *
      * @since 2.2.1
      */
-    protected TilesApplicationContext applicationContext;
+    protected ApplicationContext applicationContext;
 
     /**
      * The locale resolver object.
@@ -68,7 +68,7 @@ public class UnresolvingLocaleDefinitionsFactory implements DefinitionsFactory,
     protected LocaleResolver localeResolver;
 
     /** {@inheritDoc} */
-    public void setApplicationContext(TilesApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -94,7 +94,7 @@ public class UnresolvingLocaleDefinitionsFactory implements DefinitionsFactory,
 
     /** {@inheritDoc} */
     public Definition getDefinition(String name,
-            TilesRequestContext tilesContext) {
+            Request tilesContext) {
         Locale locale = null;
 
         if (tilesContext != null) {

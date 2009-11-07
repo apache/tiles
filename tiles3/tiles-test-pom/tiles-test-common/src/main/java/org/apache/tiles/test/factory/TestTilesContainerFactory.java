@@ -25,13 +25,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.extras.complete.CompleteAutoloadTilesContainerFactory;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 import org.apache.tiles.util.URLUtil;
 
@@ -47,7 +47,7 @@ public class TestTilesContainerFactory extends CompleteAutoloadTilesContainerFac
     @Override
     protected void registerAttributeRenderers(
             BasicRendererFactory rendererFactory,
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
@@ -62,7 +62,7 @@ public class TestTilesContainerFactory extends CompleteAutoloadTilesContainerFac
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
+    protected List<URL> getSourceURLs(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         try {
             List<URL> urls;

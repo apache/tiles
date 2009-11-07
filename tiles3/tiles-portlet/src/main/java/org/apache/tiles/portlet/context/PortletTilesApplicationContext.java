@@ -28,14 +28,14 @@ import java.util.Set;
 
 import javax.portlet.PortletContext;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
  *
  * @version $Rev$ $Date$
  */
-public class PortletTilesApplicationContext implements TilesApplicationContext {
+public class PortletTilesApplicationContext implements ApplicationContext {
 
     /**
      * <p>The lazily instantiated <code>Map</code> of application scope

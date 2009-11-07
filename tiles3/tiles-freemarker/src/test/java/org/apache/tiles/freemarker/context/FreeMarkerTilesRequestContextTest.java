@@ -29,7 +29,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Locale;
 
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -87,7 +87,7 @@ public class FreeMarkerTilesRequestContextTest {
     @Test
     public void testDispatch() throws IOException {
         String path = "this way";
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
         enclosedRequest.include(path);
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
@@ -100,7 +100,7 @@ public class FreeMarkerTilesRequestContextTest {
      */
     @Test
     public void testGetRequestLocale() {
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
         assertEquals(locale, context.getRequestLocale());
@@ -112,7 +112,7 @@ public class FreeMarkerTilesRequestContextTest {
      */
     @Test
     public void testGetRequest() {
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
         assertEquals(env, context.getEnvironment());
@@ -124,7 +124,7 @@ public class FreeMarkerTilesRequestContextTest {
      */
     @Test
     public void testGetResponse() {
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
         assertEquals(env, context.getEnvironment());
@@ -138,7 +138,7 @@ public class FreeMarkerTilesRequestContextTest {
      */
     @Test
     public void testGetPrintWriter() throws IOException {
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
 
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
@@ -154,7 +154,7 @@ public class FreeMarkerTilesRequestContextTest {
      */
     @Test
     public void testGetWriter() throws IOException {
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
 
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);
@@ -168,7 +168,7 @@ public class FreeMarkerTilesRequestContextTest {
      */
     @Test
     public void testGetRequestObjects() {
-        TilesRequestContext enclosedRequest = createMock(TilesRequestContext.class);
+        Request enclosedRequest = createMock(Request.class);
 
         replay(enclosedRequest);
         context = new FreeMarkerTilesRequestContext(enclosedRequest, env);

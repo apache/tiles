@@ -28,9 +28,9 @@ import java.io.IOException;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
@@ -42,14 +42,14 @@ public class AbstractTypeDetectingAttributeRendererTest {
 
     /**
      * Tests
-     * {@link AbstractTypeDetectingAttributeRenderer#isRenderable(Attribute, TilesRequestContext)}
+     * {@link AbstractTypeDetectingAttributeRenderer#isRenderable(Attribute, Request)}
      * .
      */
     @Test
     public void testIsRenderable() {
         AttributeEvaluatorFactory evaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
-        TilesRequestContext request = createMock(TilesRequestContext.class);
+        Request request = createMock(Request.class);
         Attribute attribute = new Attribute("value", new Expression(
                 "expression"), "role", "rendererName");
 
@@ -61,13 +61,13 @@ public class AbstractTypeDetectingAttributeRendererTest {
         AbstractTypeDetectingAttributeRenderer renderer = new AbstractTypeDetectingAttributeRenderer() {
 
             public boolean isRenderable(Object value, Attribute attribute,
-                    TilesRequestContext request) {
+                    Request request) {
                 return "myValue".equals(value);
             }
 
             @Override
             public void write(Object value, Attribute attribute,
-                    TilesRequestContext request) throws IOException {
+                    Request request) throws IOException {
                 // Does nothing.
             }
         };

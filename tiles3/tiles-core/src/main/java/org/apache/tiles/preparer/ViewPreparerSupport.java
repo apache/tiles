@@ -20,7 +20,7 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.AttributeContext;
 
 /**
@@ -34,7 +34,7 @@ import org.apache.tiles.AttributeContext;
 public class ViewPreparerSupport implements ViewPreparer {
 
     /** {@inheritDoc} */
-    public void execute(TilesRequestContext tilesContext,
+    public void execute(Request tilesContext,
                         AttributeContext attributeContext) {
     }
 }

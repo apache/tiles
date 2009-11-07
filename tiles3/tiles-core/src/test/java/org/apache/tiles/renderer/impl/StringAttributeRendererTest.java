@@ -28,11 +28,11 @@ import java.io.StringWriter;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,7 +58,7 @@ public class StringAttributeRendererTest {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}.
+     * {@link StringAttributeRenderer#write(Object, Attribute, Request)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
@@ -67,9 +67,9 @@ public class StringAttributeRendererTest {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
+        Request requestContext = createMock(Request.class);
         expect(requestContext.getWriter()).andReturn(writer);
         replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
@@ -82,7 +82,7 @@ public class StringAttributeRendererTest {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#isRenderable(Object, Attribute, TilesRequestContext)}.
+     * {@link StringAttributeRenderer#isRenderable(Object, Attribute, Request)}.
      *
      * @throws IOException If something goes wrong.
      */
@@ -90,9 +90,9 @@ public class StringAttributeRendererTest {
     public void testIsRenderable() throws IOException {
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
+        Request requestContext = createMock(Request.class);
         replay(applicationContext, contextFactory, requestContext);
         renderer.setApplicationContext(applicationContext);
         renderer.setRequestContextFactory(contextFactory);

@@ -29,7 +29,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextFactory;
@@ -53,6 +52,7 @@ import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
+import org.apache.tiles.request.ApplicationContext;
 import org.easymock.EasyMock;
 
 /**
@@ -70,7 +70,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /**
      * The context object.
      */
-    private TilesApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     /**
      * The URL to load.
@@ -80,7 +80,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
-        applicationContext = EasyMock.createMock(TilesApplicationContext.class);
+        applicationContext = EasyMock.createMock(ApplicationContext.class);
         url = getClass().getResource("/org/apache/tiles/config/tiles-defs.xml");
         EasyMock.expect(applicationContext.getResource("/WEB-INF/tiles.xml")).andReturn(url);
         EasyMock.replay(applicationContext);
@@ -88,7 +88,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createContainer(TilesApplicationContext)}.
+     * Tests {@link BasicTilesContainerFactory#createContainer(ApplicationContext)}.
      */
     public void testCreateContainer() {
         TilesContainer container = factory.createContainer(applicationContext);
@@ -97,7 +97,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainerFactory#createRequestContextFactory(TilesApplicationContext)}.
+     * Tests {@link BasicTilesContainerFactory#createRequestContextFactory(ApplicationContext)}.
      */
     public void testCreateRequestContextFactory() {
         TilesRequestContextFactory contextFactory = factory
@@ -108,7 +108,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests {@link BasicTilesContainerFactory#createDefinitionsFactory(
-     * TilesApplicationContext, TilesRequestContextFactory, LocaleResolver)}.
+     * ApplicationContext, TilesRequestContextFactory, LocaleResolver)}.
      */
     public void testCreateDefinitionsFactory() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -123,7 +123,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests {@link BasicTilesContainerFactory#createLocaleResolver(
-     * TilesApplicationContext, TilesRequestContextFactory)}.
+     * ApplicationContext, TilesRequestContextFactory)}.
      */
     public void testCreateLocaleResolver() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -136,7 +136,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests {@link BasicTilesContainerFactory#createDefinitionsReader(
-     * TilesApplicationContext, TilesRequestContextFactory)}.
+     * ApplicationContext, TilesRequestContextFactory)}.
      */
     public void testCreateDefinitionsReader() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -149,7 +149,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#getSourceURLs(TilesApplicationContext, TilesRequestContextFactory)}.
+     * {@link BasicTilesContainerFactory#getSourceURLs(ApplicationContext, TilesRequestContextFactory)}.
      */
     public void testGetSourceURLs() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -162,7 +162,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /**
      * Tests
      * {@link BasicTilesContainerFactory#createAttributeEvaluatorFactory(
-     * TilesApplicationContext, TilesRequestContextFactory, LocaleResolver)}.
+     * ApplicationContext, TilesRequestContextFactory, LocaleResolver)}.
      */
     public void testCreateAttributeEvaluatorFactory() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -179,7 +179,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#createPreparerFactory(TilesApplicationContext, TilesRequestContextFactory)}.
+     * {@link BasicTilesContainerFactory#createPreparerFactory(ApplicationContext, TilesRequestContextFactory)}.
      */
     public void testCreatePreparerFactory() {
         TilesRequestContextFactory requestContextFactory = factory
@@ -192,7 +192,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
 
     /**
      * Tests {@link BasicTilesContainerFactory#createRendererFactory(
-     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     * ApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
      */
     public void testCreateRendererFactory() {
         TilesContainer container = factory.createContainer(applicationContext);
@@ -225,7 +225,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /**
      * Tests
      * {@link BasicTilesContainerFactory#createDefaultAttributeRenderer(BasicRendererFactory,
-     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     * ApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
      */
     public void testCreateDefaultAttributeRenderer() {
         TilesContainer container = createMock(TilesContainer.class);
@@ -254,7 +254,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /**
      * Tests
      * {@link BasicTilesContainerFactory#createStringAttributeRenderer(BasicRendererFactory,
-     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     * ApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
      */
     public void testCreateStringAttributeRenderer() {
         TilesContainer container = createMock(TilesContainer.class);
@@ -276,7 +276,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /**
      * Tests
      * {@link BasicTilesContainerFactory#createTemplateAttributeRenderer(BasicRendererFactory,
-     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     * ApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
      */
     public void testCreateTemplateAttributeRenderer() {
         TilesContainer container = createMock(TilesContainer.class);
@@ -298,7 +298,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     /**
      * Tests
      * {@link BasicTilesContainerFactory#createDefinitionAttributeRenderer(BasicRendererFactory,
-     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     * ApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
      */
     public void testCreateDefinitionAttributeRenderer() {
         TilesContainer container = createMock(TilesContainer.class);

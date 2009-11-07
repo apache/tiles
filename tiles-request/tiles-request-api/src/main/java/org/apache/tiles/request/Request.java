@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context;
+package org.apache.tiles.request;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,7 +27,6 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.TilesApplicationContext;
 
 /**
  * Encapsulation of request information.
@@ -35,7 +34,7 @@ import org.apache.tiles.TilesApplicationContext;
  * @since 2.0
  * @version $Rev$ $Date$
  */
-public interface TilesRequestContext {
+public interface Request {
 
     /**
      * Return an immutable Map that maps header names to the first (or only)
@@ -76,7 +75,7 @@ public interface TilesRequestContext {
      * @return The application context associated to this request.
      * @since 2.1.1
      */
-    TilesApplicationContext getApplicationContext();
+    ApplicationContext getApplicationContext();
 
     /**
      * Dispatches the request to a specified path.

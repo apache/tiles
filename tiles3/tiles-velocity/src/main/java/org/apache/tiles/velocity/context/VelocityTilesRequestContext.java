@@ -30,8 +30,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextWrapper;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ExternalWriterHttpServletResponse;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.context.Context;
@@ -68,7 +68,7 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
      * @since 2.2.0
      */
     public VelocityTilesRequestContext(
-            TilesRequestContext enclosedRequest, Context ctx, Writer writer) {
+            Request enclosedRequest, Context ctx, Writer writer) {
         super(enclosedRequest);
         this.ctx = ctx;
         this.writer = writer;

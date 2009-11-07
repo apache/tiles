@@ -23,7 +23,7 @@ package org.apache.tiles.renderer;
 import java.io.IOException;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * An object that can render an attribute. For each attribute, if it needs to be
@@ -43,6 +43,6 @@ public interface AttributeRenderer {
      * @throws RendererException If something goes wrong during rendition.
      * @since 2.1.2
      */
-    void render(Attribute attribute, TilesRequestContext request)
+    void render(Attribute attribute, Request request)
             throws IOException;
 }

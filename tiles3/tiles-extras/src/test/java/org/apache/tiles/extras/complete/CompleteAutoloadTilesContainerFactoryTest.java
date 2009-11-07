@@ -40,7 +40,6 @@ import javax.servlet.jsp.JspFactory;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
@@ -61,6 +60,7 @@ import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
 import org.apache.tiles.servlet.context.ServletTilesRequestContextFactory;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
@@ -101,7 +101,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
 
     /**
      * Test method for
-     * {@link CompleteAutoloadTilesContainerFactory#instantiateContainer(TilesApplicationContext)}
+     * {@link CompleteAutoloadTilesContainerFactory#instantiateContainer(ApplicationContext)}
      * .
      */
     @Test
@@ -133,7 +133,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     /**
      * Test method for
      * {@link CompleteAutoloadTilesContainerFactory
-     * #registerAttributeRenderers(BasicRendererFactory, TilesApplicationContext,
+     * #registerAttributeRenderers(BasicRendererFactory, ApplicationContext,
      * TilesRequestContextFactory, TilesContainer, evaluator.AttributeEvaluatorFactory)}
      * .
      */
@@ -197,11 +197,11 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     /**
      * Tests
      * {@link CompleteAutoloadTilesContainerFactory#createDefaultAttributeRenderer(BasicRendererFactory,
-     * TilesApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     * ApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
      */
     @Test
     public void testCreateDefaultAttributeRenderer() {
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
         TilesRequestContextFactory requestContextFactory = createMock(TilesRequestContextFactory.class);
         AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
@@ -232,12 +232,12 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     /**
      * Test method for
      * {@link CompleteAutoloadTilesContainerFactory
-     * #createAttributeEvaluatorFactory(TilesApplicationContext, TilesRequestContextFactory, locale.LocaleResolver)}
+     * #createAttributeEvaluatorFactory(ApplicationContext, TilesRequestContextFactory, locale.LocaleResolver)}
      * .
      */
     @Test
     public void testCreateAttributeEvaluatorFactory() {
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
         LocaleResolver resolver = createMock(LocaleResolver.class);
         ServletContext servletContext = createMock(ServletContext.class);
@@ -288,13 +288,13 @@ public class CompleteAutoloadTilesContainerFactoryTest {
 
     /**
      * Test method for
-     * {@link CompleteAutoloadTilesContainerFactory#getSourceURLs(TilesApplicationContext, TilesRequestContextFactory)}
+     * {@link CompleteAutoloadTilesContainerFactory#getSourceURLs(ApplicationContext, TilesRequestContextFactory)}
      * .
      * @throws IOException If something goes wrong.
      */
     @Test
     public void testGetSourceURLs() throws IOException {
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
 
         URL url1 = new URL("file:///nonexistent/tiles.xml");
@@ -322,12 +322,12 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     /**
      * Test method for
      * {@link CompleteAutoloadTilesContainerFactory
-     * #createDefinitionsReader(TilesApplicationContext, TilesRequestContextFactory)}
+     * #createDefinitionsReader(ApplicationContext, TilesRequestContextFactory)}
      * .
      */
     @Test
     public void testCreateDefinitionsReader() {
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
 
         replay(applicationContext, contextFactory);

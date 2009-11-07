@@ -25,8 +25,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 
 /**
@@ -39,19 +40,19 @@ public class ChainedTilesRequestContextFactoryTest extends TestCase {
     /**
      * The Tiles application context.
      */
-    private TilesApplicationContext appContext;
+    private ApplicationContext appContext;
 
     /**
      * The request context.
      */
-    private TilesRequestContext requestContext;
+    private Request requestContext;
 
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        appContext = EasyMock.createMock(TilesApplicationContext.class);
-        requestContext = EasyMock.createMock(TilesRequestContext.class);
+        appContext = EasyMock.createMock(ApplicationContext.class);
+        requestContext = EasyMock.createMock(Request.class);
         EasyMock.replay(appContext);
     }
 
@@ -65,7 +66,7 @@ public class ChainedTilesRequestContextFactoryTest extends TestCase {
         repFactory.setRequestContextFactory(factory);
         factories.add(repFactory);
         factory.setFactories(factories);
-        TilesRequestContext context = factory.createRequestContext(appContext, requestContext);
+        Request context = factory.createRequestContext(appContext, requestContext);
         assertNotNull("The request context is not correct",
                 context == requestContext);
     }

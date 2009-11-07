@@ -39,11 +39,9 @@ import ognl.OgnlException;
 import ognl.OgnlRuntime;
 import ognl.PropertyAccessor;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.definition.DefinitionsFactoryException;
@@ -82,6 +80,8 @@ import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.util.URLUtil;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
@@ -118,7 +118,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     /** {@inheritDoc} */
     @Override
     protected BasicTilesContainer instantiateContainer(
-            TilesApplicationContext applicationContext) {
+            ApplicationContext applicationContext) {
         return new CachingTilesContainer();
     }
 
@@ -140,7 +140,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     @Override
     protected void registerAttributeRenderers(
             BasicRendererFactory rendererFactory,
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
@@ -174,7 +174,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     @Override
     protected AttributeRenderer createDefaultAttributeRenderer(
             BasicRendererFactory rendererFactory,
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
@@ -198,7 +198,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     /** {@inheritDoc} */
     @Override
     protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
                 createELEvaluator(applicationContext));
@@ -224,7 +224,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
+    protected List<URL> getSourceURLs(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         try {
             Set<URL> urlSet = applicationContext
@@ -240,7 +240,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
 
     /** {@inheritDoc} */
     @Override
-    protected DefinitionsReader createDefinitionsReader(TilesApplicationContext applicationContext,
+    protected DefinitionsReader createDefinitionsReader(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         return new CompatibilityDigesterDefinitionsReader();
     }
@@ -252,7 +252,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
      * @return The EL evaluator.
      */
     private ELAttributeEvaluator createELEvaluator(
-            TilesApplicationContext applicationContext) {
+            ApplicationContext applicationContext) {
         ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
         evaluator.setApplicationContext(applicationContext);
         JspExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();
@@ -300,25 +300,25 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
             PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
             PropertyAccessor mapPropertyAccessor = OgnlRuntime.getPropertyAccessor(Map.class);
             PropertyAccessor applicationContextPropertyAccessor =
-                new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+                new NestedObjectDelegatePropertyAccessor<Request>(
                     new TilesApplicationContextNestedObjectExtractor(),
                     objectPropertyAccessor);
             PropertyAccessor requestScopePropertyAccessor =
-                new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+                new NestedObjectDelegatePropertyAccessor<Request>(
                     new RequestScopeNestedObjectExtractor(), mapPropertyAccessor);
             PropertyAccessor sessionScopePropertyAccessor =
-                new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+                new NestedObjectDelegatePropertyAccessor<Request>(
                     new SessionScopeNestedObjectExtractor(), mapPropertyAccessor);
             PropertyAccessor applicationScopePropertyAccessor =
-                new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
+                new NestedObjectDelegatePropertyAccessor<Request>(
                     new ApplicationScopeNestedObjectExtractor(), mapPropertyAccessor);
-            PropertyAccessorDelegateFactory<TilesRequestContext> factory =
+            PropertyAccessorDelegateFactory<Request> factory =
                 new TilesContextPropertyAccessorDelegateFactory(
                     objectPropertyAccessor, applicationContextPropertyAccessor,
                     requestScopePropertyAccessor, sessionScopePropertyAccessor,
                     applicationScopePropertyAccessor);
-            PropertyAccessor tilesRequestAccessor = new DelegatePropertyAccessor<TilesRequestContext>(factory);
-            OgnlRuntime.setPropertyAccessor(TilesRequestContext.class, tilesRequestAccessor);
+            PropertyAccessor tilesRequestAccessor = new DelegatePropertyAccessor<Request>(factory);
+            OgnlRuntime.setPropertyAccessor(Request.class, tilesRequestAccessor);
             return new OGNLAttributeEvaluator();
         } catch (OgnlException e) {
             throw new TilesContainerFactoryException(

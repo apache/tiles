@@ -29,9 +29,9 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.impl.InvalidTemplateException;
 import org.apache.tiles.renderer.impl.AbstractTypeDetectingAttributeRenderer;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.util.IteratorEnumeration;
@@ -85,7 +85,7 @@ public class VelocityAttributeRenderer extends AbstractTypeDetectingAttributeRen
     /** {@inheritDoc} */
     @Override
     public void write(Object value, Attribute attribute,
-            TilesRequestContext request) throws IOException {
+            Request request) throws IOException {
         if (value != null) {
             if (value instanceof String) {
                 ServletTilesRequestContext servletRequest = ServletUtil.getServletRequest(request);
@@ -110,7 +110,7 @@ public class VelocityAttributeRenderer extends AbstractTypeDetectingAttributeRen
 
     /** {@inheritDoc} */
     public boolean isRenderable(Object value, Attribute attribute,
-            TilesRequestContext request) {
+            Request request) {
         if (value instanceof String) {
             String string = (String) value;
             return string.startsWith("/") && string.endsWith(".vm");

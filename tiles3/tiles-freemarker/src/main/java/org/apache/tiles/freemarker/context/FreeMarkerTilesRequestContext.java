@@ -26,8 +26,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Locale;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextWrapper;
+import org.apache.tiles.request.Request;
 
 import freemarker.core.Environment;
 
@@ -37,7 +37,7 @@ import freemarker.core.Environment;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper implements TilesRequestContext {
+public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper implements Request {
 
     /**
      * The FreeMarker current environment.
@@ -56,7 +56,7 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper im
      * @param env The FreeMarker environment.
      */
     public FreeMarkerTilesRequestContext(
-            TilesRequestContext enclosedRequest, Environment env) {
+            Request enclosedRequest, Environment env) {
         super(enclosedRequest);
         this.env = env;
     }

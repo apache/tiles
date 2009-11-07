@@ -26,12 +26,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.test.factory.TestTilesContainerFactory;
 
 /**
@@ -48,7 +48,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
+    protected List<URL> getSourceURLs(ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
@@ -65,7 +65,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
     /** {@inheritDoc} */
     @Override
     protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(
-            TilesApplicationContext applicationContext,
+            ApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
         return new CachingLocaleUrlDefinitionDAO();
     }

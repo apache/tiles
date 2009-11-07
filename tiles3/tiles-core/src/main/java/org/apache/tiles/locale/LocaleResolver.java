@@ -22,7 +22,7 @@ package org.apache.tiles.locale;
 
 import java.util.Locale;
 
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 
 /**
  * It represents an object able to resolve the current locale for the current
@@ -38,5 +38,5 @@ public interface LocaleResolver {
      * @param request The Tiles request object.
      * @return The current locale for the current request.
      */
-    Locale resolveLocale(TilesRequestContext request);
+    Locale resolveLocale(Request request);
 }

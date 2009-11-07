@@ -21,10 +21,10 @@
 package org.apache.tiles.impl.mgmt;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.request.Request;
 
 /**
  * Mutable container which caches (in memory) the definitions
@@ -44,7 +44,7 @@ public class CachingTilesContainer extends BasicTilesContainer
 
     /** {@inheritDoc} */
     public void register(Definition definition, Object... requestItems) {
-        TilesRequestContext requestContext = getRequestContextFactory()
+        Request requestContext = getRequestContextFactory()
                 .createRequestContext(getApplicationContext(), requestItems);
         register(definition, requestContext);
     }
@@ -52,7 +52,7 @@ public class CachingTilesContainer extends BasicTilesContainer
     /** {@inheritDoc} */
     @Override
     protected Definition getDefinition(String definition,
-            TilesRequestContext context) {
+            Request context) {
         return mgr.getDefinition(definition, context);
     }
 
@@ -78,7 +78,7 @@ public class CachingTilesContainer extends BasicTilesContainer
      * registered.
      */
     protected void register(Definition definition,
-            TilesRequestContext request) {
+            Request request) {
         mgr.addDefinition(definition, request);
     }
 }

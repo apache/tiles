@@ -27,10 +27,10 @@ import static org.easymock.EasyMock.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.ognl.NestedObjectExtractor;
 import org.apache.tiles.ognl.RequestScopeNestedObjectExtractor;
 import org.apache.tiles.ognl.SessionScopeNestedObjectExtractor;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
@@ -41,17 +41,17 @@ import org.junit.Test;
 public class SessionScopeNestedObjectExtractorTest {
 
     /**
-     * Tests {@link RequestScopeNestedObjectExtractor#getNestedObject(TilesRequestContext)}.
+     * Tests {@link RequestScopeNestedObjectExtractor#getNestedObject(Request)}.
      */
     @Test
     public void testGetNestedObject() {
-        TilesRequestContext request = createMock(TilesRequestContext.class);
+        Request request = createMock(Request.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute1", "value1");
         expect(request.getRequestScope()).andReturn(map);
 
         replay(request);
-        NestedObjectExtractor<TilesRequestContext> extractor = new RequestScopeNestedObjectExtractor();
+        NestedObjectExtractor<Request> extractor = new RequestScopeNestedObjectExtractor();
         assertEquals(map, extractor.getNestedObject(request));
         verify(request);
     }

@@ -27,10 +27,10 @@ import static org.easymock.EasyMock.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.mvel.TilesContextBeanVariableResolverFactory;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 import org.mvel2.UnresolveablePropertyException;
@@ -57,12 +57,12 @@ public class TilesContextBeanVariableResolverFactoryTest {
     /**
      * The Tiles request.
      */
-    private TilesRequestContext request;
+    private Request request;
 
     /**
      * The Tiles application context.
      */
-    private TilesApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     /**
      * The object to test.
@@ -74,10 +74,10 @@ public class TilesContextBeanVariableResolverFactoryTest {
      */
     @Before
     public void setUp() {
-        request = createMock(TilesRequestContext.class);
+        request = createMock(Request.class);
         TilesRequestContextHolder holder = new TilesRequestContextHolder();
         holder.setTilesRequestContext(request);
-        applicationContext = createMock(TilesApplicationContext.class);
+        applicationContext = createMock(ApplicationContext.class);
         factory = new TilesContextBeanVariableResolverFactory(holder);
     }
 

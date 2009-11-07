@@ -20,8 +20,8 @@
  */
 package org.apache.tiles.evaluator.impl;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
+import org.apache.tiles.request.Request;
 
 /**
  * Resolves a string and returns the string itself. It is useful for backward
@@ -33,7 +33,7 @@ import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
 public class DirectAttributeEvaluator extends AbstractAttributeEvaluator {
 
     /** {@inheritDoc} */
-    public Object evaluate(String expression, TilesRequestContext request) {
+    public Object evaluate(String expression, Request request) {
         return expression;
     }
 }

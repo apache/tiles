@@ -23,8 +23,8 @@ package org.apache.tiles.preparer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.reflect.ClassUtil;
+import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +65,7 @@ public class BasicPreparerFactory implements PreparerFactory {
      * @param context current context
      * @return ViewPreparer instance
      */
-    public ViewPreparer getPreparer(String name, TilesRequestContext context) {
+    public ViewPreparer getPreparer(String name, Request context) {
 
         if (!preparers.containsKey(name)) {
             preparers.put(name, createPreparer(name));

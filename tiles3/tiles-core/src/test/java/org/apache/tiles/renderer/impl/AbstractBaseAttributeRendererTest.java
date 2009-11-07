@@ -28,11 +28,11 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 
 /**
@@ -69,11 +69,11 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link AbstractBaseAttributeRenderer#setApplicationContext(TilesApplicationContext)}.
+     * {@link AbstractBaseAttributeRenderer#setApplicationContext(ApplicationContext)}.
      */
     public void testSetApplicationContext() {
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         EasyMock.replay(applicationContext);
         renderer.setApplicationContext(applicationContext);
         assertNotNull("The application context is null", renderer.applicationContext);
@@ -81,19 +81,19 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link AbstractBaseAttributeRenderer#render(Attribute, TilesRequestContext)}.
+     * {@link AbstractBaseAttributeRenderer#render(Attribute, Request)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
     public void testRender() throws IOException {
         Attribute attribute = new Attribute();
         StringWriter writer = new StringWriter();
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request requestContext = EasyMock
+                .createMock(Request.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
                 .andReturn(requestContext);
         EasyMock.expect(requestContext.getWriter()).andReturn(writer);
@@ -109,12 +109,12 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
      * Tests {@link AbstractBaseAttributeRenderer#getRequestContext(Object...)}.
      */
     public void testGetRequestContext() {
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request requestContext = EasyMock
+                .createMock(Request.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
                 .andReturn(requestContext);
         EasyMock.replay(applicationContext, contextFactory, requestContext);
@@ -126,15 +126,15 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link AbstractBaseAttributeRenderer#isPermitted(TilesRequestContext, Set)}.
+     * {@link AbstractBaseAttributeRenderer#isPermitted(Request, Set)}.
      */
     public void testIsPermitted() {
-        TilesApplicationContext applicationContext = EasyMock
-                .createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = EasyMock
+                .createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = EasyMock
                 .createMock(TilesRequestContextFactory.class);
-        TilesRequestContext requestContext = EasyMock
-                .createMock(TilesRequestContext.class);
+        Request requestContext = EasyMock
+                .createMock(Request.class);
         EasyMock.expect(contextFactory.createRequestContext(applicationContext))
                 .andReturn(requestContext);
         EasyMock.expect(requestContext.isUserInRole("first")).andReturn(
@@ -162,7 +162,7 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
         /** {@inheritDoc} */
         @Override
         public void write(Object value, Attribute attribute,
-                TilesRequestContext request)
+                Request request)
                 throws IOException {
             request.getWriter().write("wrote");
         }

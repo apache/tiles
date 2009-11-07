@@ -30,10 +30,10 @@ import java.util.Map;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
@@ -44,15 +44,15 @@ import org.junit.Test;
 public class LocaleDefinitionsFactoryTest {
 
     /**
-     * Test method for {@link LocaleDefinitionsFactory#getDefinition(String, TilesRequestContext)}.
+     * Test method for {@link LocaleDefinitionsFactory#getDefinition(String, Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
     public void testGetDefinition() {
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         DefinitionDAO<Locale> dao = createMock(DefinitionDAO.class);
         LocaleResolver localeResolver = createMock(LocaleResolver.class);
-        TilesRequestContext request = createMock(TilesRequestContext.class);
+        Request request = createMock(Request.class);
         Attribute templateAttribute = Attribute.createTemplateAttribute("/mytemplate.jsp");
         Definition definition = new Definition("myDefinition", null, null);
         definition.setExtends("anotherDefinition");

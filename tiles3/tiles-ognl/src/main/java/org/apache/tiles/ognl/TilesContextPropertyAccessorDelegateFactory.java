@@ -25,23 +25,23 @@ import java.util.Map;
 
 import ognl.PropertyAccessor;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.util.CombinedBeanInfo;
 
 /**
  * Decides the appropriate {@link PropertyAccessor} for the given property name
- * and {@link TilesRequestContext}.
+ * and {@link Request}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
 public class TilesContextPropertyAccessorDelegateFactory implements
-        PropertyAccessorDelegateFactory<TilesRequestContext> {
+        PropertyAccessorDelegateFactory<Request> {
 
     /**
      * The plain object property accessor, to be used directly for
-     * {@link TilesRequestContext}.
+     * {@link Request}.
      */
     private PropertyAccessor objectPropertyAccessor;
 
@@ -66,8 +66,8 @@ public class TilesContextPropertyAccessorDelegateFactory implements
     private PropertyAccessor applicationScopePropertyAccessor;
 
     /**
-     * The bean info of {@link TilesRequestContext} and
-     * {@link org.apache.tiles.TilesApplicationContext}.
+     * The bean info of {@link Request} and
+     * {@link org.apache.tiles.request.ApplicationContext}.
      */
     private CombinedBeanInfo beanInfo;
 
@@ -75,7 +75,7 @@ public class TilesContextPropertyAccessorDelegateFactory implements
      * Constructor.
      *
      * @param objectPropertyAccessor The plain object property accessor, to be
-     * used directly for {@link TilesRequestContext}.
+     * used directly for {@link Request}.
      * @param applicationContextPropertyAccessor The application context
      * property accessor.
      * @param requestScopePropertyAccessor The request scope property accessor.
@@ -90,7 +90,7 @@ public class TilesContextPropertyAccessorDelegateFactory implements
             PropertyAccessor requestScopePropertyAccessor,
             PropertyAccessor sessionScopePropertyAccessor,
             PropertyAccessor applicationScopePropertyAccessor) {
-        beanInfo = new CombinedBeanInfo(TilesRequestContext.class, TilesApplicationContext.class);
+        beanInfo = new CombinedBeanInfo(Request.class, ApplicationContext.class);
         this.objectPropertyAccessor = objectPropertyAccessor;
         this.applicationContextPropertyAccessor = applicationContextPropertyAccessor;
         this.requestScopePropertyAccessor = requestScopePropertyAccessor;
@@ -100,12 +100,12 @@ public class TilesContextPropertyAccessorDelegateFactory implements
 
     /** {@inheritDoc} */
     public PropertyAccessor getPropertyAccessor(String propertyName,
-            TilesRequestContext request) {
+            Request request) {
         PropertyAccessor retValue;
-        if (beanInfo.getMappedDescriptors(TilesRequestContext.class)
+        if (beanInfo.getMappedDescriptors(Request.class)
                 .containsKey(propertyName)) {
             retValue = objectPropertyAccessor;
-        } else if (beanInfo.getMappedDescriptors(TilesApplicationContext.class)
+        } else if (beanInfo.getMappedDescriptors(ApplicationContext.class)
                 .containsKey(propertyName)) {
             retValue = applicationContextPropertyAccessor;
         } else {

@@ -29,12 +29,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.ArrayStack;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextWrapper;
 import org.apache.tiles.impl.NoSuchContainerException;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.util.TilesIOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -274,8 +274,8 @@ public final class ServletUtil {
      * context could not be found.
      * @since 2.2.0
      */
-    public static ServletTilesRequestContext getServletRequest(TilesRequestContext request) {
-        TilesRequestContext currentRequest = request;
+    public static ServletTilesRequestContext getServletRequest(Request request) {
+        Request currentRequest = request;
         while (true) {
             if (currentRequest == null) {
                 throw new NotAServletEnvironmentException("Last Tiles request context is null");
@@ -300,7 +300,7 @@ public final class ServletUtil {
      * servlet-based.
      * @since 2.2.0
      */
-    public static ServletContext getServletContext(TilesApplicationContext applicationContext) {
+    public static ServletContext getServletContext(ApplicationContext applicationContext) {
         if (applicationContext instanceof ServletTilesApplicationContext) {
             return (ServletContext) ((ServletTilesApplicationContext) applicationContext).getContext();
         }

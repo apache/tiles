@@ -21,8 +21,8 @@
 
 package org.apache.tiles.ognl;
 
-import org.apache.tiles.TilesApplicationContext;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Extracts the application context from a Tiles request.
@@ -31,10 +31,10 @@ import org.apache.tiles.context.TilesRequestContext;
  * @since 2.2.0
  */
 public class TilesApplicationContextNestedObjectExtractor implements
-        NestedObjectExtractor<TilesRequestContext> {
+        NestedObjectExtractor<Request> {
 
     /** {@inheritDoc} */
-    public TilesApplicationContext getNestedObject(TilesRequestContext obj) {
+    public ApplicationContext getNestedObject(Request obj) {
         return obj.getApplicationContext();
     }
 }

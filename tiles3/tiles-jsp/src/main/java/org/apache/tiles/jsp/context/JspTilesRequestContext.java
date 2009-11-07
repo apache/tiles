@@ -27,8 +27,8 @@ import java.io.Writer;
 import javax.servlet.ServletException;
 import javax.servlet.jsp.PageContext;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextWrapper;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 /**
@@ -38,7 +38,7 @@ import org.apache.tiles.servlet.context.ServletUtil;
  * @version $Rev$ $Date$
  */
 public class JspTilesRequestContext extends TilesRequestContextWrapper
-    implements TilesRequestContext {
+    implements Request {
 
     /**
      * The current page context.
@@ -56,7 +56,7 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
      * @param enclosedRequest The request that is wrapped here.
      * @param pageContext The page context to use.
      */
-    public JspTilesRequestContext(TilesRequestContext enclosedRequest,
+    public JspTilesRequestContext(Request enclosedRequest,
             PageContext pageContext) {
         super(enclosedRequest);
         this.pageContext = pageContext;

@@ -24,15 +24,15 @@ import javax.el.ELResolver;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * Evaluates string expression with typical EL syntax.<br>
  * You can use normal EL syntax, knowing that the root objects are
- * {@link TilesRequestContext}, {@link TilesApplicationContext} and beans
+ * {@link Request}, {@link ApplicationContext} and beans
  * contained in request, session and application scope.
  *
  * @version $Rev$ $Date$
@@ -55,7 +55,7 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
      *
      * @since 2.2.1
      */
-    protected TilesApplicationContext applicationContext;
+    protected ApplicationContext applicationContext;
 
     /**
      * The EL expression factory.
@@ -80,7 +80,7 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
     }
 
     /** {@inheritDoc} */
-    public void setApplicationContext(TilesApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -105,10 +105,10 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
     }
 
     /** {@inheritDoc} */
-    public Object evaluate(String expression, TilesRequestContext request) {
+    public Object evaluate(String expression, Request request) {
         ELContextImpl context = new ELContextImpl(resolver);
-        context.putContext(TilesRequestContext.class, request);
-        context.putContext(TilesApplicationContext.class,
+        context.putContext(Request.class, request);
+        context.putContext(ApplicationContext.class,
                 applicationContext);
         ValueExpression valueExpression = expressionFactory
                 .createValueExpression(context, expression, Object.class);

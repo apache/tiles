@@ -27,12 +27,12 @@ import java.io.IOException;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,7 +58,7 @@ public class DefinitionAttributeRendererTest {
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, TilesRequestContext)}.
+     * {@link StringAttributeRenderer#write(Object, Attribute, Request)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
@@ -66,10 +66,10 @@ public class DefinitionAttributeRendererTest {
     public void testWrite() throws IOException {
         Attribute attribute = new Attribute("my.definition", (Expression) null,
                 null, "definition");
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
         TilesContainer container = createMock(TilesContainer.class);
-        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
+        Request requestContext = createMock(Request.class);
         Object[] requestObjects = new Object[0];
         expect(requestContext.getRequestObjects()).andReturn(requestObjects);
         container.render("my.definition");
@@ -85,17 +85,17 @@ public class DefinitionAttributeRendererTest {
 
     /**
      * Tests
-     * {@link DefinitionAttributeRenderer#isRenderable(Object, Attribute, TilesRequestContext)}
+     * {@link DefinitionAttributeRenderer#isRenderable(Object, Attribute, Request)}
      * .
      */
     @Test
     public void testIsRenderable() {
         Attribute attribute = new Attribute("my.definition", (Expression) null,
                 null, "definition");
-        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
         TilesContainer container = createMock(TilesContainer.class);
-        TilesRequestContext requestContext = createMock(TilesRequestContext.class);
+        Request requestContext = createMock(Request.class);
         Object[] requestObjects = new Object[0];
         expect(requestContext.getRequestObjects()).andReturn(requestObjects);
         expect(container.isValidDefinition("my.definition", requestObjects)).andReturn(Boolean.TRUE);

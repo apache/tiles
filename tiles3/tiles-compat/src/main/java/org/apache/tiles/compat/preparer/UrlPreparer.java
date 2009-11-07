@@ -24,13 +24,13 @@ package org.apache.tiles.compat.preparer;
 import java.io.IOException;
 
 import org.apache.tiles.AttributeContext;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.ViewPreparerSupport;
+import org.apache.tiles.request.Request;
 
 /**
  * Uses a URL that acts as a preparer. When
- * {@link org.apache.tiles.preparer.ViewPreparer#execute(TilesRequestContext, AttributeContext)}
+ * {@link org.apache.tiles.preparer.ViewPreparer#execute(Request, AttributeContext)}
  * is called, the URL is got, but its response is discarded.
  *
  * @version $Rev$ $Date$
@@ -54,7 +54,7 @@ public class UrlPreparer extends ViewPreparerSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void execute(TilesRequestContext tilesContext,
+    public void execute(Request tilesContext,
             AttributeContext attributeContext) {
 
         try {

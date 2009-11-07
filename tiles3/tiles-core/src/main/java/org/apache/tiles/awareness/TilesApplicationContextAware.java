@@ -20,11 +20,11 @@
  */
 package org.apache.tiles.awareness;
 
-import org.apache.tiles.TilesApplicationContext;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * It represents an object that can have a reference to the
- * {@link TilesApplicationContext}.
+ * {@link ApplicationContext}.
  *
  * @version $Rev$ $Date$
  * @since 2.1.0
@@ -37,5 +37,5 @@ public interface TilesApplicationContextAware {
      * @param applicationContext The Tiles application context.
      * @since 2.1.0
      */
-    void setApplicationContext(TilesApplicationContext applicationContext);
+    void setApplicationContext(ApplicationContext applicationContext);
 }

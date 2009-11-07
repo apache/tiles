@@ -23,7 +23,6 @@ package org.apache.tiles.renderer.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
@@ -34,6 +33,7 @@ import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
+import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Basic renderer factory implementation.
@@ -80,7 +80,7 @@ public class BasicRendererFactory implements RendererFactory,
      *
      * @since 2.1.0
      */
-    protected TilesApplicationContext applicationContext;
+    protected ApplicationContext applicationContext;
 
     /**
      * The Tiles container.
@@ -184,7 +184,7 @@ public class BasicRendererFactory implements RendererFactory,
     }
 
     /** {@inheritDoc} */
-    public void setApplicationContext(TilesApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 

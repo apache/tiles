@@ -23,8 +23,8 @@ package org.apache.tiles.locale.impl;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.locale.LocaleResolver;
+import org.apache.tiles.request.Request;
 
 /**
  * Default implementation of <code>LocaleResolver</code><br>
@@ -42,7 +42,7 @@ public class DefaultLocaleResolver implements LocaleResolver {
     public static final String LOCALE_KEY = "org.apache.tiles.LOCALE";
 
     /** {@inheritDoc} */
-    public Locale resolveLocale(TilesRequestContext request) {
+    public Locale resolveLocale(Request request) {
         Locale retValue = null;
         Map<String, Object> session = request.getSessionScope();
         if (session != null) {

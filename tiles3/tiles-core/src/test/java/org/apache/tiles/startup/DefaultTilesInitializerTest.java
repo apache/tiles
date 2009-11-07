@@ -24,8 +24,8 @@ package org.apache.tiles.startup;
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
+import org.apache.tiles.request.ApplicationContext;
 import org.junit.Test;
 
 /**
@@ -36,11 +36,11 @@ import org.junit.Test;
 public class DefaultTilesInitializerTest {
 
     /**
-     * Test method for {@link DefaultTilesInitializer#createContainerFactory(TilesApplicationContext)}.
+     * Test method for {@link DefaultTilesInitializer#createContainerFactory(ApplicationContext)}.
      */
     @Test
     public void testCreateContainerFactory() {
-        TilesApplicationContext context = createMock(TilesApplicationContext.class);
+        ApplicationContext context = createMock(ApplicationContext.class);
 
         replay(context);
         DefaultTilesInitializer initializer = new DefaultTilesInitializer();
