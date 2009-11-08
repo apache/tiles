@@ -35,7 +35,6 @@ import org.apache.tiles.context.TilesRequestContextWrapper;
 import org.apache.tiles.impl.NoSuchContainerException;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.util.TilesIOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -238,9 +237,9 @@ public final class ServletUtil {
         if (rootCause != null) {
             // Replace the ServletException with an IOException, with the root
             // cause of the first as the cause of the latter.
-            retValue = new TilesIOException(message, rootCause);
+            retValue = new IOException(message, rootCause);
         } else {
-            retValue = new TilesIOException(message, ex);
+            retValue = new IOException(message, ex);
         }
 
         return retValue;
