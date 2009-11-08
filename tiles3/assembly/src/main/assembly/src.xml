@@ -62,14 +62,6 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../tiles-servlet-wildcard</directory>
-            <outputDirectory>src/tiles-servlet-wildcard</outputDirectory>
-            <includes>
-                <include>pom.xml</include>
-                <include>src/</include>
-            </includes>
-        </fileSet>
-        <fileSet>
             <directory>../tiles-jsp</directory>
             <outputDirectory>src/tiles-jsp</outputDirectory>
             <includes>

@@ -25,15 +25,15 @@
 
   <parent>
     <groupId>org.apache.tiles</groupId>
-    <artifactId>tiles-parent</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <artifactId>tiles-request</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>tiles-servlet-wildcard</artifactId>
+  <artifactId>tiles-request-servlet-wildcard</artifactId>
   <packaging>jar</packaging>
-  <name>Tiles - Wildcard file loading in Servlets</name>
-  <description>Tiles Wildcard file loading in Servlets: Allows to load resources using wildcards.</description>
+  <name>Tiles Request - Wildcard file loading in Servlets</name>
+  <description>Wildcard file loading in Servlets: Allows to load resources using wildcards.</description>
 
   <properties>
   	<tiles.osgi.symbolicName>org.apache.tiles.servlet.wildcard</tiles.osgi.symbolicName>
@@ -67,24 +67,13 @@
         </includes>
       </testResource>
     </testResources>
-    <plugins>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-    </plugins>
 
   </build>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-servlet</artifactId>
+      <artifactId>tiles-request-servlet</artifactId>
       <version>${pom.version}</version>
     </dependency>
 

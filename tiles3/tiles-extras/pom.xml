@@ -68,8 +68,8 @@
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
-      <artifactId>tiles-servlet-wildcard</artifactId>
-      <version>${pom.version}</version>
+      <artifactId>tiles-request-servlet-wildcard</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
