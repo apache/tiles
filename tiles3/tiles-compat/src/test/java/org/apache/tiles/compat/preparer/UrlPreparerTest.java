@@ -32,9 +32,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
-import org.apache.tiles.servlet.context.ServletTilesRequestContext;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.request.servlet.ServletUtil;
+import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;

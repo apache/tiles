@@ -19,9 +19,8 @@
  * under the License.
  */
 
-package org.apache.tiles.servlet.context;
+package org.apache.tiles.request.servlet;
 
-import org.apache.tiles.TilesException;
 
 /**
  * Exception that indicates that a resource could not be used because it is not
@@ -30,7 +29,7 @@ import org.apache.tiles.TilesException;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class NotAServletEnvironmentException extends TilesException {
+public class NotAServletEnvironmentException extends RuntimeException {
 
     /**
      * Constructor.

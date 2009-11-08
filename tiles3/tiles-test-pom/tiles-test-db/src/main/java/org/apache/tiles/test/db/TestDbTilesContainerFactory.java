@@ -27,13 +27,13 @@ import java.util.Locale;
 import javax.sql.DataSource;
 
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.TilesRequestContextFactory;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 
 

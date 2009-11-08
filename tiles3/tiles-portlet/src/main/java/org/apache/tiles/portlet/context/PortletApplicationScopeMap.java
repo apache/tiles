@@ -32,7 +32,7 @@ import java.util.Set;
 
 import javax.portlet.PortletContext;
 
-import org.apache.tiles.context.MapEntry;
+import org.apache.tiles.request.util.MapEntry;
 
 
 /**

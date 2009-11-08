@@ -32,7 +32,7 @@ import java.util.Set;
 
 import javax.portlet.PortletSession;
 
-import org.apache.tiles.context.MapEntry;
+import org.apache.tiles.request.util.MapEntry;
 
 /**
  * <p>Private implementation of <code>Map</code> for portlet session

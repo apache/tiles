@@ -19,13 +19,15 @@
  * under the License.
  */
 
-package org.apache.tiles.servlet.context;
+package org.apache.tiles.request.servlet;
 
 import java.util.Vector;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import junit.framework.TestCase;
+
+import org.apache.tiles.request.servlet.ServletSessionScopeMap;
 import org.easymock.EasyMock;
 
 /**

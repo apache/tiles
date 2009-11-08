@@ -27,13 +27,13 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.TilesRequestContextFactory;
 
 /**
  * Basic renderer factory implementation.

@@ -18,10 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.context;
+package org.apache.tiles.request;
 
-import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
 
 /**
  * Creates an instance of the appropriate {@link Request}

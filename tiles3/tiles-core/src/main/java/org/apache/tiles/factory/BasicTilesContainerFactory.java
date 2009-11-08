@@ -29,7 +29,6 @@ import java.util.Locale;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.Refreshable;
@@ -60,6 +59,7 @@ import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.TilesRequestContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -165,7 +165,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             ChainedTilesRequestContextFactory parent) {
         List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>();
         registerRequestContextFactory(
-                "org.apache.tiles.servlet.context.ServletTilesRequestContextFactory",
+                "org.apache.tiles.request.servlet.ServletTilesRequestContextFactory",
                 factories, parent);
         registerRequestContextFactory(
                 "org.apache.tiles.portlet.context.PortletTilesRequestContextFactory",

@@ -21,9 +21,27 @@
 
 package org.apache.tiles.freemarker.context;
 
-import static org.junit.Assert.*;
-import static org.easymock.classextension.EasyMock.*;
-import static org.apache.tiles.freemarker.context.FreeMarkerUtil.*;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.COMPOSE_STACK_ATTRIBUTE_NAME;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.evaluateBody;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.getComposeStack;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.getContainer;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.getCurrentContainer;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.getRequestHashModel;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.getServletContextHashModel;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.isForceInclude;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.renderAsString;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.setAttribute;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.setCurrentContainer;
+import static org.apache.tiles.freemarker.context.FreeMarkerUtil.setForceInclude;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -114,7 +132,10 @@ public class FreeMarkerUtilTest {
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         expect(model.get("Request")).andReturn(requestModel);
-        expect(request.getAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME)).andReturn(true);
+		expect(
+				request
+						.getAttribute(org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME))
+				.andReturn(true);
 
         replay(template, model, request, objectWrapper);
         env = new Environment(template, model, writer);
@@ -136,7 +157,10 @@ public class FreeMarkerUtilTest {
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         expect(model.get("Request")).andReturn(requestModel);
-        request.setAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME, true);
+		request
+				.setAttribute(
+						org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+						true);
 
         replay(template, model, request, objectWrapper);
         env = new Environment(template, model, writer);

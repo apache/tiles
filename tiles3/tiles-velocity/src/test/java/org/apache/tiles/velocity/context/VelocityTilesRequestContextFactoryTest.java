@@ -29,9 +29,9 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.TilesRequestContextFactory;
 import org.apache.velocity.context.Context;
 import org.junit.Test;
 

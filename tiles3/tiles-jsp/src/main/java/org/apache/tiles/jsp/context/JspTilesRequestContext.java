@@ -27,9 +27,9 @@ import java.io.Writer;
 import javax.servlet.ServletException;
 import javax.servlet.jsp.PageContext;
 
-import org.apache.tiles.context.TilesRequestContextWrapper;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.request.servlet.ServletUtil;
+import org.apache.tiles.request.util.TilesRequestContextWrapper;
 
 /**
  * Context implementation used for executing tiles within a
@@ -67,7 +67,7 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
      *
      * @param path The path to dispatch to.
      * @throws IOException If something goes wrong during dispatching.
-     * @see org.apache.tiles.servlet.context.ServletTilesRequestContext#dispatch(java.lang.String)
+     * @see org.apache.tiles.request.servlet.ServletTilesRequestContext#dispatch(java.lang.String)
      */
     @Override
 	public void dispatch(String path) throws IOException {

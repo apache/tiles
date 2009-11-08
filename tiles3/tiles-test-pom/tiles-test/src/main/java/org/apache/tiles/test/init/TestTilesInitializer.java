@@ -23,8 +23,8 @@ package org.apache.tiles.test.init;
 
 import javax.servlet.ServletContext;
 
-import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
 import org.apache.tiles.startup.AbstractTilesInitializer;
 import org.apache.tiles.test.factory.TestTilesContainerFactory;
@@ -39,14 +39,14 @@ public class TestTilesInitializer extends AbstractTilesInitializer {
     /** {@inheritDoc} */
     @Override
     protected AbstractTilesContainerFactory createContainerFactory(
-            TilesApplicationContext context) {
+            ApplicationContext context) {
         return new TestTilesContainerFactory();
     }
 
     /** {@inheritDoc} */
     @Override
-    protected TilesApplicationContext createTilesApplicationContext(
-            TilesApplicationContext preliminaryContext) {
+    protected ApplicationContext createTilesApplicationContext(
+            ApplicationContext preliminaryContext) {
         return new WildcardServletTilesApplicationContext(
                 (ServletContext) preliminaryContext.getContext());
     }

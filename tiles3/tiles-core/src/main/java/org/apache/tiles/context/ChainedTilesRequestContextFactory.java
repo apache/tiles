@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.TilesRequestContextFactory;
 
 /**
  * Default implementation for TilesRequestContextFactory, that creates a chain

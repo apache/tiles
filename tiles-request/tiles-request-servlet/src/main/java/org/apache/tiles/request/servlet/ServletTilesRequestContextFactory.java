@@ -19,14 +19,14 @@
  * under the License.
  */
 
-package org.apache.tiles.servlet.context;
+package org.apache.tiles.request.servlet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.TilesRequestContextFactory;
 
 /**
  * Creates an instance of the appropriate {@link Request}

@@ -79,9 +79,10 @@ public final class JspUtil {
      * @since 2.0.6
      */
     public static boolean isForceInclude(JspContext context) {
-        Boolean retValue = (Boolean) context.getAttribute(
-                ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-                PageContext.REQUEST_SCOPE);
+		Boolean retValue = (Boolean) context
+				.getAttribute(
+						org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+						PageContext.REQUEST_SCOPE);
         return retValue != null && retValue.booleanValue();
     }
 
@@ -95,9 +96,10 @@ public final class JspUtil {
      */
     public static void setForceInclude(JspContext context, boolean forceInclude) {
         Boolean retValue = Boolean.valueOf(forceInclude);
-        context.setAttribute(
-                ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-                retValue, PageContext.REQUEST_SCOPE);
+		context
+				.setAttribute(
+						org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+						retValue, PageContext.REQUEST_SCOPE);
     }
 
     /**

@@ -23,9 +23,9 @@ package org.apache.tiles.mock;
 import java.util.Map;
 
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.TilesRequestContextFactory;
 
 /**
  * "Repeats" (i.e. returns back) the context as a

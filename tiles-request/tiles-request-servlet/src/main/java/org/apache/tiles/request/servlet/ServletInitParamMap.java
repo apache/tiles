@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.servlet.context;
+package org.apache.tiles.request.servlet;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,35 +29,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletRequest;
+import javax.servlet.ServletContext;
 
-import org.apache.tiles.context.MapEntry;
-
+import org.apache.tiles.request.util.MapEntry;
 
 /**
- * <p>Private implementation of <code>Map</code> for servlet parameter
- * name-values[].</p>
+ * <p>Private implementation of <code>Map</code> for servlet context
+ * init parameters.</p>
  *
  * @version $Rev$ $Date$
  */
 
-final class ServletParamValuesMap implements Map<String, String[]> {
+final class ServletInitParamMap implements Map<String, String> {
 
 
     /**
      * Constructor.
      *
-     * @param request The request object to use.
+     * @param context The servlet context to use.
      */
-    public ServletParamValuesMap(ServletRequest request) {
-        this.request = request;
+    public ServletInitParamMap(ServletContext context) {
+        this.context = context;
     }
 
 
     /**
-     * The request object to use.
+     * The servlet context to use.
      */
-    private ServletRequest request = null;
+    private ServletContext context = null;
 
 
     /** {@inheritDoc} */
@@ -68,30 +67,16 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (request.getParameter(key(key)) != null);
+        return (context.getInitParameter(key(key)) != null);
     }
 
 
     /** {@inheritDoc} */
     public boolean containsValue(Object value) {
-        if (!(value instanceof String[])) {
-            return (false);
-        }
-        String[] test = (String[]) value;
-        Iterator<String[]> values = values().iterator();
+        Iterator<String> values = values().iterator();
         while (values.hasNext()) {
-            String[] actual = values.next();
-            if (test.length == actual.length) {
-                boolean matched = true;
-                for (int i = 0; i < test.length; i++) {
-                    if (!test[i].equals(actual[i])) {
-                        matched = false;
-                        break;
-                    }
-                }
-                if (matched) {
-                    return (true);
-                }
+            if (value.equals(values.next())) {
+                return (true);
             }
         }
         return (false);
@@ -100,14 +85,14 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<String, String[]>> entrySet() {
-        Set<Map.Entry<String, String[]>> set = new HashSet<Map.Entry<String, String[]>>();
-        Enumeration<String> keys = request.getParameterNames();
+    public Set<Map.Entry<String, String>> entrySet() {
+        Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>();
+        Enumeration<String> keys = context.getInitParameterNames();
         String key;
         while (keys.hasMoreElements()) {
             key = keys.nextElement();
-            set.add(new MapEntry<String, String[]>(key, request
-                    .getParameterValues(key), false));
+            set.add(new MapEntry<String, String>(key, context
+                    .getInitParameter(key), false));
         }
         return (set);
     }
@@ -117,15 +102,15 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     @Override
 	@SuppressWarnings("unchecked")
     public boolean equals(Object o) {
-        ServletRequest otherRequest = ((ServletParamValuesMap) o).request;
+        ServletContext otherContext = ((ServletInitParamMap) o).context;
         boolean retValue = true;
-        synchronized (request) {
-            for (Enumeration<String> attribs = request.getParameterNames(); attribs
+        synchronized (context) {
+            for (Enumeration<String> attribs = context.getInitParameterNames(); attribs
                     .hasMoreElements()
                     && retValue;) {
                 String parameterName = attribs.nextElement();
-                retValue = request.getParameterValues(parameterName).equals(
-                        otherRequest.getParameterValues(parameterName));
+                retValue = context.getInitParameter(parameterName).equals(
+                        otherContext.getInitParameter(parameterName));
             }
         }
 
@@ -134,15 +119,15 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
 
     /** {@inheritDoc} */
-    public String[] get(Object key) {
-        return (request.getParameterValues(key(key)));
+    public String get(Object key) {
+        return (context.getInitParameter(key(key)));
     }
 
 
     /** {@inheritDoc} */
     @Override
 	public int hashCode() {
-        return (request.hashCode());
+        return (context.hashCode());
     }
 
 
@@ -156,7 +141,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     @SuppressWarnings("unchecked")
     public Set<String> keySet() {
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
             set.add(keys.nextElement());
         }
@@ -165,19 +150,19 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
 
     /** {@inheritDoc} */
-    public String[] put(String key, String[] value) {
+    public String put(String key, String value) {
         throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public void putAll(Map<? extends String, ? extends String[]> map) {
+    public void putAll(Map<? extends String, ? extends String> map) {
         throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public String[] remove(Object key) {
+    public String remove(Object key) {
         throw new UnsupportedOperationException();
     }
 
@@ -186,7 +171,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
     @SuppressWarnings("unchecked")
     public int size() {
         int n = 0;
-        Enumeration<String> keys = request.getParameterNames();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
             keys.nextElement();
             n++;
@@ -197,11 +182,11 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Collection<String[]> values() {
-        List<String[]> list = new ArrayList<String[]>();
-        Enumeration<String> keys = request.getParameterNames();
+    public Collection<String> values() {
+        List<String> list = new ArrayList<String>();
+        Enumeration<String> keys = context.getInitParameterNames();
         while (keys.hasMoreElements()) {
-            list.add(request.getParameterValues(keys.nextElement()));
+            list.add(context.getInitParameter(keys.nextElement()));
         }
         return (list);
     }

@@ -25,10 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletTilesRequestContext;
+import org.apache.tiles.request.TilesRequestContextFactory;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.easymock.classextension.EasyMock;
 
 import junit.framework.TestCase;

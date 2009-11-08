@@ -28,8 +28,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.servlet.context.ServletUtil;
-
 /**
  * Sample servlet that includes a page specified by the <code>include</code>
  * init parameter.
@@ -76,7 +74,7 @@ public class IncludingServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        if (ServletUtil.isForceInclude(request)) {
+        if (org.apache.tiles.request.servlet.ServletUtil.isForceInclude(request)) {
             request.getRequestDispatcher(include).include(request, response);
         } else {
             request.getRequestDispatcher(errorInclude).include(request, response);

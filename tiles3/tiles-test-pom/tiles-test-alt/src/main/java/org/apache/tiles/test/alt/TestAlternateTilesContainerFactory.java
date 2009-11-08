@@ -26,12 +26,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.TilesRequestContextFactory;
 import org.apache.tiles.test.factory.TestTilesContainerFactory;
 
 /**

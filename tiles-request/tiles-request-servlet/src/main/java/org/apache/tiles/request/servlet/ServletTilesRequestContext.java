@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.servlet.context;
+package org.apache.tiles.request.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,9 +32,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.context.TilesApplicationContextWrapper;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.util.TilesApplicationContextWrapper;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.

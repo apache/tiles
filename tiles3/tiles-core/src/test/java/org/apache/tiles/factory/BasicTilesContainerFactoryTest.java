@@ -31,7 +31,6 @@ import junit.framework.TestCase;
 
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.UnresolvingLocaleDefinitionsFactory;
@@ -53,6 +52,7 @@ import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.TilesRequestContextFactory;
 import org.easymock.EasyMock;
 
 /**

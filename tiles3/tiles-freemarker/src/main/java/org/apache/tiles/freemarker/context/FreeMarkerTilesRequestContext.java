@@ -26,8 +26,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Locale;
 
-import org.apache.tiles.context.TilesRequestContextWrapper;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.util.TilesRequestContextWrapper;
 
 import freemarker.core.Environment;
 

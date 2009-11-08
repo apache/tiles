@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.servlet.context;
+package org.apache.tiles.request.servlet;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
@@ -31,6 +31,7 @@ import java.io.Writer;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.junit.Test;
 
 /**
@@ -39,7 +40,7 @@ import org.junit.Test;
 public class ExternalWriterHttpServletResponseTest {
 
     /**
-     * Test method for {@link org.apache.tiles.servlet.context.ExternalWriterHttpServletResponse#getWriter()}.
+     * Test method for {@link org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse#getWriter()}.
      * @throws IOException If something goes wrong.
      */
     @Test

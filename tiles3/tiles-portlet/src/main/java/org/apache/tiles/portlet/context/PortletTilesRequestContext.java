@@ -36,9 +36,9 @@ import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import org.apache.tiles.context.TilesApplicationContextWrapper;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.util.TilesApplicationContextWrapper;
 
 /**
  * Portlet-based TilesApplicationContext implementation.

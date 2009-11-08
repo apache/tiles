@@ -25,11 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletTilesRequestContext;
+import org.apache.tiles.request.TilesRequestContextFactory;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

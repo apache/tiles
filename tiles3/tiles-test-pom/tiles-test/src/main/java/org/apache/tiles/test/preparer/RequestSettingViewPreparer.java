@@ -22,9 +22,9 @@ package org.apache.tiles.test.preparer;
 
 import java.util.Map;
 
-import org.apache.tiles.preparer.ViewPreparer;
-import org.apache.tiles.context.TilesRequestContext;
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.request.Request;
 
 /**
  * A simple test <code>ViewPreparer</code> to put a request attribute, that
@@ -35,7 +35,7 @@ import org.apache.tiles.AttributeContext;
 public class RequestSettingViewPreparer implements ViewPreparer {
 
     /** {@inheritDoc} */
-    public void execute(TilesRequestContext tilesContext,
+    public void execute(Request tilesContext,
             AttributeContext attributeContext) {
         Map<String, Object> requestScope = tilesContext.getRequestScope();
         requestScope.put("body", "test.inner.definition");

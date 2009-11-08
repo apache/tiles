@@ -25,7 +25,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.tiles.TilesException;
-import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.startup.TilesInitializer;
 import org.slf4j.Logger;

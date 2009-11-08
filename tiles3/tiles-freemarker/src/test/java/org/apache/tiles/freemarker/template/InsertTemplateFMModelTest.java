@@ -124,7 +124,10 @@ public class InsertTemplateFMModelTest {
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null).times(2);
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         expectLastCall().times(2);
-        request.setAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME, true);
+		request
+				.setAttribute(
+						org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+						true);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 

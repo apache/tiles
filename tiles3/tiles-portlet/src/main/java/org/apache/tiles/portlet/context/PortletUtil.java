@@ -55,8 +55,8 @@ public final class PortletUtil {
      * @since 2.0.6
      */
     public static boolean isForceInclude(PortletRequest request) {
-        Boolean retValue = (Boolean) request
-                .getAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME);
+		Boolean retValue = (Boolean) request
+				.getAttribute(org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME);
         return retValue != null && retValue.booleanValue();
     }
 
@@ -71,9 +71,10 @@ public final class PortletUtil {
     public static void setForceInclude(PortletRequest request,
             boolean forceInclude) {
         Boolean retValue = Boolean.valueOf(forceInclude);
-        request.setAttribute(
-                ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-                retValue);
+		request
+				.setAttribute(
+						org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+						retValue);
     }
 
     /**

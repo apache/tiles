@@ -27,13 +27,13 @@ import java.util.Set;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.TilesRequestContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

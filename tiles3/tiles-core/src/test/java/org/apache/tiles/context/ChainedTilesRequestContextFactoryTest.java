@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.TilesRequestContextFactory;
 import org.easymock.EasyMock;
 
 /**

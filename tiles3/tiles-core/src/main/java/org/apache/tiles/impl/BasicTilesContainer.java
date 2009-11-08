@@ -28,7 +28,6 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
@@ -42,6 +41,7 @@ import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.TilesRequestContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

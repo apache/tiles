@@ -20,10 +20,10 @@
  */
 package org.apache.tiles.test.preparer;
 
-import org.apache.tiles.preparer.ViewPreparer;
-import org.apache.tiles.context.TilesRequestContext;
-import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Attribute;
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.request.Request;
 
 /**
  * A simple test <code>ViewPreparer</code>.
@@ -33,7 +33,7 @@ import org.apache.tiles.Attribute;
 public class TestViewPreparer implements ViewPreparer {
 
     /** {@inheritDoc} */
-    public void execute(TilesRequestContext tilesContext,
+    public void execute(Request tilesContext,
             AttributeContext attributeContext) {
         attributeContext.putAttribute(
             "body",

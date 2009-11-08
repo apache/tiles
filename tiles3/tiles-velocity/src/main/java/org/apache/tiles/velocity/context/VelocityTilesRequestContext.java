@@ -30,10 +30,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.context.TilesRequestContextWrapper;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ExternalWriterHttpServletResponse;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.request.servlet.ServletUtil;
+import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
+import org.apache.tiles.request.util.TilesRequestContextWrapper;
 import org.apache.velocity.context.Context;
 
 /**

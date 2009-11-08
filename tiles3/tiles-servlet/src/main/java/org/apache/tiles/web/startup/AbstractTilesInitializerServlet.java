@@ -24,7 +24,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
 import org.apache.tiles.startup.TilesInitializer;
 import org.apache.tiles.web.util.ServletContextAdapter;
 

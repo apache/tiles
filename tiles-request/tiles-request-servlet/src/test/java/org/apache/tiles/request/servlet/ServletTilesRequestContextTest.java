@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.servlet.context;
+package org.apache.tiles.request.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,6 +38,8 @@ import org.apache.shale.test.mock.MockHttpSession;
 import org.apache.shale.test.mock.MockServletContext;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletUtil;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.easymock.classextension.EasyMock;
 
 /**

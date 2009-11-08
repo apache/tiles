@@ -28,7 +28,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.apache.tiles.servlet.context.ServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.web.context.support.ServletContextResourcePatternResolver;

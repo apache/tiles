@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.servlet.context;
+package org.apache.tiles.request.servlet;
 
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.apache.tiles.context.MapEntry;
+import org.apache.tiles.request.util.MapEntry;
 
 /**
  * <p>Private implementation of <code>Map</code> for servlet context

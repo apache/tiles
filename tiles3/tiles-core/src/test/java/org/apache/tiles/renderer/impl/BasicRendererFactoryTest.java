@@ -24,9 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.context.TilesRequestContextFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.TilesRequestContextFactory;
 import org.easymock.EasyMock;
 
 import junit.framework.TestCase;

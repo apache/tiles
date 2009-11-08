@@ -38,8 +38,8 @@ import org.apache.tiles.freemarker.servlet.TilesFreemarkerServlet;
 import org.apache.tiles.impl.InvalidTemplateException;
 import org.apache.tiles.renderer.impl.AbstractTypeDetectingAttributeRenderer;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ExternalWriterHttpServletResponse;
-import org.apache.tiles.servlet.context.ServletTilesRequestContext;
+import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.util.IteratorEnumeration;
 

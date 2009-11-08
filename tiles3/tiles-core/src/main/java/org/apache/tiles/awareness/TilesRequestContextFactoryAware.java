@@ -20,7 +20,7 @@
  */
 package org.apache.tiles.awareness;
 
-import org.apache.tiles.context.TilesRequestContextFactory;
+import org.apache.tiles.request.TilesRequestContextFactory;
 
 /**
  * It represents an object that can have a reference to the
