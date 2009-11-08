@@ -26,7 +26,9 @@ import java.io.PrintWriter;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.GenericPortlet;
+import javax.portlet.PortletContext;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
 import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.PortletSession;
 import javax.portlet.PortletURL;
@@ -35,7 +37,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.portlet.context.PortletUtil;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.servlet.context.ServletUtil;
 
 /**
  * Test Portlet.
@@ -52,8 +55,8 @@ public class TestPortlet extends GenericPortlet {
         String definition = (String) portletSession.getAttribute("definition");
         if (definition != null) {
             portletSession.removeAttribute("definition");
-            TilesContainer container = PortletUtil.getCurrentContainer(request,
-                    getPortletContext());
+			TilesContainer container = getCurrentContainer(request,
+					getPortletContext());
             if (container.isValidDefinition(definition, request, response,
                     getPortletContext())) {
                 container.render(definition, request, response,
@@ -98,5 +101,53 @@ public class TestPortlet extends GenericPortlet {
         PortletURL url = response.createRenderURL();
         writer.append(url.toString());
         writer.append("\"> Back to definition selection</a>");
+    }
+
+    /**
+     * Returns the current container that has been set, or the default one.
+     *
+     * @param request The request to use.
+     * @param context The portlet context to use.
+     * @return The current Tiles container to use in web pages.
+     * @since 2.1.0
+     */
+    private static TilesContainer getCurrentContainer(PortletRequest request,
+            PortletContext context) {
+        TilesContainer container = (TilesContainer) request
+                .getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME);
+        if (container == null) {
+            container = getContainer(context);
+            request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+                    container);
+        }
+
+        return container;
+    }
+
+    /**
+     * Returns a specific Tiles container.
+     *
+     * @param context The portlet context to use.
+     * @param key The key under which the container is stored. If null, the
+     * default container will be returned.
+     * @return The requested Tiles container.
+     * @since 2.1.2
+     */
+    private static TilesContainer getContainer(PortletContext context, String key) {
+        if (key == null) {
+            key = TilesAccess.CONTAINER_ATTRIBUTE;
+        }
+        return (TilesContainer) context.getAttribute(key);
+    }
+
+    /**
+     * Returns the default Tiles container.
+     *
+     * @param context The portlet context to use.
+     * @return The default Tiles container.
+     * @since 2.1.2
+     */
+    private static TilesContainer getContainer(PortletContext context) {
+        return getContainer(context, TilesAccess.CONTAINER_ATTRIBUTE);
     }
 }

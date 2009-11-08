@@ -30,7 +30,7 @@ import org.apache.tiles.factory.NotAvailableFeatureException;
  * @version $Rev$ $Date$
  * @since 2.1.4
  */
-public class NotAPortletEnvironmentException extends NotAvailableFeatureException {
+public class NotAPortletEnvironmentException extends RuntimeException {
 
     /**
      * Constructor.
