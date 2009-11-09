@@ -165,18 +165,6 @@
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-portlet</artifactId>
-      <version>${pom.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-portlet-wildcard</artifactId>
-      <version>${pom.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-jsp</artifactId>
       <version>${pom.version}</version>
     </dependency>

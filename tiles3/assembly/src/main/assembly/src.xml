@@ -126,22 +126,6 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../tiles-portlet</directory>
-            <outputDirectory>src/tiles-portlet</outputDirectory>
-            <includes>
-                <include>pom.xml</include>
-                <include>src/</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../tiles-portlet-wildcard</directory>
-            <outputDirectory>src/tiles-portlet-wildcard</outputDirectory>
-            <includes>
-                <include>pom.xml</include>
-                <include>src/</include>
-            </includes>
-        </fileSet>
-        <fileSet>
             <directory>../tiles-compat</directory>
             <outputDirectory>src/tiles-compat</outputDirectory>
             <includes>
