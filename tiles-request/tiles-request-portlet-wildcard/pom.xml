@@ -30,7 +30,7 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>tiles-portlet-wildcard</artifactId>
+  <artifactId>tiles-request-portlet-wildcard</artifactId>
   <packaging>jar</packaging>
   <name>Tiles - Wildcard file loading in Portlets</name>
   <description>Tiles Wildcard file loading in Portlets: Allows to load resources using wildcards.</description>
