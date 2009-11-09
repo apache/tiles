@@ -24,6 +24,7 @@
 		<module>tiles-request-servlet-wildcard</module>
 		<module>tiles-request-portlet</module>
 		<module>tiles-request-portlet-wildcard</module>
+		<module>tiles-request-jsp</module>
 	</modules>
 	<build>
 		<pluginManagement>
