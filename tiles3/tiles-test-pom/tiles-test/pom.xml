@@ -59,8 +59,8 @@
       </dependency>
       <dependency>
          <groupId>${pom.groupId}</groupId>
-         <artifactId>tiles-portlet</artifactId>
-         <version>${pom.version}</version>
+         <artifactId>tiles-request-portlet</artifactId>
+         <version>1.0-SNAPSHOT</version>
       </dependency>
 
       <dependency>

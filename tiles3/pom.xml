@@ -57,8 +57,6 @@
         <module>tiles-el</module>
         <module>tiles-mvel</module>
         <module>tiles-ognl</module>
-        <module>tiles-portlet</module>
-        <module>tiles-portlet-wildcard</module>
         <module>tiles-compat</module>
         <module>tiles-extras</module>
         <module>assembly</module>

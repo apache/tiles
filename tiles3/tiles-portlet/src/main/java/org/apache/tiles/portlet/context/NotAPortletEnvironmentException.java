@@ -21,7 +21,6 @@
 
 package org.apache.tiles.portlet.context;
 
-import org.apache.tiles.factory.NotAvailableFeatureException;
 
 /**
  * Exception that indicates that a resource could not be used because it is not
