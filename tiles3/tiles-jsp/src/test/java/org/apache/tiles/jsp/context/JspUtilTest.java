@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.easymock.classextension.EasyMock;

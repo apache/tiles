@@ -28,7 +28,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.GetAsStringModel;
 

@@ -24,7 +24,7 @@ package org.apache.tiles.jsp.taglib.definition;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.jsp.JspUtil;
 
 /**
  * Sets the current container, to be used by Tiles tags.

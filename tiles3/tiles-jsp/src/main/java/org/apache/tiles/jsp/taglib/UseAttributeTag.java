@@ -31,7 +31,7 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
-import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.template.ImportAttributeModel;
 
 

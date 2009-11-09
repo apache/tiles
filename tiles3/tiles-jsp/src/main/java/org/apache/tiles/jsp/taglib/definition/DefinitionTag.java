@@ -27,7 +27,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.jsp.context.JspUtil;
+import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.template.DefinitionModel;

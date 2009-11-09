@@ -77,7 +77,11 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
     /** {@inheritDoc} */
     @Override
 	public void include(String path) throws IOException {
-        JspUtil.setForceInclude(pageContext, true);
+        Boolean retValue = Boolean.valueOf(true);
+		pageContext
+				.setAttribute(
+						org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+						retValue, PageContext.REQUEST_SCOPE);
         try {
             pageContext.include(path, false);
         } catch (ServletException e) {
