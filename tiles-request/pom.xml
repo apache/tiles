@@ -22,6 +22,8 @@
 		<module>tiles-request-api</module>
 		<module>tiles-request-servlet</module>
 		<module>tiles-request-servlet-wildcard</module>
+		<module>tiles-request-portlet</module>
+		<module>tiles-request-portlet-wildcard</module>
 	</modules>
 	<build>
 		<pluginManagement>
