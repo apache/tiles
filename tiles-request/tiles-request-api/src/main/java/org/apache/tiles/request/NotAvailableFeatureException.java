@@ -19,9 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.factory;
-
-import org.apache.tiles.TilesException;
+package org.apache.tiles.request;
 
 /**
  * Exception that indicates that a feature could not be used since it is not
@@ -30,7 +28,7 @@ import org.apache.tiles.TilesException;
  * @version $Rev$ $Date$
  * @since 2.1.4
  */
-public class NotAvailableFeatureException extends TilesException {
+public class NotAvailableFeatureException extends RuntimeException {
 
     /**
      * Constructor.

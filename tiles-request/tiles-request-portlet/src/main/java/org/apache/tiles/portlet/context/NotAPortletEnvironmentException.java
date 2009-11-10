@@ -21,6 +21,8 @@
 
 package org.apache.tiles.portlet.context;
 
+import org.apache.tiles.request.NotAvailableFeatureException;
+
 
 /**
  * Exception that indicates that a resource could not be used because it is not
@@ -29,7 +31,7 @@ package org.apache.tiles.portlet.context;
  * @version $Rev$ $Date$
  * @since 2.1.4
  */
-public class NotAPortletEnvironmentException extends RuntimeException {
+public class NotAPortletEnvironmentException extends NotAvailableFeatureException {
 
     /**
      * Constructor.

@@ -1,21 +1,64 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>tiles-request</artifactId>
-    <groupId>org.apache.tiles</groupId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
-  <groupId>org.apache.tiles</groupId>
-  <artifactId>tiles-request-jsp</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>Tiles Request - JSP support</name>
-  <description>JSP implementation of the Tiles Request framework.</description>
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-request-servlet</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>tiles-request</artifactId>
+		<groupId>org.apache.tiles</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>org.apache.tiles</groupId>
+	<artifactId>tiles-request-jsp</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>Tiles Request - JSP support</name>
+	<description>JSP implementation of the Tiles Request framework.</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-request-servlet</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+			<version>1.5.8</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.6</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>2.5.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymockclassextension</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shale</groupId>
+			<artifactId>shale-test</artifactId>
+			<version>1.0.5</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
