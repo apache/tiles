@@ -36,7 +36,6 @@ import org.apache.tiles.servlet.context.ServletUtil;
 
 import freemarker.core.Environment;
 import freemarker.ext.servlet.FreemarkerServlet;
-import freemarker.ext.servlet.HttpRequestHashModel;
 import freemarker.ext.servlet.ServletContextHashModel;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
@@ -72,7 +71,7 @@ public final class FreeMarkerUtil {
      */
     public static boolean isForceInclude(Environment env) {
         return org.apache.tiles.request.servlet.ServletUtil
-                .isForceInclude(getRequestHashModel(env).getRequest());
+                .isForceInclude(FreeMarkerRequestUtil.getRequestHashModel(env).getRequest());
     }
 
     /**
@@ -85,7 +84,7 @@ public final class FreeMarkerUtil {
      */
     public static void setForceInclude(Environment env, boolean forceInclude) {
 		org.apache.tiles.request.servlet.ServletUtil.setForceInclude(
-				getRequestHashModel(env).getRequest(), forceInclude);
+				FreeMarkerRequestUtil.getRequestHashModel(env).getRequest(), forceInclude);
     }
 
     /**
@@ -115,7 +114,7 @@ public final class FreeMarkerUtil {
     public static void setCurrentContainer(Environment env, String key) {
         TilesContainer container = getContainer(env, key);
         if (container != null) {
-            getRequestHashModel(env).getRequest().setAttribute(
+            FreeMarkerRequestUtil.getRequestHashModel(env).getRequest().setAttribute(
                     ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         } else {
             throw new NoSuchContainerException("The container with the key '"
@@ -132,7 +131,7 @@ public final class FreeMarkerUtil {
      */
     public static void setCurrentContainer(Environment env,
             TilesContainer container) {
-        ServletUtil.setCurrentContainer(getRequestHashModel(env).getRequest(),
+        ServletUtil.setCurrentContainer(FreeMarkerRequestUtil.getRequestHashModel(env).getRequest(),
                 getServletContextHashModel(env).getServlet()
                         .getServletContext(), container);
     }
@@ -145,26 +144,9 @@ public final class FreeMarkerUtil {
      * @since 2.2.0
      */
     public static TilesContainer getCurrentContainer(Environment env) {
-        return ServletUtil.getCurrentContainer(getRequestHashModel(env)
+        return ServletUtil.getCurrentContainer(FreeMarkerRequestUtil.getRequestHashModel(env)
                 .getRequest(), getServletContextHashModel(env).getServlet()
                 .getServletContext());
-    }
-
-    /**
-     * Returns the HTTP request hash model.
-     *
-     * @param env The current FreeMarker environment.
-     * @return The request hash model.
-     * @since 2.2.0
-     */
-    public static HttpRequestHashModel getRequestHashModel(Environment env) {
-        try {
-            return (HttpRequestHashModel) env.getDataModel().get(
-                    FreemarkerServlet.KEY_REQUEST);
-        } catch (TemplateModelException e) {
-            throw new FreeMarkerTilesException(
-                    "Exception got when obtaining the request hash model", e);
-        }
     }
 
     /**
@@ -257,9 +239,9 @@ public final class FreeMarkerUtil {
                         "Error when wrapping an object", e);
             }
         } else if ("request".equals(scope)) {
-            getRequestHashModel(env).getRequest().setAttribute(name, obj);
+            FreeMarkerRequestUtil.getRequestHashModel(env).getRequest().setAttribute(name, obj);
         } else if ("session".equals(scope)) {
-            getRequestHashModel(env).getRequest().getSession().setAttribute(
+            FreeMarkerRequestUtil.getRequestHashModel(env).getRequest().getSession().setAttribute(
                     name, obj);
         } else if ("application".equals(scope)) {
             getServletContextHashModel(env).getServlet().getServletContext()
@@ -276,7 +258,7 @@ public final class FreeMarkerUtil {
      */
     @SuppressWarnings("unchecked")
     public static ArrayStack<Object> getComposeStack(Environment env) {
-        HttpServletRequest request = getRequestHashModel(env).getRequest();
+        HttpServletRequest request = FreeMarkerRequestUtil.getRequestHashModel(env).getRequest();
         ArrayStack<Object> composeStack = (ArrayStack<Object>) request
                 .getAttribute(COMPOSE_STACK_ATTRIBUTE_NAME);
         if (composeStack == null) {

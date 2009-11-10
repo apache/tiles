@@ -68,7 +68,7 @@ public class FreeMarkerTilesRequestContextFactory implements
             Environment env = (Environment) requestItems[0];
             HttpRequestHashModel requestModel;
             try {
-                requestModel = FreeMarkerUtil.getRequestHashModel(env);
+                requestModel = FreeMarkerRequestUtil.getRequestHashModel(env);
             } catch (FreeMarkerTilesException e) {
                 log.warn("Cannot evaluate as a FreeMarker in Servlet Environment, skipping", e);
                 return null;
