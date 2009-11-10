@@ -1,7 +1,5 @@
 package org.apache.tiles.freemarker.context;
 
-import org.apache.tiles.freemarker.FreeMarkerTilesException;
-
 import freemarker.core.Environment;
 import freemarker.ext.servlet.FreemarkerServlet;
 import freemarker.ext.servlet.HttpRequestHashModel;
@@ -24,7 +22,7 @@ public final class FreeMarkerRequestUtil {
 	        return (HttpRequestHashModel) env.getDataModel().get(
 	                FreemarkerServlet.KEY_REQUEST);
 	    } catch (TemplateModelException e) {
-	        throw new FreeMarkerTilesException(
+	        throw new NotAvailableFreemarkerServletException(
 	                "Exception got when obtaining the request hash model", e);
 	    }
 	}

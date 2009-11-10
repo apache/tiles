@@ -25,8 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
-import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.NotAvailableFeatureException;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.TilesRequestContextFactory;
 import org.apache.tiles.request.servlet.ServletTilesRequestContext;
@@ -69,7 +69,7 @@ public class FreeMarkerTilesRequestContextFactory implements
             HttpRequestHashModel requestModel;
             try {
                 requestModel = FreeMarkerRequestUtil.getRequestHashModel(env);
-            } catch (FreeMarkerTilesException e) {
+            } catch (NotAvailableFeatureException e) {
                 log.warn("Cannot evaluate as a FreeMarker in Servlet Environment, skipping", e);
                 return null;
             }
