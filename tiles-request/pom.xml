@@ -25,6 +25,7 @@
 		<module>tiles-request-portlet</module>
 		<module>tiles-request-portlet-wildcard</module>
 		<module>tiles-request-jsp</module>
+		<module>tiles-request-freemarker</module>
 	</modules>
 	<build>
 		<pluginManagement>
