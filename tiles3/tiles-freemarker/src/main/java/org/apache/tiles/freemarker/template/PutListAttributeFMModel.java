@@ -49,38 +49,38 @@ import freemarker.template.TemplateModel;
  */
 public class PutListAttributeFMModel implements TemplateDirectiveModel {
 
-	/**
-	 * The template model.
-	 */
-	private PutListAttributeModel model;
+    /**
+     * The template model.
+     */
+    private PutListAttributeModel model;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param model
-	 *            The template model.
-	 * @since 2.2.0
-	 */
-	public PutListAttributeFMModel(PutListAttributeModel model) {
-		this.model = model;
-	}
+    /**
+     * Constructor.
+     *
+     * @param model
+     *            The template model.
+     * @since 2.2.0
+     */
+    public PutListAttributeFMModel(PutListAttributeModel model) {
+        this.model = model;
+    }
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
-		Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-		ArrayStack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
-		TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
-		Request request = FreeMarkerTilesRequestContext
-				.createServletFreemarkerRequest(container
-						.getApplicationContext(), env);
-		model.start(composeStack,
-				FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
-						.getAsBoolean(parms.get("inherit"), false));
-		FreeMarkerUtil.evaluateBody(body);
-		model.end(container, composeStack, FreeMarkerUtil.getAsString(parms
-				.get("name")), FreeMarkerUtil.getAsBoolean(
-				parms.get("cascade"), false), request);
-	}
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
+        ArrayStack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
+        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+        Request request = FreeMarkerTilesRequestContext
+                .createServletFreemarkerRequest(container
+                        .getApplicationContext(), env);
+        model.start(composeStack,
+                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
+                        .getAsBoolean(parms.get("inherit"), false));
+        FreeMarkerUtil.evaluateBody(body);
+        model.end(container, composeStack, FreeMarkerUtil.getAsString(parms
+                .get("name")), FreeMarkerUtil.getAsBoolean(
+                parms.get("cascade"), false), request);
+    }
 }

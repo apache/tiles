@@ -49,8 +49,8 @@ import org.slf4j.LoggerFactory;
  * @since 2.1.0
  */
 public abstract class BaseLocaleUrlDefinitionDAO implements
-		DefinitionDAO<Locale>, TilesApplicationContextAware, RefreshMonitor,
-		URLReader {
+        DefinitionDAO<Locale>, TilesApplicationContextAware, RefreshMonitor,
+        URLReader {
 
     /**
      * The logging object.

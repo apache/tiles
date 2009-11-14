@@ -79,9 +79,9 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
             Map<String, Object> params) {
         TilesContainer container = ServletUtil.getCurrentContainer(
                 request, servletContext);
-		Request currentRequest = VelocityTilesRequestContext
-				.createVelocityRequest(container.getApplicationContext(),
-						request, response, velocityContext, null);
+        Request currentRequest = VelocityTilesRequestContext
+                .createVelocityRequest(container.getApplicationContext(),
+                        request, response, velocityContext, null);
         model.execute(container,
                 ServletUtil.getComposeStack(request), (String) params
                         .get("name"), params.get("value"), (String) params
@@ -100,9 +100,9 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
                 velocityContext).pop();
         TilesContainer container = ServletUtil.getCurrentContainer(
                 request, servletContext);
-		Request currentRequest = VelocityTilesRequestContext
-				.createVelocityRequest(container.getApplicationContext(),
-						request, response, velocityContext, null);
+        Request currentRequest = VelocityTilesRequestContext
+                .createVelocityRequest(container.getApplicationContext(),
+                        request, response, velocityContext, null);
         model.end(container,
                 ServletUtil.getComposeStack(request), (String) params
                         .get("name"), params.get("value"), (String) params

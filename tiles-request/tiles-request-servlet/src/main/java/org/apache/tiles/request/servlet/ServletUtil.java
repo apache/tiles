@@ -34,62 +34,62 @@ import javax.servlet.http.HttpServletRequest;
  */
 public final class ServletUtil {
 
-	/**
-	 * Name of the attribute used to store the force-include option.
-	 * @since 2.0.6
-	 */
-	public static final String FORCE_INCLUDE_ATTRIBUTE_NAME =
-	    "org.apache.tiles.servlet.context.ServletTilesRequestContext.FORCE_INCLUDE";
+    /**
+     * Name of the attribute used to store the force-include option.
+     * @since 2.0.6
+     */
+    public static final String FORCE_INCLUDE_ATTRIBUTE_NAME =
+        "org.apache.tiles.servlet.context.ServletTilesRequestContext.FORCE_INCLUDE";
 
-	/**
-	 * Wraps a ServletException to create an IOException with the root cause if present.
-	 *
-	 * @param ex The exception to wrap.
-	 * @param message The message of the exception.
-	 * @return The wrapped exception.
-	 * @since 2.1.1
-	 */
-	public static IOException wrapServletException(ServletException ex,
-	        String message) {
-	    IOException retValue;
-	    Throwable rootCause = ex.getRootCause();
-	    if (rootCause != null) {
-	        // Replace the ServletException with an IOException, with the root
-	        // cause of the first as the cause of the latter.
-	        retValue = new IOException(message, rootCause);
-	    } else {
-	        retValue = new IOException(message, ex);
-	    }
+    /**
+     * Wraps a ServletException to create an IOException with the root cause if present.
+     *
+     * @param ex The exception to wrap.
+     * @param message The message of the exception.
+     * @return The wrapped exception.
+     * @since 2.1.1
+     */
+    public static IOException wrapServletException(ServletException ex,
+            String message) {
+        IOException retValue;
+        Throwable rootCause = ex.getRootCause();
+        if (rootCause != null) {
+            // Replace the ServletException with an IOException, with the root
+            // cause of the first as the cause of the latter.
+            retValue = new IOException(message, rootCause);
+        } else {
+            retValue = new IOException(message, ex);
+        }
 
-	    return retValue;
-	}
+        return retValue;
+    }
 
-	/**
-	 * Returns true if forced include of the result is needed.
-	 *
-	 * @param request The HTTP request.
-	 * @return If <code>true</code> the include operation must be forced.
-	 * @since 2.0.6
-	 */
-	public static boolean isForceInclude(HttpServletRequest request) {
-	    Boolean retValue = (Boolean) request
-	            .getAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME);
-	    return retValue != null && retValue.booleanValue();
-	}
+    /**
+     * Returns true if forced include of the result is needed.
+     *
+     * @param request The HTTP request.
+     * @return If <code>true</code> the include operation must be forced.
+     * @since 2.0.6
+     */
+    public static boolean isForceInclude(HttpServletRequest request) {
+        Boolean retValue = (Boolean) request
+                .getAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME);
+        return retValue != null && retValue.booleanValue();
+    }
 
-	/**
-	 * Sets the option that enables the forced include of the response.
-	 *
-	 * @param request The HTTP request.
-	 * @param forceInclude If <code>true</code> the include operation must be
-	 * forced.
-	 * @since 2.0.6
-	 */
-	public static void setForceInclude(HttpServletRequest request,
-	        boolean forceInclude) {
-	    Boolean retValue = Boolean.valueOf(forceInclude);
-	    request.setAttribute(
-	            ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-	            retValue);
-	}
+    /**
+     * Sets the option that enables the forced include of the response.
+     *
+     * @param request The HTTP request.
+     * @param forceInclude If <code>true</code> the include operation must be
+     * forced.
+     * @since 2.0.6
+     */
+    public static void setForceInclude(HttpServletRequest request,
+            boolean forceInclude) {
+        Boolean retValue = Boolean.valueOf(forceInclude);
+        request.setAttribute(
+                ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+                retValue);
+    }
 }

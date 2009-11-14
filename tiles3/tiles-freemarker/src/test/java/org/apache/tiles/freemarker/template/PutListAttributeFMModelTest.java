@@ -147,14 +147,14 @@ public class PutListAttributeFMModelTest {
         params.put("cascade", objectWrapper.wrap(false));
 
         tModel.start(composeStack, "myRole", false);
-		tModel.end(eq(container), eq(composeStack), eq("myName"), eq(false),
-				isA(FreeMarkerTilesRequestContext.class));
+        tModel.end(eq(container), eq(composeStack), eq("myName"), eq(false),
+                isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, container, applicationContext);
         fmModel.execute(env, params, null, body);
-		verify(template, model, request, tModel, body, container,
-				applicationContext);
+        verify(template, model, request, tModel, body, container,
+                applicationContext);
     }
 
     /**

@@ -307,12 +307,12 @@ public class GetAsStringTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jspContext = getJspContext();
-		TilesContainer currentContainer = JspUtil
-				.getCurrentContainer(jspContext);
-		Request request = JspTilesRequestContext.createServletJspRequest(
-				currentContainer.getApplicationContext(),
-				(PageContext) jspContext);
-		model.start(JspUtil.getComposeStack(jspContext), currentContainer, ignore, preparer, role,
+        TilesContainer currentContainer = JspUtil
+                .getCurrentContainer(jspContext);
+        Request request = JspTilesRequestContext.createServletJspRequest(
+                currentContainer.getApplicationContext(),
+                (PageContext) jspContext);
+        model.start(JspUtil.getComposeStack(jspContext), currentContainer, ignore, preparer, role,
                 defaultValue, defaultValueRole, defaultValueType, name,
                 (Attribute) value, request);
         JspWriter writer = jspContext.getOut();

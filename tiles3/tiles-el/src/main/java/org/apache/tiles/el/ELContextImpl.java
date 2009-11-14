@@ -44,7 +44,7 @@ public class ELContextImpl extends ELContext {
      */
     private static final FunctionMapper NULL_FUNCTION_MAPPER = new FunctionMapper() {
         @Override
-		public Method resolveFunction(String prefix, String localName) {
+        public Method resolveFunction(String prefix, String localName) {
             return null;
         }
     };
@@ -61,7 +61,7 @@ public class ELContextImpl extends ELContext {
 
         /** {@inheritDoc} */
         @Override
-		public ValueExpression resolveVariable(String variable) {
+        public ValueExpression resolveVariable(String variable) {
             if (vars == null) {
                 return null;
             }
@@ -70,7 +70,7 @@ public class ELContextImpl extends ELContext {
 
         /** {@inheritDoc} */
         @Override
-		public ValueExpression setVariable(String variable,
+        public ValueExpression setVariable(String variable,
                 ValueExpression expression) {
             if (vars == null) {
                 vars = new HashMap<String, ValueExpression>();
@@ -106,19 +106,19 @@ public class ELContextImpl extends ELContext {
 
     /** {@inheritDoc} */
     @Override
-	public ELResolver getELResolver() {
+    public ELResolver getELResolver() {
         return this.resolver;
     }
 
     /** {@inheritDoc} */
     @Override
-	public FunctionMapper getFunctionMapper() {
+    public FunctionMapper getFunctionMapper() {
         return this.functionMapper;
     }
 
     /** {@inheritDoc} */
     @Override
-	public VariableMapper getVariableMapper() {
+    public VariableMapper getVariableMapper() {
         if (this.variableMapper == null) {
             this.variableMapper = new VariableMapperImpl();
         }

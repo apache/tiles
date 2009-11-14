@@ -128,10 +128,10 @@ public class InsertTemplateFMModelTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-		request
-				.setAttribute(
-						org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-						true);
+        request
+                .setAttribute(
+                        org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+                        true);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
@@ -162,8 +162,8 @@ public class InsertTemplateFMModelTest {
 
         replay(tModel, body, container, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-		verify(template, model, request, tModel, body, container, servlet,
-				servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, container, servlet,
+                servletContext, attribute, applicationContext);
     }
 
     /**

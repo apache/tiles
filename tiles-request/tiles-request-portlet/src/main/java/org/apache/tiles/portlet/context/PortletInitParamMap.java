@@ -99,7 +99,7 @@ final class PortletInitParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @Override
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         PortletContext otherContext = ((PortletInitParamMap) o).context;
         boolean retValue = true;
         synchronized (context) {
@@ -124,7 +124,7 @@ final class PortletInitParamMap implements Map<String, String> {
 
     /** {@inheritDoc} */
     @Override
-	public int hashCode() {
+    public int hashCode() {
         return (context.hashCode());
     }
 

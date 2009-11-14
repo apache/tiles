@@ -56,7 +56,7 @@ public class IncludingServlet extends HttpServlet {
      * {@link HttpServlet#init(ServletConfig)}
      */
     @Override
-	public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
         include = config.getInitParameter("include");
@@ -72,7 +72,7 @@ public class IncludingServlet extends HttpServlet {
      * @throws IOException Thrown by the {@link #include} method.
      */
     @Override
-	protected void doGet(HttpServletRequest request,
+    protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         if (org.apache.tiles.request.servlet.ServletUtil.isForceInclude(request)) {
             request.getRequestDispatcher(include).include(request, response);

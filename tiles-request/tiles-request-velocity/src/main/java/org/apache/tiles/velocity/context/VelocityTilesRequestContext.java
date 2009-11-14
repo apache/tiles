@@ -78,7 +78,7 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
 
     /** {@inheritDoc} */
     @Override
-	public void dispatch(String path) throws IOException {
+    public void dispatch(String path) throws IOException {
         include(path);
     }
 
@@ -151,13 +151,13 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
         return requestObjects;
     }
 
-	public static Request createVelocityRequest(ApplicationContext applicationContext,
-			HttpServletRequest request, HttpServletResponse response,
-			Context velocityContext, Writer writer) {
-		Request servletRequest = new ServletTilesRequestContext(
-				applicationContext, request, response);
-		Request velocityRequest = new VelocityTilesRequestContext(
-				servletRequest, velocityContext, writer);
-		return velocityRequest;
-	}
+    public static Request createVelocityRequest(ApplicationContext applicationContext,
+            HttpServletRequest request, HttpServletResponse response,
+            Context velocityContext, Writer writer) {
+        Request servletRequest = new ServletTilesRequestContext(
+                applicationContext, request, response);
+        Request velocityRequest = new VelocityTilesRequestContext(
+                servletRequest, velocityContext, writer);
+        return velocityRequest;
+    }
 }

@@ -115,7 +115,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @Override
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         ServletRequest otherRequest = ((ServletParamValuesMap) o).request;
         boolean retValue = true;
@@ -141,7 +141,7 @@ final class ServletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @Override
-	public int hashCode() {
+    public int hashCode() {
         return (request.hashCode());
     }
 

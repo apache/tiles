@@ -108,13 +108,13 @@ public class BasicTilesContainer implements TilesContainer,
     /** {@inheritDoc} */
     public AttributeContext startContext(Request request) {
         AttributeContext context = new BasicAttributeContext();
-		ArrayStack<AttributeContext>  stack = getContextStack(request);
-		if (!stack.isEmpty()) {
-		    AttributeContext parent = stack.peek();
-		    context.inheritCascadedAttributes(parent);
-		}
-		stack.push(context);
-		return context;
+        ArrayStack<AttributeContext>  stack = getContextStack(request);
+        if (!stack.isEmpty()) {
+            AttributeContext parent = stack.peek();
+            context.inheritCascadedAttributes(parent);
+        }
+        stack.push(context);
+        return context;
     }
 
     /** {@inheritDoc} */
@@ -150,11 +150,11 @@ public class BasicTilesContainer implements TilesContainer,
     /** {@inheritDoc} */
     public AttributeContext getAttributeContext(Request request) {
         AttributeContext context = getContext(request);
-		if (context == null) {
-		    context = new BasicAttributeContext();
-		    pushContext(context, request);
-		}
-		return context;
+        if (context == null) {
+            context = new BasicAttributeContext();
+            pushContext(context, request);
+        }
+        return context;
 
     }
 
@@ -242,36 +242,36 @@ public class BasicTilesContainer implements TilesContainer,
     /** {@inheritDoc} */
     public void render(String definitionName, Request request) {
         if (log.isDebugEnabled()) {
-		    log.debug("Render request recieved for definition '" + definitionName + "'");
-		}
+            log.debug("Render request recieved for definition '" + definitionName + "'");
+        }
 
-		Definition definition = getDefinition(definitionName, request);
+        Definition definition = getDefinition(definitionName, request);
 
-		if (definition == null) {
-		    if (log.isWarnEnabled()) {
-		        String message = "Unable to find the definition '" + definitionName + "'";
-		        log.warn(message);
-		    }
-		    throw new NoSuchDefinitionException(definitionName);
-		}
-		render(request, definition);
+        if (definition == null) {
+            if (log.isWarnEnabled()) {
+                String message = "Unable to find the definition '" + definitionName + "'";
+                log.warn(message);
+            }
+            throw new NoSuchDefinitionException(definitionName);
+        }
+        render(request, definition);
     }
 
     /** {@inheritDoc} */
     public void render(Attribute attr, Request request)
         throws IOException {
         if (attr == null) {
-		    throw new CannotRenderException("Cannot render a null attribute");
-		}
+            throw new CannotRenderException("Cannot render a null attribute");
+        }
 
-		AttributeRenderer renderer = rendererFactory.getRenderer(attr
-		        .getRenderer());
-		if (renderer == null) {
-		    throw new CannotRenderException(
-		            "Cannot render an attribute with renderer name "
-		                    + attr.getRenderer());
-		}
-		renderer.render(attr, request);
+        AttributeRenderer renderer = rendererFactory.getRenderer(attr
+                .getRenderer());
+        if (renderer == null) {
+            throw new CannotRenderException(
+                    "Cannot render an attribute with renderer name "
+                            + attr.getRenderer());
+        }
+        renderer.render(attr, request);
     }
 
     /** {@inheritDoc} */

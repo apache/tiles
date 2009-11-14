@@ -57,11 +57,11 @@ public class TestPortlet extends GenericPortlet {
         String definition = (String) portletSession.getAttribute("definition");
         if (definition != null) {
             portletSession.removeAttribute("definition");
-			TilesContainer container = getCurrentContainer(request,
-					getPortletContext());
-			Request currentRequest = new PortletTilesRequestContext(container
-					.getApplicationContext(), getPortletContext(), request,
-					response);
+            TilesContainer container = getCurrentContainer(request,
+                    getPortletContext());
+            Request currentRequest = new PortletTilesRequestContext(container
+                    .getApplicationContext(), getPortletContext(), request,
+                    response);
             if (container.isValidDefinition(definition, currentRequest)) {
                 container.render(definition, currentRequest);
                 addBackLink(response);

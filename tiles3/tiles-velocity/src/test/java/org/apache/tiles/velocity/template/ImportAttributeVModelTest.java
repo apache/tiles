@@ -98,7 +98,7 @@ public class ImportAttributeVModelTest {
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"), eq(false),
-        		isA(VelocityTilesRequestContext.class))).andReturn(attributes);
+                isA(VelocityTilesRequestContext.class))).andReturn(attributes);
         expect(internalContextAdapter.put("one", "value1")).andReturn("value1");
         expect(internalContextAdapter.put("two", "value2")).andReturn("value2");
 
@@ -133,7 +133,7 @@ public class ImportAttributeVModelTest {
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"), eq(false),
-        		isA(VelocityTilesRequestContext.class))).andReturn(attributes);
+                isA(VelocityTilesRequestContext.class))).andReturn(attributes);
         request.setAttribute("one", "value1");
         request.setAttribute("two", "value2");
 
@@ -169,7 +169,7 @@ public class ImportAttributeVModelTest {
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"), eq(false),
-        		isA(VelocityTilesRequestContext.class))).andReturn(attributes);
+                isA(VelocityTilesRequestContext.class))).andReturn(attributes);
         expect(request.getSession()).andReturn(session).times(2);
         session.setAttribute("one", "value1");
         session.setAttribute("two", "value2");
@@ -205,7 +205,7 @@ public class ImportAttributeVModelTest {
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"), eq(false),
-        		isA(VelocityTilesRequestContext.class))).andReturn(attributes);
+                isA(VelocityTilesRequestContext.class))).andReturn(attributes);
         servletContext.setAttribute("one", "value1");
         servletContext.setAttribute("two", "value2");
 

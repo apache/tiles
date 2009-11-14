@@ -48,40 +48,40 @@ import freemarker.template.TemplateModel;
  */
 public class PutAttributeFMModel implements TemplateDirectiveModel {
 
-	/**
-	 * The template model.
-	 */
-	private PutAttributeModel model;
+    /**
+     * The template model.
+     */
+    private PutAttributeModel model;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param model
-	 *            The template model.
-	 * @since 2.2.0
-	 */
-	public PutAttributeFMModel(PutAttributeModel model) {
-		this.model = model;
-	}
+    /**
+     * Constructor.
+     *
+     * @param model
+     *            The template model.
+     * @since 2.2.0
+     */
+    public PutAttributeFMModel(PutAttributeModel model) {
+        this.model = model;
+    }
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
-		ArrayStack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
-		TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
-		Request request = FreeMarkerTilesRequestContext
-				.createServletFreemarkerRequest(container
-						.getApplicationContext(), env);
-		model.start(composeStack);
-		String bodyString = FreeMarkerUtil.renderAsString(body);
-		Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-		model.end(container, composeStack, FreeMarkerUtil.getAsString(parms
-				.get("name")), FreeMarkerUtil.getAsObject(parms.get("value")),
-				FreeMarkerUtil.getAsString(parms.get("expression")),
-				bodyString, FreeMarkerUtil.getAsString(parms.get("role")),
-				FreeMarkerUtil.getAsString(parms.get("type")), FreeMarkerUtil
-						.getAsBoolean(parms.get("cascade"), false), request);
-	}
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        ArrayStack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
+        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+        Request request = FreeMarkerTilesRequestContext
+                .createServletFreemarkerRequest(container
+                        .getApplicationContext(), env);
+        model.start(composeStack);
+        String bodyString = FreeMarkerUtil.renderAsString(body);
+        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
+        model.end(container, composeStack, FreeMarkerUtil.getAsString(parms
+                .get("name")), FreeMarkerUtil.getAsObject(parms.get("value")),
+                FreeMarkerUtil.getAsString(parms.get("expression")),
+                bodyString, FreeMarkerUtil.getAsString(parms.get("role")),
+                FreeMarkerUtil.getAsString(parms.get("type")), FreeMarkerUtil
+                        .getAsBoolean(parms.get("cascade"), false), request);
+    }
 
 }

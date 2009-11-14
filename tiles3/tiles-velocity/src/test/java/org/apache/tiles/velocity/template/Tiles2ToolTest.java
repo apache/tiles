@@ -468,10 +468,10 @@ public class Tiles2ToolTest {
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-		expect(
-				container
-						.getAttributeContext(isA(VelocityTilesRequestContext.class)))
-				.andReturn(attributeContext);
+        expect(
+                container
+                        .getAttributeContext(isA(VelocityTilesRequestContext.class)))
+                .andReturn(attributeContext);
         expect(attributeContext.getAttribute("myAttribute")).andReturn(attribute);
 
         replay(velocityContext, request, response, servletContext, container, attributeContext, applicationContext);

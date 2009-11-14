@@ -73,9 +73,9 @@ public class GetAsStringFMModel implements TemplateDirectiveModel {
             TemplateDirectiveBody body) throws TemplateException, IOException {
         Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
         TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
-		Request request = FreeMarkerTilesRequestContext
-				.createServletFreemarkerRequest(container
-						.getApplicationContext(), env);
+        Request request = FreeMarkerTilesRequestContext
+                .createServletFreemarkerRequest(container
+                        .getApplicationContext(), env);
         model.start(
                 FreeMarkerUtil.getComposeStack(env),
                 container,

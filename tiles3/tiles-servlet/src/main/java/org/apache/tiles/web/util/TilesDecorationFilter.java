@@ -233,9 +233,9 @@ public class TilesDecorationFilter implements Filter {
 
         TilesContainer container = ServletUtil.getContainer(
                 getServletContext(), containerKey);
-		Request request = new ServletTilesRequestContext(container
-				.getApplicationContext(), (HttpServletRequest) req,
-				(HttpServletResponse) res);
+        Request request = new ServletTilesRequestContext(container
+                .getApplicationContext(), (HttpServletRequest) req,
+                (HttpServletResponse) res);
         mutator.mutate(container.getAttributeContext(request), req);
         if (preventDecorationToken != null) {
             req.setAttribute(preventDecorationToken, Boolean.TRUE);

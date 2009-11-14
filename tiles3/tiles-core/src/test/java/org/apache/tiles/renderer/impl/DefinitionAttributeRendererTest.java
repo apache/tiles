@@ -69,11 +69,11 @@ public class DefinitionAttributeRendererTest {
         TilesContainer container = createMock(TilesContainer.class);
         Request requestContext = createMock(Request.class);
         container.render("my.definition", requestContext);
-		replay(applicationContext, requestContext, container);
+        replay(applicationContext, requestContext, container);
         renderer.setApplicationContext(applicationContext);
         renderer.setContainer(container);
         renderer.render(attribute, requestContext);
-		verify(applicationContext, requestContext, container);
+        verify(applicationContext, requestContext, container);
     }
 
     /**
@@ -89,10 +89,10 @@ public class DefinitionAttributeRendererTest {
         TilesContainer container = createMock(TilesContainer.class);
         Request requestContext = createMock(Request.class);
         expect(container.isValidDefinition("my.definition", requestContext)).andReturn(Boolean.TRUE);
-		replay(applicationContext, requestContext, container);
+        replay(applicationContext, requestContext, container);
         renderer.setApplicationContext(applicationContext);
         renderer.setContainer(container);
         assertTrue(renderer.isRenderable("my.definition", attribute, requestContext));
-		verify(applicationContext, requestContext, container);
+        verify(applicationContext, requestContext, container);
     }
 }

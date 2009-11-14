@@ -47,40 +47,40 @@ import freemarker.template.TemplateModel;
  */
 public class ImportAttributeFMModel implements TemplateDirectiveModel {
 
-	/**
-	 * The template model.
-	 */
-	private ImportAttributeModel model;
+    /**
+     * The template model.
+     */
+    private ImportAttributeModel model;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param model
-	 *            The template model.
-	 * @since 2.2.0
-	 */
-	public ImportAttributeFMModel(ImportAttributeModel model) {
-		this.model = model;
-	}
+    /**
+     * Constructor.
+     *
+     * @param model
+     *            The template model.
+     * @since 2.2.0
+     */
+    public ImportAttributeFMModel(ImportAttributeModel model) {
+        this.model = model;
+    }
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
-		Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-		TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
-		Request request = FreeMarkerTilesRequestContext
-				.createServletFreemarkerRequest(container
-						.getApplicationContext(), env);
-		Map<String, Object> attributes = model.getImportedAttributes(container,
-				FreeMarkerUtil.getAsString(parms.get("name")), FreeMarkerUtil
-						.getAsString(parms.get("toName")), FreeMarkerUtil
-						.getAsBoolean(parms.get("ignore"), false), request);
-		String scope = FreeMarkerUtil.getAsString(parms.get("scope"));
-		for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-			FreeMarkerUtil.setAttribute(env, entry.getKey(), entry.getValue(),
-					scope);
-		}
-	}
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
+        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+        Request request = FreeMarkerTilesRequestContext
+                .createServletFreemarkerRequest(container
+                        .getApplicationContext(), env);
+        Map<String, Object> attributes = model.getImportedAttributes(container,
+                FreeMarkerUtil.getAsString(parms.get("name")), FreeMarkerUtil
+                        .getAsString(parms.get("toName")), FreeMarkerUtil
+                        .getAsBoolean(parms.get("ignore"), false), request);
+        String scope = FreeMarkerUtil.getAsString(parms.get("scope"));
+        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+            FreeMarkerUtil.setAttribute(env, entry.getKey(), entry.getValue(),
+                    scope);
+        }
+    }
 
 }

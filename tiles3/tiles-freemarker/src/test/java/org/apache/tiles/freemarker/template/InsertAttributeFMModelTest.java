@@ -151,18 +151,18 @@ public class InsertAttributeFMModelTest {
         params.put("name", objectWrapper.wrap("myName"));
         params.put("value", objectWrapper.wrap(attribute));
 
-		tModel.start(eq(composeStack), eq(container), eq(false),
-				eq("myPreparer"), eq("myRole"), eq("myDefaultValue"),
-				eq("myDefaultValueRole"), eq("myDefaultValueType"),
-				eq("myName"), eq(attribute),
-				isA(FreeMarkerTilesRequestContext.class));
+        tModel.start(eq(composeStack), eq(container), eq(false),
+                eq("myPreparer"), eq("myRole"), eq("myDefaultValue"),
+                eq("myDefaultValueRole"), eq("myDefaultValueType"),
+                eq("myName"), eq(attribute),
+                isA(FreeMarkerTilesRequestContext.class));
         tModel.end(eq(composeStack), eq(container), eq(false), isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, container, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-		verify(template, model, request, tModel, body, container, servlet,
-				servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, container, servlet,
+                servletContext, attribute, applicationContext);
     }
 
     /**

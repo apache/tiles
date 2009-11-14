@@ -109,7 +109,7 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @Override
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         ServletContext otherContext = ((ServletApplicationScopeMap) o).context;
         boolean retValue = true;
@@ -135,7 +135,7 @@ final class ServletApplicationScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     @Override
-	public int hashCode() {
+    public int hashCode() {
         return (context.hashCode());
     }
 

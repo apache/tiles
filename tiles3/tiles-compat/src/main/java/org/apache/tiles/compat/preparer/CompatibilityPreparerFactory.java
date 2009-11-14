@@ -34,7 +34,7 @@ public class CompatibilityPreparerFactory extends BasicPreparerFactory {
 
     /** {@inheritDoc} */
     @Override
-	protected ViewPreparer createPreparer(String name) {
+    protected ViewPreparer createPreparer(String name) {
         ViewPreparer retValue;
 
         if (name.startsWith("/")) {

@@ -79,7 +79,7 @@ public class TilesContextBeanVariableResolverFactory extends
 
     /** {@inheritDoc} */
     @Override
-	public VariableResolver getVariableResolver(String name) {
+    public VariableResolver getVariableResolver(String name) {
         if (isResolveable(name)) {
             if (variableResolvers != null && variableResolvers.containsKey(name)) {
                 return variableResolvers.get(name);

@@ -71,7 +71,7 @@ public class TilesDispatchServlet extends HttpServlet {
 
     /** {@inheritDoc} */
     @Override
-	public void init() throws ServletException {
+    public void init() throws ServletException {
         super.init();
 
         containerKey = getServletConfig().getInitParameter(
@@ -91,14 +91,14 @@ public class TilesDispatchServlet extends HttpServlet {
 
     /** {@inheritDoc} */
     @Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse res)
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
 
         TilesContainer container = ServletUtil.getContainer(
                 getServletContext(), containerKey);
-		Request request = new ServletTilesRequestContext(container
-				.getApplicationContext(), (HttpServletRequest) req,
-				(HttpServletResponse) res);
+        Request request = new ServletTilesRequestContext(container
+                .getApplicationContext(), (HttpServletRequest) req,
+                (HttpServletResponse) res);
         mutator.mutate(container.getAttributeContext(request), req);
         String definition = getDefinitionName(req);
         if (log.isDebugEnabled()) {
@@ -127,7 +127,7 @@ public class TilesDispatchServlet extends HttpServlet {
 
     /** {@inheritDoc} */
     @Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse res)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         log.info("Tiles dispatch request received. Redirecting POST to GET.");
         doGet(req, res);

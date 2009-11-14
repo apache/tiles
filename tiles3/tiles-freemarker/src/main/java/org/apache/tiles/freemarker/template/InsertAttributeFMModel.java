@@ -50,45 +50,45 @@ import freemarker.template.TemplateModel;
  */
 public class InsertAttributeFMModel implements TemplateDirectiveModel {
 
-	/**
-	 * The template model.
-	 */
-	private InsertAttributeModel model;
+    /**
+     * The template model.
+     */
+    private InsertAttributeModel model;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param model
-	 *            The template model.
-	 * @since 2.2.0
-	 */
-	public InsertAttributeFMModel(InsertAttributeModel model) {
-		this.model = model;
-	}
+    /**
+     * Constructor.
+     *
+     * @param model
+     *            The template model.
+     * @since 2.2.0
+     */
+    public InsertAttributeFMModel(InsertAttributeModel model) {
+        this.model = model;
+    }
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
-		Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-		TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
-		Request request = FreeMarkerTilesRequestContext
-				.createServletFreemarkerRequest(container
-						.getApplicationContext(), env);
-		model.start(FreeMarkerUtil.getComposeStack(env), container,
-				FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false),
-				FreeMarkerUtil.getAsString(parms.get("preparer")),
-				FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
-						.getAsObject(parms.get("defaultValue")), FreeMarkerUtil
-						.getAsString(parms.get("defaultValueRole")),
-				FreeMarkerUtil.getAsString(parms.get("defaultValueType")),
-				FreeMarkerUtil.getAsString(parms.get("name")),
-				(Attribute) FreeMarkerUtil.getAsObject(parms.get("value")),
-				request);
-		FreeMarkerUtil.evaluateBody(body);
-		model.end(FreeMarkerUtil.getComposeStack(env), container,
-				FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false),
-				request);
-	}
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
+        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+        Request request = FreeMarkerTilesRequestContext
+                .createServletFreemarkerRequest(container
+                        .getApplicationContext(), env);
+        model.start(FreeMarkerUtil.getComposeStack(env), container,
+                FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false),
+                FreeMarkerUtil.getAsString(parms.get("preparer")),
+                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
+                        .getAsObject(parms.get("defaultValue")), FreeMarkerUtil
+                        .getAsString(parms.get("defaultValueRole")),
+                FreeMarkerUtil.getAsString(parms.get("defaultValueType")),
+                FreeMarkerUtil.getAsString(parms.get("name")),
+                (Attribute) FreeMarkerUtil.getAsObject(parms.get("value")),
+                request);
+        FreeMarkerUtil.evaluateBody(body);
+        model.end(FreeMarkerUtil.getComposeStack(env), container,
+                FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false),
+                request);
+    }
 
 }

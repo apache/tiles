@@ -37,21 +37,21 @@
   <!-- This definition will remain the same for all locales -->
   <definition name="test.common" template="/test.jsp">
       <put-attribute name="country" value="none"/>
-	  <put-attribute name="title"  value="Common Definition" />
-	  <put-attribute name="header" value="/common/header.jsp" />
-	  <put-attribute name="menu"   value="doc.menu.main" />
-	  <put-attribute name="footer" value="/common/footer.jsp" />
-	  <put-attribute name="body"   value="doc.portal.body" />
+    <put-attribute name="title"  value="Common Definition" />
+    <put-attribute name="header" value="/common/header.jsp" />
+    <put-attribute name="menu"   value="doc.menu.main" />
+    <put-attribute name="footer" value="/common/footer.jsp" />
+    <put-attribute name="body"   value="doc.portal.body" />
   </definition>
 
   <!-- Doc index page description  -->
   <definition name="test.def1" template="/test.jsp">
           <put-attribute name="country" value="default"/>
-	  <put-attribute name="title"  value="Tiles Library Documentation" />
-	  <put-attribute name="header" value="/common/header.jsp" />
-	  <put-attribute name="menu"   value="doc.menu.main" />
-	  <put-attribute name="footer" value="/common/footer.jsp" />
-	  <put-attribute name="body"   value="doc.portal.body" />
+    <put-attribute name="title"  value="Tiles Library Documentation" />
+    <put-attribute name="header" value="/common/header.jsp" />
+    <put-attribute name="menu"   value="doc.menu.main" />
+    <put-attribute name="footer" value="/common/footer.jsp" />
+    <put-attribute name="body"   value="doc.portal.body" />
   </definition>
 
   <!-- This definition will be extended -->

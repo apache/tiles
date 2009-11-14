@@ -35,7 +35,7 @@ public class StringAttributeRenderer extends AbstractTypeDetectingAttributeRende
 
     /** {@inheritDoc} */
     @Override
-	public void write(Object value, Attribute attribute,
+    public void write(Object value, Attribute attribute,
             Request request)
             throws IOException {
         request.getWriter().write(value.toString());

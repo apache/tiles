@@ -29,11 +29,11 @@
 <tiles-definitions>
   <definition name="test.def.one" template="/test.jsp">
           <put-attribute name="country" value="default"/>
-	  <put-attribute name="title"  value="Tiles Library Documentation" />
-	  <put-attribute name="header" value="/common/header.jsp" />
-	  <put-attribute name="menu"   value="doc.menu.main" />
-	  <put-attribute name="footer" value="/common/footer.jsp" />
-	  <put-attribute name="body"   value="doc.portal.body" />
+    <put-attribute name="title"  value="Tiles Library Documentation" />
+    <put-attribute name="header" value="/common/header.jsp" />
+    <put-attribute name="menu"   value="doc.menu.main" />
+    <put-attribute name="footer" value="/common/footer.jsp" />
+    <put-attribute name="body"   value="doc.portal.body" />
   </definition>
 
 </tiles-definitions>

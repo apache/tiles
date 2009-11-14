@@ -36,11 +36,11 @@
 
   <!-- Doc index page description  -->
   <definition name="doc.mainLayout" template="/layout/classicLayout.jsp">
-	  <put-attribute name="title"  value="Tiles Library Documentation" />
-	  <put-attribute name="header" value="/common/header.jsp" />
-	  <put-attribute name="menu"   value="doc.menu.main" />
-	  <put-attribute name="footer" value="/common/footer.jsp" />
-	  <put-attribute name="body"   value="doc.portal.body" />
+    <put-attribute name="title"  value="Tiles Library Documentation" />
+    <put-attribute name="header" value="/common/header.jsp" />
+    <put-attribute name="menu"   value="doc.menu.main" />
+    <put-attribute name="footer" value="/common/footer.jsp" />
+    <put-attribute name="body"   value="doc.portal.body" />
       <put-attribute name="bean"   value="This is an object" type="object" />
   </definition>
 
@@ -65,7 +65,7 @@
       <add-attribute value="/doc/portal/revisions.jsp" />
     </put-list-attribute>
   </definition>
-  
+
   <!-- =======================================================  -->
   <!-- Menus definitions  									-->
   <!-- =======================================================  -->
@@ -87,11 +87,11 @@
       <item value="Home"           link="/index.jsp"  />
       <item value="Live Examples (new)" link="/examples/index.jsp"  />
       <!--
-	  <item> <value>Commented Examples</value> 
-	  		<link>/examples/index.jsp</link>
-			<classtype>org.apache.tiles.beans.SimpleMenuItem</classtype>
-	  </item>
-	  -->
+    <item> <value>Commented Examples</value>
+        <link>/examples/index.jsp</link>
+      <classtype>org.apache.tiles.beans.SimpleMenuItem</classtype>
+    </item>
+    -->
       <item value="Quick overview" link="/doc/quickOverview.jsp"  />
       <!--
       <item value="Tutorial"       link="/doc/tutorial.jsp"  />
@@ -101,8 +101,8 @@
       <item value="Installation"   link="/doc/installation.jsp" />
       <item value="User Guide"	   link="/doc/userGuide.jsp" />
       <item value="Javadoc"        link="/api/index.html" />
-      <item value="Struts Home"    link="http://www.apache.org"   icon="/images/struts-power.gif"        
-			classtype="org.apache.tiles.beans.SimpleMenuItem" />
+      <item value="Struts Home"    link="http://www.apache.org"   icon="/images/struts-power.gif"
+      classtype="org.apache.tiles.beans.SimpleMenuItem" />
     </put-list-attribute>
 </definition>
 

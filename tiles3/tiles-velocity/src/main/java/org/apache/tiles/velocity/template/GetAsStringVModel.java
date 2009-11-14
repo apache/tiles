@@ -88,10 +88,10 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
-				Request currentRequest = VelocityTilesRequestContext
-						.createVelocityRequest(container
-								.getApplicationContext(), request, response,
-								velocityContext, writer);
+                Request currentRequest = VelocityTilesRequestContext
+                        .createVelocityRequest(container
+                                .getApplicationContext(), request, response,
+                                velocityContext, writer);
                 model.execute(container, writer,
                         VelocityUtil.toSimpleBoolean((Boolean) params
                                 .get("ignore"), false), (String) params
@@ -112,9 +112,9 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
         VelocityUtil.getParameterStack(velocityContext).push(params);
         TilesContainer container = ServletUtil.getCurrentContainer(
                 request, servletContext);
-		Request currentRequest = VelocityTilesRequestContext
-				.createVelocityRequest(container.getApplicationContext(),
-						request, response, velocityContext, null);
+        Request currentRequest = VelocityTilesRequestContext
+                .createVelocityRequest(container.getApplicationContext(),
+                        request, response, velocityContext, null);
         model.start(ServletUtil.getComposeStack(request), container, VelocityUtil
                 .toSimpleBoolean((Boolean) params.get("ignore"), false),
                 (String) params.get("preparer"), (String) params.get("role"),
@@ -135,9 +135,9 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
-        		Request currentRequest = VelocityTilesRequestContext
-        				.createVelocityRequest(container.getApplicationContext(),
-        						request, response, velocityContext, writer);
+                Request currentRequest = VelocityTilesRequestContext
+                        .createVelocityRequest(container.getApplicationContext(),
+                                request, response, velocityContext, writer);
                 model.end(ServletUtil.getComposeStack(request), container, writer,
                         VelocityUtil.toSimpleBoolean((Boolean) params
                                 .get("ignore"), false), currentRequest);

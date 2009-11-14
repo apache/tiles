@@ -268,8 +268,8 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
                 rd.include((RenderRequest) request,
                     (RenderResponse) response);
             } catch (PortletException e) {
-				throw new IOException("PortletException while including path '"
-						+ path + "'.", e);
+                throw new IOException("PortletException while including path '"
+                        + path + "'.", e);
             }
         }
     }

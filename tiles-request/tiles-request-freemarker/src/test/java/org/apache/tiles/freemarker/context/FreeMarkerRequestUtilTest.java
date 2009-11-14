@@ -65,12 +65,12 @@ public class FreeMarkerRequestUtilTest {
         expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
     }
 
-	/**
-	 * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerRequestUtil#getRequestHashModel(freemarker.core.Environment)}.
-	 * @throws TemplateModelException If something goes wrong.
-	 */
-	@Test
-	public void testGetRequestHashModel() throws TemplateModelException {
+    /**
+     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerRequestUtil#getRequestHashModel(freemarker.core.Environment)}.
+     * @throws TemplateModelException If something goes wrong.
+     */
+    @Test
+    public void testGetRequestHashModel() throws TemplateModelException {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
@@ -83,6 +83,6 @@ public class FreeMarkerRequestUtilTest {
         env.setLocale(locale);
         assertEquals(requestModel, FreeMarkerRequestUtil.getRequestHashModel(env));
         verify(template, model, request, objectWrapper);
-	}
+    }
 
 }

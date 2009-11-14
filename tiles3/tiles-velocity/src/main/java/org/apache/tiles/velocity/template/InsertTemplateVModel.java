@@ -86,14 +86,14 @@ public class InsertTemplateVModel implements Executable, BodyExecutable {
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
-        		Request currentRequest = VelocityTilesRequestContext
-        				.createVelocityRequest(container.getApplicationContext(),
-        						request, response, velocityContext, writer);
-				model.execute(container, (String) params.get("template"),
-						(String) params.get("templateType"), (String) params
-								.get("templateExpression"), (String) params
-								.get("role"), (String) params.get("preparer"),
-						currentRequest);
+                Request currentRequest = VelocityTilesRequestContext
+                        .createVelocityRequest(container.getApplicationContext(),
+                                request, response, velocityContext, writer);
+                model.execute(container, (String) params.get("template"),
+                        (String) params.get("templateType"), (String) params
+                                .get("templateExpression"), (String) params
+                                .get("role"), (String) params.get("preparer"),
+                        currentRequest);
                 return true;
             }
         };
@@ -110,9 +110,9 @@ public class InsertTemplateVModel implements Executable, BodyExecutable {
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
-        		Request currentRequest = VelocityTilesRequestContext
-        				.createVelocityRequest(container.getApplicationContext(),
-        						request, response, velocityContext, writer);
+                Request currentRequest = VelocityTilesRequestContext
+                        .createVelocityRequest(container.getApplicationContext(),
+                                request, response, velocityContext, writer);
                 model.end(container, (String) params.get("template"),
                         (String) params.get("templateType"), (String) params
                                 .get("templateExpression"), (String) params.get("role"),
@@ -129,9 +129,9 @@ public class InsertTemplateVModel implements Executable, BodyExecutable {
         VelocityUtil.getParameterStack(velocityContext).push(params);
         TilesContainer container = ServletUtil.getCurrentContainer(
                 request, servletContext);
-		Request currentRequest = VelocityTilesRequestContext
-				.createVelocityRequest(container.getApplicationContext(),
-						request, response, velocityContext, null);
-		model.start(container, currentRequest);
+        Request currentRequest = VelocityTilesRequestContext
+                .createVelocityRequest(container.getApplicationContext(),
+                        request, response, velocityContext, null);
+        model.start(container, currentRequest);
     }
 }

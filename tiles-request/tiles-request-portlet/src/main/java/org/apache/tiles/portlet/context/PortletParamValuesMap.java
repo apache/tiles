@@ -115,7 +115,7 @@ final class PortletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @Override
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         PortletRequest otherRequest = ((PortletParamValuesMap) o).request;
         boolean retValue = true;
         synchronized (request) {
@@ -140,7 +140,7 @@ final class PortletParamValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @Override
-	public int hashCode() {
+    public int hashCode() {
         return (request.hashCode());
     }
 

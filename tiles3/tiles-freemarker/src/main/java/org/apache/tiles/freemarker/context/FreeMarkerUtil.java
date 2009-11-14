@@ -83,8 +83,8 @@ public final class FreeMarkerUtil {
      * @since 2.2.0
      */
     public static void setForceInclude(Environment env, boolean forceInclude) {
-		org.apache.tiles.request.servlet.ServletUtil.setForceInclude(
-				FreeMarkerRequestUtil.getRequestHashModel(env).getRequest(), forceInclude);
+        org.apache.tiles.request.servlet.ServletUtil.setForceInclude(
+                FreeMarkerRequestUtil.getRequestHashModel(env).getRequest(), forceInclude);
     }
 
     /**

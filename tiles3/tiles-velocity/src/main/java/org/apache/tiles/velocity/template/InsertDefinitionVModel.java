@@ -86,9 +86,9 @@ public class InsertDefinitionVModel implements Executable, BodyExecutable {
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
-        		Request currentRequest = VelocityTilesRequestContext
-        				.createVelocityRequest(container.getApplicationContext(),
-        						request, response, velocityContext, writer);
+                Request currentRequest = VelocityTilesRequestContext
+                        .createVelocityRequest(container.getApplicationContext(),
+                                request, response, velocityContext, writer);
                 model.execute(container, (String) params.get("name"),
                         (String) params.get("template"), (String) params
                                 .get("templateType"), (String) params
@@ -111,9 +111,9 @@ public class InsertDefinitionVModel implements Executable, BodyExecutable {
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
-        		Request currentRequest = VelocityTilesRequestContext
-        				.createVelocityRequest(container.getApplicationContext(),
-        						request, response, velocityContext, writer);
+                Request currentRequest = VelocityTilesRequestContext
+                        .createVelocityRequest(container.getApplicationContext(),
+                                request, response, velocityContext, writer);
                 model.end(container, (String) params.get("name"),
                         (String) params.get("template"), (String) params
                                 .get("templateType"), (String) params
@@ -131,9 +131,9 @@ public class InsertDefinitionVModel implements Executable, BodyExecutable {
         VelocityUtil.getParameterStack(velocityContext).push(params);
         TilesContainer container = ServletUtil.getCurrentContainer(
                 request, servletContext);
-		Request currentRequest = VelocityTilesRequestContext
-				.createVelocityRequest(container.getApplicationContext(),
-						request, response, velocityContext, null);
+        Request currentRequest = VelocityTilesRequestContext
+                .createVelocityRequest(container.getApplicationContext(),
+                        request, response, velocityContext, null);
         model.start(container, currentRequest);
     }
 }

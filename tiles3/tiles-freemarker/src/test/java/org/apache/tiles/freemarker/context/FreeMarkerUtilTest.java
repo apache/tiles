@@ -115,10 +115,10 @@ public class FreeMarkerUtilTest {
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         expect(model.get("Request")).andReturn(requestModel);
-		expect(
-				request
-						.getAttribute(org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME))
-				.andReturn(true);
+        expect(
+                request
+                        .getAttribute(org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME))
+                .andReturn(true);
 
         replay(template, model, request, objectWrapper);
         env = new Environment(template, model, writer);
@@ -140,10 +140,10 @@ public class FreeMarkerUtilTest {
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         expect(model.get("Request")).andReturn(requestModel);
-		request
-				.setAttribute(
-						org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-						true);
+        request
+                .setAttribute(
+                        org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+                        true);
 
         replay(template, model, request, objectWrapper);
         env = new Environment(template, model, writer);

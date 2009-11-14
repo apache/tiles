@@ -101,7 +101,7 @@ public class InsertTemplateVModelTest {
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         tModel.execute(eq(container), eq("myTemplate"), eq("myTemplateType"),
-        		eq("myTemplateExpression"), eq("myRole"), eq("myPreparer"),
+                eq("myTemplateExpression"), eq("myRole"), eq("myPreparer"),
                 isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter, applicationContext);
@@ -162,8 +162,8 @@ public class InsertTemplateVModelTest {
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
         tModel.end(eq(container), eq("myTemplate"), eq("myTemplateType"),
-        		eq("myTemplateExpression"), eq("myRole"),
-        		eq("myPreparer"), isA(VelocityTilesRequestContext.class));
+                eq("myTemplateExpression"), eq("myRole"),
+                eq("myPreparer"), isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter, applicationContext);
         initializeModel();

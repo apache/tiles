@@ -40,11 +40,11 @@ import org.apache.tiles.request.Request;
  * @since 2.1.0
  */
 public class LocaleDefinitionsFactory extends
-		UnresolvingLocaleDefinitionsFactory {
+        UnresolvingLocaleDefinitionsFactory {
 
     /** {@inheritDoc} */
     @Override
-	public Definition getDefinition(String name,
+    public Definition getDefinition(String name,
             Request tilesContext) {
         Definition retValue;
         Locale locale = null;

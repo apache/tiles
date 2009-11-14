@@ -44,90 +44,90 @@ import freemarker.ext.servlet.HttpRequestHashModel;
  * @since 2.2.0
  */
 public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper
-		implements Request {
+        implements Request {
 
-	/**
-	 * The FreeMarker current environment.
-	 */
-	private Environment env;
+    /**
+     * The FreeMarker current environment.
+     */
+    private Environment env;
 
-	/**
-	 * The request objects.
-	 */
-	private transient Object[] requestObjects;
+    /**
+     * The request objects.
+     */
+    private transient Object[] requestObjects;
 
-	public static FreeMarkerTilesRequestContext createServletFreemarkerRequest(
-			ApplicationContext applicationContext, Environment env) {
-		HttpRequestHashModel requestModel = FreeMarkerRequestUtil
-				.getRequestHashModel(env);
-		HttpServletRequest request = requestModel.getRequest();
-		HttpServletResponse response = requestModel.getResponse();
-		Request enclosedRequest = new ServletTilesRequestContext(
-				applicationContext, (HttpServletRequest) request,
-				(HttpServletResponse) response);
-		return new FreeMarkerTilesRequestContext(enclosedRequest, env);
-	}
+    public static FreeMarkerTilesRequestContext createServletFreemarkerRequest(
+            ApplicationContext applicationContext, Environment env) {
+        HttpRequestHashModel requestModel = FreeMarkerRequestUtil
+                .getRequestHashModel(env);
+        HttpServletRequest request = requestModel.getRequest();
+        HttpServletResponse response = requestModel.getResponse();
+        Request enclosedRequest = new ServletTilesRequestContext(
+                applicationContext, (HttpServletRequest) request,
+                (HttpServletResponse) response);
+        return new FreeMarkerTilesRequestContext(enclosedRequest, env);
+    }
 
-	/**
-	 * Constructor.
-	 *
-	 * @param enclosedRequest
-	 *            The request that exposes non-FreeMarker specific properties
-	 * @param env
-	 *            The FreeMarker environment.
-	 */
-	public FreeMarkerTilesRequestContext(Request enclosedRequest,
-			Environment env) {
-		super(enclosedRequest);
-		this.env = env;
-	}
+    /**
+     * Constructor.
+     *
+     * @param enclosedRequest
+     *            The request that exposes non-FreeMarker specific properties
+     * @param env
+     *            The FreeMarker environment.
+     */
+    public FreeMarkerTilesRequestContext(Request enclosedRequest,
+            Environment env) {
+        super(enclosedRequest);
+        this.env = env;
+    }
 
-	/**
-	 * Returns the environment object.
-	 *
-	 * @return The environment.
-	 * @since 3.0.0
-	 */
-	public Environment getEnvironment() {
-		return env;
-	}
+    /**
+     * Returns the environment object.
+     *
+     * @return The environment.
+     * @since 3.0.0
+     */
+    public Environment getEnvironment() {
+        return env;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public Locale getRequestLocale() {
-		return env.getLocale();
-	}
+    /** {@inheritDoc} */
+    @Override
+    public Locale getRequestLocale() {
+        return env.getLocale();
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public void dispatch(String path) throws IOException {
-		include(path);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void dispatch(String path) throws IOException {
+        include(path);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public PrintWriter getPrintWriter() throws IOException {
-		Writer writer = env.getOut();
-		if (writer instanceof PrintWriter) {
-			return (PrintWriter) writer;
-		} else {
-			return new PrintWriter(writer);
-		}
-	}
+    /** {@inheritDoc} */
+    @Override
+    public PrintWriter getPrintWriter() throws IOException {
+        Writer writer = env.getOut();
+        if (writer instanceof PrintWriter) {
+            return (PrintWriter) writer;
+        } else {
+            return new PrintWriter(writer);
+        }
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public Writer getWriter() throws IOException {
-		return env.getOut();
-	}
+    /** {@inheritDoc} */
+    @Override
+    public Writer getWriter() throws IOException {
+        return env.getOut();
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public Object[] getRequestObjects() {
-		if (requestObjects == null) {
-			requestObjects = new Object[1];
-			requestObjects[0] = env;
-		}
-		return requestObjects;
-	}
+    /** {@inheritDoc} */
+    @Override
+    public Object[] getRequestObjects() {
+        if (requestObjects == null) {
+            requestObjects = new Object[1];
+            requestObjects[0] = env;
+        }
+        return requestObjects;
+    }
 }

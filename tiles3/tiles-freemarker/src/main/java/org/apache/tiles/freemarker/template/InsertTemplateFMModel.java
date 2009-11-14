@@ -49,39 +49,39 @@ import freemarker.template.TemplateModel;
  */
 public class InsertTemplateFMModel implements TemplateDirectiveModel {
 
-	/**
-	 * The template model.
-	 */
-	private InsertTemplateModel model;
+    /**
+     * The template model.
+     */
+    private InsertTemplateModel model;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param model
-	 *            The template model.
-	 * @since 2.2.0
-	 */
-	public InsertTemplateFMModel(InsertTemplateModel model) {
-		this.model = model;
-	}
+    /**
+     * Constructor.
+     *
+     * @param model
+     *            The template model.
+     * @since 2.2.0
+     */
+    public InsertTemplateFMModel(InsertTemplateModel model) {
+        this.model = model;
+    }
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
-		Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-		TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
-		Request request = FreeMarkerTilesRequestContext
-				.createServletFreemarkerRequest(container
-						.getApplicationContext(), env);
-		model.start(container, request);
-		FreeMarkerUtil.evaluateBody(body);
-		FreeMarkerUtil.setForceInclude(env, true);
-		model.end(container, FreeMarkerUtil.getAsString(parms.get("template")),
-				FreeMarkerUtil.getAsString(parms.get("templateType")),
-				FreeMarkerUtil.getAsString(parms.get("templateExpression")),
-				FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
-						.getAsString(parms.get("preparer")), request);
-	}
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
+        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+        Request request = FreeMarkerTilesRequestContext
+                .createServletFreemarkerRequest(container
+                        .getApplicationContext(), env);
+        model.start(container, request);
+        FreeMarkerUtil.evaluateBody(body);
+        FreeMarkerUtil.setForceInclude(env, true);
+        model.end(container, FreeMarkerUtil.getAsString(parms.get("template")),
+                FreeMarkerUtil.getAsString(parms.get("templateType")),
+                FreeMarkerUtil.getAsString(parms.get("templateExpression")),
+                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
+                        .getAsString(parms.get("preparer")), request);
+    }
 
 }

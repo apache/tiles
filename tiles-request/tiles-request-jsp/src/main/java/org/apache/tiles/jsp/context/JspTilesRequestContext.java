@@ -55,10 +55,10 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
     private Object[] requestObjects;
 
     public static JspTilesRequestContext createServletJspRequest(ApplicationContext applicationContext, PageContext pageContext) {
-		return new JspTilesRequestContext(new ServletTilesRequestContext(
-				applicationContext, (HttpServletRequest) pageContext
-						.getRequest(), (HttpServletResponse) pageContext
-						.getResponse()), pageContext);
+        return new JspTilesRequestContext(new ServletTilesRequestContext(
+                applicationContext, (HttpServletRequest) pageContext
+                        .getRequest(), (HttpServletResponse) pageContext
+                        .getResponse()), pageContext);
     }
 
     /**
@@ -81,18 +81,18 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
      * @see org.apache.tiles.request.servlet.ServletTilesRequestContext#dispatch(java.lang.String)
      */
     @Override
-	public void dispatch(String path) throws IOException {
+    public void dispatch(String path) throws IOException {
         include(path);
     }
 
     /** {@inheritDoc} */
     @Override
-	public void include(String path) throws IOException {
+    public void include(String path) throws IOException {
         Boolean retValue = Boolean.valueOf(true);
-		pageContext
-				.setAttribute(
-						org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-						retValue, PageContext.REQUEST_SCOPE);
+        pageContext
+                .setAttribute(
+                        org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
+                        retValue, PageContext.REQUEST_SCOPE);
         try {
             pageContext.include(path, false);
         } catch (ServletException e) {

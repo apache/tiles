@@ -240,11 +240,11 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         }
     }
 
-	/**
-	 * Digester rule to manage assignment of an object as an attribute value.
-	 *
-	 * @since 3.0.0
-	 */
+    /**
+     * Digester rule to manage assignment of an object as an attribute value.
+     *
+     * @since 3.0.0
+     */
     public static class SetValueToAttributeRule extends Rule {
 
         /** {@inheritDoc} */
@@ -311,8 +311,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      * @since 3.3.0
      */
     public void setValidating(boolean validating) {
-		digester.setValidating(validating);
-	}
+        digester.setValidating(validating);
+    }
 
     /**
      * Reads <code>{@link Definition}</code> objects from a source.

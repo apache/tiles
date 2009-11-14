@@ -62,7 +62,7 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
 
     /** {@inheritDoc} */
     @Override
-	protected void setUp() throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
         PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
         PropertyAccessor mapPropertyAccessor = OgnlRuntime.getPropertyAccessor(Map.class);

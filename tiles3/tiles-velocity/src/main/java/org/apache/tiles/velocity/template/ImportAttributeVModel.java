@@ -84,9 +84,9 @@ public class ImportAttributeVModel implements Executable {
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
-        		Request currentRequest = VelocityTilesRequestContext
-        				.createVelocityRequest(container.getApplicationContext(),
-        						request, response, velocityContext, writer);
+                Request currentRequest = VelocityTilesRequestContext
+                        .createVelocityRequest(container.getApplicationContext(),
+                                request, response, velocityContext, writer);
                 Map<String, Object> attributes = model.getImportedAttributes(
                         container,
                         (String) params.get("name"), (String) params

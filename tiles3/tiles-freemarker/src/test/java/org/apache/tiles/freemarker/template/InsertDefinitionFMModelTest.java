@@ -147,15 +147,15 @@ public class InsertDefinitionFMModelTest {
         params.put("preparer", objectWrapper.wrap("myPreparer"));
 
         tModel.start(eq(container), isA(FreeMarkerTilesRequestContext.class));
-		tModel.end(eq(container), eq("myName"), eq("myTemplate"),
-				eq("myTemplateType"), eq("myTemplateExpression"), eq("myRole"),
-				eq("myPreparer"), isA(FreeMarkerTilesRequestContext.class));
+        tModel.end(eq(container), eq("myName"), eq("myTemplate"),
+                eq("myTemplateType"), eq("myTemplateExpression"), eq("myRole"),
+                eq("myPreparer"), isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, container, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-		verify(template, model, request, tModel, body, container, servlet,
-				servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, container, servlet,
+                servletContext, attribute, applicationContext);
     }
 
     /**

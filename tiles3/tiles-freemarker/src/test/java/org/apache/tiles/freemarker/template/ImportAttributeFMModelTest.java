@@ -156,8 +156,8 @@ public class ImportAttributeFMModelTest {
         fmModel.execute(env, params, null, body);
         assertEquals("value1", DeepUnwrap.unwrap(env.getCurrentNamespace().get("one")));
         assertEquals("value2", DeepUnwrap.unwrap(env.getCurrentNamespace().get("two")));
-		verify(template, model, request, tModel, body, container, servlet,
-				servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, container, servlet,
+                servletContext, attribute, applicationContext);
     }
 
     /**
@@ -209,8 +209,8 @@ public class ImportAttributeFMModelTest {
 
         replay(tModel, body, container, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-		verify(template, model, request, tModel, body, container, servlet,
-				servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, container, servlet,
+                servletContext, attribute, applicationContext);
     }
 
     /**
@@ -264,8 +264,8 @@ public class ImportAttributeFMModelTest {
 
         replay(tModel, body, container, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-		verify(template, model, request, session, tModel, body, container,
-				servlet, servletContext, attribute, applicationContext);
+        verify(template, model, request, session, tModel, body, container,
+                servlet, servletContext, attribute, applicationContext);
     }
 
     /**
@@ -317,8 +317,8 @@ public class ImportAttributeFMModelTest {
 
         replay(tModel, body, container, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-		verify(template, model, request, tModel, body, container, servlet,
-				servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, container, servlet,
+                servletContext, attribute, applicationContext);
     }
 
     /**

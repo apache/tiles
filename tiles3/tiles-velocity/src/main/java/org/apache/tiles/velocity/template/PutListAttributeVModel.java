@@ -77,9 +77,9 @@ public class PutListAttributeVModel implements BodyExecutable {
                 velocityContext).pop();
         TilesContainer container = ServletUtil.getCurrentContainer(
                 request, servletContext);
-		Request currentRequest = VelocityTilesRequestContext
-				.createVelocityRequest(container.getApplicationContext(),
-						request, response, velocityContext, null);
+        Request currentRequest = VelocityTilesRequestContext
+                .createVelocityRequest(container.getApplicationContext(),
+                        request, response, velocityContext, null);
         model.end(container,
                 ServletUtil.getComposeStack(request), (String) params
                         .get("name"), VelocityUtil.toSimpleBoolean(

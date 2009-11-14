@@ -82,201 +82,201 @@ import org.apache.tiles.template.PutAttributeModel;
  */
 public class PutAttributeTag extends SimpleTagSupport {
 
-	/**
-	 * The template model.
-	 */
-	private PutAttributeModel model = new PutAttributeModel();
+    /**
+     * The template model.
+     */
+    private PutAttributeModel model = new PutAttributeModel();
 
-	/**
-	 * Name of attribute to put in attribute context.
-	 */
-	private String name = null;
+    /**
+     * Name of attribute to put in attribute context.
+     */
+    private String name = null;
 
-	/**
-	 * If <code>true</code>, the attribute will be cascaded to all nested
-	 * definitions.
-	 */
-	private boolean cascade = false;
+    /**
+     * If <code>true</code>, the attribute will be cascaded to all nested
+     * definitions.
+     */
+    private boolean cascade = false;
 
-	/**
-	 * The role to check. If the user is in the specified role, the tag is taken
-	 * into account; otherwise, the tag is ignored (skipped).
-	 */
-	private String role;
+    /**
+     * The role to check. If the user is in the specified role, the tag is taken
+     * into account; otherwise, the tag is ignored (skipped).
+     */
+    private String role;
 
-	/**
-	 * Associated attribute value.
-	 */
-	private Object value = null;
+    /**
+     * Associated attribute value.
+     */
+    private Object value = null;
 
-	/**
-	 * The expression to calculate the value from. Use this parameter, or value,
-	 * or body.
-	 */
-	private String expression = null;
+    /**
+     * The expression to calculate the value from. Use this parameter, or value,
+     * or body.
+     */
+    private String expression = null;
 
-	/**
-	 * Requested type for the value.
-	 */
-	private String type = null;
+    /**
+     * Requested type for the value.
+     */
+    private String type = null;
 
-	/**
-	 * Returns the name of the attribute.
-	 *
-	 * @return The name of the attribute.
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Returns the name of the attribute.
+     *
+     * @return The name of the attribute.
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Sets the name of the attribute.
-	 *
-	 * @param name
-	 *            The name of the attribute.
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Sets the name of the attribute.
+     *
+     * @param name
+     *            The name of the attribute.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * Checks if the attribute should be cascaded to nested definitions.
-	 *
-	 * @return <code>true</code> if the attribute will be cascaded.
-	 * @since 2.1.0
-	 */
-	public boolean isCascade() {
-		return cascade;
-	}
+    /**
+     * Checks if the attribute should be cascaded to nested definitions.
+     *
+     * @return <code>true</code> if the attribute will be cascaded.
+     * @since 2.1.0
+     */
+    public boolean isCascade() {
+        return cascade;
+    }
 
-	/**
-	 * Sets the property that tells if the attribute should be cascaded to
-	 * nested definitions.
-	 *
-	 * @param cascade
-	 *            <code>true</code> if the attribute will be cascaded.
-	 * @since 2.1.0
-	 */
-	public void setCascade(boolean cascade) {
-		this.cascade = cascade;
-	}
+    /**
+     * Sets the property that tells if the attribute should be cascaded to
+     * nested definitions.
+     *
+     * @param cascade
+     *            <code>true</code> if the attribute will be cascaded.
+     * @since 2.1.0
+     */
+    public void setCascade(boolean cascade) {
+        this.cascade = cascade;
+    }
 
-	/**
-	 * Returns the role to check. If the user is in the specified role, the tag
-	 * is taken into account; otherwise, the tag is ignored (skipped).
-	 *
-	 * @return The role to check.
-	 */
-	public String getRole() {
-		return role;
-	}
+    /**
+     * Returns the role to check. If the user is in the specified role, the tag
+     * is taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @return The role to check.
+     */
+    public String getRole() {
+        return role;
+    }
 
-	/**
-	 * Sets the role to check. If the user is in the specified role, the tag is
-	 * taken into account; otherwise, the tag is ignored (skipped).
-	 *
-	 * @param role
-	 *            The role to check.
-	 */
-	public void setRole(String role) {
-		this.role = role;
-	}
+    /**
+     * Sets the role to check. If the user is in the specified role, the tag is
+     * taken into account; otherwise, the tag is ignored (skipped).
+     *
+     * @param role
+     *            The role to check.
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	/**
-	 * Returns the attribute value.
-	 *
-	 * @return Attribute value. Can be a String or Object.
-	 */
-	public Object getValue() {
-		return value;
-	}
+    /**
+     * Returns the attribute value.
+     *
+     * @return Attribute value. Can be a String or Object.
+     */
+    public Object getValue() {
+        return value;
+    }
 
-	/**
-	 * Sets the attribute value.
-	 *
-	 * @param value
-	 *            Attribute value. Can be a String or Object.
-	 */
-	public void setValue(Object value) {
-		this.value = value;
-	}
+    /**
+     * Sets the attribute value.
+     *
+     * @param value
+     *            Attribute value. Can be a String or Object.
+     */
+    public void setValue(Object value) {
+        this.value = value;
+    }
 
-	/**
-	 * Returns the expression to calculate the value from. Use this parameter,
-	 * or value, or body.
-	 *
-	 * @return The expression
-	 * @since 2.2.0
-	 */
-	public String getExpression() {
-		return expression;
-	}
+    /**
+     * Returns the expression to calculate the value from. Use this parameter,
+     * or value, or body.
+     *
+     * @return The expression
+     * @since 2.2.0
+     */
+    public String getExpression() {
+        return expression;
+    }
 
-	/**
-	 * Sets the expression to calculate the value from. Use this parameter, or
-	 * value, or body.
-	 *
-	 * @param expression
-	 *            The expression
-	 * @since 2.2.0
-	 */
-	public void setExpression(String expression) {
-		this.expression = expression;
-	}
+    /**
+     * Sets the expression to calculate the value from. Use this parameter, or
+     * value, or body.
+     *
+     * @param expression
+     *            The expression
+     * @since 2.2.0
+     */
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
 
-	/**
-	 * <p>
-	 * Returns content type: string, template or definition.
-	 * </p>
-	 * <ul>
-	 * <li>String : Content is printed directly.</li>
-	 * <li>template : Content is included from specified URL. Value is used as
-	 * an URL.</li>
-	 * <li>definition : Value denote a definition defined in factory (xml file).
-	 * Definition will be searched in the inserted tile, in a
-	 * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
-	 * 'attributeName' is the name used for this tag.</li>
-	 * </ul>
-	 *
-	 * @return The attribute type.
-	 */
-	public String getType() {
-		return type;
-	}
+    /**
+     * <p>
+     * Returns content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml file).
+     * Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @return The attribute type.
+     */
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * <p>
-	 * Sets content type: string, template or definition.
-	 * </p>
-	 * <ul>
-	 * <li>String : Content is printed directly.</li>
-	 * <li>template : Content is included from specified URL. Value is used as
-	 * an URL.</li>
-	 * <li>definition : Value denote a definition defined in factory (xml file).
-	 * Definition will be searched in the inserted tile, in a
-	 * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
-	 * 'attributeName' is the name used for this tag.</li>
-	 * </ul>
-	 *
-	 * @param type
-	 *            The attribute type.
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+    /**
+     * <p>
+     * Sets content type: string, template or definition.
+     * </p>
+     * <ul>
+     * <li>String : Content is printed directly.</li>
+     * <li>template : Content is included from specified URL. Value is used as
+     * an URL.</li>
+     * <li>definition : Value denote a definition defined in factory (xml file).
+     * Definition will be searched in the inserted tile, in a
+     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
+     * 'attributeName' is the name used for this tag.</li>
+     * </ul>
+     *
+     * @param type
+     *            The attribute type.
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public void doTag() throws JspException, IOException {
-		JspContext jspContext = getJspContext();
-		TilesContainer currentContainer = JspUtil
-				.getCurrentContainer(jspContext);
-		Request request = JspTilesRequestContext.createServletJspRequest(
-				currentContainer.getApplicationContext(),
-				(PageContext) jspContext);
-		model.start(JspUtil.getComposeStack(jspContext));
-		String body = JspUtil.evaluateFragmentAsString(getJspBody());
-		model.end(currentContainer, JspUtil.getComposeStack(jspContext), name,
-				value, expression, body, role, type, cascade, request);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void doTag() throws JspException, IOException {
+        JspContext jspContext = getJspContext();
+        TilesContainer currentContainer = JspUtil
+                .getCurrentContainer(jspContext);
+        Request request = JspTilesRequestContext.createServletJspRequest(
+                currentContainer.getApplicationContext(),
+                (PageContext) jspContext);
+        model.start(JspUtil.getComposeStack(jspContext));
+        String body = JspUtil.evaluateFragmentAsString(getJspBody());
+        model.end(currentContainer, JspUtil.getComposeStack(jspContext), name,
+                value, expression, body, role, type, cascade, request);
+    }
 }

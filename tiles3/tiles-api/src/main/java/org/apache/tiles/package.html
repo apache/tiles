@@ -198,7 +198,7 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
 <pre>
   &lt;plug-in className=&amp;&amp;quot;org.apache.struts.tiles.TilesPlugin&amp;&amp;quot; &gt;
     &lt;set-property property=&amp;&amp;quot;definitions-config&amp;&amp;quot;
-	                 value=&amp;&amp;quot;/WEB-INF/tiles-defs.xml,
+                   value=&amp;&amp;quot;/WEB-INF/tiles-defs.xml,
                             /WEB-INF/tiles-tests-defs.xml,/WEB-INF/tiles-tutorial-defs.xml,
                             /WEB-INF/tiles-examples-defs.xml&amp;&amp;quot; /&gt;
     &lt;set-property property=&amp;&amp;quot;moduleAware&amp;&amp;quot; value=&amp;&amp;quot;true&amp;&amp;quot; /&gt;
@@ -281,20 +281,20 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
         <pre>
   &lt;servlet&gt;
     &lt;servlet-name&gt;action&lt;/servlet-name&gt;
-	&lt;servlet-class&gt;org.apache.tiles.web.startup.TilesServlet&lt;/servlet-class&gt;
+  &lt;servlet-class&gt;org.apache.tiles.web.startup.TilesServlet&lt;/servlet-class&gt;
         &lt;!-- Tiles Servlet parameter
-		  Specify configuration file names. There can be several comma
-		  separated file names
-		--&gt;
-	&lt;init-param&gt;
+      Specify configuration file names. There can be several comma
+      separated file names
+    --&gt;
+  &lt;init-param&gt;
       &lt;param-name&gt;definitions-config&lt;/param-name&gt;
       &lt;param-value&gt;/WEB-INF/tiles-defs.xml&lt;/param-value&gt;
     &lt;/init-param&gt;
         &lt;!-- Tiles Servlet parameter
-		Specify if XML parser should validate the Tiles configuration file(s).
-		true : validate. DTD should be specified in file header.
-		false : no validation
-		--&gt;
+    Specify if XML parser should validate the Tiles configuration file(s).
+    true : validate. DTD should be specified in file header.
+    false : no validation
+    --&gt;
     &lt;init-param&gt;
       &lt;param-name&gt;org.apache.tiles.definition.digester.DigesterDefinitionsReader.PARSER_VALIDATE&lt;/param-name&gt;
       &lt;param-value&gt;true&lt;/param-value&gt;
@@ -314,7 +314,7 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
     &lt;servlet-class&gt;org.apache.struts.tiles.TilesServlet&lt;/servlet-class&gt;
 
 
-	&lt;init-param&gt;
+  &lt;init-param&gt;
       &lt;param-name&gt;definitions-config&lt;/param-name&gt;
       &lt;param-value&gt;/WEB-INF/tiles-defs.xml&lt;/param-value&gt;
     &lt;/init-param&gt;
@@ -349,25 +349,25 @@ pieces of pages, called Tiles. A Tiles is usually a simple JSP page.
   &lt;!-- Main page layout used as a root for other page definitions --&gt;
 
   &lt;definition name=&amp;&amp;quot;site.mainLayout&amp;&amp;quot; template=&amp;&amp;quot;/layouts/classicLayout.jsp&amp;&amp;quot;&gt;
-	  &lt;put name=&amp;&amp;quot;title&amp;&amp;quot;  value=&amp;&amp;quot;Tiles Blank Site&amp;&amp;quot; /&gt;
-	  &lt;put name=&amp;&amp;quot;header&amp;&amp;quot; value=&amp;&amp;quot;/tiles/common/header.jsp&amp;&amp;quot; /&gt;
-	  &lt;put name=&amp;&amp;quot;menu&amp;&amp;quot;   value=&amp;&amp;quot;site.menu.bar&amp;&amp;quot; /&gt;
-	  &lt;put name=&amp;&amp;quot;footer&amp;&amp;quot; value=&amp;&amp;quot;/tiles/common/footer.jsp&amp;&amp;quot; /&gt;
-	  &lt;put name=&amp;&amp;quot;body&amp;&amp;quot;   value=&amp;&amp;quot;/tiles/body.jsp&amp;&amp;quot; /&gt;
+    &lt;put name=&amp;&amp;quot;title&amp;&amp;quot;  value=&amp;&amp;quot;Tiles Blank Site&amp;&amp;quot; /&gt;
+    &lt;put name=&amp;&amp;quot;header&amp;&amp;quot; value=&amp;&amp;quot;/tiles/common/header.jsp&amp;&amp;quot; /&gt;
+    &lt;put name=&amp;&amp;quot;menu&amp;&amp;quot;   value=&amp;&amp;quot;site.menu.bar&amp;&amp;quot; /&gt;
+    &lt;put name=&amp;&amp;quot;footer&amp;&amp;quot; value=&amp;&amp;quot;/tiles/common/footer.jsp&amp;&amp;quot; /&gt;
+    &lt;put name=&amp;&amp;quot;body&amp;&amp;quot;   value=&amp;&amp;quot;/tiles/body.jsp&amp;&amp;quot; /&gt;
   &lt;/definition&gt;
 
   &lt;!-- ========================================================== --&gt;
   &lt;!-- Index page definition                                      --&gt;
   &lt;!-- ========================================================== --&gt;
     &lt;!-- This definition inherits from the main definition.
-	  It overloads the page title and the body used.
-	  Use the same mechanism to define new pages sharing common
-	  properties (here header, menu, footer, layout)
-	--&gt;
+    It overloads the page title and the body used.
+    Use the same mechanism to define new pages sharing common
+    properties (here header, menu, footer, layout)
+  --&gt;
 
   &lt;definition name=&amp;&amp;quot;site.index.page&amp;&amp;quot; extends=&amp;&amp;quot;site.mainLayout&amp;&amp;quot; &gt;
-	  &lt;put name=&amp;&amp;quot;title&amp;&amp;quot;  value=&amp;&amp;quot;Tiles Blank Site Index&amp;&amp;quot; /&gt;
-	  &lt;put name=&amp;&amp;quot;body&amp;&amp;quot;   value=&amp;&amp;quot;/tiles/body.jsp&amp;&amp;quot; /&gt;
+    &lt;put name=&amp;&amp;quot;title&amp;&amp;quot;  value=&amp;&amp;quot;Tiles Blank Site Index&amp;&amp;quot; /&gt;
+    &lt;put name=&amp;&amp;quot;body&amp;&amp;quot;   value=&amp;&amp;quot;/tiles/body.jsp&amp;&amp;quot; /&gt;
   &lt;/definition&gt;
 
 &lt;/tiles-definition&gt;

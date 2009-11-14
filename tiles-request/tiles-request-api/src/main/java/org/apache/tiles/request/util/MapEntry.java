@@ -111,7 +111,7 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
      * @return True if equal, else false
      */
     @Override
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         if (o != null && o instanceof Map.Entry) {
             Map.Entry<K, V> entry = (Map.Entry<K, V>) o;
@@ -130,7 +130,7 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
      * @return The and'ed hashcode of the key and value
      */
     @Override
-	public int hashCode() {
+    public int hashCode() {
         return (this.getKey() == null ? 0 : this.getKey().hashCode())
             ^ (this.getValue() == null ? 0 : this.getValue().hashCode());
     }

@@ -117,7 +117,7 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @Override
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         HttpServletRequest otherRequest = ((ServletHeaderValuesMap) o).request;
         boolean retValue = true;
@@ -149,7 +149,7 @@ final class ServletHeaderValuesMap implements Map<String, String[]> {
 
     /** {@inheritDoc} */
     @Override
-	public int hashCode() {
+    public int hashCode() {
         return (request.hashCode());
     }
 
