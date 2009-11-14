@@ -22,6 +22,7 @@ package org.apache.tiles.mgmt;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 
 /**
  * Defines a mutable version of the TilesContainer.
@@ -35,7 +36,7 @@ public interface MutableTilesContainer extends TilesContainer {
      * Register a new definition with the container.
      *
      * @param definition The definition to register.
-     * @param requestItems the current request objects.
+     * @param request TODO
      */
-    void register(Definition definition, Object... requestItems);
+    void register(Definition definition, Request request);
 }

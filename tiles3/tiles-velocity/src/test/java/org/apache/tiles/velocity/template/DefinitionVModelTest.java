@@ -35,8 +35,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.DefinitionModel;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.junit.Before;
@@ -75,27 +77,29 @@ public class DefinitionVModelTest {
      * Test method for {@link org.apache.tiles.velocity.template.DefinitionVModel
      * #execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
      * org.apache.velocity.context.Context, java.util.Map)}.
-     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testExecute() throws IOException {
+    public void testExecute() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
         Map<String, Object> params = createParams();
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
-        tModel.execute(container, composeStack, "myName", "myTemplate", "myRole", "myExtends", "myPreparer",
-                velocityContext, request, response);
+        tModel.execute(eq(container), eq(composeStack), eq("myName"),
+                eq("myTemplate"), eq("myRole"), eq("myExtends"),
+                eq("myPreparer"), isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, servletContext, request, response, velocityContext, container);
+        replay(tModel, servletContext, request, response, velocityContext, container, applicationContext);
         initializeModel();
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.execute(request, response, velocityContext, params));
-        verify(tModel, servletContext, request, response, velocityContext, container);
+        verify(tModel, servletContext, request, response, velocityContext, container, applicationContext);
     }
 
     /**
@@ -128,22 +132,24 @@ public class DefinitionVModelTest {
      * @throws IOException If something goes wrong.
      */
     @Test
-    public void testEnd() throws IOException {
+    public void testEnd() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
-        tModel.end(container, composeStack, velocityContext, request, response);
+        tModel.end(eq(container), eq(composeStack), isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, servletContext, request, response, velocityContext, container);
+        replay(tModel, servletContext, request, response, velocityContext, container, applicationContext);
         initializeModel();
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));
-        verify(tModel, servletContext, request, response, velocityContext, container);
+        verify(tModel, servletContext, request, response, velocityContext, container, applicationContext);
     }
 
     /**

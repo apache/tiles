@@ -24,8 +24,11 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefinitionModel;
 
 import freemarker.core.Environment;
@@ -37,7 +40,7 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link DefinitionModel} to be used in FreeMarker. For the list of
  * parameters, see {@link DefinitionModel#start(java.util.Stack, String, String, String, String, String)} and
- * {@link DefinitionModel#end(MutableTilesContainer, java.util.Stack, Object...)}.
+ * {@link DefinitionModel#end(MutableTilesContainer, java.util.Stack, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -63,7 +66,11 @@ public class DefinitionFMModel implements TemplateDirectiveModel {
     @SuppressWarnings("unchecked")
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
-        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
+        Map<String, TemplateModel> parms = params;
+        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+        Request request = FreeMarkerTilesRequestContext
+                .createServletFreemarkerRequest(container
+                        .getApplicationContext(), env);
         model.start(FreeMarkerUtil.getComposeStack(env),
                 FreeMarkerUtil.getAsString(parms.get("name")),
                 FreeMarkerUtil.getAsString(parms.get("template")),
@@ -71,9 +78,8 @@ public class DefinitionFMModel implements TemplateDirectiveModel {
                 FreeMarkerUtil.getAsString(parms.get("extends")),
                 FreeMarkerUtil.getAsString(parms.get("preparer")));
         FreeMarkerUtil.evaluateBody(body);
-        model.end((MutableTilesContainer) FreeMarkerUtil
-                .getCurrentContainer(env), FreeMarkerUtil.getComposeStack(env),
-                env);
+        model.end((MutableTilesContainer) container, FreeMarkerUtil
+                .getComposeStack(env), request);
     }
 
 }

@@ -24,12 +24,15 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
+import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefinitionModel;
 
 /**
@@ -165,12 +168,18 @@ public class DefinitionTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jspContext = getJspContext();
-        model.start(JspUtil.getComposeStack(jspContext), name, template, role, extend, preparer);
+        TilesContainer currentContainer = JspUtil
+                .getCurrentContainer(jspContext);
+        Request request = JspTilesRequestContext.createServletJspRequest(
+                currentContainer.getApplicationContext(),
+                (PageContext) jspContext);
+        model.start(JspUtil.getComposeStack(jspContext), name, template, role,
+                extend, preparer);
         JspUtil.evaluateFragment(getJspBody());
         TilesContainer container = JspUtil.getCurrentContainer(jspContext);
         if (container instanceof MutableTilesContainer) {
             model.end((MutableTilesContainer) container, JspUtil
-                    .getComposeStack(jspContext), jspContext);
+                    .getComposeStack(jspContext), request);
         } else {
             throw new TilesJspException("The current container is not mutable");
         }

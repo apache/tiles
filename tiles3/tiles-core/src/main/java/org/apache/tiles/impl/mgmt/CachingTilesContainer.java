@@ -43,10 +43,8 @@ public class CachingTilesContainer extends BasicTilesContainer
     private DefinitionManager mgr = new DefinitionManager();
 
     /** {@inheritDoc} */
-    public void register(Definition definition, Object... requestItems) {
-        Request requestContext = getRequestContextFactory()
-                .createRequestContext(getApplicationContext(), requestItems);
-        register(definition, requestContext);
+    public void register(Definition definition, Request request) {
+        mgr.addDefinition(definition, request);
     }
 
     /** {@inheritDoc} */
@@ -68,17 +66,5 @@ public class CachingTilesContainer extends BasicTilesContainer
     public void setDefinitionsFactory(DefinitionsFactory definitionsFactory) {
         super.setDefinitionsFactory(definitionsFactory);
         mgr.setFactory(definitionsFactory);
-    }
-
-    /**
-     * Registers a custom definition.
-     *
-     * @param definition The definition to register.
-     * @param request The request inside which the definition should be
-     * registered.
-     */
-    protected void register(Definition definition,
-            Request request) {
-        mgr.addDefinition(definition, request);
     }
 }

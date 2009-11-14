@@ -25,6 +25,7 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.request.Request;
 
 /**
  * <p>
@@ -64,13 +65,13 @@ public class DefinitionModel {
      *
      * @param container The Tiles container to use. It must be "mutable".
      * @param composeStack The compose stack.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @since 2.2.0
      */
     public void end(MutableTilesContainer container,
-            ArrayStack<Object> composeStack, Object... requestItems) {
+            ArrayStack<Object> composeStack, Request request) {
         Definition definition = (Definition) composeStack.pop();
-        registerDefinition(definition, container, composeStack, requestItems);
+        registerDefinition(definition, container, composeStack, request);
     }
 
     /**
@@ -84,16 +85,16 @@ public class DefinitionModel {
      * will be rendered only if the current user belongs to one of the roles.
      * @param extendsParam The definition name that this definition extends.
      * @param preparer The preparer to use to invoke before the definition is rendered.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @since 2.2.0
      */
     public void execute(MutableTilesContainer container,
             ArrayStack<Object> composeStack, String name, String template,
             String role, String extendsParam, String preparer,
-            Object... requestItems) {
+            Request request) {
         Definition definition = createDefinition(name, template, role,
                 extendsParam, preparer);
-        registerDefinition(definition, container, composeStack, requestItems);
+        registerDefinition(definition, container, composeStack, request);
     }
 
     /**
@@ -126,12 +127,12 @@ public class DefinitionModel {
      * @param definition The definition to register.
      * @param container The container into which the definition will be registered.
      * @param composeStack The compose stack,
-     * @param requestItems The request object.
+     * @param request TODO
      */
     private void registerDefinition(Definition definition,
             MutableTilesContainer container, ArrayStack<Object> composeStack,
-            Object... requestItems) {
-        container.register(definition, requestItems);
+            Request request) {
+        container.register(definition, request);
 
         if (composeStack.isEmpty()) {
             return;

@@ -28,6 +28,7 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -70,70 +71,70 @@ public class DefinitionModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.DefinitionModel
-     * #end(org.apache.tiles.mgmt.MutableTilesContainer, java.util.Stack, java.lang.Object[])}.
+     * #end(org.apache.tiles.mgmt.MutableTilesContainer, java.util.Stack, Request)}.
      */
     @Test
     public void testEnd() {
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
+        Request request = createMock(Request.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Definition definition = new Definition();
         composeStack.push(definition);
-        Integer requestItem = new Integer(1);
 
-        container.register(definition, requestItem);
+        container.register(definition, request);
 
-        replay(container);
-        model.end(container, composeStack, requestItem);
-        verify(container);
+        replay(container, request);
+        model.end(container, composeStack, request);
+        verify(container, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.DefinitionModel
-     * #end(org.apache.tiles.mgmt.MutableTilesContainer, java.util.Stack, java.lang.Object[])}.
+     * #end(org.apache.tiles.mgmt.MutableTilesContainer, java.util.Stack, Request)}.
      */
     @Test
     public void testEndInAttribute() {
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
+        Request request = createMock(Request.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
         Definition definition = new Definition();
         composeStack.push(definition);
-        Integer requestItem = new Integer(1);
 
-        container.register(definition, requestItem);
+        container.register(definition, request);
 
-        replay(container);
-        model.end(container, composeStack, requestItem);
+        replay(container, request);
+        model.end(container, composeStack, request);
         assertEquals(1, composeStack.size());
         attribute = (Attribute) composeStack.peek();
         assertEquals(definition.getName(), attribute.getValue());
         assertEquals("definition", attribute.getRenderer());
-        verify(container);
+        verify(container, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.DefinitionModel
      * #execute(org.apache.tiles.mgmt.MutableTilesContainer, java.util.Stack,
-     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Object[])}.
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, Request)}.
      */
     @Test
     public void testExecute() {
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
+        Request request = createMock(Request.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
-        Integer requestItem = new Integer(1);
 
-        container.register((Definition) notNull(), eq(requestItem));
+        container.register((Definition) notNull(), eq(request));
 
-        replay(container);
+        replay(container, request);
         model.execute(container, composeStack, "myName", "myTemplate",
-                "myRole", "myExtends", "myPreparer", requestItem);
+                "myRole", "myExtends", "myPreparer", request);
         assertEquals(1, composeStack.size());
         attribute = (Attribute) composeStack.peek();
         assertEquals("definition", attribute.getRenderer());
-        verify(container);
+        verify(container, request);
     }
 
 }
