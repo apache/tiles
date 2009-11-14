@@ -32,6 +32,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 /**
@@ -105,6 +107,8 @@ public class SelectLocaleServlet extends HttpServlet {
                 .getSession().getServletContext(), containerKey);
         TilesContainer container = ServletUtil.getCurrentContainer(request, request
                 .getSession().getServletContext());
-        container.render(definitionName, request, response);
+		Request currentRequest = new ServletTilesRequestContext(container
+				.getApplicationContext(), request, response);
+        container.render(definitionName, currentRequest);
     }
 }

@@ -30,6 +30,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -70,80 +71,80 @@ public class PutAttributeModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.PutAttributeModel
      * #end(org.apache.tiles.TilesContainer, ArrayStack, String, Object, String,
-     * String, String, String, boolean, Object...)}.
+     * String, String, String, boolean, Request)}.
      */
     @Test
     public void testEnd() {
         TilesContainer container = createMock(TilesContainer.class);
+        Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute();
-        Integer requestItem = new Integer(1);
         composeStack.push(attribute);
 
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", attribute, false);
 
-        replay(container, attributeContext);
+        replay(container, attributeContext, request);
         model.end(container, composeStack, "myName", "myValue", "myExpression",
-                "myBody", "myRole", "myType", false, requestItem);
+                "myBody", "myRole", "myType", false, request);
         assertEquals("myValue", attribute.getValue());
         assertEquals("myExpression", attribute.getExpressionObject()
                 .getExpression());
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
-        verify(container, attributeContext);
+        verify(container, attributeContext, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.PutAttributeModel
      * #end(org.apache.tiles.TilesContainer, ArrayStack, String, Object, String,
-     * String, String, String, boolean, Object...)}.
+     * String, String, String, boolean, Request)}.
      */
     @Test
     public void testEndBody() {
         TilesContainer container = createMock(TilesContainer.class);
+        Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute();
-        Integer requestItem = new Integer(1);
         composeStack.push(attribute);
 
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", attribute, false);
 
-        replay(container, attributeContext);
+        replay(container, attributeContext, request);
         model.end(container, composeStack, "myName", "myValue", "myExpression",
-                "myBody", "myRole", "myType", false, requestItem);
+                "myBody", "myRole", "myType", false, request);
         assertEquals("myValue", attribute.getValue());
         assertEquals("myExpression", attribute.getExpressionObject()
                 .getExpression());
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
-        verify(container, attributeContext);
+        verify(container, attributeContext, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.PutAttributeModel
      * #execute(org.apache.tiles.TilesContainer, ArrayStack, String, Object, String,
-     * String, String, String, boolean, Object...)}.
+     * String, String, String, boolean, Request)}.
      */
     @Test
     public void testExecuteListAttribute() {
         TilesContainer container = createMock(TilesContainer.class);
+        Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
-        Integer requestItem = new Integer(1);
         composeStack.push(listAttribute);
 
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute(eq("myName"), (Attribute) notNull(), eq(false));
 
-        replay(container, attributeContext);
+        replay(container, attributeContext, request);
         model.execute(container, composeStack, "myName", "myValue",
                 "myExpression", "myBody", "myRole", "myType", false,
-                requestItem);
-        verify(container, attributeContext);
+                request);
+        verify(container, attributeContext, request);
     }
 }

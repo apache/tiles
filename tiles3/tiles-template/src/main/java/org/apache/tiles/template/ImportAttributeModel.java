@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,26 +63,26 @@ public class ImportAttributeModel {
      * if <code>name</code> is specified.
      * @param ignore If <code>true</code> and the attribute is not found, or an
      * exception happens, the problem will be ignored.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @return A Map of the attributes to be imported: the key is the name of an
      * attribute, the value is the value of that attribute.
      * @since 2.2.0
      */
     public Map<String, Object> getImportedAttributes(TilesContainer container,
-            String name, String toName, boolean ignore, Object... requestItems) {
+            String name, String toName, boolean ignore, Request request) {
         Map<String, Object> retValue = new HashMap<String, Object>();
         AttributeContext attributeContext = container
-                .getAttributeContext(requestItems);
+                .getAttributeContext(request);
         // Some tags allow for unspecified attributes. This
         // implies that the tag should use all of the attributes.
         if (name != null) {
             importSingleAttribute(container, attributeContext, name, toName,
-                    ignore, retValue, requestItems);
+                    ignore, retValue, request);
         } else {
             importAttributes(attributeContext.getCascadedAttributeNames(),
-                    container, attributeContext, retValue, ignore, requestItems);
+                    container, attributeContext, retValue, ignore, request);
             importAttributes(attributeContext.getLocalAttributeNames(),
-                    container, attributeContext, retValue, ignore, requestItems);
+                    container, attributeContext, retValue, ignore, request);
         }
         return retValue;
     }
@@ -98,17 +99,17 @@ public class ImportAttributeModel {
      * @param ignore If <code>true</code> and the attribute is not found, or an
      * exception happens, the problem will be ignored.
      * @param attributes The map of the attributes to fill.
-     * @param requestItems The request objects.
+     * @param request TODO
      */
     private void importSingleAttribute(TilesContainer container,
             AttributeContext attributeContext, String name, String toName,
             boolean ignore, Map<String, Object> attributes,
-            Object... requestItems) {
+            Request request) {
         Attribute attr = attributeContext.getAttribute(name);
         if (attr != null) {
             try {
                 Object attributeValue = container.evaluate(attr,
-                        requestItems);
+                        request);
                 if (attributeValue == null) {
                     if (!ignore) {
                         throw new NoSuchAttributeException(
@@ -146,12 +147,12 @@ public class ImportAttributeModel {
      * @param attributes The map of the attributes to fill.
      * @param ignore If <code>true</code> and the attribute is not found, or an
      * exception happens, the problem will be ignored.
-     * @param requestItems The request objects.
+     * @param request TODO
      */
     private void importAttributes(Collection<String> names,
             TilesContainer container, AttributeContext attributeContext,
             Map<String, Object> attributes, boolean ignore,
-            Object... requestItems) {
+            Request request) {
         if (names == null || names.isEmpty()) {
             return;
         }
@@ -166,7 +167,7 @@ public class ImportAttributeModel {
             }
 
             importSingleAttribute(container, attributeContext, name, name,
-                    ignore, attributes, requestItems);
+                    ignore, attributes, request);
         }
     }
 }

@@ -25,10 +25,14 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
+import org.apache.tiles.jsp.context.JspTilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.InsertAttributeModel;
 
@@ -41,274 +45,287 @@ import org.apache.tiles.template.InsertAttributeModel;
  */
 public class InsertAttributeTag extends SimpleTagSupport {
 
-    /**
-     * The template model.
-     */
-    private InsertAttributeModel model = new InsertAttributeModel(
-            new DefaultAttributeResolver());
+	/**
+	 * The template model.
+	 */
+	private InsertAttributeModel model = new InsertAttributeModel(
+			new DefaultAttributeResolver());
 
-    /**
-     * Name to insert.
-     */
-    private String name;
+	/**
+	 * Name to insert.
+	 */
+	private String name;
 
-    /**
-     * The value of the attribute.
-     */
-    private Object value = null;
+	/**
+	 * The value of the attribute.
+	 */
+	private Object value = null;
 
-    /**
-     * This value is evaluated only if <code>value</code> is null and the
-     * attribute with the associated <code>name</code> is null.
-     *
-     * @since 2.1.2
-     */
-    private Object defaultValue;
+	/**
+	 * This value is evaluated only if <code>value</code> is null and the
+	 * attribute with the associated <code>name</code> is null.
+	 *
+	 * @since 2.1.2
+	 */
+	private Object defaultValue;
 
-    /**
-     * The type of the {@link #defaultValue}, if it is a string.
-     *
-     * @since 2.1.2
-     */
-    private String defaultValueType;
+	/**
+	 * The type of the {@link #defaultValue}, if it is a string.
+	 *
+	 * @since 2.1.2
+	 */
+	private String defaultValueType;
 
-    /**
-     * The role to check for the default value. If the user is in the specified
-     * role, the default value is taken into account; otherwise, it is ignored
-     * (skipped).
-     *
-     * @since 2.1.2
-     */
-    private String defaultValueRole;
+	/**
+	 * The role to check for the default value. If the user is in the specified
+	 * role, the default value is taken into account; otherwise, it is ignored
+	 * (skipped).
+	 *
+	 * @since 2.1.2
+	 */
+	private String defaultValueRole;
 
-    /**
-     * The role to check. If the user is in the specified role, the tag is taken
-     * into account; otherwise, the tag is ignored (skipped).
-     *
-     * @since 2.1.1
-     */
-    private String role;
+	/**
+	 * The role to check. If the user is in the specified role, the tag is taken
+	 * into account; otherwise, the tag is ignored (skipped).
+	 *
+	 * @since 2.1.1
+	 */
+	private String role;
 
-    /**
-     * The view preparer to use before the rendering.
-     *
-     * @since 2.1.1
-     */
-    private String preparer;
+	/**
+	 * The view preparer to use before the rendering.
+	 *
+	 * @since 2.1.1
+	 */
+	private String preparer;
 
-    /**
-     * This flag, if <code>true</code>, flushes the content before rendering.
-     *
-     * @since 2.1.1
-     */
-    private boolean flush;
+	/**
+	 * This flag, if <code>true</code>, flushes the content before rendering.
+	 *
+	 * @since 2.1.1
+	 */
+	private boolean flush;
 
-    /**
-     * This flag, if <code>true</code>, ignores exception thrown by preparers
-     * and those caused by problems with definitions.
-     *
-     * @since 2.1.1
-     */
-    private boolean ignore;
+	/**
+	 * This flag, if <code>true</code>, ignores exception thrown by preparers
+	 * and those caused by problems with definitions.
+	 *
+	 * @since 2.1.1
+	 */
+	private boolean ignore;
 
-    /**
-     * Sets the name of the attribute.
-     *
-     * @param value The name of the attribute.
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+	/**
+	 * Sets the name of the attribute.
+	 *
+	 * @param value
+	 *            The name of the attribute.
+	 */
+	public void setName(String value) {
+		this.name = value;
+	}
 
-    /**
-     * Returns  the name of the attribute.
-     *
-     * @return The name of the attribute.
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Returns the name of the attribute.
+	 *
+	 * @return The name of the attribute.
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Get the value.
-     *
-     * @return The value.
-     */
-    public Object getValue() {
-        return value;
-    }
+	/**
+	 * Get the value.
+	 *
+	 * @return The value.
+	 */
+	public Object getValue() {
+		return value;
+	}
 
-    /**
-     * Set the value.
-     *
-     * @param value The new value
-     */
-    public void setValue(Object value) {
-        this.value = value;
-    }
+	/**
+	 * Set the value.
+	 *
+	 * @param value
+	 *            The new value
+	 */
+	public void setValue(Object value) {
+		this.value = value;
+	}
 
-    /**
-     * Returns the default value, that is evaluated only if <code>value</code>
-     * is null and the attribute with the associated <code>name</code> is null.
-     *
-     * @return The default value.
-     */
-    public Object getDefaultValue() {
-        return defaultValue;
-    }
+	/**
+	 * Returns the default value, that is evaluated only if <code>value</code>
+	 * is null and the attribute with the associated <code>name</code> is null.
+	 *
+	 * @return The default value.
+	 */
+	public Object getDefaultValue() {
+		return defaultValue;
+	}
 
-    /**
-     * Sets the default value, that is evaluated only if <code>value</code> is
-     * null and the attribute with the associated <code>name</code> is null.
-     *
-     * @param defaultValue The default value to set.
-     */
-    public void setDefaultValue(Object defaultValue) {
-        this.defaultValue = defaultValue;
-    }
+	/**
+	 * Sets the default value, that is evaluated only if <code>value</code> is
+	 * null and the attribute with the associated <code>name</code> is null.
+	 *
+	 * @param defaultValue
+	 *            The default value to set.
+	 */
+	public void setDefaultValue(Object defaultValue) {
+		this.defaultValue = defaultValue;
+	}
 
-    /**
-     * Returns the default value type. It will be used only if
-     * {@link #getDefaultValue()} is a string.
-     *
-     * @return The default value type.
-     */
-    public String getDefaultValueType() {
-        return defaultValueType;
-    }
+	/**
+	 * Returns the default value type. It will be used only if
+	 * {@link #getDefaultValue()} is a string.
+	 *
+	 * @return The default value type.
+	 */
+	public String getDefaultValueType() {
+		return defaultValueType;
+	}
 
-    /**
-     * Sets the default value type. To be used in conjunction with
-     * {@link #setDefaultValue(Object)} when passing a string.
-     *
-     * @param defaultValueType The default value type.
-     */
-    public void setDefaultValueType(String defaultValueType) {
-        this.defaultValueType = defaultValueType;
-    }
+	/**
+	 * Sets the default value type. To be used in conjunction with
+	 * {@link #setDefaultValue(Object)} when passing a string.
+	 *
+	 * @param defaultValueType
+	 *            The default value type.
+	 */
+	public void setDefaultValueType(String defaultValueType) {
+		this.defaultValueType = defaultValueType;
+	}
 
-    /**
-     * Returns the role to check for the default value. If the user is in the specified
-     * role, the default value is taken into account; otherwise, it is ignored
-     * (skipped).
-     *
-     * @return The default value role.
-     */
-    public String getDefaultValueRole() {
-        return defaultValueRole;
-    }
+	/**
+	 * Returns the role to check for the default value. If the user is in the
+	 * specified role, the default value is taken into account; otherwise, it is
+	 * ignored (skipped).
+	 *
+	 * @return The default value role.
+	 */
+	public String getDefaultValueRole() {
+		return defaultValueRole;
+	}
 
-    /**
-     * Sets the role to check for the default value. If the user is in the specified
-     * role, the default value is taken into account; otherwise, it is ignored
-     * (skipped).
-     *
-     * @param defaultValueRole The default value role.
-     */
-    public void setDefaultValueRole(String defaultValueRole) {
-        this.defaultValueRole = defaultValueRole;
-    }
+	/**
+	 * Sets the role to check for the default value. If the user is in the
+	 * specified role, the default value is taken into account; otherwise, it is
+	 * ignored (skipped).
+	 *
+	 * @param defaultValueRole
+	 *            The default value role.
+	 */
+	public void setDefaultValueRole(String defaultValueRole) {
+		this.defaultValueRole = defaultValueRole;
+	}
 
-    /**
-     * Returns the role to check. If the user is in the specified role, the tag is
-     * taken into account; otherwise, the tag is ignored (skipped).
-     *
-     * @return The role to check.
-     * @since 2.1.1
-     */
-    public String getRole() {
-        return role;
-    }
+	/**
+	 * Returns the role to check. If the user is in the specified role, the tag
+	 * is taken into account; otherwise, the tag is ignored (skipped).
+	 *
+	 * @return The role to check.
+	 * @since 2.1.1
+	 */
+	public String getRole() {
+		return role;
+	}
 
-    /**
-     * Sets the role to check. If the user is in the specified role, the tag is
-     * taken into account; otherwise, the tag is ignored (skipped).
-     *
-     * @param role The role to check.
-     * @since 2.1.1
-     */
-    public void setRole(String role) {
-        this.role = role;
-    }
+	/**
+	 * Sets the role to check. If the user is in the specified role, the tag is
+	 * taken into account; otherwise, the tag is ignored (skipped).
+	 *
+	 * @param role
+	 *            The role to check.
+	 * @since 2.1.1
+	 */
+	public void setRole(String role) {
+		this.role = role;
+	}
 
-    /**
-     * Returns the preparer name.
-     *
-     * @return The preparer name.
-     * @since 2.1.1
-     */
-    public String getPreparer() {
-        return preparer;
-    }
+	/**
+	 * Returns the preparer name.
+	 *
+	 * @return The preparer name.
+	 * @since 2.1.1
+	 */
+	public String getPreparer() {
+		return preparer;
+	}
 
-    /**
-     * Sets the preparer name.
-     *
-     * @param preparer The preparer name.
-     * @since 2.1.1
-     */
-    public void setPreparer(String preparer) {
-        this.preparer = preparer;
-    }
+	/**
+	 * Sets the preparer name.
+	 *
+	 * @param preparer
+	 *            The preparer name.
+	 * @since 2.1.1
+	 */
+	public void setPreparer(String preparer) {
+		this.preparer = preparer;
+	}
 
-    /**
-     * Returns the flush flag. If <code>true</code>, current page out stream
-     * is flushed before insertion.
-     *
-     * @return The flush flag.
-     * @since 2.1.1
-     */
-    public boolean isFlush() {
-        return flush;
-    }
+	/**
+	 * Returns the flush flag. If <code>true</code>, current page out stream is
+	 * flushed before insertion.
+	 *
+	 * @return The flush flag.
+	 * @since 2.1.1
+	 */
+	public boolean isFlush() {
+		return flush;
+	}
 
-    /**
-     * Sets the flush flag. If <code>true</code>, current page out stream
-     * is flushed before insertion.
-     *
-     * @param flush The flush flag.
-     * @since 2.1.1
-     */
-    public void setFlush(boolean flush) {
-        this.flush = flush;
-    }
+	/**
+	 * Sets the flush flag. If <code>true</code>, current page out stream is
+	 * flushed before insertion.
+	 *
+	 * @param flush
+	 *            The flush flag.
+	 * @since 2.1.1
+	 */
+	public void setFlush(boolean flush) {
+		this.flush = flush;
+	}
 
-    /**
-     * Returns the ignore flag. If it is set to true, and the attribute
-     * specified by the name does not exist, simply return without writing
-     * anything. The default value is false, which will cause a runtime
-     * exception to be thrown.
-     *
-     * @return The ignore flag.
-     * @since 2.1.1
-     */
-    public boolean isIgnore() {
-        return ignore;
-    }
+	/**
+	 * Returns the ignore flag. If it is set to true, and the attribute
+	 * specified by the name does not exist, simply return without writing
+	 * anything. The default value is false, which will cause a runtime
+	 * exception to be thrown.
+	 *
+	 * @return The ignore flag.
+	 * @since 2.1.1
+	 */
+	public boolean isIgnore() {
+		return ignore;
+	}
 
-    /**
-     * Sets the ignore flag. If this attribute is set to true, and the attribute
-     * specified by the name does not exist, simply return without writing
-     * anything. The default value is false, which will cause a runtime
-     * exception to be thrown.
-     *
-     * @param ignore The ignore flag.
-     * @since 2.1.1
-     */
-    public void setIgnore(boolean ignore) {
-        this.ignore = ignore;
-    }
+	/**
+	 * Sets the ignore flag. If this attribute is set to true, and the attribute
+	 * specified by the name does not exist, simply return without writing
+	 * anything. The default value is false, which will cause a runtime
+	 * exception to be thrown.
+	 *
+	 * @param ignore
+	 *            The ignore flag.
+	 * @since 2.1.1
+	 */
+	public void setIgnore(boolean ignore) {
+		this.ignore = ignore;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void doTag() throws JspException, IOException {
-        JspContext jspContext = getJspContext();
-        model.start(JspUtil.getComposeStack(jspContext), JspUtil
-                .getCurrentContainer(jspContext), ignore, preparer, role,
-                defaultValue, defaultValueRole, defaultValueType, name,
-                (Attribute) value, jspContext);
-        JspUtil.evaluateFragment(getJspBody());
-        model.end(JspUtil.getComposeStack(jspContext), JspUtil
-                .getContainer(jspContext), ignore, jspContext);
-    }
+	/** {@inheritDoc} */
+	@Override
+	public void doTag() throws JspException, IOException {
+		JspContext jspContext = getJspContext();
+		TilesContainer currentContainer = JspUtil
+				.getCurrentContainer(jspContext);
+		Request request = JspTilesRequestContext.createServletJspRequest(
+				currentContainer.getApplicationContext(),
+				(PageContext) jspContext);
+		model.start(JspUtil.getComposeStack(jspContext), currentContainer,
+				ignore, preparer, role, defaultValue, defaultValueRole,
+				defaultValueType, name, (Attribute) value, request);
+		JspUtil.evaluateFragment(getJspBody());
+		model.end(JspUtil.getComposeStack(jspContext), currentContainer,
+				ignore, request);
+	}
 }

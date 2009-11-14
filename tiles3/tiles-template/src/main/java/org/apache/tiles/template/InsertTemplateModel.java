@@ -25,6 +25,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 
 /**
  * <p>
@@ -68,11 +69,11 @@ public class InsertTemplateModel {
      * Starts the operation.
      *
      * @param container The Tiles container.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @since 2.2.0
      */
-    public void start(TilesContainer container, Object... requestItems) {
-        container.startContext(requestItems);
+    public void start(TilesContainer container, Request request) {
+        container.startContext(request);
     }
 
     /**
@@ -87,14 +88,14 @@ public class InsertTemplateModel {
      * @param preparer The preparer to use to invoke before the definition is
      * rendered. If specified, it overrides the preparer specified in the
      * definition itself.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @since 2.2.0
      */
     public void end(TilesContainer container, String template, String templateType,
-            String templateExpression, String role, String preparer, Object... requestItems) {
+            String templateExpression, String role, String preparer, Request request) {
         try {
             AttributeContext attributeContext = container
-                    .getAttributeContext(requestItems);
+                    .getAttributeContext(request);
             Attribute templateAttribute = Attribute
                     .createTemplateAttribute(template);
             templateAttribute.setRole(role);
@@ -106,9 +107,9 @@ public class InsertTemplateModel {
                             .createExpressionFromDescribedExpression(templateExpression));
             attributeContext.setPreparer(preparer);
             attributeContext.setTemplateAttribute(templateAttribute);
-            container.renderContext(requestItems);
+            container.renderContext(request);
         } finally {
-            container.endContext(requestItems);
+            container.endContext(request);
         }
     }
 
@@ -124,12 +125,12 @@ public class InsertTemplateModel {
      * @param preparer The preparer to use to invoke before the definition is
      * rendered. If specified, it overrides the preparer specified in the
      * definition itself.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @since 2.2.0
      */
     public void execute(TilesContainer container, String template, String templateType,
-            String templateExpression, String role, String preparer, Object... requestItems) {
-        start(container, requestItems);
-        end(container, template, templateType, templateExpression, role, preparer, requestItems);
+            String templateExpression, String role, String preparer, Request request) {
+        start(container, request);
+        end(container, template, templateType, templateExpression, role, preparer, request);
     }
 }

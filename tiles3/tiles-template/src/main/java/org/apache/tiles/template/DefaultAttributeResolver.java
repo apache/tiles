@@ -25,6 +25,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 
 /**
  * The default implementation of AttributeResolver.
@@ -37,10 +38,10 @@ public class DefaultAttributeResolver implements AttributeResolver {
     /** {@inheritDoc} */
     public Attribute computeAttribute(TilesContainer container, Attribute attribute,
             String name, String role, boolean ignore,
-            Object defaultValue, String defaultValueRole, String defaultValueType, Object... requestItems) {
+            Object defaultValue, String defaultValueRole, String defaultValueType, Request request) {
         if (attribute == null) {
             AttributeContext evaluatingContext = container
-                    .getAttributeContext(requestItems);
+                    .getAttributeContext(request);
             attribute = evaluatingContext.getAttribute(name);
             if (attribute == null) {
                 attribute = computeDefaultAttribute(defaultValue,

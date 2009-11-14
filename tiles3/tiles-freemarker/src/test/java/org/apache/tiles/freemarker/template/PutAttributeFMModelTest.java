@@ -37,7 +37,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.PutAttributeModel;
 import org.junit.Before;
@@ -115,7 +117,9 @@ public class PutAttributeFMModelTest {
         TilesContainer container = createMock(TilesContainer.class);
         PutAttributeModel tModel = createMock(PutAttributeModel.class);
         PutAttributeFMModel fmModel = new PutAttributeFMModel(tModel);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         expect(request.getAttribute(FreeMarkerUtil.COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(composeStack);
@@ -130,7 +134,7 @@ public class PutAttributeFMModelTest {
         expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).times(2);
+        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
         expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel);
         initEnvironment();
 
@@ -145,13 +149,15 @@ public class PutAttributeFMModelTest {
         params.put("cascade", objectWrapper.wrap(false));
 
         tModel.start(composeStack);
-        tModel.end(container, composeStack, "myName", value, "myExpression",
-                "", "myRole", "myType", false, env);
+		tModel.end(eq(container), eq(composeStack), eq("myName"), eq(value),
+				eq("myExpression"), eq(""), eq("myRole"), eq("myType"),
+				eq(false), isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(StringWriter.class));
 
-        replay(tModel, body, container);
+        replay(tModel, body, container, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body, container);
+		verify(template, model, request, tModel, body, container,
+				applicationContext);
     }
 
     /**

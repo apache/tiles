@@ -34,7 +34,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.Renderable;
 import org.junit.Before;
@@ -461,16 +463,21 @@ public class Tiles2ToolTest {
     public void testGetAttribute() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Attribute attribute = new Attribute("myAttributeValue");
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(container.getAttributeContext(velocityContext, request, response)).andReturn(attributeContext);
+		expect(
+				container
+						.getAttributeContext(isA(VelocityTilesRequestContext.class)))
+				.andReturn(attributeContext);
         expect(attributeContext.getAttribute("myAttribute")).andReturn(attribute);
 
-        replay(velocityContext, request, response, servletContext, container, attributeContext);
+        replay(velocityContext, request, response, servletContext, container, attributeContext, applicationContext);
         initializeTool();
         assertEquals(attribute, tool.getAttribute("myAttribute"));
-        verify(velocityContext, request, response, servletContext, container, attributeContext);
+        verify(velocityContext, request, response, servletContext, container, attributeContext, applicationContext);
     }
 
     /**

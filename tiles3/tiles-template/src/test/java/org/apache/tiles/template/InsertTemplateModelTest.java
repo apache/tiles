@@ -26,6 +26,7 @@ import static org.easymock.EasyMock.*;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,66 +52,66 @@ public class InsertTemplateModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #start(org.apache.tiles.TilesContainer, java.lang.Object[])}.
+     * #start(org.apache.tiles.TilesContainer, Request)}.
      */
     @Test
     public void testStart() {
         TilesContainer container = createMock(TilesContainer.class);
-        Integer requestItem = new Integer(1);
+        Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
 
-        expect(container.startContext(requestItem)).andReturn(attributeContext);
+        expect(container.startContext(request)).andReturn(attributeContext);
 
-        replay(container, attributeContext);
-        model.start(container, requestItem);
-        verify(container, attributeContext);
+        replay(container, attributeContext, request);
+        model.start(container, request);
+        verify(container, attributeContext, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #end(TilesContainer, String, String, String, String, String, Object...)}.
+     * #end(TilesContainer, String, String, String, String, String, Request)}.
      */
     @Test
     public void testEnd() {
         TilesContainer container = createMock(TilesContainer.class);
-        Integer requestItem = new Integer(1);
+        Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
 
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
-        container.endContext(requestItem);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
+        container.endContext(request);
         attributeContext.setPreparer("myPreparer");
         attributeContext.setTemplateAttribute((Attribute) notNull());
-        container.renderContext(requestItem);
+        container.renderContext(request);
 
-        replay(container, attributeContext);
+        replay(container, attributeContext, request);
         model.end(container, "myTemplate", "myTemplateType",
                 "myTemplateExpression", "myRole", "myPreparer",
-                requestItem);
-        verify(container, attributeContext);
+                request);
+        verify(container, attributeContext, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #execute(TilesContainer, String, String, String, String, String, Object...)}.
+     * #execute(TilesContainer, String, String, String, String, String, Request)}.
      */
     @Test
     public void testExecute() {
         TilesContainer container = createMock(TilesContainer.class);
-        Integer requestItem = new Integer(1);
+        Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
 
-        expect(container.startContext(requestItem)).andReturn(attributeContext);
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
-        container.endContext(requestItem);
+        expect(container.startContext(request)).andReturn(attributeContext);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
+        container.endContext(request);
         attributeContext.setPreparer("myPreparer");
         attributeContext.setTemplateAttribute((Attribute) notNull());
-        container.renderContext(requestItem);
+        container.renderContext(request);
 
-        replay(container, attributeContext);
+        replay(container, attributeContext, request);
         model.execute(container, "myTemplate", "myTemplateType",
                 "myTemplateExpression", "myRole",
-                "myPreparer", requestItem);
-        verify(container, attributeContext);
+                "myPreparer", request);
+        verify(container, attributeContext, request);
     }
 
 }

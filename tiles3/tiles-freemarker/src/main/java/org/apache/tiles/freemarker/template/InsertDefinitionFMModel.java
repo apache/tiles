@@ -24,7 +24,10 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.InsertDefinitionModel;
 
 import freemarker.core.Environment;
@@ -36,10 +39,9 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link InsertDefinitionModel} to be used in FreeMarker. For the list of
  * parameters, see
- * {@link InsertDefinitionModel#start(org.apache.tiles.TilesContainer, Object...)}
+ * {@link InsertDefinitionModel#start(org.apache.tiles.TilesContainer, Request)}
  * and
- * {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer,
- * String, String, String, String, String, String, Object...)}
+ * {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer, String, String, String, String, String, String, Request)}
  * .
  *
  * @version $Rev$ $Date$
@@ -47,35 +49,39 @@ import freemarker.template.TemplateModel;
  */
 public class InsertDefinitionFMModel implements TemplateDirectiveModel {
 
-    /**
-     * The template model.
-     */
-    private InsertDefinitionModel model;
+	/**
+	 * The template model.
+	 */
+	private InsertDefinitionModel model;
 
-    /**
-     * Constructor.
-     *
-     * @param model The template model.
-     * @since 2.2.0
-     */
-    public InsertDefinitionFMModel(InsertDefinitionModel model) {
-        this.model = model;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param model
+	 *            The template model.
+	 * @since 2.2.0
+	 */
+	public InsertDefinitionFMModel(InsertDefinitionModel model) {
+		this.model = model;
+	}
 
-    /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-        model.start(FreeMarkerUtil.getCurrentContainer(env), env);
-        FreeMarkerUtil.evaluateBody(body);
-        model.end(FreeMarkerUtil.getCurrentContainer(env), FreeMarkerUtil
-                .getAsString(parms.get("name")), FreeMarkerUtil
-                .getAsString(parms.get("template")), FreeMarkerUtil
-                .getAsString(parms.get("templateType")), FreeMarkerUtil
-                .getAsString(parms.get("templateExpression")), FreeMarkerUtil
-                .getAsString(parms.get("role")), FreeMarkerUtil
-                .getAsString(parms.get("preparer")), env);
-    }
+	/** {@inheritDoc} */
+	@SuppressWarnings("unchecked")
+	public void execute(Environment env, Map params, TemplateModel[] loopVars,
+			TemplateDirectiveBody body) throws TemplateException, IOException {
+		Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
+		TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+		Request request = FreeMarkerTilesRequestContext
+				.createServletFreemarkerRequest(container
+						.getApplicationContext(), env);
+		model.start(container, request);
+		FreeMarkerUtil.evaluateBody(body);
+		model.end(container, FreeMarkerUtil.getAsString(parms.get("name")),
+				FreeMarkerUtil.getAsString(parms.get("template")),
+				FreeMarkerUtil.getAsString(parms.get("templateType")),
+				FreeMarkerUtil.getAsString(parms.get("templateExpression")),
+				FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
+						.getAsString(parms.get("preparer")), request);
+	}
 
 }

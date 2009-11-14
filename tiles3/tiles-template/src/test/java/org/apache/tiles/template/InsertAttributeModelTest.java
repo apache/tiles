@@ -30,6 +30,7 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,32 +63,32 @@ public class InsertAttributeModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.InsertAttributeModel
      * #start(ArrayStack, TilesContainer, boolean, String, String, Object, String,
-     * String, String, Attribute, Object...)}.
+     * String, String, Attribute, Request)}.
      */
     @Test
     public void testStart() {
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         TilesContainer container = createMock(TilesContainer.class);
-        Integer requestItem = new Integer(1);
+        Request request = createMock(Request.class);
         Attribute attribute = new Attribute();
         AttributeContext attributeContext = createMock(AttributeContext.class);
 
-        container.prepare("myPreparer", requestItem);
+        container.prepare("myPreparer", request);
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
-                "myDefaultValueRole", "myDefaultValueType", requestItem)).andReturn(attribute);
-        expect(container.startContext(requestItem)).andReturn(attributeContext);
+                "myDefaultValueRole", "myDefaultValueType", request)).andReturn(attribute);
+        expect(container.startContext(request)).andReturn(attributeContext);
 
-        replay(resolver, container, attributeContext);
+        replay(resolver, container, attributeContext, request);
         model.start(composeStack, container, false, "myPreparer", "myRole", "myDefaultValue",
-                "myDefaultValueRole", "myDefaultValueType", "myName", attribute, requestItem);
+                "myDefaultValueRole", "myDefaultValueType", "myName", attribute, request);
         assertEquals(1, composeStack.size());
         assertEquals(attribute, composeStack.peek());
-        verify(resolver, container, attributeContext);
+        verify(resolver, container, attributeContext, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertAttributeModel
-     * #end(ArrayStack, TilesContainer, boolean, Object...)}.
+     * #end(ArrayStack, TilesContainer, boolean, Request)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -96,40 +97,40 @@ public class InsertAttributeModelTest {
         Attribute attribute = new Attribute("myValue");
         composeStack.push(attribute);
         TilesContainer container = createMock(TilesContainer.class);
-        Integer requestItem = new Integer(1);
+        Request request = createMock(Request.class);
 
-        container.endContext(requestItem);
-        container.render(attribute, requestItem);
+        container.endContext(request);
+        container.render(attribute, request);
 
-        replay(resolver, container);
-        model.end(composeStack, container, false, requestItem);
-        verify(resolver, container);
+        replay(resolver, container, request);
+        model.end(composeStack, container, false, request);
+        verify(resolver, container, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertAttributeModel
      * #execute(TilesContainer, boolean, String, String, Object, String, String,
-     * String, Attribute, Object...)}.
+     * String, Attribute, Request)}.
      * @throws IOException If something goes wrong.
      */
     @Test
     public void testExecute() throws IOException {
         TilesContainer container = createMock(TilesContainer.class);
-        Integer requestItem = new Integer(1);
+        Request request = createMock(Request.class);
         Attribute attribute = new Attribute("myValue");
         AttributeContext attributeContext = createMock(AttributeContext.class);
 
-        container.prepare("myPreparer", requestItem);
+        container.prepare("myPreparer", request);
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
-                "myDefaultValueRole", "myDefaultValueType", requestItem)).andReturn(attribute);
-        expect(container.startContext(requestItem)).andReturn(attributeContext);
-        container.endContext(requestItem);
-        container.render(attribute, requestItem);
+                "myDefaultValueRole", "myDefaultValueType", request)).andReturn(attribute);
+        expect(container.startContext(request)).andReturn(attributeContext);
+        container.endContext(request);
+        container.render(attribute, request);
 
-        replay(resolver, container);
+        replay(resolver, container, request);
         model.execute(container, false, "myPreparer", "myRole", "myDefaultValue",
-                "myDefaultValueRole", "myDefaultValueType", "myName", attribute, requestItem);
-        verify(resolver, container);
+                "myDefaultValueRole", "myDefaultValueType", "myName", attribute, request);
+        verify(resolver, container, request);
     }
 
 }

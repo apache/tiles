@@ -28,6 +28,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,108 +56,108 @@ public class DefaultAttributeResolverTest {
      * Test method for {@link org.apache.tiles.template.DefaultAttributeResolver
      * #computeAttribute(org.apache.tiles.TilesContainer, org.apache.tiles.Attribute,
      * java.lang.String, java.lang.String, boolean, java.lang.Object, java.lang.String,
-     * java.lang.String, java.lang.Object[])}.
+     * java.lang.String, Request)}.
      */
     @Test
     public void testComputeAttributeInContext() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        Request request = createMock(Request.class);
         Attribute attribute = new Attribute("myValue", Expression
                 .createExpression("myExpression", null), "myRole", "myRenderer");
-        Integer requestItem = new Integer(1);
 
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
 
-        replay(container, attributeContext);
+        replay(container, attributeContext, request);
         assertEquals(attribute, resolver.computeAttribute(container, null,
-                "myName", null, false, null, null, null, requestItem));
-        verify(container, attributeContext);
+                "myName", null, false, null, null, null, request));
+        verify(container, attributeContext, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.DefaultAttributeResolver
      * #computeAttribute(org.apache.tiles.TilesContainer, org.apache.tiles.Attribute,
      * java.lang.String, java.lang.String, boolean, java.lang.Object, java.lang.String,
-     * java.lang.String, java.lang.Object[])}.
+     * java.lang.String, Request)}.
      */
     @Test
     public void testComputeAttributeInCall() {
         TilesContainer container = createMock(TilesContainer.class);
+        Request request = createMock(Request.class);
         Attribute attribute = new Attribute("myValue", Expression
                 .createExpression("myExpression", null), "myRole", "myRenderer");
-        Integer requestItem = new Integer(1);
 
-        replay(container);
+        replay(container, request);
         assertEquals(attribute, resolver.computeAttribute(container, attribute,
-                null, null, false, null, null, null, requestItem));
-        verify(container);
+                null, null, false, null, null, null, request));
+        verify(container, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.DefaultAttributeResolver
      * #computeAttribute(org.apache.tiles.TilesContainer, org.apache.tiles.Attribute,
      * java.lang.String, java.lang.String, boolean, java.lang.Object, java.lang.String,
-     * java.lang.String, java.lang.Object[])}.
+     * java.lang.String, Request)}.
      */
     @Test
     public void testComputeAttributeDefault() {
         TilesContainer container = createMock(TilesContainer.class);
+        Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
-        Integer requestItem = new Integer(1);
 
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(null);
 
-        replay(container, attributeContext);
+        replay(container, attributeContext, request);
         Attribute attribute = resolver.computeAttribute(container, null,
                 "myName", null, false, "defaultValue", "defaultRole",
-                "defaultType", requestItem);
+                "defaultType", request);
         assertEquals("defaultValue", attribute.getValue());
         assertEquals("defaultRole", attribute.getRole());
         assertEquals("defaultType", attribute.getRenderer());
-        verify(container, attributeContext);
+        verify(container, attributeContext, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.DefaultAttributeResolver
      * #computeAttribute(org.apache.tiles.TilesContainer, org.apache.tiles.Attribute,
      * java.lang.String, java.lang.String, boolean, java.lang.Object, java.lang.String,
-     * java.lang.String, java.lang.Object[])}.
+     * java.lang.String, Request)}.
      */
     @Test(expected = NoSuchAttributeException.class)
     public void testComputeAttributeException() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
-        Integer requestItem = new Integer(1);
+        Request request = createMock(Request.class);
 
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(null);
 
-        replay(container, attributeContext);
+        replay(container, attributeContext, request);
         resolver.computeAttribute(container, null, "myName", null, false, null,
-                "defaultRole", "defaultType", requestItem);
-        verify(container, attributeContext);
+                "defaultRole", "defaultType", request);
+        verify(container, attributeContext, request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.DefaultAttributeResolver
      * #computeAttribute(org.apache.tiles.TilesContainer, org.apache.tiles.Attribute,
      * java.lang.String, java.lang.String, boolean, java.lang.Object, java.lang.String,
-     * java.lang.String, java.lang.Object[])}.
+     * java.lang.String, Request)}.
      */
     @Test
     public void testComputeAttributeIgnore() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
-        Integer requestItem = new Integer(1);
+        Request request = createMock(Request.class);
 
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(null);
 
-        replay(container, attributeContext);
+        replay(container, attributeContext, request);
         assertNull(resolver.computeAttribute(container, null, "myName", null, true, null,
-                "defaultRole", "defaultType", requestItem));
-        verify(container, attributeContext);
+                "defaultRole", "defaultType", request));
+        verify(container, attributeContext, request);
     }
 }

@@ -37,8 +37,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertTemplateModel;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
@@ -94,17 +96,19 @@ public class InsertTemplateVModelTest {
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
         Map<String, Object> params = createParams();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        tModel.execute(container, "myTemplate", "myTemplateType",
-                "myTemplateExpression", "myRole", "myPreparer",
-                velocityContext, request, response, writer);
+        tModel.execute(eq(container), eq("myTemplate"), eq("myTemplateType"),
+        		eq("myTemplateExpression"), eq("myRole"), eq("myPreparer"),
+                isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter, applicationContext);
         initializeModel();
         Renderable renderable = model.execute(request, response, velocityContext, params);
         renderable.render(internalContextAdapter, writer);
-        verify(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        verify(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter, applicationContext);
     }
 
     /**
@@ -120,17 +124,19 @@ public class InsertTemplateVModelTest {
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
         ArrayStack<Map<String, Object>> paramStack = new ArrayStack<Map<String, Object>>();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
-        tModel.start(container, velocityContext, request, response);
+        tModel.start(eq(container), isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, servletContext, container, request, response, velocityContext);
+        replay(tModel, servletContext, container, request, response, velocityContext, applicationContext);
         initializeModel();
         model.start(request, response, velocityContext, params);
         assertEquals(1, paramStack.size());
         assertEquals(params, paramStack.peek());
-        verify(tModel, servletContext, container, request, response, velocityContext);
+        verify(tModel, servletContext, container, request, response, velocityContext, applicationContext);
     }
 
     /**
@@ -150,19 +156,21 @@ public class InsertTemplateVModelTest {
         Map<String, Object> params = createParams();
         ArrayStack<Map<String, Object>> paramStack = new ArrayStack<Map<String, Object>>();
         paramStack.push(params);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
-        tModel.end(container, "myTemplate", "myTemplateType",
-                "myTemplateExpression", "myRole",
-                "myPreparer", velocityContext, request, response, writer);
+        tModel.end(eq(container), eq("myTemplate"), eq("myTemplateType"),
+        		eq("myTemplateExpression"), eq("myRole"),
+        		eq("myPreparer"), isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter, applicationContext);
         initializeModel();
         Renderable renderable = model.end(request, response, velocityContext);
         renderable.render(internalContextAdapter, writer);
         assertTrue(paramStack.isEmpty());
-        verify(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        verify(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter, applicationContext);
     }
 
     /**

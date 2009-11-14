@@ -27,8 +27,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.PutAttributeModel;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.Renderable;
@@ -38,9 +41,9 @@ import org.apache.velocity.runtime.Renderable;
  * parameters, see
  * {@link PutAttributeModel#start(java.util.Stack)}
  * , {@link PutAttributeModel#end(org.apache.tiles.TilesContainer,
- * java.util.Stack, String, Object, String, String, String, String, boolean, Object...)} and
+ * java.util.Stack, String, Object, String, String, String, String, boolean, Request)} and
  * {@link PutAttributeModel#execute(org.apache.tiles.TilesContainer,
- * java.util.Stack, String, Object, String, String, String, String, boolean, Object...)}.
+ * java.util.Stack, String, Object, String, String, String, String, boolean, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -74,13 +77,18 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
     public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
-        model.execute(ServletUtil.getCurrentContainer(request, servletContext),
+        TilesContainer container = ServletUtil.getCurrentContainer(
+                request, servletContext);
+		Request currentRequest = VelocityTilesRequestContext
+				.createVelocityRequest(container.getApplicationContext(),
+						request, response, velocityContext, null);
+        model.execute(container,
                 ServletUtil.getComposeStack(request), (String) params
                         .get("name"), params.get("value"), (String) params
                         .get("expression"), null, (String) params.get("role"),
                 (String) params.get("type"), VelocityUtil.toSimpleBoolean(
                         (Boolean) params.get("cascade"), false),
-                velocityContext, request, response);
+                currentRequest);
 
         return VelocityUtil.EMPTY_RENDERABLE;
     }
@@ -90,13 +98,18 @@ public class PutAttributeVModel implements Executable, BodyExecutable {
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
-        model.end(ServletUtil.getCurrentContainer(request, servletContext),
+        TilesContainer container = ServletUtil.getCurrentContainer(
+                request, servletContext);
+		Request currentRequest = VelocityTilesRequestContext
+				.createVelocityRequest(container.getApplicationContext(),
+						request, response, velocityContext, null);
+        model.end(container,
                 ServletUtil.getComposeStack(request), (String) params
                         .get("name"), params.get("value"), (String) params
                         .get("expression"), null, (String) params.get("role"),
                 (String) params.get("type"), VelocityUtil.toSimpleBoolean(
                         (Boolean) params.get("cascade"), false),
-                velocityContext, request, response);
+                currentRequest);
         return VelocityUtil.EMPTY_RENDERABLE;
     }
 

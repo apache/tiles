@@ -26,6 +26,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 
 /**
  * <p>
@@ -92,15 +93,15 @@ public class PutAttributeModel {
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @since 2.2.0
      */
     public void end(TilesContainer container, ArrayStack<Object> composeStack,
             String name, Object value, String expression, String body,
-            String role, String type, boolean cascade, Object... requestItems) {
+            String role, String type, boolean cascade, Request request) {
         Attribute attribute = (Attribute) composeStack.pop();
         putAttributeInParent(attribute, container, composeStack, name, value,
-                expression, body, role, type, cascade, requestItems);
+                expression, body, role, type, cascade, request);
     }
 
     /**
@@ -119,14 +120,14 @@ public class PutAttributeModel {
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @since 2.2.0
      */
     public void execute(TilesContainer container, ArrayStack<Object> composeStack,
             String name, Object value, String expression, String body,
-            String role, String type, boolean cascade, Object... requestItems) {
+            String role, String type, boolean cascade, Request request) {
         putAttributeInParent(new Attribute(), container, composeStack, name,
-                value, expression, body, role, type, cascade, requestItems);
+                value, expression, body, role, type, cascade, request);
     }
 
     /**
@@ -146,12 +147,12 @@ public class PutAttributeModel {
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
-     * @param requestItems The request objects.
+     * @param request TODO
      */
     private void putAttributeInParent(Attribute attribute,
             TilesContainer container, ArrayStack<Object> composeStack, String name,
             Object value, String expression, String body, String role,
-            String type, boolean cascade, Object... requestItems) {
+            String type, boolean cascade, Request request) {
         AttributeContext attributeContext = null;
         if (!composeStack.isEmpty()) {
             Object obj = composeStack.peek();
@@ -160,7 +161,7 @@ public class PutAttributeModel {
             }
         }
         if (attributeContext == null) {
-            attributeContext = container.getAttributeContext(requestItems);
+            attributeContext = container.getAttributeContext(request);
         }
         if (value != null) {
             attribute.setValue(value);

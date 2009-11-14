@@ -106,20 +106,24 @@ public class BasicTilesContainer implements TilesContainer,
     private boolean initialized = false;
 
     /** {@inheritDoc} */
-    public AttributeContext startContext(Object... requestItems) {
-        Request tilesContext = getRequestContext(requestItems);
-        return startContext(tilesContext);
+    public AttributeContext startContext(Request request) {
+        AttributeContext context = new BasicAttributeContext();
+		ArrayStack<AttributeContext>  stack = getContextStack(request);
+		if (!stack.isEmpty()) {
+		    AttributeContext parent = stack.peek();
+		    context.inheritCascadedAttributes(parent);
+		}
+		stack.push(context);
+		return context;
     }
 
     /** {@inheritDoc} */
-    public void endContext(Object... requestItems) {
-        Request tilesContext = getRequestContext(requestItems);
-        endContext(tilesContext);
+    public void endContext(Request request) {
+        popContext(request);
     }
 
     /** {@inheritDoc} */
-    public void renderContext(Object... requestItems) {
-        Request request = getRequestContext(requestItems);
+    public void renderContext(Request request) {
         AttributeContext attributeContext = getAttributeContext(request);
 
         render(request, attributeContext);
@@ -144,9 +148,13 @@ public class BasicTilesContainer implements TilesContainer,
     }
 
     /** {@inheritDoc} */
-    public AttributeContext getAttributeContext(Object... requestItems) {
-        Request tilesContext = getRequestContext(requestItems);
-        return getAttributeContext(tilesContext);
+    public AttributeContext getAttributeContext(Request request) {
+        AttributeContext context = getContext(request);
+		if (context == null) {
+		    context = new BasicAttributeContext();
+		    pushContext(context, request);
+		}
+		return context;
 
     }
 
@@ -227,43 +235,55 @@ public class BasicTilesContainer implements TilesContainer,
     }
 
     /** {@inheritDoc} */
-    public void prepare(String preparer, Object... requestItems) {
-        Request requestContext = getRequestContextFactory().createRequestContext(
-            getApplicationContext(),
-            requestItems
-        );
-        prepare(requestContext, preparer, false);
+    public void prepare(String preparer, Request request) {
+        prepare(request, preparer, false);
     }
 
     /** {@inheritDoc} */
-    public void render(String definitionName, Object... requestItems) {
-        Request requestContext = getRequestContextFactory().createRequestContext(
-            getApplicationContext(),
-            requestItems
-        );
-        render(requestContext, definitionName);
+    public void render(String definitionName, Request request) {
+        if (log.isDebugEnabled()) {
+		    log.debug("Render request recieved for definition '" + definitionName + "'");
+		}
+
+		Definition definition = getDefinition(definitionName, request);
+
+		if (definition == null) {
+		    if (log.isWarnEnabled()) {
+		        String message = "Unable to find the definition '" + definitionName + "'";
+		        log.warn(message);
+		    }
+		    throw new NoSuchDefinitionException(definitionName);
+		}
+		render(request, definition);
     }
 
     /** {@inheritDoc} */
-    public void render(Attribute attr, Object... requestItems)
+    public void render(Attribute attr, Request request)
         throws IOException {
-        Request requestContext = getRequestContextFactory()
-                .createRequestContext(getApplicationContext(), requestItems);
-        render(attr, requestContext);
+        if (attr == null) {
+		    throw new CannotRenderException("Cannot render a null attribute");
+		}
+
+		AttributeRenderer renderer = rendererFactory.getRenderer(attr
+		        .getRenderer());
+		if (renderer == null) {
+		    throw new CannotRenderException(
+		            "Cannot render an attribute with renderer name "
+		                    + attr.getRenderer());
+		}
+		renderer.render(attr, request);
     }
 
     /** {@inheritDoc} */
-    public Object evaluate(Attribute attribute, Object... requestItems) {
-        Request request = getRequestContextFactory()
-                .createRequestContext(context, requestItems);
+    public Object evaluate(Attribute attribute, Request request) {
         AttributeEvaluator evaluator = attributeEvaluatorFactory
                 .getAttributeEvaluator(attribute);
         return evaluator.evaluate(attribute, request);
     }
 
     /** {@inheritDoc} */
-    public boolean isValidDefinition(String definitionName, Object... requestItems) {
-        return isValidDefinition(getRequestContext(requestItems), definitionName);
+    public boolean isValidDefinition(String definitionName, Request request) {
+        return isValidDefinition(request, definitionName);
     }
 
     /**
@@ -359,58 +379,6 @@ public class BasicTilesContainer implements TilesContainer,
     }
 
     /**
-     * Returns the current attribute context.
-     *
-     * @param tilesContext The request context to use.
-     * @return The current attribute context.
-     */
-    private AttributeContext getAttributeContext(Request tilesContext) {
-        AttributeContext context = getContext(tilesContext);
-        if (context == null) {
-            context = new BasicAttributeContext();
-            pushContext(context, tilesContext);
-        }
-        return context;
-    }
-
-    /**
-     * Creates a Tiles request context from request items.
-     *
-     * @param requestItems The request items.
-     * @return The created Tiles request context.
-     */
-    private Request getRequestContext(Object... requestItems) {
-        return getRequestContextFactory().createRequestContext(
-                getApplicationContext(), requestItems);
-    }
-
-    /**
-     * Starts an attribute context inside the container.
-     *
-     * @param tilesContext The request context to use.
-     * @return The newly created attribute context.
-     */
-    private AttributeContext startContext(Request tilesContext) {
-        AttributeContext context = new BasicAttributeContext();
-        ArrayStack<AttributeContext>  stack = getContextStack(tilesContext);
-        if (!stack.isEmpty()) {
-            AttributeContext parent = stack.peek();
-            context.inheritCascadedAttributes(parent);
-        }
-        stack.push(context);
-        return context;
-    }
-
-    /**
-     * Releases and removes a previously created attribute context.
-     *
-     * @param tilesContext The request context to use.
-     */
-    private void endContext(Request tilesContext) {
-        popContext(tilesContext);
-    }
-
-    /**
      * Execute a preparer.
      *
      * @param context The request context.
@@ -487,29 +455,6 @@ public class BasicTilesContainer implements TilesContainer,
         } finally {
             popContext(request);
         }
-    }
-
-    /**
-     * Renders an attribute.
-     *
-     * @param attr The attribute to render.
-     * @param requestContext The Tiles request context.
-     * @throws IOException If something goes wrong during rendering.
-     */
-    private void render(Attribute attr, Request requestContext)
-            throws IOException {
-        if (attr == null) {
-            throw new CannotRenderException("Cannot render a null attribute");
-        }
-
-        AttributeRenderer renderer = rendererFactory.getRenderer(attr
-                .getRenderer());
-        if (renderer == null) {
-            throw new CannotRenderException(
-                    "Cannot render an attribute with renderer name "
-                            + attr.getRenderer());
-        }
-        renderer.render(attr, requestContext);
     }
 
     /**

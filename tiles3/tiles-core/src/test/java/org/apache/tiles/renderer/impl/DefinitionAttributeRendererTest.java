@@ -32,7 +32,6 @@ import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -67,20 +66,14 @@ public class DefinitionAttributeRendererTest {
         Attribute attribute = new Attribute("my.definition", (Expression) null,
                 null, "definition");
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
         TilesContainer container = createMock(TilesContainer.class);
         Request requestContext = createMock(Request.class);
-        Object[] requestObjects = new Object[0];
-        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
-        container.render("my.definition");
-        replay(applicationContext, contextFactory, requestContext,
-                container);
+        container.render("my.definition", requestContext);
+		replay(applicationContext, requestContext, container);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
         renderer.render(attribute, requestContext);
-        verify(applicationContext, contextFactory, requestContext,
-                container);
+		verify(applicationContext, requestContext, container);
     }
 
     /**
@@ -93,19 +86,13 @@ public class DefinitionAttributeRendererTest {
         Attribute attribute = new Attribute("my.definition", (Expression) null,
                 null, "definition");
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
         TilesContainer container = createMock(TilesContainer.class);
         Request requestContext = createMock(Request.class);
-        Object[] requestObjects = new Object[0];
-        expect(requestContext.getRequestObjects()).andReturn(requestObjects);
-        expect(container.isValidDefinition("my.definition", requestObjects)).andReturn(Boolean.TRUE);
-        replay(applicationContext, contextFactory, requestContext,
-                container);
+        expect(container.isValidDefinition("my.definition", requestContext)).andReturn(Boolean.TRUE);
+		replay(applicationContext, requestContext, container);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         renderer.setContainer(container);
         assertTrue(renderer.isRenderable("my.definition", attribute, requestContext));
-        verify(applicationContext, contextFactory, requestContext,
-                container);
+		verify(applicationContext, requestContext, container);
     }
 }

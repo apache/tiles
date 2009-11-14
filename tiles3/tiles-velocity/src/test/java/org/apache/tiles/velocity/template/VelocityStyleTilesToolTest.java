@@ -35,7 +35,9 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
@@ -96,18 +98,20 @@ public class VelocityStyleTilesToolTest {
     public void testGetAttribute() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Attribute attribute = new Attribute("myValue");
 
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
-        expect(container.getAttributeContext(velocityContext, request, response))
+        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(container.getAttributeContext(isA(VelocityTilesRequestContext.class)))
                 .andReturn(attributeContext);
         expect(attributeContext.getAttribute("myAttribute")).andReturn(attribute);
 
-        replay(velocityContext, request, response, servletContext, container, attributeContext);
+        replay(velocityContext, request, response, servletContext, container, attributeContext, applicationContext);
         initializeTool();
         assertEquals(attribute, tool.getAttribute("myAttribute"));
-        verify(velocityContext, request, response, servletContext, container, attributeContext);
+        verify(velocityContext, request, response, servletContext, container, attributeContext, applicationContext);
     }
 
     /**
@@ -163,12 +167,14 @@ public class VelocityStyleTilesToolTest {
     public void testRenderAttribute() throws IOException {
         TilesContainer container = createMock(TilesContainer.class);
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("myValue");
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
-        container.render(attribute, velocityContext, request, response, writer);
+        container.render(eq(attribute), isA(VelocityTilesRequestContext.class));
 
         replay(velocityContext, request, response, servletContext, container, internalContextAdapter);
         initializeTool();
@@ -186,11 +192,13 @@ public class VelocityStyleTilesToolTest {
     public void testRenderDefinition() throws IOException {
         TilesContainer container = createMock(TilesContainer.class);
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         StringWriter writer = new StringWriter();
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
-        container.render("myDefinition", velocityContext, request, response, writer);
+        container.render(eq("myDefinition"), isA(VelocityTilesRequestContext.class));
 
         replay(velocityContext, request, response, servletContext, container, internalContextAdapter);
         initializeTool();
@@ -207,11 +215,13 @@ public class VelocityStyleTilesToolTest {
     public void testRenderAttributeContext() throws IOException {
         TilesContainer container = createMock(TilesContainer.class);
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         StringWriter writer = new StringWriter();
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
-        container.renderContext(velocityContext, request, response, writer);
+        container.renderContext(isA(VelocityTilesRequestContext.class));
 
         replay(velocityContext, request, response, servletContext, container, internalContextAdapter);
         initializeTool();
@@ -227,10 +237,12 @@ public class VelocityStyleTilesToolTest {
     public void testStartAttributeContext() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
-        expect(container.startContext(velocityContext, request, response))
+        expect(container.startContext(isA(VelocityTilesRequestContext.class)))
                 .andReturn(attributeContext);
 
         replay(velocityContext, request, response, servletContext, container, attributeContext);
@@ -246,10 +258,12 @@ public class VelocityStyleTilesToolTest {
     public void testEndAttributeContext() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
-        container.endContext(velocityContext, request, response);
+        container.endContext(isA(VelocityTilesRequestContext.class));
 
         replay(velocityContext, request, response, servletContext, container, attributeContext);
         initializeTool();
@@ -264,10 +278,12 @@ public class VelocityStyleTilesToolTest {
     public void testGetAttributeContext() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
-        expect(container.getAttributeContext(velocityContext, request, response))
+        expect(container.getAttributeContext(isA(VelocityTilesRequestContext.class)))
                 .andReturn(attributeContext);
 
         replay(velocityContext, request, response, servletContext, container, attributeContext);

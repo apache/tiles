@@ -27,7 +27,10 @@ import java.io.Writer;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
 
@@ -49,8 +52,12 @@ public class VelocityStyleTilesTool extends ContextHolder {
     public Attribute getAttribute(String key) {
         TilesContainer container = ServletUtil.getCurrentContainer(
                 getRequest(), getServletContext());
-        AttributeContext attributeContext = container.getAttributeContext(
-                getVelocityContext(), getRequest(), getResponse());
+		Request servletRequest = new ServletTilesRequestContext(container
+				.getApplicationContext(), getRequest(), getResponse());
+		Request velocityRequest = new VelocityTilesRequestContext(
+				servletRequest, getVelocityContext(), null);
+		AttributeContext attributeContext = container
+				.getAttributeContext(velocityRequest);
         Attribute attribute = attributeContext.getAttribute(key);
         return attribute;
     }
@@ -101,7 +108,9 @@ public class VelocityStyleTilesTool extends ContextHolder {
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(request, getServletContext());
-                container.render(attribute, velocityContext, request, response, writer);
+				Request velocityRequest = createVelocityRequest(container,
+						writer);
+                container.render(attribute, velocityRequest);
                 return true;
             }
 
@@ -124,7 +133,9 @@ public class VelocityStyleTilesTool extends ContextHolder {
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(request, getServletContext());
-                container.render(definitionName, velocityContext, request, response, writer);
+				Request velocityRequest = createVelocityRequest(container,
+						writer);
+                container.render(definitionName, velocityRequest);
                 return true;
             }
 
@@ -146,7 +157,9 @@ public class VelocityStyleTilesTool extends ContextHolder {
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(request, getServletContext());
-                container.renderContext(velocityContext, request, response, writer);
+				Request velocityRequest = createVelocityRequest(container,
+						writer);
+                container.renderContext(velocityRequest);
                 return true;
             }
 
@@ -163,8 +176,8 @@ public class VelocityStyleTilesTool extends ContextHolder {
     public AttributeContext startAttributeContext() {
         TilesContainer container = ServletUtil.getCurrentContainer(
                 getRequest(), getServletContext());
-        return container.startContext(getVelocityContext(), getRequest(),
-                getResponse());
+		Request velocityRequest = createVelocityRequest(container, null);
+        return container.startContext(velocityRequest);
     }
 
     /**
@@ -177,8 +190,8 @@ public class VelocityStyleTilesTool extends ContextHolder {
     public VelocityStyleTilesTool endAttributeContext() {
         TilesContainer container = ServletUtil.getCurrentContainer(
                 getRequest(), getServletContext());
-        container.endContext(getVelocityContext(), getRequest(),
-                getResponse());
+		Request velocityRequest = createVelocityRequest(container, null);
+        container.endContext(velocityRequest);
         return this;
     }
 
@@ -191,8 +204,8 @@ public class VelocityStyleTilesTool extends ContextHolder {
     public AttributeContext getAttributeContext() {
         TilesContainer container = ServletUtil.getCurrentContainer(
                 getRequest(), getServletContext());
-        return container.getAttributeContext(getVelocityContext(), getRequest(),
-                getResponse());
+		Request velocityRequest = createVelocityRequest(container, null);
+        return container.getAttributeContext(velocityRequest);
     }
 
     /**
@@ -213,4 +226,11 @@ public class VelocityStyleTilesTool extends ContextHolder {
     public String toString() {
         return "";
     }
+
+	protected Request createVelocityRequest(TilesContainer container,
+			Writer writer) {
+		return VelocityTilesRequestContext.createVelocityRequest(container
+				.getApplicationContext(), getRequest(), getResponse(),
+				getVelocityContext(), writer);
+	}
 }

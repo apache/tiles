@@ -145,7 +145,7 @@ public class BasicTilesContainerTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicTilesContainer#evaluate(Attribute, Object...)}.
+     * Tests {@link BasicTilesContainer#evaluate(Attribute, Request)}.
      */
     public void testEvaluate() {
         Request request = EasyMock.createMock(Request.class);

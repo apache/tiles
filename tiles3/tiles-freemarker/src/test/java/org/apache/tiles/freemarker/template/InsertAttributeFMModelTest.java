@@ -38,8 +38,10 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.freemarker.io.NullWriter;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertAttributeModel;
 import org.junit.Before;
@@ -62,11 +64,6 @@ import freemarker.template.TemplateHashModel;
  * @version $Rev$ $Date$
  */
 public class InsertAttributeFMModelTest {
-
-    /**
-     * The number of times the method is called.
-     */
-    private static final int CALL_COUNT = 3;
 
     /**
      * The FreeMarker environment.
@@ -122,7 +119,9 @@ public class InsertAttributeFMModelTest {
         InsertAttributeModel tModel = createMock(InsertAttributeModel.class);
         InsertAttributeFMModel fmModel = new InsertAttributeFMModel(tModel);
         TilesContainer container = createMock(TilesContainer.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         expect(request.getAttribute(FreeMarkerUtil.COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(composeStack).times(2);
@@ -137,7 +136,7 @@ public class InsertAttributeFMModelTest {
         expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).times(CALL_COUNT);
+        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
         expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel);
         initEnvironment();
 
@@ -152,14 +151,18 @@ public class InsertAttributeFMModelTest {
         params.put("name", objectWrapper.wrap("myName"));
         params.put("value", objectWrapper.wrap(attribute));
 
-        tModel.start(composeStack, container, false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole",
-                "myDefaultValueType", "myName", attribute, env);
-        tModel.end(composeStack, container, false, env);
+		tModel.start(eq(composeStack), eq(container), eq(false),
+				eq("myPreparer"), eq("myRole"), eq("myDefaultValue"),
+				eq("myDefaultValueRole"), eq("myDefaultValueType"),
+				eq("myName"), eq(attribute),
+				isA(FreeMarkerTilesRequestContext.class));
+        tModel.end(eq(composeStack), eq(container), eq(false), isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
-        replay(tModel, body, container, attribute);
+        replay(tModel, body, container, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body, container, servlet, servletContext, attribute);
+		verify(template, model, request, tModel, body, container, servlet,
+				servletContext, attribute, applicationContext);
     }
 
     /**

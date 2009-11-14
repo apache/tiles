@@ -28,6 +28,7 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -65,24 +66,24 @@ public class PutListAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.PutListAttributeModel
-     * #end(org.apache.tiles.TilesContainer, ArrayStack, String, boolean, Object...)}.
+     * #end(org.apache.tiles.TilesContainer, ArrayStack, String, boolean, Request)}.
      */
     @Test
     public void testEnd() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        Request request = createMock(Request.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
-        Integer requestItem = new Integer(1);
         composeStack.push(listAttribute);
 
-        expect(container.getAttributeContext(requestItem)).andReturn(attributeContext);
+        expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", listAttribute, false);
 
-        replay(container, attributeContext);
-        model.end(container, composeStack, "myName", false, requestItem);
+        replay(container, attributeContext, request);
+        model.end(container, composeStack, "myName", false, request);
         assertEquals(0, composeStack.size());
-        verify(container, attributeContext);
+        verify(container, attributeContext, request);
     }
 
 }

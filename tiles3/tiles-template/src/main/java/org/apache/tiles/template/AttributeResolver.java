@@ -23,6 +23,7 @@ package org.apache.tiles.template;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 
 /**
  * Resolves an attribute, depending on the given parameters.
@@ -44,11 +45,11 @@ public interface AttributeResolver {
      * @param defaultValue The default value of the attribute. To use only if the attribute was not computed.
      * @param defaultValueRole The default comma-separated list of roles. To use only if the attribute was not computed.
      * @param defaultValueType The default type of the attribute. To use only if the attribute was not computed.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @return The computed attribute.
      * @since 2.2.0
      */
     Attribute computeAttribute(TilesContainer container, Attribute attribute,
             String name, String role, boolean ignore,
-            Object defaultValue, String defaultValueRole, String defaultValueType, Object... requestItems);
+            Object defaultValue, String defaultValueRole, String defaultValueType, Request request);
 }

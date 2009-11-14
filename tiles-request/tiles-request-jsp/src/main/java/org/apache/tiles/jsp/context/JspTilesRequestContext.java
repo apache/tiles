@@ -25,9 +25,13 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.request.util.TilesRequestContextWrapper;
 
@@ -49,6 +53,13 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
      * The request objects, lazily initialized.
      */
     private Object[] requestObjects;
+
+    public static JspTilesRequestContext createServletJspRequest(ApplicationContext applicationContext, PageContext pageContext) {
+		return new JspTilesRequestContext(new ServletTilesRequestContext(
+				applicationContext, (HttpServletRequest) pageContext
+						.getRequest(), (HttpServletResponse) pageContext
+						.getResponse()), pageContext);
+    }
 
     /**
      * Constructor.

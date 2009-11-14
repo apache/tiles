@@ -27,6 +27,7 @@ import java.io.Writer;
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,16 +86,16 @@ public class GetAsStringModel {
      * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @since 2.2.0
      */
     public void start(ArrayStack<Object> composeStack, TilesContainer container,
             boolean ignore, String preparer, String role, Object defaultValue,
             String defaultValueRole, String defaultValueType, String name,
-            Attribute value, Object... requestItems) {
+            Attribute value, Request request) {
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,
-                value, requestItems);
+                value, request);
         composeStack.push(attribute);
     }
 
@@ -106,14 +107,14 @@ public class GetAsStringModel {
      * @param writer The writer into which the attribute will be written.
      * @param ignore If <code>true</code>, if an exception happens during
      * rendering, of if the attribute is null, the problem will be ignored.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @throws IOException If an I/O error happens during rendering.
      */
     public void end(ArrayStack<Object> composeStack, TilesContainer container,
-            Writer writer, boolean ignore, Object... requestItems)
+            Writer writer, boolean ignore, Request request)
             throws IOException {
         Attribute attribute = (Attribute) composeStack.pop();
-        renderAttribute(attribute, container, writer, ignore, requestItems);
+        renderAttribute(attribute, container, writer, ignore, request);
     }
 
     /**
@@ -134,18 +135,18 @@ public class GetAsStringModel {
      * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @throws IOException If an I/O error happens during rendering.
      * @since 2.2.0
      */
     public void execute(TilesContainer container, Writer writer,
             boolean ignore, String preparer, String role, Object defaultValue,
             String defaultValueRole, String defaultValueType, String name,
-            Attribute value, Object... requestItems) throws IOException {
+            Attribute value, Request request) throws IOException {
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,
-                value, requestItems);
-        renderAttribute(attribute, container, writer, ignore, requestItems);
+                value, request);
+        renderAttribute(attribute, container, writer, ignore, request);
     }
 
     /**
@@ -165,20 +166,20 @@ public class GetAsStringModel {
      * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @return The resolved attribute.
      */
     private Attribute resolveAttribute(TilesContainer container,
             boolean ignore, String preparer, String role, Object defaultValue,
             String defaultValueRole, String defaultValueType, String name,
-            Attribute value, Object... requestItems) {
+            Attribute value, Request request) {
         if (preparer != null) {
-            container.prepare(preparer, requestItems);
+            container.prepare(preparer, request);
         }
         Attribute attribute = attributeResolver.computeAttribute(container,
                 value, name, role, ignore, defaultValue, defaultValueRole,
-                defaultValueType, requestItems);
-        container.startContext(requestItems);
+                defaultValueType, request);
+        container.startContext(request);
         return attribute;
     }
 
@@ -190,11 +191,11 @@ public class GetAsStringModel {
      * @param writer The writer into which the attribute will be written.
      * @param ignore If <code>true</code>, if an exception happens during
      * rendering, of if the attribute is null, the problem will be ignored.
-     * @param requestItems The request objects.
+     * @param request TODO
      * @throws IOException If an I/O error happens during rendering.
      */
     private void renderAttribute(Attribute attribute, TilesContainer container,
-            Writer writer, boolean ignore, Object... requestItems)
+            Writer writer, boolean ignore, Request request)
             throws IOException {
         if (attribute == null && ignore) {
             return;
@@ -214,7 +215,7 @@ public class GetAsStringModel {
                 log.debug("Ignoring exception", e);
             }
         } finally {
-            container.endContext(requestItems);
+            container.endContext(request);
         }
     }
 }

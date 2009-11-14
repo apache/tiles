@@ -53,15 +53,14 @@ public class DefinitionAttributeRenderer extends
     public void write(Object value, Attribute attribute,
             Request request)
             throws IOException {
-        container.render(value.toString(), request.getRequestObjects());
+        container.render(value.toString(), request);
     }
 
     /** {@inheritDoc} */
     public boolean isRenderable(Object value, Attribute attribute,
             Request request) {
         if (value instanceof String) {
-            return container.isValidDefinition((String) value, request
-                    .getRequestObjects());
+            return container.isValidDefinition((String) value, request);
         }
         return false;
     }

@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.reflect.ClassUtil;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,12 +96,15 @@ public class TilesDispatchServlet extends HttpServlet {
 
         TilesContainer container = ServletUtil.getContainer(
                 getServletContext(), containerKey);
-        mutator.mutate(container.getAttributeContext(req, res), req);
+		Request request = new ServletTilesRequestContext(container
+				.getApplicationContext(), (HttpServletRequest) req,
+				(HttpServletResponse) res);
+        mutator.mutate(container.getAttributeContext(request), req);
         String definition = getDefinitionName(req);
         if (log.isDebugEnabled()) {
             log.info("Dispatching to tile '" + definition + "'");
         }
-        container.render(definition, req, res);
+        container.render(definition, request);
     }
 
     /**

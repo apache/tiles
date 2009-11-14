@@ -25,10 +25,14 @@ import java.io.IOException;
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
+import org.apache.tiles.jsp.context.JspTilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.GetAsStringModel;
 
@@ -303,14 +307,18 @@ public class GetAsStringTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jspContext = getJspContext();
-        model.start(JspUtil.getComposeStack(jspContext), JspUtil
-                .getCurrentContainer(jspContext), ignore, preparer, role,
+		TilesContainer currentContainer = JspUtil
+				.getCurrentContainer(jspContext);
+		Request request = JspTilesRequestContext.createServletJspRequest(
+				currentContainer.getApplicationContext(),
+				(PageContext) jspContext);
+		model.start(JspUtil.getComposeStack(jspContext), currentContainer, ignore, preparer, role,
                 defaultValue, defaultValueRole, defaultValueType, name,
-                (Attribute) value, jspContext);
+                (Attribute) value, request);
         JspWriter writer = jspContext.getOut();
         JspUtil.evaluateFragment(getJspBody());
         model.end(JspUtil.getComposeStack(jspContext), JspUtil
                 .getContainer(jspContext), writer, ignore,
-                jspContext);
+                request);
     }
 }

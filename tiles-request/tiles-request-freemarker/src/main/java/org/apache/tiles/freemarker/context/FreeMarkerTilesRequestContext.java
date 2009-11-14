@@ -26,10 +26,16 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.request.util.TilesRequestContextWrapper;
 
 import freemarker.core.Environment;
+import freemarker.ext.servlet.HttpRequestHashModel;
 
 /**
  * The FreeMarker-specific request context.
@@ -37,29 +43,44 @@ import freemarker.core.Environment;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper implements Request {
+public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper
+		implements Request {
 
-    /**
-     * The FreeMarker current environment.
-     */
-    private Environment env;
+	/**
+	 * The FreeMarker current environment.
+	 */
+	private Environment env;
 
-    /**
-     * The request objects.
-     */
-    private transient Object[] requestObjects;
+	/**
+	 * The request objects.
+	 */
+	private transient Object[] requestObjects;
 
-    /**
-     * Constructor.
-     *
-     * @param enclosedRequest The request that exposes non-FreeMarker specific properties
-     * @param env The FreeMarker environment.
-     */
-    public FreeMarkerTilesRequestContext(
-            Request enclosedRequest, Environment env) {
-        super(enclosedRequest);
-        this.env = env;
-    }
+	public static FreeMarkerTilesRequestContext createServletFreemarkerRequest(
+			ApplicationContext applicationContext, Environment env) {
+		HttpRequestHashModel requestModel = FreeMarkerRequestUtil
+				.getRequestHashModel(env);
+		HttpServletRequest request = requestModel.getRequest();
+		HttpServletResponse response = requestModel.getResponse();
+		Request enclosedRequest = new ServletTilesRequestContext(
+				applicationContext, (HttpServletRequest) request,
+				(HttpServletResponse) response);
+		return new FreeMarkerTilesRequestContext(enclosedRequest, env);
+	}
+
+	/**
+	 * Constructor.
+	 *
+	 * @param enclosedRequest
+	 *            The request that exposes non-FreeMarker specific properties
+	 * @param env
+	 *            The FreeMarker environment.
+	 */
+	public FreeMarkerTilesRequestContext(Request enclosedRequest,
+			Environment env) {
+		super(enclosedRequest);
+		this.env = env;
+	}
 
 	/**
 	 * Returns the environment object.
@@ -68,45 +89,45 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper im
 	 * @since 3.0.0
 	 */
 	public Environment getEnvironment() {
-        return env;
-    }
+		return env;
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public Locale getRequestLocale() {
-        return env.getLocale();
-    }
+		return env.getLocale();
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public void dispatch(String path) throws IOException {
-        include(path);
-    }
+		include(path);
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public PrintWriter getPrintWriter() throws IOException {
-        Writer writer = env.getOut();
-        if (writer instanceof PrintWriter) {
-            return (PrintWriter) writer;
-        } else {
-            return new PrintWriter(writer);
-        }
-    }
+	/** {@inheritDoc} */
+	@Override
+	public PrintWriter getPrintWriter() throws IOException {
+		Writer writer = env.getOut();
+		if (writer instanceof PrintWriter) {
+			return (PrintWriter) writer;
+		} else {
+			return new PrintWriter(writer);
+		}
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public Writer getWriter() throws IOException {
-        return env.getOut();
-    }
+	/** {@inheritDoc} */
+	@Override
+	public Writer getWriter() throws IOException {
+		return env.getOut();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public Object[] getRequestObjects() {
-        if (requestObjects == null) {
-            requestObjects = new Object[1];
-            requestObjects[0] = env;
-        }
-        return requestObjects;
-    }
+	/** {@inheritDoc} */
+	@Override
+	public Object[] getRequestObjects() {
+		if (requestObjects == null) {
+			requestObjects = new Object[1];
+			requestObjects[0] = env;
+		}
+		return requestObjects;
+	}
 }

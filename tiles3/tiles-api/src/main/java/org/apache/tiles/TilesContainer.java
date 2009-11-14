@@ -23,6 +23,7 @@ package org.apache.tiles;
 import java.io.IOException;
 
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 
 /**
  * An encapsulation of the tiles framework.  This interface is
@@ -44,84 +45,82 @@ public interface TilesContainer {
 
     /**
      * Retrive the attribute context of the current request.
-     * @param requestItems the current request objects.
+     * @param request TODO
      * @return map of the attributes in the current attribute context.
      */
-    AttributeContext getAttributeContext(Object... requestItems);
+    AttributeContext getAttributeContext(Request request);
 
     /**
      * Starts a new context, where attribute values are stored independently
      * from others.<br>
      * When the use of the contexts is finished, call
-     * {@link TilesContainer#endContext(Object...)}
+     * {@link TilesContainer#endContext(Request)}
+     * @param request TODO
      *
-     * @param requestItems the current request objects.
      * @return The newly created context.
      */
-    AttributeContext startContext(Object... requestItems);
+    AttributeContext startContext(Request request);
 
     /**
      * Ends a context, where attribute values are stored independently
      * from others.<br>
      * It must be called after a
-     * {@link TilesContainer#startContext(Object...)} call.
-     *
-     * @param requestItems the current request objects.
+     * {@link TilesContainer#startContext(Request)} call.
+     * @param request TODO
      */
-    void endContext(Object... requestItems);
+    void endContext(Request request);
 
     /**
      * Renders the current context, as it is.
+     * @param request TODO
      *
-     * @param requestItems the current request objects.
      * @since 2.1.0
      */
-    void renderContext(Object... requestItems);
+    void renderContext(Request request);
 
     /**
      * Executes a preparer.
      *
      * @param preparer The name of the preparer to execute.
-     * @param requestItems the current request objects.
+     * @param request TODO
      */
-    void prepare(String preparer, Object... requestItems);
+    void prepare(String preparer, Request request);
 
     /**
      * Render the given tiles request.
      *
      * @param definition the current definition.
-     * @param requestItems the current request objects.
+     * @param request TODO
      */
-    void render(String definition, Object... requestItems);
+    void render(String definition, Request request);
 
     /**
      * Render the given Attribute.
      *
      * @param attribute The attribute to render.
-     * @param requestItems the current request objects.
+     * @param request TODO
      * @throws IOException If something goes wrong during writing to the output.
      * @since 2.1.2
      */
-    void render(Attribute attribute, Object... requestItems)
+    void render(Attribute attribute, Request request)
         throws IOException;
 
     /**
      * Evaluates the given attribute.
      *
      * @param attribute The attribute to evaluate.
-     * @param requestItems the current request objects.
+     * @param request TODO
      * @return The evaluated object.
      * @since 2.1.0
      */
-    Object evaluate(Attribute attribute, Object... requestItems);
+    Object evaluate(Attribute attribute, Request request);
 
     /**
      * Determine whether or not the definition exists.
      *
      * @param definition the name of the definition.
-     * @param requestItems the current request objects.
-     *
+     * @param request TODO
      * @return true if the definition is found.
      */
-    boolean isValidDefinition(String definition, Object... requestItems);
+    boolean isValidDefinition(String definition, Request request);
 }

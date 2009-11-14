@@ -31,8 +31,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.GetAsStringModel;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -42,10 +44,10 @@ import org.apache.velocity.runtime.Renderable;
  * Wraps {@link GetAsStringModel} to be used in Velocity. For the list of
  * parameters, see
  * {@link GetAsStringModel#start(java.util.Stack, TilesContainer, boolean,
- * String, String, Object, String, String, String, Attribute, Object...)}
- * , {@link GetAsStringModel#end(java.util.Stack, TilesContainer, Writer, boolean, Object...)} and
+ * String, String, Object, String, String, String, Attribute, Request)}
+ * , {@link GetAsStringModel#end(java.util.Stack, TilesContainer, Writer, boolean, Request)} and
  * {@link GetAsStringModel#execute(TilesContainer, Writer, boolean, String,
- * String, Object, String, String, String, Attribute, Object...)}.
+ * String, Object, String, String, String, Attribute, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -86,6 +88,10 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
                     throws IOException {
                 TilesContainer container = ServletUtil.getCurrentContainer(
                         request, servletContext);
+				Request currentRequest = VelocityTilesRequestContext
+						.createVelocityRequest(container
+								.getApplicationContext(), request, response,
+								velocityContext, writer);
                 model.execute(container, writer,
                         VelocityUtil.toSimpleBoolean((Boolean) params
                                 .get("ignore"), false), (String) params
@@ -94,7 +100,7 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
                                 .get("defaultValueRole"), (String) params
                                 .get("defaultValueType"), (String) params
                                 .get("name"), (Attribute) params.get("value"),
-                        velocityContext, request, response, writer);
+                        currentRequest);
                 return true;
             }
         };
@@ -104,15 +110,18 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
         VelocityUtil.getParameterStack(velocityContext).push(params);
-        model.start(ServletUtil.getComposeStack(request), ServletUtil
-                .getCurrentContainer(request, servletContext), VelocityUtil
+        TilesContainer container = ServletUtil.getCurrentContainer(
+                request, servletContext);
+		Request currentRequest = VelocityTilesRequestContext
+				.createVelocityRequest(container.getApplicationContext(),
+						request, response, velocityContext, null);
+        model.start(ServletUtil.getComposeStack(request), container, VelocityUtil
                 .toSimpleBoolean((Boolean) params.get("ignore"), false),
                 (String) params.get("preparer"), (String) params.get("role"),
                 params.get("defaultValue"), (String) params
                         .get("defaultValueRole"), (String) params
                         .get("defaultValueType"), (String) params.get("name"),
-                (Attribute) params.get("value"), velocityContext, request,
-                response);
+                (Attribute) params.get("value"), currentRequest);
     }
 
     /** {@inheritDoc} */
@@ -124,11 +133,14 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
 
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
-                model.end(ServletUtil.getComposeStack(request), ServletUtil
-                        .getCurrentContainer(request, servletContext), writer,
+                TilesContainer container = ServletUtil.getCurrentContainer(
+                        request, servletContext);
+        		Request currentRequest = VelocityTilesRequestContext
+        				.createVelocityRequest(container.getApplicationContext(),
+        						request, response, velocityContext, writer);
+                model.end(ServletUtil.getComposeStack(request), container, writer,
                         VelocityUtil.toSimpleBoolean((Boolean) params
-                                .get("ignore"), false), velocityContext,
-                        request, response, writer);
+                                .get("ignore"), false), currentRequest);
                 return true;
             }
         };

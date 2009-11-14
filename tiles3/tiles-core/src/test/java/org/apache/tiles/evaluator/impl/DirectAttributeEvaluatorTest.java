@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
+import org.apache.tiles.request.Request;
 
 /**
  * Tests {@link DirectAttributeEvaluator}.
@@ -45,7 +46,7 @@ public class DirectAttributeEvaluatorTest extends TestCase {
 
     /**
      * Tests
-     * {@link DirectAttributeEvaluator#evaluate(Attribute, org.apache.tiles.context.TilesRequestContext)}.
+     * {@link DirectAttributeEvaluator#evaluate(Attribute, Request)}.
      */
     public void testEvaluate() {
         String expression = "This is an expression";
@@ -63,7 +64,7 @@ public class DirectAttributeEvaluatorTest extends TestCase {
 
     /**
      * Tests
-     * {@link DirectAttributeEvaluator#evaluate(String, org.apache.tiles.context.TilesRequestContext)}.
+     * {@link DirectAttributeEvaluator#evaluate(String, Request)}.
      */
     public void testEvaluateString() {
         String expression = "This is an expression";

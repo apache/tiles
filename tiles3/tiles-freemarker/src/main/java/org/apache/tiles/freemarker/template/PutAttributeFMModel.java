@@ -25,7 +25,10 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.tiles.ArrayStack;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.PutAttributeModel;
 
 import freemarker.core.Environment;
@@ -37,44 +40,48 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link PutAttributeModel} to be used in FreeMarker. For the list of
  * parameters, see {@link PutAttributeModel#start(ArrayStack)} and
- * {@link PutAttributeModel #end(org.apache.tiles.TilesContainer, ArrayStack,
- * String, Object, String, String, String, String, boolean, Object...)}.
+ * {@link PutAttributeModel #end(org.apache.tiles.TilesContainer, ArrayStack, String, Object, String, String, String, String, boolean, Request)}
+ * .
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
 public class PutAttributeFMModel implements TemplateDirectiveModel {
 
-    /**
-     * The template model.
-     */
-    private PutAttributeModel model;
+	/**
+	 * The template model.
+	 */
+	private PutAttributeModel model;
 
-    /**
-     * Constructor.
-     *
-     * @param model The template model.
-     * @since 2.2.0
-     */
-    public PutAttributeFMModel(PutAttributeModel model) {
-        this.model = model;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param model
+	 *            The template model.
+	 * @since 2.2.0
+	 */
+	public PutAttributeFMModel(PutAttributeModel model) {
+		this.model = model;
+	}
 
-    /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        ArrayStack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
-        model.start(composeStack);
-        String bodyString = FreeMarkerUtil.renderAsString(body);
-        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-        model.end(FreeMarkerUtil.getCurrentContainer(env), composeStack,
-                FreeMarkerUtil.getAsString(parms.get("name")), FreeMarkerUtil
-                        .getAsObject(parms.get("value")), FreeMarkerUtil
-                        .getAsString(parms.get("expression")), bodyString,
-                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil.getAsString(parms.get("type")),
-                FreeMarkerUtil
-                        .getAsBoolean(parms.get("cascade"), false), env);
-    }
+	/** {@inheritDoc} */
+	@SuppressWarnings("unchecked")
+	public void execute(Environment env, Map params, TemplateModel[] loopVars,
+			TemplateDirectiveBody body) throws TemplateException, IOException {
+		ArrayStack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
+		TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+		Request request = FreeMarkerTilesRequestContext
+				.createServletFreemarkerRequest(container
+						.getApplicationContext(), env);
+		model.start(composeStack);
+		String bodyString = FreeMarkerUtil.renderAsString(body);
+		Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
+		model.end(container, composeStack, FreeMarkerUtil.getAsString(parms
+				.get("name")), FreeMarkerUtil.getAsObject(parms.get("value")),
+				FreeMarkerUtil.getAsString(parms.get("expression")),
+				bodyString, FreeMarkerUtil.getAsString(parms.get("role")),
+				FreeMarkerUtil.getAsString(parms.get("type")), FreeMarkerUtil
+						.getAsBoolean(parms.get("cascade"), false), request);
+	}
 
 }

@@ -25,7 +25,9 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.ImportAttributeModel;
 
 import freemarker.core.Environment;
@@ -37,7 +39,7 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link ImportAttributeModel} to be used in FreeMarker. For the list of
  * parameters, see
- * {@link ImportAttributeModel#getImportedAttributes(TilesContainer, String, String, boolean, Object...)}
+ * {@link ImportAttributeModel#getImportedAttributes(TilesContainer, String, String, boolean, Request)}
  * .
  *
  * @version $Rev$ $Date$
@@ -45,36 +47,40 @@ import freemarker.template.TemplateModel;
  */
 public class ImportAttributeFMModel implements TemplateDirectiveModel {
 
-    /**
-     * The template model.
-     */
-    private ImportAttributeModel model;
+	/**
+	 * The template model.
+	 */
+	private ImportAttributeModel model;
 
-    /**
-     * Constructor.
-     *
-     * @param model The template model.
-     * @since 2.2.0
-     */
-    public ImportAttributeFMModel(ImportAttributeModel model) {
-        this.model = model;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param model
+	 *            The template model.
+	 * @since 2.2.0
+	 */
+	public ImportAttributeFMModel(ImportAttributeModel model) {
+		this.model = model;
+	}
 
-    /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
-        Map<String, Object> attributes = model.getImportedAttributes(container,
-                FreeMarkerUtil.getAsString(parms.get("name")), FreeMarkerUtil
-                        .getAsString(parms.get("toName")), FreeMarkerUtil
-                        .getAsBoolean(parms.get("ignore"), false), env);
-        String scope = FreeMarkerUtil.getAsString(parms.get("scope"));
-        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-            FreeMarkerUtil.setAttribute(env, entry.getKey(), entry.getValue(),
-                    scope);
-        }
-    }
+	/** {@inheritDoc} */
+	@SuppressWarnings("unchecked")
+	public void execute(Environment env, Map params, TemplateModel[] loopVars,
+			TemplateDirectiveBody body) throws TemplateException, IOException {
+		Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
+		TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+		Request request = FreeMarkerTilesRequestContext
+				.createServletFreemarkerRequest(container
+						.getApplicationContext(), env);
+		Map<String, Object> attributes = model.getImportedAttributes(container,
+				FreeMarkerUtil.getAsString(parms.get("name")), FreeMarkerUtil
+						.getAsString(parms.get("toName")), FreeMarkerUtil
+						.getAsBoolean(parms.get("ignore"), false), request);
+		String scope = FreeMarkerUtil.getAsString(parms.get("scope"));
+		for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+			FreeMarkerUtil.setAttribute(env, entry.getKey(), entry.getValue(),
+					scope);
+		}
+	}
 
 }

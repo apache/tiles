@@ -34,8 +34,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.PutListAttributeModel;
+import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.junit.Before;
@@ -117,18 +119,20 @@ public class PutListAttributeVModelTest {
         Map<String, Object> params = createParams();
         ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
         parameterMapStack.push(params);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        tModel.end(container, composeStack, "myName", false, velocityContext, request, response);
+        tModel.end(eq(container), eq(composeStack), eq("myName"), eq(false), isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, servletContext, container, request, response, velocityContext);
+        replay(tModel, servletContext, container, request, response, velocityContext, applicationContext);
         initializeModel();
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));
         assertTrue(parameterMapStack.isEmpty());
-        verify(tModel, servletContext, container, request, response, velocityContext);
+        verify(tModel, servletContext, container, request, response, velocityContext, applicationContext);
     }
 
     /**

@@ -26,7 +26,9 @@ import java.util.Map;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.GetAsStringModel;
 
 import freemarker.core.Environment;
@@ -40,9 +42,9 @@ import freemarker.template.TemplateModel;
  * parameters, see
  * {@link GetAsStringModel
  * #start(java.util.Stack, TilesContainer, boolean, String, String, Object, String, String, String,
- * Attribute, Object...)}
+ * Attribute, Request)}
  * and
- * {@link GetAsStringModel#end(java.util.Stack, TilesContainer, java.io.Writer, boolean, Object...)}
+ * {@link GetAsStringModel#end(java.util.Stack, TilesContainer, java.io.Writer, boolean, Request)}
  * .
  *
  * @version $Rev$ $Date$
@@ -71,6 +73,9 @@ public class GetAsStringFMModel implements TemplateDirectiveModel {
             TemplateDirectiveBody body) throws TemplateException, IOException {
         Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
         TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+		Request request = FreeMarkerTilesRequestContext
+				.createServletFreemarkerRequest(container
+						.getApplicationContext(), env);
         model.start(
                 FreeMarkerUtil.getComposeStack(env),
                 container,
@@ -83,10 +88,10 @@ public class GetAsStringFMModel implements TemplateDirectiveModel {
                         .getAsString(parms.get("defaultValueType")),
                 FreeMarkerUtil.getAsString(parms.get("name")),
                 (Attribute) FreeMarkerUtil.getAsObject(parms
-                        .get("value")), env);
+                        .get("value")), request);
         FreeMarkerUtil.evaluateBody(body);
         model.end(FreeMarkerUtil.getComposeStack(env), container, env.getOut(),
-                FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false), env);
+                FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false), request);
     }
 
 }

@@ -33,11 +33,14 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.reflect.ClassUtil;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -230,12 +233,15 @@ public class TilesDecorationFilter implements Filter {
 
         TilesContainer container = ServletUtil.getContainer(
                 getServletContext(), containerKey);
-        mutator.mutate(container.getAttributeContext(req, res), req);
+		Request request = new ServletTilesRequestContext(container
+				.getApplicationContext(), (HttpServletRequest) req,
+				(HttpServletResponse) res);
+        mutator.mutate(container.getAttributeContext(request), req);
         if (preventDecorationToken != null) {
             req.setAttribute(preventDecorationToken, Boolean.TRUE);
         }
         String definitionName = getDefinitionForRequest(req);
-        container.render(definitionName, req, res);
+        container.render(definitionName, request);
     }
 
     /**

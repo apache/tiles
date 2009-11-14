@@ -19,21 +19,23 @@
  * under the License.
  */
 
-
 package org.apache.tiles.jsp.taglib;
 
 import java.util.Map;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
+import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
+import org.apache.tiles.jsp.context.JspTilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.ImportAttributeModel;
-
 
 /**
  * Exposes am attribute as a scripting variable within the page.
@@ -43,178 +45,189 @@ import org.apache.tiles.template.ImportAttributeModel;
  */
 public class UseAttributeTag extends SimpleTagSupport {
 
-    /**
-     * The template model.
-     */
-    private ImportAttributeModel model = new ImportAttributeModel();
+	/**
+	 * The template model.
+	 */
+	private ImportAttributeModel model = new ImportAttributeModel();
 
-    /**
-     * The id of the imported scripting variable.
-     */
-    private String id;
+	/**
+	 * The id of the imported scripting variable.
+	 */
+	private String id;
 
-    /**
-     * The scope name.
-     */
-    private String scopeName = null;
+	/**
+	 * The scope name.
+	 */
+	private String scopeName = null;
 
-    /**
-     * The name of the attribute.
-     */
-    private String name = null;
+	/**
+	 * The name of the attribute.
+	 */
+	private String name = null;
 
-    /**
-     * Flag that, if <code>true</code>, ignores exceptions.
-     */
-    private boolean ignore = false;
+	/**
+	 * Flag that, if <code>true</code>, ignores exceptions.
+	 */
+	private boolean ignore = false;
 
-    /**
-     * Class name of object.
-     */
-    private String classname = null;
+	/**
+	 * Class name of object.
+	 */
+	private String classname = null;
 
-    /**
-     * Returns the id of the imported scripting variable.
-     *
-     * @return The id of the imported scripting variable.
-     * @since 2.2.0
-     */
-    public String getId() {
-        return id;
-    }
+	/**
+	 * Returns the id of the imported scripting variable.
+	 *
+	 * @return The id of the imported scripting variable.
+	 * @since 2.2.0
+	 */
+	public String getId() {
+		return id;
+	}
 
-    /**
-     * Sets the id of the imported scripting variable.
-     *
-     * @param id The id of the imported scripting variable.
-     * @since 2.2.0
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+	/**
+	 * Sets the id of the imported scripting variable.
+	 *
+	 * @param id
+	 *            The id of the imported scripting variable.
+	 * @since 2.2.0
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    /**
-     * Set the scope.
-     *
-     * @param scope Scope.
-     */
-    public void setScope(String scope) {
-        this.scopeName = scope;
-    }
+	/**
+	 * Set the scope.
+	 *
+	 * @param scope
+	 *            Scope.
+	 */
+	public void setScope(String scope) {
+		this.scopeName = scope;
+	}
 
-    /**
-     * Get scope.
-     *
-     * @return Scope.
-     */
-    public String getScope() {
-        return scopeName;
-    }
+	/**
+	 * Get scope.
+	 *
+	 * @return Scope.
+	 */
+	public String getScope() {
+		return scopeName;
+	}
 
-    /**
-     * Get the name.
-     *
-     * @return Name.
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Get the name.
+	 *
+	 * @return Name.
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Set the name.
-     *
-     * @param name The new name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * Set the name.
+	 *
+	 * @param name
+	 *            The new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * Set ignore flag.
-     *
-     * @param ignore default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
-     *               true</code> to ignore missing attributes silently
-     */
-    public void setIgnore(boolean ignore) {
-        this.ignore = ignore;
-    }
+	/**
+	 * Set ignore flag.
+	 *
+	 * @param ignore
+	 *            default: <code>false</code>: Exception is thrown when
+	 *            attribute is not found, set to <code>
+     *               true</code> to
+	 *            ignore missing attributes silently
+	 */
+	public void setIgnore(boolean ignore) {
+		this.ignore = ignore;
+	}
 
-    /**
-     * Get ignore flag.
-     *
-     * @return default: <code>false</code>: Exception is thrown when attribute is not found, set to <code>
-     *         true</code> to ignore missing attributes silently
-     */
-    public boolean isIgnore() {
-        return ignore;
-    }
+	/**
+	 * Get ignore flag.
+	 *
+	 * @return default: <code>false</code>: Exception is thrown when attribute
+	 *         is not found, set to <code>
+     *         true</code> to ignore missing
+	 *         attributes silently
+	 */
+	public boolean isIgnore() {
+		return ignore;
+	}
 
-    /**
-     * Get class name.
-     *
-     * @return class name
-     */
-    public String getClassname() {
-        return classname;
+	/**
+	 * Get class name.
+	 *
+	 * @return class name
+	 */
+	public String getClassname() {
+		return classname;
 
-    }
+	}
 
-    /**
-     * Set the class name.
-     *
-     * @param name The new class name.
-     */
-    public void setClassname(String name) {
-        this.classname = name;
-    }
+	/**
+	 * Set the class name.
+	 *
+	 * @param name
+	 *            The new class name.
+	 */
+	public void setClassname(String name) {
+		this.classname = name;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void doTag() throws JspException {
-        JspContext pageContext = getJspContext();
-        Map<String, Object> attributes = model.getImportedAttributes(JspUtil
-                .getCurrentContainer(pageContext), name, id, ignore,
-                pageContext);
-        if (!attributes.isEmpty()) {
-            int scopeId = JspUtil.getScope(scopeName);
-            pageContext.setAttribute(getScriptingVariable(), attributes
-                    .values().iterator().next(), scopeId);
-        }
-    }
+	/** {@inheritDoc} */
+	@Override
+	public void doTag() throws JspException {
+		JspContext jspContext = getJspContext();
+		TilesContainer currentContainer = JspUtil
+				.getCurrentContainer(jspContext);
+		Request request = JspTilesRequestContext.createServletJspRequest(
+				currentContainer.getApplicationContext(),
+				(PageContext) jspContext);
+		Map<String, Object> attributes = model.getImportedAttributes(
+				currentContainer, name, id, ignore, request);
+		if (!attributes.isEmpty()) {
+			int scopeId = JspUtil.getScope(scopeName);
+			jspContext.setAttribute(getScriptingVariable(), attributes
+					.values().iterator().next(), scopeId);
+		}
+	}
 
-    /**
-     * Returns the scripting variable to use.
-     *
-     * @return The scripting variable.
-     */
-    public String getScriptingVariable() {
-        return id == null ? getName() : id;
-    }
+	/**
+	 * Returns the scripting variable to use.
+	 *
+	 * @return The scripting variable.
+	 */
+	public String getScriptingVariable() {
+		return id == null ? getName() : id;
+	}
 
+	/**
+	 * Implementation of <code>TagExtraInfo</code> which identifies the
+	 * scripting object(s) to be made visible.
+	 */
+	public static class Tei extends TagExtraInfo {
 
-    /**
-     * Implementation of <code>TagExtraInfo</code> which identifies
-     * the scripting object(s) to be made visible.
-     */
-    public static class Tei extends TagExtraInfo {
-
-        /** {@inheritDoc} */
-        @Override
+		/** {@inheritDoc} */
+		@Override
 		public VariableInfo[] getVariableInfo(TagData data) {
-            String classname = data.getAttributeString("classname");
-            if (classname == null) {
-                classname = "java.lang.Object";
-            }
+			String classname = data.getAttributeString("classname");
+			if (classname == null) {
+				classname = "java.lang.Object";
+			}
 
-            String id = data.getAttributeString("id");
-            if (id == null) {
-                id = data.getAttributeString("name");
-            }
+			String id = data.getAttributeString("id");
+			if (id == null) {
+				id = data.getAttributeString("name");
+			}
 
-            return new VariableInfo[] {
-                new VariableInfo(id, classname, true, VariableInfo.AT_END)
-            };
+			return new VariableInfo[] { new VariableInfo(id, classname, true,
+					VariableInfo.AT_END) };
 
-        }
-    }
+		}
+	}
 }

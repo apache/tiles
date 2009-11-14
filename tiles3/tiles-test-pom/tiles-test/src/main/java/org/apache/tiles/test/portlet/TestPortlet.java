@@ -38,6 +38,8 @@ import javax.portlet.RenderResponse;
 
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.portlet.context.PortletTilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 /**
@@ -57,10 +59,11 @@ public class TestPortlet extends GenericPortlet {
             portletSession.removeAttribute("definition");
 			TilesContainer container = getCurrentContainer(request,
 					getPortletContext());
-            if (container.isValidDefinition(definition, request, response,
-                    getPortletContext())) {
-                container.render(definition, request, response,
-                        getPortletContext());
+			Request currentRequest = new PortletTilesRequestContext(container
+					.getApplicationContext(), getPortletContext(), request,
+					response);
+            if (container.isValidDefinition(definition, currentRequest)) {
+                container.render(definition, currentRequest);
                 addBackLink(response);
             } else {
                 PortletRequestDispatcher dispatcher = getPortletContext()

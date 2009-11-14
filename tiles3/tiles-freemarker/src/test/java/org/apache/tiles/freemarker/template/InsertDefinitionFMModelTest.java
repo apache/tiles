@@ -21,6 +21,7 @@
 
 package org.apache.tiles.freemarker.template;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
 import java.io.IOException;
@@ -36,7 +37,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertDefinitionModel;
 import org.junit.Before;
@@ -59,11 +62,6 @@ import freemarker.template.TemplateHashModel;
  * @version $Rev$ $Date$
  */
 public class InsertDefinitionFMModelTest {
-
-    /**
-     * The number of times the method is called.
-     */
-    private static final int CALL_COUNT = 3;
 
     /**
      * The FreeMarker environment.
@@ -119,22 +117,23 @@ public class InsertDefinitionFMModelTest {
         InsertDefinitionModel tModel = createMock(InsertDefinitionModel.class);
         InsertDefinitionFMModel fmModel = new InsertDefinitionFMModel(tModel);
         TilesContainer container = createMock(TilesContainer.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null).times(2);
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        expectLastCall().times(2);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
-        expect(servlet.getServletContext()).andReturn(servletContext).times(CALL_COUNT);
-        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container).times(2);
+        expect(servlet.getServletContext()).andReturn(servletContext).times(2);
+        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).times(2);
-        expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel).times(2);
+        expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel);
         initEnvironment();
 
         TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
@@ -147,14 +146,16 @@ public class InsertDefinitionFMModelTest {
         params.put("role", objectWrapper.wrap("myRole"));
         params.put("preparer", objectWrapper.wrap("myPreparer"));
 
-        tModel.start(container, env);
-        tModel.end(container, "myName", "myTemplate", "myTemplateType",
-                "myTemplateExpression", "myRole", "myPreparer", env);
+        tModel.start(eq(container), isA(FreeMarkerTilesRequestContext.class));
+		tModel.end(eq(container), eq("myName"), eq("myTemplate"),
+				eq("myTemplateType"), eq("myTemplateExpression"), eq("myRole"),
+				eq("myPreparer"), isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
-        replay(tModel, body, container, attribute);
+        replay(tModel, body, container, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body, container, servlet, servletContext, attribute);
+		verify(template, model, request, tModel, body, container, servlet,
+				servletContext, attribute, applicationContext);
     }
 
     /**

@@ -30,7 +30,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.util.TilesRequestContextWrapper;
@@ -148,4 +150,14 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
         }
         return requestObjects;
     }
+
+	public static Request createVelocityRequest(ApplicationContext applicationContext,
+			HttpServletRequest request, HttpServletResponse response,
+			Context velocityContext, Writer writer) {
+		Request servletRequest = new ServletTilesRequestContext(
+				applicationContext, request, response);
+		Request velocityRequest = new VelocityTilesRequestContext(
+				servletRequest, velocityContext, writer);
+		return velocityRequest;
+	}
 }
