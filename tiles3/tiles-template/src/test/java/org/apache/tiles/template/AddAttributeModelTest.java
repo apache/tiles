@@ -24,11 +24,14 @@ package org.apache.tiles.template;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.ListAttribute;
+import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,77 +54,92 @@ public class AddAttributeModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.AddAttributeModel#start(java.util.Stack)}.
+     * Test method for {@link org.apache.tiles.template.AddAttributeModel#start(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
     public void testStart() {
         ArrayStack<Object> composeStack = createMock(ArrayStack.class);
+        Request request = createMock(Request.class);
         Attribute attribute = new Attribute();
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesTemplateUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
         expect(composeStack.push(isA(Attribute.class))).andReturn(attribute);
+        expect(request.getRequestScope()).andReturn(requestScope);
 
-        replay(composeStack);
-        model.start(composeStack);
-        verify(composeStack);
+        replay(composeStack, request);
+        model.start(request);
+        verify(composeStack, request);
     }
 
     /**
      * Test method for
      * {@link org.apache.tiles.template.AddAttributeModel
-     * #end(java.util.Stack, java.lang.Object, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}
+     * #end(java.lang.Object, java.lang.String, java.lang.String, java.lang.String, java.lang.String, Request)}
      * .
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testEnd() {
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        Request request = createMock(Request.class);
         ListAttribute listAttribute = new ListAttribute();
         Attribute attribute = new Attribute();
         composeStack.push(listAttribute);
         composeStack.push(attribute);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesTemplateUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
-        model.end(composeStack, "myValue", "myExpression", "myBody", "myRole",
-                "myType");
-        assertEquals(1, ((List<Attribute>) listAttribute.getValue()).size());
+        expect(request.getRequestScope()).andReturn(requestScope).times(2);
+
+        replay(request);
+        model.end("myValue", "myExpression", "myBody", "myRole", "myType",
+                request);
+        assertEquals(1, listAttribute.getValue().size());
         assertEquals("myValue", attribute.getValue());
         assertEquals("myExpression", attribute.getExpressionObject()
                 .getExpression());
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
 
-        composeStack = new ArrayStack<Object>();
+        composeStack.clear();
         listAttribute = new ListAttribute();
         attribute = new Attribute();
         composeStack.push(listAttribute);
         composeStack.push(attribute);
 
-        model.end(composeStack, null, "myExpression", "myBody", "myRole",
-                "myType");
-        assertEquals(1, ((List<Attribute>) listAttribute.getValue()).size());
+        model.end(null, "myExpression", "myBody", "myRole", "myType",
+                request);
+        assertEquals(1, listAttribute.getValue().size());
         assertEquals("myBody", attribute.getValue());
         assertEquals("myExpression", attribute.getExpressionObject()
                 .getExpression());
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
+        verify(request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.AddAttributeModel
-     * #execute(java.util.Stack, java.lang.Object, java.lang.String, java.lang.String,
-     * java.lang.String, java.lang.String)}.
+     * #execute(java.lang.Object, java.lang.String, java.lang.String, java.lang.String,
+     * java.lang.String, Request)}.
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testExecute() {
+        Request request = createMock(Request.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
         Attribute attribute;
         composeStack.push(listAttribute);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesTemplateUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
-        model.execute(composeStack, "myValue", "myExpression", "myBody",
-                "myRole", "myType");
-        List<Attribute> attributes = (List<Attribute>) listAttribute.getValue();
+        expect(request.getRequestScope()).andReturn(requestScope).times(2);
+
+        replay(request);
+        model.execute("myValue", "myExpression", "myBody", "myRole",
+                "myType", request);
+        List<Attribute> attributes = listAttribute.getValue();
         assertEquals(1, attributes.size());
         attribute = attributes.iterator().next();
         assertEquals("myValue", attribute.getValue());
@@ -129,15 +147,15 @@ public class AddAttributeModelTest {
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
 
-        composeStack = new ArrayStack<Object>();
+        composeStack.clear();
         listAttribute = new ListAttribute();
         attribute = new Attribute();
         composeStack.push(listAttribute);
         composeStack.push(attribute);
 
-        model.execute(composeStack, null, "myExpression", "myBody", "myRole",
-                "myType");
-        attributes = (List<Attribute>) listAttribute.getValue();
+        model.execute(null, "myExpression", "myBody", "myRole", "myType",
+                request);
+        attributes = listAttribute.getValue();
         assertEquals(1, attributes.size());
         attribute = attributes.iterator().next();
         assertEquals("myBody", attribute.getValue());
@@ -145,6 +163,7 @@ public class AddAttributeModelTest {
                 .getExpression());
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
+        verify(request);
     }
 
 }

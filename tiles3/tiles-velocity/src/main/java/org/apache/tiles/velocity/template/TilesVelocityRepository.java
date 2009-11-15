@@ -103,7 +103,7 @@ public class TilesVelocityRepository {
     public TilesVelocityRepository(ServletContext servletContext) {
         AttributeResolver attributeResolver = new DefaultAttributeResolver();
 
-        addAttribute = new AddAttributeVModel(new AddAttributeModel());
+        addAttribute = new AddAttributeVModel(new AddAttributeModel(), servletContext);
         addListAttribute = new AddListAttributeVModel(
                 new AddListAttributeModel());
         definition = new DefinitionVModel(new DefinitionModel(), servletContext);

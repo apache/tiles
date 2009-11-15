@@ -25,6 +25,7 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.ListAttribute;
+import org.apache.tiles.request.Request;
 
 /**
  * <p>
@@ -45,19 +46,18 @@ public class AddAttributeModel {
 
     /**
      * Starts the operation..
+     * @param request TODO
      *
-     * @param composeStack The composing stack.
      * @since 2.2.0
      */
-    public void start(ArrayStack<Object> composeStack) {
+    public void start(Request request) {
         Attribute attribute = new Attribute();
-        composeStack.push(attribute);
+        ArrayStack<Object> composeStack2 = TilesTemplateUtil.getComposeStack(request);
+        composeStack2.push(attribute);
     }
 
     /**
      * Ends the operation.
-     *
-     * @param composeStack The composing stack.
      * @param value The value of the attribute. Use this parameter, or
      * expression, or body.
      * @param expression The expression to calculate the value from. Use this
@@ -67,19 +67,20 @@ public class AddAttributeModel {
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
+     * @param request TODO
+     *
      * @since 2.2.0
      */
-    public void end(ArrayStack<Object> composeStack, Object value,
-            String expression, String body, String role, String type) {
-        Attribute attribute = (Attribute) composeStack.pop();
-        addAttributeToList(attribute, composeStack, value, expression, body,
+    public void end(Object value, String expression,
+            String body, String role, String type, Request request) {
+        ArrayStack<Object> composeStack2 = TilesTemplateUtil.getComposeStack(request);
+        Attribute attribute = (Attribute) composeStack2.pop();
+        addAttributeToList(attribute, composeStack2, value, expression, body,
                 role, type);
     }
 
     /**
      * Executes the operation.
-     *
-     * @param composeStack The composing stack.
      * @param value The value of the attribute. Use this parameter, or
      * expression, or body.
      * @param expression The expression to calculate the value from. Use this
@@ -89,11 +90,14 @@ public class AddAttributeModel {
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
+     * @param request TODO
+     *
      * @since 2.2.0
      */
-    public void execute(ArrayStack<Object> composeStack, Object value,
-            String expression, String body, String role, String type) {
-        addAttributeToList(new Attribute(), composeStack, value, expression,
+    public void execute(Object value, String expression,
+            String body, String role, String type, Request request) {
+        ArrayStack<Object> composeStack2 = TilesTemplateUtil.getComposeStack(request);
+        addAttributeToList(new Attribute(), composeStack2, value, expression,
                 body, role, type);
     }
 

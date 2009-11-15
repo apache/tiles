@@ -30,10 +30,15 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.ArrayStack;
-import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.AddAttributeModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +46,7 @@ import org.junit.Test;
 import freemarker.core.Environment;
 import freemarker.ext.servlet.FreemarkerServlet;
 import freemarker.ext.servlet.HttpRequestHashModel;
+import freemarker.ext.servlet.ServletContextHashModel;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.Template;
@@ -86,10 +92,10 @@ public class AddAttributeFMModelTest {
     private ObjectWrapper objectWrapper;
 
     /**
-     * @throws java.lang.Exception If something goes wrong.
+     * Sets up the model.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         template = createMock(Template.class);
         model = createMock(TemplateHashModel.class);
         expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
@@ -109,13 +115,25 @@ public class AddAttributeFMModelTest {
         AddAttributeModel tModel = createMock(AddAttributeModel.class);
         AddAttributeFMModel fmModel = new AddAttributeFMModel(tModel);
         HttpServletRequest request = createMock(HttpServletRequest.class);
+        TilesContainer container = createMock(TilesContainer.class);
 
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel);
+        GenericServlet servlet = createMock(GenericServlet.class);
+        ServletContext servletContext = createMock(ServletContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+
+        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(servlet.getServletContext()).andReturn(servletContext).anyTimes();
+        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
+        replay(servlet, servletContext);
+        ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
+        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
+        expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel).anyTimes();
         initEnvironment();
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
+        request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Map<String, Object> params = new HashMap<String, Object>();
         Integer value = new Integer(1);
         params.put("value", objectWrapper.wrap(value));
@@ -123,15 +141,15 @@ public class AddAttributeFMModelTest {
         params.put("role", objectWrapper.wrap("myRole"));
         params.put("type", objectWrapper.wrap("myType"));
 
-        expect(request.getAttribute(FreeMarkerUtil.COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(composeStack);
-        tModel.start(composeStack);
-        tModel.end(composeStack, value, "myExpression", "",
-                "myRole", "myType");
+        tModel.start(isA(FreeMarkerTilesRequestContext.class));
+        tModel.end(eq(value), eq("myExpression"), eq(""), eq("myRole"),
+                eq("myType"), isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(StringWriter.class));
 
-        replay(request, tModel, body);
+        replay(request, tModel, body, container, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body);
+        verify(servlet, servletContext, template, model, request, tModel, body,
+                container, applicationContext);
     }
 
     /**

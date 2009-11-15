@@ -25,36 +25,47 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
+import org.apache.tiles.jsp.context.JspTilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.AddAttributeModel;
 
 /**
- * <p><strong>Adds an attribute in enclosing attribute container tag.</strong></p>
- * <p>Enclosing attribute container tag can be :
+ * <p>
+ * <strong>Adds an attribute in enclosing attribute container tag.</strong>
+ * </p>
+ * <p>
+ * Enclosing attribute container tag can be :
  * <ul>
  * <li>&lt;putListAttribute&gt;</li>
  * <li>&lt;putAttribute&gt;</li>
  * </ul>
- * Exception is thrown if no appropriate tag can be found.</p>
- * <p>Put tag can have following atributes :
+ * Exception is thrown if no appropriate tag can be found.
+ * </p>
+ * <p>
+ * Put tag can have following atributes :
  * <ul>
  * <li>name : Name of the attribute</li>
  * <li>value : value to put as attribute</li>
  * <li>type : value type. Only valid if value is a String and is set by
- * value="something" or by a bean.
- * Possible type are : string (value is used as direct string),
- * template (value is used as a page url to insert),
- * definition (value is used as a definition name to insert)</li>
+ * value="something" or by a bean. Possible type are : string (value is used as
+ * direct string), template (value is used as a page url to insert), definition
+ * (value is used as a definition name to insert)</li>
  * <li>role : Role to check when 'insert' will be called. If enclosing tag is
  * &lt;insert&gt;, role is checked immediately. If enclosing tag is
  * &lt;definition&gt;, role will be checked when this definition will be
  * inserted.</li>
- * </ul></p>
- * <p>Value can also come from tag body. Tag body is taken into account only if
+ * </ul>
+ * </p>
+ * <p>
+ * Value can also come from tag body. Tag body is taken into account only if
  * value is not set by one of the tag attributes. In this case Attribute type is
- * "string", unless tag body define another type.</p>
+ * "string", unless tag body define another type.
+ * </p>
  *
  * @version $Rev$ $Date$
  */
@@ -88,8 +99,8 @@ public class AddAttributeTag extends SimpleTagSupport {
     private String type = null;
 
     /**
-     * Returns the role to check. If the user is in the specified role, the tag is
-     * taken into account; otherwise, the tag is ignored (skipped).
+     * Returns the role to check. If the user is in the specified role, the tag
+     * is taken into account; otherwise, the tag is ignored (skipped).
      *
      * @return The role to check.
      */
@@ -155,8 +166,8 @@ public class AddAttributeTag extends SimpleTagSupport {
      * <li>String : Content is printed directly.</li>
      * <li>template : Content is included from specified URL. Value is used as
      * an URL.</li>
-     * <li>definition : Value denote a definition defined in factory (xml
-     * file). Definition will be searched in the inserted tile, in a
+     * <li>definition : Value denote a definition defined in factory (xml file).
+     * Definition will be searched in the inserted tile, in a
      * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
      * 'attributeName' is the name used for this tag.</li>
      * </ul>
@@ -175,8 +186,8 @@ public class AddAttributeTag extends SimpleTagSupport {
      * <li>String : Content is printed directly.</li>
      * <li>template : Content is included from specified URL. Value is used as
      * an URL.</li>
-     * <li>definition : Value denote a definition defined in factory (xml
-     * file). Definition will be searched in the inserted tile, in a
+     * <li>definition : Value denote a definition defined in factory (xml file).
+     * Definition will be searched in the inserted tile, in a
      * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
      * 'attributeName' is the name used for this tag.</li>
      * </ul>
@@ -191,9 +202,14 @@ public class AddAttributeTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext pageContext = getJspContext();
-        model.start(JspUtil.getComposeStack(pageContext));
+        TilesContainer currentContainer = JspUtil
+                .getCurrentContainer(pageContext);
+        Request request = JspTilesRequestContext.createServletJspRequest(
+                currentContainer.getApplicationContext(),
+                (PageContext) pageContext);
+        model.start(request);
         String body = JspUtil.evaluateFragmentAsString(getJspBody());
-        model.end(JspUtil.getComposeStack(pageContext), value, expression,
-                body, role, type);
+        model.end(value, expression, body,
+                role, type, request);
     }
 }
