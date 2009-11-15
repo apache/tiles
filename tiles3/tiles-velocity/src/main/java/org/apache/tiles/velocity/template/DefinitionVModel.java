@@ -40,10 +40,10 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * Wraps {@link DefinitionModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link DefinitionModel#start(java.util.Stack, String, String, String, String, String)}
- * , {@link DefinitionModel#end(MutableTilesContainer, java.util.Stack, Request)} and
- * {@link DefinitionModel#execute(MutableTilesContainer, java.util.Stack, String, String,
- * String, String, String, Request)}.
+ * {@link DefinitionModel#start(String, String, String, String, String, Request)}
+ * , {@link DefinitionModel#end(MutableTilesContainer, Request)} and
+ * {@link DefinitionModel#execute(MutableTilesContainer, String, String, String,
+ * String, String, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -82,10 +82,10 @@ public class DefinitionVModel implements Executable, BodyExecutable {
                 .createVelocityRequest(container
                         .getApplicationContext(), request, response,
                         velocityContext, null);
-        model.execute((MutableTilesContainer) container, ServletUtil.getComposeStack(request),
-                (String) params.get("name"), (String) params.get("template"),
-                (String) params.get("role"), (String) params.get("extends"),
-                (String) params.get("preparer"), currentRequest);
+        model.execute((MutableTilesContainer) container, (String) params.get("name"),
+                (String) params.get("template"), (String) params.get("role"),
+                (String) params.get("extends"), (String) params.get("preparer"),
+                currentRequest);
 
         return VelocityUtil.EMPTY_RENDERABLE;
     }
@@ -99,17 +99,22 @@ public class DefinitionVModel implements Executable, BodyExecutable {
                 .createVelocityRequest(container
                         .getApplicationContext(), request, response,
                         velocityContext, null);
-        model.end((MutableTilesContainer) container, ServletUtil
-                .getComposeStack(request), currentRequest);
+        model.end((MutableTilesContainer) container, currentRequest);
         return VelocityUtil.EMPTY_RENDERABLE;
     }
 
     /** {@inheritDoc} */
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
-        model.start(ServletUtil.getComposeStack(request), (String) params
+        TilesContainer container = ServletUtil.getCurrentContainer(
+                request, servletContext);
+        Request currentRequest = VelocityTilesRequestContext
+                .createVelocityRequest(container
+                        .getApplicationContext(), request, response,
+                        velocityContext, null);
+        model.start((String) params
                 .get("name"), (String) params.get("template"), (String) params
                 .get("role"), (String) params.get("extends"), (String) params
-                .get("preparer"));
+                .get("preparer"), currentRequest);
     }
 }

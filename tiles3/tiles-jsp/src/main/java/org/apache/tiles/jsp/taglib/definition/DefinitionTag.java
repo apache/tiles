@@ -173,13 +173,12 @@ public class DefinitionTag extends SimpleTagSupport {
         Request request = JspTilesRequestContext.createServletJspRequest(
                 currentContainer.getApplicationContext(),
                 (PageContext) jspContext);
-        model.start(JspUtil.getComposeStack(jspContext), name, template, role,
-                extend, preparer);
+        model.start(name, template, role, extend,
+                preparer, request);
         JspUtil.evaluateFragment(getJspBody());
         TilesContainer container = JspUtil.getCurrentContainer(jspContext);
         if (container instanceof MutableTilesContainer) {
-            model.end((MutableTilesContainer) container, JspUtil
-                    .getComposeStack(jspContext), request);
+            model.end((MutableTilesContainer) container, request);
         } else {
             throw new TilesJspException("The current container is not mutable");
         }

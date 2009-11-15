@@ -63,8 +63,7 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper
         HttpServletRequest request = requestModel.getRequest();
         HttpServletResponse response = requestModel.getResponse();
         Request enclosedRequest = new ServletTilesRequestContext(
-                applicationContext, (HttpServletRequest) request,
-                (HttpServletResponse) response);
+                applicationContext, request, response);
         return new FreeMarkerTilesRequestContext(enclosedRequest, env);
     }
 

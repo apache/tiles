@@ -33,7 +33,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
@@ -85,16 +84,13 @@ public class DefinitionVModelTest {
         Context velocityContext = createMock(Context.class);
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
         Map<String, Object> params = createParams();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
-        tModel.execute(eq(container), eq(composeStack), eq("myName"),
-                eq("myTemplate"), eq("myRole"), eq("myExtends"),
-                eq("myPreparer"), isA(VelocityTilesRequestContext.class));
+        tModel.execute(eq(container), eq("myName"), eq("myTemplate"),
+                eq("myRole"), eq("myExtends"), eq("myPreparer"),
+                isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, request, response, velocityContext, container, applicationContext);
         initializeModel();
@@ -113,11 +109,14 @@ public class DefinitionVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        MutableTilesContainer container = createMock(MutableTilesContainer.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
-        tModel.start(composeStack, "myName", "myTemplate", "myRole", "myExtends", "myPreparer");
+        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        tModel.start(eq("myName"), eq("myTemplate"), eq("myRole"),
+                eq("myExtends"), eq("myPreparer"),
+                isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, request, response, velocityContext);
         initializeModel();
@@ -137,14 +136,11 @@ public class DefinitionVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
-        tModel.end(eq(container), eq(composeStack), isA(VelocityTilesRequestContext.class));
+        tModel.end(eq(container), isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, request, response, velocityContext, container, applicationContext);
         initializeModel();

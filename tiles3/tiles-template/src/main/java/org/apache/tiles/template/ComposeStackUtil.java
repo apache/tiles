@@ -21,7 +21,10 @@
 
 package org.apache.tiles.template;
 
+import java.util.Map;
+
 import org.apache.tiles.ArrayStack;
+import org.apache.tiles.request.Request;
 
 /**
  * Utilities to work with compose stacks.
@@ -30,6 +33,11 @@ import org.apache.tiles.ArrayStack;
  * @since 2.2.0
  */
 public final class ComposeStackUtil {
+
+    /**
+     * The name of the attribute that holds the compose stack.
+     */
+    public static final String COMPOSE_STACK_ATTRIBUTE_NAME = "org.apache.tiles.template.COMPOSE_STACK";
 
     /**
      * Private constructor to avoid instantiation.
@@ -56,5 +64,24 @@ public final class ComposeStackUtil {
         }
 
         return retValue;
+    }
+
+    /**
+     * Returns the current compose stack, or creates a new one if not present.
+     *
+     * @param env The current FreeMarker environment.
+     * @return The compose stack.
+     * @since 2.2.0
+     */
+    @SuppressWarnings("unchecked")
+    public static ArrayStack<Object> getComposeStack(Request request) {
+        Map<String, Object> requestScope = request.getRequestScope();
+        ArrayStack<Object> composeStack = (ArrayStack<Object>) requestScope
+                .get(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME);
+        if (composeStack == null) {
+            composeStack = new ArrayStack<Object>();
+            requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        }
+        return composeStack;
     }
 }

@@ -23,6 +23,7 @@ package org.apache.tiles.template;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.ListAttribute;
+import org.apache.tiles.request.Request;
 
 /**
  * <p>
@@ -41,13 +42,14 @@ public class AddListAttributeModel {
 
     /**
      * Starts the operation.
-     *
-     * @param composeStack The composing stack.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
+     * @param request TODO
+     *
      * @since 2.2.0
      */
-    public void start(ArrayStack<Object> composeStack, String role) {
+    public void start(String role, Request request) {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = new ListAttribute();
         listAttribute.setRole(role);
         composeStack.push(listAttribute);
@@ -55,11 +57,12 @@ public class AddListAttributeModel {
 
     /**
      * Ends the operation.
+     * @param request TODO
      *
-     * @param composeStack The composing stack.
      * @since 2.2.0
      */
-    public void end(ArrayStack<Object> composeStack) {
+    public void end(Request request) {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = (ListAttribute) composeStack.pop();
         ListAttribute parent = (ListAttribute) composeStack.peek();
         parent.add(listAttribute);

@@ -24,8 +24,10 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.ArrayStack;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.AddListAttributeModel;
 
 import freemarker.core.Environment;
@@ -36,8 +38,8 @@ import freemarker.template.TemplateModel;
 
 /**
  * Wraps {@link AddListAttributeModel} to be used in FreeMarker. For the list of
- * parameters, see {@link AddListAttributeModel#start(ArrayStack, String)} and
- * {@link AddListAttributeModel#end(ArrayStack)}.
+ * parameters, see {@link AddListAttributeModel#start(String, Request)} and
+ * {@link AddListAttributeModel#end(Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -63,10 +65,13 @@ public class AddListAttributeFMModel implements TemplateDirectiveModel {
     @SuppressWarnings("unchecked")
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
-        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-        ArrayStack<Object> composeStack = FreeMarkerUtil.getComposeStack(env);
-        model.start(composeStack, FreeMarkerUtil.getAsString(parms.get("role")));
+        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+        Request request = FreeMarkerTilesRequestContext
+                .createServletFreemarkerRequest(container
+                        .getApplicationContext(), env);
+        Map<String, TemplateModel> parms = params;
+        model.start(FreeMarkerUtil.getAsString(parms.get("role")), request);
         FreeMarkerUtil.evaluateBody(body);
-        model.end(composeStack);
+        model.end(request);
     }
 }

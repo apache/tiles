@@ -39,8 +39,8 @@ import freemarker.template.TemplateModel;
 
 /**
  * Wraps {@link DefinitionModel} to be used in FreeMarker. For the list of
- * parameters, see {@link DefinitionModel#start(java.util.Stack, String, String, String, String, String)} and
- * {@link DefinitionModel#end(MutableTilesContainer, java.util.Stack, Request)}.
+ * parameters, see {@link DefinitionModel#start(String, String, String, String, String, Request)} and
+ * {@link DefinitionModel#end(MutableTilesContainer, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -71,15 +71,14 @@ public class DefinitionFMModel implements TemplateDirectiveModel {
         Request request = FreeMarkerTilesRequestContext
                 .createServletFreemarkerRequest(container
                         .getApplicationContext(), env);
-        model.start(FreeMarkerUtil.getComposeStack(env),
-                FreeMarkerUtil.getAsString(parms.get("name")),
+        model.start(FreeMarkerUtil.getAsString(parms.get("name")),
                 FreeMarkerUtil.getAsString(parms.get("template")),
                 FreeMarkerUtil.getAsString(parms.get("role")),
                 FreeMarkerUtil.getAsString(parms.get("extends")),
-                FreeMarkerUtil.getAsString(parms.get("preparer")));
+                FreeMarkerUtil.getAsString(parms.get("preparer")),
+                request);
         FreeMarkerUtil.evaluateBody(body);
-        model.end((MutableTilesContainer) container, FreeMarkerUtil
-                .getComposeStack(env), request);
+        model.end((MutableTilesContainer) container, request);
     }
 
 }

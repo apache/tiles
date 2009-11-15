@@ -34,10 +34,8 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
-import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.ApplicationContext;
@@ -122,8 +120,6 @@ public class DefinitionFMModelTest {
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
-        expect(request.getAttribute(FreeMarkerUtil.COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(composeStack).times(2);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         replay(request);
@@ -147,8 +143,10 @@ public class DefinitionFMModelTest {
         params.put("extends", objectWrapper.wrap("myExtends"));
         params.put("preparer", objectWrapper.wrap("myPreparer"));
 
-        tModel.start(composeStack, "myName", "myTemplate", "myRole", "myExtends", "myPreparer");
-        tModel.end(eq(container), eq(composeStack), isA(FreeMarkerTilesRequestContext.class));
+        tModel.start(eq("myName"), eq("myTemplate"), eq("myRole"),
+                eq("myExtends"), eq("myPreparer"),
+                isA(FreeMarkerTilesRequestContext.class));
+        tModel.end(eq(container), isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, container, applicationContext);

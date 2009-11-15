@@ -63,7 +63,7 @@ public class AddAttributeModelTest {
         Request request = createMock(Request.class);
         Attribute attribute = new Attribute();
         Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(TilesTemplateUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
         expect(composeStack.push(isA(Attribute.class))).andReturn(attribute);
         expect(request.getRequestScope()).andReturn(requestScope);
@@ -88,7 +88,7 @@ public class AddAttributeModelTest {
         composeStack.push(listAttribute);
         composeStack.push(attribute);
         Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(TilesTemplateUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
         expect(request.getRequestScope()).andReturn(requestScope).times(2);
 
@@ -132,7 +132,7 @@ public class AddAttributeModelTest {
         Attribute attribute;
         composeStack.push(listAttribute);
         Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(TilesTemplateUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
         expect(request.getRequestScope()).andReturn(requestScope).times(2);
 

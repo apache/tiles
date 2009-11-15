@@ -105,7 +105,7 @@ public class TilesVelocityRepository {
 
         addAttribute = new AddAttributeVModel(new AddAttributeModel(), servletContext);
         addListAttribute = new AddListAttributeVModel(
-                new AddListAttributeModel());
+                new AddListAttributeModel(), servletContext);
         definition = new DefinitionVModel(new DefinitionModel(), servletContext);
         getAsString = new GetAsStringVModel(new GetAsStringModel(
                 attributeResolver), servletContext);

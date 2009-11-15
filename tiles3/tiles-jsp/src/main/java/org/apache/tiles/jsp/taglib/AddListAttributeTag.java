@@ -25,9 +25,13 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
+import org.apache.tiles.jsp.context.JspTilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.AddListAttributeModel;
 
 /**
@@ -55,8 +59,8 @@ public class AddListAttributeTag extends SimpleTagSupport {
     private String type = null;
 
     /**
-     * Returns the role to check. If the user is in the specified role, the tag is
-     * taken into account; otherwise, the tag is ignored (skipped).
+     * Returns the role to check. If the user is in the specified role, the tag
+     * is taken into account; otherwise, the tag is ignored (skipped).
      *
      * @return The role to check.
      */
@@ -82,8 +86,8 @@ public class AddListAttributeTag extends SimpleTagSupport {
      * <li>String : Content is printed directly.</li>
      * <li>template : Content is included from specified URL. Value is used as
      * an URL.</li>
-     * <li>definition : Value denote a definition defined in factory (xml
-     * file). Definition will be searched in the inserted tile, in a
+     * <li>definition : Value denote a definition defined in factory (xml file).
+     * Definition will be searched in the inserted tile, in a
      * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
      * 'attributeName' is the name used for this tag.</li>
      * </ul>
@@ -102,8 +106,8 @@ public class AddListAttributeTag extends SimpleTagSupport {
      * <li>String : Content is printed directly.</li>
      * <li>template : Content is included from specified URL. Value is used as
      * an URL.</li>
-     * <li>definition : Value denote a definition defined in factory (xml
-     * file). Definition will be searched in the inserted tile, in a
+     * <li>definition : Value denote a definition defined in factory (xml file).
+     * Definition will be searched in the inserted tile, in a
      * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
      * 'attributeName' is the name used for this tag.</li>
      * </ul>
@@ -118,8 +122,13 @@ public class AddListAttributeTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jspContext = getJspContext();
-        model.start(JspUtil.getComposeStack(jspContext), role);
+        TilesContainer currentContainer = JspUtil
+                .getCurrentContainer(jspContext);
+        Request request = JspTilesRequestContext.createServletJspRequest(
+                currentContainer.getApplicationContext(),
+                (PageContext) jspContext);
+        model.start(role, request);
         JspUtil.evaluateFragment(getJspBody());
-        model.end(JspUtil.getComposeStack(jspContext));
+        model.end(request);
     }
 }

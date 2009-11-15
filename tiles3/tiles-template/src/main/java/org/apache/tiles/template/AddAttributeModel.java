@@ -52,8 +52,8 @@ public class AddAttributeModel {
      */
     public void start(Request request) {
         Attribute attribute = new Attribute();
-        ArrayStack<Object> composeStack2 = TilesTemplateUtil.getComposeStack(request);
-        composeStack2.push(attribute);
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        composeStack.push(attribute);
     }
 
     /**
@@ -73,9 +73,9 @@ public class AddAttributeModel {
      */
     public void end(Object value, String expression,
             String body, String role, String type, Request request) {
-        ArrayStack<Object> composeStack2 = TilesTemplateUtil.getComposeStack(request);
-        Attribute attribute = (Attribute) composeStack2.pop();
-        addAttributeToList(attribute, composeStack2, value, expression, body,
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        Attribute attribute = (Attribute) composeStack.pop();
+        addAttributeToList(attribute, composeStack, value, expression, body,
                 role, type);
     }
 
@@ -96,8 +96,8 @@ public class AddAttributeModel {
      */
     public void execute(Object value, String expression,
             String body, String role, String type, Request request) {
-        ArrayStack<Object> composeStack2 = TilesTemplateUtil.getComposeStack(request);
-        addAttributeToList(new Attribute(), composeStack2, value, expression,
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        addAttributeToList(new Attribute(), composeStack, value, expression,
                 body, role, type);
     }
 
