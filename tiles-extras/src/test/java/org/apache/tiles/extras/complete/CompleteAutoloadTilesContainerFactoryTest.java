@@ -320,6 +320,58 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     }
 
     /**
+     * Regression test for TILES-484 issue.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testTILES484first() throws IOException {
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
+
+        URL url3 = new URL("file:///nonexistent2/tiles.xml");
+
+        Set<URL> urls2 = new HashSet<URL>();
+        urls2.add(url3);
+
+        expect(applicationContext.getResources("/WEB-INF/**/tiles*.xml")).andReturn(null);
+        expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(urls2);
+
+        replay(applicationContext, contextFactory);
+        List<URL> urls = factory.getSourceURLs(applicationContext, contextFactory);
+        assertEquals(1, urls.size());
+        assertTrue(urls.contains(url3));
+        verify(applicationContext, contextFactory);
+    }
+
+    /**
+     * Regression test for TILES-484 issue.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testTILES484second() throws IOException {
+        TilesApplicationContext applicationContext = createMock(TilesApplicationContext.class);
+        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
+
+        URL url1 = new URL("file:///nonexistent/tiles.xml");
+        URL url2 = new URL("file:///nonexistent/tiles_it.xml");
+
+        Set<URL> urls1 = new HashSet<URL>();
+        urls1.add(url1);
+        urls1.add(url2);
+
+        expect(applicationContext.getResources("/WEB-INF/**/tiles*.xml")).andReturn(urls1);
+        expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(null);
+
+        replay(applicationContext, contextFactory);
+        List<URL> urls = factory.getSourceURLs(applicationContext, contextFactory);
+        assertEquals(1, urls.size());
+        assertTrue(urls.contains(url1));
+        verify(applicationContext, contextFactory);
+    }
+
+    /**
      * Test method for
      * {@link CompleteAutoloadTilesContainerFactory
      * #createDefinitionsReader(TilesApplicationContext, TilesRequestContextFactory)}

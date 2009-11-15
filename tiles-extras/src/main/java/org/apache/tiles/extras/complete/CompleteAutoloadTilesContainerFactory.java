@@ -23,6 +23,7 @@ package org.apache.tiles.extras.complete;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -227,11 +228,18 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
             TilesRequestContextFactory contextFactory) {
         try {
-            Set<URL> urlSet = applicationContext
-                    .getResources("/WEB-INF/**/tiles*.xml");
-            urlSet.addAll(applicationContext
-                    .getResources("classpath*:META-INF/**/tiles*.xml"));
-            return URLUtil.getBaseTilesDefinitionURLs(urlSet);
+            Set<URL> finalSet = new HashSet<URL>();
+            Set<URL> webINFSet = applicationContext.getResources("/WEB-INF/**/tiles*.xml");
+            Set<URL> metaINFSet = applicationContext.getResources("classpath*:META-INF/**/tiles*.xml");
+
+            if (webINFSet != null) {
+                finalSet.addAll(webINFSet);
+            }
+            if (metaINFSet != null) {
+                finalSet.addAll(metaINFSet);
+            }
+
+            return URLUtil.getBaseTilesDefinitionURLs(finalSet);
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "Cannot load definition URLs", e);
