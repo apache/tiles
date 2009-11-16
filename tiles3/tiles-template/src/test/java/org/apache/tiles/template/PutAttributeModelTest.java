@@ -25,6 +25,9 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
@@ -53,25 +56,29 @@ public class PutAttributeModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.PutAttributeModel#start(ArrayStack)}.
+     * Test method for {@link org.apache.tiles.template.PutAttributeModel#start(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
     public void testStart() {
         ArrayStack<Object> composeStack = createMock(ArrayStack.class);
         Attribute attribute = new Attribute();
+        Request request = createMock(Request.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(composeStack.push(isA(Attribute.class))).andReturn(attribute);
 
-        replay(composeStack);
-        model.start(composeStack);
-        verify(composeStack);
+        replay(request, composeStack);
+        model.start(request);
+        verify(request, composeStack);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.PutAttributeModel
-     * #end(org.apache.tiles.TilesContainer, ArrayStack, String, Object, String,
-     * String, String, String, boolean, Request)}.
+     * #end(org.apache.tiles.TilesContainer, String, Object, String, String,
+     * String, String, boolean, Request)}.
      */
     @Test
     public void testEnd() {
@@ -81,13 +88,16 @@ public class PutAttributeModelTest {
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", attribute, false);
 
         replay(container, attributeContext, request);
-        model.end(container, composeStack, "myName", "myValue", "myExpression",
-                "myBody", "myRole", "myType", false, request);
+        model.end(container, "myName", "myValue", "myExpression", "myBody",
+                "myRole", "myType", false, request);
         assertEquals("myValue", attribute.getValue());
         assertEquals("myExpression", attribute.getExpressionObject()
                 .getExpression());
@@ -98,8 +108,8 @@ public class PutAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.PutAttributeModel
-     * #end(org.apache.tiles.TilesContainer, ArrayStack, String, Object, String,
-     * String, String, String, boolean, Request)}.
+     * #end(org.apache.tiles.TilesContainer, String, Object, String, String,
+     * String, String, boolean, Request)}.
      */
     @Test
     public void testEndBody() {
@@ -109,13 +119,16 @@ public class PutAttributeModelTest {
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", attribute, false);
 
         replay(container, attributeContext, request);
-        model.end(container, composeStack, "myName", "myValue", "myExpression",
-                "myBody", "myRole", "myType", false, request);
+        model.end(container, "myName", "myValue", "myExpression", "myBody",
+                "myRole", "myType", false, request);
         assertEquals("myValue", attribute.getValue());
         assertEquals("myExpression", attribute.getExpressionObject()
                 .getExpression());
@@ -126,8 +139,8 @@ public class PutAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.PutAttributeModel
-     * #execute(org.apache.tiles.TilesContainer, ArrayStack, String, Object, String,
-     * String, String, String, boolean, Request)}.
+     * #execute(org.apache.tiles.TilesContainer, String, Object, String, String,
+     * String, String, boolean, Request)}.
      */
     @Test
     public void testExecuteListAttribute() {
@@ -137,14 +150,16 @@ public class PutAttributeModelTest {
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
         composeStack.push(listAttribute);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute(eq("myName"), (Attribute) notNull(), eq(false));
 
         replay(container, attributeContext, request);
-        model.execute(container, composeStack, "myName", "myValue",
-                "myExpression", "myBody", "myRole", "myType", false,
-                request);
+        model.execute(container, "myName", "myValue", "myExpression",
+                "myBody", "myRole", "myType", false, request);
         verify(container, attributeContext, request);
     }
 }

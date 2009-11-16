@@ -68,11 +68,13 @@ public class PutAttributeModel {
 
     /**
      * Starts the operation.
-     *
+     * @param request TODO
      * @param composeStack The compose stack.
+     *
      * @since 2.2.0
      */
-    public void start(ArrayStack<Object> composeStack) {
+    public void start(Request request) {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
     }
@@ -81,7 +83,6 @@ public class PutAttributeModel {
      * Ends the operation.
      *
      * @param container The Tiles container to use.
-     * @param composeStack The composing stack.
      * @param name The name of the attribute to put.
      * @param value The value of the attribute. Use this parameter, or
      * expression, or body.
@@ -94,11 +95,13 @@ public class PutAttributeModel {
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
      * @param request TODO
+     * @param composeStack The composing stack.
      * @since 2.2.0
      */
-    public void end(TilesContainer container, ArrayStack<Object> composeStack,
-            String name, Object value, String expression, String body,
-            String role, String type, boolean cascade, Request request) {
+    public void end(TilesContainer container, String name,
+            Object value, String expression, String body, String role,
+            String type, boolean cascade, Request request) {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = (Attribute) composeStack.pop();
         putAttributeInParent(attribute, container, composeStack, name, value,
                 expression, body, role, type, cascade, request);
@@ -108,7 +111,6 @@ public class PutAttributeModel {
      * Executes the operation.
      *
      * @param container The Tiles container to use.
-     * @param composeStack The composing stack.
      * @param name The name of the attribute to put.
      * @param value The value of the attribute. Use this parameter, or
      * expression, or body.
@@ -121,11 +123,13 @@ public class PutAttributeModel {
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
      * @param request TODO
+     * @param composeStack The composing stack.
      * @since 2.2.0
      */
-    public void execute(TilesContainer container, ArrayStack<Object> composeStack,
-            String name, Object value, String expression, String body,
-            String role, String type, boolean cascade, Request request) {
+    public void execute(TilesContainer container, String name,
+            Object value, String expression, String body, String role,
+            String type, boolean cascade, Request request) {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         putAttributeInParent(new Attribute(), container, composeStack, name,
                 value, expression, body, role, type, cascade, request);
     }

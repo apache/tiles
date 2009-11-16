@@ -89,16 +89,13 @@ public class PutAttributeVModelTest {
         Context velocityContext = createMock(Context.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
-        tModel.execute(eq(container), eq(composeStack), eq("myName"), eq("myValue"),
-                eq("myExpression"), (String) isNull(), eq("myRole"), eq("myType"),
-                eq(false), isA(VelocityTilesRequestContext.class));
+        tModel.execute(eq(container), eq("myName"), eq("myValue"), eq("myExpression"),
+                (String) isNull(), eq("myRole"), eq("myType"), eq(false),
+                isA(VelocityTilesRequestContext.class));
 
         replay(tModel, container, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
@@ -117,20 +114,21 @@ public class PutAttributeVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
+        TilesContainer container = createMock(TilesContainer.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
+        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
-        tModel.start(composeStack);
+        tModel.start(isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, servletContext, request, response, velocityContext);
+        replay(tModel, servletContext, request, response, velocityContext, container, applicationContext);
         initializeModel();
         model.start(request, response, velocityContext, params);
         assertEquals(1, parameterMapStack.size());
         assertEquals(params, parameterMapStack.peek());
-        verify(tModel, servletContext, request, response, velocityContext);
+        verify(tModel, servletContext, request, response, velocityContext, container, applicationContext);
     }
 
     /**
@@ -145,19 +143,16 @@ public class PutAttributeVModelTest {
         Context velocityContext = createMock(Context.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
         parameterMapStack.push(params);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
-        tModel.end(eq(container), eq(composeStack), eq("myName"), eq("myValue"),
-                eq("myExpression"), (String) isNull(), eq("myRole"), eq("myType"),
-                eq(false), isA(VelocityTilesRequestContext.class));
+        tModel.end(eq(container), eq("myName"), eq("myValue"), eq("myExpression"),
+                (String) isNull(), eq("myRole"), eq("myType"), eq(false),
+                isA(VelocityTilesRequestContext.class));
 
         replay(tModel, container, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
