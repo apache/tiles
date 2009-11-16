@@ -298,6 +298,32 @@ public class Attribute implements Serializable, Cloneable {
     }
 
     /**
+     * Creates a template attribute, starting from the name of the template.
+     *
+     * @param template The template that will be rendered.
+     * @param templateExpression The template expression that will be evaluated
+     * to a template.
+     * @param templateType The type, or renderer, of the template. If null, the
+     * default <code>template</code> will be used.
+     * @param role The comma-separated roles for which the template is
+     * authorized to be rendered.
+     * @return The template attribute.
+     * @since 2.2.2
+     */
+    public static Attribute createTemplateAttribute(String template,
+            String templateExpression, String templateType, String role) {
+        Attribute templateAttribute = createTemplateAttribute(template);
+        templateAttribute.setRole(role);
+        if (templateType != null) {
+            templateAttribute.setRenderer(templateType);
+        }
+        templateAttribute
+                .setExpressionObject(Expression
+                        .createExpressionFromDescribedExpression(templateExpression));
+        return templateAttribute;
+    }
+
+    /**
      * Creates a template attribute, starting from the expression to evaluate to
      * obtain the template.
      *
@@ -577,18 +603,5 @@ public class Attribute implements Serializable, Cloneable {
     @Override
     public Attribute clone() {
         return new Attribute(this);
-    }
-
-    public static Attribute createTemplateAttribute(String template,
-            String templateExpression, String templateType, String role) {
-        Attribute templateAttribute = createTemplateAttribute(template);
-        templateAttribute.setRole(role);
-        if (templateType != null) {
-            templateAttribute.setRenderer(templateType);
-        }
-        templateAttribute
-                .setExpressionObject(Expression
-                        .createExpressionFromDescribedExpression(templateExpression));
-        return templateAttribute;
     }
 }
