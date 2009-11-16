@@ -41,10 +41,10 @@ import freemarker.template.TemplateModel;
  * Wraps {@link GetAsStringModel} to be used in FreeMarker. For the list of
  * parameters, see
  * {@link GetAsStringModel
- * #start(java.util.Stack, TilesContainer, boolean, String, String, Object, String, String, String,
- * Attribute, Request)}
+ * #start(TilesContainer, boolean, String, String, Object, String, String, String, Attribute,
+ * Request)}
  * and
- * {@link GetAsStringModel#end(java.util.Stack, TilesContainer, java.io.Writer, boolean, Request)}
+ * {@link GetAsStringModel#end(TilesContainer, java.io.Writer, boolean, Request)}
  * .
  *
  * @version $Rev$ $Date$
@@ -77,21 +77,21 @@ public class GetAsStringFMModel implements TemplateDirectiveModel {
                 .createServletFreemarkerRequest(container
                         .getApplicationContext(), env);
         model.start(
-                FreeMarkerUtil.getComposeStack(env),
                 container,
                 FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false),
                 FreeMarkerUtil.getAsString(parms.get("preparer")),
                 FreeMarkerUtil.getAsString(parms.get("role")),
                 FreeMarkerUtil.getAsObject(parms.get("defaultValue")),
                 FreeMarkerUtil.getAsString(parms
-                        .get("defaultValueRole")), FreeMarkerUtil
-                        .getAsString(parms.get("defaultValueType")),
-                FreeMarkerUtil.getAsString(parms.get("name")),
+                        .get("defaultValueRole")),
+                FreeMarkerUtil
+                .getAsString(parms.get("defaultValueType")), FreeMarkerUtil.getAsString(parms.get("name")),
                 (Attribute) FreeMarkerUtil.getAsObject(parms
-                        .get("value")), request);
+                        .get("value")),
+                request);
         FreeMarkerUtil.evaluateBody(body);
-        model.end(FreeMarkerUtil.getComposeStack(env), container, env.getOut(),
-                FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false), request);
+        model.end(container, env.getOut(), FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false),
+                request);
     }
 
 }

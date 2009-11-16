@@ -312,13 +312,12 @@ public class GetAsStringTag extends SimpleTagSupport {
         Request request = JspTilesRequestContext.createServletJspRequest(
                 currentContainer.getApplicationContext(),
                 (PageContext) jspContext);
-        model.start(JspUtil.getComposeStack(jspContext), currentContainer, ignore, preparer, role,
-                defaultValue, defaultValueRole, defaultValueType, name,
-                (Attribute) value, request);
+        model.start(currentContainer, ignore, preparer, role, defaultValue,
+                defaultValueRole, defaultValueType, name, (Attribute) value,
+                request);
         JspWriter writer = jspContext.getOut();
         JspUtil.evaluateFragment(getJspBody());
-        model.end(JspUtil.getComposeStack(jspContext), JspUtil
-                .getContainer(jspContext), writer, ignore,
-                request);
+        model.end(JspUtil
+                .getContainer(jspContext), writer, ignore, request);
     }
 }

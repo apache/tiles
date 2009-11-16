@@ -43,9 +43,9 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * Wraps {@link GetAsStringModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link GetAsStringModel#start(java.util.Stack, TilesContainer, boolean,
- * String, String, Object, String, String, String, Attribute, Request)}
- * , {@link GetAsStringModel#end(java.util.Stack, TilesContainer, Writer, boolean, Request)} and
+ * {@link GetAsStringModel#start(TilesContainer, boolean, String,
+ * String, Object, String, String, String, Attribute, Request)}
+ * , {@link GetAsStringModel#end(TilesContainer, Writer, boolean, Request)} and
  * {@link GetAsStringModel#execute(TilesContainer, Writer, boolean, String,
  * String, Object, String, String, String, Attribute, Request)}.
  *
@@ -115,13 +115,13 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
         Request currentRequest = VelocityTilesRequestContext
                 .createVelocityRequest(container.getApplicationContext(),
                         request, response, velocityContext, null);
-        model.start(ServletUtil.getComposeStack(request), container, VelocityUtil
-                .toSimpleBoolean((Boolean) params.get("ignore"), false),
-                (String) params.get("preparer"), (String) params.get("role"),
-                params.get("defaultValue"), (String) params
+        model.start(container, VelocityUtil
+                .toSimpleBoolean((Boolean) params.get("ignore"), false), (String) params.get("preparer"),
+                (String) params.get("role"), params.get("defaultValue"),
+                (String) params
                         .get("defaultValueRole"), (String) params
-                        .get("defaultValueType"), (String) params.get("name"),
-                (Attribute) params.get("value"), currentRequest);
+                .get("defaultValueType"), (String) params.get("name"), (Attribute) params.get("value"),
+                currentRequest);
     }
 
     /** {@inheritDoc} */
@@ -138,9 +138,9 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
                 Request currentRequest = VelocityTilesRequestContext
                         .createVelocityRequest(container.getApplicationContext(),
                                 request, response, velocityContext, writer);
-                model.end(ServletUtil.getComposeStack(request), container, writer,
-                        VelocityUtil.toSimpleBoolean((Boolean) params
-                                .get("ignore"), false), currentRequest);
+                model.end(container, writer, VelocityUtil.toSimpleBoolean((Boolean) params
+                        .get("ignore"), false),
+                        currentRequest);
                 return true;
             }
         };

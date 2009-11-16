@@ -27,6 +27,8 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
@@ -64,9 +66,9 @@ public class GetAsStringModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.GetAsStringModel
-     * #start(java.util.Stack, org.apache.tiles.TilesContainer, boolean, java.lang.String,
-     * java.lang.String, java.lang.Object, java.lang.String, java.lang.String, java.lang.String,
-     * org.apache.tiles.Attribute, Request)}.
+     * #start(org.apache.tiles.TilesContainer, boolean, java.lang.String, java.lang.String,
+     * java.lang.Object, java.lang.String, java.lang.String, java.lang.String, org.apache.tiles.Attribute,
+     * Request)}.
      */
     @Test
     public void testStart() {
@@ -75,15 +77,18 @@ public class GetAsStringModelTest {
         Request request = createMock(Request.class);
         Attribute attribute = new Attribute();
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
+        expect(request.getRequestScope()).andReturn(requestScope);
         container.prepare("myPreparer", request);
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
                 "myDefaultValueRole", "myDefaultValueType", request)).andReturn(attribute);
         expect(container.startContext(request)).andReturn(attributeContext);
 
         replay(resolver, container, attributeContext, request);
-        model.start(composeStack, container, false, "myPreparer", "myRole", "myDefaultValue",
-                "myDefaultValueRole", "myDefaultValueType", "myName", attribute, request);
+        model.start(container, false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole",
+                "myDefaultValueType", "myName", attribute, request);
         assertEquals(1, composeStack.size());
         assertEquals(attribute, composeStack.peek());
         verify(resolver, container, attributeContext, request);
@@ -91,8 +96,8 @@ public class GetAsStringModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.GetAsStringModel
-     * #end(java.util.Stack, org.apache.tiles.TilesContainer, java.io.Writer,
-     * boolean, Request)}.
+     * #end(org.apache.tiles.TilesContainer, java.io.Writer, boolean,
+     * Request)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -103,12 +108,15 @@ public class GetAsStringModelTest {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         Writer writer = createMock(Writer.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
+        expect(request.getRequestScope()).andReturn(requestScope);
         writer.write("myValue");
         container.endContext(request);
 
         replay(resolver, container, writer, request);
-        model.end(composeStack, container, writer, false, request);
+        model.end(container, writer, false, request);
         verify(resolver, container, writer, request);
     }
 

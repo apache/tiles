@@ -70,8 +70,6 @@ public class GetAsStringModel {
 
     /**
      * Starts the operation.
-     *
-     * @param composeStack The compose stack,
      * @param container The Tiles container to use.
      * @param ignore If <code>true</code>, if an exception happens during
      * rendering, of if the attribute is null, the problem will be ignored.
@@ -87,12 +85,15 @@ public class GetAsStringModel {
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param request TODO
+     * @param composeStack The compose stack,
+     *
      * @since 2.2.0
      */
-    public void start(ArrayStack<Object> composeStack, TilesContainer container,
-            boolean ignore, String preparer, String role, Object defaultValue,
-            String defaultValueRole, String defaultValueType, String name,
-            Attribute value, Request request) {
+    public void start(TilesContainer container, boolean ignore,
+            String preparer, String role, Object defaultValue, String defaultValueRole,
+            String defaultValueType, String name, Attribute value,
+            Request request) {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,
                 value, request);
@@ -101,18 +102,19 @@ public class GetAsStringModel {
 
     /**
      * Ends the operation.
-     *
-     * @param composeStack The compose stack,
      * @param container The Tiles container to use.
      * @param writer The writer into which the attribute will be written.
      * @param ignore If <code>true</code>, if an exception happens during
      * rendering, of if the attribute is null, the problem will be ignored.
      * @param request TODO
+     * @param composeStack The compose stack,
+     *
      * @throws IOException If an I/O error happens during rendering.
      */
-    public void end(ArrayStack<Object> composeStack, TilesContainer container,
-            Writer writer, boolean ignore, Request request)
+    public void end(TilesContainer container, Writer writer,
+            boolean ignore, Request request)
             throws IOException {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = (Attribute) composeStack.pop();
         renderAttribute(attribute, container, writer, ignore, request);
     }

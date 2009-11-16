@@ -131,18 +131,14 @@ public class GetAsStringVModelTest {
         Context velocityContext = createMock(Context.class);
         TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ArrayStack<Map<String, Object>> paramStack = new ArrayStack<Map<String, Object>>();
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
-        tModel.start(eq(composeStack), eq(container), eq(false), eq("myPreparer"), eq("myRole"), eq("myDefaultValue"),
-                eq("myDefaultValueRole"), eq("myDefaultValueType"), eq("myName"), eq(attribute),
-                isA(VelocityTilesRequestContext.class));
+        tModel.start(eq(container), eq(false), eq("myPreparer"), eq("myRole"), eq("myDefaultValue"), eq("myDefaultValueRole"),
+                eq("myDefaultValueType"), eq("myName"), eq(attribute), isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, container, request, response, velocityContext, applicationContext);
         initializeModel();
@@ -166,7 +162,6 @@ public class GetAsStringVModelTest {
         TilesContainer container = createMock(TilesContainer.class);
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Map<String, Object> params = createParams();
         ArrayStack<Map<String, Object>> paramStack = new ArrayStack<Map<String, Object>>();
         paramStack.push(params);
@@ -174,10 +169,8 @@ public class GetAsStringVModelTest {
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
-        tModel.end(eq(composeStack), eq(container), eq(writer), eq(false), isA(VelocityTilesRequestContext.class));
+        tModel.end(eq(container), eq(writer), eq(false), isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter, applicationContext);
         initializeModel();

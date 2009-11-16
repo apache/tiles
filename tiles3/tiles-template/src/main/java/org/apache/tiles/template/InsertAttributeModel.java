@@ -82,8 +82,6 @@ public class InsertAttributeModel {
 
     /**
      * Starts the operation.
-     *
-     * @param composeStack The compose stack,
      * @param container The Tiles container to use.
      * @param ignore If <code>true</code>, if an exception happens during
      * rendering, of if the attribute is null, the problem will be ignored.
@@ -99,12 +97,15 @@ public class InsertAttributeModel {
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param request TODO
+     * @param composeStack The compose stack,
+     *
      * @since 2.2.0
      */
-    public void start(ArrayStack<Object> composeStack, TilesContainer container,
-            boolean ignore, String preparer, String role, Object defaultValue,
-            String defaultValueRole, String defaultValueType, String name,
-            Attribute value, Request request) {
+    public void start(TilesContainer container, boolean ignore,
+            String preparer, String role, Object defaultValue, String defaultValueRole,
+            String defaultValueType, String name, Attribute value,
+            Request request) {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,
                 value, request);
@@ -113,16 +114,17 @@ public class InsertAttributeModel {
 
     /**
      * Ends the operation.
-     *
-     * @param composeStack The compose stack,
      * @param container The Tiles container to use.
      * @param ignore If <code>true</code>, if an exception happens during
      * rendering, of if the attribute is null, the problem will be ignored.
      * @param request TODO
+     * @param composeStack The compose stack,
+     *
      * @throws IOException If an I/O error happens during rendering.
      */
-    public void end(ArrayStack<Object> composeStack, TilesContainer container,
-            boolean ignore, Request request) throws IOException {
+    public void end(TilesContainer container, boolean ignore,
+            Request request) throws IOException {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = (Attribute) composeStack.pop();
         renderAttribute(container, ignore, attribute, request);
     }

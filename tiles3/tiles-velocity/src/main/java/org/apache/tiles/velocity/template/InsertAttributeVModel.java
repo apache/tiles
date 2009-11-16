@@ -43,9 +43,9 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * Wraps {@link InsertAttributeModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link InsertAttributeModel#start(java.util.Stack, org.apache.tiles.TilesContainer, boolean,
- * String, String, Object, String, String, String, Attribute, Request)}
- * , {@link InsertAttributeModel#end(java.util.Stack, org.apache.tiles.TilesContainer, boolean, Request)} and
+ * {@link InsertAttributeModel#start(org.apache.tiles.TilesContainer, boolean, String,
+ * String, Object, String, String, String, Attribute, Request)}
+ * , {@link InsertAttributeModel#end(org.apache.tiles.TilesContainer, boolean, Request)} and
  * {@link InsertAttributeModel#execute(org.apache.tiles.TilesContainer, boolean, String, String,
  * Object, String, String, String, Attribute, Request)}.
  *
@@ -91,9 +91,9 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
                 Request currentRequest = VelocityTilesRequestContext
                         .createVelocityRequest(container.getApplicationContext(),
                                 request, response, velocityContext, writer);
-                model.end(ServletUtil.getComposeStack(request), container,
-                        VelocityUtil.toSimpleBoolean((Boolean) params
-                                .get("ignore"), false), currentRequest);
+                model.end(container, VelocityUtil.toSimpleBoolean((Boolean) params
+                        .get("ignore"), false),
+                        currentRequest);
                 return true;
             }
         };
@@ -108,12 +108,12 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
         Request currentRequest = VelocityTilesRequestContext
                 .createVelocityRequest(container.getApplicationContext(),
                         request, response, velocityContext, null);
-        model.start(ServletUtil.getComposeStack(request), container,
-                VelocityUtil.toSimpleBoolean((Boolean) params.get("ignore"), false),
-                (String) params.get("preparer"), (String) params.get("role"),
-                params.get("defaultValue"), (String) params.get("defaultValueRole"),
-                (String) params.get("defaultValueType"), (String) params.get("name"),
-                (Attribute) params.get("value"), currentRequest);
+        model.start(container, VelocityUtil.toSimpleBoolean((Boolean) params.get("ignore"), false),
+                (String) params.get("preparer"),
+                (String) params.get("role"), params.get("defaultValue"),
+                (String) params.get("defaultValueRole"), (String) params.get("defaultValueType"),
+                (String) params.get("name"), (Attribute) params.get("value"),
+                currentRequest);
 
     }
 

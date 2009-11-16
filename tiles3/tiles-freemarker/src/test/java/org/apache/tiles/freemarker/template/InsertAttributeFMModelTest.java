@@ -34,12 +34,10 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
-import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.servlet.context.ServletUtil;
@@ -96,10 +94,10 @@ public class InsertAttributeFMModelTest {
     private ObjectWrapper objectWrapper;
 
     /**
-     * @throws java.lang.Exception If something goes wrong.
+     * Sets up the model.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         template = createMock(Template.class);
         model = createMock(TemplateHashModel.class);
         expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
@@ -123,8 +121,6 @@ public class InsertAttributeFMModelTest {
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
-        expect(request.getAttribute(FreeMarkerUtil.COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(composeStack).times(2);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
         request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         replay(request);
@@ -151,12 +147,11 @@ public class InsertAttributeFMModelTest {
         params.put("name", objectWrapper.wrap("myName"));
         params.put("value", objectWrapper.wrap(attribute));
 
-        tModel.start(eq(composeStack), eq(container), eq(false),
-                eq("myPreparer"), eq("myRole"), eq("myDefaultValue"),
-                eq("myDefaultValueRole"), eq("myDefaultValueType"),
-                eq("myName"), eq(attribute),
-                isA(FreeMarkerTilesRequestContext.class));
-        tModel.end(eq(composeStack), eq(container), eq(false), isA(FreeMarkerTilesRequestContext.class));
+        tModel.start(eq(container), eq(false), eq("myPreparer"),
+                eq("myRole"), eq("myDefaultValue"), eq("myDefaultValueRole"),
+                eq("myDefaultValueType"), eq("myName"),
+                eq(attribute), isA(FreeMarkerTilesRequestContext.class));
+        tModel.end(eq(container), eq(false), isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, container, attribute, applicationContext);

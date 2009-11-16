@@ -321,11 +321,11 @@ public class InsertAttributeTag extends SimpleTagSupport {
         Request request = JspTilesRequestContext.createServletJspRequest(
                 currentContainer.getApplicationContext(),
                 (PageContext) jspContext);
-        model.start(JspUtil.getComposeStack(jspContext), currentContainer,
-                ignore, preparer, role, defaultValue, defaultValueRole,
-                defaultValueType, name, (Attribute) value, request);
+        model.start(currentContainer, ignore,
+                preparer, role, defaultValue, defaultValueRole, defaultValueType,
+                name, (Attribute) value, request);
         JspUtil.evaluateFragment(getJspBody());
-        model.end(JspUtil.getComposeStack(jspContext), currentContainer,
-                ignore, request);
+        model.end(currentContainer, ignore,
+                request);
     }
 }
