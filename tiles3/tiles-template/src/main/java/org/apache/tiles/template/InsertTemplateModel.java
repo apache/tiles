@@ -23,7 +23,6 @@ package org.apache.tiles.template;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
-import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
 
@@ -96,15 +95,8 @@ public class InsertTemplateModel {
         try {
             AttributeContext attributeContext = container
                     .getAttributeContext(request);
-            Attribute templateAttribute = Attribute
-                    .createTemplateAttribute(template);
-            templateAttribute.setRole(role);
-            if (templateType != null) {
-                templateAttribute.setRenderer(templateType);
-            }
-            templateAttribute
-                    .setExpressionObject(Expression
-                            .createExpressionFromDescribedExpression(templateExpression));
+            Attribute templateAttribute = Attribute.createTemplateAttribute(template,
+                    templateExpression, templateType, role);
             attributeContext.setPreparer(preparer);
             attributeContext.setTemplateAttribute(templateAttribute);
             container.renderContext(request);

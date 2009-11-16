@@ -245,4 +245,20 @@ public class AttributeTest {
         assertEquals("my.expression", attribute.getExpressionObject().getExpression());
         assertEquals("MYLANG", attribute.getExpressionObject().getLanguage());
     }
+
+    /**
+     * Tests {@link Attribute#createTemplateAttribute(String, String, String, String)}.
+     */
+    @Test
+    public void testCreateTemplateAttribute() {
+        Attribute attribute = Attribute.createTemplateAttribute("myTemplate",
+                "MYLANG:myExpression", "myType", "myRole");
+        assertEquals("myTemplate", attribute.getValue());
+        assertEquals("MYLANG", attribute.getExpressionObject().getLanguage());
+        assertEquals("myExpression", attribute.getExpressionObject().getExpression());
+        assertEquals("myType", attribute.getRenderer());
+        Set<String> roles = attribute.getRoles();
+        assertEquals(1, roles.size());
+        assertTrue(roles.contains("myRole"));
+    }
 }

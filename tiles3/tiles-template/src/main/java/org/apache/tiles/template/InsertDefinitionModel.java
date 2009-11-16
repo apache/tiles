@@ -98,9 +98,8 @@ public class InsertDefinitionModel {
         try {
             AttributeContext attributeContext = container
                     .getAttributeContext(request);
-            Attribute templateAttribute = Attribute
-                    .createTemplateAttribute(template);
-            templateAttribute.setRole(role);
+            Attribute templateAttribute = Attribute.createTemplateAttribute(template,
+                    templateExpression, templateType, role);
             attributeContext.setPreparer(preparer);
             attributeContext.setTemplateAttribute(templateAttribute);
             container.render(definitionName, request);

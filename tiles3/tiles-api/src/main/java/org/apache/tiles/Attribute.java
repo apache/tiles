@@ -331,4 +331,17 @@ public class Attribute implements Serializable, Cloneable {
     public Attribute clone() {
         return new Attribute(this);
     }
+
+    public static Attribute createTemplateAttribute(String template,
+            String templateExpression, String templateType, String role) {
+        Attribute templateAttribute = createTemplateAttribute(template);
+        templateAttribute.setRole(role);
+        if (templateType != null) {
+            templateAttribute.setRenderer(templateType);
+        }
+        templateAttribute
+                .setExpressionObject(Expression
+                        .createExpressionFromDescribedExpression(templateExpression));
+        return templateAttribute;
+    }
 }
