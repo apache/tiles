@@ -88,20 +88,21 @@ public class PutListAttributeVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
+        TilesContainer container = createMock(TilesContainer.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
+        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
-        tModel.start(composeStack, "myRole", false);
+        tModel.start(eq("myRole"), eq(false), isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, servletContext, request, response, velocityContext);
+        replay(tModel, servletContext, request, response, velocityContext, container, applicationContext);
         initializeModel();
         model.start(request, response, velocityContext, params);
         assertEquals(1, parameterMapStack.size());
         assertEquals(params, parameterMapStack.peek());
-        verify(tModel, servletContext, request, response, velocityContext);
+        verify(tModel, servletContext, request, response, velocityContext, container, applicationContext);
     }
 
     /**
@@ -114,19 +115,16 @@ public class PutListAttributeVModelTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
-        TilesContainer container = createMock(TilesContainer.class);
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
         Map<String, Object> params = createParams();
         ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
         parameterMapStack.push(params);
+        TilesContainer container = createMock(TilesContainer.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        tModel.end(eq(container), eq(composeStack), eq("myName"), eq(false), isA(VelocityTilesRequestContext.class));
+        tModel.end(eq(container), eq("myName"), eq(false), isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, container, request, response, velocityContext, applicationContext);
         initializeModel();

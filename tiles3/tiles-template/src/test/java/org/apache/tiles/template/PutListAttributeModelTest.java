@@ -22,7 +22,11 @@
 package org.apache.tiles.template;
 
 import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.AttributeContext;
@@ -53,20 +57,28 @@ public class PutListAttributeModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.PutListAttributeModel#start(ArrayStack, String, boolean)}.
+     * Test method for {@link org.apache.tiles.template.PutListAttributeModel#start(String, boolean, Request)}.
      */
     @Test
     public void testStart() {
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
-        model.start(composeStack, "myRole", false);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        Request request = createMock(Request.class);
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+
+        expect(request.getRequestScope()).andReturn(requestScope);
+
+        replay(request);
+        model.start("myRole", false, request);
         assertEquals(1, composeStack.size());
         ListAttribute listAttribute = (ListAttribute) composeStack.peek();
         assertEquals("myRole", listAttribute.getRole());
+        verify(request);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.PutListAttributeModel
-     * #end(org.apache.tiles.TilesContainer, ArrayStack, String, boolean, Request)}.
+     * #end(org.apache.tiles.TilesContainer, String, boolean, Request)}.
      */
     @Test
     public void testEnd() {
@@ -76,12 +88,15 @@ public class PutListAttributeModelTest {
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
         composeStack.push(listAttribute);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", listAttribute, false);
 
         replay(container, attributeContext, request);
-        model.end(container, composeStack, "myName", false, request);
+        model.end(container, "myName", false, request);
         assertEquals(0, composeStack.size());
         verify(container, attributeContext, request);
     }

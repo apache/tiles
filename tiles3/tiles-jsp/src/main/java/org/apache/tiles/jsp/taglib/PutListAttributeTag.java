@@ -213,9 +213,9 @@ public class PutListAttributeTag extends SimpleTagSupport {
         Request request = JspTilesRequestContext.createServletJspRequest(
                 currentContainer.getApplicationContext(),
                 (PageContext) jspContext);
-        model.start(JspUtil.getComposeStack(jspContext), role, inherit);
+        model.start(role, inherit, request);
         JspUtil.evaluateFragment(getJspBody());
-        model.end(currentContainer, JspUtil.getComposeStack(jspContext), name,
-                cascade, request);
+        model.end(currentContainer, name, cascade,
+                request);
     }
 }

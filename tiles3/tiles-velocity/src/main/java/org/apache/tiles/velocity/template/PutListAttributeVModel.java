@@ -39,8 +39,8 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * Wraps {@link PutListAttributeModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link PutListAttributeModel#start(java.util.Stack, String, boolean)}
- * AND {@link PutListAttributeModel#end(org.apache.tiles.TilesContainer, java.util.Stack, String, boolean, Request)}.
+ * {@link PutListAttributeModel#start(String, boolean, Request)}
+ * AND {@link PutListAttributeModel#end(org.apache.tiles.TilesContainer, String, boolean, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -81,10 +81,9 @@ public class PutListAttributeVModel implements BodyExecutable {
                 .createVelocityRequest(container.getApplicationContext(),
                         request, response, velocityContext, null);
         model.end(container,
-                ServletUtil.getComposeStack(request), (String) params
+                (String) params
                         .get("name"), VelocityUtil.toSimpleBoolean(
-                        (Boolean) params.get("cascade"), false),
-                currentRequest);
+                (Boolean) params.get("cascade"), false), currentRequest);
         return VelocityUtil.EMPTY_RENDERABLE;
     }
 
@@ -92,8 +91,12 @@ public class PutListAttributeVModel implements BodyExecutable {
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
         VelocityUtil.getParameterStack(velocityContext).push(params);
-        model.start(ServletUtil.getComposeStack(request), (String) params
-                .get("role"), VelocityUtil.toSimpleBoolean((Boolean) params
-                .get("inherit"), false));
+        TilesContainer container = ServletUtil.getCurrentContainer(
+                request, servletContext);
+        Request currentRequest = VelocityTilesRequestContext
+                .createVelocityRequest(container.getApplicationContext(),
+                        request, response, velocityContext, null);
+        model.start((String) params.get("role"), VelocityUtil.toSimpleBoolean(
+                (Boolean) params.get("inherit"), false), currentRequest);
     }
 }

@@ -45,15 +45,17 @@ public class PutListAttributeModel {
 
     /**
      * Starts the operation.
-     *
-     * @param composeStack The composing stack.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
      * @param inherit If <code>true</code> the list contained in the in the same
      * attribute of the parent definition will be extended.
+     * @param request TODO
+     * @param composeStack The composing stack.
+     *
      * @since 2.2.0
      */
-    public void start(ArrayStack<Object> composeStack, String role, boolean inherit) {
+    public void start(String role, boolean inherit, Request request) {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = new ListAttribute();
         listAttribute.setRole(role);
         listAttribute.setInherit(inherit);
@@ -64,14 +66,15 @@ public class PutListAttributeModel {
      * Ends the operation.
      *
      * @param container The Tiles container to use.
-     * @param composeStack The composing stack.
      * @param name The name of the attribute to put.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
      * @param request TODO
+     * @param composeStack The composing stack.
      * @since 2.2.0
      */
-    public void end(TilesContainer container, ArrayStack<Object> composeStack,
-            String name, boolean cascade, Request request) {
+    public void end(TilesContainer container, String name,
+            boolean cascade, Request request) {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = (ListAttribute) composeStack.pop();
         AttributeContext attributeContext = null;
         if (!composeStack.isEmpty()) {
