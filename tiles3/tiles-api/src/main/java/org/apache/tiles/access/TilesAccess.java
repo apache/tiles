@@ -20,8 +20,12 @@
  */
 package org.apache.tiles.access;
 
+import java.util.Map;
+
+import org.apache.tiles.NoSuchContainerException;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +36,12 @@ import org.slf4j.LoggerFactory;
  * @version $Rev$ $Date$
  */
 public final class TilesAccess {
+
+    /**
+     * Name of the attribute used to store the current used container.
+     */
+    public static final String CURRENT_CONTAINER_ATTRIBUTE_NAME =
+        "org.apache.tiles.servlet.context.ServletTilesRequestContext.CURRENT_CONTAINER_KEY";
 
     /**
      * Constructor, private to avoid instantiation.
@@ -112,5 +122,60 @@ public final class TilesAccess {
         }
 
         return (TilesContainer) context.getApplicationScope().get(key);
+    }
+
+    /**
+     * Sets the current container to use in web pages.
+     *
+     * @param request The request to use.
+     * @param context The servlet context to use.
+     * @param key The key under which the container is stored.
+     * @since 2.1.0
+     */
+    public static void setCurrentContainer(Request request,
+            ApplicationContext applicationContext, String key) {
+        TilesContainer container = getContainer(applicationContext, key);
+        if (container != null) {
+            request.getRequestScope().put(CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        } else {
+            throw new NoSuchContainerException("The container with the key '"
+                    + key + "' cannot be found");
+        }
+    }
+
+    /**
+     * Sets the current container to use in web pages.
+     *
+     * @param request The request to use.
+     * @param container The container to use as the current container.
+     * @since 2.1.0
+     */
+    public static void setCurrentContainer(Request request,
+            TilesContainer container) {
+        if (container != null) {
+            request.getRequestScope().put(CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        } else {
+            throw new NullPointerException("The container cannot be null");
+        }
+    }
+
+    /**
+     * Returns the current container that has been set, or the default one.
+     *
+     * @param request The request to use.
+     * @param context The servlet context to use.
+     * @return The current Tiles container to use in web pages.
+     * @since 2.1.0
+     */
+    public static TilesContainer getCurrentContainer(Request request,
+            ApplicationContext context) {
+        Map<String, Object> requestScope = request.getRequestScope();
+        TilesContainer container = (TilesContainer) requestScope.get(CURRENT_CONTAINER_ATTRIBUTE_NAME);
+        if (container == null) {
+            container = getContainer(context);
+            requestScope.put(CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        }
+
+        return container;
     }
 }

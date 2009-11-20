@@ -37,10 +37,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tiles.ArrayStack;
+import org.apache.tiles.NoSuchContainerException;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.io.NullWriter;
-import org.apache.tiles.impl.NoSuchContainerException;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -197,7 +197,7 @@ public class FreeMarkerUtilTest {
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
 
         expect(model.get("Request")).andReturn(requestModel);
-        request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         expect(model.get("Application")).andReturn(servletContextModel);
         expect(servletContext.getAttribute("myKey")).andReturn(container);
 
@@ -255,7 +255,7 @@ public class FreeMarkerUtilTest {
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
 
         expect(model.get("Request")).andReturn(requestModel);
-        request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         expect(model.get("Application")).andReturn(servletContextModel);
 
         replay(template, model, servletContext, container, request);
@@ -284,7 +284,7 @@ public class FreeMarkerUtilTest {
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
 
         expect(model.get("Request")).andReturn(requestModel);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(model.get("Application")).andReturn(servletContextModel);
 
         replay(template, model, servletContext, container, request);

@@ -112,9 +112,9 @@ public class JspUtilTest extends TestCase {
                 pageContext
                         .getAttribute("myKey", PageContext.APPLICATION_SCOPE))
                 .andReturn(container);
-        pageContext.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+        pageContext.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                 container, PageContext.REQUEST_SCOPE);
-        EasyMock.expect(pageContext.getAttribute(ServletUtil
+        EasyMock.expect(pageContext.getAttribute(TilesAccess
                 .CURRENT_CONTAINER_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE))
                 .andReturn(container);
         EasyMock.replay(pageContext, container);
@@ -132,9 +132,9 @@ public class JspUtilTest extends TestCase {
         PageContext pageContext = EasyMock.createMock(PageContext.class);
         ServletContext context = EasyMock.createMock(ServletContext.class);
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        pageContext.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+        pageContext.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                 container, PageContext.REQUEST_SCOPE);
-        EasyMock.expect(pageContext.getAttribute(ServletUtil
+        EasyMock.expect(pageContext.getAttribute(TilesAccess
                 .CURRENT_CONTAINER_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE))
                 .andReturn(container);
         EasyMock.replay(pageContext, context, container);
@@ -153,18 +153,18 @@ public class JspUtilTest extends TestCase {
                 TilesContainer.class);
         TilesContainer alternateContainer = EasyMock.createMock(
                 TilesContainer.class);
-        EasyMock.expect(pageContext.getAttribute(ServletUtil
+        EasyMock.expect(pageContext.getAttribute(TilesAccess
                 .CURRENT_CONTAINER_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE))
                 .andReturn(null);
         EasyMock.expect(
                 pageContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE,
                         PageContext.APPLICATION_SCOPE)).andReturn(
                 defaultContainer);
-        pageContext.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+        pageContext.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                 defaultContainer, PageContext.REQUEST_SCOPE);
-        pageContext.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+        pageContext.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                 alternateContainer, PageContext.REQUEST_SCOPE);
-        EasyMock.expect(pageContext.getAttribute(ServletUtil
+        EasyMock.expect(pageContext.getAttribute(TilesAccess
                 .CURRENT_CONTAINER_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE))
                 .andReturn(alternateContainer);
         EasyMock.replay(pageContext, defaultContainer, alternateContainer);

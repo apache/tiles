@@ -34,8 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.PutListAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -93,7 +93,7 @@ public class PutListAttributeVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
         tModel.start(eq("myRole"), eq(false), isA(VelocityTilesRequestContext.class));
 
@@ -123,7 +123,7 @@ public class PutListAttributeVModelTest {
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         tModel.end(eq(container), eq("myName"), eq(false), isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, container, request, response, velocityContext, applicationContext);

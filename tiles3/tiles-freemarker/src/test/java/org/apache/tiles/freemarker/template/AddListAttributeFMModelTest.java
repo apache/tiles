@@ -39,7 +39,6 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.AddListAttributeModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -130,8 +129,8 @@ public class AddListAttributeFMModelTest {
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel).anyTimes();
         initEnvironment();
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
+        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
         Map<String, Object> params = new HashMap<String, Object>();

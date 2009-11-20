@@ -32,9 +32,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
 
 import org.apache.tiles.ArrayStack;
+import org.apache.tiles.NoSuchContainerException;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.impl.NoSuchContainerException;
 import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.slf4j.Logger;
@@ -148,7 +148,7 @@ public final class JspUtil {
     public static void setCurrentContainer(JspContext context, String key) {
         TilesContainer container = getContainer(context, key);
         if (container != null) {
-            context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+            context.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                     container, PageContext.REQUEST_SCOPE);
         } else {
             throw new NoSuchContainerException("The container with the key '"
@@ -166,7 +166,7 @@ public final class JspUtil {
     public static void setCurrentContainer(JspContext context,
             TilesContainer container) {
         if (container != null) {
-            context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+            context.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                     container, PageContext.REQUEST_SCOPE);
         } else {
             throw new NoSuchContainerException("The container cannot be null");
@@ -182,11 +182,11 @@ public final class JspUtil {
      */
     public static TilesContainer getCurrentContainer(JspContext context) {
         TilesContainer container = (TilesContainer) context.getAttribute(
-                ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+                TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                 PageContext.REQUEST_SCOPE);
         if (container == null) {
             container = getContainer(context);
-            context.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+            context.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                     container, PageContext.REQUEST_SCOPE);
         }
 

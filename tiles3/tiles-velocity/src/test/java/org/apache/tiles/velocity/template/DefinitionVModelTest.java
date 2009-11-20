@@ -33,9 +33,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.DefinitionModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -87,7 +87,7 @@ public class DefinitionVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         tModel.execute(eq(container), eq("myName"), eq("myTemplate"),
                 eq("myRole"), eq("myExtends"), eq("myPreparer"),
                 isA(VelocityTilesRequestContext.class));
@@ -113,7 +113,7 @@ public class DefinitionVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         tModel.start(eq("myName"), eq("myTemplate"), eq("myRole"),
                 eq("myExtends"), eq("myPreparer"),
                 isA(VelocityTilesRequestContext.class));
@@ -139,7 +139,7 @@ public class DefinitionVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         tModel.end(eq(container), isA(VelocityTilesRequestContext.class));
 
         replay(tModel, servletContext, request, response, velocityContext, container, applicationContext);

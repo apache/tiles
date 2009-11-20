@@ -40,7 +40,6 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.portlet.context.PortletTilesRequestContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletUtil;
 
 /**
  * Test Portlet.
@@ -117,10 +116,10 @@ public class TestPortlet extends GenericPortlet {
     private static TilesContainer getCurrentContainer(PortletRequest request,
             PortletContext context) {
         TilesContainer container = (TilesContainer) request
-                .getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME);
+                .getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME);
         if (container == null) {
             container = getContainer(context);
-            request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME,
+            request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
                     container);
         }
 

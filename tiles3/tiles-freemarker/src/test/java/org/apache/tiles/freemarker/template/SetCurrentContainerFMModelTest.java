@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.access.TilesAccess;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -112,7 +112,7 @@ public class SetCurrentContainerFMModelTest {
         TilesContainer container = createMock(TilesContainer.class);
 
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        request.setAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 

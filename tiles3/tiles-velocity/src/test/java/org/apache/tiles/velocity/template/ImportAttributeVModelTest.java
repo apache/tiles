@@ -36,8 +36,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.ImportAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
@@ -96,7 +96,7 @@ public class ImportAttributeVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"), eq(false),
                 isA(VelocityTilesRequestContext.class))).andReturn(attributes);
         expect(internalContextAdapter.put("one", "value1")).andReturn("value1");
@@ -131,7 +131,7 @@ public class ImportAttributeVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"), eq(false),
                 isA(VelocityTilesRequestContext.class))).andReturn(attributes);
         request.setAttribute("one", "value1");
@@ -167,7 +167,7 @@ public class ImportAttributeVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"), eq(false),
                 isA(VelocityTilesRequestContext.class))).andReturn(attributes);
         expect(request.getSession()).andReturn(session).times(2);
@@ -203,7 +203,7 @@ public class ImportAttributeVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"), eq(false),
                 isA(VelocityTilesRequestContext.class))).andReturn(attributes);
         servletContext.setAttribute("one", "value1");

@@ -37,8 +37,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.InsertDefinitionModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
@@ -99,7 +99,7 @@ public class InsertDefinitionVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         tModel.execute(eq(container), eq("myDefinitionName"), eq("myTemplate"),
                 eq("myTemplateType"), eq("myTemplateExpression"), eq("myRole"),
                 eq("myPreparer"), isA(VelocityTilesRequestContext.class));
@@ -127,7 +127,7 @@ public class InsertDefinitionVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
         tModel.start(eq(container), isA(VelocityTilesRequestContext.class));
 
@@ -159,7 +159,7 @@ public class InsertDefinitionVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
         tModel.end(eq(container), eq("myDefinitionName"), eq("myTemplate"),
                 eq("myTemplateType"), eq("myTemplateExpression"), eq("myRole"),

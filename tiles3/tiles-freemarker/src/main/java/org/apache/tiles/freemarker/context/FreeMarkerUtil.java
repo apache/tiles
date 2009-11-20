@@ -27,11 +27,11 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.ArrayStack;
+import org.apache.tiles.NoSuchContainerException;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.freemarker.io.NullWriter;
-import org.apache.tiles.impl.NoSuchContainerException;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 import freemarker.core.Environment;
@@ -115,7 +115,7 @@ public final class FreeMarkerUtil {
         TilesContainer container = getContainer(env, key);
         if (container != null) {
             FreeMarkerRequestUtil.getRequestHashModel(env).getRequest().setAttribute(
-                    ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+                    TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         } else {
             throw new NoSuchContainerException("The container with the key '"
                     + key + "' cannot be found");
@@ -132,8 +132,7 @@ public final class FreeMarkerUtil {
     public static void setCurrentContainer(Environment env,
             TilesContainer container) {
         ServletUtil.setCurrentContainer(FreeMarkerRequestUtil.getRequestHashModel(env).getRequest(),
-                getServletContextHashModel(env).getServlet()
-                        .getServletContext(), container);
+                container);
     }
 
     /**

@@ -18,9 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.impl;
+package org.apache.tiles;
 
-import org.apache.tiles.TilesException;
 
 /**
  * Indicates that a keyed container has not been found.
