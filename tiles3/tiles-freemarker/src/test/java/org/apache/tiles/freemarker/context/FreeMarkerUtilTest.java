@@ -93,10 +93,10 @@ public class FreeMarkerUtilTest {
     private TemplateHashModel model;
 
     /**
-     * @throws java.lang.Exception If something goes wrong.
+     * Sets up the model.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         template = createMock(Template.class);
         model = createMock(TemplateHashModel.class);
         writer = new StringWriter();
@@ -293,30 +293,6 @@ public class FreeMarkerUtilTest {
         env.setLocale(locale);
         assertEquals(container, getCurrentContainer(env));
         verify(template, model, servlet, servletContext, objectWrapper, container, request);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
-     * #getServletContextHashModel(freemarker.core.Environment)}.
-     * @throws TemplateModelException If something goes wrong.
-     */
-    @Test
-    public void testGetServletContextHashModel() throws TemplateModelException {
-        GenericServlet servlet = createMock(GenericServlet.class);
-        ServletContext servletContext = createMock(ServletContext.class);
-        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
-        expect(servlet.getServletContext()).andReturn(servletContext);
-        replay(servlet, objectWrapper);
-        ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-
-        expect(model.get("Application")).andReturn(servletContextModel);
-
-        replay(template, model, servletContext);
-        env = new Environment(template, model, writer);
-        locale = Locale.ITALY;
-        env.setLocale(locale);
-        assertEquals(servletContextModel, getServletContextHashModel(env));
-        verify(template, model, servlet, servletContext, objectWrapper);
     }
 
     /**

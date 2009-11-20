@@ -21,7 +21,11 @@
 
 package org.apache.tiles.portlet.context;
 
+import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
+
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 
 
 /**
@@ -66,5 +70,11 @@ public final class PortletUtil {
                 .setAttribute(
                         org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
                         retValue);
+    }
+
+    public static ApplicationContext getApplicationContext(
+            PortletContext portletContext) {
+        return (ApplicationContext) portletContext
+                .getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE);
     }
 }

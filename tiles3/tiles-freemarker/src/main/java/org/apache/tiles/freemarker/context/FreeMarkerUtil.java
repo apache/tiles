@@ -35,8 +35,6 @@ import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.servlet.context.ServletUtil;
 
 import freemarker.core.Environment;
-import freemarker.ext.servlet.FreemarkerServlet;
-import freemarker.ext.servlet.ServletContextHashModel;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
@@ -100,7 +98,7 @@ public final class FreeMarkerUtil {
         if (key == null) {
             key = TilesAccess.CONTAINER_ATTRIBUTE;
         }
-        return (TilesContainer) getServletContextHashModel(env).getServlet()
+        return (TilesContainer) FreeMarkerRequestUtil.getServletContextHashModel(env).getServlet()
                 .getServletContext().getAttribute(key);
     }
 
@@ -144,27 +142,8 @@ public final class FreeMarkerUtil {
      */
     public static TilesContainer getCurrentContainer(Environment env) {
         return ServletUtil.getCurrentContainer(FreeMarkerRequestUtil.getRequestHashModel(env)
-                .getRequest(), getServletContextHashModel(env).getServlet()
+                .getRequest(), FreeMarkerRequestUtil.getServletContextHashModel(env).getServlet()
                 .getServletContext());
-    }
-
-    /**
-     * Returns the servlet context hash model.
-     *
-     * @param env The current FreeMarker environment.
-     * @return The servlet context hash model.
-     * @since 2.2.0
-     */
-    public static ServletContextHashModel getServletContextHashModel(
-            Environment env) {
-        try {
-            return (ServletContextHashModel) env.getDataModel().get(
-                    FreemarkerServlet.KEY_APPLICATION);
-        } catch (TemplateModelException e) {
-            throw new FreeMarkerTilesException(
-                    "Exception got when obtaining the application hash model",
-                    e);
-        }
     }
 
     /**
@@ -243,7 +222,7 @@ public final class FreeMarkerUtil {
             FreeMarkerRequestUtil.getRequestHashModel(env).getRequest().getSession().setAttribute(
                     name, obj);
         } else if ("application".equals(scope)) {
-            getServletContextHashModel(env).getServlet().getServletContext()
+            FreeMarkerRequestUtil.getServletContextHashModel(env).getServlet().getServletContext()
                     .setAttribute(name, obj);
         }
     }

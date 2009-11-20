@@ -23,8 +23,12 @@ package org.apache.tiles.request.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 
 /**
  * Utilities for Tiles request servlet support.
@@ -91,5 +95,10 @@ public final class ServletUtil {
         request.setAttribute(
                 ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
                 retValue);
+    }
+
+    public static ApplicationContext getApplicationContext(ServletContext servletContext) {
+        return (ApplicationContext) servletContext
+                .getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE);
     }
 }
