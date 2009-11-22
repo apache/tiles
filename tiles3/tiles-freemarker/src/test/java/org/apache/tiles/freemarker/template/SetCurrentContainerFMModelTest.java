@@ -21,6 +21,7 @@
 
 package org.apache.tiles.freemarker.template;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
 import java.io.IOException;
@@ -34,8 +35,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
+import org.apache.tiles.template.SetCurrentContainerModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -88,10 +91,10 @@ public class SetCurrentContainerFMModelTest {
     private ObjectWrapper objectWrapper;
 
     /**
-     * @throws java.lang.Exception If something goes wrong.
+     * Sets up the model.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         template = createMock(Template.class);
         model = createMock(TemplateHashModel.class);
         expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
@@ -107,19 +110,21 @@ public class SetCurrentContainerFMModelTest {
      * @throws TemplateException If something goes wrong.
      */
     @Test
-    public void testExecute() throws TemplateException, IOException {
-        SetCurrentContainerFMModel fmModel = new SetCurrentContainerFMModel();
-        TilesContainer container = createMock(TilesContainer.class);
+    public void testExecute() throws TemplateException {
+        SetCurrentContainerModel sccModel = createMock(SetCurrentContainerModel.class);
+        SetCurrentContainerFMModel fmModel = new SetCurrentContainerFMModel(sccModel);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        expect(servletContext.getAttribute("myContainerKey")).andReturn(container);
+        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
+        sccModel.execute(eq("myContainerKey"), isA(FreeMarkerTilesRequestContext.class));
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel);
@@ -131,9 +136,10 @@ public class SetCurrentContainerFMModelTest {
         Attribute attribute = createMock(Attribute.class);
         params.put("containerKey", objectWrapper.wrap("myContainerKey"));
 
-        replay(body, container, attribute);
+        replay(body, attribute, sccModel, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, body, container, servlet, servletContext, attribute);
+        verify(template, model, request, body, servlet, servletContext,
+                attribute, sccModel, applicationContext);
     }
 
     /**

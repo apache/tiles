@@ -35,11 +35,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 import org.apache.tiles.template.InsertTemplateModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,11 +60,6 @@ import freemarker.template.TemplateHashModel;
  * @version $Rev$ $Date$
  */
 public class InsertTemplateFMModelTest {
-
-    /**
-     * The number of times the method is called.
-     */
-    private static final int CALL_COUNT = 3;
 
     /**
      * The FreeMarker environment.
@@ -98,10 +92,10 @@ public class InsertTemplateFMModelTest {
     private ObjectWrapper objectWrapper;
 
     /**
-     * @throws java.lang.Exception If something goes wrong.
+     * Sets up the model.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         template = createMock(Template.class);
         model = createMock(TemplateHashModel.class);
         expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
@@ -120,27 +114,22 @@ public class InsertTemplateFMModelTest {
     public void testExecute() throws TemplateException, IOException {
         InsertTemplateModel tModel = createMock(InsertTemplateModel.class);
         InsertTemplateFMModel fmModel = new InsertTemplateFMModel(tModel);
-        TilesContainer container = createMock(TilesContainer.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        request
-                .setAttribute(
-                        org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-                        true);
+        request.setAttribute(org.apache.tiles.request.servlet.ServletUtil
+                .FORCE_INCLUDE_ATTRIBUTE_NAME, true);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
+        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).times(CALL_COUNT);
+        expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
         expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel);
         initEnvironment();
 
@@ -153,16 +142,16 @@ public class InsertTemplateFMModelTest {
         params.put("role", objectWrapper.wrap("myRole"));
         params.put("preparer", objectWrapper.wrap("myPreparer"));
 
-        tModel.start(eq(container), isA(FreeMarkerTilesRequestContext.class));
-        tModel.end(eq(container), eq("myTemplate"), eq("myTemplateType"),
-                eq("myTemplateExpression"), eq("myRole"),
-                eq("myPreparer"), isA(FreeMarkerTilesRequestContext.class));
+        tModel.start(isA(FreeMarkerTilesRequestContext.class));
+        tModel.end(eq("myTemplate"), eq("myTemplateType"), eq("myTemplateExpression"),
+                eq("myRole"), eq("myPreparer"),
+                isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
-        replay(tModel, body, container, attribute, applicationContext);
+        replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body, container, servlet,
-                servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, servlet, servletContext,
+                attribute, applicationContext);
     }
 
     /**

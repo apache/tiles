@@ -21,137 +21,19 @@
 
 package org.apache.tiles.servlet.context;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
+import org.junit.Test;
 
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
-import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
 
 /**
  * Tests {@link ServletUtil}.
  *
  * @version $Rev$ $Date$
  */
-public class ServletUtilTest extends TestCase {
+public class ServletUtilTest {
+    // FIXME Add tests for ServletUtil.
 
-    /**
-     * Tests {@link ServletUtil#getContainer(ServletContext)}.
-     */
-    public void testGetContainer() {
-        ServletContext context = EasyMock.createMock(ServletContext.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        EasyMock.expect(context.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
-        EasyMock.replay(context, container);
-        assertEquals(container, ServletUtil.getContainer(context));
-        EasyMock.verify(context, container);
-    }
-
-    /**
-     * Tests {@link ServletUtil#getContainer(ServletContext, String)}.
-     */
-    public void testGetContainerWithKey() {
-        ServletContext context = EasyMock.createMock(ServletContext.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        EasyMock.expect(context.getAttribute("myKey")).andReturn(container);
-        EasyMock.replay(context, container);
-        assertEquals(container, ServletUtil.getContainer(context, "myKey"));
-        EasyMock.verify(context, container);
-    }
-
-    /**
-     * Tests {@link ServletUtil#setContainer(ServletContext, TilesContainer)}.
-     */
-    public void testSetContainer() {
-        ServletContext context = EasyMock.createMock(ServletContext.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        context.setAttribute(TilesAccess.CONTAINER_ATTRIBUTE, container);
-        EasyMock.replay(context, container);
-        ServletUtil.setContainer(context, container);
-        EasyMock.verify(context, container);
-    }
-
-    /**
-     * Tests
-     * {@link ServletUtil#setContainer(ServletContext, TilesContainer, String)}.
-     */
-    public void testSetContainerWithKey() {
-        ServletContext context = EasyMock.createMock(ServletContext.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        context.setAttribute("myKey", container);
-        EasyMock.replay(context, container);
-        ServletUtil.setContainer(context, container, "myKey");
-        EasyMock.verify(context, container);
-    }
-
-    /**
-     * Tests
-     * {@link ServletUtil#setCurrentContainer(ServletRequest, ServletContext, String)}.
-     */
-    public void testSetCurrentContainer() {
-        ServletRequest request = EasyMock.createMock(ServletRequest.class);
-        ServletContext context = EasyMock.createMock(ServletContext.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        EasyMock.expect(context.getAttribute("myKey")).andReturn(container);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
-                container);
-        EasyMock.expect(request.getAttribute(TilesAccess
-                .CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        EasyMock.replay(request, context, container);
-        ServletUtil.setCurrentContainer(request, context, "myKey");
-        assertTrue("The containers are not the same", ServletUtil
-                .getCurrentContainer(request, context) == container);
-    }
-
-    /**
-     * Tests
-     * {@link ServletUtil#setCurrentContainer(ServletRequest, TilesContainer)}.
-     */
-    public void testSetCurrentContainerWithContainer() {
-        ServletRequest request = EasyMock.createMock(ServletRequest.class);
-        ServletContext context = EasyMock.createMock(ServletContext.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
-                container);
-        EasyMock.expect(request.getAttribute(TilesAccess
-                .CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        EasyMock.replay(request, context, container);
-        ServletUtil.setCurrentContainer(request, container);
-        assertTrue("The containers are not the same", ServletUtil
-                .getCurrentContainer(request, context) == container);
-    }
-
-    /**
-     * Tests {@link ServletUtil#getCurrentContainer(ServletRequest, ServletContext)}.
-     */
-    public void testGetCurrentContainer() {
-        ServletRequest request = EasyMock.createMock(ServletRequest.class);
-        ServletContext context = EasyMock.createMock(ServletContext.class);
-        TilesContainer defaultContainer = EasyMock.createMock(
-                TilesContainer.class);
-        TilesContainer alternateContainer = EasyMock.createMock(
-                TilesContainer.class);
-        EasyMock.expect(request.getAttribute(TilesAccess
-                .CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        EasyMock.expect(context.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE))
-                .andReturn(defaultContainer);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
-                defaultContainer);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
-                alternateContainer);
-        EasyMock.expect(request.getAttribute(TilesAccess
-                .CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(alternateContainer);
-        EasyMock.replay(request, context, defaultContainer, alternateContainer);
-        TilesContainer currentContainer = ServletUtil.getCurrentContainer(
-                request, context);
-        assertTrue("The containers are not the same",
-                currentContainer == defaultContainer);
-        ServletUtil.setCurrentContainer(request, alternateContainer);
-        currentContainer = ServletUtil.getCurrentContainer(request, context);
-        EasyMock.verify(request, context, defaultContainer, alternateContainer);
-        assertTrue("The containers are not the same",
-                currentContainer == alternateContainer);
+    @Test
+    public void testFake() {
+        // Does nothing.
     }
 }

@@ -27,10 +27,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.template.DefinitionModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -41,9 +39,9 @@ import org.apache.velocity.runtime.Renderable;
  * Wraps {@link DefinitionModel} to be used in Velocity. For the list of
  * parameters, see
  * {@link DefinitionModel#start(String, String, String, String, String, Request)}
- * , {@link DefinitionModel#end(MutableTilesContainer, Request)} and
- * {@link DefinitionModel#execute(MutableTilesContainer, String, String, String,
- * String, String, Request)}.
+ * , {@link DefinitionModel#end(Request)} and
+ * {@link DefinitionModel#execute(String, String, String, String,
+ * String, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -76,16 +74,13 @@ public class DefinitionVModel implements Executable, BodyExecutable {
     public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container
-                        .getApplicationContext(), request, response,
-                        velocityContext, null);
-        model.execute((MutableTilesContainer) container, (String) params.get("name"),
-                (String) params.get("template"), (String) params.get("role"),
-                (String) params.get("extends"), (String) params.get("preparer"),
-                currentRequest);
+        .createVelocityRequest(ServletUtil
+                .getApplicationContext(servletContext), request,
+                response, velocityContext, null);
+        model.execute((String) params.get("name"), (String) params.get("template"),
+                (String) params.get("role"), (String) params.get("extends"),
+                (String) params.get("preparer"), currentRequest);
 
         return VelocityUtil.EMPTY_RENDERABLE;
     }
@@ -93,25 +88,21 @@ public class DefinitionVModel implements Executable, BodyExecutable {
     /** {@inheritDoc} */
     public Renderable end(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext) {
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container
-                        .getApplicationContext(), request, response,
-                        velocityContext, null);
-        model.end((MutableTilesContainer) container, currentRequest);
+                .createVelocityRequest(ServletUtil
+                        .getApplicationContext(servletContext), request,
+                        response, velocityContext, null);
+        model.end(currentRequest);
         return VelocityUtil.EMPTY_RENDERABLE;
     }
 
     /** {@inheritDoc} */
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container
-                        .getApplicationContext(), request, response,
-                        velocityContext, null);
+                .createVelocityRequest(ServletUtil
+                        .getApplicationContext(servletContext), request,
+                        response, velocityContext, null);
         model.start((String) params
                 .get("name"), (String) params.get("template"), (String) params
                 .get("role"), (String) params.get("extends"), (String) params

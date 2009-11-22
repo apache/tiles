@@ -34,11 +34,10 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 import org.apache.tiles.template.AddListAttributeModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -118,19 +117,16 @@ public class AddListAttributeFMModelTest {
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        TilesContainer container = createMock(TilesContainer.class);
 
+        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
-        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).anyTimes();
-        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel).anyTimes();
         initEnvironment();
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
         Map<String, Object> params = new HashMap<String, Object>();
@@ -140,9 +136,9 @@ public class AddListAttributeFMModelTest {
         tModel.end(isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
-        replay(request, tModel, body, container, applicationContext);
+        replay(request, tModel, body, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body, container, applicationContext);
+        verify(template, model, request, tModel, body, applicationContext, servletContext);
     }
 
     /**

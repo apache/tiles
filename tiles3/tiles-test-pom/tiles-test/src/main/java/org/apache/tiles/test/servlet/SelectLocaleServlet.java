@@ -20,7 +20,6 @@
  */
 package org.apache.tiles.test.servlet;
 
-import java.io.IOException;
 import java.util.Locale;
 
 import javax.servlet.ServletConfig;
@@ -31,10 +30,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ServletTilesRequestContext;
-import org.apache.tiles.servlet.context.ServletUtil;
 
 /**
  * Servlet able to let a user choose a locale.
@@ -66,14 +66,14 @@ public class SelectLocaleServlet extends HttpServlet {
     /** {@inheritDoc} */
     @Override
     protected void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+            HttpServletResponse response) {
         process(request, response);
     }
 
     /** {@inheritDoc} */
     @Override
     protected void doPost(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+            HttpServletResponse response) {
         process(request, response);
     }
 
@@ -82,13 +82,9 @@ public class SelectLocaleServlet extends HttpServlet {
      *
      * @param request The request object.
      * @param response The response object.
-     * @throws ServletException If something goes wrong when rendering
-     * <code>test.localized.definition</code> definition.
-     * @throws IOException It will be never thrown, it is there only for API
-     * compatibility.
      */
     private void process(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+            HttpServletResponse response) {
         String localeParameter = request.getParameter("locale");
         HttpSession session = request.getSession();
         Locale locale = null;
@@ -103,12 +99,11 @@ public class SelectLocaleServlet extends HttpServlet {
             }
         }
         session.setAttribute(DefaultLocaleResolver.LOCALE_KEY, locale);
-        ServletUtil.setCurrentContainer(request, request
-                .getSession().getServletContext(), containerKey);
-        TilesContainer container = ServletUtil.getCurrentContainer(request, request
-                .getSession().getServletContext());
-		Request currentRequest = new ServletTilesRequestContext(container
-				.getApplicationContext(), request, response);
+        ApplicationContext applicationContext = org.apache.tiles.request.servlet.ServletUtil
+                .getApplicationContext(getServletContext());
+        Request currentRequest = new ServletTilesRequestContext(applicationContext, request, response);
+        TilesAccess.setCurrentContainer(currentRequest, containerKey);
+        TilesContainer container = TilesAccess.getCurrentContainer(currentRequest);
         container.render(definitionName, currentRequest);
     }
 }

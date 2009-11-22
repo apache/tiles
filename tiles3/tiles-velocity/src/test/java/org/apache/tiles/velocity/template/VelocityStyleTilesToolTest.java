@@ -21,11 +21,14 @@
 
 package org.apache.tiles.velocity.template;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +40,7 @@ import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -101,9 +105,11 @@ public class VelocityStyleTilesToolTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Attribute attribute = new Attribute("myValue");
 
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
         expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
-        expect(container.getApplicationContext()).andReturn(applicationContext);
         expect(container.getAttributeContext(isA(VelocityTilesRequestContext.class)))
                 .andReturn(attributeContext);
         expect(attributeContext.getAttribute("myAttribute")).andReturn(attribute);
@@ -171,7 +177,9 @@ public class VelocityStyleTilesToolTest {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("myValue");
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
         expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
         container.render(eq(attribute), isA(VelocityTilesRequestContext.class));
@@ -195,7 +203,9 @@ public class VelocityStyleTilesToolTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         StringWriter writer = new StringWriter();
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
         expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
         container.render(eq("myDefinition"), isA(VelocityTilesRequestContext.class));
@@ -218,7 +228,9 @@ public class VelocityStyleTilesToolTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         StringWriter writer = new StringWriter();
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
         expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
         container.renderContext(isA(VelocityTilesRequestContext.class));
@@ -239,7 +251,9 @@ public class VelocityStyleTilesToolTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
         expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
         expect(container.startContext(isA(VelocityTilesRequestContext.class)))
@@ -260,7 +274,9 @@ public class VelocityStyleTilesToolTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
         expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
         container.endContext(isA(VelocityTilesRequestContext.class));
@@ -280,7 +296,9 @@ public class VelocityStyleTilesToolTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
         expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME))
                 .andReturn(container);
         expect(container.getAttributeContext(isA(VelocityTilesRequestContext.class)))
@@ -299,14 +317,21 @@ public class VelocityStyleTilesToolTest {
     @Test
     public void testSetCurrentContainer() {
         TilesContainer container = createMock(TilesContainer.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> applicationScope = new HashMap<String, Object>();
+        applicationScope.put("myKey", container);
 
-        expect(servletContext.getAttribute("myKey")).andReturn(container);
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
+        expect(applicationContext.getApplicationScope()).andReturn(applicationScope);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
         request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
-        replay(velocityContext, request, response, servletContext, container);
+        replay(velocityContext, request, response, servletContext, container, applicationContext);
         initializeTool();
         assertEquals(tool, tool.setCurrentContainer("myKey"));
-        verify(velocityContext, request, response, servletContext, container);
+        verify(velocityContext, request, response, servletContext, container, applicationContext);
     }
 
     /**

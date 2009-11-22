@@ -28,7 +28,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.request.Request;
@@ -261,14 +260,13 @@ public class InsertTemplateTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jspContext = getJspContext();
-        TilesContainer currentContainer = JspUtil
-                .getCurrentContainer(jspContext);
         Request request = JspTilesRequestContext.createServletJspRequest(
-                currentContainer.getApplicationContext(),
+                org.apache.tiles.request.jsp.JspUtil
+                        .getApplicationContext(jspContext),
                 (PageContext) jspContext);
-        model.start(currentContainer, request);
+        model.start(request);
         JspUtil.evaluateFragment(getJspBody());
-        model.end(currentContainer, template, templateType, templateExpression,
-                role, preparer, request);
+        model.end(template, templateType, templateExpression, role,
+                preparer, request);
     }
 }

@@ -34,6 +34,8 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,9 +68,8 @@ public class GetAsStringModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.GetAsStringModel
-     * #start(org.apache.tiles.TilesContainer, boolean, java.lang.String, java.lang.String,
-     * java.lang.Object, java.lang.String, java.lang.String, java.lang.String, org.apache.tiles.Attribute,
-     * Request)}.
+     * #start(boolean, java.lang.String, java.lang.String, java.lang.Object,
+     * java.lang.String, java.lang.String, java.lang.String, org.apache.tiles.Attribute, Request)}.
      */
     @Test
     public void testStart() {
@@ -79,25 +80,27 @@ public class GetAsStringModelTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
         container.prepare("myPreparer", request);
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
                 "myDefaultValueRole", "myDefaultValueType", request)).andReturn(attribute);
         expect(container.startContext(request)).andReturn(attributeContext);
 
-        replay(resolver, container, attributeContext, request);
-        model.start(container, false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole",
-                "myDefaultValueType", "myName", attribute, request);
+        replay(resolver, container, attributeContext, request, applicationContext);
+        model.start(false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole", "myDefaultValueType",
+                "myName", attribute, request);
         assertEquals(1, composeStack.size());
         assertEquals(attribute, composeStack.peek());
-        verify(resolver, container, attributeContext, request);
+        verify(resolver, container, attributeContext, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.GetAsStringModel
-     * #end(org.apache.tiles.TilesContainer, java.io.Writer, boolean,
-     * Request)}.
+     * #end(boolean, Request)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -110,21 +113,25 @@ public class GetAsStringModelTest {
         Writer writer = createMock(Writer.class);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getWriter()).andReturn(writer);
+        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
         writer.write("myValue");
         container.endContext(request);
 
-        replay(resolver, container, writer, request);
-        model.end(container, writer, false, request);
-        verify(resolver, container, writer, request);
+        replay(resolver, container, writer, request, applicationContext);
+        model.end(false, request);
+        verify(resolver, container, writer, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.GetAsStringModel
-     * #execute(org.apache.tiles.TilesContainer, java.io.Writer, boolean,
-     * java.lang.String, java.lang.String, java.lang.Object, java.lang.String,
-     * java.lang.String, java.lang.String, org.apache.tiles.Attribute, Request)}.
+     * #execute(boolean, java.lang.String, java.lang.String,
+     * java.lang.Object, java.lang.String, java.lang.String, java.lang.String,
+     * org.apache.tiles.Attribute, Request)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -134,7 +141,13 @@ public class GetAsStringModelTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Request request = createMock(Request.class);
         Writer writer = createMock(Writer.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getWriter()).andReturn(writer);
         container.prepare("myPreparer", request);
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
                 "myDefaultValueRole", "myDefaultValueType", request)).andReturn(attribute);
@@ -142,10 +155,10 @@ public class GetAsStringModelTest {
         writer.write("myValue");
         container.endContext(request);
 
-        replay(resolver, container, writer, request);
-        model.execute(container, writer, false, "myPreparer", "myRole", "myDefaultValue",
-                "myDefaultValueRole", "myDefaultValueType", "myName", attribute, request);
-        verify(resolver, container, writer, request);
+        replay(resolver, container, writer, request, applicationContext);
+        model.execute(false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole", "myDefaultValueType",
+                "myName", attribute, request);
+        verify(resolver, container, writer, request, applicationContext);
     }
 
 }

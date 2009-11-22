@@ -21,7 +21,6 @@
 
 package org.apache.tiles.velocity.template;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
@@ -29,9 +28,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.template.ImportAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -42,8 +40,8 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * Wraps {@link ImportAttributeModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link ImportAttributeModel#getImportedAttributes(org.apache.tiles.TilesContainer,
- * String, String, boolean, Request)}.
+ * {@link ImportAttributeModel#getImportedAttributes(String,
+ * String, boolean, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -80,19 +78,16 @@ public class ImportAttributeVModel implements Executable {
         return new AbstractDefaultToStringRenderable(velocityContext, params,
                 response, request) {
 
-            public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException {
-                TilesContainer container = ServletUtil.getCurrentContainer(
-                        request, servletContext);
+            public boolean render(InternalContextAdapter context, Writer writer) {
                 Request currentRequest = VelocityTilesRequestContext
-                        .createVelocityRequest(container.getApplicationContext(),
-                                request, response, velocityContext, writer);
+                        .createVelocityRequest(ServletUtil
+                                .getApplicationContext(servletContext), request,
+                                response, velocityContext, writer);
                 Map<String, Object> attributes = model.getImportedAttributes(
-                        container,
-                        (String) params.get("name"), (String) params
+                        (String) params.get("name"),
+                        (String) params
                                 .get("toName"), VelocityUtil.toSimpleBoolean(
-                                (Boolean) params.get("ignore"), false),
-                        currentRequest);
+                        (Boolean) params.get("ignore"), false), currentRequest);
                 String scope = (String) params.get("scope");
                 for (Map.Entry<String, Object> entry : attributes.entrySet()) {
                     VelocityUtil.setAttribute(context, request,

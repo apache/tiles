@@ -36,10 +36,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tiles.ArrayStack;
-import org.apache.tiles.NoSuchContainerException;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.junit.Before;
 import org.junit.Test;
@@ -155,148 +151,6 @@ public class FreeMarkerUtilTest {
 
     /**
      * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
-     * #getContainer(freemarker.core.Environment, java.lang.String)}.
-     * @throws TemplateModelException If something goes wrong.
-     */
-    @Test
-    public void testGetContainer() throws TemplateModelException {
-        GenericServlet servlet = createMock(GenericServlet.class);
-        ServletContext servletContext = createMock(ServletContext.class);
-        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
-        TilesContainer container = createMock(TilesContainer.class);
-        expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        replay(servlet, objectWrapper);
-        ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-
-        expect(model.get("Application")).andReturn(servletContextModel);
-        expect(servletContext.getAttribute("myKey")).andReturn(container);
-
-        replay(template, model, servletContext, container);
-        env = new Environment(template, model, writer);
-        locale = Locale.ITALY;
-        env.setLocale(locale);
-        assertEquals(container, getContainer(env, "myKey"));
-        verify(template, model, servlet, servletContext, objectWrapper, container);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
-     * #setCurrentContainer(freemarker.core.Environment, java.lang.String)}.
-     * @throws TemplateModelException If something goes wrong.
-     */
-    @Test
-    public void testSetCurrentContainerEnvironmentString() throws TemplateModelException {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
-        HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        GenericServlet servlet = createMock(GenericServlet.class);
-        ServletContext servletContext = createMock(ServletContext.class);
-        TilesContainer container = createMock(TilesContainer.class);
-        expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        replay(servlet, objectWrapper);
-        ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-
-        expect(model.get("Request")).andReturn(requestModel);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        expect(model.get("Application")).andReturn(servletContextModel);
-        expect(servletContext.getAttribute("myKey")).andReturn(container);
-
-        replay(template, model, servletContext, container, request);
-        env = new Environment(template, model, writer);
-        locale = Locale.ITALY;
-        env.setLocale(locale);
-        setCurrentContainer(env, "myKey");
-        verify(template, model, servlet, servletContext, objectWrapper, container, request);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
-     * #setCurrentContainer(freemarker.core.Environment, java.lang.String)}.
-     * @throws TemplateModelException If something goes wrong.
-     */
-    @Test(expected = NoSuchContainerException.class)
-    public void testSetCurrentContainerEnvironmentStringException() throws TemplateModelException {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
-        HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        GenericServlet servlet = createMock(GenericServlet.class);
-        ServletContext servletContext = createMock(ServletContext.class);
-        expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        replay(servlet, objectWrapper);
-        ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-
-        expect(model.get("Request")).andReturn(requestModel);
-        expect(model.get("Application")).andReturn(servletContextModel);
-        expect(servletContext.getAttribute("myKey")).andReturn(null);
-
-        replay(template, model, servletContext, request);
-        env = new Environment(template, model, writer);
-        locale = Locale.ITALY;
-        env.setLocale(locale);
-        setCurrentContainer(env, "myKey");
-        verify(template, model, servlet, servletContext, objectWrapper, request);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
-     * #setCurrentContainer(freemarker.core.Environment, org.apache.tiles.TilesContainer)}.
-     * @throws TemplateModelException If something goes wrong.
-     */
-    @Test
-    public void testSetCurrentContainerEnvironmentTilesContainer() throws TemplateModelException {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
-        HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        GenericServlet servlet = createMock(GenericServlet.class);
-        ServletContext servletContext = createMock(ServletContext.class);
-        TilesContainer container = createMock(TilesContainer.class);
-        expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        replay(servlet, objectWrapper);
-        ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-
-        expect(model.get("Request")).andReturn(requestModel);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        expect(model.get("Application")).andReturn(servletContextModel);
-
-        replay(template, model, servletContext, container, request);
-        env = new Environment(template, model, writer);
-        locale = Locale.ITALY;
-        env.setLocale(locale);
-        setCurrentContainer(env, container);
-        verify(template, model, servlet, servletContext, objectWrapper, container, request);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
-     * #getCurrentContainer(freemarker.core.Environment)}.
-     * @throws TemplateModelException If something goes wrong.
-     */
-    @Test
-    public void testGetCurrentContainer() throws TemplateModelException {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
-        HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        GenericServlet servlet = createMock(GenericServlet.class);
-        ServletContext servletContext = createMock(ServletContext.class);
-        TilesContainer container = createMock(TilesContainer.class);
-        expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        replay(servlet, objectWrapper);
-        ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
-
-        expect(model.get("Request")).andReturn(requestModel);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(model.get("Application")).andReturn(servletContextModel);
-
-        replay(template, model, servletContext, container, request);
-        env = new Environment(template, model, writer);
-        locale = Locale.ITALY;
-        env.setLocale(locale);
-        assertEquals(container, getCurrentContainer(env));
-        verify(template, model, servlet, servletContext, objectWrapper, container, request);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
      * #setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
      * @throws TemplateModelException If something goes wrong.
      */
@@ -398,36 +252,6 @@ public class FreeMarkerUtilTest {
         env.setLocale(locale);
         setAttribute(env, "myObj", myObj, "application");
         verify(template, model, servlet, servletContext, objectWrapper, wrappedObj);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
-     * #getComposeStack(freemarker.core.Environment)}.
-     * @throws TemplateModelException If something goes wrong.
-     */
-    @Test
-    public void testGetComposeStack() throws TemplateModelException {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
-        HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-        GenericServlet servlet = createMock(GenericServlet.class);
-        TemplateModel wrappedObj = createMock(TemplateModel.class);
-        replay(servlet, objectWrapper);
-
-        expect(model.get("Request")).andReturn(requestModel).times(2);
-        expect(request.getAttribute(COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(eq(COMPOSE_STACK_ATTRIBUTE_NAME),
-                isA(ArrayStack.class));
-        ArrayStack<Object> myStack = new ArrayStack<Object>();
-        expect(request.getAttribute(COMPOSE_STACK_ATTRIBUTE_NAME)).andReturn(myStack);
-
-        replay(template, model, wrappedObj, request);
-        env = new Environment(template, model, writer);
-        locale = Locale.ITALY;
-        env.setLocale(locale);
-        assertNotNull(getComposeStack(env));
-        assertEquals(myStack, getComposeStack(env));
-        verify(template, model, servlet, objectWrapper, wrappedObj, request);
     }
 
     /**

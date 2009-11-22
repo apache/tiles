@@ -32,6 +32,8 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -78,7 +80,7 @@ public class PutListAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.PutListAttributeModel
-     * #end(org.apache.tiles.TilesContainer, String, boolean, Request)}.
+     * #end(String, boolean, Request)}.
      */
     @Test
     public void testEnd() {
@@ -90,13 +92,16 @@ public class PutListAttributeModelTest {
         composeStack.push(listAttribute);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", listAttribute, false);
 
         replay(container, attributeContext, request);
-        model.end(container, "myName", false, request);
+        model.end("myName", false, request);
         assertEquals(0, composeStack.size());
         verify(container, attributeContext, request);
     }

@@ -24,12 +24,10 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.request.Request;
@@ -307,17 +305,13 @@ public class GetAsStringTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jspContext = getJspContext();
-        TilesContainer currentContainer = JspUtil
-                .getCurrentContainer(jspContext);
         Request request = JspTilesRequestContext.createServletJspRequest(
-                currentContainer.getApplicationContext(),
+                org.apache.tiles.request.jsp.JspUtil
+                        .getApplicationContext(jspContext),
                 (PageContext) jspContext);
-        model.start(currentContainer, ignore, preparer, role, defaultValue,
-                defaultValueRole, defaultValueType, name, (Attribute) value,
-                request);
-        JspWriter writer = jspContext.getOut();
+        model.start(ignore, preparer, role, defaultValue, defaultValueRole,
+                defaultValueType, name, (Attribute) value, request);
         JspUtil.evaluateFragment(getJspBody());
-        model.end(JspUtil
-                .getContainer(jspContext), writer, ignore, request);
+        model.end(ignore, request);
     }
 }

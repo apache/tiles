@@ -128,12 +128,13 @@ public final class TilesAccess {
      * Sets the current container to use in web pages.
      *
      * @param request The request to use.
-     * @param context The servlet context to use.
      * @param key The key under which the container is stored.
+     * @param context The servlet context to use.
      * @since 2.1.0
      */
     public static void setCurrentContainer(Request request,
-            ApplicationContext applicationContext, String key) {
+            String key) {
+        ApplicationContext applicationContext = request.getApplicationContext();
         TilesContainer container = getContainer(applicationContext, key);
         if (container != null) {
             request.getRequestScope().put(CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
@@ -167,8 +168,8 @@ public final class TilesAccess {
      * @return The current Tiles container to use in web pages.
      * @since 2.1.0
      */
-    public static TilesContainer getCurrentContainer(Request request,
-            ApplicationContext context) {
+    public static TilesContainer getCurrentContainer(Request request) {
+        ApplicationContext context = request.getApplicationContext();
         Map<String, Object> requestScope = request.getRequestScope();
         TilesContainer container = (TilesContainer) requestScope.get(CURRENT_CONTAINER_ATTRIBUTE_NAME);
         if (container == null) {

@@ -21,8 +21,9 @@
 
 package org.apache.tiles.velocity.template;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,12 +32,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.Renderable;
 import org.junit.Before;
@@ -78,10 +75,10 @@ public class Tiles2ToolTest {
     private Context velocityContext;
 
     /**
-     * @throws java.lang.Exception If something goes wrong.
+     * Sets up the model.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         tool = new Tiles2Tool();
         request = createMock(HttpServletRequest.class);
         response = createMock(HttpServletResponse.class);
@@ -403,22 +400,6 @@ public class Tiles2ToolTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.Tiles2Tool#setCurrentContainer(java.lang.String)}.
-     */
-    @Test
-    public void testSetCurrentContainer() {
-        TilesContainer container = createMock(TilesContainer.class);
-
-        expect(servletContext.getAttribute("myKey")).andReturn(container);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-
-        replay(velocityContext, request, response, servletContext, container);
-        initializeTool();
-        assertEquals(tool, tool.setCurrentContainer("myKey"));
-        verify(velocityContext, request, response, servletContext, container);
-    }
-
-    /**
      * Test method for {@link org.apache.tiles.velocity.template.Tiles2Tool#start(java.util.Map)}.
      */
     @Test
@@ -454,30 +435,6 @@ public class Tiles2ToolTest {
         initializeTool();
         assertEquals(renderable, tool.putAttribute().end());
         verify(velocityContext, request, response, servletContext, repository, model, renderable);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.velocity.template.Tiles2Tool#getAttribute(java.lang.String)}.
-     */
-    @Test
-    public void testGetAttribute() {
-        TilesContainer container = createMock(TilesContainer.class);
-        AttributeContext attributeContext = createMock(AttributeContext.class);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        Attribute attribute = new Attribute("myAttributeValue");
-
-        expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(
-                container
-                        .getAttributeContext(isA(VelocityTilesRequestContext.class)))
-                .andReturn(attributeContext);
-        expect(attributeContext.getAttribute("myAttribute")).andReturn(attribute);
-
-        replay(velocityContext, request, response, servletContext, container, attributeContext, applicationContext);
-        initializeTool();
-        assertEquals(attribute, tool.getAttribute("myAttribute"));
-        verify(velocityContext, request, response, servletContext, container, attributeContext, applicationContext);
     }
 
     /**

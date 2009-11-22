@@ -31,7 +31,6 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.request.Request;
@@ -183,13 +182,12 @@ public class UseAttributeTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException {
         JspContext jspContext = getJspContext();
-        TilesContainer currentContainer = JspUtil
-                .getCurrentContainer(jspContext);
         Request request = JspTilesRequestContext.createServletJspRequest(
-                currentContainer.getApplicationContext(),
+                org.apache.tiles.request.jsp.JspUtil
+                        .getApplicationContext(jspContext),
                 (PageContext) jspContext);
         Map<String, Object> attributes = model.getImportedAttributes(
-                currentContainer, name, id, ignore, request);
+                name, id, ignore, request);
         if (!attributes.isEmpty()) {
             int scopeId = JspUtil.getScope(scopeName);
             jspContext.setAttribute(getScriptingVariable(), attributes

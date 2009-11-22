@@ -24,7 +24,7 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerRequestUtil;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
@@ -65,10 +65,9 @@ public class AddAttributeFMModel implements TemplateDirectiveModel {
     @SuppressWarnings("unchecked")
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
-        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
         Request request = FreeMarkerTilesRequestContext
-                .createServletFreemarkerRequest(container
-                        .getApplicationContext(), env);
+                .createServletFreemarkerRequest(FreeMarkerRequestUtil
+                        .getApplicationContext(env), env);
         model.start(request);
         String bodyString = FreeMarkerUtil.renderAsString(body);
         Map<String, TemplateModel> parms = params;

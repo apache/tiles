@@ -26,6 +26,7 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
 
 /**
@@ -64,16 +65,16 @@ public class PutListAttributeModel {
 
     /**
      * Ends the operation.
-     *
-     * @param container The Tiles container to use.
      * @param name The name of the attribute to put.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
      * @param request TODO
+     * @param container The Tiles container to use.
      * @param composeStack The composing stack.
+     *
      * @since 2.2.0
      */
-    public void end(TilesContainer container, String name,
-            boolean cascade, Request request) {
+    public void end(String name, boolean cascade, Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = (ListAttribute) composeStack.pop();
         AttributeContext attributeContext = null;

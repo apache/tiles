@@ -32,9 +32,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 import org.apache.tiles.template.AddListAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -62,6 +61,8 @@ public class AddListAttributeVModelTest {
      */
     private ServletContext servletContext;
 
+    private ApplicationContext applicationContext;
+
     /**
      * Sets up the model to test.
      */
@@ -70,6 +71,10 @@ public class AddListAttributeVModelTest {
         tModel = createMock(AddListAttributeModel.class);
         servletContext = createMock(ServletContext.class);
         model = new AddListAttributeVModel(tModel, servletContext);
+        applicationContext = createMock(ApplicationContext.class);
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
     }
 
     /**
@@ -83,16 +88,12 @@ public class AddListAttributeVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
-        TilesContainer container = createMock(TilesContainer.class);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         tModel.start(eq("myRole"), isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, request, response, velocityContext, servletContext, container, applicationContext);
+        replay(tModel, request, response, velocityContext, servletContext, applicationContext);
         model.start(request, response, velocityContext, params);
-        verify(tModel, request, response, velocityContext, servletContext, container, applicationContext);
+        verify(tModel, request, response, velocityContext, servletContext, applicationContext);
     }
 
     /**
@@ -105,16 +106,12 @@ public class AddListAttributeVModelTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
-        TilesContainer container = createMock(TilesContainer.class);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         tModel.end(isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, request, response, velocityContext, servletContext, container, applicationContext);
+        replay(tModel, request, response, velocityContext, servletContext, applicationContext);
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));
-        verify(tModel, request, response, velocityContext, servletContext, container, applicationContext);
+        verify(tModel, request, response, velocityContext, servletContext, applicationContext);
     }
 
     /**

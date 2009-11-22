@@ -114,7 +114,7 @@ public class TilesAccessTest {
 
     /**
      * Tests
-     * {@link ServletUtil#setCurrentContainer(ServletRequest, ServletContext, String)}.
+     * {@link ServletUtil#setCurrentContainer(ServletRequest, String)}.
      */
     @Test
     public void testSetCurrentContainer() {
@@ -127,15 +127,16 @@ public class TilesAccessTest {
 
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
         expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getApplicationContext()).andReturn(context);
         replay(request, context, container);
-        TilesAccess.setCurrentContainer(request, context, "myKey");
+        TilesAccess.setCurrentContainer(request, "myKey");
         assertEquals(container, requestScope.get(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME));
         verify(request, context, container);
     }
 
     /**
      * Tests
-     * {@link ServletUtil#setCurrentContainer(ServletRequest, ServletContext, String)}.
+     * {@link ServletUtil#setCurrentContainer(ServletRequest, String)}.
      */
     @Test(expected=NoSuchContainerException.class)
     public void testSetCurrentContainerException() {
@@ -143,10 +144,11 @@ public class TilesAccessTest {
         ApplicationContext context = createMock(ApplicationContext.class);
         Map<String, Object> attribs = new HashMap<String, Object>();
 
+        expect(request.getApplicationContext()).andReturn(context);
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
         replay(request, context);
         try {
-            TilesAccess.setCurrentContainer(request, context, "myKey");
+            TilesAccess.setCurrentContainer(request, "myKey");
         } finally {
             verify(request, context);
         }
@@ -188,14 +190,14 @@ public class TilesAccessTest {
 
         replay(request, context);
         try {
-            TilesAccess.setCurrentContainer(request, null);
+            TilesAccess.setCurrentContainer(request, (TilesContainer) null);
         } finally {
             verify(request, context);
         }
     }
 
     /**
-     * Tests {@link ServletUtil#getCurrentContainer(ServletRequest, ServletContext)}.
+     * Tests {@link ServletUtil#getCurrentContainer(ServletRequest)}.
      */
     @Test
     public void testGetCurrentContainer() {
@@ -207,16 +209,17 @@ public class TilesAccessTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
+        expect(request.getApplicationContext()).andReturn(context);
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
         expect(request.getRequestScope()).andReturn(requestScope);
 
         replay(request, context, container);
-        assertEquals(container, TilesAccess.getCurrentContainer(request, context));
+        assertEquals(container, TilesAccess.getCurrentContainer(request));
         verify(request, context, container);
     }
 
     /**
-     * Tests {@link ServletUtil#getCurrentContainer(ServletRequest, ServletContext)}.
+     * Tests {@link ServletUtil#getCurrentContainer(ServletRequest)}.
      */
     @Test
     public void testGetCurrentContainerDefault() {
@@ -227,11 +230,12 @@ public class TilesAccessTest {
         attribs.put(TilesAccess.CONTAINER_ATTRIBUTE, container);
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
+        expect(request.getApplicationContext()).andReturn(context);
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
         expect(request.getRequestScope()).andReturn(requestScope);
 
         replay(request, context, container);
-        assertEquals(container, TilesAccess.getCurrentContainer(request, context));
+        assertEquals(container, TilesAccess.getCurrentContainer(request));
         verify(request, context, container);
     }
 }

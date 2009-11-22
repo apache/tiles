@@ -28,8 +28,10 @@ import java.util.Map;
 
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.access.TilesAccessTest;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,7 +79,9 @@ public class AbstractTilesInitializerTest {
         Map<String, Object> scope = createMock(Map.class);
 
         expect(containerFactory.createContainer(context)).andReturn(container);
-        expect(context.getApplicationScope()).andReturn(scope).times(2);
+        expect(context.getApplicationScope()).andReturn(scope).anyTimes();
+        expect(scope.put(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE,
+                context)).andReturn(null);
         expect(scope.put(TilesAccess.CONTAINER_ATTRIBUTE, container)).andReturn(null);
         expect(scope.remove(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
 

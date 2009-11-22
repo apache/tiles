@@ -34,10 +34,9 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 import org.apache.tiles.template.PutAttributeModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -111,22 +110,19 @@ public class PutAttributeFMModelTest {
      */
     @Test
     public void testExecute() throws TemplateException, IOException {
-        TilesContainer container = createMock(TilesContainer.class);
         PutAttributeModel tModel = createMock(PutAttributeModel.class);
         PutAttributeFMModel fmModel = new PutAttributeFMModel(tModel);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
+        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
@@ -144,15 +140,13 @@ public class PutAttributeFMModelTest {
         params.put("cascade", objectWrapper.wrap(false));
 
         tModel.start(isA(FreeMarkerTilesRequestContext.class));
-        tModel.end(eq(container), eq("myName"), eq(value), eq("myExpression"),
-                eq(""), eq("myRole"), eq("myType"), eq(false),
-                isA(FreeMarkerTilesRequestContext.class));
+        tModel.end(eq("myName"), eq(value), eq("myExpression"), eq(""),
+                eq("myRole"), eq("myType"), eq(false), isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(StringWriter.class));
 
-        replay(tModel, body, container, applicationContext);
+        replay(tModel, body, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body, container,
-                applicationContext);
+        verify(template, model, request, tModel, body, applicationContext);
     }
 
     /**

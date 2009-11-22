@@ -23,19 +23,13 @@ package org.apache.tiles.servlet.context;
 
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
 
-import org.apache.tiles.NoSuchContainerException;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.NotAServletEnvironmentException;
 import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
 import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.request.util.TilesRequestContextWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -50,127 +44,6 @@ public final class ServletUtil {
      * Private constructor to avoid instantiation.
      */
     private ServletUtil() {
-    }
-
-    /**
-     * Returns the default Tiles container.
-     *
-     * @param context The servlet context to use.
-     * @return The default Tiles container.
-     * @since 2.1.2
-     */
-    public static TilesContainer getContainer(ServletContext context) {
-        return getContainer(context, TilesAccess.CONTAINER_ATTRIBUTE);
-    }
-
-    /**
-     * Returns a specific Tiles container.
-     *
-     * @param context The servlet context to use.
-     * @param key The key under which the container is stored. If null, the
-     * default container will be returned.
-     * @return The requested Tiles container.
-     * @since 2.1.2
-     */
-    public static TilesContainer getContainer(ServletContext context, String key) {
-        if (key == null) {
-            key = TilesAccess.CONTAINER_ATTRIBUTE;
-        }
-        return (TilesContainer) context.getAttribute(key);
-    }
-
-    /**
-     * Configures the default container to be used in the application.
-     *
-     * @param context The servlet context object to use.
-     * @param container The container object to set.
-     * @since 2.1.2
-     */
-    public static void setContainer(ServletContext context,
-            TilesContainer container) {
-        setContainer(context, container, TilesAccess.CONTAINER_ATTRIBUTE);
-    }
-
-    /**
-     * Configures the container to be used in the application.
-     *
-     * @param context The servlet context object to use.
-     * @param container The container object to set.
-     * @param key The key under which the container will be stored.
-     * @since 2.1.2
-     */
-    public static void setContainer(ServletContext context,
-            TilesContainer container, String key) {
-        Logger log = LoggerFactory.getLogger(ServletUtil.class);
-        if (key == null) {
-            key = TilesAccess.CONTAINER_ATTRIBUTE;
-        }
-
-        if (container == null) {
-            if (log.isInfoEnabled()) {
-                log.info("Removing TilesContext for context: " + context.getClass().getName());
-            }
-            context.removeAttribute(key);
-        }
-        if (container != null && log.isInfoEnabled()) {
-            log.info("Publishing TilesContext for context: " + context.getClass().getName());
-        }
-        context.setAttribute(key, container);
-    }
-
-    /**
-     * Sets the current container to use in web pages.
-     *
-     * @param request The request to use.
-     * @param context The servlet context to use.
-     * @param key The key under which the container is stored.
-     * @since 2.1.0
-     */
-    public static void setCurrentContainer(ServletRequest request,
-            ServletContext context, String key) {
-        TilesContainer container = getContainer(context, key);
-        if (container != null) {
-            request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        } else {
-            throw new NoSuchContainerException("The container with the key '"
-                    + key + "' cannot be found");
-        }
-    }
-
-    /**
-     * Sets the current container to use in web pages.
-     *
-     * @param request The request to use.
-     * @param container The container to use as the current container.
-     * @since 2.1.0
-     */
-    public static void setCurrentContainer(ServletRequest request,
-            TilesContainer container) {
-        if (container != null) {
-            request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        } else {
-            throw new NoSuchContainerException("The container cannot be null");
-        }
-    }
-
-    /**
-     * Returns the current container that has been set, or the default one.
-     *
-     * @param request The request to use.
-     * @param context The servlet context to use.
-     * @return The current Tiles container to use in web pages.
-     * @since 2.1.0
-     */
-    public static TilesContainer getCurrentContainer(ServletRequest request,
-            ServletContext context) {
-        TilesContainer container = (TilesContainer) request
-                .getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME);
-        if (container == null) {
-            container = getContainer(context);
-            request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        }
-
-        return container;
     }
 
     /**

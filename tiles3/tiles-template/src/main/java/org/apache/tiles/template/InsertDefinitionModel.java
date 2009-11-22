@@ -24,6 +24,7 @@ package org.apache.tiles.template;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
 
 /**
@@ -66,19 +67,18 @@ public class InsertDefinitionModel {
 
     /**
      * Starts the operation.
-     *
-     * @param container The Tiles container.
      * @param request TODO
+     * @param container The Tiles container.
+     *
      * @since 2.2.0
      */
-    public void start(TilesContainer container, Request request) {
+    public void start(Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
         container.startContext(request);
     }
 
     /**
      * Ends the operation.
-     *
-     * @param container The Tiles container.
      * @param definitionName The name of the definition to render.
      * @param template If specified, this template will be used instead of the
      * one used by the definition.
@@ -90,11 +90,48 @@ public class InsertDefinitionModel {
      * rendered. If specified, it overrides the preparer specified in the
      * definition itself.
      * @param request TODO
+     * @param container The Tiles container.
+     *
      * @since 2.2.0
      */
-    public void end(TilesContainer container, String definitionName,
-            String template, String templateType, String templateExpression,
-            String role, String preparer, Request request) {
+    public void end(String definitionName, String template,
+            String templateType, String templateExpression, String role,
+            String preparer, Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
+        renderDefinition(container, definitionName, template, templateType,
+                templateExpression, role, preparer, request);
+    }
+
+    /**
+     * Executes the operation.
+     * @param definitionName The name of the definition to render.
+     * @param template If specified, this template will be used instead of the
+     * one used by the definition.
+     * @param templateType The type of the template attribute.
+     * @param templateExpression The expression to evaluate to get the value of the template.
+     * @param role A comma-separated list of roles. If present, the definition
+     * will be rendered only if the current user belongs to one of the roles.
+     * @param preparer The preparer to use to invoke before the definition is
+     * rendered. If specified, it overrides the preparer specified in the
+     * definition itself.
+     * @param request TODO
+     * @param container The Tiles container.
+     *
+     * @since 2.2.0
+     */
+    public void execute(String definitionName, String template,
+            String templateType, String templateExpression, String role,
+            String preparer, Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
+        container.startContext(request);
+        renderDefinition(container, definitionName, template, templateType,
+                templateExpression, role, preparer, request);
+    }
+
+    private void renderDefinition(TilesContainer container,
+            String definitionName, String template, String templateType,
+            String templateExpression, String role, String preparer,
+            Request request) {
         try {
             AttributeContext attributeContext = container
                     .getAttributeContext(request);
@@ -106,29 +143,5 @@ public class InsertDefinitionModel {
         } finally {
             container.endContext(request);
         }
-    }
-
-    /**
-     * Executes the operation.
-     *
-     * @param container The Tiles container.
-     * @param definitionName The name of the definition to render.
-     * @param template If specified, this template will be used instead of the
-     * one used by the definition.
-     * @param templateType The type of the template attribute.
-     * @param templateExpression The expression to evaluate to get the value of the template.
-     * @param role A comma-separated list of roles. If present, the definition
-     * will be rendered only if the current user belongs to one of the roles.
-     * @param preparer The preparer to use to invoke before the definition is
-     * rendered. If specified, it overrides the preparer specified in the
-     * definition itself.
-     * @param request TODO
-     * @since 2.2.0
-     */
-    public void execute(TilesContainer container, String definitionName,
-            String template, String templateType, String templateExpression,
-            String role, String preparer, Request request) {
-        start(container, request);
-        end(container, definitionName, template, templateType, templateExpression, role, preparer, request);
     }
 }

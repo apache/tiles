@@ -28,7 +28,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.request.Request;
@@ -202,10 +201,9 @@ public class AddAttributeTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext pageContext = getJspContext();
-        TilesContainer currentContainer = JspUtil
-                .getCurrentContainer(pageContext);
         Request request = JspTilesRequestContext.createServletJspRequest(
-                currentContainer.getApplicationContext(),
+                org.apache.tiles.request.jsp.JspUtil
+                        .getApplicationContext(pageContext),
                 (PageContext) pageContext);
         model.start(request);
         String body = JspUtil.evaluateFragmentAsString(getJspBody());

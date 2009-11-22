@@ -27,9 +27,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.template.AddAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -73,12 +72,10 @@ public class AddAttributeVModel implements Executable, BodyExecutable {
     public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container
-                        .getApplicationContext(), request, response,
-                        velocityContext, null);
+                .createVelocityRequest(ServletUtil
+                        .getApplicationContext(servletContext), request,
+                        response, velocityContext, null);
         model.execute(params.get("value"),
                 (String) params.get("expression"), null, (String) params.get("role"),
                 (String) params.get("type"), currentRequest);
@@ -90,12 +87,10 @@ public class AddAttributeVModel implements Executable, BodyExecutable {
             Context velocityContext) {
         Map<String, Object> params = VelocityUtil.getParameterStack(
                 velocityContext).pop();
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container
-                        .getApplicationContext(), request, response,
-                        velocityContext, null);
+                .createVelocityRequest(ServletUtil
+                        .getApplicationContext(servletContext), request,
+                        response, velocityContext, null);
         model.end(params.get("value"), (String) params.get("expression"),
                 null, (String) params
                         .get("role"), (String) params.get("type"), currentRequest);
@@ -106,12 +101,10 @@ public class AddAttributeVModel implements Executable, BodyExecutable {
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
         VelocityUtil.getParameterStack(velocityContext).push(params);
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container
-                        .getApplicationContext(), request, response,
-                        velocityContext, null);
+                .createVelocityRequest(ServletUtil
+                        .getApplicationContext(servletContext), request,
+                        response, velocityContext, null);
         model.start(currentRequest);
     }
 }

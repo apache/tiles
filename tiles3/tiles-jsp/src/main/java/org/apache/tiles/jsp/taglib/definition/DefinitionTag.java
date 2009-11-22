@@ -27,10 +27,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.jsp.context.JspTilesRequestContext;
-import org.apache.tiles.jsp.taglib.TilesJspException;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefinitionModel;
@@ -168,19 +166,11 @@ public class DefinitionTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jspContext = getJspContext();
-        TilesContainer currentContainer = JspUtil
-                .getCurrentContainer(jspContext);
         Request request = JspTilesRequestContext.createServletJspRequest(
-                currentContainer.getApplicationContext(),
+                org.apache.tiles.request.jsp.JspUtil.getApplicationContext(jspContext),
                 (PageContext) jspContext);
-        model.start(name, template, role, extend,
-                preparer, request);
+        model.start(name, template, role, extend, preparer, request);
         JspUtil.evaluateFragment(getJspBody());
-        TilesContainer container = JspUtil.getCurrentContainer(jspContext);
-        if (container instanceof MutableTilesContainer) {
-            model.end((MutableTilesContainer) container, request);
-        } else {
-            throw new TilesJspException("The current container is not mutable");
-        }
+        model.end(request);
     }
 }

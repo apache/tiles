@@ -24,7 +24,7 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerRequestUtil;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
@@ -39,9 +39,9 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link InsertDefinitionModel} to be used in FreeMarker. For the list of
  * parameters, see
- * {@link InsertDefinitionModel#start(org.apache.tiles.TilesContainer, Request)}
+ * {@link InsertDefinitionModel#start(Request)}
  * and
- * {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer, String, String, String, String, String, String, Request)}
+ * {@link InsertDefinitionModel#end(String, String, String, String, String, String, Request)}
  * .
  *
  * @version $Rev$ $Date$
@@ -69,18 +69,17 @@ public class InsertDefinitionFMModel implements TemplateDirectiveModel {
     @SuppressWarnings("unchecked")
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
-        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+        Map<String, TemplateModel> parms = params;
         Request request = FreeMarkerTilesRequestContext
-                .createServletFreemarkerRequest(container
-                        .getApplicationContext(), env);
-        model.start(container, request);
+                .createServletFreemarkerRequest(FreeMarkerRequestUtil
+                        .getApplicationContext(env), env);
+        model.start(request);
         FreeMarkerUtil.evaluateBody(body);
-        model.end(container, FreeMarkerUtil.getAsString(parms.get("name")),
-                FreeMarkerUtil.getAsString(parms.get("template")),
+        model.end(FreeMarkerUtil.getAsString(parms.get("name")), FreeMarkerUtil.getAsString(parms.get("template")),
                 FreeMarkerUtil.getAsString(parms.get("templateType")),
                 FreeMarkerUtil.getAsString(parms.get("templateExpression")),
-                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
+                FreeMarkerUtil.getAsString(parms.get("role")),
+                FreeMarkerUtil
                         .getAsString(parms.get("preparer")), request);
     }
 

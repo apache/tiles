@@ -24,7 +24,7 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerRequestUtil;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
@@ -40,7 +40,7 @@ import freemarker.template.TemplateModel;
  * Wraps {@link PutListAttributeModel} to be used in FreeMarker. For the list of
  * parameters, see
  * {@link PutListAttributeModel#start(String, boolean, Request)} and
- * {@link PutListAttributeModel#end(org.apache.tiles.TilesContainer, String, boolean, Request)}
+ * {@link PutListAttributeModel#end(String, boolean, Request)}
  * .
  *
  * @version $Rev$ $Date$
@@ -69,16 +69,15 @@ public class PutListAttributeFMModel implements TemplateDirectiveModel {
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
         Map<String, TemplateModel> parms = params;
-        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
         Request request = FreeMarkerTilesRequestContext
-                .createServletFreemarkerRequest(container
-                        .getApplicationContext(), env);
+                .createServletFreemarkerRequest(FreeMarkerRequestUtil
+                        .getApplicationContext(env), env);
         model.start(FreeMarkerUtil.getAsString(parms.get("role")),
                 FreeMarkerUtil
                         .getAsBoolean(parms.get("inherit"), false), request);
         FreeMarkerUtil.evaluateBody(body);
-        model.end(container, FreeMarkerUtil.getAsString(parms
+        model.end(FreeMarkerUtil.getAsString(parms
                 .get("name")), FreeMarkerUtil.getAsBoolean(
-        parms.get("cascade"), false), request);
+      parms.get("cascade"), false), request);
     }
 }

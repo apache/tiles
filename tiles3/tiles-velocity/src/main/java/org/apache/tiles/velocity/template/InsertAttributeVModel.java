@@ -30,9 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.template.InsertAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -43,11 +42,11 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * Wraps {@link InsertAttributeModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link InsertAttributeModel#start(org.apache.tiles.TilesContainer, boolean, String,
- * String, Object, String, String, String, Attribute, Request)}
- * , {@link InsertAttributeModel#end(org.apache.tiles.TilesContainer, boolean, Request)} and
- * {@link InsertAttributeModel#execute(org.apache.tiles.TilesContainer, boolean, String, String,
- * Object, String, String, String, Attribute, Request)}.
+ * {@link InsertAttributeModel#start(boolean, String, String,
+ * Object, String, String, String, Attribute, Request)}
+ * , {@link InsertAttributeModel#end(boolean, Request)} and
+ * {@link InsertAttributeModel#execute(boolean, String, String, Object,
+ * String, String, String, Attribute, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -86,14 +85,12 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
 
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
-                TilesContainer container = ServletUtil.getCurrentContainer(
-                        request, servletContext);
                 Request currentRequest = VelocityTilesRequestContext
-                        .createVelocityRequest(container.getApplicationContext(),
-                                request, response, velocityContext, writer);
-                model.end(container, VelocityUtil.toSimpleBoolean((Boolean) params
-                        .get("ignore"), false),
-                        currentRequest);
+                        .createVelocityRequest(ServletUtil
+                                .getApplicationContext(servletContext), request,
+                                response, velocityContext, writer);
+                model.end(VelocityUtil.toSimpleBoolean((Boolean) params
+                        .get("ignore"), false), currentRequest);
                 return true;
             }
         };
@@ -103,17 +100,15 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
         VelocityUtil.getParameterStack(velocityContext).push(params);
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container.getApplicationContext(),
-                        request, response, velocityContext, null);
-        model.start(container, VelocityUtil.toSimpleBoolean((Boolean) params.get("ignore"), false),
-                (String) params.get("preparer"),
-                (String) params.get("role"), params.get("defaultValue"),
-                (String) params.get("defaultValueRole"), (String) params.get("defaultValueType"),
-                (String) params.get("name"), (Attribute) params.get("value"),
-                currentRequest);
+                .createVelocityRequest(ServletUtil
+                        .getApplicationContext(servletContext), request,
+                        response, velocityContext, null);
+        model.start(VelocityUtil.toSimpleBoolean((Boolean) params.get("ignore"), false), (String) params.get("preparer"),
+                (String) params.get("role"),
+                params.get("defaultValue"), (String) params.get("defaultValueRole"),
+                (String) params.get("defaultValueType"), (String) params.get("name"),
+                (Attribute) params.get("value"), currentRequest);
 
     }
 
@@ -125,18 +120,17 @@ public class InsertAttributeVModel implements Executable, BodyExecutable {
 
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
-                TilesContainer container = ServletUtil.getCurrentContainer(
-                        request, servletContext);
                 Request currentRequest = VelocityTilesRequestContext
-                        .createVelocityRequest(container.getApplicationContext(),
-                                request, response, velocityContext, writer);
-                model.execute(container, VelocityUtil.toSimpleBoolean(
+                        .createVelocityRequest(ServletUtil
+                                .getApplicationContext(servletContext), request,
+                                response, velocityContext, writer);
+                model.execute(VelocityUtil.toSimpleBoolean(
                         (Boolean) params.get("ignore"), false), (String) params
-                        .get("preparer"), (String) params.get("role"), params
+                .get("preparer"), (String) params.get("role"), params
                         .get("defaultValue"), (String) params
                         .get("defaultValueRole"), (String) params
-                        .get("defaultValueType"), (String) params.get("name"),
-                        (Attribute) params.get("value"), currentRequest);
+                        .get("defaultValueType"), (String) params.get("name"), (Attribute) params.get("value"),
+                        currentRequest);
                 return true;
             }
         };

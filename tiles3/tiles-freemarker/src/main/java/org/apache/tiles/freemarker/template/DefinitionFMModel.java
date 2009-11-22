@@ -24,10 +24,9 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerRequestUtil;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
-import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefinitionModel;
 
@@ -40,7 +39,7 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link DefinitionModel} to be used in FreeMarker. For the list of
  * parameters, see {@link DefinitionModel#start(String, String, String, String, String, Request)} and
- * {@link DefinitionModel#end(MutableTilesContainer, Request)}.
+ * {@link DefinitionModel#end(Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -67,10 +66,9 @@ public class DefinitionFMModel implements TemplateDirectiveModel {
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
         Map<String, TemplateModel> parms = params;
-        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
         Request request = FreeMarkerTilesRequestContext
-                .createServletFreemarkerRequest(container
-                        .getApplicationContext(), env);
+                .createServletFreemarkerRequest(FreeMarkerRequestUtil
+                        .getApplicationContext(env), env);
         model.start(FreeMarkerUtil.getAsString(parms.get("name")),
                 FreeMarkerUtil.getAsString(parms.get("template")),
                 FreeMarkerUtil.getAsString(parms.get("role")),
@@ -78,7 +76,7 @@ public class DefinitionFMModel implements TemplateDirectiveModel {
                 FreeMarkerUtil.getAsString(parms.get("preparer")),
                 request);
         FreeMarkerUtil.evaluateBody(body);
-        model.end((MutableTilesContainer) container, request);
+        model.end(request);
     }
 
 }

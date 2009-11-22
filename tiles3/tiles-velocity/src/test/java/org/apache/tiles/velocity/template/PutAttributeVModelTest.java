@@ -33,9 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.ArrayStack;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 import org.apache.tiles.template.PutAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -68,6 +67,8 @@ public class PutAttributeVModelTest {
      */
     private ServletContext servletContext;
 
+    private ApplicationContext applicationContext;
+
     /**
      * Sets up the model to test.
      */
@@ -75,6 +76,10 @@ public class PutAttributeVModelTest {
     public void setUp() {
         tModel = createMock(PutAttributeModel.class);
         servletContext = createMock(ServletContext.class);
+        applicationContext = createMock(ApplicationContext.class);
+        expect(servletContext.getAttribute(ApplicationContextUtil
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
+                .anyTimes();
     }
 
     /**
@@ -87,20 +92,15 @@ public class PutAttributeVModelTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
-        TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        tModel.execute(eq(container), eq("myName"), eq("myValue"), eq("myExpression"),
-                (String) isNull(), eq("myRole"), eq("myType"), eq(false),
-                isA(VelocityTilesRequestContext.class));
+        tModel.execute(eq("myName"), eq("myValue"), eq("myExpression"), (String) isNull(),
+                eq("myRole"), eq("myType"), eq(false), isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, container, servletContext, request, response, velocityContext, applicationContext);
+        replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.execute(request, response, velocityContext, params));
-        verify(tModel, container, servletContext, request, response, velocityContext, applicationContext);
+        verify(tModel, servletContext, request, response, velocityContext, applicationContext);
     }
 
     /**
@@ -115,20 +115,16 @@ public class PutAttributeVModelTest {
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
         ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
-        TilesContainer container = createMock(TilesContainer.class);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
         tModel.start(isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, servletContext, request, response, velocityContext, container, applicationContext);
+        replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
         model.start(request, response, velocityContext, params);
         assertEquals(1, parameterMapStack.size());
         assertEquals(params, parameterMapStack.peek());
-        verify(tModel, servletContext, request, response, velocityContext, container, applicationContext);
+        verify(tModel, servletContext, request, response, velocityContext, applicationContext);
     }
 
     /**
@@ -141,24 +137,19 @@ public class PutAttributeVModelTest {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
-        TilesContainer container = createMock(TilesContainer.class);
         Map<String, Object> params = createParams();
         ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
         parameterMapStack.push(params);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
-        tModel.end(eq(container), eq("myName"), eq("myValue"), eq("myExpression"),
-                (String) isNull(), eq("myRole"), eq("myType"), eq(false),
-                isA(VelocityTilesRequestContext.class));
+        tModel.end(eq("myName"), eq("myValue"), eq("myExpression"), (String) isNull(),
+                eq("myRole"), eq("myType"), eq(false), isA(VelocityTilesRequestContext.class));
 
-        replay(tModel, container, servletContext, request, response, velocityContext, applicationContext);
+        replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));
         assertTrue(parameterMapStack.isEmpty());
-        verify(tModel, container, servletContext, request, response, velocityContext, applicationContext);
+        verify(tModel, servletContext, request, response, velocityContext, applicationContext);
     }
 
     /**

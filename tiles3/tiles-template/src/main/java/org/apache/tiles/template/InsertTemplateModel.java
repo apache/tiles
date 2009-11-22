@@ -24,6 +24,7 @@ package org.apache.tiles.template;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
 
 /**
@@ -66,19 +67,18 @@ public class InsertTemplateModel {
 
     /**
      * Starts the operation.
-     *
-     * @param container The Tiles container.
      * @param request TODO
+     * @param container The Tiles container.
+     *
      * @since 2.2.0
      */
-    public void start(TilesContainer container, Request request) {
+    public void start(Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
         container.startContext(request);
     }
 
     /**
      * Ends the operation.
-     *
-     * @param container The Tiles container.
      * @param template The template to render.
      * @param templateType The type of the template attribute.
      * @param templateExpression The expression to evaluate to get the value of the template.
@@ -88,10 +88,43 @@ public class InsertTemplateModel {
      * rendered. If specified, it overrides the preparer specified in the
      * definition itself.
      * @param request TODO
+     * @param container The Tiles container.
+     *
      * @since 2.2.0
      */
-    public void end(TilesContainer container, String template, String templateType,
-            String templateExpression, String role, String preparer, Request request) {
+    public void end(String template, String templateType, String templateExpression,
+            String role, String preparer, Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
+        renderTemplate(container, template, templateType, templateExpression,
+                role, preparer, request);
+    }
+
+    /**
+     * Executes the operation.
+     * @param template The template to render.
+     * @param templateType The type of the template attribute.
+     * @param templateExpression The expression to evaluate to get the value of the template.
+     * @param role A comma-separated list of roles. If present, the template
+     * will be rendered only if the current user belongs to one of the roles.
+     * @param preparer The preparer to use to invoke before the definition is
+     * rendered. If specified, it overrides the preparer specified in the
+     * definition itself.
+     * @param request TODO
+     * @param container The Tiles container.
+     *
+     * @since 2.2.0
+     */
+    public void execute(String template, String templateType, String templateExpression,
+            String role, String preparer, Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
+        container.startContext(request);
+        renderTemplate(container, template, templateType, templateExpression,
+                role, preparer, request);
+    }
+
+    private void renderTemplate(TilesContainer container, String template,
+            String templateType, String templateExpression, String role,
+            String preparer, Request request) {
         try {
             AttributeContext attributeContext = container
                     .getAttributeContext(request);
@@ -103,26 +136,5 @@ public class InsertTemplateModel {
         } finally {
             container.endContext(request);
         }
-    }
-
-    /**
-     * Executes the operation.
-     *
-     * @param container The Tiles container.
-     * @param template The template to render.
-     * @param templateType The type of the template attribute.
-     * @param templateExpression The expression to evaluate to get the value of the template.
-     * @param role A comma-separated list of roles. If present, the template
-     * will be rendered only if the current user belongs to one of the roles.
-     * @param preparer The preparer to use to invoke before the definition is
-     * rendered. If specified, it overrides the preparer specified in the
-     * definition itself.
-     * @param request TODO
-     * @since 2.2.0
-     */
-    public void execute(TilesContainer container, String template, String templateType,
-            String templateExpression, String role, String preparer, Request request) {
-        start(container, request);
-        end(container, template, templateType, templateExpression, role, preparer, request);
     }
 }

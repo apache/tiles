@@ -30,9 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.template.GetAsStringModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -43,11 +42,11 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * Wraps {@link GetAsStringModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link GetAsStringModel#start(TilesContainer, boolean, String,
- * String, Object, String, String, String, Attribute, Request)}
- * , {@link GetAsStringModel#end(TilesContainer, Writer, boolean, Request)} and
- * {@link GetAsStringModel#execute(TilesContainer, Writer, boolean, String,
- * String, Object, String, String, String, Attribute, Request)}.
+ * {@link GetAsStringModel#start(boolean, String, String,
+ * Object, String, String, String, Attribute, Request)}
+ * , {@link GetAsStringModel#end(boolean, Request)} and
+ * {@link GetAsStringModel#execute(boolean, String, String, Object,
+ * String, String, String, Attribute, Request)}.
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
@@ -86,21 +85,18 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
 
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
-                TilesContainer container = ServletUtil.getCurrentContainer(
-                        request, servletContext);
                 Request currentRequest = VelocityTilesRequestContext
-                        .createVelocityRequest(container
-                                .getApplicationContext(), request, response,
-                                velocityContext, writer);
-                model.execute(container, writer,
-                        VelocityUtil.toSimpleBoolean((Boolean) params
-                                .get("ignore"), false), (String) params
-                                .get("preparer"), (String) params.get("role"),
-                        params.get("defaultValue"), (String) params
-                                .get("defaultValueRole"), (String) params
-                                .get("defaultValueType"), (String) params
-                                .get("name"), (Attribute) params.get("value"),
-                        currentRequest);
+                        .createVelocityRequest(ServletUtil
+                                .getApplicationContext(servletContext), request,
+                                response, velocityContext, writer);
+                model.execute(VelocityUtil.toSimpleBoolean((Boolean) params
+                        .get("ignore"), false), (String) params
+                .get("preparer"),
+                        (String) params.get("role"), params.get("defaultValue"), (String) params
+                                .get("defaultValueRole"),
+                        (String) params
+                  .get("defaultValueType"), (String) params
+                                        .get("name"), (Attribute) params.get("value"), currentRequest);
                 return true;
             }
         };
@@ -110,18 +106,16 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
         VelocityUtil.getParameterStack(velocityContext).push(params);
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container.getApplicationContext(),
-                        request, response, velocityContext, null);
-        model.start(container, VelocityUtil
-                .toSimpleBoolean((Boolean) params.get("ignore"), false), (String) params.get("preparer"),
-                (String) params.get("role"), params.get("defaultValue"),
+                .createVelocityRequest(ServletUtil
+                        .getApplicationContext(servletContext), request,
+                        response, velocityContext, null);
+        model.start(VelocityUtil
+                .toSimpleBoolean((Boolean) params.get("ignore"), false), (String) params.get("preparer"), (String) params.get("role"),
+                params.get("defaultValue"), (String) params
+                        .get("defaultValueRole"),
                 (String) params
-                        .get("defaultValueRole"), (String) params
-                .get("defaultValueType"), (String) params.get("name"), (Attribute) params.get("value"),
-                currentRequest);
+            .get("defaultValueType"), (String) params.get("name"), (Attribute) params.get("value"), currentRequest);
     }
 
     /** {@inheritDoc} */
@@ -133,14 +127,12 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
 
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
-                TilesContainer container = ServletUtil.getCurrentContainer(
-                        request, servletContext);
                 Request currentRequest = VelocityTilesRequestContext
-                        .createVelocityRequest(container.getApplicationContext(),
-                                request, response, velocityContext, writer);
-                model.end(container, writer, VelocityUtil.toSimpleBoolean((Boolean) params
-                        .get("ignore"), false),
-                        currentRequest);
+                        .createVelocityRequest(ServletUtil
+                                .getApplicationContext(servletContext), request,
+                                response, velocityContext, writer);
+                model.end(VelocityUtil.toSimpleBoolean((Boolean) params
+                        .get("ignore"), false), currentRequest);
                 return true;
             }
         };

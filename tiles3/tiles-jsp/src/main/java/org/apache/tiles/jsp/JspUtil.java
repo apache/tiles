@@ -26,19 +26,11 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
 
-import org.apache.tiles.ArrayStack;
-import org.apache.tiles.NoSuchContainerException;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.jsp.taglib.TilesJspException;
-import org.apache.tiles.servlet.context.ServletUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for working within a Jsp environment.
@@ -69,148 +61,6 @@ public final class JspUtil {
      * Constructor, private to avoid instantiation.
      */
     private JspUtil() {
-    }
-
-    /**
-     * Returns the default Tiles container.
-     *
-     * @param context The page context to use.
-     * @return The default Tiles container.
-     * @since 2.1.2
-     */
-    public static TilesContainer getContainer(JspContext context) {
-        return getContainer(context, TilesAccess.CONTAINER_ATTRIBUTE);
-    }
-
-    /**
-     * Returns a specific Tiles container.
-     *
-     * @param context The page context to use.
-     * @param key The key under which the container is stored. If null, the
-     * default container will be returned.
-     * @return The requested Tiles container.
-     * @since 2.1.2
-     */
-    public static TilesContainer getContainer(JspContext context, String key) {
-        if (key == null) {
-            key = TilesAccess.CONTAINER_ATTRIBUTE;
-        }
-        return (TilesContainer) context.getAttribute(key,
-                PageContext.APPLICATION_SCOPE);
-    }
-
-    /**
-     * Configures the default container to be used in the application.
-     *
-     * @param context The page context object to use.
-     * @param container The container object to set.
-     * @since 2.1.2
-     */
-    public static void setContainer(JspContext context,
-            TilesContainer container) {
-        setContainer(context, container, TilesAccess.CONTAINER_ATTRIBUTE);
-    }
-
-    /**
-     * Configures the container to be used in the application.
-     *
-     * @param context The page context object to use.
-     * @param container The container object to set.
-     * @param key The key under which the container will be stored.
-     * @since 2.1.2
-     */
-    public static void setContainer(JspContext context,
-            TilesContainer container, String key) {
-        Logger log = LoggerFactory.getLogger(ServletUtil.class);
-        if (key == null) {
-            key = TilesAccess.CONTAINER_ATTRIBUTE;
-        }
-
-        if (container == null) {
-            if (log.isInfoEnabled()) {
-                log.info("Removing TilesContext for context: " + context.getClass().getName());
-            }
-            context.removeAttribute(key, PageContext.APPLICATION_SCOPE);
-        }
-        if (container != null && log.isInfoEnabled()) {
-            log.info("Publishing TilesContext for context: " + context.getClass().getName());
-        }
-        context.setAttribute(key, container, PageContext.APPLICATION_SCOPE);
-    }
-
-    /**
-     * Sets the current container to use in web pages.
-     *
-     * @param context The page context to use.
-     * @param key The key under which the container is stored.
-     * @since 2.1.0
-     */
-    public static void setCurrentContainer(JspContext context, String key) {
-        TilesContainer container = getContainer(context, key);
-        if (container != null) {
-            context.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
-                    container, PageContext.REQUEST_SCOPE);
-        } else {
-            throw new NoSuchContainerException("The container with the key '"
-                    + key + "' cannot be found");
-        }
-    }
-
-    /**
-     * Sets the current container to use in web pages.
-     *
-     * @param context The page context to use.
-     * @param container The container to use as the current container.
-     * @since 2.1.0
-     */
-    public static void setCurrentContainer(JspContext context,
-            TilesContainer container) {
-        if (container != null) {
-            context.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
-                    container, PageContext.REQUEST_SCOPE);
-        } else {
-            throw new NoSuchContainerException("The container cannot be null");
-        }
-    }
-
-    /**
-     * Returns the current container that has been set, or the default one.
-     *
-     * @param context The page context to use.
-     * @return The current Tiles container to use in web pages.
-     * @since 2.1.0
-     */
-    public static TilesContainer getCurrentContainer(JspContext context) {
-        TilesContainer container = (TilesContainer) context.getAttribute(
-                TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
-                PageContext.REQUEST_SCOPE);
-        if (container == null) {
-            container = getContainer(context);
-            context.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME,
-                    container, PageContext.REQUEST_SCOPE);
-        }
-
-        return container;
-    }
-
-    /**
-     * Returns the compose stack, that is used by the tags to compose
-     * definitions, attributes, etc.
-     *
-     * @param context The page context.
-     * @return The compose stack.
-     * @since 2.2.0
-     */
-    @SuppressWarnings("unchecked")
-    public static ArrayStack<Object> getComposeStack(JspContext context) {
-        ArrayStack<Object> composeStack = (ArrayStack<Object>) context.getAttribute(
-                COMPOSE_STACK_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE);
-        if (composeStack == null) {
-            composeStack = new ArrayStack<Object>();
-            context.setAttribute(COMPOSE_STACK_ATTRIBUTE_NAME, composeStack,
-                    PageContext.REQUEST_SCOPE);
-        }
-        return composeStack;
     }
 
     /**

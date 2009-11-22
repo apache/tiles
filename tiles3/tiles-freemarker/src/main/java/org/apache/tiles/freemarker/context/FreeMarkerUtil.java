@@ -24,15 +24,8 @@ package org.apache.tiles.freemarker.context;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.tiles.ArrayStack;
-import org.apache.tiles.NoSuchContainerException;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.freemarker.io.NullWriter;
-import org.apache.tiles.servlet.context.ServletUtil;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -83,67 +76,6 @@ public final class FreeMarkerUtil {
     public static void setForceInclude(Environment env, boolean forceInclude) {
         org.apache.tiles.request.servlet.ServletUtil.setForceInclude(
                 FreeMarkerRequestUtil.getRequestHashModel(env).getRequest(), forceInclude);
-    }
-
-    /**
-     * Returns a specific Tiles container.
-     *
-     * @param env The current FreeMarker environment.
-     * @param key The key under which the container is stored. If null, the
-     * default container will be returned.
-     * @return The requested Tiles container.
-     * @since 2.2.0
-     */
-    public static TilesContainer getContainer(Environment env, String key) {
-        if (key == null) {
-            key = TilesAccess.CONTAINER_ATTRIBUTE;
-        }
-        return (TilesContainer) FreeMarkerRequestUtil.getServletContextHashModel(env).getServlet()
-                .getServletContext().getAttribute(key);
-    }
-
-    /**
-     * Sets the current container to use in web pages.
-     *
-     * @param env The current FreeMarker environment.
-     * @param key The key under which the container is stored.
-     * @since 2.2.0
-     */
-    public static void setCurrentContainer(Environment env, String key) {
-        TilesContainer container = getContainer(env, key);
-        if (container != null) {
-            FreeMarkerRequestUtil.getRequestHashModel(env).getRequest().setAttribute(
-                    TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        } else {
-            throw new NoSuchContainerException("The container with the key '"
-                    + key + "' cannot be found");
-        }
-    }
-
-    /**
-     * Sets the current container to use in web pages.
-     *
-     * @param env The current FreeMarker environment.
-     * @param container The container to use as the current container.
-     * @since 2.2.0
-     */
-    public static void setCurrentContainer(Environment env,
-            TilesContainer container) {
-        ServletUtil.setCurrentContainer(FreeMarkerRequestUtil.getRequestHashModel(env).getRequest(),
-                container);
-    }
-
-    /**
-     * Returns the current container that has been set, or the default one.
-     *
-     * @param env The current FreeMarker environment.
-     * @return The current Tiles container to use in web pages.
-     * @since 2.2.0
-     */
-    public static TilesContainer getCurrentContainer(Environment env) {
-        return ServletUtil.getCurrentContainer(FreeMarkerRequestUtil.getRequestHashModel(env)
-                .getRequest(), FreeMarkerRequestUtil.getServletContextHashModel(env).getServlet()
-                .getServletContext());
     }
 
     /**
@@ -225,25 +157,6 @@ public final class FreeMarkerUtil {
             FreeMarkerRequestUtil.getServletContextHashModel(env).getServlet().getServletContext()
                     .setAttribute(name, obj);
         }
-    }
-
-    /**
-     * Returns the current compose stack, or creates a new one if not present.
-     *
-     * @param env The current FreeMarker environment.
-     * @return The compose stack.
-     * @since 2.2.0
-     */
-    @SuppressWarnings("unchecked")
-    public static ArrayStack<Object> getComposeStack(Environment env) {
-        HttpServletRequest request = FreeMarkerRequestUtil.getRequestHashModel(env).getRequest();
-        ArrayStack<Object> composeStack = (ArrayStack<Object>) request
-                .getAttribute(COMPOSE_STACK_ATTRIBUTE_NAME);
-        if (composeStack == null) {
-            composeStack = new ArrayStack<Object>();
-            request.setAttribute(COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
-        }
-        return composeStack;
     }
 
     /**

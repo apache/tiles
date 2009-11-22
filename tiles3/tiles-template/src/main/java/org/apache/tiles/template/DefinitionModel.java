@@ -24,6 +24,7 @@ package org.apache.tiles.template;
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
 
@@ -63,14 +64,15 @@ public class DefinitionModel {
 
     /**
      * Ends the operation.
-     *
-     * @param container The Tiles container to use. It must be "mutable".
      * @param request TODO
+     * @param container The Tiles container to use. It must be "mutable".
      * @param composeStack The compose stack.
+     *
      * @since 2.2.0
      */
-    public void end(MutableTilesContainer container,
-            Request request) {
+    public void end(Request request) {
+        MutableTilesContainer container = (MutableTilesContainer) TilesAccess
+                .getCurrentContainer(request);
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Definition definition = (Definition) composeStack.pop();
         registerDefinition(definition, container, composeStack, request);
@@ -78,8 +80,6 @@ public class DefinitionModel {
 
     /**
      * Executes the operation.
-     *
-     * @param container The Tiles container to use. It must be "mutable".
      * @param name The name of the definition to create. If not specified, an anonymous definition will be created.
      * @param template The template of this definition.
      * @param role A comma-separated list of roles. If present, the definition
@@ -87,12 +87,16 @@ public class DefinitionModel {
      * @param extendsParam The definition name that this definition extends.
      * @param preparer The preparer to use to invoke before the definition is rendered.
      * @param request TODO
+     * @param container The Tiles container to use. It must be "mutable".
      * @param composeStack The compose stack.
+     *
      * @since 2.2.0
      */
-    public void execute(MutableTilesContainer container,
-            String name, String template, String role,
-            String extendsParam, String preparer, Request request) {
+    public void execute(String name,
+            String template, String role, String extendsParam,
+            String preparer, Request request) {
+        MutableTilesContainer container = (MutableTilesContainer) TilesAccess
+                .getCurrentContainer(request);
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Definition definition = createDefinition(name, template, role,
                 extendsParam, preparer);

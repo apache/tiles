@@ -25,7 +25,6 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Locale;
@@ -37,10 +36,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 import org.apache.tiles.template.ImportAttributeModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -95,10 +93,10 @@ public class ImportAttributeFMModelTest {
     private ObjectWrapper objectWrapper;
 
     /**
-     * @throws java.lang.Exception If something goes wrong.
+     * Sets up the model.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         template = createMock(Template.class);
         model = createMock(TemplateHashModel.class);
         expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
@@ -110,27 +108,23 @@ public class ImportAttributeFMModelTest {
      * Test method for {@link org.apache.tiles.freemarker.template.ImportAttributeFMModel
      * #execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[],
      * freemarker.template.TemplateDirectiveBody)}.
-     * @throws IOException If something goes wrong.
      * @throws TemplateException If something goes wrong.
      */
     @Test
-    public void testExecute() throws TemplateException, IOException {
+    public void testExecute() throws TemplateException {
         ImportAttributeModel tModel = createMock(ImportAttributeModel.class);
         ImportAttributeFMModel fmModel = new ImportAttributeFMModel(tModel);
-        TilesContainer container = createMock(TilesContainer.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
+        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
@@ -148,35 +142,30 @@ public class ImportAttributeFMModelTest {
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put("one", "value1");
         attributes.put("two", "value2");
-        expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"),
-                eq(false), isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
+        expect(tModel.getImportedAttributes(eq("myName"), eq("myToName"), eq(false),
+                isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
 
-        replay(tModel, body, container, attribute, applicationContext);
+        replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
         assertEquals("value1", DeepUnwrap.unwrap(env.getCurrentNamespace().get("one")));
         assertEquals("value2", DeepUnwrap.unwrap(env.getCurrentNamespace().get("two")));
-        verify(template, model, request, tModel, body, container, servlet,
-                servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, servlet, servletContext,
+                attribute, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.freemarker.template.ImportAttributeFMModel
      * #execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[],
      * freemarker.template.TemplateDirectiveBody)}.
-     * @throws IOException If something goes wrong.
      * @throws TemplateException If something goes wrong.
      */
     @Test
-    public void testExecuteRequest() throws TemplateException, IOException {
+    public void testExecuteRequest() throws TemplateException {
         ImportAttributeModel tModel = createMock(ImportAttributeModel.class);
         ImportAttributeFMModel fmModel = new ImportAttributeFMModel(tModel);
-        TilesContainer container = createMock(TilesContainer.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         request.setAttribute("one", "value1");
         request.setAttribute("two", "value2");
         replay(request);
@@ -184,8 +173,9 @@ public class ImportAttributeFMModelTest {
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
+        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
@@ -203,35 +193,30 @@ public class ImportAttributeFMModelTest {
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put("one", "value1");
         attributes.put("two", "value2");
-        expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"),
-                eq(false), isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
+        expect(tModel.getImportedAttributes(eq("myName"), eq("myToName"), eq(false),
+                isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
 
-        replay(tModel, body, container, attribute, applicationContext);
+        replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body, container, servlet,
-                servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, servlet, servletContext,
+                attribute, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.freemarker.template.ImportAttributeFMModel
      * #execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[],
      * freemarker.template.TemplateDirectiveBody)}.
-     * @throws IOException If something goes wrong.
      * @throws TemplateException If something goes wrong.
      */
     @Test
-    public void testExecuteSession() throws TemplateException, IOException {
+    public void testExecuteSession() throws TemplateException {
         ImportAttributeModel tModel = createMock(ImportAttributeModel.class);
         ImportAttributeFMModel fmModel = new ImportAttributeFMModel(tModel);
-        TilesContainer container = createMock(TilesContainer.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpSession session = createMock(HttpSession.class);
         expect(request.getSession()).andReturn(session).times(2);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         session.setAttribute("one", "value1");
         session.setAttribute("two", "value2");
         replay(request, session);
@@ -239,8 +224,9 @@ public class ImportAttributeFMModelTest {
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
+        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
-        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
@@ -258,40 +244,36 @@ public class ImportAttributeFMModelTest {
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put("one", "value1");
         attributes.put("two", "value2");
-        expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"),
-                eq(false), isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
+        expect(tModel.getImportedAttributes(eq("myName"), eq("myToName"), eq(false),
+                isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
 
-        replay(tModel, body, container, attribute, applicationContext);
+        replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, session, tModel, body, container,
-                servlet, servletContext, attribute, applicationContext);
+        verify(template, model, request, session, tModel, body, servlet,
+                servletContext, attribute, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.freemarker.template.ImportAttributeFMModel
      * #execute(freemarker.core.Environment, java.util.Map, freemarker.template.TemplateModel[],
      * freemarker.template.TemplateDirectiveBody)}.
-     * @throws IOException If something goes wrong.
      * @throws TemplateException If something goes wrong.
      */
     @Test
-    public void testExecuteApplication() throws TemplateException, IOException {
+    public void testExecuteApplication() throws TemplateException {
         ImportAttributeModel tModel = createMock(ImportAttributeModel.class);
         ImportAttributeFMModel fmModel = new ImportAttributeFMModel(tModel);
-        TilesContainer container = createMock(TilesContainer.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
         expect(servlet.getServletContext()).andReturn(servletContext).anyTimes();
-        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
+        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         servletContext.setAttribute("one", "value1");
         servletContext.setAttribute("two", "value2");
         replay(servlet, servletContext);
@@ -311,13 +293,13 @@ public class ImportAttributeFMModelTest {
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put("one", "value1");
         attributes.put("two", "value2");
-        expect(tModel.getImportedAttributes(eq(container), eq("myName"), eq("myToName"),
-                eq(false), isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
+        expect(tModel.getImportedAttributes(eq("myName"), eq("myToName"), eq(false),
+                isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
 
-        replay(tModel, body, container, attribute, applicationContext);
+        replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body, container, servlet,
-                servletContext, attribute, applicationContext);
+        verify(template, model, request, tModel, body, servlet, servletContext,
+                attribute, applicationContext);
     }
 
     /**

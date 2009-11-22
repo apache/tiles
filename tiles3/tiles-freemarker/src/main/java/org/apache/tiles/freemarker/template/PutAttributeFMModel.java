@@ -24,7 +24,7 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.TilesContainer;
+import org.apache.tiles.freemarker.context.FreeMarkerRequestUtil;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
@@ -39,7 +39,7 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link PutAttributeModel} to be used in FreeMarker. For the list of
  * parameters, see {@link PutAttributeModel#start(Request)} and
- * {@link PutAttributeModel #end(org.apache.tiles.TilesContainer, String, Object, String, String, String, String, boolean, Request)}
+ * {@link PutAttributeModel #end(String, Object, String, String, String, String, boolean, Request)}
  * .
  *
  * @version $Rev$ $Date$
@@ -67,19 +67,18 @@ public class PutAttributeFMModel implements TemplateDirectiveModel {
     @SuppressWarnings("unchecked")
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
-        TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
         Request request = FreeMarkerTilesRequestContext
-                .createServletFreemarkerRequest(container
-                        .getApplicationContext(), env);
+                .createServletFreemarkerRequest(FreeMarkerRequestUtil
+                        .getApplicationContext(env), env);
         model.start(request);
         String bodyString = FreeMarkerUtil.renderAsString(body);
         Map<String, TemplateModel> parms = params;
-        model.end(container, FreeMarkerUtil.getAsString(parms
-                .get("name")), FreeMarkerUtil.getAsObject(parms.get("value")), FreeMarkerUtil.getAsString(parms.get("expression")),
-                bodyString,
-                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil.getAsString(parms.get("type")),
-                FreeMarkerUtil
-                        .getAsBoolean(parms.get("cascade"), false), request);
+        model.end(FreeMarkerUtil.getAsString(parms
+                .get("name")), FreeMarkerUtil.getAsObject(parms.get("value")), FreeMarkerUtil.getAsString(parms.get("expression")), bodyString,
+                FreeMarkerUtil.getAsString(parms.get("role")),
+                FreeMarkerUtil.getAsString(parms.get("type")), FreeMarkerUtil
+                        .getAsBoolean(parms.get("cascade"), false),
+                request);
     }
 
 }

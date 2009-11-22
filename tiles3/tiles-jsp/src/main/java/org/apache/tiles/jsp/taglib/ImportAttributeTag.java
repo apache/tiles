@@ -27,7 +27,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.request.Request;
@@ -160,13 +159,12 @@ public class ImportAttributeTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException {
         JspContext jspContext = getJspContext();
-        TilesContainer currentContainer = JspUtil
-                .getCurrentContainer(jspContext);
         Request request = JspTilesRequestContext.createServletJspRequest(
-                currentContainer.getApplicationContext(),
+                org.apache.tiles.request.jsp.JspUtil
+                        .getApplicationContext(jspContext),
                 (PageContext) jspContext);
         Map<String, Object> attributes = model.getImportedAttributes(
-                currentContainer, name, toName, ignore, request);
+                name, toName, ignore, request);
         int scopeId = JspUtil.getScope(scopeName);
         for (Map.Entry<String, Object> entry : attributes.entrySet()) {
             jspContext.setAttribute(entry.getKey(), entry.getValue(), scopeId);

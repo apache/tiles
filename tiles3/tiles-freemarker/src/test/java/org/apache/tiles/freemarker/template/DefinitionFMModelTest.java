@@ -34,11 +34,10 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
-import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextUtil;
 import org.apache.tiles.template.DefinitionModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -114,20 +113,17 @@ public class DefinitionFMModelTest {
     public void testExecute() throws TemplateException, IOException {
         DefinitionModel tModel = createMock(DefinitionModel.class);
         DefinitionFMModel fmModel = new DefinitionFMModel(tModel);
-        MutableTilesContainer container = createMock(MutableTilesContainer.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(container.getApplicationContext()).andReturn(applicationContext);
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(null);
-        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
+        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).anyTimes();
-        expect(servletContext.getAttribute(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
@@ -145,12 +141,13 @@ public class DefinitionFMModelTest {
         tModel.start(eq("myName"), eq("myTemplate"), eq("myRole"),
                 eq("myExtends"), eq("myPreparer"),
                 isA(FreeMarkerTilesRequestContext.class));
-        tModel.end(eq(container), isA(FreeMarkerTilesRequestContext.class));
+        tModel.end(isA(FreeMarkerTilesRequestContext.class));
         body.render(isA(NullWriter.class));
 
-        replay(tModel, body, container, applicationContext);
+        replay(tModel, body, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, tModel, body, container, servlet, servletContext, applicationContext);
+        verify(template, model, request, tModel, body, servlet, servletContext,
+                applicationContext);
     }
 
     /**

@@ -33,6 +33,7 @@ import org.apache.tiles.template.InsertDefinitionModel;
 import org.apache.tiles.template.InsertTemplateModel;
 import org.apache.tiles.template.PutAttributeModel;
 import org.apache.tiles.template.PutListAttributeModel;
+import org.apache.tiles.template.SetCurrentContainerModel;
 
 /**
  * Collects all Tiles FreeMarker directives to be used in an application.
@@ -119,7 +120,8 @@ public class TilesFMModelRepository {
         putAttribute = new PutAttributeFMModel(new PutAttributeModel());
         putListAttribute = new PutListAttributeFMModel(
                 new PutListAttributeModel());
-        setCurrentContainer = new SetCurrentContainerFMModel();
+        setCurrentContainer = new SetCurrentContainerFMModel(
+                new SetCurrentContainerModel());
     }
     /**
      * Returns the "addAttribute" directive.

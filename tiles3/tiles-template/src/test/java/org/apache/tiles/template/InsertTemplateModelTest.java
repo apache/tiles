@@ -23,9 +23,14 @@ package org.apache.tiles.template;
 
 import static org.easymock.EasyMock.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,54 +57,68 @@ public class InsertTemplateModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #start(org.apache.tiles.TilesContainer, Request)}.
+     * #start(Request)}.
      */
     @Test
     public void testStart() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
         expect(container.startContext(request)).andReturn(attributeContext);
 
-        replay(container, attributeContext, request);
-        model.start(container, request);
-        verify(container, attributeContext, request);
+        replay(container, attributeContext, request, applicationContext);
+        model.start(request);
+        verify(container, attributeContext, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #end(TilesContainer, String, String, String, String, String, Request)}.
+     * #end(String, String, String, String, String, Request)}.
      */
     @Test
     public void testEnd() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         container.endContext(request);
         attributeContext.setPreparer("myPreparer");
         attributeContext.setTemplateAttribute((Attribute) notNull());
         container.renderContext(request);
 
-        replay(container, attributeContext, request);
-        model.end(container, "myTemplate", "myTemplateType",
-                "myTemplateExpression", "myRole", "myPreparer",
-                request);
-        verify(container, attributeContext, request);
+        replay(container, attributeContext, request, applicationContext);
+        model.end("myTemplate", "myTemplateType", "myTemplateExpression",
+                "myRole", "myPreparer", request);
+        verify(container, attributeContext, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #execute(TilesContainer, String, String, String, String, String, Request)}.
+     * #execute(String, String, String, String, String, Request)}.
      */
     @Test
     public void testExecute() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
         expect(container.startContext(request)).andReturn(attributeContext);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         container.endContext(request);
@@ -107,11 +126,11 @@ public class InsertTemplateModelTest {
         attributeContext.setTemplateAttribute((Attribute) notNull());
         container.renderContext(request);
 
-        replay(container, attributeContext, request);
-        model.execute(container, "myTemplate", "myTemplateType",
-                "myTemplateExpression", "myRole",
-                "myPreparer", request);
-        verify(container, attributeContext, request);
+        replay(container, attributeContext, request, applicationContext);
+        model.execute("myTemplate", "myTemplateType", "myTemplateExpression",
+                "myRole", "myPreparer",
+                request);
+        verify(container, attributeContext, request, applicationContext);
     }
 
 }

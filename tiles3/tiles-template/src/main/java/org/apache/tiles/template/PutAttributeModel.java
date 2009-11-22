@@ -26,6 +26,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
 
 /**
@@ -81,8 +82,6 @@ public class PutAttributeModel {
 
     /**
      * Ends the operation.
-     *
-     * @param container The Tiles container to use.
      * @param name The name of the attribute to put.
      * @param value The value of the attribute. Use this parameter, or
      * expression, or body.
@@ -95,12 +94,15 @@ public class PutAttributeModel {
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
      * @param request TODO
+     * @param container The Tiles container to use.
      * @param composeStack The composing stack.
+     *
      * @since 2.2.0
      */
-    public void end(TilesContainer container, String name,
-            Object value, String expression, String body, String role,
-            String type, boolean cascade, Request request) {
+    public void end(String name, Object value,
+            String expression, String body, String role, String type,
+            boolean cascade, Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = (Attribute) composeStack.pop();
         putAttributeInParent(attribute, container, composeStack, name, value,
@@ -109,8 +111,6 @@ public class PutAttributeModel {
 
     /**
      * Executes the operation.
-     *
-     * @param container The Tiles container to use.
      * @param name The name of the attribute to put.
      * @param value The value of the attribute. Use this parameter, or
      * expression, or body.
@@ -123,12 +123,15 @@ public class PutAttributeModel {
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
      * @param request TODO
+     * @param container The Tiles container to use.
      * @param composeStack The composing stack.
+     *
      * @since 2.2.0
      */
-    public void execute(TilesContainer container, String name,
-            Object value, String expression, String body, String role,
-            String type, boolean cascade, Request request) {
+    public void execute(String name, Object value,
+            String expression, String body, String role, String type,
+            boolean cascade, Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         putAttributeInParent(new Attribute(), container, composeStack, name,
                 value, expression, body, role, type, cascade, request);

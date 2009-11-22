@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,8 +56,6 @@ public class ImportAttributeModel {
     /**
      * Retuns a Map that contains the attributes to be imported. The importing
      * code must be done by the caller.
-     *
-     * @param container The Tiles container to use.
      * @param name The attribute to import. If null, all the attributes will be
      * imported.
      * @param toName The destination name of the attribute to import. Valid only
@@ -64,12 +63,15 @@ public class ImportAttributeModel {
      * @param ignore If <code>true</code> and the attribute is not found, or an
      * exception happens, the problem will be ignored.
      * @param request TODO
+     * @param container The Tiles container to use.
+     *
      * @return A Map of the attributes to be imported: the key is the name of an
      * attribute, the value is the value of that attribute.
      * @since 2.2.0
      */
-    public Map<String, Object> getImportedAttributes(TilesContainer container,
-            String name, String toName, boolean ignore, Request request) {
+    public Map<String, Object> getImportedAttributes(String name,
+            String toName, boolean ignore, Request request) {
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
         Map<String, Object> retValue = new HashMap<String, Object>();
         AttributeContext attributeContext = container
                 .getAttributeContext(request);

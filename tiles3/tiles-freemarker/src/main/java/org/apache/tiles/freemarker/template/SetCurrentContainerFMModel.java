@@ -21,15 +21,17 @@
 
 package org.apache.tiles.freemarker.template;
 
-import java.io.IOException;
 import java.util.Map;
 
+import org.apache.tiles.freemarker.context.FreeMarkerRequestUtil;
+import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.template.SetCurrentContainerModel;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
-import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 /**
@@ -41,12 +43,21 @@ import freemarker.template.TemplateModel;
  */
 public class SetCurrentContainerFMModel implements TemplateDirectiveModel {
 
+    private SetCurrentContainerModel model;
+
+    public SetCurrentContainerFMModel(SetCurrentContainerModel model) {
+        this.model = model;
+    }
+
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-        FreeMarkerUtil.setCurrentContainer(env, FreeMarkerUtil
-                .getAsString(parms.get("containerKey")));
+            TemplateDirectiveBody body) {
+        Map<String, TemplateModel> parms = params;
+        Request request = FreeMarkerTilesRequestContext
+                .createServletFreemarkerRequest(FreeMarkerRequestUtil
+                        .getApplicationContext(env), env);
+        model.execute(FreeMarkerUtil.getAsString(parms.get("containerKey")),
+                request);
     }
 }

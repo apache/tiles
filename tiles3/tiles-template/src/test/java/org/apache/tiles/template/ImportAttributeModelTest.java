@@ -24,6 +24,7 @@ package org.apache.tiles.template;
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +32,8 @@ import java.util.Set;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,8 +65,8 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
-     * java.lang.String, boolean, Request)}.
+     * #getImportedAttributes(java.lang.String, java.lang.String,
+     * boolean, Request)}.
      */
     @Test
     public void testGetImportedAttributesSingle() {
@@ -71,22 +74,27 @@ public class ImportAttributeModelTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute attribute = new Attribute();
         Request request = createMock(Request.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andReturn("myEvaluatedValue");
 
-        replay(container, attributeContext, request);
-        Map<String, Object> attributes = model.getImportedAttributes(container, "myName", null, false, request);
+        replay(container, attributeContext, request, applicationContext);
+        Map<String, Object> attributes = model.getImportedAttributes("myName", null, false, request);
         assertEquals(1, attributes.size());
         assertEquals("myEvaluatedValue", attributes.get("myName"));
-        verify(container, attributeContext, request);
+        verify(container, attributeContext, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
-     * java.lang.String, boolean, Request)}.
+     * #getImportedAttributes(java.lang.String, java.lang.String,
+     * boolean, Request)}.
      */
     @Test
     public void testGetImportedAttributesSingleToName() {
@@ -94,23 +102,28 @@ public class ImportAttributeModelTest {
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute attribute = new Attribute();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andReturn("myEvaluatedValue");
 
-        replay(container, attributeContext, request);
-        Map<String, Object> attributes = model.getImportedAttributes(container,
-                "myName", "myToName", false, request);
+        replay(container, attributeContext, request, applicationContext);
+        Map<String, Object> attributes = model.getImportedAttributes("myName",
+                "myToName", false, request);
         assertEquals(1, attributes.size());
         assertEquals("myEvaluatedValue", attributes.get("myToName"));
-        verify(container, attributeContext, request);
+        verify(container, attributeContext, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
-     * java.lang.String, boolean, Request)}.
+     * #getImportedAttributes(java.lang.String, java.lang.String,
+     * boolean, Request)}.
      */
     @Test
     public void testGetImportedAttributesAll() {
@@ -126,7 +139,12 @@ public class ImportAttributeModelTest {
         Set<String> localNames = new HashSet<String>();
         localNames.add("myName1");
         localNames.add("myName3");
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getCascadedAttributeNames()).andReturn(cascadedNames);
         expect(attributeContext.getLocalAttributeNames()).andReturn(localNames);
@@ -137,40 +155,46 @@ public class ImportAttributeModelTest {
         expect(container.evaluate(attribute2, request)).andReturn("myEvaluatedValue2");
         expect(container.evaluate(attribute3, request)).andReturn("myEvaluatedValue3");
 
-        replay(container, attributeContext, request);
-        Map<String, Object> attributes = model.getImportedAttributes(container, null, null, false, request);
+        replay(container, attributeContext, request, applicationContext);
+        Map<String, Object> attributes = model.getImportedAttributes(null, null, false, request);
         assertEquals(ATTRIBUTES_SIZE, attributes.size());
         assertEquals("myEvaluatedValue1", attributes.get("myName1"));
         assertEquals("myEvaluatedValue2", attributes.get("myName2"));
         assertEquals("myEvaluatedValue3", attributes.get("myName3"));
-        verify(container, attributeContext, request);
+        verify(container, attributeContext, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
-     * java.lang.String, boolean, Request)}.
+     * #getImportedAttributes(java.lang.String, java.lang.String,
+     * boolean, Request)}.
      */
     @Test(expected = NoSuchAttributeException.class)
     public void testGetImportedAttributesSingleNullAttributeException() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(null);
 
-        replay(container, attributeContext, request);
+        replay(container, attributeContext, request, applicationContext);
         try {
-            model.getImportedAttributes(container, "myName", null, false, request);
+            model.getImportedAttributes("myName", null, false, request);
         } finally {
-            verify(container, attributeContext, request);
+            verify(container, attributeContext, request, applicationContext);
         }
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
-     * java.lang.String, boolean, Request)}.
+     * #getImportedAttributes(java.lang.String, java.lang.String,
+     * boolean, Request)}.
      */
     @Test(expected = NoSuchAttributeException.class)
     public void testGetImportedAttributesSingleNullAttributeValueException() {
@@ -178,23 +202,28 @@ public class ImportAttributeModelTest {
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute attribute = new Attribute();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andReturn(null);
 
-        replay(container, attributeContext, request);
+        replay(container, attributeContext, request, applicationContext);
         try {
-            model.getImportedAttributes(container, "myName", null, false, request);
+            model.getImportedAttributes("myName", null, false, request);
         } finally {
-            verify(container, attributeContext, request);
+            verify(container, attributeContext, request, applicationContext);
         }
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
-     * java.lang.String, boolean, Request)}.
+     * #getImportedAttributes(java.lang.String, java.lang.String,
+     * boolean, Request)}.
      */
     @Test(expected = RuntimeException.class)
     public void testGetImportedAttributesSingleRuntimeException() {
@@ -202,41 +231,52 @@ public class ImportAttributeModelTest {
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute attribute = new Attribute();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andThrow(new RuntimeException());
 
-        replay(container, attributeContext, request);
+        replay(container, attributeContext, request, applicationContext);
         try {
-            model.getImportedAttributes(container, "myName", null, false, request);
+            model.getImportedAttributes("myName", null, false, request);
         } finally {
-            verify(container, attributeContext, request);
+            verify(container, attributeContext, request, applicationContext);
         }
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
-     * java.lang.String, boolean, Request)}.
+     * #getImportedAttributes(java.lang.String, java.lang.String,
+     * boolean, Request)}.
      */
     @Test
     public void testGetImportedAttributesSingleNullAttributeIgnore() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(null);
 
-        replay(container, attributeContext, request);
-        model.getImportedAttributes(container, "myName", null, true, request);
-        verify(container, attributeContext, request);
+        replay(container, attributeContext, request, applicationContext);
+        model.getImportedAttributes("myName", null, true, request);
+        verify(container, attributeContext, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
-     * java.lang.String, boolean, Request)}.
+     * #getImportedAttributes(java.lang.String, java.lang.String,
+     * boolean, Request)}.
      */
     @Test
     public void testGetImportedAttributesSingleNullAttributeValueIgnore() {
@@ -244,20 +284,25 @@ public class ImportAttributeModelTest {
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute attribute = new Attribute();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andReturn(null);
 
-        replay(container, attributeContext, request);
-        model.getImportedAttributes(container, "myName", null, true, request);
-        verify(container, attributeContext, request);
+        replay(container, attributeContext, request, applicationContext);
+        model.getImportedAttributes("myName", null, true, request);
+        verify(container, attributeContext, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(org.apache.tiles.TilesContainer, java.lang.String,
-     * java.lang.String, boolean, Request)}.
+     * #getImportedAttributes(java.lang.String, java.lang.String,
+     * boolean, Request)}.
      */
     @Test
     public void testGetImportedAttributesSingleRuntimeIgnore() {
@@ -265,13 +310,18 @@ public class ImportAttributeModelTest {
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute attribute = new Attribute();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andThrow(new RuntimeException());
 
-        replay(container, attributeContext, request);
-        model.getImportedAttributes(container, "myName", null, true, request);
-        verify(container, attributeContext, request);
+        replay(container, attributeContext, request, applicationContext);
+        model.getImportedAttributes("myName", null, true, request);
+        verify(container, attributeContext, request, applicationContext);
     }
 }

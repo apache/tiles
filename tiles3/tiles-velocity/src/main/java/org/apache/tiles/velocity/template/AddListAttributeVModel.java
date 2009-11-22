@@ -27,9 +27,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.servlet.context.ServletUtil;
+import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.template.AddListAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -72,12 +71,10 @@ public class AddListAttributeVModel implements BodyExecutable {
     /** {@inheritDoc} */
     public Renderable end(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext) {
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container
-                        .getApplicationContext(), request, response,
-                        velocityContext, null);
+            .createVelocityRequest(ServletUtil
+                    .getApplicationContext(servletContext), request,
+                    response, velocityContext, null);
         model.end(currentRequest);
         return VelocityUtil.EMPTY_RENDERABLE;
     }
@@ -85,12 +82,10 @@ public class AddListAttributeVModel implements BodyExecutable {
     /** {@inheritDoc} */
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
-        TilesContainer container = ServletUtil.getCurrentContainer(
-                request, servletContext);
         Request currentRequest = VelocityTilesRequestContext
-                .createVelocityRequest(container
-                        .getApplicationContext(), request, response,
-                        velocityContext, null);
+                .createVelocityRequest(ServletUtil
+                        .getApplicationContext(servletContext), request,
+                        response, velocityContext, null);
         model.start((String) params.get("role"), currentRequest);
     }
 }

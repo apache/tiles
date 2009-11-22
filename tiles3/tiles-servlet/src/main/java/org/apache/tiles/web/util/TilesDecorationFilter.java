@@ -38,10 +38,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.reflect.ClassUtil;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ServletTilesRequestContext;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -231,11 +232,12 @@ public class TilesDecorationFilter implements Filter {
             return;
         }
 
-        TilesContainer container = ServletUtil.getContainer(
-                getServletContext(), containerKey);
-        Request request = new ServletTilesRequestContext(container
-                .getApplicationContext(), (HttpServletRequest) req,
-                (HttpServletResponse) res);
+        ApplicationContext applicationContext = org.apache.tiles.request.servlet.ServletUtil
+                .getApplicationContext(getServletContext());
+        Request request = new ServletTilesRequestContext(applicationContext,
+                (HttpServletRequest) req, (HttpServletResponse) res);
+        TilesContainer container = TilesAccess.getContainer(applicationContext,
+                containerKey);
         mutator.mutate(container.getAttributeContext(request), req);
         if (preventDecorationToken != null) {
             req.setAttribute(preventDecorationToken, Boolean.TRUE);

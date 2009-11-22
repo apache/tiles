@@ -30,7 +30,9 @@ import java.util.Map;
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.mgmt.MutableTilesContainer;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,7 +84,7 @@ public class DefinitionModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.DefinitionModel
-     * #end(org.apache.tiles.mgmt.MutableTilesContainer, Request)}.
+     * #end(Request)}.
      */
     @Test
     public void testEnd() {
@@ -93,18 +95,21 @@ public class DefinitionModelTest {
         composeStack.push(definition);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
         container.register(definition, request);
 
-        replay(container, request);
-        model.end(container, request);
-        verify(container, request);
+        replay(container, request, applicationContext);
+        model.end(request);
+        verify(container, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.DefinitionModel
-     * #end(org.apache.tiles.mgmt.MutableTilesContainer, Request)}.
+     * #end(Request)}.
      */
     @Test
     public void testEndInAttribute() {
@@ -117,23 +122,26 @@ public class DefinitionModelTest {
         composeStack.push(definition);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
         container.register(definition, request);
 
-        replay(container, request);
-        model.end(container, request);
+        replay(container, request, applicationContext);
+        model.end(request);
         assertEquals(1, composeStack.size());
         attribute = (Attribute) composeStack.peek();
         assertEquals(definition.getName(), attribute.getValue());
         assertEquals("definition", attribute.getRenderer());
-        verify(container, request);
+        verify(container, request, applicationContext);
     }
 
     /**
      * Test method for {@link org.apache.tiles.template.DefinitionModel
-     * #execute(org.apache.tiles.mgmt.MutableTilesContainer, java.lang.String,
-     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, Request)}.
+     * #execute(java.lang.String, java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String, Request)}.
      */
     @Test
     public void testExecute() {
@@ -144,17 +152,20 @@ public class DefinitionModelTest {
         composeStack.push(attribute);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
         container.register((Definition) notNull(), eq(request));
 
-        replay(container, request);
-        model.execute(container, "myName", "myTemplate", "myRole",
-                "myExtends", "myPreparer", request);
+        replay(container, request, applicationContext);
+        model.execute("myName", "myTemplate", "myRole", "myExtends",
+                "myPreparer", request);
         assertEquals(1, composeStack.size());
         attribute = (Attribute) composeStack.peek();
         assertEquals("definition", attribute.getRenderer());
-        verify(container, request);
+        verify(container, request, applicationContext);
     }
 
 }
