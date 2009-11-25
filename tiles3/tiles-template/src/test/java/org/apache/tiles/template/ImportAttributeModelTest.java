@@ -48,7 +48,7 @@ public class ImportAttributeModelTest {
     /**
      * The size of the attributes collection.
      */
-    private static final int ATTRIBUTES_SIZE = 3;
+    private static final int ATTRIBUTES_SIZE = 4;
 
     /**
      * The model to test.
@@ -69,7 +69,7 @@ public class ImportAttributeModelTest {
      * boolean, Request)}.
      */
     @Test
-    public void testGetImportedAttributesSingle() {
+    public void testExecuteSingle() {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute attribute = new Attribute();
@@ -79,14 +79,15 @@ public class ImportAttributeModelTest {
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andReturn("myEvaluatedValue");
 
         replay(container, attributeContext, request, applicationContext);
-        Map<String, Object> attributes = model.getImportedAttributes("myName", null, false, request);
-        assertEquals(1, attributes.size());
+        model.execute("myName", "request", null, false, request);
+        Map<String, Object> attributes = requestScope;
+        assertEquals(2, attributes.size());
         assertEquals("myEvaluatedValue", attributes.get("myName"));
         verify(container, attributeContext, request, applicationContext);
     }
@@ -97,7 +98,7 @@ public class ImportAttributeModelTest {
      * boolean, Request)}.
      */
     @Test
-    public void testGetImportedAttributesSingleToName() {
+    public void testExecuteSingleToName() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
@@ -107,15 +108,15 @@ public class ImportAttributeModelTest {
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andReturn("myEvaluatedValue");
 
         replay(container, attributeContext, request, applicationContext);
-        Map<String, Object> attributes = model.getImportedAttributes("myName",
-                "myToName", false, request);
-        assertEquals(1, attributes.size());
+        model.execute("myName", "request", "myToName", false, request);
+        Map<String, Object> attributes = requestScope;
+        assertEquals(2, attributes.size());
         assertEquals("myEvaluatedValue", attributes.get("myToName"));
         verify(container, attributeContext, request, applicationContext);
     }
@@ -126,7 +127,7 @@ public class ImportAttributeModelTest {
      * boolean, Request)}.
      */
     @Test
-    public void testGetImportedAttributesAll() {
+    public void testExecuteAll() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
@@ -144,7 +145,7 @@ public class ImportAttributeModelTest {
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getCascadedAttributeNames()).andReturn(cascadedNames);
         expect(attributeContext.getLocalAttributeNames()).andReturn(localNames);
@@ -156,7 +157,8 @@ public class ImportAttributeModelTest {
         expect(container.evaluate(attribute3, request)).andReturn("myEvaluatedValue3");
 
         replay(container, attributeContext, request, applicationContext);
-        Map<String, Object> attributes = model.getImportedAttributes(null, null, false, request);
+        model.execute(null, "request", null, false, request);
+        Map<String, Object> attributes = requestScope;
         assertEquals(ATTRIBUTES_SIZE, attributes.size());
         assertEquals("myEvaluatedValue1", attributes.get("myName1"));
         assertEquals("myEvaluatedValue2", attributes.get("myName2"));
@@ -170,7 +172,7 @@ public class ImportAttributeModelTest {
      * boolean, Request)}.
      */
     @Test(expected = NoSuchAttributeException.class)
-    public void testGetImportedAttributesSingleNullAttributeException() {
+    public void testExecuteSingleNullAttributeException() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
@@ -179,13 +181,13 @@ public class ImportAttributeModelTest {
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(null);
 
         replay(container, attributeContext, request, applicationContext);
         try {
-            model.getImportedAttributes("myName", null, false, request);
+            model.execute("myName", "request", null, false, request);
         } finally {
             verify(container, attributeContext, request, applicationContext);
         }
@@ -197,7 +199,7 @@ public class ImportAttributeModelTest {
      * boolean, Request)}.
      */
     @Test(expected = NoSuchAttributeException.class)
-    public void testGetImportedAttributesSingleNullAttributeValueException() {
+    public void testExecuteSingleNullAttributeValueException() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
@@ -207,14 +209,14 @@ public class ImportAttributeModelTest {
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andReturn(null);
 
         replay(container, attributeContext, request, applicationContext);
         try {
-            model.getImportedAttributes("myName", null, false, request);
+            model.execute("myName", "request", null, false, request);
         } finally {
             verify(container, attributeContext, request, applicationContext);
         }
@@ -226,7 +228,7 @@ public class ImportAttributeModelTest {
      * boolean, Request)}.
      */
     @Test(expected = RuntimeException.class)
-    public void testGetImportedAttributesSingleRuntimeException() {
+    public void testExecuteSingleRuntimeException() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
@@ -236,14 +238,14 @@ public class ImportAttributeModelTest {
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andThrow(new RuntimeException());
 
         replay(container, attributeContext, request, applicationContext);
         try {
-            model.getImportedAttributes("myName", null, false, request);
+            model.execute("myName", "request", null, false, request);
         } finally {
             verify(container, attributeContext, request, applicationContext);
         }
@@ -255,7 +257,7 @@ public class ImportAttributeModelTest {
      * boolean, Request)}.
      */
     @Test
-    public void testGetImportedAttributesSingleNullAttributeIgnore() {
+    public void testExecuteSingleNullAttributeIgnore() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
@@ -264,12 +266,12 @@ public class ImportAttributeModelTest {
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(null);
 
         replay(container, attributeContext, request, applicationContext);
-        model.getImportedAttributes("myName", null, true, request);
+        model.execute("myName", "request", null, true, request);
         verify(container, attributeContext, request, applicationContext);
     }
 
@@ -279,7 +281,7 @@ public class ImportAttributeModelTest {
      * boolean, Request)}.
      */
     @Test
-    public void testGetImportedAttributesSingleNullAttributeValueIgnore() {
+    public void testExecuteSingleNullAttributeValueIgnore() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
@@ -289,13 +291,13 @@ public class ImportAttributeModelTest {
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andReturn(null);
 
         replay(container, attributeContext, request, applicationContext);
-        model.getImportedAttributes("myName", null, true, request);
+        model.execute("myName", "request", null, true, request);
         verify(container, attributeContext, request, applicationContext);
     }
 
@@ -305,7 +307,7 @@ public class ImportAttributeModelTest {
      * boolean, Request)}.
      */
     @Test
-    public void testGetImportedAttributesSingleRuntimeIgnore() {
+    public void testExecuteSingleRuntimeIgnore() {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
@@ -315,13 +317,13 @@ public class ImportAttributeModelTest {
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         expect(attributeContext.getAttribute("myName")).andReturn(attribute);
         expect(container.evaluate(attribute, request)).andThrow(new RuntimeException());
 
         replay(container, attributeContext, request, applicationContext);
-        model.getImportedAttributes("myName", null, true, request);
+        model.execute("myName", "request", null, true, request);
         verify(container, attributeContext, request, applicationContext);
     }
 }

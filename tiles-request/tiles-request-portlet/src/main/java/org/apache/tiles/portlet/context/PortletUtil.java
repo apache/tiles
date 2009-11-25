@@ -25,7 +25,7 @@ import javax.portlet.PortletContext;
 import javax.portlet.PortletRequest;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationContextUtil;
+import org.apache.tiles.request.util.ApplicationAccess;
 
 
 /**
@@ -75,6 +75,6 @@ public final class PortletUtil {
     public static ApplicationContext getApplicationContext(
             PortletContext portletContext) {
         return (ApplicationContext) portletContext
-                .getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE);
+                .getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE);
     }
 }

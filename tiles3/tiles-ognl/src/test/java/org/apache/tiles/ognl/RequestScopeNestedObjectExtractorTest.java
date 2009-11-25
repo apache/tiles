@@ -48,7 +48,7 @@ public class RequestScopeNestedObjectExtractorTest {
         Request request = createMock(Request.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute1", "value1");
-        expect(request.getSessionScope()).andReturn(map);
+        expect(request.getContext("session")).andReturn(map);
 
         replay(request);
         NestedObjectExtractor<Request> extractor = new SessionScopeNestedObjectExtractor();

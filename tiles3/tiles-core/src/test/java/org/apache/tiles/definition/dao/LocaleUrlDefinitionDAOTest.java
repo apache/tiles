@@ -81,7 +81,7 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
      *
      * @throws IOException If something goes wrong.
      */
-    public void testGetDefinition() throws IOException {
+    public void testGetDefinition() {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs1.xml");
@@ -166,10 +166,8 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
 
     /**
      * Tests {@link LocaleUrlDefinitionDAO#getDefinitions(Locale)}.
-     *
-     * @throws IOException If something goes wrong.
      */
-    public void testGetDefinitions() throws IOException {
+    public void testGetDefinitions() {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs1.xml");
@@ -447,7 +445,7 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG, urlPath);
         Request context = createMock(Request.class);
-        expect(context.getSessionScope()).andReturn(
+        expect(context.getContext("session")).andReturn(
                 new HashMap<String, Object>()).anyTimes();
         expect(context.getRequestLocale()).andReturn(null).anyTimes();
         replay(context);
@@ -458,7 +456,7 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals("Incorrect initial template value", "/test.jsp",
                 definition.getTemplateAttribute().getValue());
 
-        RefreshMonitor reloadable = (RefreshMonitor) definitionDao;
+        RefreshMonitor reloadable = definitionDao;
         assertEquals("Factory should be fresh.", false, reloadable
                 .refreshRequired());
 

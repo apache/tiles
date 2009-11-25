@@ -36,6 +36,6 @@ public class SessionScopeNestedObjectExtractor implements
 
     /** {@inheritDoc} */
     public Map<String, Object> getNestedObject(Request obj) {
-        return obj.getSessionScope();
+        return obj.getContext("session");
     }
 }

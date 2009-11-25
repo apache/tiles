@@ -109,7 +109,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         Request request = createMock(Request.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute", 1);
-        expect(request.getRequestScope()).andReturn(map);
+        expect(request.getContext("request")).andReturn(map);
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
@@ -139,8 +139,8 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute", 1);
         Map<String, Object> emptyMap = new HashMap<String, Object>();
-        expect(request.getRequestScope()).andReturn(emptyMap);
-        expect(request.getSessionScope()).andReturn(map);
+        expect(request.getContext("request")).andReturn(emptyMap);
+        expect(request.getContext("session")).andReturn(map);
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
@@ -171,8 +171,8 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute", 1);
         Map<String, Object> emptyMap = new HashMap<String, Object>();
-        expect(request.getRequestScope()).andReturn(emptyMap);
-        expect(request.getSessionScope()).andReturn(emptyMap);
+        expect(request.getContext("request")).andReturn(emptyMap);
+        expect(request.getContext("session")).andReturn(emptyMap);
         expect(request.getApplicationContext()).andReturn(applicationContext);
         expect(applicationContext.getApplicationScope()).andReturn(map);
 
@@ -205,8 +205,8 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("anotherAttribute", 1);
         Map<String, Object> emptyMap = new HashMap<String, Object>();
-        expect(request.getRequestScope()).andReturn(map);
-        expect(request.getSessionScope()).andReturn(emptyMap);
+        expect(request.getContext("request")).andReturn(map);
+        expect(request.getContext("session")).andReturn(emptyMap);
         expect(request.getApplicationContext()).andReturn(applicationContext);
         expect(applicationContext.getApplicationScope()).andReturn(emptyMap);
 

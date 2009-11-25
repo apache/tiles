@@ -83,17 +83,10 @@ public class ImportAttributeVModel implements Executable {
                         .createVelocityRequest(ServletUtil
                                 .getApplicationContext(servletContext), request,
                                 response, velocityContext, writer);
-                Map<String, Object> attributes = model.getImportedAttributes(
-                        (String) params.get("name"),
-                        (String) params
-                                .get("toName"), VelocityUtil.toSimpleBoolean(
-                        (Boolean) params.get("ignore"), false), currentRequest);
-                String scope = (String) params.get("scope");
-                for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-                    VelocityUtil.setAttribute(context, request,
-                            servletContext, entry.getKey(), entry.getValue(),
-                            scope);
-                }
+                model.execute((String) params.get("name"), (String) params
+                        .get("scope"), (String) params.get("toName"),
+                        VelocityUtil.toSimpleBoolean((Boolean) params
+                                .get("ignore"), false), currentRequest);
 
                 return true;
             }

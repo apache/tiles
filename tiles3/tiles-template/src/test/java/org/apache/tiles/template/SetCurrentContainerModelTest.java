@@ -36,7 +36,7 @@ public class SetCurrentContainerModelTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
         expect(request.getApplicationContext()).andReturn(context);
         replay(request, context, container);
         SetCurrentContainerModel model = new SetCurrentContainerModel();

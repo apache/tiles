@@ -32,17 +32,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
-import org.apache.tiles.request.util.TilesApplicationContextWrapper;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.
  *
  * @version $Rev$ $Date$
  */
-public class ServletTilesRequestContext extends TilesApplicationContextWrapper
-        implements Request {
+public class ServletTilesRequestContext extends AbstractRequest {
 
     /**
      * The request object to use.
@@ -189,9 +187,8 @@ public class ServletTilesRequestContext extends TilesApplicationContextWrapper
 
     }
 
-    /** {@inheritDoc} */
-    public ApplicationContext getApplicationContext() {
-        return getWrappedApplicationContext();
+    public Map<String, Object> getDefaultScope() {
+        return getRequestScope();
     }
 
     /** {@inheritDoc} */

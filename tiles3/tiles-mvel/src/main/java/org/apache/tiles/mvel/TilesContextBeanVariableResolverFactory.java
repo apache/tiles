@@ -98,8 +98,8 @@ public class TilesContextBeanVariableResolverFactory extends
     /** {@inheritDoc} */
     public boolean isTarget(String name) {
         Request request = requestHolder.getTilesRequestContext();
-        return request.getRequestScope().containsKey(name)
-                || request.getSessionScope().containsKey(name)
+        return request.getContext("request").containsKey(name)
+                || request.getContext("session").containsKey(name)
                 || request.getApplicationContext().getApplicationScope()
                         .containsKey(name);
     }
@@ -150,9 +150,9 @@ public class TilesContextBeanVariableResolverFactory extends
         /** {@inheritDoc} */
         public Object getValue() {
             Request request = requestHolder.getTilesRequestContext();
-            Object value = request.getRequestScope().get(name);
+            Object value = request.getContext("request").get(name);
             if (value == null) {
-                value = request.getSessionScope().get(name);
+                value = request.getContext("session").get(name);
                 if (value == null) {
                     value = request.getApplicationContext()
                             .getApplicationScope().get(name);

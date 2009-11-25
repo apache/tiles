@@ -23,6 +23,7 @@ package org.apache.tiles.jsp.context;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -53,6 +54,30 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
      * The request objects, lazily initialized.
      */
     private Object[] requestObjects;
+
+    /**
+     * <p>The lazily instantiated <code>Map</code> of page scope
+     * attributes.</p>
+     */
+    private Map<String, Object> pageScope = null;
+
+    /**
+     * <p>The lazily instantiated <code>Map</code> of request scope
+     * attributes.</p>
+     */
+    private Map<String, Object> requestScope = null;
+
+    /**
+     * <p>The lazily instantiated <code>Map</code> of session scope
+     * attributes.</p>
+     */
+    private Map<String, Object> sessionScope = null;
+
+    /**
+     * <p>The lazily instantiated <code>Map</code> of application scope
+     * attributes.</p>
+     */
+    private Map<String, Object> applicationScope = null;
 
     public static JspTilesRequestContext createServletJspRequest(ApplicationContext applicationContext, PageContext pageContext) {
         return new JspTilesRequestContext(new ServletTilesRequestContext(
@@ -103,14 +128,42 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
 
     /** {@inheritDoc} */
     @Override
-    public PrintWriter getPrintWriter() throws IOException {
+    public PrintWriter getPrintWriter() {
         return new JspPrintWriterAdapter(pageContext.getOut());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Writer getWriter() throws IOException {
+    public Writer getWriter() {
         return pageContext.getOut();
+    }
+
+    public Map<String, Object> getPageScope() {
+        if ((pageScope == null) && (pageContext != null)) {
+            pageScope = new JspScopeMap(pageContext, PageContext.PAGE_SCOPE);
+        }
+        return (pageScope);
+    }
+
+    public Map<String, Object> getRequestScope() {
+        if ((requestScope == null) && (pageContext != null)) {
+            requestScope = new JspScopeMap(pageContext, PageContext.REQUEST_SCOPE);
+        }
+        return (requestScope);
+    }
+
+    public Map<String, Object> getSessionScope() {
+        if ((sessionScope == null) && (pageContext != null)) {
+            sessionScope = new JspScopeMap(pageContext, PageContext.SESSION_SCOPE);
+        }
+        return (sessionScope);
+    }
+
+    public Map<String, Object> getApplicationScope() {
+        if ((applicationScope == null) && (pageContext != null)) {
+            applicationScope = new JspScopeMap(pageContext, PageContext.APPLICATION_SCOPE);
+        }
+        return (applicationScope);
     }
 
     /** {@inheritDoc} */

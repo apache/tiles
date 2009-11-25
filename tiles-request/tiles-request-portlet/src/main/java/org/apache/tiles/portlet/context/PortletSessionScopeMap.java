@@ -20,7 +20,6 @@
  */
 package org.apache.tiles.portlet.context;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -30,12 +29,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
 
 import org.apache.tiles.request.util.MapEntry;
 
 /**
- * <p>Private implementation of <code>Map</code> for portlet session
+ * <p>Private implementation of <code>Map</code> for HTTP session
  * attributes.</p>
  *
  * @version $Rev$ $Date$
@@ -43,47 +43,55 @@ import org.apache.tiles.request.util.MapEntry;
 
 final class PortletSessionScopeMap implements Map<String, Object> {
 
+    /**
+     * The request object to use.
+     */
+    private PortletRequest request;
+
+    private int scopeId;
 
     /**
      * Constructor.
      *
-     * @param session The portlet session to use.
+     * @param request The request object to use.
      */
-    public PortletSessionScopeMap(PortletSession session) {
-        this.session = session;
+    public PortletSessionScopeMap(PortletRequest request, int scopeId) {
+        this.request = request;
+        this.scopeId = scopeId;
     }
-
-
-    /**
-     * The portlet session to use.
-     */
-    private PortletSession session = null;
-
 
     /** {@inheritDoc} */
     public void clear() {
-        Iterator<String> keys = keySet().iterator();
-        while (keys.hasNext()) {
-            session.removeAttribute(keys.next());
+        PortletSession session = request.getPortletSession(false);
+        if (session != null) {
+            Iterator<String> keys = keySet().iterator();
+            while (keys.hasNext()) {
+                session.removeAttribute(keys.next(), scopeId);
+            }
         }
     }
 
 
     /** {@inheritDoc} */
     public boolean containsKey(Object key) {
-        return (session.getAttribute(key(key)) != null);
+        PortletSession session = request.getPortletSession(false);
+        if (session == null) {
+            return false;
+        }
+
+        return (session.getAttribute(key(key), scopeId) != null);
     }
 
 
     /** {@inheritDoc} */
     public boolean containsValue(Object value) {
-        if (value == null) {
+        PortletSession session = request.getPortletSession(false);
+        if (session == null || value == null) {
             return (false);
         }
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
+        Enumeration<String> keys = session.getAttributeNames(scopeId);
         while (keys.hasMoreElements()) {
-            Object next = session.getAttribute(keys.nextElement());
+            Object next = session.getAttribute(keys.nextElement(), scopeId);
             if (next == value) {
                 return (true);
             }
@@ -94,13 +102,16 @@ final class PortletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public Set<Map.Entry<String, Object>> entrySet() {
+        PortletSession session = request.getPortletSession(false);
         Set<Map.Entry<String, Object>> set = new HashSet<Map.Entry<String, Object>>();
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
-        String key;
-        while (keys.hasMoreElements()) {
-            key = keys.nextElement();
-            set.add(new MapEntry<String, Object>(key, session.getAttribute(key), true));
+        if (session != null) {
+            Enumeration<String> keys = session.getAttributeNames(scopeId);
+            String key;
+            while (keys.hasMoreElements()) {
+                key = keys.nextElement();
+                set.add(new MapEntry<String, Object>(key,
+                        session.getAttribute(key, scopeId), true));
+            }
         }
         return (set);
     }
@@ -109,15 +120,22 @@ final class PortletSessionScopeMap implements Map<String, Object> {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
-        PortletSession otherSession = ((PortletSessionScopeMap) o).session;
         boolean retValue = true;
+
+        PortletSession session = request.getPortletSession(false);
         synchronized (session) {
-            for (Enumeration<String> attribs = session.getAttributeNames(); attribs
-                    .hasMoreElements()
-                    && retValue;) {
-                String attributeName = attribs.nextElement();
-                retValue = session.getAttribute(attributeName).equals(
-                        otherSession.getAttribute(attributeName));
+            PortletSession otherSession = ((PortletSessionScopeMap) o).request
+                    .getPortletSession(false);
+            if (session == null) {
+                retValue = otherSession == null;
+            } else {
+                for (Enumeration<String> attribs = session.getAttributeNames(scopeId); attribs
+                        .hasMoreElements()
+                        && retValue;) {
+                    String attributeName = attribs.nextElement();
+                    retValue = session.getAttribute(attributeName, scopeId).equals(
+                            otherSession.getAttribute(attributeName));
+                }
             }
         }
 
@@ -127,14 +145,24 @@ final class PortletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public Object get(Object key) {
-        return (session.getAttribute(key(key)));
+        PortletSession session = request.getPortletSession(false);
+        if (session == null) {
+            return null;
+        }
+
+        return (session.getAttribute(key(key), scopeId));
     }
 
 
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return (session.hashCode());
+        PortletSession session = request.getPortletSession(false);
+        if (session == null) {
+            return 0;
+        }
+
+        return (session.hashCode() + scopeId);
     }
 
 
@@ -146,11 +174,13 @@ final class PortletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public Set<String> keySet() {
+        PortletSession session = request.getPortletSession(false);
         Set<String> set = new HashSet<String>();
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
-        while (keys.hasMoreElements()) {
-            set.add(keys.nextElement());
+        if (session != null) {
+            Enumeration<String> keys = session.getAttributeNames(scopeId);
+            while (keys.hasMoreElements()) {
+                set.add(keys.nextElement());
+            }
         }
         return (set);
     }
@@ -158,55 +188,65 @@ final class PortletSessionScopeMap implements Map<String, Object> {
 
     /** {@inheritDoc} */
     public Object put(String key, Object value) {
+        PortletSession session = request.getPortletSession();
         if (value == null) {
             return (remove(key));
         }
         String skey = key(key);
-        Object previous = session.getAttribute(skey);
-        session.setAttribute(skey, value);
+        Object previous = session.getAttribute(skey, scopeId);
+        session.setAttribute(skey, value, scopeId);
         return (previous);
     }
 
 
     /** {@inheritDoc} */
     public void putAll(Map<? extends String, ? extends Object> map) {
+        PortletSession session = request.getPortletSession();
         Iterator<? extends String> keys = map.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
-            session.setAttribute(key, map.get(key));
+            session.setAttribute(key, map.get(key), scopeId);
         }
     }
 
 
     /** {@inheritDoc} */
     public Object remove(Object key) {
+        PortletSession session = request.getPortletSession(false);
+        if (session == null) {
+            return null;
+        }
+
         String skey = key(key);
-        Object previous = session.getAttribute(skey);
-        session.removeAttribute(skey);
+        Object previous = session.getAttribute(skey, scopeId);
+        session.removeAttribute(skey, scopeId);
         return (previous);
     }
 
 
     /** {@inheritDoc} */
     public int size() {
+        PortletSession session = request.getPortletSession(false);
         int n = 0;
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
-        while (keys.hasMoreElements()) {
-            keys.nextElement();
-            n++;
+        if (session != null) {
+            Enumeration<String> keys = session.getAttributeNames(scopeId);
+            while (keys.hasMoreElements()) {
+                keys.nextElement();
+                n++;
+            }
         }
         return (n);
     }
 
-
     /** {@inheritDoc} */
     public Collection<Object> values() {
+        PortletSession session = request.getPortletSession(false);
         List<Object> list = new ArrayList<Object>();
-        Enumeration<String> keys =
-            session.getAttributeNames(PortletSession.PORTLET_SCOPE);
-        while (keys.hasMoreElements()) {
-            list.add(session.getAttribute(keys.nextElement()));
+        if (session != null) {
+            Enumeration<String> keys = session.getAttributeNames(scopeId);
+            while (keys.hasMoreElements()) {
+                list.add(session.getAttribute(keys.nextElement(), scopeId));
+            }
         }
         return (list);
     }
@@ -228,6 +268,4 @@ final class PortletSessionScopeMap implements Map<String, Object> {
             return (key.toString());
         }
     }
-
-
 }

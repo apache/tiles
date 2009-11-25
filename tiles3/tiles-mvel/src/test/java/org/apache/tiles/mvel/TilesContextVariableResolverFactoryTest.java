@@ -127,7 +127,7 @@ public class TilesContextVariableResolverFactoryTest {
     public void testGetVariableResolver() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put("one", 1);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
         expect(request.getApplicationContext()).andReturn(applicationContext);

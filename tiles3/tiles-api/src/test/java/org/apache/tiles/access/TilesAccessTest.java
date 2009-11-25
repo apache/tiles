@@ -126,7 +126,7 @@ public class TilesAccessTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
         expect(request.getApplicationContext()).andReturn(context);
         replay(request, context, container);
         TilesAccess.setCurrentContainer(request, "myKey");
@@ -168,7 +168,7 @@ public class TilesAccessTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
 
         replay(request, context, container);
         TilesAccess.setCurrentContainer(request, container);
@@ -211,7 +211,7 @@ public class TilesAccessTest {
 
         expect(request.getApplicationContext()).andReturn(context);
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
 
         replay(request, context, container);
         assertEquals(container, TilesAccess.getCurrentContainer(request));
@@ -232,7 +232,7 @@ public class TilesAccessTest {
 
         expect(request.getApplicationContext()).andReturn(context);
         expect(context.getApplicationScope()).andReturn(attribs).anyTimes();
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
 
         replay(request, context, container);
         assertEquals(container, TilesAccess.getCurrentContainer(request));

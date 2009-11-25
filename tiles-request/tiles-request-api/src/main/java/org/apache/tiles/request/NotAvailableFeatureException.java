@@ -28,7 +28,7 @@ package org.apache.tiles.request;
  * @version $Rev$ $Date$
  * @since 2.1.4
  */
-public class NotAvailableFeatureException extends RuntimeException {
+public class NotAvailableFeatureException extends RequestException {
 
     /**
      * Constructor.

@@ -68,7 +68,7 @@ public class PutListAttributeModelTest {
         Request request = createMock(Request.class);
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
 
         replay(request);
         model.start("myRole", false, request);
@@ -96,7 +96,7 @@ public class PutListAttributeModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", listAttribute, false);
 

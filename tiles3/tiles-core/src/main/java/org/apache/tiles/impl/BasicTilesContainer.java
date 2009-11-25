@@ -327,10 +327,10 @@ public class BasicTilesContainer implements TilesContainer,
     protected ArrayStack<AttributeContext> getContextStack(Request tilesContext) {
         ArrayStack<AttributeContext> contextStack =
             (ArrayStack<AttributeContext>) tilesContext
-                .getRequestScope().get(ATTRIBUTE_CONTEXT_STACK);
+                .getContext("request").get(ATTRIBUTE_CONTEXT_STACK);
         if (contextStack == null) {
             contextStack = new ArrayStack<AttributeContext>();
-            tilesContext.getRequestScope().put(ATTRIBUTE_CONTEXT_STACK,
+            tilesContext.getContext("request").put(ATTRIBUTE_CONTEXT_STACK,
                     contextStack);
         }
 
@@ -373,9 +373,8 @@ public class BasicTilesContainer implements TilesContainer,
         ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
         if (!contextStack.isEmpty()) {
             return contextStack.peek();
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**

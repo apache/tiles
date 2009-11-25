@@ -36,6 +36,6 @@ public class RequestScopeNestedObjectExtractor implements
 
     /** {@inheritDoc} */
     public Map<String, Object> getNestedObject(Request obj) {
-        return obj.getRequestScope();
+        return obj.getContext("request");
     }
 }

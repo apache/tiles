@@ -69,7 +69,7 @@ public class PutAttributeModelTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
         expect(composeStack.push(isA(Attribute.class))).andReturn(attribute);
 
         replay(request, composeStack);
@@ -96,7 +96,7 @@ public class PutAttributeModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", attribute, false);
 
@@ -130,7 +130,7 @@ public class PutAttributeModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute("myName", attribute, false);
 
@@ -164,7 +164,7 @@ public class PutAttributeModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute(eq("myName"), (Attribute) notNull(), eq(false));
 

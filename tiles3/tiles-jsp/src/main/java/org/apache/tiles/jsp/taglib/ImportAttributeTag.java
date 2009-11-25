@@ -20,14 +20,10 @@
  */
 package org.apache.tiles.jsp.taglib;
 
-import java.util.Map;
-
 import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.ImportAttributeModel;
@@ -157,17 +153,12 @@ public class ImportAttributeTag extends SimpleTagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void doTag() throws JspException {
+    public void doTag() {
         JspContext jspContext = getJspContext();
         Request request = JspTilesRequestContext.createServletJspRequest(
                 org.apache.tiles.request.jsp.JspUtil
                         .getApplicationContext(jspContext),
                 (PageContext) jspContext);
-        Map<String, Object> attributes = model.getImportedAttributes(
-                name, toName, ignore, request);
-        int scopeId = JspUtil.getScope(scopeName);
-        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-            jspContext.setAttribute(entry.getKey(), entry.getValue(), scopeId);
-        }
+        model.execute(name, scopeName, toName, ignore, request);
     }
 }

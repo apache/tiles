@@ -37,7 +37,7 @@ import freemarker.template.TemplateModel;
 /**
  * Wraps {@link ImportAttributeModel} to be used in FreeMarker. For the list of
  * parameters, see
- * {@link ImportAttributeModel#getImportedAttributes(String, String, boolean, Request)}
+ * {@link ImportAttributeModel#execute(String, String, String, boolean, Request)
  * .
  *
  * @version $Rev$ $Date$
@@ -69,15 +69,10 @@ public class ImportAttributeFMModel implements TemplateDirectiveModel {
         Request request = FreeMarkerTilesRequestContext
                 .createServletFreemarkerRequest(FreeMarkerRequestUtil
                         .getApplicationContext(env), env);
-        Map<String, Object> attributes = model.getImportedAttributes(FreeMarkerUtil.getAsString(parms.get("name")),
-                FreeMarkerUtil
+        model.execute(FreeMarkerUtil.getAsString(parms.get("name")),
+                FreeMarkerUtil.getAsString(parms.get("scope")), FreeMarkerUtil
                         .getAsString(parms.get("toName")), FreeMarkerUtil
-                .getAsBoolean(parms.get("ignore"), false), request);
-        String scope = FreeMarkerUtil.getAsString(parms.get("scope"));
-        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-            FreeMarkerUtil.setAttribute(env, entry.getKey(), entry.getValue(),
-                    scope);
-        }
+                        .getAsBoolean(parms.get("ignore"), false), request);
     }
 
 }

@@ -53,21 +53,7 @@ public interface Request {
      */
     Map<String, String[]> getHeaderValues();
 
-    /**
-     * Return a mutable Map that maps request scope attribute names to their
-     * values.
-     *
-     * @return The request scope map.
-     */
-    Map<String, Object> getRequestScope();
-
-    /**
-     * Return a mutable Map that maps session scope attribute names to their
-     * values.
-     *
-     * @return The request scope map.
-     */
-    Map<String, Object> getSessionScope();
+    Map<String, Object> getContext(String scope);
 
     /**
      * Returns the associated application context.

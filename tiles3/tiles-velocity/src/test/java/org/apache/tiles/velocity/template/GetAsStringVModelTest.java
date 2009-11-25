@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationContextUtil;
+import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.GetAsStringModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
@@ -88,7 +88,7 @@ public class GetAsStringVModelTest {
         servletContext = createMock(ServletContext.class);
         attribute = new Attribute("myAttributeValue");
         applicationContext = createMock(ApplicationContext.class);
-        expect(servletContext.getAttribute(ApplicationContextUtil
+        expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
     }

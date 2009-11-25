@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationContextUtil;
+import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.AddListAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -72,7 +72,7 @@ public class AddListAttributeVModelTest {
         servletContext = createMock(ServletContext.class);
         model = new AddListAttributeVModel(tModel, servletContext);
         applicationContext = createMock(ApplicationContext.class);
-        expect(servletContext.getAttribute(ApplicationContextUtil
+        expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
     }

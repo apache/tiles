@@ -37,9 +37,6 @@ import org.apache.shale.test.mock.MockHttpServletResponse;
 import org.apache.shale.test.mock.MockHttpSession;
 import org.apache.shale.test.mock.MockServletContext;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.easymock.classextension.EasyMock;
 
 /**
@@ -55,7 +52,7 @@ public class ServletTilesRequestContextTest extends TestCase {
     /**
      * The request context.
      */
-    private Request context;
+    private ServletTilesRequestContext context;
 
     /**
      * The servlet context.
@@ -364,13 +361,13 @@ public class ServletTilesRequestContextTest extends TestCase {
 
         /** {@inheritDoc} */
         @Override
-        protected void forward(String path) throws IOException {
+        protected void forward(String path) {
             forwardCount++;
         }
 
         /** {@inheritDoc} */
         @Override
-        public void include(String path) throws IOException {
+        public void include(String path) {
             includeCount++;
         }
 

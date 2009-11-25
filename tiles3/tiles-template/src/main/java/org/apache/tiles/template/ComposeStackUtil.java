@@ -73,11 +73,9 @@ public final class ComposeStackUtil {
      * @return The compose stack.
      * @since 2.2.0
      */
-    @SuppressWarnings("unchecked")
     public static ArrayStack<Object> getComposeStack(Request request) {
-        Map<String, Object> requestScope = request.getRequestScope();
-        ArrayStack<Object> composeStack = (ArrayStack<Object>) requestScope
-                .get(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME);
+        Map<String, Object> requestScope = request.getContext("request");
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         if (composeStack == null) {
             composeStack = new ArrayStack<Object>();
             requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);

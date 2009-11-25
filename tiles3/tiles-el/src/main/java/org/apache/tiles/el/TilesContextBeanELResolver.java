@@ -59,8 +59,8 @@ public class TilesContextBeanELResolver extends ELResolver {
 
         Request request = (Request) context
                 .getContext(Request.class);
-        collectBeanInfo(request.getRequestScope(), list);
-        collectBeanInfo(request.getSessionScope(), list);
+        collectBeanInfo(request.getContext("request"), list);
+        collectBeanInfo(request.getContext("session"), list);
 
         ApplicationContext applicationContext = (ApplicationContext) context
                 .getContext(ApplicationContext.class);
@@ -159,9 +159,9 @@ public class TilesContextBeanELResolver extends ELResolver {
 
         String prop = property.toString();
 
-        retValue = getObject(request.getRequestScope(), prop);
+        retValue = getObject(request.getContext("request"), prop);
         if (retValue == null) {
-            retValue = getObject(request.getSessionScope(), prop);
+            retValue = getObject(request.getContext("session"), prop);
             if (retValue == null) {
                 ApplicationContext applicationContext = (ApplicationContext) context
                         .getContext(ApplicationContext.class);

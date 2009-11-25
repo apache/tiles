@@ -80,9 +80,9 @@ public class TilesContextBeanELResolverTest extends TestCase {
         applicationScope.put("object3", new Float(2.0));
         Request request = EasyMock
                 .createMock(Request.class);
-        EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
+        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
+        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
@@ -139,9 +139,9 @@ public class TilesContextBeanELResolverTest extends TestCase {
         applicationScope.put("object3", new Float(2.0));
         Request request = EasyMock
                 .createMock(Request.class);
-        EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
+        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
+        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
@@ -174,9 +174,9 @@ public class TilesContextBeanELResolverTest extends TestCase {
         applicationScope.put("object3", new Float(2.0));
         Request request = EasyMock
                 .createMock(Request.class);
-        EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
+        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
+        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
@@ -219,9 +219,9 @@ public class TilesContextBeanELResolverTest extends TestCase {
         applicationScope.put("object3", new Float(2.0));
         Request request = EasyMock
                 .createMock(Request.class);
-        EasyMock.expect(request.getRequestScope()).andReturn(requestScope)
+        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getSessionScope()).andReturn(sessionScope)
+        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);

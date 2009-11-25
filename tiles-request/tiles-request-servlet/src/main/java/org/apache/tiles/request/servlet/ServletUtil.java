@@ -28,7 +28,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationContextUtil;
+import org.apache.tiles.request.util.ApplicationAccess;
 
 /**
  * Utilities for Tiles request servlet support.
@@ -99,6 +99,6 @@ public final class ServletUtil {
 
     public static ApplicationContext getApplicationContext(ServletContext servletContext) {
         return (ApplicationContext) servletContext
-                .getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE);
+                .getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE);
     }
 }

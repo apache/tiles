@@ -24,6 +24,7 @@ package org.apache.tiles.velocity.context;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -60,6 +61,8 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
      * The writer to use to render the response. It may be null, if not necessary.
      */
     private Writer writer;
+
+    private Map<String, Object> pageScope;
 
     /**
      * Constructor.
@@ -108,21 +111,20 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
 
     /** {@inheritDoc} */
     @Override
-    public PrintWriter getPrintWriter() throws IOException {
+    public PrintWriter getPrintWriter() {
         if (writer == null) {
             throw new IllegalStateException(
                     "A writer-less Tiles request has been created, cannot return a PrintWriter");
         }
         if (writer instanceof PrintWriter) {
             return (PrintWriter) writer;
-        } else {
-            return new PrintWriter(writer);
         }
+        return new PrintWriter(writer);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Writer getWriter() throws IOException {
+    public Writer getWriter() {
         if (writer == null) {
             throw new IllegalStateException(
                     "A writer-less Tiles request has been created, cannot return a PrintWriter");
@@ -149,6 +151,13 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
             }
         }
         return requestObjects;
+    }
+
+    public Map<String, Object> getPageScope() {
+        if (pageScope == null) {
+            pageScope = new VelocityScopeMap(ctx);
+        }
+        return pageScope;
     }
 
     public static Request createVelocityRequest(ApplicationContext applicationContext,

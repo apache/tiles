@@ -73,14 +73,9 @@ public class TilesRequestContextWrapper implements Request {
         return context.getHeaderValues();
     }
 
-    /** {@inheritDoc} */
-    public Map<String, Object> getRequestScope() {
-        return context.getRequestScope();
-    }
-
-    /** {@inheritDoc} */
-    public Map<String, Object> getSessionScope() {
-        return context.getSessionScope();
+    @Override
+    public Map<String, Object> getContext(String scope) {
+        return context.getContext(scope);
     }
 
     /** {@inheritDoc} */

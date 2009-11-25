@@ -33,20 +33,19 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.PortletResponse;
+import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
-import org.apache.tiles.request.util.TilesApplicationContextWrapper;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
  *
  * @version $Rev$ $Date$
  */
-public class PortletTilesRequestContext extends TilesApplicationContextWrapper
-        implements Request {
+public class PortletTilesRequestContext extends AbstractRequest {
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -95,6 +94,12 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
      * attributes.</p>
      */
     private Map<String, Object> sessionScope = null;
+
+    /**
+     * <p>The lazily instantiated <code>Map</code> of portlet session scope
+     * attributes.</p>
+     */
+    private Map<String, Object> portletSessionScope = null;
 
 
     /**
@@ -237,15 +242,21 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
     /** {@inheritDoc} */
     public Map<String, Object> getSessionScope() {
         if ((sessionScope == null) && (request != null)) {
-            sessionScope =
-                new PortletSessionScopeMap(request.getPortletSession());
+            sessionScope = new PortletSessionScopeMap(request, PortletSession.APPLICATION_SCOPE);
         }
         return (sessionScope);
     }
 
     /** {@inheritDoc} */
-    public ApplicationContext getApplicationContext() {
-        return getWrappedApplicationContext();
+    public Map<String, Object> getPortletSessionScope() {
+        if ((portletSessionScope == null) && (request != null)) {
+            portletSessionScope = new PortletSessionScopeMap(request, PortletSession.PORTLET_SCOPE);
+        }
+        return (portletSessionScope);
+    }
+
+    public Map<String, Object> getDefaultScope() {
+        return getRequestScope();
     }
 
     /** {@inheritDoc} */
@@ -313,9 +324,8 @@ public class PortletTilesRequestContext extends TilesApplicationContextWrapper
     public Locale getRequestLocale() {
         if (request != null) {
             return request.getLocale();
-        } else {
-            return null;
         }
+        return null;
     }
 
     /** {@inheritDoc} */

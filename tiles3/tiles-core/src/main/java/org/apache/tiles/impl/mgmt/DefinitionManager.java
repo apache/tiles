@@ -226,7 +226,7 @@ public class DefinitionManager {
     @SuppressWarnings("unchecked")
     protected Map<String, Definition> getDefinitions(
             Request request) {
-        return (Map<String, Definition>) request.getRequestScope()
+        return (Map<String, Definition>) request.getContext("request")
                 .get(definitionsAttributeName);
     }
 
@@ -242,10 +242,10 @@ public class DefinitionManager {
             Request request) {
         Map<String, Definition> definitions =
             (Map<String, Definition>) request
-                .getRequestScope().get(definitionsAttributeName);
+                .getContext("request").get(definitionsAttributeName);
         if (definitions == null) {
             definitions = new HashMap<String, Definition>();
-            request.getRequestScope()
+            request.getContext("request")
                     .put(definitionsAttributeName, definitions);
         }
 

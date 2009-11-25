@@ -69,7 +69,7 @@ public class DefinitionModelTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
 
         replay(request);
         model.start("myName", "myTemplate", "myRole", "myExtends", "myPreparer", request);
@@ -99,7 +99,7 @@ public class DefinitionModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         container.register(definition, request);
 
         replay(container, request, applicationContext);
@@ -126,7 +126,7 @@ public class DefinitionModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         container.register(definition, request);
 
         replay(container, request, applicationContext);
@@ -156,7 +156,7 @@ public class DefinitionModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         container.register((Definition) notNull(), eq(request));
 
         replay(container, request, applicationContext);

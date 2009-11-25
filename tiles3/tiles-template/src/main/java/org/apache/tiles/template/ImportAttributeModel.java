@@ -53,6 +53,12 @@ public class ImportAttributeModel {
      */
     private Logger log = LoggerFactory.getLogger(getClass());
 
+    public void execute(String name, String scope, String toName, boolean ignore, Request request) {
+        Map<String, Object> attributes = getImportedAttributes(
+                name, toName, ignore, request);
+        request.getContext(scope).putAll(attributes);
+    }
+
     /**
      * Retuns a Map that contains the attributes to be imported. The importing
      * code must be done by the caller.

@@ -66,7 +66,7 @@ public class AddAttributeModelTest {
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
         expect(composeStack.push(isA(Attribute.class))).andReturn(attribute);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
 
         replay(composeStack, request);
         model.start(request);
@@ -90,7 +90,7 @@ public class AddAttributeModelTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
-        expect(request.getRequestScope()).andReturn(requestScope).times(2);
+        expect(request.getContext("request")).andReturn(requestScope).times(2);
 
         replay(request);
         model.end("myValue", "myExpression", "myBody", "myRole", "myType",
@@ -134,7 +134,7 @@ public class AddAttributeModelTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
-        expect(request.getRequestScope()).andReturn(requestScope).times(2);
+        expect(request.getContext("request")).andReturn(requestScope).times(2);
 
         replay(request);
         model.execute("myValue", "myExpression", "myBody", "myRole",

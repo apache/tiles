@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationContextUtil;
+import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.AddListAttributeModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -118,7 +118,7 @@ public class AddListAttributeFMModelTest {
         ServletContext servletContext = createMock(ServletContext.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
                 .andReturn(applicationContext);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();

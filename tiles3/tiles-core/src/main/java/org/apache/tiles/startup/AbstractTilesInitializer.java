@@ -26,7 +26,8 @@ import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationContextUtil;
+import org.apache.tiles.request.scope.ReflectionContextResolver;
+import org.apache.tiles.request.util.ApplicationAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +68,8 @@ public abstract class AbstractTilesInitializer implements TilesInitializer {
     /** {@inheritDoc} */
     public void initialize(ApplicationContext applicationContext) {
         this.applicationContext = createTilesApplicationContext(applicationContext);
-        ApplicationContextUtil.register(applicationContext);
+        ApplicationAccess.register(applicationContext);
+        ApplicationAccess.registerContextResolver(new ReflectionContextResolver(), applicationContext);
         String key = getContainerKey(this.applicationContext);
         container = createContainer(this.applicationContext);
         TilesAccess.setContainer(this.applicationContext, container, key);

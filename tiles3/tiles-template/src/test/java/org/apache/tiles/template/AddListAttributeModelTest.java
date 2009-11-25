@@ -65,7 +65,7 @@ public class AddListAttributeModelTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
 
         replay(request);
         model.start("myRole", request);
@@ -86,7 +86,7 @@ public class AddListAttributeModelTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
-        expect(request.getRequestScope()).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
 
         replay(request);
         ListAttribute parent = new ListAttribute();

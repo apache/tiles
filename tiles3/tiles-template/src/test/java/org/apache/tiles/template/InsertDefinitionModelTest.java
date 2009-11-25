@@ -69,7 +69,7 @@ public class InsertDefinitionModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.startContext(request)).andReturn(attributeContext);
 
         replay(container, attributeContext, request, applicationContext);
@@ -92,7 +92,7 @@ public class InsertDefinitionModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         container.endContext(request);
         attributeContext.setPreparer("myPreparer");
@@ -121,7 +121,7 @@ public class InsertDefinitionModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.startContext(request)).andReturn(attributeContext);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         container.endContext(request);

@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationContextUtil;
+import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.PutListAttributeModel;
 import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
@@ -77,7 +77,7 @@ public class PutListAttributeVModelTest {
         tModel = createMock(PutListAttributeModel.class);
         servletContext = createMock(ServletContext.class);
         applicationContext = createMock(ApplicationContext.class);
-        expect(servletContext.getAttribute(ApplicationContextUtil
+        expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
     }

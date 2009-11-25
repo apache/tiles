@@ -82,7 +82,7 @@ public class InsertAttributeModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         container.prepare("myPreparer", request);
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
                 "myDefaultValueRole", "myDefaultValueType", request)).andReturn(attribute);
@@ -114,7 +114,7 @@ public class InsertAttributeModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         container.endContext(request);
         container.render(attribute, request);
 
@@ -140,7 +140,7 @@ public class InsertAttributeModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
 
         container.prepare("myPreparer", request);
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",

@@ -21,7 +21,6 @@
 
 package org.apache.tiles.definition;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -66,7 +65,7 @@ public class MockOnlyLocaleTilesContext implements Request {
     // that use this class.
 
     /** {@inheritDoc} */
-    public void dispatch(String path) throws IOException {
+    public void dispatch(String path) {
     }
 
     /** {@inheritDoc} */
@@ -85,7 +84,7 @@ public class MockOnlyLocaleTilesContext implements Request {
     }
 
     /** {@inheritDoc} */
-    public PrintWriter getPrintWriter() throws IOException {
+    public PrintWriter getPrintWriter() {
         return null;
     }
 
@@ -124,13 +123,18 @@ public class MockOnlyLocaleTilesContext implements Request {
         return null;
     }
 
+    @Override
+    public Map<String, Object> getContext(String scope) {
+        return null;
+    }
+
     /** {@inheritDoc} */
     public ApplicationContext getApplicationContext() {
         return null;
     }
 
     /** {@inheritDoc} */
-    public void include(String path) throws IOException {
+    public void include(String path) {
     }
 
     /** {@inheritDoc} */

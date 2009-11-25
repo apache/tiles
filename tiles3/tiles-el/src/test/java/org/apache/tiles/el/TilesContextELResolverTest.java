@@ -121,8 +121,8 @@ public class TilesContextELResolverTest extends TestCase {
         applicationScope.put("applicationObjectKey", "applicationObjectValue");
         Request request = EasyMock
                 .createMock(Request.class);
-        EasyMock.expect(request.getRequestScope()).andReturn(requestScope);
-        EasyMock.expect(request.getSessionScope()).andReturn(sessionScope);
+        EasyMock.expect(request.getContext("request")).andReturn(requestScope);
+        EasyMock.expect(request.getContext("session")).andReturn(sessionScope);
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
         EasyMock.expect(applicationContext.getApplicationScope()).andReturn(

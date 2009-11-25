@@ -109,11 +109,11 @@ public class TilesContextPropertyAccessorDelegateFactory implements
                 .containsKey(propertyName)) {
             retValue = applicationContextPropertyAccessor;
         } else {
-            Map<String, Object> scopeMap = request.getRequestScope();
+            Map<String, Object> scopeMap = request.getContext("request");
             if (scopeMap.containsKey(propertyName)) {
                 retValue = requestScopePropertyAccessor;
             } else {
-                scopeMap = request.getSessionScope();
+                scopeMap = request.getContext("session");
                 if (scopeMap.containsKey(propertyName)) {
                     retValue = sessionScopePropertyAccessor;
                 } else {

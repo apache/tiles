@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +51,8 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper
      * The FreeMarker current environment.
      */
     private Environment env;
+
+    private Map<String, Object> pageScope;
 
     /**
      * The request objects.
@@ -97,6 +100,13 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper
         return env.getLocale();
     }
 
+    public Map<String, Object> getPageScope() {
+        if (pageScope == null) {
+            pageScope = new EnvironmentScopeMap(env);
+        }
+        return pageScope;
+    }
+
     /** {@inheritDoc} */
     @Override
     public void dispatch(String path) throws IOException {
@@ -105,18 +115,17 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper
 
     /** {@inheritDoc} */
     @Override
-    public PrintWriter getPrintWriter() throws IOException {
+    public PrintWriter getPrintWriter() {
         Writer writer = env.getOut();
         if (writer instanceof PrintWriter) {
             return (PrintWriter) writer;
-        } else {
-            return new PrintWriter(writer);
         }
+        return new PrintWriter(writer);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Writer getWriter() throws IOException {
+    public Writer getWriter() {
         return env.getOut();
     }
 

@@ -38,7 +38,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationContextUtil;
+import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.ImportAttributeModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -122,7 +122,7 @@ public class ImportAttributeFMModelTest {
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
-        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
                 .andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         replay(servlet, servletContext);
@@ -173,7 +173,7 @@ public class ImportAttributeFMModelTest {
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
-        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
                 .andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         replay(servlet, servletContext);
@@ -224,7 +224,7 @@ public class ImportAttributeFMModelTest {
 
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
-        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
                 .andReturn(applicationContext);
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         replay(servlet, servletContext);
@@ -272,7 +272,7 @@ public class ImportAttributeFMModelTest {
         GenericServlet servlet = createMock(GenericServlet.class);
         ServletContext servletContext = createMock(ServletContext.class);
         expect(servlet.getServletContext()).andReturn(servletContext).anyTimes();
-        expect(servletContext.getAttribute(ApplicationContextUtil.APPLICATION_CONTEXT_ATTRIBUTE))
+        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
                 .andReturn(applicationContext);
         servletContext.setAttribute("one", "value1");
         servletContext.setAttribute("two", "value2");

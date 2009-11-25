@@ -108,7 +108,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
     public void testIsResolveable() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put("one", 1);
-        expect(request.getRequestScope()).andReturn(requestScope).times(
+        expect(request.getContext("request")).andReturn(requestScope).times(
                 EXPECTED_REQUEST_CALLS);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
@@ -118,7 +118,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
                 applicationScope).times(2);
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         sessionScope.put("three", "three");
-        expect(request.getSessionScope()).andReturn(sessionScope).times(
+        expect(request.getContext("session")).andReturn(sessionScope).times(
                 EXPECTED_SESSION_CALLS);
         replay(request, applicationContext);
 
@@ -136,7 +136,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
     public void testGetVariableResolverString() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put("one", 1);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
         expect(request.getApplicationContext()).andReturn(applicationContext)
@@ -145,7 +145,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
                 applicationScope).anyTimes();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         sessionScope.put("three", "three");
-        expect(request.getSessionScope()).andReturn(sessionScope).anyTimes();
+        expect(request.getContext("session")).andReturn(sessionScope).anyTimes();
         replay(request, applicationContext);
 
         VariableResolver resolver = factory.getVariableResolver("one");
@@ -164,7 +164,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
     public void testGetVariableResolverStringException() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put("one", 1);
-        expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
         expect(request.getApplicationContext()).andReturn(applicationContext)
@@ -173,7 +173,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
                 applicationScope).anyTimes();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         sessionScope.put("three", "three");
-        expect(request.getSessionScope()).andReturn(sessionScope).anyTimes();
+        expect(request.getContext("session")).andReturn(sessionScope).anyTimes();
         replay(request, applicationContext);
 
         factory.getVariableResolver("four");
@@ -186,7 +186,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
     public void testIsTarget() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put("one", 1);
-        expect(request.getRequestScope()).andReturn(requestScope).times(
+        expect(request.getContext("request")).andReturn(requestScope).times(
                 EXPECTED_REQUEST_CALLS);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
@@ -196,7 +196,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
                 applicationScope).times(2);
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         sessionScope.put("three", "three");
-        expect(request.getSessionScope()).andReturn(sessionScope).times(
+        expect(request.getContext("session")).andReturn(sessionScope).times(
                 EXPECTED_SESSION_CALLS);
         replay(request, applicationContext);
 
