@@ -53,6 +53,7 @@ import org.apache.tiles.definition.pattern.regexp.RegexpDefinitionPatternMatcher
 import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
 import org.apache.tiles.el.ELAttributeEvaluator;
 import org.apache.tiles.el.JspExpressionFactoryFactory;
+import org.apache.tiles.el.ScopeELResolver;
 import org.apache.tiles.el.TilesContextBeanELResolver;
 import org.apache.tiles.el.TilesContextELResolver;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
@@ -268,6 +269,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
         evaluator.setExpressionFactory(efFactory.getExpressionFactory());
         ELResolver elResolver = new CompositeELResolver() {
             {
+                add(new ScopeELResolver());
                 add(new TilesContextELResolver());
                 add(new TilesContextBeanELResolver());
                 add(new ArrayELResolver(false));

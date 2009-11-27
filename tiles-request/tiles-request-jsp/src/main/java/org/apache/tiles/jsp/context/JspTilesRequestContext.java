@@ -32,6 +32,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.scope.ScopeOrder;
 import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.request.util.TilesRequestContextWrapper;
@@ -42,6 +43,7 @@ import org.apache.tiles.request.util.TilesRequestContextWrapper;
  *
  * @version $Rev$ $Date$
  */
+@ScopeOrder({"page", "request", "session", "application"})
 public class JspTilesRequestContext extends TilesRequestContextWrapper
     implements Request {
 

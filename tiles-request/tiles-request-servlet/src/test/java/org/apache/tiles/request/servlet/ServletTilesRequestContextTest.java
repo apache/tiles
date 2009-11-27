@@ -182,8 +182,7 @@ public class ServletTilesRequestContextTest extends TestCase {
      * Tests getting application scope attributes.
      */
     public void testGetApplicationScope() {
-        Map<String, Object> map = ((ApplicationContext) context)
-                .getApplicationScope();
+        Map<String, Object> map = context.getApplicationScope();
         assertTrue("The application scope does not contain a set value",
                 "applicationValue1".equals(map.get("applicationAttribute1")));
         assertTrue("The application scope does not contain a set value",
@@ -195,8 +194,7 @@ public class ServletTilesRequestContextTest extends TestCase {
      * Tests getting init parameters.
      */
     public void testGetInitParams() {
-        Map<String, String> map = ((ApplicationContext) context)
-                .getInitParams();
+        Map<String, String> map = context.getApplicationContext().getInitParams();
         assertTrue("The init parameters do not contain a set value",
                 "initParameterValue1".equals(map.get("initParameter1")));
         doTestReadMap(map, String.class, String.class,

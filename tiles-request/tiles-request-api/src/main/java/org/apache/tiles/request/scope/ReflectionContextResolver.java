@@ -2,12 +2,18 @@ package org.apache.tiles.request.scope;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.util.TilesRequestContextWrapper;
 
 public class ReflectionContextResolver implements ContextResolver {
+
+    private Map<Class<? extends Request>, Set<String>> class2scopes = new HashMap<Class<? extends Request>, Set<String>>();
 
     @SuppressWarnings("unchecked")
     @Override
@@ -35,5 +41,37 @@ public class ReflectionContextResolver implements ContextResolver {
                     "Exception during execution of accessor method for '"
                             + scope + "' scope.", e);
         }
+    }
+
+    @Override
+    public String[] getAvailableScopes(Request request) {
+        Set<String> scopes = new HashSet<String>();
+        boolean finished = false;
+        do {
+            scopes.addAll(getSpecificScopeSet(request));
+            if (request instanceof TilesRequestContextWrapper) {
+                request = ((TilesRequestContextWrapper) request)
+                        .getWrappedRequest();
+            } else {
+                finished = true;
+            }
+        } while(!finished);
+        String[] retValue = new String[scopes.size()];
+        return scopes.toArray(retValue);
+    }
+
+    private Set<String> getSpecificScopeSet(Request request) {
+        Set<String> scopes = class2scopes.get(request.getClass());
+        if (scopes == null) {
+            ScopeOrder order = request.getClass().getAnnotation(ScopeOrder.class);
+            scopes = new LinkedHashSet<String>();
+            if (order != null) {
+                for (String scopeName: order.value()) {
+                    scopes.add(scopeName);
+                }
+            }
+            class2scopes.put(request.getClass(), scopes);
+        }
+        return scopes;
     }
 }

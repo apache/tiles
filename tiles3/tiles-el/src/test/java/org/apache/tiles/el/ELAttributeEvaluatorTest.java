@@ -74,16 +74,19 @@ public class ELAttributeEvaluatorTest extends TestCase {
                 .anyTimes();
         EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
+        EasyMock.expect(request.getContext("application")).andReturn(
+                applicationScope).anyTimes();
+        EasyMock.expect(request.getAvailableScopes()).andReturn(
+                new String[] { "request", "session", "application" }).anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
-                applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
 
         evaluator.setApplicationContext(applicationContext);
         evaluator.setExpressionFactory(new ExpressionFactoryImpl());
         ELResolver elResolver = new CompositeELResolver() {
             {
+                add(new ScopeELResolver());
                 add(new TilesContextELResolver());
                 add(new TilesContextBeanELResolver());
                 add(new ArrayELResolver(false));

@@ -58,8 +58,11 @@ public class MVELAttributeEvaluatorTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         TilesRequestContextHolder requestHolder = new TilesRequestContextHolder();
-        VariableResolverFactory variableResolverFactory = new TilesContextVariableResolverFactory(
+        VariableResolverFactory variableResolverFactory = new ScopeVariableResolverFactory(
                 requestHolder);
+        variableResolverFactory
+                .setNextFactory(new TilesContextVariableResolverFactory(
+                        requestHolder));
         variableResolverFactory
                 .setNextFactory(new TilesContextBeanVariableResolverFactory(
                         requestHolder));
@@ -77,12 +80,14 @@ public class MVELAttributeEvaluatorTest extends TestCase {
                 .anyTimes();
         EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
+        EasyMock.expect(request.getContext("application")).andReturn(applicationScope)
+                .anyTimes();
+        EasyMock.expect(request.getAvailableScopes()).andReturn(
+                new String[] { "request", "session", "application" }).anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
         EasyMock.expect(request.getApplicationContext()).andReturn(
                 applicationContext).anyTimes();
-        EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
-                applicationScope).anyTimes();
         EasyMock.replay(request, applicationContext);
     }
 

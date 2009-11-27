@@ -22,6 +22,7 @@
 package org.apache.tiles.mvel;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.request.Request;
@@ -35,7 +36,7 @@ import org.mvel2.integration.impl.BaseVariableResolverFactory;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class TilesContextBeanVariableResolverFactory extends
+public class ScopeVariableResolverFactory extends
         BaseVariableResolverFactory {
 
     /**
@@ -49,7 +50,7 @@ public class TilesContextBeanVariableResolverFactory extends
      * @param requestHolder The Tiles request holder.
      * @since 2.2.0
      */
-    public TilesContextBeanVariableResolverFactory(TilesRequestContextHolder requestHolder) {
+    public ScopeVariableResolverFactory(TilesRequestContextHolder requestHolder) {
         this.requestHolder = requestHolder;
         variableResolvers = new HashMap<String, VariableResolver>();
     }
@@ -84,7 +85,7 @@ public class TilesContextBeanVariableResolverFactory extends
             if (variableResolvers != null && variableResolvers.containsKey(name)) {
                 return variableResolvers.get(name);
             } else if (isTarget(name)) {
-                VariableResolver variableResolver = new TilesContextBeanVariableResolver(name);
+                VariableResolver variableResolver = new ScopeVariableResolver(name);
                 variableResolvers.put(name, variableResolver);
                 return variableResolver;
             } else if (nextFactory != null) {
@@ -98,9 +99,12 @@ public class TilesContextBeanVariableResolverFactory extends
     /** {@inheritDoc} */
     public boolean isTarget(String name) {
         Request request = requestHolder.getTilesRequestContext();
-        for (String scope : request.getAvailableScopes()) {
-            if (request.getContext(scope).containsKey(name)) {
-                return true;
+        if (name.endsWith("Scope")) {
+            String scopeName = name.substring(0, name.length() - 5);
+            for (String availableScope : request.getAvailableScopes()) {
+                if (scopeName.equals(availableScope)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -112,7 +116,7 @@ public class TilesContextBeanVariableResolverFactory extends
      * @version $Rev$ $Date$
      * @since 2.2.0
      */
-    private class TilesContextBeanVariableResolver implements VariableResolver {
+    private class ScopeVariableResolver implements VariableResolver {
 
         /**
          * The name of the attribute.
@@ -125,7 +129,7 @@ public class TilesContextBeanVariableResolverFactory extends
          * @param name The name of the attribute.
          * @since 2.2.0
          */
-        public TilesContextBeanVariableResolver(String name) {
+        public ScopeVariableResolver(String name) {
             this.name = name;
         }
 
@@ -142,23 +146,13 @@ public class TilesContextBeanVariableResolverFactory extends
         /** {@inheritDoc} */
         @SuppressWarnings("unchecked")
         public Class getType() {
-            Object value = getValue();
-            if (value != null) {
-                return value.getClass();
-            }
-            return Object.class;
+            return Map.class;
         }
 
         /** {@inheritDoc} */
         public Object getValue() {
             Request request = requestHolder.getTilesRequestContext();
-            for (String scope : request.getAvailableScopes()) {
-                Object value = request.getContext(scope).get(name);
-                if (value != null) {
-                    return value;
-                }
-            }
-            return null;
+            return request.getContext(name.substring(0, name.length() - 5));
         }
 
         /** {@inheritDoc} */

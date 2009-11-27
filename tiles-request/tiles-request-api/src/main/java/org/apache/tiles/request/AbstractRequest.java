@@ -23,4 +23,14 @@ public abstract class AbstractRequest implements Request{
         ContextResolver resolver = ApplicationAccess.getContextResolver(applicationContext);
         return resolver.getContext(this, scope);
     }
+
+    @Override
+    public String[] getAvailableScopes() {
+        ContextResolver resolver = ApplicationAccess.getContextResolver(applicationContext);
+        return resolver.getAvailableScopes(this);
+    }
+
+    public Map<String, Object> getApplicationScope() {
+        return applicationContext.getApplicationScope();
+    }
 }

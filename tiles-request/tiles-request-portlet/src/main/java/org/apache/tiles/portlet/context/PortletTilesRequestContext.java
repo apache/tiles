@@ -39,12 +39,14 @@ import javax.portlet.RenderResponse;
 
 import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.scope.ScopeOrder;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
  *
  * @version $Rev$ $Date$
  */
+@ScopeOrder({"request", "portletSession", "session", "application"})
 public class PortletTilesRequestContext extends AbstractRequest {
 
     /**

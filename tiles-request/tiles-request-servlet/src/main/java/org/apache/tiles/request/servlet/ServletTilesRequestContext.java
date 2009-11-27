@@ -34,12 +34,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.scope.ScopeOrder;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.
  *
  * @version $Rev$ $Date$
  */
+@ScopeOrder({"request", "session", "application"})
 public class ServletTilesRequestContext extends AbstractRequest {
 
     /**

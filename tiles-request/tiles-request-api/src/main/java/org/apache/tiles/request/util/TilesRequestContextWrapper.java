@@ -78,6 +78,11 @@ public class TilesRequestContextWrapper implements Request {
         return context.getContext(scope);
     }
 
+    @Override
+    public String[] getAvailableScopes() {
+        return context.getAvailableScopes();
+    }
+
     /** {@inheritDoc} */
     public ApplicationContext getApplicationContext() {
         return context.getApplicationContext();

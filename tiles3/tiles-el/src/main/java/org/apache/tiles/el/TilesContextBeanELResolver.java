@@ -29,7 +29,6 @@ import java.util.Map;
 import javax.el.ELContext;
 import javax.el.ELResolver;
 
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 
 /**
@@ -59,12 +58,9 @@ public class TilesContextBeanELResolver extends ELResolver {
 
         Request request = (Request) context
                 .getContext(Request.class);
-        collectBeanInfo(request.getContext("request"), list);
-        collectBeanInfo(request.getContext("session"), list);
-
-        ApplicationContext applicationContext = (ApplicationContext) context
-                .getContext(ApplicationContext.class);
-        collectBeanInfo(applicationContext.getApplicationScope(), list);
+        for (String scope: request.getAvailableScopes()) {
+            collectBeanInfo(request.getContext(scope), list);
+        }
         return list.iterator();
     }
 
@@ -159,16 +155,12 @@ public class TilesContextBeanELResolver extends ELResolver {
 
         String prop = property.toString();
 
-        retValue = getObject(request.getContext("request"), prop);
-        if (retValue == null) {
-            retValue = getObject(request.getContext("session"), prop);
-            if (retValue == null) {
-                ApplicationContext applicationContext = (ApplicationContext) context
-                        .getContext(ApplicationContext.class);
-                retValue = getObject(applicationContext.getApplicationScope(),
-                        prop);
-            }
-        }
+        String[] scopes = request.getAvailableScopes();
+        int i = 0;
+        do {
+            retValue = getObject(request.getContext(scopes[i]), prop);
+            i++;
+        } while (retValue == null && i < scopes.length);
 
         return retValue;
     }
