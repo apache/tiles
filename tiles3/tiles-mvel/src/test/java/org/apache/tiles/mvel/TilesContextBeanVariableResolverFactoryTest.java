@@ -112,14 +112,14 @@ public class TilesContextBeanVariableResolverFactoryTest {
                 EXPECTED_REQUEST_CALLS);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
-        expect(request.getApplicationContext()).andReturn(applicationContext)
-                .times(2);
-        expect(applicationContext.getApplicationScope()).andReturn(
-                applicationScope).times(2);
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         sessionScope.put("three", "three");
         expect(request.getContext("session")).andReturn(sessionScope).times(
                 EXPECTED_SESSION_CALLS);
+		expect(request.getAvailableScopes()).andReturn(
+				new String[] { "request", "session", "application" })
+				.anyTimes();
+        expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
         replay(request, applicationContext);
 
         assertTrue(factory.isResolveable("one"));
@@ -139,13 +139,13 @@ public class TilesContextBeanVariableResolverFactoryTest {
         expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
-        expect(request.getApplicationContext()).andReturn(applicationContext)
-                .anyTimes();
-        expect(applicationContext.getApplicationScope()).andReturn(
-                applicationScope).anyTimes();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         sessionScope.put("three", "three");
         expect(request.getContext("session")).andReturn(sessionScope).anyTimes();
+		expect(request.getAvailableScopes()).andReturn(
+				new String[] { "request", "session", "application" })
+				.anyTimes();
+        expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
         replay(request, applicationContext);
 
         VariableResolver resolver = factory.getVariableResolver("one");
@@ -167,13 +167,13 @@ public class TilesContextBeanVariableResolverFactoryTest {
         expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
-        expect(request.getApplicationContext()).andReturn(applicationContext)
-                .anyTimes();
-        expect(applicationContext.getApplicationScope()).andReturn(
-                applicationScope).anyTimes();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         sessionScope.put("three", "three");
         expect(request.getContext("session")).andReturn(sessionScope).anyTimes();
+		expect(request.getAvailableScopes()).andReturn(
+				new String[] { "request", "session", "application" })
+				.anyTimes();
+        expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
         replay(request, applicationContext);
 
         factory.getVariableResolver("four");
@@ -190,14 +190,14 @@ public class TilesContextBeanVariableResolverFactoryTest {
                 EXPECTED_REQUEST_CALLS);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
-        expect(request.getApplicationContext()).andReturn(applicationContext)
-                .times(2);
-        expect(applicationContext.getApplicationScope()).andReturn(
-                applicationScope).times(2);
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         sessionScope.put("three", "three");
         expect(request.getContext("session")).andReturn(sessionScope).times(
                 EXPECTED_SESSION_CALLS);
+		expect(request.getAvailableScopes()).andReturn(
+				new String[] { "request", "session", "application" })
+				.anyTimes();
+        expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
         replay(request, applicationContext);
 
         assertTrue(factory.isTarget("one"));

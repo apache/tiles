@@ -1,34 +1,17 @@
-/*
- * $Id$
- *
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 package org.apache.tiles.mvel;
 
-import static org.junit.Assert.*;
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.context.TilesRequestContextHolder;
-import org.apache.tiles.mvel.TilesContextVariableResolverFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.After;
@@ -36,12 +19,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mvel2.integration.VariableResolver;
 
-/**
- * Tests {@link TilesContextVariableResolverFactory}.
- *
- * @version $Rev$ $Date$
- */
-public class TilesContextVariableResolverFactoryTest {
+
+public class ScopeVariableResolverFactoryTest {
 
     /**
      * The Tiles request.
@@ -56,7 +35,7 @@ public class TilesContextVariableResolverFactoryTest {
     /**
      * The object to test.
      */
-    private TilesContextVariableResolverFactory factory;
+    private ScopeVariableResolverFactory factory;
 
     /**
      * Sets up the object.
@@ -64,10 +43,12 @@ public class TilesContextVariableResolverFactoryTest {
     @Before
     public void setUp() {
         request = createMock(Request.class);
+        expect(request.getAvailableScopes()).andReturn(new String[]{"request",
+        		"session", "application"}).anyTimes();
         TilesRequestContextHolder holder = new TilesRequestContextHolder();
         holder.setTilesRequestContext(request);
         applicationContext = createMock(ApplicationContext.class);
-        factory = new TilesContextVariableResolverFactory(holder);
+        factory = new ScopeVariableResolverFactory(holder);
     }
 
     /**
@@ -102,8 +83,8 @@ public class TilesContextVariableResolverFactoryTest {
     @Test
     public void testIsResolveable() {
         replay(request, applicationContext);
-        assertTrue(factory.isResolveable("header"));
-        assertFalse(factory.isResolveable("requestScope"));
+        assertFalse(factory.isResolveable("header"));
+        assertTrue(factory.isResolveable("requestScope"));
         assertTrue(factory.isResolveable("applicationScope"));
         assertFalse(factory.isResolveable("blah"));
     }
@@ -114,8 +95,8 @@ public class TilesContextVariableResolverFactoryTest {
     @Test
     public void testIsTarget() {
         replay(request, applicationContext);
-        assertTrue(factory.isTarget("header"));
-        assertFalse(factory.isTarget("requestScope"));
+        assertFalse(factory.isTarget("header"));
+        assertTrue(factory.isTarget("requestScope"));
         assertTrue(factory.isTarget("applicationScope"));
         assertFalse(factory.isTarget("blah"));
     }
@@ -127,14 +108,16 @@ public class TilesContextVariableResolverFactoryTest {
     public void testGetVariableResolver() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put("one", 1);
+        expect(request.getContext("request")).andReturn(requestScope);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(applicationContext.getApplicationScope()).andReturn(applicationScope);
+        expect(request.getContext("application")).andReturn(applicationScope);
         replay(request, applicationContext);
 
-        VariableResolver resolver = factory.getVariableResolver("applicationScope");
+        VariableResolver resolver = factory.getVariableResolver("requestScope");
+        assertEquals(requestScope, resolver.getValue());
+        resolver = factory.getVariableResolver("applicationScope");
         assertEquals(applicationScope, resolver.getValue());
-        verify(request, applicationContext);
     }
+
 }

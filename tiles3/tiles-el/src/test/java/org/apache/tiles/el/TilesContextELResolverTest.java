@@ -89,59 +89,6 @@ public class TilesContextELResolverTest extends TestCase {
 
     /**
      * Test method for
-     * {@link TilesContextELResolver#getType(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
-     */
-    public void testGetType() {
-        Request request = EasyMock
-                .createMock(Request.class);
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        ELContext context = new ELContextImpl(resolver);
-        EasyMock.replay(request, applicationContext);
-        context.putContext(Request.class, request);
-        context.putContext(ApplicationContext.class, applicationContext);
-        assertEquals("The requestScope object is not a map.", Map.class,
-                resolver.getType(context, null, "requestScope"));
-        assertEquals("The sessionScope object is not a map.", Map.class,
-                resolver.getType(context, null, "sessionScope"));
-        assertEquals("The applicationScope object is not a map.", Map.class,
-                resolver.getType(context, null, "applicationScope"));
-    }
-
-    /**
-     * Test method for
-     * {@link TilesContextELResolver#getValue(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
-     */
-    public void testGetValue() {
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put("objectKey", "objectValue");
-        Map<String, Object> sessionScope = new HashMap<String, Object>();
-        sessionScope.put("sessionObjectKey", "sessionObjectValue");
-        Map<String, Object> applicationScope = new HashMap<String, Object>();
-        applicationScope.put("applicationObjectKey", "applicationObjectValue");
-        Request request = EasyMock
-                .createMock(Request.class);
-        EasyMock.expect(request.getContext("request")).andReturn(requestScope);
-        EasyMock.expect(request.getContext("session")).andReturn(sessionScope);
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
-                applicationScope);
-        ELContext context = new ELContextImpl(resolver);
-        EasyMock.replay(request, applicationContext);
-        context.putContext(Request.class, request);
-        context.putContext(ApplicationContext.class, applicationContext);
-        assertEquals("The requestScope map does not correspond", requestScope,
-                resolver.getValue(context, null, "requestScope"));
-        assertEquals("The sessionScope map does not correspond", sessionScope,
-                resolver.getValue(context, null, "sessionScope"));
-        assertEquals("The applicationScope map does not correspond",
-                applicationScope, resolver.getValue(context, null,
-                        "applicationScope"));
-    }
-
-    /**
-     * Test method for
      * {@link TilesContextELResolver#isReadOnly(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
     public void testIsReadOnly() {

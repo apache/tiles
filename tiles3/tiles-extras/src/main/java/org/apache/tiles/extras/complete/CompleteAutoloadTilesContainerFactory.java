@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.el.ArrayELResolver;
@@ -68,13 +67,12 @@ import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.mvel.MVELAttributeEvaluator;
 import org.apache.tiles.mvel.TilesContextBeanVariableResolverFactory;
 import org.apache.tiles.mvel.TilesContextVariableResolverFactory;
-import org.apache.tiles.ognl.ApplicationScopeNestedObjectExtractor;
+import org.apache.tiles.ognl.AnyScopePropertyAccessor;
 import org.apache.tiles.ognl.DelegatePropertyAccessor;
 import org.apache.tiles.ognl.NestedObjectDelegatePropertyAccessor;
 import org.apache.tiles.ognl.OGNLAttributeEvaluator;
 import org.apache.tiles.ognl.PropertyAccessorDelegateFactory;
-import org.apache.tiles.ognl.RequestScopeNestedObjectExtractor;
-import org.apache.tiles.ognl.SessionScopeNestedObjectExtractor;
+import org.apache.tiles.ognl.ScopePropertyAccessor;
 import org.apache.tiles.ognl.TilesApplicationContextNestedObjectExtractor;
 import org.apache.tiles.ognl.TilesContextPropertyAccessorDelegateFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
@@ -308,25 +306,15 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     private OGNLAttributeEvaluator createOGNLEvaluator() {
         try {
             PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
-            PropertyAccessor mapPropertyAccessor = OgnlRuntime.getPropertyAccessor(Map.class);
             PropertyAccessor applicationContextPropertyAccessor =
                 new NestedObjectDelegatePropertyAccessor<Request>(
                     new TilesApplicationContextNestedObjectExtractor(),
                     objectPropertyAccessor);
-            PropertyAccessor requestScopePropertyAccessor =
-                new NestedObjectDelegatePropertyAccessor<Request>(
-                    new RequestScopeNestedObjectExtractor(), mapPropertyAccessor);
-            PropertyAccessor sessionScopePropertyAccessor =
-                new NestedObjectDelegatePropertyAccessor<Request>(
-                    new SessionScopeNestedObjectExtractor(), mapPropertyAccessor);
-            PropertyAccessor applicationScopePropertyAccessor =
-                new NestedObjectDelegatePropertyAccessor<Request>(
-                    new ApplicationScopeNestedObjectExtractor(), mapPropertyAccessor);
-            PropertyAccessorDelegateFactory<Request> factory =
-                new TilesContextPropertyAccessorDelegateFactory(
+            PropertyAccessor anyScopePropertyAccessor = new AnyScopePropertyAccessor();
+            PropertyAccessor scopePropertyAccessor = new ScopePropertyAccessor();
+            PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                     objectPropertyAccessor, applicationContextPropertyAccessor,
-                    requestScopePropertyAccessor, sessionScopePropertyAccessor,
-                    applicationScopePropertyAccessor);
+                    anyScopePropertyAccessor, scopePropertyAccessor);
             PropertyAccessor tilesRequestAccessor = new DelegatePropertyAccessor<Request>(factory);
             OgnlRuntime.setPropertyAccessor(Request.class, tilesRequestAccessor);
             return new OGNLAttributeEvaluator();

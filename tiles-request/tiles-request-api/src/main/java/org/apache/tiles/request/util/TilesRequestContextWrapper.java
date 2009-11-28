@@ -20,15 +20,16 @@
  */
 package org.apache.tiles.request.util;
 
-import java.util.Map;
-import java.util.Locale;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Locale;
+import java.util.Map;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.scope.ContextResolver;
 
 /**
  * Delegate for ease of customization.
@@ -75,12 +76,14 @@ public class TilesRequestContextWrapper implements Request {
 
     @Override
     public Map<String, Object> getContext(String scope) {
-        return context.getContext(scope);
+        ContextResolver resolver = ApplicationAccess.getContextResolver(context.getApplicationContext());
+        return resolver.getContext(this, scope);
     }
 
     @Override
     public String[] getAvailableScopes() {
-        return context.getAvailableScopes();
+        ContextResolver resolver = ApplicationAccess.getContextResolver(context.getApplicationContext());
+        return resolver.getAvailableScopes(this);
     }
 
     /** {@inheritDoc} */

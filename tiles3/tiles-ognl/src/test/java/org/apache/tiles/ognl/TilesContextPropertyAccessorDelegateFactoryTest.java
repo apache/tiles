@@ -60,8 +60,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
         PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
-                requestScopePropertyAccessor, sessionScopePropertyAccessor,
-                applicationScopePropertyAccessor);
+                requestScopePropertyAccessor, sessionScopePropertyAccessor);
         assertEquals(objectPropertyAccessor, factory.getPropertyAccessor("writer", request));
 
         verify(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
@@ -86,8 +85,7 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
         PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
-                requestScopePropertyAccessor, sessionScopePropertyAccessor,
-                applicationScopePropertyAccessor);
+                requestScopePropertyAccessor, sessionScopePropertyAccessor);
         assertEquals(applicationContextPropertyAccessor, factory.getPropertyAccessor("initParams", request));
 
         verify(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
@@ -109,14 +107,12 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         Request request = createMock(Request.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute", 1);
-        expect(request.getContext("request")).andReturn(map);
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
         PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
-                requestScopePropertyAccessor, sessionScopePropertyAccessor,
-                applicationScopePropertyAccessor);
+                requestScopePropertyAccessor, sessionScopePropertyAccessor);
         assertEquals(requestScopePropertyAccessor, factory.getPropertyAccessor("attribute", request));
 
         verify(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
@@ -138,17 +134,13 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         Request request = createMock(Request.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute", 1);
-        Map<String, Object> emptyMap = new HashMap<String, Object>();
-        expect(request.getContext("request")).andReturn(emptyMap);
-        expect(request.getContext("session")).andReturn(map);
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
         PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
-                requestScopePropertyAccessor, sessionScopePropertyAccessor,
-                applicationScopePropertyAccessor);
-        assertEquals(sessionScopePropertyAccessor, factory.getPropertyAccessor("attribute", request));
+                requestScopePropertyAccessor, sessionScopePropertyAccessor);
+        assertEquals(requestScopePropertyAccessor, factory.getPropertyAccessor("attribute", request));
 
         verify(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request);
@@ -170,19 +162,13 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("attribute", 1);
-        Map<String, Object> emptyMap = new HashMap<String, Object>();
-        expect(request.getContext("request")).andReturn(emptyMap);
-        expect(request.getContext("session")).andReturn(emptyMap);
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(applicationContext.getApplicationScope()).andReturn(map);
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request, applicationContext);
         PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
-                requestScopePropertyAccessor, sessionScopePropertyAccessor,
-                applicationScopePropertyAccessor);
-        assertEquals(applicationScopePropertyAccessor, factory.getPropertyAccessor("attribute", request));
+                requestScopePropertyAccessor, sessionScopePropertyAccessor);
+        assertEquals(requestScopePropertyAccessor, factory.getPropertyAccessor("attribute", request));
 
         verify(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request, applicationContext);
@@ -204,18 +190,12 @@ public class TilesContextPropertyAccessorDelegateFactoryTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("anotherAttribute", 1);
-        Map<String, Object> emptyMap = new HashMap<String, Object>();
-        expect(request.getContext("request")).andReturn(map);
-        expect(request.getContext("session")).andReturn(emptyMap);
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(applicationContext.getApplicationScope()).andReturn(emptyMap);
 
         replay(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,
                 sessionScopePropertyAccessor, applicationScopePropertyAccessor, request, applicationContext);
         PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
                 objectPropertyAccessor, applicationContextPropertyAccessor,
-                requestScopePropertyAccessor, sessionScopePropertyAccessor,
-                applicationScopePropertyAccessor);
+                requestScopePropertyAccessor, sessionScopePropertyAccessor);
         assertEquals(requestScopePropertyAccessor, factory.getPropertyAccessor("attribute", request));
 
         verify(objectPropertyAccessor, applicationContextPropertyAccessor, requestScopePropertyAccessor,

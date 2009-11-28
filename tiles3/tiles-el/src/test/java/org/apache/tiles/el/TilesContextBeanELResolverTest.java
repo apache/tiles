@@ -86,8 +86,11 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 .anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
+        EasyMock.expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
+		EasyMock.expect(request.getAvailableScopes()).andReturn(
+				new String[] { "request", "session", "application" })
+				.anyTimes();
         EasyMock.replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
@@ -145,8 +148,11 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 .anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
+        EasyMock.expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
+		EasyMock.expect(request.getAvailableScopes()).andReturn(
+				new String[] { "request", "session", "application" })
+				.anyTimes();
         EasyMock.replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
@@ -180,8 +186,11 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 .anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
+        EasyMock.expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
+		EasyMock.expect(request.getAvailableScopes()).andReturn(
+				new String[] { "request", "session", "application" })
+				.anyTimes();
         EasyMock.replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
@@ -225,8 +234,11 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 .anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
+        EasyMock.expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
+		EasyMock.expect(request.getAvailableScopes()).andReturn(
+				new String[] { "request", "session", "application" })
+				.anyTimes();
         EasyMock.replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);

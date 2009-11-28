@@ -53,17 +53,12 @@ public class TilesContextPropertyAccessorDelegateFactory implements
     /**
      * The request scope property accessor.
      */
-    private PropertyAccessor requestScopePropertyAccessor;
+    private PropertyAccessor anyScopePropertyAccessor;
 
     /**
      * The session scope property accessor.
      */
-    private PropertyAccessor sessionScopePropertyAccessor;
-
-    /**
-     * The application scope property accessor.
-     */
-    private PropertyAccessor applicationScopePropertyAccessor;
+    private PropertyAccessor scopePropertyAccessor;
 
     /**
      * The bean info of {@link Request} and
@@ -78,30 +73,32 @@ public class TilesContextPropertyAccessorDelegateFactory implements
      * used directly for {@link Request}.
      * @param applicationContextPropertyAccessor The application context
      * property accessor.
-     * @param requestScopePropertyAccessor The request scope property accessor.
-     * @param sessionScopePropertyAccessor The session scope property accessor.
-     * @param applicationScopePropertyAccessor The application scope property
-     * accessor.
+     * @param anyScopePropertyAccessor The request scope property accessor.
+     * @param scopePropertyAccessor The session scope property accessor.
      * @since 2.2.0
      */
     public TilesContextPropertyAccessorDelegateFactory(
             PropertyAccessor objectPropertyAccessor,
             PropertyAccessor applicationContextPropertyAccessor,
-            PropertyAccessor requestScopePropertyAccessor,
-            PropertyAccessor sessionScopePropertyAccessor,
-            PropertyAccessor applicationScopePropertyAccessor) {
+            PropertyAccessor anyScopePropertyAccessor,
+            PropertyAccessor scopePropertyAccessor) {
         beanInfo = new CombinedBeanInfo(Request.class, ApplicationContext.class);
         this.objectPropertyAccessor = objectPropertyAccessor;
         this.applicationContextPropertyAccessor = applicationContextPropertyAccessor;
-        this.requestScopePropertyAccessor = requestScopePropertyAccessor;
-        this.sessionScopePropertyAccessor = sessionScopePropertyAccessor;
-        this.applicationScopePropertyAccessor = applicationScopePropertyAccessor;
+        this.anyScopePropertyAccessor = anyScopePropertyAccessor;
+        this.scopePropertyAccessor = scopePropertyAccessor;
     }
 
     /** {@inheritDoc} */
     public PropertyAccessor getPropertyAccessor(String propertyName,
             Request request) {
         PropertyAccessor retValue;
+        if (propertyName.endsWith("Scope")) {
+        	String scopeName = propertyName.substring(0, propertyName.length() - 5);
+        	if (request.getContext(scopeName) != null) {
+        		return scopePropertyAccessor;
+        	}
+        }
         if (beanInfo.getMappedDescriptors(Request.class)
                 .containsKey(propertyName)) {
             retValue = objectPropertyAccessor;
@@ -109,23 +106,7 @@ public class TilesContextPropertyAccessorDelegateFactory implements
                 .containsKey(propertyName)) {
             retValue = applicationContextPropertyAccessor;
         } else {
-            Map<String, Object> scopeMap = request.getContext("request");
-            if (scopeMap.containsKey(propertyName)) {
-                retValue = requestScopePropertyAccessor;
-            } else {
-                scopeMap = request.getContext("session");
-                if (scopeMap.containsKey(propertyName)) {
-                    retValue = sessionScopePropertyAccessor;
-                } else {
-                    scopeMap = request.getApplicationContext()
-                            .getApplicationScope();
-                    if (scopeMap.containsKey(propertyName)) {
-                        retValue = applicationScopePropertyAccessor;
-                    } else {
-                        retValue = requestScopePropertyAccessor;
-                    }
-                }
-            }
+        	return anyScopePropertyAccessor;
         }
         return retValue;
     }

@@ -21,9 +21,13 @@
 
 package org.apache.tiles.freemarker.template;
 
-import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.isNull;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
 
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -33,7 +37,6 @@ import java.util.Map;
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
@@ -53,7 +56,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
-import freemarker.template.utility.DeepUnwrap;
 
 /**
  * Tests {@link ImportAttributeFMModel}.
@@ -129,7 +131,6 @@ public class ImportAttributeFMModelTest {
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
         expect(model.get(FreemarkerServlet.KEY_APPLICATION)).andReturn(servletContextModel);
-        expect(template.getObjectWrapper()).andReturn(objectWrapper).times(2);
         initEnvironment();
 
         TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
@@ -139,16 +140,11 @@ public class ImportAttributeFMModelTest {
         params.put("toName", objectWrapper.wrap("myToName"));
         params.put("ignore", objectWrapper.wrap(false));
 
-        Map<String, Object> attributes = new HashMap<String, Object>();
-        attributes.put("one", "value1");
-        attributes.put("two", "value2");
-        expect(tModel.getImportedAttributes(eq("myName"), eq("myToName"), eq(false),
-                isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
+		tModel.execute(eq("myName"), (String) isNull(), eq("myToName"), eq(false),
+				isA(FreeMarkerTilesRequestContext.class));
 
         replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-        assertEquals("value1", DeepUnwrap.unwrap(env.getCurrentNamespace().get("one")));
-        assertEquals("value2", DeepUnwrap.unwrap(env.getCurrentNamespace().get("two")));
         verify(template, model, request, tModel, body, servlet, servletContext,
                 attribute, applicationContext);
     }
@@ -166,8 +162,6 @@ public class ImportAttributeFMModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        request.setAttribute("one", "value1");
-        request.setAttribute("two", "value2");
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
@@ -190,11 +184,8 @@ public class ImportAttributeFMModelTest {
         params.put("ignore", objectWrapper.wrap(false));
         params.put("scope", objectWrapper.wrap("request"));
 
-        Map<String, Object> attributes = new HashMap<String, Object>();
-        attributes.put("one", "value1");
-        attributes.put("two", "value2");
-        expect(tModel.getImportedAttributes(eq("myName"), eq("myToName"), eq(false),
-                isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
+        tModel.execute(eq("myName"), eq("request"), eq("myToName"), eq(false),
+                isA(FreeMarkerTilesRequestContext.class));
 
         replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
@@ -215,11 +206,7 @@ public class ImportAttributeFMModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        HttpSession session = createMock(HttpSession.class);
-        expect(request.getSession()).andReturn(session).times(2);
-        session.setAttribute("one", "value1");
-        session.setAttribute("two", "value2");
-        replay(request, session);
+        replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 
         GenericServlet servlet = createMock(GenericServlet.class);
@@ -241,15 +228,12 @@ public class ImportAttributeFMModelTest {
         params.put("ignore", objectWrapper.wrap(false));
         params.put("scope", objectWrapper.wrap("session"));
 
-        Map<String, Object> attributes = new HashMap<String, Object>();
-        attributes.put("one", "value1");
-        attributes.put("two", "value2");
-        expect(tModel.getImportedAttributes(eq("myName"), eq("myToName"), eq(false),
-                isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
+        tModel.execute(eq("myName"), eq("session"), eq("myToName"), eq(false),
+                isA(FreeMarkerTilesRequestContext.class));
 
         replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
-        verify(template, model, request, session, tModel, body, servlet,
+        verify(template, model, request, tModel, body, servlet,
                 servletContext, attribute, applicationContext);
     }
 
@@ -274,8 +258,6 @@ public class ImportAttributeFMModelTest {
         expect(servlet.getServletContext()).andReturn(servletContext).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
                 .andReturn(applicationContext);
-        servletContext.setAttribute("one", "value1");
-        servletContext.setAttribute("two", "value2");
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel).anyTimes();
@@ -290,11 +272,8 @@ public class ImportAttributeFMModelTest {
         params.put("ignore", objectWrapper.wrap(false));
         params.put("scope", objectWrapper.wrap("application"));
 
-        Map<String, Object> attributes = new HashMap<String, Object>();
-        attributes.put("one", "value1");
-        attributes.put("two", "value2");
-        expect(tModel.getImportedAttributes(eq("myName"), eq("myToName"), eq(false),
-                isA(FreeMarkerTilesRequestContext.class))).andReturn(attributes);
+        tModel.execute(eq("myName"), eq("application"), eq("myToName"), eq(false),
+                isA(FreeMarkerTilesRequestContext.class));
 
         replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
