@@ -65,8 +65,7 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(java.lang.String, java.lang.String,
-     * boolean, Request)}.
+     * #execute(String, String, String, boolean, Request).
      */
     @Test
     public void testExecuteSingle() {
@@ -94,8 +93,7 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(java.lang.String, java.lang.String,
-     * boolean, Request)}.
+     * #execute(String, String, String, boolean, Request).
      */
     @Test
     public void testExecuteSingleToName() {
@@ -123,8 +121,7 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(java.lang.String, java.lang.String,
-     * boolean, Request)}.
+     * #execute(String, String, String, boolean, Request).
      */
     @Test
     public void testExecuteAll() {
@@ -168,8 +165,7 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(java.lang.String, java.lang.String,
-     * boolean, Request)}.
+     * #execute(String, String, String, boolean, Request).
      */
     @Test(expected = NoSuchAttributeException.class)
     public void testExecuteSingleNullAttributeException() {
@@ -195,8 +191,7 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(java.lang.String, java.lang.String,
-     * boolean, Request)}.
+     * #execute(String, String, String, boolean, Request).
      */
     @Test(expected = NoSuchAttributeException.class)
     public void testExecuteSingleNullAttributeValueException() {
@@ -224,8 +219,7 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(java.lang.String, java.lang.String,
-     * boolean, Request)}.
+     * #execute(String, String, String, boolean, Request).
      */
     @Test(expected = RuntimeException.class)
     public void testExecuteSingleRuntimeException() {
@@ -253,8 +247,7 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(java.lang.String, java.lang.String,
-     * boolean, Request)}.
+     * #execute(String, String, String, boolean, Request).
      */
     @Test
     public void testExecuteSingleNullAttributeIgnore() {
@@ -277,8 +270,7 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(java.lang.String, java.lang.String,
-     * boolean, Request)}.
+     * #execute(String, String, String, boolean, Request).
      */
     @Test
     public void testExecuteSingleNullAttributeValueIgnore() {
@@ -303,8 +295,7 @@ public class ImportAttributeModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.ImportAttributeModel
-     * #getImportedAttributes(java.lang.String, java.lang.String,
-     * boolean, Request)}.
+     * #execute(String, String, String, boolean, Request).
      */
     @Test
     public void testExecuteSingleRuntimeIgnore() {

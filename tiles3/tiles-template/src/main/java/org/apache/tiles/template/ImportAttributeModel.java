@@ -57,7 +57,7 @@ public class ImportAttributeModel {
         Map<String, Object> attributes = getImportedAttributes(
                 name, toName, ignore, request);
         if (scope == null) {
-        	scope = request.getAvailableScopes()[0];
+            scope = request.getAvailableScopes()[0];
         }
         request.getContext(scope).putAll(attributes);
     }
@@ -78,7 +78,7 @@ public class ImportAttributeModel {
      * attribute, the value is the value of that attribute.
      * @since 2.2.0
      */
-    public Map<String, Object> getImportedAttributes(String name,
+    private Map<String, Object> getImportedAttributes(String name,
             String toName, boolean ignore, Request request) {
         TilesContainer container = TilesAccess.getCurrentContainer(request);
         Map<String, Object> retValue = new HashMap<String, Object>();

@@ -40,8 +40,7 @@ import org.apache.velocity.runtime.Renderable;
 /**
  * Wraps {@link ImportAttributeModel} to be used in Velocity. For the list of
  * parameters, see
- * {@link ImportAttributeModel#getImportedAttributes(String,
- * String, boolean, Request)}.
+ * {@link ImportAttributeModel#execute(String, String, String, boolean, Request).
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
