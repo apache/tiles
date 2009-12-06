@@ -151,4 +151,9 @@ public class MockOnlyLocaleTilesContext implements Request {
     public String[] getAvailableScopes() {
         return null;
     }
+
+	@Override
+	public String[] getNativeScopes() {
+		return null;
+	}
 }

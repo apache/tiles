@@ -34,15 +34,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.scope.ScopeOrder;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.
  *
  * @version $Rev$ $Date$
  */
-@ScopeOrder({"request", "session", "application"})
 public class ServletTilesRequestContext extends AbstractRequest {
+
+	private static final String[] SCOPES = {"request", "session", "application"};
 
     /**
      * The request object to use.
@@ -189,8 +189,9 @@ public class ServletTilesRequestContext extends AbstractRequest {
 
     }
 
-    public Map<String, Object> getDefaultScope() {
-        return getRequestScope();
+    @Override
+    public String[] getNativeScopes() {
+    	return SCOPES;
     }
 
     /** {@inheritDoc} */

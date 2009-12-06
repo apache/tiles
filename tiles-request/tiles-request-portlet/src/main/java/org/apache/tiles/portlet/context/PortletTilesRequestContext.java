@@ -39,15 +39,15 @@ import javax.portlet.RenderResponse;
 
 import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.scope.ScopeOrder;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
  *
  * @version $Rev$ $Date$
  */
-@ScopeOrder({"request", "portletSession", "session", "application"})
 public class PortletTilesRequestContext extends AbstractRequest {
+
+	private static final String[] SCOPES = {"request", "portletSession", "session", "application"};
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -257,8 +257,9 @@ public class PortletTilesRequestContext extends AbstractRequest {
         return (portletSessionScope);
     }
 
-    public Map<String, Object> getDefaultScope() {
-        return getRequestScope();
+    @Override
+    public String[] getNativeScopes() {
+    	return SCOPES;
     }
 
     /** {@inheritDoc} */

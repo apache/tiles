@@ -55,6 +55,8 @@ public interface Request {
 
     Map<String, Object> getContext(String scope);
 
+    String[] getNativeScopes();
+
     String[] getAvailableScopes();
 
     /**

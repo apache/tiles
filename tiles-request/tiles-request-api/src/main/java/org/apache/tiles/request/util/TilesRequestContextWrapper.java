@@ -81,6 +81,11 @@ public class TilesRequestContextWrapper implements Request {
     }
 
     @Override
+    public String[] getNativeScopes() {
+    	return null;
+    }
+
+    @Override
     public String[] getAvailableScopes() {
         ContextResolver resolver = ApplicationAccess.getContextResolver(context.getApplicationContext());
         return resolver.getAvailableScopes(this);

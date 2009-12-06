@@ -32,7 +32,6 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.scope.ScopeOrder;
 import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.request.util.TilesRequestContextWrapper;
@@ -43,8 +42,9 @@ import org.apache.tiles.request.util.TilesRequestContextWrapper;
  *
  * @version $Rev$ $Date$
  */
-@ScopeOrder({"page", "request", "session", "application"})
 public class JspTilesRequestContext extends TilesRequestContextWrapper {
+
+	private static final String[] SCOPES = {"page", "request", "session", "application"};
 
     /**
      * The current page context.
@@ -99,6 +99,11 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper {
         this.pageContext = pageContext;
     }
 
+    @Override
+    public String[] getNativeScopes() {
+    	return SCOPES;
+    }
+
     /**
      * Dispatches a path. In fact it "includes" it!
      *
@@ -113,6 +118,7 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper {
 
     /** {@inheritDoc} */
     @Override
+
     public void include(String path) throws IOException {
         Boolean retValue = Boolean.valueOf(true);
         pageContext

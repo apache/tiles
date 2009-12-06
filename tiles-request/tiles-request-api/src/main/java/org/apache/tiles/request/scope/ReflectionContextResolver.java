@@ -63,10 +63,10 @@ public class ReflectionContextResolver implements ContextResolver {
     private Set<String> getSpecificScopeSet(Request request) {
         Set<String> scopes = class2scopes.get(request.getClass());
         if (scopes == null) {
-            ScopeOrder order = request.getClass().getAnnotation(ScopeOrder.class);
             scopes = new LinkedHashSet<String>();
-            if (order != null) {
-                for (String scopeName: order.value()) {
+            String[] nativeScopes = request.getNativeScopes();
+            if (nativeScopes != null) {
+                for (String scopeName: nativeScopes) {
                     scopes.add(scopeName);
                 }
             }

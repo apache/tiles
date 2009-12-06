@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.scope.ScopeOrder;
 import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.request.util.TilesRequestContextWrapper;
 
@@ -45,9 +44,9 @@ import freemarker.ext.servlet.HttpRequestHashModel;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-@ScopeOrder({"page"})
-public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper
-        implements Request {
+public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper {
+
+	private static final String[] SCOPES = {"page"};
 
     /**
      * The FreeMarker current environment.
@@ -107,6 +106,11 @@ public class FreeMarkerTilesRequestContext extends TilesRequestContextWrapper
             pageScope = new EnvironmentScopeMap(env);
         }
         return pageScope;
+    }
+
+    @Override
+    public String[] getNativeScopes() {
+    	return SCOPES;
     }
 
     /** {@inheritDoc} */

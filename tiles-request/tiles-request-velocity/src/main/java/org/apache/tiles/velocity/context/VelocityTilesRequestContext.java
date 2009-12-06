@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.scope.ScopeOrder;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletTilesRequestContext;
 import org.apache.tiles.request.servlet.ServletUtil;
@@ -46,8 +45,9 @@ import org.apache.velocity.context.Context;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-@ScopeOrder({"page"})
 public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
+
+	private static final String[] SCOPES = {"page"};
 
     /**
      * The Velocity current context.
@@ -79,6 +79,11 @@ public class VelocityTilesRequestContext extends TilesRequestContextWrapper {
         super(enclosedRequest);
         this.ctx = ctx;
         this.writer = writer;
+    }
+
+    @Override
+    public String[] getNativeScopes() {
+    	return SCOPES;
     }
 
     /** {@inheritDoc} */
