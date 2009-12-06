@@ -54,8 +54,8 @@
             <li><a href="how-to/index.html">HOW-TOs</a></li>
             <li><a href="config-reference.html">Configuration Reference</a></li>
             <li><a href="apidocs/index.html">Javadocs</a></li>
-            <li><a href="tlddoc/index.html">Tag library documentation</a></li>
-            <li><a href="dtddoc/index.html">Tiles definition file documentation</a></li>
+            <li><a href="tiles-jsp/tlddoc/index.html">Tag library documentation</a></li>
+            <li><a href="tiles-core/dtddoc/index.html">Tiles definition file documentation</a></li>
             <li><a href="http://cwiki.apache.org/TILES/">Wiki</a></li>
           </ul>
         </subsection>
