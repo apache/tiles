@@ -44,7 +44,7 @@ public class DefaultLocaleResolver implements LocaleResolver {
     /** {@inheritDoc} */
     public Locale resolveLocale(Request request) {
         Locale retValue = null;
-        Map<String, Object> session = request.getContext("request");
+        Map<String, Object> session = request.getContext("session");
         if (session != null) {
             retValue = (Locale) session.get(DefaultLocaleResolver.LOCALE_KEY);
         }

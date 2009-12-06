@@ -44,8 +44,7 @@ import org.apache.tiles.request.util.TilesRequestContextWrapper;
  * @version $Rev$ $Date$
  */
 @ScopeOrder({"page", "request", "session", "application"})
-public class JspTilesRequestContext extends TilesRequestContextWrapper
-    implements Request {
+public class JspTilesRequestContext extends TilesRequestContextWrapper {
 
     /**
      * The current page context.
@@ -156,7 +155,7 @@ public class JspTilesRequestContext extends TilesRequestContextWrapper
 
     public Map<String, Object> getSessionScope() {
         if ((sessionScope == null) && (pageContext != null)) {
-            sessionScope = new JspScopeMap(pageContext, PageContext.SESSION_SCOPE);
+            sessionScope = new JspSessionScopeMap(pageContext);
         }
         return (sessionScope);
     }

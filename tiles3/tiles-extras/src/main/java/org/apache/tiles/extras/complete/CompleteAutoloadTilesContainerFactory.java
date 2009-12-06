@@ -65,6 +65,7 @@ import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.mvel.MVELAttributeEvaluator;
+import org.apache.tiles.mvel.ScopeVariableResolverFactory;
 import org.apache.tiles.mvel.TilesContextBeanVariableResolverFactory;
 import org.apache.tiles.mvel.TilesContextVariableResolverFactory;
 import org.apache.tiles.ognl.AnyScopePropertyAccessor;
@@ -288,8 +289,11 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
      */
     private MVELAttributeEvaluator createMVELEvaluator() {
         TilesRequestContextHolder requestHolder = new TilesRequestContextHolder();
-        VariableResolverFactory variableResolverFactory = new TilesContextVariableResolverFactory(
+        VariableResolverFactory variableResolverFactory = new ScopeVariableResolverFactory(
                 requestHolder);
+        variableResolverFactory
+                .setNextFactory(new TilesContextVariableResolverFactory(
+                        requestHolder));
         variableResolverFactory
                 .setNextFactory(new TilesContextBeanVariableResolverFactory(
                         requestHolder));
