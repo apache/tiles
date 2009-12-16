@@ -31,7 +31,6 @@ import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.extras.complete.CompleteAutoloadTilesContainerFactory;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
 import org.apache.tiles.util.URLUtil;
 
@@ -48,22 +47,19 @@ public class TestTilesContainerFactory extends CompleteAutoloadTilesContainerFac
     protected void registerAttributeRenderers(
             BasicRendererFactory rendererFactory,
             ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        super.registerAttributeRenderers(rendererFactory, applicationContext, contextFactory,
-                container, attributeEvaluatorFactory);
+        super.registerAttributeRenderers(rendererFactory, applicationContext, container,
+                attributeEvaluatorFactory);
         ReverseStringAttributeRenderer renderer = new ReverseStringAttributeRenderer();
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         renderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         rendererFactory.registerRenderer("reversed", renderer);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory) {
+    protected List<URL> getSourceURLs(ApplicationContext applicationContext) {
         try {
             List<URL> urls;
             Set<URL> urlSet = applicationContext

@@ -23,13 +23,12 @@ package org.apache.tiles.renderer.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
 
 /**
  * Basic renderer factory implementation.
@@ -46,17 +45,14 @@ public class BasicRendererFactoryTest extends TestCase {
 
     /** {@inheritDoc} */
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         rendererFactory = new BasicRendererFactory();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
         TilesContainer container = EasyMock.createMock(TilesContainer.class);
         rendererFactory.setApplicationContext(applicationContext);
-        rendererFactory.setRequestContextFactory(contextFactory);
         rendererFactory.setContainer(container);
-        EasyMock.replay(applicationContext, contextFactory, container);
+        EasyMock.replay(applicationContext, container);
     }
 
     /**
@@ -94,14 +90,6 @@ public class BasicRendererFactoryTest extends TestCase {
     }
 
     /**
-     * Tests {@link BasicRendererFactory#setRequestContextFactory(TilesRequestContextFactory)}.
-     */
-    public void testSetContextFactory() {
-        assertNotNull("The context factory is null",
-                rendererFactory.contextFactory);
-    }
-
-    /**
      * Tests
      * {@link BasicRendererFactory#setApplicationContext(ApplicationContext)}.
      */
@@ -117,7 +105,6 @@ public class BasicRendererFactoryTest extends TestCase {
         DefinitionAttributeRenderer renderer = new DefinitionAttributeRenderer();
         rendererFactory.initializeRenderer(renderer);
         assertNotNull("The container is null", renderer.container);
-        assertNotNull("The context factory is null", renderer.contextFactory);
         assertNotNull("The application context is null",
                 renderer.applicationContext);
     }

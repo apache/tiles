@@ -21,20 +21,15 @@
 
 package org.apache.tiles.test.db;
 
-import java.util.List;
 import java.util.Locale;
 
 import javax.sql.DataSource;
 
-import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.TilesRequestContextFactory;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 
 
 /**
@@ -47,7 +42,6 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
     /** {@inheritDoc} */
     @Override
     protected DefinitionDAO<Locale> createLocaleDefinitionDao(ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory,
             LocaleResolver resolver) {
         LocaleDbDefinitionDAO definitionDao = new LocaleDbDefinitionDAO();
         definitionDao.setDataSource((DataSource) applicationContext
@@ -58,22 +52,7 @@ public class TestDbTilesContainerFactory extends BasicTilesContainerFactory {
     /** {@inheritDoc} */
     @Override
     protected LocaleDefinitionsFactory instantiateDefinitionsFactory(
-            ApplicationContext applicationContext, TilesRequestContextFactory contextFactory,
-            LocaleResolver resolver) {
+            ApplicationContext applicationContext, LocaleResolver resolver) {
         return new LocaleDefinitionsFactory();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected List<TilesRequestContextFactory> getTilesRequestContextFactoriesToBeChained(
-            ChainedTilesRequestContextFactory parent) {
-        List<TilesRequestContextFactory> factories = super.getTilesRequestContextFactoriesToBeChained(parent);
-        registerRequestContextFactory(
-                FreeMarkerTilesRequestContextFactory.class.getName(),
-                factories, parent);
-        registerRequestContextFactory(
-                VelocityTilesRequestContextFactory.class.getName(),
-                factories, parent);
-        return factories;
     }
 }

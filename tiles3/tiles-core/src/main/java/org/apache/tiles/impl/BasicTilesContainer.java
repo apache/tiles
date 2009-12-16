@@ -41,7 +41,6 @@ import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,11 +93,6 @@ public class BasicTilesContainer implements TilesContainer,
      * The attribute evaluator.
      */
     private AttributeEvaluatorFactory attributeEvaluatorFactory;
-
-    /**
-     * The Tiles request context factory.
-     */
-    private TilesRequestContextFactory contextFactory;
 
     /**
      * Initialization flag. If set, this container cannot be changed.
@@ -156,27 +150,6 @@ public class BasicTilesContainer implements TilesContainer,
         }
         return context;
 
-    }
-
-    /**
-     * Returns the request context factory.
-     *
-     * @return The request context factory.
-     * @since 2.1.1
-     */
-    protected TilesRequestContextFactory getRequestContextFactory() {
-        return contextFactory;
-    }
-
-    /**
-     * Sets the request context factory.
-     *
-     * @param contextFactory The context factory.
-     * @since 2.1.1
-     */
-    public void setRequestContextFactory(TilesRequestContextFactory contextFactory) {
-        checkInit();
-        this.contextFactory = contextFactory;
     }
 
     /**

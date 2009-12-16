@@ -32,7 +32,6 @@ import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,8 +93,6 @@ public class ChainedDelegateAttributeRendererTest {
                 null, "definition");
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
 
@@ -104,14 +101,13 @@ public class ChainedDelegateAttributeRendererTest {
                         requestContext)).andReturn(Boolean.TRUE);
         definitionRenderer.render(attribute, requestContext);
 
-        replay(applicationContext, contextFactory, requestContext,
-                stringRenderer, templateRenderer, definitionRenderer);
+        replay(applicationContext, requestContext, stringRenderer,
+                templateRenderer, definitionRenderer);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
         writer.close();
-        verify(applicationContext, contextFactory, requestContext,
-                stringRenderer, templateRenderer, definitionRenderer);
+        verify(applicationContext, requestContext, stringRenderer,
+                templateRenderer, definitionRenderer);
     }
 
     /**
@@ -127,8 +123,6 @@ public class ChainedDelegateAttributeRendererTest {
                 "string");
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
         expect(
@@ -142,13 +136,12 @@ public class ChainedDelegateAttributeRendererTest {
                         requestContext)).andReturn(Boolean.TRUE);
         stringRenderer.render(attribute, requestContext);
 
-        replay(applicationContext, contextFactory, requestContext,
-                stringRenderer, templateRenderer, definitionRenderer);
+        replay(applicationContext, requestContext, stringRenderer,
+                templateRenderer, definitionRenderer);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
-        verify(applicationContext, contextFactory, requestContext,
-                stringRenderer, templateRenderer, definitionRenderer);
+        verify(applicationContext, requestContext, stringRenderer,
+                templateRenderer, definitionRenderer);
     }
 
     /**
@@ -165,8 +158,6 @@ public class ChainedDelegateAttributeRendererTest {
                 (Expression) null, null, "template");
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
         templateRenderer.render(attribute, requestContext);
@@ -177,13 +168,12 @@ public class ChainedDelegateAttributeRendererTest {
                 templateRenderer.isRenderable("/myTemplate.jsp", attribute,
                         requestContext)).andReturn(Boolean.TRUE);
 
-        replay(applicationContext, contextFactory, requestContext,
-                stringRenderer, templateRenderer, definitionRenderer);
+        replay(applicationContext, requestContext, stringRenderer,
+                templateRenderer, definitionRenderer);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
         writer.close();
-        verify(applicationContext, contextFactory, requestContext,
-                stringRenderer, templateRenderer, definitionRenderer);
+        verify(applicationContext, requestContext, stringRenderer,
+                templateRenderer, definitionRenderer);
     }
 }

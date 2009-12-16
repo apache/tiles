@@ -26,14 +26,12 @@ import java.util.Map;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
-import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.TilesRequestContextFactory;
 
 /**
  * Basic renderer factory implementation.
@@ -42,8 +40,8 @@ import org.apache.tiles.request.TilesRequestContextFactory;
  * @since 2.1.0
  */
 public class BasicRendererFactory implements RendererFactory,
-        TilesContainerAware, TilesRequestContextFactoryAware,
-        TilesApplicationContextAware, AttributeEvaluatorFactoryAware {
+        TilesContainerAware, TilesApplicationContextAware,
+        AttributeEvaluatorFactoryAware {
 
     /**
      * The type renderers init parameter name.
@@ -67,13 +65,6 @@ public class BasicRendererFactory implements RendererFactory,
      * @since 2.1.0
      */
     protected static final Map<String, String> DEFAULT_TYPE_2_RENDERER;
-
-    /**
-     * The Tiles context factory.
-     *
-     * @since 2.1.1
-     */
-    protected TilesRequestContextFactory contextFactory;
 
     /**
      * The Tiles application context.
@@ -178,12 +169,6 @@ public class BasicRendererFactory implements RendererFactory,
     }
 
     /** {@inheritDoc} */
-    public void setRequestContextFactory(
-            TilesRequestContextFactory contextFactory) {
-        this.contextFactory = contextFactory;
-    }
-
-    /** {@inheritDoc} */
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
@@ -195,10 +180,6 @@ public class BasicRendererFactory implements RendererFactory,
      * @since 2.1.0
      */
     protected void initializeRenderer(AttributeRenderer renderer) {
-        if (renderer instanceof TilesRequestContextFactoryAware) {
-            ((TilesRequestContextFactoryAware) renderer)
-                    .setRequestContextFactory(contextFactory);
-        }
         if (renderer instanceof TilesApplicationContextAware) {
             ((TilesApplicationContextAware) renderer)
                     .setApplicationContext(applicationContext);

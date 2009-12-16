@@ -32,7 +32,6 @@ import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +49,7 @@ public class StringAttributeRendererTest {
 
     /** {@inheritDoc} */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         renderer = new StringAttributeRenderer();
         renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
                 new DirectAttributeEvaluator()));
@@ -68,16 +67,14 @@ public class StringAttributeRendererTest {
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
         Request requestContext = createMock(Request.class);
         expect(requestContext.getWriter()).andReturn(writer);
-        replay(applicationContext, contextFactory, requestContext);
+        replay(applicationContext, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
         writer.close();
         assertEquals("Not written 'Result'", "Result", writer.toString());
-        verify(applicationContext, contextFactory, requestContext);
+        verify(applicationContext, requestContext);
     }
 
     /**
@@ -87,16 +84,14 @@ public class StringAttributeRendererTest {
      * @throws IOException If something goes wrong.
      */
     @Test
-    public void testIsRenderable() throws IOException {
+    public void testIsRenderable() {
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
         Request requestContext = createMock(Request.class);
-        replay(applicationContext, contextFactory, requestContext);
+        replay(applicationContext, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         assertTrue(renderer.isRenderable("Result", attribute, requestContext));
-        verify(applicationContext, contextFactory, requestContext);
+        verify(applicationContext, requestContext);
     }
 }

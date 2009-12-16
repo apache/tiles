@@ -42,15 +42,12 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
-import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PrefixedPatternDefinitionResolver;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
-import org.apache.tiles.jsp.context.JspTilesRequestContextFactory;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
@@ -62,8 +59,6 @@ import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.TilesRequestContextFactory;
 import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
-import org.apache.tiles.request.servlet.ServletTilesRequestContextFactory;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
 import org.apache.velocity.tools.view.VelocityView;
 import org.junit.Before;
@@ -75,16 +70,6 @@ import org.junit.Test;
  * @version $Rev$ $Date$
  */
 public class CompleteAutoloadTilesContainerFactoryTest {
-
-    /**
-     * The position of the velocity factory.
-     */
-    private static final int VELOCITY_FACTORY_POSITION = 3;
-
-    /**
-     * The number of factories.
-     */
-    private static final int FACTORIES_SIZE = 4;
 
     /**
      * The object to test.
@@ -112,29 +97,8 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     /**
      * Test method for
      * {@link CompleteAutoloadTilesContainerFactory
-     * #getTilesRequestContextFactoriesToBeChained(ChainedTilesRequestContextFactory)}
-     * .
-     */
-    @Test
-    public void testGetTilesRequestContextFactoriesToBeChainedChainedTilesRequestContextFactory() {
-        ChainedTilesRequestContextFactory parent = createMock(ChainedTilesRequestContextFactory.class);
-
-        replay(parent);
-        List<TilesRequestContextFactory> factories = factory
-                .getTilesRequestContextFactoriesToBeChained(parent);
-        assertEquals(FACTORIES_SIZE, factories.size());
-        assertTrue(factories.get(0) instanceof ServletTilesRequestContextFactory);
-        assertTrue(factories.get(1) instanceof JspTilesRequestContextFactory);
-        assertTrue(factories.get(2) instanceof FreeMarkerTilesRequestContextFactory);
-        assertTrue(factories.get(VELOCITY_FACTORY_POSITION) instanceof VelocityTilesRequestContextFactory);
-        verify(parent);
-    }
-
-    /**
-     * Test method for
-     * {@link CompleteAutoloadTilesContainerFactory
      * #registerAttributeRenderers(BasicRendererFactory, ApplicationContext,
-     * TilesRequestContextFactory, TilesContainer, evaluator.AttributeEvaluatorFactory)}
+     * TilesContainer, evaluator.AttributeEvaluatorFactory)}
      * .
      */
     @SuppressWarnings("deprecation")
@@ -189,7 +153,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         replay(rendererFactory, applicationContext, contextFactory, container,
                 attributeEvaluatorFactory, servletContext);
         factory.registerAttributeRenderers(rendererFactory, applicationContext,
-                contextFactory, container, attributeEvaluatorFactory);
+                container, attributeEvaluatorFactory);
         verify(rendererFactory, applicationContext, contextFactory, container,
                 attributeEvaluatorFactory, servletContext);
     }
@@ -197,7 +161,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     /**
      * Tests
      * {@link CompleteAutoloadTilesContainerFactory#createDefaultAttributeRenderer(BasicRendererFactory,
-     * ApplicationContext, TilesRequestContextFactory, TilesContainer, AttributeEvaluatorFactory)}.
+     * ApplicationContext, TilesContainer, AttributeEvaluatorFactory)}.
      */
     @Test
     public void testCreateDefaultAttributeRenderer() {
@@ -221,8 +185,8 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         replay(container, requestContextFactory, attributeEvaluatorFactory,
                 rendererFactory, applicationContext);
         AttributeRenderer renderer = factory.createDefaultAttributeRenderer(
-                rendererFactory, applicationContext, requestContextFactory,
-                container, attributeEvaluatorFactory);
+                rendererFactory, applicationContext, container,
+                attributeEvaluatorFactory);
         assertTrue("The default renderer class is not correct",
                 renderer instanceof ChainedDelegateAttributeRenderer);
         verify(container, requestContextFactory, attributeEvaluatorFactory,
@@ -232,7 +196,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     /**
      * Test method for
      * {@link CompleteAutoloadTilesContainerFactory
-     * #createAttributeEvaluatorFactory(ApplicationContext, TilesRequestContextFactory, locale.LocaleResolver)}
+     * #createAttributeEvaluatorFactory(ApplicationContext, locale.LocaleResolver)}
      * .
      */
     @Test
@@ -254,7 +218,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         JspFactory.setDefaultFactory(jspFactory);
         AttributeEvaluatorFactory attributeEvaluatorFactory = factory
                 .createAttributeEvaluatorFactory(applicationContext,
-                        contextFactory, resolver);
+                        resolver);
         assertTrue(attributeEvaluatorFactory instanceof BasicAttributeEvaluatorFactory);
         assertNotNull(attributeEvaluatorFactory.getAttributeEvaluator("EL"));
         assertNotNull(attributeEvaluatorFactory.getAttributeEvaluator("MVEL"));
@@ -288,7 +252,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
 
     /**
      * Test method for
-     * {@link CompleteAutoloadTilesContainerFactory#getSourceURLs(ApplicationContext, TilesRequestContextFactory)}
+     * {@link CompleteAutoloadTilesContainerFactory#getSourceURLs(ApplicationContext)}
      * .
      * @throws IOException If something goes wrong.
      */
@@ -312,7 +276,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(urls2);
 
         replay(applicationContext, contextFactory);
-        List<URL> urls = factory.getSourceURLs(applicationContext, contextFactory);
+        List<URL> urls = factory.getSourceURLs(applicationContext);
         assertEquals(2, urls.size());
         assertTrue(urls.contains(url1));
         assertTrue(urls.contains(url3));
@@ -338,7 +302,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(urls2);
 
         replay(applicationContext, contextFactory);
-        List<URL> urls = factory.getSourceURLs(applicationContext, contextFactory);
+        List<URL> urls = factory.getSourceURLs(applicationContext);
         assertEquals(1, urls.size());
         assertTrue(urls.contains(url3));
         verify(applicationContext, contextFactory);
@@ -365,7 +329,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(null);
 
         replay(applicationContext, contextFactory);
-        List<URL> urls = factory.getSourceURLs(applicationContext, contextFactory);
+        List<URL> urls = factory.getSourceURLs(applicationContext);
         assertEquals(1, urls.size());
         assertTrue(urls.contains(url1));
         verify(applicationContext, contextFactory);
@@ -374,7 +338,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     /**
      * Test method for
      * {@link CompleteAutoloadTilesContainerFactory
-     * #createDefinitionsReader(ApplicationContext, TilesRequestContextFactory)}
+     * #createDefinitionsReader(ApplicationContext)}
      * .
      */
     @Test
@@ -383,8 +347,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
 
         replay(applicationContext, contextFactory);
-        assertTrue(factory.createDefinitionsReader(applicationContext,
-                contextFactory) instanceof CompatibilityDigesterDefinitionsReader);
+        assertTrue(factory.createDefinitionsReader(applicationContext) instanceof CompatibilityDigesterDefinitionsReader);
         verify(applicationContext, contextFactory);
     }
 

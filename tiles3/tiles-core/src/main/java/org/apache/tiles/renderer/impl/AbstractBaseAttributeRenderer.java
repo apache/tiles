@@ -33,7 +33,6 @@ import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,21 +43,14 @@ import org.slf4j.LoggerFactory;
  * @since 2.1.0
  */
 public abstract class AbstractBaseAttributeRenderer implements
-        AttributeRenderer, TilesRequestContextFactoryAware,
-        TilesApplicationContextAware, AttributeEvaluatorFactoryAware {
+        AttributeRenderer, TilesApplicationContextAware,
+        AttributeEvaluatorFactoryAware {
 
     /**
      * The logging object.
      */
     private final Logger log = LoggerFactory
             .getLogger(AbstractBaseAttributeRenderer.class);
-
-    /**
-     * The Tiles request context factory.
-     *
-     * @since 2.1.1
-     */
-    protected TilesRequestContextFactory contextFactory;
 
     /**
      * The Tiles application context.
@@ -73,11 +65,6 @@ public abstract class AbstractBaseAttributeRenderer implements
      * @since 2.2.0
      */
     protected AttributeEvaluatorFactory attributeEvaluatorFactory;
-
-    /** {@inheritDoc} */
-    public void setRequestContextFactory(TilesRequestContextFactory contextFactory) {
-        this.contextFactory = contextFactory;
-    }
 
     /** {@inheritDoc} */
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -118,18 +105,6 @@ public abstract class AbstractBaseAttributeRenderer implements
     public abstract void write(Object value, Attribute attribute,
             Request request)
             throws IOException;
-
-    /**
-     * Creates a Tiles request context from request items.
-     *
-     * @param requestItems The request items.
-     * @return The created Tiles request context.
-     * @since 2.1.0
-     */
-    protected Request getRequestContext(Object... requestItems) {
-        return contextFactory.createRequestContext(applicationContext,
-                requestItems);
-    }
 
     /**
      * Checks if the current user is in one of the comma-separated roles

@@ -32,7 +32,6 @@ import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.easymock.EasyMock;
 
 /**
@@ -49,22 +48,10 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
 
     /** {@inheritDoc} */
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
         renderer = new MockAttributeRenderer();
         renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
                 new DirectAttributeEvaluator()));
-    }
-
-    /**
-     * Tests
-     * {@link AbstractBaseAttributeRenderer#setRequestContextFactory(TilesRequestContextFactory)}.
-     */
-    public void testSetContextFactory() {
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
-        EasyMock.replay(contextFactory);
-        renderer.setRequestContextFactory(contextFactory);
-        assertNotNull("The context factory is null", renderer.contextFactory);
     }
 
     /**
@@ -90,38 +77,14 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
         StringWriter writer = new StringWriter();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
-        EasyMock.expect(contextFactory.createRequestContext(applicationContext))
-                .andReturn(requestContext);
         EasyMock.expect(requestContext.getWriter()).andReturn(writer);
-        EasyMock.replay(applicationContext, contextFactory, requestContext);
+        EasyMock.replay(applicationContext, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
         writer.close();
         assertEquals("Wrongly written", "wrote", writer.toString());
-    }
-
-    /**
-     * Tests {@link AbstractBaseAttributeRenderer#getRequestContext(Object...)}.
-     */
-    public void testGetRequestContext() {
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
-        Request requestContext = EasyMock
-                .createMock(Request.class);
-        EasyMock.expect(contextFactory.createRequestContext(applicationContext))
-                .andReturn(requestContext);
-        EasyMock.replay(applicationContext, contextFactory, requestContext);
-        renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
-        assertTrue("This is not the expected request",
-                requestContext == renderer.getRequestContext());
     }
 
     /**
@@ -131,19 +94,14 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
     public void testIsPermitted() {
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = EasyMock
-                .createMock(TilesRequestContextFactory.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
-        EasyMock.expect(contextFactory.createRequestContext(applicationContext))
-                .andReturn(requestContext);
         EasyMock.expect(requestContext.isUserInRole("first")).andReturn(
                 Boolean.TRUE).anyTimes();
         EasyMock.expect(requestContext.isUserInRole("second")).andReturn(
                 Boolean.FALSE).anyTimes();
-        EasyMock.replay(applicationContext, contextFactory, requestContext);
+        EasyMock.replay(applicationContext, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         Set<String> roles = new HashSet<String>();
         roles.add("first");
         assertTrue("The role is not permitted", renderer.isPermitted(

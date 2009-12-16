@@ -31,7 +31,6 @@ import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.apache.tiles.test.factory.TestTilesContainerFactory;
 
 /**
@@ -48,8 +47,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory) {
+    protected List<URL> getSourceURLs(ApplicationContext applicationContext) {
         List<URL> urls = new ArrayList<URL>(URL_COUNT);
         try {
             urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-defs.xml"));
@@ -66,7 +64,7 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
     @Override
     protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(
             ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+            LocaleResolver resolver) {
         return new CachingLocaleUrlDefinitionDAO();
     }
 }

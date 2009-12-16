@@ -31,7 +31,6 @@ import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,7 +48,7 @@ public class TemplateAttributeRendererTest {
 
     /** {@inheritDoc} */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         renderer = new TemplateAttributeRenderer();
         renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
                 new DirectAttributeEvaluator()));
@@ -66,14 +65,12 @@ public class TemplateAttributeRendererTest {
         Attribute attribute = new Attribute("/myTemplate.jsp",
                 (Expression) null, null, "template");
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
         Request requestContext = createMock(Request.class);
         requestContext.dispatch("/myTemplate.jsp");
-        replay(applicationContext, contextFactory, requestContext);
+        replay(applicationContext, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         renderer.render(attribute, requestContext);
-        verify(applicationContext, contextFactory, requestContext);
+        verify(applicationContext, requestContext);
     }
 
     /**
@@ -83,17 +80,15 @@ public class TemplateAttributeRendererTest {
      * @throws IOException If something goes wrong during rendition.
      */
     @Test
-    public void testIsRenderable() throws IOException {
+    public void testIsRenderable() {
         Attribute attribute = new Attribute("/myTemplate.jsp",
                 (Expression) null, null, "template");
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        TilesRequestContextFactory contextFactory = createMock(TilesRequestContextFactory.class);
         Request requestContext = createMock(Request.class);
-        replay(applicationContext, contextFactory, requestContext);
+        replay(applicationContext, requestContext);
         renderer.setApplicationContext(applicationContext);
-        renderer.setRequestContextFactory(contextFactory);
         assertTrue(renderer.isRenderable("/myTemplate.jsp", attribute,
                 requestContext));
-        verify(applicationContext, contextFactory, requestContext);
+        verify(applicationContext, requestContext);
     }
 }

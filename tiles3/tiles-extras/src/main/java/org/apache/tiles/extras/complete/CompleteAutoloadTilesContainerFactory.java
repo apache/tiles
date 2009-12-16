@@ -41,7 +41,6 @@ import ognl.PropertyAccessor;
 
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
-import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
@@ -59,7 +58,6 @@ import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactoryException;
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContextFactory;
 import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
 import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
@@ -82,9 +80,7 @@ import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.apache.tiles.util.URLUtil;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContextFactory;
 import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
 import org.mvel2.integration.VariableResolverFactory;
 
@@ -125,33 +121,17 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
 
     /** {@inheritDoc} */
     @Override
-    protected List<TilesRequestContextFactory> getTilesRequestContextFactoriesToBeChained(
-            ChainedTilesRequestContextFactory parent) {
-        List<TilesRequestContextFactory> factories = super.getTilesRequestContextFactoriesToBeChained(parent);
-        registerRequestContextFactory(
-                FreeMarkerTilesRequestContextFactory.class.getName(),
-                factories, parent);
-        registerRequestContextFactory(
-                VelocityTilesRequestContextFactory.class.getName(),
-                factories, parent);
-        return factories;
-    }
-
-    /** {@inheritDoc} */
-    @Override
     protected void registerAttributeRenderers(
             BasicRendererFactory rendererFactory,
             ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        super.registerAttributeRenderers(rendererFactory, applicationContext, contextFactory,
-                container, attributeEvaluatorFactory);
+        super.registerAttributeRenderers(rendererFactory, applicationContext, container,
+                attributeEvaluatorFactory);
 
         FreeMarkerAttributeRenderer freemarkerRenderer = new FreeMarkerAttributeRenderer();
         freemarkerRenderer.setApplicationContext(applicationContext);
         freemarkerRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        freemarkerRenderer.setRequestContextFactory(contextFactory);
         freemarkerRenderer.setParameter("TemplatePath", "/");
         freemarkerRenderer.setParameter("NoCache", "true");
         freemarkerRenderer.setParameter("ContentType", "text/html");
@@ -164,7 +144,6 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
         VelocityAttributeRenderer velocityRenderer = new VelocityAttributeRenderer();
         velocityRenderer.setApplicationContext(applicationContext);
         velocityRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        velocityRenderer.setRequestContextFactory(contextFactory);
         velocityRenderer.commit();
         rendererFactory.registerRenderer(VELOCITY_RENDERER_NAME, velocityRenderer);
     }
@@ -176,7 +155,6 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     protected AttributeRenderer createDefaultAttributeRenderer(
             BasicRendererFactory rendererFactory,
             ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
         ChainedDelegateAttributeRenderer retValue = new ChainedDelegateAttributeRenderer();
@@ -191,7 +169,6 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
         retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
                 .getRenderer(STRING_RENDERER_NAME));
         retValue.setApplicationContext(applicationContext);
-        retValue.setRequestContextFactory(contextFactory);
         retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return retValue;
     }
@@ -200,7 +177,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     @Override
     protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
             ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
+            LocaleResolver resolver) {
         BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
                 createELEvaluator(applicationContext));
         attributeEvaluatorFactory.registerAttributeEvaluator("MVEL",
@@ -225,8 +202,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory) {
+    protected List<URL> getSourceURLs(ApplicationContext applicationContext) {
         try {
             Set<URL> finalSet = new HashSet<URL>();
             Set<URL> webINFSet = applicationContext.getResources("/WEB-INF/**/tiles*.xml");
@@ -248,8 +224,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
 
     /** {@inheritDoc} */
     @Override
-    protected DefinitionsReader createDefinitionsReader(ApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory) {
+    protected DefinitionsReader createDefinitionsReader(ApplicationContext applicationContext) {
         return new CompatibilityDigesterDefinitionsReader();
     }
 

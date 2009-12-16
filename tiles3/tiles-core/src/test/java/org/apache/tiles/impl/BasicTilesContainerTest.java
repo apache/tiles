@@ -23,20 +23,15 @@ package org.apache.tiles.impl;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesException;
-import org.apache.tiles.context.ChainedTilesRequestContextFactory;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
-import org.apache.tiles.mock.RepeaterTilesRequestContextFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.TilesRequestContextFactory;
 import org.easymock.EasyMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +73,7 @@ public class BasicTilesContainerTest extends TestCase {
                     e);
         }
         EasyMock.replay(context);
-        AbstractTilesContainerFactory factory = new CustomTilesContainerFactory();
+        AbstractTilesContainerFactory factory = new BasicTilesContainerFactory();
         container = (BasicTilesContainer) factory.createContainer(context);
     }
 
@@ -87,7 +82,6 @@ public class BasicTilesContainerTest extends TestCase {
      */
     public void testInitialization() {
         assertNotNull(container);
-        assertNotNull(container.getRequestContextFactory());
         assertNotNull(container.getPreparerFactory());
         assertNotNull(container.getDefinitionsFactory());
     }
@@ -127,7 +121,7 @@ public class BasicTilesContainerTest extends TestCase {
         StringWriter writer = new StringWriter();
         EasyMock.expect(request.getWriter()).andReturn(writer);
         EasyMock.replay(request);
-        Attribute attribute = new Attribute((Object) "This is the value", "myrole");
+        Attribute attribute = new Attribute("This is the value", "myrole");
         attribute.setRenderer("string");
         container.render(attribute, request);
         writer.close();
@@ -150,29 +144,9 @@ public class BasicTilesContainerTest extends TestCase {
     public void testEvaluate() {
         Request request = EasyMock.createMock(Request.class);
         EasyMock.replay(request);
-        Attribute attribute = new Attribute((Object) "This is the value");
+        Attribute attribute = new Attribute("This is the value");
         Object value = container.evaluate(attribute, request);
         assertEquals("The attribute has not been evaluated correctly",
                 "This is the value", value);
-    }
-
-    /**
-     * A BasicTilesContainerFactory with overridden createRequestContextFactory
-     * method.
-     *
-     * @version $Rev$ $Date$
-     */
-    private static class CustomTilesContainerFactory extends BasicTilesContainerFactory {
-
-        /** {@inheritDoc} */
-        @Override
-        protected void registerChainedRequestContextFactories(
-                ChainedTilesRequestContextFactory contextFactory) {
-            List<TilesRequestContextFactory> factories = new ArrayList<TilesRequestContextFactory>(
-                    1);
-            factories.add(new RepeaterTilesRequestContextFactory());
-
-            contextFactory.setFactories(factories);
-        }
     }
 }
