@@ -30,7 +30,6 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,15 +65,13 @@ public class StringAttributeRendererTest {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Request requestContext = createMock(Request.class);
         expect(requestContext.getWriter()).andReturn(writer);
-        replay(applicationContext, requestContext);
-        renderer.setApplicationContext(applicationContext);
+        replay(requestContext);
         renderer.render(attribute, requestContext);
         writer.close();
         assertEquals("Not written 'Result'", "Result", writer.toString());
-        verify(applicationContext, requestContext);
+        verify(requestContext);
     }
 
     /**
@@ -87,11 +84,9 @@ public class StringAttributeRendererTest {
     public void testIsRenderable() {
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Request requestContext = createMock(Request.class);
-        replay(applicationContext, requestContext);
-        renderer.setApplicationContext(applicationContext);
+        replay(requestContext);
         assertTrue(renderer.isRenderable("Result", attribute, requestContext));
-        verify(applicationContext, requestContext);
+        verify(requestContext);
     }
 }

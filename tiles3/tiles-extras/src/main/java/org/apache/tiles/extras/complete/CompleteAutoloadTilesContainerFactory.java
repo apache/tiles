@@ -168,7 +168,6 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
                 .getRenderer(TEMPLATE_RENDERER_NAME));
         retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
                 .getRenderer(STRING_RENDERER_NAME));
-        retValue.setApplicationContext(applicationContext);
         retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return retValue;
     }

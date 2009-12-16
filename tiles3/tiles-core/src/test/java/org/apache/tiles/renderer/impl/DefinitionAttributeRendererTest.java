@@ -30,7 +30,6 @@ import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +48,7 @@ public class DefinitionAttributeRendererTest {
 
     /** {@inheritDoc} */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         renderer = new DefinitionAttributeRenderer();
         renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
                 new DirectAttributeEvaluator()));
@@ -65,15 +64,13 @@ public class DefinitionAttributeRendererTest {
     public void testWrite() throws IOException {
         Attribute attribute = new Attribute("my.definition", (Expression) null,
                 null, "definition");
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
         Request requestContext = createMock(Request.class);
         container.render("my.definition", requestContext);
-        replay(applicationContext, requestContext, container);
-        renderer.setApplicationContext(applicationContext);
+        replay(requestContext, container);
         renderer.setContainer(container);
         renderer.render(attribute, requestContext);
-        verify(applicationContext, requestContext, container);
+        verify(requestContext, container);
     }
 
     /**
@@ -85,14 +82,12 @@ public class DefinitionAttributeRendererTest {
     public void testIsRenderable() {
         Attribute attribute = new Attribute("my.definition", (Expression) null,
                 null, "definition");
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
         Request requestContext = createMock(Request.class);
         expect(container.isValidDefinition("my.definition", requestContext)).andReturn(Boolean.TRUE);
-        replay(applicationContext, requestContext, container);
-        renderer.setApplicationContext(applicationContext);
+        replay(requestContext, container);
         renderer.setContainer(container);
         assertTrue(renderer.isRenderable("my.definition", attribute, requestContext));
-        verify(applicationContext, requestContext, container);
+        verify(requestContext, container);
     }
 }

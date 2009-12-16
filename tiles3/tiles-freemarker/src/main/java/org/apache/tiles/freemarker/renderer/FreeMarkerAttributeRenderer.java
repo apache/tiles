@@ -33,10 +33,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.freemarker.servlet.TilesFreemarkerServlet;
 import org.apache.tiles.impl.InvalidTemplateException;
 import org.apache.tiles.renderer.impl.AbstractTypeDetectingAttributeRenderer;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletTilesRequestContext;
@@ -53,7 +55,9 @@ import org.apache.tiles.util.IteratorEnumeration;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class FreeMarkerAttributeRenderer extends AbstractTypeDetectingAttributeRenderer {
+public class FreeMarkerAttributeRenderer extends
+        AbstractTypeDetectingAttributeRenderer implements
+        TilesApplicationContextAware {
 
     /**
      * The servlet that is used to forward the request to.
@@ -66,6 +70,13 @@ public class FreeMarkerAttributeRenderer extends AbstractTypeDetectingAttributeR
     private Map<String, String> params = new HashMap<String, String>();
 
     /**
+     * The application context.
+     *
+     * @since 3.0.0
+     */
+    private ApplicationContext applicationContext;
+
+    /**
      * Sets a parameter for the internal servlet.
      *
      * @param key The name of the parameter.
@@ -74,6 +85,16 @@ public class FreeMarkerAttributeRenderer extends AbstractTypeDetectingAttributeR
      */
     public void setParameter(String key, String value) {
         params.put(key, value);
+    }
+
+    /**
+     * Sets the application context.
+     *
+     * @param applicationContext The application context.
+     * @since 3.0.0
+     */
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
     /**

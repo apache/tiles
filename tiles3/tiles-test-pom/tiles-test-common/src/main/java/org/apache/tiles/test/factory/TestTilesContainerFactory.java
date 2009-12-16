@@ -52,7 +52,6 @@ public class TestTilesContainerFactory extends CompleteAutoloadTilesContainerFac
         super.registerAttributeRenderers(rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
         ReverseStringAttributeRenderer renderer = new ReverseStringAttributeRenderer();
-        renderer.setApplicationContext(applicationContext);
         renderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         rendererFactory.registerRenderer("reversed", renderer);
     }

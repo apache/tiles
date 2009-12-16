@@ -30,7 +30,6 @@ import org.apache.tiles.Expression;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 import org.junit.Before;
@@ -91,8 +90,6 @@ public class ChainedDelegateAttributeRendererTest {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("my.definition", (Expression) null,
                 null, "definition");
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
 
@@ -101,13 +98,12 @@ public class ChainedDelegateAttributeRendererTest {
                         requestContext)).andReturn(Boolean.TRUE);
         definitionRenderer.render(attribute, requestContext);
 
-        replay(applicationContext, requestContext, stringRenderer,
-                templateRenderer, definitionRenderer);
-        renderer.setApplicationContext(applicationContext);
+        replay(requestContext, stringRenderer, templateRenderer,
+                definitionRenderer);
         renderer.render(attribute, requestContext);
         writer.close();
-        verify(applicationContext, requestContext, stringRenderer,
-                templateRenderer, definitionRenderer);
+        verify(requestContext, stringRenderer, templateRenderer,
+                definitionRenderer);
     }
 
     /**
@@ -121,8 +117,6 @@ public class ChainedDelegateAttributeRendererTest {
     public void testWriteString() throws IOException {
         Attribute attribute = new Attribute("Result", (Expression) null, null,
                 "string");
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
         expect(
@@ -136,12 +130,11 @@ public class ChainedDelegateAttributeRendererTest {
                         requestContext)).andReturn(Boolean.TRUE);
         stringRenderer.render(attribute, requestContext);
 
-        replay(applicationContext, requestContext, stringRenderer,
-                templateRenderer, definitionRenderer);
-        renderer.setApplicationContext(applicationContext);
+        replay(requestContext, stringRenderer, templateRenderer,
+                definitionRenderer);
         renderer.render(attribute, requestContext);
-        verify(applicationContext, requestContext, stringRenderer,
-                templateRenderer, definitionRenderer);
+        verify(requestContext, stringRenderer, templateRenderer,
+                definitionRenderer);
     }
 
     /**
@@ -156,8 +149,6 @@ public class ChainedDelegateAttributeRendererTest {
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("/myTemplate.jsp",
                 (Expression) null, null, "template");
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
         templateRenderer.render(attribute, requestContext);
@@ -168,12 +159,11 @@ public class ChainedDelegateAttributeRendererTest {
                 templateRenderer.isRenderable("/myTemplate.jsp", attribute,
                         requestContext)).andReturn(Boolean.TRUE);
 
-        replay(applicationContext, requestContext, stringRenderer,
-                templateRenderer, definitionRenderer);
-        renderer.setApplicationContext(applicationContext);
+        replay(requestContext, stringRenderer, templateRenderer,
+                definitionRenderer);
         renderer.render(attribute, requestContext);
         writer.close();
-        verify(applicationContext, requestContext, stringRenderer,
-                templateRenderer, definitionRenderer);
+        verify(requestContext, stringRenderer, templateRenderer,
+                definitionRenderer);
     }
 }

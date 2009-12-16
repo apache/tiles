@@ -105,7 +105,5 @@ public class BasicRendererFactoryTest extends TestCase {
         DefinitionAttributeRenderer renderer = new DefinitionAttributeRenderer();
         rendererFactory.initializeRenderer(renderer);
         assertNotNull("The container is null", renderer.container);
-        assertNotNull("The application context is null",
-                renderer.applicationContext);
     }
 }

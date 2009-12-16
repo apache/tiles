@@ -305,7 +305,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
                 .getRenderer(TEMPLATE_RENDERER_NAME));
         retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
                 .getRenderer(STRING_RENDERER_NAME));
-        retValue.setApplicationContext(applicationContext);
         retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return retValue;
     }
@@ -374,7 +373,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
         StringAttributeRenderer stringRenderer = new StringAttributeRenderer();
-        stringRenderer.setApplicationContext(applicationContext);
         stringRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return stringRenderer;
     }
@@ -395,7 +393,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
         TemplateAttributeRenderer templateRenderer = new TemplateAttributeRenderer();
-        templateRenderer.setApplicationContext(applicationContext);
         templateRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return templateRenderer;
     }
@@ -416,7 +413,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
         DefinitionAttributeRenderer definitionRenderer = new DefinitionAttributeRenderer();
-        definitionRenderer.setApplicationContext(applicationContext);
         definitionRenderer.setContainer(container);
         definitionRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return definitionRenderer;

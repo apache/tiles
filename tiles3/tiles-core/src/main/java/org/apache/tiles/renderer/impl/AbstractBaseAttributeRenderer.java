@@ -25,13 +25,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.awareness.TilesApplicationContextAware;
-import org.apache.tiles.awareness.TilesRequestContextFactoryAware;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +40,7 @@ import org.slf4j.LoggerFactory;
  * @since 2.1.0
  */
 public abstract class AbstractBaseAttributeRenderer implements
-        AttributeRenderer, TilesApplicationContextAware,
-        AttributeEvaluatorFactoryAware {
+        AttributeRenderer, AttributeEvaluatorFactoryAware {
 
     /**
      * The logging object.
@@ -53,23 +49,11 @@ public abstract class AbstractBaseAttributeRenderer implements
             .getLogger(AbstractBaseAttributeRenderer.class);
 
     /**
-     * The Tiles application context.
-     *
-     * @since 2.1.0
-     */
-    protected ApplicationContext applicationContext;
-
-    /**
      * The attribute evaluator factory.
      *
      * @since 2.2.0
      */
     protected AttributeEvaluatorFactory attributeEvaluatorFactory;
-
-    /** {@inheritDoc} */
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
 
     /** {@inheritDoc} */
     public void setAttributeEvaluatorFactory(AttributeEvaluatorFactory attributeEvaluatorFactory) {

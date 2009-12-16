@@ -30,7 +30,6 @@ import junit.framework.TestCase;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
 
@@ -56,18 +55,6 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
 
     /**
      * Tests
-     * {@link AbstractBaseAttributeRenderer#setApplicationContext(ApplicationContext)}.
-     */
-    public void testSetApplicationContext() {
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        EasyMock.replay(applicationContext);
-        renderer.setApplicationContext(applicationContext);
-        assertNotNull("The application context is null", renderer.applicationContext);
-    }
-
-    /**
-     * Tests
      * {@link AbstractBaseAttributeRenderer#render(Attribute, Request)}.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -75,13 +62,10 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
     public void testRender() throws IOException {
         Attribute attribute = new Attribute();
         StringWriter writer = new StringWriter();
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
         EasyMock.expect(requestContext.getWriter()).andReturn(writer);
-        EasyMock.replay(applicationContext, requestContext);
-        renderer.setApplicationContext(applicationContext);
+        EasyMock.replay(requestContext);
         renderer.render(attribute, requestContext);
         writer.close();
         assertEquals("Wrongly written", "wrote", writer.toString());
@@ -92,16 +76,13 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
      * {@link AbstractBaseAttributeRenderer#isPermitted(Request, Set)}.
      */
     public void testIsPermitted() {
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
         Request requestContext = EasyMock
                 .createMock(Request.class);
         EasyMock.expect(requestContext.isUserInRole("first")).andReturn(
                 Boolean.TRUE).anyTimes();
         EasyMock.expect(requestContext.isUserInRole("second")).andReturn(
                 Boolean.FALSE).anyTimes();
-        EasyMock.replay(applicationContext, requestContext);
-        renderer.setApplicationContext(applicationContext);
+        EasyMock.replay(requestContext);
         Set<String> roles = new HashSet<String>();
         roles.add("first");
         assertTrue("The role is not permitted", renderer.isPermitted(
