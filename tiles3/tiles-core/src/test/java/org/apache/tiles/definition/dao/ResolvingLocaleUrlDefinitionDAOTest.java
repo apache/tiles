@@ -44,7 +44,6 @@ import junit.framework.TestCase;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
-import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.MockDefinitionsReader;
@@ -106,10 +105,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url3 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
-
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        replay(applicationContext);
-        definitionDao.setApplicationContext(applicationContext);
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
@@ -180,7 +175,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 "Definition to be extended", definitionDao.getDefinition(
                         "test.def.overridden", Locale.FRENCH).getAttribute(
                         "title").getValue());
-        verify(applicationContext);
     }
 
     /**
@@ -197,10 +191,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url3 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
-
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        replay(applicationContext);
-        definitionDao.setApplicationContext(applicationContext);
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(DefinitionsFactory.DEFINITIONS_CONFIG,
@@ -277,7 +267,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals("Incorrect France title value",
                 "Definition to be extended", frenchDefinitions.get(
                         "test.def.overridden").getAttribute("title").getValue());
-        verify(applicationContext);
     }
 
     /**
@@ -343,16 +332,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     }
 
     /**
-     * Tests {@link LocaleUrlDefinitionDAO#setApplicationContext(ApplicationContext)}.
-     */
-    public void testSetApplicationContext() {
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        definitionDao.setApplicationContext(applicationContext);
-        assertEquals("The application context has not been set",
-                applicationContext, definitionDao.applicationContext);
-    }
-
-    /**
      * Tests execution.
      *
      * @throws IOException If something goes wrong.
@@ -371,7 +350,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 .andReturn(urlSet);
         replay(applicationContext);
         Map<String, String> params = new HashMap<String, String>();
-        definitionDao.setApplicationContext(applicationContext);
         DefinitionsReader reader = new DigesterDefinitionsReader();
         definitionDao.setReader(reader);
         List<URL> sourceURLs = new ArrayList<URL>();
@@ -393,7 +371,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 "org/apache/tiles/config/defs1.xml,"
                         + "org/apache/tiles/config/defs2.xml,"
                         + "org/apache/tiles/config/defs3.xml");
-        definitionDao.setApplicationContext(applicationContext);
         definitionDao.setReader(new MockDefinitionsReader());
         assertEquals("The reader is not of the correct class",
                 MockDefinitionsReader.class, definitionDao.reader.getClass());
@@ -433,11 +410,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         } else {
             urlPath = "file:/" + url.getPath();
         }
-
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        replay(applicationContext);
-        ((TilesApplicationContextAware) definitionDao)
-                .setApplicationContext(applicationContext);
 
         // The following second madness is necessary b/c sometimes spaces
         // are encoded as '%20', sometimes they are not. For example in
@@ -515,8 +487,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
 
         assertEquals("Factory should be stale.", true, reloadable
                 .refreshRequired());
-
-        verify(applicationContext, context);
     }
 
     /**
@@ -526,10 +496,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs-wildcard.xml");
         definitionDao.addSourceURL(url);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        replay(applicationContext);
-        ((TilesApplicationContextAware) definitionDao)
-                .setApplicationContext(applicationContext);
         definitionDao.setReader(new DigesterDefinitionsReader());
 
         Definition definition = definitionDao.getDefinition("test.defName.subLayered", Locale.ITALY);
@@ -565,7 +531,6 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals("The header attribute is not correct",
                 "/common/headerLayered.jsp", definition.getAttribute("header")
                         .getValue());
-        verify(applicationContext);
     }
 
     /**

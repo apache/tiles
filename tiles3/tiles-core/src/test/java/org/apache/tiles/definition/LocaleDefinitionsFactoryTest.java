@@ -21,6 +21,7 @@
 
 package org.apache.tiles.definition;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
@@ -32,7 +33,6 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Test;
 
@@ -49,7 +49,6 @@ public class LocaleDefinitionsFactoryTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testGetDefinition() {
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
         DefinitionDAO<Locale> dao = createMock(DefinitionDAO.class);
         LocaleResolver localeResolver = createMock(LocaleResolver.class);
         Request request = createMock(Request.class);
@@ -67,13 +66,12 @@ public class LocaleDefinitionsFactoryTest {
 
         LocaleDefinitionsFactory factory = new LocaleDefinitionsFactory();
 
-        replay(applicationContext, dao, localeResolver, request);
-        factory.setApplicationContext(applicationContext);
+        replay(dao, localeResolver, request);
         factory.setDefinitionDAO(dao);
         factory.setLocaleResolver(localeResolver);
         Definition realDefinition = new Definition(definition);
         realDefinition.inherit(anotherDefinition);
         assertEquals(realDefinition, factory.getDefinition("myDefinition", request));
-        verify(applicationContext, dao, localeResolver, request);
+        verify(dao, localeResolver, request);
     }
 }

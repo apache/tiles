@@ -80,9 +80,10 @@ public class ELAttributeEvaluatorTest extends TestCase {
                 new String[] { "request", "session", "application" }).anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
+        EasyMock.expect(request.getApplicationContext()).andReturn(
+                applicationContext).anyTimes();
         EasyMock.replay(request, applicationContext);
 
-        evaluator.setApplicationContext(applicationContext);
         evaluator.setExpressionFactory(new ExpressionFactoryImpl());
         ELResolver elResolver = new CompositeELResolver() {
             {

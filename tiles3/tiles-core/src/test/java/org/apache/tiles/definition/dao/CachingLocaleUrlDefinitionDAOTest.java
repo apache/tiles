@@ -44,7 +44,6 @@ import junit.framework.TestCase;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
-import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.MockDefinitionsReader;
@@ -101,10 +100,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url3 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
-
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        replay(applicationContext);
-        definitionDao.setApplicationContext(applicationContext);
 
         List<URL> sourceURLs = new ArrayList<URL>();
         sourceURLs.add(url1);
@@ -170,7 +165,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         assertNull("Definition in French not found", definitionDao
                 .getDefinition("test.def.overridden", Locale.FRENCH)
                 .getAttribute("title"));
-        verify(applicationContext);
     }
 
     /**
@@ -187,10 +181,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url3 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs3.xml");
         assertNotNull("Could not load defs3 file.", url3);
-
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        replay(applicationContext);
-        definitionDao.setApplicationContext(applicationContext);
 
         List<URL> sourceURLs = new ArrayList<URL>();
         sourceURLs.add(url1);
@@ -261,7 +251,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
                         "country").getValue());
         assertNull("Definition in French not found", frenchDefinitions.get(
                 "test.def.overridden").getAttribute("title"));
-        verify(applicationContext);
     }
 
     /**
@@ -327,16 +316,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
     }
 
     /**
-     * Tests {@link LocaleUrlDefinitionDAO#setApplicationContext(ApplicationContext)}.
-     */
-    public void testSetApplicationContext() {
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        definitionDao.setApplicationContext(applicationContext);
-        assertEquals("The application context has not been set",
-                applicationContext, definitionDao.applicationContext);
-    }
-
-    /**
      * Tests execution.
      *
      * @throws IOException If something goes wrong.
@@ -354,7 +333,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         expect(applicationContext.getResources("/WEB-INF/tiles.xml"))
                 .andReturn(urlSet);
         replay(applicationContext);
-        definitionDao.setApplicationContext(applicationContext);
         DefinitionsReader reader = new DigesterDefinitionsReader();
         definitionDao.setReader(reader);
         List<URL> sourceURLs = new ArrayList<URL>();
@@ -367,9 +345,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
                 definitionDao.sourceURLs);
         reset(applicationContext);
 
-        applicationContext = createMock(ApplicationContext.class);
-        replay(applicationContext);
-        definitionDao.setApplicationContext(applicationContext);
         definitionDao.setReader(new MockDefinitionsReader());
         assertEquals("The reader is not of the correct class",
                 MockDefinitionsReader.class, definitionDao.reader.getClass());
@@ -380,7 +355,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         definitionDao.setSourceURLs(sourceURLs);
         assertEquals("The source URLs are not correct", sourceURLs,
                 definitionDao.sourceURLs);
-        verify(applicationContext);
     }
 
     /**
@@ -409,11 +383,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         } else {
             urlPath = "file:/" + url.getPath();
         }
-
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        replay(applicationContext);
-        ((TilesApplicationContextAware) definitionDao)
-                .setApplicationContext(applicationContext);
 
         // The following second madness is necessary b/c sometimes spaces
         // are encoded as '%20', sometimes they are not. For example in
@@ -492,7 +461,7 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals("Factory should be stale.", true, reloadable
                 .refreshRequired());
 
-        verify(applicationContext, context);
+        verify(context);
     }
 
     /**
@@ -502,10 +471,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         URL url = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs-wildcard.xml");
         definitionDao.addSourceURL(url);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        replay(applicationContext);
-        ((TilesApplicationContextAware) definitionDao)
-                .setApplicationContext(applicationContext);
         definitionDao.setReader(new DigesterDefinitionsReader());
 
         Definition definition = definitionDao.getDefinition("test.defName.subLayered", Locale.ITALY);
@@ -537,7 +502,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
         assertNull(definition.getTemplateAttribute().getValue());
         assertEquals(1, definition.getLocalAttributeNames().size());
         assertEquals("Overridden Title", definition.getAttribute("title").getValue());
-        verify(applicationContext);
     }
 
     /**

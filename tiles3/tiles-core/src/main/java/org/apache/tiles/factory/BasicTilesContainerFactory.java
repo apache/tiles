@@ -129,7 +129,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             LocaleResolver resolver) {
         UnresolvingLocaleDefinitionsFactory factory = instantiateDefinitionsFactory(
                 applicationContext, resolver);
-        factory.setApplicationContext(applicationContext);
         factory.setLocaleResolver(resolver);
         factory.setDefinitionDAO(createLocaleDefinitionDao(applicationContext,
                 resolver));
@@ -180,7 +179,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
                 applicationContext, resolver);
         definitionDao.setReader(createDefinitionsReader(applicationContext));
         definitionDao.setSourceURLs(getSourceURLs(applicationContext));
-        definitionDao.setApplicationContext(applicationContext);
         if (definitionDao instanceof PatternDefinitionResolverAware) {
             ((PatternDefinitionResolverAware<Locale>) definitionDao)
                     .setPatternDefinitionResolver(createPatternDefinitionResolver(Locale.class));

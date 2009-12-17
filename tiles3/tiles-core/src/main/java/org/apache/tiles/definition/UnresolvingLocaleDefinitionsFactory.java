@@ -24,10 +24,8 @@ package org.apache.tiles.definition;
 import java.util.Locale;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 
 /**
@@ -43,8 +41,7 @@ import org.apache.tiles.request.Request;
  * @version $Rev$ $Date$
  * @since 2.2.1
  */
-public class UnresolvingLocaleDefinitionsFactory implements DefinitionsFactory,
-        TilesApplicationContextAware {
+public class UnresolvingLocaleDefinitionsFactory implements DefinitionsFactory {
 
     /**
      * The definition DAO that extracts the definitions from the sources.
@@ -54,23 +51,11 @@ public class UnresolvingLocaleDefinitionsFactory implements DefinitionsFactory,
     protected DefinitionDAO<Locale> definitionDao;
 
     /**
-     * The application context.
-     *
-     * @since 2.2.1
-     */
-    protected ApplicationContext applicationContext;
-
-    /**
      * The locale resolver object.
      *
      * @since 2.2.1
      */
     protected LocaleResolver localeResolver;
-
-    /** {@inheritDoc} */
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
 
     /**
      * Sets the locale resolver to use.

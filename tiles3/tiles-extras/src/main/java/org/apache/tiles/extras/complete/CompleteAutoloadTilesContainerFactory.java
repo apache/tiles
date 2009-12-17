@@ -236,7 +236,6 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     private ELAttributeEvaluator createELEvaluator(
             ApplicationContext applicationContext) {
         ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
-        evaluator.setApplicationContext(applicationContext);
         JspExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();
         efFactory.setApplicationContext(applicationContext);
         evaluator.setExpressionFactory(efFactory.getExpressionFactory());

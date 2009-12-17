@@ -24,7 +24,6 @@ import javax.el.ELResolver;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 
-import org.apache.tiles.awareness.TilesApplicationContextAware;
 import org.apache.tiles.evaluator.AbstractAttributeEvaluator;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
@@ -38,8 +37,7 @@ import org.apache.tiles.request.Request;
  * @version $Rev$ $Date$
  * @since 2.2.1
  */
-public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
-        TilesApplicationContextAware {
+public class ELAttributeEvaluator extends AbstractAttributeEvaluator {
 
     /**
      * Initialization parameter to decide the implementation of
@@ -49,13 +47,6 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
      */
     public static final String EXPRESSION_FACTORY_FACTORY_INIT_PARAM =
         "org.apache.tiles.evaluator.el.ExpressionFactoryFactory";
-
-    /**
-     * The Tiles application context.
-     *
-     * @since 2.2.1
-     */
-    protected ApplicationContext applicationContext;
 
     /**
      * The EL expression factory.
@@ -77,11 +68,6 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
      * @since 2.2.1
      */
     public ELAttributeEvaluator() {
-    }
-
-    /** {@inheritDoc} */
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
     }
 
     /**
@@ -109,7 +95,7 @@ public class ELAttributeEvaluator extends AbstractAttributeEvaluator implements
         ELContextImpl context = new ELContextImpl(resolver);
         context.putContext(Request.class, request);
         context.putContext(ApplicationContext.class,
-                applicationContext);
+                request.getApplicationContext());
         ValueExpression valueExpression = expressionFactory
                 .createValueExpression(context, expression, Object.class);
 
