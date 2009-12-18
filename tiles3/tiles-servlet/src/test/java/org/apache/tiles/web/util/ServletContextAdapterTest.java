@@ -43,7 +43,7 @@ public class ServletContextAdapterTest extends TestCase {
 
     /** {@inheritDoc} */
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
         MockServletContext rootContext = new MockServletContext();
         rootContext.addInitParameter("initParameter1", "parameterValue1");
         rootContext.addInitParameter("initParameter2", "parameterValue2");
