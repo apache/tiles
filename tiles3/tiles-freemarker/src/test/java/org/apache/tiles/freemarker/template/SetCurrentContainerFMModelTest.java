@@ -35,8 +35,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.SetCurrentContainerModel;
 import org.junit.Before;
@@ -124,7 +124,7 @@ public class SetCurrentContainerFMModelTest {
         expect(servlet.getServletContext()).andReturn(servletContext).times(2);
         expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
                 .andReturn(applicationContext);
-        sccModel.execute(eq("myContainerKey"), isA(FreeMarkerTilesRequestContext.class));
+        sccModel.execute(eq("myContainerKey"), isA(FreemarkerRequest.class));
         replay(servlet, servletContext);
         ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
         expect(model.get(FreemarkerServlet.KEY_REQUEST)).andReturn(requestModel);

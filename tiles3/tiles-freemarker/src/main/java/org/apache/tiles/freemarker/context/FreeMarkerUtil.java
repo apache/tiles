@@ -26,6 +26,7 @@ import java.io.StringWriter;
 
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.freemarker.io.NullWriter;
+import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -62,7 +63,7 @@ public final class FreeMarkerUtil {
      */
     public static boolean isForceInclude(Environment env) {
         return org.apache.tiles.request.servlet.ServletUtil
-                .isForceInclude(FreeMarkerRequestUtil.getRequestHashModel(env).getRequest());
+                .isForceInclude(FreemarkerRequestUtil.getRequestHashModel(env).getRequest());
     }
 
     /**
@@ -75,7 +76,7 @@ public final class FreeMarkerUtil {
      */
     public static void setForceInclude(Environment env, boolean forceInclude) {
         org.apache.tiles.request.servlet.ServletUtil.setForceInclude(
-                FreeMarkerRequestUtil.getRequestHashModel(env).getRequest(), forceInclude);
+                FreemarkerRequestUtil.getRequestHashModel(env).getRequest(), forceInclude);
     }
 
     /**
@@ -149,12 +150,12 @@ public final class FreeMarkerUtil {
                         "Error when wrapping an object", e);
             }
         } else if ("request".equals(scope)) {
-            FreeMarkerRequestUtil.getRequestHashModel(env).getRequest().setAttribute(name, obj);
+            FreemarkerRequestUtil.getRequestHashModel(env).getRequest().setAttribute(name, obj);
         } else if ("session".equals(scope)) {
-            FreeMarkerRequestUtil.getRequestHashModel(env).getRequest().getSession().setAttribute(
+            FreemarkerRequestUtil.getRequestHashModel(env).getRequest().getSession().setAttribute(
                     name, obj);
         } else if ("application".equals(scope)) {
-            FreeMarkerRequestUtil.getServletContextHashModel(env).getServlet().getServletContext()
+            FreemarkerRequestUtil.getServletContextHashModel(env).getServlet().getServletContext()
                     .setAttribute(name, obj);
         }
     }

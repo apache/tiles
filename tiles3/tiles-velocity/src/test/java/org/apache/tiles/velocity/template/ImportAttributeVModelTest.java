@@ -41,8 +41,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.ImportAttributeModel;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
@@ -99,7 +99,7 @@ public class ImportAttributeVModelTest {
         Writer writer = new StringWriter();
         Map<String, Object> params = createParams();
 
-        tModel.execute(eq("myName"), (String) isNull(), eq("myToName"), eq(false), isA(VelocityTilesRequestContext.class));
+        tModel.execute(eq("myName"), (String) isNull(), eq("myToName"), eq(false), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, internalContextAdapter, applicationContext);
         initializeModel();
@@ -124,7 +124,7 @@ public class ImportAttributeVModelTest {
         Map<String, Object> params = createParams();
         params.put("scope", "request");
 
-        tModel.execute(eq("myName"), eq("request"), eq("myToName"), eq(false), isA(VelocityTilesRequestContext.class));
+        tModel.execute(eq("myName"), eq("request"), eq("myToName"), eq(false), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, internalContextAdapter, applicationContext);
         initializeModel();
@@ -149,7 +149,7 @@ public class ImportAttributeVModelTest {
         Map<String, Object> params = createParams();
         params.put("scope", "session");
 
-        tModel.execute(eq("myName"), eq("session"), eq("myToName"), eq(false), isA(VelocityTilesRequestContext.class));
+        tModel.execute(eq("myName"), eq("session"), eq("myToName"), eq(false), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, internalContextAdapter, applicationContext);
         initializeModel();
@@ -174,7 +174,7 @@ public class ImportAttributeVModelTest {
         Map<String, Object> params = createParams();
         params.put("scope", "application");
 
-        tModel.execute(eq("myName"), eq("application"), eq("myToName"), eq(false), isA(VelocityTilesRequestContext.class));
+        tModel.execute(eq("myName"), eq("application"), eq("myToName"), eq(false), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, internalContextAdapter, applicationContext);
         initializeModel();

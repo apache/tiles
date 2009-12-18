@@ -209,11 +209,9 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
         }
 
         // Sets attributes.
-        cascadedAttributes = addMissingAttributes(
-                ((BasicAttributeContext) parent).cascadedAttributes,
+        cascadedAttributes = addMissingAttributes(parent.cascadedAttributes,
                 cascadedAttributes);
-        attributes = addMissingAttributes(
-                ((BasicAttributeContext) parent).attributes, attributes);
+        attributes = addMissingAttributes(parent.attributes, attributes);
     }
 
     /**
@@ -307,18 +305,16 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
     public Set<String> getLocalAttributeNames() {
         if (attributes != null && !attributes.isEmpty()) {
             return attributes.keySet();
-        } else {
-            return null;
         }
+        return null;
     }
 
     /** {@inheritDoc} */
     public Set<String> getCascadedAttributeNames() {
         if (cascadedAttributes != null && !cascadedAttributes.isEmpty()) {
             return cascadedAttributes.keySet();
-        } else {
-            return null;
         }
+        return null;
     }
 
     /** {@inheritDoc} */

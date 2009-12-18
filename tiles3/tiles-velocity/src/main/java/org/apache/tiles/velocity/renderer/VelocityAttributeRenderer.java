@@ -29,12 +29,12 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.awareness.TilesApplicationContextAware;
+import org.apache.tiles.awareness.ApplicationContextAware;
 import org.apache.tiles.impl.InvalidTemplateException;
 import org.apache.tiles.renderer.impl.AbstractTypeDetectingAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletTilesRequestContext;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.util.IteratorEnumeration;
 import org.apache.velocity.Template;
@@ -54,7 +54,7 @@ import org.apache.velocity.tools.view.VelocityView;
  */
 public class VelocityAttributeRenderer extends
         AbstractTypeDetectingAttributeRenderer implements
-        TilesApplicationContextAware {
+        ApplicationContextAware {
 
     /**
      * The VelocityView object to use.
@@ -109,7 +109,7 @@ public class VelocityAttributeRenderer extends
             Request request) throws IOException {
         if (value != null) {
             if (value instanceof String) {
-                ServletTilesRequestContext servletRequest = ServletUtil.getServletRequest(request);
+                ServletRequest servletRequest = ServletUtil.getServletRequest(request);
                 // then get a context
                 Context context = velocityView.createContext(servletRequest
                         .getRequest(), servletRequest.getResponse());

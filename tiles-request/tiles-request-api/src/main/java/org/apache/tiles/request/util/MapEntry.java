@@ -98,9 +98,8 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
             V oldVal = this.value;
             this.value = val;
             return oldVal;
-        } else {
-            throw new UnsupportedOperationException();
         }
+        throw new UnsupportedOperationException("The map entry is not modifiable");
     }
 
 

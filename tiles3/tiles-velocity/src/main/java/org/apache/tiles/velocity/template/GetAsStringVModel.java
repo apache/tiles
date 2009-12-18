@@ -32,8 +32,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ServletUtil;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.GetAsStringModel;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -85,7 +85,7 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
 
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
-                Request currentRequest = VelocityTilesRequestContext
+                Request currentRequest = VelocityRequest
                         .createVelocityRequest(ServletUtil
                                 .getApplicationContext(servletContext), request,
                                 response, velocityContext, writer);
@@ -106,7 +106,7 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
         VelocityUtil.getParameterStack(velocityContext).push(params);
-        Request currentRequest = VelocityTilesRequestContext
+        Request currentRequest = VelocityRequest
                 .createVelocityRequest(ServletUtil
                         .getApplicationContext(servletContext), request,
                         response, velocityContext, null);
@@ -127,7 +127,7 @@ public class GetAsStringVModel implements Executable, BodyExecutable {
 
             public boolean render(InternalContextAdapter context, Writer writer)
                     throws IOException {
-                Request currentRequest = VelocityTilesRequestContext
+                Request currentRequest = VelocityRequest
                         .createVelocityRequest(ServletUtil
                                 .getApplicationContext(servletContext), request,
                                 response, velocityContext, writer);

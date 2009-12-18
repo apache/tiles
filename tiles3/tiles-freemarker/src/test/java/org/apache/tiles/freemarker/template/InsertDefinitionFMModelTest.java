@@ -35,9 +35,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.InsertDefinitionModel;
 import org.junit.Before;
@@ -141,10 +141,10 @@ public class InsertDefinitionFMModelTest {
         params.put("role", objectWrapper.wrap("myRole"));
         params.put("preparer", objectWrapper.wrap("myPreparer"));
 
-        tModel.start(isA(FreeMarkerTilesRequestContext.class));
+        tModel.start(isA(FreemarkerRequest.class));
         tModel.end(eq("myName"), eq("myTemplate"), eq("myTemplateType"),
                 eq("myTemplateExpression"), eq("myRole"), eq("myPreparer"),
-                isA(FreeMarkerTilesRequestContext.class));
+                isA(FreemarkerRequest.class));
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, attribute, applicationContext);

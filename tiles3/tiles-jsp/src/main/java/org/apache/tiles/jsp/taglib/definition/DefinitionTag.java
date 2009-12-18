@@ -28,9 +28,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.tiles.jsp.JspUtil;
-import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.template.DefinitionModel;
 
 /**
@@ -166,7 +166,7 @@ public class DefinitionTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jspContext = getJspContext();
-        Request request = JspTilesRequestContext.createServletJspRequest(
+        Request request = JspRequest.createServletJspRequest(
                 org.apache.tiles.request.jsp.JspUtil.getApplicationContext(jspContext),
                 (PageContext) jspContext);
         model.start(name, template, role, extend, preparer, request);

@@ -29,8 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ServletUtil;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.DefinitionModel;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.Renderable;
@@ -74,7 +74,7 @@ public class DefinitionVModel implements Executable, BodyExecutable {
     public Renderable execute(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext,
             Map<String, Object> params) {
-        Request currentRequest = VelocityTilesRequestContext
+        Request currentRequest = VelocityRequest
         .createVelocityRequest(ServletUtil
                 .getApplicationContext(servletContext), request,
                 response, velocityContext, null);
@@ -88,7 +88,7 @@ public class DefinitionVModel implements Executable, BodyExecutable {
     /** {@inheritDoc} */
     public Renderable end(HttpServletRequest request,
             HttpServletResponse response, Context velocityContext) {
-        Request currentRequest = VelocityTilesRequestContext
+        Request currentRequest = VelocityRequest
                 .createVelocityRequest(ServletUtil
                         .getApplicationContext(servletContext), request,
                         response, velocityContext, null);
@@ -99,7 +99,7 @@ public class DefinitionVModel implements Executable, BodyExecutable {
     /** {@inheritDoc} */
     public void start(HttpServletRequest request, HttpServletResponse response,
             Context velocityContext, Map<String, Object> params) {
-        Request currentRequest = VelocityTilesRequestContext
+        Request currentRequest = VelocityRequest
                 .createVelocityRequest(ServletUtil
                         .getApplicationContext(servletContext), request,
                         response, velocityContext, null);

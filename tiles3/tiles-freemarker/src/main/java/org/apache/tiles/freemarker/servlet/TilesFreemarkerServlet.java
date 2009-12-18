@@ -21,8 +21,6 @@
 
 package org.apache.tiles.freemarker.servlet;
 
-import java.io.IOException;
-
 import org.apache.tiles.freemarker.template.TilesFMModelRepository;
 
 import freemarker.cache.TemplateLoader;
@@ -53,8 +51,7 @@ public class TilesFreemarkerServlet extends FreemarkerServlet {
     /** {@inheritDoc} */
 
     @Override
-    protected TemplateLoader createTemplateLoader(String templatePath)
-            throws IOException {
+    protected TemplateLoader createTemplateLoader(String templatePath) {
         return new WebappClassTemplateLoader(getServletContext());
     }
 }

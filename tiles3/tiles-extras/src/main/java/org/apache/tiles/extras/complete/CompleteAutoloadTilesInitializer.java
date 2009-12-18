@@ -25,11 +25,11 @@ import javax.servlet.ServletContext;
 
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.wildcard.WildcardServletApplicationContext;
 import org.apache.tiles.startup.AbstractTilesInitializer;
 
 /**
- * This initializer uses {@link WildcardServletTilesApplicationContext} to
+ * This initializer uses {@link WildcardServletApplicationContext} to
  * retrieve resources using Ant-style patterns and creates a
  * {@link CompleteAutoloadTilesContainerFactory} to load all new features of
  * Tiles at once.
@@ -43,7 +43,7 @@ public class CompleteAutoloadTilesInitializer extends AbstractTilesInitializer {
     @Override
     protected ApplicationContext createTilesApplicationContext(
             ApplicationContext preliminaryContext) {
-        return new WildcardServletTilesApplicationContext(
+        return new WildcardServletApplicationContext(
                 (ServletContext) preliminaryContext.getContext());
     }
 

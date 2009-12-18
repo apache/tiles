@@ -25,8 +25,8 @@ import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.request.jsp.JspUtil;
 import org.apache.tiles.template.SetCurrentContainerModel;
 
@@ -69,7 +69,7 @@ public class SetCurrentContainerTag extends SimpleTagSupport {
     @Override
     public void doTag() {
         JspContext jspContext = getJspContext();
-        Request request = JspTilesRequestContext.createServletJspRequest(
+        Request request = JspRequest.createServletJspRequest(
                 JspUtil.getApplicationContext(jspContext),
                 (PageContext) jspContext);
         model.execute(containerKey, request);

@@ -35,9 +35,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.GetAsStringModel;
 import org.junit.Before;
@@ -145,8 +145,8 @@ public class GetAsStringFMModelTest {
         tModel.start(eq(false), eq("myPreparer"), eq("myRole"),
                 eq("myDefaultValue"), eq("myDefaultValueRole"), eq("myDefaultValueType"),
                 eq("myName"), eq(attribute),
-                isA(FreeMarkerTilesRequestContext.class));
-        tModel.end(eq(false), isA(FreeMarkerTilesRequestContext.class));
+                isA(FreemarkerRequest.class));
+        tModel.end(eq(false), isA(FreemarkerRequest.class));
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, attribute, applicationContext);

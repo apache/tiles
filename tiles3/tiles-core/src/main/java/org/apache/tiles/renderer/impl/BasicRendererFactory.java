@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.awareness.TilesApplicationContextAware;
+import org.apache.tiles.awareness.ApplicationContextAware;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
@@ -40,7 +40,7 @@ import org.apache.tiles.request.ApplicationContext;
  * @since 2.1.0
  */
 public class BasicRendererFactory implements RendererFactory,
-        TilesContainerAware, TilesApplicationContextAware,
+        TilesContainerAware, ApplicationContextAware,
         AttributeEvaluatorFactoryAware {
 
     /**
@@ -180,8 +180,8 @@ public class BasicRendererFactory implements RendererFactory,
      * @since 2.1.0
      */
     protected void initializeRenderer(AttributeRenderer renderer) {
-        if (renderer instanceof TilesApplicationContextAware) {
-            ((TilesApplicationContextAware) renderer)
+        if (renderer instanceof ApplicationContextAware) {
+            ((ApplicationContextAware) renderer)
                     .setApplicationContext(applicationContext);
         }
         if (renderer instanceof TilesContainerAware) {

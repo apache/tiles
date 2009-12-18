@@ -39,8 +39,8 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.InsertAttributeModel;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
@@ -110,7 +110,7 @@ public class InsertAttributeVModelTest {
         Map<String, Object> params = createParams();
 
         tModel.execute(eq(false), eq("myPreparer"), eq("myRole"), eq("myDefaultValue"), eq("myDefaultValueRole"),
-                eq("myDefaultValueType"), eq("myName"), eq(attribute), isA(VelocityTilesRequestContext.class));
+                eq("myDefaultValueType"), eq("myName"), eq(attribute), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, internalContextAdapter, applicationContext);
         initializeModel();
@@ -134,7 +134,7 @@ public class InsertAttributeVModelTest {
 
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
         tModel.start(eq(false), eq("myPreparer"), eq("myRole"), eq("myDefaultValue"), eq("myDefaultValueRole"), eq("myDefaultValueType"),
-                eq("myName"), eq(attribute), isA(VelocityTilesRequestContext.class));
+                eq("myName"), eq(attribute), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
@@ -162,7 +162,7 @@ public class InsertAttributeVModelTest {
         paramStack.push(params);
 
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
-        tModel.end(eq(false), isA(VelocityTilesRequestContext.class));
+        tModel.end(eq(false), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, internalContextAdapter, applicationContext);
         initializeModel();

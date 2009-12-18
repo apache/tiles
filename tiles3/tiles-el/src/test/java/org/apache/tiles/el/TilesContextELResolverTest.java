@@ -22,7 +22,6 @@ package org.apache.tiles.el;
 
 import java.beans.FeatureDescriptor;
 import java.beans.PropertyDescriptor;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,12 +30,9 @@ import javax.el.ELContext;
 
 import junit.framework.TestCase;
 
-import org.apache.tiles.el.ELContextImpl;
-import org.apache.tiles.el.TilesContextELResolver;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.easymock.EasyMock;
 
 /**
  * Tests {@link TilesContextELResolver}.

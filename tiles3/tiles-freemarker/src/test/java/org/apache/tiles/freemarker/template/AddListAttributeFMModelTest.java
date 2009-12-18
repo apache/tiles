@@ -34,9 +34,9 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.AddListAttributeModel;
 import org.junit.Before;
@@ -132,8 +132,8 @@ public class AddListAttributeFMModelTest {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("role", objectWrapper.wrap("myRole"));
 
-        tModel.start(eq("myRole"), isA(FreeMarkerTilesRequestContext.class));
-        tModel.end(isA(FreeMarkerTilesRequestContext.class));
+        tModel.start(eq("myRole"), isA(FreemarkerRequest.class));
+        tModel.end(isA(FreemarkerRequest.class));
         body.render(isA(NullWriter.class));
 
         replay(request, tModel, body, applicationContext);

@@ -47,7 +47,7 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.scope.ContextResolver;
 import org.apache.tiles.request.util.ApplicationAccess;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
@@ -117,12 +117,12 @@ public class VelocityStyleTilesToolTest {
         applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityTilesRequestContext.class),
+        expect(resolver.getContext(isA(VelocityRequest.class),
         		eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
-        expect(container.getAttributeContext(isA(VelocityTilesRequestContext.class)))
+        expect(container.getAttributeContext(isA(VelocityRequest.class)))
                 .andReturn(attributeContext);
         expect(attributeContext.getAttribute("myAttribute")).andReturn(attribute);
 
@@ -195,12 +195,12 @@ public class VelocityStyleTilesToolTest {
         applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityTilesRequestContext.class),
+        expect(resolver.getContext(isA(VelocityRequest.class),
         		eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
-        container.render(eq(attribute), isA(VelocityTilesRequestContext.class));
+        container.render(eq(attribute), isA(VelocityRequest.class));
 
 		replay(velocityContext, request, response, servletContext, container,
 				internalContextAdapter, applicationContext, resolver);
@@ -229,12 +229,12 @@ public class VelocityStyleTilesToolTest {
         applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityTilesRequestContext.class),
+        expect(resolver.getContext(isA(VelocityRequest.class),
         		eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
-        container.render(eq("myDefinition"), isA(VelocityTilesRequestContext.class));
+        container.render(eq("myDefinition"), isA(VelocityRequest.class));
 
 		replay(velocityContext, request, response, servletContext, container,
 				internalContextAdapter, applicationContext, resolver);
@@ -262,12 +262,12 @@ public class VelocityStyleTilesToolTest {
         applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityTilesRequestContext.class),
+        expect(resolver.getContext(isA(VelocityRequest.class),
         		eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
-        container.renderContext(isA(VelocityTilesRequestContext.class));
+        container.renderContext(isA(VelocityRequest.class));
 
 		replay(velocityContext, request, response, servletContext, container,
 				internalContextAdapter, applicationContext, resolver);
@@ -293,12 +293,12 @@ public class VelocityStyleTilesToolTest {
         applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityTilesRequestContext.class),
+        expect(resolver.getContext(isA(VelocityRequest.class),
         		eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
-        expect(container.startContext(isA(VelocityTilesRequestContext.class)))
+        expect(container.startContext(isA(VelocityRequest.class)))
                 .andReturn(attributeContext);
 
 		replay(velocityContext, request, response, servletContext, container,
@@ -324,12 +324,12 @@ public class VelocityStyleTilesToolTest {
         applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityTilesRequestContext.class),
+        expect(resolver.getContext(isA(VelocityRequest.class),
         		eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
-        container.endContext(isA(VelocityTilesRequestContext.class));
+        container.endContext(isA(VelocityRequest.class));
 
 		replay(velocityContext, request, response, servletContext, container,
 				attributeContext, applicationContext, resolver);
@@ -354,12 +354,12 @@ public class VelocityStyleTilesToolTest {
         applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityTilesRequestContext.class),
+        expect(resolver.getContext(isA(VelocityRequest.class),
         		eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
-        expect(container.getAttributeContext(isA(VelocityTilesRequestContext.class)))
+        expect(container.getAttributeContext(isA(VelocityRequest.class)))
                 .andReturn(attributeContext);
 
 		replay(velocityContext, request, response, servletContext, container,
@@ -385,7 +385,7 @@ public class VelocityStyleTilesToolTest {
         applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityTilesRequestContext.class),
+        expect(resolver.getContext(isA(VelocityRequest.class),
         		eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)

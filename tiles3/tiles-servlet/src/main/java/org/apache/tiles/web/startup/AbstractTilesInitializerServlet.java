@@ -21,10 +21,9 @@
 package org.apache.tiles.web.startup;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.startup.TilesInitializer;
 import org.apache.tiles.web.util.ServletContextAdapter;
 
@@ -52,11 +51,11 @@ public abstract class AbstractTilesInitializerServlet extends HttpServlet {
 
     /** {@inheritDoc} */
     @Override
-    public void init() throws ServletException {
+    public void init() {
         initializer = createTilesInitializer();
         ServletContext adaptedContext = new ServletContextAdapter(
                 getServletConfig());
-        ServletTilesApplicationContext preliminaryContext = new ServletTilesApplicationContext(
+        ServletApplicationContext preliminaryContext = new ServletApplicationContext(
                 adaptedContext);
         initializer.initialize(preliminaryContext);
     }

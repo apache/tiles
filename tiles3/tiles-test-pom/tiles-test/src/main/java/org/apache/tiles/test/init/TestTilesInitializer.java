@@ -25,7 +25,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.wildcard.WildcardServletApplicationContext;
 import org.apache.tiles.startup.AbstractTilesInitializer;
 import org.apache.tiles.test.factory.TestTilesContainerFactory;
 
@@ -47,7 +47,7 @@ public class TestTilesInitializer extends AbstractTilesInitializer {
     @Override
     protected ApplicationContext createTilesApplicationContext(
             ApplicationContext preliminaryContext) {
-        return new WildcardServletTilesApplicationContext(
+        return new WildcardServletApplicationContext(
                 (ServletContext) preliminaryContext.getContext());
     }
 }

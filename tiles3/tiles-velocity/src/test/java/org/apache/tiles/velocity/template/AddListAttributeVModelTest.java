@@ -34,8 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.AddListAttributeModel;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.junit.Before;
@@ -89,7 +89,7 @@ public class AddListAttributeVModelTest {
         Context velocityContext = createMock(Context.class);
         Map<String, Object> params = createParams();
 
-        tModel.start(eq("myRole"), isA(VelocityTilesRequestContext.class));
+        tModel.start(eq("myRole"), isA(VelocityRequest.class));
 
         replay(tModel, request, response, velocityContext, servletContext, applicationContext);
         model.start(request, response, velocityContext, params);
@@ -107,7 +107,7 @@ public class AddListAttributeVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
 
-        tModel.end(isA(VelocityTilesRequestContext.class));
+        tModel.end(isA(VelocityRequest.class));
 
         replay(tModel, request, response, velocityContext, servletContext, applicationContext);
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));

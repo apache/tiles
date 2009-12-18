@@ -27,7 +27,7 @@ import static org.easymock.EasyMock.*;
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.wildcard.WildcardServletApplicationContext;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,7 +63,7 @@ public class CompleteAutoloadTilesInitializerTest {
 
         replay(preliminaryContext, servletContext);
         assertTrue(initializer
-                .createTilesApplicationContext(preliminaryContext) instanceof WildcardServletTilesApplicationContext);
+                .createTilesApplicationContext(preliminaryContext) instanceof WildcardServletApplicationContext);
         verify(preliminaryContext, servletContext);
     }
 

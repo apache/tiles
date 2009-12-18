@@ -34,9 +34,9 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.io.NullWriter;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.DefinitionModel;
 import org.junit.Before;
@@ -140,8 +140,8 @@ public class DefinitionFMModelTest {
 
         tModel.start(eq("myName"), eq("myTemplate"), eq("myRole"),
                 eq("myExtends"), eq("myPreparer"),
-                isA(FreeMarkerTilesRequestContext.class));
-        tModel.end(isA(FreeMarkerTilesRequestContext.class));
+                isA(FreemarkerRequest.class));
+        tModel.end(isA(FreemarkerRequest.class));
         body.render(isA(NullWriter.class));
 
         replay(tModel, body, applicationContext);

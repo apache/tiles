@@ -34,7 +34,7 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletTilesRequestContext;
+import org.apache.tiles.request.servlet.ServletRequest;
 
 /**
  * Servlet able to let a user choose a locale.
@@ -101,7 +101,7 @@ public class SelectLocaleServlet extends HttpServlet {
         session.setAttribute(DefaultLocaleResolver.LOCALE_KEY, locale);
         ApplicationContext applicationContext = org.apache.tiles.request.servlet.ServletUtil
                 .getApplicationContext(getServletContext());
-        Request currentRequest = new ServletTilesRequestContext(applicationContext, request, response);
+        Request currentRequest = new ServletRequest(applicationContext, request, response);
         TilesAccess.setCurrentContainer(currentRequest, containerKey);
         TilesContainer container = TilesAccess.getCurrentContainer(currentRequest);
         container.render(definitionName, currentRequest);

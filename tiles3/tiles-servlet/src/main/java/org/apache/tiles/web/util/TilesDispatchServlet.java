@@ -21,7 +21,6 @@
 package org.apache.tiles.web.util;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +31,7 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletTilesRequestContext;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,7 +93,7 @@ public class TilesDispatchServlet extends HttpServlet {
 
         ApplicationContext applicationContext = org.apache.tiles.request.servlet.ServletUtil
                 .getApplicationContext(getServletContext());
-        Request request = new ServletTilesRequestContext(applicationContext,
+        Request request = new ServletRequest(applicationContext,
                 req, res);
         TilesContainer container = TilesAccess.getContainer(applicationContext,
                 containerKey);
@@ -137,7 +136,7 @@ public class TilesDispatchServlet extends HttpServlet {
     class DefaultMutator implements AttributeContextMutator {
 
         /** {@inheritDoc} */
-        public void mutate(AttributeContext context, ServletRequest request) {
+        public void mutate(AttributeContext context, javax.servlet.ServletRequest request) {
             // noop;
         }
     }

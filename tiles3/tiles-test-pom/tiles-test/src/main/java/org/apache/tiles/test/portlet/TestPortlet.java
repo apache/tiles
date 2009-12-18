@@ -28,7 +28,6 @@ import javax.portlet.ActionResponse;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletContext;
 import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
 import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.PortletSession;
 import javax.portlet.PortletURL;
@@ -38,8 +37,8 @@ import javax.portlet.RenderResponse;
 
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.portlet.context.PortletTilesRequestContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.portlet.PortletRequest;
 
 /**
  * Test Portlet.
@@ -58,7 +57,7 @@ public class TestPortlet extends GenericPortlet {
             portletSession.removeAttribute("definition");
             TilesContainer container = getCurrentContainer(request,
                     getPortletContext());
-            Request currentRequest = new PortletTilesRequestContext(container
+            Request currentRequest = new PortletRequest(container
                     .getApplicationContext(), getPortletContext(), request,
                     response);
             if (container.isValidDefinition(definition, currentRequest)) {
@@ -113,8 +112,8 @@ public class TestPortlet extends GenericPortlet {
      * @return The current Tiles container to use in web pages.
      * @since 2.1.0
      */
-    private static TilesContainer getCurrentContainer(PortletRequest request,
-            PortletContext context) {
+    private static TilesContainer getCurrentContainer(
+            javax.portlet.PortletRequest request, PortletContext context) {
         TilesContainer container = (TilesContainer) request
                 .getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME);
         if (container == null) {

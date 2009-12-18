@@ -57,7 +57,7 @@ import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
 import org.apache.velocity.tools.view.VelocityView;
 import org.junit.Before;
@@ -104,7 +104,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     @Test
     public void testRegisterAttributeRenderers() {
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
-        ServletTilesApplicationContext applicationContext = createMock(ServletTilesApplicationContext.class);
+        ServletApplicationContext applicationContext = createMock(ServletApplicationContext.class);
         TilesContainer container = createMock(TilesContainer.class);
         AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         ServletContext servletContext = createMock(ServletContext.class);

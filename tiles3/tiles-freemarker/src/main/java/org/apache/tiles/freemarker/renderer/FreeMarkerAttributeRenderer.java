@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.awareness.TilesApplicationContextAware;
+import org.apache.tiles.awareness.ApplicationContextAware;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.freemarker.servlet.TilesFreemarkerServlet;
 import org.apache.tiles.impl.InvalidTemplateException;
@@ -41,7 +41,7 @@ import org.apache.tiles.renderer.impl.AbstractTypeDetectingAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
-import org.apache.tiles.request.servlet.ServletTilesRequestContext;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.util.IteratorEnumeration;
 
@@ -57,7 +57,7 @@ import org.apache.tiles.util.IteratorEnumeration;
  */
 public class FreeMarkerAttributeRenderer extends
         AbstractTypeDetectingAttributeRenderer implements
-        TilesApplicationContextAware {
+        ApplicationContextAware {
 
     /**
      * The servlet that is used to forward the request to.
@@ -118,7 +118,7 @@ public class FreeMarkerAttributeRenderer extends
             Request request) throws IOException {
         if (value != null) {
             if (value instanceof String) {
-                ServletTilesRequestContext servletRequest = ServletUtil.getServletRequest(request);
+                ServletRequest servletRequest = ServletUtil.getServletRequest(request);
                 HttpServletRequest httpRequest = servletRequest.getRequest();
                 HttpServletResponse httpResponse = servletRequest.getResponse();
                 servlet.setValue((String) value);

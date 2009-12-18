@@ -98,9 +98,8 @@ public class ArrayStack<T> extends ArrayList<T> {
         int n = size();
         if (n <= 0) {
             throw new EmptyStackException();
-        } else {
-            return get(n - 1);
         }
+        return get(n - 1);
     }
 
     /**
@@ -116,9 +115,8 @@ public class ArrayStack<T> extends ArrayList<T> {
         int m = (size() - n) - 1;
         if (m < 0) {
             throw new EmptyStackException();
-        } else {
-            return get(m);
         }
+        return get(m);
     }
 
     /**
@@ -131,9 +129,8 @@ public class ArrayStack<T> extends ArrayList<T> {
         int n = size();
         if (n <= 0) {
             throw new EmptyStackException();
-        } else {
-            return remove(n - 1);
         }
+        return remove(n - 1);
     }
 
     /**

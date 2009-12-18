@@ -38,8 +38,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.InsertTemplateModel;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
@@ -103,7 +103,7 @@ public class InsertTemplateVModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         tModel.execute(eq("myTemplate"), eq("myTemplateType"), eq("myTemplateExpression"),
-                eq("myRole"), eq("myPreparer"), isA(VelocityTilesRequestContext.class));
+                eq("myRole"), eq("myPreparer"), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, internalContextAdapter, applicationContext);
         initializeModel();
@@ -126,7 +126,7 @@ public class InsertTemplateVModelTest {
         ArrayStack<Map<String, Object>> paramStack = new ArrayStack<Map<String, Object>>();
 
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
-        tModel.start(isA(VelocityTilesRequestContext.class));
+        tModel.start(isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
@@ -156,7 +156,7 @@ public class InsertTemplateVModelTest {
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
         tModel.end(eq("myTemplate"), eq("myTemplateType"), eq("myTemplateExpression"),
                 eq("myRole"), eq("myPreparer"),
-                isA(VelocityTilesRequestContext.class));
+                isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, internalContextAdapter, applicationContext);
         initializeModel();

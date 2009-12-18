@@ -24,10 +24,10 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.freemarker.context.FreeMarkerRequestUtil;
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.freemarker.FreemarkerRequest;
+import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
 import org.apache.tiles.template.PutListAttributeModel;
 
 import freemarker.core.Environment;
@@ -69,8 +69,8 @@ public class PutListAttributeFMModel implements TemplateDirectiveModel {
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
         Map<String, TemplateModel> parms = params;
-        Request request = FreeMarkerTilesRequestContext
-                .createServletFreemarkerRequest(FreeMarkerRequestUtil
+        Request request = FreemarkerRequest
+                .createServletFreemarkerRequest(FreemarkerRequestUtil
                         .getApplicationContext(env), env);
         model.start(FreeMarkerUtil.getAsString(parms.get("role")),
                 FreeMarkerUtil

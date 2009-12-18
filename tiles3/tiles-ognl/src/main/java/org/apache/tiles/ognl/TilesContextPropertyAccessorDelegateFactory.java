@@ -21,8 +21,6 @@
 
 package org.apache.tiles.ognl;
 
-import java.util.Map;
-
 import ognl.PropertyAccessor;
 
 import org.apache.tiles.request.ApplicationContext;
@@ -94,10 +92,10 @@ public class TilesContextPropertyAccessorDelegateFactory implements
             Request request) {
         PropertyAccessor retValue;
         if (propertyName.endsWith("Scope")) {
-        	String scopeName = propertyName.substring(0, propertyName.length() - 5);
-        	if (request.getContext(scopeName) != null) {
-        		return scopePropertyAccessor;
-        	}
+            String scopeName = propertyName.substring(0, propertyName.length() - 5);
+            if (request.getContext(scopeName) != null) {
+                return scopePropertyAccessor;
+            }
         }
         if (beanInfo.getMappedDescriptors(Request.class)
                 .containsKey(propertyName)) {
@@ -106,7 +104,7 @@ public class TilesContextPropertyAccessorDelegateFactory implements
                 .containsKey(propertyName)) {
             retValue = applicationContextPropertyAccessor;
         } else {
-        	return anyScopePropertyAccessor;
+            return anyScopePropertyAccessor;
         }
         return retValue;
     }

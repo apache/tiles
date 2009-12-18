@@ -27,8 +27,8 @@ import javax.servlet.ServletContext;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.NotAServletEnvironmentException;
-import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
-import org.apache.tiles.request.servlet.ServletTilesRequestContext;
+import org.apache.tiles.request.servlet.ServletApplicationContext;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.util.TilesRequestContextWrapper;
 
 
@@ -55,15 +55,15 @@ public final class ServletUtil {
      * context could not be found.
      * @since 2.2.0
      */
-    public static ServletTilesRequestContext getServletRequest(Request request) {
+    public static ServletRequest getServletRequest(Request request) {
         Request currentRequest = request;
         while (true) {
             if (currentRequest == null) {
                 throw new NotAServletEnvironmentException("Last Tiles request context is null");
             }
 
-            if (currentRequest instanceof ServletTilesRequestContext) {
-                return (ServletTilesRequestContext) currentRequest;
+            if (currentRequest instanceof ServletRequest) {
+                return (ServletRequest) currentRequest;
             }
             if (!(currentRequest instanceof TilesRequestContextWrapper)) {
                 throw new NotAServletEnvironmentException("Not a Servlet environment, not supported");
@@ -82,8 +82,8 @@ public final class ServletUtil {
      * @since 2.2.0
      */
     public static ServletContext getServletContext(ApplicationContext applicationContext) {
-        if (applicationContext instanceof ServletTilesApplicationContext) {
-            return (ServletContext) ((ServletTilesApplicationContext) applicationContext).getContext();
+        if (applicationContext instanceof ServletApplicationContext) {
+            return (ServletContext) ((ServletApplicationContext) applicationContext).getContext();
         }
 
         throw new NotAServletEnvironmentException("Not a Servlet-based environment");

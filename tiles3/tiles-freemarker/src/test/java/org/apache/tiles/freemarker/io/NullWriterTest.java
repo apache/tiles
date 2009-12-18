@@ -20,8 +20,6 @@
  */
 package org.apache.tiles.freemarker.io;
 
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,37 +40,34 @@ public class NullWriterTest {
     private NullWriter writer;
 
     /**
-     * @throws java.lang.Exception If something goes wrong.
+     * Sets up the test.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         writer = new NullWriter();
     }
 
     /**
      * Test method for {@link org.apache.tiles.freemarker.io.NullWriter#write(char[], int, int)}.
-     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testWriteCharArrayIntInt() throws IOException {
+    public void testWriteCharArrayIntInt() {
         writer.write("Hello there".toCharArray(), 0, DUMMY_SIZE);
     }
 
     /**
      * Test method for {@link org.apache.tiles.freemarker.io.NullWriter#flush()}.
-     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testFlush() throws IOException {
+    public void testFlush() {
         writer.flush();
     }
 
     /**
      * Test method for {@link org.apache.tiles.freemarker.io.NullWriter#close()}.
-     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testClose() throws IOException {
+    public void testClose() {
         writer.close();
     }
 

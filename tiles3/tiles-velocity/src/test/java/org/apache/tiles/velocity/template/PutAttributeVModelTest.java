@@ -35,8 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.PutAttributeModel;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.junit.Before;
@@ -95,7 +95,7 @@ public class PutAttributeVModelTest {
         Map<String, Object> params = createParams();
 
         tModel.execute(eq("myName"), eq("myValue"), eq("myExpression"), (String) isNull(),
-                eq("myRole"), eq("myType"), eq(false), isA(VelocityTilesRequestContext.class));
+                eq("myRole"), eq("myType"), eq(false), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
@@ -117,7 +117,7 @@ public class PutAttributeVModelTest {
         ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
 
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
-        tModel.start(isA(VelocityTilesRequestContext.class));
+        tModel.start(isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
@@ -143,7 +143,7 @@ public class PutAttributeVModelTest {
 
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
         tModel.end(eq("myName"), eq("myValue"), eq("myExpression"), (String) isNull(),
-                eq("myRole"), eq("myType"), eq(false), isA(VelocityTilesRequestContext.class));
+                eq("myRole"), eq("myType"), eq(false), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();

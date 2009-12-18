@@ -30,7 +30,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +41,7 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletTilesRequestContext;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -222,7 +221,7 @@ public class TilesDecorationFilter implements Filter {
     /**
      * {@inheritDoc}
      */
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
+    public void doFilter(javax.servlet.ServletRequest req, ServletResponse res, FilterChain filterChain)
             throws IOException, ServletException {
         // If the request contains the prevent token, we must not reapply the definition.
         // This is used to ensure that filters mapped to wild cards do not infinately
@@ -234,7 +233,7 @@ public class TilesDecorationFilter implements Filter {
 
         ApplicationContext applicationContext = org.apache.tiles.request.servlet.ServletUtil
                 .getApplicationContext(getServletContext());
-        Request request = new ServletTilesRequestContext(applicationContext,
+        Request request = new ServletRequest(applicationContext,
                 (HttpServletRequest) req, (HttpServletResponse) res);
         TilesContainer container = TilesAccess.getContainer(applicationContext,
                 containerKey);
@@ -252,7 +251,7 @@ public class TilesDecorationFilter implements Filter {
      * @param request The request object.
      * @return The final definition name.
      */
-    private String getDefinitionForRequest(ServletRequest request) {
+    private String getDefinitionForRequest(javax.servlet.ServletRequest request) {
         if (alternateDefinitions.size() < 1) {
             return definitionName;
         }
@@ -272,7 +271,7 @@ public class TilesDecorationFilter implements Filter {
      * @param request The request object to use.
      * @return The request base.
      */
-    private String getRequestBase(ServletRequest request) {
+    private String getRequestBase(javax.servlet.ServletRequest request) {
         // Included Path
         String include = (String) request.getAttribute("javax.servlet.include.servlet_path");
         if (include != null) {
@@ -290,7 +289,7 @@ public class TilesDecorationFilter implements Filter {
     class DefaultMutator implements AttributeContextMutator {
 
         /** {@inheritDoc} */
-        public void mutate(AttributeContext ctx, ServletRequest req) {
+        public void mutate(AttributeContext ctx, javax.servlet.ServletRequest req) {
             Attribute attr = new Attribute();
             attr.setRenderer("template");
             attr.setValue(getRequestBase(req));
@@ -304,7 +303,7 @@ public class TilesDecorationFilter implements Filter {
      * @param request The HTTP request object.
      * @return <code>true</code> if the token is present.
      */
-    private boolean isPreventTokenPresent(ServletRequest request) {
+    private boolean isPreventTokenPresent(javax.servlet.ServletRequest request) {
         return preventDecorationToken != null && request.getAttribute(preventDecorationToken) != null;
     }
 }

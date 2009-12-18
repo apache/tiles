@@ -27,7 +27,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.servlet.ServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.startup.TilesInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +60,7 @@ public abstract class AbstractTilesListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();
         initializer = createTilesInitializer();
-        initializer.initialize(new ServletTilesApplicationContext(
+        initializer.initialize(new ServletApplicationContext(
                 servletContext));
     }
 

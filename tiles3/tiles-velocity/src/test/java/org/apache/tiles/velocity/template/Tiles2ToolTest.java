@@ -32,8 +32,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.Renderable;
 import org.junit.Before;

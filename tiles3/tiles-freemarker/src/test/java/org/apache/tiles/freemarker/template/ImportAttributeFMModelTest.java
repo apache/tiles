@@ -39,8 +39,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.ImportAttributeModel;
 import org.junit.Before;
@@ -141,7 +141,7 @@ public class ImportAttributeFMModelTest {
         params.put("ignore", objectWrapper.wrap(false));
 
 		tModel.execute(eq("myName"), (String) isNull(), eq("myToName"), eq(false),
-				isA(FreeMarkerTilesRequestContext.class));
+				isA(FreemarkerRequest.class));
 
         replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
@@ -185,7 +185,7 @@ public class ImportAttributeFMModelTest {
         params.put("scope", objectWrapper.wrap("request"));
 
         tModel.execute(eq("myName"), eq("request"), eq("myToName"), eq(false),
-                isA(FreeMarkerTilesRequestContext.class));
+                isA(FreemarkerRequest.class));
 
         replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
@@ -229,7 +229,7 @@ public class ImportAttributeFMModelTest {
         params.put("scope", objectWrapper.wrap("session"));
 
         tModel.execute(eq("myName"), eq("session"), eq("myToName"), eq(false),
-                isA(FreeMarkerTilesRequestContext.class));
+                isA(FreemarkerRequest.class));
 
         replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);
@@ -273,7 +273,7 @@ public class ImportAttributeFMModelTest {
         params.put("scope", objectWrapper.wrap("application"));
 
         tModel.execute(eq("myName"), eq("application"), eq("myToName"), eq(false),
-                isA(FreeMarkerTilesRequestContext.class));
+                isA(FreemarkerRequest.class));
 
         replay(tModel, body, attribute, applicationContext);
         fmModel.execute(env, params, null, body);

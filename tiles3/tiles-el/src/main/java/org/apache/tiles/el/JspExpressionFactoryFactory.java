@@ -25,7 +25,7 @@ import javax.el.ExpressionFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspFactory;
 
-import org.apache.tiles.awareness.TilesApplicationContextAware;
+import org.apache.tiles.awareness.ApplicationContextAware;
 import org.apache.tiles.request.ApplicationContext;
 
 /**
@@ -35,7 +35,7 @@ import org.apache.tiles.request.ApplicationContext;
  * @since 2.2.1
  */
 public class JspExpressionFactoryFactory implements ExpressionFactoryFactory,
-        TilesApplicationContextAware {
+        ApplicationContextAware {
 
     /**
      * The servlet context.

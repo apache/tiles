@@ -28,8 +28,8 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
-import org.apache.tiles.jsp.context.JspTilesRequestContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.template.ImportAttributeModel;
 
 /**
@@ -178,7 +178,7 @@ public class UseAttributeTag extends SimpleTagSupport {
     @Override
     public void doTag() {
         JspContext jspContext = getJspContext();
-        Request request = JspTilesRequestContext.createServletJspRequest(
+        Request request = JspRequest.createServletJspRequest(
                 org.apache.tiles.request.jsp.JspUtil
                         .getApplicationContext(jspContext),
                 (PageContext) jspContext);

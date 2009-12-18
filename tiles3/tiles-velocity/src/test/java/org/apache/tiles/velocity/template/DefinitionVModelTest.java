@@ -35,8 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.DefinitionModel;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.junit.Before;
@@ -90,7 +90,7 @@ public class DefinitionVModelTest {
         Map<String, Object> params = createParams();
 
         tModel.execute(eq("myName"), eq("myTemplate"), eq("myRole"),
-                eq("myExtends"), eq("myPreparer"), isA(VelocityTilesRequestContext.class));
+                eq("myExtends"), eq("myPreparer"), isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();
@@ -112,7 +112,7 @@ public class DefinitionVModelTest {
 
         tModel.start(eq("myName"), eq("myTemplate"), eq("myRole"),
                 eq("myExtends"), eq("myPreparer"),
-                isA(VelocityTilesRequestContext.class));
+                isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext);
         initializeModel();
@@ -132,7 +132,7 @@ public class DefinitionVModelTest {
         HttpServletResponse response = createMock(HttpServletResponse.class);
         Context velocityContext = createMock(Context.class);
 
-        tModel.end(isA(VelocityTilesRequestContext.class));
+        tModel.end(isA(VelocityRequest.class));
 
         replay(tModel, servletContext, request, response, velocityContext, applicationContext);
         initializeModel();

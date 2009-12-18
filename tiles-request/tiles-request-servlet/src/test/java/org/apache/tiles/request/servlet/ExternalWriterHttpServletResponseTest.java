@@ -44,7 +44,7 @@ public class ExternalWriterHttpServletResponseTest {
      * @throws IOException If something goes wrong.
      */
     @Test
-    public void testGetWriter() throws IOException {
+    public void testGetWriter() {
         HttpServletResponse wrappedResponse = createMock(HttpServletResponse.class);
         Writer writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);

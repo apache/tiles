@@ -36,7 +36,7 @@ import javax.servlet.ServletContext;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.servlet.wildcard.WildcardServletTilesApplicationContext;
+import org.apache.tiles.request.servlet.wildcard.WildcardServletApplicationContext;
 import org.apache.tiles.startup.TilesInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +65,7 @@ public class ModularTilesInitializer implements TilesInitializer {
 
     /** {@inheritDoc} */
     public void initialize(ApplicationContext preliminaryContext) {
-        ApplicationContext applicationContext = new WildcardServletTilesApplicationContext(
+        ApplicationContext applicationContext = new WildcardServletApplicationContext(
                 (ServletContext) preliminaryContext.getContext());
         loadInitializers(applicationContext);
 

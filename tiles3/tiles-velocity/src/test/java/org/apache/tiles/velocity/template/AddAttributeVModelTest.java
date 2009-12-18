@@ -35,8 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.AddAttributeModel;
-import org.apache.tiles.velocity.context.VelocityTilesRequestContext;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.Context;
 import org.junit.Before;
@@ -96,7 +96,7 @@ public class AddAttributeVModelTest {
         Map<String, Object> params = createParams();
 
         tModel.execute(eq("myValue"), eq("myExpression"), (String) isNull(),
-                eq("myRole"), eq("myType"), isA(VelocityTilesRequestContext.class));
+                eq("myRole"), eq("myType"), isA(VelocityRequest.class));
 
         replay(tModel, request, response, velocityContext, servletContext, applicationContext);
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.execute(request, response, velocityContext, params));
@@ -117,7 +117,7 @@ public class AddAttributeVModelTest {
         ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
 
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
-        tModel.start(isA(VelocityTilesRequestContext.class));
+        tModel.start(isA(VelocityRequest.class));
 
         replay(tModel, request, response, velocityContext, servletContext, applicationContext);
         model.start(request, response, velocityContext, params);
@@ -142,7 +142,7 @@ public class AddAttributeVModelTest {
 
         expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
         tModel.end(eq("myValue"), eq("myExpression"), (String) isNull(),
-                eq("myRole"), eq("myType"), isA(VelocityTilesRequestContext.class));
+                eq("myRole"), eq("myType"), isA(VelocityRequest.class));
 
         replay(tModel, request, response, velocityContext, applicationContext);
         assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));

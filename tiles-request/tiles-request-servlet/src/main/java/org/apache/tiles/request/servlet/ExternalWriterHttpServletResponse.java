@@ -21,7 +21,6 @@
 
 package org.apache.tiles.request.servlet;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,7 +54,7 @@ public class ExternalWriterHttpServletResponse extends
 
     /** {@inheritDoc} */
     @Override
-    public PrintWriter getWriter() throws IOException {
+    public PrintWriter getWriter() {
         return writer;
     }
 }

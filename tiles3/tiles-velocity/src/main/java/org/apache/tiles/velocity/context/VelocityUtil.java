@@ -21,7 +21,6 @@
 
 package org.apache.tiles.velocity.context;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
@@ -56,8 +55,7 @@ public final class VelocityUtil {
                 return "";
             }
 
-            public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException {
+            public boolean render(InternalContextAdapter context, Writer writer) {
                 // Does nothing, really!
                 return true;
             }

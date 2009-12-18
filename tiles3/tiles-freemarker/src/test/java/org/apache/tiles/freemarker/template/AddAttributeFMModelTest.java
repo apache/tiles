@@ -34,8 +34,8 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.freemarker.context.FreeMarkerTilesRequestContext;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.template.AddAttributeModel;
 import org.junit.Before;
@@ -136,9 +136,9 @@ public class AddAttributeFMModelTest {
         params.put("role", objectWrapper.wrap("myRole"));
         params.put("type", objectWrapper.wrap("myType"));
 
-        tModel.start(isA(FreeMarkerTilesRequestContext.class));
+        tModel.start(isA(FreemarkerRequest.class));
         tModel.end(eq(value), eq("myExpression"), eq(""), eq("myRole"),
-                eq("myType"), isA(FreeMarkerTilesRequestContext.class));
+                eq("myType"), isA(FreemarkerRequest.class));
         body.render(isA(StringWriter.class));
 
         replay(request, tModel, body, applicationContext);
