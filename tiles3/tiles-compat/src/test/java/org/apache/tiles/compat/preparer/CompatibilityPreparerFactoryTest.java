@@ -40,7 +40,7 @@ public class CompatibilityPreparerFactoryTest extends TestCase {
 
     /** {@inheritDoc} */
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
         factory = new CompatibilityPreparerFactory();
     }
 

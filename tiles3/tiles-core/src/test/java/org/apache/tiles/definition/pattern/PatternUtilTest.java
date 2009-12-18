@@ -118,7 +118,6 @@ public class PatternUtilTest {
      * Test method for
      * {@link PatternUtil#replacePlaceholders(Definition, String, Object[])}.
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testReplacePlaceholdersListAttribute() {
         Map<String, Attribute> attributes = new HashMap<String, Attribute>();
@@ -140,7 +139,7 @@ public class PatternUtilTest {
         assertEquals("templatevalue1", attribute.getValue());
         ListAttribute nuListAttribute = (ListAttribute) nudef.getAttribute("myList");
         assertTrue(nuListAttribute.isInherit());
-        List<Attribute> list = (List<Attribute>) nuListAttribute.getValue();
+        List<Attribute> list = nuListAttribute.getValue();
         assertEquals(LIST_ATTRIBUTE_SIZE, list.size());
         attribute = list.get(0);
         assertEquals("valuevalue2", attribute.getValue());
@@ -148,7 +147,7 @@ public class PatternUtilTest {
         assertEquals("valuevalue2value3", attribute.getValue());
         ListAttribute evaluatedListAttribute = (ListAttribute) list.get(2);
         assertFalse(evaluatedListAttribute.isInherit());
-        list = (List<Attribute>) evaluatedListAttribute.getValue();
+        list = evaluatedListAttribute.getValue();
         assertEquals(2, list.size());
         attribute = list.get(0);
         assertEquals("secondvaluevalue2", attribute.getValue());

@@ -115,7 +115,7 @@ public class LocaleDbDefinitionDAO extends JdbcDaoSupport implements
      */
     @SuppressWarnings("unchecked")
     protected DbDefinition getDefinition(String name, Long baseCustomizationId,
-            Long baseParentCustomizationId, Locale locale) {
+            Long baseParentCustomizationId, @SuppressWarnings("unused") Locale locale) {
         DbDefinition definition = null;
         Long customizationId = baseCustomizationId;
         Long parentCustomizationId = baseParentCustomizationId;

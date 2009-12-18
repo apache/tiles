@@ -178,7 +178,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
         assertTrue("Attribute not of valid type",
                 attribute instanceof ListAttribute);
         ListAttribute listAttribute = (ListAttribute) attribute;
-        List<Attribute> list = (List<Attribute>) listAttribute.getValue();
+        List<Attribute> list = listAttribute.getValue();
         assertEquals("The list is not of correct size", 1, list.size());
         attribute = list.get(0);
         assertNotNull("Couldn't Find element attribute.", attribute);
@@ -314,9 +314,9 @@ public class TestDigesterDefinitionsReader extends TestCase {
         source.close();
         Definition root = name2defs.get("root");
         Attribute attribute = root.getAttribute("body");
-        Definition child = name2defs.get((String) attribute.getValue());
+        Definition child = name2defs.get(attribute.getValue());
         ListAttribute listAttribute = (ListAttribute) child.getAttribute("list");
         List<Attribute> list = listAttribute.getValue();
-        assertEquals(((Attribute) list.get(0)).getValue(), "This is a value");
+        assertEquals((list.get(0)).getValue(), "This is a value");
     }
 }

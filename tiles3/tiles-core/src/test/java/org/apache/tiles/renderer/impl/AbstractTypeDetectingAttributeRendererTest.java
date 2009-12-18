@@ -21,10 +21,8 @@
 
 package org.apache.tiles.renderer.impl;
 
-import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
-
-import java.io.IOException;
+import static org.junit.Assert.*;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
@@ -66,8 +64,7 @@ public class AbstractTypeDetectingAttributeRendererTest {
             }
 
             @Override
-            public void write(Object value, Attribute attribute,
-                    Request request) throws IOException {
+            public void write(Object value, Attribute attribute, Request request) {
                 // Does nothing.
             }
         };

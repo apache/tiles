@@ -53,7 +53,7 @@ public class UrlPreparerTest extends TestCase {
 
     /** {@inheritDoc} */
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
         preparer = new UrlPreparer("/my/url.do");
     }
 

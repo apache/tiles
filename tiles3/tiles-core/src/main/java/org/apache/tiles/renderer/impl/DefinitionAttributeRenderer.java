@@ -20,8 +20,6 @@
  */
 package org.apache.tiles.renderer.impl;
 
-import java.io.IOException;
-
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesContainerAware;
@@ -50,9 +48,7 @@ public class DefinitionAttributeRenderer extends
 
     /** {@inheritDoc} */
     @Override
-    public void write(Object value, Attribute attribute,
-            Request request)
-            throws IOException {
+    public void write(Object value, Attribute attribute, Request request) {
         container.render(value.toString(), request);
     }
 

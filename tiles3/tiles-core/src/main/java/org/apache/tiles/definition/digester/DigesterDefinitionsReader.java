@@ -157,8 +157,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
         /** {@inheritDoc} */
         @Override
-        public void begin(String namespace, String name, Attributes attributes)
-                throws Exception {
+        public void begin(String namespace, String name, Attributes attributes) {
             Definition definition = (Definition) digester.peek();
             definition.setName(attributes.getValue("name"));
             definition.setPreparer(attributes.getValue("preparer"));
@@ -187,8 +186,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
         /** {@inheritDoc} */
         @Override
-        public void begin(String namespace, String name, Attributes attributes)
-                throws Exception {
+        public void begin(String namespace, String name, Attributes attributes) {
             Attribute attribute = (Attribute) digester.peek();
             attribute.setValue(attributes.getValue("value"));
             String expression = attributes.getValue("expression");
@@ -209,8 +207,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
         /** {@inheritDoc} */
         @Override
-        public void begin(String namespace, String name, Attributes attributes)
-                throws Exception {
+        public void begin(String namespace, String name, Attributes attributes) {
             Attribute attribute = (Attribute) digester.peek(0);
             Definition definition = (Definition) digester.peek(1);
             definition.putAttribute(attributes.getValue("name"), attribute,
@@ -228,8 +225,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
         /** {@inheritDoc} */
         @Override
-        public void begin(String namespace, String name, Attributes attributes)
-                throws Exception {
+        public void begin(String namespace, String name, Attributes attributes) {
             Definition definition = (Definition) digester.peek(0);
             if (definition.getName() == null) {
                 definition.setName(getNextUniqueDefinitionName(definitions));
@@ -249,8 +245,7 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
 
         /** {@inheritDoc} */
         @Override
-        public void begin(String namespace, String name, Attributes attributes)
-                throws Exception {
+        public void begin(String namespace, String name, Attributes attributes) {
             Object obj = digester.pop();
             Attribute attribute = new Attribute(obj);
             digester.push(attribute);

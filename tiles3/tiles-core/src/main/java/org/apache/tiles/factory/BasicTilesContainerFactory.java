@@ -56,8 +56,6 @@ import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Factory that builds a standard Tiles container using only Java code.
@@ -65,6 +63,7 @@ import org.slf4j.LoggerFactory;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
+@SuppressWarnings("unused")
 public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
@@ -81,11 +80,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * The definition renderer name.
      */
     protected static final String DEFINITION_RENDERER_NAME = "definition";
-    /**
-     * The logging object.
-     */
-    private final Logger log = LoggerFactory
-            .getLogger(BasicTilesContainerFactory.class);
 
     /** {@inheritDoc} */
     @Override
