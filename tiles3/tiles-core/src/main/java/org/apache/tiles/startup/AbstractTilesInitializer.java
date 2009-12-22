@@ -111,7 +111,8 @@ public abstract class AbstractTilesInitializer implements TilesInitializer {
      * @return The container key.
      * @since 2.2.0
      */
-    protected String getContainerKey(ApplicationContext applicationContext) {
+    protected String getContainerKey(
+            @SuppressWarnings("unused") ApplicationContext applicationContext) {
         return null;
     }
 

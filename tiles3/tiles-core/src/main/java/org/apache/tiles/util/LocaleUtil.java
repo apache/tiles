@@ -97,12 +97,11 @@ public final class LocaleUtil {
 
         if (variantLength == 0) {
             return result;
-        } else {
-            temp.append('_');
-            temp.append(variant);
-            result.add(temp.toString());
-            return result;
         }
+        temp.append('_');
+        temp.append(variant);
+        result.add(temp.toString());
+        return result;
     }
 
     /**
