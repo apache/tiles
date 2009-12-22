@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.util.TilesRequestContextWrapper;
+import org.apache.tiles.request.util.RequestWrapper;
 
 public class ReflectionContextResolver implements ContextResolver {
 
@@ -24,8 +24,8 @@ public class ReflectionContextResolver implements ContextResolver {
         try {
             method = request.getClass().getMethod(methodName);
         } catch (NoSuchMethodException e) {
-            if (request instanceof TilesRequestContextWrapper) {
-                TilesRequestContextWrapper wrapper = (TilesRequestContextWrapper) request;
+            if (request instanceof RequestWrapper) {
+                RequestWrapper wrapper = (RequestWrapper) request;
                 return getContext(wrapper.getWrappedRequest(), scope);
             }
             throw new NoSuchScopeException("No accessor method for '" + scope
@@ -49,8 +49,8 @@ public class ReflectionContextResolver implements ContextResolver {
         boolean finished = false;
         do {
             scopes.addAll(getSpecificScopeSet(request));
-            if (request instanceof TilesRequestContextWrapper) {
-                request = ((TilesRequestContextWrapper) request)
+            if (request instanceof RequestWrapper) {
+                request = ((RequestWrapper) request)
                         .getWrappedRequest();
             } else {
                 finished = true;

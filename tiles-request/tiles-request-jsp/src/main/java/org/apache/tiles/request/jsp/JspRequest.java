@@ -34,7 +34,7 @@ import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.util.TilesRequestContextWrapper;
+import org.apache.tiles.request.util.RequestWrapper;
 
 /**
  * Context implementation used for executing tiles within a
@@ -42,7 +42,7 @@ import org.apache.tiles.request.util.TilesRequestContextWrapper;
  *
  * @version $Rev$ $Date$
  */
-public class JspRequest extends TilesRequestContextWrapper {
+public class JspRequest extends RequestWrapper {
 
 	private static final String[] SCOPES = {"page", "request", "session", "application"};
 

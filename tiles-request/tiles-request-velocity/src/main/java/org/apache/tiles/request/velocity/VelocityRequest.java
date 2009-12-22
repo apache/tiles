@@ -36,7 +36,7 @@ import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.util.TilesRequestContextWrapper;
+import org.apache.tiles.request.util.RequestWrapper;
 import org.apache.velocity.context.Context;
 
 /**
@@ -45,7 +45,7 @@ import org.apache.velocity.context.Context;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class VelocityRequest extends TilesRequestContextWrapper {
+public class VelocityRequest extends RequestWrapper {
 
 	private static final String[] SCOPES = {"page"};
 

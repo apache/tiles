@@ -33,7 +33,7 @@ import org.apache.tiles.request.ApplicationContext;
  * @since Tiles 2.1.1
  * @version $Rev$ $Date$
  */
-public class TilesApplicationContextWrapper implements ApplicationContext {
+public class ApplicationContextWrapper implements ApplicationContext {
 
     /**
      * The original context.
@@ -45,7 +45,7 @@ public class TilesApplicationContextWrapper implements ApplicationContext {
      *
      * @param context The original context.
      */
-    public TilesApplicationContextWrapper(ApplicationContext context) {
+    public ApplicationContextWrapper(ApplicationContext context) {
         this.context = context;
     }
 

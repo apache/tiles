@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ServletRequest;
-import org.apache.tiles.request.util.TilesRequestContextWrapper;
+import org.apache.tiles.request.util.RequestWrapper;
 
 import freemarker.core.Environment;
 import freemarker.ext.servlet.HttpRequestHashModel;
@@ -44,7 +44,7 @@ import freemarker.ext.servlet.HttpRequestHashModel;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class FreemarkerRequest extends TilesRequestContextWrapper {
+public class FreemarkerRequest extends RequestWrapper {
 
 	private static final String[] SCOPES = {"page"};
 

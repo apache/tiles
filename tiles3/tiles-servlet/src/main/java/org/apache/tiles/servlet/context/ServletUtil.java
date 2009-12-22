@@ -29,7 +29,7 @@ import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.NotAServletEnvironmentException;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.request.servlet.ServletRequest;
-import org.apache.tiles.request.util.TilesRequestContextWrapper;
+import org.apache.tiles.request.util.RequestWrapper;
 
 
 /**
@@ -65,10 +65,10 @@ public final class ServletUtil {
             if (currentRequest instanceof ServletRequest) {
                 return (ServletRequest) currentRequest;
             }
-            if (!(currentRequest instanceof TilesRequestContextWrapper)) {
+            if (!(currentRequest instanceof RequestWrapper)) {
                 throw new NotAServletEnvironmentException("Not a Servlet environment, not supported");
             }
-            currentRequest = ((TilesRequestContextWrapper) currentRequest).getWrappedRequest();
+            currentRequest = ((RequestWrapper) currentRequest).getWrappedRequest();
         }
     }
 

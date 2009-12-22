@@ -37,7 +37,7 @@ import org.apache.tiles.request.scope.ContextResolver;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public class TilesRequestContextWrapper implements Request {
+public class RequestWrapper implements Request {
 
     /**
      * The wrapper request context object.
@@ -50,7 +50,7 @@ public class TilesRequestContextWrapper implements Request {
      *
      * @param context The request context to wrap.
      */
-    public TilesRequestContextWrapper(Request context) {
+    public RequestWrapper(Request context) {
         this.context = context;
     }
 
