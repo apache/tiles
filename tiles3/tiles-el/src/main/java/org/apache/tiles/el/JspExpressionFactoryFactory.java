@@ -25,8 +25,8 @@ import javax.el.ExpressionFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspFactory;
 
-import org.apache.tiles.awareness.ApplicationContextAware;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationContextAware;
 
 /**
  * Uses the JSP 2.1 {@link ExpressionFactory} to be used in Tiles.

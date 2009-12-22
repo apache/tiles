@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.awareness;
+package org.apache.tiles.request.util;
 
 import org.apache.tiles.request.ApplicationContext;
 
