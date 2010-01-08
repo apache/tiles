@@ -30,11 +30,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.tiles.request.AbstractViewRequest;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.util.RequestWrapper;
 
 /**
  * Context implementation used for executing tiles within a
@@ -42,9 +42,9 @@ import org.apache.tiles.request.util.RequestWrapper;
  *
  * @version $Rev$ $Date$
  */
-public class JspRequest extends RequestWrapper {
+public class JspRequest extends AbstractViewRequest {
 
-	private static final String[] SCOPES = {"page", "request", "session", "application"};
+    private static final String[] SCOPES = {"page", "request", "session", "application"};
 
     /**
      * The current page context.
@@ -101,30 +101,12 @@ public class JspRequest extends RequestWrapper {
 
     @Override
     public String[] getNativeScopes() {
-    	return SCOPES;
-    }
-
-    /**
-     * Dispatches a path. In fact it "includes" it!
-     *
-     * @param path The path to dispatch to.
-     * @throws IOException If something goes wrong during dispatching.
-     * @see org.apache.tiles.request.servlet.ServletRequest#dispatch(java.lang.String)
-     */
-    @Override
-    public void dispatch(String path) throws IOException {
-        include(path);
+        return SCOPES;
     }
 
     /** {@inheritDoc} */
     @Override
-
-    public void include(String path) throws IOException {
-        Boolean retValue = Boolean.valueOf(true);
-        pageContext
-                .setAttribute(
-                        org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-                        retValue, PageContext.REQUEST_SCOPE);
+    protected void doInclude(String path) throws IOException {
         try {
             pageContext.include(path, false);
         } catch (ServletException e) {

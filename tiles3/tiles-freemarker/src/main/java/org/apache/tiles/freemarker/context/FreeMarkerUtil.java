@@ -55,31 +55,6 @@ public final class FreeMarkerUtil {
     }
 
     /**
-     * Returns true if forced include of the result is needed.
-     *
-     * @param env The current FreeMarker environment.
-     * @return If <code>true</code> the include operation must be forced.
-     * @since 2.2.0
-     */
-    public static boolean isForceInclude(Environment env) {
-        return org.apache.tiles.request.servlet.ServletUtil
-                .isForceInclude(FreemarkerRequestUtil.getRequestHashModel(env).getRequest());
-    }
-
-    /**
-     * Sets the option that enables the forced include of the response.
-     *
-     * @param env The current FreeMarker environment.
-     * @param forceInclude If <code>true</code> the include operation must be
-     * forced.
-     * @since 2.2.0
-     */
-    public static void setForceInclude(Environment env, boolean forceInclude) {
-        org.apache.tiles.request.servlet.ServletUtil.setForceInclude(
-                FreemarkerRequestUtil.getRequestHashModel(env).getRequest(), forceInclude);
-    }
-
-    /**
      * Unwraps a TemplateModel to extract a string.
      *
      * @param model The TemplateModel to unwrap.

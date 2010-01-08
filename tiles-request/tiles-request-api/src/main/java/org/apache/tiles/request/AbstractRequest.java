@@ -1,36 +1,24 @@
 package org.apache.tiles.request;
 
-import java.util.Map;
-
-import org.apache.tiles.request.scope.ContextResolver;
-import org.apache.tiles.request.util.ApplicationAccess;
-
 public abstract class AbstractRequest implements Request{
+    /**
+     * Name of the attribute used to store the force-include option.
+     * @since 2.0.6
+     */
+    public static final String FORCE_INCLUDE_ATTRIBUTE_NAME =
+        "org.apache.tiles.servlet.context.ServletTilesRequestContext.FORCE_INCLUDE";
 
-    private ApplicationContext applicationContext;
 
-    public AbstractRequest(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+    protected void setForceInclude(boolean forceInclude) {
+        getContext("request").put(FORCE_INCLUDE_ATTRIBUTE_NAME, forceInclude);
     }
 
-    @Override
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    @Override
-    public Map<String, Object> getContext(String scope) {
-        ContextResolver resolver = ApplicationAccess.getContextResolver(applicationContext);
-        return resolver.getContext(this, scope);
-    }
-
-    @Override
-    public String[] getAvailableScopes() {
-        ContextResolver resolver = ApplicationAccess.getContextResolver(applicationContext);
-        return resolver.getAvailableScopes(this);
-    }
-
-    public Map<String, Object> getApplicationScope() {
-        return applicationContext.getApplicationScope();
+    protected boolean isForceInclude() {
+        Boolean forceInclude = (Boolean) getContext("request").get(
+                FORCE_INCLUDE_ATTRIBUTE_NAME);
+        if (forceInclude != null) {
+            return forceInclude;
+        }
+        return false;
     }
 }

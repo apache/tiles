@@ -23,21 +23,13 @@ package org.apache.tiles.compat.preparer;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tiles.AttributeContext;
-import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.servlet.ServletApplicationContext;
-import org.apache.tiles.request.servlet.ServletRequest;
-import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
+
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.request.Request;
+import org.easymock.EasyMock;
 
 /**
  * Tests {@link UrlPreparer}.
@@ -64,28 +56,15 @@ public class UrlPreparerTest extends TestCase {
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
-    public void testExecute() throws ServletException, IOException {
-        HttpServletRequest request = EasyMock
-                .createMock(HttpServletRequest.class);
-        request.setAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME, true);
-        HttpServletResponse response = EasyMock
-                .createMock(HttpServletResponse.class);
-        ServletContext servletContext = EasyMock
-                .createMock(ServletContext.class);
-        RequestDispatcher rd = EasyMock.createMock(RequestDispatcher.class);
-        ApplicationContext applicationContext = new ServletApplicationContext(
-                servletContext);
-        Request requestContext = new ServletRequest(
-                applicationContext, request, response);
+    public void testExecute() throws IOException {
+        Request requestContext = EasyMock.createMock(Request.class);
         AttributeContext attributeContext = EasyMock
                 .createMock(AttributeContext.class);
 
-        EasyMock.expect(request.getRequestDispatcher("/my/url.do"))
-                .andReturn(rd);
-        rd.include(request, response);
+        requestContext.include("/my/url.do");
         EasyMock
-                .replay(request, response, servletContext, attributeContext, rd);
+                .replay(requestContext, attributeContext);
         preparer.execute(requestContext, attributeContext);
-        EasyMock.verify(rd);
+        EasyMock.verify(requestContext, attributeContext);
     }
 }

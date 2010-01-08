@@ -117,8 +117,6 @@ public class InsertTemplateFMModelTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         HttpServletRequest request = createMock(HttpServletRequest.class);
-        request.setAttribute(org.apache.tiles.request.servlet.ServletUtil
-                .FORCE_INCLUDE_ATTRIBUTE_NAME, true);
         replay(request);
         HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
 

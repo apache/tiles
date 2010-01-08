@@ -27,6 +27,7 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.scope.ContextResolver;
@@ -37,7 +38,7 @@ import org.apache.tiles.request.scope.ContextResolver;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public class RequestWrapper implements Request {
+public class RequestWrapper extends AbstractRequest {
 
     /**
      * The wrapper request context object.
@@ -82,7 +83,7 @@ public class RequestWrapper implements Request {
 
     @Override
     public String[] getNativeScopes() {
-    	return null;
+        return null;
     }
 
     @Override

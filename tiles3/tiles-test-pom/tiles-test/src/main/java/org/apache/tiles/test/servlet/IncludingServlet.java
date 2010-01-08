@@ -42,12 +42,6 @@ public class IncludingServlet extends HttpServlet {
     private String include;
 
     /**
-     * Init parameter value, that indicates the path to include in case of
-     * error.
-     */
-    private String errorInclude;
-
-    /**
      * Initializes the servlet, reading the <code>include</code> init
      * parameter.
      *
@@ -60,7 +54,6 @@ public class IncludingServlet extends HttpServlet {
         super.init(config);
 
         include = config.getInitParameter("include");
-        errorInclude = config.getInitParameter("errorInclude");
     }
 
     /**
@@ -74,10 +67,6 @@ public class IncludingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        if (org.apache.tiles.request.servlet.ServletUtil.isForceInclude(request)) {
-            request.getRequestDispatcher(include).include(request, response);
-        } else {
-            request.getRequestDispatcher(errorInclude).include(request, response);
-        }
+        request.getRequestDispatcher(include).include(request, response);
     }
 }

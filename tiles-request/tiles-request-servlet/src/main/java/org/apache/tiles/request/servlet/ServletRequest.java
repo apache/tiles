@@ -32,7 +32,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.request.AbstractRequest;
+import org.apache.tiles.request.AbstractClientRequest;
 import org.apache.tiles.request.ApplicationContext;
 
 /**
@@ -40,9 +40,9 @@ import org.apache.tiles.request.ApplicationContext;
  *
  * @version $Rev$ $Date$
  */
-public class ServletRequest extends AbstractRequest {
+public class ServletRequest extends AbstractClientRequest {
 
-	private static final String[] SCOPES = {"request", "session", "application"};
+    private static final String[] SCOPES = {"request", "session", "application"};
 
     /**
      * The request object to use.
@@ -191,15 +191,33 @@ public class ServletRequest extends AbstractRequest {
 
     @Override
     public String[] getNativeScopes() {
-    	return SCOPES;
+        return SCOPES;
     }
 
     /** {@inheritDoc} */
-    public void dispatch(String path) throws IOException {
-        if (response.isCommitted() || ServletUtil.isForceInclude(request)) {
-            include(path);
+    public void doForward(String path) throws IOException {
+        if (response.isCommitted()) {
+            doInclude(path);
         } else {
             forward(path);
+        }
+    }
+
+
+    /** {@inheritDoc} */
+    public void doInclude(String path) throws IOException {
+        RequestDispatcher rd = request.getRequestDispatcher(path);
+
+        if (rd == null) {
+            throw new IOException("No request dispatcher returned for path '"
+                    + path + "'");
+        }
+
+        try {
+            rd.include(request, response);
+        } catch (ServletException ex) {
+            throw ServletUtil.wrapServletException(ex, "ServletException including path '"
+                    + path + "'.");
         }
     }
 
@@ -219,25 +237,6 @@ public class ServletRequest extends AbstractRequest {
 
         try {
             rd.forward(request, response);
-        } catch (ServletException ex) {
-            throw ServletUtil.wrapServletException(ex, "ServletException including path '"
-                    + path + "'.");
-        }
-    }
-
-
-    /** {@inheritDoc} */
-    public void include(String path) throws IOException {
-        ServletUtil.setForceInclude(request, true);
-        RequestDispatcher rd = request.getRequestDispatcher(path);
-
-        if (rd == null) {
-            throw new IOException("No request dispatcher returned for path '"
-                    + path + "'");
-        }
-
-        try {
-            rd.include(request, response);
         } catch (ServletException ex) {
             throw ServletUtil.wrapServletException(ex, "ServletException including path '"
                     + path + "'.");

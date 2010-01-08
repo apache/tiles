@@ -42,36 +42,6 @@ public final class PortletUtil {
     private PortletUtil() {
     }
 
-    /**
-     * Returns true if forced include of the result is needed.
-     *
-     * @param request The portlet request.
-     * @return If <code>true</code> the include operation must be forced.
-     * @since 2.0.6
-     */
-    public static boolean isForceInclude(PortletRequest request) {
-        Boolean retValue = (Boolean) request
-                .getAttribute(org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME);
-        return retValue != null && retValue.booleanValue();
-    }
-
-    /**
-     * Sets the option that enables the forced include of the response.
-     *
-     * @param request The portlet request.
-     * @param forceInclude If <code>true</code> the include operation must be
-     * forced.
-     * @since 2.0.6
-     */
-    public static void setForceInclude(PortletRequest request,
-            boolean forceInclude) {
-        Boolean retValue = Boolean.valueOf(forceInclude);
-        request
-                .setAttribute(
-                        org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-                        retValue);
-    }
-
     public static ApplicationContext getApplicationContext(
             PortletContext portletContext) {
         return (ApplicationContext) portletContext

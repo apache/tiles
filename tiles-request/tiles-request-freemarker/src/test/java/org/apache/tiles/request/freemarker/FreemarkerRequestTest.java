@@ -28,9 +28,13 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.FreemarkerRequest;
+import org.apache.tiles.request.scope.ContextResolver;
+import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -89,11 +93,21 @@ public class FreemarkerRequestTest {
     public void testDispatch() throws IOException {
         String path = "this way";
         Request enclosedRequest = createMock(Request.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ContextResolver resolver = createMock(ContextResolver.class);
+        Map<String, Object> applicationScope = new HashMap<String, Object>();
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
+
         enclosedRequest.include(path);
-        replay(enclosedRequest);
+        expect(enclosedRequest.getApplicationContext()).andReturn(applicationContext);
+        expect(applicationContext.getApplicationScope()).andReturn(applicationScope);
+        replay(enclosedRequest, applicationContext);
         context = new FreemarkerRequest(enclosedRequest, env);
+        expect(resolver.getContext(context, "request")).andReturn(requestScope);
+        replay(resolver);
         context.dispatch(path);
-        verify(enclosedRequest);
+        verify(enclosedRequest, applicationContext, resolver);
     }
 
     /**

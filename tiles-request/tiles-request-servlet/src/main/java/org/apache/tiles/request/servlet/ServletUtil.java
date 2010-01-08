@@ -25,7 +25,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.util.ApplicationAccess;
@@ -37,13 +36,6 @@ import org.apache.tiles.request.util.ApplicationAccess;
  * @since 3.0.0
  */
 public final class ServletUtil {
-
-    /**
-     * Name of the attribute used to store the force-include option.
-     * @since 2.0.6
-     */
-    public static final String FORCE_INCLUDE_ATTRIBUTE_NAME =
-        "org.apache.tiles.servlet.context.ServletTilesRequestContext.FORCE_INCLUDE";
 
     /**
      * Wraps a ServletException to create an IOException with the root cause if present.
@@ -66,35 +58,6 @@ public final class ServletUtil {
         }
 
         return retValue;
-    }
-
-    /**
-     * Returns true if forced include of the result is needed.
-     *
-     * @param request The HTTP request.
-     * @return If <code>true</code> the include operation must be forced.
-     * @since 2.0.6
-     */
-    public static boolean isForceInclude(HttpServletRequest request) {
-        Boolean retValue = (Boolean) request
-                .getAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME);
-        return retValue != null && retValue.booleanValue();
-    }
-
-    /**
-     * Sets the option that enables the forced include of the response.
-     *
-     * @param request The HTTP request.
-     * @param forceInclude If <code>true</code> the include operation must be
-     * forced.
-     * @since 2.0.6
-     */
-    public static void setForceInclude(HttpServletRequest request,
-            boolean forceInclude) {
-        Boolean retValue = Boolean.valueOf(forceInclude);
-        request.setAttribute(
-                ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-                retValue);
     }
 
     public static ApplicationContext getApplicationContext(ServletContext servletContext) {

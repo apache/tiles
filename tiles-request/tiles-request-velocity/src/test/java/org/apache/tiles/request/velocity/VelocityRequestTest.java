@@ -32,8 +32,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.velocity.context.Context;
@@ -70,20 +70,19 @@ public class VelocityRequestTest {
     }
 
     /**
-     * Tests {@link VelocityRequest#dispatch(String)}.
+     * Tests {@link VelocityRequest#doInclude(String)}.
      *
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
     @Test
-    public void testDispatch() throws IOException, ServletException {
+    public void testDoInclude() throws IOException, ServletException {
         String path = "this way";
         Request enclosedRequest = createMock(Request.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         RequestDispatcher dispatcher = createMock(RequestDispatcher.class);
 
-        servletRequest.setAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME, true);
         expect(servletRequest.getRequestDispatcher("this way")).andReturn(dispatcher);
         dispatcher.include(eq(servletRequest), isA(ExternalWriterHttpServletResponse.class));
         replay(servletRequest, response, dispatcher);
@@ -93,35 +92,7 @@ public class VelocityRequestTest {
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
-        context.dispatch(path);
-        verify(velocityContext, enclosedRequest, servletRequest, response, dispatcher);
-    }
-
-    /**
-     * Tests {@link VelocityRequest#include(String)}.
-     *
-     * @throws IOException If something goes wrong.
-     * @throws ServletException If something goes wrong.
-     */
-    @Test
-    public void testInclude() throws IOException, ServletException {
-        String path = "this way";
-        Request enclosedRequest = createMock(Request.class);
-        HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
-        HttpServletResponse response = createMock(HttpServletResponse.class);
-        RequestDispatcher dispatcher = createMock(RequestDispatcher.class);
-
-        servletRequest.setAttribute(ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME, true);
-        expect(servletRequest.getRequestDispatcher("this way")).andReturn(dispatcher);
-        dispatcher.include(eq(servletRequest), isA(ExternalWriterHttpServletResponse.class));
-        replay(servletRequest, response, dispatcher);
-        Object[] requestItems = new Object[] {servletRequest, response};
-
-        expect(enclosedRequest.getRequestObjects()).andReturn(requestItems);
-
-        replay(velocityContext, enclosedRequest);
-        context = new VelocityRequest(enclosedRequest, velocityContext, writer);
-        context.include(path);
+        context.doInclude(path);
         verify(velocityContext, enclosedRequest, servletRequest, response, dispatcher);
     }
 

@@ -21,7 +21,6 @@
 
 package org.apache.tiles.request.freemarker;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Locale;
@@ -30,10 +29,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.AbstractViewRequest;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ServletRequest;
-import org.apache.tiles.request.util.RequestWrapper;
 
 import freemarker.core.Environment;
 import freemarker.ext.servlet.HttpRequestHashModel;
@@ -44,9 +43,9 @@ import freemarker.ext.servlet.HttpRequestHashModel;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class FreemarkerRequest extends RequestWrapper {
+public class FreemarkerRequest extends AbstractViewRequest {
 
-	private static final String[] SCOPES = {"page"};
+    private static final String[] SCOPES = {"page"};
 
     /**
      * The FreeMarker current environment.
@@ -110,13 +109,7 @@ public class FreemarkerRequest extends RequestWrapper {
 
     @Override
     public String[] getNativeScopes() {
-    	return SCOPES;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void dispatch(String path) throws IOException {
-        include(path);
+        return SCOPES;
     }
 
     /** {@inheritDoc} */

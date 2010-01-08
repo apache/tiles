@@ -31,12 +31,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.AbstractViewRequest;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.util.RequestWrapper;
 import org.apache.velocity.context.Context;
 
 /**
@@ -45,9 +45,9 @@ import org.apache.velocity.context.Context;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class VelocityRequest extends RequestWrapper {
+public class VelocityRequest extends AbstractViewRequest {
 
-	private static final String[] SCOPES = {"page"};
+    private static final String[] SCOPES = {"page"};
 
     /**
      * The Velocity current context.
@@ -83,22 +83,15 @@ public class VelocityRequest extends RequestWrapper {
 
     @Override
     public String[] getNativeScopes() {
-    	return SCOPES;
+        return SCOPES;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void dispatch(String path) throws IOException {
-        include(path);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void include(String path) throws IOException {
+    protected void doInclude(String path) throws IOException {
         Object[] requestObjects = super.getRequestObjects();
         HttpServletRequest request = (HttpServletRequest) requestObjects[0];
         HttpServletResponse response = (HttpServletResponse) requestObjects[1];
-        ServletUtil.setForceInclude(request, true);
         RequestDispatcher rd = request.getRequestDispatcher(path);
 
         if (rd == null) {

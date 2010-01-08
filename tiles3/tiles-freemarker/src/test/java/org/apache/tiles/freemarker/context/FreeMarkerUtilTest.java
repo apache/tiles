@@ -101,56 +101,6 @@ public class FreeMarkerUtilTest {
 
     /**
      * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
-     * #isForceInclude(freemarker.core.Environment)}.
-     * @throws TemplateModelException If something goes wrong.
-     */
-    @Test
-    public void testIsForceInclude() throws TemplateModelException {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
-        HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-
-        expect(model.get("Request")).andReturn(requestModel);
-        expect(
-                request
-                        .getAttribute(org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME))
-                .andReturn(true);
-
-        replay(template, model, request, objectWrapper);
-        env = new Environment(template, model, writer);
-        locale = Locale.ITALY;
-        env.setLocale(locale);
-        assertTrue(isForceInclude(env));
-        verify(template, model, request, objectWrapper);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
-     * #setForceInclude(freemarker.core.Environment, boolean)}.
-     * @throws TemplateModelException If something goes wrong.
-     */
-    @Test
-    public void testSetForceInclude() throws TemplateModelException {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
-        HttpRequestHashModel requestModel = new HttpRequestHashModel(request, objectWrapper);
-
-        expect(model.get("Request")).andReturn(requestModel);
-        request
-                .setAttribute(
-                        org.apache.tiles.request.servlet.ServletUtil.FORCE_INCLUDE_ATTRIBUTE_NAME,
-                        true);
-
-        replay(template, model, request, objectWrapper);
-        env = new Environment(template, model, writer);
-        locale = Locale.ITALY;
-        env.setLocale(locale);
-        setForceInclude(env, true);
-        verify(template, model, request, objectWrapper);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.freemarker.context.FreeMarkerUtil
      * #setAttribute(freemarker.core.Environment, java.lang.String, java.lang.Object, java.lang.String)}.
      * @throws TemplateModelException If something goes wrong.
      */

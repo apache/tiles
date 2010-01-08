@@ -36,7 +36,7 @@ import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import org.apache.tiles.request.AbstractRequest;
+import org.apache.tiles.request.AbstractClientRequest;
 import org.apache.tiles.request.ApplicationContext;
 
 /**
@@ -44,7 +44,7 @@ import org.apache.tiles.request.ApplicationContext;
  *
  * @version $Rev$ $Date$
  */
-public class PortletRequest extends AbstractRequest {
+public class PortletRequest extends AbstractClientRequest {
 
     private static final String[] SCOPES = {"request", "portletSession", "session", "application"};
 
@@ -132,20 +132,9 @@ public class PortletRequest extends AbstractRequest {
             PortletContext context, javax.portlet.PortletRequest request,
             PortletResponse response) {
         super(applicationContext);
-        this.context = context;
-        initialize(request, response);
-    }
 
-    /**
-     * <p>Initialize (or reinitialize) this {@link PortletRequest} instance
-     * for the specified Portlet API objects.</p>
-     *
-     * @param request  The <code>PortletRequest</code> for this request
-     * @param response The <code>PortletResponse</code> for this request
-     */
-    public void initialize(javax.portlet.PortletRequest request,
-            PortletResponse response) {
         // Save the specified Portlet API object references
+        this.context = context;
         this.request = request;
         this.response = response;
 
@@ -262,28 +251,40 @@ public class PortletRequest extends AbstractRequest {
     }
 
     /** {@inheritDoc} */
-    public void dispatch(String path) throws IOException {
-        include(path);
+    public void doForward(String path) throws IOException {
+        if (((RenderResponse)response).isCommitted()) {
+            if (isRenderRequest) {
+                include(path);
+            } else {
+                throw new IOException("Cannot forward or include the path '"
+                        + path + "' because the response has been committed "
+                        + "and the request is not a RenderRequest");
+            }
+        } else {
+            forward(path);
+        }
     }
 
     /** {@inheritDoc} */
-    public void include(String path) throws IOException {
-        if (isRenderRequest) {
-            try {
-                PortletRequestDispatcher rd = context.getRequestDispatcher(path);
+    public void doInclude(String path) throws IOException {
+        if (!isRenderRequest) {
+            throw new IOException("Cannot include the path '" + path
+                    + "' because the request is not a RenderRequest");
+        }
+        try {
+            PortletRequestDispatcher rd = context.getRequestDispatcher(path);
 
-                if (rd == null) {
-                    throw new IOException(
-                            "No portlet request dispatcher returned for path '"
-                                    + path + "'");
-                }
-
-                rd.include((RenderRequest) request,
-                    (RenderResponse) response);
-            } catch (PortletException e) {
-                throw new IOException("PortletException while including path '"
-                        + path + "'.", e);
+            if (rd == null) {
+                throw new IOException(
+                        "No portlet request dispatcher returned for path '"
+                                + path + "'");
             }
+
+            rd.include((RenderRequest) request,
+                (RenderResponse) response);
+        } catch (PortletException e) {
+            throw new IOException("PortletException while including path '"
+                    + path + "'.", e);
         }
     }
 
@@ -333,5 +334,23 @@ public class PortletRequest extends AbstractRequest {
     /** {@inheritDoc} */
     public boolean isUserInRole(String role) {
         return request.isUserInRole(role);
+    }
+
+    /** {@inheritDoc} */
+    private void forward(String path) throws IOException {
+        try {
+            PortletRequestDispatcher rd = context.getRequestDispatcher(path);
+
+            if (rd == null) {
+                throw new IOException(
+                        "No portlet request dispatcher returned for path '"
+                                + path + "'");
+            }
+
+            rd.forward(request, response);
+        } catch (PortletException e) {
+            throw new IOException("PortletException while including path '"
+                    + path + "'.", e);
+        }
     }
 }

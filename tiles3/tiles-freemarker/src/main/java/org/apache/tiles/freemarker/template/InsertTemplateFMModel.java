@@ -75,7 +75,6 @@ public class InsertTemplateFMModel implements TemplateDirectiveModel {
                         .getApplicationContext(env), env);
         model.start(request);
         FreeMarkerUtil.evaluateBody(body);
-        FreeMarkerUtil.setForceInclude(env, true);
         model.end(FreeMarkerUtil.getAsString(parms.get("template")), FreeMarkerUtil.getAsString(parms.get("templateType")),
                 FreeMarkerUtil.getAsString(parms.get("templateExpression")),
                 FreeMarkerUtil.getAsString(parms.get("role")),
