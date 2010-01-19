@@ -21,9 +21,9 @@
  *#
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
-    <td  bgcolor="Blue"><strong>$tiles.getAsString({"name":"title"})</strong></td>
+    <td  bgcolor="Blue"><strong>#tiles_getAsString({"name":"title"})#end</strong></td>
   </tr>
   <tr>
-    <td>$tiles.insertAttribute({"name":"header"})</td>
+    <td>#tiles_insertAttribute({"name":"header"})#end</td>
   </tr>
 </table>

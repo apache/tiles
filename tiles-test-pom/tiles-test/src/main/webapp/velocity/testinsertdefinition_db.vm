@@ -20,4 +20,4 @@
  *
  *#
 $tiles.setCurrentContainer("db")
-$tiles.insertDefinition({"name":"test.definition"})
+#tiles_insertDefinition({"name":"test.definition"})#end

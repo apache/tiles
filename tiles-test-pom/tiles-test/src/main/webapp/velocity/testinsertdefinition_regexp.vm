@@ -20,5 +20,5 @@
  *
  *#
 $tiles.setCurrentContainer("alternate")
-$tiles.insertDefinition({"name":"velocity.test.regexp.definitionOne.messageHello"})
-$tiles.insertDefinition({"name":"velocity.test.regexp.definitionTwo.messageBye"})
+#tiles_insertDefinition({"name":"velocity.test.regexp.definitionOne.messageHello"})#end
+#tiles_insertDefinition({"name":"velocity.test.regexp.definitionTwo.messageBye"})#end

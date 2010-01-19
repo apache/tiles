@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.test.definition", "template":"/velocity/layout_override.vm"})
+#tiles_insertDefinition({"name":"velocity.test.definition", "template":"/velocity/layout_override.vm"})#end

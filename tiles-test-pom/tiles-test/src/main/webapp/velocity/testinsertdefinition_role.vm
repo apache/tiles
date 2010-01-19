@@ -19,5 +19,5 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.test.definition.appears.configured"})
-$tiles.insertDefinition({"name":"velocity.test.definition.does_not_appear.configured"})
+#tiles_insertDefinition({"name":"velocity.test.definition.appears.configured"})#end
+#tiles_insertDefinition({"name":"velocity.test.definition.does_not_appear.configured"})#end

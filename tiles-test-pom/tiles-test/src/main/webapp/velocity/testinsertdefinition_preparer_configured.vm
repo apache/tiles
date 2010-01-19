@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.preparer.definition.configured"})
+#tiles_insertDefinition({"name":"velocity.preparer.definition.configured"})#end

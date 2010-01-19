@@ -19,8 +19,8 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition().start({"name":"velocity.test.putAttributes"})
-  $tiles.putListAttribute().start({"name":"list", "inherit":true})
-    $tiles.addAttribute({"value":"valueFour", "type":"string"})
-  $tiles.putListAttribute().end()
-$tiles.insertDefinition().end()
+#tiles_insertDefinition({"name":"velocity.test.putAttributes"})
+  #tiles_putListAttribute({"name":"list", "inherit":true})
+    #tiles_addAttribute({"value":"valueFour", "type":"string"})#end
+  #end
+#end

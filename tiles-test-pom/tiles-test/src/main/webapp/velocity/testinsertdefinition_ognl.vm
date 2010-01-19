@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.test.composite.ognl.definition"})
+#tiles_insertDefinition({"name":"velocity.test.composite.ognl.definition"})#end

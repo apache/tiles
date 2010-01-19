@@ -22,6 +22,7 @@
 package org.apache.tiles.velocity.context;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
@@ -32,6 +33,9 @@ import org.apache.tiles.ArrayStack;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
+import org.apache.velocity.runtime.parser.node.ASTBlock;
+import org.apache.velocity.runtime.parser.node.ASTMap;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * Utilities for Velocity usage in Tiles.
@@ -134,5 +138,35 @@ public final class VelocityUtil {
         } else if ("application".equals(scope)) {
             servletContext.setAttribute(name, obj);
         }
+    }
+
+    public static String getBodyAsString(InternalContextAdapter context, Node node)
+            throws IOException {
+        ASTBlock block = (ASTBlock) node.jjtGetChild(1);
+        StringWriter stringWriter = new StringWriter();
+        block.render(context, stringWriter);
+        stringWriter.close();
+        String body = stringWriter.toString();
+        if (body != null) {
+            body = body.replaceAll("^\\s*|\\s*$", "");
+            if (body.length() <= 0) {
+                body = null;
+            }
+        }
+        return body;
+    }
+
+    public static void evaluateBody(InternalContextAdapter context, Writer writer,
+            Node node) throws IOException {
+        ASTBlock block = (ASTBlock) node.jjtGetChild(1);
+        block.render(context, writer);
+    }
+
+    public static Map<String, Object> getParameters(InternalContextAdapter context,
+            Node node) {
+        ASTMap astMap = (ASTMap) node.jjtGetChild(0);
+        Map<String, Object> params = (Map<String, Object>) astMap
+                .value(context);
+        return params;
     }
 }

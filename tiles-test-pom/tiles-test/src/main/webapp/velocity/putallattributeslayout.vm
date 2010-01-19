@@ -19,7 +19,7 @@
  * under the License.
  *
  *#
-$tiles.importAttribute({})
+#tiles_importAttribute({})
 
 ${one}
 <ul>

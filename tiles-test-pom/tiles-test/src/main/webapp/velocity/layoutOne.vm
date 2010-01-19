@@ -24,12 +24,12 @@
     <td  bgcolor="yellow">This is layout one.</td>
   </tr>
   <tr>
-    <td  bgcolor="Blue"><strong>$tiles.getAsString({"name":"title"})</strong></td>
+    <td  bgcolor="Blue"><strong>#tiles_getAsString({"name":"title"})#end</strong></td>
   </tr>
   <tr>
-    <td>$tiles.insertAttribute({"name":"header"})</td>
+    <td>#tiles_insertAttribute({"name":"header"})#end</td>
   </tr>
   <tr>
-    <td>$tiles.insertAttribute({"name":"body"})</td>
+    <td>#tiles_insertAttribute({"name":"body"})#end</td>
   </tr>
-</table>           
+</table>

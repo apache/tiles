@@ -19,5 +19,5 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.test.definition.appears", "role":"goodrole"})
-$tiles.insertDefinition({"name":"velocity.test.definition.does_not_appear", "role":"badrole"})
+#tiles_insertDefinition({"name":"velocity.test.definition.appears", "role":"goodrole"})#end
+#tiles_insertDefinition({"name":"velocity.test.definition.does_not_appear", "role":"badrole"})#end

@@ -20,4 +20,4 @@
  *
  *#
 $tiles.setCurrentContainer("alternate")
-$tiles.insertDefinition({"name" : "velocity.test.definition.alt"})
+#tiles_insertDefinition({"name" : "velocity.test.definition.alt"})#end

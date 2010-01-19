@@ -19,8 +19,8 @@
  * under the License.
  *
  *#
-$tiles.insertTemplate().start({"template":"/velocity/layout.vm", "flush":true})
-  $tiles.putAttribute({"name":"title",  "value":"This is the title."})
-  $tiles.putAttribute({"name":"header", "value":"/velocity/header.vm", "type":"velocity"})
-  $tiles.putAttribute({"name":"body",   "value":"/velocity/body.vm", "type":"velocity"})
-$tiles.insertTemplate().end()
+#tiles_insertTemplate({"template":"/velocity/layout.vm", "flush":true})
+  #tiles_putAttribute({"name":"title",  "value":"This is the title."})#end
+  #tiles_putAttribute({"name":"header", "value":"/velocity/header.vm", "type":"velocity"})#end
+  #tiles_putAttribute({"name":"body",   "value":"/velocity/body.vm", "type":"velocity"})#end
+#end

@@ -20,9 +20,9 @@
  *
  *#
 Overridden content:<br/>
-$tiles.insertDefinition().start({"name":"velocity.test.definition"})
-  $tiles.putAttribute({"name":"body", "value":"/velocity/override.vm", "type":"velocity"})
-$tiles.insertDefinition().end()
+#tiles_insertDefinition({"name":"velocity.test.definition"})
+  #tiles_putAttribute({"name":"body", "value":"/velocity/override.vm", "type":"velocity"})#end
+#end
 <br/>
 Not overridden content:<br/>
-$tiles.insertDefinition({"name":"velocity.test.definition"})
+#tiles_insertDefinition({"name":"velocity.test.definition"})#end

@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.test.definition.flush", "flush":"true"})
+#tiles_insertDefinition({"name":"velocity.test.definition.flush", "flush":"true"})#end

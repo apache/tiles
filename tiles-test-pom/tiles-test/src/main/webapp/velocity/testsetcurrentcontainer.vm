@@ -20,6 +20,6 @@
  *
  *#
 $tiles.setCurrentContainer("alternate")
-$tiles.insertDefinition({"name":"velocity.test.definition"})
+#tiles_insertDefinition({"name":"velocity.test.definition"})#end
 $tiles.setCurrentContainer(null)
-$tiles.insertDefinition({"name":"velocity.test.definition"})
+#tiles_insertDefinition({"name":"velocity.test.definition"})#end
