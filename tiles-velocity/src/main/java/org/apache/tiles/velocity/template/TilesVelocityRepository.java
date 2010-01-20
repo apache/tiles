@@ -41,7 +41,9 @@ import org.apache.tiles.template.PutListAttributeModel;
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
+ * @deprecated Use Velocity directives.
  */
+@Deprecated
 public class TilesVelocityRepository {
 
     /**
