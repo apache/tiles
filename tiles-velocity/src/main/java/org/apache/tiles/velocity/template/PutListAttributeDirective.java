@@ -63,7 +63,7 @@ public class PutListAttributeDirective extends BlockDirective {
 
     /** {@inheritDoc} */
     @Override
-    public void start(InternalContextAdapter context, Writer writer,
+    protected void start(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, HttpServletRequest request,
             HttpServletResponse response, ServletContext servletContext) {
         model.start(ServletUtil.getComposeStack(request), (String) params

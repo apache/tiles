@@ -78,7 +78,7 @@ public abstract class BodyBlockDirective extends Directive {
      * @param servletContext The servlet context.
      * @since 2.2.2
      */
-    public abstract void start(InternalContextAdapter context, Writer writer,
+    protected abstract void start(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, HttpServletRequest request,
             HttpServletResponse response, ServletContext servletContext);
 
@@ -95,7 +95,7 @@ public abstract class BodyBlockDirective extends Directive {
      * @throws IOException If something goes wrong when finishing this directive.
      * @since 2.2.2
      */
-    public abstract void end(InternalContextAdapter context, Writer writer,
+    protected abstract void end(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, String body,
             HttpServletRequest request, HttpServletResponse response, ServletContext servletContext)
             throws IOException;
