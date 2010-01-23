@@ -48,6 +48,25 @@ public class AddListAttributeDirective extends BlockDirective {
      */
     private AddListAttributeModel model = new AddListAttributeModel();
 
+    /**
+     * Default constructor.
+     *
+     * @since 2.2.2
+     */
+    public AddListAttributeDirective() {
+        // Does nothing.
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param model The used model.
+     * @since 2.2.2
+     */
+    public AddListAttributeDirective(AddListAttributeModel model) {
+        this.model = model;
+    }
+
     /** {@inheritDoc} */
     @Override
     public String getName() {
@@ -56,7 +75,7 @@ public class AddListAttributeDirective extends BlockDirective {
 
     /** {@inheritDoc} */
     @Override
-    public void end(InternalContextAdapter context, Writer writer,
+    protected void end(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, HttpServletRequest request,
             HttpServletResponse response, ServletContext servletContext) {
         model.end(ServletUtil.getComposeStack(request));

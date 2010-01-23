@@ -21,9 +21,9 @@
 
 package org.apache.tiles.velocity.template;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
@@ -37,21 +37,22 @@ import javax.servlet.http.HttpSession;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.ImportAttributeModel;
-import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Renderable;
+import org.apache.velocity.runtime.parser.node.ASTMap;
+import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.tools.view.ViewToolContext;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link ImportAttributeVModel}.
+ * Tests {@link ImportAttributeDirective}.
  */
-public class ImportAttributeVModelTest {
+public class ImportAttributeDirectiveTest {
 
     /**
      * The model to test.
      */
-    private ImportAttributeVModel model;
+    private ImportAttributeDirective model;
 
     /**
      * The template model.
@@ -59,64 +60,65 @@ public class ImportAttributeVModelTest {
     private ImportAttributeModel tModel;
 
     /**
-     * The servlet context.
-     */
-    private ServletContext servletContext;
-
-    /**
      * Sets up the model to test.
      */
     @Before
     public void setUp() {
         tModel = createMock(ImportAttributeModel.class);
-        servletContext = createMock(ServletContext.class);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.ImportAttributeVModel
-     * #execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * org.apache.velocity.context.Context, java.util.Map)}.
-     * @throws IOException If something goes wrong.
+     * Test method for {@link ImportAttributeDirective#render(InternalContextAdapter, Writer, Node)}.
      */
     @Test
-    public void testExecutePage() throws IOException {
+    public void testExecutePage() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
-        Context velocityContext = createMock(Context.class);
+        ServletContext servletContext = createMock(ServletContext.class);
+        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
+        ViewToolContext viewContext = createMock(ViewToolContext.class);
+        ASTMap astMap = createMock(ASTMap.class);
+        Node node = createMock(Node.class);
         TilesContainer container = createMock(TilesContainer.class);
-        InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
         Map<String, Object> params = createParams();
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put("one", "value1");
         attributes.put("two", "value2");
 
+        expect(velocityContext.getInternalUserContext()).andReturn(viewContext);
+        expect(viewContext.getRequest()).andReturn(request);
+        expect(viewContext.getResponse()).andReturn(response);
+        expect(viewContext.getServletContext()).andReturn(servletContext);
+        expect(node.jjtGetChild(0)).andReturn(astMap);
+        expect(astMap.value(velocityContext)).andReturn(params);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(container, "myName", "myToName", false,
                 velocityContext, request, response)).andReturn(attributes);
-        expect(internalContextAdapter.put("one", "value1")).andReturn("value1");
-        expect(internalContextAdapter.put("two", "value2")).andReturn("value2");
+        expect(velocityContext.put("one", "value1")).andReturn("value1");
+        expect(velocityContext.put("two", "value2")).andReturn("value2");
 
-        replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        replay(tModel, servletContext, request, response, velocityContext, container, node, viewContext, astMap);
         initializeModel();
-        Renderable renderable = model.execute(request, response, velocityContext, params);
-        renderable.render(internalContextAdapter, writer);
-        verify(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        model.render(velocityContext, writer, node);
+        verify(tModel, servletContext, request, response, velocityContext, container, node, viewContext, astMap);
     }
 
     /**
      * Test method for {@link org.apache.tiles.velocity.template.ImportAttributeVModel
      * #execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
      * org.apache.velocity.context.Context, java.util.Map)}.
-     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testExecuteRequest() throws IOException {
+    public void testExecuteRequest() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
-        Context velocityContext = createMock(Context.class);
+        ServletContext servletContext = createMock(ServletContext.class);
+        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
+        ViewToolContext viewContext = createMock(ViewToolContext.class);
+        ASTMap astMap = createMock(ASTMap.class);
+        Node node = createMock(Node.class);
         TilesContainer container = createMock(TilesContainer.class);
-        InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
         Map<String, Object> params = createParams();
         params.put("scope", "request");
@@ -124,33 +126,40 @@ public class ImportAttributeVModelTest {
         attributes.put("one", "value1");
         attributes.put("two", "value2");
 
+        expect(velocityContext.getInternalUserContext()).andReturn(viewContext);
+        expect(viewContext.getRequest()).andReturn(request);
+        expect(viewContext.getResponse()).andReturn(response);
+        expect(viewContext.getServletContext()).andReturn(servletContext);
+        expect(node.jjtGetChild(0)).andReturn(astMap);
+        expect(astMap.value(velocityContext)).andReturn(params);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(container, "myName", "myToName", false,
                 velocityContext, request, response)).andReturn(attributes);
         request.setAttribute("one", "value1");
         request.setAttribute("two", "value2");
 
-        replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        replay(tModel, servletContext, request, response, velocityContext, container, node, viewContext, astMap);
         initializeModel();
-        Renderable renderable = model.execute(request, response, velocityContext, params);
-        renderable.render(internalContextAdapter, writer);
-        verify(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        model.render(velocityContext, writer, node);
+        verify(tModel, servletContext, request, response, velocityContext, container, node, viewContext, astMap);
     }
 
     /**
      * Test method for {@link org.apache.tiles.velocity.template.ImportAttributeVModel
      * #execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
      * org.apache.velocity.context.Context, java.util.Map)}.
-     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testExecuteSession() throws IOException {
+    public void testExecuteSession() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         HttpSession session = createMock(HttpSession.class);
-        Context velocityContext = createMock(Context.class);
+        ServletContext servletContext = createMock(ServletContext.class);
+        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
+        ViewToolContext viewContext = createMock(ViewToolContext.class);
+        ASTMap astMap = createMock(ASTMap.class);
+        Node node = createMock(Node.class);
         TilesContainer container = createMock(TilesContainer.class);
-        InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
         Map<String, Object> params = createParams();
         params.put("scope", "session");
@@ -158,6 +167,12 @@ public class ImportAttributeVModelTest {
         attributes.put("one", "value1");
         attributes.put("two", "value2");
 
+        expect(velocityContext.getInternalUserContext()).andReturn(viewContext);
+        expect(viewContext.getRequest()).andReturn(request);
+        expect(viewContext.getResponse()).andReturn(response);
+        expect(viewContext.getServletContext()).andReturn(servletContext);
+        expect(node.jjtGetChild(0)).andReturn(astMap);
+        expect(astMap.value(velocityContext)).andReturn(params);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(container, "myName", "myToName", false,
                 velocityContext, request, response)).andReturn(attributes);
@@ -165,26 +180,27 @@ public class ImportAttributeVModelTest {
         session.setAttribute("one", "value1");
         session.setAttribute("two", "value2");
 
-        replay(tModel, servletContext, request, response, session, velocityContext, container, internalContextAdapter);
+        replay(tModel, servletContext, request, response, velocityContext, container, node, viewContext, astMap);
         initializeModel();
-        Renderable renderable = model.execute(request, response, velocityContext, params);
-        renderable.render(internalContextAdapter, writer);
-        verify(tModel, servletContext, request, response, session, velocityContext, container, internalContextAdapter);
+        model.render(velocityContext, writer, node);
+        verify(tModel, servletContext, request, response, velocityContext, container, node, viewContext, astMap);
     }
 
     /**
      * Test method for {@link org.apache.tiles.velocity.template.ImportAttributeVModel
      * #execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
      * org.apache.velocity.context.Context, java.util.Map)}.
-     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testExecuteApplication() throws IOException {
+    public void testExecuteApplication() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
-        Context velocityContext = createMock(Context.class);
+        ServletContext servletContext = createMock(ServletContext.class);
+        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
+        ViewToolContext viewContext = createMock(ViewToolContext.class);
+        ASTMap astMap = createMock(ASTMap.class);
+        Node node = createMock(Node.class);
         TilesContainer container = createMock(TilesContainer.class);
-        InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         Writer writer = new StringWriter();
         Map<String, Object> params = createParams();
         params.put("scope", "application");
@@ -192,24 +208,29 @@ public class ImportAttributeVModelTest {
         attributes.put("one", "value1");
         attributes.put("two", "value2");
 
+        expect(velocityContext.getInternalUserContext()).andReturn(viewContext);
+        expect(viewContext.getRequest()).andReturn(request);
+        expect(viewContext.getResponse()).andReturn(response);
+        expect(viewContext.getServletContext()).andReturn(servletContext);
+        expect(node.jjtGetChild(0)).andReturn(astMap);
+        expect(astMap.value(velocityContext)).andReturn(params);
         expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(tModel.getImportedAttributes(container, "myName", "myToName", false,
                 velocityContext, request, response)).andReturn(attributes);
         servletContext.setAttribute("one", "value1");
         servletContext.setAttribute("two", "value2");
 
-        replay(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        replay(tModel, servletContext, request, response, velocityContext, container, node, viewContext, astMap);
         initializeModel();
-        Renderable renderable = model.execute(request, response, velocityContext, params);
-        renderable.render(internalContextAdapter, writer);
-        verify(tModel, servletContext, request, response, velocityContext, container, internalContextAdapter);
+        model.render(velocityContext, writer, node);
+        verify(tModel, servletContext, request, response, velocityContext, container, node, viewContext, astMap);
     }
 
     /**
      * Initializes the model.
      */
     private void initializeModel() {
-        model = new ImportAttributeVModel(tModel, servletContext);
+        model = new ImportAttributeDirective(tModel);
     }
 
     /**

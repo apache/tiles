@@ -51,6 +51,25 @@ public class InsertDefinitionDirective extends BlockDirective {
      */
     private InsertDefinitionModel model = new InsertDefinitionModel();
 
+    /**
+     * Default constructor.
+     *
+     * @since 2.2.2
+     */
+    public InsertDefinitionDirective() {
+        // Does nothing.
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param model The used model.
+     * @since 2.2.2
+     */
+    public InsertDefinitionDirective(InsertDefinitionModel model) {
+        this.model = model;
+    }
+
     /** {@inheritDoc} */
     @Override
     public String getName() {
@@ -59,7 +78,7 @@ public class InsertDefinitionDirective extends BlockDirective {
 
     /** {@inheritDoc} */
     @Override
-    public void end(InternalContextAdapter context, Writer writer,
+    protected void end(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, HttpServletRequest request,
             HttpServletResponse response, ServletContext servletContext) {
         model.end(ServletUtil.getCurrentContainer(request,

@@ -51,6 +51,25 @@ public class DefinitionDirective extends BlockDirective {
      */
     private DefinitionModel model = new DefinitionModel();
 
+    /**
+     * Default constructor.
+     *
+     * @since 2.2.2
+     */
+    public DefinitionDirective() {
+        // Does nothing.
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param model The used model.
+     * @since 2.2.2
+     */
+    public DefinitionDirective(DefinitionModel model) {
+        this.model = model;
+    }
+
     /** {@inheritDoc} */
     @Override
     public String getName() {
@@ -59,7 +78,7 @@ public class DefinitionDirective extends BlockDirective {
 
     /** {@inheritDoc} */
     @Override
-    public void end(InternalContextAdapter context, Writer writer,
+    protected void end(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, HttpServletRequest request,
             HttpServletResponse response, ServletContext servletContext) {
         model.end((MutableTilesContainer) ServletUtil.getCurrentContainer(

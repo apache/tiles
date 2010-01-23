@@ -48,6 +48,25 @@ public class AddAttributeDirective extends BodyBlockDirective {
      */
     private AddAttributeModel model = new AddAttributeModel();
 
+    /**
+     * Default constructor.
+     *
+     * @since 2.2.2
+     */
+    public AddAttributeDirective() {
+        // Does nothing.
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param model The used model.
+     * @since 2.2.2
+     */
+    public AddAttributeDirective(AddAttributeModel model) {
+        this.model = model;
+    }
+
     /** {@inheritDoc} */
     @Override
     public String getName() {
@@ -56,7 +75,7 @@ public class AddAttributeDirective extends BodyBlockDirective {
 
     /** {@inheritDoc} */
     @Override
-    public void end(InternalContextAdapter context, Writer writer,
+    protected void end(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, String body,
             HttpServletRequest request, HttpServletResponse response,
             ServletContext servletContext) {

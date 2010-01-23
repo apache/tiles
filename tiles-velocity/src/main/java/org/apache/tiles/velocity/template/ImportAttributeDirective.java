@@ -52,6 +52,25 @@ public class ImportAttributeDirective extends Directive {
      */
     private ImportAttributeModel model = new ImportAttributeModel();
 
+    /**
+     * Default constructor.
+     *
+     * @since 2.2.2
+     */
+    public ImportAttributeDirective() {
+        // Does nothing.
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param model The used model.
+     * @since 2.2.2
+     */
+    public ImportAttributeDirective(ImportAttributeModel model) {
+        this.model = model;
+    }
+
     /** {@inheritDoc} */
     @Override
     public String getName() {

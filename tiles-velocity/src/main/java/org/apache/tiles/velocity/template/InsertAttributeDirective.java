@@ -56,6 +56,25 @@ public class InsertAttributeDirective extends BlockDirective {
     private InsertAttributeModel model = new InsertAttributeModel(
             new DefaultAttributeResolver());
 
+    /**
+     * Default constructor.
+     *
+     * @since 2.2.2
+     */
+    public InsertAttributeDirective() {
+        // Does nothing.
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param model The used model.
+     * @since 2.2.2
+     */
+    public InsertAttributeDirective(InsertAttributeModel model) {
+        this.model = model;
+    }
+
     /** {@inheritDoc} */
     @Override
     public String getName() {
@@ -64,7 +83,7 @@ public class InsertAttributeDirective extends BlockDirective {
 
     /** {@inheritDoc} */
     @Override
-    public void end(InternalContextAdapter context, Writer writer,
+    protected void end(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, HttpServletRequest request,
             HttpServletResponse response, ServletContext servletContext)
             throws IOException {
@@ -86,7 +105,7 @@ public class InsertAttributeDirective extends BlockDirective {
                 .get("defaultValue"), (String) params.get("defaultValueRole"),
                 (String) params.get("defaultValueType"), (String) params
                         .get("name"), (Attribute) params.get("value"), context,
-                request, response);
+                request, response, writer);
     }
 
 }

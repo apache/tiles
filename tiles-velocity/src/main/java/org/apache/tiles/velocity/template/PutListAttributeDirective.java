@@ -49,9 +49,28 @@ public class PutListAttributeDirective extends BlockDirective {
      */
     private PutListAttributeModel model = new PutListAttributeModel();
 
+    /**
+     * Default constructor.
+     *
+     * @since 2.2.2
+     */
+    public PutListAttributeDirective() {
+        // Does nothing.
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param model The used model.
+     * @since 2.2.2
+     */
+    public PutListAttributeDirective(PutListAttributeModel model) {
+        this.model = model;
+    }
+
     /** {@inheritDoc} */
     @Override
-    public void end(InternalContextAdapter context, Writer writer,
+    protected void end(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, HttpServletRequest request,
             HttpServletResponse response, ServletContext servletContext) {
         model.end(ServletUtil.getCurrentContainer(request, servletContext),

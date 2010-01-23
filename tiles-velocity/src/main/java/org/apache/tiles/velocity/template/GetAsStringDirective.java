@@ -56,6 +56,25 @@ public class GetAsStringDirective extends BlockDirective {
     private GetAsStringModel model = new GetAsStringModel(
             new DefaultAttributeResolver());
 
+    /**
+     * Default constructor.
+     *
+     * @since 2.2.2
+     */
+    public GetAsStringDirective() {
+        // Does nothing.
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param model The used model.
+     * @since 2.2.2
+     */
+    public GetAsStringDirective(GetAsStringModel model) {
+        this.model = model;
+    }
+
     /** {@inheritDoc} */
     @Override
     public String getName() {
@@ -64,7 +83,7 @@ public class GetAsStringDirective extends BlockDirective {
 
     /** {@inheritDoc} */
     @Override
-    public void end(InternalContextAdapter context, Writer writer,
+    protected void end(InternalContextAdapter context, Writer writer,
             Map<String, Object> params, HttpServletRequest request,
             HttpServletResponse response, ServletContext servletContext)
             throws IOException {

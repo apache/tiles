@@ -23,9 +23,8 @@ package org.apache.tiles.velocity.template;
 
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
 
-import java.io.IOException;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,20 +36,19 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.tiles.template.DefinitionModel;
-import org.apache.tiles.velocity.context.VelocityUtil;
-import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapter;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link DefinitionVModel}.
+ * Tests {@link DefinitionDirective}.
  */
-public class DefinitionVModelTest {
+public class DefinitionDirectiveTest {
 
     /**
      * The model to test.
      */
-    private DefinitionVModel model;
+    private DefinitionDirective model;
 
     /**
      * The template model.
@@ -58,80 +56,49 @@ public class DefinitionVModelTest {
     private DefinitionModel tModel;
 
     /**
-     * The servlet context.
-     */
-    private ServletContext servletContext;
-
-    /**
      * Sets up the model to test.
      */
     @Before
     public void setUp() {
         tModel = createMock(DefinitionModel.class);
-        servletContext = createMock(ServletContext.class);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.DefinitionVModel
-     * #execute(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * org.apache.velocity.context.Context, java.util.Map)}.
-     * @throws IOException If something goes wrong.
-     */
-    @Test
-    public void testExecute() throws IOException {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        HttpServletResponse response = createMock(HttpServletResponse.class);
-        Context velocityContext = createMock(Context.class);
-        MutableTilesContainer container = createMock(MutableTilesContainer.class);
-        Map<String, Object> params = createParams();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
-
-        expect(request.getAttribute(ServletUtil.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
-                .andReturn(composeStack);
-        tModel.execute(container, composeStack, "myName", "myTemplate", "myRole", "myExtends", "myPreparer",
-                velocityContext, request, response);
-
-        replay(tModel, servletContext, request, response, velocityContext, container);
-        initializeModel();
-        assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.execute(request, response, velocityContext, params));
-        verify(tModel, servletContext, request, response, velocityContext, container);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.velocity.template.DefinitionVModel
-     * #start(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * org.apache.velocity.context.Context, java.util.Map)}.
+     * Test method for {@link DefinitionDirective#start(InternalContextAdapter,
+     * Writer, Map, HttpServletRequest, HttpServletResponse, ServletContext)}.
      */
     @Test
     public void testStart() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
-        Context velocityContext = createMock(Context.class);
+        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
         Map<String, Object> params = createParams();
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        Writer writer = createMock(Writer.class);
+        ServletContext servletContext = createMock(ServletContext.class);
 
         expect(request.getAttribute(ServletUtil.COMPOSE_STACK_ATTRIBUTE_NAME))
                 .andReturn(composeStack);
         tModel.start(composeStack, "myName", "myTemplate", "myRole", "myExtends", "myPreparer");
 
-        replay(tModel, servletContext, request, response, velocityContext);
+        replay(tModel, request, response, velocityContext, writer, servletContext);
         initializeModel();
-        model.start(request, response, velocityContext, params);
-        verify(tModel, servletContext, request, response, velocityContext);
+        model.start(velocityContext, writer, params, request, response, servletContext);
+        verify(tModel, request, response, velocityContext, writer, servletContext);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.DefinitionVModel
-     * #end(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * org.apache.velocity.context.Context)}.
-     * @throws IOException If something goes wrong.
+     * Test method for {@link DefinitionDirective#end(InternalContextAdapter,
+     * Writer, Map, HttpServletRequest, HttpServletResponse, ServletContext)}.
      */
     @Test
-    public void testEnd() throws IOException {
+    public void testEnd() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
-        Context velocityContext = createMock(Context.class);
+        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
+        Writer writer = createMock(Writer.class);
+        ServletContext servletContext = createMock(ServletContext.class);
+        Map<String, Object> params = createParams();
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
 
@@ -140,17 +107,17 @@ public class DefinitionVModelTest {
                 .andReturn(composeStack);
         tModel.end(container, composeStack, velocityContext, request, response);
 
-        replay(tModel, servletContext, request, response, velocityContext, container);
+        replay(tModel, request, response, velocityContext, writer, servletContext, container);
         initializeModel();
-        assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));
-        verify(tModel, servletContext, request, response, velocityContext, container);
+        model.end(velocityContext, writer, params, request, response, servletContext);
+        verify(tModel, request, response, velocityContext, writer, servletContext, container);
     }
 
     /**
      * Initializes the model.
      */
     private void initializeModel() {
-        model = new DefinitionVModel(tModel, servletContext);
+        model = new DefinitionDirective(tModel);
     }
 
     /**
