@@ -61,7 +61,7 @@ public abstract class BodyBlockDirective extends Directive {
         HttpServletRequest request = viewContext.getRequest();
         HttpServletResponse response = viewContext.getResponse();
         ServletContext servletContext = viewContext.getServletContext();
-        start(context, null, params, request, response, servletContext);
+        start(context, writer, params, request, response, servletContext);
         String body = VelocityUtil.getBodyAsString(context, node);
         end(context, writer, params, body, request, response, servletContext);
         return true;

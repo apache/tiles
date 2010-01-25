@@ -22,18 +22,23 @@
 package org.apache.tiles.velocity.context;
 
 import static org.apache.tiles.velocity.context.VelocityUtil.*;
-import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.parser.node.ASTBlock;
+import org.apache.velocity.runtime.parser.node.ASTMap;
+import org.apache.velocity.runtime.parser.node.Node;
 import org.junit.Test;
 
 /**
@@ -47,11 +52,6 @@ public class VelocityUtilTest {
     private static final Integer DUMMY_VALUE = new Integer(10);
 
     /**
-     * The parameter stack key.
-     */
-    private static final String PARAMETER_MAP_STACK_KEY = "org.apache.tiles.velocity.PARAMETER_MAP_STACK";
-
-    /**
      * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil
      * #toSimpleBoolean(java.lang.Boolean, boolean)}.
      */
@@ -63,34 +63,6 @@ public class VelocityUtilTest {
         assertEquals(false, toSimpleBoolean(Boolean.FALSE, false));
         assertEquals(true, toSimpleBoolean(null, true));
         assertEquals(false, toSimpleBoolean(null, false));
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.velocity.context.VelocityUtil
-     * #getParameterStack(org.apache.velocity.context.Context)}.
-     */
-    @Test
-    public void testGetParameterStack() {
-        Context velocityContext = createMock(Context.class);
-
-        expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(null);
-        expect(velocityContext.put(eq(PARAMETER_MAP_STACK_KEY),
-                isA(ArrayStack.class))).andReturn(null);
-        replay(velocityContext);
-        ArrayStack<Map<String, Object>> paramStack = getParameterStack(velocityContext);
-        assertNotNull(paramStack);
-        assertEquals(0, paramStack.size());
-        verify(velocityContext);
-
-        reset(velocityContext);
-
-        paramStack = new ArrayStack<Map<String, Object>>();
-        paramStack.push(new HashMap<String, Object>());
-        expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(paramStack);
-
-        replay(velocityContext);
-        assertEquals(paramStack, getParameterStack(velocityContext));
-        verify(velocityContext);
     }
 
     /**
@@ -165,5 +137,87 @@ public class VelocityUtilTest {
         replay(velocityContext, request, servletContext);
         setAttribute(velocityContext, request, servletContext, "myName", value, "application");
         verify(velocityContext, request, servletContext);
+    }
+
+    /**
+     * Test method for
+     * {@link VelocityUtil#getBodyAsString(InternalContextAdapter, Node)}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testGetBodyAsString() throws IOException {
+        InternalContextAdapter context = createMock(InternalContextAdapter.class);
+        Node node = createMock(Node.class);
+        ASTBlock block = new CustomBlock();
+
+        expect(node.jjtGetChild(1)).andReturn(block);
+
+        replay(context, node);
+        assertEquals("myBody", VelocityUtil.getBodyAsString(context, node));
+        verify(context, node);
+    }
+
+    /**
+     * Test method for
+     * {@link VelocityUtil#evaluateBody(InternalContextAdapter, Writer, Node)}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testEvaluateBody() throws IOException {
+        InternalContextAdapter context = createMock(InternalContextAdapter.class);
+        Node node = createMock(Node.class);
+        Writer writer = createMock(Writer.class);
+        ASTBlock block = createMock(ASTBlock.class);
+
+        expect(node.jjtGetChild(1)).andReturn(block);
+
+        replay(context, node, writer);
+        VelocityUtil.evaluateBody(context, writer, node);
+        verify(context, node, writer);
+    }
+
+    /**
+     * Test method for
+     * {@link VelocityUtil#getBodyAsString(InternalContextAdapter, Node)}.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetParameters() {
+        InternalContextAdapter context = createMock(InternalContextAdapter.class);
+        Node node = createMock(Node.class);
+        ASTMap block = createMock(ASTMap.class);
+        Map<String, Object> params = createMock(Map.class);
+
+        expect(node.jjtGetChild(0)).andReturn(block);
+        expect(block.value(context)).andReturn(params);
+
+        replay(context, node, block, params);
+        assertEquals(params, VelocityUtil.getParameters(context, node));
+        verify(context, node, block, params);
+    }
+
+    /**
+     * Custom block to render a specific string.
+     *
+     * @version $Rev$ $Date$
+     */
+    private static class CustomBlock extends ASTBlock {
+
+        /**
+         * Constructor.
+         */
+        public CustomBlock() {
+            super(1);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean render(InternalContextAdapter context, Writer writer)
+                throws IOException {
+            writer.write("myBody");
+            return true;
+        }
     }
 }
