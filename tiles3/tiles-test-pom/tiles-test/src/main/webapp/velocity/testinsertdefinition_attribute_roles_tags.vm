@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.test.definition.roles.tags"})
+#tiles_insertDefinition({"name":"velocity.test.definition.roles.tags"})#end

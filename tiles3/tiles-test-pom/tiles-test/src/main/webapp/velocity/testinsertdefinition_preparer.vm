@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.preparer.definition", "preparer":"org.apache.tiles.test.preparer.TestViewPreparer"})
+#tiles_insertDefinition({"name":"velocity.preparer.definition", "preparer":"org.apache.tiles.test.preparer.TestViewPreparer"})#end

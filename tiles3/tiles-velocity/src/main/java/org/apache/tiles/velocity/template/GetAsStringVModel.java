@@ -50,7 +50,9 @@ import org.apache.velocity.runtime.Renderable;
  *
  * @version $Rev$ $Date$
  * @since 2.2.0
+ * @deprecated Use Velocity directives.
  */
+@Deprecated
 public class GetAsStringVModel implements Executable, BodyExecutable {
 
     /**

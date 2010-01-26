@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.test.nesting.list.definitions"})
+#tiles_insertDefinition({"name":"velocity.test.nesting.list.definitions"})#end

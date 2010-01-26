@@ -21,16 +21,16 @@
  *#
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
-    <td  bgcolor="Blue"><strong>$tiles.getAsString({"name":"title"})</strong></td>
+    <td  bgcolor="Blue"><strong>#tiles_getAsString({"name":"title"})#end</strong></td>
   </tr>
   <tr>
-    <td>$tiles.insertAttribute({"name":"header"})</td>
+    <td>#tiles_insertAttribute({"name":"header"})#end</td>
   </tr>
   <tr>
     <td>
-        $tiles.importAttribute({"name":"list"})
+        #tiles_importAttribute({"name":"list"})
         #foreach($attribute in $list)
-            $tiles.insertAttribute({"value":$attribute})
+            #tiles_insertAttribute({"value":$attribute})#end
         #end
     </td>
   </tr>

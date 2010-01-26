@@ -21,12 +21,12 @@
  *#
 <table  border="2"  width="300"  bordercolor="Gray">
   <tr>
-    <td  bgcolor="Blue"><strong>$tiles.insertAttribute({"name":"title", "defaultValue":"This is the default title."})</strong></td>
+    <td  bgcolor="Blue"><strong>#tiles_insertAttribute({"name":"title", "defaultValue":"This is the default title."})#end</strong></td>
   </tr>
   <tr>
-    <td>$tiles.insertAttribute({"name":"header", "defaultValue":"alternate-header.vm", "defaultValueType":"template"})</td>
+    <td>#tiles_insertAttribute({"name":"header", "defaultValue":"alternate-header.vm", "defaultValueType":"template"})#end</td>
   </tr>
   <tr>
-    <td>$tiles.insertAttribute({"name":"body", "defaultValue":"This is the default body in the tag."})</td>
+    <td>#tiles_insertAttribute({"name":"body", "defaultValue":"This is the default body in the tag."})#end</td>
   </tr>
-</table>           
+</table>

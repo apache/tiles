@@ -19,4 +19,4 @@
  * under the License.
  *
  *#
-$tiles.insertDefinition({"name":"velocity.test.definition.ignore"})
+#tiles_insertDefinition({"name":"velocity.test.definition.ignore"})#end

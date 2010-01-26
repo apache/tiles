@@ -19,11 +19,11 @@
  * under the License.
  *
  *#
-$tiles.insertTemplate().start({"template":"/velocity/putattributeslayout.vm"})
-  $tiles.putAttribute({"name":"stringTest", "value":"This is a string", "type":"string"})
-  $tiles.putListAttribute().start({"name":"list"})
-    $tiles.addAttribute({"value":"valueOne", "type":"string"})
-    $tiles.addAttribute({"value":"valueTwo", "type":"string"})
-    $tiles.addAttribute({"value":"valueThree", "type":"string"})
-  $tiles.putListAttribute().end()
-$tiles.insertTemplate().end()
+#tiles_insertTemplate({"template":"/velocity/putattributeslayout.vm"})
+  #tiles_putAttribute({"name":"stringTest", "value":"This is a string", "type":"string"})#end
+  #tiles_putListAttribute({"name":"list"})
+    #tiles_addAttribute({"value":"valueOne", "type":"string"})#end
+    #tiles_addAttribute({"value":"valueTwo", "type":"string"})#end
+    #tiles_addAttribute({"value":"valueThree", "type":"string"})#end
+  #end
+#end

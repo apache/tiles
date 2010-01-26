@@ -21,6 +21,8 @@
 
 package org.apache.tiles.velocity.context;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
@@ -31,6 +33,9 @@ import org.apache.tiles.ArrayStack;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
+import org.apache.velocity.runtime.parser.node.ASTBlock;
+import org.apache.velocity.runtime.parser.node.ASTMap;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * Utilities for Velocity usage in Tiles.
@@ -93,7 +98,9 @@ public final class VelocityUtil {
      * @param context The Velocity context.
      * @return The parameter stack.
      * @since 2.2.0
+     * @deprecated Use Velocity directives.
      */
+    @Deprecated
     @SuppressWarnings("unchecked")
     public static ArrayStack<Map<String, Object>> getParameterStack(Context context) {
         ArrayStack<Map<String, Object>> stack = (ArrayStack<Map<String, Object>>) context
@@ -132,5 +139,63 @@ public final class VelocityUtil {
         } else if ("application".equals(scope)) {
             servletContext.setAttribute(name, obj);
         }
+    }
+
+    /**
+     * Evaluates the body (child node at position 1) and returns it as a string.
+     *
+     * @param context The Velocity context.
+     * @param node The node to use.
+     * @return The evaluated body.
+     * @throws IOException If something goes wrong.
+     * @since 2.2.2
+     */
+    public static String getBodyAsString(InternalContextAdapter context, Node node)
+            throws IOException {
+        ASTBlock block = (ASTBlock) node.jjtGetChild(1);
+        StringWriter stringWriter = new StringWriter();
+        block.render(context, stringWriter);
+        stringWriter.close();
+        String body = stringWriter.toString();
+        if (body != null) {
+            body = body.replaceAll("^\\s*|\\s*$", "");
+            if (body.length() <= 0) {
+                body = null;
+            }
+        }
+        return body;
+    }
+
+    /**
+     * Evaluates the body writing in the passed writer.
+     *
+     * @param context The Velocity context.
+     * @param writer The writer to write into.
+     * @param node The node to use.
+     * @throws IOException If something goes wrong.
+     * @since 2.2.2
+     */
+    public static void evaluateBody(InternalContextAdapter context, Writer writer,
+            Node node) throws IOException {
+        ASTBlock block = (ASTBlock) node.jjtGetChild(1);
+        block.render(context, writer);
+    }
+
+    /**
+     * Extracts the parameters from the directives, by getting the child at
+     * position 0 supposing it is a map.
+     *
+     * @param context The Velocity context.
+     * @param node The node to use.
+     * @return The extracted parameters.
+     * @since 2.2.2
+     */
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> getParameters(InternalContextAdapter context,
+            Node node) {
+        ASTMap astMap = (ASTMap) node.jjtGetChild(0);
+        Map<String, Object> params = (Map<String, Object>) astMap
+                .value(context);
+        return params;
     }
 }

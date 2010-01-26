@@ -20,5 +20,5 @@
  *
  *#
 $tiles.setCurrentContainer("alternate")
-$tiles.insertDefinition({"name":"velocity.test.definitionOne.messageHello"})
-$tiles.insertDefinition({"name":"velocity.test.definitionTwo.messageBye"})
+#tiles_insertDefinition({"name":"velocity.test.definitionOne.messageHello"})#end
+#tiles_insertDefinition({"name":"velocity.test.definitionTwo.messageBye"})#end

@@ -23,8 +23,8 @@ package org.apache.tiles.velocity.template;
 
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
 
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,30 +32,24 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.PutListAttributeModel;
-import org.apache.tiles.velocity.context.VelocityUtil;
-import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.directive.Directive;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link PutListAttributeVModel}.
+ * Tests {@link PutListAttributeDirective}.
  */
-public class PutListAttributeVModelTest {
-
-    /**
-     * The attribute key that will be used to store the parameter map, to use across Velocity tool calls.
-     */
-    private static final String PARAMETER_MAP_STACK_KEY = "org.apache.tiles.velocity.PARAMETER_MAP_STACK";
+public class PutListAttributeDirectiveTest {
 
     /**
      * The model to test.
      */
-    private PutListAttributeVModel model;
+    private PutListAttributeDirective model;
 
     /**
      * The template model.
@@ -63,71 +57,59 @@ public class PutListAttributeVModelTest {
     private PutListAttributeModel tModel;
 
     /**
-     * The servlet context.
-     */
-    private ServletContext servletContext;
-
-    private ApplicationContext applicationContext;
-
-    /**
      * Sets up the model to test.
      */
     @Before
     public void setUp() {
         tModel = createMock(PutListAttributeModel.class);
-        servletContext = createMock(ServletContext.class);
-        applicationContext = createMock(ApplicationContext.class);
-        expect(servletContext.getAttribute(ApplicationAccess
-                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
-                .anyTimes();
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.PutListAttributeVModel
-     * #start(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * org.apache.velocity.context.Context, java.util.Map)}.
+     * Test method for {@link PutListAttributeDirective#start(InternalContextAdapter,
+     * Writer, Map, HttpServletRequest, HttpServletResponse, ServletContext)}.
      */
     @Test
     public void testStart() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
-        Context velocityContext = createMock(Context.class);
+        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
+        Writer writer = createMock(Writer.class);
+        ServletContext servletContext = createMock(ServletContext.class);
         Map<String, Object> params = createParams();
-        ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
+        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         tModel.start(eq("myRole"), eq(false), isA(VelocityRequest.class));
 
-        replay(tModel, servletContext, request, response, velocityContext, applicationContext);
+        replay(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
         initializeModel();
-        model.start(request, response, velocityContext, params);
-        assertEquals(1, parameterMapStack.size());
-        assertEquals(params, parameterMapStack.peek());
-        verify(tModel, servletContext, request, response, velocityContext, applicationContext);
+        model.start(velocityContext, writer, params, request, response, servletContext);
+        verify(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.PutListAttributeVModel
-     * #end(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     * org.apache.velocity.context.Context)}.
+     * Test method for {@link Directive#end(InternalContextAdapter,
+     * Writer, Map, HttpServletRequest, HttpServletResponse, ServletContext)}.
      */
     @Test
     public void testEnd() {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
-        Context velocityContext = createMock(Context.class);
+        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
+        Writer writer = createMock(Writer.class);
+        ServletContext servletContext = createMock(ServletContext.class);
         Map<String, Object> params = createParams();
-        ArrayStack<Map<String, Object>> parameterMapStack = new ArrayStack<Map<String, Object>>();
-        parameterMapStack.push(params);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        expect(velocityContext.get(PARAMETER_MAP_STACK_KEY)).andReturn(parameterMapStack);
+        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         tModel.end(eq("myName"), eq(false), isA(VelocityRequest.class));
 
-        replay(tModel, servletContext, request, response, velocityContext, applicationContext);
+        replay(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
         initializeModel();
-        assertEquals(VelocityUtil.EMPTY_RENDERABLE, model.end(request, response, velocityContext));
-        assertTrue(parameterMapStack.isEmpty());
-        verify(tModel, servletContext, request, response, velocityContext, applicationContext);
+        model.end(velocityContext, writer, params, request, response, servletContext);
+        verify(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
     }
 
     /**
@@ -148,6 +130,6 @@ public class PutListAttributeVModelTest {
      * Initializes the model.
      */
     private void initializeModel() {
-        model = new PutListAttributeVModel(tModel, servletContext);
+        model = new PutListAttributeDirective(tModel);
     }
 }
