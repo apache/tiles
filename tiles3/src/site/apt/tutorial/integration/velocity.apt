@@ -124,7 +124,7 @@ $set($attributeContext = $tilesAlt.getAttributeContext())
   $attribute.setRenderer("velocity")
   $attributeContext.putAttribute("body", $attribute})
 
-$tilesAlt.renderAttribute($templateAttribute)
+$tilesAlt.render($templateAttribute)
 $tilesAlt.endAttributeContext()
 ----------------------------------
 
