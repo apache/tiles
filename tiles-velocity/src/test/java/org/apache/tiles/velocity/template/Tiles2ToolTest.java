@@ -455,7 +455,7 @@ public class Tiles2ToolTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.Tiles2Tool#getAttribute(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.velocity.template.Tiles2Tool#get(java.lang.String)}.
      */
     @Test
     public void testGetAttribute() {
@@ -469,7 +469,7 @@ public class Tiles2ToolTest {
 
         replay(velocityContext, request, response, servletContext, container, attributeContext);
         initializeTool();
-        assertEquals(attribute, tool.getAttribute("myAttribute"));
+        assertEquals(attribute, tool.get("myAttribute"));
         verify(velocityContext, request, response, servletContext, container, attributeContext);
     }
 

@@ -90,7 +90,7 @@ public class VelocityStyleTilesToolTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#getAttribute(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool#get(java.lang.String)}.
      */
     @Test
     public void testGetAttribute() {
@@ -106,7 +106,7 @@ public class VelocityStyleTilesToolTest {
 
         replay(velocityContext, request, response, servletContext, container, attributeContext);
         initializeTool();
-        assertEquals(attribute, tool.getAttribute("myAttribute"));
+        assertEquals(attribute, tool.get("myAttribute"));
         verify(velocityContext, request, response, servletContext, container, attributeContext);
     }
 
@@ -126,7 +126,7 @@ public class VelocityStyleTilesToolTest {
 
     /**
      * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool
-     * #cloneAttribute(org.apache.tiles.Attribute)}.
+     * #clone(org.apache.tiles.Attribute)}.
      */
     @Test
     public void testCloneAttribute() {
@@ -136,7 +136,7 @@ public class VelocityStyleTilesToolTest {
 
         replay(velocityContext, request, response, servletContext);
         initializeTool();
-        assertEquals(attribute, tool.cloneAttribute(attribute));
+        assertEquals(attribute, tool.clone(attribute));
         verify(velocityContext, request, response, servletContext);
     }
 
@@ -156,7 +156,7 @@ public class VelocityStyleTilesToolTest {
 
     /**
      * Test method for {@link org.apache.tiles.velocity.template.VelocityStyleTilesTool
-     * #renderAttribute(org.apache.tiles.Attribute)}.
+     * #render(org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -172,7 +172,7 @@ public class VelocityStyleTilesToolTest {
 
         replay(velocityContext, request, response, servletContext, container, internalContextAdapter);
         initializeTool();
-        Renderable renderable = tool.renderAttribute(attribute);
+        Renderable renderable = tool.render(attribute);
         renderable.render(internalContextAdapter, writer);
         verify(velocityContext, request, response, servletContext, container, internalContextAdapter);
     }

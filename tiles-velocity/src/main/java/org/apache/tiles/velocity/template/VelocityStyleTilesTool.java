@@ -46,7 +46,7 @@ public class VelocityStyleTilesTool extends ContextHolder {
      * @return The Attribute.
      * @since 2.2.0
      */
-    public Attribute getAttribute(String key) {
+    public Attribute get(String key) {
         TilesContainer container = ServletUtil.getCurrentContainer(
                 getRequest(), getServletContext());
         AttributeContext attributeContext = container.getAttributeContext(
@@ -72,7 +72,7 @@ public class VelocityStyleTilesTool extends ContextHolder {
      * @return The copied attribute.
      * @since 2.2.0
      */
-    public Attribute cloneAttribute(Attribute attribute) {
+    public Attribute clone(Attribute attribute) {
         return new Attribute(attribute);
     }
 
@@ -94,7 +94,7 @@ public class VelocityStyleTilesTool extends ContextHolder {
      * @return The renderable object, ready to be rendered.
      * @since 2.2.0
      */
-    public Renderable renderAttribute(final Attribute attribute) {
+    public Renderable render(final Attribute attribute) {
         return new AbstractDefaultToStringRenderable(getVelocityContext(),
                 null, getResponse(), getRequest()) {
 
@@ -121,8 +121,7 @@ public class VelocityStyleTilesTool extends ContextHolder {
         return new AbstractDefaultToStringRenderable(getVelocityContext(),
                 null, getResponse(), getRequest()) {
 
-            public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException {
+            public boolean render(InternalContextAdapter context, Writer writer) {
                 TilesContainer container = ServletUtil.getCurrentContainer(request, getServletContext());
                 container.render(definitionName, velocityContext, request, response, writer);
                 return true;
@@ -143,8 +142,7 @@ public class VelocityStyleTilesTool extends ContextHolder {
         return new AbstractDefaultToStringRenderable(getVelocityContext(),
                 null, getResponse(), getRequest()) {
 
-            public boolean render(InternalContextAdapter context, Writer writer)
-                    throws IOException {
+            public boolean render(InternalContextAdapter context, Writer writer) {
                 TilesContainer container = ServletUtil.getCurrentContainer(request, getServletContext());
                 container.renderContext(velocityContext, request, response, writer);
                 return true;
