@@ -102,8 +102,11 @@ public class ChainedTilesRequestContextFactory implements TilesRequestContextFac
             } catch (ClassNotFoundException e) {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.
-                log.warn("Cannot find TilesRequestContextFactory class "
-                        + classNames[i]);
+                if (log.isInfoEnabled()) {
+                    log.info("Cannot find TilesRequestContextFactory class "
+                            + classNames[i]
+                            + ", skipping support for the managed platform");
+                }
                 if (log.isDebugEnabled()) {
                     log.debug("Cannot find TilesRequestContextFactory class "
                             + classNames[i], e);

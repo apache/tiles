@@ -108,8 +108,11 @@ public class ChainedTilesApplicationContextFactory extends
             } catch (ClassNotFoundException e) {
                 // We log it, because it could be a default configuration class that
                 // is simply not present.
-                log.warn("Cannot find TilesContextFactory class "
-                        + classNames[i]);
+                if (log.isInfoEnabled()) {
+                    log.info("Cannot find TilesApplicationContextFactory class "
+                            + classNames[i]
+                            + ", skipping support for the managed platform");
+                }
                 if (log.isDebugEnabled()) {
                     log.debug("Cannot find TilesContextFactory class "
                             + classNames[i], e);
