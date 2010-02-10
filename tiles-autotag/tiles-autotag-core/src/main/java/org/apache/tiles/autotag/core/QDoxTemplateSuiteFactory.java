@@ -22,31 +22,35 @@ import com.thoughtworks.qdox.model.Type;
 
 public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
 
+    private static final String TEMPLATE_SUFFIX = "Template";
+
     private JavaDocBuilder builder;
 
     private String suiteName;
 
     private String suiteDocumentation;
 
-    public QDoxTemplateSuiteFactory(File...sourceFiles) {
+    public QDoxTemplateSuiteFactory(File... sourceFiles) {
         builder = new JavaDocBuilder();
         try {
             for (File file : sourceFiles) {
                 builder.addSource(file);
             }
         } catch (IOException e) {
-            throw new ClassParseException("I/O Exception when adding source files", e);
+            throw new ClassParseException(
+                    "I/O Exception when adding source files", e);
         }
     }
 
     public QDoxTemplateSuiteFactory(URL... urls) {
         builder = new JavaDocBuilder();
         try {
-            for (URL url: urls) {
+            for (URL url : urls) {
                 builder.addSource(url);
             }
         } catch (IOException e) {
-            throw new ClassParseException("I/O Exception when adding source files", e);
+            throw new ClassParseException(
+                    "I/O Exception when adding source files", e);
         }
     }
 
@@ -62,30 +66,50 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
     public TemplateSuite createTemplateSuite() {
         List<TemplateClass> classes = new ArrayList<TemplateClass>();
         for (JavaClass clazz : builder.getClasses()) {
-            TemplateMethod startMethod = null;
-            TemplateMethod endMethod = null;
-            TemplateMethod executeMethod = null;
-            for (JavaMethod method : clazz.getMethods()) {
-                if (isFeasible(method)) {
-                    if ("start".equals(method.getName())) {
-                        TemplateMethod templateMethod = createMethod(method);
-                        startMethod = templateMethod;
-                    } else if ("end".equals(method.getName())) {
-                        endMethod = createMethod(method);
-                    } else if ("execute".equals(method.getName())) {
-                        executeMethod = createMethod(method);
+            String tagClassPrefix = getTagClassPrefix(clazz);
+            if (tagClassPrefix != null) {
+                String tagName = tagClassPrefix.substring(0, 1).toLowerCase()
+                        + tagClassPrefix.substring(1);
+                TemplateMethod startMethod = null;
+                TemplateMethod endMethod = null;
+                TemplateMethod executeMethod = null;
+                for (JavaMethod method : clazz.getMethods()) {
+                    if (isFeasible(method)) {
+                        if ("start".equals(method.getName())) {
+                            TemplateMethod templateMethod = createMethod(method);
+                            startMethod = templateMethod;
+                        } else if ("end".equals(method.getName())) {
+                            endMethod = createMethod(method);
+                        } else if ("execute".equals(method.getName())) {
+                            executeMethod = createMethod(method);
+                        }
                     }
                 }
-            }
-            if ((startMethod != null && endMethod != null)
-                    || executeMethod != null) {
-                TemplateClass templateClass = new TemplateClass(
-                        clazz.getFullyQualifiedName(), startMethod, endMethod, executeMethod);
-                templateClass.setDocumentation(clazz.getComment());
-                classes.add(templateClass);
+                if ((startMethod != null && endMethod != null)
+                        || executeMethod != null) {
+                    TemplateClass templateClass = new TemplateClass(clazz
+                            .getFullyQualifiedName(), tagName, tagClassPrefix,
+                            startMethod, endMethod, executeMethod);
+                    templateClass.setDocumentation(clazz.getComment());
+                    classes.add(templateClass);
+                }
             }
         }
         return new TemplateSuite(suiteName, suiteDocumentation, classes);
+    }
+
+    private String getTagClassPrefix(JavaClass clazz) {
+        String tagName;
+        String simpleClassName = clazz.getName();
+        if (simpleClassName.endsWith(TEMPLATE_SUFFIX)
+                && simpleClassName.length() > TEMPLATE_SUFFIX.length()) {
+            tagName = simpleClassName.substring(0, 1).toLowerCase()
+                    + simpleClassName.substring(1, simpleClassName.length()
+                            - TEMPLATE_SUFFIX.length());
+        } else {
+            tagName = null;
+        }
+        return tagName;
     }
 
     private TemplateMethod createMethod(JavaMethod method) {

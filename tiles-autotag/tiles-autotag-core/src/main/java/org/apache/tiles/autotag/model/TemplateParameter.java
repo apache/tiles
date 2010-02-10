@@ -1,5 +1,7 @@
 package org.apache.tiles.autotag.model;
 
+import org.apache.tiles.request.Request;
+
 public class TemplateParameter {
 
     private String name;
@@ -42,6 +44,10 @@ public class TemplateParameter {
 
     public boolean isBody() {
         return body;
+    }
+
+    public boolean isRequest() {
+        return Request.class.getName().equals(type);
     }
 
     @Override
