@@ -24,19 +24,13 @@ package org.apache.tiles.velocity.template;
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
-import java.io.Writer;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationAccess;
-import org.apache.tiles.request.velocity.VelocityRequest;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.AddAttributeModel;
-import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -65,50 +59,23 @@ public class AddAttributeDirectiveTest {
     }
 
     /**
-     * Test method for {@link AddAttributeDirective#start(InternalContextAdapter,
-     * Writer, Map, HttpServletRequest, HttpServletResponse, ServletContext)}.
+     * Test method for
+     * {@link AddAttributeDirective#execute(Map, org.apache.tiles.request.Request, org.apache.tiles.template.body.ModelBody)}
+     * .
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testStart() {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        HttpServletResponse response = createMock(HttpServletResponse.class);
-        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
+    public void testExecute() throws IOException {
+        Request request = createMock(Request.class);
         Map<String, Object> params = createParams();
-        Writer writer = createMock(Writer.class);
-        ServletContext servletContext = createMock(ServletContext.class);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
 
-        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
-                .andReturn(applicationContext);
-        tModel.start(isA(VelocityRequest.class));
+        tModel.execute("myValue", "myExpression", "myRole", "myType", request,
+                modelBody);
 
-        replay(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
-        model.start(velocityContext, writer, params, request, response, servletContext);
-        verify(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
-    }
-
-    /**
-     * Test method for {@link AddAttributeDirective#end(InternalContextAdapter,
-     * Writer, Map, String, HttpServletRequest, HttpServletResponse, ServletContext)}.
-     */
-    @Test
-    public void testEnd() {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        HttpServletResponse response = createMock(HttpServletResponse.class);
-        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
-        Map<String, Object> params = createParams();
-        Writer writer = createMock(Writer.class);
-        ServletContext servletContext = createMock(ServletContext.class);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-
-        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
-                .andReturn(applicationContext);
-        tModel.end(eq("myValue"), eq("myExpression"), eq("myBody"),
-                eq("myRole"), eq("myType"), isA(VelocityRequest.class));
-
-        replay(tModel, request, response, velocityContext, writer, servletContext);
-        model.end(velocityContext, writer, params, "myBody", request, response, servletContext);
-        verify(tModel, request, response, velocityContext);
+        replay(tModel, request, modelBody);
+        model.execute(params, request, modelBody);
+        verify(tModel, request, modelBody);
     }
 
     /**

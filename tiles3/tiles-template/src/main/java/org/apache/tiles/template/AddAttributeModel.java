@@ -21,11 +21,14 @@
 
 package org.apache.tiles.template;
 
+import java.io.IOException;
+
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * <p>
@@ -85,20 +88,23 @@ public class AddAttributeModel {
      * expression, or body.
      * @param expression The expression to calculate the value from. Use this
      * parameter, or value, or body.
-     * @param body The body of the tag. Use this parameter, or value, or
-     * expression.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
      * @param request TODO
-     *
+     * @param modelBody TODO
      * @since 2.2.0
      */
-    public void execute(Object value, String expression,
-            String body, String role, String type, Request request) {
+    public void execute(Object value, String expression, String role,
+            String type, Request request, ModelBody modelBody)
+            throws IOException {
+        Attribute attribute = new Attribute();
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        addAttributeToList(new Attribute(), composeStack, value, expression,
-                body, role, type);
+        composeStack.push(attribute);
+        String body = modelBody.evaluateAsString();
+        attribute = (Attribute) composeStack.pop();
+        addAttributeToList(attribute, composeStack, value, expression, body,
+                role, type);
     }
 
     /**

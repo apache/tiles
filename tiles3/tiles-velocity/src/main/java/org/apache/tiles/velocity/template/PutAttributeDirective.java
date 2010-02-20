@@ -21,19 +21,13 @@
 
 package org.apache.tiles.velocity.template;
 
-import java.io.Writer;
+import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.PutAttributeModel;
+import org.apache.tiles.template.body.ModelBody;
 import org.apache.tiles.velocity.context.VelocityUtil;
-import org.apache.velocity.context.InternalContextAdapter;
 
 /**
  * Wraps {@link PutAttributeModel} to be used in Velocity. For the list of
@@ -78,31 +72,13 @@ public class PutAttributeDirective extends BodyBlockDirective {
         return "tiles_putAttribute";
     }
 
-    /** {@inheritDoc} */
     @Override
-    protected void end(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, String body,
-            HttpServletRequest request, HttpServletResponse response,
-            ServletContext servletContext) {
-        Request currentRequest = VelocityRequest.createVelocityRequest(
-                ServletUtil.getApplicationContext(servletContext), request,
-                response, context, writer);
-        model.end((String) params.get("name"), params.get("value"),
-                (String) params.get("expression"), body, (String) params
-                        .get("role"), (String) params.get("type"),
-                VelocityUtil.toSimpleBoolean((Boolean) params.get("cascade"),
-                        false), currentRequest);
+    protected void execute(Map<String, Object> params, Request request,
+            ModelBody modelBody) throws IOException {
+        model.execute((String) params.get("name"), params.get("value"),
+                (String) params.get("expression"), (String) params.get("role"),
+                (String) params.get("type"), VelocityUtil.toSimpleBoolean(
+                        (Boolean) params.get("cascade"), false), request,
+                modelBody);
     }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void start(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, HttpServletRequest request,
-            HttpServletResponse response, ServletContext servletContext) {
-        Request currentRequest = VelocityRequest.createVelocityRequest(
-                ServletUtil.getApplicationContext(servletContext), request,
-                response, context, writer);
-        model.start(currentRequest);
-    }
-
 }

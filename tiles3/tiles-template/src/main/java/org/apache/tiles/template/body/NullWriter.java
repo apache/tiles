@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.freemarker.io;
+package org.apache.tiles.template.body;
 
 import java.io.Writer;
 

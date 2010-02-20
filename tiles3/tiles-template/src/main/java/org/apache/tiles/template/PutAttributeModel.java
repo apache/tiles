@@ -21,6 +21,8 @@
 
 package org.apache.tiles.template;
 
+import java.io.IOException;
+
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
@@ -28,6 +30,7 @@ import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * <p>
@@ -116,25 +119,27 @@ public class PutAttributeModel {
      * expression, or body.
      * @param expression The expression to calculate the value from. Use this
      * parameter, or value, or body.
-     * @param body The body of the tag. Use this parameter, or value, or
-     * expression.
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
      * @param request TODO
+     * @param modelBody TODO
      * @param container The Tiles container to use.
      * @param composeStack The composing stack.
-     *
      * @since 2.2.0
      */
     public void execute(String name, Object value,
-            String expression, String body, String role, String type,
-            boolean cascade, Request request) {
-        TilesContainer container = TilesAccess.getCurrentContainer(request);
+            String expression, String role, String type, boolean cascade,
+            Request request, ModelBody modelBody) throws IOException {
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        putAttributeInParent(new Attribute(), container, composeStack, name,
-                value, expression, body, role, type, cascade, request);
+        Attribute attribute = new Attribute();
+        composeStack.push(attribute);
+        String currentBody = modelBody.evaluateAsString();
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
+        attribute = (Attribute) composeStack.pop();
+        putAttributeInParent(attribute, container, composeStack, name,
+                value, expression, currentBody, role, type, cascade, request);
     }
 
     /**

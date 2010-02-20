@@ -24,16 +24,17 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.tiles.freemarker.FreemarkerModelBody;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
 import org.apache.tiles.template.AddAttributeModel;
+import org.apache.tiles.template.body.ModelBody;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
-import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 /**
@@ -64,15 +65,15 @@ public class AddAttributeFMModel implements TemplateDirectiveModel {
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
+            TemplateDirectiveBody body) throws IOException {
         Request request = FreemarkerRequest
                 .createServletFreemarkerRequest(FreemarkerRequestUtil
                         .getApplicationContext(env), env);
-        model.start(request);
-        String bodyString = FreeMarkerUtil.renderAsString(body);
+        ModelBody modelBody = new FreemarkerModelBody(env.getOut(), body);
         Map<String, TemplateModel> parms = params;
-        model.end(FreeMarkerUtil.getAsObject(parms.get("value")), FreeMarkerUtil.getAsString(parms.get("expression")),
-                bodyString, FreeMarkerUtil.getAsString(parms.get("role")),
-                FreeMarkerUtil.getAsString(parms.get("type")), request);
+        model.execute(FreeMarkerUtil.getAsObject(parms.get("value")),
+                FreeMarkerUtil.getAsString(parms.get("expression")),
+                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
+                        .getAsString(parms.get("type")), request, modelBody);
     }
 }

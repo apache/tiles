@@ -21,22 +21,15 @@
 
 package org.apache.tiles.velocity.template;
 
-import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
-import java.io.Writer;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationAccess;
-import org.apache.tiles.request.velocity.VelocityRequest;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.template.PutAttributeModel;
-import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,53 +57,24 @@ public class PutAttributeDirectiveTest {
     }
 
     /**
-     * Test method for {@link PutAttributeDirective#start(InternalContextAdapter,
-     * Writer, Map, HttpServletRequest, HttpServletResponse, ServletContext)}.
+     * Test method for
+     * {@link PutAttributeDirective#execute(Map, org.apache.tiles.request.Request, org.apache.tiles.template.body.ModelBody)}
+     * .
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testStart() {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        HttpServletResponse response = createMock(HttpServletResponse.class);
-        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
-        Writer writer = createMock(Writer.class);
-        ServletContext servletContext = createMock(ServletContext.class);
+    public void testExecute() throws IOException {
+        Request request = createMock(Request.class);
         Map<String, Object> params = createParams();
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
 
-        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
-                .andReturn(applicationContext);
-        tModel.start(isA(VelocityRequest.class));
+        tModel.execute("myName", "myValue", "myExpression", "myRole", "myType",
+                false, request, modelBody);
 
-        replay(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
+        replay(tModel, request, modelBody);
         initializeModel();
-        model.start(velocityContext, writer, params, request, response, servletContext);
-        verify(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
-    }
-
-    /**
-     * Test method for {@link PutAttributeDirective#end(InternalContextAdapter,
-     * Writer, Map, String, HttpServletRequest, HttpServletResponse, ServletContext)}.
-     */
-    @Test
-    public void testEnd() {
-        HttpServletRequest request = createMock(HttpServletRequest.class);
-        HttpServletResponse response = createMock(HttpServletResponse.class);
-        InternalContextAdapter velocityContext = createMock(InternalContextAdapter.class);
-        Writer writer = createMock(Writer.class);
-        ServletContext servletContext = createMock(ServletContext.class);
-        Map<String, Object> params = createParams();
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-
-        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
-                .andReturn(applicationContext);
-        tModel.end(eq("myName"), eq("myValue"),
-                eq("myExpression"), eq("myBody"), eq("myRole"), eq("myType"),
-                eq(false), isA(VelocityRequest.class));
-
-        replay(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
-        initializeModel();
-        model.end(velocityContext, writer, params, "myBody", request, response, servletContext);
-        verify(tModel, request, response, velocityContext, writer, servletContext, applicationContext);
+        model.execute(params, request, modelBody);
+        verify(tModel, request, modelBody);
     }
 
     /**

@@ -36,7 +36,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tiles.freemarker.io.NullWriter;
+import org.apache.tiles.template.body.NullWriter;
 import org.junit.Before;
 import org.junit.Test;
 

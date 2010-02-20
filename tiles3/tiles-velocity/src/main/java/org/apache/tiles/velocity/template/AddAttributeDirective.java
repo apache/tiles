@@ -21,25 +21,19 @@
 
 package org.apache.tiles.velocity.template;
 
-import java.io.Writer;
+import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.AddAttributeModel;
-import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * Wraps {@link AddAttributeModel} to be used in Velocity. For the list of
  * parameters, see {@link AddAttributeModel#start(java.util.Stack)},
  * {@link AddAttributeModel#end(java.util.Stack, Object, String, String, String, String)}
  * and
- * {@link AddAttributeModel#execute(java.util.Stack, Object, String, String, String, String)}
+ * {@link AddAttributeModel#execute(java.util.Stack, Object, String, String, String, ModelBody)}
  *
  * @version $Rev$ $Date$
  * @since 2.2.2
@@ -76,29 +70,11 @@ public class AddAttributeDirective extends BodyBlockDirective {
         return "tiles_addAttribute";
     }
 
-    /** {@inheritDoc} */
     @Override
-    protected void end(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, String body,
-            HttpServletRequest request, HttpServletResponse response,
-            ServletContext servletContext) {
-        Request currentRequest = VelocityRequest.createVelocityRequest(
-                ServletUtil.getApplicationContext(servletContext), request,
-                response, context, writer);
-        model.end(params.get("value"), (String) params.get("expression"), body,
+    protected void execute(Map<String, Object> params, Request request,
+            ModelBody modelBody) throws IOException {
+        model.execute(params.get("value"), (String) params.get("expression"),
                 (String) params.get("role"), (String) params.get("type"),
-                currentRequest);
+                request, modelBody);
     }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void start(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, HttpServletRequest request,
-            HttpServletResponse response, ServletContext servletContext) {
-        Request currentRequest = VelocityRequest.createVelocityRequest(
-                ServletUtil.getApplicationContext(servletContext), request,
-                response, context, writer);
-        model.start(currentRequest);
-    }
-
 }

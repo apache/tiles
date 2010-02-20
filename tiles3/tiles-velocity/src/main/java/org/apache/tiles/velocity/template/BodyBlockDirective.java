@@ -29,9 +29,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletUtil;
+import org.apache.tiles.request.velocity.VelocityRequest;
+import org.apache.tiles.template.body.ModelBody;
+import org.apache.tiles.velocity.VelocityModelBody;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.parser.node.ASTBlock;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.tools.view.ViewContext;
 
@@ -61,42 +67,15 @@ public abstract class BodyBlockDirective extends Directive {
         HttpServletRequest request = viewContext.getRequest();
         HttpServletResponse response = viewContext.getResponse();
         ServletContext servletContext = viewContext.getServletContext();
-        start(context, writer, params, request, response, servletContext);
-        String body = VelocityUtil.getBodyAsString(context, node);
-        end(context, writer, params, body, request, response, servletContext);
+        Request currentRequest = VelocityRequest.createVelocityRequest(
+                ServletUtil.getApplicationContext(servletContext), request,
+                response, context, writer);
+        ASTBlock block = (ASTBlock) node.jjtGetChild(1);
+        ModelBody modelBody = new VelocityModelBody(context, block, writer);
+        execute(params, currentRequest, modelBody);
         return true;
     }
 
-    /**
-     * Starts the directive, before evaluating the body.
-     *
-     * @param context The Velocity context.
-     * @param writer The writer user to write the result.
-     * @param params The parameters got from the first node of the directive.
-     * @param request The HTTP request.
-     * @param response The HTTP response.
-     * @param servletContext The servlet context.
-     * @since 2.2.2
-     */
-    protected abstract void start(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, HttpServletRequest request,
-            HttpServletResponse response, ServletContext servletContext);
-
-    /**
-     * Ends the directive, after evaluating the body.
-     *
-     * @param context The Velocity context.
-     * @param writer The writer user to write the result.
-     * @param params The parameters got from the first node of the directive.
-     * @param body The body contained in this directive, as a string.
-     * @param request The HTTP request.
-     * @param response The HTTP response.
-     * @param servletContext The servlet context.
-     * @throws IOException If something goes wrong when finishing this directive.
-     * @since 2.2.2
-     */
-    protected abstract void end(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, String body,
-            HttpServletRequest request, HttpServletResponse response, ServletContext servletContext)
-            throws IOException;
+    protected abstract void execute(Map<String, Object> params,
+            Request request, ModelBody modelBody) throws IOException;
 }

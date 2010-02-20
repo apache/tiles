@@ -24,6 +24,7 @@ package org.apache.tiles.template;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -122,11 +124,13 @@ public class AddAttributeModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.AddAttributeModel
      * #execute(java.lang.Object, java.lang.String, java.lang.String, java.lang.String,
-     * java.lang.String, Request)}.
+     * Request, ModelBody)}.
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testExecute() {
+    public void testExecute() throws IOException {
         Request request = createMock(Request.class);
+        ModelBody modelBody = createMock(ModelBody.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
         Attribute attribute;
@@ -135,10 +139,12 @@ public class AddAttributeModelTest {
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
 
         expect(request.getContext("request")).andReturn(requestScope).times(2);
+        expect(modelBody.evaluateAsString()).andReturn(null);
+        expect(modelBody.evaluateAsString()).andReturn("myBody");
 
-        replay(request);
-        model.execute("myValue", "myExpression", "myBody", "myRole",
-                "myType", request);
+        replay(request, modelBody);
+        model.execute("myValue", "myExpression", "myRole", "myType",
+                request, modelBody);
         List<Attribute> attributes = listAttribute.getValue();
         assertEquals(1, attributes.size());
         attribute = attributes.iterator().next();
@@ -153,8 +159,8 @@ public class AddAttributeModelTest {
         composeStack.push(listAttribute);
         composeStack.push(attribute);
 
-        model.execute(null, "myExpression", "myBody", "myRole", "myType",
-                request);
+        model.execute(null, "myExpression", "myRole", "myType", request,
+                modelBody);
         attributes = listAttribute.getValue();
         assertEquals(1, attributes.size());
         attribute = attributes.iterator().next();
@@ -163,7 +169,7 @@ public class AddAttributeModelTest {
                 .getExpression());
         assertEquals("myRole", attribute.getRole());
         assertEquals("myType", attribute.getRenderer());
-        verify(request);
+        verify(request, modelBody);
     }
 
 }

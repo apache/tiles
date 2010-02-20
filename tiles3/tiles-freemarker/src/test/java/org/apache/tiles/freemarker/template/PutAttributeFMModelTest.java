@@ -34,6 +34,7 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tiles.freemarker.FreemarkerModelBody;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
@@ -139,10 +140,9 @@ public class PutAttributeFMModelTest {
         params.put("type", objectWrapper.wrap("myType"));
         params.put("cascade", objectWrapper.wrap(false));
 
-        tModel.start(isA(FreemarkerRequest.class));
-        tModel.end(eq("myName"), eq(value), eq("myExpression"), eq(""),
-                eq("myRole"), eq("myType"), eq(false), isA(FreemarkerRequest.class));
-        body.render(isA(StringWriter.class));
+        tModel.execute(eq("myName"), eq(value), eq("myExpression"),
+                eq("myRole"), eq("myType"), eq(false),
+                isA(FreemarkerRequest.class), isA(FreemarkerModelBody.class));
 
         replay(tModel, body, applicationContext);
         fmModel.execute(env, params, null, body);

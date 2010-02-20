@@ -25,6 +25,7 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -148,12 +150,14 @@ public class PutAttributeModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.PutAttributeModel
      * #execute(String, Object, String, String, String,
-     * String, boolean, Request)}.
+     * boolean, Request, ModelBody)}.
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testExecuteListAttribute() {
+    public void testExecuteListAttribute() throws IOException {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
+        ModelBody modelBody = createMock(ModelBody.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
         ListAttribute listAttribute = new ListAttribute();
@@ -167,10 +171,11 @@ public class PutAttributeModelTest {
         expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
         attributeContext.putAttribute(eq("myName"), (Attribute) notNull(), eq(false));
+        expect(modelBody.evaluateAsString()).andReturn(null);
 
-        replay(container, attributeContext, request, applicationContext);
-        model.execute("myName", "myValue", "myExpression", "myBody",
-                "myRole", "myType", false, request);
-        verify(container, attributeContext, request, applicationContext);
+        replay(container, attributeContext, request, applicationContext, modelBody);
+        model.execute("myName", "myValue", "myExpression", "myRole",
+                "myType", false, request, modelBody);
+        verify(container, attributeContext, request, applicationContext, modelBody);
     }
 }

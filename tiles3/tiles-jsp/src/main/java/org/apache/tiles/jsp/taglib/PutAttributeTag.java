@@ -24,14 +24,14 @@ package org.apache.tiles.jsp.taglib;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.tiles.jsp.JspUtil;
+import org.apache.tiles.jsp.JspModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.template.PutAttributeModel;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * <p>
@@ -266,15 +266,14 @@ public class PutAttributeTag extends SimpleTagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void doTag() throws JspException, IOException {
+    public void doTag() throws IOException {
         JspContext jspContext = getJspContext();
         Request request = JspRequest.createServletJspRequest(
                 org.apache.tiles.request.jsp.JspUtil
                         .getApplicationContext(jspContext),
                 (PageContext) jspContext);
-        model.start(request);
-        String body = JspUtil.evaluateFragmentAsString(getJspBody());
-        model.end(name, value, expression,
-                body, role, type, cascade, request);
+        ModelBody modelBody = new JspModelBody(getJspBody(), jspContext);
+        model.execute(name, value, expression, role, type, cascade, request,
+                modelBody);
     }
 }

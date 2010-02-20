@@ -26,7 +26,6 @@ import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -35,6 +34,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.velocity.VelocityRequest;
+import org.apache.tiles.velocity.VelocityModelBody;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.directive.DirectiveConstants;
 import org.apache.velocity.runtime.parser.node.ASTBlock;
@@ -91,6 +94,7 @@ public class BodyBlockDirectiveTest {
         ASTMap astMap = createMock(ASTMap.class);
         ASTBlock block = createMock(ASTBlock.class);
         Map<String, Object> params = createMock(Map.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         expect(context.getInternalUserContext()).andReturn(viewContext);
         expect(viewContext.getRequest()).andReturn(request);
@@ -99,13 +103,17 @@ public class BodyBlockDirectiveTest {
         expect(node.jjtGetChild(0)).andReturn(astMap);
         expect(astMap.value(context)).andReturn(params);
         expect(node.jjtGetChild(1)).andReturn(block);
-        expect(block.render(eq(context), isA(StringWriter.class))).andReturn(true);
+        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
 
-        directive.start(context, writer, params, request, response, servletContext);
-        directive.end(context, writer, params, null, request, response, servletContext);
+        directive.execute(eq(params), isA(VelocityRequest.class), isA(VelocityModelBody.class));
 
-        replay(directive, context, writer, node, viewContext, servletContext, request, response, astMap, params, block);
+        replay(directive, context, writer, node, viewContext,
+                applicationContext, servletContext, request, response, astMap,
+                params, block);
         directive.render(context, writer, node);
-        verify(directive, context, writer, node, viewContext, servletContext, request, response, astMap, params, block);
+        verify(directive, context, writer, node, viewContext,
+                applicationContext, servletContext, request, response, astMap,
+                params, block);
     }
 }
