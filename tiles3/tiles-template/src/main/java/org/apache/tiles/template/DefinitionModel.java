@@ -21,12 +21,15 @@
 
 package org.apache.tiles.template;
 
+import java.io.IOException;
+
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * <p>
@@ -44,19 +47,23 @@ public class DefinitionModel {
 
     /**
      * Starts the operation.
-     * @param name The name of the definition to create. If not specified, an anonymous definition will be created.
+     *
+     * @param name The name of the definition to create. If not specified, an
+     * anonymous definition will be created.
      * @param template The template of this definition.
      * @param role A comma-separated list of roles. If present, the definition
      * will be rendered only if the current user belongs to one of the roles.
      * @param extendsParam The definition name that this definition extends.
-     * @param preparer The preparer to use to invoke before the definition is rendered.
+     * @param preparer The preparer to use to invoke before the definition is
+     * rendered.
      * @param request TODO
      * @param composeStack The compose stack,
      * @since 2.2.0
      */
     public void start(String name, String template, String role,
             String extendsParam, String preparer, Request request) {
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        ArrayStack<Object> composeStack = ComposeStackUtil
+                .getComposeStack(request);
         Definition definition = createDefinition(name, template, role,
                 extendsParam, preparer);
         composeStack.push(definition);
@@ -64,6 +71,7 @@ public class DefinitionModel {
 
     /**
      * Ends the operation.
+     *
      * @param request TODO
      * @param container The Tiles container to use. It must be "mutable".
      * @param composeStack The compose stack.
@@ -73,45 +81,55 @@ public class DefinitionModel {
     public void end(Request request) {
         MutableTilesContainer container = (MutableTilesContainer) TilesAccess
                 .getCurrentContainer(request);
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        ArrayStack<Object> composeStack = ComposeStackUtil
+                .getComposeStack(request);
         Definition definition = (Definition) composeStack.pop();
         registerDefinition(definition, container, composeStack, request);
     }
 
     /**
      * Executes the operation.
-     * @param name The name of the definition to create. If not specified, an anonymous definition will be created.
+     *
+     * @param name The name of the definition to create. If not specified, an
+     * anonymous definition will be created.
      * @param template The template of this definition.
      * @param role A comma-separated list of roles. If present, the definition
      * will be rendered only if the current user belongs to one of the roles.
      * @param extendsParam The definition name that this definition extends.
-     * @param preparer The preparer to use to invoke before the definition is rendered.
+     * @param preparer The preparer to use to invoke before the definition is
+     * rendered.
      * @param request TODO
+     * @param modelBody TODO
      * @param container The Tiles container to use. It must be "mutable".
      * @param composeStack The compose stack.
-     *
+     * @throws IOException If something goes wrong.
      * @since 2.2.0
      */
-    public void execute(String name,
-            String template, String role, String extendsParam,
-            String preparer, Request request) {
-        MutableTilesContainer container = (MutableTilesContainer) TilesAccess
-                .getCurrentContainer(request);
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+    public void execute(String name, String template, String role,
+            String extendsParam, String preparer, Request request, ModelBody modelBody) throws IOException {
+        ArrayStack<Object> composeStack = ComposeStackUtil
+                .getComposeStack(request);
         Definition definition = createDefinition(name, template, role,
                 extendsParam, preparer);
+        composeStack.push(definition);
+        modelBody.evaluateWithoutWriting();
+        MutableTilesContainer container = (MutableTilesContainer) TilesAccess
+                .getCurrentContainer(request);
+        definition = (Definition) composeStack.pop();
         registerDefinition(definition, container, composeStack, request);
     }
 
     /**
      * Creates the definition to store.
      *
-     * @param name The name of the definition to create. If not specified, an anonymous definition will be created.
+     * @param name The name of the definition to create. If not specified, an
+     * anonymous definition will be created.
      * @param template The template of this definition.
      * @param role A comma-separated list of roles. If present, the definition
      * will be rendered only if the current user belongs to one of the roles.
      * @param extendsParam The definition name that this definition extends.
-     * @param preparer The preparer to use to invoke before the definition is rendered.
+     * @param preparer The preparer to use to invoke before the definition is
+     * rendered.
      * @return The created definition.
      */
     private Definition createDefinition(String name, String template,
@@ -131,7 +149,8 @@ public class DefinitionModel {
      * Registers a definition in the container.
      *
      * @param definition The definition to register.
-     * @param container The container into which the definition will be registered.
+     * @param container The container into which the definition will be
+     * registered.
      * @param composeStack The compose stack,
      * @param request TODO
      */

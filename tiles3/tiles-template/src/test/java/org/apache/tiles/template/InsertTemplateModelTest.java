@@ -23,6 +23,7 @@ package org.apache.tiles.template;
 
 import static org.easymock.EasyMock.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,7 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -106,18 +108,21 @@ public class InsertTemplateModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #execute(String, String, String, String, String, Request)}.
+     * #execute(String, String, String, String, String, Request, ModelBody)}.
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testExecute() {
+    public void testExecute() throws IOException {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
 
-        expect(request.getApplicationContext()).andReturn(applicationContext);
+        modelBody.evaluateWithoutWriting();
+        expect(request.getApplicationContext()).andReturn(applicationContext).times(2);
         expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.startContext(request)).andReturn(attributeContext);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
@@ -126,11 +131,11 @@ public class InsertTemplateModelTest {
         attributeContext.setTemplateAttribute((Attribute) notNull());
         container.renderContext(request);
 
-        replay(container, attributeContext, request, applicationContext);
+        replay(container, attributeContext, request, applicationContext, modelBody);
         model.execute("myTemplate", "myTemplateType", "myTemplateExpression",
                 "myRole", "myPreparer",
-                request);
-        verify(container, attributeContext, request, applicationContext);
+                request, modelBody);
+        verify(container, attributeContext, request, applicationContext, modelBody);
     }
 
 }

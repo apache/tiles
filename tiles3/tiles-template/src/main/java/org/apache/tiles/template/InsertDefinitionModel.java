@@ -21,11 +21,14 @@
 
 package org.apache.tiles.template;
 
+import java.io.IOException;
+
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * <p>
@@ -115,15 +118,18 @@ public class InsertDefinitionModel {
      * rendered. If specified, it overrides the preparer specified in the
      * definition itself.
      * @param request TODO
+     * @param modelBody TODO
      * @param container The Tiles container.
-     *
+     * @throws IOException If something goes wrong.
      * @since 2.2.0
      */
     public void execute(String definitionName, String template,
             String templateType, String templateExpression, String role,
-            String preparer, Request request) {
+            String preparer, Request request, ModelBody modelBody) throws IOException {
         TilesContainer container = TilesAccess.getCurrentContainer(request);
         container.startContext(request);
+        modelBody.evaluateWithoutWriting();
+        container = TilesAccess.getCurrentContainer(request);
         renderDefinition(container, definitionName, template, templateType,
                 templateExpression, role, preparer, request);
     }

@@ -29,6 +29,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -135,6 +136,7 @@ public class GetAsStringModel {
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param request TODO
+     * @param modelBody TODO
      * @param writer The writer into which the attribute will be written.
      * @param container The Tiles container to use.
      * @throws IOException If an I/O error happens during rendering.
@@ -142,12 +144,17 @@ public class GetAsStringModel {
      */
     public void execute(boolean ignore, String preparer,
             String role, Object defaultValue, String defaultValueRole, String defaultValueType,
-            String name, Attribute value, Request request) throws IOException {
+            String name, Attribute value, Request request, ModelBody modelBody) throws IOException {
         TilesContainer container = TilesAccess.getCurrentContainer(request);
-        Writer writer = request.getWriter();
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,
                 value, request);
+        composeStack.push(attribute);
+        modelBody.evaluateWithoutWriting();
+        container = TilesAccess.getCurrentContainer(request);
+        Writer writer = request.getWriter();
+        attribute = (Attribute) composeStack.pop();
         renderAttribute(attribute, container, writer, ignore, request);
     }
 

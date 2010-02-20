@@ -23,15 +23,9 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
-
-import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.template.PutListAttributeModel;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * PutList tag implementation.
@@ -39,7 +33,7 @@ import org.apache.tiles.template.PutListAttributeModel;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class PutListAttributeTag extends SimpleTagSupport {
+public class PutListAttributeTag extends BodyTag {
 
     /**
      * The template model.
@@ -205,14 +199,7 @@ public class PutListAttributeTag extends SimpleTagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void doTag() throws JspException, IOException {
-        JspContext jspContext = getJspContext();
-        Request request = JspRequest.createServletJspRequest(
-                org.apache.tiles.request.jsp.JspUtil
-                        .getApplicationContext(jspContext),
-                (PageContext) jspContext);
-        model.start(role, inherit, request);
-        JspUtil.evaluateFragment(getJspBody());
-        model.end(name, cascade, request);
+    public void execute(Request request, ModelBody modelBody) throws IOException {
+        model.execute(name, role, inherit, cascade, request, modelBody);
     }
 }

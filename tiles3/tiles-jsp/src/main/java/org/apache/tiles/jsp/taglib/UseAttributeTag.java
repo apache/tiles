@@ -21,15 +21,11 @@
 
 package org.apache.tiles.jsp.taglib;
 
-import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.template.ImportAttributeModel;
 
 /**
@@ -38,7 +34,7 @@ import org.apache.tiles.template.ImportAttributeModel;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class UseAttributeTag extends SimpleTagSupport {
+public class UseAttributeTag extends BodylessTag {
 
     /**
      * The template model.
@@ -176,12 +172,7 @@ public class UseAttributeTag extends SimpleTagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void doTag() {
-        JspContext jspContext = getJspContext();
-        Request request = JspRequest.createServletJspRequest(
-                org.apache.tiles.request.jsp.JspUtil
-                        .getApplicationContext(jspContext),
-                (PageContext) jspContext);
+    public void execute(Request request) {
         model.execute(name, scopeName, id, ignore, request);
     }
 

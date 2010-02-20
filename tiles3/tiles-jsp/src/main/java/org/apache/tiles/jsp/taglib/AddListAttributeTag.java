@@ -23,15 +23,9 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
-
-import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.template.AddListAttributeModel;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * AddListAttribute tag implementation.
@@ -39,7 +33,7 @@ import org.apache.tiles.template.AddListAttributeModel;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class AddListAttributeTag extends SimpleTagSupport {
+public class AddListAttributeTag extends BodyTag {
 
     /**
      * The template model.
@@ -97,36 +91,9 @@ public class AddListAttributeTag extends SimpleTagSupport {
         return type;
     }
 
-    /**
-     * <p>
-     * Sets content type: string, template or definition.
-     * </p>
-     * <ul>
-     * <li>String : Content is printed directly.</li>
-     * <li>template : Content is included from specified URL. Value is used as
-     * an URL.</li>
-     * <li>definition : Value denote a definition defined in factory (xml file).
-     * Definition will be searched in the inserted tile, in a
-     * <code>&lt;insert attribute="attributeName"&gt;</code> tag, where
-     * 'attributeName' is the name used for this tag.</li>
-     * </ul>
-     *
-     * @param type The attribute type.
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
     /** {@inheritDoc} */
     @Override
-    public void doTag() throws JspException, IOException {
-        JspContext jspContext = getJspContext();
-        Request request = JspRequest.createServletJspRequest(
-                org.apache.tiles.request.jsp.JspUtil
-                        .getApplicationContext(jspContext),
-                (PageContext) jspContext);
-        model.start(role, request);
-        JspUtil.evaluateFragment(getJspBody());
-        model.end(request);
+    public void execute(Request request, ModelBody modelBody) throws IOException {
+        model.execute(role, request, modelBody);
     }
 }

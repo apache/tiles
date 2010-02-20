@@ -35,6 +35,7 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -126,7 +127,7 @@ public class InsertAttributeModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.InsertAttributeModel
      * #execute(boolean, String, String, Object, String, String, String,
-     * Attribute, Request)}.
+     * Attribute, Request, ModelBody)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -138,8 +139,10 @@ public class InsertAttributeModelTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
 
-        expect(request.getApplicationContext()).andReturn(applicationContext);
+        modelBody.evaluateWithoutWriting();
+        expect(request.getApplicationContext()).andReturn(applicationContext).times(2);
         expect(request.getContext("request")).andReturn(requestScope).anyTimes();
 
         container.prepare("myPreparer", request);
@@ -149,10 +152,10 @@ public class InsertAttributeModelTest {
         container.endContext(request);
         container.render(attribute, request);
 
-        replay(resolver, container, request, applicationContext);
+        replay(resolver, container, request, applicationContext, modelBody);
         model.execute(false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole",
-                "myDefaultValueType", "myName", attribute, request);
-        verify(resolver, container, request, applicationContext);
+                "myDefaultValueType", "myName", attribute, request, modelBody);
+        verify(resolver, container, request, applicationContext, modelBody);
     }
 
 }

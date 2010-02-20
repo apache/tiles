@@ -317,7 +317,7 @@
          <name>value</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
-         <type>java.lang.Object</type>
+         <type>org.apache.tiles.Attribute</type>
       </attribute>
       <attribute>
          <description>
@@ -741,6 +741,7 @@
          <name>name</name>
          <required>true</required>
          <rtexprvalue>true</rtexprvalue>
+         <type>org.apache.tiles.Attribute</type>
       </attribute>
       <attribute>
          <description>

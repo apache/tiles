@@ -23,17 +23,11 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
-
 import org.apache.tiles.Attribute;
-import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.InsertAttributeModel;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * This is the tag handler for &lt;tiles:attribute&gt;, which defines an
@@ -42,7 +36,7 @@ import org.apache.tiles.template.InsertAttributeModel;
  *
  * @version $Rev$ $Date$
  */
-public class InsertAttributeTag extends SimpleTagSupport {
+public class InsertAttributeTag extends BodyTag {
 
     /**
      * The template model.
@@ -58,7 +52,7 @@ public class InsertAttributeTag extends SimpleTagSupport {
     /**
      * The value of the attribute.
      */
-    private Object value = null;
+    private Attribute value = null;
 
     /**
      * This value is evaluated only if <code>value</code> is null and the
@@ -138,7 +132,7 @@ public class InsertAttributeTag extends SimpleTagSupport {
      *
      * @return The value.
      */
-    public Object getValue() {
+    public Attribute getValue() {
         return value;
     }
 
@@ -148,7 +142,7 @@ public class InsertAttributeTag extends SimpleTagSupport {
      * @param value
      *            The new value
      */
-    public void setValue(Object value) {
+    public void setValue(Attribute value) {
         this.value = value;
     }
 
@@ -313,16 +307,8 @@ public class InsertAttributeTag extends SimpleTagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void doTag() throws JspException, IOException {
-        JspContext jspContext = getJspContext();
-        Request request = JspRequest.createServletJspRequest(
-                org.apache.tiles.request.jsp.JspUtil
-                        .getApplicationContext(jspContext),
-                (PageContext) jspContext);
-        model.start(ignore, preparer,
-                role, defaultValue, defaultValueRole, defaultValueType, name,
-                (Attribute) value, request);
-        JspUtil.evaluateFragment(getJspBody());
-        model.end(ignore, request);
+    public void execute(Request request, ModelBody modelBody) throws IOException {
+        model.execute(ignore, preparer, role, defaultValue, defaultValueRole,
+                defaultValueType, name, value, request, modelBody);
     }
 }

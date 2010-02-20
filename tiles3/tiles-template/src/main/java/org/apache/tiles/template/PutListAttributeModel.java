@@ -21,6 +21,8 @@
 
 package org.apache.tiles.template;
 
+import java.io.IOException;
+
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Definition;
@@ -28,6 +30,7 @@ import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * <p>
@@ -77,6 +80,29 @@ public class PutListAttributeModel {
         TilesContainer container = TilesAccess.getCurrentContainer(request);
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = (ListAttribute) composeStack.pop();
+        AttributeContext attributeContext = null;
+        if (!composeStack.isEmpty()) {
+            Object obj = composeStack.peek();
+            if (obj instanceof Definition) {
+                attributeContext = (AttributeContext) obj;
+            }
+        }
+        if (attributeContext == null) {
+            attributeContext = container.getAttributeContext(request);
+        }
+        attributeContext.putAttribute(name, listAttribute, cascade);
+    }
+
+    public void execute(String name, String role, boolean inherit,
+            boolean cascade, Request request, ModelBody modelBody) throws IOException {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        ListAttribute listAttribute = new ListAttribute();
+        listAttribute.setRole(role);
+        listAttribute.setInherit(inherit);
+        composeStack.push(listAttribute);
+        modelBody.evaluateWithoutWriting();
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
+        listAttribute = (ListAttribute) composeStack.pop();
         AttributeContext attributeContext = null;
         if (!composeStack.isEmpty()) {
             Object obj = composeStack.peek();

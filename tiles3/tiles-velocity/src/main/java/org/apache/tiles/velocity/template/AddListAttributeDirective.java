@@ -21,18 +21,12 @@
 
 package org.apache.tiles.velocity.template;
 
-import java.io.Writer;
+import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.AddListAttributeModel;
-import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * Wraps {@link AddListAttributeModel} to be used in Velocity. For the list of
@@ -42,7 +36,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  * @version $Rev$ $Date$
  * @since 2.2.2
  */
-public class AddListAttributeDirective extends BlockDirective {
+public class AddListAttributeDirective extends BodyDirective {
 
     /**
      * The template model.
@@ -76,24 +70,9 @@ public class AddListAttributeDirective extends BlockDirective {
 
     /** {@inheritDoc} */
     @Override
-    protected void end(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, HttpServletRequest request,
-            HttpServletResponse response, ServletContext servletContext) {
-        Request currentRequest = VelocityRequest.createVelocityRequest(
-                ServletUtil.getApplicationContext(servletContext), request,
-                response, context, null);
-        model.end(currentRequest);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void start(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, HttpServletRequest request,
-            HttpServletResponse response, ServletContext servletContext) {
-        Request currentRequest = VelocityRequest.createVelocityRequest(
-                ServletUtil.getApplicationContext(servletContext), request,
-                response, context, null);
-        model.start((String) params.get("role"), currentRequest);
+    protected void execute(Map<String, Object> params, Request request,
+            ModelBody modelBody) throws IOException {
+        model.execute((String) params.get("role"), request, modelBody);
     }
 
 }

@@ -26,14 +26,9 @@ import java.util.Map;
 
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.freemarker.FreemarkerRequest;
-import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
 import org.apache.tiles.template.DefinitionModel;
+import org.apache.tiles.template.body.ModelBody;
 
-import freemarker.core.Environment;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateDirectiveModel;
-import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 /**
@@ -44,7 +39,7 @@ import freemarker.template.TemplateModel;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class DefinitionFMModel implements TemplateDirectiveModel {
+public class DefinitionFMModel extends BodyFMModel {
 
     /**
      * The template model.
@@ -62,21 +57,15 @@ public class DefinitionFMModel implements TemplateDirectiveModel {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        Map<String, TemplateModel> parms = params;
-        Request request = FreemarkerRequest
-                .createServletFreemarkerRequest(FreemarkerRequestUtil
-                        .getApplicationContext(env), env);
-        model.start(FreeMarkerUtil.getAsString(parms.get("name")),
+    @Override
+    public void execute(Map<String, TemplateModel> parms, Request request,
+            ModelBody modelBody) throws IOException {
+        model.execute(FreeMarkerUtil.getAsString(parms.get("name")),
                 FreeMarkerUtil.getAsString(parms.get("template")),
                 FreeMarkerUtil.getAsString(parms.get("role")),
                 FreeMarkerUtil.getAsString(parms.get("extends")),
                 FreeMarkerUtil.getAsString(parms.get("preparer")),
-                request);
-        FreeMarkerUtil.evaluateBody(body);
-        model.end(request);
+                request, modelBody);
     }
 
 }

@@ -21,9 +21,12 @@
 
 package org.apache.tiles.template;
 
+import java.io.IOException;
+
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * <p>
@@ -64,6 +67,17 @@ public class AddListAttributeModel {
     public void end(Request request) {
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = (ListAttribute) composeStack.pop();
+        ListAttribute parent = (ListAttribute) composeStack.peek();
+        parent.add(listAttribute);
+    }
+
+    public void execute(String role, Request request, ModelBody modelBody) throws IOException {
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        ListAttribute listAttribute = new ListAttribute();
+        listAttribute.setRole(role);
+        composeStack.push(listAttribute);
+        modelBody.evaluateWithoutWriting();
+        listAttribute = (ListAttribute) composeStack.pop();
         ListAttribute parent = (ListAttribute) composeStack.peek();
         parent.add(listAttribute);
     }

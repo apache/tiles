@@ -22,7 +22,9 @@
 package org.apache.tiles.template;
 
 import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +34,7 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -109,18 +112,21 @@ public class InsertDefinitionModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.InsertDefinitionModel
      * #execute(java.lang.String, java.lang.String, String,
-     * String, java.lang.String, java.lang.String, Request)}.
+     * String, java.lang.String, java.lang.String, Request, ModelBody)}.
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testExecute() {
+    public void testExecute() throws IOException {
         TilesContainer container = createMock(TilesContainer.class);
         Request request = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
 
-        expect(request.getApplicationContext()).andReturn(applicationContext);
+        modelBody.evaluateWithoutWriting();
+        expect(request.getApplicationContext()).andReturn(applicationContext).times(2);
         expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.startContext(request)).andReturn(attributeContext);
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
@@ -129,11 +135,11 @@ public class InsertDefinitionModelTest {
         attributeContext.setTemplateAttribute((Attribute) notNull());
         container.render("myDefinitionName", request);
 
-        replay(container, attributeContext, request, applicationContext);
+        replay(container, attributeContext, request, applicationContext, modelBody);
         model.execute("myDefinitionName", "myTemplate", "myTemplateType",
                 "myTemplateExpression", "myRole", "myPreparer",
-                request);
-        verify(container, attributeContext, request, applicationContext);
+                request, modelBody);
+        verify(container, attributeContext, request, applicationContext, modelBody);
     }
 
 }

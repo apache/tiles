@@ -28,6 +28,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,19 +145,24 @@ public class InsertAttributeModel {
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
      * @param request TODO
+     * @param modelBody TODO
      * @param container The Tiles container to use.
-     *
      * @throws IOException If an I/O error happens during rendering.
      * @since 2.2.0
      */
     public void execute(boolean ignore, String preparer,
             String role, Object defaultValue, String defaultValueRole,
             String defaultValueType, String name, Attribute value,
-            Request request) throws IOException {
+            Request request, ModelBody modelBody) throws IOException {
         TilesContainer container = TilesAccess.getCurrentContainer(request);
+        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,
                 value, request);
+        composeStack.push(attribute);
+        modelBody.evaluateWithoutWriting();
+        container = TilesAccess.getCurrentContainer(request);
+        attribute = (Attribute) composeStack.pop();
         renderAttribute(container, ignore, attribute, request);
     }
 

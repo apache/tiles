@@ -23,13 +23,7 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
-
-import org.apache.tiles.jsp.JspModelBody;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.template.AddAttributeModel;
 import org.apache.tiles.template.body.ModelBody;
 
@@ -68,7 +62,7 @@ import org.apache.tiles.template.body.ModelBody;
  *
  * @version $Rev$ $Date$
  */
-public class AddAttributeTag extends SimpleTagSupport {
+public class AddAttributeTag extends BodyTag {
 
     /**
      * The template model.
@@ -199,13 +193,7 @@ public class AddAttributeTag extends SimpleTagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void doTag() throws IOException {
-        JspContext pageContext = getJspContext();
-        Request request = JspRequest.createServletJspRequest(
-                org.apache.tiles.request.jsp.JspUtil
-                        .getApplicationContext(pageContext),
-                (PageContext) pageContext);
-        ModelBody modelBody = new JspModelBody(getJspBody(), pageContext);
+    protected void execute(Request request, ModelBody modelBody) throws IOException {
         model.execute(value, expression, role, type, request, modelBody);
     }
 }

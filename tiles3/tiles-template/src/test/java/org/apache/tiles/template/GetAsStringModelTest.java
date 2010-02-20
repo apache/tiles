@@ -37,6 +37,7 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -131,7 +132,7 @@ public class GetAsStringModelTest {
      * Test method for {@link org.apache.tiles.template.GetAsStringModel
      * #execute(boolean, java.lang.String, java.lang.String,
      * java.lang.Object, java.lang.String, java.lang.String, java.lang.String,
-     * org.apache.tiles.Attribute, Request)}.
+     * org.apache.tiles.Attribute, Request, ModelBody)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -142,11 +143,15 @@ public class GetAsStringModelTest {
         Request request = createMock(Request.class);
         Writer writer = createMock(Writer.class);
         Map<String, Object> requestScope = new HashMap<String, Object>();
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
 
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getContext("request")).andReturn(requestScope);
+        modelBody.evaluateWithoutWriting();
+        expect(request.getApplicationContext()).andReturn(applicationContext).times(2);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(request.getWriter()).andReturn(writer);
         container.prepare("myPreparer", request);
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
@@ -155,10 +160,10 @@ public class GetAsStringModelTest {
         writer.write("myValue");
         container.endContext(request);
 
-        replay(resolver, container, writer, request, applicationContext);
+        replay(resolver, container, writer, request, applicationContext, modelBody);
         model.execute(false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole", "myDefaultValueType",
-                "myName", attribute, request);
-        verify(resolver, container, writer, request, applicationContext);
+                "myName", attribute, request, modelBody);
+        verify(resolver, container, writer, request, applicationContext, modelBody);
     }
 
 }

@@ -21,13 +21,8 @@
 
 package org.apache.tiles.jsp.taglib.definition;
 
-import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
-
+import org.apache.tiles.jsp.taglib.BodylessTag;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.jsp.JspRequest;
-import org.apache.tiles.request.jsp.JspUtil;
 import org.apache.tiles.template.SetCurrentContainerModel;
 
 /**
@@ -36,7 +31,7 @@ import org.apache.tiles.template.SetCurrentContainerModel;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class SetCurrentContainerTag extends SimpleTagSupport {
+public class SetCurrentContainerTag extends BodylessTag {
 
     private SetCurrentContainerModel model = new SetCurrentContainerModel();
 
@@ -67,11 +62,7 @@ public class SetCurrentContainerTag extends SimpleTagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void doTag() {
-        JspContext jspContext = getJspContext();
-        Request request = JspRequest.createServletJspRequest(
-                JspUtil.getApplicationContext(jspContext),
-                (PageContext) jspContext);
+    public void execute(Request request) {
         model.execute(containerKey, request);
     }
 }

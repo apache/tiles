@@ -40,7 +40,7 @@ import org.apache.tiles.velocity.context.VelocityUtil;
  * @version $Rev$ $Date$
  * @since 2.2.2
  */
-public class PutAttributeDirective extends BodyBlockDirective {
+public class PutAttributeDirective extends BodyDirective {
 
     /**
      * The template model.

@@ -27,14 +27,9 @@ import java.util.Map;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.freemarker.FreemarkerRequest;
-import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
 import org.apache.tiles.template.GetAsStringModel;
+import org.apache.tiles.template.body.ModelBody;
 
-import freemarker.core.Environment;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateDirectiveModel;
-import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 /**
@@ -49,7 +44,7 @@ import freemarker.template.TemplateModel;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class GetAsStringFMModel implements TemplateDirectiveModel {
+public class GetAsStringFMModel extends BodyFMModel {
 
     /**
      * The template model.
@@ -67,14 +62,10 @@ public class GetAsStringFMModel implements TemplateDirectiveModel {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        Map<String, TemplateModel> parms = params;
-        Request request = FreemarkerRequest
-                .createServletFreemarkerRequest(FreemarkerRequestUtil
-                        .getApplicationContext(env), env);
-        model.start(
+    @Override
+    public void execute(Map<String, TemplateModel> parms, Request request,
+            ModelBody modelBody) throws IOException {
+        model.execute(
                 FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false),
                 FreeMarkerUtil.getAsString(parms.get("preparer")),
                 FreeMarkerUtil.getAsString(parms.get("role")),
@@ -85,9 +76,7 @@ public class GetAsStringFMModel implements TemplateDirectiveModel {
                 .getAsString(parms.get("defaultValueType")),
                 FreeMarkerUtil.getAsString(parms.get("name")), (Attribute) FreeMarkerUtil.getAsObject(parms
                         .get("value")),
-                request);
-        FreeMarkerUtil.evaluateBody(body);
-        model.end(FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false), request);
+                request, modelBody);
     }
 
 }

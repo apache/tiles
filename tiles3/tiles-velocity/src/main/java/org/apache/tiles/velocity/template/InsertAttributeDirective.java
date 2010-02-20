@@ -22,21 +22,14 @@
 package org.apache.tiles.velocity.template;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletUtil;
-import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.InsertAttributeModel;
+import org.apache.tiles.template.body.ModelBody;
 import org.apache.tiles.velocity.context.VelocityUtil;
-import org.apache.velocity.context.InternalContextAdapter;
 
 /**
  * Wraps {@link InsertAttributeModel} to be used in Velocity. For the list of
@@ -51,7 +44,7 @@ import org.apache.velocity.context.InternalContextAdapter;
  * @version $Rev$ $Date$
  * @since 2.2.2
  */
-public class InsertAttributeDirective extends BlockDirective {
+public class InsertAttributeDirective extends BodyDirective {
 
     /**
      * The template model.
@@ -86,32 +79,15 @@ public class InsertAttributeDirective extends BlockDirective {
 
     /** {@inheritDoc} */
     @Override
-    protected void end(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, HttpServletRequest request,
-            HttpServletResponse response, ServletContext servletContext)
-            throws IOException {
-        Request currentRequest = VelocityRequest.createVelocityRequest(
-                ServletUtil.getApplicationContext(servletContext), request,
-                response, context, writer);
-        model.end(VelocityUtil.toSimpleBoolean((Boolean) params.get("ignore"),
-                false), currentRequest);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void start(InternalContextAdapter context, Writer writer,
-            Map<String, Object> params, HttpServletRequest request,
-            HttpServletResponse response, ServletContext servletContext) {
-        Request currentRequest = VelocityRequest.createVelocityRequest(
-                ServletUtil.getApplicationContext(servletContext), request,
-                response, context, writer);
-        model.start(VelocityUtil.toSimpleBoolean(
+    protected void execute(Map<String, Object> params, Request request,
+            ModelBody modelBody) throws IOException {
+        model.execute(VelocityUtil.toSimpleBoolean(
                 (Boolean) params.get("ignore"), false), (String) params
                 .get("preparer"), (String) params.get("role"), params
                 .get("defaultValue"), (String) params.get("defaultValueRole"),
                 (String) params.get("defaultValueType"), (String) params
                         .get("name"), (Attribute) params.get("value"),
-                currentRequest);
+                request, modelBody);
     }
 
 }

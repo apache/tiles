@@ -23,15 +23,9 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
-
-import org.apache.tiles.jsp.JspUtil;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.template.InsertDefinitionModel;
+import org.apache.tiles.template.body.ModelBody;
 
 /**
  * This is the tag handler for &lt;tiles:insertDefinition&gt;, which includes a
@@ -39,7 +33,7 @@ import org.apache.tiles.template.InsertDefinitionModel;
  *
  * @version $Rev$ $Date$
  */
-public class InsertDefinitionTag extends SimpleTagSupport {
+public class InsertDefinitionTag extends BodyTag {
 
     /**
      * The template model.
@@ -282,15 +276,8 @@ public class InsertDefinitionTag extends SimpleTagSupport {
 
     /** {@inheritDoc} */
     @Override
-    public void doTag() throws JspException, IOException {
-        JspContext jspContext = getJspContext();
-        Request request = JspRequest.createServletJspRequest(
-                org.apache.tiles.request.jsp.JspUtil
-                        .getApplicationContext(jspContext),
-                (PageContext) jspContext);
-        model.start(request);
-        JspUtil.evaluateFragment(getJspBody());
-        model.end(name, template, templateType,
-                templateExpression, role, preparer, request);
+    public void execute(Request request, ModelBody modelBody) throws IOException {
+        model.execute(name, template, templateType, templateExpression, role,
+                preparer, request, modelBody);
     }
 }

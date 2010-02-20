@@ -24,17 +24,11 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.freemarker.FreemarkerModelBody;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.freemarker.FreemarkerRequest;
-import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
 import org.apache.tiles.template.PutAttributeModel;
 import org.apache.tiles.template.body.ModelBody;
 
-import freemarker.core.Environment;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateModel;
 
 /**
@@ -46,7 +40,7 @@ import freemarker.template.TemplateModel;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class PutAttributeFMModel implements TemplateDirectiveModel {
+public class PutAttributeFMModel extends BodyFMModel {
 
     /**
      * The template model.
@@ -65,14 +59,9 @@ public class PutAttributeFMModel implements TemplateDirectiveModel {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws IOException {
-        Request request = FreemarkerRequest
-                .createServletFreemarkerRequest(FreemarkerRequestUtil
-                        .getApplicationContext(env), env);
-        ModelBody modelBody = new FreemarkerModelBody(env.getOut(), body);
-        Map<String, TemplateModel> parms = params;
+    @Override
+    public void execute(Map<String, TemplateModel> parms, Request request,
+            ModelBody modelBody) throws IOException {
         model.execute(FreeMarkerUtil.getAsString(parms.get("name")),
                 FreeMarkerUtil.getAsObject(parms.get("value")), FreeMarkerUtil
                         .getAsString(parms.get("expression")), FreeMarkerUtil

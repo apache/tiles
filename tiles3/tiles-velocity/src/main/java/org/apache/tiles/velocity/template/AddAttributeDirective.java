@@ -38,7 +38,7 @@ import org.apache.tiles.template.body.ModelBody;
  * @version $Rev$ $Date$
  * @since 2.2.2
  */
-public class AddAttributeDirective extends BodyBlockDirective {
+public class AddAttributeDirective extends BodyDirective {
 
     /**
      * The template model.

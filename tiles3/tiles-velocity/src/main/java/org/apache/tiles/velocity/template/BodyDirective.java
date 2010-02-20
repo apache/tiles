@@ -48,7 +48,7 @@ import org.apache.velocity.tools.view.ViewContext;
  * @version $Rev$ $Date$
  * @since 2.2.2
  */
-public abstract class BodyBlockDirective extends Directive {
+public abstract class BodyDirective extends Directive {
 
     /** {@inheritDoc} */
     @Override

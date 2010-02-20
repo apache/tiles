@@ -24,6 +24,7 @@ package org.apache.tiles.template;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -141,10 +143,11 @@ public class DefinitionModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.DefinitionModel
      * #execute(java.lang.String, java.lang.String,
-     * java.lang.String, java.lang.String, java.lang.String, Request)}.
+     * java.lang.String, java.lang.String, java.lang.String, Request, ModelBody)}.
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testExecute() {
+    public void testExecute() throws IOException {
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
         Request request = createMock(Request.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
@@ -154,18 +157,20 @@ public class DefinitionModelTest {
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
 
+        modelBody.evaluateWithoutWriting();
         expect(request.getApplicationContext()).andReturn(applicationContext);
         expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         container.register((Definition) notNull(), eq(request));
 
-        replay(container, request, applicationContext);
+        replay(container, request, modelBody, applicationContext);
         model.execute("myName", "myTemplate", "myRole", "myExtends",
-                "myPreparer", request);
+                "myPreparer", request, modelBody);
         assertEquals(1, composeStack.size());
         attribute = (Attribute) composeStack.peek();
         assertEquals("definition", attribute.getRenderer());
-        verify(container, request, applicationContext);
+        verify(container, request, modelBody, applicationContext);
     }
 
 }

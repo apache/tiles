@@ -48,7 +48,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link BodyBlockDirective}.
+ * Tests {@link BodyDirective}.
  *
  * @version $Rev$ $Date$
  */
@@ -57,14 +57,14 @@ public class BodyBlockDirectiveTest {
     /**
      * The directive to test.
      */
-    private BodyBlockDirective directive;
+    private BodyDirective directive;
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() {
-        directive = createMock(BodyBlockDirective.class, new Method[0]);
+        directive = createMock(BodyDirective.class, new Method[0]);
     }
 
     /**
