@@ -29,7 +29,6 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
@@ -68,13 +67,6 @@ public final class VelocityUtil {
     }
 
     /**
-     * The attribute key that will be used to store the parameter map, to use across Velocity tool calls.
-     *
-     * @since 2.2.0
-     */
-    private static final String PARAMETER_MAP_STACK_KEY = "org.apache.tiles.velocity.PARAMETER_MAP_STACK";
-
-    /**
      * Private constructor to avoid instantiation.
      */
     private VelocityUtil() {
@@ -90,26 +82,6 @@ public final class VelocityUtil {
      */
     public static boolean toSimpleBoolean(Boolean obj, boolean defaultValue) {
         return obj != null ? obj : defaultValue;
-    }
-
-    /**
-     * Returns or creates the parameter stack to use. It is useful to store parameters across tool calls.
-     *
-     * @param context The Velocity context.
-     * @return The parameter stack.
-     * @since 2.2.0
-     * @deprecated Use Velocity directives.
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public static ArrayStack<Map<String, Object>> getParameterStack(Context context) {
-        ArrayStack<Map<String, Object>> stack = (ArrayStack<Map<String, Object>>) context
-                .get(PARAMETER_MAP_STACK_KEY);
-        if (stack == null) {
-            stack = new ArrayStack<Map<String, Object>>();
-            context.put(PARAMETER_MAP_STACK_KEY, stack);
-        }
-        return stack;
     }
 
     /**

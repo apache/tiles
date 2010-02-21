@@ -22,8 +22,8 @@
 package org.apache.tiles.template;
 
 import java.io.IOException;
+import java.util.Deque;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
@@ -44,7 +44,7 @@ import org.apache.tiles.request.Request;
 public class AddListAttributeModel {
 
     public void execute(String role, Request request, ModelBody modelBody) throws IOException {
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = new ListAttribute();
         listAttribute.setRole(role);
         composeStack.push(listAttribute);

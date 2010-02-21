@@ -22,8 +22,8 @@
 package org.apache.tiles.template;
 
 import java.io.IOException;
+import java.util.Deque;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.access.TilesAccess;
@@ -65,7 +65,7 @@ public class DefinitionModel {
      */
     public void execute(String name, String template, String role,
             String extendsParam, String preparer, Request request, ModelBody modelBody) throws IOException {
-        ArrayStack<Object> composeStack = ComposeStackUtil
+        Deque<Object> composeStack = ComposeStackUtil
                 .getComposeStack(request);
         Definition definition = createDefinition(name, template, role,
                 extendsParam, preparer);
@@ -113,7 +113,7 @@ public class DefinitionModel {
      * @param request TODO
      */
     private void registerDefinition(Definition definition,
-            MutableTilesContainer container, ArrayStack<Object> composeStack,
+            MutableTilesContainer container, Deque<Object> composeStack,
             Request request) {
         container.register(definition, request);
 

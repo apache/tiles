@@ -22,8 +22,8 @@
 package org.apache.tiles.template;
 
 import java.io.IOException;
+import java.util.Deque;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.ListAttribute;
@@ -64,7 +64,7 @@ public class AddAttributeModel {
             String type, Request request, ModelBody modelBody)
             throws IOException {
         Attribute attribute = new Attribute();
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         composeStack.push(attribute);
         String body = modelBody.evaluateAsString();
         attribute = (Attribute) composeStack.pop();
@@ -89,7 +89,7 @@ public class AddAttributeModel {
      * @since 2.2.0
      */
     private void addAttributeToList(Attribute attribute,
-            ArrayStack<Object> composeStack, Object value, String expression,
+            Deque<Object> composeStack, Object value, String expression,
             String body, String role, String type) {
         ListAttribute listAttribute = (ListAttribute) ComposeStackUtil
                 .findAncestorWithClass(composeStack, ListAttribute.class);

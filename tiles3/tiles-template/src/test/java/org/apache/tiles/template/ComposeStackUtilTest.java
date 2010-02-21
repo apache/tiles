@@ -23,7 +23,9 @@ package org.apache.tiles.template;
 
 import static org.junit.Assert.*;
 
-import org.apache.tiles.ArrayStack;
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 import org.junit.Test;
 
 /**
@@ -49,7 +51,7 @@ public class ComposeStackUtilTest {
      */
     @Test
     public void testFindAncestorWithClass() {
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        Deque<Object> composeStack = new ArrayDeque<Object>();
         Integer integerValue = new Integer(1);
         Long longValue = new Long(LONG_VALUE);
         String stringValue = "my value";

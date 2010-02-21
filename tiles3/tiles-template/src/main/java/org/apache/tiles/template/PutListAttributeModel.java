@@ -22,8 +22,8 @@
 package org.apache.tiles.template;
 
 import java.io.IOException;
+import java.util.Deque;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
@@ -49,7 +49,7 @@ public class PutListAttributeModel {
 
     public void execute(String name, String role, boolean inherit,
             boolean cascade, Request request, ModelBody modelBody) throws IOException {
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = new ListAttribute();
         listAttribute.setRole(role);
         listAttribute.setInherit(inherit);

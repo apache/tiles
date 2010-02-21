@@ -22,8 +22,8 @@
 package org.apache.tiles.template;
 
 import java.io.IOException;
+import java.util.Deque;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
@@ -108,7 +108,7 @@ public class InsertAttributeModel {
             String defaultValueType, String name, Attribute value,
             Request request, ModelBody modelBody) throws IOException {
         TilesContainer container = TilesAccess.getCurrentContainer(request);
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,
                 value, request);

@@ -21,8 +21,9 @@
 package org.apache.tiles.impl;
 
 import java.io.IOException;
+import java.util.Deque;
+import java.util.LinkedList;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.BasicAttributeContext;
@@ -102,7 +103,7 @@ public class BasicTilesContainer implements TilesContainer,
     /** {@inheritDoc} */
     public AttributeContext startContext(Request request) {
         AttributeContext context = new BasicAttributeContext();
-        ArrayStack<AttributeContext>  stack = getContextStack(request);
+        Deque<AttributeContext>  stack = getContextStack(request);
         if (!stack.isEmpty()) {
             AttributeContext parent = stack.peek();
             context.inheritCascadedAttributes(parent);
@@ -297,12 +298,12 @@ public class BasicTilesContainer implements TilesContainer,
      * @since 2.0.6
      */
     @SuppressWarnings("unchecked")
-    protected ArrayStack<AttributeContext> getContextStack(Request tilesContext) {
-        ArrayStack<AttributeContext> contextStack =
-            (ArrayStack<AttributeContext>) tilesContext
+    protected Deque<AttributeContext> getContextStack(Request tilesContext) {
+        Deque<AttributeContext> contextStack =
+            (Deque<AttributeContext>) tilesContext
                 .getContext("request").get(ATTRIBUTE_CONTEXT_STACK);
         if (contextStack == null) {
-            contextStack = new ArrayStack<AttributeContext>();
+            contextStack = new LinkedList<AttributeContext>();
             tilesContext.getContext("request").put(ATTRIBUTE_CONTEXT_STACK,
                     contextStack);
         }
@@ -319,7 +320,7 @@ public class BasicTilesContainer implements TilesContainer,
      */
     protected void pushContext(AttributeContext context,
             Request tilesContext) {
-        ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
+        Deque<AttributeContext> contextStack = getContextStack(tilesContext);
         contextStack.push(context);
     }
 
@@ -331,7 +332,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @since 2.0.6
      */
     protected AttributeContext popContext(Request tilesContext) {
-        ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
+        Deque<AttributeContext> contextStack = getContextStack(tilesContext);
         return contextStack.pop();
     }
 
@@ -343,7 +344,7 @@ public class BasicTilesContainer implements TilesContainer,
      * @since 2.0.6
      */
     protected AttributeContext getContext(Request tilesContext) {
-        ArrayStack<AttributeContext> contextStack = getContextStack(tilesContext);
+        Deque<AttributeContext> contextStack = getContextStack(tilesContext);
         if (!contextStack.isEmpty()) {
             return contextStack.peek();
         }

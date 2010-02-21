@@ -22,8 +22,8 @@
 package org.apache.tiles.template;
 
 import java.io.IOException;
+import java.util.Deque;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Expression;
@@ -90,7 +90,7 @@ public class PutAttributeModel {
     public void execute(String name, Object value,
             String expression, String role, String type, boolean cascade,
             Request request, ModelBody modelBody) throws IOException {
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
+        Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
         String currentBody = modelBody.evaluateAsString();
@@ -120,7 +120,7 @@ public class PutAttributeModel {
      * @param request TODO
      */
     private void putAttributeInParent(Attribute attribute,
-            TilesContainer container, ArrayStack<Object> composeStack, String name,
+            TilesContainer container, Deque<Object> composeStack, String name,
             Object value, String expression, String body, String role,
             String type, boolean cascade, Request request) {
         AttributeContext attributeContext = null;

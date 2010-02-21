@@ -21,9 +21,10 @@
 
 package org.apache.tiles.template;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Map;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.request.Request;
 
 /**
@@ -54,16 +55,14 @@ public final class ComposeStackUtil {
      * @return The first ancestor that is assignable to the class, or null if not found.
      * @since 2.2.0
      */
-    public static Object findAncestorWithClass(ArrayStack<Object> composeStack, Class<?> clazz) {
-        Object retValue = null;
-        for (int i = composeStack.size() - 1; i >= 0 && retValue == null; i--) {
-            Object obj = composeStack.get(i);
+    public static Object findAncestorWithClass(Deque<Object> composeStack, Class<?> clazz) {
+        for (Object obj : composeStack) {
             if (clazz.isAssignableFrom(obj.getClass())) {
-                retValue = obj;
+                return obj;
             }
         }
 
-        return retValue;
+        return null;
     }
 
     /**
@@ -74,12 +73,12 @@ public final class ComposeStackUtil {
      * @since 2.2.0
      */
     @SuppressWarnings("unchecked")
-	public static ArrayStack<Object> getComposeStack(Request request) {
+    public static Deque<Object> getComposeStack(Request request) {
         Map<String, Object> requestScope = request.getContext("request");
-		ArrayStack<Object> composeStack = (ArrayStack<Object>) requestScope
-				.get(COMPOSE_STACK_ATTRIBUTE_NAME);
+        Deque<Object> composeStack = (Deque<Object>) requestScope
+                .get(COMPOSE_STACK_ATTRIBUTE_NAME);
         if (composeStack == null) {
-            composeStack = new ArrayStack<Object>();
+            composeStack = new LinkedList<Object>();
             requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
         }
         return composeStack;

@@ -25,10 +25,11 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.ListAttribute;
@@ -70,7 +71,7 @@ public class PutAttributeModelTest {
         Request request = createMock(Request.class);
         ModelBody modelBody = createMock(ModelBody.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        Deque<Object> composeStack = new ArrayDeque<Object>();
         ListAttribute listAttribute = new ListAttribute();
         composeStack.push(listAttribute);
         Map<String, Object> requestScope = new HashMap<String, Object>();

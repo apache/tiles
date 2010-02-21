@@ -26,10 +26,11 @@ import static org.easymock.classextension.EasyMock.*;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
@@ -81,7 +82,7 @@ public class GetAsStringModelTest {
         Request request = createMock(Request.class);
         Writer writer = createMock(Writer.class);
         Map<String, Object> requestScope = new HashMap<String, Object>();
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        Deque<Object> composeStack = new ArrayDeque<Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);

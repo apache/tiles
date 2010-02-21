@@ -25,10 +25,11 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.access.TilesAccess;
@@ -69,7 +70,7 @@ public class DefinitionModelTest {
     public void testExecute() throws IOException {
         MutableTilesContainer container = createMock(MutableTilesContainer.class);
         Request request = createMock(Request.class);
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        Deque<Object> composeStack = new ArrayDeque<Object>();
         Attribute attribute = new Attribute();
         composeStack.push(attribute);
         Map<String, Object> requestScope = new HashMap<String, Object>();
