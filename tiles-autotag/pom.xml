@@ -13,6 +13,7 @@
     <name>Autotags</name>
     <description>Automatic generation of tags.</description>
     <modules>
+        <module>tiles-autotag-core-runtime</module>
         <module>tiles-autotag-core</module>
         <module>tiles-autotag-jsp</module>
     </modules>
