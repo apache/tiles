@@ -22,13 +22,11 @@
 package org.apache.tiles.template;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
@@ -63,65 +61,6 @@ public class InsertAttributeModelTest {
     public void setUp() {
         resolver = createMock(AttributeResolver.class);
         model = new InsertAttributeModel(resolver);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.template.InsertAttributeModel
-     * #start(boolean, String, String, Object, String, String, String,
-     * Attribute, Request)}.
-     */
-    @Test
-    public void testStart() {
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
-        TilesContainer container = createMock(TilesContainer.class);
-        Request request = createMock(Request.class);
-        Attribute attribute = new Attribute();
-        AttributeContext attributeContext = createMock(AttributeContext.class);
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
-        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
-        container.prepare("myPreparer", request);
-        expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
-                "myDefaultValueRole", "myDefaultValueType", request)).andReturn(attribute);
-        expect(container.startContext(request)).andReturn(attributeContext);
-
-        replay(resolver, container, attributeContext, request, applicationContext);
-        model.start(false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole", "myDefaultValueType",
-                "myName", attribute, request);
-        assertEquals(1, composeStack.size());
-        assertEquals(attribute, composeStack.peek());
-        verify(resolver, container, attributeContext, request, applicationContext);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.template.InsertAttributeModel
-     * #end(boolean, Request)}.
-     * @throws IOException If something goes wrong.
-     */
-    @Test
-    public void testEnd() throws IOException {
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
-        Attribute attribute = new Attribute("myValue");
-        composeStack.push(attribute);
-        TilesContainer container = createMock(TilesContainer.class);
-        Request request = createMock(Request.class);
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
-        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
-        container.endContext(request);
-        container.render(attribute, request);
-
-        replay(resolver, container, request, applicationContext);
-        model.end(false, request);
-        verify(resolver, container, request, applicationContext);
     }
 
     /**

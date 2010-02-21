@@ -25,6 +25,7 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,51 +61,32 @@ public class PutListAttributeModelTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.PutListAttributeModel#start(String, boolean, Request)}.
-     */
-    @Test
-    public void testStart() {
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        Request request = createMock(Request.class);
-        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
-
-        expect(request.getContext("request")).andReturn(requestScope);
-
-        replay(request);
-        model.start("myRole", false, request);
-        assertEquals(1, composeStack.size());
-        ListAttribute listAttribute = (ListAttribute) composeStack.peek();
-        assertEquals("myRole", listAttribute.getRole());
-        verify(request);
-    }
-
-    /**
      * Test method for {@link org.apache.tiles.template.PutListAttributeModel
-     * #end(String, boolean, Request)}.
+     * #execute(String, String, boolean, boolean, Request, ModelBody)}.
+     * @throws IOException If something goes wrong.
      */
     @Test
-    public void testEnd() {
+    public void testExecute() throws IOException {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Request request = createMock(Request.class);
         ArrayStack<Object> composeStack = new ArrayStack<Object>();
-        ListAttribute listAttribute = new ListAttribute();
-        composeStack.push(listAttribute);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
 
+        modelBody.evaluateWithoutWriting();
         expect(request.getApplicationContext()).andReturn(applicationContext);
         expect(request.getContext("request")).andReturn(requestScope).anyTimes();
         expect(container.getAttributeContext(request)).andReturn(attributeContext);
-        attributeContext.putAttribute("myName", listAttribute, false);
+        attributeContext.putAttribute(eq("myName"), isA(ListAttribute.class), eq(false));
 
-        replay(container, attributeContext, request);
-        model.end("myName", false, request);
+        replay(container, attributeContext, request, modelBody);
+        model.execute("myName", "myRole", false, false, request, modelBody);
         assertEquals(0, composeStack.size());
-        verify(container, attributeContext, request);
+        verify(container, attributeContext, request, modelBody);
     }
 
 }

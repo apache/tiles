@@ -47,52 +47,6 @@ import org.apache.tiles.template.body.ModelBody;
  */
 public class PutListAttributeModel {
 
-    /**
-     * Starts the operation.
-     * @param role A comma-separated list of roles. If present, the attribute
-     * will be rendered only if the current user belongs to one of the roles.
-     * @param inherit If <code>true</code> the list contained in the in the same
-     * attribute of the parent definition will be extended.
-     * @param request TODO
-     * @param composeStack The composing stack.
-     *
-     * @since 2.2.0
-     */
-    public void start(String role, boolean inherit, Request request) {
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        ListAttribute listAttribute = new ListAttribute();
-        listAttribute.setRole(role);
-        listAttribute.setInherit(inherit);
-        composeStack.push(listAttribute);
-    }
-
-    /**
-     * Ends the operation.
-     * @param name The name of the attribute to put.
-     * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
-     * @param request TODO
-     * @param container The Tiles container to use.
-     * @param composeStack The composing stack.
-     *
-     * @since 2.2.0
-     */
-    public void end(String name, boolean cascade, Request request) {
-        TilesContainer container = TilesAccess.getCurrentContainer(request);
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        ListAttribute listAttribute = (ListAttribute) composeStack.pop();
-        AttributeContext attributeContext = null;
-        if (!composeStack.isEmpty()) {
-            Object obj = composeStack.peek();
-            if (obj instanceof Definition) {
-                attributeContext = (AttributeContext) obj;
-            }
-        }
-        if (attributeContext == null) {
-            attributeContext = container.getAttributeContext(request);
-        }
-        attributeContext.putAttribute(name, listAttribute, cascade);
-    }
-
     public void execute(String name, String role, boolean inherit,
             boolean cascade, Request request, ModelBody modelBody) throws IOException {
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);

@@ -69,43 +69,6 @@ import org.apache.tiles.template.body.ModelBody;
 public class InsertDefinitionModel {
 
     /**
-     * Starts the operation.
-     * @param request TODO
-     * @param container The Tiles container.
-     *
-     * @since 2.2.0
-     */
-    public void start(Request request) {
-        TilesContainer container = TilesAccess.getCurrentContainer(request);
-        container.startContext(request);
-    }
-
-    /**
-     * Ends the operation.
-     * @param definitionName The name of the definition to render.
-     * @param template If specified, this template will be used instead of the
-     * one used by the definition.
-     * @param templateType The type of the template attribute.
-     * @param templateExpression The expression to evaluate to get the value of the template.
-     * @param role A comma-separated list of roles. If present, the definition
-     * will be rendered only if the current user belongs to one of the roles.
-     * @param preparer The preparer to use to invoke before the definition is
-     * rendered. If specified, it overrides the preparer specified in the
-     * definition itself.
-     * @param request TODO
-     * @param container The Tiles container.
-     *
-     * @since 2.2.0
-     */
-    public void end(String definitionName, String template,
-            String templateType, String templateExpression, String role,
-            String preparer, Request request) {
-        TilesContainer container = TilesAccess.getCurrentContainer(request);
-        renderDefinition(container, definitionName, template, templateType,
-                templateExpression, role, preparer, request);
-    }
-
-    /**
      * Executes the operation.
      * @param definitionName The name of the definition to render.
      * @param template If specified, this template will be used instead of the

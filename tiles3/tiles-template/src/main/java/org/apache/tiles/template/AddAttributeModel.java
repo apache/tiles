@@ -48,41 +48,6 @@ import org.apache.tiles.template.body.ModelBody;
 public class AddAttributeModel {
 
     /**
-     * Starts the operation..
-     * @param request TODO
-     *
-     * @since 2.2.0
-     */
-    public void start(Request request) {
-        Attribute attribute = new Attribute();
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        composeStack.push(attribute);
-    }
-
-    /**
-     * Ends the operation.
-     * @param value The value of the attribute. Use this parameter, or
-     * expression, or body.
-     * @param expression The expression to calculate the value from. Use this
-     * parameter, or value, or body.
-     * @param body The body of the tag. Use this parameter, or value, or
-     * expression.
-     * @param role A comma-separated list of roles. If present, the attribute
-     * will be rendered only if the current user belongs to one of the roles.
-     * @param type The type (renderer) of the attribute.
-     * @param request TODO
-     *
-     * @since 2.2.0
-     */
-    public void end(Object value, String expression,
-            String body, String role, String type, Request request) {
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        Attribute attribute = (Attribute) composeStack.pop();
-        addAttributeToList(attribute, composeStack, value, expression, body,
-                role, type);
-    }
-
-    /**
      * Executes the operation.
      * @param value The value of the attribute. Use this parameter, or
      * expression, or body.

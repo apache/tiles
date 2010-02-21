@@ -46,48 +46,6 @@ import org.apache.tiles.template.body.ModelBody;
 public class DefinitionModel {
 
     /**
-     * Starts the operation.
-     *
-     * @param name The name of the definition to create. If not specified, an
-     * anonymous definition will be created.
-     * @param template The template of this definition.
-     * @param role A comma-separated list of roles. If present, the definition
-     * will be rendered only if the current user belongs to one of the roles.
-     * @param extendsParam The definition name that this definition extends.
-     * @param preparer The preparer to use to invoke before the definition is
-     * rendered.
-     * @param request TODO
-     * @param composeStack The compose stack,
-     * @since 2.2.0
-     */
-    public void start(String name, String template, String role,
-            String extendsParam, String preparer, Request request) {
-        ArrayStack<Object> composeStack = ComposeStackUtil
-                .getComposeStack(request);
-        Definition definition = createDefinition(name, template, role,
-                extendsParam, preparer);
-        composeStack.push(definition);
-    }
-
-    /**
-     * Ends the operation.
-     *
-     * @param request TODO
-     * @param container The Tiles container to use. It must be "mutable".
-     * @param composeStack The compose stack.
-     *
-     * @since 2.2.0
-     */
-    public void end(Request request) {
-        MutableTilesContainer container = (MutableTilesContainer) TilesAccess
-                .getCurrentContainer(request);
-        ArrayStack<Object> composeStack = ComposeStackUtil
-                .getComposeStack(request);
-        Definition definition = (Definition) composeStack.pop();
-        registerDefinition(definition, container, composeStack, request);
-    }
-
-    /**
      * Executes the operation.
      *
      * @param name The name of the definition to create. If not specified, an

@@ -23,7 +23,6 @@ package org.apache.tiles.template;
 
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -57,94 +56,6 @@ public class PutAttributeModelTest {
     @Before
     public void setUp() {
         model = new PutAttributeModel();
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.template.PutAttributeModel#start(Request)}.
-     */
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testStart() {
-        ArrayStack<Object> composeStack = createMock(ArrayStack.class);
-        Attribute attribute = new Attribute();
-        Request request = createMock(Request.class);
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
-
-        expect(request.getContext("request")).andReturn(requestScope);
-        expect(composeStack.push(isA(Attribute.class))).andReturn(attribute);
-
-        replay(request, composeStack);
-        model.start(request);
-        verify(request, composeStack);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.template.PutAttributeModel
-     * #end(String, Object, String, String, String,
-     * String, boolean, Request)}.
-     */
-    @Test
-    public void testEnd() {
-        TilesContainer container = createMock(TilesContainer.class);
-        Request request = createMock(Request.class);
-        AttributeContext attributeContext = createMock(AttributeContext.class);
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
-        Attribute attribute = new Attribute();
-        composeStack.push(attribute);
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
-        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
-        expect(container.getAttributeContext(request)).andReturn(attributeContext);
-        attributeContext.putAttribute("myName", attribute, false);
-
-        replay(container, attributeContext, request, applicationContext);
-        model.end("myName", "myValue", "myExpression", "myBody", "myRole",
-                "myType", false, request);
-        assertEquals("myValue", attribute.getValue());
-        assertEquals("myExpression", attribute.getExpressionObject()
-                .getExpression());
-        assertEquals("myRole", attribute.getRole());
-        assertEquals("myType", attribute.getRenderer());
-        verify(container, attributeContext, request, applicationContext);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.template.PutAttributeModel
-     * #end(String, Object, String, String, String,
-     * String, boolean, Request)}.
-     */
-    @Test
-    public void testEndBody() {
-        TilesContainer container = createMock(TilesContainer.class);
-        Request request = createMock(Request.class);
-        AttributeContext attributeContext = createMock(AttributeContext.class);
-        ArrayStack<Object> composeStack = new ArrayStack<Object>();
-        Attribute attribute = new Attribute();
-        composeStack.push(attribute);
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
-        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
-        expect(container.getAttributeContext(request)).andReturn(attributeContext);
-        attributeContext.putAttribute("myName", attribute, false);
-
-        replay(container, attributeContext, request, applicationContext);
-        model.end("myName", "myValue", "myExpression", "myBody", "myRole",
-                "myType", false, request);
-        assertEquals("myValue", attribute.getValue());
-        assertEquals("myExpression", attribute.getExpressionObject()
-                .getExpression());
-        assertEquals("myRole", attribute.getRole());
-        assertEquals("myType", attribute.getRenderer());
-        verify(container, attributeContext, request, applicationContext);
     }
 
     /**

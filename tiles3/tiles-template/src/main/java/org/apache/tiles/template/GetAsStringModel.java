@@ -71,56 +71,6 @@ public class GetAsStringModel {
     }
 
     /**
-     * Starts the operation.
-     * @param ignore If <code>true</code>, if an exception happens during
-     * rendering, of if the attribute is null, the problem will be ignored.
-     * @param preparer The preparer to invoke before rendering the attribute.
-     * @param role A comma-separated list of roles. If present, the attribute
-     * will be rendered only if the current user belongs to one of the roles.
-     * @param defaultValue The default value of the attribute. To use only if
-     * the attribute was not computed.
-     * @param defaultValueRole The default comma-separated list of roles. To use
-     * only if the attribute was not computed.
-     * @param defaultValueType The default type of the attribute. To use only if
-     * the attribute was not computed.
-     * @param name The name of the attribute.
-     * @param value The attribute to use immediately, if not null.
-     * @param request TODO
-     * @param container The Tiles container to use.
-     * @param composeStack The compose stack,
-     * @since 2.2.0
-     */
-    public void start(boolean ignore, String preparer,
-            String role, Object defaultValue, String defaultValueRole, String defaultValueType,
-            String name, Attribute value, Request request) {
-        TilesContainer container = TilesAccess.getCurrentContainer(request);
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        Attribute attribute = resolveAttribute(container, ignore, preparer,
-                role, defaultValue, defaultValueRole, defaultValueType, name,
-                value, request);
-        composeStack.push(attribute);
-    }
-
-    /**
-     * Ends the operation.
-     * @param ignore If <code>true</code>, if an exception happens during
-     * rendering, of if the attribute is null, the problem will be ignored.
-     * @param request TODO
-     * @param writer The writer into which the attribute will be written.
-     * @param container The Tiles container to use.
-     * @param composeStack The compose stack,
-     * @throws IOException If an I/O error happens during rendering.
-     */
-    public void end(boolean ignore, Request request)
-            throws IOException {
-        TilesContainer container = TilesAccess.getCurrentContainer(request);
-        Writer writer = request.getWriter();
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        Attribute attribute = (Attribute) composeStack.pop();
-        renderAttribute(attribute, container, writer, ignore, request);
-    }
-
-    /**
      * Executes the operation.
      * @param ignore If <code>true</code>, if an exception happens during
      * rendering, of if the attribute is null, the problem will be ignored.

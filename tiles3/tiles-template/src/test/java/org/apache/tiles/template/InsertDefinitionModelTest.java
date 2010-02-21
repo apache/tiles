@@ -60,57 +60,6 @@ public class InsertDefinitionModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertDefinitionModel
-     * #start(Request)}.
-     */
-    @Test
-    public void testStart() {
-        TilesContainer container = createMock(TilesContainer.class);
-        Request request = createMock(Request.class);
-        AttributeContext attributeContext = createMock(AttributeContext.class);
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
-        expect(container.startContext(request)).andReturn(attributeContext);
-
-        replay(container, attributeContext, request, applicationContext);
-        model.start(request);
-        verify(container, attributeContext, request, applicationContext);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.template.InsertDefinitionModel
-     * #end(java.lang.String, java.lang.String, String,
-     * String, java.lang.String, java.lang.String, Request)}.
-     */
-    @Test
-    public void testEnd() {
-        TilesContainer container = createMock(TilesContainer.class);
-        Request request = createMock(Request.class);
-        AttributeContext attributeContext = createMock(AttributeContext.class);
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
-        expect(container.getAttributeContext(request)).andReturn(attributeContext);
-        container.endContext(request);
-        attributeContext.setPreparer("myPreparer");
-        attributeContext.setTemplateAttribute((Attribute) notNull());
-        container.render("myDefinitionName", request);
-
-        replay(container, attributeContext, request, applicationContext);
-        model.end("myDefinitionName", "myTemplate", "myTemplateType",
-                "myTemplateExpression", "myRole", "myPreparer",
-                request);
-        verify(container, attributeContext, request, applicationContext);
-    }
-
-    /**
-     * Test method for {@link org.apache.tiles.template.InsertDefinitionModel
      * #execute(java.lang.String, java.lang.String, String,
      * String, java.lang.String, java.lang.String, Request, ModelBody)}.
      * @throws IOException If something goes wrong.

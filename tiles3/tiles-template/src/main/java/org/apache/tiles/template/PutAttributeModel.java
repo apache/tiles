@@ -71,48 +71,6 @@ import org.apache.tiles.template.body.ModelBody;
 public class PutAttributeModel {
 
     /**
-     * Starts the operation.
-     * @param request TODO
-     * @param composeStack The compose stack.
-     *
-     * @since 2.2.0
-     */
-    public void start(Request request) {
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        Attribute attribute = new Attribute();
-        composeStack.push(attribute);
-    }
-
-    /**
-     * Ends the operation.
-     * @param name The name of the attribute to put.
-     * @param value The value of the attribute. Use this parameter, or
-     * expression, or body.
-     * @param expression The expression to calculate the value from. Use this
-     * parameter, or value, or body.
-     * @param body The body of the tag. Use this parameter, or value, or
-     * expression.
-     * @param role A comma-separated list of roles. If present, the attribute
-     * will be rendered only if the current user belongs to one of the roles.
-     * @param type The type (renderer) of the attribute.
-     * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
-     * @param request TODO
-     * @param container The Tiles container to use.
-     * @param composeStack The composing stack.
-     *
-     * @since 2.2.0
-     */
-    public void end(String name, Object value,
-            String expression, String body, String role, String type,
-            boolean cascade, Request request) {
-        TilesContainer container = TilesAccess.getCurrentContainer(request);
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        Attribute attribute = (Attribute) composeStack.pop();
-        putAttributeInParent(attribute, container, composeStack, name, value,
-                expression, body, role, type, cascade, request);
-    }
-
-    /**
      * Executes the operation.
      * @param name The name of the attribute to put.
      * @param value The value of the attribute. Use this parameter, or

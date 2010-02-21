@@ -43,34 +43,6 @@ import org.apache.tiles.template.body.ModelBody;
  */
 public class AddListAttributeModel {
 
-    /**
-     * Starts the operation.
-     * @param role A comma-separated list of roles. If present, the attribute
-     * will be rendered only if the current user belongs to one of the roles.
-     * @param request TODO
-     *
-     * @since 2.2.0
-     */
-    public void start(String role, Request request) {
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        ListAttribute listAttribute = new ListAttribute();
-        listAttribute.setRole(role);
-        composeStack.push(listAttribute);
-    }
-
-    /**
-     * Ends the operation.
-     * @param request TODO
-     *
-     * @since 2.2.0
-     */
-    public void end(Request request) {
-        ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
-        ListAttribute listAttribute = (ListAttribute) composeStack.pop();
-        ListAttribute parent = (ListAttribute) composeStack.peek();
-        parent.add(listAttribute);
-    }
-
     public void execute(String role, Request request, ModelBody modelBody) throws IOException {
         ArrayStack<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = new ListAttribute();
