@@ -25,10 +25,10 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.InsertAttributeModel;
-import org.apache.tiles.template.body.ModelBody;
 import org.apache.tiles.velocity.context.VelocityUtil;
 
 /**

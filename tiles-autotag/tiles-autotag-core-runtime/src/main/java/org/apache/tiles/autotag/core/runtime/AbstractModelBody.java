@@ -1,8 +1,10 @@
-package org.apache.tiles.template.body;
+package org.apache.tiles.autotag.core.runtime;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+
+import org.apache.tiles.autotag.core.runtime.util.NullWriter;
 
 public abstract class AbstractModelBody implements ModelBody {
 

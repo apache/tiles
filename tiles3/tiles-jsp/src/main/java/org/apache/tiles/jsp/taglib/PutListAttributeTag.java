@@ -23,9 +23,9 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.PutListAttributeModel;
-import org.apache.tiles.template.body.ModelBody;
 
 /**
  * PutList tag implementation.

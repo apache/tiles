@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.template.body;
+package org.apache.tiles.autotag.core.runtime.util;
 
 import java.io.Writer;
 

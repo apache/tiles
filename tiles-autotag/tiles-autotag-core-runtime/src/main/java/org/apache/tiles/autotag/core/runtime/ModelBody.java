@@ -1,4 +1,4 @@
-package org.apache.tiles.template.body;
+package org.apache.tiles.autotag.core.runtime;
 
 import java.io.IOException;
 import java.io.Writer;

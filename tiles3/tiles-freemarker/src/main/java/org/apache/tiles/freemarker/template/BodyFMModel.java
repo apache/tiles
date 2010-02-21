@@ -3,11 +3,11 @@ package org.apache.tiles.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.freemarker.FreemarkerModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
-import org.apache.tiles.template.body.ModelBody;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;

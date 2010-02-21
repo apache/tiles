@@ -24,9 +24,9 @@ package org.apache.tiles.freemarker.context;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import org.apache.tiles.autotag.core.runtime.util.NullWriter;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
 import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
-import org.apache.tiles.template.body.NullWriter;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;

@@ -24,10 +24,10 @@ package org.apache.tiles.velocity.template;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefinitionModel;
-import org.apache.tiles.template.body.ModelBody;
 
 /**
  * Wraps {@link DefinitionModel} to be used in Velocity. For the list of

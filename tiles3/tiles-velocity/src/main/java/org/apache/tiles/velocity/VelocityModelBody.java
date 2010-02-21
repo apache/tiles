@@ -3,7 +3,7 @@ package org.apache.tiles.velocity;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.tiles.template.body.AbstractModelBody;
+import org.apache.tiles.autotag.core.runtime.AbstractModelBody;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.node.ASTBlock;
 

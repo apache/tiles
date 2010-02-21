@@ -6,10 +6,10 @@ import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.jsp.JspModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.jsp.JspRequest;
-import org.apache.tiles.template.body.ModelBody;
 
 public abstract class BodyTag extends SimpleTagSupport {
 

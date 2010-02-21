@@ -31,8 +31,8 @@ import java.util.Map;
 
 import org.apache.tiles.ArrayStack;
 import org.apache.tiles.ListAttribute;
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,7 +58,7 @@ public class AddListAttributeModelTest {
 
     /**
      * Test method for
-     * {@link org.apache.tiles.template.AddListAttributeModel#execute(String, Request, org.apache.tiles.template.body.ModelBody)}
+     * {@link org.apache.tiles.template.AddListAttributeModel#execute(String, Request, org.apache.tiles.autotag.core.runtime.ModelBody)}
      * .
      * @throws IOException If something goes wrong.
      */

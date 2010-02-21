@@ -24,10 +24,10 @@ package org.apache.tiles.jsp.taglib;
 import java.io.IOException;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.InsertAttributeModel;
-import org.apache.tiles.template.body.ModelBody;
 
 /**
  * This is the tag handler for &lt;tiles:attribute&gt;, which defines an

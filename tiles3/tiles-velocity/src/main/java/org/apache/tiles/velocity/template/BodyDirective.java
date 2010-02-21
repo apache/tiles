@@ -29,10 +29,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.tiles.request.velocity.VelocityRequest;
-import org.apache.tiles.template.body.ModelBody;
 import org.apache.tiles.velocity.VelocityModelBody;
 import org.apache.tiles.velocity.context.VelocityUtil;
 import org.apache.velocity.context.InternalContextAdapter;

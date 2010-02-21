@@ -22,11 +22,11 @@ package org.apache.tiles.jsp.taglib.definition;
 
 import java.io.IOException;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.jsp.taglib.BodyTag;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefinitionModel;
-import org.apache.tiles.template.body.ModelBody;
 
 /**
  * This is the tag handler for &lt;tiles:definition&gt;, which creates a custom

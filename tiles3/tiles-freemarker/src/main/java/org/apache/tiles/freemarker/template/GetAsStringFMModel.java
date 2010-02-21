@@ -25,10 +25,10 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.freemarker.context.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.GetAsStringModel;
-import org.apache.tiles.template.body.ModelBody;
 
 import freemarker.template.TemplateModel;
 

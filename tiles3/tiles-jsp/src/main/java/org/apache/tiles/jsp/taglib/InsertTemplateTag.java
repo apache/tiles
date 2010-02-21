@@ -23,9 +23,9 @@ package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.InsertTemplateModel;
-import org.apache.tiles.template.body.ModelBody;
 
 /**
  * This is the tag handler for &lt;tiles:insertTemplate&gt;, which includes a

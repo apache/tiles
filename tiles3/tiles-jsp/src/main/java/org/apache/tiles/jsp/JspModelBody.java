@@ -7,7 +7,7 @@ import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.JspFragment;
 
-import org.apache.tiles.template.body.AbstractModelBody;
+import org.apache.tiles.autotag.core.runtime.AbstractModelBody;
 
 public class JspModelBody extends AbstractModelBody {
 

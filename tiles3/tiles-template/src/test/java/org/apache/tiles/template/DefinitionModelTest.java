@@ -32,10 +32,10 @@ import org.apache.tiles.ArrayStack;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.template.body.ModelBody;
 import org.junit.Before;
 import org.junit.Test;
 

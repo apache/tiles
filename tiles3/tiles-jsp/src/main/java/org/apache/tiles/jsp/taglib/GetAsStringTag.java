@@ -23,10 +23,10 @@ package org.apache.tiles.jsp.taglib;
 import java.io.IOException;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.GetAsStringModel;
-import org.apache.tiles.template.body.ModelBody;
 
 /**
  * Retrieve the value of the specified definition/template attribute property,

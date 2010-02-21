@@ -20,7 +20,7 @@
  */
 package org.apache.tiles.freemarker.io;
 
-import org.apache.tiles.template.body.NullWriter;
+import org.apache.tiles.autotag.core.runtime.util.NullWriter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,7 +49,7 @@ public class NullWriterTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.body.NullWriter#write(char[], int, int)}.
+     * Test method for {@link org.apache.tiles.autotag.core.runtime.util.NullWriter#write(char[], int, int)}.
      */
     @Test
     public void testWriteCharArrayIntInt() {
@@ -57,7 +57,7 @@ public class NullWriterTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.body.NullWriter#flush()}.
+     * Test method for {@link org.apache.tiles.autotag.core.runtime.util.NullWriter#flush()}.
      */
     @Test
     public void testFlush() {
@@ -65,7 +65,7 @@ public class NullWriterTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.template.body.NullWriter#close()}.
+     * Test method for {@link org.apache.tiles.autotag.core.runtime.util.NullWriter#close()}.
      */
     @Test
     public void testClose() {

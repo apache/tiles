@@ -27,10 +27,10 @@ import java.util.Map;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.GetAsStringModel;
-import org.apache.tiles.template.body.ModelBody;
 import org.apache.tiles.velocity.context.VelocityUtil;
 
 /**
