@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.freemarker.io;
+package org.apache.tiles.autotag.core.runtime.util;
 
 import org.apache.tiles.autotag.core.runtime.util.NullWriter;
 import org.junit.Before;

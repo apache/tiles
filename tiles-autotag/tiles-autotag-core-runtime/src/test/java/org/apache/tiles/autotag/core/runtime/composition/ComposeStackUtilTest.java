@@ -19,13 +19,14 @@
  * under the License.
  */
 
-package org.apache.tiles.template;
+package org.apache.tiles.autotag.core.runtime.composition;
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil;
 import org.junit.Test;
 
 /**
@@ -46,7 +47,7 @@ public class ComposeStackUtilTest {
     private static final long LONG_VALUE = 2L;
 
     /**
-     * Test method for {@link org.apache.tiles.template.ComposeStackUtil
+     * Test method for {@link org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil
      * #findAncestorWithClass(java.util.Stack, java.lang.Class)}.
      */
     @Test
