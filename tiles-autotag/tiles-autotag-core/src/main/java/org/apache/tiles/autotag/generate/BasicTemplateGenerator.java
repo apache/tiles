@@ -30,11 +30,11 @@ public class BasicTemplateGenerator implements TemplateGenerator {
         }
     }
 
-    protected void addTemplateSuiteGenerator(TemplateSuiteGenerator generator) {
+    public void addTemplateSuiteGenerator(TemplateSuiteGenerator generator) {
         templateSuiteGenerators.add(generator);
     }
 
-    protected void addTemplateClassGenerator(TemplateClassGenerator generator) {
+    public void addTemplateClassGenerator(TemplateClassGenerator generator) {
         templateClassGenerators.add(generator);
     }
 }

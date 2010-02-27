@@ -47,6 +47,10 @@ public class TemplateParameter {
         return Request.class.getName().equals(type);
     }
 
+    public String getGetterSetterSuffix() {
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
+
     @Override
     public String toString() {
         return "TemplateParameter\n[documentation="
