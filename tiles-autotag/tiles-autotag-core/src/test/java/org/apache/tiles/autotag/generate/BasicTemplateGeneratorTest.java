@@ -16,19 +16,19 @@ import org.apache.tiles.autotag.model.TemplateSuite;
 import org.junit.Test;
 
 /**
- * Tests {@link AbstractTemplateGenerator}.
+ * Tests {@link BasicTemplateGenerator}.
  *
  * @version $Rev$ $Date$
  */
-public class AbstractTemplateGeneratorTest {
+public class BasicTemplateGeneratorTest {
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.generate.AbstractTemplateGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite)}.
+     * Test method for {@link org.apache.tiles.autotag.generate.BasicTemplateGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite)}.
      * @throws IOException If something goes wrong.
      */
     @Test
     public void testGenerate() throws IOException {
-        AbstractTemplateGenerator generator = createMockBuilder(AbstractTemplateGenerator.class).withConstructor().createMock();
+        BasicTemplateGenerator generator = createMockBuilder(BasicTemplateGenerator.class).withConstructor().createMock();
         File file = File.createTempFile("tiles", "template");
         file.deleteOnExit();
         TemplateSuite suite = createMock(TemplateSuite.class);

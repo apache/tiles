@@ -7,13 +7,13 @@ import java.util.List;
 import org.apache.tiles.autotag.model.TemplateClass;
 import org.apache.tiles.autotag.model.TemplateSuite;
 
-public class AbstractTemplateGenerator implements TemplateGenerator {
+public class BasicTemplateGenerator implements TemplateGenerator {
 
     private List<TemplateSuiteGenerator> templateSuiteGenerators;
 
     private List<TemplateClassGenerator> templateClassGenerators;
 
-    public AbstractTemplateGenerator() {
+    public BasicTemplateGenerator() {
         templateClassGenerators = new ArrayList<TemplateClassGenerator>();
         templateSuiteGenerators = new ArrayList<TemplateSuiteGenerator>();
     }
