@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.autotag.model.TemplateClass;
 import org.apache.tiles.autotag.model.TemplateMethod;
 import org.apache.tiles.autotag.model.TemplateParameter;
@@ -70,26 +71,16 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
             if (tagClassPrefix != null) {
                 String tagName = tagClassPrefix.substring(0, 1).toLowerCase()
                         + tagClassPrefix.substring(1);
-                TemplateMethod startMethod = null;
-                TemplateMethod endMethod = null;
                 TemplateMethod executeMethod = null;
                 for (JavaMethod method : clazz.getMethods()) {
                     if (isFeasible(method)) {
-                        if ("start".equals(method.getName())) {
-                            TemplateMethod templateMethod = createMethod(method);
-                            startMethod = templateMethod;
-                        } else if ("end".equals(method.getName())) {
-                            endMethod = createMethod(method);
-                        } else if ("execute".equals(method.getName())) {
-                            executeMethod = createMethod(method);
-                        }
+                        executeMethod = createMethod(method);
                     }
                 }
-                if ((startMethod != null && endMethod != null)
-                        || executeMethod != null) {
+                if (executeMethod != null) {
                     TemplateClass templateClass = new TemplateClass(clazz
                             .getFullyQualifiedName(), tagName, tagClassPrefix,
-                            startMethod, endMethod, executeMethod);
+                            executeMethod);
                     templateClass.setDocumentation(clazz.getComment());
                     classes.add(templateClass);
                 }
@@ -117,7 +108,7 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
         for (JavaParameter parameter : method.getParameters()) {
             TemplateParameter templateParameter = new TemplateParameter(
                     parameter.getName(), parameter.getType()
-                            .getFullyQualifiedName(), false, false);
+                            .getFullyQualifiedName(), false);
             params.add(templateParameter);
         }
         TemplateMethod templateMethod = new TemplateMethod(method.getName(),
@@ -142,7 +133,8 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
 
     private boolean isFeasible(JavaMethod method) {
         Type returns = method.getReturns();
-        if (returns != null && "void".equals(returns.getFullyQualifiedName())
+        if ("execute".equals(method.getName()) && returns != null
+                && "void".equals(returns.getFullyQualifiedName())
                 && method.isPublic() && !method.isStatic()
                 && !method.isAbstract() && !method.isConstructor()) {
             JavaParameter[] params = method.getParameters();
@@ -150,6 +142,16 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
                 JavaParameter param = params[params.length - 1];
                 if (Request.class.getName().equals(
                         param.getType().getFullyQualifiedName())) {
+                    return true;
+                }
+            }
+            if (params.length >= 2) {
+                JavaParameter param1 = params[params.length - 2];
+                JavaParameter param2 = params[params.length - 1];
+                if (Request.class.getName().equals(
+                        param1.getType().getFullyQualifiedName())
+                        && ModelBody.class.getName().equals(
+                                param2.getType().getFullyQualifiedName())) {
                     return true;
                 }
             }

@@ -51,9 +51,9 @@
          <name>${parameter.name}</name>
          <required>${parameter.required}</required>
          <rtexprvalue>true</rtexprvalue>
+         <type>${parameter.type}</type>
       </attribute>
 #end
    </tag>
 #end
 </taglib>
-

@@ -14,24 +14,17 @@ public class TemplateClass {
 
     private String documentation;
 
-    private TemplateMethod startMethod;
-
-    private TemplateMethod endMethod;
-
     private TemplateMethod executeMethod;
 
     public TemplateClass(String name) {
-        this(name, null, null, null, null, null);
+        this(name, null, null, null);
     }
 
     public TemplateClass(String name, String tagName, String tagClassPrefix,
-            TemplateMethod startMethod, TemplateMethod endMethod,
             TemplateMethod executeMethod) {
         this.name = name;
         this.tagName = tagName;
         this.tagClassPrefix = tagClassPrefix;
-        this.startMethod = startMethod;
-        this.endMethod = endMethod;
         this.executeMethod = executeMethod;
     }
 
@@ -55,22 +48,12 @@ public class TemplateClass {
         this.documentation = documentation;
     }
 
-    public TemplateMethod getStartMethod() {
-        return startMethod;
-    }
-
-    public TemplateMethod getEndMethod() {
-        return endMethod;
-    }
-
     public TemplateMethod getExecuteMethod() {
         return executeMethod;
     }
 
     public Collection<TemplateParameter> getParameters() {
         Map<String, TemplateParameter> params = new LinkedHashMap<String, TemplateParameter>();
-        fillRegularParameters(params, startMethod);
-        fillRegularParameters(params, endMethod);
         fillRegularParameters(params, executeMethod);
         return params.values();
     }
@@ -87,14 +70,13 @@ public class TemplateClass {
     }
 
     public boolean hasBody() {
-        return (startMethod != null && endMethod != null);
+        return executeMethod.hasBody();
     }
 
     @Override
     public String toString() {
-        return "TemplateClass\n[documentation=" + documentation + ",\nendMethod="
-                + endMethod + ",\nexecuteMethod=" + executeMethod + ",\nname="
-                + name + ",\nstartMethod=" + startMethod + "]";
+        return "TemplateClass\n[documentation=" + documentation
+                + ",\nexecuteMethod=" + executeMethod + ",\nname=" + name + "]";
     }
 
 }

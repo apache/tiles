@@ -41,6 +41,17 @@ public class TemplateMethod {
         return parameters.get(name);
     }
 
+    public boolean hasBody() {
+        if (parameters.size() >= 2) {
+            for (TemplateParameter param : parameters.values()) {
+                if (param.isBody()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return "TemplateMethod\n[documentation=" + documentation + ", name="

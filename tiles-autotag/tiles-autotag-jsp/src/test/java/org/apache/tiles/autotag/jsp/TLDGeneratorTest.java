@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.autotag.model.TemplateClass;
 import org.apache.tiles.autotag.model.TemplateMethod;
 import org.apache.tiles.autotag.model.TemplateParameter;
@@ -42,33 +43,48 @@ public class TLDGeneratorTest {
         file.deleteOnExit();
         TemplateSuite suite = new TemplateSuite("tldtest", "Test for TLD docs.");
         suite.getCustomVariables().put("taglibURI", "http://www.initrode.net/tags/test");
+
         List<TemplateParameter> params = new ArrayList<TemplateParameter>();
-        TemplateParameter param = new TemplateParameter("one", "java.lang.String", true, false);
+        TemplateParameter param = new TemplateParameter("one", "java.lang.String", true);
         param.setDocumentation("Parameter one.");
         params.add(param);
-        param = new TemplateParameter("two", "int", false, false);
+        param = new TemplateParameter("two", "int", false);
         param.setDocumentation("Parameter two.");
         params.add(param);
-        param = new TemplateParameter("request", Request.class.getName(), false, false);
-        param.setDocumentation("The request.");
-        params.add(param);
-        TemplateMethod startMethod = new TemplateMethod("start", params);
-
-        params = new ArrayList<TemplateParameter>();
-        param = new TemplateParameter("one", "java.lang.String", true, false);
-        param.setDocumentation("Parameter one.");
-        params.add(param);
-        param = new TemplateParameter("three", "long", false, false);
+        param = new TemplateParameter("three", "long", false);
         param.setDocumentation("Parameter three.");
         params.add(param);
-        param = new TemplateParameter("request", Request.class.getName(), false, false);
+        param = new TemplateParameter("request", Request.class.getName(), false);
         param.setDocumentation("The request.");
         params.add(param);
-        TemplateMethod endMethod = new TemplateMethod("end", params);
+        param = new TemplateParameter("modelBody", ModelBody.class.getName(), false);
+        param.setDocumentation("The body.");
+        params.add(param);
+        TemplateMethod executeMethod = new TemplateMethod("execute", params);
 
         TemplateClass clazz = new TemplateClass("org.apache.tiles.autotag.template.DoStuffTemplate",
-                "doStuff", "DoStuff", startMethod, endMethod, null);
+                "doStuff", "DoStuff", executeMethod);
         clazz.setDocumentation("Documentation of the DoStuff class");
+
+        suite.addTemplateClass(clazz);
+        params = new ArrayList<TemplateParameter>();
+        param = new TemplateParameter("one", "java.lang.Double", true);
+        param.setDocumentation("Parameter one.");
+        params.add(param);
+        param = new TemplateParameter("two", "float", false);
+        param.setDocumentation("Parameter two.");
+        params.add(param);
+        param = new TemplateParameter("three", "java.util.Date", false);
+        param.setDocumentation("Parameter three.");
+        params.add(param);
+        param = new TemplateParameter("request", Request.class.getName(), false);
+        param.setDocumentation("The request.");
+        params.add(param);
+        executeMethod = new TemplateMethod("execute", params);
+
+        clazz = new TemplateClass("org.apache.tiles.autotag.template.DoStuffNoBodyTemplate",
+                "doStuffNoBody", "DoStuffNoBody", executeMethod);
+        clazz.setDocumentation("Documentation of the DoStuffNoBody class");
 
         suite.addTemplateClass(clazz);
 
@@ -84,7 +100,7 @@ public class TLDGeneratorTest {
         File effectiveFile = new File(file, "META-INF/tld/tldtest-jsp.tld");
         assertTrue(effectiveFile.exists());
         InputStream effective = new FileInputStream(effectiveFile);
-        IOUtils.contentEquals(effective, expected);
+        assertTrue(IOUtils.contentEquals(effective, expected));
 
         FileUtils.deleteDirectory(file);
     }

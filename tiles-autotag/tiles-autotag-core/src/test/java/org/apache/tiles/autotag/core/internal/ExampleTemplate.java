@@ -1,5 +1,6 @@
 package org.apache.tiles.autotag.core.internal;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 
 /**
@@ -15,19 +16,9 @@ public class ExampleTemplate {
      * @param one Parameter one.
      * @param two Parameter two.
      * @param request The request.
+     * @param modelBody The model body.
      */
-    public void start(String one, int two, Request request) {
-        // Does nothing.
-    }
-
-    /**
-     * It ends.
-     *
-     * @param three Parameter three.
-     * @param four Parameter four.
-     * @param request The request.
-     */
-    public void end(Double three, long four, Request request) {
+    public void execute(String one, int two, Request request, ModelBody modelBody) {
         // Does nothing.
     }
 }

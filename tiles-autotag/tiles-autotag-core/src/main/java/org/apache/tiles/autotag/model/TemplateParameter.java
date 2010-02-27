@@ -1,5 +1,6 @@
 package org.apache.tiles.autotag.model;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 
 public class TemplateParameter {
@@ -12,14 +13,10 @@ public class TemplateParameter {
 
     private boolean required;
 
-    private boolean body;
-
-    public TemplateParameter(String name, String type, boolean required,
-            boolean body) {
+    public TemplateParameter(String name, String type, boolean required) {
         this.name = name;
         this.type = type;
         this.required = required;
-        this.body = body;
     }
 
     public String getDocumentation() {
@@ -43,7 +40,7 @@ public class TemplateParameter {
     }
 
     public boolean isBody() {
-        return body;
+        return ModelBody.class.getName().equals(type);
     }
 
     public boolean isRequest() {
@@ -52,7 +49,7 @@ public class TemplateParameter {
 
     @Override
     public String toString() {
-        return "TemplateParameter\n[body=" + body + ",\ndocumentation="
+        return "TemplateParameter\n[documentation="
                 + documentation + ",\nname=" + name + ", required=" + required
                 + ", type=" + type + "]";
     }

@@ -30,6 +30,7 @@
          <name>one</name>
          <required>true</required>
          <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.String</type>
       </attribute>
       <attribute>
          <description>
@@ -40,6 +41,7 @@
          <name>two</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
+         <type>int</type>
       </attribute>
       <attribute>
          <description>
@@ -50,7 +52,50 @@
          <name>three</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
+         <type>long</type>
+      </attribute>
+   </tag>
+   <tag>
+      <description>
+      <![CDATA[
+      Documentation of the DoStuffNoBody class
+      ]]>
+      </description>
+      <name>doStuffNoBody</name>
+      <tag-class>org.apache.tiles.autotag.jsp.test.DoStuffNoBody</tag-class>
+      <body-content>empty</body-content>
+      <attribute>
+         <description>
+         <![CDATA[
+         Parameter one.
+         ]]>
+         </description>
+         <name>one</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.Double</type>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
+         Parameter two.
+         ]]>
+         </description>
+         <name>two</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>float</type>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
+         Parameter three.
+         ]]>
+         </description>
+         <name>three</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>java.util.Date</type>
       </attribute>
    </tag>
 </taglib>
-
