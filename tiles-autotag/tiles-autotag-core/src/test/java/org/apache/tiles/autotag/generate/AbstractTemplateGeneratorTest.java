@@ -41,7 +41,7 @@ public class AbstractTemplateGeneratorTest {
 
         expect(suite.getTemplateClasses()).andReturn(templateClasses);
         templateSuiteGenerator.generate(file, "my.package", suite);
-        templateClassGenerator.generate(file, "my.package", templateClass);
+        templateClassGenerator.generate(file, "my.package", suite, templateClass);
 
         replay(generator, suite, templateClass, templateSuiteGenerator, templateClassGenerator);
         generator.addTemplateSuiteGenerator(templateSuiteGenerator);

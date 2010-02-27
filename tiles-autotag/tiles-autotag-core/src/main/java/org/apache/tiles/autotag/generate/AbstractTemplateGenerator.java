@@ -25,7 +25,7 @@ public class AbstractTemplateGenerator implements TemplateGenerator {
         }
         for (TemplateClass templateClass: suite.getTemplateClasses()) {
             for (TemplateClassGenerator generator: templateClassGenerators) {
-                generator.generate(directory, packageName, templateClass);
+                generator.generate(directory, packageName, suite, templateClass);
             }
         }
     }
