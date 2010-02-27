@@ -101,6 +101,8 @@ public class TLDGeneratorTest {
         assertTrue(effectiveFile.exists());
         InputStream effective = new FileInputStream(effectiveFile);
         assertTrue(IOUtils.contentEquals(effective, expected));
+        effective.close();
+        expected.close();
 
         FileUtils.deleteDirectory(file);
     }

@@ -33,7 +33,8 @@ public class DoStuffNoBodyTag extends BodylessTag {
     /**
      * Getter for one property.
      *
-     * @return Parameter one.
+     * @return
+     * Parameter one.
      */
     public java.lang.Double getOne() {
         return one;
@@ -52,7 +53,8 @@ public class DoStuffNoBodyTag extends BodylessTag {
     /**
      * Getter for two property.
      *
-     * @return Parameter two.
+     * @return
+     * Parameter two.
      */
     public float getTwo() {
         return two;
@@ -71,7 +73,8 @@ public class DoStuffNoBodyTag extends BodylessTag {
     /**
      * Getter for three property.
      *
-     * @return Parameter three.
+     * @return
+     * Parameter three.
      */
     public java.util.Date getThree() {
         return three;

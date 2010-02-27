@@ -25,7 +25,9 @@ import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 
 /**
- * ${clazz.documentation}
+#foreach($line in $stringTool.splitOnNewlines(${clazz.documentation}))
+ * ${line}
+#end
  */
 public class ${clazz.tagClassPrefix}Tag extends Body#if(!${clazz.hasBody()})less#{end}Tag {
 
@@ -36,7 +38,9 @@ public class ${clazz.tagClassPrefix}Tag extends Body#if(!${clazz.hasBody()})less
 
 #foreach($parameter in ${clazz.parameters})
     /**
-     * ${parameter.documentation}
+#foreach($line in $stringTool.splitOnNewlines(${parameter.documentation}))
+     * ${line}
+#end
      */
     private ${parameter.type} ${parameter.name};
 
@@ -45,7 +49,10 @@ public class ${clazz.tagClassPrefix}Tag extends Body#if(!${clazz.hasBody()})less
     /**
      * Getter for ${parameter.name} property.
      *
-     * @return ${parameter.documentation}
+     * @return
+#foreach($line in $stringTool.splitOnNewlines(${parameter.documentation}))
+     * ${line}
+#end
      */
     public ${parameter.type} #if(${parameter.type} == 'boolean')is#{else}get#end${parameter.getterSetterSuffix}() {
         return ${parameter.name};
@@ -55,7 +62,9 @@ public class ${clazz.tagClassPrefix}Tag extends Body#if(!${clazz.hasBody()})less
      * Setter for ${parameter.name} property.
      *
      * @param ${parameter.name}
-     * ${parameter.documentation}
+#foreach($line in $stringTool.splitOnNewlines(${parameter.documentation}))
+     * ${line}
+#end
      */
     public void set${parameter.getterSetterSuffix}(${parameter.type} ${parameter.name}) {
         this.${parameter.name} = ${parameter.name};

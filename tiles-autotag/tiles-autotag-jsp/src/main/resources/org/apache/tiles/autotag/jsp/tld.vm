@@ -25,7 +25,9 @@
   version="2.1">
    <description>
    <![CDATA[
-   ${suite.documentation}
+#foreach($line in $stringTool.splitOnNewlines(${suite.documentation}))
+   $line
+#end
    ]]>
    </description>
    <tlib-version>1.2</tlib-version>
@@ -35,7 +37,9 @@
    <tag>
       <description>
       <![CDATA[
-      ${clazz.documentation}
+#foreach($line in $stringTool.splitOnNewlines(${clazz.documentation}))
+      $line
+#end
       ]]>
       </description>
       <name>${clazz.tagName}</name>
@@ -45,7 +49,9 @@
       <attribute>
          <description>
          <![CDATA[
-         ${parameter.documentation}
+#foreach($line in $stringTool.splitOnNewlines(${parameter.documentation}))
+         $line
+#end
          ]]>
          </description>
          <name>${parameter.name}</name>

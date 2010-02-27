@@ -79,6 +79,8 @@ public class TagClassGeneratorTest {
         assertTrue(effectiveFile.exists());
         InputStream effective = new FileInputStream(effectiveFile);
         assertTrue(IOUtils.contentEquals(effective, expected));
+        effective.close();
+        expected.close();
 
         suite.addTemplateClass(clazz);
         params = new ArrayList<TemplateParameter>();
@@ -109,6 +111,8 @@ public class TagClassGeneratorTest {
         assertTrue(effectiveFile.exists());
         effective = new FileInputStream(effectiveFile);
         assertTrue(IOUtils.contentEquals(effective, expected));
+        effective.close();
+        expected.close();
 
         FileUtils.deleteDirectory(file);
     }

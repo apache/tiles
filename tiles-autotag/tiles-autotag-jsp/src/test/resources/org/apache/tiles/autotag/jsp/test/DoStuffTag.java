@@ -33,7 +33,8 @@ public class DoStuffTag extends BodyTag {
     /**
      * Getter for one property.
      *
-     * @return Parameter one.
+     * @return
+     * Parameter one.
      */
     public java.lang.String getOne() {
         return one;
@@ -52,7 +53,8 @@ public class DoStuffTag extends BodyTag {
     /**
      * Getter for two property.
      *
-     * @return Parameter two.
+     * @return
+     * Parameter two.
      */
     public int getTwo() {
         return two;
@@ -71,7 +73,8 @@ public class DoStuffTag extends BodyTag {
     /**
      * Getter for three property.
      *
-     * @return Parameter three.
+     * @return
+     * Parameter three.
      */
     public boolean isThree() {
         return three;
