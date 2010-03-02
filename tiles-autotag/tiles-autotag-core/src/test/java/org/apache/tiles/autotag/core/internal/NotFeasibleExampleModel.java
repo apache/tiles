@@ -5,7 +5,7 @@ package org.apache.tiles.autotag.core.internal;
  *
  * @version $Rev$ $Date$
  */
-public class NotFeasibleExampleTemplate {
+public class NotFeasibleExampleModel {
 
     /**
      * It starts.

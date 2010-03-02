@@ -23,7 +23,7 @@ import com.thoughtworks.qdox.model.Type;
 
 public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
 
-    private static final String TEMPLATE_SUFFIX = "Template";
+    private static final String TEMPLATE_SUFFIX = "Model";
 
     private JavaDocBuilder builder;
 

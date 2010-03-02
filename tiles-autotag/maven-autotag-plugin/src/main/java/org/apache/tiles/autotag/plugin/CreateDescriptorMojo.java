@@ -1,0 +1,125 @@
+package org.apache.tiles.autotag.plugin;
+
+/*
+ * Copyright 2001-2005 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.tiles.autotag.core.QDoxTemplateSuiteFactory;
+import org.apache.tiles.autotag.model.TemplateSuite;
+import org.apache.tiles.autotag.model.TemplateSuiteFactory;
+import org.codehaus.plexus.compiler.util.scan.InclusionScanException;
+import org.codehaus.plexus.compiler.util.scan.SimpleSourceInclusionScanner;
+import org.codehaus.plexus.compiler.util.scan.SourceInclusionScanner;
+import org.codehaus.plexus.compiler.util.scan.mapping.SourceMapping;
+
+import com.thoughtworks.xstream.XStream;
+
+/**
+ * Goal which touches a timestamp file.
+ *
+ * @goal create-descriptor
+ *
+ * @phase generate-resources
+ */
+public class CreateDescriptorMojo extends AbstractMojo {
+    /**
+     * Location of the file.
+     *
+     * @parameter expression="${project.build.outputDirectory}"
+     * @required
+     */
+    private File outputDirectory;
+
+    /**
+     * Location of the file.
+     *
+     * @parameter expression="${project.build.sourceDirectory}"
+     * @required
+     */
+    private File sourceDirectory;
+
+    /**
+     * @parameter
+     */
+    private Set<String> includes;
+
+    /**
+     * @parameter
+     */
+    private Set<String> excludes;
+
+    @SuppressWarnings("unchecked")
+    public void execute() throws MojoExecutionException {
+        try {
+            Set<File> filesSet = getSourceInclusionScanner().getIncludedSources(
+                    sourceDirectory, outputDirectory);
+            File[] files = new File[filesSet.size()];
+            TemplateSuiteFactory factory = new QDoxTemplateSuiteFactory(filesSet.toArray(files));
+            TemplateSuite suite = factory.createTemplateSuite();
+            XStream xstream = new XStream();
+            File dir = new File(outputDirectory, "META-INF");
+            dir.mkdirs();
+            File outputFile = new File(dir, "template-suite.xml");
+            outputFile.createNewFile();
+            Writer writer = new FileWriter(outputFile);
+            xstream.toXML(suite, writer);
+            writer.close();
+        } catch (InclusionScanException e) {
+            throw new MojoExecutionException("error", e);
+        } catch (IOException e) {
+            throw new MojoExecutionException("error", e);
+        }
+    }
+
+    protected SourceInclusionScanner getSourceInclusionScanner() {
+        SourceInclusionScanner scanner = null;
+        if (includes == null) {
+            includes = new HashSet<String>();
+        }
+        if (excludes == null) {
+            excludes = new HashSet<String>();
+        }
+
+        if (includes.isEmpty() && excludes.isEmpty()) {
+            includes = Collections.singleton("**/*Model.java");
+            scanner = new SimpleSourceInclusionScanner(includes, excludes);
+        } else {
+            if (includes.isEmpty()) {
+                includes = Collections.singleton("**/*Model.java");
+            }
+            scanner = new SimpleSourceInclusionScanner(includes, excludes);
+        }
+        scanner.addSourceMapping(new SourceMapping() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public Set getTargetFiles(File targetDir, String source) {
+                return null;
+            }
+        });
+
+        return scanner;
+    }
+}
