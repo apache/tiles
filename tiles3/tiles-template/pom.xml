@@ -32,6 +32,22 @@
     <groupId>org.apache.tiles</groupId>
     <version>3.0.0-SNAPSHOT</version>
   </parent>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.tiles.autotag.plugin</groupId>
+        <artifactId>maven-autotag-plugin</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>create-descriptor</goal>
+                </goals>
+            </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.apache.tiles</groupId>
@@ -66,9 +82,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.apache.tiles</groupId>
-    	<artifactId>tiles-autotag-core-runtime</artifactId>
-    	<version>1.0-SNAPSHOT</version>
+        <groupId>org.apache.tiles</groupId>
+        <artifactId>tiles-autotag-core-runtime</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
