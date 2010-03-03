@@ -66,6 +66,21 @@ public class CreateDescriptorMojo extends AbstractMojo {
     private Set<String> includes;
 
     /**
+     * The name of the template.
+     *
+     * @parameter
+     * @required
+     */
+    private String name;
+
+    /**
+     * The documentation of the suite
+     *
+     * @parameter
+     */
+    private String documentation;
+
+    /**
      * @parameter
      */
     private Set<String> excludes;
@@ -76,7 +91,9 @@ public class CreateDescriptorMojo extends AbstractMojo {
             Set<File> filesSet = getSourceInclusionScanner().getIncludedSources(
                     sourceDirectory, outputDirectory);
             File[] files = new File[filesSet.size()];
-            TemplateSuiteFactory factory = new QDoxTemplateSuiteFactory(filesSet.toArray(files));
+            QDoxTemplateSuiteFactory factory = new QDoxTemplateSuiteFactory(filesSet.toArray(files));
+            factory.setSuiteName(name);
+            factory.setSuiteDocumentation(documentation);
             TemplateSuite suite = factory.createTemplateSuite();
             XStream xstream = new XStream();
             File dir = new File(outputDirectory, "META-INF");

@@ -94,7 +94,7 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
         String simpleClassName = clazz.getName();
         if (simpleClassName.endsWith(TEMPLATE_SUFFIX)
                 && simpleClassName.length() > TEMPLATE_SUFFIX.length()) {
-            tagName = simpleClassName.substring(0, 1).toLowerCase()
+            tagName = simpleClassName.substring(0, 1).toUpperCase()
                     + simpleClassName.substring(1, simpleClassName.length()
                             - TEMPLATE_SUFFIX.length());
         } else {

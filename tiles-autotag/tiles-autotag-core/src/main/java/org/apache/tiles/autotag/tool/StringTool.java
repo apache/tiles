@@ -13,6 +13,9 @@ public class StringTool {
 
     public List<String> splitOnNewlines(String toSplit) {
         List<String> retValue = new ArrayList<String>();
+        if (toSplit == null) {
+            return retValue;
+        }
         Reader reader = new StringReader(toSplit);
         BufferedReader bufReader = new BufferedReader(reader);
         try {
