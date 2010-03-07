@@ -24,7 +24,7 @@ import java.io.IOException;
 #if(${clazz.hasBody()})
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 #end
-import org.apache.tiles.jsp.taglib.Body#if(!${clazz.hasBody()})less#{end}Tag;
+import org.apache.tiles.autotag.jsp.runtime.Body#if(!${clazz.hasBody()})less#{end}Tag;
 import org.apache.tiles.request.Request;
 
 /**

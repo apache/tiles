@@ -3,7 +3,7 @@ package org.apache.tiles.autotag.jsp.test;
 import java.io.IOException;
 
 import org.apache.tiles.autotag.core.runtime.ModelBody;
-import org.apache.tiles.jsp.taglib.BodyTag;
+import org.apache.tiles.autotag.jsp.runtime.BodyTag;
 import org.apache.tiles.request.Request;
 
 /**

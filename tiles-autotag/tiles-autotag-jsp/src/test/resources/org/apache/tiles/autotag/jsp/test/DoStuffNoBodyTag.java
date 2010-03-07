@@ -2,7 +2,7 @@ package org.apache.tiles.autotag.jsp.test;
 
 import java.io.IOException;
 
-import org.apache.tiles.jsp.taglib.BodylessTag;
+import org.apache.tiles.autotag.jsp.runtime.BodylessTag;
 import org.apache.tiles.request.Request;
 
 /**
