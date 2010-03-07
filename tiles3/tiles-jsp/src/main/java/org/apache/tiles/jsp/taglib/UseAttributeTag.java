@@ -25,6 +25,7 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
+import org.apache.tiles.autotag.jsp.runtime.BodylessTag;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.ImportAttributeModel;
 
