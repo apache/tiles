@@ -16,8 +16,9 @@
         <module>tiles-autotag-core-runtime</module>
         <module>tiles-autotag-core</module>
         <module>tiles-autotag-jsp</module>
-    <module>maven-autotag-plugin</module>
-  </modules>
+        <module>tiles-autotag-jsp-runtime</module>
+        <module>maven-autotag-plugin</module>
+    </modules>
     <build>
         <pluginManagement>
             <plugins>
