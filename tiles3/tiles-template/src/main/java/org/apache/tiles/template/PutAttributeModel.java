@@ -30,6 +30,7 @@ import org.apache.tiles.Expression;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
 import org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil;
 import org.apache.tiles.request.Request;
 
@@ -88,7 +89,7 @@ public class PutAttributeModel {
      * @param composeStack The composing stack.
      * @since 2.2.0
      */
-    public void execute(String name, Object value,
+    public void execute(@Parameter(required = true) String name, Object value,
             String expression, String role, String type, boolean cascade,
             Request request, ModelBody modelBody) throws IOException {
         Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);

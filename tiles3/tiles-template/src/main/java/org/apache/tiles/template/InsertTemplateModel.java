@@ -28,6 +28,7 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
 import org.apache.tiles.request.Request;
 
 /**
@@ -78,25 +79,28 @@ public class InsertTemplateModel {
      * @param preparer The preparer to use to invoke before the definition is
      * rendered. If specified, it overrides the preparer specified in the
      * definition itself.
+     * @param flush TODO
      * @param request TODO
      * @param modelBody TODO
      * @param container The Tiles container.
      * @throws IOException If something goes wrong.
      * @since 2.2.0
      */
-    public void execute(String template, String templateType, String templateExpression,
-            String role, String preparer, Request request, ModelBody modelBody) throws IOException {
+    public void execute(@Parameter(required = true) String template,
+            String templateType, String templateExpression, String role,
+            String preparer, boolean flush, Request request, ModelBody modelBody)
+            throws IOException {
         TilesContainer container = TilesAccess.getCurrentContainer(request);
         container.startContext(request);
         modelBody.evaluateWithoutWriting();
         container = TilesAccess.getCurrentContainer(request);
         renderTemplate(container, template, templateType, templateExpression,
-                role, preparer, request);
+                role, preparer, flush, request);
     }
 
     private void renderTemplate(TilesContainer container, String template,
             String templateType, String templateExpression, String role,
-            String preparer, Request request) {
+            String preparer, boolean flush, Request request) throws IOException {
         try {
             AttributeContext attributeContext = container
                     .getAttributeContext(request);
@@ -105,6 +109,9 @@ public class InsertTemplateModel {
             attributeContext.setPreparer(preparer);
             attributeContext.setTemplateAttribute(templateAttribute);
             container.renderContext(request);
+            if (flush) {
+                request.getWriter().flush();
+            }
         } finally {
             container.endContext(request);
         }

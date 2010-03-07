@@ -28,6 +28,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
 import org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
@@ -65,7 +66,8 @@ public class DefinitionModel {
      * @since 2.2.0
      */
     public void execute(String name, String template, String role,
-            String extendsParam, String preparer, Request request, ModelBody modelBody) throws IOException {
+            @Parameter(name = "extends") String extendsParam, String preparer,
+            Request request, ModelBody modelBody) throws IOException {
         Deque<Object> composeStack = ComposeStackUtil
                 .getComposeStack(request);
         Definition definition = createDefinition(name, template, role,

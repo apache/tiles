@@ -28,6 +28,7 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
 import org.apache.tiles.request.Request;
 
 /**
@@ -80,27 +81,30 @@ public class InsertDefinitionModel {
      * @param preparer The preparer to use to invoke before the definition is
      * rendered. If specified, it overrides the preparer specified in the
      * definition itself.
+     * @param flush TODO
      * @param request TODO
      * @param modelBody TODO
      * @param container The Tiles container.
      * @throws IOException If something goes wrong.
      * @since 2.2.0
      */
-    public void execute(String definitionName, String template,
-            String templateType, String templateExpression, String role,
-            String preparer, Request request, ModelBody modelBody) throws IOException {
+    public void execute(
+            @Parameter(name = "name", required = true) String definitionName,
+            String template, String templateType, String templateExpression,
+            String role, String preparer, boolean flush, Request request, ModelBody modelBody)
+            throws IOException {
         TilesContainer container = TilesAccess.getCurrentContainer(request);
         container.startContext(request);
         modelBody.evaluateWithoutWriting();
         container = TilesAccess.getCurrentContainer(request);
         renderDefinition(container, definitionName, template, templateType,
-                templateExpression, role, preparer, request);
+                templateExpression, role, preparer, flush, request);
     }
 
     private void renderDefinition(TilesContainer container,
             String definitionName, String template, String templateType,
             String templateExpression, String role, String preparer,
-            Request request) {
+            boolean flush, Request request) throws IOException {
         try {
             AttributeContext attributeContext = container
                     .getAttributeContext(request);
@@ -109,6 +113,9 @@ public class InsertDefinitionModel {
             attributeContext.setPreparer(preparer);
             attributeContext.setTemplateAttribute(templateAttribute);
             container.render(definitionName, request);
+            if (flush) {
+                request.getWriter().flush();
+            }
         } finally {
             container.endContext(request);
         }

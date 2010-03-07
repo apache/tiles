@@ -73,6 +73,7 @@ public class InsertAttributeFMModel extends BodyFMModel {
                 FreeMarkerUtil.getAsString(parms.get("defaultValueType")),
                 FreeMarkerUtil.getAsString(parms.get("name")),
                 (Attribute) FreeMarkerUtil.getAsObject(parms.get("value")),
+                FreeMarkerUtil.getAsBoolean(parms.get("flush"), false),
                 request, modelBody);
     }
 

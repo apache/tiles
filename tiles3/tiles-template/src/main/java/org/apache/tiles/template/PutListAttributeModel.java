@@ -30,6 +30,7 @@ import org.apache.tiles.ListAttribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
 import org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil;
 import org.apache.tiles.request.Request;
 
@@ -48,8 +49,9 @@ import org.apache.tiles.request.Request;
  */
 public class PutListAttributeModel {
 
-    public void execute(String name, String role, boolean inherit,
-            boolean cascade, Request request, ModelBody modelBody) throws IOException {
+    public void execute(@Parameter(required = true) String name, String role,
+            boolean inherit, boolean cascade, Request request,
+            ModelBody modelBody) throws IOException {
         Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = new ListAttribute();
         listAttribute.setRole(role);

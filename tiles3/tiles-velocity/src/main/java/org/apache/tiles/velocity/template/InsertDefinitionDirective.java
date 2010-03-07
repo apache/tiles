@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.InsertDefinitionModel;
+import org.apache.tiles.velocity.context.VelocityUtil;
 
 /**
  * Wraps {@link InsertDefinitionModel} to be used in Velocity. For the list of
@@ -35,7 +36,7 @@ import org.apache.tiles.template.InsertDefinitionModel;
  * ,
  * {@link InsertDefinitionModel#end(org.apache.tiles.TilesContainer, String, String, String, String, String, String, Object...)}
  * and
- * {@link InsertDefinitionModel#execute(org.apache.tiles.TilesContainer, String, String, String, String, String, String, Object...)}
+ * {@link InsertDefinitionModel#execute(org.apache.tiles.TilesContainer, String, String, String, String, String, boolean, String, Object...)}
  * .
  *
  * @version $Rev$ $Date$
@@ -77,10 +78,11 @@ public class InsertDefinitionDirective extends BodyDirective {
     @Override
     protected void execute(Map<String, Object> params, Request request,
             ModelBody modelBody) throws IOException {
-        model.execute((String) params.get("name"), (String) params.get("template"),
-                (String) params.get("templateType"), (String) params
-                        .get("templateExpression"),
-                (String) params.get("role"), (String) params.get("preparer"),
-                request, modelBody);
+        model.execute((String) params.get("name"), (String) params
+                .get("template"), (String) params.get("templateType"),
+                (String) params.get("templateExpression"), (String) params
+                        .get("role"), (String) params.get("preparer"),
+                VelocityUtil.toSimpleBoolean((Boolean) params.get("flush"),
+                        false), request, modelBody);
     }
 }

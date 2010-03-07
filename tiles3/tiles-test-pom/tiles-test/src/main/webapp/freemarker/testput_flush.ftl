@@ -21,7 +21,7 @@
  *
  */
 -->
-<@tiles.insertTemplate template="/freemarker/layout.ftl" flush="true">
+<@tiles.insertTemplate template="/freemarker/layout.ftl" flush=true>
   <@tiles.putAttribute name="title"  value="This is the title." />
   <@tiles.putAttribute name="header" value="/freemarker/header.ftl" />
   <@tiles.putAttribute name="body"   value="/freemarker/body.ftl" />

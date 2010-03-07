@@ -66,7 +66,7 @@ public class InsertAttributeModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.InsertAttributeModel
      * #execute(boolean, String, String, Object, String, String, String,
-     * Attribute, Request, ModelBody)}.
+     * Attribute, boolean, Request, ModelBody)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -93,7 +93,7 @@ public class InsertAttributeModelTest {
 
         replay(resolver, container, request, applicationContext, modelBody);
         model.execute(false, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole",
-                "myDefaultValueType", "myName", attribute, request, modelBody);
+                "myDefaultValueType", "myName", attribute, false, request, modelBody);
         verify(resolver, container, request, applicationContext, modelBody);
     }
 

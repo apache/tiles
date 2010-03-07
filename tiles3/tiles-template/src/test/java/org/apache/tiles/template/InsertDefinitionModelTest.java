@@ -61,7 +61,7 @@ public class InsertDefinitionModelTest {
     /**
      * Test method for {@link org.apache.tiles.template.InsertDefinitionModel
      * #execute(java.lang.String, java.lang.String, String,
-     * String, java.lang.String, java.lang.String, Request, ModelBody)}.
+     * String, java.lang.String, java.lang.String, boolean, Request, ModelBody)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -87,7 +87,7 @@ public class InsertDefinitionModelTest {
         replay(container, attributeContext, request, applicationContext, modelBody);
         model.execute("myDefinitionName", "myTemplate", "myTemplateType",
                 "myTemplateExpression", "myRole", "myPreparer",
-                request, modelBody);
+                false, request, modelBody);
         verify(container, attributeContext, request, applicationContext, modelBody);
     }
 

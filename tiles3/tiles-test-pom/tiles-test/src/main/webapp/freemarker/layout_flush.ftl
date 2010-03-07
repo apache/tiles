@@ -26,9 +26,9 @@
     <td  bgcolor="Blue"><strong><@tiles.getAsString name="title"/></strong></td>
   </tr>
   <tr>
-    <td><@tiles.insertAttribute name="header" flush="true"/></td>
+    <td><@tiles.insertAttribute name="header" flush=true/></td>
   </tr>
   <tr>
-    <td><@tiles.insertAttribute name="body" flush="true"/></td>
+    <td><@tiles.insertAttribute name="body" flush=true/></td>
   </tr>
-</table>           
+</table>

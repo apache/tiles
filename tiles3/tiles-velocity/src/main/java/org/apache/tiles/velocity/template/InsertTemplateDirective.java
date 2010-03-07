@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.InsertTemplateModel;
+import org.apache.tiles.velocity.context.VelocityUtil;
 
 /**
  * Wraps {@link InsertTemplateModel} to be used in Velocity. For the list of
@@ -35,7 +36,7 @@ import org.apache.tiles.template.InsertTemplateModel;
  * ,
  * {@link InsertTemplateModel#end(org.apache.tiles.TilesContainer, String, String, String, String, String, Object...)}
  * and
- * {@link InsertTemplateModel#execute(org.apache.tiles.TilesContainer, String, String, String, String, String, Object...)}
+ * {@link InsertTemplateModel#execute(org.apache.tiles.TilesContainer, String, String, String, String, boolean, String, Object...)}
  * .
  *
  * @version $Rev$ $Date$
@@ -81,6 +82,7 @@ public class InsertTemplateDirective extends BodyDirective {
                 .get("templateType"),
                 (String) params.get("templateExpression"), (String) params
                         .get("role"), (String) params.get("preparer"),
-                request, modelBody);
+                VelocityUtil.toSimpleBoolean((Boolean) params.get("flush"),
+                        false), request, modelBody);
     }
 }

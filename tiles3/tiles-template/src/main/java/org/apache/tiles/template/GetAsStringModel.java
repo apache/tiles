@@ -29,6 +29,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
 import org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil;
 import org.apache.tiles.request.Request;
 import org.slf4j.Logger;
@@ -62,6 +63,15 @@ public class GetAsStringModel {
     private AttributeResolver attributeResolver;
 
     /**
+     * Constructor that uses the defaut attribute resolver.
+     *
+     * @since 3.0.0
+     */
+    public GetAsStringModel() {
+        this(new DefaultAttributeResolver());
+    }
+
+    /**
      * Constructor.
      *
      * @param attributeResolver The attribute resolver to use.
@@ -93,10 +103,12 @@ public class GetAsStringModel {
      * @throws IOException If an I/O error happens during rendering.
      * @since 2.2.0
      */
-    public void execute(boolean ignore, String preparer,
-            String role, Object defaultValue, String defaultValueRole, String defaultValueType,
-            String name, Attribute value, Request request, ModelBody modelBody) throws IOException {
-        TilesContainer container = TilesAccess.getCurrentContainer(request);
+    public void execute(boolean ignore, String preparer, String role,
+            Object defaultValue, String defaultValueRole,
+            String defaultValueType, @Parameter(required = true) String name,
+            Attribute value, Request request, ModelBody modelBody)
+            throws IOException {
+    TilesContainer container = TilesAccess.getCurrentContainer(request);
         Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,

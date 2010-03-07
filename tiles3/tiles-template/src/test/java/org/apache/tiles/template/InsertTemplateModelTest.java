@@ -59,7 +59,7 @@ public class InsertTemplateModelTest {
 
     /**
      * Test method for {@link org.apache.tiles.template.InsertTemplateModel
-     * #execute(String, String, String, String, String, Request, ModelBody)}.
+     * #execute(String, String, String, String, String, boolean, Request, ModelBody)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -84,8 +84,7 @@ public class InsertTemplateModelTest {
 
         replay(container, attributeContext, request, applicationContext, modelBody);
         model.execute("myTemplate", "myTemplateType", "myTemplateExpression",
-                "myRole", "myPreparer",
-                request, modelBody);
+                "myRole", "myPreparer", false, request, modelBody);
         verify(container, attributeContext, request, applicationContext, modelBody);
     }
 

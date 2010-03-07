@@ -24,9 +24,9 @@
     <td  bgcolor="Blue"><strong>#tiles_getAsString({"name":"title"})#end</strong></td>
   </tr>
   <tr>
-    <td>#tiles_insertAttribute({"name":"header", "flush":"true"})#end</td>
+    <td>#tiles_insertAttribute({"name":"header", "flush":true})#end</td>
   </tr>
   <tr>
-    <td>#tiles_insertAttribute({"name":"body", "flush":"true"})#end</td>
+    <td>#tiles_insertAttribute({"name":"body", "flush":true})#end</td>
   </tr>
 </table>

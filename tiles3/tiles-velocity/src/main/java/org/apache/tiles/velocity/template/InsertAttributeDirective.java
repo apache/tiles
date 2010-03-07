@@ -38,7 +38,7 @@ import org.apache.tiles.velocity.context.VelocityUtil;
  * ,
  * {@link InsertAttributeModel#end(java.util.Stack, org.apache.tiles.TilesContainer, boolean, Object...)}
  * and
- * {@link InsertAttributeModel#execute(org.apache.tiles.TilesContainer, boolean, String, String, Object, String, String, String, Attribute, Object...)}
+ * {@link InsertAttributeModel#execute(org.apache.tiles.TilesContainer, boolean, String, String, Object, String, String, String, boolean, Attribute, Object...)}
  * .
  *
  * @version $Rev$ $Date$
@@ -81,13 +81,14 @@ public class InsertAttributeDirective extends BodyDirective {
     @Override
     protected void execute(Map<String, Object> params, Request request,
             ModelBody modelBody) throws IOException {
-        model.execute(VelocityUtil.toSimpleBoolean(
-                (Boolean) params.get("ignore"), false), (String) params
-                .get("preparer"), (String) params.get("role"), params
-                .get("defaultValue"), (String) params.get("defaultValueRole"),
-                (String) params.get("defaultValueType"), (String) params
-                        .get("name"), (Attribute) params.get("value"),
-                request, modelBody);
+        model.execute(VelocityUtil.toSimpleBoolean((Boolean) params
+                .get("ignore"), false), (String) params.get("preparer"),
+                (String) params.get("role"), params.get("defaultValue"),
+                (String) params.get("defaultValueRole"), (String) params
+                        .get("defaultValueType"), (String) params.get("name"),
+                (Attribute) params.get("value"), VelocityUtil.toSimpleBoolean(
+                        (Boolean) params.get("flush"), false), request,
+                modelBody);
     }
 
 }

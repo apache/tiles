@@ -67,9 +67,10 @@ public class InsertTemplateFMModel extends BodyFMModel {
         model.execute(FreeMarkerUtil.getAsString(parms.get("template")),
                 FreeMarkerUtil.getAsString(parms.get("templateType")),
                 FreeMarkerUtil.getAsString(parms.get("templateExpression")),
-                FreeMarkerUtil.getAsString(parms.get("role")),
-                FreeMarkerUtil.getAsString(parms.get("preparer")),
-                request, modelBody);
+                FreeMarkerUtil.getAsString(parms.get("role")), FreeMarkerUtil
+                        .getAsString(parms.get("preparer")), FreeMarkerUtil
+                        .getAsBoolean(parms.get("flush"), false), request,
+                modelBody);
     }
 
 }

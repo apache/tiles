@@ -21,4 +21,4 @@
  *
  */
 -->
-<@tiles.insertDefinition name="freemarker.test.definition.flush" flush="true"/>
+<@tiles.insertDefinition name="freemarker.test.definition.flush" flush=true/>

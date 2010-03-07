@@ -74,6 +74,15 @@ public class InsertAttributeModel {
     private AttributeResolver attributeResolver;
 
     /**
+     * Constructor that uses the defaut attribute resolver.
+     *
+     * @since 3.0.0
+     */
+    public InsertAttributeModel() {
+        this(new DefaultAttributeResolver());
+    }
+
+    /**
      * Constructor.
      *
      * @param attributeResolver The attribute resolver to use.
@@ -98,6 +107,7 @@ public class InsertAttributeModel {
      * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
+     * @param flush TODO
      * @param request TODO
      * @param modelBody TODO
      * @param container The Tiles container to use.
@@ -107,7 +117,7 @@ public class InsertAttributeModel {
     public void execute(boolean ignore, String preparer,
             String role, Object defaultValue, String defaultValueRole,
             String defaultValueType, String name, Attribute value,
-            Request request, ModelBody modelBody) throws IOException {
+            boolean flush, Request request, ModelBody modelBody) throws IOException {
         TilesContainer container = TilesAccess.getCurrentContainer(request);
         Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = resolveAttribute(container, ignore, preparer,
@@ -118,6 +128,9 @@ public class InsertAttributeModel {
         container = TilesAccess.getCurrentContainer(request);
         attribute = (Attribute) composeStack.pop();
         renderAttribute(container, ignore, attribute, request);
+        if (flush) {
+            request.getWriter().flush();
+        }
     }
 
     /**

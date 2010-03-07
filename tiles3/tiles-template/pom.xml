@@ -43,6 +43,9 @@
                 <goals>
                     <goal>create-descriptor</goal>
                 </goals>
+                <configuration>
+                    <name>tiles</name>
+                </configuration>
             </execution>
         </executions>
       </plugin>
