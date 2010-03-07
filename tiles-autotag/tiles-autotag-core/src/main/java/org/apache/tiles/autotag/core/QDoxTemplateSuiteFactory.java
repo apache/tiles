@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
 import org.apache.tiles.autotag.model.TemplateClass;
 import org.apache.tiles.autotag.model.TemplateMethod;
 import org.apache.tiles.autotag.model.TemplateParameter;
@@ -15,6 +16,7 @@ import org.apache.tiles.autotag.model.TemplateSuiteFactory;
 import org.apache.tiles.request.Request;
 
 import com.thoughtworks.qdox.JavaDocBuilder;
+import com.thoughtworks.qdox.model.Annotation;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
@@ -106,9 +108,25 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
     private TemplateMethod createMethod(JavaMethod method) {
         List<TemplateParameter> params = new ArrayList<TemplateParameter>();
         for (JavaParameter parameter : method.getParameters()) {
+            String exportedName = parameter.getName();
+            boolean required = false;
+            Annotation[] annotations = parameter.getAnnotations();
+            if (annotations != null && annotations.length > 0) {
+                boolean found = false;
+                for (int i = 0; i < annotations.length && !found; i++) {
+                    if (Parameter.class.getName().equals(annotations[i].getType().getFullyQualifiedName())) {
+                        found = true;
+                        String candidateName = (String) annotations[i].getNamedParameter("name");
+                        if (candidateName != null && candidateName.length() > 2) {
+                            exportedName = candidateName.substring(1, candidateName.length() - 1);
+                        }
+                        required = "true".equals(annotations[i].getNamedParameter("required"));
+                    }
+                }
+            }
             TemplateParameter templateParameter = new TemplateParameter(
-                    parameter.getName(), parameter.getType()
-                            .getFullyQualifiedName(), false);
+                    parameter.getName(), exportedName, parameter.getType()
+                                    .getFullyQualifiedName(), required);
             params.add(templateParameter);
         }
         TemplateMethod templateMethod = new TemplateMethod(method.getName(),

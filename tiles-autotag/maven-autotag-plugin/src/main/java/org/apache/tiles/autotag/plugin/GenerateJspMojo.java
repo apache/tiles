@@ -25,8 +25,10 @@ import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
+import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
 import org.apache.tiles.autotag.generate.BasicTemplateGenerator;
 import org.apache.tiles.autotag.jsp.TLDGenerator;
 import org.apache.tiles.autotag.jsp.TagClassGenerator;
@@ -49,10 +51,18 @@ public class GenerateJspMojo extends AbstractMojo {
     /**
      * Location of the file.
      *
-     * @parameter expression="${project.build.directory}/autotag-jsp"
+     * @parameter expression="${project.build.directory}/autotag-jsp-classes"
      * @required
      */
-    private File outputDirectory;
+    private File classesOutputDirectory;
+
+    /**
+     * Location of the file.
+     *
+     * @parameter expression="${project.build.directory}/autotag-jsp-resources"
+     * @required
+     */
+    private File resourcesOutputDirectory;
 
     /**
      * Name of the package.
@@ -77,6 +87,13 @@ public class GenerateJspMojo extends AbstractMojo {
      */
     private List<String> classpathElements;
 
+    /**
+     * @parameter expression="${project}"
+     * @required
+     * @readonly
+     */
+    private MavenProject project;
+
     public void execute() throws MojoExecutionException {
         try {
             InputStream stream = findTemplateSuiteDescriptor();
@@ -84,8 +101,8 @@ public class GenerateJspMojo extends AbstractMojo {
             TemplateSuite suite = (TemplateSuite) xstream.fromXML(stream);
             stream.close();
             BasicTemplateGenerator generator = new BasicTemplateGenerator();
-            generator.addTemplateSuiteGenerator(new TLDGenerator());
-            generator.addTemplateClassGenerator(new TagClassGenerator());
+            generator.addTemplateSuiteGenerator(resourcesOutputDirectory, new TLDGenerator());
+            generator.addTemplateClassGenerator(classesOutputDirectory, new TagClassGenerator());
             suite.getCustomVariables().put("taglibURI", taglibURI);
 
             Properties props = new Properties();
@@ -94,7 +111,12 @@ public class GenerateJspMojo extends AbstractMojo {
             propsStream.close();
             Velocity.init(props);
 
-            generator.generate(outputDirectory, packageName, suite);
+            generator.generate(packageName, suite);
+
+            Resource resource = new Resource();
+            resource.setDirectory(resourcesOutputDirectory.getAbsolutePath());
+            project.addResource(resource);
+            project.addCompileSourceRoot(classesOutputDirectory.getAbsolutePath());
         } catch (IOException e) {
             throw new MojoExecutionException("error", e);
         } catch (RuntimeException e) {

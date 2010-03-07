@@ -24,11 +24,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
 import org.apache.tiles.autotag.core.QDoxTemplateSuiteFactory;
 import org.apache.tiles.autotag.model.TemplateSuite;
-import org.apache.tiles.autotag.model.TemplateSuiteFactory;
 import org.codehaus.plexus.compiler.util.scan.InclusionScanException;
 import org.codehaus.plexus.compiler.util.scan.SimpleSourceInclusionScanner;
 import org.codehaus.plexus.compiler.util.scan.SourceInclusionScanner;
@@ -47,7 +48,7 @@ public class CreateDescriptorMojo extends AbstractMojo {
     /**
      * Location of the file.
      *
-     * @parameter expression="${project.build.outputDirectory}"
+     * @parameter expression="${project.build.directory}/autotag-template-suite"
      * @required
      */
     private File outputDirectory;
@@ -85,6 +86,13 @@ public class CreateDescriptorMojo extends AbstractMojo {
      */
     private Set<String> excludes;
 
+    /**
+     * @parameter expression="${project}"
+     * @required
+     * @readonly
+     */
+    private MavenProject project;
+
     @SuppressWarnings("unchecked")
     public void execute() throws MojoExecutionException {
         try {
@@ -103,6 +111,9 @@ public class CreateDescriptorMojo extends AbstractMojo {
             Writer writer = new FileWriter(outputFile);
             xstream.toXML(suite, writer);
             writer.close();
+            Resource resource = new Resource();
+            resource.setDirectory(outputDirectory.getAbsolutePath());
+            project.addResource(resource);
         } catch (InclusionScanException e) {
             throw new MojoExecutionException("error", e);
         } catch (IOException e) {

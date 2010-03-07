@@ -7,14 +7,17 @@ public class TemplateParameter {
 
     private String name;
 
+    private String exportedName;
+
     private String documentation;
 
     private String type;
 
     private boolean required;
 
-    public TemplateParameter(String name, String type, boolean required) {
+    public TemplateParameter(String name, String exportedName, String type, boolean required) {
         this.name = name;
+        this.exportedName = exportedName;
         this.type = type;
         this.required = required;
     }
@@ -29,6 +32,10 @@ public class TemplateParameter {
 
     public String getName() {
         return name;
+    }
+
+    public String getExportedName() {
+        return exportedName;
     }
 
     public String getType() {
@@ -48,14 +55,14 @@ public class TemplateParameter {
     }
 
     public String getGetterSetterSuffix() {
-        return name.substring(0, 1).toUpperCase() + name.substring(1);
+        return exportedName.substring(0, 1).toUpperCase() + exportedName.substring(1);
     }
 
     @Override
     public String toString() {
-        return "TemplateParameter\n[documentation="
-                + documentation + ",\nname=" + name + ", required=" + required
-                + ", type=" + type + "]";
+        return "TemplateParameter\n[documentation=" + documentation
+                + ",\nname=" + name + ",\nexportedName=" + exportedName
+                + ", required=" + required + ", type=" + type + "]";
     }
 
 }

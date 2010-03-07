@@ -43,7 +43,7 @@
       ]]>
       </description>
       <name>${clazz.tagName}</name>
-      <tag-class>${packageName}.${clazz.tagClassPrefix}</tag-class>
+      <tag-class>${packageName}.${clazz.tagClassPrefix}Tag</tag-class>
       <body-content>#if(${clazz.hasBody()})scriptless#{else}empty#end</body-content>
 #foreach($parameter in ${clazz.parameters})
       <attribute>
@@ -54,7 +54,7 @@
 #end
          ]]>
          </description>
-         <name>${parameter.name}</name>
+         <name>${parameter.exportedName}</name>
          <required>${parameter.required}</required>
          <rtexprvalue>true</rtexprvalue>
          <type>${parameter.type}</type>

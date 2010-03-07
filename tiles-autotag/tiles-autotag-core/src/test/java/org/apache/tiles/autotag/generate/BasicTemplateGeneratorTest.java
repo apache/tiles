@@ -23,7 +23,7 @@ import org.junit.Test;
 public class BasicTemplateGeneratorTest {
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.generate.BasicTemplateGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite)}.
+     * Test method for {@link org.apache.tiles.autotag.generate.BasicTemplateGenerator#generate(java.lang.String, org.apache.tiles.autotag.model.TemplateSuite)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -44,9 +44,9 @@ public class BasicTemplateGeneratorTest {
         templateClassGenerator.generate(file, "my.package", suite, templateClass);
 
         replay(generator, suite, templateClass, templateSuiteGenerator, templateClassGenerator);
-        generator.addTemplateSuiteGenerator(templateSuiteGenerator);
-        generator.addTemplateClassGenerator(templateClassGenerator);
-        generator.generate(file, "my.package", suite);
+        generator.addTemplateSuiteGenerator(file, templateSuiteGenerator);
+        generator.addTemplateClassGenerator(file, templateClassGenerator);
+        generator.generate("my.package", suite);
         verify(generator, suite, templateClass, templateSuiteGenerator, templateClassGenerator);
     }
 }

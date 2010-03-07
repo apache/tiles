@@ -21,7 +21,10 @@ package ${packageName};
  *#
 import java.io.IOException;
 
+#if(${clazz.hasBody()})
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+#end
+import org.apache.tiles.jsp.taglib.Body#if(!${clazz.hasBody()})less#{end}Tag;
 import org.apache.tiles.request.Request;
 
 /**
@@ -47,7 +50,7 @@ public class ${clazz.tagClassPrefix}Tag extends Body#if(!${clazz.hasBody()})less
 #end
 #foreach($parameter in ${clazz.parameters})
     /**
-     * Getter for ${parameter.name} property.
+     * Getter for ${parameter.exportedName} property.
      *
      * @return
 #foreach($line in $stringTool.splitOnNewlines(${parameter.documentation}))
@@ -59,7 +62,7 @@ public class ${clazz.tagClassPrefix}Tag extends Body#if(!${clazz.hasBody()})less
     }
 
     /**
-     * Setter for ${parameter.name} property.
+     * Setter for ${parameter.exportedName} property.
      *
      * @param ${parameter.name}
 #foreach($line in $stringTool.splitOnNewlines(${parameter.documentation}))
