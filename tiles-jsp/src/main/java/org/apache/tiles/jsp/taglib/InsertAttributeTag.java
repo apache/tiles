@@ -309,6 +309,6 @@ public class InsertAttributeTag extends SimpleTagSupport {
                 (Attribute) value, jspContext);
         JspUtil.evaluateFragment(getJspBody());
         model.end(JspUtil.getComposeStack(jspContext), JspUtil
-                .getContainer(jspContext), ignore, jspContext);
+                .getCurrentContainer(jspContext), ignore, jspContext);
     }
 }

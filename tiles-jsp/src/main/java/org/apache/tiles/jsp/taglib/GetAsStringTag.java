@@ -310,7 +310,7 @@ public class GetAsStringTag extends SimpleTagSupport {
         JspWriter writer = jspContext.getOut();
         JspUtil.evaluateFragment(getJspBody());
         model.end(JspUtil.getComposeStack(jspContext), JspUtil
-                .getContainer(jspContext), writer, ignore,
+                .getCurrentContainer(jspContext), writer, ignore,
                 jspContext);
     }
 }
