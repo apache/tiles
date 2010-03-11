@@ -174,4 +174,22 @@ public class PatternUtilTest {
         assertEquals("value1", extractedMap.get(1));
         assertEquals("value2", extractedMap.get(2));
     }
+
+    /**
+     * Test method for
+     * {@link PatternUtil#replacePlaceholders(Definition, String, Object[])}.
+     * See TILES-502
+     */
+    @Test
+    public void testReplacePlaceholdersEL() {
+        Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+        attributes.put("something", new Attribute("some-{1}-${requestScope.someVariable}.jsp"));
+        Definition definition = new Definition("definitionName", new Attribute(
+                "template"), attributes);
+        Definition nudef = PatternUtil.replacePlaceholders(definition, "nudef",
+                "value0", "value1", "value2", "value3");
+        assertEquals("nudef", nudef.getName());
+        Attribute attribute = nudef.getAttribute("something");
+        assertEquals("some-value1-${requestScope.someVariable}.jsp", attribute.getValue());
+    }
 }

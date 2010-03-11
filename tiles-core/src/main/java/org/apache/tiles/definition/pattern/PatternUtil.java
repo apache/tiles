@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
@@ -46,6 +48,10 @@ public final class PatternUtil {
      * Java 1.6.
      */
     private static final Locale ROOT_LOCALE = new Locale("", "");
+
+    /** Pattern to find {.*} occurrences that do not match {[0-9]+} so to prevent MessageFormat from crashing.
+     */
+    private static final Pattern INVALID_FORMAT_ELEMENT = Pattern.compile("\\Q{\\E[\\D^}]+\\Q}\\E");
 
     /**
      * Private constructor to avoid instantiation.
@@ -157,7 +163,9 @@ public final class PatternUtil {
         nuattr.setRenderer(attr.getRenderer());
         Expression expressionObject = attr.getExpressionObject();
         if (expressionObject != null) {
-            nuattr.setExpressionObject(new Expression(expressionObject));
+            Expression newExpressionObject = Expression
+                    .createExpression(replace(expressionObject.getExpression(), vars), expressionObject.getLanguage());
+            nuattr.setExpressionObject(newExpressionObject);
         }
 
         Object value = attr.getValue();
@@ -207,8 +215,17 @@ public final class PatternUtil {
      */
     private static String replace(String st, Object... vars) {
         if (st != null && st.indexOf('{') >= 0) {
-            MessageFormat format = new MessageFormat(st, ROOT_LOCALE);
-            return format.format(vars, new StringBuffer(), null).toString();
+            // remember the invalid "{...}" occurrences
+            Matcher m = INVALID_FORMAT_ELEMENT.matcher(st);
+            // replace them with markers
+            st = INVALID_FORMAT_ELEMENT.matcher(st).replaceAll("INVALID_FORMAT_ELEMENT");
+            // do the MessageFormat replacement (escaping quote characters)
+            st = new MessageFormat(st.replaceAll("'", "'''"), ROOT_LOCALE)
+                    .format(vars, new StringBuffer(), null).toString();
+            // return the markers to their original invalid occurrences
+            while (m.find()) {
+                st = st.replaceFirst("INVALID_FORMAT_ELEMENT", m.group());
+            }
         }
         return st;
     }
