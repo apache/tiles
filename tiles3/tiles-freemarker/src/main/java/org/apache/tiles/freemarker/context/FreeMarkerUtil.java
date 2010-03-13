@@ -21,16 +21,8 @@
 
 package org.apache.tiles.freemarker.context;
 
-import java.io.IOException;
-import java.io.StringWriter;
-
-import org.apache.tiles.autotag.core.runtime.util.NullWriter;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
-import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
 
-import freemarker.core.Environment;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DeepUnwrap;
@@ -102,80 +94,21 @@ public final class FreeMarkerUtil {
     }
 
     /**
-     * Sets an attribute in the desired scope.
+     * Unwraps a TemplateModel to extract an object.
      *
-     * @param env The FreeMarker current environment.
-     * @param name The name of the attribute.
-     * @param obj The value of the attribute.
-     * @param scope The scope. It can be <code>page</code>, <code>request</code>
-     * , <code>session</code>, <code>application</code>.
-     * @since 2.2.0
+     * @param model The TemplateModel to unwrap.
+     * @return The unwrapped object.
+     * @since 3.0.0
      */
-    public static void setAttribute(Environment env, String name, Object obj,
-            String scope) {
-        if (scope == null) {
-            scope = "page";
-        }
-        if ("page".equals(scope)) {
-            try {
-                TemplateModel model = env.getObjectWrapper().wrap(obj);
-                env.setVariable(name, model);
-            } catch (TemplateModelException e) {
-                throw new FreeMarkerTilesException(
-                        "Error when wrapping an object", e);
+    public static Object getAsObject(TemplateModel model, Object defaultValue) {
+        try {
+            Object retValue = DeepUnwrap.unwrap(model);
+            if (retValue == null) {
+                retValue = defaultValue;
             }
-        } else if ("request".equals(scope)) {
-            FreemarkerRequestUtil.getRequestHashModel(env).getRequest().setAttribute(name, obj);
-        } else if ("session".equals(scope)) {
-            FreemarkerRequestUtil.getRequestHashModel(env).getRequest().getSession().setAttribute(
-                    name, obj);
-        } else if ("application".equals(scope)) {
-            FreemarkerRequestUtil.getServletContextHashModel(env).getServlet().getServletContext()
-                    .setAttribute(name, obj);
+            return retValue;
+        } catch (TemplateModelException e) {
+            throw new FreeMarkerTilesException("Cannot unwrap a model", e);
         }
-    }
-
-    /**
-     * Evaluates the body without rendering it.
-     *
-     * @param body The body to evaluate.
-     * @throws TemplateException If something goes wrong during evaluation.
-     * @throws IOException If something goes wrong during writing the result.
-     * @since 2.2.0
-     */
-    public static void evaluateBody(TemplateDirectiveBody body)
-            throws TemplateException, IOException {
-        if (body != null) {
-            NullWriter writer = new NullWriter();
-            try {
-                body.render(writer);
-            } finally {
-                writer.close();
-            }
-        }
-    }
-
-    /**
-     * Renders the body as a string.
-     *
-     * @param body The body to render.
-     * @return The rendered string.
-     * @throws TemplateException If something goes wrong during evaluation.
-     * @throws IOException If something goes wrong during writing the result.
-     * @since 2.2.0
-     */
-    public static String renderAsString(TemplateDirectiveBody body)
-            throws TemplateException, IOException {
-        String bodyString = null;
-        if (body != null) {
-            StringWriter stringWriter = new StringWriter();
-            try {
-                body.render(stringWriter);
-            } finally {
-                stringWriter.close();
-            }
-            bodyString = stringWriter.toString();
-        }
-        return bodyString;
     }
 }
