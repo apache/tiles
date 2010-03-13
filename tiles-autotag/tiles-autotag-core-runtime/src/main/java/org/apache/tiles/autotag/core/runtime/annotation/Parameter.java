@@ -14,4 +14,6 @@ public @interface Parameter {
     String name() default SAME_NAME;
 
     boolean required() default false;
+
+    String defaultValue() default "null";
 }
