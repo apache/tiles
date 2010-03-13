@@ -18,11 +18,6 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-        <groupId>org.apache.tiles</groupId>
-        <artifactId>tiles-autotag-core</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.7</version>
@@ -33,6 +28,16 @@
         <artifactId>commons-io</artifactId>
         <version>1.4</version>
         <scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.tiles</groupId>
+    	<artifactId>tiles-request-freemarker</artifactId>
+    	<version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.tiles</groupId>
+    	<artifactId>tiles-autotag-core</artifactId>
+    	<version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

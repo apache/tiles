@@ -13,12 +13,15 @@ public class TemplateParameter {
 
     private String type;
 
+    private String defaultValue;
+
     private boolean required;
 
-    public TemplateParameter(String name, String exportedName, String type, boolean required) {
+    public TemplateParameter(String name, String exportedName, String type, String defaultValue, boolean required) {
         this.name = name;
         this.exportedName = exportedName;
         this.type = type;
+        this.defaultValue = defaultValue;
         this.required = required;
     }
 
@@ -40,6 +43,10 @@ public class TemplateParameter {
 
     public String getType() {
         return type;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
     }
 
     public boolean isRequired() {

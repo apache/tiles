@@ -110,6 +110,7 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
         for (JavaParameter parameter : method.getParameters()) {
             String exportedName = parameter.getName();
             boolean required = false;
+            String defaultValue = null;
             Annotation[] annotations = parameter.getAnnotations();
             if (annotations != null && annotations.length > 0) {
                 boolean found = false;
@@ -121,12 +122,16 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
                             exportedName = candidateName.substring(1, candidateName.length() - 1);
                         }
                         required = "true".equals(annotations[i].getNamedParameter("required"));
+                        candidateName = (String) annotations[i].getNamedParameter("defaultValue");
+                        if (candidateName != null && candidateName.length() > 2) {
+                            defaultValue = candidateName.substring(1, candidateName.length() - 1);
+                        }
                     }
                 }
             }
             TemplateParameter templateParameter = new TemplateParameter(
                     parameter.getName(), exportedName, parameter.getType()
-                                    .getFullyQualifiedName(), required);
+                            .getFullyQualifiedName(), defaultValue, required);
             params.add(templateParameter);
         }
         TemplateMethod templateMethod = new TemplateMethod(method.getName(),

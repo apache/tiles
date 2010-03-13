@@ -45,19 +45,19 @@ public class TLDGeneratorTest {
         suite.getCustomVariables().put("taglibURI", "http://www.initrode.net/tags/test");
 
         List<TemplateParameter> params = new ArrayList<TemplateParameter>();
-        TemplateParameter param = new TemplateParameter("one", "one", "java.lang.String", true);
+        TemplateParameter param = new TemplateParameter("one", "one", "java.lang.String", null, true);
         param.setDocumentation("Parameter one.");
         params.add(param);
-        param = new TemplateParameter("two", "two", "int", false);
+        param = new TemplateParameter("two", "two", "int", null, false);
         param.setDocumentation("Parameter two.");
         params.add(param);
-        param = new TemplateParameter("three", "three", "long", false);
+        param = new TemplateParameter("three", "three", "long", null, false);
         param.setDocumentation("Parameter three.");
         params.add(param);
-        param = new TemplateParameter("request", "request", Request.class.getName(), false);
+        param = new TemplateParameter("request", "request", Request.class.getName(), null, false);
         param.setDocumentation("The request.");
         params.add(param);
-        param = new TemplateParameter("modelBody", "modelBody", ModelBody.class.getName(), false);
+        param = new TemplateParameter("modelBody", "modelBody", ModelBody.class.getName(), null, false);
         param.setDocumentation("The body.");
         params.add(param);
         TemplateMethod executeMethod = new TemplateMethod("execute", params);
@@ -68,16 +68,16 @@ public class TLDGeneratorTest {
 
         suite.addTemplateClass(clazz);
         params = new ArrayList<TemplateParameter>();
-        param = new TemplateParameter("one", "one", "java.lang.Double", true);
+        param = new TemplateParameter("one", "one", "java.lang.Double", null, true);
         param.setDocumentation("Parameter one.");
         params.add(param);
-        param = new TemplateParameter("two", "two", "float", false);
+        param = new TemplateParameter("two", "two", "float", null, false);
         param.setDocumentation("Parameter two.");
         params.add(param);
-        param = new TemplateParameter("three", "three", "java.util.Date", false);
+        param = new TemplateParameter("three", "three", "java.util.Date", null, false);
         param.setDocumentation("Parameter three.");
         params.add(param);
-        param = new TemplateParameter("request", "request", Request.class.getName(), false);
+        param = new TemplateParameter("request", "request", Request.class.getName(), null, false);
         param.setDocumentation("The request.");
         params.add(param);
         executeMethod = new TemplateMethod("execute", params);
@@ -89,7 +89,7 @@ public class TLDGeneratorTest {
         suite.addTemplateClass(clazz);
 
         Properties props = new Properties();
-        InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/jsp/velocity.properties");
+        InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/velocity.properties");
         props.load(propsStream);
         propsStream.close();
         Velocity.init(props);
