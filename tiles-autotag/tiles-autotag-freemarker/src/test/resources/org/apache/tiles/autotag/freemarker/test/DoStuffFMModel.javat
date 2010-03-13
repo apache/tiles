@@ -1,0 +1,44 @@
+package org.apache.tiles.autotag.freemarker.test;
+
+import java.io.IOException;
+import java.util.Map;
+
+import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.freemarker.template.BodyFMModel;
+import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.request.Request;
+
+import freemarker.template.TemplateModel;
+
+/**
+ * Documentation of the DoStuff class.
+ */
+public class DoStuffFMModel extends BodyFMModel {
+
+    /**
+     * The template model.
+     */
+    private org.apache.tiles.autotag.template.DoStuffTemplate model;
+
+    /**
+     * Constructor.
+     *
+     * @param model
+     *            The template model.
+     */
+    public DoStuffFMModel(org.apache.tiles.autotag.template.DoStuffTemplate model) {
+        this.model = model;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void execute(Map<String, TemplateModel> parms, Request request,
+            ModelBody modelBody) throws IOException {
+        model.execute(
+            (java.lang.String) FreeMarkerUtil.getAsObject(parms.get("one"), null);
+            (java.lang.Integer) FreeMarkerUtil.getAsObject(parms.get("two"), 0);
+            (java.lang.Boolean) FreeMarkerUtil.getAsObject(parms.get("three"), false);
+                request, modelBody
+        );
+    }
+}
