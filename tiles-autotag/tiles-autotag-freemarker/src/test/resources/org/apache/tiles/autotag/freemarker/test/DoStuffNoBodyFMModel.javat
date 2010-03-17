@@ -3,8 +3,8 @@ package org.apache.tiles.autotag.freemarker.test;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.freemarker.template.BodylessFMModel;
-import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.autotag.freemarker.runtime.BodylessFMModel;
+import org.apache.tiles.autotag.freemarker.runtime.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
 
 import freemarker.template.TemplateModel;

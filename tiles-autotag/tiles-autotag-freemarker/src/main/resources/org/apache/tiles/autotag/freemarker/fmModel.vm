@@ -25,8 +25,8 @@ import java.util.Map;
 #if(${clazz.hasBody()})
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 #end
-import org.apache.tiles.freemarker.template.Body#if(!${clazz.hasBody()})less#{end}FMModel;
-import org.apache.tiles.freemarker.context.FreeMarkerUtil;
+import org.apache.tiles.autotag.freemarker.runtime.Body#if(!${clazz.hasBody()})less#{end}FMModel;
+import org.apache.tiles.autotag.freemarker.runtime.FreeMarkerUtil;
 import org.apache.tiles.request.Request;
 
 import freemarker.template.TemplateModel;
