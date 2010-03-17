@@ -55,11 +55,10 @@ public class ${clazz.tagClassPrefix}FMModel extends Body#if(!${clazz.hasBody()})
 
     /** {@inheritDoc} */
     @Override
-    public void execute(Map<String, TemplateModel> parms, Request request,
-            ModelBody modelBody) throws IOException {
+    public void execute(Map<String, TemplateModel> parms, Request request#if(${clazz.hasBody()}), ModelBody modelBody#end) throws IOException {
         model.execute(
 #foreach($parameter in ${clazz.parameters})
-            ($stringTool.getClassToCast(${parameter.type})) FreeMarkerUtil.getAsObject(parms.get("${parameter.exportedName}"), $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue}));
+            ($stringTool.getClassToCast(${parameter.type})) FreeMarkerUtil.getAsObject(parms.get("${parameter.exportedName}"), $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue})),
 #end
                 request#if(${clazz.hasBody()}), modelBody#end
 

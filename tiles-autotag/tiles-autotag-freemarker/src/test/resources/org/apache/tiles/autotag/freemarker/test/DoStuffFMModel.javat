@@ -32,12 +32,11 @@ public class DoStuffFMModel extends BodyFMModel {
 
     /** {@inheritDoc} */
     @Override
-    public void execute(Map<String, TemplateModel> parms, Request request,
-            ModelBody modelBody) throws IOException {
+    public void execute(Map<String, TemplateModel> parms, Request request, ModelBody modelBody) throws IOException {
         model.execute(
-            (java.lang.String) FreeMarkerUtil.getAsObject(parms.get("one"), null);
-            (java.lang.Integer) FreeMarkerUtil.getAsObject(parms.get("two"), 0);
-            (java.lang.Boolean) FreeMarkerUtil.getAsObject(parms.get("three"), false);
+            (java.lang.String) FreeMarkerUtil.getAsObject(parms.get("one"), null),
+            (java.lang.Integer) FreeMarkerUtil.getAsObject(parms.get("two"), 0),
+            (java.lang.Boolean) FreeMarkerUtil.getAsObject(parms.get("three"), false),
                 request, modelBody
         );
     }

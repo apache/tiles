@@ -31,12 +31,11 @@ public class DoStuffNoBodyFMModel extends BodylessFMModel {
 
     /** {@inheritDoc} */
     @Override
-    public void execute(Map<String, TemplateModel> parms, Request request,
-            ModelBody modelBody) throws IOException {
+    public void execute(Map<String, TemplateModel> parms, Request request) throws IOException {
         model.execute(
-            (java.lang.Double) FreeMarkerUtil.getAsObject(parms.get("one"), null);
-            (java.lang.Float) FreeMarkerUtil.getAsObject(parms.get("two"), 0.0f);
-            (java.util.Date) FreeMarkerUtil.getAsObject(parms.get("three"), null);
+            (java.lang.Double) FreeMarkerUtil.getAsObject(parms.get("one"), null),
+            (java.lang.Float) FreeMarkerUtil.getAsObject(parms.get("two"), 0.0f),
+            (java.util.Date) FreeMarkerUtil.getAsObject(parms.get("three"), null),
                 request
         );
     }
