@@ -67,7 +67,7 @@ public class TagClassGeneratorTest {
         clazz.setDocumentation("Documentation of the DoStuff class.");
 
         Properties props = new Properties();
-        InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/jsp/velocity.properties");
+        InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/velocity.properties");
         props.load(propsStream);
         propsStream.close();
         Velocity.init(props);
