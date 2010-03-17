@@ -17,25 +17,14 @@ package org.apache.tiles.autotag.plugin;
  */
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Properties;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 
 import org.apache.maven.model.Resource;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.tiles.autotag.generate.BasicTemplateGenerator;
 import org.apache.tiles.autotag.jsp.TLDGenerator;
 import org.apache.tiles.autotag.jsp.TagClassGenerator;
 import org.apache.tiles.autotag.model.TemplateSuite;
-import org.apache.velocity.app.Velocity;
 
-import com.thoughtworks.xstream.XStream;
 
 /**
  * Goal which touches a timestamp file.
@@ -45,8 +34,7 @@ import com.thoughtworks.xstream.XStream;
  * @phase generate-sources
  * @requiresDependencyResolution compile
  */
-public class GenerateJspMojo extends AbstractMojo {
-    private static final String META_INF_TEMPLATE_SUITE_XML = "META-INF/template-suite.xml";
+public class GenerateJspMojo extends AbstractGenerateMojo {
 
     /**
      * Location of the file.
@@ -79,72 +67,22 @@ public class GenerateJspMojo extends AbstractMojo {
     private String taglibURI;
 
     /**
-     * The project
-     *
-     * @parameter expression="${project.compileClasspathElements}"
-     * @required
-     * @readonly
-     */
-    private List<String> classpathElements;
-
-    /**
      * @parameter expression="${project}"
      * @required
      * @readonly
      */
     private MavenProject project;
 
-    public void execute() throws MojoExecutionException {
-        try {
-            InputStream stream = findTemplateSuiteDescriptor();
-            XStream xstream = new XStream();
-            TemplateSuite suite = (TemplateSuite) xstream.fromXML(stream);
-            stream.close();
-            BasicTemplateGenerator generator = new BasicTemplateGenerator();
-            generator.addTemplateSuiteGenerator(resourcesOutputDirectory, new TLDGenerator());
-            generator.addTemplateClassGenerator(classesOutputDirectory, new TagClassGenerator());
-            suite.getCustomVariables().put("taglibURI", taglibURI);
+    protected void generate(TemplateSuite suite) {
+        BasicTemplateGenerator generator = new BasicTemplateGenerator();
+        generator.addTemplateSuiteGenerator(resourcesOutputDirectory, new TLDGenerator());
+        generator.addTemplateClassGenerator(classesOutputDirectory, new TagClassGenerator());
+        suite.getCustomVariables().put("taglibURI", taglibURI);
+        generator.generate(packageName, suite);
 
-            Properties props = new Properties();
-            InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/jsp/velocity.properties");
-            props.load(propsStream);
-            propsStream.close();
-            Velocity.init(props);
-
-            generator.generate(packageName, suite);
-
-            Resource resource = new Resource();
-            resource.setDirectory(resourcesOutputDirectory.getAbsolutePath());
-            project.addResource(resource);
-            project.addCompileSourceRoot(classesOutputDirectory.getAbsolutePath());
-        } catch (IOException e) {
-            throw new MojoExecutionException("error", e);
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new MojoExecutionException("error", e);
-        }
-    }
-
-    private InputStream findTemplateSuiteDescriptor() throws IOException {
-        InputStream retValue = null;
-
-        for (String path: classpathElements) {
-            File file = new File(path);
-            if (file.isDirectory()) {
-                File candidate = new File(file, META_INF_TEMPLATE_SUITE_XML);
-                if (candidate.exists()) {
-                    return new FileInputStream(candidate);
-                }
-            } else if (file.getPath().endsWith(".jar")) {
-                JarFile jar = new JarFile(file);
-                ZipEntry entry = jar.getEntry(META_INF_TEMPLATE_SUITE_XML);
-                if (entry != null) {
-                    return jar.getInputStream(entry);
-                }
-            }
-        }
-
-        return retValue;
+        Resource resource = new Resource();
+        resource.setDirectory(resourcesOutputDirectory.getAbsolutePath());
+        project.addResource(resource);
+        project.addCompileSourceRoot(classesOutputDirectory.getAbsolutePath());
     }
 }
