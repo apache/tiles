@@ -34,61 +34,9 @@ import freemarker.template.utility.DeepUnwrap;
 public final class FreeMarkerUtil {
 
     /**
-     * The name of the attribute that holds the compose stack.
-     */
-    public static final String COMPOSE_STACK_ATTRIBUTE_NAME = "org.apache.tiles.template.COMPOSE_STACK";
-
-    /**
      * Private constructor to avoid instantiation.
      */
     private FreeMarkerUtil() {
-    }
-
-    /**
-     * Unwraps a TemplateModel to extract a string.
-     *
-     * @param model The TemplateModel to unwrap.
-     * @return The unwrapped string.
-     * @since 2.2.0
-     */
-    public static String getAsString(TemplateModel model) {
-        try {
-            return (String) DeepUnwrap.unwrap(model);
-        } catch (TemplateModelException e) {
-            throw new FreemarkerAutotagException("Cannot unwrap a model", e);
-        }
-    }
-
-    /**
-     * Unwraps a TemplateModel to extract a boolean.
-     *
-     * @param model The TemplateModel to unwrap.
-     * @param defaultValue If the value is null, this value will be returned.
-     * @return The unwrapped boolean.
-     * @since 2.2.0
-     */
-    public static boolean getAsBoolean(TemplateModel model, boolean defaultValue) {
-        try {
-            Boolean retValue = (Boolean) DeepUnwrap.unwrap(model);
-            return retValue != null ? retValue : defaultValue;
-        } catch (TemplateModelException e) {
-            throw new FreemarkerAutotagException("Cannot unwrap a model", e);
-        }
-    }
-
-    /**
-     * Unwraps a TemplateModel to extract an object.
-     *
-     * @param model The TemplateModel to unwrap.
-     * @return The unwrapped object.
-     * @since 2.2.0
-     */
-    public static Object getAsObject(TemplateModel model) {
-        try {
-            return DeepUnwrap.unwrap(model);
-        } catch (TemplateModelException e) {
-            throw new FreemarkerAutotagException("Cannot unwrap a model", e);
-        }
     }
 
     /**
