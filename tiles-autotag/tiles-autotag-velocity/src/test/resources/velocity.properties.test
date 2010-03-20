@@ -1,0 +1,3 @@
+
+userdirective=org.apache.tiles.autotag.velocity.test.DoStuffDirective,\
+  org.apache.tiles.autotag.velocity.test.DoStuffNoBodyDirective

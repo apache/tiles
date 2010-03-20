@@ -1,0 +1,38 @@
+package org.apache.tiles.autotag.velocity.test;
+
+
+import java.io.IOException;
+import java.util.Map;
+
+import org.apache.tiles.request.Request;
+import org.apache.tiles.velocity.context.VelocityUtil;
+import org.apache.tiles.velocity.template.BodylessDirective;
+import org.apache.tiles.velocity.context.VelocityUtil;
+
+/**
+ * Documentation of the DoStuffNoBody class.
+ */
+public class DoStuffNoBodyDirective extends BodylessDirective {
+
+    /**
+     * The template model.
+     */
+    private org.apache.tiles.autotag.template.DoStuffNoBodyTemplate model = new org.apache.tiles.autotag.template.DoStuffNoBodyTemplate();
+
+    /** {@inheritDoc} */
+    @Override
+    public String getName() {
+        return "tldtest_doStuffNoBody";
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void execute(Map<String, Object> params, Request request) throws IOException {
+        model.execute(
+            (java.lang.Double) VelocityUtil.getObject(parms.get("one"), null),
+            (java.lang.Float) VelocityUtil.getObject(parms.get("two"), 0.0f),
+            (java.util.Date) VelocityUtil.getObject(parms.get("three"), null),
+            request
+        );
+    }
+}

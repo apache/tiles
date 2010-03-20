@@ -1,0 +1,39 @@
+package org.apache.tiles.autotag.velocity.test;
+
+
+import java.io.IOException;
+import java.util.Map;
+
+import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.velocity.context.VelocityUtil;
+import org.apache.tiles.velocity.template.BodyDirective;
+import org.apache.tiles.velocity.context.VelocityUtil;
+
+/**
+ * Documentation of the DoStuff class.
+ */
+public class DoStuffDirective extends BodyDirective {
+
+    /**
+     * The template model.
+     */
+    private org.apache.tiles.autotag.template.DoStuffTemplate model = new org.apache.tiles.autotag.template.DoStuffTemplate();
+
+    /** {@inheritDoc} */
+    @Override
+    public String getName() {
+        return "tldtest_doStuff";
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void execute(Map<String, Object> params, Request request, ModelBody modelBody) throws IOException {
+        model.execute(
+            (java.lang.String) VelocityUtil.getObject(parms.get("one"), null),
+            (java.lang.Integer) VelocityUtil.getObject(parms.get("two"), 0),
+            (java.lang.Boolean) VelocityUtil.getObject(parms.get("three"), false),
+            request, modelBody
+        );
+    }
+}
