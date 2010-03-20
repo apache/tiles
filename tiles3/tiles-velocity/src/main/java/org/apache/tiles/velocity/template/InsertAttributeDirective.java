@@ -26,10 +26,11 @@ import java.util.Map;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.velocity.runtime.BodyDirective;
+import org.apache.tiles.autotag.velocity.runtime.VelocityUtil;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.DefaultAttributeResolver;
 import org.apache.tiles.template.InsertAttributeModel;
-import org.apache.tiles.velocity.context.VelocityUtil;
 
 /**
  * Wraps {@link InsertAttributeModel} to be used in Velocity. For the list of

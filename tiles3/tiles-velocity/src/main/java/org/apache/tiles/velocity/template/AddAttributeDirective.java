@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.velocity.runtime.BodyDirective;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.AddAttributeModel;
 

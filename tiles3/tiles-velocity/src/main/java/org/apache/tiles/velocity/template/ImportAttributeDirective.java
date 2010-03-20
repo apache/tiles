@@ -23,9 +23,10 @@ package org.apache.tiles.velocity.template;
 
 import java.util.Map;
 
+import org.apache.tiles.autotag.velocity.runtime.BodylessDirective;
+import org.apache.tiles.autotag.velocity.runtime.VelocityUtil;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.ImportAttributeModel;
-import org.apache.tiles.velocity.context.VelocityUtil;
 
 /**
  * Wraps {@link ImportAttributeModel} to be used in Velocity. For the list of
