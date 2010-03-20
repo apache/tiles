@@ -19,6 +19,7 @@
         <module>tiles-autotag-jsp-runtime</module>
         <module>tiles-autotag-freemarker-runtime</module>
         <module>tiles-autotag-freemarker</module>
+        <module>tiles-autotag-velocity-runtime</module>
         <module>tiles-autotag-velocity</module>
         <module>maven-autotag-plugin</module>
     </modules>
