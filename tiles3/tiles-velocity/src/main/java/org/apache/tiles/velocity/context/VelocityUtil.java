@@ -170,4 +170,20 @@ public final class VelocityUtil {
                 .value(context);
         return params;
     }
+
+    /**
+     * Returns the "value" parameter if it is not null, otherwise returns
+     * "defaultValue".
+     *
+     * @param value The value to return, if it is not null.
+     * @param defaultValue The value to return, if <code>value</code> is null.
+     * @return The value, defaulted if necessary.
+     * @since 3.0.0
+     */
+    public static Object getObject(Object value, Object defaultValue) {
+        if (value == null) {
+            value = defaultValue;
+        }
+        return value;
+    }
 }
