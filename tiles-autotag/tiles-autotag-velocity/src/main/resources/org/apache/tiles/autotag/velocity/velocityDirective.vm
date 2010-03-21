@@ -19,17 +19,15 @@ package ${packageName};
  * specific language governing permissions and limitations
  * under the License.
  *#
-
 import java.io.IOException;
 import java.util.Map;
 
 #if(${clazz.hasBody()})
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 #end
+import org.apache.tiles.autotag.velocity.runtime.Body#if(!${clazz.hasBody()})less#{end}Directive;
+import org.apache.tiles.autotag.velocity.runtime.VelocityUtil;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.velocity.context.VelocityUtil;
-import org.apache.tiles.velocity.template.Body#if(!${clazz.hasBody()})less#{end}Directive;
-import org.apache.tiles.velocity.context.VelocityUtil;
 
 /**
 #foreach($line in $stringTool.splitOnNewlines(${clazz.documentation}))
@@ -54,7 +52,7 @@ public class ${clazz.tagClassPrefix}Directive extends Body#if(!${clazz.hasBody()
     protected void execute(Map<String, Object> params, Request request#if(${clazz.hasBody()}), ModelBody modelBody#end) throws IOException {
         model.execute(
 #foreach($parameter in ${clazz.parameters})
-            ($stringTool.getClassToCast(${parameter.type})) VelocityUtil.getObject(parms.get("${parameter.exportedName}"), $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue})),
+            ($stringTool.getClassToCast(${parameter.type})) VelocityUtil.getObject(params.get("${parameter.exportedName}"), $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue})),
 #end
             request#if(${clazz.hasBody()}), modelBody#end
 
