@@ -33,6 +33,25 @@
   <packaging>jar</packaging>
   <description>Velocity Support in Tiles 2</description>
   <name>Tiles - Velocity Support</name>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.tiles.autotag.plugin</groupId>
+        <artifactId>maven-autotag-plugin</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>generate-velocity</goal>
+                </goals>
+                <configuration>
+                    <packageName>org.apache.tiles.velocity.template</packageName>
+                </configuration>
+            </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.apache.tiles</groupId>
@@ -138,14 +157,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.apache.tiles</groupId>
-    	<artifactId>tiles-request-velocity</artifactId>
-    	<version>1.0-SNAPSHOT</version>
+        <groupId>org.apache.tiles</groupId>
+        <artifactId>tiles-request-velocity</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-    	<groupId>org.apache.tiles</groupId>
-    	<artifactId>tiles-autotag-velocity-runtime</artifactId>
-    	<version>1.0-SNAPSHOT</version>
+        <groupId>org.apache.tiles</groupId>
+        <artifactId>tiles-autotag-velocity-runtime</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
