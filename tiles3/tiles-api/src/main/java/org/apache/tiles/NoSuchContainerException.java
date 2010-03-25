@@ -53,7 +53,7 @@ public class NoSuchContainerException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public NoSuchContainerException(Exception e) {
+    public NoSuchContainerException(Throwable e) {
         super(e);
     }
 
@@ -64,7 +64,7 @@ public class NoSuchContainerException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public NoSuchContainerException(String message, Exception e) {
+    public NoSuchContainerException(String message, Throwable e) {
         super(message, e);
     }
 

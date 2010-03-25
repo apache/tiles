@@ -67,11 +67,76 @@ public class ClassUtilTest {
     }
 
     /**
+     * Test method for {@link org.apache.tiles.reflect.ClassUtil#getClass(String, Class)}.
+     * @throws ClassNotFoundException If something goes wrong.
+     */
+    @Test
+    public void testGetClass() throws ClassNotFoundException {
+        assertEquals(TestInterface.class, ClassUtil.getClass(
+                TestInterface.class.getName(), Object.class));
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.reflect.ClassUtil#getClass(String, Class)}.
+     * @throws ClassNotFoundException If something goes wrong.
+     */
+    @Test(expected=ClassNotFoundException.class)
+    public void testGetClassException() throws ClassNotFoundException {
+        ClassUtil.getClass("this.class.does.not.Exist", Object.class);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String, boolean)}.
+     * @throws ClassNotFoundException If something goes wrong.
+     */
+    @Test
+    public void testInstantiate() {
+        assertNotNull(ClassUtil.instantiate(TestClass.class.getName(), true));
+        assertNull(ClassUtil.instantiate("this.class.does.not.Exist", true));
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String, boolean)}.
+     * @throws ClassNotFoundException If something goes wrong.
+     */
+    @Test
+    public void testInstantiateOneParameter() {
+        assertNotNull(ClassUtil.instantiate(TestClass.class.getName()));
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String)}.
+     * @throws ClassNotFoundException If something goes wrong.
+     */
+    @Test(expected=CannotInstantiateObjectException.class)
+    public void testInstantiateOneParameterException() {
+        assertNotNull(ClassUtil.instantiate("this.class.does.not.Exist"));
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String)}.
+     * @throws ClassNotFoundException If something goes wrong.
+     */
+    @Test(expected=CannotInstantiateObjectException.class)
+    public void testInstantiateInstantiationException() {
+        ClassUtil.instantiate(TestInterface.class.getName());
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String)}.
+     * @throws ClassNotFoundException If something goes wrong.
+     */
+    @Test(expected=CannotInstantiateObjectException.class)
+    public void testInstantiateIllegalAccessException() {
+        ClassUtil.instantiate(TestPrivateClass.class.getName());
+    }
+
+    /**
      * Interface to be used as test.
      *
      * @version $Rev$ $Date$
      */
-    private static interface TestInterface {
+    public static interface TestInterface {
 
         /**
          * The value.
@@ -100,5 +165,11 @@ public class ClassUtilTest {
          * @param value3 The value.
          */
         void setValue3(String value3);
+    }
+
+    public static class TestClass {
+    }
+
+    private static class TestPrivateClass {
     }
 }

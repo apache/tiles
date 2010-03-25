@@ -54,7 +54,7 @@ public class CannotInstantiateObjectException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public CannotInstantiateObjectException(Exception e) {
+    public CannotInstantiateObjectException(Throwable e) {
         super(e);
     }
 
@@ -65,7 +65,7 @@ public class CannotInstantiateObjectException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public CannotInstantiateObjectException(String message, Exception e) {
+    public CannotInstantiateObjectException(String message, Throwable e) {
         super(message, e);
     }
 

@@ -54,7 +54,7 @@ public class CannotAccessMethodException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public CannotAccessMethodException(Exception e) {
+    public CannotAccessMethodException(Throwable e) {
         super(e);
     }
 
@@ -65,7 +65,7 @@ public class CannotAccessMethodException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public CannotAccessMethodException(String message, Exception e) {
+    public CannotAccessMethodException(String message, Throwable e) {
         super(message, e);
     }
 

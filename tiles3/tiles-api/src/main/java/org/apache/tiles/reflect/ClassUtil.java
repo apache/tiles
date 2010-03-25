@@ -23,8 +23,6 @@ package org.apache.tiles.reflect;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -117,62 +115,6 @@ public final class ClassUtil {
                             + className
                             + "'. Make sure that this class has a default constructor",
                     e);
-        }
-    }
-
-    /**
-     * Gets a method and forces it to be accessible, even if it is not.
-     *
-     * @param clazz The class from which the method will be got.
-     * @param methodName The name of the method.
-     * @param parameterTypes The parameter types that the method must match.
-     * @return The method, if it is found.
-     * @since 2.0.7
-     */
-    public static Method getForcedAccessibleMethod(Class<?> clazz,
-            String methodName, Class<?>... parameterTypes) {
-        Method method;
-        try {
-            method = clazz.getMethod(methodName, parameterTypes);
-        } catch (SecurityException e) {
-            throw new CannotAccessMethodException("Cannot access method '"
-                    + methodName + "' in class '" + clazz.getName()
-                    + "' for security reasons", e);
-        } catch (NoSuchMethodException e) {
-            throw new CannotAccessMethodException("The method '"
-                    + methodName + "' in class '" + clazz.getName()
-                    + "' does not exist", e);
-        }
-        if (!method.isAccessible()) {
-            method.setAccessible(true);
-        }
-        return method;
-    }
-
-    /**
-     * Invokes a method, masking with a runtime exception all the exceptions.
-     *
-     * @param obj The object from which a method will be called.
-     * @param method The method to call.
-     * @param args The arguments of the method.
-     * @return The object returned, if the method is not "void".
-     * @since 2.0.7
-     */
-    public static Object invokeMethod(Object obj, Method method, Object... args) {
-        try {
-            return method.invoke(obj, args);
-        } catch (IllegalArgumentException e) {
-            throw new CannotAccessMethodException("The arguments for '"
-                    + method.getName() + "' in class '"
-                    + obj.getClass().getName() + "' are not valid", e);
-        } catch (IllegalAccessException e) {
-            throw new CannotAccessMethodException("Cannot access '"
-                    + method.getName() + "' in class '"
-                    + obj.getClass().getName() + "'", e);
-        } catch (InvocationTargetException e) {
-            throw new CannotAccessMethodException(
-                    "An exception has been thrown inside '" + method.getName()
-                    + "' in class '" + obj.getClass().getName() + "'", e);
         }
     }
 
