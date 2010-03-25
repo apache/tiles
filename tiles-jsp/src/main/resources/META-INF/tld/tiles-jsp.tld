@@ -611,6 +611,19 @@
          <description>
          <![CDATA[
          <p>
+         If the user is in the specified role, the tag is taken into account;
+         otherwise, the tag is ignored (skipped).
+         </p>
+         ]]>
+         </description>
+         <name>role</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
+         <p>
          If true, the attribute value will be cascaded to nested templates and
          definitions.
          </p>
@@ -715,6 +728,19 @@
       <name>addListAttribute</name>
       <tag-class>org.apache.tiles.jsp.taglib.AddListAttributeTag</tag-class>
       <body-content>scriptless</body-content>
+      <attribute>
+         <description>
+         <![CDATA[
+         <p>
+         If the user is in the specified role, the tag is taken into account;
+         otherwise, the tag is ignored (skipped).
+         </p>
+         ]]>
+         </description>
+         <name>role</name>
+         <required>false</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
    </tag>
    <tag>
       <description>

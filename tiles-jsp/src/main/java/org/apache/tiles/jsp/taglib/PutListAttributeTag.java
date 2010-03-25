@@ -62,7 +62,10 @@ public class PutListAttributeTag extends SimpleTagSupport {
 
     /**
      * Requested type for the value.
+     *
+     * @deprecated Do not use, ignored.
      */
+    @Deprecated
     private String type = null;
 
     /**
@@ -146,7 +149,9 @@ public class PutListAttributeTag extends SimpleTagSupport {
      * </ul>
      *
      * @return The attribute type.
+     * @deprecated Do not use, ignored.
      */
+    @Deprecated
     public String getType() {
         return type;
     }
@@ -166,7 +171,9 @@ public class PutListAttributeTag extends SimpleTagSupport {
      * </ul>
      *
      * @param type The attribute type.
+     * @deprecated Do not use, ignored.
      */
+    @Deprecated
     public void setType(String type) {
         this.type = type;
     }
