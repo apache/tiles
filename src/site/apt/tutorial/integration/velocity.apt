@@ -72,7 +72,8 @@ userdirective=org.apache.tiles.velocity.template.AddAttributeDirective,\
 ----------------------------------
 
   * To access ".vm" files as attributes, register VelocityAttributeRenderer
-  this way (only available in a servlet environment):
+   (only available in a servlet environment), by overriding the registerAttributeRenderers
+   method in the AbstractTilesContainerFactory implementation being used, like:
 
 ----------------------------------
 @Override
