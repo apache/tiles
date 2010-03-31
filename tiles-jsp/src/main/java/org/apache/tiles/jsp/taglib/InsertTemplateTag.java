@@ -59,7 +59,7 @@ public class InsertTemplateTag extends SimpleTagSupport {
     private String preparer;
 
     /**
-     * This flag, if <code>true</code>, flushes the content before rendering.
+     * This flag, if <code>true</code>, flushes the content after rendering.
      *
      * @since 2.1.1
      */
@@ -138,7 +138,7 @@ public class InsertTemplateTag extends SimpleTagSupport {
 
     /**
      * Returns the flush flag. If <code>true</code>, current page out stream
-     * is flushed before insertion.
+     * is flushed after insertion.
      *
      * @return The flush flag.
      * @since 2.1.1
@@ -149,7 +149,7 @@ public class InsertTemplateTag extends SimpleTagSupport {
 
     /**
      * Sets the flush flag. If <code>true</code>, current page out stream
-     * is flushed before insertion.
+     * is flushed after insertion.
      *
      * @param flush The flush flag.
      * @since 2.1.1
@@ -254,5 +254,8 @@ public class InsertTemplateTag extends SimpleTagSupport {
         JspUtil.evaluateFragment(getJspBody());
         model.end(JspUtil.getCurrentContainer(jspContext), template,
                 templateType, templateExpression, role, preparer, jspContext);
+        if(isFlush()){
+            jspContext.getOut().flush();
+        }
     }
 }

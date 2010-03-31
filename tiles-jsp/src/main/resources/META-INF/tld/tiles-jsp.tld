@@ -105,7 +105,7 @@
          <description>
          <![CDATA[
          <p>True or false. If true, current page out stream is flushed
-         before insertion.</p>
+         after insertion.</p>
          ]]>
          </description>
          <name>flush</name>
@@ -230,7 +230,7 @@
          <description>
          <![CDATA[
          <p>True or false. If true, current page out stream is flushed
-         before insertion.</p>
+         after insertion.</p>
          ]]>
          </description>
          <name>flush</name>
@@ -323,7 +323,7 @@
          <description>
          <![CDATA[
          <p>True or false. If true, current page out stream is flushed
-         before insertion.</p>
+         after insertion.</p>
          ]]>
          </description>
          <name>flush</name>
@@ -781,6 +781,18 @@
          <name>ignore</name>
          <required>false</required>
          <rtexprvalue>true</rtexprvalue>
+         <type>boolean</type>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
+         <p>True or false. If true, current page out stream is flushed
+         after insertion.</p>
+         ]]>
+         </description>
+         <name>flush</name>
+         <required>false</required>
+         <rtexprvalue>false</rtexprvalue>
          <type>boolean</type>
       </attribute>
       <attribute>
