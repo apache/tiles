@@ -18,10 +18,10 @@ public abstract class AbstractClientRequest extends AbstractRequest {
     @Override
     public void dispatch(String path) throws IOException {
         if (isForceInclude()) {
+            doInclude(path);
+        } else {
             setForceInclude(true);
             doForward(path);
-        } else {
-            doInclude(path);
         }
     }
 
