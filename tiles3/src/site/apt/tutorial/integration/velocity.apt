@@ -138,4 +138,26 @@ $tilesAlt.endAttributeContext()
 #end
 ----------------------------------
 
+  Other <<<tiles>>> directives are:
+  
+      * <<<getAsString(String attributeName)>>> - get the value of named attribute as string.
+
+      * <<<importAttribute(String attributeName, String toName)>>> - import the named attribute into the scope of
+  	template context under the (optional) custom name.
+
+      * <<<insertAttribute(String attributeName)>>> - inserts given attribute in the output in its own context.
+        If this is a string a string is printed, if this is a definition - it is included in the output.
+
+      * <<<insertAttribute(String attributeName, boolean ownContext)>>> - inserts given attribute in the output.
+        If this is a string a string is printed, if this is a definition - it is included in the output. You can specify whether
+        a separate context is created for rendering the definition - in this case variables with duplicate names
+        will not be inherited from the parent definition
+
+      * <<<insertDefinition(String definitionName)>>> - renders a definition in its own context.
+
+      * <<<insertDefinition(String definitionName, boolean ownContext)>>> - inserts definition, optionally in the shared context.
+
+      * <<<insertTemplate(String template)>>> - inserts a named page, equivalent to Velocity's <<<#parse>>>.
+
+
   For details about the tool and directives see the {{{../../apidocs/index.html}Javadocs}}.
