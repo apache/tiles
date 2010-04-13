@@ -3,7 +3,6 @@ package org.apache.tiles.request.scope;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -45,7 +44,7 @@ public class ReflectionContextResolver implements ContextResolver {
 
     @Override
     public String[] getAvailableScopes(Request request) {
-        Set<String> scopes = new HashSet<String>();
+        Set<String> scopes = new LinkedHashSet<String>();
         boolean finished = false;
         do {
             scopes.addAll(getSpecificScopeSet(request));

@@ -75,11 +75,11 @@ public class ApplicationContextWrapper implements ApplicationContext {
 
     /** {@inheritDoc} */
     public URL getResource(String path) throws IOException {
-        return getResource(path);
+        return context.getResource(path);
     }
 
     /** {@inheritDoc} */
     public Set<URL> getResources(String path) throws IOException {
-        return getResources(path);
+        return context.getResources(path);
     }
 }
