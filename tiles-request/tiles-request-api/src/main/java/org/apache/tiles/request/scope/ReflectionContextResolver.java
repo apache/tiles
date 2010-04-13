@@ -33,6 +33,7 @@ public class ReflectionContextResolver implements ContextResolver {
         try {
             return (Map<String, Object>) method.invoke(request);
         } catch (IllegalAccessException e) {
+            // Should not ever happen, since method is public.
             throw new NoSuchScopeException("No accessible method for '" + scope
                     + "' scope.", e);
         } catch (InvocationTargetException e) {

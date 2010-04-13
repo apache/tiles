@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.util.RequestWrapper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,12 +61,60 @@ public class ReflectionContextResolverTest {
     }
 
     /**
+     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
+     */
+    @Test
+    public void testGetContextWrapped() {
+        replay(oneScope, twoScope, threeScope);
+        RequestWrapper wrapper = new RequestWrapper(request);
+        assertEquals(oneScope, resolver.getContext(wrapper, "one"));
+        assertEquals(twoScope, resolver.getContext(wrapper, "two"));
+        assertEquals(threeScope, resolver.getContext(wrapper, "three"));
+        verify(oneScope, twoScope, threeScope);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
+     */
+    @Test(expected=NoSuchScopeException.class)
+    public void testGetContextException() {
+        resolver.getContext(request, "none");
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
+     */
+    @Test(expected=NoSuchScopeException.class)
+    public void testGetContextException2() {
+        resolver.getContext(request, "private");
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
+     */
+    @Test(expected=NoSuchScopeException.class)
+    public void testGetContextException3() {
+        resolver.getContext(request, "unavailable");
+    }
+
+    /**
      * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getAvailableScopes(org.apache.tiles.request.Request)}.
      */
     @Test
     public void testGetAvailableScopes() {
         replay(oneScope, twoScope, threeScope);
         assertArrayEquals(SCOPES, resolver.getAvailableScopes(request));
+        verify(oneScope, twoScope, threeScope);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getAvailableScopes(org.apache.tiles.request.Request)}.
+     */
+    @Test
+    public void testGetAvailableScopesWrapped() {
+        replay(oneScope, twoScope, threeScope);
+        RequestWrapper wrapper = new RequestWrapper(request);
+        assertArrayEquals(SCOPES, resolver.getAvailableScopes(wrapper));
         verify(oneScope, twoScope, threeScope);
     }
 
@@ -102,6 +151,14 @@ public class ReflectionContextResolverTest {
 
         public Map<String, Object> getThreeScope() {
             return threeScope;
+        }
+
+        private Map<String, Object> getPrivateScope() {
+            return null;
+        }
+
+        public Map<String, Object> getUnavailableScope() {
+            throw new UnsupportedOperationException("No way!");
         }
 
         @Override
