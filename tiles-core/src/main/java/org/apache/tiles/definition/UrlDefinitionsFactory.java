@@ -33,6 +33,7 @@ import org.apache.tiles.definition.dao.DefinitionDAO;
 import org.apache.tiles.definition.dao.ResolvingLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.URLReader;
 import org.apache.tiles.impl.BasicTilesContainer;
+import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.util.LocaleUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,8 +165,19 @@ public class UrlDefinitionsFactory extends UnresolvingLocaleDefinitionsFactory
      * @return The default definition DAO.
      * @since 2.1.0
      */
-    protected DefinitionDAO<Locale> createDefaultDefinitionDAO() {
+    protected ResolvingLocaleUrlDefinitionDAO createDefaultDefinitionDAO() {
         return new ResolvingLocaleUrlDefinitionDAO();
+    }
+
+    @Override
+    public void init(Map<String, String> params) {
+        super.init(params);
+        setLocaleResolver(new DefaultLocaleResolver());
+        ResolvingLocaleUrlDefinitionDAO dao = createDefaultDefinitionDAO();
+        dao.setApplicationContext(applicationContext);
+        dao.init(params);
+        setDefinitionDAO(dao);
+
     }
 
     /**
