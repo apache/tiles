@@ -34,6 +34,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.AbstractClientRequest;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.collection.AddableParameterMap;
+import org.apache.tiles.request.collection.HeaderValuesMap;
+import org.apache.tiles.request.collection.ParameterMap;
+import org.apache.tiles.request.collection.ScopeMap;
+import org.apache.tiles.request.servlet.extractor.ParameterExtractor;
+import org.apache.tiles.request.servlet.extractor.RequestScopeExtractor;
+import org.apache.tiles.request.servlet.extractor.ServletHeaderExtractor;
+import org.apache.tiles.request.servlet.extractor.SessionScopeExtractor;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.
@@ -91,12 +99,6 @@ public class ServletRequest extends AbstractClientRequest {
 
 
     /**
-     * <p>The lazily instantiated <code>Map</code> of request
-     * parameter name-values.</p>
-     */
-    private Map<String, String[]> paramValues = null;
-
-    /**
      * <p>The lazily instantiated <code>Map</code> of request scope
      * attributes.</p>
      */
@@ -121,14 +123,15 @@ public class ServletRequest extends AbstractClientRequest {
             ApplicationContext applicationContext,
             HttpServletRequest request, HttpServletResponse response) {
         super(applicationContext);
-        initialize(request, response);
+        this.request = request;
+        this.response = response;
     }
 
     /** {@inheritDoc} */
     public Map<String, String> getHeader() {
 
         if ((header == null) && (request != null)) {
-            header = new ServletHeaderMap(request, response);
+            header = new AddableParameterMap(new ServletHeaderExtractor(request, response));
         }
         return (header);
 
@@ -139,7 +142,7 @@ public class ServletRequest extends AbstractClientRequest {
     public Map<String, String[]> getHeaderValues() {
 
         if ((headerValues == null) && (request != null)) {
-            headerValues = new ServletHeaderValuesMap(request);
+            headerValues = new HeaderValuesMap(new ServletHeaderExtractor(request, response));
         }
         return (headerValues);
 
@@ -150,7 +153,7 @@ public class ServletRequest extends AbstractClientRequest {
     public Map<String, String> getParam() {
 
         if ((param == null) && (request != null)) {
-            param = new ServletParamMap(request);
+            param = new ParameterMap(new ParameterExtractor(request));
         }
         return (param);
 
@@ -158,13 +161,9 @@ public class ServletRequest extends AbstractClientRequest {
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public Map<String, String[]> getParamValues() {
-
-        if ((paramValues == null) && (request != null)) {
-            paramValues = new ServletParamValuesMap(request);
-        }
-        return (paramValues);
-
+        return request.getParameterMap();
     }
 
 
@@ -172,7 +171,7 @@ public class ServletRequest extends AbstractClientRequest {
     public Map<String, Object> getRequestScope() {
 
         if ((requestScope == null) && (request != null)) {
-            requestScope = new ServletRequestScopeMap(request);
+            requestScope = new ScopeMap(new RequestScopeExtractor(request));
         }
         return (requestScope);
 
@@ -183,7 +182,7 @@ public class ServletRequest extends AbstractClientRequest {
     public Map<String, Object> getSessionScope() {
 
         if ((sessionScope == null) && (request != null)) {
-            sessionScope = new ServletSessionScopeMap(request);
+            sessionScope = new ScopeMap(new SessionScopeExtractor(request));
         }
         return (sessionScope);
 
@@ -298,44 +297,6 @@ public class ServletRequest extends AbstractClientRequest {
     public HttpServletResponse getResponse() {
         return response;
     }
-
-    /**
-     * <p>Initialize (or reinitialize) this {@link ServletRequest} instance
-     * for the specified Servlet API objects.</p>
-     *
-     * @param request  The <code>HttpServletRequest</code> for this request
-     * @param response The <code>HttpServletResponse</code> for this request
-     */
-    public void initialize(HttpServletRequest request,
-                           HttpServletResponse response) {
-
-        // Save the specified Servlet API object references
-        this.request = request;
-        this.response = response;
-        // Perform other setup as needed
-    }
-
-
-    /**
-     * <p>Release references to allocated resources acquired in
-     * <code>initialize()</code> of via subsequent processing.  After this
-     * method is called, subsequent calls to any other method than
-     * <code>initialize()</code> will return undefined results.</p>
-     */
-    public void release() {
-        // Release references to allocated collections
-        header = null;
-        headerValues = null;
-        param = null;
-        paramValues = null;
-        requestScope = null;
-        sessionScope = null;
-
-        // Release references to Servlet API objects
-        request = null;
-        response = null;
-    }
-
 
     /** {@inheritDoc} */
     public boolean isUserInRole(String role) {

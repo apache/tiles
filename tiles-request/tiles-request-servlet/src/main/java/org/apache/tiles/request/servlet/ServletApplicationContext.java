@@ -29,6 +29,10 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.collection.ParameterMap;
+import org.apache.tiles.request.collection.ScopeMap;
+import org.apache.tiles.request.servlet.extractor.ApplicationScopeExtractor;
+import org.apache.tiles.request.servlet.extractor.InitParameterExtractor;
 
 /**
  * Servlet-based implementation of the TilesApplicationContext interface.
@@ -63,7 +67,7 @@ public class ServletApplicationContext implements ApplicationContext {
      * @param servletContext The servlet context to use.
      */
     public ServletApplicationContext(ServletContext servletContext) {
-        initialize(servletContext);
+        this.servletContext = servletContext;
     }
 
     /** {@inheritDoc} */
@@ -75,7 +79,7 @@ public class ServletApplicationContext implements ApplicationContext {
     public Map<String, Object> getApplicationScope() {
 
         if ((applicationScope == null) && (servletContext != null)) {
-            applicationScope = new ServletApplicationScopeMap(servletContext);
+            applicationScope = new ScopeMap(new ApplicationScopeExtractor(servletContext));
         }
         return (applicationScope);
 
@@ -86,7 +90,7 @@ public class ServletApplicationContext implements ApplicationContext {
     public Map<String, String> getInitParams() {
 
         if ((initParam == null) && (servletContext != null)) {
-            initParam = new ServletInitParamMap(servletContext);
+            initParam = new ParameterMap(new InitParameterExtractor(servletContext));
         }
         return (initParam);
 
@@ -102,36 +106,5 @@ public class ServletApplicationContext implements ApplicationContext {
         HashSet<URL> urls = new HashSet<URL>();
         urls.add(getResource(path));
         return urls;
-    }
-
-    /**
-     * <p>Initialize (or reinitialize) this {@link ApplicationContext} instance
-     * for the specified Servlet API objects.</p>
-     *
-     * @param context The <code>ServletContext</code> for this web application
-     */
-    public void initialize(ServletContext context) {
-        // Save the specified Servlet API object references
-        this.servletContext = context;
-
-        // Perform other setup as needed
-    }
-
-
-    /**
-     * <p>Release references to allocated resources acquired in
-     * <code>initialize()</code> of via subsequent processing.  After this
-     * method is called, subsequent calls to any other method than
-     * <code>initialize()</code> will return undefined results.</p>
-     */
-    public void release() {
-
-        // Release references to allocated collections
-        applicationScope = null;
-        initParam = null;
-
-        // Release references to Servlet API objects
-        servletContext = null;
-
     }
 }

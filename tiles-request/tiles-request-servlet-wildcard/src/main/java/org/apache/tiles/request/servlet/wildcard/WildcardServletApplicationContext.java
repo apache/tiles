@@ -58,14 +58,7 @@ public class WildcardServletApplicationContext extends
      */
     public WildcardServletApplicationContext(ServletContext servletContext) {
         super(servletContext);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void initialize(ServletContext context) {
-        super.initialize(context);
-
-        resolver = new ServletContextResourcePatternResolver(context);
+        resolver = new ServletContextResourcePatternResolver(servletContext);
     }
 
     /** {@inheritDoc} */
