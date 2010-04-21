@@ -40,7 +40,7 @@ import org.apache.tiles.request.collection.ParameterMap;
 import org.apache.tiles.request.collection.ScopeMap;
 import org.apache.tiles.request.servlet.extractor.ParameterExtractor;
 import org.apache.tiles.request.servlet.extractor.RequestScopeExtractor;
-import org.apache.tiles.request.servlet.extractor.ServletHeaderExtractor;
+import org.apache.tiles.request.servlet.extractor.HeaderExtractor;
 import org.apache.tiles.request.servlet.extractor.SessionScopeExtractor;
 
 /**
@@ -131,7 +131,7 @@ public class ServletRequest extends AbstractClientRequest {
     public Map<String, String> getHeader() {
 
         if ((header == null) && (request != null)) {
-            header = new AddableParameterMap(new ServletHeaderExtractor(request, response));
+            header = new AddableParameterMap(new HeaderExtractor(request, response));
         }
         return (header);
 
@@ -142,7 +142,7 @@ public class ServletRequest extends AbstractClientRequest {
     public Map<String, String[]> getHeaderValues() {
 
         if ((headerValues == null) && (request != null)) {
-            headerValues = new HeaderValuesMap(new ServletHeaderExtractor(request, response));
+            headerValues = new HeaderValuesMap(new HeaderExtractor(request, response));
         }
         return (headerValues);
 

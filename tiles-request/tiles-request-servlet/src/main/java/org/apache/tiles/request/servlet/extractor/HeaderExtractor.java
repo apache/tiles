@@ -5,15 +5,15 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.request.collection.extractor.HeaderExtractor;
+import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
 
-public class ServletHeaderExtractor implements HeaderExtractor {
+public class HeaderExtractor implements EnumeratedValuesExtractor {
 
     private HttpServletRequest request;
 
     private HttpServletResponse response;
 
-    public ServletHeaderExtractor(HttpServletRequest request,
+    public HeaderExtractor(HttpServletRequest request,
             HttpServletResponse response) {
         this.request = request;
         this.response = response;

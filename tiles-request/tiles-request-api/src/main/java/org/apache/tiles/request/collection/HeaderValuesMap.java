@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.HeaderExtractor;
+import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
 import org.apache.tiles.request.util.MapEntry;
 
 
@@ -44,14 +44,14 @@ import org.apache.tiles.request.util.MapEntry;
 
 public class HeaderValuesMap implements Map<String, String[]> {
 
-    private HeaderExtractor request;
+    private EnumeratedValuesExtractor request;
 
     /**
      * Constructor.
      *
      * @param request The request object to use.
      */
-    public HeaderValuesMap(HeaderExtractor request) {
+    public HeaderValuesMap(EnumeratedValuesExtractor request) {
         this.request = request;
     }
 
@@ -94,7 +94,7 @@ public class HeaderValuesMap implements Map<String, String[]> {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
-        HeaderExtractor otherRequest = ((HeaderValuesMap) o).request;
+        EnumeratedValuesExtractor otherRequest = ((HeaderValuesMap) o).request;
         boolean retValue = true;
         for (Enumeration<String> attribs = request.getKeys(); attribs
                 .hasMoreElements()

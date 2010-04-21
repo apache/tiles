@@ -25,7 +25,7 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.HeaderExtractor;
+import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
 
 /**
  * <p>Private implementation of <code>Map</code> for servlet request
@@ -36,7 +36,7 @@ import org.apache.tiles.request.collection.extractor.HeaderExtractor;
 
 public class AddableParameterMap extends ParameterMap {
 
-    private HeaderExtractor request;
+    private EnumeratedValuesExtractor request;
 
     /**
      * Constructor.
@@ -45,7 +45,7 @@ public class AddableParameterMap extends ParameterMap {
      * @param response The response object to use.
      * @since 2.2.0
      */
-    public AddableParameterMap(HeaderExtractor request) {
+    public AddableParameterMap(EnumeratedValuesExtractor request) {
         super(request);
         this.request = request;
     }
@@ -59,7 +59,7 @@ public class AddableParameterMap extends ParameterMap {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
-        HeaderExtractor otherRequest = ((AddableParameterMap) o).request;
+        EnumeratedValuesExtractor otherRequest = ((AddableParameterMap) o).request;
         boolean retValue = true;
         synchronized (request) {
             for (Enumeration<String> attribs = request.getKeys(); attribs
