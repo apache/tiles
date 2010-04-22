@@ -153,6 +153,7 @@ public class ReflectionContextResolverTest {
             return threeScope;
         }
 
+        @SuppressWarnings("unused")
         private Map<String, Object> getPrivateScope() {
             return null;
         }

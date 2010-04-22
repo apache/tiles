@@ -21,7 +21,6 @@
 package org.apache.tiles.request.collection;
 
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,29 +54,11 @@ public class AddableParameterMap extends ParameterMap {
         return new HeaderEntrySet();
     }
 
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean equals(Object o) {
-        EnumeratedValuesExtractor otherRequest = ((AddableParameterMap) o).request;
-        boolean retValue = true;
-        synchronized (request) {
-            for (Enumeration<String> attribs = request.getKeys(); attribs
-                    .hasMoreElements()
-                    && retValue;) {
-                String parameterName = attribs.nextElement();
-                retValue = request.getValue(parameterName).equals(
-                        otherRequest.getValue(parameterName));
-            }
-        }
-
-        return retValue;
-    }
-
     /** {@inheritDoc} */
     public String put(String key, String value) {
+        String oldValue = request.getValue(key);
         request.setValue(key, value);
-        return value;
+        return oldValue;
     }
 
 
