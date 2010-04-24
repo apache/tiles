@@ -84,10 +84,10 @@ public class MapEntryTest {
         assertFalse(entry.equals(entry2));
         entry = new MapEntry<String, String>(null, "value", false);
         entry2 = new MapEntry<String, String>(null, "value", false);
-        assertTrue(entry.equals(entry));
+        assertTrue(entry.equals(entry2));
         entry = new MapEntry<String, String>("key", null, false);
         entry2 = new MapEntry<String, String>("key", null, false);
-        assertTrue(entry.equals(entry));
+        assertTrue(entry.equals(entry2));
     }
 
 }

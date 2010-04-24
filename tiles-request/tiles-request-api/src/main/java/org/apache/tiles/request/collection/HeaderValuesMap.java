@@ -33,6 +33,7 @@ import java.util.Set;
 
 import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
 import org.apache.tiles.request.util.MapEntry;
+import org.apache.tiles.request.util.MapEntryArrayValues;
 
 
 /**
@@ -189,21 +190,6 @@ public class HeaderValuesMap implements Map<String, String[]> {
      * @param enumeration The enumeration to convert.
      * @return The corresponding array.
      */
-    private String[] enumeration2array(Enumeration<String> enumeration) {
-        List<String> list1 = new ArrayList<String>();
-        while (enumeration.hasMoreElements()) {
-            list1.add(enumeration.nextElement());
-        }
-
-        return list1.toArray(new String[list1.size()]);
-    }
-
-    /**
-     * Converts the content of a string enumeration to an array of strings.
-     *
-     * @param enumeration The enumeration to convert.
-     * @return The corresponding array.
-     */
     private Set<String> enumeration2set(Enumeration<String> enumeration) {
         Set<String> retValue = new HashSet<String>();
         while (enumeration.hasMoreElements()) {
@@ -332,7 +318,7 @@ public class HeaderValuesMap implements Map<String, String[]> {
         private MapEntry<String, String[]> extractNextEntry(
                 Enumeration<String> names) {
             String name = names.nextElement();
-            return new MapEntry<String, String[]>(name, getHeaderValues(name), false);
+            return new MapEntryArrayValues<String, String>(name, getHeaderValues(name), false);
         }
 
         private class HeadersEntrySetIterator implements Iterator<Map.Entry<String, String[]>> {
@@ -438,6 +424,21 @@ public class HeaderValuesMap implements Map<String, String[]> {
                 entries.add(enumeration2array(request.getValues(names.nextElement())));
             }
             return entries;
+        }
+
+        /**
+         * Converts the content of a string enumeration to an array of strings.
+         *
+         * @param enumeration The enumeration to convert.
+         * @return The corresponding array.
+         */
+        private String[] enumeration2array(Enumeration<String> enumeration) {
+            List<String> list1 = new ArrayList<String>();
+            while (enumeration.hasMoreElements()) {
+                list1.add(enumeration.nextElement());
+            }
+
+            return list1.toArray(new String[list1.size()]);
         }
 
         private class HeaderValuesCollectionIterator implements Iterator<String[]> {
