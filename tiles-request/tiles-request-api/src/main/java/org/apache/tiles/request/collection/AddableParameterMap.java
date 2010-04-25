@@ -51,7 +51,7 @@ public class AddableParameterMap extends ParameterMap {
 
     /** {@inheritDoc} */
     public Set<Map.Entry<String, String>> entrySet() {
-        return new HeaderEntrySet();
+        return new ParameterEntrySet();
     }
 
     /** {@inheritDoc} */
@@ -71,7 +71,7 @@ public class AddableParameterMap extends ParameterMap {
     }
 
 
-    private class HeaderEntrySet extends ParameterMap.HeaderEntrySet {
+    private class ParameterEntrySet extends ParameterMap.ParameterEntrySet {
 
         @Override
         public boolean add(java.util.Map.Entry<String, String> e) {

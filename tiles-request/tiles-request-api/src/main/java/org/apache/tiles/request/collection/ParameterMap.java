@@ -67,19 +67,19 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
     /** {@inheritDoc} */
     public boolean containsValue(Object value) {
-        Iterator<String> values = values().iterator();
-        while (values.hasNext()) {
-            if (value.equals(values.next())) {
-                return (true);
+        String realValue = (String) value;
+        for (Enumeration<String> keysIt = request.getKeys(); keysIt.hasMoreElements(); ) {
+            if (realValue.equals(request.getValue(keysIt.nextElement()))) {
+                return true;
             }
         }
-        return (false);
+        return false;
     }
 
 
     /** {@inheritDoc} */
     public Set<Map.Entry<String, String>> entrySet() {
-        return new HeaderEntrySet();
+        return new ParameterEntrySet();
     }
 
 
@@ -127,11 +127,11 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
     /** {@inheritDoc} */
     public Collection<String> values() {
-        return new HeaderValuesCollection();
+        return new ParameterMapValuesCollection();
     }
 
 
-    class HeaderEntrySet implements Set<Map.Entry<String, String>> {
+    class ParameterEntrySet implements Set<Map.Entry<String, String>> {
 
         @Override
         public boolean add(java.util.Map.Entry<String, String> e) {
@@ -251,7 +251,7 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
         }
     }
 
-    private class HeaderValuesCollection implements Collection<String> {
+    private class ParameterMapValuesCollection implements Collection<String> {
 
         @Override
         public boolean add(String e) {
@@ -277,12 +277,14 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
         @Override
         public boolean containsAll(Collection<?> c) {
             Collection<String> realCollection = (Collection<String>) c;
-            for (String value : realCollection) {
-                if (!containsValue(value)) {
-                    return false;
+            List<String> valueList = new ArrayList<String>(realCollection);
+            for (Enumeration<String> keysEnum = request.getKeys(); keysEnum.hasMoreElements(); ) {
+                valueList.remove(request.getValue(keysEnum.nextElement()));
+                if (valueList.isEmpty()) {
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
 
         @Override
