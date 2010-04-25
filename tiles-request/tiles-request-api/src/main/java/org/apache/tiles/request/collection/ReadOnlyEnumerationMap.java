@@ -25,6 +25,7 @@ import static org.apache.tiles.request.util.RequestUtil.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,9 @@ import org.apache.tiles.request.util.MapEntry;
  * @version $Rev$ $Date$
  */
 
-public class ParameterMap extends AbstractEnumerationMap<String> {
+public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
+
+    protected HasKeys<V> request;
 
     /**
      * Constructor.
@@ -49,8 +52,8 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
      * @param response The response object to use.
      * @since 2.2.0
      */
-    public ParameterMap(HasKeys<String> request) {
-        super(request);
+    public ReadOnlyEnumerationMap(HasKeys<V> request) {
+        this.request = request;
     }
 
     /** {@inheritDoc} */
@@ -66,8 +69,9 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
-        String realValue = (String) value;
+        V realValue = (V) value;
         for (Enumeration<String> keysIt = request.getKeys(); keysIt.hasMoreElements(); ) {
             if (realValue.equals(request.getValue(keysIt.nextElement()))) {
                 return true;
@@ -78,13 +82,13 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
 
     /** {@inheritDoc} */
-    public Set<Map.Entry<String, String>> entrySet() {
-        return new ParameterEntrySet();
+    public Set<Map.Entry<String, V>> entrySet() {
+        return new ReadOnlyEnumerationMapEntrySet();
     }
 
 
     /** {@inheritDoc} */
-    public String get(Object key) {
+    public V get(Object key) {
         return (request.getValue(key(key)));
     }
 
@@ -102,19 +106,19 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
 
     /** {@inheritDoc} */
-    public String put(String key, String value) {
+    public V put(String key, V value) {
         throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public void putAll(Map<? extends String, ? extends String> map) {
+    public void putAll(Map<? extends String, ? extends V> map) {
         throw new UnsupportedOperationException();
     }
 
 
     /** {@inheritDoc} */
-    public String remove(Object key) {
+    public V remove(Object key) {
         throw new UnsupportedOperationException();
     }
 
@@ -126,21 +130,57 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
 
     /** {@inheritDoc} */
-    public Collection<String> values() {
-        return new ParameterMapValuesCollection();
+    public Collection<V> values() {
+        return new ReadOnlyEnumerationMapValuesCollection();
     }
 
 
-    class ParameterEntrySet implements Set<Map.Entry<String, String>> {
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object o) {
+        HasKeys<V> otherRequest = ((AbstractEnumerationMap<V>) o).request;
+        boolean retValue = true;
+        Set<String> otherKeys = new HashSet<String>();
+        for (Enumeration<String> attribs = otherRequest.getKeys(); attribs
+                .hasMoreElements();) {
+            otherKeys.add(attribs.nextElement());
+        }
+        for (Enumeration<String> attribs = request.getKeys(); attribs
+                .hasMoreElements()
+                && retValue;) {
+            String parameterName = attribs.nextElement();
+            retValue = request.getValue(parameterName).equals(
+                    otherRequest.getValue(parameterName));
+            otherKeys.remove(parameterName);
+        }
+
+        return retValue && otherKeys.isEmpty();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        int retValue = 0;
+        for (Enumeration<String> attribs = request.getKeys(); attribs
+                .hasMoreElements();) {
+            String parameterName = attribs.nextElement();
+            V value = request.getValue(parameterName);
+            retValue += parameterName.hashCode() ^ (value == null ? 0 : value.hashCode());
+        }
+        return retValue;
+    }
+
+    class ReadOnlyEnumerationMapEntrySet implements Set<Map.Entry<String, V>> {
 
         @Override
-        public boolean add(java.util.Map.Entry<String, String> e) {
+        public boolean add(java.util.Map.Entry<String, V> e) {
             throw new UnsupportedOperationException();
         }
 
         @Override
         public boolean addAll(
-                Collection<? extends java.util.Map.Entry<String, String>> c) {
+                Collection<? extends java.util.Map.Entry<String, V>> c) {
             throw new UnsupportedOperationException();
         }
 
@@ -152,15 +192,15 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
         @SuppressWarnings("unchecked")
         @Override
         public boolean contains(Object o) {
-            return containsEntry((java.util.Map.Entry<String, String>) o);
+            return containsEntry((java.util.Map.Entry<String, V>) o);
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public boolean containsAll(Collection<?> c) {
-            Collection<Map.Entry<String, String>> realCollection =
-                (Collection<Map.Entry<String, String>>) c;
-            for (Map.Entry<String, String> entry : realCollection) {
+            Collection<Map.Entry<String, V>> realCollection =
+                (Collection<Map.Entry<String, V>>) c;
+            for (Map.Entry<String, V> entry : realCollection) {
                 if (!containsEntry(entry)) {
                     return false;
                 }
@@ -170,12 +210,12 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
         @Override
         public boolean isEmpty() {
-            return ParameterMap.this.isEmpty();
+            return ReadOnlyEnumerationMap.this.isEmpty();
         }
 
         @Override
-        public Iterator<java.util.Map.Entry<String, String>> iterator() {
-            return new HeaderEntrySetIterator();
+        public Iterator<java.util.Map.Entry<String, V>> iterator() {
+            return new ReadOnlyEnumerationMapEntrySetIterator();
         }
 
         @Override
@@ -195,7 +235,7 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
         @Override
         public int size() {
-            return ParameterMap.this.size();
+            return ReadOnlyEnumerationMap.this.size();
         }
 
         @Override
@@ -208,13 +248,13 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
             return toList().toArray(a);
         }
 
-        private boolean containsEntry(Map.Entry<String, String> entry) {
-            String storedValue = request.getValue(key(entry.getKey()));
+        protected boolean containsEntry(Map.Entry<String, V> entry) {
+            V storedValue = request.getValue(key(entry.getKey()));
             return storedValue != null && storedValue.equals(entry.getValue());
         }
 
-        private List<Map.Entry<String, String>> toList() {
-            List<Map.Entry<String, String>> entries = new ArrayList<Map.Entry<String,String>>();
+        private List<Map.Entry<String, V>> toList() {
+            List<Map.Entry<String, V>> entries = new ArrayList<Map.Entry<String,V>>();
             Enumeration<String> names = request.getKeys();
             while (names.hasMoreElements()) {
                 entries.add(extractNextEntry(names));
@@ -222,14 +262,14 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
             return entries;
         }
 
-        private MapEntry<String, String> extractNextEntry(
+        private MapEntry<String, V> extractNextEntry(
                 Enumeration<String> names) {
             String name = names.nextElement();
-            return new MapEntry<String, String>(name, request.getValue(name),
+            return new MapEntry<String, V>(name, request.getValue(name),
                     false);
         }
 
-        private class HeaderEntrySetIterator implements Iterator<Map.Entry<String, String>> {
+        private class ReadOnlyEnumerationMapEntrySetIterator implements Iterator<Map.Entry<String, V>> {
 
             private Enumeration<String> namesEnumeration = request.getKeys();
 
@@ -239,7 +279,7 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
             }
 
             @Override
-            public java.util.Map.Entry<String, String> next() {
+            public java.util.Map.Entry<String, V> next() {
                 return extractNextEntry(namesEnumeration);
             }
 
@@ -251,15 +291,15 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
         }
     }
 
-    private class ParameterMapValuesCollection implements Collection<String> {
+    private class ReadOnlyEnumerationMapValuesCollection implements Collection<V> {
 
         @Override
-        public boolean add(String e) {
+        public boolean add(V e) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public boolean addAll(Collection<? extends String> c) {
+        public boolean addAll(Collection<? extends V> c) {
             throw new UnsupportedOperationException();
         }
 
@@ -289,12 +329,12 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
         @Override
         public boolean isEmpty() {
-            return ParameterMap.this.isEmpty();
+            return ReadOnlyEnumerationMap.this.isEmpty();
         }
 
         @Override
-        public Iterator<String> iterator() {
-            return new HeaderValuesCollectionIterator();
+        public Iterator<V> iterator() {
+            return new ReadOnlyEnumerationMapValuesCollectionIterator();
         }
 
         @Override
@@ -314,7 +354,7 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
 
         @Override
         public int size() {
-            return ParameterMap.this.size();
+            return ReadOnlyEnumerationMap.this.size();
         }
 
         @Override
@@ -327,8 +367,8 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
             return toList().toArray(a);
         }
 
-        private List<String> toList() {
-            List<String> entries = new ArrayList<String>();
+        private List<V> toList() {
+            List<V> entries = new ArrayList<V>();
             Enumeration<String> names = request.getKeys();
             while (names.hasMoreElements()) {
                 entries.add(request.getValue(names.nextElement()));
@@ -337,7 +377,7 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
         }
 
 
-        private class HeaderValuesCollectionIterator implements Iterator<String> {
+        private class ReadOnlyEnumerationMapValuesCollectionIterator implements Iterator<V> {
 
             private Enumeration<String> namesEnumeration = request.getKeys();
 
@@ -347,7 +387,7 @@ public class ParameterMap extends AbstractEnumerationMap<String> {
             }
 
             @Override
-            public String next() {
+            public V next() {
                 return request.getValue(namesEnumeration.nextElement());
             }
 

@@ -36,7 +36,7 @@ import org.apache.tiles.request.AbstractClientRequest;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.collection.AddableParameterMap;
 import org.apache.tiles.request.collection.HeaderValuesMap;
-import org.apache.tiles.request.collection.ParameterMap;
+import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
 import org.apache.tiles.request.servlet.extractor.ParameterExtractor;
 import org.apache.tiles.request.servlet.extractor.RequestScopeExtractor;
@@ -153,7 +153,7 @@ public class ServletRequest extends AbstractClientRequest {
     public Map<String, String> getParam() {
 
         if ((param == null) && (request != null)) {
-            param = new ParameterMap(new ParameterExtractor(request));
+            param = new ReadOnlyEnumerationMap<String>(new ParameterExtractor(request));
         }
         return (param);
 

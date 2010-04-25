@@ -29,7 +29,7 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.collection.ParameterMap;
+import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
 import org.apache.tiles.request.servlet.extractor.ApplicationScopeExtractor;
 import org.apache.tiles.request.servlet.extractor.InitParameterExtractor;
@@ -90,7 +90,7 @@ public class ServletApplicationContext implements ApplicationContext {
     public Map<String, String> getInitParams() {
 
         if ((initParam == null) && (servletContext != null)) {
-            initParam = new ParameterMap(new InitParameterExtractor(servletContext));
+            initParam = new ReadOnlyEnumerationMap<String>(new InitParameterExtractor(servletContext));
         }
         return (initParam);
 

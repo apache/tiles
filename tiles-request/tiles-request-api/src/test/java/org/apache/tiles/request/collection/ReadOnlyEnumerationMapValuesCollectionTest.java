@@ -10,30 +10,30 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
 import org.apache.tiles.request.collection.extractor.HasKeys;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link ParameterMap#values()}.
+ * Tests {@link ReadOnlyEnumerationMap#values()}.
  *
  * @version $Rev$ $Date$
  */
-public class ParameterMapValuesCollectionTest {
-    private HasKeys<String> extractor;
+public class ReadOnlyEnumerationMapValuesCollectionTest {
+    private HasKeys<Integer> extractor;
 
-    private ParameterMap map;
+    private ReadOnlyEnumerationMap<Integer> map;
 
-    private Collection<String> coll;
+    private Collection<Integer> coll;
 
     /**
      * Sets up the test.
      */
+    @SuppressWarnings("unchecked")
     @Before
     public void setUp() {
-        extractor = createMock(EnumeratedValuesExtractor.class);
-        map = new ParameterMap(extractor);
+        extractor = createMock(HasKeys.class);
+        map = new ReadOnlyEnumerationMap<Integer>(extractor);
         coll = map.values();
     }
 
@@ -75,11 +75,11 @@ public class ParameterMapValuesCollectionTest {
         expect(keys.hasMoreElements()).andReturn(true);
         expect(keys.nextElement()).andReturn("two");
 
-        expect(extractor.getValue("one")).andReturn("value1");
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("one")).andReturn(1);
+        expect(extractor.getValue("two")).andReturn(2);
 
         replay(extractor, keys);
-        assertTrue(coll.contains("value2"));
+        assertTrue(coll.contains(2));
         verify(extractor, keys);
     }
 
@@ -98,11 +98,11 @@ public class ParameterMapValuesCollectionTest {
         expect(keys.nextElement()).andReturn("two");
         expect(keys.hasMoreElements()).andReturn(false);
 
-        expect(extractor.getValue("one")).andReturn("value1");
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("one")).andReturn(1);
+        expect(extractor.getValue("two")).andReturn(2);
 
         replay(extractor, keys);
-        assertFalse(coll.contains("value3"));
+        assertFalse(coll.contains(3));
         verify(extractor, keys);
     }
 
@@ -120,13 +120,13 @@ public class ParameterMapValuesCollectionTest {
         expect(keys.hasMoreElements()).andReturn(true);
         expect(keys.nextElement()).andReturn("two");
 
-        expect(extractor.getValue("one")).andReturn("value1");
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("one")).andReturn(1);
+        expect(extractor.getValue("two")).andReturn(2);
 
         replay(extractor, keys);
-        List<String> coll = new ArrayList<String>();
-        coll.add("value1");
-        coll.add("value2");
+        List<Integer> coll = new ArrayList<Integer>();
+        coll.add(1);
+        coll.add(2);
         assertTrue(this.coll.containsAll(coll));
         verify(extractor, keys);
     }
@@ -146,12 +146,12 @@ public class ParameterMapValuesCollectionTest {
         expect(keys.nextElement()).andReturn("two");
         expect(keys.hasMoreElements()).andReturn(false);
 
-        expect(extractor.getValue("one")).andReturn("value1");
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("one")).andReturn(1);
+        expect(extractor.getValue("two")).andReturn(2);
 
         replay(extractor, keys);
-        List<String> coll = new ArrayList<String>();
-        coll.add("value3");
+        List<Integer> coll = new ArrayList<Integer>();
+        coll.add(3);
         assertFalse(this.coll.containsAll(coll));
         verify(extractor, keys);
     }
@@ -184,12 +184,12 @@ public class ParameterMapValuesCollectionTest {
         expect(keys.hasMoreElements()).andReturn(true);
         expect(keys.nextElement()).andReturn("two");
 
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("two")).andReturn(2);
 
         replay(extractor, keys);
-        Iterator<String> entryIt = coll.iterator();
+        Iterator<Integer> entryIt = coll.iterator();
         assertTrue(entryIt.hasNext());
-        assertEquals("value2", entryIt.next());
+        assertEquals(new Integer(2), entryIt.next());
         verify(extractor, keys);
     }
 
@@ -270,10 +270,10 @@ public class ParameterMapValuesCollectionTest {
         expect(keys.nextElement()).andReturn("two");
         expect(keys.hasMoreElements()).andReturn(false);
 
-        expect(extractor.getValue("one")).andReturn("value1");
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("one")).andReturn(1);
+        expect(extractor.getValue("two")).andReturn(2);
 
-        String[] entryArray = new String[] {"value1", "value2"};
+        Integer[] entryArray = new Integer[] {1, 2};
 
         replay(extractor, keys);
         assertArrayEquals(entryArray, coll.toArray());
@@ -295,13 +295,13 @@ public class ParameterMapValuesCollectionTest {
         expect(keys.nextElement()).andReturn("two");
         expect(keys.hasMoreElements()).andReturn(false);
 
-        expect(extractor.getValue("one")).andReturn("value1");
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("one")).andReturn(1);
+        expect(extractor.getValue("two")).andReturn(2);
 
-        String[] entryArray = new String[] {"value1", "value2"};
+        Integer[] entryArray = new Integer[] {1, 2};
 
         replay(extractor, keys);
-        String[] realArray = new String[2];
+        Integer[] realArray = new Integer[2];
         assertArrayEquals(entryArray, coll.toArray(realArray));
         verify(extractor, keys);
     }

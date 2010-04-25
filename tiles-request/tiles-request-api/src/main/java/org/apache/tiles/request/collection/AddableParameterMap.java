@@ -33,7 +33,7 @@ import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
  * @version $Rev$ $Date$
  */
 
-public class AddableParameterMap extends ParameterMap {
+public class AddableParameterMap extends ReadOnlyEnumerationMap<String> {
 
     private EnumeratedValuesExtractor request;
 
@@ -51,7 +51,7 @@ public class AddableParameterMap extends ParameterMap {
 
     /** {@inheritDoc} */
     public Set<Map.Entry<String, String>> entrySet() {
-        return new ParameterEntrySet();
+        return new AddableParameterEntrySet();
     }
 
     /** {@inheritDoc} */
@@ -71,7 +71,7 @@ public class AddableParameterMap extends ParameterMap {
     }
 
 
-    private class ParameterEntrySet extends ParameterMap.ParameterEntrySet {
+    private class AddableParameterEntrySet extends ReadOnlyEnumerationMap<String>.ReadOnlyEnumerationMapEntrySet {
 
         @Override
         public boolean add(java.util.Map.Entry<String, String> e) {

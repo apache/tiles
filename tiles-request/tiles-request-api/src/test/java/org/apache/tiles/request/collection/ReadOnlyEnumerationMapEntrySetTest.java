@@ -17,16 +17,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link ParameterMap#entrySet()}
+ * Tests {@link ReadOnlyEnumerationMap#entrySet()}
  *
  * @version $Rev$ $Date$
  */
-public class ParameterMapEntrySetTest {
-    private HasKeys<String> extractor;
+public class ReadOnlyEnumerationMapEntrySetTest {
+    private HasKeys<Integer> extractor;
 
-    private ParameterMap map;
+    private ReadOnlyEnumerationMap<Integer> map;
 
-    private Set<Map.Entry<String, String>> entrySet;
+    private Set<Map.Entry<String, Integer>> entrySet;
 
     /**
      * Sets up the test.
@@ -35,7 +35,7 @@ public class ParameterMapEntrySetTest {
     @Before
     public void setUp() {
         extractor = createMock(HasKeys.class);
-        map = new ParameterMap(extractor);
+        map = new ReadOnlyEnumerationMap<Integer>(extractor);
         entrySet = map.entrySet();
     }
 
@@ -69,13 +69,13 @@ public class ParameterMapEntrySetTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testContains() {
-        Map.Entry<String, String> entry = createMock(Map.Entry.class);
+        Map.Entry<String, Integer> entry = createMock(Map.Entry.class);
         Enumeration<String> values2 = createMock(Enumeration.class);
 
         expect(entry.getKey()).andReturn("two");
-        expect(entry.getValue()).andReturn("value2");
+        expect(entry.getValue()).andReturn(2);
 
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("two")).andReturn(2);
 
         replay(extractor, entry, values2);
         assertTrue(entrySet.contains(entry));
@@ -88,19 +88,19 @@ public class ParameterMapEntrySetTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testContainsAll() {
-        Map.Entry<String, String> entry1 = createMock(Map.Entry.class);
-        Map.Entry<String, String> entry2 = createMock(Map.Entry.class);
+        Map.Entry<String, Integer> entry1 = createMock(Map.Entry.class);
+        Map.Entry<String, Integer> entry2 = createMock(Map.Entry.class);
 
         expect(entry1.getKey()).andReturn("one");
-        expect(entry1.getValue()).andReturn("value1");
+        expect(entry1.getValue()).andReturn(1);
         expect(entry2.getKey()).andReturn("two");
-        expect(entry2.getValue()).andReturn("value2");
+        expect(entry2.getValue()).andReturn(2);
 
-        expect(extractor.getValue("one")).andReturn("value1");
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("one")).andReturn(1);
+        expect(extractor.getValue("two")).andReturn(2);
 
         replay(extractor, entry1, entry2);
-        List<Map.Entry<String, String>> coll = new ArrayList<Map.Entry<String,String>>();
+        List<Map.Entry<String, Integer>> coll = new ArrayList<Map.Entry<String, Integer>>();
         coll.add(entry1);
         coll.add(entry2);
         assertTrue(entrySet.containsAll(coll));
@@ -118,7 +118,7 @@ public class ParameterMapEntrySetTest {
         expect(entry1.getKey()).andReturn("one");
         expect(entry1.getValue()).andReturn("value4");
 
-        expect(extractor.getValue("one")).andReturn("value1");
+        expect(extractor.getValue("one")).andReturn(1);
 
         replay(extractor, entry1);
         List<Map.Entry<String, String>> coll = new ArrayList<Map.Entry<String,String>>();
@@ -155,13 +155,13 @@ public class ParameterMapEntrySetTest {
         expect(keys.hasMoreElements()).andReturn(true);
         expect(keys.nextElement()).andReturn("two");
 
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("two")).andReturn(2);
 
         replay(extractor, keys);
-        Iterator<Map.Entry<String, String>> entryIt = entrySet.iterator();
+        Iterator<Map.Entry<String, Integer>> entryIt = entrySet.iterator();
         assertTrue(entryIt.hasNext());
-        MapEntry<String, String> entry = new MapEntry<String, String>(
-                "two", "value2", false);
+        MapEntry<String, Integer> entry = new MapEntry<String, Integer>(
+                "two", 2, false);
         assertEquals(entry, entryIt.next());
         verify(extractor, keys);
     }
@@ -245,12 +245,12 @@ public class ParameterMapEntrySetTest {
         expect(keys.nextElement()).andReturn("two");
         expect(keys.hasMoreElements()).andReturn(false);
 
-        expect(extractor.getValue("one")).andReturn("value1");
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("one")).andReturn(1);
+        expect(extractor.getValue("two")).andReturn(2);
 
-        MapEntry<String, String>[] entryArray = new MapEntry[2];
-        entryArray[0] = new MapEntry<String, String>("one", "value1", false);
-        entryArray[1] = new MapEntry<String, String>("two", "value2", false);
+        MapEntry<String, Integer>[] entryArray = new MapEntry[2];
+        entryArray[0] = new MapEntry<String, Integer>("one", 1, false);
+        entryArray[1] = new MapEntry<String, Integer>("two", 2, false);
 
         replay(extractor, keys, values1, values2);
         assertArrayEquals(entryArray, entrySet.toArray());
@@ -274,12 +274,12 @@ public class ParameterMapEntrySetTest {
         expect(keys.nextElement()).andReturn("two");
         expect(keys.hasMoreElements()).andReturn(false);
 
-        expect(extractor.getValue("one")).andReturn("value1");
-        expect(extractor.getValue("two")).andReturn("value2");
+        expect(extractor.getValue("one")).andReturn(1);
+        expect(extractor.getValue("two")).andReturn(2);
 
-        MapEntry<String, String>[] entryArray = new MapEntry[2];
-        entryArray[0] = new MapEntry<String, String>("one", "value1", false);
-        entryArray[1] = new MapEntry<String, String>("two", "value2", false);
+        MapEntry<String, Integer>[] entryArray = new MapEntry[2];
+        entryArray[0] = new MapEntry<String, Integer>("one", 1, false);
+        entryArray[1] = new MapEntry<String, Integer>("two", 2, false);
 
         replay(extractor, keys, values1, values2);
         MapEntry<String, String>[] realArray = new MapEntry[2];

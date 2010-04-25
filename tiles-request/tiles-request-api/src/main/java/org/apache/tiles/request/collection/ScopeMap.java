@@ -22,11 +22,9 @@ package org.apache.tiles.request.collection;
 
 import static org.apache.tiles.request.util.RequestUtil.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,7 +38,7 @@ import org.apache.tiles.request.util.MapEntry;
  * @version $Rev$ $Date$
  */
 
-public class ScopeMap extends AbstractEnumerationMap<Object> {
+public class ScopeMap extends ReadOnlyEnumerationMap<Object> {
 
     private AttributeExtractor context;
 
@@ -63,64 +61,23 @@ public class ScopeMap extends AbstractEnumerationMap<Object> {
         }
     }
 
-
-    /** {@inheritDoc} */
-    public boolean containsKey(Object key) {
-        return context.getValue(key(key)) != null;
-    }
-
-
-    /** {@inheritDoc} */
-    public boolean containsValue(Object value) {
-        if (value == null) {
-            return (false);
-        }
-        Enumeration<String> keys = context.getKeys();
-        while (keys.hasMoreElements()) {
-            Object next = context.getValue(keys.nextElement());
-            if (next == value) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     /** {@inheritDoc} */
     public Set<Map.Entry<String, Object>> entrySet() {
-        return new ServletApplicationScopeEntrySet();
+        return new ScopeEntrySet();
     }
-
-
-
-    /** {@inheritDoc} */
-    public Object get(Object key) {
-        return context.getValue(key(key));
-    }
-
-    /** {@inheritDoc} */
-    public boolean isEmpty() {
-        return !context.getKeys().hasMoreElements();
-    }
-
 
     /** {@inheritDoc} */
     public Set<String> keySet() {
         return new RemovableKeySet(context);
     }
 
-
     /** {@inheritDoc} */
     public Object put(String key, Object value) {
-        if (value == null) {
-            return remove(key);
-        }
         String skey = key(key);
         Object previous = context.getValue(skey);
         context.setValue(skey, value);
         return previous;
     }
-
 
     /** {@inheritDoc} */
     public void putAll(Map<? extends String, ? extends Object> map) {
@@ -131,7 +88,6 @@ public class ScopeMap extends AbstractEnumerationMap<Object> {
         }
     }
 
-
     /** {@inheritDoc} */
     public Object remove(Object key) {
         String skey = key(key);
@@ -140,25 +96,18 @@ public class ScopeMap extends AbstractEnumerationMap<Object> {
         return (previous);
     }
 
-
-    /** {@inheritDoc} */
-    public int size() {
-        return enumerationSize(context.getKeys());
-    }
-
-
-    /** {@inheritDoc} */
-    public Collection<Object> values() {
-        return new ServletApplicationScopeValuesCollection();
-    }
-
-    private class ServletApplicationScopeEntrySet implements Set<Map.Entry<String, Object>> {
+    private class ScopeEntrySet extends ReadOnlyEnumerationMap<Object>.ReadOnlyEnumerationMapEntrySet {
 
         @Override
         public boolean add(java.util.Map.Entry<String, Object> e) {
-            Object oldValue = get(e.getKey());
-            put(e.getKey(), e.getValue());
-            return oldValue == null || !oldValue.equals(e.getValue());
+            String key = e.getKey();
+            Object value = e.getValue();
+            Object oldValue = get(key);
+            if (oldValue == null || !oldValue.equals(value)) {
+                context.setValue(key, value);
+                return true;
+            }
+            return false;
         }
 
         @Override
@@ -178,40 +127,12 @@ public class ScopeMap extends AbstractEnumerationMap<Object> {
 
         @SuppressWarnings("unchecked")
         @Override
-        public boolean contains(Object o) {
-            return containsEntry((java.util.Map.Entry<String, Object>) o);
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public boolean containsAll(Collection<?> c) {
-            Collection<Map.Entry<String, Object>> realCollection =
-                (Collection<Map.Entry<String, Object>>) c;
-            for (Map.Entry<String, Object> entry : realCollection) {
-                if (!containsEntry(entry)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return ScopeMap.this.isEmpty();
-        }
-
-        @Override
-        public Iterator<java.util.Map.Entry<String, Object>> iterator() {
-            return new ServletApplicationScopeEntrySetIterator();
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
         public boolean remove(Object o) {
             Map.Entry<String, Object> entry = (java.util.Map.Entry<String, Object>) o;
-            Object currentValue = get(entry.getKey());
+            String key = entry.getKey();
+            Object currentValue = context.getValue(key);
             if (currentValue != null && currentValue.equals(entry.getValue())) {
-                context.removeValue(entry.getKey());
+                context.removeValue(key);
                 return true;
             }
             return false;
@@ -233,173 +154,16 @@ public class ScopeMap extends AbstractEnumerationMap<Object> {
         public boolean retainAll(Collection<?> c) {
             Collection<Map.Entry<String, Object>> realCollection = (Collection<java.util.Map.Entry<String, Object>>) c;
             boolean retValue = false;
-            for (Map.Entry<String, Object> entry : realCollection) {
-                if (containsEntry(entry)) {
-                    retValue |= remove(entry);
+            for (Enumeration<String> keys = context.getKeys(); keys.hasMoreElements(); ) {
+                String key = keys.nextElement();
+                Object value = context.getValue(key);
+                Map.Entry<String, Object> entry = new MapEntry<String, Object>(key, value, false);
+                if (!realCollection.contains(entry)) {
+                    retValue = true;
+                    context.removeValue(key);
                 }
             }
             return retValue;
-        }
-
-        @Override
-        public int size() {
-            return ScopeMap.this.size();
-        }
-
-        @Override
-        public Object[] toArray() {
-            return toList().toArray();
-        }
-
-        @Override
-        public <T> T[] toArray(T[] a) {
-            return toList().toArray(a);
-        }
-
-        private boolean containsEntry(Map.Entry<String, Object> entry) {
-            Object storedValue = context.getValue(key(entry.getKey()));
-            return storedValue != null && storedValue.equals(entry.getValue());
-        }
-
-        private List<Map.Entry<String, Object>> toList() {
-            List<Map.Entry<String, Object>> entries = new ArrayList<Map.Entry<String,Object>>();
-            Enumeration<String> names = context.getKeys();
-            while (names.hasMoreElements()) {
-                entries.add(extractNextEntry(names));
-            }
-            return entries;
-        }
-
-        private MapEntry<String, Object> extractNextEntry(
-                Enumeration<String> names) {
-            String name = names.nextElement();
-            return new MapEntry<String, Object>(name, context.getValue(name),
-                    false);
-        }
-
-        private class ServletApplicationScopeEntrySetIterator implements Iterator<Map.Entry<String, Object>> {
-
-            private Enumeration<String> namesEnumeration = context.getKeys();
-
-            @Override
-            public boolean hasNext() {
-                return namesEnumeration.hasMoreElements();
-            }
-
-            @Override
-            public java.util.Map.Entry<String, Object> next() {
-                return extractNextEntry(namesEnumeration);
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-
-        }
-    }
-
-    private class ServletApplicationScopeValuesCollection implements Collection<Object> {
-
-        @Override
-        public boolean add(Object e) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public boolean addAll(Collection<? extends Object> c) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void clear() {
-            ScopeMap.this.clear();
-        }
-
-        @Override
-        public boolean contains(Object o) {
-            return containsValue(o);
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public boolean containsAll(Collection<?> c) {
-            Collection<String> realCollection = (Collection<String>) c;
-            for (String value : realCollection) {
-                if (!containsValue(value)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return ScopeMap.this.isEmpty();
-        }
-
-        @Override
-        public Iterator<Object> iterator() {
-            return new ServletApplicationScopeValuesCollectionIterator();
-        }
-
-        @Override
-        public boolean remove(Object o) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public boolean removeAll(Collection<?> c) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public boolean retainAll(Collection<?> c) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public int size() {
-            return ScopeMap.this.size();
-        }
-
-        @Override
-        public Object[] toArray() {
-            return toList().toArray();
-        }
-
-        @Override
-        public <T> T[] toArray(T[] a) {
-            return toList().toArray(a);
-        }
-
-        private List<Object> toList() {
-            List<Object> entries = new ArrayList<Object>();
-            Enumeration<String> names = context.getKeys();
-            while (names.hasMoreElements()) {
-                entries.add(context.getValue(names.nextElement()));
-            }
-            return entries;
-        }
-
-        private class ServletApplicationScopeValuesCollectionIterator implements Iterator<Object> {
-
-            private Enumeration<String> namesEnumeration = context.getKeys();
-
-            @Override
-            public boolean hasNext() {
-                return namesEnumeration.hasMoreElements();
-            }
-
-            @Override
-            public Object next() {
-                return context.getValue(namesEnumeration.nextElement());
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
         }
     }
 }
