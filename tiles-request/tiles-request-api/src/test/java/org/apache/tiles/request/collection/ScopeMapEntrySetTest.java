@@ -42,6 +42,7 @@ public class ScopeMapEntrySetTest {
     /**
      * Tests {@link Set#add(Object)}
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testAdd() {
         Map.Entry<String, Object> entry = createMock(Map.Entry.class);
@@ -60,6 +61,7 @@ public class ScopeMapEntrySetTest {
     /**
      * Tests {@link Set#add(Object)}
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testAddNoEffect() {
         Map.Entry<String, Object> entry = createMock(Map.Entry.class);
@@ -76,6 +78,7 @@ public class ScopeMapEntrySetTest {
     /**
      * Tests {@link Set#addAll(java.util.Collection)}
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testAddAll() {
         Map.Entry<String, Object> entry1 = createMock(Map.Entry.class);
@@ -125,6 +128,7 @@ public class ScopeMapEntrySetTest {
     /**
      * Tests {@link Set#remove(Object)}
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testRemove() {
         Map.Entry<String, Object> entry = createMock(Map.Entry.class);
@@ -142,6 +146,7 @@ public class ScopeMapEntrySetTest {
     /**
      * Tests {@link Set#remove(Object)}
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testRemoveNoEffect() {
         Map.Entry<String, Object> entry = createMock(Map.Entry.class);
@@ -157,6 +162,7 @@ public class ScopeMapEntrySetTest {
     /**
      * Tests {@link Set#addAll(java.util.Collection)}
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testRemoveAll() {
         Map.Entry<String, Object> entry1 = createMock(Map.Entry.class);
@@ -182,6 +188,7 @@ public class ScopeMapEntrySetTest {
     /**
      * Tests {@link Set#addAll(java.util.Collection)}
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testRetainAll() {
         Enumeration<String> keys = createMock(Enumeration.class);

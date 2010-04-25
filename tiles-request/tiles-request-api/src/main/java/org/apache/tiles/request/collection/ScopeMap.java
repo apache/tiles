@@ -25,6 +25,7 @@ import static org.apache.tiles.request.util.RequestUtil.*;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -154,14 +155,18 @@ public class ScopeMap extends ReadOnlyEnumerationMap<Object> {
         public boolean retainAll(Collection<?> c) {
             Collection<Map.Entry<String, Object>> realCollection = (Collection<java.util.Map.Entry<String, Object>>) c;
             boolean retValue = false;
+            Set<String> keysToRemove = new LinkedHashSet<String>();
             for (Enumeration<String> keys = context.getKeys(); keys.hasMoreElements(); ) {
                 String key = keys.nextElement();
                 Object value = context.getValue(key);
                 Map.Entry<String, Object> entry = new MapEntry<String, Object>(key, value, false);
                 if (!realCollection.contains(entry)) {
                     retValue = true;
-                    context.removeValue(key);
+                    keysToRemove.add(key);
                 }
+            }
+            for (String key: keysToRemove) {
+                context.removeValue(key);
             }
             return retValue;
         }

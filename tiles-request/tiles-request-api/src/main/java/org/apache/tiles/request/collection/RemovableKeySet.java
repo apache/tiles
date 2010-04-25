@@ -3,7 +3,9 @@ package org.apache.tiles.request.collection;
 import static org.apache.tiles.request.util.RequestUtil.*;
 
 import java.util.Collection;
-import java.util.Map;
+import java.util.Enumeration;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.tiles.request.collection.extractor.HasRemovableKeys;
 
@@ -30,9 +32,9 @@ public class RemovableKeySet extends KeySet {
     @SuppressWarnings("unchecked")
     @Override
     public boolean removeAll(Collection<?> c) {
-        Collection<Map.Entry<String, Object>> realCollection = (Collection<java.util.Map.Entry<String, Object>>) c;
+        Collection<String> realCollection = (Collection<String>) c;
         boolean retValue = false;
-        for (Map.Entry<String, Object> entry : realCollection) {
+        for (String entry : realCollection) {
             retValue |= remove(entry);
         }
         return retValue;
@@ -43,8 +45,16 @@ public class RemovableKeySet extends KeySet {
     public boolean retainAll(Collection<?> c) {
         Collection<String> realCollection = (Collection<String>) c;
         boolean retValue = false;
-        for (String key : realCollection) {
-            retValue |= remove(key);
+        Set<String> keysToRemove = new LinkedHashSet<String>();
+        for (Enumeration<String> keys = request.getKeys(); keys.hasMoreElements(); ) {
+            String key = keys.nextElement();
+            if (!realCollection.contains(key)) {
+                retValue = true;
+                keysToRemove.add(key);
+            }
+        }
+        for (String key : keysToRemove) {
+            request.removeValue(key);
         }
         return retValue;
     }
