@@ -38,7 +38,7 @@ import javax.portlet.RenderResponse;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.portlet.PortletRequest;
+import org.apache.tiles.request.portlet.RenderPortletRequest;
 
 /**
  * Test Portlet.
@@ -57,7 +57,7 @@ public class TestPortlet extends GenericPortlet {
             portletSession.removeAttribute("definition");
             TilesContainer container = getCurrentContainer(request,
                     getPortletContext());
-            Request currentRequest = new PortletRequest(container
+            Request currentRequest = new RenderPortletRequest(container
                     .getApplicationContext(), getPortletContext(), request,
                     response);
             if (container.isValidDefinition(definition, currentRequest)) {
