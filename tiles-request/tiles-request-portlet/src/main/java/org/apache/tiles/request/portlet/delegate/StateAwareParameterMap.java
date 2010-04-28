@@ -1,4 +1,4 @@
-package org.apache.tiles.request.portlet;
+package org.apache.tiles.request.portlet.delegate;
 
 import java.util.Collection;
 import java.util.Map;

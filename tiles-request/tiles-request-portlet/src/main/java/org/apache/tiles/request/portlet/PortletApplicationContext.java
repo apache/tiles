@@ -29,6 +29,10 @@ import java.util.Set;
 import javax.portlet.PortletContext;
 
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
+import org.apache.tiles.request.collection.ScopeMap;
+import org.apache.tiles.request.portlet.extractor.ApplicationScopeExtractor;
+import org.apache.tiles.request.portlet.extractor.InitParameterExtractor;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
@@ -114,7 +118,8 @@ public class PortletApplicationContext implements ApplicationContext {
     /** {@inheritDoc} */
     public Map<String, Object> getApplicationScope() {
         if ((applicationScope == null) && (context != null)) {
-            applicationScope = new PortletApplicationScopeMap(context);
+            applicationScope = new ScopeMap(new ApplicationScopeExtractor(
+                    context));
         }
         return (applicationScope);
 
@@ -123,7 +128,8 @@ public class PortletApplicationContext implements ApplicationContext {
     /** {@inheritDoc} */
     public Map<String, String> getInitParams() {
         if ((initParam == null) && (context != null)) {
-            initParam = new PortletInitParamMap(context);
+            initParam = new ReadOnlyEnumerationMap<String>(
+                    new InitParameterExtractor(context));
         }
         return (initParam);
 

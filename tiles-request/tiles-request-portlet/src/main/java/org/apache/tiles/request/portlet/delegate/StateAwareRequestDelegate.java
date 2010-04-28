@@ -6,7 +6,6 @@ import javax.portlet.PortletRequest;
 import javax.portlet.StateAwareResponse;
 
 import org.apache.tiles.request.collection.AddableParameterMap;
-import org.apache.tiles.request.portlet.StateAwareParameterMap;
 import org.apache.tiles.request.portlet.extractor.StateAwareParameterExtractor;
 
 public class StateAwareRequestDelegate implements RequestDelegate {
