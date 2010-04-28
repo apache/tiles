@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
+import org.apache.tiles.request.collection.extractor.HasAddableKeys;
 
 /**
  * <p>Private implementation of <code>Map</code> for servlet request
@@ -35,7 +35,7 @@ import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
 
 public class AddableParameterMap extends ReadOnlyEnumerationMap<String> {
 
-    private EnumeratedValuesExtractor request;
+    private HasAddableKeys<String> request;
 
     /**
      * Constructor.
@@ -44,7 +44,7 @@ public class AddableParameterMap extends ReadOnlyEnumerationMap<String> {
      * @param response The response object to use.
      * @since 2.2.0
      */
-    public AddableParameterMap(EnumeratedValuesExtractor request) {
+    public AddableParameterMap(HasAddableKeys<String> request) {
         super(request);
         this.request = request;
     }

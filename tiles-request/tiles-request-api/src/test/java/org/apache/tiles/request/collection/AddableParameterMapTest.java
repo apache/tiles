@@ -3,6 +3,7 @@
  */
 package org.apache.tiles.request.collection;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
+import org.apache.tiles.request.collection.extractor.HasAddableKeys;
 import org.apache.tiles.request.util.MapEntry;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,14 +27,15 @@ public class AddableParameterMapTest {
 
     private AddableParameterMap map;
 
-    private EnumeratedValuesExtractor extractor;
+    private HasAddableKeys<String> extractor;
 
     /**
      * Sets up the test.
      */
+    @SuppressWarnings("unchecked")
     @Before
     public void setUp() {
-        extractor = createMock(EnumeratedValuesExtractor.class);
+        extractor = createMock(HasAddableKeys.class);
         map = new AddableParameterMap(extractor);
     }
 

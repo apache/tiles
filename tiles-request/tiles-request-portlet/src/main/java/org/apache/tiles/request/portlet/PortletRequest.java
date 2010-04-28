@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
@@ -33,11 +32,17 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletSession;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 
 import org.apache.tiles.request.AbstractClientRequest;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.collection.AddableParameterMap;
+import org.apache.tiles.request.collection.HeaderValuesMap;
+import org.apache.tiles.request.collection.ScopeMap;
+import org.apache.tiles.request.portlet.delegate.RequestDelegate;
+import org.apache.tiles.request.portlet.delegate.ResponseDelegate;
+import org.apache.tiles.request.portlet.extractor.HeaderExtractor;
+import org.apache.tiles.request.portlet.extractor.RequestScopeExtractor;
+import org.apache.tiles.request.portlet.extractor.SessionScopeExtractor;
 
 /**
  * Portlet-based TilesApplicationContext implementation.
@@ -64,12 +69,14 @@ public class PortletRequest extends AbstractClientRequest {
     /**
      * The <code>PortletContext</code> for this application.
      */
-    private PortletContext context = null;
+    protected PortletContext context = null;
 
     /**
      * <p>The <code>PortletRequest</code> for this request.</p>
      */
     protected javax.portlet.PortletRequest request = null;
+
+    protected RequestDelegate requestDelegate;
 
 
     /**
@@ -83,6 +90,8 @@ public class PortletRequest extends AbstractClientRequest {
      * <p>The <code>PortletResponse</code> for this request.</p>
      */
     protected PortletResponse response = null;
+
+    protected ResponseDelegate responseDelegate;
 
 
     /**
@@ -104,69 +113,27 @@ public class PortletRequest extends AbstractClientRequest {
 
 
     /**
-     * <p>Indicates whether the request is an ActionRequest or RenderRequest.
-     */
-    private boolean isRenderRequest;
-    /**
-     * <p>The lazily instantiated <code>Map</code> of request
-     * parameter name-value.</p>
-     */
-    protected Map<String, String> param = null;
-    /**
-     * <p>The lazily instantiated <code>Map</code> of request
-     * parameter name-values.</p>
-     */
-    protected Map<String, String[]> paramValues = null;
-
-
-    /**
      * Creates a new instance of PortletTilesRequestContext.
      *
      * @param applicationContext The Tiles application context.
      * @param context The portlet context to use.
      * @param request The request object to use.
      * @param response The response object to use.
+     * @param requestDelegate The request delegate.
+     * @param responseDelegate The response delegate.
      * @since 2.1.1
      */
     public PortletRequest(ApplicationContext applicationContext,
             PortletContext context, javax.portlet.PortletRequest request,
-            PortletResponse response) {
+            PortletResponse response, RequestDelegate requestDelegate, ResponseDelegate responseDelegate) {
         super(applicationContext);
 
         // Save the specified Portlet API object references
         this.context = context;
         this.request = request;
         this.response = response;
-
-        // Perform other setup as needed
-        this.isRenderRequest = false;
-        if (request != null) {
-            if (request instanceof RenderRequest) {
-                isRenderRequest = true;
-            }
-        }
-    }
-
-    /**
-     * <p>Release references to allocated resources acquired in
-     * <code>initialize()</code> of via subsequent processing.  After this
-     * method is called, subsequent calls to any other method than
-     * <code>initialize()</code> will return undefined results.</p>
-     */
-    public void release() {
-
-        // Release references to allocated collections
-        header = null;
-        headerValues = null;
-        param = null;
-        paramValues = null;
-        requestScope = null;
-        sessionScope = null;
-
-        // Release references to Portlet API objects
-        context = null;
-        request = null;
-        response = null;
+        this.requestDelegate = requestDelegate;
+        this.responseDelegate = responseDelegate;
     }
 
     /**
@@ -187,44 +154,30 @@ public class PortletRequest extends AbstractClientRequest {
         return (this.response);
     }
 
+    public PortletContext getPortletContext() {
+        return context;
+    }
+
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public Map<String, String> getHeader() {
         if ((header == null) && (request != null)) {
-            header = Collections.EMPTY_MAP;
+            header = new AddableParameterMap(new HeaderExtractor(request, response));
         }
         return (header);
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public Map<String, String[]> getHeaderValues() {
         if ((headerValues == null) && (request != null)) {
-            headerValues = Collections.EMPTY_MAP;
+            headerValues = new HeaderValuesMap(new HeaderExtractor(request, response));
         }
         return (headerValues);
     }
 
     /** {@inheritDoc} */
-    public Map<String, String> getParam() {
-        if ((param == null) && (request != null)) {
-            param = new PortletParamMap(request);
-        }
-        return (param);
-    }
-
-    /** {@inheritDoc} */
-    public Map<String, String[]> getParamValues() {
-        if ((paramValues == null) && (request != null)) {
-            paramValues = new PortletParamValuesMap(request);
-        }
-        return (paramValues);
-    }
-
-    /** {@inheritDoc} */
     public Map<String, Object> getRequestScope() {
         if ((requestScope == null) && (request != null)) {
-            requestScope = new PortletRequestScopeMap(request);
+            requestScope = new ScopeMap(new RequestScopeExtractor(request));
         }
         return (requestScope);
     }
@@ -232,7 +185,8 @@ public class PortletRequest extends AbstractClientRequest {
     /** {@inheritDoc} */
     public Map<String, Object> getSessionScope() {
         if ((sessionScope == null) && (request != null)) {
-            sessionScope = new PortletSessionScopeMap(request, PortletSession.APPLICATION_SCOPE);
+            sessionScope = new ScopeMap(new SessionScopeExtractor(request,
+                    PortletSession.APPLICATION_SCOPE));
         }
         return (sessionScope);
     }
@@ -240,7 +194,8 @@ public class PortletRequest extends AbstractClientRequest {
     /** {@inheritDoc} */
     public Map<String, Object> getPortletSessionScope() {
         if ((portletSessionScope == null) && (request != null)) {
-            portletSessionScope = new PortletSessionScopeMap(request, PortletSession.PORTLET_SCOPE);
+            portletSessionScope = new ScopeMap(new SessionScopeExtractor(
+                    request, PortletSession.APPLICATION_SCOPE));
         }
         return (portletSessionScope);
     }
@@ -248,69 +203,6 @@ public class PortletRequest extends AbstractClientRequest {
     @Override
     public String[] getNativeScopes() {
         return SCOPES;
-    }
-
-    /** {@inheritDoc} */
-    public void doForward(String path) throws IOException {
-        if (((RenderResponse)response).isCommitted()) {
-            if (isRenderRequest) {
-                include(path);
-            } else {
-                throw new IOException("Cannot forward or include the path '"
-                        + path + "' because the response has been committed "
-                        + "and the request is not a RenderRequest");
-            }
-        } else {
-            forward(path);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public void doInclude(String path) throws IOException {
-        if (!isRenderRequest) {
-            throw new IOException("Cannot include the path '" + path
-                    + "' because the request is not a RenderRequest");
-        }
-        try {
-            PortletRequestDispatcher rd = context.getRequestDispatcher(path);
-
-            if (rd == null) {
-                throw new IOException(
-                        "No portlet request dispatcher returned for path '"
-                                + path + "'");
-            }
-
-            rd.include((RenderRequest) request,
-                (RenderResponse) response);
-        } catch (PortletException e) {
-            throw new IOException("PortletException while including path '"
-                    + path + "'.", e);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public OutputStream getOutputStream() throws IOException {
-        return ((RenderResponse) response).getPortletOutputStream();
-    }
-
-    /** {@inheritDoc} */
-    public PrintWriter getPrintWriter() throws IOException {
-        return ((RenderResponse) response).getWriter();
-    }
-
-    /** {@inheritDoc} */
-    public Writer getWriter() throws IOException {
-        return ((RenderResponse) response).getWriter();
-    }
-
-    /** {@inheritDoc} */
-    public boolean isResponseCommitted() {
-        return ((RenderResponse) response).isCommitted();
-    }
-
-    /** {@inheritDoc} */
-    public void setContentType(String contentType) {
-        ((RenderResponse) response).setContentType(contentType);
     }
 
     /** {@inheritDoc} */
@@ -331,15 +223,51 @@ public class PortletRequest extends AbstractClientRequest {
         return null;
     }
 
+    @Override
+    public Map<String, String> getParam() {
+        return requestDelegate.getParam();
+    }
+
+    @Override
+    public Map<String, String[]> getParamValues() {
+        return requestDelegate.getParamValues();
+    }
+
     /** {@inheritDoc} */
     public boolean isUserInRole(String role) {
         return request.isUserInRole(role);
     }
 
+    @Override
+    public OutputStream getOutputStream() throws IOException {
+        return responseDelegate.getOutputStream();
+    }
+
+    @Override
+    public PrintWriter getPrintWriter() throws IOException {
+        return responseDelegate.getPrintWriter();
+    }
+
+    @Override
+    public Writer getWriter() throws IOException {
+        return responseDelegate.getWriter();
+    }
+
+    @Override
+    public boolean isResponseCommitted() {
+        return responseDelegate.isResponseCommitted();
+    }
+
+    @Override
+    public void setContentType(String contentType) {
+        responseDelegate.setContentType(contentType);
+    }
+
     /** {@inheritDoc} */
-    private void forward(String path) throws IOException {
+    public void doForward(String path) throws IOException {
         try {
-            PortletRequestDispatcher rd = context.getRequestDispatcher(path);
+            PortletRequestDispatcher rd = getPortletContext()
+                    .getRequestDispatcher(path);
 
             if (rd == null) {
                 throw new IOException(
@@ -348,6 +276,25 @@ public class PortletRequest extends AbstractClientRequest {
             }
 
             rd.forward(request, response);
+        } catch (PortletException e) {
+            throw new IOException("PortletException while including path '"
+                    + path + "'.", e);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void doInclude(String path) throws IOException {
+        try {
+            PortletRequestDispatcher rd = getPortletContext()
+                    .getRequestDispatcher(path);
+
+            if (rd == null) {
+                throw new IOException(
+                        "No portlet request dispatcher returned for path '"
+                                + path + "'");
+            }
+
+            rd.include(request, response);
         } catch (PortletException e) {
             throw new IOException("PortletException while including path '"
                     + path + "'.", e);
