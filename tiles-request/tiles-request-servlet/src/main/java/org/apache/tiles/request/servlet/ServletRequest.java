@@ -226,7 +226,7 @@ public class ServletRequest extends AbstractClientRequest {
      * @param path The path to forward to.
      * @throws IOException If something goes wrong during the operation.
      */
-    protected void forward(String path) throws IOException {
+    private void forward(String path) throws IOException {
         RequestDispatcher rd = request.getRequestDispatcher(path);
 
         if (rd == null) {

@@ -55,7 +55,7 @@ public class NotAServletEnvironmentException extends RuntimeException {
      * @param e The exception to be wrapped.
      * @since 2.2.0
      */
-    public NotAServletEnvironmentException(Exception e) {
+    public NotAServletEnvironmentException(Throwable e) {
         super(e);
     }
 
@@ -66,7 +66,7 @@ public class NotAServletEnvironmentException extends RuntimeException {
      * @param e The exception to be wrapped.
      * @since 2.2.0
      */
-    public NotAServletEnvironmentException(String message, Exception e) {
+    public NotAServletEnvironmentException(String message, Throwable e) {
         super(message, e);
     }
 
