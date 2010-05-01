@@ -108,7 +108,7 @@ mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
 
 * Check-out and install the release
 
-  Due to an {{{https://issues.apache.org/struts/browse/TILES-149}open bug}}, it
+  Due to an {{{https://issues.apache.org/jira/browse/TILES-149}open bug}}, it
   is needed to check out and install, through <<<mvn install>>>, the tag;
   otherwise the release process fails.
 
