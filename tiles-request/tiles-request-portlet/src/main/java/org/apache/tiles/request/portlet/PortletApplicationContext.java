@@ -89,23 +89,6 @@ public class PortletApplicationContext implements ApplicationContext {
     }
 
     /**
-     * <p>Release references to allocated resources acquired in
-     * <code>initialize()</code> of via subsequent processing.  After this
-     * method is called, subsequent calls to any other method than
-     * <code>initialize()</code> will return undefined results.</p>
-     */
-    public void release() {
-
-        // Release references to allocated collections
-        applicationScope = null;
-        initParam = null;
-
-        // Release references to Portlet API objects
-        context = null;
-
-    }
-
-    /**
      * <p>Return the {@link PortletContext} for this context.</p>
      *
      * @return The original portlet context.

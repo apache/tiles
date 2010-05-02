@@ -217,10 +217,7 @@ public class PortletRequest extends AbstractClientRequest {
 
     /** {@inheritDoc} */
     public Locale getRequestLocale() {
-        if (request != null) {
-            return request.getLocale();
-        }
-        return null;
+        return request.getLocale();
     }
 
     @Override
@@ -265,6 +262,11 @@ public class PortletRequest extends AbstractClientRequest {
 
     /** {@inheritDoc} */
     public void doForward(String path) throws IOException {
+        if (responseDelegate.isResponseCommitted()) {
+            doInclude(path);
+            return;
+        }
+
         try {
             PortletRequestDispatcher rd = getPortletContext()
                     .getRequestDispatcher(path);

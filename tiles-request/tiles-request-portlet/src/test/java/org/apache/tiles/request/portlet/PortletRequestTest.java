@@ -1,204 +1,397 @@
-/*
- * $Id$
- *
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 package org.apache.tiles.request.portlet;
 
+import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Locale;
 import java.util.Map;
 
-//import org.apache.shale.test.mock.MockPortletContext;
-//import org.apache.shale.test.mock.MockPortletRequest;
-//import org.apache.shale.test.mock.MockPortletResponse;
-//import org.apache.shale.test.mock.MockPortletSession;
-import org.apache.tiles.request.Request;
-import org.apache.tiles.request.portlet.PortletRequest;
+import javax.portlet.PortletContext;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequestDispatcher;
+import javax.portlet.PortletResponse;
+import javax.servlet.ServletOutputStream;
 
-import junit.framework.TestCase;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.collection.AddableParameterMap;
+import org.apache.tiles.request.collection.HeaderValuesMap;
+import org.apache.tiles.request.collection.ScopeMap;
+import org.apache.tiles.request.portlet.delegate.RequestDelegate;
+import org.apache.tiles.request.portlet.delegate.ResponseDelegate;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
+ * Tests {@link PortletRequest}.
+ *
  * @version $Rev$ $Date$
  */
-public class PortletRequestTest extends TestCase {
+public class PortletRequestTest {
+
+    private ApplicationContext applicationContext;
+
+    private PortletContext portletContext;
+
+    private javax.portlet.PortletRequest request;
+
+    private PortletResponse response;
+
+    private PortletRequest req;
+
+    private RequestDelegate requestDelegate;
+
+    private ResponseDelegate responseDelegate;
 
     /**
-     * The used request context.
+     * Sets up the test.
      */
-    private Request context;
-
-    /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-//        MockPortletContext servletContext = new MockPortletContext();
-//        servletContext
-//                .addInitParameter("initParameter1", "initParameterValue1");
-//        MockPortletSession session = new MockPortletSession(servletContext);
-//        MockPortletRequest request = new MockPortletRequest(session);
-//        MockPortletResponse response = new MockPortletResponse();
-//        request.addParameter("myParam", "value1");
-//        request.addParameter("myParam", "value2");
-//
-//        context = new PortletTilesRequestContext(servletContext, request,
-//                response);
-//
-//        Map<String, Object> requestScope = context.getRequestScope();
-//        requestScope.put("attribute1", "value1");
-//        requestScope.put("attribute2", "value2");
-//
-//        Map<String, Object> sessionScope = context.getSessionScope();
-//        sessionScope.put("sessionAttribute1", "sessionValue1");
-//        sessionScope.put("sessionAttribute2", "sessionValue2");
-//
-//        Map<String, Object> applicationScope = ((TilesApplicationContext) context)
-//                .getApplicationScope();
-//        applicationScope.put("applicationAttribute1", "applicationValue1");
-//        applicationScope.put("applicationAttribute2", "applicationValue2");
+    @Before
+    public void setUp() {
+        applicationContext = createMock(ApplicationContext.class);
+        portletContext = createMock(PortletContext.class);
+        request = createMock(javax.portlet.PortletRequest.class);
+        response = createMock(PortletResponse.class);
+        requestDelegate = createMock(RequestDelegate.class);
+        responseDelegate = createMock(ResponseDelegate.class);
+        req = new PortletRequest(applicationContext, portletContext, request,
+                response, requestDelegate, responseDelegate);
     }
 
     /**
-     * Tests getting the header.
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#doForward(java.lang.String)}.
+     * @throws IOException If something goes wrong.
+     * @throws PortletException If something goes wrong.
      */
-    public void testGetHeader() {
-//        Map<String, String> map = context.getHeader();
-//        assertTrue("The portlet cannot have headers!", map.isEmpty());
-//        doTestReadMap(map, String.class, String.class, "header map");
+    @Test
+    public void testDoForward() throws PortletException, IOException {
+        PortletRequestDispatcher rd = createMock(PortletRequestDispatcher.class);
+
+        expect(responseDelegate.isResponseCommitted()).andReturn(false);
+        expect(portletContext.getRequestDispatcher("/my/path")).andReturn(rd);
+        rd.forward(request, response);
+
+        replay(applicationContext, portletContext, request, response, rd);
+        req.doForward("/my/path");
+        verify(applicationContext, portletContext, request, response, rd);
     }
 
     /**
-     * Tests getting the header values.
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#doForward(java.lang.String)}.
+     * @throws IOException If something goes wrong.
+     * @throws PortletException If something goes wrong.
      */
-    public void testGetHeaderValues() {
-//        Map<String, String[]> map = context.getHeaderValues();
-//        assertTrue("The portlet cannot have headers!", map.isEmpty());
-//        doTestReadMap(map, String.class, String[].class, "header values map");
-    }
+    @Test(expected=IOException.class)
+    public void testDoForwardNoDispatcher() throws IOException {
+        expect(responseDelegate.isResponseCommitted()).andReturn(false);
+        expect(portletContext.getRequestDispatcher("/my/path")).andReturn(null);
 
-    /**
-     * Tests getting request parameters.
-     */
-    public void testGetParam() {
-//        Map<String, String> map = context.getParam();
-//        assertTrue("The parameters do not contain a set value", "value1"
-//                .equals(map.get("myParam"))
-//                || "value2".equals(map.get("myParam")));
-//        doTestReadMap(map, String.class, String.class, "parameter map");
-    }
-
-    /**
-     * Tests getting request parameters values.
-     */
-    public void testGetParamValues() {
-//        Map<String, String[]> map = context.getParamValues();
-//        String[] array = map.get("myParam");
-//        assertTrue(
-//                "The parameters not contain a set value",
-//                array.length == 2
-//                        && (("value1".equals(array[0]) && "value2"
-//                                .equals(array[1])) || ("value1"
-//                                .equals(array[1]) && "value2".equals(array[0]))));
-//        doTestReadMap(map, String.class, String[].class, "parameter values map");
-    }
-
-    /**
-     * Tests {@link PortletRequest#getApplicationContext()}.
-     */
-    public void testGetApplicationContext() {
-//      assertTrue("The objects are not the same", context == context
-//              .getApplicationContext());
-    }
-
-    /**
-     * Tests getting request scope attributes.
-     */
-    public void testGetRequestScope() {
-//        Map<String, Object> map = context.getRequestScope();
-//        assertTrue("The request scope does not contain a set value", "value1"
-//                .equals(map.get("attribute1")));
-//        assertTrue("The request scope does not contain a set value", "value2"
-//                .equals(map.get("attribute2")));
-//        doTestReadMap(map, String.class, Object.class, "request scope map");
-    }
-
-    /**
-     * Tests getting session scope attributes.
-     */
-    public void testGetSessionScope() {
-//        Map<String, Object> map = context.getSessionScope();
-//        assertTrue("The session scope does not contain a set value",
-//                "sessionValue1".equals(map.get("sessionAttribute1")));
-//        assertTrue("The session scope does not contain a set value",
-//                "sessionValue2".equals(map.get("sessionAttribute2")));
-//        doTestReadMap(map, String.class, Object.class, "session scope map");
-    }
-
-    /**
-     * Tests getting application scope attributes.
-     */
-    public void testGetApplicationScope() {
-//        Map<String, Object> map = ((TilesApplicationContext) context)
-//                .getApplicationScope();
-//        assertTrue("The application scope does not contain a set value",
-//                "applicationValue1".equals(map.get("applicationAttribute1")));
-//        assertTrue("The application scope does not contain a set value",
-//                "applicationValue2".equals(map.get("applicationAttribute2")));
-//        doTestReadMap(map, String.class, Object.class, "application scope map");
-    }
-
-    /**
-     * Tests getting init parameters..
-     */
-    public void testGetInitParams() {
-//        Map<String, String> map = ((TilesApplicationContext) context)
-//                .getInitParams();
-//        assertTrue("The init parameters do not contain a set value",
-//                "initParameterValue1".equals(map.get("initParameter1")));
-//        doTestReadMap(map, String.class, String.class,
-//                "init parameters scope map");
-    }
-
-    /**
-     * Tests a generic map.
-     *
-     * @param <K> The key type.
-     * @param <V> The value type.
-     * @param currentMap The map to check.
-     * @param keyClass The key class.
-     * @param valueClass The value class.
-     * @param mapName The name of the map to test (for messages).
-     */
-    private <K, V> void doTestReadMap(Map<K, V> currentMap, Class<K> keyClass,
-            Class<V> valueClass, String mapName) {
-        int size1, size2;
-        size1 = currentMap.keySet().size();
-        size2 = currentMap.entrySet().size();
-        assertEquals("The map" + mapName
-                + " has keySet and entrySet of different size", size1, size2);
-        for (K key : currentMap.keySet()) {
-            assertTrue("The key is not of class" + keyClass.getName(), keyClass
-                    .isInstance(key));
-            V value = currentMap.get(key);
-            assertTrue("The value is not of class" + valueClass.getName(),
-                    valueClass.isInstance(value));
-            assertTrue("The map " + mapName
-                    + " does not return the correct value for 'containsValue'",
-                    currentMap.containsValue(value));
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        try {
+            req.doForward("/my/path");
+        } finally {
+            verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
         }
     }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#doForward(java.lang.String)}.
+     * @throws IOException If something goes wrong.
+     * @throws PortletException If something goes wrong.
+     */
+    @Test(expected=IOException.class)
+    public void testDoForwardPortletException() throws PortletException, IOException {
+        PortletRequestDispatcher rd = createMock(PortletRequestDispatcher.class);
+
+        expect(responseDelegate.isResponseCommitted()).andReturn(false);
+        expect(portletContext.getRequestDispatcher("/my/path")).andReturn(rd);
+        rd.forward(request, response);
+        expectLastCall().andThrow(new PortletException());
+
+        replay(applicationContext, request, response, rd, portletContext, requestDelegate, responseDelegate);
+        try {
+            req.doForward("/my/path");
+        } finally {
+            verify(applicationContext, request, response, rd, portletContext, requestDelegate, responseDelegate);
+        }
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#doForward(java.lang.String)}.
+     * @throws IOException If something goes wrong.
+     * @throws PortletException If something goes wrong.
+     */
+    @Test
+    public void testDoForwardInclude() throws PortletException, IOException {
+        PortletRequestDispatcher rd = createMock(PortletRequestDispatcher.class);
+
+        expect(responseDelegate.isResponseCommitted()).andReturn(true);
+        expect(portletContext.getRequestDispatcher("/my/path")).andReturn(rd);
+        rd.include(request, response);
+
+        replay(applicationContext, request, response, rd, portletContext, requestDelegate, responseDelegate);
+        req.doForward("/my/path");
+        verify(applicationContext, request, response, rd, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#doInclude(java.lang.String)}.
+     * @throws IOException If something goes wrong.
+     * @throws PortletException If something goes wrong.
+     */
+    @Test
+    public void testDoInclude() throws IOException, PortletException {
+        PortletRequestDispatcher rd = createMock(PortletRequestDispatcher.class);
+
+        expect(portletContext.getRequestDispatcher("/my/path")).andReturn(rd);
+        rd.include(request, response);
+
+        replay(applicationContext, request, response, rd, portletContext, requestDelegate, responseDelegate);
+        req.doInclude("/my/path");
+        verify(applicationContext, request, response, rd, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#doInclude(java.lang.String)}.
+     * @throws IOException If something goes wrong.
+     */
+    @Test(expected=IOException.class)
+    public void testDoIncludeNoDispatcher() throws IOException {
+        expect(portletContext.getRequestDispatcher("/my/path")).andReturn(null);
+
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        try {
+            req.doInclude("/my/path");
+        } finally {
+            verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        }
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#doInclude(java.lang.String)}.
+     * @throws IOException If something goes wrong.
+     * @throws PortletException If something goes wrong.
+     */
+    @Test(expected=IOException.class)
+    public void testDoIncludePortletException() throws IOException, PortletException {
+        PortletRequestDispatcher rd = createMock(PortletRequestDispatcher.class);
+
+        expect(portletContext.getRequestDispatcher("/my/path")).andReturn(rd);
+        rd.include(request, response);
+        expectLastCall().andThrow(new PortletException());
+
+        replay(applicationContext, request, response, rd, portletContext, requestDelegate, responseDelegate);
+        try {
+            req.doInclude("/my/path");
+        } finally {
+            verify(applicationContext, request, response, rd, portletContext, requestDelegate, responseDelegate);
+        }
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getHeader()}.
+     */
+    @Test
+    public void testGetHeader() {
+        assertTrue(req.getHeader() instanceof AddableParameterMap);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getHeaderValues()}.
+     */
+    @Test
+    public void testGetHeaderValues() {
+        assertTrue(req.getHeaderValues() instanceof HeaderValuesMap);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getParam()}.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetParam() {
+        Map<String, String> map = createMock(Map.class);
+
+        expect(requestDelegate.getParam()).andReturn(map);
+
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        assertEquals(map, req.getParam());
+        verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getParamValues()}.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetParamValues() {
+        Map<String, String[]> paramMap = createMock(Map.class);
+
+        expect(requestDelegate.getParamValues()).andReturn(paramMap);
+
+        replay(applicationContext, request, response, paramMap, portletContext, requestDelegate, responseDelegate);
+        assertEquals(paramMap, req.getParamValues());
+        verify(applicationContext, request, response, paramMap, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getRequestScope()}.
+     */
+    @Test
+    public void testGetRequestScope() {
+        assertTrue(req.getRequestScope() instanceof ScopeMap);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getSessionScope()}.
+     */
+    @Test
+    public void testGetSessionScope() {
+        assertTrue(req.getSessionScope() instanceof ScopeMap);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getPortletSessionScope()}.
+     */
+    @Test
+    public void testGetPortletSessionScope() {
+        assertTrue(req.getPortletSessionScope() instanceof ScopeMap);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getNativeScopes()}.
+     */
+    @Test
+    public void testGetNativeScopes() {
+        assertArrayEquals(new String[] { "request", "portletSession",
+                "session", "application" }, req.getNativeScopes());
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getOutputStream()}.
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testGetOutputStream() throws IOException {
+        ServletOutputStream os = createMock(ServletOutputStream.class);
+
+        expect(responseDelegate.getOutputStream()).andReturn(os);
+
+        replay(applicationContext, request, response, os, portletContext, requestDelegate, responseDelegate);
+        assertEquals(req.getOutputStream(), os);
+        verify(applicationContext, request, response, os, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getWriter()}.
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testGetWriter() throws IOException {
+        PrintWriter os = createMock(PrintWriter.class);
+
+        expect(responseDelegate.getWriter()).andReturn(os);
+
+        replay(applicationContext, request, response, os, portletContext, requestDelegate, responseDelegate);
+        assertEquals(req.getWriter(), os);
+        verify(applicationContext, request, response, os, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getPrintWriter()}.
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testGetPrintWriter() throws IOException {
+        PrintWriter os = createMock(PrintWriter.class);
+
+        expect(responseDelegate.getPrintWriter()).andReturn(os);
+
+        replay(applicationContext, request, response, os, portletContext, requestDelegate, responseDelegate);
+        assertEquals(req.getPrintWriter(), os);
+        verify(applicationContext, request, response, os, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#isResponseCommitted()}.
+     */
+    @Test
+    public void testIsResponseCommitted() {
+        expect(responseDelegate.isResponseCommitted()).andReturn(true);
+
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        assertTrue(req.isResponseCommitted());
+        verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#setContentType(java.lang.String)}.
+     */
+    @Test
+    public void testSetContentType() {
+        responseDelegate.setContentType("text/html");
+
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        req.setContentType("text/html");
+        verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getRequestLocale()}.
+     */
+    @Test
+    public void testGetRequestLocale() {
+        Locale locale = Locale.ITALY;
+
+        expect(request.getLocale()).andReturn(locale);
+
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        assertEquals(locale, req.getRequestLocale());
+        verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getRequestObjects()}.
+     */
+    @Test
+    public void testGetRequestObjects() {
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        assertArrayEquals(new Object[] {request, response}, req.getRequestObjects());
+        verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getRequest()}.
+     */
+    @Test
+    public void testGetRequest() {
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        assertEquals(request, req.getRequest());
+        verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getResponse()}.
+     */
+    @Test
+    public void testGetResponse() {
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        assertEquals(response, req.getResponse());
+        verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#isUserInRole(java.lang.String)}.
+     */
+    @Test
+    public void testIsUserInRole() {
+        expect(request.isUserInRole("myrole")).andReturn(true);
+
+        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+        assertTrue(req.isUserInRole("myrole"));
+        verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
+    }
+
 }
