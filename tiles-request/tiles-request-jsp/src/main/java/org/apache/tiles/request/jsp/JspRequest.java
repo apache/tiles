@@ -33,6 +33,9 @@ import javax.servlet.jsp.PageContext;
 import org.apache.tiles.request.AbstractViewRequest;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.collection.ScopeMap;
+import org.apache.tiles.request.jsp.extractor.ScopeExtractor;
+import org.apache.tiles.request.jsp.extractor.SessionScopeExtractor;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.servlet.ServletUtil;
 
@@ -129,28 +132,31 @@ public class JspRequest extends AbstractViewRequest {
 
     public Map<String, Object> getPageScope() {
         if ((pageScope == null) && (pageContext != null)) {
-            pageScope = new JspScopeMap(pageContext, PageContext.PAGE_SCOPE);
+            pageScope = new ScopeMap(new ScopeExtractor(pageContext,
+                    PageContext.PAGE_SCOPE));
         }
         return (pageScope);
     }
 
     public Map<String, Object> getRequestScope() {
         if ((requestScope == null) && (pageContext != null)) {
-            requestScope = new JspScopeMap(pageContext, PageContext.REQUEST_SCOPE);
+            requestScope = new ScopeMap(new ScopeExtractor(pageContext,
+                    PageContext.REQUEST_SCOPE));
         }
         return (requestScope);
     }
 
     public Map<String, Object> getSessionScope() {
         if ((sessionScope == null) && (pageContext != null)) {
-            sessionScope = new JspSessionScopeMap(pageContext);
+            sessionScope = new ScopeMap(new SessionScopeExtractor(pageContext));
         }
         return (sessionScope);
     }
 
     public Map<String, Object> getApplicationScope() {
         if ((applicationScope == null) && (pageContext != null)) {
-            applicationScope = new JspScopeMap(pageContext, PageContext.APPLICATION_SCOPE);
+            applicationScope = new ScopeMap(new ScopeExtractor(pageContext,
+                    PageContext.APPLICATION_SCOPE));
         }
         return (applicationScope);
     }
