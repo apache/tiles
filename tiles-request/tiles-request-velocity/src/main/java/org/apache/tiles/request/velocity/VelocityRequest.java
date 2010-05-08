@@ -66,6 +66,16 @@ public class VelocityRequest extends AbstractViewRequest {
 
     private Map<String, Object> pageScope;
 
+    public static VelocityRequest createVelocityRequest(
+            ApplicationContext applicationContext, HttpServletRequest request,
+            HttpServletResponse response, Context velocityContext, Writer writer) {
+        Request servletRequest = new ServletRequest(
+                applicationContext, request, response);
+        VelocityRequest velocityRequest = new VelocityRequest(
+                servletRequest, velocityContext, writer);
+        return velocityRequest;
+    }
+
     /**
      * Constructor.
      *
@@ -158,15 +168,5 @@ public class VelocityRequest extends AbstractViewRequest {
             pageScope = new VelocityScopeMap(ctx);
         }
         return pageScope;
-    }
-
-    public static Request createVelocityRequest(ApplicationContext applicationContext,
-            HttpServletRequest request, HttpServletResponse response,
-            Context velocityContext, Writer writer) {
-        Request servletRequest = new ServletRequest(
-                applicationContext, request, response);
-        Request velocityRequest = new VelocityRequest(
-                servletRequest, velocityContext, writer);
-        return velocityRequest;
     }
 }

@@ -21,10 +21,12 @@
 
 package org.apache.tiles.request.velocity;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import javax.servlet.RequestDispatcher;
@@ -32,10 +34,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.request.AbstractRequest;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
-import org.apache.tiles.request.velocity.VelocityRequest;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.velocity.context.Context;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,6 +72,38 @@ public class VelocityRequestTest {
     }
 
     /**
+     * Tests {@link VelocityRequest
+     * #createVelocityRequest(org.apache.tiles.request.ApplicationContext, HttpServletRequest, HttpServletResponse, Context, java.io.Writer)}.
+     * @throws IOException If something goes wrong.
+     * @throws ServletException If something goes wrong.
+     */
+    @Test
+    public void testCreateVelocityRequest() {
+        HttpServletRequest httpRequest = createMock(HttpServletRequest.class);
+        HttpServletResponse response = createMock(HttpServletResponse.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+
+        replay(velocityContext, httpRequest, response, applicationContext);
+        context = VelocityRequest.createVelocityRequest(applicationContext, httpRequest, response, velocityContext, writer);
+        ServletRequest servletRequest = (ServletRequest) context.getWrappedRequest();
+        assertEquals(httpRequest, servletRequest.getRequest());
+        assertEquals(response, servletRequest.getResponse());
+        verify(velocityContext, httpRequest, response, applicationContext);
+    }
+
+    /**
+     * Tests {@link FreemarkerRequest#getNativeScopes()}.
+     */
+    @Test
+    public void testGetNativeScopes() {
+        Request enclosedRequest = createMock(Request.class);
+        replay(enclosedRequest);
+        context = new VelocityRequest(enclosedRequest, velocityContext, writer);
+        assertArrayEquals(new String[] {"page"}, context.getNativeScopes());
+        verify(enclosedRequest);
+    }
+
+    /**
      * Tests {@link VelocityRequest#doInclude(String)}.
      *
      * @throws IOException If something goes wrong.
@@ -97,6 +131,59 @@ public class VelocityRequestTest {
     }
 
     /**
+     * Tests {@link VelocityRequest#doInclude(String)}.
+     *
+     * @throws IOException If something goes wrong.
+     * @throws ServletException If something goes wrong.
+     */
+    @Test(expected=IOException.class)
+    public void testDoIncludeNoRequestDispatcher() throws IOException {
+        String path = "this way";
+        Request enclosedRequest = createMock(Request.class);
+        HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
+        HttpServletResponse response = createMock(HttpServletResponse.class);
+
+        expect(servletRequest.getRequestDispatcher("this way")).andReturn(null);
+        replay(servletRequest, response);
+        Object[] requestItems = new Object[] {servletRequest, response};
+
+        expect(enclosedRequest.getRequestObjects()).andReturn(requestItems);
+
+        replay(velocityContext, enclosedRequest);
+        context = new VelocityRequest(enclosedRequest, velocityContext, writer);
+        context.doInclude(path);
+        verify(velocityContext, enclosedRequest, servletRequest, response);
+    }
+
+    /**
+     * Tests {@link VelocityRequest#doInclude(String)}.
+     *
+     * @throws IOException If something goes wrong.
+     * @throws ServletException If something goes wrong.
+     */
+    @Test(expected=IOException.class)
+    public void testDoIncludeServletException() throws IOException, ServletException {
+        String path = "this way";
+        Request enclosedRequest = createMock(Request.class);
+        HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
+        HttpServletResponse response = createMock(HttpServletResponse.class);
+        RequestDispatcher dispatcher = createMock(RequestDispatcher.class);
+
+        expect(servletRequest.getRequestDispatcher("this way")).andReturn(dispatcher);
+        dispatcher.include(eq(servletRequest), isA(ExternalWriterHttpServletResponse.class));
+        expectLastCall().andThrow(new ServletException());
+        replay(servletRequest, response, dispatcher);
+        Object[] requestItems = new Object[] {servletRequest, response};
+
+        expect(enclosedRequest.getRequestObjects()).andReturn(requestItems);
+
+        replay(velocityContext, enclosedRequest);
+        context = new VelocityRequest(enclosedRequest, velocityContext, writer);
+        context.doInclude(path);
+        verify(velocityContext, enclosedRequest, servletRequest, response, dispatcher);
+    }
+
+    /**
      * Tests {@link VelocityRequest#getPrintWriter()}.
      *
      * @throws IOException If something goes wrong.
@@ -112,6 +199,37 @@ public class VelocityRequestTest {
     }
 
     /**
+     * Tests {@link VelocityRequest#getPrintWriter()}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testGetPrintWriterPrintWriter() {
+        Request enclosedRequest = createMock(Request.class);
+
+        PrintWriter printWriter = new PrintWriter(writer);
+        replay(velocityContext, enclosedRequest);
+        context = new VelocityRequest(enclosedRequest, velocityContext, printWriter);
+        assertEquals(printWriter, context.getPrintWriter());
+        verify(velocityContext, enclosedRequest);
+    }
+
+    /**
+     * Tests {@link VelocityRequest#getPrintWriter()}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test(expected=IllegalStateException.class)
+    public void testGetPrintWriterNoWriter() {
+        Request enclosedRequest = createMock(Request.class);
+
+        replay(velocityContext, enclosedRequest);
+        context = new VelocityRequest(enclosedRequest, velocityContext, null);
+        context.getPrintWriter();
+        verify(velocityContext, enclosedRequest);
+    }
+
+    /**
      * Tests {@link VelocityRequest#getWriter()}.
      *
      * @throws IOException If something goes wrong.
@@ -123,6 +241,21 @@ public class VelocityRequestTest {
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
         assertEquals(writer, context.getWriter());
+        verify(velocityContext, enclosedRequest);
+    }
+
+    /**
+     * Tests {@link VelocityRequest#getWriter()}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test(expected=IllegalStateException.class)
+    public void testGetWriterNoWriter() {
+        Request enclosedRequest = createMock(Request.class);
+
+        replay(velocityContext, enclosedRequest);
+        context = new VelocityRequest(enclosedRequest, velocityContext, null);
+        context.getWriter();
         verify(velocityContext, enclosedRequest);
     }
 
@@ -147,5 +280,41 @@ public class VelocityRequestTest {
         assertArrayEquals(new Object[] { velocityContext, servletRequest,
                 response, writer }, context.getRequestObjects());
         verify(velocityContext, enclosedRequest, servletRequest, response);
+    }
+
+    /**
+     * Tests {@link VelocityRequest#getRequestObjects()}.
+     * @throws IOException If something goes wrong.
+     * @throws ServletException If something goes wrong.
+     */
+    @Test
+    public void testGetRequestObjectsNoWriter() {
+        Request enclosedRequest = createMock(Request.class);
+        HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
+        HttpServletResponse response = createMock(HttpServletResponse.class);
+
+        replay(servletRequest, response);
+        Object[] requestItems = new Object[] {servletRequest, response};
+
+        expect(enclosedRequest.getRequestObjects()).andReturn(requestItems);
+
+        replay(velocityContext, enclosedRequest);
+        context = new VelocityRequest(enclosedRequest, velocityContext, null);
+        assertArrayEquals(new Object[] { velocityContext, servletRequest,
+                response}, context.getRequestObjects());
+        verify(velocityContext, enclosedRequest, servletRequest, response);
+    }
+
+    /**
+     * Tests {@link VelocityRequest#getPageScope()}.
+     */
+    @Test
+    public void testGetPageScope() {
+        Request enclosedRequest = createMock(Request.class);
+
+        replay(velocityContext, enclosedRequest);
+        context = new VelocityRequest(enclosedRequest, velocityContext, writer);
+        assertTrue(context.getPageScope() instanceof VelocityScopeMap);
+        verify(velocityContext, enclosedRequest);
     }
 }
