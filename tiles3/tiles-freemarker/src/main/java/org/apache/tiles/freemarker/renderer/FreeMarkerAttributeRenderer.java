@@ -39,11 +39,11 @@ import org.apache.tiles.impl.InvalidTemplateException;
 import org.apache.tiles.renderer.impl.AbstractTypeDetectingAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.collection.IteratorEnumeration;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.util.ApplicationContextAware;
 import org.apache.tiles.servlet.context.ServletUtil;
-import org.apache.tiles.util.IteratorEnumeration;
 
 /**
  * FreeMarker renderer for rendering FreeMarker templates as Tiles attributes.
