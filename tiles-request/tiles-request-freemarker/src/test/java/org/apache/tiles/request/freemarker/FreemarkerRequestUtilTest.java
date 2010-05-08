@@ -15,7 +15,9 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
+import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -89,6 +91,28 @@ public class FreemarkerRequestUtilTest {
         verify(template, model, request, objectWrapper);
     }
 
+    /**
+     * Test method for {@link org.apache.tiles.request.freemarker.FreemarkerRequestUtil#getRequestHashModel(freemarker.core.Environment)}.
+     * @throws TemplateModelException If something goes wrong.
+     */
+    @Test(expected=NotAvailableFreemarkerServletException.class)
+    public void testGetRequestHashModelException() throws TemplateModelException {
+        HttpServletRequest request = createMock(HttpServletRequest.class);
+        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
+
+        expect(model.get("Request")).andThrow(new TemplateModelException());
+
+        replay(template, model, request, objectWrapper);
+        try {
+            env = new Environment(template, model, writer);
+            locale = Locale.ITALY;
+            env.setLocale(locale);
+            FreemarkerRequestUtil.getRequestHashModel(env);
+        } finally {
+            verify(template, model, request, objectWrapper);
+        }
+    }
+
 
     /**
      * Test method for {@link org.apache.tiles.request.freemarker.FreemarkerRequestUtil
@@ -111,6 +135,59 @@ public class FreemarkerRequestUtilTest {
         locale = Locale.ITALY;
         env.setLocale(locale);
         assertEquals(servletContextModel, FreemarkerRequestUtil.getServletContextHashModel(env));
+        verify(template, model, servlet, servletContext, objectWrapper);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.freemarker.FreemarkerRequestUtil
+     * #getServletContextHashModel(freemarker.core.Environment)}.
+     * @throws TemplateModelException If something goes wrong.
+     */
+    @Test(expected=NotAvailableFreemarkerServletException.class)
+    public void testGetServletContextHashModelException() throws TemplateModelException {
+        GenericServlet servlet = createMock(GenericServlet.class);
+        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
+        replay(servlet, objectWrapper);
+
+        expect(model.get("Application")).andThrow(new TemplateModelException());
+
+        replay(template, model);
+        try {
+            env = new Environment(template, model, writer);
+            locale = Locale.ITALY;
+            env.setLocale(locale);
+            FreemarkerRequestUtil.getServletContextHashModel(env);
+        } finally {
+            verify(template, model, servlet, objectWrapper);
+        }
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.freemarker.FreemarkerRequestUtil
+     * #getApplicationContext(Environment)}.
+     * @throws TemplateModelException If something goes wrong.
+     */
+    @Test
+    public void testGetApplicationContext() throws TemplateModelException {
+        GenericServlet servlet = createMock(GenericServlet.class);
+        ServletContext servletContext = createMock(ServletContext.class);
+        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+
+        expect(servlet.getServletContext()).andReturn(servletContext).times(2);
+        expect(servletContext.getAttribute(ApplicationAccess
+                .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext);
+
+        replay(servlet, objectWrapper);
+        ServletContextHashModel servletContextModel = new ServletContextHashModel(servlet, objectWrapper);
+
+        expect(model.get("Application")).andReturn(servletContextModel);
+
+        replay(template, model, servletContext);
+        env = new Environment(template, model, writer);
+        locale = Locale.ITALY;
+        env.setLocale(locale);
+        assertEquals(applicationContext, FreemarkerRequestUtil.getApplicationContext(env));
         verify(template, model, servlet, servletContext, objectWrapper);
     }
 }

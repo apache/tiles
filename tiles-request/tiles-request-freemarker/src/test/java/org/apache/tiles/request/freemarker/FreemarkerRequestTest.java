@@ -21,26 +21,34 @@
 
 package org.apache.tiles.request.freemarker;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.scope.ContextResolver;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Before;
 import org.junit.Test;
 
 import freemarker.core.Environment;
+import freemarker.ext.servlet.HttpRequestHashModel;
+import freemarker.template.ObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateHashModel;
+import freemarker.template.TemplateModelException;
 
 /**
  * Tests {@link FreemarkerRequest}.
@@ -85,6 +93,38 @@ public class FreemarkerRequestTest {
     }
 
     /**
+     * Tests {@link FreemarkerRequest#createServletFreemarkerRequest(ApplicationContext, Environment)}.
+     * @throws TemplateModelException If something goes wrong.
+     */
+    @Test
+    public void testCreateServletFreemarkerRequest() throws TemplateModelException {
+        Template template = createMock(Template.class);
+        TemplateHashModel model = createMock(TemplateHashModel.class);
+        PrintWriter writer = new PrintWriter(new StringWriter());
+        HttpServletRequest httpRequest = createMock(HttpServletRequest.class);
+        HttpServletResponse httpResponse = createMock(HttpServletResponse.class);
+        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+
+        expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
+
+        replay(httpRequest, httpResponse, objectWrapper);
+        HttpRequestHashModel requestHashModel = new HttpRequestHashModel(httpRequest, httpResponse, objectWrapper);
+        expect(model.get("Request")).andReturn(requestHashModel);
+
+        replay(template, model, applicationContext);
+        Environment env = new Environment(template, model, writer);
+        Locale locale = Locale.ITALY;
+        env.setLocale(locale);
+
+        FreemarkerRequest request = FreemarkerRequest.createServletFreemarkerRequest(applicationContext, env);
+        ServletRequest servletRequest = (ServletRequest) request.getWrappedRequest();
+        assertEquals(httpRequest, servletRequest.getRequest());
+        assertEquals(httpResponse, servletRequest.getResponse());
+        verify(template, model, httpRequest, httpResponse, objectWrapper, applicationContext);
+    }
+
+    /**
      * Tests {@link FreemarkerRequest#dispatch(String)}.
      *
      * @throws IOException If something goes wrong.
@@ -108,6 +148,30 @@ public class FreemarkerRequestTest {
         replay(resolver);
         context.dispatch(path);
         verify(enclosedRequest, applicationContext, resolver);
+    }
+
+    /**
+     * Tests {@link FreemarkerRequest#getPageScope()}.
+     */
+    @Test
+    public void testGetPageScope() {
+        Request enclosedRequest = createMock(Request.class);
+        replay(enclosedRequest);
+        context = new FreemarkerRequest(enclosedRequest, env);
+        assertTrue(context.getPageScope() instanceof EnvironmentScopeMap);
+        verify(enclosedRequest);
+    }
+
+    /**
+     * Tests {@link FreemarkerRequest#getNativeScopes()}.
+     */
+    @Test
+    public void testGetNativeScopes() {
+        Request enclosedRequest = createMock(Request.class);
+        replay(enclosedRequest);
+        context = new FreemarkerRequest(enclosedRequest, env);
+        assertArrayEquals(new String[] {"page"}, context.getNativeScopes());
+        verify(enclosedRequest);
     }
 
     /**
@@ -163,6 +227,30 @@ public class FreemarkerRequestTest {
     }
 
     /**
+     * Tests {@link FreemarkerRequest#getPrintWriter()}.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testGetPrintWriterPrintWriter() {
+        Template template = createMock(Template.class);
+        TemplateHashModel model = createMock(TemplateHashModel.class);
+        PrintWriter writer = new PrintWriter(new StringWriter());
+        expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
+        replay(template, model);
+        Environment env = new Environment(template, model, writer);
+        Locale locale = Locale.ITALY;
+        env.setLocale(locale);
+        Request enclosedRequest = createMock(Request.class);
+
+        replay(enclosedRequest);
+        context = new FreemarkerRequest(enclosedRequest, env);
+        assertSame(writer, context.getPrintWriter());
+        verify(enclosedRequest, template, model);
+    }
+
+
+    /**
      * Tests {@link FreemarkerRequest#getWriter()}.
      *
      * @throws IOException If something goes wrong.
@@ -177,7 +265,6 @@ public class FreemarkerRequestTest {
         assertNotNull(context.getWriter());
         verify(enclosedRequest);
     }
-
     /**
      * Tests {@link FreemarkerRequest#getRequestObjects()}.
      */

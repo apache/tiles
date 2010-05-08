@@ -139,7 +139,7 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
-        HasKeys<V> otherRequest = ((AbstractEnumerationMap<V>) o).request;
+        HasKeys<V> otherRequest = ((ReadOnlyEnumerationMap<V>) o).request;
         boolean retValue = true;
         Set<String> otherKeys = new HashSet<String>();
         for (Enumeration<String> attribs = otherRequest.getKeys(); attribs

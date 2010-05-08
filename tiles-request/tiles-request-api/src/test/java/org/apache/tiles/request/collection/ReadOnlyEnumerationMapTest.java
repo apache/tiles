@@ -234,8 +234,8 @@ public class ReadOnlyEnumerationMapTest {
     @Test
     public void testEqualsObject() {
         HasKeys<Integer> otherRequest = createMock(HasKeys.class);
-        AbstractEnumerationMap<Integer> otherMap = createMockBuilder(
-                AbstractEnumerationMap.class).withConstructor(otherRequest)
+        ReadOnlyEnumerationMap<Integer> otherMap = createMockBuilder(
+                ReadOnlyEnumerationMap.class).withConstructor(otherRequest)
                 .createMock();
         Enumeration<String> keys = createMock(Enumeration.class);
         Enumeration<String> otherKeys = createMock(Enumeration.class);
@@ -273,8 +273,8 @@ public class ReadOnlyEnumerationMapTest {
     @Test
     public void testEqualsObjectFalse() {
         HasKeys<Integer> otherRequest = createMock(HasKeys.class);
-        AbstractEnumerationMap<Integer> otherMap = createMockBuilder(
-                AbstractEnumerationMap.class).withConstructor(otherRequest)
+        ReadOnlyEnumerationMap<Integer> otherMap = createMockBuilder(
+                ReadOnlyEnumerationMap.class).withConstructor(otherRequest)
                 .createMock();
         Enumeration<String> keys = createMock(Enumeration.class);
         Enumeration<String> otherKeys = createMock(Enumeration.class);
