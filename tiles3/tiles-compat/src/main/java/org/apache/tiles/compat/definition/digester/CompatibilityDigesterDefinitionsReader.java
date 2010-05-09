@@ -22,6 +22,7 @@
 package org.apache.tiles.compat.definition.digester;
 
 import org.apache.commons.digester.Digester;
+import org.apache.tiles.beans.SimpleMenuItem;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 
 /**
@@ -32,6 +33,17 @@ import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
  */
 public class CompatibilityDigesterDefinitionsReader extends
         DigesterDefinitionsReader {
+
+    /**
+     * Intercepts a &lt;item&gt; tag.
+     */
+    private static final String ADD_WILDCARD = "*/item";
+
+    /**
+     * Intercepts a &lt;bean&gt; tag.
+     */
+    private static final String BEAN_TAG = "*/bean";
+
     /**
      * The set of public identifiers, and corresponding resource names for the
      * versions of the configuration file DTDs we know about. There <strong>MUST</strong>
@@ -48,6 +60,7 @@ public class CompatibilityDigesterDefinitionsReader extends
         initDigesterForComponentsDefinitionsSyntax(digester);
         initDigesterForInstancesSyntax(digester);
         initDigesterForTilesDefinitionsSyntax(digester);
+        initDigesterForBeans(digester);
     }
 
     /**
@@ -180,6 +193,35 @@ public class CompatibilityDigesterDefinitionsReader extends
         digester.addSetNext(addListElementTag, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
     }
 
+    /**
+     * Init digester for Tiles syntax with first element = tiles-definitions.
+     *
+     * @param digester Digester instance to use.
+     */
+    private void initDigesterForBeans(Digester digester) {
+
+        // item elements rules
+        // We use Attribute class to avoid rewriting a new class.
+        // Name part can't be used in listElement attribute.
+        //String ADD_WILDCARD = LIST_TAG + "/addItem";
+        // non String ADD_WILDCARD = LIST_TAG + "/addx*";
+        String menuItemDefaultClass = SimpleMenuItem.class.getName();
+        digester.addObjectCreate(ADD_WILDCARD, menuItemDefaultClass, "classtype");
+        digester.addSetProperties(ADD_WILDCARD);
+        digester.addRule(ADD_WILDCARD, new SetValueToAttributeRule());
+        digester.addSetNext(ADD_WILDCARD, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
+
+        // bean elements rules
+        String beanDefaultClass = SimpleMenuItem.class.getName();
+        digester.addObjectCreate(BEAN_TAG, beanDefaultClass, "classtype");
+        digester.addSetProperties(BEAN_TAG);
+        digester.addRule(BEAN_TAG, new SetValueToAttributeRule());
+        digester.addSetNext(BEAN_TAG, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
+
+        // Set properties to surrounding element
+        digester.addSetProperty(BEAN_TAG + "/set-property", "property", "value");
+    }
+
     /** {@inheritDoc} */
     @Override
     protected String[] getRegistrations() {
@@ -189,6 +231,8 @@ public class CompatibilityDigesterDefinitionsReader extends
                 "/org/apache/tiles/resources/tiles-config_2_0.dtd",
                 "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN",
                 "/org/apache/tiles/resources/tiles-config_2_1.dtd",
+                "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN",
+                "/org/apache/tiles/resources/tiles-config_3_0.dtd",
                 "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN",
                 "/org/apache/tiles/compat/resources/tiles-config_1_1.dtd",
                 "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN",

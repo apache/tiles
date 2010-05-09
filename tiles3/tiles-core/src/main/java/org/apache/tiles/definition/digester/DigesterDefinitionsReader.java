@@ -112,16 +112,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
      */
     private static final String NESTED_LIST = "*/add-list-attribute";
 
-    /**
-     * Intercepts a &lt;item&gt; tag.
-     */
-    private static final String ADD_WILDCARD = "*/item";
-
-    /**
-     * Intercepts a &lt;bean&gt; tag.
-     */
-    private static final String BEAN_TAG = "*/bean";
-
     // Handler class names.
 
     /**
@@ -417,27 +407,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
         digester.addObjectCreate(NESTED_LIST, LIST_HANDLER_CLASS);
         digester.addSetProperties(NESTED_LIST);
         digester.addSetNext(NESTED_LIST, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
-
-        // item elements rules
-        // We use Attribute class to avoid rewriting a new class.
-        // Name part can't be used in listElement attribute.
-        //String ADD_WILDCARD = LIST_TAG + "/addItem";
-        // non String ADD_WILDCARD = LIST_TAG + "/addx*";
-        String menuItemDefaultClass = "org.apache.tiles.beans.SimpleMenuItem";
-        digester.addObjectCreate(ADD_WILDCARD, menuItemDefaultClass, "classtype");
-        digester.addSetProperties(ADD_WILDCARD);
-        digester.addRule(ADD_WILDCARD, new SetValueToAttributeRule());
-        digester.addSetNext(ADD_WILDCARD, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
-
-        // bean elements rules
-        String beanDefaultClass = "org.apache.tiles.beans.SimpleMenuItem";
-        digester.addObjectCreate(BEAN_TAG, beanDefaultClass, "classtype");
-        digester.addSetProperties(BEAN_TAG);
-        digester.addRule(BEAN_TAG, new SetValueToAttributeRule());
-        digester.addSetNext(BEAN_TAG, "add", PUT_ATTRIBUTE_HANDLER_CLASS);
-
-        // Set properties to surrounding element
-        digester.addSetProperty(BEAN_TAG + "/set-property", "property", "value");
     }
 
     /**
@@ -487,10 +456,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     protected String[] getRegistrations() {
         if (registrations == null) {
             registrations = new String[] {
-                "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN",
-                "/org/apache/tiles/resources/tiles-config_2_0.dtd",
-                "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN",
-                "/org/apache/tiles/resources/tiles-config_2_1.dtd"};
+                "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN",
+                "/org/apache/tiles/resources/tiles-config_3_0.dtd"};
         }
         return registrations;
     }

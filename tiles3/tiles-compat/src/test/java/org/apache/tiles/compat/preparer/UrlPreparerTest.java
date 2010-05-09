@@ -21,31 +21,35 @@
 
 package org.apache.tiles.compat.preparer;
 
+import static org.easymock.EasyMock.*;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 
-import junit.framework.TestCase;
-
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.request.Request;
-import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests {@link UrlPreparer}.
  *
  * @version $Rev$ $Date$
  */
-public class UrlPreparerTest extends TestCase {
+public class UrlPreparerTest {
 
     /**
      * The preparer to test.
      */
     private UrlPreparer preparer;
 
-    /** {@inheritDoc} */
-    @Override
-    protected void setUp() {
+    /**
+     * Sets up the test.
+     */
+    @Before
+    public void setUp() {
         preparer = new UrlPreparer("/my/url.do");
     }
 
@@ -56,15 +60,37 @@ public class UrlPreparerTest extends TestCase {
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
+    @Test
     public void testExecute() throws IOException {
-        Request requestContext = EasyMock.createMock(Request.class);
-        AttributeContext attributeContext = EasyMock
-                .createMock(AttributeContext.class);
+        Request requestContext = createMock(Request.class);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
 
         requestContext.include("/my/url.do");
-        EasyMock
-                .replay(requestContext, attributeContext);
+        replay(requestContext, attributeContext);
         preparer.execute(requestContext, attributeContext);
-        EasyMock.verify(requestContext, attributeContext);
+        verify(requestContext, attributeContext);
+    }
+
+    /**
+     * Test method for
+     * {@link org.apache.tiles.compat.preparer.UrlPreparer#execute(
+     * org.apache.tiles.request.Request, org.apache.tiles.AttributeContext)}.
+     * @throws IOException If something goes wrong.
+     * @throws ServletException If something goes wrong.
+     */
+    @Test(expected=PreparerException.class)
+    public void testExecuteException() throws IOException {
+        Request requestContext = createMock(Request.class);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+
+        requestContext.include("/my/url.do");
+        expectLastCall().andThrow(new IOException());
+
+        replay(requestContext, attributeContext);
+        try {
+            preparer.execute(requestContext, attributeContext);
+        } finally {
+            verify(requestContext, attributeContext);
+        }
     }
 }
