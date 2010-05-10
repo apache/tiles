@@ -30,8 +30,6 @@ import java.util.Map;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.tiles.definition.Refreshable;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolverAware;
 import org.apache.tiles.util.LocaleUtil;
@@ -50,7 +48,7 @@ import org.apache.tiles.util.LocaleUtil;
  * @since 2.1.0
  */
 public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
-        implements Refreshable, PatternDefinitionResolverAware<Locale> {
+        implements PatternDefinitionResolverAware<Locale> {
 
     /**
      * Initialization parameter to set whether we want to refresh URLs when they
@@ -112,13 +110,8 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
                 retValue = getDefinitionFromResolver(name, customizationKey);
 
                 if (retValue != null) {
-                    try {
-                        synchronized (definitions) {
-                            definitions.put(name, retValue);
-                        }
-                    } catch (NoSuchDefinitionException ex) {
-                        throw new IllegalStateException(
-                                "Unable to resolve wildcard mapping", ex);
+                    synchronized (definitions) {
+                        definitions.put(name, retValue);
                     }
                 }
             }
@@ -138,13 +131,6 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             retValue = checkAndloadDefinitions(customizationKey);
         }
         return retValue;
-    }
-
-    /** {@inheritDoc} */
-    public synchronized void refresh() {
-        if (refreshRequired()) {
-            locale2definitionMap.clear();
-        }
     }
 
     /**

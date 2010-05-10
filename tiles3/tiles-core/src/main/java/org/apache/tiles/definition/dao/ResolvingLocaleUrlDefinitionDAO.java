@@ -123,13 +123,10 @@ public class ResolvingLocaleUrlDefinitionDAO extends
             return;
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("Resolve definition for child name='"
-                + definition.getName()
-                + "' extends='" + definition.getExtends() + "'.");
-        }
+        log.debug("Resolve definition for child name='{}' extends='{}.",
+                definition.getName(), definition.getExtends());
 
-        // Set as visited to avoid endless recurisvity.
+        // Set as visited to avoid endless recursivity.
         alreadyResolvedDefinitions.add(definition.getName());
 
         // Resolve parent before itself.

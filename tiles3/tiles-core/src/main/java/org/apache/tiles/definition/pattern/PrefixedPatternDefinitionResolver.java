@@ -99,8 +99,8 @@ public class PrefixedPatternDefinitionResolver<T> extends
                                     .getValue()));
                     matchers.add(matcher);
                 } else {
-                    logger.warn("Cannot find a DefinitionPatternMatcherFactory for expression '"
-                            + key + "'");
+                    logger.warn("Cannot find a DefinitionPatternMatcherFactory for expression '{}'",
+                            key);
                 }
             } else {
                 excludedKeys.add(key);

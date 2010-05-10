@@ -29,7 +29,6 @@ import java.util.Locale;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
-import org.apache.tiles.definition.Refreshable;
 import org.apache.tiles.definition.UnresolvingLocaleDefinitionsFactory;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.DefinitionDAO;
@@ -126,9 +125,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
         factory.setLocaleResolver(resolver);
         factory.setDefinitionDAO(createLocaleDefinitionDao(applicationContext,
                 resolver));
-        if (factory instanceof Refreshable) {
-            ((Refreshable) factory).refresh();
-        }
         return factory;
     }
 

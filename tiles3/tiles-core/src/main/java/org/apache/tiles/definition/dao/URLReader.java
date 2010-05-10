@@ -49,12 +49,4 @@ public interface URLReader {
      * @since 2.1.0
      */
     void setReader(DefinitionsReader reader);
-
-    /**
-     * Adds a single URL to use.
-     *
-     * @param sourceURL The source URL to add.
-     * @since 2.1.0
-     */
-    void addSourceURL(URL sourceURL);
 }

@@ -22,14 +22,9 @@
 package org.apache.tiles.definition.dao;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,28 +34,27 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.MockDefinitionsReader;
-import org.apache.tiles.definition.RefreshMonitor;
+import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
 import org.apache.tiles.definition.pattern.BasicPatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests {@link ResolvingLocaleUrlDefinitionDAO}.
  *
  * @version $Rev$ $Date$
  */
-public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
+public class ResolvingLocaleUrlDefinitionDAOTest {
 
     /**
      * The number of attribute names.
@@ -68,20 +62,13 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     private static final int ATTRIBUTE_NAMES_COUNT = 6;
 
     /**
-     * The time (in milliseconds) to wait to be sure that the system updates the
-     * modify date of a file.
-     */
-    private static final int SLEEP_MILLIS = 2000;
-
-    /**
      * The object to test.
      */
     private ResolvingLocaleUrlDefinitionDAO definitionDao;
 
     /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() {
         definitionDao = new ResolvingLocaleUrlDefinitionDAO();
         WildcardDefinitionPatternMatcherFactory definitionPatternMatcherFactory =
             new WildcardDefinitionPatternMatcherFactory();
@@ -94,6 +81,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     /**
      * Tests {@link LocaleUrlDefinitionDAO#getDefinition(String, Locale)}.
      */
+    @Test
     public void testGetDefinition() {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
@@ -180,6 +168,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     /**
      * Tests {@link LocaleUrlDefinitionDAO#getDefinitions(Locale)}.
      */
+    @Test
     public void testGetDefinitions() {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
@@ -272,6 +261,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     /**
      * Tests {@link LocaleUrlDefinitionDAO#setSourceURLs(List)}.
      */
+    @Test
     public void testSetSourceURLs() {
         // Set up multiple data sources.
         URL url1 = this.getClass().getClassLoader().getResource(
@@ -295,6 +285,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     /**
      * Tests {@link LocaleUrlDefinitionDAO#setReader(DefinitionsReader)}.
      */
+    @Test
     public void testSetReader() {
         DefinitionsReader reader = createMock(DefinitionsReader.class);
         definitionDao.setReader(reader);
@@ -302,33 +293,13 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
                 definitionDao.reader);
     }
 
-    /**
-     * Tests {@link LocaleUrlDefinitionDAO#addSourceURL(URL)}.
-     */
-    public void testAddSourceURL() {
-        // Set up multiple data sources.
-        URL url1 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs1.xml");
-        assertNotNull("Could not load defs1 file.", url1);
-        URL url2 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs2.xml");
-        assertTrue("The source URLs is not empty", definitionDao.sourceURLs
-                .isEmpty());
-        definitionDao.addSourceURL(url1);
-        assertEquals("The size of the source URLs is not correct", 1,
-                definitionDao.sourceURLs.size());
-        assertEquals("The URL is not correct", url1, definitionDao.sourceURLs
-                .get(0));
-        List<URL> sourceURLs = new ArrayList<URL>();
-        sourceURLs.add(url2);
-        definitionDao.setSourceURLs(sourceURLs);
-        definitionDao.addSourceURL(url1);
-        assertEquals("The size of the source URLs is not correct", 2,
-                definitionDao.sourceURLs.size());
-        assertEquals("The URL is not correct", url2, definitionDao.sourceURLs
-                .get(0));
-        assertEquals("The URL is not correct", url1, definitionDao.sourceURLs
-                .get(1));
+    @Test(expected=NoSuchDefinitionException.class)
+    public void testResolveInheritanceNoParent() {
+        Definition definition = new Definition("mydef", null, null);
+        definition.setExtends("otherDef");
+        definitionDao.resolveInheritance(definition,
+                new HashMap<String, Definition>(), Locale.ITALY,
+                new HashSet<String>());
     }
 
     /**
@@ -336,6 +307,7 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
      *
      * @throws IOException If something goes wrong.
      */
+    @Test
     public void testInit() throws IOException {
         URL url1 = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs1.xml");
@@ -385,117 +357,15 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
     }
 
     /**
-     * Tests {@link LocaleUrlDefinitionDAO#refreshRequired()}.
-     *
-     * @throws IOException If something goes wrong during I/O.
-     * @throws InterruptedException If the "sleep" instruction fails.
-     * @throws URISyntaxException If the URIs are not correct.
-     */
-    public void testRefreshRequired() throws IOException, InterruptedException,
-            URISyntaxException {
-        // Set up multiple data sources.
-        URL url = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/temp-defs.xml");
-
-        URI uri = null;
-        String urlPath = null;
-
-        // The following madness is necessary b/c of the way Windows hanndles
-        // URLs.
-        // We must add a slash to the protocol if Windows does not. But we
-        // cannot
-        // add a slash to Unix paths b/c they already have one.
-        if (url.getPath().startsWith("/")) {
-            urlPath = "file:" + url.getPath();
-        } else {
-            urlPath = "file:/" + url.getPath();
-        }
-
-        // The following second madness is necessary b/c sometimes spaces
-        // are encoded as '%20', sometimes they are not. For example in
-        // Windows 2000 under Eclipse they are encoded, under the prompt of
-        // Windows 2000 they are not.
-        // It seems to be in the different behaviour of
-        // sun.misc.Launcher$AppClassLoader (called under Eclipse) and
-        // java.net.URLClassLoader (under maven).
-        // And an URL accepts spaces while URIs need '%20'.
-        try {
-            uri = new URI(urlPath);
-        } catch (URISyntaxException e) {
-            uri = new URI(urlPath.replaceAll(" ", "%20"));
-        }
-
-        List<URL> sourceURLs = new ArrayList<URL>();
-        sourceURLs.add(uri.toURL());
-        definitionDao.setSourceURLs(sourceURLs);
-        DefinitionsReader reader = new DigesterDefinitionsReader();
-        definitionDao.setReader(reader);
-
-        String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
-                + "<!DOCTYPE tiles-definitions PUBLIC "
-                + "\"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN\" "
-                + "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n"
-                + "<tiles-definitions>"
-                + "<definition name=\"rewrite.test\" template=\"/test.jsp\">"
-                + "<put-attribute name=\"testparm\" value=\"testval\"/>"
-                + "</definition>" + "</tiles-definitions>";
-
-        File file = new File(uri);
-        FileOutputStream fileOut = new FileOutputStream(file);
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                fileOut));
-        writer.write(xml);
-        writer.close();
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(DefinitionsFactory.DEFINITIONS_CONFIG, urlPath);
-        Request context = createMock(Request.class);
-        expect(context.getContext("session")).andReturn(
-                new HashMap<String, Object>()).anyTimes();
-        expect(context.getRequestLocale()).andReturn(null).anyTimes();
-        replay(context);
-
-        Definition definition = definitionDao.getDefinition("rewrite.test",
-                null);
-        assertNotNull("rewrite.test definition not found.", definition);
-        assertEquals("Incorrect initial template value", "/test.jsp",
-                definition.getTemplateAttribute().getValue());
-
-        RefreshMonitor reloadable = definitionDao;
-        assertEquals("Factory should be fresh.", false, reloadable
-                .refreshRequired());
-
-        // Make sure the system actually updates the timestamp.
-        Thread.sleep(SLEEP_MILLIS);
-
-        // Set up multiple data sources.
-        xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
-                + "<!DOCTYPE tiles-definitions PUBLIC "
-                + "\"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN\" "
-                + "\"http://tiles.apache.org/dtds/tiles-config_2_0.dtd\">\n\n"
-                + "<tiles-definitions>"
-                + "<definition name=\"rewrite.test\" template=\"/newtest.jsp\">"
-                + "<put-attribute name=\"testparm\" value=\"testval\"/>"
-                + "</definition>" + "</tiles-definitions>";
-
-        file = new File(uri);
-        fileOut = new FileOutputStream(file);
-        writer = new BufferedWriter(new OutputStreamWriter(fileOut));
-        writer.write(xml);
-        writer.close();
-        file = new File(uri);
-
-        assertEquals("Factory should be stale.", true, reloadable
-                .refreshRequired());
-    }
-
-    /**
      * Tests wildcard mappings.
      */
+    @Test
     public void testWildcardMapping() {
         URL url = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs-wildcard.xml");
-        definitionDao.addSourceURL(url);
+        List<URL> urls = new ArrayList<URL>();
+        urls.add(url);
+        definitionDao.setSourceURLs(urls);
         definitionDao.setReader(new DigesterDefinitionsReader());
 
         Definition definition = definitionDao.getDefinition("test.defName.subLayered", Locale.ITALY);
@@ -538,10 +408,13 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
      * {@link ResolvingLocaleUrlDefinitionDAO#getDefinition(String, Locale)}
      * when loading multiple files for a locale.
      */
+    @Test
     public void testListAttributeLocaleInheritance() {
         URL url = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs-2.1.xml");
-        definitionDao.addSourceURL(url);
+        List<URL> urls = new ArrayList<URL>();
+        urls.add(url);
+        definitionDao.setSourceURLs(urls);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         definitionDao.setReader(new DigesterDefinitionsReader());
         replay(applicationContext);

@@ -22,8 +22,11 @@
 package org.apache.tiles.compat.definition.digester;
 
 import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.Rule;
+import org.apache.tiles.Attribute;
 import org.apache.tiles.beans.SimpleMenuItem;
 import org.apache.tiles.definition.digester.DigesterDefinitionsReader;
+import org.xml.sax.Attributes;
 
 /**
  * Digester reader that can read Tiles 1.1, 1.2, 1.3, 1.4 and 2.0 files.
@@ -241,5 +244,21 @@ public class CompatibilityDigesterDefinitionsReader extends
                 "/org/apache/tiles/compat/resources/tiles-config_1_4.dtd"};
         }
         return registrations;
+    }
+
+    /**
+     * Digester rule to manage assignment of an object as an attribute value.
+     *
+     * @since 3.0.0
+     */
+    public static class SetValueToAttributeRule extends Rule {
+
+        /** {@inheritDoc} */
+        @Override
+        public void begin(String namespace, String name, Attributes attributes) {
+            Object obj = digester.pop();
+            Attribute attribute = new Attribute(obj);
+            digester.push(attribute);
+        }
     }
 }

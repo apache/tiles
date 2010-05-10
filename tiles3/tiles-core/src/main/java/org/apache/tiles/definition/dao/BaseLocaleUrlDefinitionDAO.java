@@ -25,7 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -80,7 +79,6 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
      * Constructor.
      */
     public BaseLocaleUrlDefinitionDAO() {
-        sourceURLs = new ArrayList<URL>();
         lastModifiedDates = new HashMap<String, Long>();
     }
 
@@ -92,14 +90,6 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
     /**  {@inheritDoc}*/
     public void setReader(DefinitionsReader reader) {
         this.reader = reader;
-    }
-
-    /**  {@inheritDoc}*/
-    public void addSourceURL(URL sourceURL) {
-        if (sourceURLs == null) {
-            sourceURLs = new ArrayList<URL>();
-        }
-        sourceURLs.add(sourceURL);
     }
 
     /** {@inheritDoc} */
@@ -120,7 +110,7 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             log.warn("Exception while monitoring update times.", e);
             return true;
         }
@@ -146,9 +136,7 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
             defsMap = reader.read(connection.getInputStream());
         } catch (FileNotFoundException e) {
             // File not found. continue.
-            if (log.isDebugEnabled()) {
-                log.debug("File " + null + " not found, continue");
-            }
+            log.debug("File {} not found, continue", url);
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "I/O error processing configuration.", e);

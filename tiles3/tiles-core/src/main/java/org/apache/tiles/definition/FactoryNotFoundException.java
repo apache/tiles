@@ -43,4 +43,12 @@ public class FactoryNotFoundException extends DefinitionsFactoryException {
     public FactoryNotFoundException(String msg) {
         super(msg);
     }
+
+    public FactoryNotFoundException(String message, Throwable e) {
+        super(message, e);
+    }
+
+    public FactoryNotFoundException(Throwable e) {
+        super(e);
+    }
 }

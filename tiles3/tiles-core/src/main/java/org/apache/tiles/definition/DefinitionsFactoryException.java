@@ -57,7 +57,7 @@ public class DefinitionsFactoryException extends TilesException {
      *
      * @param e The exception to be wrapped.
      */
-    public DefinitionsFactoryException(Exception e) {
+    public DefinitionsFactoryException(Throwable e) {
         super(e);
     }
 
@@ -71,7 +71,7 @@ public class DefinitionsFactoryException extends TilesException {
      * @param message The detail message.
      * @param e       The exception to be wrapped.
      */
-    public DefinitionsFactoryException(String message, Exception e) {
+    public DefinitionsFactoryException(String message, Throwable e) {
         super(message, e);
     }
 }

@@ -227,22 +227,6 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
     }
 
     /**
-     * Digester rule to manage assignment of an object as an attribute value.
-     *
-     * @since 3.0.0
-     */
-    public static class SetValueToAttributeRule extends Rule {
-
-        /** {@inheritDoc} */
-        @Override
-        public void begin(String namespace, String name, Attributes attributes) {
-            Object obj = digester.pop();
-            Attribute attribute = new Attribute(obj);
-            digester.push(attribute);
-        }
-    }
-
-    /**
      * <code>Digester</code> object used to read Definition data
      * from the source.
      */

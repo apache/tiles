@@ -21,20 +21,20 @@
 
 package org.apache.tiles.definition.digester;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.definition.DefinitionsFactoryException;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  *
  * @version $Rev$ $Date$
  */
-public class TestDigesterDefinitionsReader extends TestCase {
+public class TestDigesterDefinitionsReader {
 
     /**
      * The logging object.
@@ -57,36 +57,12 @@ public class TestDigesterDefinitionsReader extends TestCase {
     private DigesterDefinitionsReader reader;
 
     /**
-     * Creates a new instance of TestDigesterDefinitionsReader.
+     * Sets up the test.
      *
-     * @param name The name of the test.
+     * @throws Exception
      */
-    public TestDigesterDefinitionsReader(String name) {
-        super(name);
-    }
-
-    /**
-     * Start the tests.
-     *
-     * @param theArgs the arguments. Not used
-     */
-    public static void main(String[] theArgs) {
-        junit.textui.TestRunner.main(
-            new String[] { TestDigesterDefinitionsReader.class.getName()});
-    }
-
-    /**
-     * @return a test suite (<code>TestSuite</code>) that includes all methods
-     *         starting with "test"
-     */
-    public static Test suite() {
-        return new TestSuite(TestDigesterDefinitionsReader.class);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() {
         reader = new DigesterDefinitionsReader();
     }
 
@@ -95,6 +71,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
      * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("unchecked")
+    @Test
     public void testRead() throws IOException {
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs.xml");
@@ -136,6 +113,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
      * version of the DTD.
      * @throws IOException If something goes wrong.
      */
+    @Test
     public void testRead21Version() throws IOException {
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/tiles-defs-2.1.xml");
@@ -220,6 +198,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
     /**
      * Tests read with bad input source.
      */
+    @Test
     public void testBadSource() {
         try {
             // Read definitions.
@@ -238,6 +217,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
     /**
      * Tests read with bad XML source.
      */
+    @Test
     public void testBadXml() {
         try {
             URL configFile = this.getClass().getClassLoader().getResource(
@@ -263,6 +243,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
      * This test case enables Digester's validating property then passes in a
      * configuration file with invalid XML.
      */
+    @Test
     public void testValidatingParameter() {
         // Testing with default (validation ON).
         try {
@@ -304,6 +285,7 @@ public class TestDigesterDefinitionsReader extends TestCase {
      *
      * @throws IOException If something goes wrong.
      */
+    @Test
     public void testRegressionTiles352() throws IOException {
         URL configFile = this.getClass().getClassLoader().getResource(
                 "org/apache/tiles/config/defs_regression_TILES-352.xml");
@@ -318,5 +300,22 @@ public class TestDigesterDefinitionsReader extends TestCase {
         ListAttribute listAttribute = (ListAttribute) child.getAttribute("list");
         List<Attribute> list = listAttribute.getValue();
         assertEquals((list.get(0)).getValue(), "This is a value");
+    }
+
+    /**
+     * Tests {@link DigesterDefinitionsReader#read(Object)}.
+     */
+    @Test
+    public void testReadNoSource() {
+        assertNull(reader.read(null));
+    }
+
+    /**
+     * Tests {@link DigesterDefinitionsReader#addDefinition(Definition)}.
+     */
+    @Test(expected=DigesterDefinitionsReaderException.class)
+    public void testAddDefinitionNoName() {
+        Definition def = new Definition();
+        reader.addDefinition(def);
     }
 }

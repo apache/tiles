@@ -74,4 +74,35 @@ public class LocaleDefinitionsFactoryTest {
         assertEquals(realDefinition, factory.getDefinition("myDefinition", request));
         verify(dao, localeResolver, request);
     }
+
+    /**
+     * Test method for {@link LocaleDefinitionsFactory#getDefinition(String, Request)}.
+     */
+    @SuppressWarnings("unchecked")
+    @Test(expected=NoSuchDefinitionException.class)
+    public void testGetDefinitionNoParent() {
+        DefinitionDAO<Locale> dao = createMock(DefinitionDAO.class);
+        LocaleResolver localeResolver = createMock(LocaleResolver.class);
+        Request request = createMock(Request.class);
+        Definition definition = new Definition("myDefinition", null, null);
+        definition.setExtends("anotherDefinition");
+        Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+        attributes.put("first", new Attribute("myValue"));
+        Locale locale = Locale.ITALY;
+
+        expect(localeResolver.resolveLocale(request)).andReturn(locale);
+        expect(dao.getDefinition("myDefinition", locale)).andReturn(definition);
+        expect(dao.getDefinition("anotherDefinition", locale)).andReturn(null);
+
+        LocaleDefinitionsFactory factory = new LocaleDefinitionsFactory();
+
+        replay(dao, localeResolver, request);
+        try {
+            factory.setDefinitionDAO(dao);
+            factory.setLocaleResolver(localeResolver);
+            factory.getDefinition("myDefinition", request);
+        } finally {
+            verify(dao, localeResolver, request);
+        }
+    }
 }

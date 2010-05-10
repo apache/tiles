@@ -55,7 +55,7 @@ public class LocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO {
      */
     public Definition getDefinition(String name, Locale customizationKey) {
         Map<String, Definition> defsMap = getDefinitions(customizationKey);
-        return defsMap != null ? defsMap.get(name) : null;
+        return defsMap.get(name);
     }
 
     /** {@inheritDoc} */

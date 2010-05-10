@@ -55,7 +55,7 @@ public class DigesterDefinitionsReaderException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public DigesterDefinitionsReaderException(Exception e) {
+    public DigesterDefinitionsReaderException(Throwable e) {
         super(e);
     }
 
@@ -66,7 +66,7 @@ public class DigesterDefinitionsReaderException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public DigesterDefinitionsReaderException(String message, Exception e) {
+    public DigesterDefinitionsReaderException(String message, Throwable e) {
         super(message, e);
     }
 

@@ -31,6 +31,7 @@ import java.util.Set;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.Expression;
 import org.apache.tiles.ListAttribute;
 import org.junit.Test;
 
@@ -56,6 +57,8 @@ public class PatternUtilTest {
         Map<String, Attribute> attributes = new HashMap<String, Attribute>();
         attributes.put("attrib1", new Attribute("value{2}"));
         attributes.put("attrib2", new Attribute("value{2}{3}"));
+        attributes.put("attrib3", new Attribute(null, Expression
+                .createExpression("expr{1}", "EL"), null, null));
         Definition definition = new Definition("definitionName", new Attribute(
                 "template{1}"), attributes);
         definition.setExtends("{2}ext");
@@ -71,6 +74,8 @@ public class PatternUtilTest {
         assertEquals("valuevalue2", attribute.getValue());
         attribute = nudef.getAttribute("attrib2");
         assertEquals("valuevalue2value3", attribute.getValue());
+        attribute = nudef.getAttribute("attrib3");
+        assertEquals("exprvalue1", attribute.getExpressionObject().getExpression());
     }
 
     /**

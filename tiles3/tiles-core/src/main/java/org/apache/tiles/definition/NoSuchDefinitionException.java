@@ -43,4 +43,12 @@ public class NoSuchDefinitionException extends DefinitionsFactoryException {
     public NoSuchDefinitionException(String msg) {
         super(msg);
     }
+
+    public NoSuchDefinitionException(String message, Throwable e) {
+        super(message, e);
+    }
+
+    public NoSuchDefinitionException(Throwable e) {
+        super(e);
+    }
 }
