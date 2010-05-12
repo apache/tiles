@@ -100,8 +100,11 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             }
             this.preparer = context.getPreparer();
             this.attributes = new HashMap<String, Attribute>();
-            for (String name : context.getLocalAttributeNames()) {
-                attributes.put(name, new Attribute(context.getLocalAttribute(name)));
+            Set<String> parentAttributeNames = context.getLocalAttributeNames();
+            if (parentAttributeNames != null) {
+                for (String name : parentAttributeNames) {
+                    attributes.put(name, new Attribute(context.getLocalAttribute(name)));
+                }
             }
             inheritCascadedAttributes(context);
         }
@@ -143,9 +146,12 @@ public class BasicAttributeContext implements AttributeContext, Serializable {
             copyCascadedAttributes((BasicAttributeContext) context);
         } else {
             this.cascadedAttributes = new HashMap<String, Attribute>();
-            for (String name : context.getCascadedAttributeNames()) {
-                cascadedAttributes.put(name, new Attribute(context
-                        .getCascadedAttribute(name)));
+            Set<String> parentAttributeNames = context.getCascadedAttributeNames();
+            if (parentAttributeNames != null) {
+                for (String name : parentAttributeNames) {
+                    cascadedAttributes.put(name, new Attribute(context
+                            .getCascadedAttribute(name)));
+                }
             }
         }
     }

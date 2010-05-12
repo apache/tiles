@@ -55,7 +55,7 @@ public class EvaluationException extends TilesException {
      * @param e The cause.
      * @since 2.2.0
      */
-    public EvaluationException(Exception e) {
+    public EvaluationException(Throwable e) {
         super(e);
     }
 
@@ -66,7 +66,7 @@ public class EvaluationException extends TilesException {
      * @param e The cause.
      * @since 2.2.0
      */
-    public EvaluationException(String message, Exception e) {
+    public EvaluationException(String message, Throwable e) {
         super(message, e);
     }
 }

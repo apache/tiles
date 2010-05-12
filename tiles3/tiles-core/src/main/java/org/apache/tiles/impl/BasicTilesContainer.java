@@ -23,6 +23,7 @@ package org.apache.tiles.impl;
 import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
@@ -95,11 +96,6 @@ public class BasicTilesContainer implements TilesContainer,
      */
     private AttributeEvaluatorFactory attributeEvaluatorFactory;
 
-    /**
-     * Initialization flag. If set, this container cannot be changed.
-     */
-    private boolean initialized = false;
-
     /** {@inheritDoc} */
     public AttributeContext startContext(Request request) {
         AttributeContext context = new BasicAttributeContext();
@@ -169,7 +165,6 @@ public class BasicTilesContainer implements TilesContainer,
      * @param definitionsFactory the definitions factory for this instance.
      */
     public void setDefinitionsFactory(DefinitionsFactory definitionsFactory) {
-        checkInit();
         this.definitionsFactory = definitionsFactory;
     }
 
@@ -215,19 +210,14 @@ public class BasicTilesContainer implements TilesContainer,
 
     /** {@inheritDoc} */
     public void render(String definitionName, Request request) {
-        if (log.isDebugEnabled()) {
-            log.debug("Render request recieved for definition '" + definitionName + "'");
-        }
+        log.debug("Render request received for definition '{}'", definitionName);
 
         Definition definition = getDefinition(definitionName, request);
 
         if (definition == null) {
-            if (log.isWarnEnabled()) {
-                String message = "Unable to find the definition '" + definitionName + "'";
-                log.warn(message);
-            }
-            throw new NoSuchDefinitionException(definitionName);
+            throw new NoSuchDefinitionException("Unable to find the definition '" + definitionName + "'");
         }
+
         render(request, definition);
     }
 
@@ -238,12 +228,12 @@ public class BasicTilesContainer implements TilesContainer,
             throw new CannotRenderException("Cannot render a null attribute");
         }
 
-        AttributeRenderer renderer = rendererFactory.getRenderer(attr
-                .getRenderer());
+        String rendererName = attr.getRenderer();
+        AttributeRenderer renderer = rendererFactory.getRenderer(rendererName);
         if (renderer == null) {
             throw new CannotRenderException(
                     "Cannot render an attribute with renderer name "
-                            + attr.getRenderer());
+                            + rendererName);
         }
         renderer.render(attr, request);
     }
@@ -257,7 +247,14 @@ public class BasicTilesContainer implements TilesContainer,
 
     /** {@inheritDoc} */
     public boolean isValidDefinition(String definitionName, Request request) {
-        return isValidDefinition(request, definitionName);
+        try {
+            Definition definition = getDefinition(definitionName, request);
+            return definition != null;
+        } catch (NoSuchDefinitionException nsde) {
+            log.debug("Cannot find definition '{}'", definitionName);
+            log.debug("Exception related to the not found definition", nsde);
+            return false;
+        }
     }
 
     /**
@@ -277,20 +274,6 @@ public class BasicTilesContainer implements TilesContainer,
     }
 
     /**
-     * Determine whether or not the container has been
-     * initialized. Utility method used for methods which
-     * can not be invoked after the container has been
-     * started.
-     *
-     * @throws IllegalStateException if the container has already been initialized.
-     */
-    protected void checkInit() {
-        if (initialized) {
-            throw new IllegalStateException("Container allready initialized");
-        }
-    }
-
-    /**
      * Returns the context stack.
      *
      * @param tilesContext The Tiles context object to use.
@@ -299,13 +282,12 @@ public class BasicTilesContainer implements TilesContainer,
      */
     @SuppressWarnings("unchecked")
     protected Deque<AttributeContext> getContextStack(Request tilesContext) {
-        Deque<AttributeContext> contextStack =
-            (Deque<AttributeContext>) tilesContext
-                .getContext("request").get(ATTRIBUTE_CONTEXT_STACK);
+        Map<String, Object> requestScope = tilesContext.getContext("request");
+        Deque<AttributeContext> contextStack = (Deque<AttributeContext>) requestScope
+                .get(ATTRIBUTE_CONTEXT_STACK);
         if (contextStack == null) {
             contextStack = new LinkedList<AttributeContext>();
-            tilesContext.getContext("request").put(ATTRIBUTE_CONTEXT_STACK,
-                    contextStack);
+            requestScope.put(ATTRIBUTE_CONTEXT_STACK, contextStack);
         }
 
         return contextStack;
@@ -364,9 +346,7 @@ public class BasicTilesContainer implements TilesContainer,
      */
     private void prepare(Request context, String preparerName, boolean ignoreMissing) {
 
-        if (log.isDebugEnabled()) {
-            log.debug("Prepare request received for '" + preparerName);
-        }
+        log.debug("Prepare request received for '{}'", preparerName);
 
         ViewPreparer preparer = preparerFactory.getPreparer(preparerName, context);
         if (preparer == null && ignoreMissing) {
@@ -380,34 +360,6 @@ public class BasicTilesContainer implements TilesContainer,
         AttributeContext attributeContext = getContext(context);
 
         preparer.execute(context, attributeContext);
-    }
-
-    /**
-     * Renders the definition with specified name.
-     *
-     * @param request The request context.
-     * @param definitionName The name of the definition to render.
-     * @throws NoSuchDefinitionException If the definition has not been found.
-     * @throws DefinitionsFactoryException If something goes wrong when
-     * obtaining the definition.
-     * @since 2.1.3
-     */
-    protected void render(Request request, String definitionName) {
-
-        if (log.isDebugEnabled()) {
-            log.debug("Render request recieved for definition '" + definitionName + "'");
-        }
-
-        Definition definition = getDefinition(definitionName, request);
-
-        if (definition == null) {
-            if (log.isWarnEnabled()) {
-                String message = "Unable to find the definition '" + definitionName + "'";
-                log.warn(message);
-            }
-            throw new NoSuchDefinitionException(definitionName);
-        }
-        render(request, definition);
     }
 
     /**
@@ -450,26 +402,6 @@ public class BasicTilesContainer implements TilesContainer,
             render(attributeContext.getTemplateAttribute(), request);
         } catch (IOException e) {
             throw new CannotRenderException(e.getMessage(), e);
-        }
-    }
-
-    /**
-     * Checks if a string is a valid definition name.
-     *
-     * @param context The request context.
-     * @param definitionName The name of the definition to find.
-     * @return <code>true</code> if <code>definitionName</code> is a valid
-     * definition name.
-     */
-    private boolean isValidDefinition(Request context, String definitionName) {
-        try {
-            Definition definition = getDefinition(definitionName, context);
-            return definition != null;
-        } catch (NoSuchDefinitionException nsde) {
-            return false;
-        } catch (DefinitionsFactoryException e) {
-            // TODO, is this the right thing to do?
-            return false;
         }
     }
 }

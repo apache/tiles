@@ -20,26 +20,30 @@
  */
 package org.apache.tiles.evaluator.impl;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.request.Request;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests {@link DirectAttributeEvaluator}.
  *
  * @version $Rev$ $Date$
  */
-public class DirectAttributeEvaluatorTest extends TestCase {
+public class DirectAttributeEvaluatorTest {
 
     /**
      * The evaluator to test.
      */
     private DirectAttributeEvaluator evaluator;
 
-    /** {@inheritDoc} */
-    @Override
+    /**
+     * Sets up the test.
+     */
+    @Before
     public void setUp() {
         evaluator = new DirectAttributeEvaluator();
     }
@@ -48,6 +52,7 @@ public class DirectAttributeEvaluatorTest extends TestCase {
      * Tests
      * {@link DirectAttributeEvaluator#evaluate(Attribute, Request)}.
      */
+    @Test
     public void testEvaluate() {
         String expression = "This is an expression";
         Attribute attribute = new Attribute(null, Expression.createExpression(
@@ -64,8 +69,18 @@ public class DirectAttributeEvaluatorTest extends TestCase {
 
     /**
      * Tests
+     * {@link DirectAttributeEvaluator#evaluate(Attribute, Request)}.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testEvaluateNullAttribute() {
+        evaluator.evaluate((Attribute) null, null);
+    }
+
+    /**
+     * Tests
      * {@link DirectAttributeEvaluator#evaluate(String, Request)}.
      */
+    @Test
     public void testEvaluateString() {
         String expression = "This is an expression";
         Object result = evaluator.evaluate(expression, null);

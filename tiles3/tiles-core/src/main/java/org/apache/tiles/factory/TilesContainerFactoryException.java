@@ -54,7 +54,7 @@ public class TilesContainerFactoryException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public TilesContainerFactoryException(Exception e) {
+    public TilesContainerFactoryException(Throwable e) {
         super(e);
     }
 
@@ -65,7 +65,7 @@ public class TilesContainerFactoryException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public TilesContainerFactoryException(String message, Exception e) {
+    public TilesContainerFactoryException(String message, Throwable e) {
         super(message, e);
     }
 
