@@ -54,7 +54,7 @@ public class InvalidTemplateException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public InvalidTemplateException(Exception e) {
+    public InvalidTemplateException(Throwable e) {
         super(e);
     }
 
@@ -65,7 +65,7 @@ public class InvalidTemplateException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public InvalidTemplateException(String message, Exception e) {
+    public InvalidTemplateException(String message, Throwable e) {
         super(message, e);
     }
 }

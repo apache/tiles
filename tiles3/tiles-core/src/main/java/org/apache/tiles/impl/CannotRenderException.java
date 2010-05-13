@@ -54,7 +54,7 @@ public class CannotRenderException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public CannotRenderException(Exception e) {
+    public CannotRenderException(Throwable e) {
         super(e);
     }
 
@@ -65,7 +65,7 @@ public class CannotRenderException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public CannotRenderException(String message, Exception e) {
+    public CannotRenderException(String message, Throwable e) {
         super(message, e);
     }
 
