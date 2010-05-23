@@ -59,7 +59,6 @@ import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactoryException;
 import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
-import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.mvel.MVELAttributeEvaluator;
@@ -114,9 +113,10 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
 
     /** {@inheritDoc} */
     @Override
-    protected BasicTilesContainer instantiateContainer(
+    public TilesContainer createDecoratedContainer(
+            TilesContainer originalContainer,
             ApplicationContext applicationContext) {
-        return new CachingTilesContainer();
+        return new CachingTilesContainer(originalContainer);
     }
 
     /** {@inheritDoc} */

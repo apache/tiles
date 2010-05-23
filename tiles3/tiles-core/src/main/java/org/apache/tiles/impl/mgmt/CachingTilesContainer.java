@@ -22,17 +22,14 @@ package org.apache.tiles.impl.mgmt;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.TilesContainerWrapper;
 import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.NoSuchDefinitionException;
-import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Manages custom and configured definitions, so they can be used by the
@@ -40,12 +37,7 @@ import org.slf4j.LoggerFactory;
  *
  * @version $Rev$ $Date$
  */
-public class CachingTilesContainer extends BasicTilesContainer implements MutableTilesContainer {
-
-    /**
-     * The logging object.
-     */
-    private final Logger log = LoggerFactory.getLogger(CachingTilesContainer.class);
+public class CachingTilesContainer extends TilesContainerWrapper implements MutableTilesContainer {
 
     /**
      * The default name of the attribute in which storing custom definitions.
@@ -60,18 +52,21 @@ public class CachingTilesContainer extends BasicTilesContainer implements Mutabl
 
     /**
      * Constructor.
+     * @param originalContainer The original container to wrap.
      */
-    public CachingTilesContainer() {
+    public CachingTilesContainer(TilesContainer originalContainer) {
+        super(originalContainer);
         definitionsAttributeName = DEFAULT_DEFINITIONS_ATTRIBUTE_NAME;
     }
 
     /**
      * Constructor.
-     *
+     * @param originalContainer The original container to wrap.
      * @param definitionsAttributeName The name of the attribute in which
      * storing custom definitions.
      */
-    public CachingTilesContainer(String definitionsAttributeName) {
+    public CachingTilesContainer(TilesContainer originalContainer, String definitionsAttributeName) {
+        super(originalContainer);
         this.definitionsAttributeName = definitionsAttributeName;
         if (this.definitionsAttributeName == null) {
             this.definitionsAttributeName = DEFAULT_DEFINITIONS_ATTRIBUTE_NAME;
@@ -89,12 +84,21 @@ public class CachingTilesContainer extends BasicTilesContainer implements Mutabl
      */
     public Definition getDefinition(String definition,
             Request request) {
-        Map<String, Definition> definitions =
-            getDefinitions(request);
-        if (definitions != null && definitions.containsKey(definition)) {
-            return definitions.get(definition);
+        Definition retValue = null;
+        retValue = getCustomDefinition(definition, request);
+        if (retValue == null) {
+            retValue = super.getDefinition(definition, request);
         }
-        return super.getDefinition(definition, request);
+        return retValue;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isValidDefinition(String definition, Request request) {
+        if (getCustomDefinition(definition, request) != null) {
+            return true;
+        }
+        return super.isValidDefinition(definition, request);
     }
 
     /** {@inheritDoc} */
@@ -104,49 +108,30 @@ public class CachingTilesContainer extends BasicTilesContainer implements Mutabl
         if (definition.getName() == null) {
             definition.setName(getNextUniqueDefinitionName(definitions));
         }
-        validate(definition);
 
         if (definition.isExtending()) {
             this.resolveInheritance(definition, request);
         }
 
         definitions.put(definition.getName(), definition);
-
     }
 
-    /**
-     * Validates a custom definition.
-     *
-     * @param definition The definition to validate.
-     */
-    private void validate(Definition definition) {
-        Set<String> names = definition.getLocalAttributeNames();
-        if (names != null) {
-            for (String name : names) {
-                Attribute attribute = definition.getLocalAttribute(name);
-                if (attribute.getValue() == null) {
-                    throw new IllegalArgumentException(
-                            "Attribute '" + name + "' value not defined");
-                }
-            }
+    /** {@inheritDoc} */
+    @Override
+    public void render(String definition, Request request) {
+        Definition toRender = getDefinition(definition, request);
+        if (toRender == null) {
+            throw new NoSuchDefinitionException(
+                    "Cannot find definition named '" + definition + "'");
         }
-        names = definition.getCascadedAttributeNames();
-        if (names != null) {
-            for (String name : names) {
-                Attribute attribute = definition.getCascadedAttribute(name);
-                if (attribute.getValue() == null) {
-                    throw new IllegalArgumentException(
-                            "Attribute '" + name + "' value not defined");
-                }
-            }
-        }
+        super.render(toRender, request);
     }
 
     /**
      * Resolve inheritance.
      * First, resolve parent's inheritance, then set template to the parent's
      * template.
-     * Also copy attributes setted in parent, and not set in child
+     * Also copy attributes set in parent, and not set in child
      * If instance doesn't extend anything, do nothing.
      *
      * @param definition The definition that needs to have its inheritances
@@ -155,38 +140,35 @@ public class CachingTilesContainer extends BasicTilesContainer implements Mutabl
      * @throws org.apache.tiles.definition.DefinitionsFactoryException If an
      * inheritance can not be solved.
      */
-    protected void resolveInheritance(Definition definition,
+    private void resolveInheritance(Definition definition,
             Request request) {
         // Already done, or not needed ?
         if (!definition.isExtending()) {
             return;
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("Resolve definition for child name='"
-                + definition.getName()
-                + "' extends='" + definition.getExtends() + "'.");
+        String parentDefinitionName = definition.getExtends();
+
+        boolean recurse = true;
+        Definition parent = getCustomDefinition(parentDefinitionName, request);
+        if (parent == null) {
+            parent = container.getDefinition(parentDefinitionName, request);
+            recurse = false;
         }
 
-        // TODO Factories our factory implementations will be context agnostic,
-        //  however, this may cause errors for other implementations.
-        //  we should probably make all factories agnostic and allow the manager to
-        //  utilize the correct factory based on the context.
-        Definition parent = getDefinition(definition.getExtends(), request);
-
-        if (parent == null) { // error
-            String msg = "Error while resolving definition inheritance: child '"
-                + definition.getName()
-                + "' can't find its ancestor '"
-                + definition.getExtends()
-                + "'. Please check your description file.";
-            log.error(msg);
-            // to do : find better exception
-            throw new NoSuchDefinitionException(msg);
+        if (parent == null) {
+            throw new NoSuchDefinitionException(
+                    "Error while resolving definition inheritance: child '"
+                            + definition.getName()
+                            + "' can't find its ancestor '"
+                            + parentDefinitionName
+                            + "'. Please check your description file.");
         }
 
         // Resolve parent before itself.
-        resolveInheritance(parent, request);
+        if (recurse) {
+            resolveInheritance(parent, request);
+        }
         definition.inherit(parent);
     }
 
@@ -197,7 +179,7 @@ public class CachingTilesContainer extends BasicTilesContainer implements Mutabl
      * @return A map that connects a definition name to a definition.
      */
     @SuppressWarnings("unchecked")
-    protected Map<String, Definition> getDefinitions(
+    private Map<String, Definition> getDefinitions(
             Request request) {
         return (Map<String, Definition>) request.getContext("request")
                 .get(definitionsAttributeName);
@@ -211,11 +193,10 @@ public class CachingTilesContainer extends BasicTilesContainer implements Mutabl
      * @return A map that connects a definition name to a definition.
      */
     @SuppressWarnings("unchecked")
-    protected Map<String, Definition> getOrCreateDefinitions(
+    private Map<String, Definition> getOrCreateDefinitions(
             Request request) {
         Map<String, Definition> definitions =
-            (Map<String, Definition>) request
-                .getContext("request").get(definitionsAttributeName);
+            (Map<String, Definition>) request.getContext("request").get(definitionsAttributeName);
         if (definitions == null) {
             definitions = new HashMap<String, Definition>();
             request.getContext("request")
@@ -232,7 +213,7 @@ public class CachingTilesContainer extends BasicTilesContainer implements Mutabl
      * @return The unique definition name to be used to store the definition.
      * @since 2.1.0
      */
-    protected String getNextUniqueDefinitionName(
+    private String getNextUniqueDefinitionName(
             Map<String, Definition> definitions) {
         String candidate;
         int anonymousDefinitionIndex = 1;
@@ -243,5 +224,13 @@ public class CachingTilesContainer extends BasicTilesContainer implements Mutabl
         } while (definitions.containsKey(candidate));
 
         return candidate;
+    }
+
+    private Definition getCustomDefinition(String definition, Request request) {
+        Map<String, Definition> definitions = getDefinitions(request);
+        if (definitions != null) {
+            return definitions.get(definition);
+        }
+        return null;
     }
 }

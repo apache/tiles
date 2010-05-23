@@ -75,6 +75,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#startContext(org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testStartContext() {
         Request request = createMock(Request.class);
@@ -101,6 +102,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#endContext(org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testEndContext() {
         Request request = createMock(Request.class);
@@ -125,6 +127,7 @@ public class BasicTilesContainerUnitTest {
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#renderContext(org.apache.tiles.request.Request)}.
      * @throws IOException If something goes wrong.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testRenderContext() throws IOException {
         Request request = createMock(Request.class);
@@ -169,6 +172,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getAttributeContext(org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetAttributeContext() {
         Request request = createMock(Request.class);
@@ -193,6 +197,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getAttributeContext(org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetAttributeContextNew() {
         Request request = createMock(Request.class);
@@ -241,6 +246,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#prepare(java.lang.String, org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testPrepare() {
         Request request = createMock(Request.class);
@@ -268,6 +274,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#prepare(java.lang.String, org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test(expected=NoSuchPreparerException.class)
     public void testPrepareException() {
         Request request = createMock(Request.class);
@@ -290,9 +297,10 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(java.lang.String, org.apache.tiles.request.Request)}.
+     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testRenderStringRequest() throws IOException {
         Request request = createMock(Request.class);
@@ -330,7 +338,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(java.lang.String, org.apache.tiles.request.Request)}.
+     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, java.lang.String)}.
      */
     @Test(expected=NoSuchDefinitionException.class)
     public void testRenderStringRequestException() {
@@ -349,7 +357,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.Attribute, org.apache.tiles.request.Request)}.
+     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -372,7 +380,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.Attribute, org.apache.tiles.request.Request)}.
+     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
     @Test(expected=CannotRenderException.class)
@@ -391,7 +399,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.Attribute, org.apache.tiles.request.Request)}.
+     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
     @Test(expected=CannotRenderException.class)
@@ -505,6 +513,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getContextStack(org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetContextStack() {
         Request request = createMock(Request.class);
@@ -526,6 +535,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getContextStack(org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetContextStackNew() {
         Request request = createMock(Request.class);
@@ -547,6 +557,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#pushContext(org.apache.tiles.AttributeContext, org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testPushContext() {
         Request request = createMock(Request.class);
@@ -570,6 +581,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#popContext(org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testPopContext() {
         Request request = createMock(Request.class);
@@ -593,6 +605,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getContext(org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetContext() {
         Request request = createMock(Request.class);
@@ -617,6 +630,7 @@ public class BasicTilesContainerUnitTest {
     /**
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getContext(org.apache.tiles.request.Request)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetContextNull() {
         Request request = createMock(Request.class);
@@ -637,9 +651,10 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Definition)}.
+     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.Definition, org.apache.tiles.request.Request)}.
      * @throws IOException If something goes wrong.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testRenderRequestDefinition() throws IOException {
         Request request = createMock(Request.class);
@@ -669,16 +684,17 @@ public class BasicTilesContainerUnitTest {
         replay(applicationContext, attributeEvaluatorFactory,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, renderer, definition);
-        container.render(request, definition);
+        container.render(definition, request);
         verify(applicationContext, attributeEvaluatorFactory,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, renderer, definition);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Definition)}.
+     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.Definition, org.apache.tiles.request.Request)}.
      * @throws IOException If something goes wrong.
      */
+    @SuppressWarnings("unchecked")
     @Test(expected=CannotRenderException.class)
     public void testRenderRequestDefinitionException() throws IOException {
         Request request = createMock(Request.class);
@@ -710,7 +726,7 @@ public class BasicTilesContainerUnitTest {
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, renderer, definition);
         try {
-            container.render(request, definition);
+            container.render(definition, request);
         } finally {
             verify(applicationContext, attributeEvaluatorFactory,
                     definitionsFactory, preparerFactory, rendererFactory,
@@ -723,6 +739,7 @@ public class BasicTilesContainerUnitTest {
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.AttributeContext)}.
      * @throws IOException If something goes wrong.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testRenderRequestAttributeContext() throws IOException {
         Request request = createMock(Request.class);
@@ -752,6 +769,7 @@ public class BasicTilesContainerUnitTest {
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.AttributeContext)}.
      * @throws IOException If something goes wrong.
      */
+    @SuppressWarnings("unchecked")
     @Test(expected=CannotRenderException.class)
     public void testRenderRequestAttributeContextException() throws IOException {
         Request request = createMock(Request.class);

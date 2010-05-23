@@ -95,6 +95,13 @@ public interface TilesContainer {
     void render(String definition, Request request);
 
     /**
+     * Renders the specified definition.
+     * @param definition The definition to render.
+     * @param request The request context.
+     */
+    public void render(Definition definition, Request request);
+
+    /**
      * Render the given Attribute.
      *
      * @param attribute The attribute to render.
@@ -114,6 +121,18 @@ public interface TilesContainer {
      * @since 2.1.0
      */
     Object evaluate(Attribute attribute, Request request);
+
+    /**
+     * Returns a definition specifying its name.
+     *
+     * @param definitionName The name of the definition to find.
+     * @param request The request context.
+     * @return The definition, if found.
+     * @throws DefinitionsFactoryException If the definitions factory throws an
+     * exception.
+     */
+    public Definition getDefinition(String definitionName,
+            Request request);
 
     /**
      * Determine whether or not the definition exists.

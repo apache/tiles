@@ -85,12 +85,19 @@ public class CompleteAutoloadTilesContainerFactoryTest {
 
     /**
      * Test method for
-     * {@link CompleteAutoloadTilesContainerFactory#instantiateContainer(ApplicationContext)}
+     * {@link CompleteAutoloadTilesContainerFactory#createDecoratedContainer(TilesContainer, ApplicationContext)
      * .
      */
     @Test
-    public void testInstantiateContainerTilesApplicationContext() {
-        assertTrue(factory.instantiateContainer(null) instanceof CachingTilesContainer);
+    public void testCreateDecoratedContainer() {
+        ApplicationContext applicationContext = createMock(ServletApplicationContext.class);
+        TilesContainer wrapped = createMock(TilesContainer.class);
+
+        replay(applicationContext, wrapped);
+        assertSame(wrapped, ((CachingTilesContainer) factory
+                .createDecoratedContainer(wrapped, applicationContext))
+                .getWrappedContainer());
+        verify(applicationContext, wrapped);
     }
 
     /**

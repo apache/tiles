@@ -31,7 +31,6 @@ import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.definition.DefinitionsFactory;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
@@ -218,7 +217,27 @@ public class BasicTilesContainer implements TilesContainer,
             throw new NoSuchDefinitionException("Unable to find the definition '" + definitionName + "'");
         }
 
-        render(request, definition);
+        render(definition, request);
+    }
+
+    /**
+     * Renders the specified definition.
+     * @param definition The definition to render.
+     * @param request The request context.
+     * @since 2.1.3
+     */
+    public void render(Definition definition, Request request) {
+        AttributeContext originalContext = getAttributeContext(request);
+        BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
+        subContext.inherit(definition);
+
+        pushContext(subContext, request);
+
+        try {
+            render(request, subContext);
+        } finally {
+            popContext(request);
+        }
     }
 
     /** {@inheritDoc} */
@@ -257,16 +276,9 @@ public class BasicTilesContainer implements TilesContainer,
         }
     }
 
-    /**
-     * Returns a definition specifying its name.
-     *
-     * @param definitionName The name of the definition to find.
-     * @param request The request context.
-     * @return The definition, if found.
-     * @throws DefinitionsFactoryException If the definitions factory throws an
-     * exception.
-     */
-    protected Definition getDefinition(String definitionName,
+    /** {@inheritDoc} */
+    @Override
+    public Definition getDefinition(String definitionName,
             Request request) {
         Definition definition =
             definitionsFactory.getDefinition(definitionName, request);
@@ -360,26 +372,6 @@ public class BasicTilesContainer implements TilesContainer,
         AttributeContext attributeContext = getContext(context);
 
         preparer.execute(context, attributeContext);
-    }
-
-    /**
-     * Renders the specified definition.
-     * @param request The request context.
-     * @param definition The definition to render.
-     * @since 2.1.3
-     */
-    protected void render(Request request, Definition definition) {
-        AttributeContext originalContext = getAttributeContext(request);
-        BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
-        subContext.inherit(definition);
-
-        pushContext(subContext, request);
-
-        try {
-            render(request, subContext);
-        } finally {
-            popContext(request);
-        }
     }
 
     /**

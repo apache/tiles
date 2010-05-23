@@ -92,9 +92,10 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
                 applicationContext, resolver);
         container.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         container.setPreparerFactory(createPreparerFactory(applicationContext));
+        TilesContainer injectedContainer = createDecoratedContainer(container, applicationContext);
         container.setRendererFactory(createRendererFactory(applicationContext,
-                container, attributeEvaluatorFactory));
-        return container;
+                injectedContainer, attributeEvaluatorFactory));
+        return injectedContainer;
     }
 
     /**
@@ -107,6 +108,19 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     protected BasicTilesContainer instantiateContainer(
             ApplicationContext context) {
         return new BasicTilesContainer();
+    }
+
+    /**
+     * Instantiate the container that will be injected to child objects.
+     *
+     * @param originalContainer The original instantiated container.
+     * @param context The Tiles application context object.
+     * @return The instantiated container.
+     * @since 3.0.0
+     */
+    protected TilesContainer createDecoratedContainer(TilesContainer originalContainer,
+            ApplicationContext context) {
+        return originalContainer;
     }
 
     /**
