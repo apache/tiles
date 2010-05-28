@@ -59,7 +59,7 @@ public class RendererException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public RendererException(Exception e) {
+    public RendererException(Throwable e) {
         super(e);
     }
 
@@ -75,7 +75,7 @@ public class RendererException extends TilesException {
      * @param e The exception to be wrapped.
      * @since 2.1.0
      */
-    public RendererException(String message, Exception e) {
+    public RendererException(String message, Throwable e) {
         super(message, e);
     }
 }

@@ -20,6 +20,9 @@
  */
 package org.apache.tiles.preparer;
 
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.request.Request;
+
 import junit.framework.TestCase;
 
 /**
@@ -44,13 +47,26 @@ public class BasicPreparerFactoryTest extends TestCase {
      * Tests getting a preparer.
      */
     public void testGetPreparer() {
-        String name = ViewPreparerSupport.class.getName();
+        String name = MockViewPreparer.class.getName();
         ViewPreparer p = factory.getPreparer(name, null);
         assertNotNull(p);
-        assertTrue(p instanceof ViewPreparerSupport);
+        assertTrue(p instanceof MockViewPreparer);
 
         name = "org.doesnotexist.Class";
         p = factory.getPreparer(name, null);
         assertNull(p);
+    }
+
+    /**
+     * Mock view preparer.
+     *
+     * @version $Rev$ $Date$
+     */
+    public static class MockViewPreparer implements ViewPreparer {
+
+        /** {@inheritDoc} */
+        public void execute(Request tilesContext,
+                            AttributeContext attributeContext) {
+        }
     }
 }

@@ -29,6 +29,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
+import org.apache.tiles.renderer.RendererException;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.request.Request;
 import org.easymock.EasyMock;
@@ -104,6 +105,67 @@ public class ChainedDelegateAttributeRendererTest {
         writer.close();
         verify(requestContext, stringRenderer, templateRenderer,
                 definitionRenderer);
+    }
+
+    /**
+     * Tests
+     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
+     * writing a definition.
+     *
+     * @throws IOException If something goes wrong during rendition.
+     */
+    @Test(expected=NullPointerException.class)
+    public void testWriteNull() throws IOException {
+        StringWriter writer = new StringWriter();
+        Attribute attribute = new Attribute("my.definition", (Expression) null,
+                null, "definition");
+        Request requestContext = EasyMock
+                .createMock(Request.class);
+
+        replay(requestContext, stringRenderer, templateRenderer,
+                definitionRenderer);
+        try {
+            renderer.write(null, attribute, requestContext);
+        } finally {
+            writer.close();
+            verify(requestContext, stringRenderer, templateRenderer,
+                    definitionRenderer);
+        }
+    }
+
+    /**
+     * Tests
+     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
+     * writing a definition.
+     *
+     * @throws IOException If something goes wrong during rendition.
+     */
+    @Test(expected=RendererException.class)
+    public void testWriteNotRenderable() throws IOException {
+        StringWriter writer = new StringWriter();
+        Attribute attribute = new Attribute("my.definition", (Expression) null,
+                null, "definition");
+        Request requestContext = EasyMock
+                .createMock(Request.class);
+
+        expect(
+                definitionRenderer.isRenderable("Result", attribute,
+                        requestContext)).andReturn(Boolean.FALSE);
+        expect(
+                templateRenderer.isRenderable("Result", attribute,
+                        requestContext)).andReturn(Boolean.FALSE);
+        expect(stringRenderer.isRenderable("Result", attribute, requestContext))
+                .andReturn(Boolean.FALSE);
+
+        replay(requestContext, stringRenderer, templateRenderer,
+                definitionRenderer);
+        try {
+            renderer.write("Result", attribute, requestContext);
+        } finally {
+            writer.close();
+            verify(requestContext, stringRenderer, templateRenderer,
+                    definitionRenderer);
+        }
     }
 
     /**

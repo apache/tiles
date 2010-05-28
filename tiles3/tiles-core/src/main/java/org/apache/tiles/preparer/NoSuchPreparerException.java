@@ -30,6 +30,13 @@ public class NoSuchPreparerException extends PreparerException {
 
     /**
      * Constructor.
+     */
+    public NoSuchPreparerException() {
+        super();
+    }
+
+    /**
+     * Constructor.
      *
      * @param message The message to include.
      */
@@ -40,10 +47,19 @@ public class NoSuchPreparerException extends PreparerException {
     /**
      * Constructor.
      *
+     * @param e The cause exception.
+     */
+    public NoSuchPreparerException(Throwable e) {
+        super(e);
+    }
+
+    /**
+     * Constructor.
+     *
      * @param message The message to include.
      * @param e The cause exception.
      */
-    public NoSuchPreparerException(String message, Exception e) {
+    public NoSuchPreparerException(String message, Throwable e) {
         super(message, e);
     }
 }

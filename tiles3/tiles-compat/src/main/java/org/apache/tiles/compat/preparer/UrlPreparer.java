@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.preparer.PreparerException;
-import org.apache.tiles.preparer.ViewPreparerSupport;
+import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.request.Request;
 
 /**
@@ -36,7 +36,7 @@ import org.apache.tiles.request.Request;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class UrlPreparer extends ViewPreparerSupport {
+public class UrlPreparer implements ViewPreparer {
 
     /**
      * The URL to be used as a preparer.

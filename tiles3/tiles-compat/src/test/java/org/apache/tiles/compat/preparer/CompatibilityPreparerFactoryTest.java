@@ -21,10 +21,11 @@
 
 package org.apache.tiles.compat.preparer;
 
-import org.apache.tiles.preparer.ViewPreparer;
-import org.apache.tiles.preparer.ViewPreparerSupport;
-
 import junit.framework.TestCase;
+
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.request.Request;
 
 /**
  * Tests {@link CompatibilityPreparerFactory}.
@@ -61,7 +62,11 @@ public class CompatibilityPreparerFactoryTest extends TestCase {
     /**
      * Mock view preparer to test preparer instantiation.
      */
-    public static final class MockViewPreparer extends ViewPreparerSupport {
-        // Nothing here.
+    public static final class MockViewPreparer implements ViewPreparer {
+        /** {@inheritDoc} */
+        public void execute(Request tilesContext,
+                AttributeContext attributeContext) {
+            // Nothing here.
+        }
     }
 }

@@ -29,6 +29,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
+import org.apache.tiles.impl.InvalidTemplateException;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,6 +73,38 @@ public class TemplateAttributeRendererTest {
 
     /**
      * Tests
+     * {@link StringAttributeRenderer#write(Object, Attribute, Request)}.
+     *
+     * @throws IOException If something goes wrong during rendition.
+     */
+    @Test(expected=InvalidTemplateException.class)
+    public void testWriteNotString() throws IOException {
+        Attribute attribute = new Attribute(new Integer(1),
+                (Expression) null, null, "template");
+        Request requestContext = createMock(Request.class);
+        replay(requestContext);
+        renderer.render(attribute, requestContext);
+        verify(requestContext);
+    }
+
+    /**
+     * Tests
+     * {@link StringAttributeRenderer#write(Object, Attribute, Request)}.
+     *
+     * @throws IOException If something goes wrong during rendition.
+     */
+    @Test(expected=InvalidTemplateException.class)
+    public void testWriteNull() throws IOException {
+        Attribute attribute = new Attribute(null, (Expression) null, null,
+                "template");
+        Request requestContext = createMock(Request.class);
+        replay(requestContext);
+        renderer.render(attribute, requestContext);
+        verify(requestContext);
+    }
+
+    /**
+     * Tests
      * {@link StringAttributeRenderer#isRenderable(Object, Attribute, Request)}.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -83,6 +116,23 @@ public class TemplateAttributeRendererTest {
         Request requestContext = createMock(Request.class);
         replay(requestContext);
         assertTrue(renderer.isRenderable("/myTemplate.jsp", attribute,
+                requestContext));
+        verify(requestContext);
+    }
+
+    /**
+     * Tests
+     * {@link StringAttributeRenderer#isRenderable(Object, Attribute, Request)}.
+     *
+     * @throws IOException If something goes wrong during rendition.
+     */
+    @Test
+    public void testIsRenderableFalse() {
+        Attribute attribute = new Attribute(new Integer(1),
+                (Expression) null, null, "template");
+        Request requestContext = createMock(Request.class);
+        replay(requestContext);
+        assertFalse(renderer.isRenderable(new Integer(1), attribute,
                 requestContext));
         verify(requestContext);
     }

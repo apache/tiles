@@ -20,15 +20,19 @@
  */
 package org.apache.tiles.renderer.impl;
 
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
-import org.easymock.EasyMock;
+import org.apache.tiles.request.util.ApplicationContextAware;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Basic renderer factory implementation.
@@ -36,55 +40,68 @@ import org.easymock.EasyMock;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class BasicRendererFactoryTest extends TestCase {
+public class BasicRendererFactoryTest {
 
     /**
      * The renderer factory.
      */
     private BasicRendererFactory rendererFactory;
 
-    /** {@inheritDoc} */
-    @Override
+    /**
+     * Sets up the test.
+     */
+    @Before
     public void setUp() {
         rendererFactory = new BasicRendererFactory();
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        TilesContainer container = EasyMock.createMock(TilesContainer.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        TilesContainer container = createMock(TilesContainer.class);
         rendererFactory.setApplicationContext(applicationContext);
         rendererFactory.setContainer(container);
-        EasyMock.replay(applicationContext, container);
+        replay(applicationContext, container);
     }
 
     /**
      * Tests execution and
      * {@link BasicRendererFactory#getRenderer(String)}.
      */
+    @Test
     public void testInitAndGetRenderer() {
+        AttributeRenderer renderer1 = createMock(AttributeRenderer.class);
+        AttributeRenderer renderer2 = createMock(AttributeRenderer.class);
+        AttributeRenderer renderer3 = createMock(AttributeRenderer.class);
+        AttributeRenderer renderer4 = createMock(AttributeRenderer.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
+
+        replay(renderer1, renderer2, renderer3, renderer4, applicationContext, attributeEvaluatorFactory);
         Map<String, String> params = new HashMap<String, String>();
         params.put(BasicRendererFactory.TYPE_RENDERERS_INIT_PARAM, "test,"
                 + StringAttributeRenderer.class.getName() + ";test2,"
                 + StringAttributeRenderer.class.getName());
-        rendererFactory.registerRenderer("string", new StringAttributeRenderer());
-        rendererFactory.registerRenderer("test", new StringAttributeRenderer());
-        rendererFactory.registerRenderer("test2", new StringAttributeRenderer());
+        rendererFactory.registerRenderer("string", renderer1);
+        rendererFactory.registerRenderer("test", renderer2);
+        rendererFactory.registerRenderer("test2", renderer3);
+        rendererFactory.setDefaultRenderer(renderer4);
+        rendererFactory.setApplicationContext(applicationContext);
+        rendererFactory.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         AttributeRenderer renderer = rendererFactory.getRenderer("string");
-        assertNotNull("The renderer is null", renderer);
-        assertTrue("The class of the renderer is wrong", renderer instanceof StringAttributeRenderer);
+        assertSame(renderer1, renderer);
         renderer = rendererFactory.getRenderer("test");
-        assertNotNull("The renderer is null", renderer);
-        assertTrue("The class of the renderer is wrong", renderer instanceof StringAttributeRenderer);
+        assertSame(renderer2, renderer);
         renderer = rendererFactory.getRenderer("test2");
-        assertNotNull("The renderer is null", renderer);
-        assertTrue("The class of the renderer is wrong", renderer instanceof StringAttributeRenderer);
-        renderer = rendererFactory.getRenderer(StringAttributeRenderer.class
+        assertSame(renderer3, renderer);
+        renderer = rendererFactory.getRenderer(ExtendedStringAttributeRenderer.class
                 .getName());
-        assertNotNull("The renderer is null", renderer);
-        assertTrue("The class of the renderer is wrong", renderer instanceof StringAttributeRenderer);
+        assertSame(applicationContext, ((ExtendedStringAttributeRenderer) renderer).applicationContext);
+        renderer = rendererFactory.getRenderer(null);
+        assertSame(renderer4, renderer);
+        verify(renderer1, renderer2, renderer3, renderer4, applicationContext, attributeEvaluatorFactory);
     }
 
     /**
      * Tests {@link BasicRendererFactory#setContainer(TilesContainer)}.
      */
+    @Test
     public void testSetContainer() {
         assertNotNull("The container is null", rendererFactory.container);
     }
@@ -93,6 +110,7 @@ public class BasicRendererFactoryTest extends TestCase {
      * Tests
      * {@link BasicRendererFactory#setApplicationContext(ApplicationContext)}.
      */
+    @Test
     public void testSetApplicationContext() {
         assertNotNull("The application context is null",
                 rendererFactory.applicationContext);
@@ -101,9 +119,29 @@ public class BasicRendererFactoryTest extends TestCase {
     /**
      * Tests {@link BasicRendererFactory#initializeRenderer(AttributeRenderer)}.
      */
+    @Test
     public void testInitializeRenderer() {
         DefinitionAttributeRenderer renderer = new DefinitionAttributeRenderer();
         rendererFactory.initializeRenderer(renderer);
         assertNotNull("The container is null", renderer.container);
+    }
+
+    /**
+     * Mock renderer.
+     *
+     * @version $Rev$ $Date$
+     */
+    public static class ExtendedStringAttributeRenderer extends StringAttributeRenderer implements ApplicationContextAware {
+
+        /**
+         * The application context.
+         */
+        private ApplicationContext applicationContext;
+
+        /** {@inheritDoc} */
+        @Override
+        public void setApplicationContext(ApplicationContext applicationContext) {
+            this.applicationContext = applicationContext;
+        }
     }
 }

@@ -20,69 +20,91 @@
  */
 package org.apache.tiles.renderer.impl;
 
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.apache.tiles.Attribute;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
 import org.apache.tiles.request.Request;
-import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests {@link AbstractBaseAttributeRenderer}.
  *
  * @version $Rev$ $Date$
  */
-public class AbstractBaseAttributeRendererTest extends TestCase {
+public class AbstractBaseAttributeRendererTest {
 
     /**
      * The renderer, no more abstract.
      */
     private MockAttributeRenderer renderer;
 
-    /** {@inheritDoc} */
-    @Override
-    protected void setUp() {
+    /**
+     * Sets up the test.
+     */
+    @Before
+    public void setUp() {
         renderer = new MockAttributeRenderer();
-        renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
-                new DirectAttributeEvaluator()));
+        renderer
+                .setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
+                        new DirectAttributeEvaluator()));
     }
 
     /**
-     * Tests
-     * {@link AbstractBaseAttributeRenderer#render(Attribute, Request)}.
+     * Tests {@link AbstractBaseAttributeRenderer#render(Attribute, Request)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
+    @Test
     public void testRender() throws IOException {
         Attribute attribute = new Attribute();
         StringWriter writer = new StringWriter();
-        Request requestContext = EasyMock
-                .createMock(Request.class);
-        EasyMock.expect(requestContext.getWriter()).andReturn(writer);
-        EasyMock.replay(requestContext);
+        Request requestContext = createMock(Request.class);
+        expect(requestContext.getWriter()).andReturn(writer);
+        replay(requestContext);
         renderer.render(attribute, requestContext);
         writer.close();
         assertEquals("Wrongly written", "wrote", writer.toString());
+        verify(requestContext);
     }
 
     /**
-     * Tests
-     * {@link AbstractBaseAttributeRenderer#isPermitted(Request, Set)}.
+     * Tests {@link AbstractBaseAttributeRenderer#render(Attribute, Request)}.
+     *
+     * @throws IOException If something goes wrong during rendition.
      */
+    @Test
+    public void testRenderNotPermitted() throws IOException {
+        Attribute attribute = new Attribute();
+        Request requestContext = createMock(Request.class);
+        attribute.setRole("first");
+
+        expect(requestContext.isUserInRole("first")).andReturn(Boolean.FALSE);
+
+        replay(requestContext);
+        renderer.render(attribute, requestContext);
+        verify(requestContext);
+    }
+
+    /**
+     * Tests {@link AbstractBaseAttributeRenderer#isPermitted(Request, Set)}.
+     */
+    @Test
     public void testIsPermitted() {
-        Request requestContext = EasyMock
-                .createMock(Request.class);
-        EasyMock.expect(requestContext.isUserInRole("first")).andReturn(
-                Boolean.TRUE).anyTimes();
-        EasyMock.expect(requestContext.isUserInRole("second")).andReturn(
-                Boolean.FALSE).anyTimes();
-        EasyMock.replay(requestContext);
+        Request requestContext = createMock(Request.class);
+        expect(requestContext.isUserInRole("first")).andReturn(Boolean.TRUE)
+                .anyTimes();
+        expect(requestContext.isUserInRole("second")).andReturn(Boolean.FALSE)
+                .anyTimes();
+        replay(requestContext);
         Set<String> roles = new HashSet<String>();
         roles.add("first");
         assertTrue("The role is not permitted", renderer.isPermitted(
@@ -91,17 +113,18 @@ public class AbstractBaseAttributeRendererTest extends TestCase {
         roles.add("second");
         assertFalse("The role is not permitted", renderer.isPermitted(
                 requestContext, roles));
+        verify(requestContext);
     }
 
     /**
      * The renderer with "write" implementation.
      */
-    private static class MockAttributeRenderer extends AbstractBaseAttributeRenderer {
+    private static class MockAttributeRenderer extends
+            AbstractBaseAttributeRenderer {
 
         /** {@inheritDoc} */
         @Override
-        public void write(Object value, Attribute attribute,
-                Request request)
+        public void write(Object value, Attribute attribute, Request request)
                 throws IOException {
             request.getWriter().write("wrote");
         }

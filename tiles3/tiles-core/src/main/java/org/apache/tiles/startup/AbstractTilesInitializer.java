@@ -22,14 +22,11 @@
 package org.apache.tiles.startup;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.scope.ReflectionContextResolver;
 import org.apache.tiles.request.util.ApplicationAccess;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Default Tiles initialization delegate implementation under a servlet
@@ -40,11 +37,6 @@ import org.slf4j.LoggerFactory;
  * @since 2.2.0
  */
 public abstract class AbstractTilesInitializer implements TilesInitializer {
-
-    /**
-     * The logging object.
-     */
-    private Logger log = LoggerFactory.getLogger(getClass());
 
     /**
      * Init parameter to define the key under which the container will be
@@ -77,12 +69,8 @@ public abstract class AbstractTilesInitializer implements TilesInitializer {
 
     /** {@inheritDoc} */
     public void destroy() {
-        try {
-            TilesAccess.setContainer(applicationContext, null,
-                    getContainerKey(applicationContext));
-        } catch (TilesException e) {
-            log.warn("Unable to remove tiles container from service.", e);
-        }
+        TilesAccess.setContainer(applicationContext, null,
+                getContainerKey(applicationContext));
     }
 
     /**

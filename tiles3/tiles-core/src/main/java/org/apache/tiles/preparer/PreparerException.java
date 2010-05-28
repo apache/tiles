@@ -45,7 +45,7 @@ public class PreparerException extends TilesException {
      *
      * @param e The cause exception.
      */
-    public PreparerException(Exception e) {
+    public PreparerException(Throwable e) {
         super(e);
     }
 
@@ -64,7 +64,7 @@ public class PreparerException extends TilesException {
      * @param message The message to include.
      * @param e The cause exception.
      */
-    public PreparerException(String message, Exception e) {
+    public PreparerException(String message, Throwable e) {
         super(message, e);
     }
 }

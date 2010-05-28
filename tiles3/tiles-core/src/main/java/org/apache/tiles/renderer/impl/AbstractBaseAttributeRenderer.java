@@ -62,11 +62,9 @@ public abstract class AbstractBaseAttributeRenderer implements
 
     /** {@inheritDoc} */
     public void render(Attribute attribute, Request request) throws IOException {
-        if (!isPermitted(request, attribute.getRoles())) {
-            if (log.isDebugEnabled()) {
-                log.debug("Access to attribute denied.  User not in role '"
-                        + attribute.getRoles() + "'");
-            }
+        Set<String> roles = attribute.getRoles();
+        if (!isPermitted(request, roles)) {
+            log.debug("Access to attribute denied.  User not in role '{}'", roles);
             return;
         }
 

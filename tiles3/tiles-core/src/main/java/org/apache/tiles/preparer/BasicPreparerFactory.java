@@ -82,9 +82,7 @@ public class BasicPreparerFactory implements PreparerFactory {
      */
     protected ViewPreparer createPreparer(String name) {
 
-        if (log.isDebugEnabled()) {
-            log.debug("Creating ViewPreparer '" + name + "' . . .");
-        }
+        log.debug("Creating ViewPreparer '{}' . . .", name);
 
         Object instance = ClassUtil.instantiate(name, true);
         log.debug("ViewPreparer created successfully");
