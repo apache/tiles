@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>tiles-master</artifactId>
 		<groupId>org.apache.tiles</groupId>
-		<version>1</version>
+		<version>3-SNAPSHOT</version>
 	</parent>
 	<groupId>org.apache.tiles</groupId>
 	<artifactId>tiles-request</artifactId>
