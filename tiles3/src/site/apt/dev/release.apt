@@ -50,8 +50,8 @@ One-time operations
 * Create and publish your GPG key
 
   To create a GPG key, follow the
-  {{{http://maven.apache.org/developers/release/pmc-gpg-keys.html}guidelines}}
-  from Maven team. Include it in:
+  {{{http://www.apache.org/dev/openpgp.html}guidelines}}.
+  Include it in:
 
 -------------------------------------
 https://svn.apache.org/repos/asf/tiles/site/KEYS
@@ -65,13 +65,13 @@ https://svn.apache.org/repos/asf/tiles/site/KEYS
   * Generate your SSH key (in this case we will use DSA encryption):
 
 ---------------------------------
-ssh-keygen -t dsa
+ssh-keygen -t rsa
 ---------------------------------
 
   * Copy your public key to the server:
 
 --------------------------------------
-scp ~/.ssh/id_dsa.pub user@people.apache.org:.ssh/authorized_keys
+scp ~/.ssh/id_rsa.pub user@people.apache.org:.ssh/authorized_keys
 --------------------------------------
 
   * Try to login:
@@ -82,16 +82,51 @@ ssh user@people.apache.org
 
   If it does not ask you a password, everything is ok.
 
+* Modify <<<settings.xml>>>
+
+  Your <<<settings.xml>>> must be modified to allow deployment.
+
+  This is the minimal configuration, obviously if you already have a <<<settings.xml>>> file,
+  you must edit it:
+
+---------------------------
+<settings xmlns="http://maven.apache.org/POM/4.0.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>apache-site</id>
+            <username>YOUR_APACHE_USERNAME</username>
+            <filePermissions>664</filePermissions>
+            <directoryPermissions>775</directoryPermissions>
+        </server>
+        <server>
+            <id>apache.snapshots.https</id>
+            <username>YOUR_APACHE_USERNAME</username>
+            <password>YOUR_APACHE_PASSWORD</password>
+        </server>
+        <server>
+            <id>apache.releases.https</id>
+            <username>YOUR_APACHE_USERNAME</username>
+            <password>YOUR_APACHE_PASSWORD</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <gpg.passphrase>YOUR_SECRET_PHRASE</gpg.passphrase>
+            </properties>
+            </profile>
+        </profile>
+    </profiles>
+</settings>
+---------------------------
+
 Repeatable operations
 
   These steps must be performed <<for each>> release.
-
-* Remove snapshot repositories
-
-  Snapshot repositories (for libraries and plugins) should be removed from the
-  main POM before a release. The problem is that a system behind a corporate
-  firewall/white list cannot access to the snapshot repository URL, thus giving
-  an error.
 
 * Prepare the release tag
 
@@ -106,19 +141,34 @@ mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
   tag to use and the next snapshot version. It is reccomended to use the tag:
   <<tiles-X.X.X>>.
 
-* Check-out and install the release
-
-  Due to an {{{https://issues.apache.org/struts/browse/TILES-149}open bug}}, it
-  is needed to check out and install, through <<<mvn install>>>, the tag;
-  otherwise the release process fails.
-
 * Perform the Release
 
   To perform the release, i.e. creating and deploying Maven artifacts, use:
 
 -----------------------------------
-mvn -Prelease -Darguments="-Prelease" release:perform
+mvn release:perform
 -----------------------------------
+
+* Close the staging repository
+
+  Login to {{{https://repository.apache.org using} Nexus repository}} your Apache LDAP credentials.
+  Click on "Staging". Then click on "tiles" in the list of repositories.
+  In the panel below you should see an open repository that is linked to your username and ip.
+  Right click on this repository and select "Close".
+  This will close the repository from future deployments and make it available for others to view.
+  If you are staging multiple releases together, skip this step until you have staged everything.
+  Enter the name and version of the artifact being released in the "Description" field and then click "Close".
+  This will make it easier to identify it later.
+
+* Verify the staged artifacts
+
+  If you click on your repository, a tree view will appear below.
+  You can then browse the contents to ensure the artifacts are as you expect them.
+  Pay particular attention to the existence of *.asc (signature) files.
+  If the you don't like the content of the repository, right click your repository and choose "Drop".
+  You can then rollback your release and repeat the process.
+
+  Note the repository URL, you will need this in your vote email.
 
 * Digest and upload assemblies
 
@@ -180,7 +230,7 @@ Distribution:
 
 Maven 2 staging repository:
 
- * http://people.apache.org/builds/tiles/${version}/m2-staging-repository/
+ * https://repository.apache.org/content/repositories/tiles-[YOUR REPOSITORY ID]/
 
 A vote regarding the quality of this test build will be initiated
 within the next couple of days.
@@ -206,7 +256,7 @@ Distribution:
 
 Maven 2 staging repository:
 
- * http://people.apache.org/builds/tiles/${version}/m2-staging-repository/
+ * https://repository.apache.org/content/repositories/tiles-[YOUR REPOSITORY ID]/
 
 If you have had a chance to review the test build, please respond with
 a vote on its quality:
@@ -227,17 +277,19 @@ three binding +1s and more +1s than -1s.
   After a vote is finished, and it has been decided that is
   <<at least of alpha quality>>, there is the need of a post-vote process.
 
-** Move artifacts
+** Promote staged artifacts
 
-  * Move Maven artifacts to the rsync repository. To do it there is an
-  {{{https://svn.apache.org/repos/asf/maven/plugins/trunk/maven-stage-plugin/}<<experimental stage plugin>>}}
-  to help in the process (WARNING: not tested yet!).
-  Merge the staging repository with the rsync repository:
+  Once the release is deemed fit for public consumption it can be transfered to a production repository where it will be available to all users.
 
-------------------------------------------
-mvn stage:copy -Dsource="http://people.apache.org/builds/tiles/${version}/m2-staging-repository/"
--Dtarget="scp://people.apache.org/www/people.apache.org/repo/m2-ibiblio-rsync-repository" -Dversion=${version}
-------------------------------------------
+  Login to {{{https://repository.apache.org}Nexus repository}} again.
+  Click on "Staging" and then on the repository with id "tiles-staging".
+  Find your closed staging repository, right click on it and choose "Promote".
+  Select the "Releases" repository and click "Promote".
+
+  Next click on "Repositories", select the "Releases" repository
+  and validate that your artifacts exist as you expect them.
+
+** Move assemblies
 
   * Move assemblies to the Apache distribution mirrors:
 
@@ -247,12 +299,6 @@ ssh user@people.apache.org
 cd /www/people.apache.org/builds/tiles/${version}
 mkdir /www/www.apache.org/dist/tiles/v${version}/
 cp * /www/www.apache.org/dist/tiles/v${version}/
--------------------------------------------
-
-  * Upload the <<<KEYS>>> file to the Apache mirrors:
-
--------------------------------------------
-scp KEYS user@people.apache.org:/www/www.apache.org/dist/tiles/v${version}/
 -------------------------------------------
 
 ** Update the site
