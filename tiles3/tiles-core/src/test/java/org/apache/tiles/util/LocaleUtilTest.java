@@ -53,6 +53,21 @@ public class LocaleUtilTest extends TestCase {
         posts = LocaleUtil.calculatePostfixes(locale);
         assertEquals(2, posts.size());
         assertTrue(posts.contains("_en"));
+
+        locale = Locale.ROOT;
+        posts = LocaleUtil.calculatePostfixes(locale);
+        assertEquals(1, posts.size());
+        assertTrue(posts.contains(""));
+
+        posts = LocaleUtil.calculatePostfixes(null);
+        assertEquals(1, posts.size());
+        assertTrue(posts.contains(""));
+
+        locale = new Locale("it", "IT", "pidgin");
+        posts = LocaleUtil.calculatePostfixes(locale);
+        assertEquals(4, posts.size());
+        assertTrue(posts.contains("_it_IT"));
+        assertTrue(posts.contains("_it_IT_pidgin"));
     }
 
     /**
@@ -66,6 +81,7 @@ public class LocaleUtilTest extends TestCase {
         Locale locale = new Locale("es", "ES", "Traditional_WIN");
         assertEquals("The Spain Traditional_WIN locale is not correct",
                 "_es_ES_Traditional_WIN", LocaleUtil.calculatePostfix(locale));
+        assertEquals("", LocaleUtil.calculatePostfix(null));
     }
 
     /**
@@ -77,6 +93,7 @@ public class LocaleUtilTest extends TestCase {
         assertEquals("a_en_US.jsp", LocaleUtil.concatPostfix("a.jsp", postfix));
         assertEquals("file_en_US.jsp", LocaleUtil.concatPostfix("file.jsp", postfix));
         assertEquals("./path/file_en_US.jsp", LocaleUtil.concatPostfix("./path/file.jsp", postfix));
+        assertEquals("a", LocaleUtil.concatPostfix("a", null));
     }
 
     /**
