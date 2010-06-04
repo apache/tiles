@@ -20,6 +20,9 @@
  */
 package org.apache.tiles.el;
 
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
+
 import java.beans.FeatureDescriptor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,30 +32,28 @@ import java.util.Map;
 
 import javax.el.ELContext;
 
-import org.apache.tiles.el.ELContextImpl;
-import org.apache.tiles.el.TilesContextBeanELResolver;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.easymock.EasyMock;
-
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests {@link TilesContextBeanELResolver}.
  *
  * @version $Rev$ $Date$
  */
-public class TilesContextBeanELResolverTest extends TestCase {
+public class TilesContextBeanELResolverTest {
 
     /**
      * The resolver to test.
      */
     private TilesContextBeanELResolver resolver;
 
-    /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    /**
+     * Sets up the test.
+     */
+    @Before
+    public void setUp() {
         resolver = new TilesContextBeanELResolver();
     }
 
@@ -60,6 +61,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
      * Test method for
      * {@link TilesContextBeanELResolver#getCommonPropertyType(javax.el.ELContext, java.lang.Object)}.
      */
+    @Test
     public void testGetCommonPropertyType() {
         Class<?> clazz = resolver.getCommonPropertyType(null, null);
         assertEquals("The class is not correct", String.class, clazz);
@@ -71,6 +73,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
      * Test method for
      * {@link TilesContextBeanELResolver#getFeatureDescriptors(javax.el.ELContext, java.lang.Object)}.
      */
+    @Test
     public void testGetFeatureDescriptors() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
@@ -78,20 +81,18 @@ public class TilesContextBeanELResolverTest extends TestCase {
         requestScope.put("object1", "value");
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
-        Request request = EasyMock
-                .createMock(Request.class);
-        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
+        Request request = createMock(Request.class);
+        expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
+        expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        EasyMock.expect(request.getContext("application")).andReturn(
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
-		EasyMock.expect(request.getAvailableScopes()).andReturn(
-				new String[] { "request", "session", "application" })
-				.anyTimes();
-        EasyMock.replay(request, applicationContext);
+        expect(request.getAvailableScopes()).andReturn(
+                new String[] { "request", "session", "application" })
+                .anyTimes();
+        replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
         context.putContext(Request.class, request);
@@ -133,6 +134,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
      * Test method for
      * {@link TilesContextBeanELResolver#getType(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
+    @Test
     public void testGetType() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
@@ -140,20 +142,18 @@ public class TilesContextBeanELResolverTest extends TestCase {
         requestScope.put("object1", "value");
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
-        Request request = EasyMock
-                .createMock(Request.class);
-        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
+        Request request = createMock(Request.class);
+        expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
+        expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        EasyMock.expect(request.getContext("application")).andReturn(
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
-		EasyMock.expect(request.getAvailableScopes()).andReturn(
-				new String[] { "request", "session", "application" })
-				.anyTimes();
-        EasyMock.replay(request, applicationContext);
+        expect(request.getAvailableScopes()).andReturn(
+                new String[] { "request", "session", "application" })
+                .anyTimes();
+        replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
         context.putContext(Request.class, request);
@@ -165,12 +165,16 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 context, null, "object2"));
         assertEquals("The type is not correct", Float.class, resolver.getType(
                 context, null, "object3"));
+        assertNull(resolver.getType(context, new Integer(1), "whatever"));
+        assertNull(resolver.getType(context, null, "object4"));
+        verify(request, applicationContext);
     }
 
     /**
      * Test method for
      * {@link TilesContextBeanELResolver#getValue(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
+    @Test
     public void testGetValue() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
@@ -178,20 +182,18 @@ public class TilesContextBeanELResolverTest extends TestCase {
         requestScope.put("object1", "value");
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
-        Request request = EasyMock
-                .createMock(Request.class);
-        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
+        Request request = createMock(Request.class);
+        expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
+        expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        EasyMock.expect(request.getContext("application")).andReturn(
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
-		EasyMock.expect(request.getAvailableScopes()).andReturn(
-				new String[] { "request", "session", "application" })
-				.anyTimes();
-        EasyMock.replay(request, applicationContext);
+        expect(request.getAvailableScopes()).andReturn(
+                new String[] { "request", "session", "application" })
+                .anyTimes();
+        replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
         context.putContext(Request.class, request);
@@ -203,12 +205,14 @@ public class TilesContextBeanELResolverTest extends TestCase {
                 .getValue(context, null, "object2"));
         assertEquals("The value is not correct", new Float(2.0), resolver
                 .getValue(context, null, "object3"));
+        assertNull(resolver.getValue(context, new Integer(1), "whatever"));
     }
 
     /**
      * Test method for
      * {@link TilesContextBeanELResolver#isReadOnly(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
+    @Test
     public void testIsReadOnlyELContextObjectObject() {
         ELContext context = new ELContextImpl(resolver);
         assertTrue("The value is not read only", resolver.isReadOnly(context,
@@ -217,8 +221,27 @@ public class TilesContextBeanELResolverTest extends TestCase {
 
     /**
      * Test method for
+     * {@link TilesContextBeanELResolver#isReadOnly(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
+     */
+    @Test(expected=NullPointerException.class)
+    public void testIsReadOnlyNPE() {
+        resolver.isReadOnly(null, null, null);
+    }
+
+    /**
+     * Tests {@link TilesContextBeanELResolver#setValue(ELContext, Object, Object, Object)}.
+     */
+    @Test
+    public void testSetValue() {
+        // Just to complete code coverage!
+        resolver.setValue(null, null, null, null);
+    }
+
+    /**
+     * Test method for
      * {@link TilesContextBeanELResolver#findObjectByProperty(javax.el.ELContext, java.lang.Object)}.
      */
+    @Test
     public void testFindObjectByProperty() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> sessionScope = new HashMap<String, Object>();
@@ -226,20 +249,18 @@ public class TilesContextBeanELResolverTest extends TestCase {
         requestScope.put("object1", "value");
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
-        Request request = EasyMock
-                .createMock(Request.class);
-        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
+        Request request = createMock(Request.class);
+        expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
+        expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        EasyMock.expect(request.getContext("application")).andReturn(
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
-		EasyMock.expect(request.getAvailableScopes()).andReturn(
-				new String[] { "request", "session", "application" })
-				.anyTimes();
-        EasyMock.replay(request, applicationContext);
+        expect(request.getAvailableScopes()).andReturn(
+                new String[] { "request", "session", "application" })
+                .anyTimes();
+        replay(request, applicationContext);
 
         ELContext context = new ELContextImpl(resolver);
         context.putContext(Request.class, request);
@@ -257,6 +278,7 @@ public class TilesContextBeanELResolverTest extends TestCase {
      * Test method for
      * {@link org.apache.tiles.el.TilesContextBeanELResolver#getObject(java.util.Map, java.lang.String)}.
      */
+    @Test
     public void testGetObject() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("object1", "value");
@@ -266,4 +288,11 @@ public class TilesContextBeanELResolverTest extends TestCase {
         assertNull("The value is not null", resolver.getObject(null, "object1"));
     }
 
+    /**
+     * Tests {@link TilesContextBeanELResolver#collectBeanInfo(Map, List)}.
+     */
+    @Test
+    public void testCollectBeanInfoEmpty() {
+        resolver.collectBeanInfo(null, null);
+    }
 }

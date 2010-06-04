@@ -241,14 +241,15 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
         evaluator.setExpressionFactory(efFactory.getExpressionFactory());
         ELResolver elResolver = new CompositeELResolver() {
             {
+                BeanELResolver beanElResolver = new BeanELResolver(false);
                 add(new ScopeELResolver());
-                add(new TilesContextELResolver());
+                add(new TilesContextELResolver(beanElResolver));
                 add(new TilesContextBeanELResolver());
                 add(new ArrayELResolver(false));
                 add(new ListELResolver(false));
                 add(new MapELResolver(false));
                 add(new ResourceBundleELResolver());
-                add(new BeanELResolver(false));
+                add(beanElResolver);
             }
         };
         evaluator.setResolver(elResolver);

@@ -22,6 +22,7 @@ package org.apache.tiles.el;
 
 import java.beans.FeatureDescriptor;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,11 @@ public class ScopeELResolver extends ELResolver {
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context,
             Object base) {
+        if (base != null) {
+            List<FeatureDescriptor> retValue = Collections.emptyList();
+            return retValue.iterator();
+        }
+
         List<FeatureDescriptor> list = new ArrayList<FeatureDescriptor>();
 
         Request request = (Request) context

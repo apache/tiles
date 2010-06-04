@@ -3,7 +3,9 @@ package org.apache.tiles.el;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.beans.FeatureDescriptor;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.el.ELContext;
@@ -28,8 +30,43 @@ public class ScopeELResolverTest {
     }
 
     /**
+     * Tests {@link ScopeELResolver#getCommonPropertyType(ELContext, Object)}.
+     */
+    @Test
+    public void testGetCommonPropertyType() {
+        ELContext elContext = createMock(ELContext.class);
+
+        replay(elContext);
+        assertNull(resolver.getCommonPropertyType(elContext, new Integer(1)));
+        assertEquals(Map.class, resolver.getCommonPropertyType(elContext, null));
+        verify(elContext);
+    }
+
+    /**
+     * Tests {@link ScopeELResolver#getFeatureDescriptors(ELContext, Object)}.
+     */
+    @Test
+    public void testGetFeatureDescriptors() {
+        ELContext elContext = createMock(ELContext.class);
+        Request request = createMock(Request.class);
+
+        expect(elContext.getContext(Request.class)).andReturn(request);
+        expect(request.getAvailableScopes()).andReturn(new String[] {"one", "two"});
+
+        replay(elContext, request);
+        assertFalse(resolver.getFeatureDescriptors(elContext, new Integer(1)).hasNext());
+        Iterator<FeatureDescriptor> descriptors = resolver.getFeatureDescriptors(elContext, null);
+        FeatureDescriptor descriptor = descriptors.next();
+        assertEquals("oneScope", descriptor.getName());
+        descriptor = descriptors.next();
+        assertEquals("twoScope", descriptor.getName());
+        assertFalse(descriptors.hasNext());
+        verify(elContext, request);
+    }
+
+    /**
      * Test method for
-     * {@link TilesContextELResolver#getType(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
+     * {@link ScopeELResolver#getType(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
     @Test
     public void testGetType() {
@@ -39,6 +76,7 @@ public class ScopeELResolverTest {
         replay(request, applicationContext);
         context.putContext(Request.class, request);
         context.putContext(ApplicationContext.class, applicationContext);
+        assertNull(resolver.getType(context, new Integer(1), "whatever"));
         assertEquals("The requestScope object is not a map.", Map.class,
                 resolver.getType(context, null, "requestScope"));
         assertEquals("The sessionScope object is not a map.", Map.class,
@@ -49,7 +87,7 @@ public class ScopeELResolverTest {
 
     /**
      * Test method for
-     * {@link TilesContextELResolver#getValue(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
+     * {@link ScopeELResolver#getValue(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
     @Test
     public void testGetValue() {
@@ -63,11 +101,12 @@ public class ScopeELResolverTest {
         expect(request.getContext("request")).andReturn(requestScope);
         expect(request.getContext("session")).andReturn(sessionScope);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-		expect(request.getContext("application")).andReturn(applicationScope);
+        expect(request.getContext("application")).andReturn(applicationScope);
         ELContext context = new ELContextImpl(resolver);
         replay(request, applicationContext);
         context.putContext(Request.class, request);
         context.putContext(ApplicationContext.class, applicationContext);
+        assertNull(resolver.getValue(context, new Integer(1), "whatever"));
         assertEquals("The requestScope map does not correspond", requestScope,
                 resolver.getValue(context, null, "requestScope"));
         assertEquals("The sessionScope map does not correspond", sessionScope,
@@ -77,4 +116,32 @@ public class ScopeELResolverTest {
                         "applicationScope"));
     }
 
+    /**
+     * Tests {@link ScopeELResolver#isReadOnly(ELContext, Object, Object)}.
+     */
+    @Test
+    public void testIsReadOnly() {
+        ELContext elContext = createMock(ELContext.class);
+
+        replay(elContext);
+        assertTrue(resolver.isReadOnly(elContext, null, "whatever"));
+        verify(elContext);
+    }
+
+    /**
+     * Tests {@link ScopeELResolver#isReadOnly(ELContext, Object, Object)}.
+     */
+    @Test(expected=NullPointerException.class)
+    public void testIsReadOnlyNPE() {
+        resolver.isReadOnly(null, null, "whatever");
+    }
+
+    /**
+     * Tests {@link ScopeELResolver#setValue(ELContext, Object, Object, Object)}.
+     */
+    @Test
+    public void testSetValue() {
+        // Just to complete code coverage!
+        resolver.setValue(null, null, null, null);
+    }
 }
