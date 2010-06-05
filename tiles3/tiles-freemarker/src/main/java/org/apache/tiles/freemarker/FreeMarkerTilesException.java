@@ -56,7 +56,7 @@ public class FreeMarkerTilesException extends TilesException {
      * @param e The cause of the exception.
      * @since 2.2.0
      */
-    public FreeMarkerTilesException(Exception e) {
+    public FreeMarkerTilesException(Throwable e) {
         super(e);
     }
 
@@ -67,7 +67,7 @@ public class FreeMarkerTilesException extends TilesException {
      * @param e The cause of the exception.
      * @since 2.2.0
      */
-    public FreeMarkerTilesException(String message, Exception e) {
+    public FreeMarkerTilesException(String message, Throwable e) {
         super(message, e);
     }
 }
