@@ -20,25 +20,32 @@
  */
 package org.apache.tiles.ognl;
 
+import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import ognl.OgnlException;
 import ognl.OgnlRuntime;
 import ognl.PropertyAccessor;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
+import org.apache.tiles.evaluator.EvaluationException;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.easymock.EasyMock;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests {@link OGNLAttributeEvaluator}.
  *
  * @version $Rev$ $Date$$
  */
-public class OGNLAttributeEvaluatorTest extends TestCase {
+public class OGNLAttributeEvaluatorTest {
 
     /**
      * The evaluator to test.
@@ -50,10 +57,15 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
      */
     private Request request;
 
-    /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    private ApplicationContext applicationContext;
+
+    /**
+     * Sets up the test.
+     *
+     * @throws OgnlException If something goes wrong.
+     */
+    @Before
+    public void setUp() throws OgnlException {
         PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
         PropertyAccessor applicationContextPropertyAccessor =
             new NestedObjectDelegatePropertyAccessor<Request>(
@@ -74,28 +86,36 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
         requestScope.put("paulaBean", new PaulaBean());
-        request = EasyMock.createMock(Request.class);
-        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
+        request = createMock(Request.class);
+        expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
+        expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
-        EasyMock.expect(request.getContext("application")).andReturn(applicationScope)
-        		.anyTimes();
-		EasyMock.expect(request.getAvailableScopes()).andReturn(
-				new String[] { "request", "session", "application" }).anyTimes();
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        EasyMock.expect(request.getApplicationContext()).andReturn(
+        expect(request.getContext("application")).andReturn(applicationScope)
+                .anyTimes();
+        expect(request.getAvailableScopes()).andReturn(
+                new String[] { "request", "session", "application" }).anyTimes();
+        applicationContext = createMock(ApplicationContext.class);
+        expect(request.getApplicationContext()).andReturn(
                 applicationContext).anyTimes();
-        EasyMock.expect(applicationContext.getApplicationScope()).andReturn(
+        expect(applicationContext.getApplicationScope()).andReturn(
                 applicationScope).anyTimes();
-        EasyMock.replay(request, applicationContext);
+        replay(request, applicationContext);
+    }
+
+    /**
+     * Tears down the test.
+     */
+    @After
+    public void tearDown() {
+        verify(request, applicationContext);
     }
 
     /**
      * Tests
      * {@link OGNLAttributeEvaluator#evaluate(Attribute, Request)}.
      */
+    @Test
     public void testEvaluate() {
         Attribute attribute = new Attribute();
         attribute.setExpressionObject(new Expression("requestScope.object1"));
@@ -133,6 +153,7 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
     /**
      * Tests {@link OGNLAttributeEvaluator#evaluate(String, Request)}.
      */
+    @Test
     public void testEvaluateString() {
         String expression = "requestScope.object1";
         assertEquals("The value is not correct", "value", evaluator.evaluate(
@@ -158,6 +179,22 @@ public class OGNLAttributeEvaluatorTest extends TestCase {
         expression = "'String literal'";
         assertEquals("The value is not correct", "String literal", evaluator
                 .evaluate(expression, request));
+    }
+
+    /**
+     * Tests {@link OGNLAttributeEvaluator#evaluate(String, Request)}.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testEvaluateNull() {
+        evaluator.evaluate((String) null, request);
+    }
+
+    /**
+     * Tests {@link OGNLAttributeEvaluator#evaluate(String, Request)}.
+     */
+    @Test(expected=EvaluationException.class)
+    public void testEvaluateOgnlException() {
+        evaluator.evaluate("wrong|||!!!!yes###", request);
     }
 
     /**
