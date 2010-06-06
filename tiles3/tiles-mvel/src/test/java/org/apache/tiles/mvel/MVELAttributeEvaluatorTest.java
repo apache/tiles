@@ -20,20 +20,19 @@
  */
 package org.apache.tiles.mvel;
 
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.context.TilesRequestContextHolder;
-import org.apache.tiles.mvel.MVELAttributeEvaluator;
-import org.apache.tiles.mvel.TilesContextBeanVariableResolverFactory;
-import org.apache.tiles.mvel.TilesContextVariableResolverFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Test;
 import org.mvel2.integration.VariableResolverFactory;
 
 /**
@@ -41,7 +40,7 @@ import org.mvel2.integration.VariableResolverFactory;
  *
  * @version $Rev$ $Date$$
  */
-public class MVELAttributeEvaluatorTest extends TestCase {
+public class MVELAttributeEvaluatorTest {
 
     /**
      * The evaluator to test.
@@ -53,10 +52,13 @@ public class MVELAttributeEvaluatorTest extends TestCase {
      */
     private Request request;
 
-    /** {@inheritDoc} */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    private ApplicationContext applicationContext;
+
+    /**
+     * Sets up the test.
+     */
+    @Before
+    public void setUp() {
         TilesRequestContextHolder requestHolder = new TilesRequestContextHolder();
         VariableResolverFactory variableResolverFactory = new ScopeVariableResolverFactory(
                 requestHolder);
@@ -75,26 +77,35 @@ public class MVELAttributeEvaluatorTest extends TestCase {
         sessionScope.put("object2", new Integer(1));
         applicationScope.put("object3", new Float(2.0));
         requestScope.put("paulaBean", new PaulaBean());
-        request = EasyMock.createMock(Request.class);
-        EasyMock.expect(request.getContext("request")).andReturn(requestScope)
+        request = createMock(Request.class);
+        expect(request.getContext("request")).andReturn(requestScope)
                 .anyTimes();
-        EasyMock.expect(request.getContext("session")).andReturn(sessionScope)
+        expect(request.getContext("session")).andReturn(sessionScope)
                 .anyTimes();
-        EasyMock.expect(request.getContext("application")).andReturn(applicationScope)
+        expect(request.getContext("application")).andReturn(applicationScope)
                 .anyTimes();
-        EasyMock.expect(request.getAvailableScopes()).andReturn(
+        expect(request.getAvailableScopes()).andReturn(
                 new String[] { "request", "session", "application" }).anyTimes();
-        ApplicationContext applicationContext = EasyMock
-                .createMock(ApplicationContext.class);
-        EasyMock.expect(request.getApplicationContext()).andReturn(
+        applicationContext = createMock(ApplicationContext.class);
+        expect(request.getApplicationContext()).andReturn(
                 applicationContext).anyTimes();
-        EasyMock.replay(request, applicationContext);
+        replay(request, applicationContext);
+    }
+
+    /**
+     * Tests {@link MVELAttributeEvaluator#evaluate(String, Request)}.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testEvaluateNull() {
+        evaluator.evaluate((String) null, request);
+        verify(request, applicationContext);
     }
 
     /**
      * Tests
      * {@link MVELAttributeEvaluator#evaluate(Attribute, Request)}.
      */
+    @Test
     public void testEvaluate() {
         Attribute attribute = new Attribute();
         attribute.setExpressionObject(new Expression("requestScope.object1"));
@@ -127,11 +138,13 @@ public class MVELAttributeEvaluatorTest extends TestCase {
         attribute.setValue("object1");
         assertEquals("The value has been evaluated", "object1", evaluator
                 .evaluate(attribute, request));
+        verify(request, applicationContext);
     }
 
     /**
      * Tests {@link MVELAttributeEvaluator#evaluate(String, Request)}.
      */
+    @Test
     public void testEvaluateString() {
         String expression = "requestScope.object1";
         assertEquals("The value is not correct", "value", evaluator.evaluate(
@@ -157,6 +170,7 @@ public class MVELAttributeEvaluatorTest extends TestCase {
         expression = "'String literal'";
         assertEquals("The value is not correct", "String literal", evaluator
                 .evaluate(expression, request));
+        verify(request, applicationContext);
     }
 
     /**

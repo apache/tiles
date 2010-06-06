@@ -36,7 +36,7 @@
   <description>Tiles MVEL support: Classes and tag libraries to use MVEL as an expression language in attribute expressions.</description>
 
   <properties>
-  	<tiles.osgi.symbolicName>org.apache.tiles.mvel</tiles.osgi.symbolicName>
+      <tiles.osgi.symbolicName>org.apache.tiles.mvel</tiles.osgi.symbolicName>
   </properties>
 
   <build>
@@ -103,14 +103,8 @@
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <version>2.5.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.easymock</groupId>
       <artifactId>easymockclassextension</artifactId>
-      <version>2.4</version>
+      <version>2.5.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>

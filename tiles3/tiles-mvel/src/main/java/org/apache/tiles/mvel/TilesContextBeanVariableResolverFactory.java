@@ -21,13 +21,9 @@
 
 package org.apache.tiles.mvel;
 
-import java.util.HashMap;
-
 import org.apache.tiles.context.TilesRequestContextHolder;
 import org.apache.tiles.request.Request;
-import org.mvel2.UnresolveablePropertyException;
 import org.mvel2.integration.VariableResolver;
-import org.mvel2.integration.impl.BaseVariableResolverFactory;
 
 /**
  * Resolves beans stored in request, session and application scopes.
@@ -36,12 +32,7 @@ import org.mvel2.integration.impl.BaseVariableResolverFactory;
  * @since 2.2.0
  */
 public class TilesContextBeanVariableResolverFactory extends
-        BaseVariableResolverFactory {
-
-    /**
-     * The Tiles request holder.
-     */
-    private TilesRequestContextHolder requestHolder;
+        ReadOnlyVariableResolverFactory {
 
     /**
      * Constructor.
@@ -50,49 +41,13 @@ public class TilesContextBeanVariableResolverFactory extends
      * @since 2.2.0
      */
     public TilesContextBeanVariableResolverFactory(TilesRequestContextHolder requestHolder) {
-        this.requestHolder = requestHolder;
-        variableResolvers = new HashMap<String, VariableResolver>();
-    }
-
-    /** {@inheritDoc} */
-    public VariableResolver createVariable(String name, Object value) {
-        if (nextFactory != null) {
-            return nextFactory.createVariable(name, value);
-        }
-        throw new UnsupportedOperationException("This variable resolver factory is read only");
-    }
-
-    /** {@inheritDoc} */
-    public VariableResolver createVariable(String name, Object value,
-            Class<?> type) {
-        variableResolvers = new HashMap<String, VariableResolver>();
-        if (nextFactory != null) {
-            return nextFactory.createVariable(name, value, type);
-        }
-        throw new UnsupportedOperationException("This variable resolver factory is read only");
-    }
-
-    /** {@inheritDoc} */
-    public boolean isResolveable(String name) {
-        return isTarget(name) || isNextResolveable(name);
+        super(requestHolder);
     }
 
     /** {@inheritDoc} */
     @Override
-    public VariableResolver getVariableResolver(String name) {
-        if (isResolveable(name)) {
-            if (variableResolvers != null && variableResolvers.containsKey(name)) {
-                return variableResolvers.get(name);
-            } else if (isTarget(name)) {
-                VariableResolver variableResolver = new TilesContextBeanVariableResolver(name);
-                variableResolvers.put(name, variableResolver);
-                return variableResolver;
-            } else if (nextFactory != null) {
-                return nextFactory.getVariableResolver(name);
-            }
-        }
-
-        throw new UnresolveablePropertyException("unable to resolve variable '" + name + "'");
+    public VariableResolver createVariableResolver(String name) {
+        return new TilesContextBeanVariableResolver(name);
     }
 
     /** {@inheritDoc} */
@@ -112,12 +67,7 @@ public class TilesContextBeanVariableResolverFactory extends
      * @version $Rev$ $Date$
      * @since 2.2.0
      */
-    private class TilesContextBeanVariableResolver implements VariableResolver {
-
-        /**
-         * The name of the attribute.
-         */
-        private String name;
+    private class TilesContextBeanVariableResolver extends ReadOnlyVariableResolver {
 
         /**
          * Constructor.
@@ -126,17 +76,7 @@ public class TilesContextBeanVariableResolverFactory extends
          * @since 2.2.0
          */
         public TilesContextBeanVariableResolver(String name) {
-            this.name = name;
-        }
-
-        /** {@inheritDoc} */
-        public int getFlags() {
-            return 0;
-        }
-
-        /** {@inheritDoc} */
-        public String getName() {
-            return name;
+            super(name);
         }
 
         /** {@inheritDoc} */
@@ -159,17 +99,6 @@ public class TilesContextBeanVariableResolverFactory extends
                 }
             }
             return null;
-        }
-
-        /** {@inheritDoc} */
-        @SuppressWarnings("unchecked")
-        public void setStaticType(Class type) {
-            // Does nothing for the moment.
-        }
-
-        /** {@inheritDoc} */
-        public void setValue(Object value) {
-            throw new UnsupportedOperationException("This resolver is read-only");
         }
     }
 }

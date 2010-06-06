@@ -21,19 +21,17 @@
 
 package org.apache.tiles.mvel;
 
-import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.context.TilesRequestContextHolder;
-import org.apache.tiles.mvel.TilesContextBeanVariableResolverFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
-import org.mvel2.UnresolveablePropertyException;
 import org.mvel2.integration.VariableResolver;
 
 /**
@@ -82,58 +80,10 @@ public class TilesContextBeanVariableResolverFactoryTest {
     }
 
     /**
-     * Test method for {@link TilesContextBeanVariableResolverFactory#createVariable(String, Object)}.
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testCreateVariableStringObject() {
-        replay(request, applicationContext);
-        factory.createVariable("myName", "myValue");
-        verify(request, applicationContext);
-    }
-
-    /**
-     * Test method for {@link TilesContextBeanVariableResolverFactory#createVariable(String, Object, Class)}.
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testCreateVariableStringObjectClassOfQ() {
-        replay(request, applicationContext);
-        factory.createVariable("myName", "myValue", String.class);
-        verify(request, applicationContext);
-    }
-
-    /**
-     * Test method for {@link TilesContextBeanVariableResolverFactory#isResolveable(String)}.
+     * Test method for {@link TilesContextBeanVariableResolverFactory#createVariableResolver(String)}.
      */
     @Test
-    public void testIsResolveable() {
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put("one", 1);
-        expect(request.getContext("request")).andReturn(requestScope).times(
-                EXPECTED_REQUEST_CALLS);
-        Map<String, Object> applicationScope = new HashMap<String, Object>();
-        applicationScope.put("two", 2);
-        Map<String, Object> sessionScope = new HashMap<String, Object>();
-        sessionScope.put("three", "three");
-        expect(request.getContext("session")).andReturn(sessionScope).times(
-                EXPECTED_SESSION_CALLS);
-		expect(request.getAvailableScopes()).andReturn(
-				new String[] { "request", "session", "application" })
-				.anyTimes();
-        expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
-        replay(request, applicationContext);
-
-        assertTrue(factory.isResolveable("one"));
-        assertTrue(factory.isResolveable("two"));
-        assertTrue(factory.isResolveable("three"));
-        assertFalse(factory.isResolveable("four"));
-        verify(request, applicationContext);
-    }
-
-    /**
-     * Test method for {@link TilesContextBeanVariableResolverFactory#getVariableResolver(String)}.
-     */
-    @Test
-    public void testGetVariableResolverString() {
+    public void testCreateVariableResolver() {
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put("one", 1);
         expect(request.getContext("request")).andReturn(requestScope).anyTimes();
@@ -142,41 +92,23 @@ public class TilesContextBeanVariableResolverFactoryTest {
         Map<String, Object> sessionScope = new HashMap<String, Object>();
         sessionScope.put("three", "three");
         expect(request.getContext("session")).andReturn(sessionScope).anyTimes();
-		expect(request.getAvailableScopes()).andReturn(
-				new String[] { "request", "session", "application" })
-				.anyTimes();
+        expect(request.getAvailableScopes()).andReturn(
+                new String[] { "request", "session", "application" })
+                .anyTimes();
         expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
         replay(request, applicationContext);
 
-        VariableResolver resolver = factory.getVariableResolver("one");
+        VariableResolver resolver = factory.createVariableResolver("one");
         assertEquals(1, resolver.getValue());
-        resolver = factory.getVariableResolver("two");
+        assertEquals(Integer.class, resolver.getType());
+        resolver = factory.createVariableResolver("two");
         assertEquals(2, resolver.getValue());
-        resolver = factory.getVariableResolver("three");
+        resolver = factory.createVariableResolver("three");
         assertEquals("three", resolver.getValue());
+        resolver = factory.createVariableResolver("four");
+        assertEquals(Object.class, resolver.getType());
+        assertNull(resolver.getValue());
         verify(request, applicationContext);
-    }
-
-    /**
-     * Test method for {@link TilesContextBeanVariableResolverFactory#getVariableResolver(String)}.
-     */
-    @Test(expected = UnresolveablePropertyException.class)
-    public void testGetVariableResolverStringException() {
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        requestScope.put("one", 1);
-        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
-        Map<String, Object> applicationScope = new HashMap<String, Object>();
-        applicationScope.put("two", 2);
-        Map<String, Object> sessionScope = new HashMap<String, Object>();
-        sessionScope.put("three", "three");
-        expect(request.getContext("session")).andReturn(sessionScope).anyTimes();
-		expect(request.getAvailableScopes()).andReturn(
-				new String[] { "request", "session", "application" })
-				.anyTimes();
-        expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
-        replay(request, applicationContext);
-
-        factory.getVariableResolver("four");
     }
 
     /**
@@ -194,9 +126,9 @@ public class TilesContextBeanVariableResolverFactoryTest {
         sessionScope.put("three", "three");
         expect(request.getContext("session")).andReturn(sessionScope).times(
                 EXPECTED_SESSION_CALLS);
-		expect(request.getAvailableScopes()).andReturn(
-				new String[] { "request", "session", "application" })
-				.anyTimes();
+        expect(request.getAvailableScopes()).andReturn(
+                new String[] { "request", "session", "application" })
+                .anyTimes();
         expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
         replay(request, applicationContext);
 

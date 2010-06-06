@@ -79,36 +79,6 @@ public class TilesContextVariableResolverFactoryTest {
     }
 
     /**
-     * Test method for {@link TilesContextVariableResolverFactory#createVariable(String, Object)}.
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testCreateVariableStringObject() {
-        replay(request, applicationContext);
-        factory.createVariable("myName", "myValue");
-    }
-
-    /**
-     * Test method for {@link TilesContextVariableResolverFactory#createVariable(String, Object, Class)}.
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testCreateVariableStringObjectClassOfQ() {
-        replay(request, applicationContext);
-        factory.createVariable("myName", "myValue", String.class);
-    }
-
-    /**
-     * Test method for {@link TilesContextVariableResolverFactory#isResolveable(String)}.
-     */
-    @Test
-    public void testIsResolveable() {
-        replay(request, applicationContext);
-        assertTrue(factory.isResolveable("header"));
-        assertFalse(factory.isResolveable("requestScope"));
-        assertTrue(factory.isResolveable("applicationScope"));
-        assertFalse(factory.isResolveable("blah"));
-    }
-
-    /**
      * Test method for {@link TilesContextVariableResolverFactory#isTarget(String)}.
      */
     @Test
@@ -121,20 +91,29 @@ public class TilesContextVariableResolverFactoryTest {
     }
 
     /**
-     * Test method for {@link org.mvel2.integration.impl.BaseVariableResolverFactory#getVariableResolver(String)}.
+     * Test method for {@link TilesContextVariableResolverFactory#createVariableResolver(String)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
-    public void testGetVariableResolver() {
+    public void testCreateVariableResolver() {
+        Map<String, String> header = createMock(Map.class);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         requestScope.put("one", 1);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("two", 2);
+
         expect(request.getApplicationContext()).andReturn(applicationContext);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope);
-        replay(request, applicationContext);
+        expect(request.getHeader()).andReturn(header);
 
-        VariableResolver resolver = factory.getVariableResolver("applicationScope");
+        replay(request, applicationContext, header);
+
+        VariableResolver resolver = factory.createVariableResolver("header");
+        assertEquals(Map.class, resolver.getType());
+        assertEquals(header, resolver.getValue());
+        resolver = factory.createVariableResolver("applicationScope");
         assertEquals(applicationScope, resolver.getValue());
-        verify(request, applicationContext);
+        assertEquals(Map.class, resolver.getType());
+        verify(header);
     }
 }
