@@ -206,47 +206,4 @@ public class ServletContextAdapter implements ServletContext {
     public String getContextPath() {
         return rootContext.getContextPath();
     }
-
-    /**
-     * Composes an enumeration into a single one.
-     */
-    @SuppressWarnings("unchecked")
-    class CompositeEnumeration implements Enumeration {
-
-        /**
-         * The first enumeration to consider.
-         */
-        private Enumeration first;
-
-        /**
-         * The second enumeration to consider.
-         */
-        private Enumeration second;
-
-
-        /**
-         * Constructor.
-         *
-         * @param first The first enumeration to consider.
-         * @param second The second enumeration to consider.
-         */
-        public CompositeEnumeration(Enumeration first, Enumeration second) {
-            this.first = first;
-            this.second = second;
-        }
-
-        /** {@inheritDoc} */
-        public boolean hasMoreElements() {
-            return first.hasMoreElements() || second.hasMoreElements();
-        }
-
-        /** {@inheritDoc} */
-        public Object nextElement() {
-            if (first.hasMoreElements()) {
-                return first.nextElement();
-            }
-
-            return second.nextElement();
-        }
-    }
 }

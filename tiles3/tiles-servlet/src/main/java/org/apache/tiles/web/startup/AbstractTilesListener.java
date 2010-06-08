@@ -24,13 +24,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.tiles.TilesException;
-import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.startup.TilesInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Listener for the initialization of the Tiles container.
@@ -38,11 +33,6 @@ import org.slf4j.LoggerFactory;
  * @version $Rev$ $Date$
  */
 public abstract class AbstractTilesListener implements ServletContextListener {
-
-    /**
-     * Log instance.
-     */
-    private Logger log = LoggerFactory.getLogger(AbstractTilesListener.class);
 
     /**
      * The initializer object.
@@ -65,19 +55,12 @@ public abstract class AbstractTilesListener implements ServletContextListener {
     }
 
     /**
-     * Remove the tiles container from service.
+     * Destroys the initializer.
      *
      * @param event The intercepted event.
      */
     public void contextDestroyed(ServletContextEvent event) {
-        ServletContext servletContext = event.getServletContext();
-        ApplicationContext applicationContext = org.apache.tiles.request.servlet.ServletUtil
-                .getApplicationContext(servletContext);
-        try {
-            TilesAccess.setContainer(applicationContext, null);
-        } catch (TilesException e) {
-            log.warn("Unable to remove tiles container from service.", e);
-        }
+        initializer.destroy();
     }
 
     /**

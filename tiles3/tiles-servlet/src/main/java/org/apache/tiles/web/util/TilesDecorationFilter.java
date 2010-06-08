@@ -38,6 +38,7 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.reflect.CannotInstantiateObjectException;
 import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
@@ -135,27 +136,12 @@ public class TilesDecorationFilter implements Filter {
      */
     private AttributeContextMutator mutator = null;
 
-    /**
-     * Returns the filter configuration object.
-     *
-     * @return The filter configuration.
-     */
-    public FilterConfig getFilterConfig() {
-        return filterConfig;
-    }
-
-    /**
-     * Returns the servlet context.
-     *
-     * @return The servlet context.
-     */
-    public ServletContext getServletContext() {
-        return filterConfig.getServletContext();
-    }
+    private ServletContext servletContext;
 
     /** {@inheritDoc} */
     public void init(FilterConfig config) throws ServletException {
         filterConfig = config;
+        servletContext = filterConfig.getServletContext();
 
         containerKey = filterConfig
                 .getInitParameter(CONTAINER_KEY_INIT_PARAMETER);
@@ -180,7 +166,7 @@ public class TilesDecorationFilter implements Filter {
         if (temp != null) {
             try {
                 mutator = (AttributeContextMutator) ClassUtil.instantiate(temp);
-            } catch (Exception e) {
+            } catch (CannotInstantiateObjectException e) {
                 throw new ServletException("Unable to instantiate specified context mutator.", e);
             }
         } else {
@@ -226,23 +212,21 @@ public class TilesDecorationFilter implements Filter {
         // If the request contains the prevent token, we must not reapply the definition.
         // This is used to ensure that filters mapped to wild cards do not infinately
         // loop.
-        if (isPreventTokenPresent(req)) {
-            filterChain.doFilter(req, res);
-            return;
+        if (!isPreventTokenPresent(req)) {
+            ApplicationContext applicationContext = org.apache.tiles.request.servlet.ServletUtil
+                    .getApplicationContext(servletContext);
+            Request request = new ServletRequest(applicationContext,
+                    (HttpServletRequest) req, (HttpServletResponse) res);
+            TilesContainer container = TilesAccess.getContainer(applicationContext,
+                    containerKey);
+            mutator.mutate(container.getAttributeContext(request), req);
+            if (preventDecorationToken != null) {
+                req.setAttribute(preventDecorationToken, Boolean.TRUE);
+            }
+            String definitionName = getDefinitionForRequest(req);
+            container.render(definitionName, request);
         }
-
-        ApplicationContext applicationContext = org.apache.tiles.request.servlet.ServletUtil
-                .getApplicationContext(getServletContext());
-        Request request = new ServletRequest(applicationContext,
-                (HttpServletRequest) req, (HttpServletResponse) res);
-        TilesContainer container = TilesAccess.getContainer(applicationContext,
-                containerKey);
-        mutator.mutate(container.getAttributeContext(request), req);
-        if (preventDecorationToken != null) {
-            req.setAttribute(preventDecorationToken, Boolean.TRUE);
-        }
-        String definitionName = getDefinitionForRequest(req);
-        container.render(definitionName, request);
+        filterChain.doFilter(req, res);
     }
 
     /**

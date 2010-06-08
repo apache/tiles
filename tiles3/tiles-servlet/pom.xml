@@ -122,14 +122,8 @@
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <version>2.5.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.easymock</groupId>
       <artifactId>easymockclassextension</artifactId>
-      <version>2.4</version>
+      <version>2.5.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -140,9 +134,9 @@
     </dependency>
 
     <dependency>
-    	<groupId>org.apache.tiles</groupId>
-    	<artifactId>tiles-request-servlet</artifactId>
-    	<version>1.0-SNAPSHOT</version>
+        <groupId>org.apache.tiles</groupId>
+        <artifactId>tiles-request-servlet</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
