@@ -61,7 +61,7 @@
     <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity-tools</artifactId>
-      <version>2.0-20090514.211946-1</version>
+      <version>2.0</version>
       <exclusions>
         <exclusion>
           <artifactId>struts-taglib</artifactId>
