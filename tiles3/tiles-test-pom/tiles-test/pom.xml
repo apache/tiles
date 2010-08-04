@@ -389,12 +389,7 @@
             </properties>
         </profile>
         <profile>
-            <id>release</id>
-            <activation>
-                <property>
-                    <name>release</name>
-                </property>
-            </activation>
+            <id>apache-release</id>
             <build>
                 <plugins>
                     <plugin>
