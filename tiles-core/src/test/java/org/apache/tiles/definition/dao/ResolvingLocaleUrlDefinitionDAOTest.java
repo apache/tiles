@@ -722,4 +722,26 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         List<Attribute> attributes = (List<Attribute>) listAttribute.getValue();
         assertEquals(2, attributes.size());
     }
+
+    /**
+     * Tests
+     * {@link ResolvingLocaleUrlDefinitionDAO#getDefinition(String, Locale)}
+     * to solve the TILES-512 issue.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testTiles512() throws IOException {
+        URL url = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/tiles-defs-2.1.xml");
+        definitionDao.addSourceURL(url);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        definitionDao.setReader(new DigesterDefinitionsReader());
+        EasyMock.replay(applicationContext);
+
+        Definition definition = definitionDao.getDefinition(
+                "test.inherit.othertype", Locale.ITALIAN);
+        assertEquals("/layout.ftl", definition.getTemplateAttribute().getValue());
+        assertEquals("freemarker", definition.getTemplateAttribute().getRenderer());
+    }
 }
