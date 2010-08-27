@@ -80,4 +80,11 @@
           templateType="mytype" >
       <put-attribute name="body" expression="${my.attribute.expression}" />
   </definition>
+
+  <definition name="test.inherit.othertype.base" template="/layout.ftl" templateType="freemarker">
+      <put-attribute name="body" value="/jsp/body.jsp" />
+  </definition>
+
+  <definition name="test.inherit.othertype" extends="test.inherit.othertype.base">
+  </definition>
 </tiles-definitions>

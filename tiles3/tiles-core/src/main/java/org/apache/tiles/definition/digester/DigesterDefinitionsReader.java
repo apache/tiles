@@ -151,7 +151,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
             Definition definition = (Definition) digester.peek();
             definition.setName(attributes.getValue("name"));
             definition.setPreparer(attributes.getValue("preparer"));
-            definition.setExtends(attributes.getValue("extends"));
+            String extendsAttribute = attributes.getValue("extends");
+            definition.setExtends(extendsAttribute);
 
             String template = attributes.getValue("template");
             Attribute attribute = Attribute.createTemplateAttribute(template);
@@ -162,6 +163,8 @@ public class DigesterDefinitionsReader implements DefinitionsReader {
             String templateType = attributes.getValue("templateType");
             if (templateType != null) {
                 attribute.setRenderer(templateType);
+            } else if (extendsAttribute != null && templateType == null) {
+                attribute.setRenderer(null);
             }
             definition.setTemplateAttribute(attribute);
         }

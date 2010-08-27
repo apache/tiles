@@ -427,4 +427,61 @@ public class ResolvingLocaleUrlDefinitionDAOTest {
         assertEquals(2, attributes.size());
         verify(applicationContext);
     }
+
+    /**
+     * Tests
+     * {@link ResolvingLocaleUrlDefinitionDAO#getDefinition(String, Locale)}
+     * to solve the TILES-512 issue.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testTiles512() throws IOException {
+        URL url = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/tiles-defs-2.1.xml");
+        List<URL> urls = new ArrayList<URL>();
+        urls.add(url);
+        definitionDao.setSourceURLs(urls);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        definitionDao.setReader(new DigesterDefinitionsReader());
+        replay(applicationContext);
+
+        Definition definition = definitionDao.getDefinition(
+                "test.inherit.othertype", Locale.ITALIAN);
+        assertEquals("/layout.ftl", definition.getTemplateAttribute().getValue());
+        assertEquals("freemarker", definition.getTemplateAttribute().getRenderer());
+    }
+
+    /**
+     * Tests
+     * {@link ResolvingLocaleUrlDefinitionDAO#getDefinition(String, Locale)}
+     * to solve the TILES-513 issue.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testTiles513() throws IOException {
+        URL url = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs-tiles-513.xml");
+        List<URL> urls = new ArrayList<URL>();
+        urls.add(url);
+        definitionDao.setSourceURLs(urls);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        definitionDao.setReader(new DigesterDefinitionsReader());
+        replay(applicationContext);
+
+        Definition definition = definitionDao.getDefinition(
+                "test.anonymous", null);
+        definitionDao.getDefinition(
+                "test.anonymous", new Locale("es", "CO"));
+        definitionDao.getDefinition(
+                "test.anonymous", new Locale("en", "CA"));
+        Attribute attribute = definition.getAttribute("header");
+        Definition child = definitionDao.getDefinition((String) attribute.getValue(), null);
+        assertNotNull(child);
+        attribute = definition.getAttribute("menu");
+        child = definitionDao.getDefinition((String) attribute.getValue(), null);
+        assertNotNull(child);
+        attribute = definition.getAttribute("footer");
+        child = definitionDao.getDefinition((String) attribute.getValue(), null);
+        assertNotNull(child);
+    }
 }
