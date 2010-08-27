@@ -744,4 +744,37 @@ public class ResolvingLocaleUrlDefinitionDAOTest extends TestCase {
         assertEquals("/layout.ftl", definition.getTemplateAttribute().getValue());
         assertEquals("freemarker", definition.getTemplateAttribute().getRenderer());
     }
+
+    /**
+     * Tests
+     * {@link ResolvingLocaleUrlDefinitionDAO#getDefinition(String, Locale)}
+     * to solve the TILES-513 issue.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    public void testTiles513() throws IOException {
+        URL url = this.getClass().getClassLoader().getResource(
+                "org/apache/tiles/config/defs-tiles-513.xml");
+        definitionDao.addSourceURL(url);
+        TilesApplicationContext applicationContext = EasyMock
+                .createMock(TilesApplicationContext.class);
+        definitionDao.setReader(new DigesterDefinitionsReader());
+        EasyMock.replay(applicationContext);
+
+        Definition definition = definitionDao.getDefinition(
+                "test.anonymous", null);
+        definitionDao.getDefinition(
+                "test.anonymous", new Locale("es", "CO"));
+        definitionDao.getDefinition(
+                "test.anonymous", new Locale("en", "CA"));
+        Attribute attribute = definition.getAttribute("header");
+        Definition child = definitionDao.getDefinition((String) attribute.getValue(), null);
+        assertNotNull(child);
+        attribute = definition.getAttribute("menu");
+        child = definitionDao.getDefinition((String) attribute.getValue(), null);
+        assertNotNull(child);
+        attribute = definition.getAttribute("footer");
+        child = definitionDao.getDefinition((String) attribute.getValue(), null);
+        assertNotNull(child);
+    }
 }

@@ -55,17 +55,18 @@ public class ResolvingLocaleUrlDefinitionDAO extends
     /** {@inheritDoc} */
     @Override
     protected Map<String, Definition> loadParentDefinitions(Locale parentLocale) {
-        return loadDefinitionsFromURLs(parentLocale);
+        return loadRawDefinitionsFromURLs(parentLocale);
     }
 
-    /** {@inheritDoc} */
     @Override
-    protected Map<String, Definition> loadDefinitionsFromURLs(
-            Locale customizationKey) {
-        Map<String, Definition> retValue = super.loadDefinitionsFromURLs(customizationKey);
-        Map<String, Definition> defsMap = locale2definitionMap.get(customizationKey);
+    protected Map<String, Definition> loadDefinitions(Locale customizationKey) {
+        Map<String, Definition> localeDefsMap = super.loadDefinitions(customizationKey);
+        Map<String, Definition> defsMap = definitionResolver
+                .storeDefinitionPatterns(copyDefinitionMap(localeDefsMap),
+                        customizationKey);
         resolveInheritances(defsMap, customizationKey);
-        return retValue;
+        locale2definitionMap.put(customizationKey, defsMap);
+        return defsMap;
     }
 
     /** {@inheritDoc} */
