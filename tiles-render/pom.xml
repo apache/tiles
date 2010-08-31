@@ -14,6 +14,7 @@
 	<description>Container project for Tiles Render</description>
 	<modules>
 		<module>tiles-render-core</module>
+		<module>tiles-render-velocity</module>
 	</modules>
 	<build>
 		<pluginManagement>
