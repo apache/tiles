@@ -60,13 +60,6 @@ public class BasicRendererFactory implements RendererFactory,
         "org.apache.tiles.rendere.impl.BasicRendererFactory.DEFAULT_RENDERER";
 
     /**
-     * The default renderer name/renderer class map.
-     *
-     * @since 2.1.0
-     */
-    protected static final Map<String, String> DEFAULT_TYPE_2_RENDERER;
-
-    /**
      * The Tiles application context.
      *
      * @since 2.1.0
@@ -100,16 +93,6 @@ public class BasicRendererFactory implements RendererFactory,
      * @since 2.1.0
      */
     protected AttributeRenderer defaultRenderer;
-
-    static {
-        DEFAULT_TYPE_2_RENDERER = new HashMap<String, String>();
-        DEFAULT_TYPE_2_RENDERER.put("string", StringAttributeRenderer.class
-                .getName());
-        DEFAULT_TYPE_2_RENDERER.put("definition",
-                DefinitionAttributeRenderer.class.getName());
-        DEFAULT_TYPE_2_RENDERER.put("template", TemplateAttributeRenderer.class
-                .getName());
-    }
 
     /**
      * Constructor.

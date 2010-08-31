@@ -20,8 +20,10 @@
  */
 package org.apache.tiles.factory;
 
-import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
 
 import java.net.URL;
 import java.util.List;
@@ -46,8 +48,8 @@ import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
+import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
-import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.easymock.EasyMock;
 
@@ -181,7 +183,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         renderer = rendererFactory.getRenderer("template");
         assertNotNull("The template renderer is null", renderer);
         assertTrue("The template renderer class is not correct",
-                renderer instanceof TemplateAttributeRenderer);
+                renderer instanceof DelegateAttributeRenderer);
         renderer = rendererFactory.getRenderer("definition");
         assertNotNull("The definition renderer is null", renderer);
         assertTrue("The definition renderer class is not correct",
@@ -248,7 +250,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
                 rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
         assertTrue("The renderer class is not correct",
-                renderer instanceof TemplateAttributeRenderer);
+                renderer instanceof DelegateAttributeRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 

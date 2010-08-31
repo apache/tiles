@@ -151,6 +151,11 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+    	<groupId>org.apache.tiles.render</groupId>
+    	<artifactId>tiles-render-core</artifactId>
+    	<version>1.0.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <repositories>

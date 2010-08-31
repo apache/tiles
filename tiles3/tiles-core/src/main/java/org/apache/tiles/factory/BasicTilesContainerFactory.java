@@ -46,12 +46,14 @@ import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
+import org.apache.tiles.render.DispatchRenderer;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
+import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
@@ -394,9 +396,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             ApplicationContext applicationContext,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        TemplateAttributeRenderer templateRenderer = new TemplateAttributeRenderer();
-        templateRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        return templateRenderer;
+        return new DelegateAttributeRenderer(new DispatchRenderer(), attributeEvaluatorFactory);
     }
 
     /**
