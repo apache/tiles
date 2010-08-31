@@ -21,9 +21,18 @@
 
 package org.apache.tiles.extras.complete;
 
-import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,8 +63,8 @@ import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
+import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
-import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
@@ -119,7 +128,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         rendererFactory.registerRenderer(eq("string"),
                 isA(StringAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("template"),
-                isA(TemplateAttributeRenderer.class));
+                isA(DelegateAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("definition"),
                 isA(DefinitionAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("freemarker"),
@@ -235,7 +244,6 @@ public class CompleteAutoloadTilesContainerFactoryTest {
      * {@link CompleteAutoloadTilesContainerFactory#createPatternDefinitionResolver(Class)}
      * .
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testCreatePatternDefinitionResolver() {
         PatternDefinitionResolver<Integer> resolver = factory
