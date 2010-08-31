@@ -187,7 +187,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         renderer = rendererFactory.getRenderer("definition");
         assertNotNull("The definition renderer is null", renderer);
         assertTrue("The definition renderer class is not correct",
-                renderer instanceof DefinitionAttributeRenderer);
+                renderer instanceof DelegateAttributeRenderer);
     }
 
     /**
@@ -269,7 +269,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
                 rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
         assertTrue("The renderer class is not correct",
-                renderer instanceof DefinitionAttributeRenderer);
+                renderer instanceof DelegateAttributeRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 }

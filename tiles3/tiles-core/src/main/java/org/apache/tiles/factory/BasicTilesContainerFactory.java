@@ -53,6 +53,7 @@ import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
+import org.apache.tiles.renderer.impl.DefinitionRenderer;
 import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
@@ -64,7 +65,6 @@ import org.apache.tiles.request.ApplicationContext;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-@SuppressWarnings("unused")
 public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
@@ -414,9 +414,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             ApplicationContext applicationContext,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        DefinitionAttributeRenderer definitionRenderer = new DefinitionAttributeRenderer();
-        definitionRenderer.setContainer(container);
-        definitionRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        return definitionRenderer;
+        return new DelegateAttributeRenderer(new DefinitionRenderer(container),
+                attributeEvaluatorFactory);
     }
 }

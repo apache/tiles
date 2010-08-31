@@ -62,7 +62,6 @@ import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
-import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
@@ -130,7 +129,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         rendererFactory.registerRenderer(eq("template"),
                 isA(DelegateAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("definition"),
-                isA(DefinitionAttributeRenderer.class));
+                isA(DelegateAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("freemarker"),
                 isA(FreeMarkerAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("velocity"),
