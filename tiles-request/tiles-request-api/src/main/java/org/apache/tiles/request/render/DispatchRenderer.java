@@ -44,10 +44,6 @@ public class DispatchRenderer implements TypeDetectingRenderer {
 
     /** {@inheritDoc} */
     public boolean isRenderable(String path, Request request) {
-        if (path == null) {
-            throw new InvalidTemplateException("Cannot dispatch a null path");
-        }
-
-        return path.startsWith("/");
+        return path != null && path.startsWith("/");
     }
 }

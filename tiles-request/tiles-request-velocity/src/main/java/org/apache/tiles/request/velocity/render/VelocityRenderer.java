@@ -55,31 +55,25 @@ public class VelocityRenderer implements TypeDetectingRenderer {
 
     /** {@inheritDoc} */
     @Override
-    public void render(String value, Request request) throws IOException {
-        if (value != null) {
-            if (value instanceof String) {
-                ServletRequest servletRequest = ServletUtil.getServletRequest(request);
-                // then get a context
-                Context context = velocityView.createContext(servletRequest
-                        .getRequest(), servletRequest.getResponse());
-
-                // get the template
-                Template template = velocityView.getTemplate((String) value);
-
-                // merge the template and context into the writer
-                velocityView.merge(template, context, request.getWriter());
-            } else {
-                throw new InvalidTemplateException(
-                        "Cannot render a template that is not a string: "
-                                + value.toString());
-            }
-        } else {
-            throw new InvalidTemplateException("Cannot render a null template");
+    public void render(String path, Request request) throws IOException {
+        if (path == null) {
+            throw new InvalidTemplateException("Cannot dispatch a null path");
         }
+
+        ServletRequest servletRequest = ServletUtil.getServletRequest(request);
+        // then get a context
+        Context context = velocityView.createContext(servletRequest
+                .getRequest(), servletRequest.getResponse());
+
+        // get the template
+        Template template = velocityView.getTemplate((String) path);
+
+        // merge the template and context into the writer
+        velocityView.merge(template, context, request.getWriter());
     }
 
     /** {@inheritDoc} */
-    public boolean isRenderable(String string, Request request) {
-        return string.startsWith("/") && string.endsWith(".vm");
+    public boolean isRenderable(String path, Request request) {
+        return path != null && path.startsWith("/") && path.endsWith(".vm");
     }
 }
