@@ -36,7 +36,6 @@ import org.apache.tiles.request.Request;
 import org.apache.tiles.request.collection.IteratorEnumeration;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.util.ApplicationContextAware;
-import org.apache.tiles.servlet.context.ServletUtil;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.JeeConfig;
@@ -109,7 +108,7 @@ public class VelocityAttributeRenderer extends
             Request request) throws IOException {
         if (value != null) {
             if (value instanceof String) {
-                ServletRequest servletRequest = ServletUtil.getServletRequest(request);
+                ServletRequest servletRequest = org.apache.tiles.request.servlet.ServletUtil.getServletRequest(request);
                 // then get a context
                 Context context = velocityView.createContext(servletRequest
                         .getRequest(), servletRequest.getResponse());
@@ -171,7 +170,7 @@ public class VelocityAttributeRenderer extends
 
         /** {@inheritDoc} */
         public ServletContext getServletContext() {
-            return ServletUtil.getServletContext(applicationContext);
+            return org.apache.tiles.request.servlet.ServletUtil.getServletContext(applicationContext);
         }
     }
 }

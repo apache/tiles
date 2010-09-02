@@ -77,10 +77,12 @@ import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
+import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.velocity.render.VelocityRenderer;
+import org.apache.tiles.request.velocity.render.VelocityRendererBuilder;
 import org.apache.tiles.util.URLUtil;
-import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
 import org.mvel2.integration.VariableResolverFactory;
 
 /**
@@ -141,11 +143,12 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
         freemarkerRenderer.commit();
         rendererFactory.registerRenderer(FREEMARKER_RENDERER_NAME, freemarkerRenderer);
 
-        VelocityAttributeRenderer velocityRenderer = new VelocityAttributeRenderer();
-        velocityRenderer.setApplicationContext(applicationContext);
-        velocityRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        velocityRenderer.commit();
-        rendererFactory.registerRenderer(VELOCITY_RENDERER_NAME, velocityRenderer);
+        VelocityRenderer velocityRenderer = VelocityRendererBuilder
+                .createInstance().setApplicationContext(applicationContext)
+                .build();
+        rendererFactory.registerRenderer(VELOCITY_RENDERER_NAME,
+                new DelegateAttributeRenderer(velocityRenderer,
+                        attributeEvaluatorFactory));
     }
 
 

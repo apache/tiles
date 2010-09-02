@@ -66,7 +66,6 @@ import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
-import org.apache.tiles.velocity.renderer.VelocityAttributeRenderer;
 import org.apache.velocity.tools.view.VelocityView;
 import org.junit.Before;
 import org.junit.Test;
@@ -133,7 +132,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         rendererFactory.registerRenderer(eq("freemarker"),
                 isA(FreeMarkerAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("velocity"),
-                isA(VelocityAttributeRenderer.class));
+                isA(DelegateAttributeRenderer.class));
 
         expect(applicationContext.getContext()).andReturn(servletContext)
                 .anyTimes();

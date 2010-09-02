@@ -43,7 +43,6 @@ import org.apache.tiles.request.collection.IteratorEnumeration;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.util.ApplicationContextAware;
-import org.apache.tiles.servlet.context.ServletUtil;
 
 /**
  * FreeMarker renderer for rendering FreeMarker templates as Tiles attributes.
@@ -118,7 +117,7 @@ public class FreeMarkerAttributeRenderer extends
             Request request) throws IOException {
         if (value != null) {
             if (value instanceof String) {
-                ServletRequest servletRequest = ServletUtil.getServletRequest(request);
+                ServletRequest servletRequest = org.apache.tiles.request.servlet.ServletUtil.getServletRequest(request);
                 HttpServletRequest httpRequest = servletRequest.getRequest();
                 HttpServletResponse httpResponse = servletRequest.getResponse();
                 servlet.setValue((String) value);
@@ -200,7 +199,7 @@ public class FreeMarkerAttributeRenderer extends
 
         /** {@inheritDoc} */
         public ServletContext getServletContext() {
-            return ServletUtil.getServletContext(applicationContext);
+            return org.apache.tiles.request.servlet.ServletUtil.getServletContext(applicationContext);
         }
 
         /** {@inheritDoc} */

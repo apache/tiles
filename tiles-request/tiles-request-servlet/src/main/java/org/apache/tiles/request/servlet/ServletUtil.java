@@ -27,7 +27,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.util.RequestWrapper;
 
 /**
  * Utilities for Tiles request servlet support.
@@ -63,5 +65,48 @@ public final class ServletUtil {
     public static ApplicationContext getApplicationContext(ServletContext servletContext) {
         return (ApplicationContext) servletContext
                 .getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE);
+    }
+
+    /**
+     * Opens a TilesRequestContext until it finds a ServletTilesRequestContext.
+     *
+     * @param request The request to open.
+     * @return The servlet-based request context.
+     * @throws NotAServletEnvironmentException If a servlet-based request
+     * context could not be found.
+     * @since 2.2.0
+     */
+    public static ServletRequest getServletRequest(Request request) {
+        Request currentRequest = request;
+        while (true) {
+            if (currentRequest == null) {
+                throw new NotAServletEnvironmentException("Last Tiles request context is null");
+            }
+    
+            if (currentRequest instanceof ServletRequest) {
+                return (ServletRequest) currentRequest;
+            }
+            if (!(currentRequest instanceof RequestWrapper)) {
+                throw new NotAServletEnvironmentException("Not a Servlet environment, not supported");
+            }
+            currentRequest = ((RequestWrapper) currentRequest).getWrappedRequest();
+        }
+    }
+
+    /**
+     * Gets a servlet context from a TilesApplicationContext.
+     *
+     * @param applicationContext The application context to analyze.
+     * @return The servlet context.
+     * @throws NotAServletEnvironmentException If the application context is not
+     * servlet-based.
+     * @since 2.2.0
+     */
+    public static ServletContext getServletContext(ApplicationContext applicationContext) {
+        if (applicationContext instanceof ServletApplicationContext) {
+            return (ServletContext) ((ServletApplicationContext) applicationContext).getContext();
+        }
+    
+        throw new NotAServletEnvironmentException("Not a Servlet-based environment");
     }
 }
