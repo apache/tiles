@@ -23,9 +23,9 @@ package org.apache.tiles.renderer.impl;
 import java.io.IOException;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.render.InvalidTemplateException;
-import org.apache.tiles.render.TypeDetectingRenderer;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.InvalidTemplateException;
+import org.apache.tiles.request.render.TypeDetectingRenderer;
 
 /**
  * Renders an attribute that contains a reference to a definition.

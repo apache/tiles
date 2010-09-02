@@ -46,7 +46,6 @@ import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
-import org.apache.tiles.render.DispatchRenderer;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
@@ -58,6 +57,7 @@ import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.render.DispatchRenderer;
 
 /**
  * Factory that builds a standard Tiles container using only Java code.

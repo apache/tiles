@@ -27,10 +27,10 @@ import java.util.Set;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
-import org.apache.tiles.render.TypeDetectingRenderer;
 import org.apache.tiles.renderer.RendererException;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
