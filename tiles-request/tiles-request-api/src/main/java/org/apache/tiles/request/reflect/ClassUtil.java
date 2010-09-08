@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.reflect;
+package org.apache.tiles.request.reflect;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;

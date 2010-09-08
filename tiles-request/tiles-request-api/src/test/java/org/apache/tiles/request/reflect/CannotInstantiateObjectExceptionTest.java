@@ -19,10 +19,12 @@
  * under the License.
  */
 
-package org.apache.tiles.reflect;
+package org.apache.tiles.request.reflect;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
+import org.apache.tiles.request.reflect.CannotInstantiateObjectException;
 import org.junit.Test;
 
 /**

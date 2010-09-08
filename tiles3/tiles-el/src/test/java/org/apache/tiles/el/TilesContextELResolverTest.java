@@ -32,9 +32,9 @@ import java.util.Map;
 import javax.el.ELContext;
 import javax.el.ELResolver;
 
-import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.reflect.ClassUtil;
 import org.junit.Before;
 import org.junit.Test;
 

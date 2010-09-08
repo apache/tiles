@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.freemarker.servlet;
+package org.apache.tiles.request.freemarker.servlet;
 
 import java.io.IOException;
 import java.io.Reader;

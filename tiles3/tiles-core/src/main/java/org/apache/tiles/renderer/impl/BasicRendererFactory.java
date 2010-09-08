@@ -27,10 +27,10 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.awareness.TilesContainerAware;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
-import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.reflect.ClassUtil;
 import org.apache.tiles.request.util.ApplicationContextAware;
 
 /**

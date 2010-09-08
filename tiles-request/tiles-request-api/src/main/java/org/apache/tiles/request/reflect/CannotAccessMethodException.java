@@ -18,9 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.reflect;
+package org.apache.tiles.request.reflect;
 
-import org.apache.tiles.TilesException;
+import org.apache.tiles.request.RequestException;
 
 /**
  * Indicates that a method cannot be accessed.
@@ -28,7 +28,7 @@ import org.apache.tiles.TilesException;
  * @version $Rev$ $Date$
  * @since 2.1.0
  */
-public class CannotAccessMethodException extends TilesException {
+public class CannotAccessMethodException extends RequestException {
 
     /**
      * Constructor.

@@ -26,9 +26,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.tiles.context.TilesRequestContextHolder;
-import org.apache.tiles.reflect.CannotAccessMethodException;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.reflect.CannotAccessMethodException;
 import org.apache.tiles.util.CombinedBeanInfo;
 import org.mvel2.integration.VariableResolver;
 

@@ -19,10 +19,11 @@
  * under the License.
  */
 
-package org.apache.tiles.reflect;
+package org.apache.tiles.request.reflect;
 
 import static org.junit.Assert.*;
 
+import org.apache.tiles.request.reflect.CannotAccessMethodException;
 import org.junit.Test;
 
 /**

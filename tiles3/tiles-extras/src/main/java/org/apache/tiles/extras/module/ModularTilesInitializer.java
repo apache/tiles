@@ -34,8 +34,8 @@ import java.util.jar.Manifest;
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.reflect.ClassUtil;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.reflect.ClassUtil;
 import org.apache.tiles.request.servlet.wildcard.WildcardServletApplicationContext;
 import org.apache.tiles.startup.TilesInitializer;
 import org.slf4j.Logger;

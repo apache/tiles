@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.reflect.ClassUtil;
+import org.apache.tiles.request.reflect.ClassUtil;
 
 /**
  * Contains the bean infos about one or more classes.

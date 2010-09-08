@@ -81,7 +81,7 @@
     <!-- Standard Action Servlet Configuration -->
     <servlet>
         <servlet-name>freemarker</servlet-name>
-        <servlet-class>org.apache.tiles.freemarker.servlet.TilesFreemarkerServlet</servlet-class>
+        <servlet-class>org.apache.tiles.request.freemarker.servlet.TilesFreemarkerServlet</servlet-class>
         
         <!-- FreemarkerServlet settings: -->
         <init-param>
@@ -109,6 +109,10 @@
         <init-param>
             <param-name>number_format</param-name>
             <param-value>0.##########</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.apache.tiles.request.freemarker.CUSTOM_SHARED_VARIABLE_FACTORIES</param-name>
+            <param-value>tiles,org.apache.tiles.freemarker.TilesSharedVariableFactory</param-value>
         </init-param>
         
         <load-on-startup>5</load-on-startup>

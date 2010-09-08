@@ -34,12 +34,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.freemarker.FreeMarkerTilesException;
-import org.apache.tiles.freemarker.servlet.TilesFreemarkerServlet;
 import org.apache.tiles.impl.InvalidTemplateException;
 import org.apache.tiles.renderer.impl.AbstractTypeDetectingAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.collection.IteratorEnumeration;
+import org.apache.tiles.request.freemarker.servlet.TilesFreemarkerServlet;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.util.ApplicationContextAware;

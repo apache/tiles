@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.reflect;
+package org.apache.tiles.request.reflect;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +27,8 @@ import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tiles.request.reflect.CannotInstantiateObjectException;
+import org.apache.tiles.request.reflect.ClassUtil;
 import org.junit.Test;
 
 /**
@@ -42,7 +44,7 @@ public class ClassUtilTest {
     private static final int MAP_SIZE = 3;
 
     /**
-     * Test method for {@link org.apache.tiles.reflect.ClassUtil#collectBeanInfo(java.lang.Class, java.util.Map)}.
+     * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#collectBeanInfo(java.lang.Class, java.util.Map)}.
      */
     @Test
     public void testCollectBeanInfo() {
@@ -67,7 +69,7 @@ public class ClassUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.reflect.ClassUtil#getClass(String, Class)}.
+     * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#getClass(String, Class)}.
      * @throws ClassNotFoundException If something goes wrong.
      */
     @Test
@@ -77,7 +79,7 @@ public class ClassUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.reflect.ClassUtil#getClass(String, Class)}.
+     * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#getClass(String, Class)}.
      * @throws ClassNotFoundException If something goes wrong.
      */
     @Test(expected=ClassNotFoundException.class)
@@ -86,7 +88,7 @@ public class ClassUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String, boolean)}.
+     * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String, boolean)}.
      * @throws ClassNotFoundException If something goes wrong.
      */
     @Test
@@ -96,7 +98,7 @@ public class ClassUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String, boolean)}.
+     * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String, boolean)}.
      * @throws ClassNotFoundException If something goes wrong.
      */
     @Test
@@ -105,7 +107,7 @@ public class ClassUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String)}.
+     * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String)}.
      * @throws ClassNotFoundException If something goes wrong.
      */
     @Test(expected=CannotInstantiateObjectException.class)
@@ -114,7 +116,7 @@ public class ClassUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String)}.
+     * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String)}.
      * @throws ClassNotFoundException If something goes wrong.
      */
     @Test(expected=CannotInstantiateObjectException.class)
@@ -123,7 +125,7 @@ public class ClassUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.reflect.ClassUtil#instantiate(String)}.
+     * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String)}.
      * @throws ClassNotFoundException If something goes wrong.
      */
     @Test(expected=CannotInstantiateObjectException.class)
