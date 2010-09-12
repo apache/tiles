@@ -23,6 +23,7 @@ package org.apache.tiles.definition.dao;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
@@ -125,21 +126,46 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
      */
     protected Map<String, Definition> loadDefinitionsFromURL(URL url) {
         Map<String, Definition> defsMap = null;
+
+        URLConnection connection = null;
         try {
-            URLConnection connection = url.openConnection();
+            connection = url.openConnection();
+        } catch (IOException e) {
+            // File not found. continue.
+            if (log.isDebugEnabled()) {
+                log.debug("I/O exception thrown when opening URL connection to "
+                        + url.toString() + ", continue");
+            }
+            return null;
+        }
+
+        InputStream stream = null;
+        try {
             connection.connect();
             lastModifiedDates.put(url.toExternalForm(), connection
                     .getLastModified());
 
             // Definition must be collected, starting from the base
             // source up to the last localized file.
-            defsMap = reader.read(connection.getInputStream());
+            stream = connection.getInputStream();
+            defsMap = reader.read(stream);
         } catch (FileNotFoundException e) {
             // File not found. continue.
-            log.debug("File {} not found, continue", url);
+            if (log.isDebugEnabled()) {
+                log.debug("File " + url.toString() + " not found, continue");
+            }
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
                     "I/O error processing configuration.", e);
+        } finally {
+            try {
+                if (stream != null) {
+                    stream.close();
+                }
+            } catch (IOException e) {
+                throw new DefinitionsFactoryException(
+                        "I/O error closing " + url.toString(), e);
+            }
         }
 
         return defsMap;
