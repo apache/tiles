@@ -21,18 +21,9 @@
 
 package org.apache.tiles.extras.complete;
 
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.isA;
-import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,7 +46,6 @@ import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PrefixedPatternDefinitionResolver;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
-import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.AttributeRenderer;
@@ -130,7 +120,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         rendererFactory.registerRenderer(eq("definition"),
                 isA(DelegateAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("freemarker"),
-                isA(FreeMarkerAttributeRenderer.class));
+                isA(DelegateAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("velocity"),
                 isA(DelegateAttributeRenderer.class));
 

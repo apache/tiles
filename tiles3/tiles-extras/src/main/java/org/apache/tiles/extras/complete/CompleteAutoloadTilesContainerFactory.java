@@ -59,7 +59,6 @@ import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.factory.TilesContainerFactoryException;
 import org.apache.tiles.freemarker.TilesSharedVariableFactory;
-import org.apache.tiles.freemarker.renderer.FreeMarkerAttributeRenderer;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.mvel.MVELAttributeEvaluator;
@@ -81,6 +80,8 @@ import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
+import org.apache.tiles.request.freemarker.render.FreemarkerRendererBuilder;
 import org.apache.tiles.request.freemarker.servlet.TilesFreemarkerServlet;
 import org.apache.tiles.request.velocity.render.VelocityRenderer;
 import org.apache.tiles.request.velocity.render.VelocityRendererBuilder;
@@ -133,20 +134,22 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
         super.registerAttributeRenderers(rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
 
-        FreeMarkerAttributeRenderer freemarkerRenderer = new FreeMarkerAttributeRenderer();
-        freemarkerRenderer.setApplicationContext(applicationContext);
-        freemarkerRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        freemarkerRenderer.setParameter("TemplatePath", "/");
-        freemarkerRenderer.setParameter("NoCache", "true");
-        freemarkerRenderer.setParameter("ContentType", "text/html");
-        freemarkerRenderer.setParameter("template_update_delay", "0");
-        freemarkerRenderer.setParameter("default_encoding", "ISO-8859-1");
-        freemarkerRenderer.setParameter("number_format", "0.##########");
-        freemarkerRenderer.setParameter(
-                TilesFreemarkerServlet.CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM,
-                "tiles," + TilesSharedVariableFactory.class.getName());
-        freemarkerRenderer.commit();
-        rendererFactory.registerRenderer(FREEMARKER_RENDERER_NAME, freemarkerRenderer);
+        FreemarkerRenderer freemarkerRenderer = FreemarkerRendererBuilder
+                .createInstance()
+                .setApplicationContext(applicationContext)
+                .setParameter("TemplatePath", "/")
+                .setParameter("NoCache", "true")
+                .setParameter("ContentType", "text/html")
+                .setParameter("template_update_delay", "0")
+                .setParameter("default_encoding", "ISO-8859-1")
+                .setParameter("number_format", "0.##########")
+                .setParameter(
+                        TilesFreemarkerServlet.CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM,
+                        "tiles," + TilesSharedVariableFactory.class.getName())
+                .build();
+        rendererFactory.registerRenderer(FREEMARKER_RENDERER_NAME,
+                new DelegateAttributeRenderer(freemarkerRenderer,
+                        attributeEvaluatorFactory));
 
         VelocityRenderer velocityRenderer = VelocityRendererBuilder
                 .createInstance().setApplicationContext(applicationContext)
