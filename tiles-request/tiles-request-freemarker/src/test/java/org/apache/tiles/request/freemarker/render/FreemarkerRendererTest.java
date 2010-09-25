@@ -18,17 +18,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.freemarker.renderer;
+package org.apache.tiles.request.freemarker.render;
 
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
-import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.createMockBuilder;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,8 +36,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
+import org.apache.tiles.request.freemarker.render.FreemarkerRendererBuilder;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.junit.Before;
@@ -55,11 +50,11 @@ import freemarker.ext.servlet.ServletContextHashModel;
 import freemarker.template.ObjectWrapper;
 
 /**
- * Tests {@link FreeMarkerAttributeRenderer}.
+ * Tests {@link FreemarkerRenderer}.
  *
  * @version $Rev$ $Date$
  */
-public class FreeMarkerAttributeRendererTest {
+public class FreemarkerRendererTest {
 
     private static final String ATTR_APPLICATION_MODEL =
         ".freemarker.Application";
@@ -72,13 +67,11 @@ public class FreeMarkerAttributeRendererTest {
     private static final String ATTR_REQUEST_PARAMETERS_MODEL =
         ".freemarker.RequestParameters";
 
-    private FreeMarkerAttributeRenderer renderer;
+    private FreemarkerRenderer renderer;
 
     private ApplicationContext applicationContext;
 
     private ServletContext servletContext;
-
-    private AttributeEvaluatorFactory attributeEvaluatorFactory;
 
     /**
      * Sets up the test.
@@ -86,33 +79,29 @@ public class FreeMarkerAttributeRendererTest {
     @Before
     public void setUp() {
         applicationContext = createMock(ServletApplicationContext.class);
-        attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         servletContext = createMock(ServletContext.class);
 
         expect(applicationContext.getContext()).andReturn(servletContext);
 
         replay(applicationContext, servletContext);
-        renderer = new FreeMarkerAttributeRenderer();
-        renderer.setApplicationContext(applicationContext);
-        renderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        renderer.setParameter("TemplatePath", "/");
-        renderer.setParameter("NoCache", "true");
-        renderer.setParameter("ContentType", "text/html");
-        renderer.setParameter("template_update_delay", "0");
-        renderer.setParameter("default_encoding", "ISO-8859-1");
-        renderer.setParameter("number_format", "0.##########");
-        renderer.commit();
+        renderer = FreemarkerRendererBuilder.createInstance()
+                .setApplicationContext(applicationContext)
+                .setParameter("TemplatePath", "/")
+                .setParameter("NoCache", "true")
+                .setParameter("ContentType", "text/html")
+                .setParameter("template_update_delay", "0")
+                .setParameter("default_encoding", "ISO-8859-1")
+                .setParameter("number_format", "0.##########").build();
     }
 
     /**
-     * Tests {@link FreeMarkerAttributeRenderer#write(Object, org.apache.tiles.Attribute, org.apache.tiles.request.Request)}.
+     * Tests {@link FreemarkerRenderer#render(String, org.apache.tiles.request.Request)}.
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
     @Test
     public void testWrite() throws IOException, ServletException {
         ApplicationContext applicationContext = createMock(ServletApplicationContext.class);
-        AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         ServletContext servletContext = createMock(ServletContext.class);
         GenericServlet servlet = createMockBuilder(GenericServlet.class).createMock();
         ServletConfig servletConfig = createMock(ServletConfig.class);
@@ -133,16 +122,14 @@ public class FreeMarkerAttributeRendererTest {
 
         replay(applicationContext, servletContext, objectWrapper);
 
-        FreeMarkerAttributeRenderer renderer = new FreeMarkerAttributeRenderer();
-        renderer.setApplicationContext(applicationContext);
-        renderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        renderer.setParameter("TemplatePath", "/");
-        renderer.setParameter("NoCache", "true");
-        renderer.setParameter("ContentType", "text/html");
-        renderer.setParameter("template_update_delay", "0");
-        renderer.setParameter("default_encoding", "ISO-8859-1");
-        renderer.setParameter("number_format", "0.##########");
-        renderer.commit();
+        FreemarkerRenderer renderer = FreemarkerRendererBuilder
+                .createInstance().setApplicationContext(applicationContext)
+                .setParameter("TemplatePath", "/")
+                .setParameter("NoCache", "true")
+                .setParameter("ContentType", "text/html")
+                .setParameter("template_update_delay", "0")
+                .setParameter("default_encoding", "ISO-8859-1")
+                .setParameter("number_format", "0.##########").build();
 
         ServletRequest request = createMock(ServletRequest.class);
         HttpServletRequest httpRequest = createMock(HttpServletRequest.class);
@@ -163,29 +150,26 @@ public class FreeMarkerAttributeRendererTest {
         response.setHeader("Pragma", "no-cache");
         response.setHeader(eq("Expires"), isA(String.class));
 
-        replay(attributeEvaluatorFactory, request, httpRequest, response);
-        renderer.write("hello", null, request);
+        replay(request, httpRequest, response);
+        renderer.render("hello", request);
         stringWriter.close();
         assertTrue(stringWriter.toString().startsWith("Hello!"));
-        verify(applicationContext, servletContext, attributeEvaluatorFactory,
-                request, httpRequest, response, servlet, servletConfig,
-                objectWrapper);
+        verify(applicationContext, servletContext, request, httpRequest,
+                response, servlet, servletConfig, objectWrapper);
     }
 
     /**
      * Test method for
-     * {@link FreeMarkerAttributeRenderer
+     * {@link FreemarkerRenderer
      * #isRenderable(Object, org.apache.tiles.Attribute, org.apache.tiles.context.TilesRequestContext)}
      * .
      */
     @Test
     public void testIsRenderable() {
-        replay(attributeEvaluatorFactory);
-        assertTrue(renderer.isRenderable("/my/template.ftl", null, null));
-        assertFalse(renderer.isRenderable("my/template.ftl", null, null));
-        assertFalse(renderer.isRenderable("/my/template.jsp", null, null));
-        assertFalse(renderer.isRenderable(0, null, null));
-        verify(applicationContext, servletContext, attributeEvaluatorFactory);
+        assertTrue(renderer.isRenderable("/my/template.ftl", null));
+        assertFalse(renderer.isRenderable("my/template.ftl", null));
+        assertFalse(renderer.isRenderable("/my/template.jsp", null));
+        verify(applicationContext, servletContext);
     }
 
 }

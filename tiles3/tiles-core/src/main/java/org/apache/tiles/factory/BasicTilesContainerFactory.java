@@ -51,13 +51,11 @@ import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
-import org.apache.tiles.renderer.impl.DefinitionAttributeRenderer;
 import org.apache.tiles.renderer.impl.DefinitionRenderer;
 import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
-import org.apache.tiles.renderer.impl.StringAttributeRenderer;
-import org.apache.tiles.renderer.impl.TemplateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.render.DispatchRenderer;
+import org.apache.tiles.request.render.StringRenderer;
 
 /**
  * Factory that builds a standard Tiles container using only Java code.
@@ -263,9 +261,10 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     /**
      * Creates a renderer factory. By default it returns a
      * {@link BasicRendererFactory}, composed of an
-     * {@link UntypedAttributeRenderer} as default, and
-     * {@link StringAttributeRenderer}, {@link TemplateAttributeRenderer} and
-     * {@link DefinitionAttributeRenderer}.
+     * {@link UntypedAttributeRenderer} as default, and delegates of
+     * {@link StringRenderer}, {@link DispatchRenderer},
+     * {@link DefinitionRenderer}.
+     *
      * @param applicationContext The Tiles application context.
      * @param container The container.
      * @param attributeEvaluatorFactory The attribute evaluator factory.
@@ -335,9 +334,8 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Registers attribute renderers in a {@link BasicRendererFactory}. By
-     * default, it registers a {@link StringAttributeRenderer}, a
-     * {@link TemplateAttributeRenderer} and a
-     * {@link DefinitionAttributeRenderer}.
+     * default, it registers delegates to {@link StringRenderer},
+     * {@link DispatchRenderer} and {@link DefinitionRenderer}.
      *
      * @param rendererFactory The renderer factory to configure.
      * @param applicationContext The Tiles application context.
@@ -362,7 +360,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     }
 
     /**
-     * Creates a {@link StringAttributeRenderer}.
+     * Creates an attribute renderer to render strings.
      *
      * @param rendererFactory The renderer factory to configure.
      * @param applicationContext The Tiles application context.
@@ -376,13 +374,11 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             ApplicationContext applicationContext,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        StringAttributeRenderer stringRenderer = new StringAttributeRenderer();
-        stringRenderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
-        return stringRenderer;
+        return new DelegateAttributeRenderer(new StringRenderer(), attributeEvaluatorFactory);
     }
 
     /**
-     * Creates a {@link TemplateAttributeRenderer}.
+     * Creates a {@link AttributeRenderer} that uses a {@link DispatchRenderer}.
      *
      * @param rendererFactory The renderer factory to configure.
      * @param applicationContext The Tiles application context.
@@ -400,7 +396,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     }
 
     /**
-     * Creates a {@link DefinitionAttributeRenderer}.
+     * Creates a {@link AttributeRenderer} using a {@link DefinitionRenderer}
      *
      * @param rendererFactory The renderer factory to configure.
      * @param applicationContext The Tiles application context.

@@ -23,13 +23,14 @@ package org.apache.tiles.renderer.impl;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
+import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.renderer.AttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.request.util.ApplicationContextAware;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,10 +75,6 @@ public class BasicRendererFactoryTest {
         AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
 
         replay(renderer1, renderer2, renderer3, renderer4, applicationContext, attributeEvaluatorFactory);
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(BasicRendererFactory.TYPE_RENDERERS_INIT_PARAM, "test,"
-                + StringAttributeRenderer.class.getName() + ";test2,"
-                + StringAttributeRenderer.class.getName());
         rendererFactory.registerRenderer("string", renderer1);
         rendererFactory.registerRenderer("test", renderer2);
         rendererFactory.registerRenderer("test2", renderer3);
@@ -121,9 +118,7 @@ public class BasicRendererFactoryTest {
      */
     @Test
     public void testInitializeRenderer() {
-        DefinitionAttributeRenderer renderer = new DefinitionAttributeRenderer();
-        rendererFactory.initializeRenderer(renderer);
-        assertNotNull("The container is null", renderer.container);
+        // TODO This will be removed in future, only named renderers should be available.
     }
 
     /**
@@ -131,7 +126,7 @@ public class BasicRendererFactoryTest {
      *
      * @version $Rev$ $Date$
      */
-    public static class ExtendedStringAttributeRenderer extends StringAttributeRenderer implements ApplicationContextAware {
+    public static class ExtendedStringAttributeRenderer extends AbstractBaseAttributeRenderer implements ApplicationContextAware {
 
         /**
          * The application context.
@@ -142,6 +137,20 @@ public class BasicRendererFactoryTest {
         @Override
         public void setApplicationContext(ApplicationContext applicationContext) {
             this.applicationContext = applicationContext;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void write(Object value, Attribute attribute,
+                Request request)
+                throws IOException {
+            request.getWriter().write(value.toString());
+        }
+
+        /** {@inheritDoc} */
+        public boolean isRenderable(Object value, Attribute attribute,
+                Request request) {
+            return value instanceof String;
         }
     }
 }

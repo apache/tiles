@@ -24,69 +24,63 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.StringWriter;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.Expression;
-import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
-import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
+import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link StringAttributeRenderer}.
+ * Tests {@link DefinitionRenderer}.
  *
  * @version $Rev$ $Date$
  */
-public class StringAttributeRendererTest {
+public class DefinitionRendererTest {
 
     /**
      * The renderer.
      */
-    private StringAttributeRenderer renderer;
+    private DefinitionRenderer renderer;
+
+    /**
+     * The container
+     */
+    private TilesContainer container;
 
     /** {@inheritDoc} */
     @Before
     public void setUp() {
-        renderer = new StringAttributeRenderer();
-        renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
-                new DirectAttributeEvaluator()));
+        container = createMock(TilesContainer.class);
+        renderer = new DefinitionRenderer(container);
     }
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#write(Object, Attribute, Request)}.
+     * {@link DefinitionRenderer#render(String, Request)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
     @Test
     public void testWrite() throws IOException {
-        StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("Result", (Expression) null, null,
-                "string");
         Request requestContext = createMock(Request.class);
-        expect(requestContext.getWriter()).andReturn(writer);
-        replay(requestContext);
-        renderer.render(attribute, requestContext);
-        writer.close();
-        assertEquals("Not written 'Result'", "Result", writer.toString());
-        verify(requestContext);
+        container.render("my.definition", requestContext);
+        replay(requestContext, container);
+        renderer.render("my.definition", requestContext);
+        verify(requestContext, container);
     }
 
     /**
      * Tests
-     * {@link StringAttributeRenderer#isRenderable(Object, Attribute, Request)}.
-     *
-     * @throws IOException If something goes wrong.
+     * {@link DefinitionRenderer#isRenderable(String, Request)}
+     * .
      */
     @Test
     public void testIsRenderable() {
-        Attribute attribute = new Attribute("Result", (Expression) null, null,
-                "string");
         Request requestContext = createMock(Request.class);
-        replay(requestContext);
-        assertTrue(renderer.isRenderable("Result", attribute, requestContext));
-        verify(requestContext);
+        expect(container.isValidDefinition("my.definition", requestContext)).andReturn(Boolean.TRUE);
+        replay(requestContext, container);
+        assertTrue(renderer.isRenderable("my.definition", requestContext));
+        verify(requestContext, container);
     }
 }

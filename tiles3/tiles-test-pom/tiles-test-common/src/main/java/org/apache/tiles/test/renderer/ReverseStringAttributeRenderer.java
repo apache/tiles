@@ -23,7 +23,7 @@ package org.apache.tiles.test.renderer;
 import java.io.IOException;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.renderer.impl.StringAttributeRenderer;
+import org.apache.tiles.renderer.impl.AbstractBaseAttributeRenderer;
 import org.apache.tiles.request.Request;
 
 /**
@@ -31,7 +31,7 @@ import org.apache.tiles.request.Request;
  *
  * @version $Rev$ $Date$
  */
-public class ReverseStringAttributeRenderer extends StringAttributeRenderer {
+public class ReverseStringAttributeRenderer extends AbstractBaseAttributeRenderer {
 
     /** {@inheritDoc} */
     @Override

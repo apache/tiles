@@ -18,32 +18,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.renderer.impl;
+package org.apache.tiles.request.render;
 
 import java.io.IOException;
 
-import org.apache.tiles.Attribute;
 import org.apache.tiles.request.Request;
 
 /**
  * Renders an attribute that contains a string.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
  */
-public class StringAttributeRenderer extends AbstractTypeDetectingAttributeRenderer {
+public class StringRenderer implements TypeDetectingRenderer {
 
     /** {@inheritDoc} */
     @Override
-    public void write(Object value, Attribute attribute,
-            Request request)
-            throws IOException {
-        request.getWriter().write(value.toString());
+    public void render(String value, Request request) throws IOException {
+        if (value == null) {
+            throw new InvalidTemplateException("Cannot render a null string");
+        }
+        request.getWriter().write(value);
     }
 
     /** {@inheritDoc} */
-    public boolean isRenderable(Object value, Attribute attribute,
-            Request request) {
-        return value instanceof String;
+    public boolean isRenderable(String value, Request request) {
+        return value != null;
     }
 }

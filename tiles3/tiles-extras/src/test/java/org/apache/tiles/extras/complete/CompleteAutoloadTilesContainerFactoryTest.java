@@ -53,7 +53,6 @@ import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
 import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
-import org.apache.tiles.renderer.impl.StringAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.velocity.tools.view.VelocityView;
@@ -114,7 +113,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         ServletContext servletContext = createMock(ServletContext.class);
 
         rendererFactory.registerRenderer(eq("string"),
-                isA(StringAttributeRenderer.class));
+                isA(DelegateAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("template"),
                 isA(DelegateAttributeRenderer.class));
         rendererFactory.registerRenderer(eq("definition"),
