@@ -48,13 +48,17 @@ import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
 import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
-import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
-import org.apache.tiles.renderer.impl.BasicRendererFactory;
-import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
-import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
+import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
+import org.apache.tiles.request.render.BasicRendererFactory;
+import org.apache.tiles.request.render.ChainedDelegateRenderer;
+import org.apache.tiles.request.render.DispatchRenderer;
+import org.apache.tiles.request.render.Renderer;
+import org.apache.tiles.request.render.StringRenderer;
+import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
+import org.apache.tiles.request.velocity.render.VelocityRenderer;
 import org.apache.velocity.tools.view.VelocityView;
 import org.junit.Before;
 import org.junit.Test;
@@ -113,15 +117,15 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         ServletContext servletContext = createMock(ServletContext.class);
 
         rendererFactory.registerRenderer(eq("string"),
-                isA(DelegateAttributeRenderer.class));
+                isA(StringRenderer.class));
         rendererFactory.registerRenderer(eq("template"),
-                isA(DelegateAttributeRenderer.class));
+                isA(DispatchRenderer.class));
         rendererFactory.registerRenderer(eq("definition"),
-                isA(DelegateAttributeRenderer.class));
+                isA(DefinitionRenderer.class));
         rendererFactory.registerRenderer(eq("freemarker"),
-                isA(DelegateAttributeRenderer.class));
+                isA(FreemarkerRenderer.class));
         rendererFactory.registerRenderer(eq("velocity"),
-                isA(DelegateAttributeRenderer.class));
+                isA(VelocityRenderer.class));
 
         expect(applicationContext.getContext()).andReturn(servletContext)
                 .anyTimes();
@@ -170,11 +174,11 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
-        AttributeRenderer stringRenderer = createMock(TypeDetectingAttributeRenderer.class);
-        AttributeRenderer templateRenderer = createMock(TypeDetectingAttributeRenderer.class);
-        AttributeRenderer definitionRenderer = createMock(TypeDetectingAttributeRenderer.class);
-        AttributeRenderer velocityRenderer = createMock(TypeDetectingAttributeRenderer.class);
-        AttributeRenderer freemarkerRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        Renderer stringRenderer = createMock(TypeDetectingRenderer.class);
+        Renderer templateRenderer = createMock(TypeDetectingRenderer.class);
+        Renderer definitionRenderer = createMock(TypeDetectingRenderer.class);
+        Renderer velocityRenderer = createMock(TypeDetectingRenderer.class);
+        Renderer freemarkerRenderer = createMock(TypeDetectingRenderer.class);
 
         expect(rendererFactory.getRenderer("string")).andReturn(stringRenderer);
         expect(rendererFactory.getRenderer("template")).andReturn(templateRenderer);
@@ -184,11 +188,11 @@ public class CompleteAutoloadTilesContainerFactoryTest {
 
         replay(container, attributeEvaluatorFactory, rendererFactory,
                 applicationContext);
-        AttributeRenderer renderer = factory.createDefaultAttributeRenderer(
+        Renderer renderer = factory.createDefaultAttributeRenderer(
                 rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
         assertTrue("The default renderer class is not correct",
-                renderer instanceof ChainedDelegateAttributeRenderer);
+                renderer instanceof ChainedDelegateRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory,
                 applicationContext);
     }

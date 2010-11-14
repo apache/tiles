@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.renderer.impl;
+package org.apache.tiles.renderer;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import org.apache.tiles.TilesContainer;
+import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;

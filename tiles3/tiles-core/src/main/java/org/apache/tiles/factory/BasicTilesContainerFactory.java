@@ -46,16 +46,15 @@ import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
-import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.renderer.RendererFactory;
-import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
-import org.apache.tiles.renderer.impl.BasicRendererFactory;
-import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
-import org.apache.tiles.renderer.impl.DefinitionRenderer;
-import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
+import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.render.BasicRendererFactory;
+import org.apache.tiles.request.render.ChainedDelegateRenderer;
 import org.apache.tiles.request.render.DispatchRenderer;
+import org.apache.tiles.request.render.Renderer;
+import org.apache.tiles.request.render.RendererFactory;
 import org.apache.tiles.request.render.StringRenderer;
+import org.apache.tiles.request.render.TypeDetectingRenderer;
 
 /**
  * Factory that builds a standard Tiles container using only Java code.
@@ -275,9 +274,6 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
         BasicRendererFactory retValue = new BasicRendererFactory();
-        retValue.setApplicationContext(applicationContext);
-        retValue.setContainer(container);
-        retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         registerAttributeRenderers(retValue, applicationContext, container,
                 attributeEvaluatorFactory);
         retValue.setDefaultRenderer(createDefaultAttributeRenderer(retValue,
@@ -287,28 +283,27 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
 
     /**
      * Creates the default attribute renderer. By default it is an
-     * {@link ChainedDelegateAttributeRenderer}.
+     * {@link ChainedDelegateRenderer}.
      *
      * @param rendererFactory The renderer factory to configure.
      * @param applicationContext The Tiles application context.
      * @param container The container.
      * @param attributeEvaluatorFactory The attribute evaluator factory.
      * @return The default attribute renderer.
-     * @since 2.2.1
+     * @since 3.0.0
      */
-    protected AttributeRenderer createDefaultAttributeRenderer(
+    protected Renderer createDefaultAttributeRenderer(
             BasicRendererFactory rendererFactory,
             ApplicationContext applicationContext,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        ChainedDelegateAttributeRenderer retValue = new ChainedDelegateAttributeRenderer();
-        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+        ChainedDelegateRenderer retValue = new ChainedDelegateRenderer();
+        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
                 .getRenderer(DEFINITION_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
                 .getRenderer(TEMPLATE_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
                 .getRenderer(STRING_RENDERER_NAME));
-        retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return retValue;
     }
 
@@ -367,14 +362,14 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @param container The container.
      * @param attributeEvaluatorFactory The attribute evaluator factory.
      * @return The renderer.
-     * @since 2.2.1
+     * @since 3.0.0
      */
-    protected AttributeRenderer createStringAttributeRenderer(
+    protected Renderer createStringAttributeRenderer(
             BasicRendererFactory rendererFactory,
             ApplicationContext applicationContext,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        return new DelegateAttributeRenderer(new StringRenderer(), attributeEvaluatorFactory);
+        return new StringRenderer();
     }
 
     /**
@@ -387,12 +382,12 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @return The renderer.
      * @since 2.2.1
      */
-    protected AttributeRenderer createTemplateAttributeRenderer(
+    protected Renderer createTemplateAttributeRenderer(
             BasicRendererFactory rendererFactory,
             ApplicationContext applicationContext,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        return new DelegateAttributeRenderer(new DispatchRenderer(), attributeEvaluatorFactory);
+        return new DispatchRenderer();
     }
 
     /**
@@ -403,14 +398,13 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      * @param container The container.
      * @param attributeEvaluatorFactory The attribute evaluator factory.
      * @return The renderer.
-     * @since 2.2.1
+     * @since 3.0.0
      */
-    protected AttributeRenderer createDefinitionAttributeRenderer(
+    protected Renderer createDefinitionAttributeRenderer(
             BasicRendererFactory rendererFactory,
             ApplicationContext applicationContext,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        return new DelegateAttributeRenderer(new DefinitionRenderer(container),
-                attributeEvaluatorFactory);
+        return new DefinitionRenderer(container);
     }
 }

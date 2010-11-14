@@ -181,13 +181,6 @@
       <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
   </definition>
 
-  <definition name="velocity.test.reversed.explicit.definition" template="/velocity/layout_alt_title.vm" templateType="velocity">
-      <put-attribute name="title"  value="This is the title."
-          type="org.apache.tiles.test.renderer.ReverseStringAttributeRenderer"/>
-      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
-      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
-  </definition>
-
   <definition name="velocity.test.nesting.definitions" template="/velocity/layout.vm" templateType="velocity">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/velocity/header.vm" type="velocity" />

@@ -1,4 +1,4 @@
-#*
+/*
  * $Id$
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -17,6 +17,34 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
+ */
+package org.apache.tiles.request.render;
+
+
+
+/**
+ * <p>
+ * Factory interface used to create/retrieve instances of the
+ * {@link AttributeRenderer} interface.
+ * </p>
  *
- *#
-#tiles_insertDefinition({"name":"velocity.test.reversed.explicit.definition"})#end
+ * <p>
+ * This factory provides an extension point into the default tiles
+ * implementation. Implementors wishing to provide per request initialization of
+ * the AttributeRenderer (for instance) may provide a custom renderer.
+ * </p>
+ *
+ * @version $Rev$ $Date$
+ * @since 3.0.0
+ */
+public interface RendererFactory {
+
+    /**
+     * Returns a renderer by its name.
+     *
+     * @param name The name of the renderer.
+     * @return The renderer.
+     * @since 3.0.0
+     */
+    Renderer getRenderer(String name);
+}

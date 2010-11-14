@@ -181,13 +181,6 @@
       <put-attribute name="body"   value="/freemarker/body.ftl" type="freemarker" />
   </definition>
 
-  <definition name="freemarker.test.reversed.explicit.definition" template="/freemarker/layout_alt_title.ftl" templateType="freemarker">
-      <put-attribute name="title"  value="This is the title."
-          type="org.apache.tiles.test.renderer.ReverseStringAttributeRenderer"/>
-      <put-attribute name="header" value="/freemarker/header.ftl" type="freemarker" />
-      <put-attribute name="body"   value="/freemarker/body.ftl" type="freemarker" />
-  </definition>
-
   <definition name="freemarker.test.nesting.definitions" template="/freemarker/layout.ftl" templateType="freemarker">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/freemarker/header.ftl" type="freemarker" />

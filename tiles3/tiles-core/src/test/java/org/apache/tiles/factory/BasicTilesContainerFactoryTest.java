@@ -40,13 +40,15 @@ import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.locale.impl.DefaultLocaleResolver;
 import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
-import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.renderer.RendererFactory;
-import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
-import org.apache.tiles.renderer.impl.BasicRendererFactory;
-import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
-import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
+import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.render.BasicRendererFactory;
+import org.apache.tiles.request.render.ChainedDelegateRenderer;
+import org.apache.tiles.request.render.DispatchRenderer;
+import org.apache.tiles.request.render.Renderer;
+import org.apache.tiles.request.render.RendererFactory;
+import org.apache.tiles.request.render.StringRenderer;
+import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.easymock.EasyMock;
 
 /**
@@ -172,18 +174,18 @@ public class BasicTilesContainerFactoryTest extends TestCase {
                 applicationContext, container, attributeEvaluatorFactory);
         assertTrue("The class of the renderer factory is not correct",
                 rendererFactory instanceof BasicRendererFactory);
-        AttributeRenderer renderer = rendererFactory.getRenderer("string");
+        Renderer renderer = rendererFactory.getRenderer("string");
         assertNotNull("The string renderer is null", renderer);
         assertTrue("The string renderer class is not correct",
-                renderer instanceof DelegateAttributeRenderer);
+                renderer instanceof StringRenderer);
         renderer = rendererFactory.getRenderer("template");
         assertNotNull("The template renderer is null", renderer);
         assertTrue("The template renderer class is not correct",
-                renderer instanceof DelegateAttributeRenderer);
+                renderer instanceof DispatchRenderer);
         renderer = rendererFactory.getRenderer("definition");
         assertNotNull("The definition renderer is null", renderer);
         assertTrue("The definition renderer class is not correct",
-                renderer instanceof DelegateAttributeRenderer);
+                renderer instanceof DefinitionRenderer);
     }
 
     /**
@@ -195,20 +197,20 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
-        AttributeRenderer stringRenderer = createMock(TypeDetectingAttributeRenderer.class);
-        AttributeRenderer templateRenderer = createMock(TypeDetectingAttributeRenderer.class);
-        AttributeRenderer definitionRenderer = createMock(TypeDetectingAttributeRenderer.class);
+        Renderer stringRenderer = createMock(TypeDetectingRenderer.class);
+        Renderer templateRenderer = createMock(TypeDetectingRenderer.class);
+        Renderer definitionRenderer = createMock(TypeDetectingRenderer.class);
 
         expect(rendererFactory.getRenderer("string")).andReturn(stringRenderer);
         expect(rendererFactory.getRenderer("template")).andReturn(templateRenderer);
         expect(rendererFactory.getRenderer("definition")).andReturn(definitionRenderer);
 
         replay(container, attributeEvaluatorFactory, rendererFactory);
-        AttributeRenderer renderer = factory.createDefaultAttributeRenderer(
+        Renderer renderer = factory.createDefaultAttributeRenderer(
                 rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
         assertTrue("The default renderer class is not correct",
-                renderer instanceof ChainedDelegateAttributeRenderer);
+                renderer instanceof ChainedDelegateRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 
@@ -223,11 +225,11 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
 
         replay(container, attributeEvaluatorFactory, rendererFactory);
-        AttributeRenderer renderer = factory.createStringAttributeRenderer(
+        Renderer renderer = factory.createStringAttributeRenderer(
                 rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
         assertTrue("The renderer class is not correct",
-                renderer instanceof DelegateAttributeRenderer);
+                renderer instanceof StringRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 
@@ -242,11 +244,11 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
 
         replay(container, attributeEvaluatorFactory, rendererFactory);
-        AttributeRenderer renderer = factory.createTemplateAttributeRenderer(
+        Renderer renderer = factory.createTemplateAttributeRenderer(
                 rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
         assertTrue("The renderer class is not correct",
-                renderer instanceof DelegateAttributeRenderer);
+                renderer instanceof DispatchRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 
@@ -261,11 +263,11 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
 
         replay(container, attributeEvaluatorFactory, rendererFactory);
-        AttributeRenderer renderer = factory.createDefinitionAttributeRenderer(
+        Renderer renderer = factory.createDefinitionAttributeRenderer(
                 rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
         assertTrue("The renderer class is not correct",
-                renderer instanceof DelegateAttributeRenderer);
+                renderer instanceof DefinitionRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 }

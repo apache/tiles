@@ -21,12 +21,15 @@
 package org.apache.tiles;
 
 import static org.apache.tiles.CompareUtil.*;
+import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
@@ -260,5 +263,30 @@ public class AttributeTest {
         Set<String> roles = attribute.getRoles();
         assertEquals(1, roles.size());
         assertTrue(roles.contains("myRole"));
+    }
+
+    /**
+     * Tests {@link Attribute#isPermitted(Request)}.
+     */
+    @Test
+    public void testIsPermitted() {
+        Attribute attribute = new Attribute("myvalue");
+        Request requestContext = createMock(Request.class);
+        expect(requestContext.isUserInRole("first")).andReturn(Boolean.TRUE)
+                .anyTimes();
+        expect(requestContext.isUserInRole("second")).andReturn(Boolean.FALSE)
+                .anyTimes();
+        replay(requestContext);
+        assertTrue(attribute.isPermitted(requestContext));
+        Set<String> roles = new HashSet<String>();
+        roles.add("first");
+        attribute.setRoles(roles);
+        assertTrue("The role is not permitted", attribute.isPermitted(
+                requestContext));
+        roles.clear();
+        roles.add("second");
+        assertFalse("The role is not permitted", attribute.isPermitted(
+                requestContext));
+        verify(requestContext);
     }
 }

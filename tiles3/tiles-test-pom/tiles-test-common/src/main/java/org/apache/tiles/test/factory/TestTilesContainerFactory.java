@@ -29,9 +29,9 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.extras.complete.CompleteAutoloadTilesContainerFactory;
-import org.apache.tiles.renderer.impl.BasicRendererFactory;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.test.renderer.ReverseStringAttributeRenderer;
+import org.apache.tiles.request.render.BasicRendererFactory;
+import org.apache.tiles.test.renderer.ReverseStringRenderer;
 import org.apache.tiles.util.URLUtil;
 
 
@@ -51,8 +51,7 @@ public class TestTilesContainerFactory extends CompleteAutoloadTilesContainerFac
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
         super.registerAttributeRenderers(rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
-        ReverseStringAttributeRenderer renderer = new ReverseStringAttributeRenderer();
-        renderer.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
+        ReverseStringRenderer renderer = new ReverseStringRenderer();
         rendererFactory.registerRenderer("reversed", renderer);
     }
 

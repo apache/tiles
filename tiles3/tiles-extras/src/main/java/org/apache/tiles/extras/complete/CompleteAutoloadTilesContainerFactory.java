@@ -73,16 +73,15 @@ import org.apache.tiles.ognl.PropertyAccessorDelegateFactory;
 import org.apache.tiles.ognl.ScopePropertyAccessor;
 import org.apache.tiles.ognl.TilesApplicationContextNestedObjectExtractor;
 import org.apache.tiles.ognl.TilesContextPropertyAccessorDelegateFactory;
-import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
-import org.apache.tiles.renderer.impl.BasicRendererFactory;
-import org.apache.tiles.renderer.impl.ChainedDelegateAttributeRenderer;
-import org.apache.tiles.renderer.impl.DelegateAttributeRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
 import org.apache.tiles.request.freemarker.render.FreemarkerRendererBuilder;
 import org.apache.tiles.request.freemarker.servlet.TilesFreemarkerServlet;
+import org.apache.tiles.request.render.BasicRendererFactory;
+import org.apache.tiles.request.render.ChainedDelegateRenderer;
+import org.apache.tiles.request.render.Renderer;
+import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.apache.tiles.request.velocity.render.VelocityRenderer;
 import org.apache.tiles.request.velocity.render.VelocityRendererBuilder;
 import org.apache.tiles.util.URLUtil;
@@ -147,39 +146,35 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
                         TilesFreemarkerServlet.CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM,
                         "tiles," + TilesSharedVariableFactory.class.getName())
                 .build();
-        rendererFactory.registerRenderer(FREEMARKER_RENDERER_NAME,
-                new DelegateAttributeRenderer(freemarkerRenderer,
-                        attributeEvaluatorFactory));
+        rendererFactory.registerRenderer(FREEMARKER_RENDERER_NAME, freemarkerRenderer);
 
         VelocityRenderer velocityRenderer = VelocityRendererBuilder
                 .createInstance().setApplicationContext(applicationContext)
                 .build();
         rendererFactory.registerRenderer(VELOCITY_RENDERER_NAME,
-                new DelegateAttributeRenderer(velocityRenderer,
-                        attributeEvaluatorFactory));
+                velocityRenderer);
     }
 
 
 
     /** {@inheritDoc} */
     @Override
-    protected AttributeRenderer createDefaultAttributeRenderer(
+    protected Renderer createDefaultAttributeRenderer(
             BasicRendererFactory rendererFactory,
             ApplicationContext applicationContext,
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        ChainedDelegateAttributeRenderer retValue = new ChainedDelegateAttributeRenderer();
-        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+        ChainedDelegateRenderer retValue = new ChainedDelegateRenderer();
+        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
                 .getRenderer(DEFINITION_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
                 .getRenderer(VELOCITY_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
                 .getRenderer(FREEMARKER_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
                 .getRenderer(TEMPLATE_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingAttributeRenderer) rendererFactory
+        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
                 .getRenderer(STRING_RENDERER_NAME));
-        retValue.setAttributeEvaluatorFactory(attributeEvaluatorFactory);
         return retValue;
     }
 

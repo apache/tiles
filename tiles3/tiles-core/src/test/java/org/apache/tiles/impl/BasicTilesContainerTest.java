@@ -27,11 +27,11 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.TilesException;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.CannotRenderException;
 import org.easymock.EasyMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +101,7 @@ public class BasicTilesContainerTest extends TestCase {
         attribute.setValue(new Integer(SAMPLE_INT)); // A simple object
         try {
             container.render(attribute, request);
-        } catch (TilesException e) {
+        } catch (CannotRenderException e) {
             log.debug("Intercepted a TilesException, it is correct", e);
             exceptionFound = true;
         }

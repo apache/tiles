@@ -18,15 +18,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.renderer.impl;
+package org.apache.tiles.request.render;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.renderer.RendererException;
-import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.request.Request;
 
 /**
@@ -36,20 +33,20 @@ import org.apache.tiles.request.Request;
  * @version $Rev$ $Date$
  * @since 2.2.1
  */
-public class ChainedDelegateAttributeRenderer extends AbstractBaseAttributeRenderer {
+public class ChainedDelegateRenderer implements Renderer {
 
     /**
      * The list of chained renderers.
      */
-    private List<TypeDetectingAttributeRenderer> renderers;
+    private List<TypeDetectingRenderer> renderers;
 
     /**
      * Constructor.
      *
      * @since 2.2.1
      */
-    public ChainedDelegateAttributeRenderer() {
-        renderers = new ArrayList<TypeDetectingAttributeRenderer>();
+    public ChainedDelegateRenderer() {
+        renderers = new ArrayList<TypeDetectingRenderer>();
     }
 
     /**
@@ -58,27 +55,24 @@ public class ChainedDelegateAttributeRenderer extends AbstractBaseAttributeRende
      *
      * @param renderer The renderer to add.
      */
-    public void addAttributeRenderer(TypeDetectingAttributeRenderer renderer) {
+    public void addAttributeRenderer(TypeDetectingRenderer renderer) {
         renderers.add(renderer);
     }
 
-    /** {@inheritDoc} */
+
     @Override
-    public void write(Object value, Attribute attribute,
-            Request request)
-            throws IOException {
+    public void render(String value, Request request) throws IOException {
         if (value == null) {
             throw new NullPointerException("The attribute value is null");
         }
 
-        for (TypeDetectingAttributeRenderer renderer : renderers) {
-            if (renderer.isRenderable(value, attribute, request)) {
-                renderer.render(attribute, request);
+        for (TypeDetectingRenderer renderer : renderers) {
+            if (renderer.isRenderable(value, request)) {
+                renderer.render(value, request);
                 return;
             }
         }
 
-        throw new RendererException("Type of the attribute not found, class '"
-                + value.getClass() + "' value '" + value.toString() + "'");
+        throw new CannotRenderException("Cannot renderer value '" + value + "'");
     }
 }

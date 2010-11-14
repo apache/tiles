@@ -1,5 +1,3 @@
-<%@ page session="false" %>
-<%--
 /*
  * $Id$
  *
@@ -19,14 +17,29 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
---%>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+package org.apache.tiles.test.renderer;
 
-<tiles:insertTemplate template="/layout_alt_title.jsp">
-  <tiles:putAttribute name="title"  value="This is the title."
-    type="org.apache.tiles.test.renderer.ReverseStringAttributeRenderer" />
-  <tiles:putAttribute name="header" value="/header.jsp" />
-  <tiles:putAttribute name="body"   value="/body.jsp" />
-</tiles:insertTemplate>
+import java.io.IOException;
+
+import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.Renderer;
+
+/**
+ * A simple test <code>AttributeRenderer</code>.
+ *
+ * @version $Rev$ $Date$
+ */
+public class ReverseStringRenderer implements Renderer {
+
+    /** {@inheritDoc} */
+    @Override
+    public void render(String value, Request request) throws IOException {
+        char[] array = value.toCharArray();
+        char[] newArray = new char[array.length];
+        for (int i = 0; i < array.length; i++) {
+            newArray[array.length - i - 1] = array[i];
+        }
+        request.getWriter().write(String.valueOf(newArray));
+    }
+}

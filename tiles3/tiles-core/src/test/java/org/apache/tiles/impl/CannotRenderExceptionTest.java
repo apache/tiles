@@ -23,6 +23,7 @@ package org.apache.tiles.impl;
 
 import static org.junit.Assert.*;
 
+import org.apache.tiles.request.render.CannotRenderException;
 import org.junit.Test;
 
 /**

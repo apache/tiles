@@ -3,6 +3,7 @@
  */
 package org.apache.tiles.impl;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
@@ -22,10 +23,12 @@ import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.preparer.NoSuchPreparerException;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
-import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.CannotRenderException;
+import org.apache.tiles.request.render.NoSuchRendererException;
+import org.apache.tiles.request.render.Renderer;
+import org.apache.tiles.request.render.RendererFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -136,7 +139,8 @@ public class BasicTilesContainerUnitTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ViewPreparer preparer = createMock(ViewPreparer.class);
         Attribute templateAttribute = createMock(Attribute.class);
-        AttributeRenderer renderer = createMock(AttributeRenderer.class);
+        Renderer renderer = createMock(Renderer.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
 
         expect(request.getContext("request")).andReturn(requestScope);
         expect(requestScope.get(ATTRIBUTE_CONTEXT_STACK)).andReturn(deque);
@@ -146,13 +150,16 @@ public class BasicTilesContainerUnitTest {
         expect(attributeContext.getTemplateAttribute()).andReturn(templateAttribute);
         expect(templateAttribute.getRenderer()).andReturn("renderer");
         expect(rendererFactory.getRenderer("renderer")).andReturn(renderer);
-        renderer.render(templateAttribute, request);
+        expect(attributeEvaluatorFactory.getAttributeEvaluator(templateAttribute)).andReturn(evaluator);
+        expect(evaluator.evaluate(templateAttribute, request)).andReturn("/mytemplate.jsp");
+        expect(templateAttribute.isPermitted(request)).andReturn(true);
+        renderer.render("/mytemplate.jsp", request);
 
-        replay(applicationContext, attributeEvaluatorFactory,
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, templateAttribute, renderer);
         container.renderContext(request);
-        verify(applicationContext, attributeEvaluatorFactory,
+        verify(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, templateAttribute, renderer);
     }
@@ -308,8 +315,9 @@ public class BasicTilesContainerUnitTest {
         Deque<AttributeContext> deque = createMock(Deque.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ViewPreparer preparer = createMock(ViewPreparer.class);
-        AttributeRenderer renderer = createMock(AttributeRenderer.class);
+        Renderer renderer = createMock(Renderer.class);
         Definition definition = createMock(Definition.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
 
         Attribute templateAttribute = Attribute.createTemplateAttribute("/my/template.jsp");
 
@@ -325,14 +333,16 @@ public class BasicTilesContainerUnitTest {
         expect(definition.getTemplateAttribute()).andReturn(templateAttribute);
         expect(rendererFactory.getRenderer("template")).andReturn(renderer);
         deque.push(isA(BasicAttributeContext.class));
-        renderer.render(templateAttribute, request);
+        expect(attributeEvaluatorFactory.getAttributeEvaluator(templateAttribute)).andReturn(evaluator);
+        expect(evaluator.evaluate(templateAttribute, request)).andReturn("/my/template.jsp");
+        renderer.render("/my/template.jsp", request);
         expect(deque.pop()).andReturn(null);
 
-        replay(applicationContext, attributeEvaluatorFactory,
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, renderer, definition);
         container.render("definition", request);
-        verify(applicationContext, attributeEvaluatorFactory,
+        verify(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, renderer, definition);
     }
@@ -364,17 +374,21 @@ public class BasicTilesContainerUnitTest {
     public void testRenderAttributeRequest() throws IOException {
         Request request = createMock(Request.class);
         Attribute templateAttribute = createMock(Attribute.class);
-        AttributeRenderer renderer = createMock(AttributeRenderer.class);
+        Renderer renderer = createMock(Renderer.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
 
         expect(templateAttribute.getRenderer()).andReturn("renderer");
         expect(rendererFactory.getRenderer("renderer")).andReturn(renderer);
-        renderer.render(templateAttribute, request);
+        expect(attributeEvaluatorFactory.getAttributeEvaluator(templateAttribute)).andReturn(evaluator);
+        expect(evaluator.evaluate(templateAttribute, request)).andReturn("/mytemplate.jsp");
+        expect(templateAttribute.isPermitted(request)).andReturn(true);
+        renderer.render("/mytemplate.jsp", request);
 
-        replay(applicationContext, attributeEvaluatorFactory,
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 templateAttribute, renderer);
         container.render(templateAttribute, request);
-        verify(applicationContext, attributeEvaluatorFactory,
+        verify(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 templateAttribute, renderer);
     }
@@ -402,21 +416,78 @@ public class BasicTilesContainerUnitTest {
      * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
-    @Test(expected=CannotRenderException.class)
+    @Test(expected=NoSuchRendererException.class)
     public void testRenderAttributeRequestException2() throws IOException {
         Request request = createMock(Request.class);
         Attribute templateAttribute = createMock(Attribute.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
 
         expect(templateAttribute.getRenderer()).andReturn("renderer");
-        expect(rendererFactory.getRenderer("renderer")).andReturn(null);
+        expect(templateAttribute.isPermitted(request)).andReturn(true);
+        expect(rendererFactory.getRenderer("renderer")).andThrow(new NoSuchRendererException());
 
-        replay(applicationContext, attributeEvaluatorFactory,
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 templateAttribute);
         try {
             container.render(templateAttribute, request);
         } finally {
-            verify(applicationContext, attributeEvaluatorFactory,
+            verify(applicationContext, attributeEvaluatorFactory, evaluator,
+                    definitionsFactory, preparerFactory, rendererFactory,
+                    request, templateAttribute);
+        }
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
+     * @throws IOException If something goes wrong.
+     */
+    @Test(expected=CannotRenderException.class)
+    public void testRenderAttributeRequestException3() throws IOException {
+        Request request = createMock(Request.class);
+        Attribute templateAttribute = createMock(Attribute.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
+        Renderer renderer = createMock(Renderer.class);
+
+        expect(templateAttribute.getRenderer()).andReturn("renderer");
+        expect(templateAttribute.isPermitted(request)).andReturn(true);
+        expect(rendererFactory.getRenderer("renderer")).andReturn(renderer);
+        expect(attributeEvaluatorFactory.getAttributeEvaluator(templateAttribute)).andReturn(evaluator);
+        expect(evaluator.evaluate(templateAttribute, request)).andReturn(new Integer(1));
+
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
+                definitionsFactory, preparerFactory, rendererFactory, request,
+                templateAttribute);
+        try {
+            container.render(templateAttribute, request);
+        } finally {
+            verify(applicationContext, attributeEvaluatorFactory, evaluator,
+                    definitionsFactory, preparerFactory, rendererFactory,
+                    request, templateAttribute);
+        }
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
+     * @throws IOException If something goes wrong.
+     */
+    @Test(expected=NoSuchRendererException.class)
+    public void testRenderAttributeRequestException() throws IOException {
+        Request request = createMock(Request.class);
+        Attribute templateAttribute = createMock(Attribute.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
+
+        expect(templateAttribute.getRenderer()).andReturn("renderer");
+        expect(templateAttribute.isPermitted(request)).andReturn(true);
+        expect(rendererFactory.getRenderer("renderer")).andThrow(new NoSuchRendererException());
+
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
+                definitionsFactory, preparerFactory, rendererFactory, request,
+                templateAttribute);
+        try {
+            container.render(templateAttribute, request);
+        } finally {
+            verify(applicationContext, attributeEvaluatorFactory, evaluator,
                     definitionsFactory, preparerFactory, rendererFactory,
                     request, templateAttribute);
         }
@@ -662,8 +733,9 @@ public class BasicTilesContainerUnitTest {
         Deque<AttributeContext> deque = createMock(Deque.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ViewPreparer preparer = createMock(ViewPreparer.class);
-        AttributeRenderer renderer = createMock(AttributeRenderer.class);
+        Renderer renderer = createMock(Renderer.class);
         Definition definition = createMock(Definition.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
 
         Attribute templateAttribute = Attribute.createTemplateAttribute("/my/template.jsp");
 
@@ -678,14 +750,16 @@ public class BasicTilesContainerUnitTest {
         expect(definition.getTemplateAttribute()).andReturn(templateAttribute);
         expect(rendererFactory.getRenderer("template")).andReturn(renderer);
         deque.push(isA(BasicAttributeContext.class));
-        renderer.render(templateAttribute, request);
+        expect(attributeEvaluatorFactory.getAttributeEvaluator(templateAttribute)).andReturn(evaluator);
+        expect(evaluator.evaluate(templateAttribute, request)).andReturn("/my/template.jsp");
+        renderer.render("/my/template.jsp", request);
         expect(deque.pop()).andReturn(null);
 
-        replay(applicationContext, attributeEvaluatorFactory,
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, renderer, definition);
         container.render(definition, request);
-        verify(applicationContext, attributeEvaluatorFactory,
+        verify(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, renderer, definition);
     }
@@ -702,8 +776,9 @@ public class BasicTilesContainerUnitTest {
         Deque<AttributeContext> deque = createMock(Deque.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ViewPreparer preparer = createMock(ViewPreparer.class);
-        AttributeRenderer renderer = createMock(AttributeRenderer.class);
+        Renderer renderer = createMock(Renderer.class);
         Definition definition = createMock(Definition.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
 
         Attribute templateAttribute = Attribute.createTemplateAttribute("/my/template.jsp");
 
@@ -718,17 +793,19 @@ public class BasicTilesContainerUnitTest {
         expect(definition.getTemplateAttribute()).andReturn(templateAttribute);
         expect(rendererFactory.getRenderer("template")).andReturn(renderer);
         deque.push(isA(BasicAttributeContext.class));
-        renderer.render(templateAttribute, request);
+        expect(attributeEvaluatorFactory.getAttributeEvaluator(templateAttribute)).andReturn(evaluator);
+        expect(evaluator.evaluate(templateAttribute, request)).andReturn("/mytemplate.jsp");
+        renderer.render("/mytemplate.jsp", request);
         expectLastCall().andThrow(new IOException());
         expect(deque.pop()).andReturn(null);
 
-        replay(applicationContext, attributeEvaluatorFactory,
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, renderer, definition);
         try {
             container.render(definition, request);
         } finally {
-            verify(applicationContext, attributeEvaluatorFactory,
+            verify(applicationContext, attributeEvaluatorFactory, evaluator,
                     definitionsFactory, preparerFactory, rendererFactory,
                     request, requestScope, deque, attributeContext, preparer,
                     renderer, definition);
@@ -748,19 +825,23 @@ public class BasicTilesContainerUnitTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ViewPreparer preparer = createMock(ViewPreparer.class);
         Attribute templateAttribute = createMock(Attribute.class);
-        AttributeRenderer renderer = createMock(AttributeRenderer.class);
+        Renderer renderer = createMock(Renderer.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
 
         expect(attributeContext.getPreparer()).andReturn(null);
         expect(attributeContext.getTemplateAttribute()).andReturn(templateAttribute);
         expect(templateAttribute.getRenderer()).andReturn("renderer");
         expect(rendererFactory.getRenderer("renderer")).andReturn(renderer);
-        renderer.render(templateAttribute, request);
+        expect(attributeEvaluatorFactory.getAttributeEvaluator(templateAttribute)).andReturn(evaluator);
+        expect(evaluator.evaluate(templateAttribute, request)).andReturn("/mytemplate.jsp");
+        expect(templateAttribute.isPermitted(request)).andReturn(true);
+        renderer.render("/mytemplate.jsp", request);
 
-        replay(applicationContext, attributeEvaluatorFactory,
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, templateAttribute, renderer);
         container.render(request, attributeContext);
-        verify(applicationContext, attributeEvaluatorFactory,
+        verify(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, preparer, templateAttribute, renderer);
     }
@@ -777,23 +858,27 @@ public class BasicTilesContainerUnitTest {
         Deque<AttributeContext> deque = createMock(Deque.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute templateAttribute = createMock(Attribute.class);
-        AttributeRenderer renderer = createMock(AttributeRenderer.class);
+        Renderer renderer = createMock(Renderer.class);
+        AttributeEvaluator evaluator = createMock(AttributeEvaluator.class);
 
         expect(attributeContext.getPreparer()).andReturn("preparer").times(2);
         expect(preparerFactory.getPreparer("preparer", request)).andReturn(null);
         expect(attributeContext.getTemplateAttribute()).andReturn(templateAttribute);
         expect(templateAttribute.getRenderer()).andReturn("renderer");
         expect(rendererFactory.getRenderer("renderer")).andReturn(renderer);
-        renderer.render(templateAttribute, request);
+        expect(attributeEvaluatorFactory.getAttributeEvaluator(templateAttribute)).andReturn(evaluator);
+        expect(evaluator.evaluate(templateAttribute, request)).andReturn("/mytemplate.jsp");
+        expect(templateAttribute.isPermitted(request)).andReturn(true);
+        renderer.render("/mytemplate.jsp", request);
         expectLastCall().andThrow(new IOException());
 
-        replay(applicationContext, attributeEvaluatorFactory,
+        replay(applicationContext, attributeEvaluatorFactory, evaluator,
                 definitionsFactory, preparerFactory, rendererFactory, request,
                 requestScope, deque, attributeContext, templateAttribute, renderer);
         try {
             container.render(request, attributeContext);
         } finally {
-            verify(applicationContext, attributeEvaluatorFactory,
+            verify(applicationContext, attributeEvaluatorFactory, evaluator,
                     definitionsFactory, preparerFactory, rendererFactory,
                     request, requestScope, deque, attributeContext,
                     templateAttribute, renderer);

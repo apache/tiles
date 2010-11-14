@@ -38,10 +38,11 @@ import org.apache.tiles.evaluator.AttributeEvaluatorFactoryAware;
 import org.apache.tiles.preparer.NoSuchPreparerException;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
-import org.apache.tiles.renderer.AttributeRenderer;
-import org.apache.tiles.renderer.RendererFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.CannotRenderException;
+import org.apache.tiles.request.render.Renderer;
+import org.apache.tiles.request.render.RendererFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -247,14 +248,16 @@ public class BasicTilesContainer implements TilesContainer,
             throw new CannotRenderException("Cannot render a null attribute");
         }
 
-        String rendererName = attr.getRenderer();
-        AttributeRenderer renderer = rendererFactory.getRenderer(rendererName);
-        if (renderer == null) {
-            throw new CannotRenderException(
-                    "Cannot render an attribute with renderer name "
-                            + rendererName);
+        if (attr.isPermitted(request)) {
+            Renderer renderer = rendererFactory.getRenderer(attr.getRenderer());
+            Object value = evaluate(attr, request);
+            if (!(value instanceof String)) {
+                throw new CannotRenderException(
+                        "Cannot render an attribute that is not a string, toString returns: "
+                                + value);
+            }
+            renderer.render((String) value, request);
         }
-        renderer.render(attr, request);
     }
 
     /** {@inheritDoc} */

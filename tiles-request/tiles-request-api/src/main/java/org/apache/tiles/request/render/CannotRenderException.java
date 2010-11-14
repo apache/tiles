@@ -18,64 +18,48 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.renderer;
+package org.apache.tiles.request.render;
 
-import org.apache.tiles.TilesException;
 
 /**
- * Exception for attribute rendition events.
+ * Indicates that something went wrong during the rendering process.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
  */
-public class RendererException extends TilesException {
+public class CannotRenderException extends RenderException {
 
     /**
      * Constructor.
-     *
-     * @since 2.1.0
      */
-    public RendererException() {
+    public CannotRenderException() {
     }
 
     /**
      * Constructor.
      *
-     * @param message The error or warning message.
-     * @since 2.1.0
+     * @param message The detail message.
      */
-    public RendererException(String message) {
+    public CannotRenderException(String message) {
         super(message);
     }
 
     /**
-     * Create a new <code>RendererException</code> wrapping an existing
-     * exception. <p/>
-     * <p>
-     * The existing exception will be embedded in the new one, and its message
-     * will become the default message for the TilesException.
-     * </p>
+     * Constructor.
      *
      * @param e The exception to be wrapped.
-     * @since 2.1.0
      */
-    public RendererException(Throwable e) {
+    public CannotRenderException(Throwable e) {
         super(e);
     }
 
     /**
-     * Create a new <code>RendererException</code> from an existing exception.
-     * <p/>
-     * <p>
-     * The existing exception will be embedded in the new one, but the new
-     * exception will have its own message.
-     * </p>
+     * Constructor.
      *
      * @param message The detail message.
      * @param e The exception to be wrapped.
-     * @since 2.1.0
      */
-    public RendererException(String message, Throwable e) {
+    public CannotRenderException(String message, Throwable e) {
         super(message, e);
     }
+
 }

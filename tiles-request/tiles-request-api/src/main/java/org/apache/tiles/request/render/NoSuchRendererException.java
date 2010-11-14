@@ -18,33 +18,44 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.impl;
+package org.apache.tiles.request.render;
 
-import org.apache.tiles.TilesException;
 
 /**
- * Indicates that something went wrong during the rendering process.
+ * It is raised when a named renderer has not been found with that name.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since 3.0.0
  */
-public class CannotRenderException extends TilesException {
+public class NoSuchRendererException extends RenderException {
 
     /**
      * Constructor.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
-    public CannotRenderException() {
+    public NoSuchRendererException() {
+        super();
     }
 
     /**
      * Constructor.
      *
      * @param message The detail message.
-     * @since 2.1.0
+     * @param e The exception to be wrapped.
+     * @since 3.0.0
      */
-    public CannotRenderException(String message) {
+    public NoSuchRendererException(String message, Throwable e) {
+        super(message, e);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param message The detail message.
+     * @since 3.0.0
+     */
+    public NoSuchRendererException(String message) {
         super(message);
     }
 
@@ -52,21 +63,10 @@ public class CannotRenderException extends TilesException {
      * Constructor.
      *
      * @param e The exception to be wrapped.
-     * @since 2.1.0
+     * @since 3.0.0
      */
-    public CannotRenderException(Throwable e) {
+    public NoSuchRendererException(Throwable e) {
         super(e);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param message The detail message.
-     * @param e The exception to be wrapped.
-     * @since 2.1.0
-     */
-    public CannotRenderException(String message, Throwable e) {
-        super(message, e);
     }
 
 }

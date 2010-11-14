@@ -1,6 +1,8 @@
 package org.apache.tiles.request.render;
 
-public class RenderException extends RuntimeException {
+import org.apache.tiles.request.RequestException;
+
+public class RenderException extends RequestException {
 
     public RenderException() {
     }

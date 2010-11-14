@@ -19,57 +19,58 @@
  * under the License.
  */
 
-package org.apache.tiles.renderer;
+package org.apache.tiles.request.render;
 
 import static org.junit.Assert.*;
 
+import org.apache.tiles.request.render.NoSuchRendererException;
 import org.junit.Test;
 
 /**
- * Tests {@link RendererException}.
+ * Tests {@link NoSuchRendererException}.
  *
  * @version $Rev$ $Date$
  */
-public class RendererExceptionTest {
+public class NoSuchRendererExceptionTest {
 
     /**
-     * Test method for {@link RendererException#RendererException()}.
+     * Test method for {@link NoSuchRendererException#NoSuchRendererException()}.
      */
     @Test
-    public void testRendererException() {
-        RendererException exception = new RendererException();
+    public void testNoSuchRendererException() {
+        NoSuchRendererException exception = new NoSuchRendererException();
         assertNull(exception.getMessage());
         assertNull(exception.getCause());
     }
 
     /**
-     * Test method for {@link RendererException#RendererException(java.lang.String)}.
+     * Test method for {@link NoSuchRendererException#NoSuchRendererException(java.lang.String)}.
      */
     @Test
-    public void testRendererExceptionString() {
-        RendererException exception = new RendererException("my message");
+    public void testNoSuchRendererExceptionString() {
+        NoSuchRendererException exception = new NoSuchRendererException("my message");
         assertEquals("my message", exception.getMessage());
         assertNull(exception.getCause());
     }
 
     /**
-     * Test method for {@link RendererException#RendererException(java.lang.Throwable)}.
+     * Test method for {@link NoSuchRendererException#NoSuchRendererException(java.lang.Throwable)}.
      */
     @Test
-    public void testRendererExceptionThrowable() {
+    public void testNoSuchRendererExceptionThrowable() {
         Throwable cause = new Throwable();
-        RendererException exception = new RendererException(cause);
+        NoSuchRendererException exception = new NoSuchRendererException(cause);
         assertEquals(cause.toString(), exception.getMessage());
         assertEquals(cause, exception.getCause());
     }
 
     /**
-     * Test method for {@link RendererException#RendererException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link NoSuchRendererException#NoSuchRendererException(java.lang.String, java.lang.Throwable)}.
      */
     @Test
-    public void testRendererExceptionStringThrowable() {
+    public void testNoSuchRendererExceptionStringThrowable() {
         Throwable cause = new Throwable();
-        RendererException exception = new RendererException("my message", cause);
+        NoSuchRendererException exception = new NoSuchRendererException("my message", cause);
         assertEquals("my message", exception.getMessage());
         assertEquals(cause, exception.getCause());
     }

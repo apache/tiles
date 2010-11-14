@@ -18,62 +18,57 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.renderer.impl;
+package org.apache.tiles.request.render;
 
 import static org.easymock.EasyMock.*;
 
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.Expression;
-import org.apache.tiles.evaluator.BasicAttributeEvaluatorFactory;
-import org.apache.tiles.evaluator.impl.DirectAttributeEvaluator;
-import org.apache.tiles.renderer.RendererException;
-import org.apache.tiles.renderer.TypeDetectingAttributeRenderer;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.CannotRenderException;
+import org.apache.tiles.request.render.ChainedDelegateRenderer;
+import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link ChainedDelegateAttributeRenderer}.
+ * Tests {@link ChainedDelegateRenderer}.
  *
  * @version $Rev$ $Date$
  */
-public class ChainedDelegateAttributeRendererTest {
+public class ChainedDelegateRendererTest {
 
     /**
      * The renderer.
      */
-    private ChainedDelegateAttributeRenderer renderer;
+    private ChainedDelegateRenderer renderer;
 
     /**
      * A mock string attribute renderer.
      */
-    private TypeDetectingAttributeRenderer stringRenderer;
+    private TypeDetectingRenderer stringRenderer;
 
     /**
      * A mock template attribute renderer.
      */
-    private TypeDetectingAttributeRenderer templateRenderer;
+    private TypeDetectingRenderer templateRenderer;
 
     /**
      * A mock definition attribute renderer.
      */
-    private TypeDetectingAttributeRenderer definitionRenderer;
+    private TypeDetectingRenderer definitionRenderer;
 
     /**
      * Sets up the test.
      */
     @Before
     public void setUp() {
-        stringRenderer = createMock(TypeDetectingAttributeRenderer.class);
-        templateRenderer = createMock(TypeDetectingAttributeRenderer.class);
-        definitionRenderer = createMock(TypeDetectingAttributeRenderer.class);
-        renderer = new ChainedDelegateAttributeRenderer();
-        renderer.setAttributeEvaluatorFactory(new BasicAttributeEvaluatorFactory(
-                new DirectAttributeEvaluator()));
+        stringRenderer = createMock(TypeDetectingRenderer.class);
+        templateRenderer = createMock(TypeDetectingRenderer.class);
+        definitionRenderer = createMock(TypeDetectingRenderer.class);
+        renderer = new ChainedDelegateRenderer();
         renderer.addAttributeRenderer(definitionRenderer);
         renderer.addAttributeRenderer(templateRenderer);
         renderer.addAttributeRenderer(stringRenderer);
@@ -81,35 +76,31 @@ public class ChainedDelegateAttributeRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
      * writing a definition.
      *
      * @throws IOException If something goes wrong during rendition.
      */
     @Test
     public void testWriteDefinition() throws IOException {
-        StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("my.definition", (Expression) null,
-                null, "definition");
         Request requestContext = EasyMock
                 .createMock(Request.class);
 
         expect(
-                definitionRenderer.isRenderable("my.definition", attribute,
+                definitionRenderer.isRenderable("my.definition",
                         requestContext)).andReturn(Boolean.TRUE);
-        definitionRenderer.render(attribute, requestContext);
+        definitionRenderer.render("my.definition", requestContext);
 
         replay(requestContext, stringRenderer, templateRenderer,
                 definitionRenderer);
-        renderer.render(attribute, requestContext);
-        writer.close();
+        renderer.render("my.definition", requestContext);
         verify(requestContext, stringRenderer, templateRenderer,
                 definitionRenderer);
     }
 
     /**
      * Tests
-     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
      * writing a definition.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -117,15 +108,13 @@ public class ChainedDelegateAttributeRendererTest {
     @Test(expected=NullPointerException.class)
     public void testWriteNull() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("my.definition", (Expression) null,
-                null, "definition");
         Request requestContext = EasyMock
                 .createMock(Request.class);
 
         replay(requestContext, stringRenderer, templateRenderer,
                 definitionRenderer);
         try {
-            renderer.write(null, attribute, requestContext);
+            renderer.render(null, requestContext);
         } finally {
             writer.close();
             verify(requestContext, stringRenderer, templateRenderer,
@@ -135,32 +124,30 @@ public class ChainedDelegateAttributeRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
      * writing a definition.
      *
      * @throws IOException If something goes wrong during rendition.
      */
-    @Test(expected=RendererException.class)
+    @Test(expected=CannotRenderException.class)
     public void testWriteNotRenderable() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("my.definition", (Expression) null,
-                null, "definition");
         Request requestContext = EasyMock
                 .createMock(Request.class);
 
         expect(
-                definitionRenderer.isRenderable("Result", attribute,
+                definitionRenderer.isRenderable("Result",
                         requestContext)).andReturn(Boolean.FALSE);
         expect(
-                templateRenderer.isRenderable("Result", attribute,
+                templateRenderer.isRenderable("Result",
                         requestContext)).andReturn(Boolean.FALSE);
-        expect(stringRenderer.isRenderable("Result", attribute, requestContext))
+        expect(stringRenderer.isRenderable("Result",requestContext))
                 .andReturn(Boolean.FALSE);
 
         replay(requestContext, stringRenderer, templateRenderer,
                 definitionRenderer);
         try {
-            renderer.write("Result", attribute, requestContext);
+            renderer.render("Result", requestContext);
         } finally {
             writer.close();
             verify(requestContext, stringRenderer, templateRenderer,
@@ -170,38 +157,36 @@ public class ChainedDelegateAttributeRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
      * writing a string.
      *
      * @throws IOException If something goes wrong during rendition.
      */
     @Test
     public void testWriteString() throws IOException {
-        Attribute attribute = new Attribute("Result", (Expression) null, null,
-                "string");
         Request requestContext = EasyMock
                 .createMock(Request.class);
         expect(
-                definitionRenderer.isRenderable("Result", attribute,
+                definitionRenderer.isRenderable("Result",
                         requestContext)).andReturn(Boolean.FALSE);
         expect(
-                templateRenderer.isRenderable("Result", attribute,
+                templateRenderer.isRenderable("Result",
                         requestContext)).andReturn(Boolean.FALSE);
         expect(
-                stringRenderer.isRenderable("Result", attribute,
+                stringRenderer.isRenderable("Result",
                         requestContext)).andReturn(Boolean.TRUE);
-        stringRenderer.render(attribute, requestContext);
+        stringRenderer.render("Result", requestContext);
 
         replay(requestContext, stringRenderer, templateRenderer,
                 definitionRenderer);
-        renderer.render(attribute, requestContext);
+        renderer.render("Result", requestContext);
         verify(requestContext, stringRenderer, templateRenderer,
                 definitionRenderer);
     }
 
     /**
      * Tests
-     * {@link ChainedDelegateAttributeRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
      * writing a template.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -209,21 +194,19 @@ public class ChainedDelegateAttributeRendererTest {
     @Test
     public void testWriteTemplate() throws IOException {
         StringWriter writer = new StringWriter();
-        Attribute attribute = new Attribute("/myTemplate.jsp",
-                (Expression) null, null, "template");
         Request requestContext = EasyMock
                 .createMock(Request.class);
-        templateRenderer.render(attribute, requestContext);
+        templateRenderer.render("/myTemplate.jsp", requestContext);
         expect(
-                definitionRenderer.isRenderable("/myTemplate.jsp", attribute,
+                definitionRenderer.isRenderable("/myTemplate.jsp",
                         requestContext)).andReturn(Boolean.FALSE);
         expect(
-                templateRenderer.isRenderable("/myTemplate.jsp", attribute,
+                templateRenderer.isRenderable("/myTemplate.jsp",
                         requestContext)).andReturn(Boolean.TRUE);
 
         replay(requestContext, stringRenderer, templateRenderer,
                 definitionRenderer);
-        renderer.render(attribute, requestContext);
+        renderer.render("/myTemplate.jsp", requestContext);
         writer.close();
         verify(requestContext, stringRenderer, templateRenderer,
                 definitionRenderer);

@@ -28,6 +28,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.tiles.request.Request;
+
 /**
  * Common implementation of attribute definition.
  *
@@ -343,6 +345,28 @@ public class Attribute implements Serializable, Cloneable {
                 && nullSafeEquals(renderer, attribute.renderer)
                 && nullSafeEquals(roles, attribute.roles)
                 && nullSafeEquals(expressionObject, attribute.expressionObject);
+    }
+
+    /**
+     * Checks if the current user can use this attribute.
+     *
+     * @param request The request context.
+     * @return <code>true</code> if the current user can see this attribute.
+     * @since 3.0.0
+     */
+    public boolean isPermitted(Request request) {
+        if (roles == null || roles.isEmpty()) {
+            return true;
+        }
+
+        boolean retValue = false;
+
+        for (Iterator<String> roleIt = roles.iterator(); roleIt.hasNext()
+                && !retValue;) {
+            retValue = request.isUserInRole(roleIt.next());
+        }
+
+        return retValue;
     }
 
     /** {@inheritDoc} */

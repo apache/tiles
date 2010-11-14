@@ -18,32 +18,44 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.test.renderer;
+package org.apache.tiles.renderer;
 
 import java.io.IOException;
 
-import org.apache.tiles.Attribute;
-import org.apache.tiles.renderer.impl.AbstractBaseAttributeRenderer;
+import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.InvalidTemplateException;
+import org.apache.tiles.request.render.TypeDetectingRenderer;
 
 /**
- * A simple test <code>AttributeRenderer</code>.
+ * Renders an attribute that contains a reference to a definition.
  *
  * @version $Rev$ $Date$
+ * @since 3.0.0
  */
-public class ReverseStringAttributeRenderer extends AbstractBaseAttributeRenderer {
+public class DefinitionRenderer implements TypeDetectingRenderer {
+
+    /**
+     * The Tiles container.
+     */
+    private TilesContainer container;
+
+    public DefinitionRenderer(TilesContainer container) {
+        this.container = container;
+    }
 
     /** {@inheritDoc} */
     @Override
-    public void write(Object value, Attribute attribute,
-            Request request)
-            throws IOException {
-        String original = attribute.getValue().toString();
-        char[] array = original.toCharArray();
-        char[] newArray = new char[array.length];
-        for (int i = 0; i < array.length; i++) {
-            newArray[array.length - i - 1] = array[i];
+    public void render(String path, Request request) throws IOException {
+        if (path == null) {
+            throw new InvalidTemplateException("Cannot dispatch a null path");
         }
-        request.getWriter().write(String.valueOf(newArray));
+
+        container.render(path, request);
+    }
+
+    /** {@inheritDoc} */
+    public boolean isRenderable(String path, Request request) {
+        return path != null && container.isValidDefinition(path, request);
     }
 }

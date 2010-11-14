@@ -84,7 +84,6 @@
     <a href="testinsertdefinition_cascaded_template.jsp">Test Insert Configured Cascaded Definition with Template</a><br/>
     <a href="testinsertdefinition_cascaded_list.jsp">Test Insert Configured Cascaded Definition with List</a><br/>
     <a href="testinsertdefinition_reversed.jsp">Test Insert Configured Definition with Reversed Attribute</a><br/>
-    <a href="testinsertdefinition_reversed_explicit.jsp">Test Insert Configured Definition with Reversed Explicit Attribute</a><br/>
     <a href="testinsertdefinition_attribute_preparer.jsp">Test Insert Configured Definition with Attribute Preparer</a><br/>
     <a href="testinsertnesteddefinition.jsp">Test Insert Nested Definition</a><br/>
     <a href="testinsertnesteddefinition_tags.jsp">Test Insert Nested Definition only using JSP tags</a><br/>
@@ -99,7 +98,6 @@
     <a href="testput_cascaded_template.jsp">Test Put Tag with Cascaded Attributes and Template</a><br/>
     <a href="testput_el_singleeval.jsp">Test Put Tag using EL to test Single Evaluation</a><br/>
     <a href="testput_reversed.jsp">Test Put Tag with Reversed Attribute</a><br/>
-    <a href="testput_reversed_explicit.jsp">Test Put Tag with Reversed Explicit Attribute</a><br/>
     <a href="testputlist_cascaded.jsp">Test Put List Cascaded Tag</a><br/>
     <a href="testputlist_inherit.jsp">Test Put List Tag with Inherit</a><br/>
     <a href="testimportattribute_inherit.jsp">Test importAttribute Tag with List Inherit</a><br/>
@@ -173,7 +171,6 @@
     <a href="freemarker/testinsertdefinition_cascaded_template.ftl">FreeMarker: Test Insert Configured Cascaded Definition with Template</a><br/>
     <a href="freemarker/testinsertdefinition_cascaded_list.ftl">FreeMarker: Test Insert Configured Cascaded Definition with List</a><br/>
     <a href="freemarker/testinsertdefinition_reversed.ftl">FreeMarker: Test Insert Configured Definition with Reversed Attribute</a><br/>
-    <a href="freemarker/testinsertdefinition_reversed_explicit.ftl">FreeMarker: Test Insert Configured Definition with Reversed Explicit Attribute</a><br/>
     <a href="freemarker/testinsertdefinition_attribute_preparer.ftl">FreeMarker: Test Insert Configured Definition with Attribute Preparer</a><br/>
     <a href="freemarker/testinsertnesteddefinition.ftl">FreeMarker: Test Insert Nested Definition</a><br/>
     <a href="freemarker/testinsertnesteddefinition_tags.ftl">FreeMarker: Test Insert Nested Definition only using JSP tags</a><br/>
@@ -188,7 +185,6 @@
     <a href="freemarker/testput_cascaded_template.ftl">FreeMarker: Test Put Tag with Cascaded Attributes and Template</a><br/>
     <a href="freemarker/testput_el_singleeval.ftl">FreeMarker: Test Put Tag using EL to test Single Evaluation</a><br/>
     <a href="freemarker/testput_reversed.ftl">FreeMarker: Test Put Tag with Reversed Attribute</a><br/>
-    <a href="freemarker/testput_reversed_explicit.ftl">FreeMarker: Test Put Tag with Reversed Explicit Attribute</a><br/>
     <a href="freemarker/testputlist_cascaded.ftl">FreeMarker: Test Put List Cascaded Tag</a><br/>
     <a href="freemarker/testputlist_inherit.ftl">FreeMarker: Test Put List Tag with Inherit</a><br/>
     <a href="freemarker/testimportattribute_inherit.ftl">FreeMarker: Test importAttribute Tag with List Inherit</a><br/>
@@ -262,7 +258,6 @@
     <a href="velocity/testinsertdefinition_cascaded_template.vm">Velocity: Test Insert Configured Cascaded Definition with Template</a><br/>
     <a href="velocity/testinsertdefinition_cascaded_list.vm">Velocity: Test Insert Configured Cascaded Definition with List</a><br/>
     <a href="velocity/testinsertdefinition_reversed.vm">Velocity: Test Insert Configured Definition with Reversed Attribute</a><br/>
-    <a href="velocity/testinsertdefinition_reversed_explicit.vm">Velocity: Test Insert Configured Definition with Reversed Explicit Attribute</a><br/>
     <a href="velocity/testinsertdefinition_attribute_preparer.vm">Velocity: Test Insert Configured Definition with Attribute Preparer</a><br/>
     <a href="velocity/testinsertnesteddefinition.vm">Velocity: Test Insert Nested Definition</a><br/>
     <a href="velocity/testinsertnesteddefinition_tags.vm">Velocity: Test Insert Nested Definition only using JSP tags</a><br/>
@@ -277,7 +272,6 @@
     <a href="velocity/testput_cascaded_template.vm">Velocity: Test Put Tag with Cascaded Attributes and Template</a><br/>
     <a href="velocity/testput_el_singleeval.vm">Velocity: Test Put Tag using EL to test Single Evaluation</a><br/>
     <a href="velocity/testput_reversed.vm">Velocity: Test Put Tag with Reversed Attribute</a><br/>
-    <a href="velocity/testput_reversed_explicit.vm">Velocity: Test Put Tag with Reversed Explicit Attribute</a><br/>
     <a href="velocity/testputlist_cascaded.vm">Velocity: Test Put List Cascaded Tag</a><br/>
     <a href="velocity/testputlist_inherit.vm">Velocity: Test Put List Tag with Inherit</a><br/>
     <a href="velocity/testimportattribute_inherit.vm">Velocity: Test importAttribute Tag with List Inherit</a><br/>
