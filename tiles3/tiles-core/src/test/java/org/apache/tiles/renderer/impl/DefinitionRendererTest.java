@@ -25,7 +25,6 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import org.apache.tiles.Attribute;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
