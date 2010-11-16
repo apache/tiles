@@ -55,7 +55,7 @@ public class TilesVelocityException extends TilesException {
      * @param e The cause of the exception.
      * @since 2.2.0
      */
-    public TilesVelocityException(Exception e) {
+    public TilesVelocityException(Throwable e) {
         super(e);
     }
 
@@ -66,7 +66,7 @@ public class TilesVelocityException extends TilesException {
      * @param e The cause of the exception.
      * @since 2.2.0
      */
-    public TilesVelocityException(String message, Exception e) {
+    public TilesVelocityException(String message, Throwable e) {
         super(message, e);
     }
 }
