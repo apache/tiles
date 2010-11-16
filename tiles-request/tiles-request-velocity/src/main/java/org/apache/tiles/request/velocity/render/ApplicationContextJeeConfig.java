@@ -1,6 +1,7 @@
 package org.apache.tiles.request.velocity.render;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -31,7 +32,7 @@ public class ApplicationContextJeeConfig implements JeeConfig {
 
     public ApplicationContextJeeConfig(ApplicationContext applicationContext, Map<String, String> params) {
         this.applicationContext = applicationContext;
-        this.params = params;
+        this.params = new HashMap<String, String>(params);
     }
 
     /** {@inheritDoc} */
