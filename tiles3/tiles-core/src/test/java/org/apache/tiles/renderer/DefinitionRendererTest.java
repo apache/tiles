@@ -28,6 +28,7 @@ import java.io.IOException;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.CannotRenderException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,6 +73,23 @@ public class DefinitionRendererTest {
 
     /**
      * Tests
+     * {@link DefinitionRenderer#render(String, Request)}.
+     *
+     * @throws IOException If something goes wrong during rendition.
+     */
+    @Test(expected=CannotRenderException.class)
+    public void testRenderException() throws IOException {
+        Request requestContext = createMock(Request.class);
+        replay(requestContext, container);
+        try {
+            renderer.render(null, requestContext);
+        } finally {
+            verify(requestContext, container);
+        }
+    }
+
+    /**
+     * Tests
      * {@link DefinitionRenderer#isRenderable(String, Request)}
      * .
      */
@@ -81,6 +99,7 @@ public class DefinitionRendererTest {
         expect(container.isValidDefinition("my.definition", requestContext)).andReturn(Boolean.TRUE);
         replay(requestContext, container);
         assertTrue(renderer.isRenderable("my.definition", requestContext));
+        assertFalse(renderer.isRenderable(null, requestContext));
         verify(requestContext, container);
     }
 }

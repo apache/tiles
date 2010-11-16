@@ -26,8 +26,6 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.render.DispatchRenderer;
-import org.apache.tiles.request.render.InvalidTemplateException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -70,7 +68,7 @@ public class DispatchRendererTest {
      *
      * @throws IOException If something goes wrong during rendition.
      */
-    @Test(expected=InvalidTemplateException.class)
+    @Test(expected=CannotRenderException.class)
     public void testWriteNull() throws IOException {
         Request requestContext = createMock(Request.class);
         replay(requestContext);
@@ -89,6 +87,7 @@ public class DispatchRendererTest {
         Request requestContext = createMock(Request.class);
         replay(requestContext);
         assertTrue(renderer.isRenderable("/myTemplate.jsp", requestContext));
+        assertFalse(renderer.isRenderable(null, requestContext));
         verify(requestContext);
     }
 }

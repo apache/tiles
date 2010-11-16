@@ -35,7 +35,7 @@ public class StringRenderer implements TypeDetectingRenderer {
     @Override
     public void render(String value, Request request) throws IOException {
         if (value == null) {
-            throw new InvalidTemplateException("Cannot render a null string");
+            throw new CannotRenderException("Cannot render a null string");
         }
         request.getWriter().write(value);
     }

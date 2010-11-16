@@ -39,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
 import org.apache.tiles.request.freemarker.render.FreemarkerRendererBuilder;
+import org.apache.tiles.request.render.CannotRenderException;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.junit.Before;
@@ -156,6 +157,49 @@ public class FreemarkerRendererTest {
         assertTrue(stringWriter.toString().startsWith("Hello!"));
         verify(applicationContext, servletContext, request, httpRequest,
                 response, servlet, servletConfig, objectWrapper);
+    }
+
+    /**
+     * Tests {@link FreemarkerRenderer#render(String, org.apache.tiles.request.Request)}.
+     * @throws IOException If something goes wrong.
+     * @throws ServletException If something goes wrong.
+     */
+    @Test(expected=CannotRenderException.class)
+    public void testRenderException1() throws IOException, ServletException {
+        ApplicationContext applicationContext = createMock(ServletApplicationContext.class);
+        ServletContext servletContext = createMock(ServletContext.class);
+        GenericServlet servlet = createMockBuilder(GenericServlet.class).createMock();
+        ServletConfig servletConfig = createMock(ServletConfig.class);
+        ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
+
+        replay(servlet, servletConfig);
+        servlet.init(servletConfig);
+
+        expect(applicationContext.getContext()).andReturn(servletContext).anyTimes();
+        expect(servletContext.getRealPath(isA(String.class))).andReturn(null).anyTimes();
+        URL resource = getClass().getResource("/test.ftl");
+        expect(servletContext.getResource(isA(String.class))).andReturn(resource).anyTimes();
+
+        replay(applicationContext, servletContext, objectWrapper);
+
+        FreemarkerRenderer renderer = FreemarkerRendererBuilder
+                .createInstance().setApplicationContext(applicationContext)
+                .setParameter("TemplatePath", "/")
+                .setParameter("NoCache", "true")
+                .setParameter("ContentType", "text/html")
+                .setParameter("template_update_delay", "0")
+                .setParameter("default_encoding", "ISO-8859-1")
+                .setParameter("number_format", "0.##########").build();
+
+        ServletRequest request = createMock(ServletRequest.class);
+
+        replay(request);
+        try {
+            renderer.render(null, request);
+        } finally {
+            verify(applicationContext, servletContext, request, servlet,
+                    servletConfig, objectWrapper);
+        }
     }
 
     /**

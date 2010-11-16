@@ -36,7 +36,7 @@ public class DispatchRenderer implements TypeDetectingRenderer {
     @Override
     public void render(String path, Request request) throws IOException {
         if (path == null) {
-            throw new InvalidTemplateException("Cannot dispatch a null path");
+            throw new CannotRenderException("Cannot dispatch a null path");
         }
 
         request.dispatch(path);

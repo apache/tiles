@@ -24,7 +24,7 @@ import java.io.IOException;
 
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.render.InvalidTemplateException;
+import org.apache.tiles.request.render.CannotRenderException;
 import org.apache.tiles.request.render.TypeDetectingRenderer;
 
 /**
@@ -48,7 +48,7 @@ public class DefinitionRenderer implements TypeDetectingRenderer {
     @Override
     public void render(String path, Request request) throws IOException {
         if (path == null) {
-            throw new InvalidTemplateException("Cannot dispatch a null path");
+            throw new CannotRenderException("Cannot dispatch a null path");
         }
 
         container.render(path, request);

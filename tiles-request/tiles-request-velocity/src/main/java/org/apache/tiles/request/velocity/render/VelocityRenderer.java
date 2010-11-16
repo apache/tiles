@@ -24,7 +24,7 @@ package org.apache.tiles.request.velocity.render;
 import java.io.IOException;
 
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.render.InvalidTemplateException;
+import org.apache.tiles.request.render.CannotRenderException;
 import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.servlet.ServletUtil;
@@ -57,7 +57,7 @@ public class VelocityRenderer implements TypeDetectingRenderer {
     @Override
     public void render(String path, Request request) throws IOException {
         if (path == null) {
-            throw new InvalidTemplateException("Cannot dispatch a null path");
+            throw new CannotRenderException("Cannot dispatch a null path");
         }
 
         ServletRequest servletRequest = ServletUtil.getServletRequest(request);

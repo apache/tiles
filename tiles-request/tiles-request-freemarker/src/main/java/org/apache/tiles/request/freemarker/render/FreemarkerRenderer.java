@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.FreemarkerRequestException;
 import org.apache.tiles.request.freemarker.servlet.TilesFreemarkerServlet;
+import org.apache.tiles.request.render.CannotRenderException;
 import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
@@ -59,7 +60,7 @@ public class FreemarkerRenderer implements TypeDetectingRenderer {
     @Override
     public void render(String path, Request request) throws IOException {
         if (path == null) {
-            throw new org.apache.tiles.request.render.InvalidTemplateException("Cannot dispatch a null path");
+            throw new CannotRenderException("Cannot dispatch a null path");
         }
         ServletRequest servletRequest = org.apache.tiles.request.servlet.ServletUtil.getServletRequest(request);
         HttpServletRequest httpRequest = servletRequest.getRequest();
