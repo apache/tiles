@@ -24,6 +24,7 @@ import org.apache.tiles.autotag.generate.BasicTemplateGenerator;
 import org.apache.tiles.autotag.model.TemplateSuite;
 import org.apache.tiles.autotag.velocity.VelocityDirectiveGenerator;
 import org.apache.tiles.autotag.velocity.VelocityPropertiesGenerator;
+import org.apache.velocity.app.VelocityEngine;
 
 
 /**
@@ -66,10 +67,10 @@ public class GenerateVelocityMojo extends AbstractGenerateMojo {
      */
     private MavenProject project;
 
-    protected void generate(TemplateSuite suite) {
+    protected void generate(TemplateSuite suite, VelocityEngine velocityEngine) {
         BasicTemplateGenerator generator = new BasicTemplateGenerator();
-        generator.addTemplateSuiteGenerator(resourcesOutputDirectory, new VelocityPropertiesGenerator());
-        generator.addTemplateClassGenerator(classesOutputDirectory, new VelocityDirectiveGenerator());
+        generator.addTemplateSuiteGenerator(resourcesOutputDirectory, new VelocityPropertiesGenerator(velocityEngine));
+        generator.addTemplateClassGenerator(classesOutputDirectory, new VelocityDirectiveGenerator(velocityEngine));
         generator.generate(packageName, suite);
 
         Resource resource = new Resource();

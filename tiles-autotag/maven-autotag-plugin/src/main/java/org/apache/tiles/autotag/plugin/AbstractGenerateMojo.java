@@ -12,7 +12,7 @@ import java.util.zip.ZipEntry;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tiles.autotag.model.TemplateSuite;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -39,9 +39,8 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
             InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/velocity.properties");
             props.load(propsStream);
             propsStream.close();
-            Velocity.init(props);
 
-            generate(suite);
+            generate(suite, new VelocityEngine(props));
         } catch (IOException e) {
             throw new MojoExecutionException("error", e);
         } catch (RuntimeException e) {
@@ -51,7 +50,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
         }
     }
 
-    protected abstract void generate(TemplateSuite suite);
+    protected abstract void generate(TemplateSuite suite, VelocityEngine velocityEngine);
 
     private InputStream findTemplateSuiteDescriptor() throws IOException {
         InputStream retValue = null;

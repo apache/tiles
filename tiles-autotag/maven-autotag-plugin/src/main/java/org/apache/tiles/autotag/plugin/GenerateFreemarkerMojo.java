@@ -7,6 +7,7 @@ import org.apache.tiles.autotag.freemarker.FMModelGenerator;
 import org.apache.tiles.autotag.freemarker.FMModelRepositoryGenerator;
 import org.apache.tiles.autotag.generate.BasicTemplateGenerator;
 import org.apache.tiles.autotag.model.TemplateSuite;
+import org.apache.velocity.app.VelocityEngine;
 
 /**
  * Generates Freemarker code.
@@ -41,10 +42,10 @@ public class GenerateFreemarkerMojo extends AbstractGenerateMojo {
     private File classesOutputDirectory;
 
     @Override
-    protected void generate(TemplateSuite suite) {
+    protected void generate(TemplateSuite suite, VelocityEngine velocityEngine) {
         BasicTemplateGenerator generator = new BasicTemplateGenerator();
-        generator.addTemplateSuiteGenerator(classesOutputDirectory, new FMModelRepositoryGenerator());
-        generator.addTemplateClassGenerator(classesOutputDirectory, new FMModelGenerator());
+        generator.addTemplateSuiteGenerator(classesOutputDirectory, new FMModelRepositoryGenerator(velocityEngine));
+        generator.addTemplateClassGenerator(classesOutputDirectory, new FMModelGenerator(velocityEngine));
         generator.generate(packageName, suite);
 
         project.addCompileSourceRoot(classesOutputDirectory.getAbsolutePath());

@@ -10,12 +10,18 @@ import org.apache.tiles.autotag.model.TemplateSuite;
 import org.apache.tiles.autotag.tool.StringTool;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 public abstract class AbstractTemplateClassGenerator implements
         TemplateClassGenerator {
+
+    private VelocityEngine velocityEngine;
+
+    public AbstractTemplateClassGenerator(VelocityEngine velocityEngine) {
+        this.velocityEngine = velocityEngine;
+    }
 
     @Override
     public void generate(File directory, String packageName,
@@ -31,7 +37,7 @@ public abstract class AbstractTemplateClassGenerator implements
         context.put("stringTool", new StringTool());
         try {
             file.createNewFile();
-            Template template = Velocity.getTemplate(getTemplatePath(dir,
+            Template template = velocityEngine.getTemplate(getTemplatePath(dir,
                     packageName, suite, clazz));
             Writer writer = new FileWriter(file);
             try {

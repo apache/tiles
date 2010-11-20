@@ -141,7 +141,7 @@ public class CreateDescriptorMojo extends AbstractMojo {
         }
         scanner.addSourceMapping(new SourceMapping() {
 
-            @SuppressWarnings("unchecked")
+            @SuppressWarnings("rawtypes")
             @Override
             public Set getTargetFiles(File targetDir, String source) {
                 return null;

@@ -24,6 +24,7 @@ import org.apache.tiles.autotag.generate.BasicTemplateGenerator;
 import org.apache.tiles.autotag.jsp.TLDGenerator;
 import org.apache.tiles.autotag.jsp.TagClassGenerator;
 import org.apache.tiles.autotag.model.TemplateSuite;
+import org.apache.velocity.app.VelocityEngine;
 
 
 /**
@@ -73,10 +74,10 @@ public class GenerateJspMojo extends AbstractGenerateMojo {
      */
     private MavenProject project;
 
-    protected void generate(TemplateSuite suite) {
+    protected void generate(TemplateSuite suite, VelocityEngine velocityEngine) {
         BasicTemplateGenerator generator = new BasicTemplateGenerator();
-        generator.addTemplateSuiteGenerator(resourcesOutputDirectory, new TLDGenerator());
-        generator.addTemplateClassGenerator(classesOutputDirectory, new TagClassGenerator());
+        generator.addTemplateSuiteGenerator(resourcesOutputDirectory, new TLDGenerator(velocityEngine));
+        generator.addTemplateClassGenerator(classesOutputDirectory, new TagClassGenerator(velocityEngine));
         suite.getCustomVariables().put("taglibURI", taglibURI);
         generator.generate(packageName, suite);
 

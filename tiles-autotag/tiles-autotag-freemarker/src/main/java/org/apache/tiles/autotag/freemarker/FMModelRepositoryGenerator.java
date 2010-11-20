@@ -4,8 +4,13 @@ import java.io.File;
 
 import org.apache.tiles.autotag.generate.AbstractTemplateSuiteGenerator;
 import org.apache.tiles.autotag.model.TemplateSuite;
+import org.apache.velocity.app.VelocityEngine;
 
 public class FMModelRepositoryGenerator extends AbstractTemplateSuiteGenerator {
+
+    public FMModelRepositoryGenerator(VelocityEngine velocityEngine) {
+        super(velocityEngine);
+    }
 
     protected String getTemplatePath(File directory, String packageName, TemplateSuite suite) {
         return "/org/apache/tiles/autotag/freemarker/repository.vm";

@@ -20,7 +20,7 @@ import org.apache.tiles.autotag.model.TemplateMethod;
 import org.apache.tiles.autotag.model.TemplateParameter;
 import org.apache.tiles.autotag.model.TemplateSuite;
 import org.apache.tiles.request.Request;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.Test;
 
 /**
@@ -36,7 +36,13 @@ public class VelocityDirectiveGeneratorTest {
      */
     @Test
     public void testGenerate() throws Exception {
-        VelocityDirectiveGenerator generator = new VelocityDirectiveGenerator();
+        Properties props = new Properties();
+        InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/velocity.properties");
+        props.load(propsStream);
+        propsStream.close();
+        VelocityEngine velocityEngine = new VelocityEngine(props);
+
+        VelocityDirectiveGenerator generator = new VelocityDirectiveGenerator(velocityEngine);
         File file = File.createTempFile("autotag", null);
         file.delete();
         file.mkdir();
@@ -64,12 +70,6 @@ public class VelocityDirectiveGeneratorTest {
         TemplateClass clazz = new TemplateClass("org.apache.tiles.autotag.template.DoStuffTemplate",
                 "doStuff", "DoStuff", executeMethod);
         clazz.setDocumentation("Documentation of the DoStuff class.");
-
-        Properties props = new Properties();
-        InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/velocity.properties");
-        props.load(propsStream);
-        propsStream.close();
-        Velocity.init(props);
 
         generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, clazz);
 

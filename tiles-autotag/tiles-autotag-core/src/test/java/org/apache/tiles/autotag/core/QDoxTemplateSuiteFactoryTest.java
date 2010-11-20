@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tiles.autotag.core.internal.AnnotatedExampleModel;
 import org.apache.tiles.autotag.core.internal.ExampleExecutableModel;
 import org.apache.tiles.autotag.core.internal.ExampleModel;
 import org.apache.tiles.autotag.core.internal.NotFeasibleExampleModel;
@@ -35,6 +36,8 @@ public class QDoxTemplateSuiteFactoryTest {
     @Before
     public void setUp() {
         factory = new QDoxTemplateSuiteFactory(getClass().getResource("/org/apache/tiles/autotag/core/internal/ExampleModel.java"),
+                getClass().getResource("/org/apache/tiles/autotag/core/internal/AnnotatedExampleModel.java"),
+                getClass().getResource("/org/apache/tiles/autotag/core/internal/ExampleExcluded.java"),
                 getClass().getResource("/org/apache/tiles/autotag/core/internal/ExampleExecutableModel.java"),
                 getClass().getResource("/org/apache/tiles/autotag/core/internal/NotFeasibleExampleModel.java"));
         factory.setSuiteName("The suite name");
@@ -49,7 +52,7 @@ public class QDoxTemplateSuiteFactoryTest {
         TemplateSuite suite = factory.createTemplateSuite();
         assertEquals("The suite name", suite.getName());
         assertEquals("This are the docs", suite.getDocumentation());
-        assertEquals(2, suite.getTemplateClasses().size());
+        assertEquals(3, suite.getTemplateClasses().size());
 
         TemplateClass templateClass = suite.getTemplateClassByName(ExampleModel.class.getName());
         assertNotNull(templateClass);
@@ -80,6 +83,22 @@ public class QDoxTemplateSuiteFactoryTest {
         assertEquals(ModelBody.class.getName(), parameter.getType());
         assertEquals("The model body.", parameter.getDocumentation());
 
+        templateClass = suite.getTemplateClassByName(AnnotatedExampleModel.class.getName());
+        assertNotNull(templateClass);
+        assertEquals(AnnotatedExampleModel.class.getName(), templateClass.getName());
+        templateMethod = templateClass.getExecuteMethod();
+        assertNotNull(templateMethod);
+        assertEquals("execute", templateMethod.getName());
+        parameters = new ArrayList<TemplateParameter>(templateMethod.getParameters());
+        assertEquals(4, parameters.size());
+        parameter = parameters.get(0);
+        assertEquals("one", parameter.getName());
+        assertEquals("alternateOne", parameter.getExportedName());
+        assertEquals("java.lang.String", parameter.getType());
+        assertEquals("Parameter one.", parameter.getDocumentation());
+        assertEquals("hello", parameter.getDefaultValue());
+        assertTrue(parameter.isRequired());
+
         templateClass = suite.getTemplateClassByName(ExampleExecutableModel.class.getName());
         assertNotNull(templateClass);
         assertEquals(ExampleExecutableModel.class.getName(), templateClass.getName());
@@ -105,5 +124,4 @@ public class QDoxTemplateSuiteFactoryTest {
 
         assertNull(suite.getTemplateClassByName(NotFeasibleExampleModel.class.getName()));
     }
-
 }

@@ -20,7 +20,7 @@ import org.apache.tiles.autotag.model.TemplateMethod;
 import org.apache.tiles.autotag.model.TemplateParameter;
 import org.apache.tiles.autotag.model.TemplateSuite;
 import org.apache.tiles.request.Request;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.Test;
 
 /**
@@ -36,7 +36,13 @@ public class FMModelRepositoryGeneratorTest {
      */
     @Test
     public void testGenerate() throws Exception {
-        FMModelRepositoryGenerator generator = new FMModelRepositoryGenerator();
+        Properties props = new Properties();
+        InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/velocity.properties");
+        props.load(propsStream);
+        propsStream.close();
+        VelocityEngine velocityEngine = new VelocityEngine(props);
+
+        FMModelRepositoryGenerator generator = new FMModelRepositoryGenerator(velocityEngine);
         File file = File.createTempFile("autotag", null);
         file.delete();
         file.mkdir();
@@ -86,12 +92,6 @@ public class FMModelRepositoryGeneratorTest {
         clazz.setDocumentation("Documentation of the DoStuffNoBody class");
 
         suite.addTemplateClass(clazz);
-
-        Properties props = new Properties();
-        InputStream propsStream = getClass().getResourceAsStream("/org/apache/tiles/autotag/velocity.properties");
-        props.load(propsStream);
-        propsStream.close();
-        Velocity.init(props);
 
         generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite);
 
