@@ -54,8 +54,7 @@ public class TemplateMethod {
 
     @Override
     public String toString() {
-        return "TemplateMethod\n[documentation=" + documentation + ", name="
-                + name + ", parameters=\n" + parameters + "]";
+        return "TemplateMethod [name=" + name + ", documentation="
+                + documentation + ", parameters=" + parameters + "]";
     }
-
 }

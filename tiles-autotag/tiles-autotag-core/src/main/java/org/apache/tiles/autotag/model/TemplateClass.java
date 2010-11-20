@@ -58,6 +58,17 @@ public class TemplateClass {
         return params.values();
     }
 
+    public boolean hasBody() {
+        return executeMethod.hasBody();
+    }
+
+    @Override
+    public String toString() {
+        return "TemplateClass [name=" + name + ", tagName=" + tagName
+                + ", tagClassPrefix=" + tagClassPrefix + ", documentation="
+                + documentation + ", executeMethod=" + executeMethod + "]";
+    }
+
     private void fillRegularParameters(Map<String, TemplateParameter> params,
             TemplateMethod method) {
         if (method != null) {
@@ -68,15 +79,4 @@ public class TemplateClass {
             }
         }
     }
-
-    public boolean hasBody() {
-        return executeMethod.hasBody();
-    }
-
-    @Override
-    public String toString() {
-        return "TemplateClass\n[documentation=" + documentation
-                + ",\nexecuteMethod=" + executeMethod + ",\nname=" + name + "]";
-    }
-
 }

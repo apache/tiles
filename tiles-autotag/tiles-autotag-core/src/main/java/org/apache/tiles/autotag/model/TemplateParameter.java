@@ -67,9 +67,9 @@ public class TemplateParameter {
 
     @Override
     public String toString() {
-        return "TemplateParameter\n[documentation=" + documentation
-                + ",\nname=" + name + ",\nexportedName=" + exportedName
-                + ", required=" + required + ", type=" + type + "]";
+        return "TemplateParameter [name=" + name + ", exportedName="
+                + exportedName + ", documentation=" + documentation + ", type="
+                + type + ", defaultValue=" + defaultValue + ", required="
+                + required + "]";
     }
-
 }

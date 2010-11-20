@@ -54,8 +54,9 @@ public class TemplateSuite {
 
     @Override
     public String toString() {
-        return "TemplateSuite\n[documentation=" + documentation + ", name="
-                + name + ", templateClasses=\n" + templateClasses + "]";
+        return "TemplateSuite [name=" + name + ", documentation="
+                + documentation + ", customVariables=" + customVariables
+                + ", templateClasses=" + templateClasses + "]";
     }
 
     public Map<String, String> getCustomVariables() {

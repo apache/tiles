@@ -2,6 +2,7 @@ package org.apache.tiles.autotag.generate;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.tiles.autotag.core.AutotagRuntimeException;
@@ -51,6 +52,9 @@ public abstract class AbstractTemplateClassGenerator implements
         } catch (ParseErrorException e) {
             throw new AutotagRuntimeException(
                     "The template resource is not parseable", e);
+        } catch (IOException e) {
+            throw new AutotagRuntimeException(
+                    "I/O Exception when generating file", e);
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {
