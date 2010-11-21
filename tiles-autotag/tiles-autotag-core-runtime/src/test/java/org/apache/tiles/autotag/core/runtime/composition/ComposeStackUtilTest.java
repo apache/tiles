@@ -21,12 +21,17 @@
 
 package org.apache.tiles.autotag.core.runtime.composition;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayDeque;
+import java.util.Date;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
@@ -65,6 +70,54 @@ public class ComposeStackUtilTest {
         assertEquals(longValue, ComposeStackUtil.findAncestorWithClass(composeStack, Long.class));
         assertEquals(stringValue, ComposeStackUtil.findAncestorWithClass(composeStack, String.class));
         assertEquals(integerValue2, ComposeStackUtil.findAncestorWithClass(composeStack, Object.class));
+        assertNull(ComposeStackUtil.findAncestorWithClass(composeStack, Date.class));
     }
 
+    /**
+     * Tests {@link ComposeStackUtil#getComposeStack(org.apache.tiles.request.Request)}.
+     */
+    @Test
+    public void testGetComposeStackNull() {
+        Request request = createMock(Request.class);
+
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        expect(request.getContext("request")).andReturn(requestScope);
+
+        replay(request);
+        assertSame(ComposeStackUtil.getComposeStack(request), requestScope.get(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME));
+        verify(request);
+    }
+
+    /**
+     * Tests {@link ComposeStackUtil#getComposeStack(org.apache.tiles.request.Request)}.
+     */
+    /**
+     * Tests {@link ComposeStackUtil#getComposeStack(org.apache.tiles.request.Request)}.
+     */
+    @Test
+    public void testGetComposeStackNotNull() {
+        Request request = createMock(Request.class);
+        @SuppressWarnings("unchecked")
+        Deque<Object> composeStack = createMock(Deque.class);
+
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        expect(request.getContext("request")).andReturn(requestScope);
+
+        replay(request, composeStack);
+        assertSame(composeStack, ComposeStackUtil.getComposeStack(request));
+        verify(request, composeStack);
+    }
+
+    @Test
+    public void testGetComposeStackNoNull() {
+        Request request = createMock(Request.class);
+
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        expect(request.getContext("request")).andReturn(requestScope);
+
+        replay(request);
+        assertSame(ComposeStackUtil.getComposeStack(request), requestScope.get(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME));
+        verify(request);
+    }
 }

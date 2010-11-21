@@ -31,7 +31,7 @@ import org.apache.tiles.request.Request;
  * Utilities to work with compose stacks.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
+ * @since 3.0.0
  */
 public final class ComposeStackUtil {
 
@@ -53,7 +53,7 @@ public final class ComposeStackUtil {
      * @param composeStack The compose stack to evaluate.
      * @param clazz The class to check.
      * @return The first ancestor that is assignable to the class, or null if not found.
-     * @since 2.2.0
+     * @since 3.0.0
      */
     public static Object findAncestorWithClass(Deque<Object> composeStack, Class<?> clazz) {
         for (Object obj : composeStack) {
@@ -70,7 +70,7 @@ public final class ComposeStackUtil {
      *
      * @param env The current FreeMarker environment.
      * @return The compose stack.
-     * @since 2.2.0
+     * @since 3.0.0
      */
     @SuppressWarnings("unchecked")
     public static Deque<Object> getComposeStack(Request request) {
