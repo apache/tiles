@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.tiles.autotag.freemarker.runtime.BodylessFMModel;
-import org.apache.tiles.autotag.freemarker.runtime.FreeMarkerUtil;
+import org.apache.tiles.autotag.freemarker.runtime.FreemarkerUtil;
 import org.apache.tiles.request.Request;
 
 import freemarker.template.TemplateModel;
@@ -33,9 +33,9 @@ public class DoStuffNoBodyFMModel extends BodylessFMModel {
     @Override
     public void execute(Map<String, TemplateModel> parms, Request request) throws IOException {
         model.execute(
-            (java.lang.Double) FreeMarkerUtil.getAsObject(parms.get("one"), null),
-            (java.lang.Float) FreeMarkerUtil.getAsObject(parms.get("two"), 0.0f),
-            (java.util.Date) FreeMarkerUtil.getAsObject(parms.get("three"), null),
+            (java.lang.Double) FreemarkerUtil.getAsObject(parms.get("one"), null),
+            (java.lang.Float) FreemarkerUtil.getAsObject(parms.get("two"), 0.0f),
+            (java.util.Date) FreemarkerUtil.getAsObject(parms.get("three"), null),
                 request
         );
     }

@@ -32,6 +32,14 @@ public class TemplateClass {
         return name;
     }
 
+    public String getSimpleName() {
+        int pos = name.lastIndexOf('.');
+        if (pos >= 0) {
+            return name.substring(pos + 1);
+        }
+        return name;
+    }
+
     public String getTagName() {
         return tagName;
     }

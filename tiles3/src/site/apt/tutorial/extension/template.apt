@@ -58,30 +58,30 @@ Supporting a template language
 public void execute(Environment env, Map params, TemplateModel[] loopVars,
         TemplateDirectiveBody body) throws TemplateException, IOException {
     Map<String, TemplateModel> parms = (Map<String, TemplateModel>) params;
-    TilesContainer container = FreeMarkerUtil.getCurrentContainer(env);
+    TilesContainer container = FreemarkerUtil.getCurrentContainer(env);
     model.start(
-            FreeMarkerUtil.getComposeStack(env),
+            FreemarkerUtil.getComposeStack(env),
             container,
-            FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false),
-            FreeMarkerUtil.getAsString(parms.get("preparer")),
-            FreeMarkerUtil.getAsString(parms.get("role")),
-            FreeMarkerUtil.getAsObject(parms.get("defaultValue")),
-            FreeMarkerUtil.getAsString(parms
-                    .get("defaultValueRole")), FreeMarkerUtil
+            FreemarkerUtil.getAsBoolean(parms.get("ignore"), false),
+            FreemarkerUtil.getAsString(parms.get("preparer")),
+            FreemarkerUtil.getAsString(parms.get("role")),
+            FreemarkerUtil.getAsObject(parms.get("defaultValue")),
+            FreemarkerUtil.getAsString(parms
+                    .get("defaultValueRole")), FreemarkerUtil
                     .getAsString(parms.get("defaultValueType")),
-            FreeMarkerUtil.getAsString(parms.get("name")),
-            (Attribute) FreeMarkerUtil.getAsObject(parms
+            FreemarkerUtil.getAsString(parms.get("name")),
+            (Attribute) FreemarkerUtil.getAsObject(parms
                     .get("value")), env);
-    FreeMarkerUtil.evaluateBody(body);
-    model.end(FreeMarkerUtil.getComposeStack(env), container,
-            FreeMarkerUtil.getAsBoolean(parms.get("ignore"), false), env);
+    FreemarkerUtil.evaluateBody(body);
+    model.end(FreemarkerUtil.getComposeStack(env), container,
+            FreemarkerUtil.getAsBoolean(parms.get("ignore"), false), env);
 }
 ------------------------
 
   As you can see, the map of parameters at the call of the tag are converted into
   parameters of the template model. In JSP, private fields would have become such
   parameters.
-  The <<<FreeMarkerUtil.evaluateBody(body)>>> is used to evaluate the body, and all
+  The <<<FreemarkerUtil.evaluateBody(body)>>> is used to evaluate the body, and all
   of its tags, so the model can start and end correctly.
 
 ** The role of the compose stack

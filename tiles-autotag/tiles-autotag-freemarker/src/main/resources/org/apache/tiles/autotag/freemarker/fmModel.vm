@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 #end
 import org.apache.tiles.autotag.freemarker.runtime.Body#if(!${clazz.hasBody()})less#{end}FMModel;
-import org.apache.tiles.autotag.freemarker.runtime.FreeMarkerUtil;
+import org.apache.tiles.autotag.freemarker.runtime.FreemarkerUtil;
 import org.apache.tiles.request.Request;
 
 import freemarker.template.TemplateModel;
@@ -58,7 +58,7 @@ public class ${clazz.tagClassPrefix}FMModel extends Body#if(!${clazz.hasBody()})
     public void execute(Map<String, TemplateModel> parms, Request request#if(${clazz.hasBody()}), ModelBody modelBody#end) throws IOException {
         model.execute(
 #foreach($parameter in ${clazz.parameters})
-            ($stringTool.getClassToCast(${parameter.type})) FreeMarkerUtil.getAsObject(parms.get("${parameter.exportedName}"), $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue})),
+            ($stringTool.getClassToCast(${parameter.type})) FreemarkerUtil.getAsObject(parms.get("${parameter.exportedName}"), $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue})),
 #end
                 request#if(${clazz.hasBody()}), modelBody#end
 

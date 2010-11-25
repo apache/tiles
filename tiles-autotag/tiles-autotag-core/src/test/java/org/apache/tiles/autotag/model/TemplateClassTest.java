@@ -51,6 +51,17 @@ public class TemplateClassTest {
     }
 
     /**
+     * Test method for {@link org.apache.tiles.autotag.model.TemplateClass#getSimpleName()}.
+     */
+    @Test
+    public void testGetSimpleName() {
+        TemplateClass templateClass = new TemplateClass("name");
+        assertEquals("name", templateClass.getSimpleName());
+        templateClass = new TemplateClass("org.whatever.Hello");
+        assertEquals("Hello", templateClass.getSimpleName());
+    }
+
+    /**
      * Test method for {@link org.apache.tiles.autotag.model.TemplateClass#setDocumentation(java.lang.String)}.
      */
     @Test

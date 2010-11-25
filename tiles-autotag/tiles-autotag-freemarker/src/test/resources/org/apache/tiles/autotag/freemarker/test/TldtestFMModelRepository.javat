@@ -1,8 +1,5 @@
 package org.apache.tiles.autotag.freemarker.test;
 
-import org.apache.tiles.autotag.template.DoStuffTemplate;
-import org.apache.tiles.autotag.template.DoStuffNoBodyTemplate;
-
 /**
  * Test for TLD docs.
  */

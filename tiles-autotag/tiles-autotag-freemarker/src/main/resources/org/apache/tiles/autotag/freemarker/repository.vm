@@ -19,10 +19,6 @@ package ${packageName};
  * specific language governing permissions and limitations
  * under the License.
  *#
-#foreach($clazz in ${suite.getTemplateClasses()})
-import ${clazz.name};
-#end
-
 /**
 #foreach($line in $stringTool.splitOnNewlines(${suite.documentation}))
  * $line

@@ -29,14 +29,14 @@ import freemarker.template.utility.DeepUnwrap;
  * Utilities for FreeMarker usage in Tiles.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
+ * @since 3.0.0
  */
-public final class FreeMarkerUtil {
+public final class FreemarkerUtil {
 
     /**
      * Private constructor to avoid instantiation.
      */
-    private FreeMarkerUtil() {
+    private FreemarkerUtil() {
     }
 
     /**

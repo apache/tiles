@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.autotag.freemarker.runtime.BodyFMModel;
-import org.apache.tiles.autotag.freemarker.runtime.FreeMarkerUtil;
+import org.apache.tiles.autotag.freemarker.runtime.FreemarkerUtil;
 import org.apache.tiles.request.Request;
 
 import freemarker.template.TemplateModel;
@@ -34,9 +34,9 @@ public class DoStuffFMModel extends BodyFMModel {
     @Override
     public void execute(Map<String, TemplateModel> parms, Request request, ModelBody modelBody) throws IOException {
         model.execute(
-            (java.lang.String) FreeMarkerUtil.getAsObject(parms.get("one"), null),
-            (java.lang.Integer) FreeMarkerUtil.getAsObject(parms.get("two"), 0),
-            (java.lang.Boolean) FreeMarkerUtil.getAsObject(parms.get("three"), false),
+            (java.lang.String) FreemarkerUtil.getAsObject(parms.get("one"), null),
+            (java.lang.Integer) FreemarkerUtil.getAsObject(parms.get("two"), 0),
+            (java.lang.Boolean) FreemarkerUtil.getAsObject(parms.get("three"), false),
                 request, modelBody
         );
     }

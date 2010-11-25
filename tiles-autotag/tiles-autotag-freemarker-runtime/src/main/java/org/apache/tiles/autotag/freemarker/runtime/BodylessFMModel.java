@@ -16,7 +16,7 @@ public abstract class BodylessFMModel implements TemplateDirectiveModel {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+    public void execute(Environment env, @SuppressWarnings("rawtypes") Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws IOException {
         Request request = FreemarkerRequest.createServletFreemarkerRequest(
                 FreemarkerRequestUtil.getApplicationContext(env), env);
