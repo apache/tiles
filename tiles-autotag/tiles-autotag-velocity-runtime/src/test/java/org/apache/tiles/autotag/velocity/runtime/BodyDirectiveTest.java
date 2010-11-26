@@ -22,12 +22,10 @@
 package org.apache.tiles.autotag.velocity.runtime;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -51,7 +49,7 @@ import org.junit.Test;
  *
  * @version $Rev$ $Date$
  */
-public class BodyBlockDirectiveTest {
+public class BodyDirectiveTest {
 
     /**
      * The directive to test.
@@ -63,7 +61,7 @@ public class BodyBlockDirectiveTest {
      */
     @Before
     public void setUp() {
-        directive = createMock(BodyDirective.class, new Method[0]);
+        directive = createMockBuilder(BodyDirective.class).createMock();
     }
 
     /**

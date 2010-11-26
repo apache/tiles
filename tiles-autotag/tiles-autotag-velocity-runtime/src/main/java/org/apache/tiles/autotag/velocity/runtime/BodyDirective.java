@@ -44,7 +44,7 @@ import org.apache.velocity.tools.view.ViewContext;
  * body.
  *
  * @version $Rev$ $Date$
- * @since 2.2.2
+ * @since 3.0.0
  */
 public abstract class BodyDirective extends Directive {
 

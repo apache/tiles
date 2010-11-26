@@ -21,14 +21,9 @@
 
 package org.apache.tiles.autotag.velocity.runtime;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Map;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.Renderable;
-import org.apache.velocity.runtime.parser.node.ASTBlock;
 import org.apache.velocity.runtime.parser.node.ASTMap;
 import org.apache.velocity.runtime.parser.node.Node;
 
@@ -36,88 +31,14 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Utilities for Velocity usage in Tiles.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
+ * @since 3.0.0
  */
 public final class VelocityUtil {
-
-    /**
-     * A renderable object that does not render anything.
-     *
-     * @since 2.2.0
-     */
-    public static final Renderable EMPTY_RENDERABLE;
-
-    static {
-        EMPTY_RENDERABLE = new Renderable() {
-
-            @Override
-            public String toString() {
-                return "";
-            }
-
-            public boolean render(InternalContextAdapter context, Writer writer) {
-                // Does nothing, really!
-                return true;
-            }
-        };
-    }
 
     /**
      * Private constructor to avoid instantiation.
      */
     private VelocityUtil() {
-    }
-
-    /**
-     * Null-safe conversion from Boolean to boolean.
-     *
-     * @param obj The Boolean object.
-     * @param defaultValue This value will be returned if <code>obj</code> is null.
-     * @return The boolean value of <code>obj</code> or, if null, <code>defaultValue</code>.
-     * @since 2.2.0
-     */
-    public static boolean toSimpleBoolean(Boolean obj, boolean defaultValue) {
-        return obj != null ? obj : defaultValue;
-    }
-
-    /**
-     * Evaluates the body (child node at position 1) and returns it as a string.
-     *
-     * @param context The Velocity context.
-     * @param node The node to use.
-     * @return The evaluated body.
-     * @throws IOException If something goes wrong.
-     * @since 2.2.2
-     */
-    public static String getBodyAsString(InternalContextAdapter context, Node node)
-            throws IOException {
-        ASTBlock block = (ASTBlock) node.jjtGetChild(1);
-        StringWriter stringWriter = new StringWriter();
-        block.render(context, stringWriter);
-        stringWriter.close();
-        String body = stringWriter.toString();
-        if (body != null) {
-            body = body.replaceAll("^\\s*|\\s*$", "");
-            if (body.length() <= 0) {
-                body = null;
-            }
-        }
-        return body;
-    }
-
-    /**
-     * Evaluates the body writing in the passed writer.
-     *
-     * @param context The Velocity context.
-     * @param writer The writer to write into.
-     * @param node The node to use.
-     * @throws IOException If something goes wrong.
-     * @since 2.2.2
-     */
-    public static void evaluateBody(InternalContextAdapter context, Writer writer,
-            Node node) throws IOException {
-        ASTBlock block = (ASTBlock) node.jjtGetChild(1);
-        block.render(context, writer);
     }
 
     /**
@@ -127,7 +48,7 @@ public final class VelocityUtil {
      * @param context The Velocity context.
      * @param node The node to use.
      * @return The extracted parameters.
-     * @since 2.2.2
+     * @since 3.0.0
      */
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getParameters(InternalContextAdapter context,
