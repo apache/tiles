@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -31,7 +32,7 @@ import org.junit.Test;
 public class FMModelGeneratorTest {
 
     /**
-     * Test method for {@link TagClassGenerator#generate(File, String, TemplateSuite, TemplateClass)}.
+     * Test method for {@link TagClassGenerator#generate(File, String, TemplateSuite, TemplateClass, Map)}.
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -71,7 +72,7 @@ public class FMModelGeneratorTest {
                 "doStuff", "DoStuff", executeMethod);
         clazz.setDocumentation("Documentation of the DoStuff class.");
 
-        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite, clazz);
+        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite, clazz, null);
 
         InputStream expected = getClass().getResourceAsStream("/org/apache/tiles/autotag/freemarker/test/DoStuffFMModel.javat");
         File effectiveFile = new File(file, "/org/apache/tiles/autotag/freemarker/test/DoStuffFMModel.java");
@@ -103,7 +104,7 @@ public class FMModelGeneratorTest {
 
         suite.addTemplateClass(clazz);
 
-        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite, clazz);
+        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite, clazz, null);
 
         expected = getClass().getResourceAsStream("/org/apache/tiles/autotag/freemarker/test/DoStuffNoBodyFMModel.javat");
         effectiveFile = new File(file, "/org/apache/tiles/autotag/freemarker/test/DoStuffNoBodyFMModel.java");

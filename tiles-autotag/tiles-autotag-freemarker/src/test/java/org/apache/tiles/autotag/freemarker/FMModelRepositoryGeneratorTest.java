@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -31,7 +32,7 @@ import org.junit.Test;
 public class FMModelRepositoryGeneratorTest {
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.jsp.TLDGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite)}.
+     * Test method for {@link org.apache.tiles.autotag.jsp.TLDGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite, Map)}.
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -93,7 +94,7 @@ public class FMModelRepositoryGeneratorTest {
 
         suite.addTemplateClass(clazz);
 
-        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite);
+        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite, null);
 
         InputStream expected = getClass().getResourceAsStream("/org/apache/tiles/autotag/freemarker/test/TldtestFMModelRepository.javat");
         File effectiveFile = new File(file, "/org/apache/tiles/autotag/freemarker/test/TldtestFMModelRepository.java");

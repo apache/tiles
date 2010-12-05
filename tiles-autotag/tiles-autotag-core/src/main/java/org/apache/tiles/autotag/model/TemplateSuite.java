@@ -1,7 +1,6 @@
 package org.apache.tiles.autotag.model;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -10,8 +9,6 @@ public class TemplateSuite {
     private String name;
 
     private String documentation;
-
-    private Map<String, String> customVariables;
 
     Map<String, TemplateClass> templateClasses;
 
@@ -23,7 +20,6 @@ public class TemplateSuite {
             Iterable<? extends TemplateClass> classes) {
         this.name = name;
         this.documentation = documentation;
-        customVariables = new HashMap<String, String>();
         templateClasses = new LinkedHashMap<String, TemplateClass>();
         if (classes != null) {
             for (TemplateClass templateClass : classes) {
@@ -55,11 +51,6 @@ public class TemplateSuite {
     @Override
     public String toString() {
         return "TemplateSuite [name=" + name + ", documentation="
-                + documentation + ", customVariables=" + customVariables
-                + ", templateClasses=" + templateClasses + "]";
-    }
-
-    public Map<String, String> getCustomVariables() {
-        return customVariables;
+                + documentation + ", templateClasses=" + templateClasses + "]";
     }
 }

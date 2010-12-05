@@ -4,11 +4,11 @@
 package org.apache.tiles.autotag.generate;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.tiles.autotag.core.AutotagRuntimeException;
@@ -77,19 +77,21 @@ public class AbstractTemplateSuiteGeneratorTest {
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
         Template template = createMock(Template.class);
+        @SuppressWarnings("unchecked")
+        Map<String, String> parameters = createMock(Map.class);
         String packageName = "org.apache.tiles.autotag.test";
 
-        expect(generator.getDirectoryName(directory, packageName, suite)).andReturn("mydir");
+        expect(generator.getDirectoryName(directory, packageName, suite, parameters)).andReturn("mydir");
         File mydir = new File(directory, "mydir");
-        expect(generator.getFilename(mydir , packageName, suite)).andReturn("myfile.txt");
+        expect(generator.getFilename(mydir , packageName, suite, parameters)).andReturn("myfile.txt");
         String sampleVmPath = "/sample.vm";
-        expect(generator.getTemplatePath(mydir, packageName, suite)).andReturn(sampleVmPath);
+        expect(generator.getTemplatePath(mydir, packageName, suite, parameters)).andReturn(sampleVmPath);
         expect(velocityEngine.getTemplate("/sample.vm")).andReturn(template);
         template.merge(isA(VelocityContext.class), isA(FileWriter.class));
 
-        replay(velocityEngine, generator, suite, template);
-        generator.generate(directory, packageName, suite);
-        verify(velocityEngine, generator, suite, template);
+        replay(velocityEngine, generator, suite, template, parameters);
+        generator.generate(directory, packageName, suite, parameters);
+        verify(velocityEngine, generator, suite, template, parameters);
     }
 
     /**
@@ -104,18 +106,20 @@ public class AbstractTemplateSuiteGeneratorTest {
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
         Template template = createMock(Template.class);
+        @SuppressWarnings("unchecked")
+        Map<String, String> parameters = createMock(Map.class);
         String packageName = "org.apache.tiles.autotag.test";
 
-        expect(generator.getDirectoryName(directory, packageName, suite)).andReturn("mydir");
+        expect(generator.getDirectoryName(directory, packageName, suite, parameters)).andReturn("mydir");
         File mydir = new File(directory, "mydir");
-        expect(generator.getFilename(mydir , packageName, suite)).andReturn("myfile.txt");
+        expect(generator.getFilename(mydir , packageName, suite, parameters)).andReturn("myfile.txt");
         String sampleVmPath = "/sample.vm";
-        expect(generator.getTemplatePath(mydir, packageName, suite)).andReturn(sampleVmPath);
+        expect(generator.getTemplatePath(mydir, packageName, suite, parameters)).andReturn(sampleVmPath);
         expect(velocityEngine.getTemplate("/sample.vm")).andThrow(new ResourceNotFoundException("hello"));
 
-        replay(velocityEngine, generator, suite, template);
-        generator.generate(directory, packageName, suite);
-        verify(velocityEngine, generator, suite, template);
+        replay(velocityEngine, generator, suite, template, parameters);
+        generator.generate(directory, packageName, suite, parameters);
+        verify(velocityEngine, generator, suite, template, parameters);
     }
 
     /**
@@ -130,18 +134,20 @@ public class AbstractTemplateSuiteGeneratorTest {
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
         Template template = createMock(Template.class);
+        @SuppressWarnings("unchecked")
+        Map<String, String> parameters = createMock(Map.class);
         String packageName = "org.apache.tiles.autotag.test";
 
-        expect(generator.getDirectoryName(directory, packageName, suite)).andReturn("mydir");
+        expect(generator.getDirectoryName(directory, packageName, suite, parameters)).andReturn("mydir");
         File mydir = new File(directory, "mydir");
-        expect(generator.getFilename(mydir , packageName, suite)).andReturn("myfile.txt");
+        expect(generator.getFilename(mydir , packageName, suite, parameters)).andReturn("myfile.txt");
         String sampleVmPath = "/sample.vm";
-        expect(generator.getTemplatePath(mydir, packageName, suite)).andReturn(sampleVmPath);
+        expect(generator.getTemplatePath(mydir, packageName, suite, parameters)).andReturn(sampleVmPath);
         expect(velocityEngine.getTemplate("/sample.vm")).andThrow(new ParseErrorException("hello"));
 
-        replay(velocityEngine, generator, suite, template);
-        generator.generate(directory, packageName, suite);
-        verify(velocityEngine, generator, suite, template);
+        replay(velocityEngine, generator, suite, template, parameters);
+        generator.generate(directory, packageName, suite, parameters);
+        verify(velocityEngine, generator, suite, template, parameters);
     }
 
     /**
@@ -156,18 +162,20 @@ public class AbstractTemplateSuiteGeneratorTest {
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
         Template template = createMock(Template.class);
+        @SuppressWarnings("unchecked")
+        Map<String, String> parameters = createMock(Map.class);
         String packageName = "org.apache.tiles.autotag.test";
 
-        expect(generator.getDirectoryName(directory, packageName, suite)).andReturn("mydir");
+        expect(generator.getDirectoryName(directory, packageName, suite, parameters)).andReturn("mydir");
         File mydir = new File(directory, "mydir");
-        expect(generator.getFilename(mydir , packageName, suite)).andReturn("myfile.txt");
+        expect(generator.getFilename(mydir , packageName, suite, parameters)).andReturn("myfile.txt");
         String sampleVmPath = "/sample.vm";
-        expect(generator.getTemplatePath(mydir, packageName, suite)).andReturn(sampleVmPath);
+        expect(generator.getTemplatePath(mydir, packageName, suite, parameters)).andReturn(sampleVmPath);
         expect(velocityEngine.getTemplate("/sample.vm")).andThrow(new Exception());
 
-        replay(velocityEngine, generator, suite, template);
-        generator.generate(directory, packageName, suite);
-        verify(velocityEngine, generator, suite, template);
+        replay(velocityEngine, generator, suite, template, parameters);
+        generator.generate(directory, packageName, suite, parameters);
+        verify(velocityEngine, generator, suite, template, parameters);
     }
 
     /**
@@ -182,20 +190,22 @@ public class AbstractTemplateSuiteGeneratorTest {
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
         Template template = createMock(Template.class);
+        @SuppressWarnings("unchecked")
+        Map<String, String> parameters = createMock(Map.class);
         String packageName = "org.apache.tiles.autotag.test";
 
-        expect(generator.getDirectoryName(directory, packageName, suite)).andReturn("mydir");
+        expect(generator.getDirectoryName(directory, packageName, suite, parameters)).andReturn("mydir");
         File mydir = new File(directory, "mydir");
-        expect(generator.getFilename(mydir , packageName, suite)).andReturn("myfile.txt");
+        expect(generator.getFilename(mydir , packageName, suite, parameters)).andReturn("myfile.txt");
         String sampleVmPath = "/sample.vm";
-        expect(generator.getTemplatePath(mydir, packageName, suite)).andReturn(sampleVmPath);
+        expect(generator.getTemplatePath(mydir, packageName, suite, parameters)).andReturn(sampleVmPath);
         expect(velocityEngine.getTemplate("/sample.vm")).andReturn(template);
         template.merge(isA(VelocityContext.class), isA(FileWriter.class));
         expectLastCall().andThrow(new IOException());
 
-        replay(velocityEngine, generator, suite, template);
-        generator.generate(directory, packageName, suite);
-        verify(velocityEngine, generator, suite, template);
+        replay(velocityEngine, generator, suite, template, parameters);
+        generator.generate(directory, packageName, suite, parameters);
+        verify(velocityEngine, generator, suite, template, parameters);
     }
 
     /**
@@ -210,20 +220,22 @@ public class AbstractTemplateSuiteGeneratorTest {
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
         Template template = createMock(Template.class);
+        @SuppressWarnings("unchecked")
+        Map<String, String> parameters = createMock(Map.class);
         String packageName = "org.apache.tiles.autotag.test";
 
-        expect(generator.getDirectoryName(directory, packageName, suite)).andReturn("mydir");
+        expect(generator.getDirectoryName(directory, packageName, suite, parameters)).andReturn("mydir");
         File mydir = new File(directory, "mydir");
-        expect(generator.getFilename(mydir , packageName, suite)).andReturn("myfile.txt");
+        expect(generator.getFilename(mydir , packageName, suite, parameters)).andReturn("myfile.txt");
         String sampleVmPath = "/sample.vm";
-        expect(generator.getTemplatePath(mydir, packageName, suite)).andReturn(sampleVmPath);
+        expect(generator.getTemplatePath(mydir, packageName, suite, parameters)).andReturn(sampleVmPath);
         expect(velocityEngine.getTemplate("/sample.vm")).andReturn(template);
         template.merge(isA(VelocityContext.class), isA(FileWriter.class));
         expectLastCall().andThrow(new ClassParseException());
 
-        replay(velocityEngine, generator, suite, template);
-        generator.generate(directory, packageName, suite);
-        verify(velocityEngine, generator, suite, template);
+        replay(velocityEngine, generator, suite, template, parameters);
+        generator.generate(directory, packageName, suite, parameters);
+        verify(velocityEngine, generator, suite, template, parameters);
     }
 
 }

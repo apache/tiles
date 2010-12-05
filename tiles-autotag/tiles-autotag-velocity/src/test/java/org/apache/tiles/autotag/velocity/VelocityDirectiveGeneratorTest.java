@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -31,7 +32,7 @@ import org.junit.Test;
 public class VelocityDirectiveGeneratorTest {
 
     /**
-     * Test method for {@link VelocityDirectiveGenerator#generate(File, String, TemplateSuite, TemplateClass)}.
+     * Test method for {@link VelocityDirectiveGenerator#generate(File, String, TemplateSuite, TemplateClass, Map)}.
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -71,7 +72,7 @@ public class VelocityDirectiveGeneratorTest {
                 "doStuff", "DoStuff", executeMethod);
         clazz.setDocumentation("Documentation of the DoStuff class.");
 
-        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, clazz);
+        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, clazz, null);
 
         InputStream expected = getClass().getResourceAsStream("/org/apache/tiles/autotag/velocity/test/DoStuffDirective.javat");
         File effectiveFile = new File(file, "/org/apache/tiles/autotag/velocity/test/DoStuffDirective.java");
@@ -103,7 +104,7 @@ public class VelocityDirectiveGeneratorTest {
 
         suite.addTemplateClass(clazz);
 
-        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, clazz);
+        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, clazz, null);
 
         expected = getClass().getResourceAsStream("/org/apache/tiles/autotag/velocity/test/DoStuffNoBodyDirective.javat");
         effectiveFile = new File(file, "/org/apache/tiles/autotag/velocity/test/DoStuffNoBodyDirective.java");

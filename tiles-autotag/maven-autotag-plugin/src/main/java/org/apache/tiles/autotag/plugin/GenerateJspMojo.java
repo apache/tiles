@@ -16,14 +16,12 @@ package org.apache.tiles.autotag.plugin;
  * limitations under the License.
  */
 
-import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.maven.model.Resource;
-import org.apache.maven.project.MavenProject;
-import org.apache.tiles.autotag.generate.BasicTemplateGenerator;
-import org.apache.tiles.autotag.jsp.TLDGenerator;
-import org.apache.tiles.autotag.jsp.TagClassGenerator;
-import org.apache.tiles.autotag.model.TemplateSuite;
+import org.apache.tiles.autotag.generate.TemplateGeneratorBuilder;
+import org.apache.tiles.autotag.generate.TemplateGeneratorFactory;
+import org.apache.tiles.autotag.jsp.JspTemplateGeneratorFactory;
 import org.apache.velocity.app.VelocityEngine;
 
 
@@ -38,52 +36,25 @@ import org.apache.velocity.app.VelocityEngine;
 public class GenerateJspMojo extends AbstractGenerateMojo {
 
     /**
-     * Location of the file.
-     *
-     * @parameter expression="${project.build.directory}/autotag-jsp-classes"
-     * @required
-     */
-    private File classesOutputDirectory;
-
-    /**
-     * Location of the file.
-     *
-     * @parameter expression="${project.build.directory}/autotag-jsp-resources"
-     * @required
-     */
-    private File resourcesOutputDirectory;
-
-    /**
-     * Name of the package.
-     * @parameter expression="sample"
-     * @required
-     */
-    private String packageName;
-
-    /**
      * URI of the tag library.
      *
      * @parameter expression="http://www.example.com/tags/example"
      */
     private String taglibURI;
 
-    /**
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
-     */
-    private MavenProject project;
+    /** {@inheritDoc} */
+    @Override
+    protected Map<String, String> getParameters() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("taglibURI", taglibURI);
+        return params;
+    }
 
-    protected void generate(TemplateSuite suite, VelocityEngine velocityEngine) {
-        BasicTemplateGenerator generator = new BasicTemplateGenerator();
-        generator.addTemplateSuiteGenerator(resourcesOutputDirectory, new TLDGenerator(velocityEngine));
-        generator.addTemplateClassGenerator(classesOutputDirectory, new TagClassGenerator(velocityEngine));
-        suite.getCustomVariables().put("taglibURI", taglibURI);
-        generator.generate(packageName, suite);
-
-        Resource resource = new Resource();
-        resource.setDirectory(resourcesOutputDirectory.getAbsolutePath());
-        project.addResource(resource);
-        project.addCompileSourceRoot(classesOutputDirectory.getAbsolutePath());
+    @Override
+    protected TemplateGeneratorFactory createTemplateGeneratorFactory(
+            VelocityEngine velocityEngine) {
+        return new JspTemplateGeneratorFactory(classesOutputDirectory,
+                resourcesOutputDirectory, velocityEngine,
+                TemplateGeneratorBuilder.createNewInstance());
     }
 }

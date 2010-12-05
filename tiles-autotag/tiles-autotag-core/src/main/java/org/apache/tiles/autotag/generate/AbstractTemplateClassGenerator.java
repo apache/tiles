@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Map;
 
 import org.apache.tiles.autotag.core.AutotagRuntimeException;
 import org.apache.tiles.autotag.model.TemplateClass;
@@ -26,20 +27,21 @@ public abstract class AbstractTemplateClassGenerator implements
 
     @Override
     public void generate(File directory, String packageName,
-            TemplateSuite suite, TemplateClass clazz) {
+            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters) {
         File dir = new File(directory, getDirectoryName(directory, packageName,
-                suite, clazz));
+                suite, clazz, parameters));
         dir.mkdirs();
-        File file = new File(dir, getFilename(dir, packageName, suite, clazz));
+        File file = new File(dir, getFilename(dir, packageName, suite, clazz, parameters));
         VelocityContext context = new VelocityContext();
         context.put("packageName", packageName);
         context.put("suite", suite);
         context.put("clazz", clazz);
         context.put("stringTool", new StringTool());
+        context.put("parameters", parameters);
         try {
             file.createNewFile();
             Template template = velocityEngine.getTemplate(getTemplatePath(dir,
-                    packageName, suite, clazz));
+                    packageName, suite, clazz, parameters));
             Writer writer = new FileWriter(file);
             try {
                 template.merge(context, writer);
@@ -65,11 +67,11 @@ public abstract class AbstractTemplateClassGenerator implements
     }
 
     protected abstract String getTemplatePath(File directory,
-            String packageName, TemplateSuite suite, TemplateClass clazz);
+            String packageName, TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters);
 
     protected abstract String getFilename(File directory, String packageName,
-            TemplateSuite suite, TemplateClass clazz);
+            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters);
 
     protected abstract String getDirectoryName(File directory,
-            String packageName, TemplateSuite suite, TemplateClass clazz);
+            String packageName, TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters);
 }

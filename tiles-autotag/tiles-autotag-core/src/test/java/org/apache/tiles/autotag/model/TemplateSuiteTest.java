@@ -3,7 +3,7 @@
  */
 package org.apache.tiles.autotag.model;
 
-import static org.easymock.classextension.EasyMock.*;
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -28,7 +28,6 @@ public class TemplateSuiteTest {
         assertEquals("name", suite.getName());
         assertEquals("docs", suite.getDocumentation());
         assertTrue(suite.getTemplateClasses().isEmpty());
-        assertNotNull(suite.getCustomVariables());
     }
 
     /**
@@ -92,6 +91,6 @@ public class TemplateSuiteTest {
     @Test
     public void testToString() {
         TemplateSuite suite = new TemplateSuite("name", "docs");
-        assertEquals("TemplateSuite [name=name, documentation=docs, customVariables={}, templateClasses={}]", suite.toString());
+        assertEquals("TemplateSuite [name=name, documentation=docs, templateClasses={}]", suite.toString());
     }
 }

@@ -32,7 +32,7 @@
    </description>
    <tlib-version>1.2</tlib-version>
    <short-name>${suite.name}</short-name>
-   <uri>${suite.customVariables.taglibURI}</uri>
+   <uri>${parameters.taglibURI}</uri>
 #foreach($clazz in ${suite.getTemplateClasses()})
    <tag>
       <description>

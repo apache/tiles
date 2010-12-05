@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -31,7 +32,7 @@ import org.junit.Test;
 public class VelocityPropertiesGeneratorTest {
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.velocity.VelocityPropertiesGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite)}.
+     * Test method for {@link org.apache.tiles.autotag.velocity.VelocityPropertiesGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite, Map)}.
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -48,7 +49,6 @@ public class VelocityPropertiesGeneratorTest {
         file.mkdir();
         file.deleteOnExit();
         TemplateSuite suite = new TemplateSuite("tldtest", "Test for TLD docs.");
-        suite.getCustomVariables().put("taglibURI", "http://www.initrode.net/tags/test");
 
         List<TemplateParameter> params = new ArrayList<TemplateParameter>();
         TemplateParameter param = new TemplateParameter("one", "one", "java.lang.String", null, true);
@@ -94,7 +94,7 @@ public class VelocityPropertiesGeneratorTest {
 
         suite.addTemplateClass(clazz);
 
-        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite);
+        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, null);
 
         InputStream expected = getClass().getResourceAsStream("/velocity.properties.test");
         File effectiveFile = new File(file, "META-INF/velocity.properties");

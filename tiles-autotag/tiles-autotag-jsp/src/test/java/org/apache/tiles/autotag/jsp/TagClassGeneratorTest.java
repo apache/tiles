@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -31,7 +33,7 @@ import org.junit.Test;
 public class TagClassGeneratorTest {
 
     /**
-     * Test method for {@link TagClassGenerator#generate(File, String, TemplateSuite, TemplateClass)}.
+     * Test method for {@link TagClassGenerator#generate(File, String, TemplateSuite, TemplateClass, Map)}.
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -48,7 +50,8 @@ public class TagClassGeneratorTest {
         file.mkdir();
         file.deleteOnExit();
         TemplateSuite suite = new TemplateSuite("tldtest", "Test for TLD docs.");
-        suite.getCustomVariables().put("taglibURI", "http://www.initrode.net/tags/test");
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("taglibURI", "http://www.initrode.net/tags/test");
 
         List<TemplateParameter> params = new ArrayList<TemplateParameter>();
         TemplateParameter param = new TemplateParameter("one", "one", "java.lang.String", null, true);
@@ -72,7 +75,7 @@ public class TagClassGeneratorTest {
                 "doStuff", "DoStuff", executeMethod);
         clazz.setDocumentation("Documentation of the DoStuff class.");
 
-        generator.generate(file, "org.apache.tiles.autotag.jsp.test", suite, clazz);
+        generator.generate(file, "org.apache.tiles.autotag.jsp.test", suite, clazz, parameters);
 
         InputStream expected = getClass().getResourceAsStream("/org/apache/tiles/autotag/jsp/test/DoStuffTag.java");
         File effectiveFile = new File(file, "/org/apache/tiles/autotag/jsp/test/DoStuffTag.java");
@@ -104,7 +107,7 @@ public class TagClassGeneratorTest {
 
         suite.addTemplateClass(clazz);
 
-        generator.generate(file, "org.apache.tiles.autotag.jsp.test", suite, clazz);
+        generator.generate(file, "org.apache.tiles.autotag.jsp.test", suite, clazz, parameters);
 
         expected = getClass().getResourceAsStream("/org/apache/tiles/autotag/jsp/test/DoStuffNoBodyTag.java");
         effectiveFile = new File(file, "/org/apache/tiles/autotag/jsp/test/DoStuffNoBodyTag.java");
