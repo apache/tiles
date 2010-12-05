@@ -70,6 +70,18 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin> 
+        <groupId>org.apache.felix</groupId> 
+        <artifactId>maven-bundle-plugin</artifactId> 
+        <configuration> 
+          <instructions> 
+            <Import-Package> 
+              org.apache.el; resolution:=optional, 
+              * 
+            </Import-Package> 
+          </instructions> 
+        </configuration> 
+      </plugin>
     </plugins>
 
   </build>
