@@ -40,7 +40,7 @@ public class GenerateJspMojo extends AbstractGenerateMojo {
      *
      * @parameter expression="http://www.example.com/tags/example"
      */
-    private String taglibURI;
+    String taglibURI;
 
     /** {@inheritDoc} */
     @Override

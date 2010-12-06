@@ -51,7 +51,7 @@ public class CreateDescriptorMojo extends AbstractMojo {
      * @parameter expression="${project.build.directory}/autotag-template-suite"
      * @required
      */
-    private File outputDirectory;
+    File outputDirectory;
 
     /**
      * Location of the file.
@@ -59,12 +59,12 @@ public class CreateDescriptorMojo extends AbstractMojo {
      * @parameter expression="${project.build.sourceDirectory}"
      * @required
      */
-    private File sourceDirectory;
+    File sourceDirectory;
 
     /**
      * @parameter
      */
-    private Set<String> includes;
+    Set<String> includes;
 
     /**
      * The name of the template.
@@ -72,26 +72,26 @@ public class CreateDescriptorMojo extends AbstractMojo {
      * @parameter
      * @required
      */
-    private String name;
+    String name;
 
     /**
      * The documentation of the suite
      *
      * @parameter
      */
-    private String documentation;
+    String documentation;
 
     /**
      * @parameter
      */
-    private Set<String> excludes;
+    Set<String> excludes;
 
     /**
      * @parameter expression="${project}"
      * @required
      * @readonly
      */
-    private MavenProject project;
+    MavenProject project;
 
     @SuppressWarnings("unchecked")
     public void execute() throws MojoExecutionException {
@@ -121,7 +121,7 @@ public class CreateDescriptorMojo extends AbstractMojo {
         }
     }
 
-    protected SourceInclusionScanner getSourceInclusionScanner() {
+    private SourceInclusionScanner getSourceInclusionScanner() {
         SourceInclusionScanner scanner = null;
         if (includes == null) {
             includes = new HashSet<String>();
