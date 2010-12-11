@@ -129,7 +129,6 @@ public final class TilesAccess {
      *
      * @param request The request to use.
      * @param key The key under which the container is stored.
-     * @param context The servlet context to use.
      * @since 2.1.0
      */
     public static void setCurrentContainer(Request request,
@@ -164,7 +163,6 @@ public final class TilesAccess {
      * Returns the current container that has been set, or the default one.
      *
      * @param request The request to use.
-     * @param context The servlet context to use.
      * @return The current Tiles container to use in web pages.
      * @since 2.1.0
      */

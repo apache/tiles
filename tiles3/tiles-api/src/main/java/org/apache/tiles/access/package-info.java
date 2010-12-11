@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles access package</title>
-</head>
-<body>
-Utility classes to access Tiles funcionality from an application.
-</body>
-</html>
+/**
+ * Tiles access package. Utility classes to access Tiles funcionality from an application.
+ */
+package org.apache.tiles.access;
+

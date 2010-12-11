@@ -45,7 +45,7 @@ public interface TilesContainer {
 
     /**
      * Retrive the attribute context of the current request.
-     * @param request TODO
+     * @param request The request.
      * @return map of the attributes in the current attribute context.
      */
     AttributeContext getAttributeContext(Request request);
@@ -55,7 +55,7 @@ public interface TilesContainer {
      * from others.<br>
      * When the use of the contexts is finished, call
      * {@link TilesContainer#endContext(Request)}
-     * @param request TODO
+     * @param request The request.
      *
      * @return The newly created context.
      */
@@ -66,13 +66,13 @@ public interface TilesContainer {
      * from others.<br>
      * It must be called after a
      * {@link TilesContainer#startContext(Request)} call.
-     * @param request TODO
+     * @param request The request.
      */
     void endContext(Request request);
 
     /**
      * Renders the current context, as it is.
-     * @param request TODO
+     * @param request The request.
      *
      * @since 2.1.0
      */
@@ -82,7 +82,7 @@ public interface TilesContainer {
      * Executes a preparer.
      *
      * @param preparer The name of the preparer to execute.
-     * @param request TODO
+     * @param request The request.
      */
     void prepare(String preparer, Request request);
 
@@ -90,7 +90,7 @@ public interface TilesContainer {
      * Render the given tiles request.
      *
      * @param definition the current definition.
-     * @param request TODO
+     * @param request The request.
      */
     void render(String definition, Request request);
 
@@ -99,13 +99,13 @@ public interface TilesContainer {
      * @param definition The definition to render.
      * @param request The request context.
      */
-    public void render(Definition definition, Request request);
+    void render(Definition definition, Request request);
 
     /**
      * Render the given Attribute.
      *
      * @param attribute The attribute to render.
-     * @param request TODO
+     * @param request The request.
      * @throws IOException If something goes wrong during writing to the output.
      * @since 2.1.2
      */
@@ -116,7 +116,7 @@ public interface TilesContainer {
      * Evaluates the given attribute.
      *
      * @param attribute The attribute to evaluate.
-     * @param request TODO
+     * @param request The request.
      * @return The evaluated object.
      * @since 2.1.0
      */
@@ -128,17 +128,15 @@ public interface TilesContainer {
      * @param definitionName The name of the definition to find.
      * @param request The request context.
      * @return The definition, if found.
-     * @throws DefinitionsFactoryException If the definitions factory throws an
-     * exception.
      */
-    public Definition getDefinition(String definitionName,
+    Definition getDefinition(String definitionName,
             Request request);
 
     /**
      * Determine whether or not the definition exists.
      *
      * @param definition the name of the definition.
-     * @param request TODO
+     * @param request The request.
      * @return true if the definition is found.
      */
     boolean isValidDefinition(String definition, Request request);

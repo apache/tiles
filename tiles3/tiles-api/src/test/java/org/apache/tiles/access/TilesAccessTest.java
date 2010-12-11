@@ -138,7 +138,7 @@ public class TilesAccessTest {
      * Tests
      * {@link ServletUtil#setCurrentContainer(ServletRequest, String)}.
      */
-    @Test(expected=NoSuchContainerException.class)
+    @Test(expected = NoSuchContainerException.class)
     public void testSetCurrentContainerException() {
         Request request = createMock(Request.class);
         ApplicationContext context = createMock(ApplicationContext.class);
@@ -180,7 +180,7 @@ public class TilesAccessTest {
      * Tests
      * {@link ServletUtil#setCurrentContainer(ServletRequest, TilesContainer)}.
      */
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testSetCurrentContainerWithContainerException() {
         Request request = createMock(Request.class);
         ApplicationContext context = createMock(ApplicationContext.class);

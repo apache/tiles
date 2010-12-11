@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,13 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles mutability package</title>
-</head>
-<body>
-Classes and interfaces to be used when it is needed to create Tiles definitions
-during the execution of the application.
-</body>
-</html>
+/**
+ * Classes and interfaces to be used when it is needed to create Tiles definitions
+ * during the execution of the application.
+ */
+package org.apache.tiles.mgmt;
+
