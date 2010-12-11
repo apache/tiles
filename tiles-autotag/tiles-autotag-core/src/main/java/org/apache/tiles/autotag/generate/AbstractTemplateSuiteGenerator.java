@@ -1,3 +1,23 @@
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.apache.tiles.autotag.generate;
 
 import java.io.File;
@@ -15,10 +35,23 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
+/**
+ * A base template suite generator.
+ *
+ * @version $Rev$ $Date$
+ */
 public abstract class AbstractTemplateSuiteGenerator implements TemplateSuiteGenerator {
 
+    /**
+     * The velocity engine.
+     */
     private VelocityEngine velocityEngine;
 
+    /**
+     * Constructor.
+     *
+     * @param velocityEngine The Velocity engine.
+     */
     public AbstractTemplateSuiteGenerator(VelocityEngine velocityEngine) {
         this.velocityEngine = velocityEngine;
     }
@@ -59,9 +92,41 @@ public abstract class AbstractTemplateSuiteGenerator implements TemplateSuiteGen
         }
     }
 
-    protected abstract String getTemplatePath(File directory, String packageName, TemplateSuite suite, Map<String, String> parameters);
+    /**
+     * Calculates and returns the template path.
+     *
+     * @param directory The directory where the file will be written.
+     * @param packageName The name of the package.
+     * @param suite The template suite.
+     * @param parameters The map of parameters.
+     * @return The template path.
+     */
+    protected abstract String getTemplatePath(File directory,
+            String packageName, TemplateSuite suite,
+            Map<String, String> parameters);
 
-    protected abstract String getFilename(File directory, String packageName, TemplateSuite suite, Map<String, String> parameters);
+    /**
+     * Calculates and returns the filename of the generated file.
+     *
+     * @param directory The directory where the file will be written.
+     * @param packageName The name of the package.
+     * @param suite The template suite.
+     * @param parameters The map of parameters.
+     * @return The template path.
+     */
+    protected abstract String getFilename(File directory, String packageName,
+            TemplateSuite suite, Map<String, String> parameters);
 
-    protected abstract String getDirectoryName(File directory, String packageName, TemplateSuite suite, Map<String, String> parameters);
+    /**
+     * Calculates and returns the directory where the file will be written..
+     *
+     * @param directory The directory where the file will be written.
+     * @param packageName The name of the package.
+     * @param suite The template suite.
+     * @param parameters The map of parameters.
+     * @return The template path.
+     */
+    protected abstract String getDirectoryName(File directory,
+            String packageName, TemplateSuite suite,
+            Map<String, String> parameters);
 }

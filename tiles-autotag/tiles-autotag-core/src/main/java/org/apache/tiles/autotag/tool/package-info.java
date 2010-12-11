@@ -18,27 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.autotag.generate;
-
-import java.io.File;
-import java.util.Map;
-
-import org.apache.tiles.autotag.model.TemplateSuite;
-
 /**
- * Generates code from a template suite.
- *
- * @version $Rev$ $Date$
+ * Velocity tools to be used in Velocity templates.
  */
-public interface TemplateSuiteGenerator {
-
-    /**
-     * Generates the code.
-     *
-     * @param directory The base directory where the code will be put.
-     * @param packageName The package name.
-     * @param suite The template suite.
-     * @param parameters Configuration parameters.
-     */
-    void generate(File directory, String packageName, TemplateSuite suite, Map<String, String> parameters);
-}
+package org.apache.tiles.autotag.tool;

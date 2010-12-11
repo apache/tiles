@@ -1,3 +1,23 @@
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.apache.tiles.autotag.core;
 
 import java.io.File;
@@ -23,16 +43,38 @@ import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.Type;
 
+/**
+ * Creates a template suite using QDox.
+ *
+ * @version $Rev$ $Date$
+ */
 public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
 
+    /**
+     * The suffix of parsed classes.
+     */
     private static final String TEMPLATE_SUFFIX = "Model";
 
+    /**
+     * The Javadoc builder.
+     */
     private JavaDocBuilder builder;
 
+    /**
+     * The name of the suite.
+     */
     private String suiteName;
 
+    /**
+     * The documentation of the suite.
+     */
     private String suiteDocumentation;
 
+    /**
+     * Constructor.
+     *
+     * @param sourceFiles All the source files to parse.
+     */
     public QDoxTemplateSuiteFactory(File... sourceFiles) {
         builder = new JavaDocBuilder();
         try {
@@ -45,6 +87,11 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
         }
     }
 
+    /**
+     * Constructor.
+     *
+     * @param urls All the URLs of source files to parse.
+     */
     public QDoxTemplateSuiteFactory(URL... urls) {
         builder = new JavaDocBuilder();
         try {
@@ -57,10 +104,20 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
         }
     }
 
+    /**
+     * Sets the suite name to assign to the created suite.
+     *
+     * @param suiteName The suite name.
+     */
     public void setSuiteName(String suiteName) {
         this.suiteName = suiteName;
     }
 
+    /**
+     * Sets the suite documentation to assign to the suite.
+     *
+     * @param suiteDocumentation The suite documentation.
+     */
     public void setSuiteDocumentation(String suiteDocumentation) {
         this.suiteDocumentation = suiteDocumentation;
     }
@@ -91,6 +148,12 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
         return new TemplateSuite(suiteName, suiteDocumentation, classes);
     }
 
+    /**
+     * Computes the tag class prefix.
+     *
+     * @param clazz The parsed class.
+     * @return The tag class prefix.
+     */
     private String getTagClassPrefix(JavaClass clazz) {
         String tagName;
         String simpleClassName = clazz.getName();
@@ -105,6 +168,12 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
         return tagName;
     }
 
+    /**
+     * Creates a template method descriptor from a parsed method.
+     *
+     * @param method The parsed method.
+     * @return The template method descriptor.
+     */
     private TemplateMethod createMethod(JavaMethod method) {
         List<TemplateParameter> params = new ArrayList<TemplateParameter>();
         for (JavaParameter parameter : method.getParameters()) {
@@ -154,6 +223,12 @@ public class QDoxTemplateSuiteFactory implements TemplateSuiteFactory {
         return templateMethod;
     }
 
+    /**
+     * Verifies if the method can be used as an "execute" method.
+     *
+     * @param method The parsed method.
+     * @return <code>true</code> if it is an execute method.
+     */
     private boolean isFeasible(JavaMethod method) {
         Type returns = method.getReturns();
         if ("execute".equals(method.getName()) && returns != null
