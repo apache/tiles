@@ -20,7 +20,6 @@
  */
 package org.apache.tiles.autotag.core.runtime.util;
 
-import org.apache.tiles.autotag.core.runtime.util.NullWriter;
 import org.junit.Before;
 import org.junit.Test;
 

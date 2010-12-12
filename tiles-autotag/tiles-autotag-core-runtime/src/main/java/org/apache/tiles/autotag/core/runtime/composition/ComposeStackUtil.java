@@ -68,7 +68,7 @@ public final class ComposeStackUtil {
     /**
      * Returns the current compose stack, or creates a new one if not present.
      *
-     * @param env The current FreeMarker environment.
+     * @param request The request.
      * @return The compose stack.
      * @since 3.0.0
      */

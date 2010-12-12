@@ -30,7 +30,6 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil;
 import org.apache.tiles.request.Request;
 import org.junit.Test;
 
@@ -84,13 +83,11 @@ public class ComposeStackUtilTest {
         expect(request.getContext("request")).andReturn(requestScope);
 
         replay(request);
-        assertSame(ComposeStackUtil.getComposeStack(request), requestScope.get(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME));
+        assertSame(ComposeStackUtil.getComposeStack(request),
+                requestScope.get(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME));
         verify(request);
     }
 
-    /**
-     * Tests {@link ComposeStackUtil#getComposeStack(org.apache.tiles.request.Request)}.
-     */
     /**
      * Tests {@link ComposeStackUtil#getComposeStack(org.apache.tiles.request.Request)}.
      */
@@ -109,6 +106,9 @@ public class ComposeStackUtilTest {
         verify(request, composeStack);
     }
 
+    /**
+     * Tests {@link ComposeStackUtil#getComposeStack(org.apache.tiles.request.Request)}.
+     */
     @Test
     public void testGetComposeStackNoNull() {
         Request request = createMock(Request.class);
@@ -117,7 +117,8 @@ public class ComposeStackUtilTest {
         expect(request.getContext("request")).andReturn(requestScope);
 
         replay(request);
-        assertSame(ComposeStackUtil.getComposeStack(request), requestScope.get(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME));
+        assertSame(ComposeStackUtil.getComposeStack(request),
+                requestScope.get(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME));
         verify(request);
     }
 }
