@@ -1,5 +1,22 @@
-/**
+/*
+ * $Id$
  *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.tiles.autotag.model;
 
@@ -21,7 +38,7 @@ import org.junit.Test;
 public class TemplateClassTest {
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.model.TemplateClass#TemplateClass(java.lang.String)}.
+     * Test method for {@link TemplateClass#TemplateClass(String)}.
      */
     @Test
     public void testTemplateConstructor1() {
@@ -35,7 +52,7 @@ public class TemplateClassTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.model.TemplateClass#TemplateClass(java.lang.String, java.lang.String, java.lang.String, org.apache.tiles.autotag.model.TemplateMethod)}.
+     * Test method for {@link TemplateClass#TemplateClass(String, String, String, TemplateMethod)}.
      */
     @Test
     public void testTemplateConstructor2() {
@@ -51,7 +68,7 @@ public class TemplateClassTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.model.TemplateClass#getSimpleName()}.
+     * Test method for {@link TemplateClass#getSimpleName()}.
      */
     @Test
     public void testGetSimpleName() {
@@ -62,7 +79,7 @@ public class TemplateClassTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.model.TemplateClass#setDocumentation(java.lang.String)}.
+     * Test method for {@link TemplateClass#setDocumentation(String)}.
      */
     @Test
     public void testSetDocumentation() {
@@ -72,7 +89,7 @@ public class TemplateClassTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.model.TemplateClass#getParameters()}.
+     * Test method for {@link TemplateClass#getParameters()}.
      */
     @Test
     public void testGetParameters() {
@@ -110,7 +127,7 @@ public class TemplateClassTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.model.TemplateClass#hasBody()}.
+     * Test method for {@link TemplateClass#hasBody()}.
      */
     @Test
     public void testHasBody() {
@@ -124,15 +141,16 @@ public class TemplateClassTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.model.TemplateClass#toString()}.
+     * Test method for {@link TemplateClass#toString()}.
      */
     @Test
     public void testToString() {
         TemplateMethod method = new TemplateMethod("method", new ArrayList<TemplateParameter>());
         TemplateClass templateClass = new TemplateClass("name", "tagName", "tagClassPrefix", method);
-        assertEquals("TemplateClass [name=name, tagName=tagName, tagClassPrefix=tagClassPrefix, " +
-        		"documentation=null, executeMethod=TemplateMethod " +
-        		"[name=method, documentation=null, parameters={}]]",
+        assertEquals(
+                "TemplateClass [name=name, tagName=tagName, tagClassPrefix=tagClassPrefix, "
+                        + "documentation=null, executeMethod=TemplateMethod "
+                        + "[name=method, documentation=null, parameters={}]]",
                 templateClass.toString());
     }
 

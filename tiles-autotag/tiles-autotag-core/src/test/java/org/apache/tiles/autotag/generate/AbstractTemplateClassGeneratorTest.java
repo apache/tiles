@@ -1,5 +1,22 @@
-/**
+/*
+ * $Id$
  *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.tiles.autotag.generate;
 
@@ -53,7 +70,8 @@ public class AbstractTemplateClassGeneratorTest {
     @Before
     public void setUp() throws IOException {
         velocityEngine = createMock(VelocityEngine.class);
-        generator = createMockBuilder(AbstractTemplateClassGenerator.class).withConstructor(velocityEngine).createMock();
+        generator = createMockBuilder(AbstractTemplateClassGenerator.class)
+                .withConstructor(velocityEngine).createMock();
         directory = File.createTempFile("autotag", null);
     }
 
@@ -67,13 +85,12 @@ public class AbstractTemplateClassGeneratorTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.generate.AbstractTemplateClassGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite, org.apache.tiles.autotag.model.TemplateClass, Map)}.
+     * Test method for {@link AbstractTemplateClassGenerator#generate(java.io.File,
+     * String, TemplateSuite, TemplateClass, Map)}.
      * @throws Exception If something goes wrong.
-     * @throws ParseErrorException If something goes wrong.
-     * @throws ResourceNotFoundException If something goes wrong.
      */
     @Test
-    public void testGenerate() throws ResourceNotFoundException, ParseErrorException, Exception {
+    public void testGenerate() throws Exception {
         directory.delete();
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
@@ -97,13 +114,11 @@ public class AbstractTemplateClassGeneratorTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.generate.AbstractTemplateClassGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite, org.apache.tiles.autotag.model.TemplateClass, Map)}.
+     * Test method for {@link AbstractTemplateClassGenerator#generate(File, String, TemplateSuite, TemplateClass, Map)}.
      * @throws Exception If something goes wrong.
-     * @throws ParseErrorException If something goes wrong.
-     * @throws ResourceNotFoundException If something goes wrong.
      */
-    @Test(expected=AutotagRuntimeException.class)
-    public void testGenerateException1() throws ResourceNotFoundException, ParseErrorException, Exception {
+    @Test(expected = AutotagRuntimeException.class)
+    public void testGenerateException1() throws Exception {
         directory.delete();
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
@@ -126,13 +141,11 @@ public class AbstractTemplateClassGeneratorTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.generate.AbstractTemplateClassGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite, org.apache.tiles.autotag.model.TemplateClass, Map)}.
+     * Test method for {@link AbstractTemplateClassGenerator#generate(File, String, TemplateSuite, TemplateClass, Map)}.
      * @throws Exception If something goes wrong.
-     * @throws ParseErrorException If something goes wrong.
-     * @throws ResourceNotFoundException If something goes wrong.
      */
-    @Test(expected=AutotagRuntimeException.class)
-    public void testGenerateException2() throws ResourceNotFoundException, ParseErrorException, Exception {
+    @Test(expected = AutotagRuntimeException.class)
+    public void testGenerateException2() throws Exception {
         directory.delete();
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
@@ -155,13 +168,11 @@ public class AbstractTemplateClassGeneratorTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.generate.AbstractTemplateClassGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite, org.apache.tiles.autotag.model.TemplateClass, Map)}.
+     * Test method for {@link AbstractTemplateClassGenerator#generate(File, String, TemplateSuite, TemplateClass, Map)}.
      * @throws Exception If something goes wrong.
-     * @throws ParseErrorException If something goes wrong.
-     * @throws ResourceNotFoundException If something goes wrong.
      */
-    @Test(expected=AutotagRuntimeException.class)
-    public void testGenerateException3() throws ResourceNotFoundException, ParseErrorException, Exception {
+    @Test(expected = AutotagRuntimeException.class)
+    public void testGenerateException3() throws Exception {
         directory.delete();
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
@@ -184,13 +195,13 @@ public class AbstractTemplateClassGeneratorTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.generate.AbstractTemplateClassGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite, org.apache.tiles.autotag.model.TemplateClass, Map)}.
+     * Test method for {@link AbstractTemplateClassGenerator#generate(File, String, TemplateSuite, TemplateClass, Map)}.
      * @throws Exception If something goes wrong.
      * @throws ParseErrorException If something goes wrong.
      * @throws ResourceNotFoundException If something goes wrong.
      */
-    @Test(expected=AutotagRuntimeException.class)
-    public void testGenerateException4() throws ResourceNotFoundException, ParseErrorException, Exception {
+    @Test(expected = AutotagRuntimeException.class)
+    public void testGenerateException4() throws Exception {
         directory.delete();
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
@@ -215,13 +226,13 @@ public class AbstractTemplateClassGeneratorTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.generate.AbstractTemplateClassGenerator#generate(java.io.File, java.lang.String, org.apache.tiles.autotag.model.TemplateSuite, org.apache.tiles.autotag.model.TemplateClass, Map)}.
+     * Test method for {@link AbstractTemplateClassGenerator#generate(File, String, TemplateSuite, TemplateClass, Map)}.
      * @throws Exception If something goes wrong.
      * @throws ParseErrorException If something goes wrong.
      * @throws ResourceNotFoundException If something goes wrong.
      */
-    @Test(expected=ClassParseException.class)
-    public void testGenerateException5() throws ResourceNotFoundException, ParseErrorException, Exception {
+    @Test(expected = ClassParseException.class)
+    public void testGenerateException5() throws Exception {
         directory.delete();
         directory.mkdir();
         TemplateSuite suite = createMock(TemplateSuite.class);
