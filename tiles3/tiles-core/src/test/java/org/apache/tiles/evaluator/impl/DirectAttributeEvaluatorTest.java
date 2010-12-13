@@ -24,7 +24,6 @@ import static org.junit.Assert.*;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
-import org.apache.tiles.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +49,7 @@ public class DirectAttributeEvaluatorTest {
 
     /**
      * Tests
-     * {@link DirectAttributeEvaluator#evaluate(Attribute, Request)}.
+     * {@link DirectAttributeEvaluator#evaluate(Attribute, org.apache.tiles.request.Request)}.
      */
     @Test
     public void testEvaluate() {
@@ -69,16 +68,16 @@ public class DirectAttributeEvaluatorTest {
 
     /**
      * Tests
-     * {@link DirectAttributeEvaluator#evaluate(Attribute, Request)}.
+     * {@link DirectAttributeEvaluator#evaluate(Attribute, org.apache.tiles.request.Request)}.
      */
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testEvaluateNullAttribute() {
         evaluator.evaluate((Attribute) null, null);
     }
 
     /**
      * Tests
-     * {@link DirectAttributeEvaluator#evaluate(String, Request)}.
+     * {@link DirectAttributeEvaluator#evaluate(String, org.apache.tiles.request.Request)}.
      */
     @Test
     public void testEvaluateString() {

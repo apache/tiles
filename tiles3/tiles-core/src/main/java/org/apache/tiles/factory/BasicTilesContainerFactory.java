@@ -391,7 +391,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     }
 
     /**
-     * Creates a {@link AttributeRenderer} using a {@link DefinitionRenderer}
+     * Creates a {@link AttributeRenderer} using a {@link DefinitionRenderer}.
      *
      * @param rendererFactory The renderer factory to configure.
      * @param applicationContext The Tiles application context.

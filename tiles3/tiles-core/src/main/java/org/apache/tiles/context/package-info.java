@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>tiles.util package</title>
-</head>
-<body>
-Static utility classes used throughout the implementation.
-</body>
-</html>
+/**
+ * Classes and interfaces that allow to access the various contexts in an
+ * application in a uniformed way.
+ */
+package org.apache.tiles.context;

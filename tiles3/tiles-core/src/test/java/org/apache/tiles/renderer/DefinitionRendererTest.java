@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.render.CannotRenderException;
 import org.junit.Before;
@@ -45,7 +44,7 @@ public class DefinitionRendererTest {
     private DefinitionRenderer renderer;
 
     /**
-     * The container
+     * The container.
      */
     private TilesContainer container;
 
@@ -77,7 +76,7 @@ public class DefinitionRendererTest {
      *
      * @throws IOException If something goes wrong during rendition.
      */
-    @Test(expected=CannotRenderException.class)
+    @Test(expected = CannotRenderException.class)
     public void testRenderException() throws IOException {
         Request requestContext = createMock(Request.class);
         replay(requestContext, container);

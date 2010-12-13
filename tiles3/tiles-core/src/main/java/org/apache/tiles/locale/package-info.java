@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,13 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles definition package</title>
-</head>
-<body>
-It contains classes and interfaces to allow manipulations of "definitions", i.e.
-objects made of a template page and a number of filled attributes.
-</body>
-</html>
+/**
+ * Classes and interfaces to allow locale resolution in an application, i.e. it
+ * allows to specify how to access the locale that the user wants to use.
+ */
+package org.apache.tiles.locale;

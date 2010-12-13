@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles attribute evaluators implementations</title>
-</head>
-<body>
-Classes to manage attribute value evaluation.
-</body>
-</html>
+/**
+ * Classes to simply load definitions depending on a customization key.
+ * The package contains also basic implementations.
+ */
+package org.apache.tiles.definition.dao;

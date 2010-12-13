@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,13 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles context package</title>
-</head>
-<body>
-Classes and interfaces that allow to access the various contexts in an
-application in a uniformed way.
-</body>
-</html>
+/**
+ * Allows reading definitions with the use of Jakarta Commons Digester.
+ */
+package org.apache.tiles.definition.digester;

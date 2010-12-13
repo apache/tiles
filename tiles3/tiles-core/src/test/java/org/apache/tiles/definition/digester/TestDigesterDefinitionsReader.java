@@ -70,7 +70,6 @@ public class TestDigesterDefinitionsReader {
      * Tests the read method under normal conditions.
      * @throws IOException If something goes wrong.
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testRead() throws IOException {
         URL configFile = this.getClass().getClassLoader().getResource(
@@ -313,7 +312,7 @@ public class TestDigesterDefinitionsReader {
     /**
      * Tests {@link DigesterDefinitionsReader#addDefinition(Definition)}.
      */
-    @Test(expected=DigesterDefinitionsReaderException.class)
+    @Test(expected = DigesterDefinitionsReaderException.class)
     public void testAddDefinitionNoName() {
         Definition def = new Definition();
         reader.addDefinition(def);

@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles locale implementation package</title>
-</head>
-<body>
-Basic implementation of the locale resolver.
-</body>
-</html>
+/**
+ * Factory classes, to allow creation of container instances.
+ */
+package org.apache.tiles.factory;

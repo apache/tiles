@@ -1,5 +1,22 @@
-/**
+/*
+ * $Id$
  *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.tiles.impl;
 
@@ -45,16 +62,34 @@ public class BasicTilesContainerUnitTest {
     private static final String ATTRIBUTE_CONTEXT_STACK =
         "org.apache.tiles.AttributeContext.STACK";
 
+    /**
+     * The application context.
+     */
     private ApplicationContext applicationContext;
 
+    /**
+     * The definitions factory.
+     */
     private DefinitionsFactory definitionsFactory;
 
+    /**
+     * The preparer factory.
+     */
     private PreparerFactory preparerFactory;
 
+    /**
+     * The renderer factory.
+     */
     private RendererFactory rendererFactory;
 
+    /**
+     * The evaluator factory.
+     */
     private AttributeEvaluatorFactory attributeEvaluatorFactory;
 
+    /**
+     * The container to test.
+     */
     private BasicTilesContainer container;
 
     /**
@@ -76,7 +111,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#startContext(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#startContext(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -103,7 +138,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#endContext(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#endContext(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -127,7 +162,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#renderContext(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#renderContext(Request)}.
      * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("unchecked")
@@ -165,7 +200,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getApplicationContext()}.
+     * Test method for {@link BasicTilesContainer#getApplicationContext()}.
      */
     @Test
     public void testGetApplicationContext() {
@@ -177,7 +212,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getAttributeContext(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#getAttributeContext(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -202,7 +237,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getAttributeContext(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#getAttributeContext(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -227,7 +262,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getDefinitionsFactory()}.
+     * Test method for {@link BasicTilesContainer#getDefinitionsFactory()}.
      */
     @Test
     public void testGetDefinitionsFactory() {
@@ -239,7 +274,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getPreparerFactory()}.
+     * Test method for {@link BasicTilesContainer#getPreparerFactory()}.
      */
     @Test
     public void testGetPreparerFactory() {
@@ -251,7 +286,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#prepare(java.lang.String, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#prepare(java.lang.String, Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -279,10 +314,10 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#prepare(java.lang.String, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#prepare(java.lang.String, Request)}.
      */
     @SuppressWarnings("unchecked")
-    @Test(expected=NoSuchPreparerException.class)
+    @Test(expected = NoSuchPreparerException.class)
     public void testPrepareException() {
         Request request = createMock(Request.class);
         Map<String, Object> requestScope = createMock(Map.class);
@@ -304,7 +339,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, java.lang.String)}.
+     * Test method for {@link BasicTilesContainer#render(Request, java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("unchecked")
@@ -348,9 +383,9 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, java.lang.String)}.
+     * Test method for {@link BasicTilesContainer#render(Request, java.lang.String)}.
      */
-    @Test(expected=NoSuchDefinitionException.class)
+    @Test(expected = NoSuchDefinitionException.class)
     public void testRenderStringRequestException() {
         Request request = createMock(Request.class);
 
@@ -367,7 +402,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
+     * Test method for {@link BasicTilesContainer#render(Request, org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -394,10 +429,10 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
+     * Test method for {@link BasicTilesContainer#render(Request, org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
-    @Test(expected=CannotRenderException.class)
+    @Test(expected = CannotRenderException.class)
     public void testRenderAttributeRequestException1() throws IOException {
         Request request = createMock(Request.class);
 
@@ -413,10 +448,10 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
+     * Test method for {@link BasicTilesContainer#render(Request, org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
-    @Test(expected=NoSuchRendererException.class)
+    @Test(expected = NoSuchRendererException.class)
     public void testRenderAttributeRequestException2() throws IOException {
         Request request = createMock(Request.class);
         Attribute templateAttribute = createMock(Attribute.class);
@@ -439,10 +474,10 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
+     * Test method for {@link BasicTilesContainer#render(Request, org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
-    @Test(expected=CannotRenderException.class)
+    @Test(expected = CannotRenderException.class)
     public void testRenderAttributeRequestException3() throws IOException {
         Request request = createMock(Request.class);
         Attribute templateAttribute = createMock(Attribute.class);
@@ -468,10 +503,10 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.Attribute)}.
+     * Test method for {@link BasicTilesContainer#render(Request, org.apache.tiles.Attribute)}.
      * @throws IOException If something goes wrong.
      */
-    @Test(expected=NoSuchRendererException.class)
+    @Test(expected = NoSuchRendererException.class)
     public void testRenderAttributeRequestException() throws IOException {
         Request request = createMock(Request.class);
         Attribute templateAttribute = createMock(Attribute.class);
@@ -494,7 +529,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#evaluate(org.apache.tiles.Attribute, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#evaluate(org.apache.tiles.Attribute, Request)}.
      */
     @Test
     public void testEvaluate() {
@@ -515,7 +550,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#isValidDefinition(java.lang.String, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#isValidDefinition(java.lang.String, Request)}.
      */
     @Test
     public void testIsValidDefinition() {
@@ -532,7 +567,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#isValidDefinition(java.lang.String, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#isValidDefinition(java.lang.String, Request)}.
      */
     @Test
     public void testIsValidDefinitionNull() {
@@ -548,7 +583,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#isValidDefinition(java.lang.String, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#isValidDefinition(java.lang.String, Request)}.
      */
     @Test
     public void testIsValidDefinitionException() {
@@ -565,7 +600,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getDefinition(java.lang.String, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#getDefinition(java.lang.String, Request)}.
      */
     @Test
     public void testGetDefinition() {
@@ -582,7 +617,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getContextStack(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#getContextStack(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -604,7 +639,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getContextStack(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#getContextStack(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -626,7 +661,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#pushContext(org.apache.tiles.AttributeContext, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#pushContext(org.apache.tiles.AttributeContext, Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -650,7 +685,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#popContext(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#popContext(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -674,7 +709,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getContext(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#getContext(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -699,7 +734,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#getContext(org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#getContext(Request)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -722,7 +757,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.Definition, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#render(org.apache.tiles.Definition, Request)}.
      * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("unchecked")
@@ -765,11 +800,11 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.Definition, org.apache.tiles.request.Request)}.
+     * Test method for {@link BasicTilesContainer#render(org.apache.tiles.Definition, Request)}.
      * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("unchecked")
-    @Test(expected=CannotRenderException.class)
+    @Test(expected = CannotRenderException.class)
     public void testRenderRequestDefinitionException() throws IOException {
         Request request = createMock(Request.class);
         Map<String, Object> requestScope = createMock(Map.class);
@@ -813,7 +848,7 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.AttributeContext)}.
+     * Test method for {@link BasicTilesContainer#render(Request, org.apache.tiles.AttributeContext)}.
      * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("unchecked")
@@ -847,11 +882,11 @@ public class BasicTilesContainerUnitTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.impl.BasicTilesContainer#render(org.apache.tiles.request.Request, org.apache.tiles.AttributeContext)}.
+     * Test method for {@link BasicTilesContainer#render(Request, org.apache.tiles.AttributeContext)}.
      * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("unchecked")
-    @Test(expected=CannotRenderException.class)
+    @Test(expected = CannotRenderException.class)
     public void testRenderRequestAttributeContextException() throws IOException {
         Request request = createMock(Request.class);
         Map<String, Object> requestScope = createMock(Map.class);

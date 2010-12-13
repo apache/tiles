@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles mutable container implementation package</title>
-</head>
-<body>
-It contains the basic implementations of mutable Tiles containers.
-</body>
-</html>
+/**
+ * Classes to start the Tiles engine up. Use these classes in your environment by
+ * using a preliminary TilesApplicationContext that expose at least the needed
+ * initialization parameters.
+ */
+package org.apache.tiles.startup;

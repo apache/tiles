@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles attribute evaluators</title>
-</head>
-<body>
-Interfaces to manage attribute value evaluation.
-</body>
-</html>
+/**
+ * Classes to manage pattern matching in definition names, and substitution in attributes.
+ */
+package org.apache.tiles.definition.pattern;

@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,14 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Generic start-up classes</title>
-</head>
-<body>
-Classes to start the Tiles engine up. Use these classes in your environment by
-using a preliminary TilesApplicationContext that expose at least the needed
-initialization parameters.
-</body>
-</html>
+/**
+ * It contains classes and interfaces to allow manipulations of "definitions", i.e.
+ * objects made of a template page and a number of filled attributes.
+ */
+package org.apache.tiles.definition;

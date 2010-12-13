@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,15 +18,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles view preparers package</title>
-</head>
-<body>
-"View preparers" are objects that allows the "preparation" of a Tiles artifact
-(definition, template or attribute) before it is rendered.<br>
-It is useful, for example, when a view item should be built and stored in a
-particular context (e.g. a menu) and then rendered.
-</body>
-</html>
+/**
+ * "View preparers" are objects that allows the "preparation" of a Tiles artifact
+ * (definition, template or attribute) before it is rendered.<br>
+ * It is useful, for example, when a view item should be built and stored in a
+ * particular context (e.g. a menu) and then rendered.
+ */
+package org.apache.tiles.preparer;
+

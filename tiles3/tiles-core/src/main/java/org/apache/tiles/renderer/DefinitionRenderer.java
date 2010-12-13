@@ -40,6 +40,11 @@ public class DefinitionRenderer implements TypeDetectingRenderer {
      */
     private TilesContainer container;
 
+    /**
+     * Constructor.
+     *
+     * @param container The Tiles container.
+     */
     public DefinitionRenderer(TilesContainer container) {
         this.container = container;
     }

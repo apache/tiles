@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles factory package</title>
-</head>
-<body>
-Factory classes, to allow creation of container instances.
-</body>
-</html>
+/**
+ * Interfaces that let the Tiles engine to inject dependencies to its objects.
+ */
+package org.apache.tiles.awareness;

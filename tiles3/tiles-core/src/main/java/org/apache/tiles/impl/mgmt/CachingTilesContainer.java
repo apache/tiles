@@ -26,14 +26,13 @@ import java.util.Map;
 import org.apache.tiles.Definition;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.TilesContainerWrapper;
-import org.apache.tiles.definition.DefinitionsFactory;
 import org.apache.tiles.definition.NoSuchDefinitionException;
 import org.apache.tiles.mgmt.MutableTilesContainer;
 import org.apache.tiles.request.Request;
 
 /**
  * Manages custom and configured definitions, so they can be used by the
- * container, instead of using a simple {@link DefinitionsFactory}.
+ * container, instead of using a simple {@link org.apache.tiles.definition.DefinitionsFactory}.
  *
  * @version $Rev$ $Date$
  */
@@ -226,6 +225,13 @@ public class CachingTilesContainer extends TilesContainerWrapper implements Muta
         return candidate;
     }
 
+    /**
+     * Returns a custom definition from the cache.
+     *
+     * @param definition The definition to search.
+     * @param request The request.
+     * @return The requested definition.
+     */
     private Definition getCustomDefinition(String definition, Request request) {
         Map<String, Definition> definitions = getDefinitions(request);
         if (definitions != null) {

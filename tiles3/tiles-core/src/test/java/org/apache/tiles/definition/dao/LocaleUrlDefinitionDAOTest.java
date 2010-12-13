@@ -61,8 +61,6 @@ public class LocaleUrlDefinitionDAOTest extends TestCase {
 
     /**
      * Tests {@link LocaleUrlDefinitionDAO#getDefinition(String, Locale)}.
-     *
-     * @throws IOException If something goes wrong.
      */
     public void testGetDefinition() {
         // Set up multiple data sources.

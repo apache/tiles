@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,13 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles definition DAO</title>
-</head>
-<body>
-Classes to simply load definitions depending on a customization key.
-The package contains also basic implementations.
-</body>
-</html>
+/**
+ * In Tiles it is possible to use wildcard patterns thanks to this package.
+ */
+package org.apache.tiles.definition.pattern.wildcard;

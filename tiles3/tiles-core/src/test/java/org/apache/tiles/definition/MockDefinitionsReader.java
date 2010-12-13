@@ -63,8 +63,7 @@ public class MockDefinitionsReader implements DefinitionsReader {
      * @throws org.apache.tiles.definition.DefinitionsFactoryException if the source is invalid or
      *  an error occurs when reading definitions.
      */
-    @SuppressWarnings("unchecked")
     public Map<String, Definition> read(Object source) {
-        return new LinkedHashMap();
+        return new LinkedHashMap<String, Definition>();
     }
 }

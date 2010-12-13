@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,13 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles locale package</title>
-</head>
-<body>
-Classes and interfaces to allow locale resolution in an application, i.e. it
-allows to specify how to access the locale that the user wants to use.
-</body>
-</html>
+/**
+ * Basic implementation of the locale resolver.
+ */
+package org.apache.tiles.locale.impl;

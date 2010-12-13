@@ -358,8 +358,6 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
      * Tests
      * {@link ResolvingLocaleUrlDefinitionDAO#getDefinition(String, Locale)}
      * when loading multiple files for a locale.
-     *
-     * @throws IOException If something goes wrong.
      */
     public void testListAttributeLocaleInheritance() {
         URL url = this.getClass().getClassLoader().getResource(

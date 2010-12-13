@@ -293,7 +293,10 @@ public class ResolvingLocaleUrlDefinitionDAOTest {
                 definitionDao.reader);
     }
 
-    @Test(expected=NoSuchDefinitionException.class)
+    /**
+     * Tests {@link ResolvingLocaleUrlDefinitionDAO#resolveInheritance(Definition, Map, Locale, Set)}.
+     */
+    @Test(expected = NoSuchDefinitionException.class)
     public void testResolveInheritanceNoParent() {
         Definition definition = new Definition("mydef", null, null);
         definition.setExtends("otherDef");

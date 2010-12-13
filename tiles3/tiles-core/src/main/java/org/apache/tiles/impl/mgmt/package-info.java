@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles interfaces for injection of dependencies</title>
-</head>
-<body>
-Interfaces that let the Tiles engine to inject dependencies to its objects.
-</body>
-</html>
+/**
+ * It contains the basic implementations of mutable Tiles containers.
+ */
+package org.apache.tiles.impl.mgmt;

@@ -53,7 +53,7 @@ public class DigesterDefinitionsReaderExceptionTest {
     }
 
     /**
-     * Test method for {@link DigesterDefinitionsReaderException#DigesterDefinitionsReaderException(java.lang.Throwable)}.
+     * Test method for {@link DigesterDefinitionsReaderException#DigesterDefinitionsReaderException(Throwable)}.
      */
     @Test
     public void testDigesterDefinitionsReaderExceptionThrowable() {
@@ -64,7 +64,7 @@ public class DigesterDefinitionsReaderExceptionTest {
     }
 
     /**
-     * Test method for {@link DigesterDefinitionsReaderException#DigesterDefinitionsReaderException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link DigesterDefinitionsReaderException#DigesterDefinitionsReaderException(String, Throwable)}.
      */
     @Test
     public void testDigesterDefinitionsReaderExceptionStringThrowable() {

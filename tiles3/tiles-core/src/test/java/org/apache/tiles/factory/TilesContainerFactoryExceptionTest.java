@@ -64,7 +64,7 @@ public class TilesContainerFactoryExceptionTest {
     }
 
     /**
-     * Test method for {@link TilesContainerFactoryException#TilesContainerFactoryException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link TilesContainerFactoryException#TilesContainerFactoryException(String, Throwable)}.
      */
     @Test
     public void testTilesContainerFactoryExceptionStringThrowable() {

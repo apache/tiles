@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles support to regular expression patterns</title>
-</head>
-<body>
-In Tiles it is possible to use regular expression patterns thanks to this package.
-</body>
-</html>
+/**
+ * Interfaces to manage attribute rendering.
+ */
+package org.apache.tiles.renderer;

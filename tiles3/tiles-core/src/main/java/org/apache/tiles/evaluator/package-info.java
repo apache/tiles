@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles container implementation package</title>
-</head>
-<body>
-It contains the basic implementations of Tiles container.
-</body>
-</html>
+/**
+ * Interfaces to manage attribute value evaluation.
+ */
+package org.apache.tiles.evaluator;

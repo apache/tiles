@@ -25,12 +25,24 @@ import org.junit.Test;
  */
 public class CombinedBeanInfoTest {
 
+    /**
+     * The bean info to test.
+     */
     private CombinedBeanInfo beanInfo;
 
+    /**
+     * The property descriptors.
+     */
     private List<FeatureDescriptor> descriptors;
 
+    /**
+     * The map of property descriptors for request.
+     */
     private Map<String, PropertyDescriptor> requestMap;
 
+    /**
+     * The map of property descriptors for application.
+     */
     private Map<String, PropertyDescriptor> applicationMap;
 
     /**

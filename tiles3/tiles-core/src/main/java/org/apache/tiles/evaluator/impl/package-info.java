@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles renderers</title>
-</head>
-<body>
-Interfaces to manage attribute rendering.
-</body>
-</html>
+/**
+ * Classes to manage attribute value evaluation.
+ */
+package org.apache.tiles.evaluator.impl;

@@ -44,10 +44,21 @@ public class NoSuchDefinitionException extends DefinitionsFactoryException {
         super(msg);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param message Message.
+     * @param e Cause.
+     */
     public NoSuchDefinitionException(String message, Throwable e) {
         super(message, e);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param e Cause.
+     */
     public NoSuchDefinitionException(Throwable e) {
         super(e);
     }

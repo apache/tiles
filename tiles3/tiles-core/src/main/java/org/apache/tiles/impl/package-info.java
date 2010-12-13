@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles definition with digester package</title>
-</head>
-<body>
-Allows reading definitions with the use of Jakarta Commons Digester.
-</body>
-</html>
+/**
+ * It contains the basic implementations of Tiles container.
+ */
+package org.apache.tiles.impl;

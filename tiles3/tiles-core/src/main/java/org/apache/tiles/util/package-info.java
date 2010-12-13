@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles support to definition pattern matching</title>
-</head>
-<body>
-Classes to manage pattern matching in definition names, and substitution in attributes.
-</body>
-</html>
+/**
+ * Static utility classes used throughout the implementation.
+ */
+package org.apache.tiles.util;

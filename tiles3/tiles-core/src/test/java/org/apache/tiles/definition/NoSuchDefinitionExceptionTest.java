@@ -64,7 +64,7 @@ public class NoSuchDefinitionExceptionTest {
     }
 
     /**
-     * Test method for {@link NoSuchDefinitionException#NoSuchDefinitionException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link NoSuchDefinitionException#NoSuchDefinitionException(String, Throwable)}.
      */
     @Test
     public void testNoSuchDefinitionExceptionStringThrowable() {

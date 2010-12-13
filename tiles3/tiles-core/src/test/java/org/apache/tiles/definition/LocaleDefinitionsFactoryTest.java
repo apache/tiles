@@ -79,7 +79,7 @@ public class LocaleDefinitionsFactoryTest {
      * Test method for {@link LocaleDefinitionsFactory#getDefinition(String, Request)}.
      */
     @SuppressWarnings("unchecked")
-    @Test(expected=NoSuchDefinitionException.class)
+    @Test(expected = NoSuchDefinitionException.class)
     public void testGetDefinitionNoParent() {
         DefinitionDAO<Locale> dao = createMock(DefinitionDAO.class);
         LocaleResolver localeResolver = createMock(LocaleResolver.class);

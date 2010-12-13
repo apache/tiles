@@ -64,7 +64,7 @@ public class DefinitionsFactoryExceptionTest {
     }
 
     /**
-     * Test method for {@link DefinitionsFactoryException#DefinitionsFactoryException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link DefinitionsFactoryException#DefinitionsFactoryException(String, Throwable)}.
      */
     @Test
     public void testDefinitionsFactoryExceptionStringThrowable() {
