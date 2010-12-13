@@ -74,6 +74,14 @@ public abstract class BodyDirective extends Directive {
         return true;
     }
 
+    /**
+     * Executes the directive.
+     *
+     * @param params The parameters.
+     * @param request The request.
+     * @param modelBody The body.
+     * @throws IOException If something goes wrong.
+     */
     protected abstract void execute(Map<String, Object> params,
             Request request, ModelBody modelBody) throws IOException;
 }
