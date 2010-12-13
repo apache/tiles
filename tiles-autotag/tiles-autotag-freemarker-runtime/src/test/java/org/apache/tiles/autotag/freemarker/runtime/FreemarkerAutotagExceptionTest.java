@@ -64,7 +64,7 @@ public class FreemarkerAutotagExceptionTest {
     }
 
     /**
-     * Test method for {@link FreemarkerAutotagException#FreemarkerAutotagException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link FreemarkerAutotagException#FreemarkerAutotagException(String, Throwable)}.
      */
     @Test
     public void testFreemarkerAutotagExceptionStringThrowable() {

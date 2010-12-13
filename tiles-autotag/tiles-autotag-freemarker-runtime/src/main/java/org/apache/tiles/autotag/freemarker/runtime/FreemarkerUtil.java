@@ -43,6 +43,8 @@ public final class FreemarkerUtil {
      * Unwraps a TemplateModel to extract an object.
      *
      * @param model The TemplateModel to unwrap.
+     * @param defaultValue The default value, as specified in the template
+     * model, or null if not specified.
      * @return The unwrapped object.
      * @since 3.0.0
      */
