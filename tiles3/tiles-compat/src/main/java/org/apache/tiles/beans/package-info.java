@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Old-format Tiles definition files loading</title>
-</head>
-<body>
-Contains code to read old-format Tiles definition files.
-</body>
-</html>
+/**
+ * Classes to work with Tiles menu items and beans.
+ */
+package org.apache.tiles.beans;

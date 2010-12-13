@@ -25,8 +25,6 @@ import static org.easymock.EasyMock.*;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
-
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.request.Request;
@@ -58,7 +56,6 @@ public class UrlPreparerTest {
      * {@link org.apache.tiles.compat.preparer.UrlPreparer#execute(
      * org.apache.tiles.request.Request, org.apache.tiles.AttributeContext)}.
      * @throws IOException If something goes wrong.
-     * @throws ServletException If something goes wrong.
      */
     @Test
     public void testExecute() throws IOException {
@@ -76,9 +73,8 @@ public class UrlPreparerTest {
      * {@link org.apache.tiles.compat.preparer.UrlPreparer#execute(
      * org.apache.tiles.request.Request, org.apache.tiles.AttributeContext)}.
      * @throws IOException If something goes wrong.
-     * @throws ServletException If something goes wrong.
      */
-    @Test(expected=PreparerException.class)
+    @Test(expected = PreparerException.class)
     public void testExecuteException() throws IOException {
         Request requestContext = createMock(Request.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);

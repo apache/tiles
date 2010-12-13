@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles menu items and beans</title>
-</head>
-<body>
-Classes to work with Tiles menu items and beans.
-</body>
-</html>
+/**
+ * Contains code to read old-format Tiles definition files.
+ */
+package org.apache.tiles.compat.definition.digester;

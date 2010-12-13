@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,15 +18,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles compatibility view preparers package</title>
-</head>
-<body>
-<p>"View preparers" are objects that allows the "preparation" of a Tiles artifact
-(definition, template or attribute) before it is rendered.</p>
-<p>This package contains "compatibility" preparers, i.e. ViewPreparers that are
-compatibile with Tiles 1 "controllers".</p>
-</body>
-</html>
+/**
+ * <p>"View preparers" are objects that allows the "preparation" of a Tiles artifact
+ * (definition, template or attribute) before it is rendered.</p>
+ * <p>This package contains "compatibility" preparers, i.e. ViewPreparers that are
+ * compatibile with Tiles 1 "controllers".</p>
+ */
+package org.apache.tiles.compat.preparer;
+
