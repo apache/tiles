@@ -1,4 +1,4 @@
-package org.apache.tiles.request.collection.extractor;
+package org.apache.tiles.request.attribute;
 
 import java.util.Enumeration;
 

@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.HasAddableKeys;
+import org.apache.tiles.request.attribute.HasAddableKeys;
 
 /**
  * <p>Private implementation of <code>Map</code> for servlet request

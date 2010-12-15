@@ -4,7 +4,7 @@ import java.util.Enumeration;
 
 import javax.portlet.PortletRequest;
 
-import org.apache.tiles.request.collection.extractor.AttributeExtractor;
+import org.apache.tiles.request.attribute.AttributeExtractor;
 
 public class RequestScopeExtractor implements AttributeExtractor {
 

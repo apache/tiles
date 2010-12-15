@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.HasKeys;
+import org.apache.tiles.request.attribute.HasKeys;
 
 public class KeySet implements Set<String> {
 

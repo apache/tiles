@@ -4,7 +4,7 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tiles.request.collection.extractor.HasKeys;
+import org.apache.tiles.request.attribute.HasKeys;
 
 public class ParameterExtractor implements HasKeys<String> {
 

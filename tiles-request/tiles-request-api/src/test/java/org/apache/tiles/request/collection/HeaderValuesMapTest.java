@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
+import org.apache.tiles.request.attribute.EnumeratedValuesExtractor;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -11,7 +11,7 @@ import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.tiles.request.collection.extractor.AttributeExtractor;
+import org.apache.tiles.request.attribute.AttributeExtractor;
 import org.junit.Before;
 import org.junit.Test;
 

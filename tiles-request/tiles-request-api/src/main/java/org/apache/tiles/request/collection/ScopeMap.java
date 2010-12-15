@@ -29,8 +29,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.AttributeExtractor;
-import org.apache.tiles.request.util.MapEntry;
+import org.apache.tiles.request.attribute.AttributeExtractor;
 
 /**
  * <p>Private implementation of <code>Map</code> for servlet context

@@ -5,7 +5,7 @@ import java.util.Enumeration;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
-import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
+import org.apache.tiles.request.attribute.EnumeratedValuesExtractor;
 
 public class HeaderExtractor implements EnumeratedValuesExtractor {
 

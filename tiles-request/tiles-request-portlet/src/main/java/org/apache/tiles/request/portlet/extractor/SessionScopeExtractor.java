@@ -5,7 +5,7 @@ import java.util.Enumeration;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
 
-import org.apache.tiles.request.collection.extractor.AttributeExtractor;
+import org.apache.tiles.request.attribute.AttributeExtractor;
 
 public class SessionScopeExtractor implements AttributeExtractor {
 

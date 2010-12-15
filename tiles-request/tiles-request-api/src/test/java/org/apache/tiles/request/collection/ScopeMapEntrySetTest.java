@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.AttributeExtractor;
-import org.apache.tiles.request.util.MapEntry;
+import org.apache.tiles.request.attribute.AttributeExtractor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -202,8 +201,8 @@ public class ScopeMapEntrySetTest {
         expect(keys.nextElement()).andReturn("three");
         expect(keys.hasMoreElements()).andReturn(false);
 
-        Map.Entry<String, Object> entry1 = new MapEntry("one", 1, false);
-        Map.Entry<String, Object> entry2 = new MapEntry("two", 2, false);
+        Map.Entry<String, Object> entry1 = new MapEntry<String, Object>("one", 1, false);
+        Map.Entry<String, Object> entry2 = new MapEntry<String, Object>("two", 2, false);
 
         expect(extractor.getValue("one")).andReturn(1);
         expect(extractor.getValue("two")).andReturn(3);

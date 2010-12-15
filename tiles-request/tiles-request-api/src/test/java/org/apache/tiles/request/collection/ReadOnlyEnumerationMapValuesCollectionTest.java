@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.tiles.request.collection.extractor.HasKeys;
+import org.apache.tiles.request.attribute.HasKeys;
 import org.junit.Before;
 import org.junit.Test;
 

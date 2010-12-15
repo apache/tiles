@@ -31,9 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.EnumeratedValuesExtractor;
-import org.apache.tiles.request.util.MapEntry;
-import org.apache.tiles.request.util.MapEntryArrayValues;
+import org.apache.tiles.request.attribute.EnumeratedValuesExtractor;
 
 
 /**

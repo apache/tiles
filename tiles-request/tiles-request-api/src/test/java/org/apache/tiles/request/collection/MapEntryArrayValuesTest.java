@@ -1,10 +1,11 @@
 /**
  *
  */
-package org.apache.tiles.request.util;
+package org.apache.tiles.request.collection;
 
 import static org.junit.Assert.*;
 
+import org.apache.tiles.request.collection.MapEntryArrayValues;
 import org.junit.Test;
 
 /**
@@ -15,7 +16,7 @@ import org.junit.Test;
 public class MapEntryArrayValuesTest {
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.MapEntryArrayValues#hashCode()}.
+     * Test method for {@link org.apache.tiles.request.collection.MapEntryArrayValues#hashCode()}.
      */
     @Test
     public void testHashCode() {
@@ -34,7 +35,7 @@ public class MapEntryArrayValuesTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.MapEntryArrayValues#equals(java.lang.Object)}.
+     * Test method for {@link org.apache.tiles.request.collection.MapEntryArrayValues#equals(java.lang.Object)}.
      */
     @Test
     public void testEqualsObject() {

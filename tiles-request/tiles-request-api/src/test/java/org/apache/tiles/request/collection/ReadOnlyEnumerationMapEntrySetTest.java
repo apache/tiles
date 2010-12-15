@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.HasKeys;
-import org.apache.tiles.request.util.MapEntry;
+import org.apache.tiles.request.attribute.HasKeys;
 import org.junit.Before;
 import org.junit.Test;
 

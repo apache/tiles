@@ -3,7 +3,7 @@ package org.apache.tiles.request.portlet.extractor;
 import javax.portlet.PortletRequest;
 import javax.portlet.StateAwareResponse;
 
-import org.apache.tiles.request.collection.extractor.HasAddableKeys;
+import org.apache.tiles.request.attribute.HasAddableKeys;
 
 public class StateAwareParameterExtractor extends ParameterExtractor implements HasAddableKeys<String> {
 

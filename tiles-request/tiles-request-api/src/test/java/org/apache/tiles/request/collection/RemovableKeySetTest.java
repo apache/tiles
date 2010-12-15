@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.apache.tiles.request.collection.extractor.HasRemovableKeys;
+import org.apache.tiles.request.attribute.HasRemovableKeys;
 import org.junit.Before;
 import org.junit.Test;
 

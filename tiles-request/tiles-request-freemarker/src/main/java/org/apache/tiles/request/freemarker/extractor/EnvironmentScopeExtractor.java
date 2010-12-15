@@ -2,8 +2,8 @@ package org.apache.tiles.request.freemarker.extractor;
 
 import java.util.Enumeration;
 
+import org.apache.tiles.request.attribute.AttributeExtractor;
 import org.apache.tiles.request.collection.IteratorEnumeration;
-import org.apache.tiles.request.collection.extractor.AttributeExtractor;
 import org.apache.tiles.request.freemarker.FreemarkerRequestException;
 
 import freemarker.core.Environment;

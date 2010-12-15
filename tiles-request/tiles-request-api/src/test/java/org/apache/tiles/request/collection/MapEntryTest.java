@@ -1,10 +1,11 @@
 /**
  *
  */
-package org.apache.tiles.request.util;
+package org.apache.tiles.request.collection;
 
 import static org.junit.Assert.*;
 
+import org.apache.tiles.request.collection.MapEntry;
 import org.junit.Test;
 
 /**
@@ -15,7 +16,7 @@ import org.junit.Test;
 public class MapEntryTest {
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.MapEntry#hashCode()}.
+     * Test method for {@link org.apache.tiles.request.collection.MapEntry#hashCode()}.
      */
     @Test
     public void testHashCode() {
@@ -30,7 +31,7 @@ public class MapEntryTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.MapEntry#getKey()}.
+     * Test method for {@link org.apache.tiles.request.collection.MapEntry#getKey()}.
      */
     @Test
     public void testGetKey() {
@@ -39,7 +40,7 @@ public class MapEntryTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.MapEntry#getValue()}.
+     * Test method for {@link org.apache.tiles.request.collection.MapEntry#getValue()}.
      */
     @Test
     public void testGetValue() {
@@ -48,7 +49,7 @@ public class MapEntryTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.MapEntry#setValue(java.lang.Object)}.
+     * Test method for {@link org.apache.tiles.request.collection.MapEntry#setValue(java.lang.Object)}.
      */
     @Test
     public void testSetValue() {
@@ -59,7 +60,7 @@ public class MapEntryTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.MapEntry#setValue(java.lang.Object)}.
+     * Test method for {@link org.apache.tiles.request.collection.MapEntry#setValue(java.lang.Object)}.
      */
     @Test(expected=UnsupportedOperationException.class)
     public void testSetValueException() {
@@ -69,7 +70,7 @@ public class MapEntryTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.MapEntry#equals(java.lang.Object)}.
+     * Test method for {@link org.apache.tiles.request.collection.MapEntry#equals(java.lang.Object)}.
      */
     @Test
     public void testEqualsObject() {

@@ -7,7 +7,7 @@ import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.extractor.HasRemovableKeys;
+import org.apache.tiles.request.attribute.HasRemovableKeys;
 
 public class RemovableKeySet extends KeySet {
 

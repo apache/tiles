@@ -2,7 +2,7 @@ package org.apache.tiles.request.velocity.extractor;
 
 import java.util.Enumeration;
 
-import org.apache.tiles.request.collection.extractor.AttributeExtractor;
+import org.apache.tiles.request.attribute.AttributeExtractor;
 import org.apache.velocity.context.Context;
 
 public class VelocityScopeExtractor implements AttributeExtractor {

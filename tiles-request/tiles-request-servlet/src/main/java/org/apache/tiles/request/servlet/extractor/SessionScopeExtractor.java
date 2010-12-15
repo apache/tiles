@@ -5,7 +5,7 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tiles.request.collection.extractor.AttributeExtractor;
+import org.apache.tiles.request.attribute.AttributeExtractor;
 
 public class SessionScopeExtractor implements AttributeExtractor {
 
