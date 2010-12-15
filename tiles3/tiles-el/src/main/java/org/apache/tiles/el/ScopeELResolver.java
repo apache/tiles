@@ -40,6 +40,11 @@ import org.apache.tiles.request.Request;
  */
 public class ScopeELResolver extends ELResolver {
 
+    /**
+     * The length of the suffix: "Scope".
+     */
+    private static final int SUFFIX_LENGTH = 5;
+
     /** {@inheritDoc} */
     @Override
     public Class<?> getCommonPropertyType(ELContext context, Object base) {
@@ -64,7 +69,7 @@ public class ScopeELResolver extends ELResolver {
 
         Request request = (Request) context
                 .getContext(Request.class);
-        for (String scope: request.getAvailableScopes()) {
+        for (String scope : request.getAvailableScopes()) {
             FeatureDescriptor descriptor = new FeatureDescriptor();
             descriptor.setDisplayName(scope + "Scope");
             descriptor.setExpert(false);
@@ -104,7 +109,7 @@ public class ScopeELResolver extends ELResolver {
             Request request = (Request) context
                     .getContext(Request.class);
             retValue = request.getContext(propertyString.substring(0,
-                    propertyString.length() - 5));
+                    propertyString.length() - SUFFIX_LENGTH));
         }
 
         if (retValue != null) {

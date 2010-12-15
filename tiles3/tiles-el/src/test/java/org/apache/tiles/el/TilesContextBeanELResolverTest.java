@@ -223,7 +223,7 @@ public class TilesContextBeanELResolverTest {
      * Test method for
      * {@link TilesContextBeanELResolver#isReadOnly(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testIsReadOnlyNPE() {
         resolver.isReadOnly(null, null, null);
     }

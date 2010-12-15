@@ -58,7 +58,7 @@ public class TilesContextBeanELResolver extends ELResolver {
 
         Request request = (Request) context
                 .getContext(Request.class);
-        for (String scope: request.getAvailableScopes()) {
+        for (String scope : request.getAvailableScopes()) {
             collectBeanInfo(request.getContext(scope), list);
         }
         return list.iterator();

@@ -39,8 +39,16 @@ import org.apache.tiles.util.CombinedBeanInfo;
  */
 public class TilesContextELResolver extends ELResolver {
 
+    /**
+     * Internal bean resolver to resolve beans in any context.
+     */
     private ELResolver beanElResolver;
 
+    /**
+     * Constructor.
+     *
+     * @param beanElResolver The used bean resolver.
+     */
     public TilesContextELResolver(ELResolver beanElResolver) {
         this.beanElResolver = beanElResolver;
     }

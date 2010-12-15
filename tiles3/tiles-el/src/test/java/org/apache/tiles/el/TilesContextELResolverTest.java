@@ -45,6 +45,9 @@ import org.junit.Test;
  */
 public class TilesContextELResolverTest {
 
+    /**
+     * The bean resolver.
+     */
     private ELResolver beanElResolver;
 
     /**
@@ -101,7 +104,7 @@ public class TilesContextELResolverTest {
     /**
      * Tests {@link TilesContextBeanELResolver#getType(ELContext, Object, Object)}.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testGetType() {
         ELContext elContext = createMock(ELContext.class);
@@ -125,12 +128,12 @@ public class TilesContextELResolverTest {
     /**
      * Tests {@link TilesContextBeanELResolver#getValue(ELContext, Object, Object)}.
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testGetValue() {
         ELContext elContext = createMock(ELContext.class);
         Request request = createMock(Request.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        @SuppressWarnings("rawtypes")
         Map map = createMock(Map.class);
 
         expect(elContext.getContext(Request.class)).andReturn(request);
@@ -164,7 +167,7 @@ public class TilesContextELResolverTest {
      * Test method for
      * {@link TilesContextELResolver#isReadOnly(javax.el.ELContext, java.lang.Object, java.lang.Object)}.
      */
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testIsReadOnlyNPE() {
         replay(beanElResolver);
         try {
