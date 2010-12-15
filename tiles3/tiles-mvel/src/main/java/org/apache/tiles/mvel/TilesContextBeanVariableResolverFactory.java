@@ -80,7 +80,7 @@ public class TilesContextBeanVariableResolverFactory extends
         }
 
         /** {@inheritDoc} */
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("rawtypes")
         public Class getType() {
             Object value = getValue();
             if (value != null) {

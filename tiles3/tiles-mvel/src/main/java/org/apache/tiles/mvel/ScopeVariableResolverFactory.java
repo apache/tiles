@@ -37,6 +37,11 @@ public class ScopeVariableResolverFactory extends
         ReadOnlyVariableResolverFactory {
 
     /**
+     * The length of the scope suffix: "Scope".
+     */
+    private static final int SCOPE_SUFFIX_LENGTH = 5;
+
+    /**
      * Constructor.
      *
      * @param requestHolder The Tiles request holder.
@@ -56,7 +61,7 @@ public class ScopeVariableResolverFactory extends
     public boolean isTarget(String name) {
         Request request = requestHolder.getTilesRequestContext();
         if (name.endsWith("Scope")) {
-            String scopeName = name.substring(0, name.length() - 5);
+            String scopeName = name.substring(0, name.length() - SCOPE_SUFFIX_LENGTH);
             for (String availableScope : request.getAvailableScopes()) {
                 if (scopeName.equals(availableScope)) {
                     return true;
@@ -85,7 +90,7 @@ public class ScopeVariableResolverFactory extends
         }
 
         /** {@inheritDoc} */
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("rawtypes")
         public Class getType() {
             return Map.class;
         }
@@ -93,7 +98,7 @@ public class ScopeVariableResolverFactory extends
         /** {@inheritDoc} */
         public Object getValue() {
             Request request = requestHolder.getTilesRequestContext();
-            return request.getContext(name.substring(0, name.length() - 5));
+            return request.getContext(name.substring(0, name.length() - SCOPE_SUFFIX_LENGTH));
         }
     }
 }

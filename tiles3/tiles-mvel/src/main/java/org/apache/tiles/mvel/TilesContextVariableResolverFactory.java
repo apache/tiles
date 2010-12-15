@@ -100,6 +100,7 @@ public class TilesContextVariableResolverFactory extends
          * Constructor.
          *
          * @param name The name of the property.
+         * @param descriptor The property descriptor.
          * @since 2.2.0
          */
         public RequestVariableResolver(String name, PropertyDescriptor descriptor) {
@@ -108,7 +109,7 @@ public class TilesContextVariableResolverFactory extends
         }
 
         /** {@inheritDoc} */
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("rawtypes")
         public Class getType() {
             return descriptor.getPropertyType();
         }
@@ -155,6 +156,7 @@ public class TilesContextVariableResolverFactory extends
          * Constructor.
          *
          * @param name The name of the property.
+         * @param descriptor The property descriptor.
          * @since 2.2.0
          */
         public ApplicationVariableResolver(String name, PropertyDescriptor descriptor) {
@@ -163,7 +165,7 @@ public class TilesContextVariableResolverFactory extends
         }
 
         /** {@inheritDoc} */
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("rawtypes")
         public Class getType() {
             return descriptor.getPropertyType();
         }

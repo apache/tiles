@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.context.TilesRequestContextHolder;
-import org.apache.tiles.mvel.TilesContextVariableResolverFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.After;

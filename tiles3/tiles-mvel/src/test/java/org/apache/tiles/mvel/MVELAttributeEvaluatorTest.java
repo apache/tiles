@@ -52,6 +52,9 @@ public class MVELAttributeEvaluatorTest {
      */
     private Request request;
 
+    /**
+     * The application context.
+     */
     private ApplicationContext applicationContext;
 
     /**
@@ -95,7 +98,7 @@ public class MVELAttributeEvaluatorTest {
     /**
      * Tests {@link MVELAttributeEvaluator#evaluate(String, Request)}.
      */
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testEvaluateNull() {
         evaluator.evaluate((String) null, request);
         verify(request, applicationContext);

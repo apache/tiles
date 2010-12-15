@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles attribute evaluator MVEL implementation</title>
-</head>
-<body>
-Attribute evaluator classes that can perform MVEL evaluation for attributes.
-</body>
-</html>
+/**
+ * Attribute evaluator classes that can perform MVEL evaluation for attributes.
+ */
+package org.apache.tiles.mvel;
