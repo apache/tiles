@@ -18,26 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.freemarker;
-
-import org.apache.tiles.freemarker.template.TilesFMModelRepository;
-import org.apache.tiles.request.freemarker.servlet.SharedVariableFactory;
-
-import freemarker.ext.beans.BeanModel;
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.TemplateModel;
-
 /**
- * Creates a shared variable that contains the Tiles Freemarker model repository.
- *
- * @version $Rev$ $Date$
+ * Classes for supporting FreeMarker in Tiles.
  */
-public class TilesSharedVariableFactory implements SharedVariableFactory {
-
-    @Override
-    public TemplateModel create() {
-        return new BeanModel(new TilesFMModelRepository(),
-                BeansWrapper.getDefaultInstance());
-    }
-
-}
+package org.apache.tiles.freemarker;
