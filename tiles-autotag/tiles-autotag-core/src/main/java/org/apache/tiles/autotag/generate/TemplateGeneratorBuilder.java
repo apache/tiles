@@ -32,7 +32,7 @@ import org.apache.tiles.autotag.generate.BasicTemplateGenerator.TSGeneratorDirec
  *
  * @version $Rev$ $Date$
  */
-public final class TemplateGeneratorBuilder {
+public class TemplateGeneratorBuilder {
 
     /**
      * The template suite generators.
