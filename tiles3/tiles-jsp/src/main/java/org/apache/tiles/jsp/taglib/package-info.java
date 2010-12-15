@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,18 +18,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-    <title>Package Documentation for org.apache.taglib.tiles Package</title>
-</head>
-<body bgcolor="white">
+/**
+ * The "tiles-jsp" tag library contains tags that are useful to create
+ * templates, subpages other reusable view parts using the "tiles-core"
+ * package.
+ */
+package org.apache.tiles.jsp.taglib;
 
-
-<p> The "tiles-jsp" tag library contains tags that are useful to create
-  templates, subpages other reusable view parts using the "tiles-core"
-  package. </p>
-
-</body>
-</html>
