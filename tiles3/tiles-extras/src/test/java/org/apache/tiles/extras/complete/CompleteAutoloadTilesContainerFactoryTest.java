@@ -345,7 +345,8 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         replay(applicationContext);
-        assertTrue(factory.createDefinitionsReader(applicationContext) instanceof CompatibilityDigesterDefinitionsReader);
+        assertTrue(factory.createDefinitionsReader(applicationContext)
+                instanceof CompatibilityDigesterDefinitionsReader);
         verify(applicationContext);
     }
 

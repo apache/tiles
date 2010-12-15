@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Modular initialization of Tiles</title>
-</head>
-<body>
-These classes allow to initialize independent module of Tiles.
-</body>
-</html>
+/**
+ * These classes allow to start up Tiles with all features on.
+ */
+package org.apache.tiles.extras.complete;
