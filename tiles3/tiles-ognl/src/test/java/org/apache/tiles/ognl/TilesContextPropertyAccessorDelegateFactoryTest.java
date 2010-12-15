@@ -34,7 +34,7 @@ import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 /**
- * @author antonio
+ * Tests {@link TilesContextPropertyAccessorDelegateFactory}.
  *
  * @version $Rev$ $Date$
  */
