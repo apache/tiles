@@ -1,4 +1,3 @@
-<!--
 /*
  * $Id$
  *
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles attribute evaluator OGNL implementation</title>
-</head>
-<body>
-Attribute evaluator classes that can perform OGNL evaluation for attributes.
-</body>
-</html>
+/**
+ * Attribute evaluator classes that can perform OGNL evaluation for attributes.
+ */
+package org.apache.tiles.ognl;

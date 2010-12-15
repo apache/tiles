@@ -57,6 +57,9 @@ public class OGNLAttributeEvaluatorTest {
      */
     private Request request;
 
+    /**
+     * The application context.
+     */
     private ApplicationContext applicationContext;
 
     /**
@@ -184,7 +187,7 @@ public class OGNLAttributeEvaluatorTest {
     /**
      * Tests {@link OGNLAttributeEvaluator#evaluate(String, Request)}.
      */
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testEvaluateNull() {
         evaluator.evaluate((String) null, request);
     }
@@ -192,7 +195,7 @@ public class OGNLAttributeEvaluatorTest {
     /**
      * Tests {@link OGNLAttributeEvaluator#evaluate(String, Request)}.
      */
-    @Test(expected=EvaluationException.class)
+    @Test(expected = EvaluationException.class)
     public void testEvaluateOgnlException() {
         evaluator.evaluate("wrong|||!!!!yes###", request);
     }

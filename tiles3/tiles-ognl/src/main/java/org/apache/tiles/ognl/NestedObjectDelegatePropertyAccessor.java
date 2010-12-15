@@ -69,7 +69,7 @@ public class NestedObjectDelegatePropertyAccessor<T> implements
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public Object getProperty(Map context, Object target, Object name)
+    public Object getProperty(@SuppressWarnings("rawtypes") Map context, Object target, Object name)
             throws OgnlException {
         return propertyAccessor.getProperty(context, nestedObjectExtractor
                 .getNestedObject((T) target), name);
@@ -77,7 +77,7 @@ public class NestedObjectDelegatePropertyAccessor<T> implements
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public void setProperty(Map context, Object target, Object name,
+    public void setProperty(@SuppressWarnings("rawtypes") Map context, Object target, Object name,
             Object value) throws OgnlException {
         propertyAccessor.setProperty(context, nestedObjectExtractor
                 .getNestedObject((T) target), name, value);

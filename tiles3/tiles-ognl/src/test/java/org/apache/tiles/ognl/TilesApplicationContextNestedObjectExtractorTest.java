@@ -24,8 +24,6 @@ package org.apache.tiles.ognl;
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 
-import org.apache.tiles.ognl.NestedObjectExtractor;
-import org.apache.tiles.ognl.TilesApplicationContextNestedObjectExtractor;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Test;

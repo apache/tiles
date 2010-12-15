@@ -92,7 +92,8 @@ public class TilesContextPropertyAccessorDelegateFactory implements
             Request request) {
         PropertyAccessor retValue;
         if (propertyName.endsWith("Scope")) {
-            String scopeName = propertyName.substring(0, propertyName.length() - 5);
+            String scopeName = propertyName.substring(0, propertyName.length()
+                    - ScopePropertyAccessor.SCOPE_SUFFIX_LENGTH);
             if (request.getContext(scopeName) != null) {
                 return scopePropertyAccessor;
             }

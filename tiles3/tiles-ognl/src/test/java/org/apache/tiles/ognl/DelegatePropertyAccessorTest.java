@@ -30,8 +30,6 @@ import ognl.OgnlContext;
 import ognl.OgnlException;
 import ognl.PropertyAccessor;
 
-import org.apache.tiles.ognl.DelegatePropertyAccessor;
-import org.apache.tiles.ognl.PropertyAccessorDelegateFactory;
 import org.junit.Test;
 
 /**

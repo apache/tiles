@@ -29,8 +29,6 @@ import java.util.Map;
 
 import ognl.PropertyAccessor;
 
-import org.apache.tiles.ognl.PropertyAccessorDelegateFactory;
-import org.apache.tiles.ognl.TilesContextPropertyAccessorDelegateFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Test;

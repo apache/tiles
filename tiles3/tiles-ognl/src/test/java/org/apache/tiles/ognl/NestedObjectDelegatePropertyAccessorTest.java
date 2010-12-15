@@ -30,8 +30,6 @@ import ognl.OgnlContext;
 import ognl.OgnlException;
 import ognl.PropertyAccessor;
 
-import org.apache.tiles.ognl.NestedObjectDelegatePropertyAccessor;
-import org.apache.tiles.ognl.NestedObjectExtractor;
 import org.junit.Test;
 
 /**

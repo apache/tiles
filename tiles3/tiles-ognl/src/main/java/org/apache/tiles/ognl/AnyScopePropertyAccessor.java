@@ -1,3 +1,23 @@
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.apache.tiles.ognl;
 
 import java.util.Map;
@@ -7,14 +27,18 @@ import ognl.PropertyAccessor;
 
 import org.apache.tiles.request.Request;
 
+/**
+ * Accesses attributes in any scope.
+ *
+ * @version $Rev$ $Date$
+ */
 public class AnyScopePropertyAccessor implements PropertyAccessor {
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Object getProperty(Map context, Object target, Object name) {
+    public Object getProperty(@SuppressWarnings("rawtypes") Map context, Object target, Object name) {
         Request request = (Request) target;
         String attributeName = (String) name;
-        for (String scopeName: request.getAvailableScopes()) {
+        for (String scopeName : request.getAvailableScopes()) {
             Map<String, Object> scope = request.getContext(scopeName);
             if (scope.containsKey(attributeName)) {
                 return scope.get(attributeName);
@@ -28,7 +52,7 @@ public class AnyScopePropertyAccessor implements PropertyAccessor {
             Object index) {
         Request request = (Request) target;
         String attributeName = (String) index;
-        for (String scopeName: request.getAvailableScopes()) {
+        for (String scopeName : request.getAvailableScopes()) {
             Map<String, Object> scope = request.getContext(scopeName);
             if (scope.containsKey(attributeName)) {
                 return ".getContext(\"" + scopeName + "\").get(index)";
@@ -43,7 +67,7 @@ public class AnyScopePropertyAccessor implements PropertyAccessor {
         Request request = (Request) target;
         String attributeName = (String) index;
         String[] availableScopes = request.getAvailableScopes();
-        for (String scopeName: availableScopes) {
+        for (String scopeName : availableScopes) {
             Map<String, Object> scope = request.getContext(scopeName);
             if (scope.containsKey(attributeName)) {
                 return ".getContext(\"" + scopeName + "\").put(index, target)";
@@ -52,14 +76,13 @@ public class AnyScopePropertyAccessor implements PropertyAccessor {
         return ".getContext(\"" + availableScopes[0] + "\").put(index, target)";
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public void setProperty(Map context, Object target, Object name,
+    public void setProperty(@SuppressWarnings("rawtypes") Map context, Object target, Object name,
             Object value) {
         Request request = (Request) target;
         String attributeName = (String) name;
         String[] availableScopes = request.getAvailableScopes();
-        for (String scopeName: availableScopes) {
+        for (String scopeName : availableScopes) {
             Map<String, Object> scope = request.getContext(scopeName);
             if (scope.containsKey(attributeName)) {
                 scope.put(attributeName, value);
