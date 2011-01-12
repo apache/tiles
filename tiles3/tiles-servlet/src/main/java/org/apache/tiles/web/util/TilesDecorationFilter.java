@@ -51,30 +51,30 @@ import org.slf4j.LoggerFactory;
  * with the configured definition.
  * <p/>
  * For example, given the following config:
- * <xmp>
- * <filter>
- * <filter-name>Tiles Decoration Filter</filter-name>
- * <filter-class>org.apache.tiles.web.TilesDecorationFilter</filter-class>
- * <init-param>
- * <param-name>definition</param-name>
- * <param-value>test.definition</param-value>
- * </init-param>
- * <init-param>
- * <param-name>attribute-name</param-name>
- * <param-value>body</param-value>
- * </init-param>
- * <init-param>
- * <param-name>prevent-token</param-name>
- * <param-value>layout</param-value>
- * </init-param>
- * </filter>
+ * &lt;xmp&gt;
+ * &lt;filter&gt;
+ * &lt;filter-name&gt;Tiles Decoration Filter&lt;/filter-name&gt;
+ * &lt;filter-class&gt;org.apache.tiles.web.TilesDecorationFilter&lt;/filter-class&gt;
+ * &lt;init-param&gt;
+ * &lt;param-name&gt;definition&lt;/param-name&gt;
+ * &lt;param-value&gt;test.definition&lt;/param-value&gt;
+ * &lt;/init-param&gt;
+ * &lt;init-param&gt;
+ * &lt;param-name&gt;attribute-name&lt;/param-name&gt;
+ * &lt;param-value&gt;body&lt;/param-value&gt;
+ * &lt;/init-param&gt;
+ * &lt;init-param&gt;
+ * &lt;param-name&gt;prevent-token&lt;/param-name&gt;
+ * &lt;param-value&gt;layout&lt;/param-value&gt;
+ * &lt;/init-param&gt;
+ * &lt;/filter&gt;
  * <p/>
- * <filter-mapping>
- * <filter-name>Tiles Decoration Filter</filter-name>
- * <url-pattern>/testdecorationfilter.jsp</url-pattern>
- * <dispatcher>REQUEST</dispatcher>
- * </filter-mapping>
- * </xmp>
+ * &lt;filter-mapping&gt;
+ * &lt;filter-name&gt;Tiles Decoration Filter&lt;/filter-name&gt;
+ * &lt;url-pattern&gt;/testdecorationfilter.jsp&lt;/url-pattern&gt;
+ * &lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
+ * &lt;/filter-mapping&gt;
+ * &lt;/xmp&gt;
  * The filter will intercept all requests to the indicated url pattern
  * store the initial request path as the "body"  attribute and then render the
  * "test.definition" definition.  The filter will only redecorate those requests
@@ -136,6 +136,9 @@ public class TilesDecorationFilter implements Filter {
      */
     private AttributeContextMutator mutator = null;
 
+    /**
+     * The servlet context.
+     */
     private ServletContext servletContext;
 
     /** {@inheritDoc} */

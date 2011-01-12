@@ -98,7 +98,7 @@ public class ServletContextAdapter implements ServletContext {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes" })
     public Set getResourcePaths(String string) {
         return rootContext.getResourcePaths(string);
     }
@@ -129,13 +129,13 @@ public class ServletContextAdapter implements ServletContext {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings("rawtypes")
     public Enumeration getServlets() {
         return rootContext.getServlets();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings("rawtypes")
     public Enumeration getServletNames() {
         return rootContext.getServletNames();
     }
@@ -171,7 +171,7 @@ public class ServletContextAdapter implements ServletContext {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Enumeration getInitParameterNames() {
         return initParameters.keys();
     }
@@ -182,7 +182,7 @@ public class ServletContextAdapter implements ServletContext {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Enumeration getAttributeNames() {
         return rootContext.getAttributeNames();
     }

@@ -1,6 +1,5 @@
-<!--
 /*
- * $Id$
+ * $Id: package-info.java 1049711 2010-12-15 21:12:00Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Start-up classes in a web application environment with default settings</title>
-</head>
-<body>
-Classes to start the Tiles engine up in a web environment using the default settings.
-</body>
-</html>
+/**
+ * Classes to start the Tiles engine up in a web environment using the default settings.
+ */
+package org.apache.tiles.web.startup.simple;
