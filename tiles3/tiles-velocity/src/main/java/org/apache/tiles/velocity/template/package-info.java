@@ -1,6 +1,5 @@
-<!--
 /*
- * $Id$
+ * $Id: package-info.java 1049711 2010-12-15 21:12:00Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles Velocity template models</title>
-</head>
-<body>
-Classes that allow the use of "Tiles template" as a Velocity tool.
-</body>
-</html>
+/**
+ * Classes that allow the use of "Tiles template" as a Velocity tool.
+ */
+package org.apache.tiles.velocity.template;

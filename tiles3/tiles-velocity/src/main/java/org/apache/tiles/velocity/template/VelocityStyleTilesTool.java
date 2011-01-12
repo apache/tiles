@@ -231,6 +231,13 @@ public class VelocityStyleTilesTool extends ContextHolder {
         return "";
     }
 
+    /**
+     * Creates a Velocity request.
+     *
+     * @param servletContext The servlet context.
+     * @param writer The writer.
+     * @return The created request.
+     */
     protected Request createVelocityRequest(
             ServletContext servletContext, Writer writer) {
         return VelocityRequest.createVelocityRequest(ServletUtil
