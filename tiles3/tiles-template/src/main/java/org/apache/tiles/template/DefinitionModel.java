@@ -58,10 +58,8 @@ public class DefinitionModel {
      * @param extendsParam The definition name that this definition extends.
      * @param preparer The preparer to use to invoke before the definition is
      * rendered.
-     * @param request TODO
-     * @param modelBody TODO
-     * @param container The Tiles container to use. It must be "mutable".
-     * @param composeStack The compose stack.
+     * @param request The request.
+     * @param modelBody The body.
      * @throws IOException If something goes wrong.
      * @since 2.2.0
      */
@@ -113,7 +111,7 @@ public class DefinitionModel {
      * @param container The container into which the definition will be
      * registered.
      * @param composeStack The compose stack,
-     * @param request TODO
+     * @param request The request.
      */
     private void registerDefinition(Definition definition,
             MutableTilesContainer container, Deque<Object> composeStack,

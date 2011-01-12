@@ -57,8 +57,9 @@ public class AddAttributeModel {
      * @param role A comma-separated list of roles. If present, the attribute
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
-     * @param request TODO
-     * @param modelBody TODO
+     * @param request The request.
+     * @param modelBody The body.
+     * @throws IOException If the body cannot be correctly evaluated.
      * @since 2.2.0
      */
     public void execute(Object value, String expression, String role,

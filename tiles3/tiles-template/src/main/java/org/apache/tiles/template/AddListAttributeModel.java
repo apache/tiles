@@ -44,6 +44,14 @@ import org.apache.tiles.request.Request;
  */
 public class AddListAttributeModel {
 
+    /**
+     * Executes the model.
+     *
+     * @param role The comma-separated list of roles that can use the list attribute.
+     * @param request The request.
+     * @param modelBody The body.
+     * @throws IOException If the body cannot be evaluated.
+     */
     public void execute(String role, Request request, ModelBody modelBody) throws IOException {
         Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         ListAttribute listAttribute = new ListAttribute();

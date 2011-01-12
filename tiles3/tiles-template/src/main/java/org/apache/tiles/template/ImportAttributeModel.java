@@ -53,6 +53,20 @@ public class ImportAttributeModel {
      */
     private Logger log = LoggerFactory.getLogger(getClass());
 
+    /**
+     * Executes the model.
+     *
+     * @param name The name of the attribute to import. If it is
+     * <code>null</code>, all the attributes will be imported.
+     * @param scope The scope into which the attribute(s) will be imported. If
+     * <code>null</code>, the import will go in page scope.
+     * @param toName The name of the attribute into which the attribute will be
+     * imported. To be used in conjunction to <code>name</code>. If
+     * <code>null</code>, the value of <code>name</code> will be used.
+     * @param ignore If <code>true</code>, if the attribute is not present, the
+     * problem will be ignored.
+     * @param request The request.
+     */
     public void execute(String name, String scope, String toName, boolean ignore, Request request) {
         Map<String, Object> attributes = getImportedAttributes(
                 name, toName, ignore, request);
@@ -71,8 +85,7 @@ public class ImportAttributeModel {
      * if <code>name</code> is specified.
      * @param ignore If <code>true</code> and the attribute is not found, or an
      * exception happens, the problem will be ignored.
-     * @param request TODO
-     * @param container The Tiles container to use.
+     * @param request The request.
      *
      * @return A Map of the attributes to be imported: the key is the name of an
      * attribute, the value is the value of that attribute.
@@ -110,7 +123,7 @@ public class ImportAttributeModel {
      * @param ignore If <code>true</code> and the attribute is not found, or an
      * exception happens, the problem will be ignored.
      * @param attributes The map of the attributes to fill.
-     * @param request TODO
+     * @param request The request.
      */
     private void importSingleAttribute(TilesContainer container,
             AttributeContext attributeContext, String name, String toName,
@@ -158,7 +171,7 @@ public class ImportAttributeModel {
      * @param attributes The map of the attributes to fill.
      * @param ignore If <code>true</code> and the attribute is not found, or an
      * exception happens, the problem will be ignored.
-     * @param request TODO
+     * @param request The request.
      */
     private void importAttributes(Collection<String> names,
             TilesContainer container, AttributeContext attributeContext,

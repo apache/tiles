@@ -60,7 +60,7 @@ public class AddListAttributeModelTest {
 
     /**
      * Test method for
-     * {@link org.apache.tiles.template.AddListAttributeModel#execute(String, Request, org.apache.tiles.autotag.core.runtime.ModelBody)}
+     * {@link AddListAttributeModel#execute(String, Request, ModelBody)}
      * .
      * @throws IOException If something goes wrong.
      */

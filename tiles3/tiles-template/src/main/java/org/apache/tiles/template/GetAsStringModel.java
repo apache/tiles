@@ -96,10 +96,8 @@ public class GetAsStringModel {
      * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
-     * @param request TODO
-     * @param modelBody TODO
-     * @param writer The writer into which the attribute will be written.
-     * @param container The Tiles container to use.
+     * @param request The request.
+     * @param modelBody The body.
      * @throws IOException If an I/O error happens during rendering.
      * @since 2.2.0
      */
@@ -138,7 +136,7 @@ public class GetAsStringModel {
      * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
-     * @param request TODO
+     * @param request The request.
      * @return The resolved attribute.
      */
     private Attribute resolveAttribute(TilesContainer container,
@@ -163,7 +161,7 @@ public class GetAsStringModel {
      * @param writer The writer into which the attribute will be written.
      * @param ignore If <code>true</code>, if an exception happens during
      * rendering, of if the attribute is null, the problem will be ignored.
-     * @param request TODO
+     * @param request The request.
      * @throws IOException If an I/O error happens during rendering.
      */
     private void renderAttribute(Attribute attribute, TilesContainer container,

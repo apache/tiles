@@ -49,6 +49,19 @@ import org.apache.tiles.request.Request;
  */
 public class PutListAttributeModel {
 
+    /**
+     * Executes the model.
+     *
+     * @param name The name of the attribute to put.
+     * @param role A comma-separated list of roles. If present, the attribute
+     * will be rendered only if the current user belongs to one of the roles.
+     * @param inherit If <code>true</code>, the list attribute will use, as first elements, the
+     * list contained in the list attribute, put with the same name, of the containing definition.
+     * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
+     * @param request The request.
+     * @param modelBody The body.
+     * @throws IOException If the body cannot be evaluated.
+     */
     public void execute(@Parameter(required = true) String name, String role,
             boolean inherit, boolean cascade, Request request,
             ModelBody modelBody) throws IOException {

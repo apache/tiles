@@ -83,10 +83,9 @@ public class PutAttributeModel {
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
-     * @param request TODO
-     * @param modelBody TODO
-     * @param container The Tiles container to use.
-     * @param composeStack The composing stack.
+     * @param request The request.
+     * @param modelBody The body.
+     * @throws IOException If the body cannot be evaluated.
      * @since 2.2.0
      */
     public void execute(@Parameter(required = true) String name, Object value,
@@ -119,7 +118,7 @@ public class PutAttributeModel {
      * will be rendered only if the current user belongs to one of the roles.
      * @param type The type (renderer) of the attribute.
      * @param cascade If <code>true</code> the attribute will be cascaded to all nested attributes.
-     * @param request TODO
+     * @param request The request.
      */
     private void putAttributeInParent(Attribute attribute,
             TilesContainer container, Deque<Object> composeStack, String name,

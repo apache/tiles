@@ -1,6 +1,5 @@
-<!--
 /*
- * $Id$
+ * $Id: package-info.java 1049711 2010-12-15 21:12:00Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles template package</title>
-</head>
-<body>
-Tiles template classes, that enable to write support code for template languages (JSP, FreeMarker, Velocity).
-</body>
-</html>
+/**
+ * Tiles template classes, that enable to write support code for template languages (JSP, FreeMarker, Velocity).
+ */
+package org.apache.tiles.template;

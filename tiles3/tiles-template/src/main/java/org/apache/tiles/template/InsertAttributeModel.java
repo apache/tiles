@@ -107,10 +107,9 @@ public class InsertAttributeModel {
      * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
-     * @param flush TODO
-     * @param request TODO
-     * @param modelBody TODO
-     * @param container The Tiles container to use.
+     * @param flush If <code>true</code>, the response will be flushed after the insert.
+     * @param request The request.
+     * @param modelBody The body.
      * @throws IOException If an I/O error happens during rendering.
      * @since 2.2.0
      */
@@ -150,7 +149,7 @@ public class InsertAttributeModel {
      * the attribute was not computed.
      * @param name The name of the attribute.
      * @param value The attribute to use immediately, if not null.
-     * @param request TODO
+     * @param request The request.
      * @return The resolved attribute.
      */
     private Attribute resolveAttribute(TilesContainer container,
@@ -173,7 +172,7 @@ public class InsertAttributeModel {
      * @param ignore If <code>true</code>, if an exception happens during
      * rendering, of if the attribute is null, the problem will be ignored.
      * @param attribute The attribute to use, previously resolved.
-     * @param request TODO
+     * @param request The request.
      *
      * @throws IOException If an I/O error happens during rendering.
      */

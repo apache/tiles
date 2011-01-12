@@ -81,10 +81,9 @@ public class InsertDefinitionModel {
      * @param preparer The preparer to use to invoke before the definition is
      * rendered. If specified, it overrides the preparer specified in the
      * definition itself.
-     * @param flush TODO
-     * @param request TODO
-     * @param modelBody TODO
-     * @param container The Tiles container.
+     * @param flush If <code>true</code>, the response will be flushed after the insert.
+     * @param request The request.
+     * @param modelBody The body.
      * @throws IOException If something goes wrong.
      * @since 2.2.0
      */
@@ -101,6 +100,24 @@ public class InsertDefinitionModel {
                 templateExpression, role, preparer, flush, request);
     }
 
+    /**
+     * Renders a definition.
+     *
+     * @param container The container to use.
+     * @param definitionName The name of the definition to render.
+     * @param template If specified, this template will be used instead of the
+     * one used by the definition.
+     * @param templateType The type of the template attribute.
+     * @param templateExpression The expression to evaluate to get the value of the template.
+     * @param role A comma-separated list of roles. If present, the definition
+     * will be rendered only if the current user belongs to one of the roles.
+     * @param preparer The preparer to use to invoke before the definition is
+     * rendered. If specified, it overrides the preparer specified in the
+     * definition itself.
+     * @param flush If <code>true</code>, the response will be flushed after the insert.
+     * @param request The request.
+     * @throws IOException If something goes wrong.
+     */
     private void renderDefinition(TilesContainer container,
             String definitionName, String template, String templateType,
             String templateExpression, String role, String preparer,
