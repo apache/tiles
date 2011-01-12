@@ -38,7 +38,7 @@ import org.junit.Test;
 public class AbstractTilesListenerTest {
 
     /**
-     * Test method for {@link org.apache.tiles.web.startup.AbstractTilesListener#contextInitialized(javax.servlet.ServletContextEvent)}.
+     * Test method for {@link AbstractTilesListener#contextInitialized(ServletContextEvent)}.
      */
     @Test
     public void testContextInitialized() {

@@ -50,10 +50,19 @@ import org.junit.Test;
  */
 public class TilesDecorationFilterTest {
 
+    /**
+     * The filter configuration.
+     */
     private FilterConfig config;
 
+    /**
+     * The servlet context.
+     */
     private ServletContext servletContext;
 
+    /**
+     * The filter to test.
+     */
     private TilesDecorationFilter filter;
 
     /**
@@ -94,7 +103,7 @@ public class TilesDecorationFilterTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.web.util.TilesDecorationFilter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)}.
+     * Test method for {@link TilesDecorationFilter#doFilter(ServletRequest, ServletResponse, FilterChain)}.
      * @throws ServletException If something goes wrong
      * @throws IOException If something goes wrong.
      */
@@ -110,7 +119,8 @@ public class TilesDecorationFilterTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
 
         expect(request.getAttribute("org.apache.tiles.decoration.PREVENT:tokenKey")).andReturn(null);
-        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext);
+        expect(servletContext.getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE))
+                .andReturn(applicationContext);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope);
         expect(applicationScope.get("key")).andReturn(container);
         expect(container.getAttributeContext(isA(ServletRequest.class))).andReturn(attributeContext);
@@ -120,11 +130,16 @@ public class TilesDecorationFilterTest {
         container.render(eq("definitionKey"), isA(ServletRequest.class));
         chain.doFilter(request, response);
 
-        replay(servletContext, request, response, chain, applicationContext, applicationScope, container, attributeContext);
+        replay(servletContext, request, response, chain, applicationContext,
+                applicationScope, container, attributeContext);
         filter.doFilter(request, response, chain);
         verify(request, response, chain, applicationContext, applicationScope, container, attributeContext);
     }
 
+    /**
+     * Internal mutator for testing.
+     *
+     */
     public static class CustomAttributeMutator implements AttributeContextMutator {
 
         @Override

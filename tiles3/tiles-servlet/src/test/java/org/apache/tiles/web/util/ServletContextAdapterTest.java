@@ -48,12 +48,24 @@ import org.junit.Test;
  */
 public class ServletContextAdapterTest {
 
+    /**
+     * The servlet configuration.
+     */
     private ServletConfig config;
 
+    /**
+     * The servlet context.
+     */
     private ServletContext servletContext;
 
+    /**
+     * First set of param names.
+     */
     private Enumeration<String> names1;
 
+    /**
+     * Second set of param names.
+     */
     private Enumeration<String> names2;
 
     /**
@@ -88,6 +100,9 @@ public class ServletContextAdapterTest {
         replay(names1, names2);
     }
 
+    /**
+     * Tears down the test.
+     */
     @After
     public void tearDown() {
         verify(config, servletContext, names1, names2);
@@ -281,7 +296,7 @@ public class ServletContextAdapterTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.web.util.ServletContextAdapter#log(java.lang.Exception, java.lang.String)}.
+     * Test method for {@link ServletContextAdapter#log(java.lang.Exception, java.lang.String)}.
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -295,7 +310,7 @@ public class ServletContextAdapterTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.web.util.ServletContextAdapter#log(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link ServletContextAdapter#log(java.lang.String, java.lang.Throwable)}.
      */
     @Test
     public void testLogStringThrowable() {
@@ -355,7 +370,7 @@ public class ServletContextAdapterTest {
         names.add("one");
         names.add("two");
         names.add("three");
-        for (Enumeration<String> enumeration = adapter.getInitParameterNames(); enumeration.hasMoreElements(); ) {
+        for (Enumeration<String> enumeration = adapter.getInitParameterNames(); enumeration.hasMoreElements();) {
             String name = enumeration.nextElement();
             assertTrue(names.remove(name));
         }
@@ -391,7 +406,7 @@ public class ServletContextAdapterTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.web.util.ServletContextAdapter#setAttribute(java.lang.String, java.lang.Object)}.
+     * Test method for {@link ServletContextAdapter#setAttribute(java.lang.String, java.lang.Object)}.
      */
     @Test
     public void testSetAttribute() {
