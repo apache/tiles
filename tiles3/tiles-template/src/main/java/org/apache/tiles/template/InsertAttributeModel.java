@@ -122,10 +122,14 @@ public class InsertAttributeModel {
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,
                 value, request);
-        composeStack.push(attribute);
+        if (attribute != null) {
+            composeStack.push(attribute);
+        }
         modelBody.evaluateWithoutWriting();
         container = TilesAccess.getCurrentContainer(request);
-        attribute = (Attribute) composeStack.pop();
+        if (attribute != null) {
+            attribute = (Attribute) composeStack.pop();
+        }
         renderAttribute(container, ignore, attribute, request);
         if (flush) {
             request.getWriter().flush();

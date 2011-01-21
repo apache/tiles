@@ -24,6 +24,8 @@ package org.apache.tiles.template;
 import static org.easymock.EasyMock.*;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +34,7 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.junit.Before;
@@ -97,4 +100,37 @@ public class InsertAttributeModelTest {
         verify(resolver, container, request, applicationContext, modelBody);
     }
 
+    /**
+     * Test method for {@link org.apache.tiles.template.InsertAttributeModel
+     * #execute(boolean, String, String, Object, String, String, String,
+     * Attribute, boolean, Request, ModelBody)} when ignore flag is set.
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testExecuteIgnore() throws IOException {
+        TilesContainer container = createMock(TilesContainer.class);
+        Request request = createMock(Request.class);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        Deque<Object> composeStack = new ArrayDeque<Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
+
+        modelBody.evaluateWithoutWriting();
+        expect(request.getApplicationContext()).andReturn(applicationContext).times(2);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
+
+        container.prepare("myPreparer", request);
+        expect(resolver.computeAttribute(container, null, "myName", "myRole", true, "myDefaultValue",
+                "myDefaultValueRole", "myDefaultValueType", request)).andReturn(null);
+        expect(container.startContext(request)).andReturn(attributeContext);
+        container.endContext(request);
+
+        replay(resolver, container, request, applicationContext, modelBody);
+        model.execute(true, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole",
+                "myDefaultValueType", "myName", null, false, request, modelBody);
+        verify(resolver, container, request, applicationContext, modelBody);
+    }
 }

@@ -106,4 +106,40 @@ public class GetAsStringModelTest {
         verify(resolver, container, writer, request, applicationContext, modelBody);
     }
 
+    /**
+     * Test method for {@link org.apache.tiles.template.GetAsStringModel
+     * #execute(boolean, java.lang.String, java.lang.String,
+     * java.lang.Object, java.lang.String, java.lang.String, java.lang.String,
+     * org.apache.tiles.Attribute, Request, ModelBody)} when ignore flag is set.
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testExecuteIgnore() throws IOException {
+        TilesContainer container = createMock(TilesContainer.class);
+        AttributeContext attributeContext = createMock(AttributeContext.class);
+        Request request = createMock(Request.class);
+        Writer writer = createMock(Writer.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        Deque<Object> composeStack = new ArrayDeque<Object>();
+        requestScope.put(ComposeStackUtil.COMPOSE_STACK_ATTRIBUTE_NAME, composeStack);
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ModelBody modelBody = createMock(ModelBody.class);
+
+        modelBody.evaluateWithoutWriting();
+        expect(request.getApplicationContext()).andReturn(applicationContext).times(2);
+        expect(request.getContext("request")).andReturn(requestScope).anyTimes();
+        expect(request.getWriter()).andReturn(writer);
+        container.prepare("myPreparer", request);
+        expect(resolver.computeAttribute(container, null, "myName", "myRole", true, "myDefaultValue",
+                "myDefaultValueRole", "myDefaultValueType", request)).andReturn(null);
+        expect(container.startContext(request)).andReturn(attributeContext);
+        container.endContext(request);
+
+        replay(resolver, container, writer, request, applicationContext, modelBody);
+        model.execute(true, "myPreparer", "myRole", "myDefaultValue", "myDefaultValueRole", "myDefaultValueType",
+                "myName", null, request, modelBody);
+        verify(resolver, container, writer, request, applicationContext, modelBody);
+    }
+
 }

@@ -106,16 +106,20 @@ public class GetAsStringModel {
             String defaultValueType, @Parameter(required = true) String name,
             Attribute value, Request request, ModelBody modelBody)
             throws IOException {
-    TilesContainer container = TilesAccess.getCurrentContainer(request);
+        TilesContainer container = TilesAccess.getCurrentContainer(request);
         Deque<Object> composeStack = ComposeStackUtil.getComposeStack(request);
         Attribute attribute = resolveAttribute(container, ignore, preparer,
                 role, defaultValue, defaultValueRole, defaultValueType, name,
                 value, request);
-        composeStack.push(attribute);
+        if (attribute != null) {
+            composeStack.push(attribute);
+        }
         modelBody.evaluateWithoutWriting();
         container = TilesAccess.getCurrentContainer(request);
         Writer writer = request.getWriter();
-        attribute = (Attribute) composeStack.pop();
+        if (attribute != null) {
+            attribute = (Attribute) composeStack.pop();
+        }
         renderAttribute(attribute, container, writer, ignore, request);
     }
 
@@ -167,10 +171,10 @@ public class GetAsStringModel {
     private void renderAttribute(Attribute attribute, TilesContainer container,
             Writer writer, boolean ignore, Request request)
             throws IOException {
-        if (attribute == null && ignore) {
-            return;
-        }
         try {
+            if (attribute == null && ignore) {
+                return;
+            }
             writer.write(attribute.getValue().toString());
         } catch (IOException e) {
             if (!ignore) {
