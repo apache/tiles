@@ -103,6 +103,28 @@ public class InsertAttributeModelTest {
 
         replay(resolver, container);
         model.end(composeStack, container, false, requestItem);
+        assertEquals(0, composeStack.size());
+        verify(resolver, container);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.template.InsertAttributeModel
+     * #end(ArrayStack, TilesContainer, boolean, Object...)} when ignore flag is set.
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testEndIgnore() throws IOException {
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        Attribute attribute = null;
+        composeStack.push(attribute);
+        TilesContainer container = createMock(TilesContainer.class);
+        Integer requestItem = new Integer(1);
+
+        container.endContext(requestItem);
+
+        replay(resolver, container);
+        model.end(composeStack, container, true, requestItem);
+        assertEquals(0, composeStack.size());
         verify(resolver, container);
     }
 

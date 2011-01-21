@@ -196,10 +196,10 @@ public class GetAsStringModel {
     private void renderAttribute(Attribute attribute, TilesContainer container,
             Writer writer, boolean ignore, Object... requestItems)
             throws IOException {
-        if (attribute == null && ignore) {
-            return;
-        }
         try {
+            if (attribute == null && ignore) {
+                return;
+            }
             writer.write(attribute.getValue().toString());
         } catch (IOException e) {
             if (!ignore) {

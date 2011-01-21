@@ -108,6 +108,30 @@ public class GetAsStringModelTest {
 
         replay(resolver, container, writer);
         model.end(composeStack, container, writer, false, requestItem);
+        assertEquals(0, composeStack.size());
+        verify(resolver, container, writer);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.template.GetAsStringModel
+     * #end(java.util.Stack, org.apache.tiles.TilesContainer, java.io.Writer,
+     * boolean, java.lang.Object[])} when ignore flag is set.
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void testEndIgnore() throws IOException {
+        ArrayStack<Object> composeStack = new ArrayStack<Object>();
+        Attribute attribute = null;
+        composeStack.push(attribute);
+        TilesContainer container = createMock(TilesContainer.class);
+        Integer requestItem = new Integer(1);
+        Writer writer = createMock(Writer.class);
+
+        container.endContext(requestItem);
+
+        replay(resolver, container, writer);
+        model.end(composeStack, container, writer, true, requestItem);
+        assertEquals(0, composeStack.size());
         verify(resolver, container, writer);
     }
 
