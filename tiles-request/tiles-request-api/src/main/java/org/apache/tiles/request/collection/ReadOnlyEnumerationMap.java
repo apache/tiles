@@ -34,21 +34,22 @@ import java.util.Set;
 import org.apache.tiles.request.attribute.HasKeys;
 
 /**
- * <p>Private implementation of <code>Map</code> for servlet request
- * name-value.</p>
+ * Wraps an {@link HasKeys} object into a read-only map.
  *
  * @version $Rev$ $Date$
+ * @param <V> The type of the values.
  */
-
 public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
 
+    /**
+     * The request.
+     */
     protected HasKeys<V> request;
 
     /**
      * Constructor.
      *
      * @param request The request object to use.
-     * @param response The response object to use.
      * @since 2.2.0
      */
     public ReadOnlyEnumerationMap(HasKeys<V> request) {
@@ -71,7 +72,7 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
     @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
         V realValue = (V) value;
-        for (Enumeration<String> keysIt = request.getKeys(); keysIt.hasMoreElements(); ) {
+        for (Enumeration<String> keysIt = request.getKeys(); keysIt.hasMoreElements();) {
             if (realValue.equals(request.getValue(keysIt.nextElement()))) {
                 return true;
             }
@@ -170,6 +171,9 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
         return retValue;
     }
 
+    /**
+     * Entry set implementation for {@link ReadOnlyEnumerationMap}.
+     */
     class ReadOnlyEnumerationMapEntrySet implements Set<Map.Entry<String, V>> {
 
         @Override
@@ -247,13 +251,24 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
             return toList().toArray(a);
         }
 
+        /**
+         * Checks whether the entry is present.
+         *
+         * @param entry The entry to check.
+         * @return <code>true</code> if the entry is present.
+         */
         protected boolean containsEntry(Map.Entry<String, V> entry) {
             V storedValue = request.getValue(key(entry.getKey()));
             return storedValue != null && storedValue.equals(entry.getValue());
         }
 
+        /**
+         * Turns this set into a list.
+         *
+         * @return The list.
+         */
         private List<Map.Entry<String, V>> toList() {
-            List<Map.Entry<String, V>> entries = new ArrayList<Map.Entry<String,V>>();
+            List<Map.Entry<String, V>> entries = new ArrayList<Map.Entry<String, V>>();
             Enumeration<String> names = request.getKeys();
             while (names.hasMoreElements()) {
                 entries.add(extractNextEntry(names));
@@ -261,6 +276,12 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
             return entries;
         }
 
+        /**
+         * Returns the next entry, given the enumeration.
+         *
+         * @param names The enumeration to get the next key from.
+         * @return The next entry.
+         */
         private MapEntry<String, V> extractNextEntry(
                 Enumeration<String> names) {
             String name = names.nextElement();
@@ -268,8 +289,14 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
                     false);
         }
 
+        /**
+         * Iterates entries of {@link ReadOnlyEnumerationMap}.
+         */
         private class ReadOnlyEnumerationMapEntrySetIterator implements Iterator<Map.Entry<String, V>> {
 
+            /**
+             * Enumerates keys.
+             */
             private Enumeration<String> namesEnumeration = request.getKeys();
 
             @Override
@@ -290,6 +317,9 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
         }
     }
 
+    /**
+     * Values collection for {@link ReadOnlyEnumerationMap}.
+     */
     private class ReadOnlyEnumerationMapValuesCollection implements Collection<V> {
 
         @Override
@@ -317,7 +347,7 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
         public boolean containsAll(Collection<?> c) {
             Collection<String> realCollection = (Collection<String>) c;
             List<String> valueList = new ArrayList<String>(realCollection);
-            for (Enumeration<String> keysEnum = request.getKeys(); keysEnum.hasMoreElements(); ) {
+            for (Enumeration<String> keysEnum = request.getKeys(); keysEnum.hasMoreElements();) {
                 valueList.remove(request.getValue(keysEnum.nextElement()));
                 if (valueList.isEmpty()) {
                     return true;
@@ -366,6 +396,11 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
             return toList().toArray(a);
         }
 
+        /**
+         * Turns this collection into a list.
+         *
+         * @return The list.
+         */
         private List<V> toList() {
             List<V> entries = new ArrayList<V>();
             Enumeration<String> names = request.getKeys();
@@ -375,9 +410,14 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
             return entries;
         }
 
-
+        /**
+         * Iterates values of {@link ReadOnlyEnumerationMap}.
+         */
         private class ReadOnlyEnumerationMapValuesCollectionIterator implements Iterator<V> {
 
+            /**
+             * Enumerates attribute keys.
+             */
             private Enumeration<String> namesEnumeration = request.getKeys();
 
             @Override

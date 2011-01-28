@@ -74,7 +74,12 @@ public class IteratorEnumeration<E> implements Enumeration<E> {
     public E nextElement() {
         return iterator.next();
     }
-    
+
+    /**
+     * Returns the original iterator.
+     *
+     * @return The enumerated iterator.
+     */
     public Iterator<E> getIterator() {
         return iterator;
     }

@@ -38,7 +38,6 @@ public interface Renderer {
      * @param path The path to render.
      * @param request The Tiles request context.
      * @throws IOException If something goes wrong during rendition.
-     * @throws RendererException If something goes wrong during rendition.
      */
     void render(String path, Request request) throws IOException;
 }

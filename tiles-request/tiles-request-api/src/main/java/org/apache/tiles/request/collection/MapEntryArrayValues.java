@@ -25,8 +25,7 @@ import java.util.Map;
 
 
 /**
- * <p>Map.Entry implementation that can be constructed to either be read-only
- * or not.</p>
+ * Multi-valued map entry.
  *
  * @version $Rev$ $Date$
  * @param <K> The key type.
@@ -35,6 +34,13 @@ import java.util.Map;
 
 public class MapEntryArrayValues<K, V> extends MapEntry<K, V[]> {
 
+    /**
+     * Constructor.
+     *
+     * @param key The key of the entry.
+     * @param value The array of values.
+     * @param modifiable If <code>true</code> the entry is modifiable.
+     */
     public MapEntryArrayValues(K key, V[] value, boolean modifiable) {
         super(key, value, modifiable);
     }

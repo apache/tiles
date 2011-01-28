@@ -35,14 +35,15 @@ import org.apache.tiles.request.attribute.EnumeratedValuesExtractor;
 
 
 /**
- * <p>Private implementation of <code>Map</code> for servlet request
- * name-values[].</p>
+ * Exposes an {@link EnumeratedValuesExtractor} object as a read-only map.
  *
  * @version $Rev$ $Date$
  */
-
 public class HeaderValuesMap implements Map<String, String[]> {
 
+    /**
+     * The request.
+     */
     private EnumeratedValuesExtractor request;
 
     /**
@@ -172,6 +173,12 @@ public class HeaderValuesMap implements Map<String, String[]> {
         return new HeaderValuesCollection();
     }
 
+    /**
+     * Extracts values enumeration of an attribute and returns the corresponding array of values.
+     *
+     * @param key The key of the attribute.
+     * @return The values of the attribute.
+     */
     private String[] getHeaderValues(String key) {
         List<String> list = new ArrayList<String>();
         Enumeration<String> values = request.getValues(key);
@@ -196,6 +203,12 @@ public class HeaderValuesMap implements Map<String, String[]> {
         return retValue;
     }
 
+    /**
+     * Transforms a string array in a string set.
+     *
+     * @param valueArray The array to convert.
+     * @return The corresponding set.
+     */
     private Set<String> array2set(String[] valueArray) {
         Set<String> values = new HashSet<String>();
         for (int i = 0; i < valueArray.length; i++) {
@@ -204,6 +217,15 @@ public class HeaderValuesMap implements Map<String, String[]> {
         return values;
     }
 
+    /**
+     * Checks if values of a header attribute are the same as the one passed in
+     * the set.
+     *
+     * @param name The name of the header.
+     * @param testSet The set of values it must contain.
+     * @return <code>true</code> if all the values, and only them, are present
+     * in the header values.
+     */
     private boolean compareHeaders(String name, Set<String> testSet) {
         Enumeration<String> values = request.getValues(name);
         boolean matched = true;
@@ -215,6 +237,9 @@ public class HeaderValuesMap implements Map<String, String[]> {
         return matched;
     }
 
+    /**
+     * Entry set implementation for {@link HeaderValuesMap}.
+     */
     private class HeadersEntrySet implements Set<Map.Entry<String, String[]>> {
 
         @Override
@@ -292,6 +317,12 @@ public class HeaderValuesMap implements Map<String, String[]> {
             return toList().toArray(a);
         }
 
+        /**
+         * Checks whether the given entry is present in the headers.
+         *
+         * @param entry The entry to check.
+         * @return <code></code> if the key and the values of the entry are present.
+         */
         private boolean containsEntry(Map.Entry<String, String[]> entry) {
             Enumeration<String> entryValues = request.getValues(key(entry.getKey()));
             String[] valueArray = entry.getValue();
@@ -304,8 +335,13 @@ public class HeaderValuesMap implements Map<String, String[]> {
             return values.isEmpty();
         }
 
+        /**
+         * Turns this entry set into a list.
+         *
+         * @return The collection, turned into a list.
+         */
         private List<Map.Entry<String, String[]>> toList() {
-            List<Map.Entry<String, String[]>> entries = new ArrayList<Map.Entry<String,String[]>>();
+            List<Map.Entry<String, String[]>> entries = new ArrayList<Map.Entry<String, String[]>>();
             Enumeration<String> names = request.getKeys();
             while (names.hasMoreElements()) {
                 entries.add(extractNextEntry(names));
@@ -313,14 +349,26 @@ public class HeaderValuesMap implements Map<String, String[]> {
             return entries;
         }
 
+        /**
+         * Returns the next entry, by getting the next element in the given enumeration.
+         *
+         * @param names The enumeration to get the next name from..
+         * @return The next map entry.
+         */
         private MapEntry<String, String[]> extractNextEntry(
                 Enumeration<String> names) {
             String name = names.nextElement();
             return new MapEntryArrayValues<String, String>(name, getHeaderValues(name), false);
         }
 
+        /**
+         * Iterates {@link HeadersEntrySet} elements.
+         */
         private class HeadersEntrySetIterator implements Iterator<Map.Entry<String, String[]>> {
 
+            /**
+             * The enumeration to use.
+             */
             private Enumeration<String> namesEnumeration = request.getKeys();
 
             @Override
@@ -341,6 +389,10 @@ public class HeaderValuesMap implements Map<String, String[]> {
         }
     }
 
+    /**
+     * It is a collection of all values of the header. Each element is an array
+     * of values of a single header.
+     */
     private class HeaderValuesCollection implements Collection<String[]> {
 
         @Override
@@ -415,6 +467,11 @@ public class HeaderValuesMap implements Map<String, String[]> {
             return toList().toArray(a);
         }
 
+        /**
+         * Turns this collection into a list.
+         *
+         * @return The list.
+         */
         private List<String[]> toList() {
             List<String[]> entries = new ArrayList<String[]>();
             Enumeration<String> names = request.getKeys();
@@ -439,8 +496,14 @@ public class HeaderValuesMap implements Map<String, String[]> {
             return list1.toArray(new String[list1.size()]);
         }
 
+        /**
+         * Iterates elements of {@link HeaderValuesCollection}.
+         */
         private class HeaderValuesCollectionIterator implements Iterator<String[]> {
 
+            /**
+             * The enumeration of the name of header attributes.
+             */
             private Enumeration<String> namesEnumeration = request.getKeys();
 
             @Override

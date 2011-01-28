@@ -19,6 +19,6 @@
  * under the License.
  */
 /**
- * Reflection utilities to get attributes.
+ * Classes to manage reflection in a centralized way for Tiles.
  */
 package org.apache.tiles.request.reflect;

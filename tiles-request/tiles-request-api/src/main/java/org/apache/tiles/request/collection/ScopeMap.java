@@ -32,14 +32,16 @@ import java.util.Set;
 import org.apache.tiles.request.attribute.AttributeExtractor;
 
 /**
- * <p>Private implementation of <code>Map</code> for servlet context
- * attributes.</p>
+ * Exposes a scope context as a <String, Object> map.
  *
  * @version $Rev$ $Date$
  */
 
 public class ScopeMap extends ReadOnlyEnumerationMap<Object> {
 
+    /**
+     * The context to read.
+     */
     private AttributeExtractor context;
 
     /**
@@ -96,6 +98,9 @@ public class ScopeMap extends ReadOnlyEnumerationMap<Object> {
         return (previous);
     }
 
+    /**
+     * Entry set implementation for {@link ScopeMap}.
+     */
     private class ScopeEntrySet extends ReadOnlyEnumerationMap<Object>.ReadOnlyEnumerationMapEntrySet {
 
         @Override
@@ -155,7 +160,7 @@ public class ScopeMap extends ReadOnlyEnumerationMap<Object> {
             Collection<Map.Entry<String, Object>> realCollection = (Collection<java.util.Map.Entry<String, Object>>) c;
             boolean retValue = false;
             Set<String> keysToRemove = new LinkedHashSet<String>();
-            for (Enumeration<String> keys = context.getKeys(); keys.hasMoreElements(); ) {
+            for (Enumeration<String> keys = context.getKeys(); keys.hasMoreElements();) {
                 String key = keys.nextElement();
                 Object value = context.getValue(key);
                 Map.Entry<String, Object> entry = new MapEntry<String, Object>(key, value, false);
@@ -164,7 +169,7 @@ public class ScopeMap extends ReadOnlyEnumerationMap<Object> {
                     keysToRemove.add(key);
                 }
             }
-            for (String key: keysToRemove) {
+            for (String key : keysToRemove) {
                 context.removeValue(key);
             }
             return retValue;

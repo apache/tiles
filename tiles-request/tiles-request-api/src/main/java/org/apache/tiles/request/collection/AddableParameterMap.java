@@ -27,22 +27,21 @@ import java.util.Set;
 import org.apache.tiles.request.attribute.HasAddableKeys;
 
 /**
- * <p>Private implementation of <code>Map</code> for servlet request
- * name-value.</p>
+ * Exposes an {@link HasAddableKeys} object as a put/get (no remove) map.
  *
  * @version $Rev$ $Date$
  */
-
 public class AddableParameterMap extends ReadOnlyEnumerationMap<String> {
 
+    /**
+     * The request.
+     */
     private HasAddableKeys<String> request;
 
     /**
      * Constructor.
      *
      * @param request The request object to use.
-     * @param response The response object to use.
-     * @since 2.2.0
      */
     public AddableParameterMap(HasAddableKeys<String> request) {
         super(request);
@@ -71,6 +70,9 @@ public class AddableParameterMap extends ReadOnlyEnumerationMap<String> {
     }
 
 
+    /**
+     * Entry set implementation for {@link AddableParameterMap}.
+     */
     private class AddableParameterEntrySet extends ReadOnlyEnumerationMap<String>.ReadOnlyEnumerationMapEntrySet {
 
         @Override
