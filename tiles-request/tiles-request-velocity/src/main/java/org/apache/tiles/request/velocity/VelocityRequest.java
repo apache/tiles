@@ -47,6 +47,9 @@ import org.apache.velocity.context.Context;
  */
 public class VelocityRequest extends AbstractViewRequest {
 
+    /**
+     * The native available scopes, in fact only "page".
+     */
     private static final String[] SCOPES = {"page"};
 
     /**
@@ -64,8 +67,21 @@ public class VelocityRequest extends AbstractViewRequest {
      */
     private Writer writer;
 
+    /**
+     * The map of the page scope.
+     */
     private Map<String, Object> pageScope;
 
+    /**
+     * Factory method to create a Velocity request.
+     *
+     * @param applicationContext The application context.
+     * @param request The request.
+     * @param response The response.
+     * @param velocityContext The Velocity context.
+     * @param writer The writer to write into.
+     * @return The request.
+     */
     public static VelocityRequest createVelocityRequest(
             ApplicationContext applicationContext, HttpServletRequest request,
             HttpServletResponse response, Context velocityContext, Writer writer) {
@@ -163,6 +179,11 @@ public class VelocityRequest extends AbstractViewRequest {
         return requestObjects;
     }
 
+    /**
+     * Returns the page scope.
+     *
+     * @return The page scope.
+     */
     public Map<String, Object> getPageScope() {
         if (pageScope == null) {
             pageScope = new VelocityScopeMap(ctx);

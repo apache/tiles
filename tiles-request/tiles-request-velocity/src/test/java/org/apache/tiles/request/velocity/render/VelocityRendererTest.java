@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.request.render.CannotRenderException;
 import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.apache.tiles.request.servlet.ServletRequest;
-import org.apache.tiles.request.velocity.render.VelocityRenderer;
 import org.apache.velocity.Template;
 import org.apache.velocity.tools.view.VelocityView;
 import org.apache.velocity.tools.view.ViewToolContext;
@@ -77,7 +76,7 @@ public class VelocityRendererTest {
      * Tests {@link VelocityRenderer#render(String, org.apache.tiles.request.Request)}.
      * @throws IOException If something goes wrong.
      */
-    @Test(expected=CannotRenderException.class)
+    @Test(expected = CannotRenderException.class)
     public void testRenderException() throws IOException {
         VelocityView view = createMock(VelocityView.class);
         ServletRequest request = createMock(ServletRequest.class);

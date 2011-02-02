@@ -49,6 +49,11 @@ public class VelocityRenderer implements TypeDetectingRenderer {
      */
     private VelocityView velocityView;
 
+    /**
+     * Constructor.
+     *
+     * @param velocityView The Velocity view manager.
+     */
     public VelocityRenderer(VelocityView velocityView) {
         this.velocityView = velocityView;
     }

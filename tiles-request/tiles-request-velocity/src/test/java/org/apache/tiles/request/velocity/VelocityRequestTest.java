@@ -73,9 +73,7 @@ public class VelocityRequestTest {
 
     /**
      * Tests {@link VelocityRequest
-     * #createVelocityRequest(org.apache.tiles.request.ApplicationContext, HttpServletRequest, HttpServletResponse, Context, java.io.Writer)}.
-     * @throws IOException If something goes wrong.
-     * @throws ServletException If something goes wrong.
+     * #createVelocityRequest(ApplicationContext, HttpServletRequest, HttpServletResponse, Context, Writer)}.
      */
     @Test
     public void testCreateVelocityRequest() {
@@ -84,7 +82,8 @@ public class VelocityRequestTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         replay(velocityContext, httpRequest, response, applicationContext);
-        context = VelocityRequest.createVelocityRequest(applicationContext, httpRequest, response, velocityContext, writer);
+        context = VelocityRequest.createVelocityRequest(applicationContext,
+                httpRequest, response, velocityContext, writer);
         ServletRequest servletRequest = (ServletRequest) context.getWrappedRequest();
         assertEquals(httpRequest, servletRequest.getRequest());
         assertEquals(response, servletRequest.getResponse());
@@ -134,9 +133,8 @@ public class VelocityRequestTest {
      * Tests {@link VelocityRequest#doInclude(String)}.
      *
      * @throws IOException If something goes wrong.
-     * @throws ServletException If something goes wrong.
      */
-    @Test(expected=IOException.class)
+    @Test(expected = IOException.class)
     public void testDoIncludeNoRequestDispatcher() throws IOException {
         String path = "this way";
         Request enclosedRequest = createMock(Request.class);
@@ -161,7 +159,7 @@ public class VelocityRequestTest {
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
-    @Test(expected=IOException.class)
+    @Test(expected = IOException.class)
     public void testDoIncludeServletException() throws IOException, ServletException {
         String path = "this way";
         Request enclosedRequest = createMock(Request.class);
@@ -185,8 +183,6 @@ public class VelocityRequestTest {
 
     /**
      * Tests {@link VelocityRequest#getPrintWriter()}.
-     *
-     * @throws IOException If something goes wrong.
      */
     @Test
     public void testGetPrintWriter() {
@@ -200,8 +196,6 @@ public class VelocityRequestTest {
 
     /**
      * Tests {@link VelocityRequest#getPrintWriter()}.
-     *
-     * @throws IOException If something goes wrong.
      */
     @Test
     public void testGetPrintWriterPrintWriter() {
@@ -216,10 +210,8 @@ public class VelocityRequestTest {
 
     /**
      * Tests {@link VelocityRequest#getPrintWriter()}.
-     *
-     * @throws IOException If something goes wrong.
      */
-    @Test(expected=IllegalStateException.class)
+    @Test(expected = IllegalStateException.class)
     public void testGetPrintWriterNoWriter() {
         Request enclosedRequest = createMock(Request.class);
 
@@ -231,8 +223,6 @@ public class VelocityRequestTest {
 
     /**
      * Tests {@link VelocityRequest#getWriter()}.
-     *
-     * @throws IOException If something goes wrong.
      */
     @Test
     public void testGetWriter() {
@@ -246,10 +236,8 @@ public class VelocityRequestTest {
 
     /**
      * Tests {@link VelocityRequest#getWriter()}.
-     *
-     * @throws IOException If something goes wrong.
      */
-    @Test(expected=IllegalStateException.class)
+    @Test(expected = IllegalStateException.class)
     public void testGetWriterNoWriter() {
         Request enclosedRequest = createMock(Request.class);
 
@@ -261,8 +249,6 @@ public class VelocityRequestTest {
 
     /**
      * Tests {@link VelocityRequest#getRequestObjects()}.
-     * @throws IOException If something goes wrong.
-     * @throws ServletException If something goes wrong.
      */
     @Test
     public void testGetRequestObjects() {
@@ -284,8 +270,6 @@ public class VelocityRequestTest {
 
     /**
      * Tests {@link VelocityRequest#getRequestObjects()}.
-     * @throws IOException If something goes wrong.
-     * @throws ServletException If something goes wrong.
      */
     @Test
     public void testGetRequestObjectsNoWriter() {
