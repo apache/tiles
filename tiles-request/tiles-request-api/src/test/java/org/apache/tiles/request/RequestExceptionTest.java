@@ -64,7 +64,7 @@ public class RequestExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.RequestException#RequestException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link RequestException#RequestException(String, Throwable)}.
      */
     @Test
     public void testRequestExceptionStringThrowable() {

@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.render.StringRenderer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -70,8 +69,6 @@ public class StringRendererTest {
     /**
      * Tests
      * {@link StringRenderer#isRenderable(String, Request)}.
-     *
-     * @throws IOException If something goes wrong.
      */
     @Test
     public void testIsRenderable() {

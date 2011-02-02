@@ -43,7 +43,7 @@ public class NoSuchScopeExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.NoSuchScopeException#NoSuchScopeException(java.lang.String)}.
+     * Test method for {@link NoSuchScopeException#NoSuchScopeException(String)}.
      */
     @Test
     public void testNoSuchScopeExceptionString() {
@@ -53,7 +53,7 @@ public class NoSuchScopeExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.NoSuchScopeException#NoSuchScopeException(java.lang.Throwable)}.
+     * Test method for {@link NoSuchScopeException#NoSuchScopeException(Throwable)}.
      */
     @Test
     public void testNoSuchScopeExceptionThrowable() {
@@ -64,7 +64,7 @@ public class NoSuchScopeExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.NoSuchScopeException#NoSuchScopeException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link NoSuchScopeException#NoSuchScopeException(String, Throwable)}.
      */
     @Test
     public void testNoSuchScopeExceptionStringThrowable() {

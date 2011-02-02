@@ -1,5 +1,22 @@
-/**
+/*
+ * $Id$
  *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.tiles.request.scope;
 
@@ -19,20 +36,38 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link ReflectionContextResolver}
+ * Tests {@link ReflectionContextResolver}.
  *
  * @version $Rev$ $Date$
  */
 public class ReflectionContextResolverTest {
 
+    /**
+     * The scopes.
+     */
     private static final String [] SCOPES = new String[] {"one", "two", "three"};
 
+    /**
+     * The resolver to test.
+     */
     private ReflectionContextResolver resolver;
 
+    /**
+     * One scope.
+     */
     private Map<String, Object> oneScope;
+    /**
+     * Two scope.
+     */
     private Map<String, Object> twoScope;
+    /**
+     * Three scope.
+     */
     private Map<String, Object> threeScope;
 
+    /**
+     * The request.
+     */
     private Request request;
 
     /**
@@ -49,7 +84,7 @@ public class ReflectionContextResolverTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
+     * Test method for {@link ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
      */
     @Test
     public void testGetContext() {
@@ -61,7 +96,7 @@ public class ReflectionContextResolverTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
+     * Test method for {@link ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
      */
     @Test
     public void testGetContextWrapped() {
@@ -74,31 +109,31 @@ public class ReflectionContextResolverTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
+     * Test method for {@link ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
      */
-    @Test(expected=NoSuchScopeException.class)
+    @Test(expected = NoSuchScopeException.class)
     public void testGetContextException() {
         resolver.getContext(request, "none");
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
+     * Test method for {@link ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
      */
-    @Test(expected=NoSuchScopeException.class)
+    @Test(expected = NoSuchScopeException.class)
     public void testGetContextException2() {
         resolver.getContext(request, "private");
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
+     * Test method for {@link ReflectionContextResolver#getContext(org.apache.tiles.request.Request, java.lang.String)}.
      */
-    @Test(expected=NoSuchScopeException.class)
+    @Test(expected = NoSuchScopeException.class)
     public void testGetContextException3() {
         resolver.getContext(request, "unavailable");
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getAvailableScopes(org.apache.tiles.request.Request)}.
+     * Test method for {@link ReflectionContextResolver#getAvailableScopes(org.apache.tiles.request.Request)}.
      */
     @Test
     public void testGetAvailableScopes() {
@@ -108,7 +143,7 @@ public class ReflectionContextResolverTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.scope.ReflectionContextResolver#getAvailableScopes(org.apache.tiles.request.Request)}.
+     * Test method for {@link ReflectionContextResolver#getAvailableScopes(org.apache.tiles.request.Request)}.
      */
     @Test
     public void testGetAvailableScopesWrapped() {
@@ -118,12 +153,28 @@ public class ReflectionContextResolverTest {
         verify(oneScope, twoScope, threeScope);
     }
 
+    /**
+     * A sample request.
+     */
     public static class SampleRequest implements Request {
 
+        /**
+         * The scopes.
+         */
         private static final String [] SCOPES = new String[] {"one", "two", "three"};
 
+        /**
+         * The scope maps.
+         */
         private Map<String, Object> oneScope, twoScope, threeScope;
 
+        /**
+         * Constructor.
+         *
+         * @param oneScope Scope one.
+         * @param twoScope Scope two.
+         * @param threeScope Scope three.
+         */
         public SampleRequest(Map<String, Object> oneScope,
                 Map<String, Object> twoScope, Map<String, Object> threeScope) {
             this.oneScope = oneScope;
@@ -141,23 +192,48 @@ public class ReflectionContextResolverTest {
             return SCOPES;
         }
 
+        /**
+         * Returns one scope.
+         *
+         * @return One scope.
+         */
         public Map<String, Object> getOneScope() {
             return oneScope;
         }
 
+        /**
+         * Returns two scope.
+         *
+         * @return Two scope.
+         */
         public Map<String, Object> getTwoScope() {
             return twoScope;
         }
 
+        /**
+         * Returns three scope.
+         *
+         * @return Three scope.
+         */
         public Map<String, Object> getThreeScope() {
             return threeScope;
         }
 
+        /**
+         * Returns a private scope.
+         *
+         * @return A private, unused, scope.
+         */
         @SuppressWarnings("unused")
         private Map<String, Object> getPrivateScope() {
             return null;
         }
 
+        /**
+         * Returns an unavailable scope.
+         *
+         * @return The unavailable scope, raising exception.
+         */
         public Map<String, Object> getUnavailableScope() {
             throw new UnsupportedOperationException("No way!");
         }

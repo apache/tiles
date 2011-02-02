@@ -27,8 +27,6 @@ import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.request.reflect.CannotInstantiateObjectException;
-import org.apache.tiles.request.reflect.ClassUtil;
 import org.junit.Test;
 
 /**
@@ -44,7 +42,7 @@ public class ClassUtilTest {
     private static final int MAP_SIZE = 3;
 
     /**
-     * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#collectBeanInfo(java.lang.Class, java.util.Map)}.
+     * Test method for {@link ClassUtil#collectBeanInfo(Class, Map)}.
      */
     @Test
     public void testCollectBeanInfo() {
@@ -82,14 +80,13 @@ public class ClassUtilTest {
      * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#getClass(String, Class)}.
      * @throws ClassNotFoundException If something goes wrong.
      */
-    @Test(expected=ClassNotFoundException.class)
+    @Test(expected = ClassNotFoundException.class)
     public void testGetClassException() throws ClassNotFoundException {
         ClassUtil.getClass("this.class.does.not.Exist", Object.class);
     }
 
     /**
      * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String, boolean)}.
-     * @throws ClassNotFoundException If something goes wrong.
      */
     @Test
     public void testInstantiate() {
@@ -99,7 +96,6 @@ public class ClassUtilTest {
 
     /**
      * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String, boolean)}.
-     * @throws ClassNotFoundException If something goes wrong.
      */
     @Test
     public void testInstantiateOneParameter() {
@@ -108,27 +104,24 @@ public class ClassUtilTest {
 
     /**
      * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String)}.
-     * @throws ClassNotFoundException If something goes wrong.
      */
-    @Test(expected=CannotInstantiateObjectException.class)
+    @Test(expected = CannotInstantiateObjectException.class)
     public void testInstantiateOneParameterException() {
         assertNotNull(ClassUtil.instantiate("this.class.does.not.Exist"));
     }
 
     /**
      * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String)}.
-     * @throws ClassNotFoundException If something goes wrong.
      */
-    @Test(expected=CannotInstantiateObjectException.class)
+    @Test(expected = CannotInstantiateObjectException.class)
     public void testInstantiateInstantiationException() {
         ClassUtil.instantiate(TestInterface.class.getName());
     }
 
     /**
      * Test method for {@link org.apache.tiles.request.reflect.ClassUtil#instantiate(String)}.
-     * @throws ClassNotFoundException If something goes wrong.
      */
-    @Test(expected=CannotInstantiateObjectException.class)
+    @Test(expected = CannotInstantiateObjectException.class)
     public void testInstantiateIllegalAccessException() {
         ClassUtil.instantiate(TestPrivateClass.class.getName());
     }
@@ -169,9 +162,15 @@ public class ClassUtilTest {
         void setValue3(String value3);
     }
 
+    /**
+     * A test static class.
+     */
     public static class TestClass {
     }
 
+    /**
+     * A test static private class.
+     */
     private static class TestPrivateClass {
     }
 }

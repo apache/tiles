@@ -82,7 +82,7 @@ public class BasicRendererFactoryTest {
      * Tests execution and
      * {@link BasicRendererFactory#getRenderer(String)}.
      */
-    @Test(expected=NoSuchRendererException.class)
+    @Test(expected = NoSuchRendererException.class)
     public void testGetRendererException() {
         Renderer renderer1 = createMock(Renderer.class);
         Renderer renderer2 = createMock(Renderer.class);

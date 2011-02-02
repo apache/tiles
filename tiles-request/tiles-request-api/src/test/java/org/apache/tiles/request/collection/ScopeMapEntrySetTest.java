@@ -1,3 +1,23 @@
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.apache.tiles.request.collection;
 
 
@@ -16,16 +36,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link ScopeMap#entrySet()}
+ * Tests {@link ScopeMap#entrySet()}.
  *
  * @version $Rev$ $Date$
  */
 public class ScopeMapEntrySetTest {
 
+    /**
+     * The map to test.
+     */
     private ScopeMap map;
 
+    /**
+     * The extractor to use.
+     */
     private AttributeExtractor extractor;
 
+    /**
+     * The entry set to test.
+     */
     private Set<Map.Entry<String, Object>> entrySet;
 
     /**
@@ -39,7 +68,7 @@ public class ScopeMapEntrySetTest {
     }
 
     /**
-     * Tests {@link Set#add(Object)}
+     * Tests {@link Set#add(Object)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -58,7 +87,7 @@ public class ScopeMapEntrySetTest {
     }
 
     /**
-     * Tests {@link Set#add(Object)}
+     * Tests {@link Set#add(Object)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -75,7 +104,7 @@ public class ScopeMapEntrySetTest {
     }
 
     /**
-     * Tests {@link Set#addAll(java.util.Collection)}
+     * Tests {@link Set#addAll(java.util.Collection)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -94,7 +123,7 @@ public class ScopeMapEntrySetTest {
         extractor.setValue("two", 2);
 
         replay(extractor, entry1, entry2);
-        List<Map.Entry<String, Object>> coll = new ArrayList<Map.Entry<String,Object>>();
+        List<Map.Entry<String, Object>> coll = new ArrayList<Map.Entry<String, Object>>();
         coll.add(entry1);
         coll.add(entry2);
         assertTrue(entrySet.addAll(coll));
@@ -125,7 +154,7 @@ public class ScopeMapEntrySetTest {
     }
 
     /**
-     * Tests {@link Set#remove(Object)}
+     * Tests {@link Set#remove(Object)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -143,7 +172,7 @@ public class ScopeMapEntrySetTest {
     }
 
     /**
-     * Tests {@link Set#remove(Object)}
+     * Tests {@link Set#remove(Object)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -159,7 +188,7 @@ public class ScopeMapEntrySetTest {
     }
 
     /**
-     * Tests {@link Set#addAll(java.util.Collection)}
+     * Tests {@link Set#addAll(java.util.Collection)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -177,7 +206,7 @@ public class ScopeMapEntrySetTest {
         extractor.removeValue("two");
 
         replay(extractor, entry1, entry2);
-        List<Map.Entry<String, Object>> coll = new ArrayList<Map.Entry<String,Object>>();
+        List<Map.Entry<String, Object>> coll = new ArrayList<Map.Entry<String, Object>>();
         coll.add(entry1);
         coll.add(entry2);
         assertTrue(entrySet.removeAll(coll));
@@ -185,7 +214,7 @@ public class ScopeMapEntrySetTest {
     }
 
     /**
-     * Tests {@link Set#addAll(java.util.Collection)}
+     * Tests {@link Set#addAll(java.util.Collection)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -211,7 +240,7 @@ public class ScopeMapEntrySetTest {
         extractor.removeValue("three");
 
         replay(extractor, keys);
-        List<Map.Entry<String, Object>> coll = new ArrayList<Map.Entry<String,Object>>();
+        List<Map.Entry<String, Object>> coll = new ArrayList<Map.Entry<String, Object>>();
         coll.add(entry1);
         coll.add(entry2);
         assertTrue(entrySet.retainAll(coll));

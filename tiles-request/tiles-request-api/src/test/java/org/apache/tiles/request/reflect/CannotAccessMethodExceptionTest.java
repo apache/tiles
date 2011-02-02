@@ -23,7 +23,6 @@ package org.apache.tiles.request.reflect;
 
 import static org.junit.Assert.*;
 
-import org.apache.tiles.request.reflect.CannotAccessMethodException;
 import org.junit.Test;
 
 /**
@@ -44,7 +43,7 @@ public class CannotAccessMethodExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.CannotAccessMethodException#CannotAccessMethodException(java.lang.String)}.
+     * Test method for {@link CannotAccessMethodException#CannotAccessMethodException(String)}.
      */
     @Test
     public void testCannotAccessMethodExceptionString() {
@@ -54,7 +53,7 @@ public class CannotAccessMethodExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.CannotAccessMethodException#CannotAccessMethodException(java.lang.Throwable)}.
+     * Test method for {@link CannotAccessMethodException#CannotAccessMethodException(Throwable)}.
      */
     @Test
     public void testCannotAccessMethodExceptionThrowable() {
@@ -65,7 +64,7 @@ public class CannotAccessMethodExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.CannotAccessMethodException#CannotAccessMethodException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link CannotAccessMethodException#CannotAccessMethodException(String, Throwable)}.
      */
     @Test
     public void testCannotAccessMethodExceptionStringThrowable() {

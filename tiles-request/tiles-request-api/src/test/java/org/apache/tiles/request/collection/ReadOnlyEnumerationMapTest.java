@@ -1,5 +1,22 @@
-/**
+/*
+ * $Id$
  *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.tiles.request.collection;
 
@@ -21,8 +38,14 @@ import org.junit.Test;
  */
 public class ReadOnlyEnumerationMapTest {
 
+    /**
+     * The extractor to use.
+     */
     private HasKeys<Integer> extractor;
 
+    /**
+     * The map to test.
+     */
     private ReadOnlyEnumerationMap<Integer> map;
 
     /**
@@ -38,7 +61,7 @@ public class ReadOnlyEnumerationMapTest {
     /**
      * Test method for {@link org.apache.tiles.request.collection.ReadOnlyEnumerationMap#clear()}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testClear() {
         map.clear();
     }
@@ -58,7 +81,7 @@ public class ReadOnlyEnumerationMapTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.collection.ReadOnlyEnumerationMap#containsValue(java.lang.Object)}.
+     * Test method for {@link ReadOnlyEnumerationMap#containsValue(Object)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -80,7 +103,7 @@ public class ReadOnlyEnumerationMapTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.collection.ReadOnlyEnumerationMap#containsValue(java.lang.Object)}.
+     * Test method for {@link ReadOnlyEnumerationMap#containsValue(Object)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -157,9 +180,9 @@ public class ReadOnlyEnumerationMapTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.collection.ReadOnlyEnumerationMap#put(java.lang.String, java.lang.String[])}.
+     * Test method for {@link ReadOnlyEnumerationMap#put(String, String[])}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testPut() {
         map.put("one", 1);
     }
@@ -167,7 +190,7 @@ public class ReadOnlyEnumerationMapTest {
     /**
      * Test method for {@link org.apache.tiles.request.collection.ReadOnlyEnumerationMap#putAll(java.util.Map)}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testPutAll() {
         map.putAll(new HashMap<String, Integer>());
     }
@@ -175,7 +198,7 @@ public class ReadOnlyEnumerationMapTest {
     /**
      * Test method for {@link org.apache.tiles.request.collection.ReadOnlyEnumerationMap#remove(java.lang.Object)}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testRemove() {
         map.remove("one");
     }

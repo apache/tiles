@@ -68,7 +68,7 @@ public class DispatchRendererTest {
      *
      * @throws IOException If something goes wrong during rendition.
      */
-    @Test(expected=CannotRenderException.class)
+    @Test(expected = CannotRenderException.class)
     public void testWriteNull() throws IOException {
         Request requestContext = createMock(Request.class);
         replay(requestContext);
@@ -79,8 +79,6 @@ public class DispatchRendererTest {
     /**
      * Tests
      * {@link DispatchRenderer#isRenderable(String, Request)}.
-     *
-     * @throws IOException If something goes wrong during rendition.
      */
     @Test
     public void testIsRenderable() {

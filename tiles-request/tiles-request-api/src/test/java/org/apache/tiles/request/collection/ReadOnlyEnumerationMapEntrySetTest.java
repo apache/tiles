@@ -1,3 +1,23 @@
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.apache.tiles.request.collection;
 
 import static org.easymock.EasyMock.*;
@@ -16,15 +36,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests {@link ReadOnlyEnumerationMap#entrySet()}
+ * Tests {@link ReadOnlyEnumerationMap#entrySet()}.
  *
  * @version $Rev$ $Date$
  */
 public class ReadOnlyEnumerationMapEntrySetTest {
+
+    /**
+     * The extractor to use.
+     */
     private HasKeys<Integer> extractor;
 
+    /**
+     * The map to test.
+     */
     private ReadOnlyEnumerationMap<Integer> map;
 
+    /**
+     * The set to test.
+     */
     private Set<Map.Entry<String, Integer>> entrySet;
 
     /**
@@ -41,7 +71,7 @@ public class ReadOnlyEnumerationMapEntrySetTest {
     /**
      * Tests {@link Set#add(Object)}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testAdd() {
         entrySet.add(null);
     }
@@ -49,7 +79,7 @@ public class ReadOnlyEnumerationMapEntrySetTest {
     /**
      * Tests {@link Set#addAll(Object)}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testAddAll() {
         entrySet.addAll(null);
     }
@@ -57,7 +87,7 @@ public class ReadOnlyEnumerationMapEntrySetTest {
     /**
      * Tests {@link Set#clear(Object)}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testClear() {
         entrySet.clear();
     }
@@ -120,7 +150,7 @@ public class ReadOnlyEnumerationMapEntrySetTest {
         expect(extractor.getValue("one")).andReturn(1);
 
         replay(extractor, entry1);
-        List<Map.Entry<String, String>> coll = new ArrayList<Map.Entry<String,String>>();
+        List<Map.Entry<String, String>> coll = new ArrayList<Map.Entry<String, String>>();
         coll.add(entry1);
         assertFalse(entrySet.containsAll(coll));
         verify(extractor, entry1);
@@ -169,7 +199,7 @@ public class ReadOnlyEnumerationMapEntrySetTest {
      * Test method for {@link Set#iterator()}.
      */
     @SuppressWarnings("unchecked")
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testIteratorRemove() {
         Enumeration<String> keys = createMock(Enumeration.class);
 
@@ -186,23 +216,23 @@ public class ReadOnlyEnumerationMapEntrySetTest {
     /**
      * Tests {@link Set#remove(Object)}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testRemove() {
         entrySet.remove(null);
     }
 
     /**
-     * Tests {@link Set#removeAll(java.util.Collection)}
+     * Tests {@link Set#removeAll(java.util.Collection)}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testRemoveAll() {
         entrySet.removeAll(null);
     }
 
     /**
-     * Tests {@link Set#retainAll(java.util.Collection)}
+     * Tests {@link Set#retainAll(java.util.Collection)}.
      */
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testRetainAll() {
         entrySet.retainAll(null);
     }

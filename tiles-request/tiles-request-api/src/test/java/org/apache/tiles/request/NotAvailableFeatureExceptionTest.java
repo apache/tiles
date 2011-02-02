@@ -43,7 +43,7 @@ public class NotAvailableFeatureExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.NotAvailableFeatureException#NotAvailableFeatureException(java.lang.String)}.
+     * Test method for {@link NotAvailableFeatureException#NotAvailableFeatureException(String)}.
      */
     @Test
     public void testNotAvailableFeatureExceptionString() {
@@ -53,7 +53,7 @@ public class NotAvailableFeatureExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.NotAvailableFeatureException#NotAvailableFeatureException(java.lang.Throwable)}.
+     * Test method for {@link NotAvailableFeatureException#NotAvailableFeatureException(Throwable)}.
      */
     @Test
     public void testNotAvailableFeatureExceptionThrowable() {
@@ -64,7 +64,7 @@ public class NotAvailableFeatureExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.NotAvailableFeatureException#NotAvailableFeatureException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link NotAvailableFeatureException#NotAvailableFeatureException(String, Throwable)}.
      */
     @Test
     public void testNotAvailableFeatureExceptionStringThrowable() {

@@ -21,10 +21,8 @@
 
 package org.apache.tiles.request.reflect;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
-import org.apache.tiles.request.reflect.CannotInstantiateObjectException;
 import org.junit.Test;
 
 /**
@@ -45,7 +43,7 @@ public class CannotInstantiateObjectExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.CannotInstantiateObjectException#CannotInstantiateObjectException(java.lang.String)}.
+     * Test method for {@link CannotInstantiateObjectException#CannotInstantiateObjectException(String)}.
      */
     @Test
     public void testCannotInstantiateObjectExceptionString() {
@@ -55,7 +53,7 @@ public class CannotInstantiateObjectExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.CannotInstantiateObjectException#CannotInstantiateObjectException(java.lang.Throwable)}.
+     * Test method for {@link CannotInstantiateObjectException#CannotInstantiateObjectException(Throwable)}.
      */
     @Test
     public void testCannotInstantiateObjectExceptionThrowable() {
@@ -66,7 +64,7 @@ public class CannotInstantiateObjectExceptionTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.CannotInstantiateObjectException#CannotInstantiateObjectException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link CannotInstantiateObjectException#CannotInstantiateObjectException(String, Throwable)}.
      */
     @Test
     public void testCannotInstantiateObjectExceptionStringThrowable() {

@@ -26,9 +26,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.render.CannotRenderException;
-import org.apache.tiles.request.render.ChainedDelegateRenderer;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +73,7 @@ public class ChainedDelegateRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(String, Request)}
      * writing a definition.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -100,12 +97,12 @@ public class ChainedDelegateRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(String, Request)}
      * writing a definition.
      *
      * @throws IOException If something goes wrong during rendition.
      */
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testWriteNull() throws IOException {
         StringWriter writer = new StringWriter();
         Request requestContext = EasyMock
@@ -124,12 +121,12 @@ public class ChainedDelegateRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(String, Request)}
      * writing a definition.
      *
      * @throws IOException If something goes wrong during rendition.
      */
-    @Test(expected=CannotRenderException.class)
+    @Test(expected = CannotRenderException.class)
     public void testWriteNotRenderable() throws IOException {
         StringWriter writer = new StringWriter();
         Request requestContext = EasyMock
@@ -141,7 +138,7 @@ public class ChainedDelegateRendererTest {
         expect(
                 templateRenderer.isRenderable("Result",
                         requestContext)).andReturn(Boolean.FALSE);
-        expect(stringRenderer.isRenderable("Result",requestContext))
+        expect(stringRenderer.isRenderable("Result", requestContext))
                 .andReturn(Boolean.FALSE);
 
         replay(requestContext, stringRenderer, templateRenderer,
@@ -157,7 +154,7 @@ public class ChainedDelegateRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(String, Request)}
      * writing a string.
      *
      * @throws IOException If something goes wrong during rendition.
@@ -186,7 +183,7 @@ public class ChainedDelegateRendererTest {
 
     /**
      * Tests
-     * {@link ChainedDelegateRenderer#render(Attribute, Request)}
+     * {@link ChainedDelegateRenderer#render(String, Request)}
      * writing a template.
      *
      * @throws IOException If something goes wrong during rendition.
