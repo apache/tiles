@@ -40,6 +40,12 @@ import org.apache.tiles.request.util.RequestWrapper;
 public final class ServletUtil {
 
     /**
+     * Constructor.
+     */
+    private ServletUtil() {
+    }
+
+    /**
      * Wraps a ServletException to create an IOException with the root cause if present.
      *
      * @param ex The exception to wrap.
@@ -62,6 +68,14 @@ public final class ServletUtil {
         return retValue;
     }
 
+    /**
+     * Returns the application context getting it from the servlet context. It must be
+     * first saved creating a {@link ServletApplicationContext} and using
+     * {@link ApplicationAccess#register(ApplicationContext)}.
+     *
+     * @param servletContext The servlet context.
+     * @return The application context, if found, <code>null</code> otherwise.
+     */
     public static ApplicationContext getApplicationContext(ServletContext servletContext) {
         return (ApplicationContext) servletContext
                 .getAttribute(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE);
@@ -82,7 +96,7 @@ public final class ServletUtil {
             if (currentRequest == null) {
                 throw new NotAServletEnvironmentException("Last Tiles request context is null");
             }
-    
+
             if (currentRequest instanceof ServletRequest) {
                 return (ServletRequest) currentRequest;
             }
@@ -106,7 +120,7 @@ public final class ServletUtil {
         if (applicationContext instanceof ServletApplicationContext) {
             return (ServletContext) ((ServletApplicationContext) applicationContext).getContext();
         }
-    
+
         throw new NotAServletEnvironmentException("Not a Servlet-based environment");
     }
 }

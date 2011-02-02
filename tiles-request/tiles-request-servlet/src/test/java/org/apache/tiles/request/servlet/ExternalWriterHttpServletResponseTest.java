@@ -21,17 +21,15 @@
 
 package org.apache.tiles.request.servlet;
 
-import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.junit.Test;
 
 /**
@@ -41,7 +39,6 @@ public class ExternalWriterHttpServletResponseTest {
 
     /**
      * Test method for {@link org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse#getWriter()}.
-     * @throws IOException If something goes wrong.
      */
     @Test
     public void testGetWriter() {

@@ -50,6 +50,9 @@ import org.apache.tiles.request.servlet.extractor.SessionScopeExtractor;
  */
 public class ServletRequest extends AbstractClientRequest {
 
+    /**
+     * The native available scopes: request, session and application.
+     */
     private static final String[] SCOPES = {"request", "session", "application"};
 
     /**

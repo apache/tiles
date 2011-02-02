@@ -1,5 +1,22 @@
-/**
+/*
+ * $Id$
  *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.tiles.request.servlet;
 
@@ -33,12 +50,24 @@ import org.junit.Test;
  */
 public class ServletRequestTest {
 
+    /**
+     * The application context.
+     */
     private ApplicationContext applicationContext;
 
+    /**
+     * The request.
+     */
     private HttpServletRequest request;
 
+    /**
+     * The response.
+     */
     private HttpServletResponse response;
 
+    /**
+     * The request to test.
+     */
     private ServletRequest req;
 
     /**
@@ -73,9 +102,8 @@ public class ServletRequestTest {
     /**
      * Test method for {@link org.apache.tiles.request.servlet.ServletRequest#doForward(java.lang.String)}.
      * @throws IOException If something goes wrong.
-     * @throws ServletException If something goes wrong.
      */
-    @Test(expected=IOException.class)
+    @Test(expected = IOException.class)
     public void testDoForwardNoDispatcher() throws IOException {
         expect(response.isCommitted()).andReturn(false);
         expect(request.getRequestDispatcher("/my/path")).andReturn(null);
@@ -93,7 +121,7 @@ public class ServletRequestTest {
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
-    @Test(expected=IOException.class)
+    @Test(expected = IOException.class)
     public void testDoForwardServletException() throws ServletException, IOException {
         RequestDispatcher rd = createMock(RequestDispatcher.class);
 
@@ -149,7 +177,7 @@ public class ServletRequestTest {
      * Test method for {@link org.apache.tiles.request.servlet.ServletRequest#doInclude(java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
-    @Test(expected=IOException.class)
+    @Test(expected = IOException.class)
     public void testDoIncludeNoDispatcher() throws IOException {
         expect(request.getRequestDispatcher("/my/path")).andReturn(null);
 
@@ -166,7 +194,7 @@ public class ServletRequestTest {
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
-    @Test(expected=IOException.class)
+    @Test(expected = IOException.class)
     public void testDoIncludeServletException() throws IOException, ServletException {
         RequestDispatcher rd = createMock(RequestDispatcher.class);
 
@@ -201,7 +229,6 @@ public class ServletRequestTest {
     /**
      * Test method for {@link org.apache.tiles.request.servlet.ServletRequest#getParam()}.
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testGetParam() {
         assertTrue(req.getParam() instanceof ReadOnlyEnumerationMap);

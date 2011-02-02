@@ -64,7 +64,7 @@ public class NotAServletEnvironmentExceptionTest {
     }
 
     /**
-     * Test method for {@link NotAServletEnvironmentException#NotAServletEnvironmentException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link NotAServletEnvironmentException#NotAServletEnvironmentException(String, Throwable)}.
      */
     @Test
     public void testNotAServletEnvironmentExceptionStringThrowable() {
