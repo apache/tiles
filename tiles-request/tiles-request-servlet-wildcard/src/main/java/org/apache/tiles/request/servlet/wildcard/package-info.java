@@ -1,6 +1,5 @@
-<!--
 /*
- * $Id$
+ * $Id: package-info.java 1049711 2010-12-15 21:12:00Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,14 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles servlet-specific context package with wildcard support</title>
-</head>
-<body>
-Classes and interfaces that allow to access the various contexts from a servlet
-application. These classes can manage resource getting through the use of
-Spring-like wildcards patterns.
-</body>
-</html>
+/**
+ * Classes and interfaces that allow to access the various contexts from a servlet
+ * application. These classes can manage resource getting through the use of
+ * Spring-like wildcards patterns.
+ */
+package org.apache.tiles.request.servlet.wildcard;
