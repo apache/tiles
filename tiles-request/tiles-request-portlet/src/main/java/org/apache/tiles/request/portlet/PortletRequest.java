@@ -51,6 +51,9 @@ import org.apache.tiles.request.portlet.extractor.SessionScopeExtractor;
  */
 public class PortletRequest extends AbstractClientRequest {
 
+    /**
+     * The native available scopes.
+     */
     private static final String[] SCOPES = {"request", "portletSession", "session", "application"};
 
     /**
@@ -76,6 +79,9 @@ public class PortletRequest extends AbstractClientRequest {
      */
     protected javax.portlet.PortletRequest request = null;
 
+    /**
+     * The delegate to get information about parameters.
+     */
     protected RequestDelegate requestDelegate;
 
 
@@ -91,6 +97,9 @@ public class PortletRequest extends AbstractClientRequest {
      */
     protected PortletResponse response = null;
 
+    /**
+     * The delegate to get information from a response (output stream, writer, etc.).
+     */
     protected ResponseDelegate responseDelegate;
 
 
@@ -154,6 +163,11 @@ public class PortletRequest extends AbstractClientRequest {
         return (this.response);
     }
 
+    /**
+     * Returns the portlet context.
+     *
+     * @return The portlet context.
+     */
     public PortletContext getPortletContext() {
         return context;
     }

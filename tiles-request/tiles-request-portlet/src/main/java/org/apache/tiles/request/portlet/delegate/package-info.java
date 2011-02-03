@@ -1,6 +1,5 @@
-<!--
 /*
- * $Id$
+ * $Id: package-info.java 1049711 2010-12-15 21:12:00Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,13 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles portlet-specific context package</title>
-</head>
-<body>
-Classes and interfaces that allow to access the various contexts from a portlet
-application.
-</body>
-</html>
+/**
+ * Delegations to map all the different types of request and responses.
+ */
+package org.apache.tiles.request.portlet.delegate;
