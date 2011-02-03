@@ -20,21 +20,20 @@
  */
 package org.apache.tiles.request.portlet.wildcard;
 
-import junit.framework.TestCase;
-
-import org.apache.tiles.request.portlet.wildcard.WildcardPortletApplicationContext;
-import org.easymock.EasyMock;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
-import java.util.HashSet;
 
 import javax.portlet.PortletContext;
+
+import junit.framework.TestCase;
+
+import org.easymock.EasyMock;
 
 
 /**
