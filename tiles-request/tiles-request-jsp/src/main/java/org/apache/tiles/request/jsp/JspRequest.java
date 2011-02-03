@@ -47,6 +47,9 @@ import org.apache.tiles.request.servlet.ServletUtil;
  */
 public class JspRequest extends AbstractViewRequest {
 
+    /**
+     * The native available scopes.
+     */
     private static final String[] SCOPES = {"page", "request", "session", "application"};
 
     /**
@@ -83,6 +86,13 @@ public class JspRequest extends AbstractViewRequest {
      */
     private Map<String, Object> applicationScope = null;
 
+    /**
+     * Creates a JSP request.
+     *
+     * @param applicationContext The application context.
+     * @param pageContext The page context.
+     * @return A new JSP request.
+     */
     public static JspRequest createServletJspRequest(ApplicationContext applicationContext, PageContext pageContext) {
         return new JspRequest(new ServletRequest(
                 applicationContext, (HttpServletRequest) pageContext
@@ -130,6 +140,11 @@ public class JspRequest extends AbstractViewRequest {
         return pageContext.getOut();
     }
 
+    /**
+     * Returns the page scope.
+     *
+     * @return The page scope.
+     */
     public Map<String, Object> getPageScope() {
         if ((pageScope == null) && (pageContext != null)) {
             pageScope = new ScopeMap(new ScopeExtractor(pageContext,
@@ -138,6 +153,11 @@ public class JspRequest extends AbstractViewRequest {
         return (pageScope);
     }
 
+    /**
+     * Returns the request scope.
+     *
+     * @return The request scope.
+     */
     public Map<String, Object> getRequestScope() {
         if ((requestScope == null) && (pageContext != null)) {
             requestScope = new ScopeMap(new ScopeExtractor(pageContext,
@@ -146,6 +166,11 @@ public class JspRequest extends AbstractViewRequest {
         return (requestScope);
     }
 
+    /**
+     * Returns the session scope.
+     *
+     * @return The session scope.
+     */
     public Map<String, Object> getSessionScope() {
         if ((sessionScope == null) && (pageContext != null)) {
             sessionScope = new ScopeMap(new SessionScopeExtractor(pageContext));
@@ -153,6 +178,11 @@ public class JspRequest extends AbstractViewRequest {
         return (sessionScope);
     }
 
+    /**
+     * Returns the application scope.
+     *
+     * @return The application scope.
+     */
     public Map<String, Object> getApplicationScope() {
         if ((applicationScope == null) && (pageContext != null)) {
             applicationScope = new ScopeMap(new ScopeExtractor(pageContext,

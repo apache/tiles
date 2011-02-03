@@ -1,6 +1,5 @@
-<!--
 /*
- * $Id$
+ * $Id: package-info.java 1049711 2010-12-15 21:12:00Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,12 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
--->
-<html>
-<head>
-    <title>Tiles JSP context package</title>
-</head>
-<body>
-Tiles context classes in a JSP environment.
-</body>
-</html>
+/**
+ * Extractors to get scopes from {@link javax.servlet.jsp.PageContext}.
+ */
+package org.apache.tiles.request.jsp.extractor;

@@ -29,10 +29,19 @@ import org.junit.Test;
  */
 public class JspRequestTest {
 
+    /**
+     * The enclosed request.
+     */
     private Request enclosedRequest;
 
+    /**
+     * The page context.
+     */
     private PageContext context;
 
+    /**
+     * The request to test.
+     */
     private JspRequest request;
 
     /**
@@ -114,7 +123,7 @@ public class JspRequestTest {
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
-    @Test(expected=IOException.class)
+    @Test(expected = IOException.class)
     public void testDoIncludeException() throws ServletException, IOException {
         context.include("/my/path", false);
         expectLastCall().andThrow(new ServletException());
@@ -125,7 +134,7 @@ public class JspRequestTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.jsp.JspRequest#createServletJspRequest(org.apache.tiles.request.ApplicationContext, javax.servlet.jsp.PageContext)}.
+     * Test method for {@link JspRequest#createServletJspRequest(ApplicationContext, PageContext)}.
      */
     @Test
     public void testCreateServletJspRequest() {
