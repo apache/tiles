@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.FreemarkerRequestException;
-import org.apache.tiles.request.freemarker.servlet.TilesFreemarkerServlet;
 import org.apache.tiles.request.render.CannotRenderException;
 import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
@@ -38,7 +37,7 @@ import org.apache.tiles.request.servlet.ServletRequest;
 /**
  * FreeMarker renderer for rendering FreeMarker templates as Tiles attributes.
  * It is only usable under a Servlet environment, because it uses
- * {@link TilesFreemarkerServlet} internally to forward the request.<br/>
+ * {@link AttributeValueFreemarkerServlet} internally to forward the request.<br/>
  * To initialize it correctly, call {@link #setParameter(String, String)} for all the
  * parameters that you want to set, and then call {@link #commit()}.
  *
@@ -52,6 +51,11 @@ public class FreemarkerRenderer implements TypeDetectingRenderer {
      */
     private AttributeValueFreemarkerServlet servlet;
 
+    /**
+     * Constructor.
+     *
+     * @param servlet The servlet to use.
+     */
     public FreemarkerRenderer(AttributeValueFreemarkerServlet servlet) {
         this.servlet = servlet;
     }

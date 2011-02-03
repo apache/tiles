@@ -45,6 +45,9 @@ import freemarker.ext.servlet.HttpRequestHashModel;
  */
 public class FreemarkerRequest extends AbstractViewRequest {
 
+    /**
+     * The natively available scopes. In fact, only "page".
+     */
     private static final String[] SCOPES = {"page"};
 
     /**
@@ -52,6 +55,9 @@ public class FreemarkerRequest extends AbstractViewRequest {
      */
     private Environment env;
 
+    /**
+     * The page scope map.
+     */
     private Map<String, Object> pageScope;
 
     /**
@@ -59,6 +65,13 @@ public class FreemarkerRequest extends AbstractViewRequest {
      */
     private transient Object[] requestObjects;
 
+    /**
+     * Creates a new Freemarker request.
+     *
+     * @param applicationContext The application context.
+     * @param env The Freemarker's environment object.
+     * @return A new request.
+     */
     public static FreemarkerRequest createServletFreemarkerRequest(
             ApplicationContext applicationContext, Environment env) {
         HttpRequestHashModel requestModel = FreemarkerRequestUtil
@@ -100,6 +113,11 @@ public class FreemarkerRequest extends AbstractViewRequest {
         return env.getLocale();
     }
 
+    /**
+     * Returns the page scope.
+     *
+     * @return The page scope.
+     */
     public Map<String, Object> getPageScope() {
         if (pageScope == null) {
             pageScope = new EnvironmentScopeMap(env);

@@ -212,8 +212,6 @@ public class FreemarkerRequestTest {
 
     /**
      * Tests {@link FreemarkerRequest#getPrintWriter()}.
-     *
-     * @throws IOException If something goes wrong.
      */
     @Test
     public void testGetPrintWriter() {
@@ -228,8 +226,6 @@ public class FreemarkerRequestTest {
 
     /**
      * Tests {@link FreemarkerRequest#getPrintWriter()}.
-     *
-     * @throws IOException If something goes wrong.
      */
     @Test
     public void testGetPrintWriterPrintWriter() {
@@ -252,8 +248,6 @@ public class FreemarkerRequestTest {
 
     /**
      * Tests {@link FreemarkerRequest#getWriter()}.
-     *
-     * @throws IOException If something goes wrong.
      */
     @Test
     public void testGetWriter() {

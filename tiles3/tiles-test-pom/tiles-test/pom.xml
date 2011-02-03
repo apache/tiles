@@ -153,17 +153,12 @@
            <plugin>
                <groupId>org.codehaus.cargo</groupId>
                <artifactId>cargo-maven2-plugin</artifactId>
-               <version>1.0.1-beta-3</version>
+               <version>1.0.5</version>
                <configuration>
                    <container>
-                       <containerId>tomcat6x</containerId>
-                       <home>${cargo.tomcat6x.home}</home>
-                       <log>${project.build.directory}/tomcat6x.log</log>
-                       <output>${project.build.directory}/tomcat6x.out</output>
+                       <containerId>jetty7x</containerId>
+                       <type>embedded</type>
                    </container>
-                   <configuration>
-                       <home>${project.build.directory}/tomcat6x</home>
-                   </configuration>
                </configuration>
            </plugin>
        </plugins>
@@ -247,28 +242,23 @@
                     <plugin>
                         <groupId>org.codehaus.cargo</groupId>
                         <artifactId>cargo-maven2-plugin</artifactId>
-                        <configuration>
+                         <configuration>
                             <container>
-                                <containerId>tomcat6x</containerId>
-                                <home>${cargo.tomcat6x.home}</home>
-                                <log>${project.build.directory}/tomcat6x.log</log>
-                                <output>${project.build.directory}/tomcat6x.out</output>
+                                <containerId>jetty7x</containerId>
+                                <type>embedded</type>
                             </container>
                             <wait>false</wait>
-                            <configuration>
-                                <home>${project.build.directory}/tomcat6x</home>
-                            </configuration>
                         </configuration>
                         <executions>
                             <execution>
-                                <id>start-tomcat</id>
+                                <id>start-container</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>start</goal>
                                 </goals>
                             </execution>
                             <execution>
-                                <id>stop-tomcat</id>
+                                <id>stop-container</id>
                                 <phase>post-integration-test</phase>
                                 <goals>
                                     <goal>stop</goal>

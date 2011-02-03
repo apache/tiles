@@ -64,7 +64,7 @@ public class FreemarkerRequestExceptionTest {
     }
 
     /**
-     * Test method for {@link FreemarkerRequestException#FreemarkerRequestException(java.lang.String, java.lang.Throwable)}.
+     * Test method for {@link FreemarkerRequestException#FreemarkerRequestException(String, Throwable)}.
      */
     @Test
     public void testFreemarkerRequestExceptionStringThrowable() {

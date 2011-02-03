@@ -77,7 +77,7 @@ import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
 import org.apache.tiles.request.freemarker.render.FreemarkerRendererBuilder;
-import org.apache.tiles.request.freemarker.servlet.TilesFreemarkerServlet;
+import org.apache.tiles.request.freemarker.servlet.SharedVariableLoaderFreemarkerServlet;
 import org.apache.tiles.request.render.BasicRendererFactory;
 import org.apache.tiles.request.render.ChainedDelegateRenderer;
 import org.apache.tiles.request.render.Renderer;
@@ -143,7 +143,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
                 .setParameter("default_encoding", "ISO-8859-1")
                 .setParameter("number_format", "0.##########")
                 .setParameter(
-                        TilesFreemarkerServlet.CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM,
+                        SharedVariableLoaderFreemarkerServlet.CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM,
                         "tiles," + TilesSharedVariableFactory.class.getName())
                 .build();
         rendererFactory.registerRenderer(FREEMARKER_RENDERER_NAME, freemarkerRenderer);

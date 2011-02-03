@@ -37,8 +37,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
-import org.apache.tiles.request.freemarker.render.FreemarkerRendererBuilder;
 import org.apache.tiles.request.render.CannotRenderException;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.request.servlet.ServletRequest;
@@ -57,21 +55,42 @@ import freemarker.template.ObjectWrapper;
  */
 public class FreemarkerRendererTest {
 
+    /**
+     * The attribute name of the application model.
+     */
     private static final String ATTR_APPLICATION_MODEL =
         ".freemarker.Application";
 
+    /**
+     * The attribute name of the JSP taglibs model.
+     */
     private static final String ATTR_JSP_TAGLIBS_MODEL =
         ".freemarker.JspTaglibs";
 
+    /**
+     * The attribute name of the request model.
+     */
     private static final String ATTR_REQUEST_MODEL = ".freemarker.Request";
 
+    /**
+     * The attribute name of the request parameters model.
+     */
     private static final String ATTR_REQUEST_PARAMETERS_MODEL =
         ".freemarker.RequestParameters";
 
+    /**
+     * The renderer to test.
+     */
     private FreemarkerRenderer renderer;
 
+    /**
+     * The application context.
+     */
     private ApplicationContext applicationContext;
 
+    /**
+     * The servlet context.
+     */
     private ServletContext servletContext;
 
     /**
@@ -164,7 +183,7 @@ public class FreemarkerRendererTest {
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.
      */
-    @Test(expected=CannotRenderException.class)
+    @Test(expected = CannotRenderException.class)
     public void testRenderException1() throws IOException, ServletException {
         ApplicationContext applicationContext = createMock(ServletApplicationContext.class);
         ServletContext servletContext = createMock(ServletContext.class);

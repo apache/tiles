@@ -81,8 +81,8 @@
     <!-- Standard Action Servlet Configuration -->
     <servlet>
         <servlet-name>freemarker</servlet-name>
-        <servlet-class>org.apache.tiles.request.freemarker.servlet.TilesFreemarkerServlet</servlet-class>
-        
+        <servlet-class>org.apache.tiles.request.freemarker.servlet.SharedVariableLoaderFreemarkerServlet</servlet-class>
+
         <!-- FreemarkerServlet settings: -->
         <init-param>
             <param-name>TemplatePath</param-name>
@@ -96,7 +96,7 @@
             <param-name>ContentType</param-name>
             <param-value>text/html</param-value>
         </init-param>
-        
+
         <!-- FreeMarker settings: -->
         <init-param>
             <param-name>template_update_delay</param-name>
@@ -114,14 +114,14 @@
             <param-name>org.apache.tiles.request.freemarker.CUSTOM_SHARED_VARIABLE_FACTORIES</param-name>
             <param-value>tiles,org.apache.tiles.freemarker.TilesSharedVariableFactory</param-value>
         </init-param>
-        
+
         <load-on-startup>5</load-on-startup>
     </servlet>
 
     <servlet>
       <servlet-name>velocity</servlet-name>
       <servlet-class>org.apache.velocity.tools.view.VelocityViewServlet</servlet-class>
-    
+
       <!--
         Unless you plan to put your tools.xml and velocity.properties under
         different folders or give them different names, then these two
@@ -132,7 +132,7 @@
         <param-name>org.apache.velocity.toolbox</param-name>
         <param-value>/WEB-INF/tools.xml</param-value>
       </init-param>
-    
+
       <init-param>
         <param-name>org.apache.velocity.properties</param-name>
         <param-value>/WEB-INF/velocity.properties</param-value>

@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id: package-info.java 1049711 2010-12-15 21:12:00Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,21 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request.freemarker.servlet;
-
-import freemarker.template.TemplateModel;
-
 /**
- * It is an object that can create a shared variable, as a template model.
- *
- * @version $Rev$ $Date$
+ * Extractors to get information from Freemarker objects.
  */
-public interface SharedVariableFactory {
-
-    /**
-     * Creates a new shared variable.
-     *
-     * @return The shared variable.
-     */
-    TemplateModel create();
-}
+package org.apache.tiles.request.freemarker.extractor;

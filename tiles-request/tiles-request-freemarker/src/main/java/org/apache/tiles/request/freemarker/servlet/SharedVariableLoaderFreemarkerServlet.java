@@ -41,21 +41,33 @@ import freemarker.template.Configuration;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class TilesFreemarkerServlet extends FreemarkerServlet {
+public class SharedVariableLoaderFreemarkerServlet extends FreemarkerServlet {
 
+    /**
+     * The serial UID.
+     */
     private static final long serialVersionUID = 4301098067909854507L;
 
-    public static String CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM =
+    /**
+     * The init parameter under which the factories will be put. The value of the parameter
+     * must be a semicolon (;) separated list of couples, each member of the couple must
+     * be separated by commas (,).
+     */
+    public static final String CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM =
         "org.apache.tiles.request.freemarker.CUSTOM_SHARED_VARIABLE_FACTORIES";
 
-    private Map<String, SharedVariableFactory> name2variableFactory = new LinkedHashMap<String, SharedVariableFactory>();
+    /**
+     * Maps a name of a shared variable to its factory.
+     */
+    private Map<String, SharedVariableFactory> name2variableFactory =
+        new LinkedHashMap<String, SharedVariableFactory>();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         String param = config.getInitParameter(CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM);
         if (param != null) {
             String[] couples = param.split("\\s*;\\s*");
-            for (int i=0; i < couples.length; i++) {
+            for (int i = 0; i < couples.length; i++) {
                 String[] couple = couples[i].split("\\s*,\\s*");
                 if (couple == null || couple.length != 2) {
                     throw new ServletException(
@@ -69,6 +81,12 @@ public class TilesFreemarkerServlet extends FreemarkerServlet {
         super.init(new ExcludingParameterServletConfig(config));
     }
 
+    /**
+     * Adds anew shared variable factory in a manual way.
+     *
+     * @param variableName The name of the shared variable.
+     * @param factory The shared variable factory.
+     */
     public void addSharedVariableFactory(String variableName, SharedVariableFactory factory) {
         name2variableFactory.put(variableName, factory);
     }
@@ -91,10 +109,23 @@ public class TilesFreemarkerServlet extends FreemarkerServlet {
         return new WebappClassTemplateLoader(getServletContext());
     }
 
+    /**
+     * Servlet configuration that excludes some parameters. It is useful to adapt to
+     * FreemarkerServlet behaviour, because it gets angry if it sees some extra
+     * parameters that it does not recognize.
+     */
     private class ExcludingParameterServletConfig implements ServletConfig {
 
+        /**
+         * The servlet configuration.
+         */
         private ServletConfig config;
 
+        /**
+         * Constructor.
+         *
+         * @param config The servlet configuration.
+         */
         public ExcludingParameterServletConfig(ServletConfig config) {
             this.config = config;
         }
@@ -125,12 +156,28 @@ public class TilesFreemarkerServlet extends FreemarkerServlet {
 
     }
 
+    /**
+     * An enumeration that skip just
+     * {@link SharedVariableLoaderFreemarkerServlet#CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM},
+     * again not to let the FreemarkerServlet be angry about it.
+     */
     private static class SkippingEnumeration implements Enumeration<String> {
 
+        /**
+         * The original enumeration.
+         */
         private Enumeration<String> enumeration;
 
+        /**
+         * The next element.
+         */
         private String next = null;
 
+        /**
+         * Constructor.
+         *
+         * @param enumeration The original enumeration.
+         */
         public SkippingEnumeration(Enumeration<String> enumeration) {
             this.enumeration = enumeration;
             updateNextElement();
@@ -148,11 +195,20 @@ public class TilesFreemarkerServlet extends FreemarkerServlet {
             return retValue;
         }
 
+        /**
+         * Updates the next element that will be passed.
+         */
         private void updateNextElement() {
             String value = null;
-            while (this.enumeration.hasMoreElements()
-                    && (value = this.enumeration.nextElement())
-                            .equals(CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM));
+            boolean done = false;
+            while (this.enumeration.hasMoreElements() && !done) {
+                value = this.enumeration.nextElement();
+                if (value.equals(CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM)) {
+                    value = null;
+                } else {
+                    done = true;
+                }
+            }
             next = value;
         }
 

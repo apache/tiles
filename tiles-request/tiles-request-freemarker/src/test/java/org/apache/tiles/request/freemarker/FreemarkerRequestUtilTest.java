@@ -1,5 +1,22 @@
-/**
+/*
+ * $Id$
  *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.tiles.request.freemarker;
 
@@ -16,7 +33,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,7 +88,7 @@ public class FreemarkerRequestUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.freemarker.FreemarkerRequestUtil#getRequestHashModel(freemarker.core.Environment)}.
+     * Test method for {@link FreemarkerRequestUtil#getRequestHashModel(freemarker.core.Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
     @Test
@@ -92,10 +108,10 @@ public class FreemarkerRequestUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.freemarker.FreemarkerRequestUtil#getRequestHashModel(freemarker.core.Environment)}.
+     * Test method for {@link FreemarkerRequestUtil#getRequestHashModel(freemarker.core.Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
-    @Test(expected=NotAvailableFreemarkerServletException.class)
+    @Test(expected = NotAvailableFreemarkerServletException.class)
     public void testGetRequestHashModelException() throws TemplateModelException {
         HttpServletRequest request = createMock(HttpServletRequest.class);
         ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
@@ -115,7 +131,7 @@ public class FreemarkerRequestUtilTest {
 
 
     /**
-     * Test method for {@link org.apache.tiles.request.freemarker.FreemarkerRequestUtil
+     * Test method for {@link FreemarkerRequestUtil
      * #getServletContextHashModel(freemarker.core.Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
@@ -139,11 +155,11 @@ public class FreemarkerRequestUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.freemarker.FreemarkerRequestUtil
+     * Test method for {@link FreemarkerRequestUtil
      * #getServletContextHashModel(freemarker.core.Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
-    @Test(expected=NotAvailableFreemarkerServletException.class)
+    @Test(expected = NotAvailableFreemarkerServletException.class)
     public void testGetServletContextHashModelException() throws TemplateModelException {
         GenericServlet servlet = createMock(GenericServlet.class);
         ObjectWrapper objectWrapper = createMock(ObjectWrapper.class);
@@ -163,7 +179,7 @@ public class FreemarkerRequestUtilTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.freemarker.FreemarkerRequestUtil
+     * Test method for {@link FreemarkerRequestUtil
      * #getApplicationContext(Environment)}.
      * @throws TemplateModelException If something goes wrong.
      */
