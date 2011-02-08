@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>tiles-master</artifactId>
+		<groupId>org.apache.tiles</groupId>
+		<version>3</version>
+	</parent>
+	<groupId>org.apache.tiles</groupId>
+	<artifactId>tiles-eval</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Tiles Expression Evaluation Framework</name>
+	<description>Expression evaluation framework for Request-based applications</description>
+	<url>http://tiles.apache.org/tiles-eval</url>
+	<scm>
+		<connection>scm:svn:http://svn.eu.apache.org/viewvc/tiles/eval/trunk/</connection>
+		<developerConnection>scm:svn:https://svn.eu.apache.org/viewvc/tiles/eval/trunk/</developerConnection>
+		<url>http://svn.eu.apache.org/viewvc/tiles/eval/trunk/</url>
+	</scm>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
