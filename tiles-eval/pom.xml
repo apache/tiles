@@ -32,4 +32,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<modules>
+		<module>tiles-eval-api</module>
+	</modules>
 </project>
