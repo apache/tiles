@@ -21,14 +21,14 @@
  * under the License.
  */
 -->
-<project name="Apache Tiles - Framework">
+<project name="Apache Tiles&#8482; - Framework">
     <bannerLeft>
         <name>Apache Software Foundation</name>
         <src>http://www.apache.org/images/asf-logo.gif</src>
         <href>http://www.apache.org</href>
     </bannerLeft>
     <bannerRight>
-        <name>Apache Tiles 2</name>
+        <name>Apache Tiles&#8482;</name>
         <src>http://tiles.apache.org/images/logo.png</src>
         <href>http://tiles.apache.org</href>
     </bannerRight>
@@ -40,7 +40,7 @@
         </links>
 
 
-        <menu name="Apache Tiles">
+        <menu name="Apache Tiles&#8482;">
             <item
                    name="Home"
                    href="../index.html"/>

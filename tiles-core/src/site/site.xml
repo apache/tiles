@@ -21,10 +21,10 @@
  * under the License.
  */
 -->
-<project name="Apache Tiles - Core Library">
+<project name="Apache Tiles&#8482; - Core Library">
     <body>
 
-        <menu name="Apache Tiles">
+        <menu name="Apache Tiles&#8482;">
             <item
                    name="Home"
                    href="../../index.html"/>
