@@ -86,7 +86,7 @@ Examples
   To see Tiles in action, there are two examples:
 
   * The Tiles test web application, included in <<<examples>>> directory of the
-  binary distribution ({{{download.html}download it}}).
+  binary distribution ({{{../download.html}download it}}).
 
   * The Tiles showcase, that shows Tiles features and integration with other
   technologies and frameworks (currently only Struts 1).
