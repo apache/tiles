@@ -23,7 +23,7 @@
 
 Integration with other View Technologies
 
-  Currently Tiles 2 is only integrated with JavaServer Pages but it can be used
+  Currently Apache Tiles\u0099 is not only integrated with JavaServer Pages, but it can be used
   with:
 
   * {{{freemarker.html}FreeMarker}}.

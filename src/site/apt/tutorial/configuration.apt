@@ -33,7 +33,7 @@ Configuring Tiles
 Starting Tiles in a web application
 
   Tiles has always been a web application package, usually used in conjunction
-  with Struts. Tiles 2 evolved to the point of being technology-independent, but
+  with Struts. Apache Tiles\u0099 evolved to the point of being technology-independent, but
   its use in a Servlet-based web application will be the most frequent use case.
 
 * Starting Tiles engine

@@ -24,14 +24,14 @@
 Introduction
 
   In this part of the migration guide we address the differences of the APIs
-  in Struts Tiles and Tiles 2.
+  in Struts Tiles and Apache Tiles\u0099.
 
   If you are a Tiles extension developer and you want to convert your existing
   extension, see {{{extension.html}Tiles extensions}} migration guide.
 
 Controllers and View Preparers
 
-  In Tiles 2, the concept of a Tiles <<<Controller>>>, i.e. an object that it is
+  In Apache Tiles\u0099, the concept of a Tiles <<<Controller>>>, i.e. an object that it is
   invoked before rendering a definition, has been replaced with
   <<<ViewPreparer>>>.
 
