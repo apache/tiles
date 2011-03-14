@@ -24,7 +24,7 @@
 <project name="Apache Tiles - Portlet Support">
     <body>
 
-        <menu name="Apache Tiles">
+        <menu name="Apache Tiles&#8482;">
             <item
                    name="Home"
                    href="../../index.html"/>
