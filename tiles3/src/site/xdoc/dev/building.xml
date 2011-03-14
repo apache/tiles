@@ -24,7 +24,7 @@
 <document>
 
     <properties>
-        <title>Apache Tiles 2</title>
+        <title>Apache Tiles</title>
     </properties>
 
     <body>
@@ -41,7 +41,7 @@
             notice missing pictures inside JavaDocs pages.</p>
           </subsection>
           <subsection name="Building main packages">
-            <p>To build Tiles 2 from source you need to:</p>
+            <p>To build Tiles from source you need to:</p>
             <ul>
             <li><p><a href="../download.html">download</a> the source
             distribution, or checkout the latest version:</p>

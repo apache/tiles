@@ -29,7 +29,7 @@ Selenium Testing
  Explorer. The Selenium JavaScript code is deployed alongside your running
  application, and interacts with it just as your users do.
 
- Tiles 2 uses Selenium for functional testing of the example apps.
+ Apache Tiles\u0099 uses Selenium for functional testing of the example apps.
  The following example apps include Selenium tests:
 
   * Tiles Test
@@ -148,7 +148,7 @@ mvn package cargo:start -P selenium -Dcargo.tomcat5x.home=/path/to/tomcat5
 
   The Selenium IDE Firefox plugin is the easiest way to edit tests. With the
   example app running, open the HTML file (src/test/selenium/TestSomething.html)
-  from your svn checkout of Tiles 2. Use the IDE to edit and run the test, and
+  from your svn checkout of Apache Tiles\u0099. Use the IDE to edit and run the test, and
   save your changes.
 
   <<Note>>: Your changes will not be visible to the TestRunner in the deployed

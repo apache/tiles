@@ -36,7 +36,7 @@ Tag library inclusion
 
 Tags differences
 
-  Here is the toughest part: Tiles 2 tags differ a lot comparing to Struts
+  Here is the toughest part: Apache Tiles\u0099 tags differ a lot comparing to Struts
   Tiles. However, after the change you will notice that the JSP code will be
   easier to understand.
 
@@ -47,7 +47,7 @@ Tags differences
   changes are summarized in the table below.
 
 *---------------------------------+----------------------------------+
-| <<Struts-Tiles>>                | <<Tiles 2>>                      |
+| <<Struts-Tiles>>                | <<Apache Tiles\u0099>>           |
 *---------------------------------+----------------------------------+
 | <<<\<tiles:insert\>>>>          | <<<\<tiles:insertTemplate\>>>>   |
 |                                 | <<<\<tiles:insertAttribute\>>>>  |
@@ -72,7 +72,7 @@ Tags differences
   * \[1\] The default behaviour of <<<preparer>>> is to create and use a
   single instance of the specified class. Anyway it is still possible to use a
   URL as a preparer under a Struts 1 environment by using the
-  {{{http://svn.apache.org/repos/asf/struts/struts1/trunk/tiles2/}Struts 1 - Tiles 2}}
+  {{{http://svn.apache.org/repos/asf/struts/struts1/trunk/tiles2/}Struts 1 - Apache Tiles\u0099}}
   integration module, still under development.
 
 * Putting and adding attributes values
@@ -82,7 +82,7 @@ Tags differences
   The rest of the conversion is in the table below.
 
 *-------------------------+-----------------------------------------------+
-| <<Struts-Tiles>>        | <<Tiles 2>>                                   |
+| <<Struts-Tiles>>        | <<Apache Tiles\u0099>>                        |
 *-------------------------+-----------------------------------------------+
 | <<<\<tiles:put\>>>>     | <<<\<tiles:putAttribute\>>>>                  |
 *-------------------------+-----------------------------------------------+
@@ -110,7 +110,7 @@ Tags differences
 * Other changes
 
 *---------------------------------+--------------------------------------------+
-| <<Struts-Tiles>>                | <<Tiles 2>>                                |
+| <<Struts-Tiles>>                | <<Apache Tiles\u0099>>                     |
 *---------------------------------+--------------------------------------------+
 | <<<\<tiles:get\>>>>             | <<<\<tiles:insertAttribute\>>>>            |
 *---------------------------------+--------------------------------------------+

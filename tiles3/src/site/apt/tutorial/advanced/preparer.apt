@@ -26,7 +26,7 @@ View Preparers
   Sometimes a definition, before it is rendered, needs to be "prepared". For
   example when showing a menu, the menu structure must be created and stored
   in the request scope.
-  
+
   For this reason, a <<View Preparer>> can be used: it is called <<before>> the
   definition is rendered, so all the things needed to render correctly the
   definition can be prepared.
@@ -66,7 +66,7 @@ public class TestViewPreparer implements ViewPreparer {
 ----------------------------------------------
 <definition name="preparer.definition" preparer="org.apache.tiles.test.preparer.TestViewPreparer">
   <put-attribute name="foo" value="/bar/foo.jsp" />
-</definition>  
+</definition>
 ----------------------------------------------
 
 * Customizing View Preparer association
@@ -75,6 +75,6 @@ public class TestViewPreparer implements ViewPreparer {
   There will be only <<one>> instance per unique class name. If you want to
   customize this behaviour, you have to create your own implementation of the
   <<<PreparerFactory>>> interface.
-  
-  For example, the {{{../integration/frameworks.html}Struts 1 - Tiles 2 integration}}
+
+  For example, the {{{../integration/frameworks.html}Struts 1 - Apache Tiles\u0099 integration}}
   defines a <<<PreparerFactory>>> that can use a URL as a preparer.

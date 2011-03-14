@@ -31,7 +31,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tiles-velocity</artifactId>
   <packaging>jar</packaging>
-  <description>Velocity Support in Tiles 2</description>
+  <description>Velocity Support in Tiles</description>
   <name>Tiles - Velocity Support</name>
   <build>
     <plugins>

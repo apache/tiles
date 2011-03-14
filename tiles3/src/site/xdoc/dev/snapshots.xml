@@ -24,11 +24,11 @@
 <document>
 
     <properties>
-        <title>Apache Tiles 2</title>
+        <title>Apache Tiles</title>
     </properties>
 
     <body>
-        <section name="Tiles 2">
+        <section name="Apache Tiles&#8482;">
         <subsection name="Snapshots">
 
         <p>Looking for snapshot builds of the latest version of Tiles?
@@ -46,7 +46,7 @@
         </source>
 
         <p>After configuring the repository, declare a dependency on
-        Tiles 2:</p>
+        Tiles:</p>
 
         <source><![CDATA[
           <dependency>
@@ -63,7 +63,7 @@
     here</a>, or a nightly build, <a
     href="http://people.apache.org/builds/struts/nightlies/tiles/">here</a>.</p>
 
-   <p>You can see Tiles 2 in action by downloading a snapshot of the 'tiles-test' webapp,
+   <p>You can see Tiles in action by downloading a snapshot of the 'tiles-test' webapp,
    <a href="http://people.apache.org/repo/m2-snapshot-repository/org/apache/struts/tiles/tiles-test/2.0-SNAPSHOT/">
    here</a>.</p>
 
