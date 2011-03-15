@@ -34,8 +34,8 @@
     <artifactId>tiles-parent</artifactId>
     <version>2.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Tiles 2</name>
-    <description>Tiles 2: A framework for page composition.</description>
+    <name>Apache Tiles</name>
+    <description>Apache Tiles: A framework for page composition.</description>
     <url>http://tiles.apache.org/framework/</url>
 
     <scm>
