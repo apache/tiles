@@ -14,6 +14,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-request-api</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-request-servlet</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<scope>compile</scope>
