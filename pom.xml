@@ -39,9 +39,9 @@
     <url>http://tiles.apache.org/framework/</url>
 
     <scm>
-        <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/trunk/</connection>
-        <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/trunk/</developerConnection>
-        <url>http://svn.eu.apache.org/viewvc/tiles/framework/trunk/</url>
+        <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/branches/TILES_2_2_X/</connection>
+        <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/branches/TILES_2_2_X/</developerConnection>
+        <url>http://svn.eu.apache.org/viewvc/tiles/framework/branches/TILES_2_2_X/</url>
     </scm>
 
     <ciManagement />

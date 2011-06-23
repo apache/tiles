@@ -34,9 +34,9 @@
   </parent>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/trunk/assembly</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/trunk/assembly</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi/tiles/framework/trunk/assembly</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/branches/TILES_2_2_X/assembly</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/branches/TILES_2_2_X/assembly</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/tiles/framework/branches/TILES_2_2_X/assembly</url>
   </scm>
 
   <build>
