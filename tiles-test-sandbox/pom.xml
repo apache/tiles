@@ -24,16 +24,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
-  	<artifactId>tiles-sandbox</artifactId>
+  	<artifactId>tiles-reactor</artifactId>
   	<groupId>org.apache.tiles</groupId>
   	<version>1.0-SNAPSHOT</version>
   </parent>
 
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>tiles-test-sandbox</artifactId>
+   <artifactId>tiles-test-reactor</artifactId>
    <packaging>war</packaging>
-   <name>Tiles Test Sandbox Webapp</name>
-   <description>Tiles Test web application to test sandboxed projects.
+   <name>Tiles Test Reactor Webapp</name>
+   <description>Tiles Test web application to test projects.
    </description>
    
    <dependencies>

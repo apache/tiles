@@ -31,12 +31,12 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.tiles</groupId>
-    <artifactId>tiles-sandbox</artifactId>
+    <artifactId>tiles-reactor</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Tiles Sandbox</name>
-    <description>Tiles Sandbox</description>
-    <url>http://tiles.apache.org/tiles-sandbox/</url>
+    <name>Tiles Reactor</name>
+    <description>Tiles Reactor</description>
+    <url>http://tiles.apache.org</url>
 
     <scm>
         <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/sandbox/trunk</connection>
