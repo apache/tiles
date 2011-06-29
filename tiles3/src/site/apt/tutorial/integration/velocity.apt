@@ -1,0 +1,163 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Integration with Apache Velocity
+         -----------
+
+Integration with Apache Velocity
+
+  {{{http://velocity.apache.org/}Apache Velocity}} is a templating framework
+  that can be used as a replacement for JavaServer Pages (JSP). Tiles can be
+  used with Velocity through the use of Tiles Velocity package.
+
+* Configuration
+
+  To use Velocity together with Tiles
+
+  * Add Velocity (1.7 or better) and Velocity Tools (2.0 or better) jars to your application.
+
+  * Add <<<tiles-template-x.x.x.jar>>> and <<<tiles-velocity-x.x.x.jar>>> files
+  to your application.
+  * Add this code in you <<<velocity.properties>>> file:
+
+----------------------------------
+userdirective=org.apache.tiles.velocity.template.AddAttributeDirective,\
+  org.apache.tiles.velocity.template.AddListAttributeDirective,\
+  org.apache.tiles.velocity.template.DefinitionDirective,\
+  org.apache.tiles.velocity.template.GetAsStringDirective,\
+  org.apache.tiles.velocity.template.ImportAttributeDirective,\
+  org.apache.tiles.velocity.template.InsertAttributeDirective,\
+  org.apache.tiles.velocity.template.InsertDefinitionDirective,\
+  org.apache.tiles.velocity.template.InsertTemplateDirective,\
+  org.apache.tiles.velocity.template.PutAttributeDirective,\
+  org.apache.tiles.velocity.template.PutListAttributeDirective
+----------------------------------
+
+
+  * To access ".vm" files from HTTP requests, add this piece of configuration in <<<web.xml>>>
+  (the parameters can be modified as needed).
+
+----------------------------------
+<servlet>
+  <servlet-name>velocity</servlet-name>
+  <servlet-class>org.apache.velocity.tools.view.VelocityViewServlet</servlet-class>
+
+  <init-param>
+    <param-name>org.apache.velocity.toolbox</param-name>
+    <param-value>/WEB-INF/tools.xml</param-value>
+  </init-param>
+
+  <init-param>
+    <param-name>org.apache.velocity.properties</param-name>
+    <param-value>/WEB-INF/velocity.properties</param-value>
+  </init-param>
+</servlet>
+----------------------------------
+
+  * To access ".vm" files as attributes, register VelocityAttributeRenderer
+  this way (only available in a servlet environment):
+
+----------------------------------
+@Override
+protected void registerAttributeRenderers(
+        BasicRendererFactory rendererFactory, TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory,
+        TilesContainer container, AttributeEvaluator evaluator) {
+    super.registerAttributeRenderers(rendererFactory, applicationContext, contextFactory,
+            container, evaluator);
+
+    VelocityAttributeRenderer velocityRenderer = new VelocityAttributeRenderer();
+    velocityRenderer.setApplicationContext(applicationContext);
+    velocityRenderer.setEvaluator(evaluator);
+    velocityRenderer.setRequestContextFactory(contextFactory);
+    velocityRenderer.setParameter("org.apache.velocity.toolbox", "/WEB-INF/tools.xml");
+    velocityRenderer.setParameter("org.apache.velocity.properties", "/WEB-INF/velocity.properties");
+    velocityRenderer.commit();
+    rendererFactory.registerRenderer("velocity", velocityRenderer);
+}
+----------------------------------
+
+  This way you can specify an attribute that is rendered directly using this syntax:
+
+----------------------------------
+<put-attribute name="myAttribute" value="/pages/myPage.vm" type="velocity" />
+----------------------------------
+
+* Usage in Velocity templates
+
+  There are two ways to use Tiles-Velocity integration:
+
+  * the <<<tiles>>> tool, that is a Velocity-style tool:
+
+----------------------------------
+$tilesAlt.startAttributeContext()
+$set($templateAttribute = $tilesAlt.createTemplateAttribute("/page/myTemplate.vm"))
+$set($attributeContext = $tilesAlt.getAttributeContext())
+  $set($attribute = $tilesAlt.createAttribute())
+  $attribute.setValue("This is the title.")
+  $attributeContext.putAttribute("title", $attribute})
+
+  $set($attribute = $tilesAlt.createAttribute())
+  $attribute.setValue("/velocity/header.vm")
+  $attribute.setRenderer("velocity")
+  $attributeContext.putAttribute("header", $attribute})
+
+  $set($attribute = $tilesAlt.createAttribute())
+  $attribute.setValue("/velocity/body.vm")
+  $attribute.setRenderer("velocity")
+  $attributeContext.putAttribute("body", $attribute})
+
+$tilesAlt.render($templateAttribute)
+$tilesAlt.endAttributeContext()
+----------------------------------
+
+  * the <<<tiles>>> directives, that have a tag-like meaning.
+
+----------------------------------
+#tiles_insertTemplate({"template":"/page/myTemplate.vm"})
+  #tiles_putAttribute({"name":"title", "value":"This is the title."})#end
+  #tiles_putAttribute({"name":"header", "value":"/velocity/header.vm", "type":"velocity"})#end
+  #tiles_putAttribute({"name":"body", "value":"/velocity/body.vm", "type":"velocity"})#end
+#end
+----------------------------------
+
+  Other <<<tiles>>> directives are:
+  
+      * <<<getAsString(String attributeName)>>> - get the value of named attribute as string.
+
+      * <<<importAttribute(String attributeName, String toName)>>> - import the named attribute into the scope of
+  	template context under the (optional) custom name.
+
+      * <<<insertAttribute(String attributeName)>>> - inserts given attribute in the output in its own context.
+        If this is a string a string is printed, if this is a definition - it is included in the output.
+
+      * <<<insertAttribute(String attributeName, boolean ownContext)>>> - inserts given attribute in the output.
+        If this is a string a string is printed, if this is a definition - it is included in the output. You can specify whether
+        a separate context is created for rendering the definition - in this case variables with duplicate names
+        will not be inherited from the parent definition
+
+      * <<<insertDefinition(String definitionName)>>> - renders a definition in its own context.
+
+      * <<<insertDefinition(String definitionName, boolean ownContext)>>> - inserts definition, optionally in the shared context.
+
+      * <<<insertTemplate(String template)>>> - inserts a named page, equivalent to Velocity's <<<#parse>>>.
+
+
+  For details about the tool and directives see the {{{../../apidocs/index.html}Javadocs}}.

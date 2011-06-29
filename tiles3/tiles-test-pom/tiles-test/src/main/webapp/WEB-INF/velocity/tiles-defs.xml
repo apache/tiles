@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+
+  <!-- =======================================================  -->
+  <!-- Master definition  									-->
+  <!-- =======================================================  -->
+
+  <!-- Doc index page description  -->
+  <definition name="velocity.test.inner.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is a configured inner definition."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.definition.ignore" template="/velocity/layout_ignore.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.definition.velocity" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.definition.flush" template="/velocity/layout_flush.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.definition.exception" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/exception.vm" type="velocity" />
+      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.composite.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   value="test.inner.definition"/>
+  </definition>
+
+  <definition name="velocity.test.putAttributes" template="/velocity/putattributeslayout.vm" templateType="velocity">
+    <put-attribute name="stringTest" value="This is a string" type="string" />
+    <put-list-attribute name="list">
+      <add-attribute value="valueOne" type="string" />
+      <add-attribute value="valueTwo" type="string" />
+      <add-attribute value="valueThree" type="string" />
+    </put-list-attribute>
+  </definition>
+
+  <definition name="velocity.test.putAttributes.inherit" extends="velocity.test.putAttributes">
+    <put-list-attribute name="list" inherit="true">
+      <add-attribute value="valueFour" type="string" />
+    </put-list-attribute>
+  </definition>
+
+  <definition name="velocity.test.putAllAttributes" template="/velocity/putallattributeslayout.vm" templateType="velocity">
+    <put-attribute name="one" value="There should be three more strings" type="string" />
+    <put-attribute name="two" value="One" type="string" />
+    <put-attribute name="three" value="Two" type="string" />
+    <put-attribute name="four" value="Three" type="string" />
+  </definition>
+
+  <definition name="velocity.preparer.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+  </definition>
+
+    <definition name="velocity.testdispatchservlet" extends="test.definition"/>
+
+  <definition name="velocity.preparer.definition.configured" extends="preparer.definition" preparer="org.apache.tiles.test.preparer.TestViewPreparer" />
+
+  <definition name="velocity.test.localized.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title" value="Default locale" />
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body" value="/velocity/defaultlocale.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.definition.appears" extends="test.definition">
+      <put-attribute name="title"  value="This definition appears."/>
+  </definition>
+
+  <definition name="velocity.test.definition.does_not_appear" extends="test.definition">
+      <put-attribute name="title"  value="This definition does
+       not appear."/>
+  </definition>
+
+  <definition name="velocity.test.definition.appears.configured"
+    extends="test.definition.appears" role="goodrole" />
+
+  <definition name="velocity.test.definition.does_not_appear.configured"
+    extends="test.definition.does_not_appear" role="badrole" />
+
+  <definition name="velocity.test.definition.roles" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" role="goodrole" />
+      <put-attribute name="body"   value="/velocity/body.vm" role="badrole" />
+  </definition>
+
+  <definition name="velocity.test.definition.roles.tags" template="/velocity/layout_roles.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+  </definition>
+
+  <!-- Tests for cascaded attributes -->
+  <definition name="velocity.test.overridden.cascaded.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title." cascade="true" />
+      <put-attribute name="header" value="/velocity/alternate-header.vm" cascade="true"/>
+      <put-attribute name="body"   value="test.inner.definition"/>
+  </definition>
+
+  <definition name="velocity.test.inner.cascadable.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.cascaded.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title." cascade="true" />
+      <put-attribute name="header" value="/velocity/header.vm" cascade="true"/>
+      <put-attribute name="body"   value="test.inner.cascadable.definition"/>
+  </definition>
+
+  <definition name="velocity.test.cascaded.template.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title." cascade="true" />
+      <put-attribute name="header" value="/velocity/header.vm" cascade="true"/>
+      <put-attribute name="body"   value="/velocity/layout_nobody.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.cascaded.list.definition" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title." cascade="true" />
+      <put-attribute name="header" value="/velocity/header.vm" cascade="true"/>
+      <put-attribute name="body"   value="/velocity/putattributeslayout.vm" type="velocity" />
+      <put-attribute name="stringTest" value="This is a string" type="string" cascade="true" />
+      <put-list-attribute name="list" cascade="true">
+        <add-attribute value="valueOne" type="string" />
+        <add-attribute value="valueTwo" type="string" />
+        <add-attribute value="valueThree" type="string" />
+      </put-list-attribute>
+  </definition>
+
+  <definition name="velocity.test.reversed.definition" template="/velocity/layout_alt_title.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title." type="reversed"/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.nesting.definitions" template="/velocity/layout.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body">
+          <definition template="/velocity/layout.vm" templateType="velocity">
+              <put-attribute name="title"  value="This is a nested definition."/>
+              <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+              <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+          </definition>
+      </put-attribute>
+  </definition>
+
+  <definition name="velocity.test.nesting.list.definitions" template="/velocity/layout_list.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-list-attribute name="list">
+          <add-attribute>
+              <definition template="/velocity/layout.vm" templateType="velocity">
+                  <put-attribute name="title"  value="This is a nested definition."/>
+                  <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+                  <put-attribute name="body"   value="/velocity/body.vm" type="velocity" />
+              </definition>
+          </add-attribute>
+      </put-list-attribute>
+  </definition>
+
+  <definition name="velocity.test.composite.el.definition" templateExpression="${layout}"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   expression="${requestScope.body}"/>
+  </definition>
+
+  <definition name="velocity.test.composite.mvel.definition" templateExpression="MVEL:layout"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   expression="MVEL:requestScope.body"/>
+  </definition>
+
+  <definition name="velocity.test.composite.ognl.definition" templateExpression="OGNL:layout"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   expression="OGNL:requestScope.body"/>
+  </definition>
+
+  <definition name="velocity.test.composite.el.doNotShow.definition" templateExpression="${layout}"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured definition."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   expression="${requestScope.doNotShowBody}"/>
+  </definition>
+
+  <definition name="velocity.test.definition.attribute.preparer" template="/velocity/layout_preparer.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.openbody.definition" template="/velocity/layout_closebody.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+      <put-attribute name="header" value="/velocity/header.vm" type="velocity" />
+      <put-attribute name="body"   value="/velocity/layout.vm" type="velocity" />
+  </definition>
+
+  <definition name="velocity.test.defaultvalues.definition" template="/velocity/layout_default.vm" templateType="velocity">
+      <put-attribute name="title"  value="This is the title."/>
+  </definition>
+</tiles-definitions>

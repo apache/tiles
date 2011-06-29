@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+    <display-name>Tiles Test Application</display-name>
+    <distributable/>
+
+    <listener>
+      <listener-class>org.apache.tiles.test.init.InitContextListener</listener-class>
+    </listener>
+    <listener>
+      <listener-class>org.apache.tiles.extras.module.ModularTilesListener</listener-class>
+    </listener>
+    <filter>
+        <filter-name>Tiles Decoration Filter</filter-name>
+        <filter-class>org.apache.tiles.web.util.TilesDecorationFilter</filter-class>
+        <init-param>
+            <param-name>definition</param-name>
+            <param-value>test.definition</param-value>
+        </init-param>
+        <init-param>
+            <param-name>attribute-name</param-name>
+            <param-value>body</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>Security Wrapping Filter</filter-name>
+        <filter-class>org.apache.tiles.test.filter.SecurityWrappingFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Tiles Decoration Filter</filter-name>
+        <url-pattern>/testdecorationfilter.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Tiles Decoration Filter</filter-name>
+        <url-pattern>/freemarker/testdecorationfilter.ftl</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Tiles Decoration Filter</filter-name>
+        <url-pattern>/velocity/testdecorationfilter.vm</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Security Wrapping Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <!-- Standard Action Servlet Configuration -->
+    <servlet>
+        <servlet-name>freemarker</servlet-name>
+        <servlet-class>org.apache.tiles.request.freemarker.servlet.SharedVariableLoaderFreemarkerServlet</servlet-class>
+
+        <!-- FreemarkerServlet settings: -->
+        <init-param>
+            <param-name>TemplatePath</param-name>
+            <param-value>/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>NoCache</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ContentType</param-name>
+            <param-value>text/html</param-value>
+        </init-param>
+
+        <!-- FreeMarker settings: -->
+        <init-param>
+            <param-name>template_update_delay</param-name>
+            <param-value>0</param-value> <!-- 0 is for development only! Use higher value otherwise. -->
+        </init-param>
+        <init-param>
+            <param-name>default_encoding</param-name>
+            <param-value>ISO-8859-1</param-value>
+        </init-param>
+        <init-param>
+            <param-name>number_format</param-name>
+            <param-value>0.##########</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.apache.tiles.request.freemarker.CUSTOM_SHARED_VARIABLE_FACTORIES</param-name>
+            <param-value>tiles,org.apache.tiles.freemarker.TilesSharedVariableFactory</param-value>
+        </init-param>
+
+        <load-on-startup>5</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>velocity</servlet-name>
+      <servlet-class>org.apache.velocity.tools.view.VelocityViewServlet</servlet-class>
+
+      <!--
+        Unless you plan to put your tools.xml and velocity.properties under
+        different folders or give them different names, then these two
+        init-params are unnecessary. The VelocityViewServlet will
+        automatically look for these files in the following locations.
+      -->
+      <init-param>
+        <param-name>org.apache.velocity.toolbox</param-name>
+        <param-value>/WEB-INF/tools.xml</param-value>
+      </init-param>
+
+      <init-param>
+        <param-name>org.apache.velocity.properties</param-name>
+        <param-value>/WEB-INF/velocity.properties</param-value>
+      </init-param>
+    </servlet>
+
+
+    <servlet>
+        <servlet-name>Tiles Dispatch Servlet</servlet-name>
+        <servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>
+    </servlet>
+
+    <!-- Standard Action Servlet Configuration -->
+    <servlet>
+        <servlet-name>layoutServlet</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.IncludingServlet</servlet-class>
+        <init-param>
+            <param-name>include</param-name>
+            <param-value>/layout.jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>errorInclude</param-name>
+            <param-value>/errorInclude.jsp</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>selectLocaleServlet</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME</param-name>
+            <param-value>test.localized.definition</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>selectLocaleServletDb</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME</param-name>
+            <param-value>test.localized.definition</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.CONTAINER_KEY</param-name>
+            <param-value>db</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>selectLocaleServletFreemarker</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME</param-name>
+            <param-value>freemarker.test.localized.definition</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>selectLocaleServletVelocity</servlet-name>
+        <servlet-class>org.apache.tiles.test.servlet.SelectLocaleServlet</servlet-class>
+        <init-param>
+            <param-name>org.apache.tiles.test.servlet.ServletConfig.DEFINITION_NAME</param-name>
+            <param-value>velocity.test.localized.definition</param-value>
+        </init-param>
+    </servlet>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet-mapping>
+        <servlet-name>freemarker</servlet-name>
+        <url-pattern>*.ftl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>layoutServlet</servlet-name>
+        <url-pattern>/servlets/layoutServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>selectLocaleServlet</servlet-name>
+        <url-pattern>/servlets/selectLocaleServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>selectLocaleServletDb</servlet-name>
+        <url-pattern>/servlets/selectLocaleServletDb</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>selectLocaleServletFreemarker</servlet-name>
+        <url-pattern>/freemarker/servlets/selectLocaleServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>selectLocaleServletVelocity</servlet-name>
+        <url-pattern>/velocity/servlets/selectLocaleServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>velocity</servlet-name>
+        <url-pattern>*.vm</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Tiles Dispatch Servlet</servlet-name>
+        <url-pattern>*.tiles</url-pattern>
+    </servlet-mapping>
+</web-app>
