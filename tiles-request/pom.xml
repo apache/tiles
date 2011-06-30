@@ -13,11 +13,6 @@
 	<name>Tiles Request Framework</name>
 	<description>Request abstraction for various request and template technologies</description>
 	<url>http://tiles.apache.org/framework/</url>
-	<scm>
-		<connection>scm:svn:http://svn.eu.apache.org/viewvc/tiles/request/trunk/</connection>
-		<developerConnection>scm:svn:https://svn.eu.apache.org/viewvc/tiles/request/trunk/</developerConnection>
-		<url>http://svn.eu.apache.org/viewvc/tiles/request/trunk/</url>
-	</scm>
 	<modules>
 		<module>tiles-request-api</module>
 		<module>tiles-request-servlet</module>

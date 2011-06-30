@@ -36,12 +36,12 @@
     <packaging>pom</packaging>
     <name>Tiles Reactor</name>
     <description>Tiles Reactor</description>
-    <url>http://tiles.apache.org</url>
+    <url>http://tiles.apache.org/sandbox/</url>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/sandbox/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/sandbox/trunk/</developerConnection>
-        <url>http://svn.apache.org/viewvc/tiles/sandbox/trunk/</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/trunk/</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/trunk/</developerConnection>
+        <url>http://svn.apache.org/viewvc/tiles/framework/trunk/</url>
     </scm>
 
     <ciManagement />

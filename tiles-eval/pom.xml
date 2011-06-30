@@ -13,11 +13,6 @@
 	<name>Tiles Expression Evaluation Framework</name>
 	<description>Expression evaluation framework for Request-based applications</description>
 	<url>http://tiles.apache.org/tiles-eval</url>
-	<scm>
-		<connection>scm:svn:http://svn.eu.apache.org/viewvc/tiles/eval/trunk/</connection>
-		<developerConnection>scm:svn:https://svn.eu.apache.org/viewvc/tiles/eval/trunk/</developerConnection>
-		<url>http://svn.eu.apache.org/viewvc/tiles/eval/trunk/</url>
-	</scm>
 	<build>
 		<pluginManagement>
 			<plugins>
