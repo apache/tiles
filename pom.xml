@@ -62,7 +62,7 @@
         <module>tiles-request</module>
         <module>tiles-autotag</module>
         <module>tiles-eval</module>
-        <module>tiles3</module>
+        <module>tiles-parent</module>
     </modules>
 
     <build>
