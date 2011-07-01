@@ -40,6 +40,7 @@ import org.apache.tiles.autotag.model.TemplateSuite;
 import org.apache.velocity.app.VelocityEngine;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.reflection.Sun14ReflectionProvider;
 
 /**
  * Abstract class to generate boilerplate code starting from template model classes.
@@ -95,7 +96,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         try {
             InputStream stream = findTemplateSuiteDescriptor();
-            XStream xstream = new XStream();
+            XStream xstream = new XStream(new Sun14ReflectionProvider());
             TemplateSuite suite = (TemplateSuite) xstream.fromXML(stream);
             stream.close();
 

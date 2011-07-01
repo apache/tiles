@@ -47,6 +47,7 @@ import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.reflection.Sun14ReflectionProvider;
 
 /**
  * Tests {@link CreateDescriptorMojo}.
@@ -79,7 +80,7 @@ public class CreateDescriptorMojoTest {
         replay(mavenProject);
         mojo.execute();
         InputStream sis = new FileInputStream(new File(temp, "META-INF/template-suite.xml"));
-        XStream xstream = new XStream();
+        XStream xstream = new XStream(new Sun14ReflectionProvider());
         TemplateSuite suite = (TemplateSuite) xstream.fromXML(sis);
         sis.close();
         assertEquals("test", suite.getName());
