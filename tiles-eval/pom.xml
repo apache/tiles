@@ -12,7 +12,7 @@
 	<packaging>pom</packaging>
 	<name>Tiles Expression Evaluation Framework</name>
 	<description>Expression evaluation framework for Request-based applications</description>
-	<url>http://tiles.apache.org/eval/</url>
+	<url>https://issues.apache.org/jira/browse/TEVAL</url>
 	<build>
 		<pluginManagement>
 			<plugins>

@@ -23,7 +23,7 @@
         <module>tiles-autotag-velocity</module>
         <module>maven-autotag-plugin</module>
     </modules>
-    <url>http://tiles.apache.org/autotag/</url>
+    <url>https://blogs.apache.org/tiles/entry/autotag_autogeneration_completed</url>
     <build>
         <pluginManagement>
             <plugins>

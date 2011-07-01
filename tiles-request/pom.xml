@@ -12,7 +12,7 @@
 	<packaging>pom</packaging>
 	<name>Tiles Request Framework</name>
 	<description>Request abstraction for various request and template technologies</description>
-	<url>http://tiles.apache.org/request/</url>
+	<url>https://blogs.apache.org/tiles/entry/abstracting_requests_and_templates</url>
 	<modules>
 		<module>tiles-request-api</module>
 		<module>tiles-request-servlet</module>
