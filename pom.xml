@@ -36,7 +36,7 @@
     <packaging>pom</packaging>
     <name>Tiles Reactor</name>
     <description>Tiles Reactor</description>
-    <url>http://tiles.apache.org/</url>
+    <url>http://tiles.apache.org/reactor/</url>
 
     <scm>
         <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/trunk/</connection>
