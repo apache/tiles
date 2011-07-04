@@ -30,4 +30,10 @@
 	<modules>
 		<module>tiles-eval-api</module>
 	</modules>
+    <distributionManagement>
+        <site>
+            <id>apache-site</id>
+            <url>scp://people.apache.org/www/tiles.apache.org/eval</url>
+        </site>
+    </distributionManagement>
 </project>

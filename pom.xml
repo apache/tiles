@@ -45,18 +45,6 @@
     </scm>
 
     <ciManagement />
-    
-    <distributionManagement>
-        <repository>
-            <id>tiles-staging</id>
-            <name>Apache Tiles Staging Repository</name>
-            <url>scp://people.apache.org/www/people.apache.org/builds/tiles-sandbox/${pom.version}/m2-staging-repository</url>
-        </repository>
-        <site>
-            <id>apache-site</id>
-            <url>scp://people.apache.org/www/tiles.apache.org/framework</url>
-        </site>
-    </distributionManagement>
 
     <modules>
         <module>tiles-request</module>
@@ -211,7 +199,7 @@
     </properties>
 
     <dependencies />
-    
+
     <profiles>
         <profile>
             <id>release</id>
@@ -282,7 +270,7 @@
                             </execution>
                         </executions>
                     </plugin>
-                     -->                    
+                     -->
                 </plugins>
             </build>
         </profile>

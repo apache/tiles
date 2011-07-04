@@ -37,4 +37,10 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+    <distributionManagement>
+        <site>
+            <id>apache-site</id>
+            <url>scp://people.apache.org/www/tiles.apache.org/request</url>
+        </site>
+    </distributionManagement>
 </project>

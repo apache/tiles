@@ -38,4 +38,10 @@
             </plugins>
         </pluginManagement>
     </build>
+    <distributionManagement>
+        <site>
+            <id>apache-site</id>
+            <url>scp://people.apache.org/www/tiles.apache.org/autotag</url>
+        </site>
+    </distributionManagement>
 </project>
