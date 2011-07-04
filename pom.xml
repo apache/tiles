@@ -69,7 +69,7 @@
     <distributionManagement>
         <site>
             <id>apache-site</id>
-            <url>scp://people.apache.org/www/tiles.apache.org/framework</url>
+            <url>scp://people.apache.org/www/tiles.apache.org/2.2/framework</url>
         </site>
     </distributionManagement>
 
