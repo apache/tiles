@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
 /*
- * $Id$
+ * $Id: site.xml 1081442 2011-03-14 16:21:08Z apetrelli $
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -43,10 +43,30 @@
         <menu name="Apache Tiles&#8482;">
             <item
                    name="Tiles Home"
-                   href="../../index.html"/>
+                   href="../index.html"/>
             <item
                    name="Request Microframework"
-                   href="../index.html"/>
+                   href="./index.html"/>
+        </menu>
+        <menu name="Reference">
+            <item
+                    name="Javadoc"
+                    href="apidocs/index.html"/>
+        </menu>
+
+        <menu name="Developers">
+            <item
+                    name="Building"
+                    href="/dev/building.html"/>
+            <item
+                    name="Snapshots"
+                    href="/dev/snapshots.html"/>
+            <item
+                    name="Release Process"
+                    href="/dev/release.html"/>
+            <item
+                    name="Selenium Testing"
+                    href="/selenium.html"/>
         </menu>
 
         <menu ref="modules" />
