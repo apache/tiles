@@ -158,7 +158,7 @@
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
-                    <configLocation>http://svn.eu.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks.xml
+                    <configLocation>http://svn.eu.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks_v5.xml
                     </configLocation>
                 </configuration>
             </plugin>
@@ -307,7 +307,7 @@
                                     <plugin>
                                         <artifactId>maven-checkstyle-plugin</artifactId>
                                         <configuration>
-                                            <configLocation>http://svn.eu.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks.xml
+                                            <configLocation>http://svn.eu.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks_v5.xml
                                             </configLocation>
                                         </configuration>
                                     </plugin>
