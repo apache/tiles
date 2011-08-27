@@ -22,8 +22,18 @@
          -----------
 
 What's new in Tiles 3.0
-  TODO...
 
+* New features in Tiles 3.0
+
+  * Apache Request: a framework independent request abstraction. Implementations for Servlet, Portlet, JSP, Velocity and FreeMarker.
+
+  * Apache Autotag: a project that automatically generates tags (or tag-like) artifact from a common template code for a range of templating languages.
+  All the Tiles 3 boilerplate code to templating models has been removed and uses the Autotag plugins instead:
+  it's a lot of boilerplate, boring code, now generated automatically.
+
+* Deprecations in Tiles 3.0
+
+  ...todo...
 
 What's new in Tiles 2.2
 
