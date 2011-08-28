@@ -29,7 +29,7 @@
 
     <body>
 
-        <section name="Apache Request&#8482; microframework project">
+        <section name="Apache Request microframework project">
 
             <p>Tiles-3 introduces a complete standalone and super simple abstraction around request/response objects.
                 <p>We've all seen that the various technologies like Servlet, Portlet, JSP, Velocity, FreeMarker seem to have a different abstraction of a common pattern.

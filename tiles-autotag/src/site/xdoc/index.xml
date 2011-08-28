@@ -29,7 +29,7 @@
 
     <body>
 
-        <section name="Apache Autotag&#8482; project">
+        <section name="Apache Autotag project">
 
             <p>Tiles-3 introduces a feature complete
                 <a href="http://svn.eu.apache.org/repos/asf/tiles/sandbox/trunk/tiles-autotag/" title="Autotag SVN directory">Autotag project</a>,
@@ -49,7 +49,7 @@
                 <li>the others (generate-jsp, generate-freemarker, generate-velocity) produce boilerplate code.</li>
             </ul>
                 <p>The projects using the latter mojos must include some runtime dependencies.</p>
-                <p>The result boilerplate code has been removed and uses the plugin instead: it's a lot of boilerplate, boring code, now generated automatically.
+                <p>The boilerplate code has been removed and uses the plugin instead: it's a lot of boilerplate, boring code, now generated automatically.
                 </p>
         </section>
     </body>
