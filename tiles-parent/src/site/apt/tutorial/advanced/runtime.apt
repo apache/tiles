@@ -76,7 +76,7 @@ Runtime Composition in JSP pages
   To create definitions at runtime, first of all you need to configure your
   Tiles-based application to use a
   {{{../../config-reference.html#org.apache.tiles.factory.TilesContainerFactory.MUTABLE}mutable container}}.
-  
+
   In your JSP page, now you can create definitions. This definition will be
   available during the request, and then it will expire.
 
@@ -93,12 +93,12 @@ Runtime Composition using APIs
   environment, you can use the <<container>> feature of Tiles. Essentially Tiles
   is a container that stores definitions, allow to render pages and allows to
   modify the configuration at runtime.
-  
+
 * Using the Tiles container
 
   To get the current container (in a servlet environment) you can use the
   <<TilesAccess>> class:
-  
+
 -------------------------------------
 TilesContainer container = TilesAccess.getContainer(
         request.getSession().getServletContext());
@@ -109,7 +109,7 @@ TilesContainer container = TilesAccess.getContainer(
   all the configured attributes.
 
 --------------------------------------
-TilesAttributeContext attributeContext = container.getAttributeContext(request,
+AttributeContext attributeContext = container.getAttributeContext(request,
         response);
 --------------------------------------
 
@@ -118,8 +118,7 @@ TilesAttributeContext attributeContext = container.getAttributeContext(request,
   the Tiles container:
 
 --------------------------------------
-TilesAttributeContext attributeContext = container.startContext(request,
-        response);
+AttributeContext attributeContext = container.startContext(request, response);
 attributeContext.setAttribute("body", "/tiles/body_customer.jsp");
 container.render("myapp.homepage", request, response);
 container.endContext(request, response);
@@ -129,8 +128,7 @@ container.endContext(request, response);
   contains all of its attributes filled, it will be rendered correctly.
 
 --------------------------------------
-TilesAttributeContext attributeContext = container.startContext(request,
-        response);
+AttributeContext attributeContext = container.startContext(request, response);
 attributeContext.setAttribute("body", "/tiles/body_customer.jsp");
 // Put all the other attributes.
 RequestDispatcher rd = request.getRequestDispatcher("/layouts/my_template.jsp");
