@@ -21,6 +21,7 @@
 package org.apache.tiles.request.servlet.extractor;
 
 import java.util.Enumeration;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -68,7 +69,7 @@ public class SessionScopeExtractor implements AttributeExtractor {
         if (session != null) {
             return session.getAttributeNames();
         }
-        return null;
+        return Collections.enumeration(Collections.<String>emptySet());
     }
 
     @Override

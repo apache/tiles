@@ -114,7 +114,9 @@ public class SessionScopeExtractorTest {
         expect(request.getSession(false)).andReturn(null);
 
         replay(request, session);
-        assertNull(extractor.getKeys());
+        Enumeration<String> keys = extractor.getKeys();
+        assertNotNull(keys);
+        assertFalse(keys.hasMoreElements());
         verify(request, session);
     }
 
