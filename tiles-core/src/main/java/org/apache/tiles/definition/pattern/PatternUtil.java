@@ -224,7 +224,7 @@ public final class PatternUtil {
                     .format(vars, new StringBuffer(), null).toString();
             // return the markers to their original invalid occurrences
             while (m.find()) {
-                st = st.replaceFirst("INVALID_FORMAT_ELEMENT", m.group());
+                st = st.replace("INVALID_FORMAT_ELEMENT", m.group());
             }
         }
         return st;
