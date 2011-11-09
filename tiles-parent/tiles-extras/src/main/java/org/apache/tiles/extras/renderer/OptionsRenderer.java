@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
 public final class OptionsRenderer implements TypeDetectingRenderer {
 
     private static final Pattern OPTIONS_PATTERN
-            = Pattern.compile(Pattern.quote("${options[") + ".+" + Pattern.quote("]}"));
+            = Pattern.compile(Pattern.quote("{options[") + "(.+)" + Pattern.quote("]}"));
 
     private static final Logger LOG = LoggerFactory.getLogger(OptionsRenderer.class);
 
@@ -68,38 +68,25 @@ public final class OptionsRenderer implements TypeDetectingRenderer {
     @Override
     public void render(final String path, final Request request) throws IOException {
 
-        final Matcher matcher =  OPTIONS_PATTERN.matcher((String) path);
+        Matcher matcher =  OPTIONS_PATTERN.matcher((String) path);
 
         if (null != matcher && matcher.find()) {
             boolean done = false;
-            final String match = matcher.group();
+            String match = matcher.group(1);
             ListAttribute fallbacks = (ListAttribute) TilesAccess
                     .getCurrentContainer(request)
                     .getAttributeContext(request)
-                    .getLocalAttribute(match);
+                    .getAttribute(match);
+
+            if(null == fallbacks){
+                throw new IllegalStateException("A matching list-attribute name=\"" + match + "\" must be defined.");
+            }else if(fallbacks.getValue().isEmpty()){
+                throw new IllegalStateException("list-attribute name=\"" + match + "\" must have minimum one attribute");
+            }
 
             for (Attribute option : (List<Attribute>) fallbacks.getValue()) {
-                final String template = path.replaceFirst(Pattern.quote(match), (String)option.getValue());
-                if(!Cache.isTemplateMissing(template)){
-                    try {
-                        if (null != applicationContext.getResource(template)) { // can throw FileNotFoundException !
-                            renderer.render(template, request); // can throw FileNotFoundException !
-                            done = true;
-                            Cache.setIfAbsentTemplateFound(template, true);
-                        }
-                    } catch (FileNotFoundException ex) {
-                        if(ex.getMessage().contains(template)){
-                            // expected outcome. continue loop.
-                            LOG.trace(ex.getMessage());
-                        }else{
-                            // comes from an inner templateAttribute.render(..) so throw on
-                            throw ex;
-                        }
-                    } catch(IOException ex){ //xxx ???
-                        throw ex;
-                    }
-                    Cache.setIfAbsentTemplateFound(template, false);
-                }
+                String template = path.replaceFirst(Pattern.quote(matcher.group()), (String)option.getValue());
+                done = renderAttempt(template, request);
                 if(done){ break; }
             }
             if (!done) {
@@ -108,6 +95,31 @@ public final class OptionsRenderer implements TypeDetectingRenderer {
         } else {
             renderer.render(path, request);
         }
+    }
+
+    private boolean renderAttempt(final String template, final Request request) throws IOException{
+        boolean result = false;
+        if(!Cache.isTemplateMissing(template)){
+            try {
+                if (null != applicationContext.getResource(template)) { // can throw FileNotFoundException !
+                    renderer.render(template, request); // can throw FileNotFoundException !
+                    result = true;
+                    Cache.setIfAbsentTemplateFound(template, true);
+                }
+            } catch (FileNotFoundException ex) {
+                if(ex.getMessage().contains(template)){
+                    // expected outcome. continue loop.
+                    LOG.trace(ex.getMessage());
+                }else{
+                    // comes from an inner templateAttribute.render(..) so throw on
+                    throw ex;
+                }
+            } catch(IOException ex){ //xxx ???
+                throw ex;
+            }
+            Cache.setIfAbsentTemplateFound(template, false);
+        }
+        return result;
     }
 
     private static final class Cache{
