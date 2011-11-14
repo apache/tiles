@@ -21,22 +21,23 @@
 package org.apache.tiles.autotag.freemarker.runtime;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.autotag.core.runtime.ModelBody;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Test;
-
 import freemarker.core.Environment;
 import freemarker.core.Macro;
 import freemarker.ext.servlet.FreemarkerServlet;
@@ -48,25 +49,17 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateNumberModel;
 
 /**
- * Tests {@link BodyFMModel}.
+ * Tests {@link FreemarkerAutotagRuntime}.
  *
  * @version $Rev$ $Date$
  */
-public class BodyFMModelTest {
-
-    /**
-     * Test method for
-     * {@link BodyFMModel#execute(Environment, Map, TemplateModel[], TemplateDirectiveBody)}
-     * .
-     *
-     * @throws IOException If something goes wrong.
-     * @throws TemplateModelException If something goes wrong.
-     */
+public class FreemarkerAutotagRuntimeTest {
+    
     @Test
-    public void testExecute() throws IOException, TemplateModelException {
-        BodyFMModel model = createMockBuilder(BodyFMModel.class).createMock();
+    public void testCreateRequest() throws IOException, TemplateModelException{
         @SuppressWarnings("unchecked")
         Map<String, TemplateModel> params = createMock(Map.class);
         Template template = createMock(Template.class);
@@ -103,14 +96,63 @@ public class BodyFMModelTest {
         replay(template, rootDataModel, out);
         Environment env = new Environment(template, rootDataModel, out);
 
-        model.execute(eq(params), isA(FreemarkerRequest.class),
-                isA(FreemarkerModelBody.class));
+        replay(params, body);
+        FreemarkerAutotagRuntime runtime = new FreemarkerAutotagRuntime();
 
-        replay(model, params, body);
-        model.execute(env, params, new TemplateModel[0], body);
-        verify(model, params, template, rootDataModel, out, servlet, wrapper,
-                servletContext, httpServletRequest, httpServletResponse, body,
-                applicationContext);
+        runtime.execute(env, params, new TemplateModel[0], body);
+        Request request = runtime.createRequest();
+        assertTrue(request instanceof FreemarkerRequest);
+        verify(servlet, wrapper, servletContext, applicationContext,
+                httpServletRequest, httpServletResponse, 
+                template, rootDataModel, out, 
+                params, body);
     }
-
+    
+    @Test
+    public void testCreateModelBody() {
+        Template template = createMock(Template.class);
+        TemplateHashModel rootDataModel = createMock(TemplateHashModel.class);
+        Writer out = createMock(Writer.class);
+        expect(template.getMacros()).andReturn(new HashMap<String, Macro>());
+        replay(template, rootDataModel, out);
+        Environment env = new Environment(template, rootDataModel, out);
+        @SuppressWarnings("unchecked")
+        Map<String, TemplateModel> params = createMock(Map.class);
+        TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
+        replay(params, body);
+        FreemarkerAutotagRuntime runtime = new FreemarkerAutotagRuntime();
+        runtime.execute(env, params, new TemplateModel[0], body);
+        ModelBody modelBody = runtime.createModelBody();
+        assertTrue(modelBody instanceof FreemarkerModelBody);
+        verify(template, rootDataModel, out, params, body);
+    }
+    
+    @Test
+    public void testGetParameter() throws TemplateModelException {
+        Template template = createMock(Template.class);
+        TemplateHashModel rootDataModel = createMock(TemplateHashModel.class);
+        Writer out = createMock(Writer.class);
+        expect(template.getMacros()).andReturn(new HashMap<String, Macro>());
+        replay(template, rootDataModel, out);
+        Environment env = new Environment(template, rootDataModel, out);
+        TemplateNumberModel model = createMock(TemplateNumberModel.class);
+        expect(model.getAsNumber()).andReturn(new Integer(42)).anyTimes();
+        @SuppressWarnings("unchecked")
+        Map<String, TemplateModel> params = createMock(Map.class);
+        TemplateDirectiveBody body = createMock(TemplateDirectiveBody.class);
+        expect(params.get(eq("notnullParam"))).andReturn(model).anyTimes();
+        expect(params.get(eq("nullParam"))).andReturn(null).anyTimes();
+        replay(model, params, body);
+        FreemarkerAutotagRuntime runtime = new FreemarkerAutotagRuntime();
+        runtime.execute(env, params, new TemplateModel[0], body);
+        Object notnullParam = runtime.getParameter("notnullParam", null);
+        Object nullParam = runtime.getParameter("nullParam", null);
+        Object notnullParamDefault = runtime.getParameter("notnullParam", new Integer(24));
+        Object nullParamDefault = runtime.getParameter("nullParam", new Integer(24));
+        assertEquals(42, notnullParam);
+        assertEquals(null, nullParam);
+        assertEquals(42, notnullParamDefault);
+        assertEquals(24, nullParamDefault);
+        verify(template, rootDataModel, out, model, params, body);        
+    }
 }

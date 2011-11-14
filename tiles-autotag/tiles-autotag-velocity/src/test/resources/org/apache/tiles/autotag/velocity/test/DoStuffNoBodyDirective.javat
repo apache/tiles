@@ -1,16 +1,18 @@
 package org.apache.tiles.autotag.velocity.test;
 
 import java.io.IOException;
-import java.util.Map;
+import java.io.Writer;
 
-import org.apache.tiles.autotag.velocity.runtime.BodylessDirective;
-import org.apache.tiles.autotag.velocity.runtime.VelocityUtil;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * Documentation of the DoStuffNoBody class.
  */
-public class DoStuffNoBodyDirective extends BodylessDirective {
+public class DoStuffNoBodyDirective extends Directive {
 
     /**
      * The template model.
@@ -25,12 +27,25 @@ public class DoStuffNoBodyDirective extends BodylessDirective {
 
     /** {@inheritDoc} */
     @Override
-    protected void execute(Map<String, Object> params, Request request) throws IOException {
+    public int getType() {
+        return LINE;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+            throws IOException {
+        AutotagRuntime runtime = new org.apache.tiles.autotag.velocity.test.Runtime();
+        if (runtime instanceof Directive) {
+            ((Directive) runtime).render(context, writer, node);
+        }
+        Request request = runtime.createRequest();
         model.execute(
-            (java.lang.Double) VelocityUtil.getObject(params.get("one"), null),
-            (java.lang.Float) VelocityUtil.getObject(params.get("two"), 0.0f),
-            (java.util.Date) VelocityUtil.getObject(params.get("three"), null),
+            (java.lang.Double) runtime.getParameter("one", null),
+            (java.lang.Float) runtime.getParameter("two", 0.0f),
+            (java.util.Date) runtime.getParameter("three", null),
             request
         );
+        return true;
     }
 }

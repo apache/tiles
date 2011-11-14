@@ -62,7 +62,7 @@ public class BasicTemplateGeneratorTest {
 
         expect(suite.getTemplateClasses()).andReturn(templateClasses);
         templateSuiteGenerator.generate(file, "my.package", suite, parameters);
-        templateClassGenerator.generate(file, "my.package", suite, templateClass, parameters);
+        templateClassGenerator.generate(file, "my.package", suite, templateClass, parameters, "my.Runtime");
 
         replay(suite, templateClass, templateSuiteGenerator, templateClassGenerator, parameters);
         TSGeneratorDirectoryPair tsPair = new TSGeneratorDirectoryPair(file, templateSuiteGenerator);
@@ -74,7 +74,7 @@ public class BasicTemplateGeneratorTest {
         BasicTemplateGenerator generator = new BasicTemplateGenerator(tsList, tcList, true, false);
         assertTrue(generator.isGeneratingClasses());
         assertFalse(generator.isGeneratingResources());
-        generator.generate("my.package", suite, parameters);
+        generator.generate("my.package", suite, parameters, "my.Runtime");
         verify(suite, templateClass, templateSuiteGenerator, templateClassGenerator, parameters);
     }
 }

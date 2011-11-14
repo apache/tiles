@@ -77,7 +77,8 @@ public class AbstractGenerateMojoTest {
         expect(mojo.createTemplateGeneratorFactory(isA(VelocityEngine.class))).andReturn(factory);
         expect(factory.createTemplateGenerator()).andReturn(generator);
         expect(mojo.getParameters()).andReturn(params);
-        generator.generate(eq("my.package"), isA(TemplateSuite.class), eq(params));
+        expect(mojo.getRuntimeClass()).andReturn("my.package.Runtime");
+        generator.generate(eq("my.package"), isA(TemplateSuite.class), eq(params), eq("my.package.Runtime"));
         expect(generator.isGeneratingClasses()).andReturn(true);
         expect(generator.isGeneratingResources()).andReturn(true);
         mavenProject.addResource(isA(Resource.class));

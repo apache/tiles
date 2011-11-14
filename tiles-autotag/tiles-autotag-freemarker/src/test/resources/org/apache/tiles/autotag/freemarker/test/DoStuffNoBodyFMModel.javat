@@ -3,16 +3,19 @@ package org.apache.tiles.autotag.freemarker.test;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tiles.autotag.freemarker.runtime.BodylessFMModel;
-import org.apache.tiles.autotag.freemarker.runtime.FreemarkerUtil;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
 
+import freemarker.core.Environment;
+import freemarker.template.TemplateDirectiveBody;
+import freemarker.template.TemplateDirectiveModel;
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 /**
  * Documentation of the DoStuffNoBody class.
  */
-public class DoStuffNoBodyFMModel extends BodylessFMModel {
+public class DoStuffNoBodyFMModel implements TemplateDirectiveModel {
 
     /**
      * The template model.
@@ -30,12 +33,19 @@ public class DoStuffNoBodyFMModel extends BodylessFMModel {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
-    public void execute(Map<String, TemplateModel> parms, Request request) throws IOException {
+    public void execute(Environment env, @SuppressWarnings("rawtypes") Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        AutotagRuntime runtime = new org.apache.tiles.autotag.freemarker.test.Runtime();
+        if (runtime instanceof TemplateDirectiveModel) {
+            ((TemplateDirectiveModel) runtime).execute(env, params, loopVars, body);
+        }
+        Request request = runtime.createRequest();
         model.execute(
-            (java.lang.Double) FreemarkerUtil.getAsObject(parms.get("one"), null),
-            (java.lang.Float) FreemarkerUtil.getAsObject(parms.get("two"), 0.0f),
-            (java.util.Date) FreemarkerUtil.getAsObject(parms.get("three"), null),
+            (java.lang.Double) runtime.getParameter("one", null),
+            (java.lang.Float) runtime.getParameter("two", 0.0f),
+            (java.util.Date) runtime.getParameter("three", null),
                 request
         );
     }

@@ -4,16 +4,19 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.tiles.autotag.core.runtime.ModelBody;
-import org.apache.tiles.autotag.freemarker.runtime.BodyFMModel;
-import org.apache.tiles.autotag.freemarker.runtime.FreemarkerUtil;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
 
+import freemarker.core.Environment;
+import freemarker.template.TemplateDirectiveBody;
+import freemarker.template.TemplateDirectiveModel;
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 /**
  * Documentation of the DoStuff class.
  */
-public class DoStuffFMModel extends BodyFMModel {
+public class DoStuffFMModel implements TemplateDirectiveModel {
 
     /**
      * The template model.
@@ -31,12 +34,20 @@ public class DoStuffFMModel extends BodyFMModel {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
-    public void execute(Map<String, TemplateModel> parms, Request request, ModelBody modelBody) throws IOException {
+    public void execute(Environment env, @SuppressWarnings("rawtypes") Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        AutotagRuntime runtime = new org.apache.tiles.autotag.freemarker.test.Runtime();
+        if (runtime instanceof TemplateDirectiveModel) {
+            ((TemplateDirectiveModel) runtime).execute(env, params, loopVars, body);
+        }
+        Request request = runtime.createRequest();
+        ModelBody modelBody = runtime.createModelBody();
         model.execute(
-            (java.lang.String) FreemarkerUtil.getAsObject(parms.get("one"), null),
-            (java.lang.Integer) FreemarkerUtil.getAsObject(parms.get("two"), 0),
-            (java.lang.Boolean) FreemarkerUtil.getAsObject(parms.get("three"), false),
+            (java.lang.String) runtime.getParameter("one", null),
+            (java.lang.Integer) runtime.getParameter("two", 0),
+            (java.lang.Boolean) runtime.getParameter("three", false),
                 request, modelBody
         );
     }

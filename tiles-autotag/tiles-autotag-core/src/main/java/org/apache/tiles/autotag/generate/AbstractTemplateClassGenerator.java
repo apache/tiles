@@ -60,21 +60,23 @@ public abstract class AbstractTemplateClassGenerator implements
 
     @Override
     public void generate(File directory, String packageName,
-            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters) {
+            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters,
+            String runtimeClass) {
         File dir = new File(directory, getDirectoryName(directory, packageName,
-                suite, clazz, parameters));
+                suite, clazz, parameters, runtimeClass));
         dir.mkdirs();
-        File file = new File(dir, getFilename(dir, packageName, suite, clazz, parameters));
+        File file = new File(dir, getFilename(dir, packageName, suite, clazz, parameters, runtimeClass));
         VelocityContext context = new VelocityContext();
         context.put("packageName", packageName);
         context.put("suite", suite);
         context.put("clazz", clazz);
         context.put("stringTool", new StringTool());
         context.put("parameters", parameters);
+        context.put("runtimeClass", runtimeClass);
         try {
             file.createNewFile();
             Template template = velocityEngine.getTemplate(getTemplatePath(dir,
-                    packageName, suite, clazz, parameters));
+                    packageName, suite, clazz, parameters, runtimeClass));
             Writer writer = new FileWriter(file);
             try {
                 template.merge(context, writer);
@@ -110,7 +112,7 @@ public abstract class AbstractTemplateClassGenerator implements
      * @return The template path.
      */
     protected abstract String getTemplatePath(File directory,
-            String packageName, TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters);
+            String packageName, TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters, String runtimeClass);
 
     /**
      * Calculates and returns the filename of the generated file.
@@ -123,7 +125,7 @@ public abstract class AbstractTemplateClassGenerator implements
      * @return The template path.
      */
     protected abstract String getFilename(File directory, String packageName,
-            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters);
+            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters, String runtimeClass);
 
     /**
      * Calculates and returns the directory where the file will be written..
@@ -136,5 +138,5 @@ public abstract class AbstractTemplateClassGenerator implements
      * @return The template path.
      */
     protected abstract String getDirectoryName(File directory,
-            String packageName, TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters);
+            String packageName, TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters, String runtimeClass);
 }

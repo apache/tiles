@@ -62,12 +62,25 @@ public class GenerateJspMojo extends AbstractGenerateMojo {
      */
     String taglibURI;
 
+    /**
+     * Name of the Runtime.
+     * @parameter expression="org.apache.tiles.autotag.jsp.runtime.Runtime"
+     * @required
+     */
+    String jspRuntime;
+
     /** {@inheritDoc} */
     @Override
     protected Map<String, String> getParameters() {
         Map<String, String> params = new HashMap<String, String>();
         params.put("taglibURI", taglibURI);
         return params;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected String getRuntimeClass() {
+        return jspRuntime;
     }
 
     @Override

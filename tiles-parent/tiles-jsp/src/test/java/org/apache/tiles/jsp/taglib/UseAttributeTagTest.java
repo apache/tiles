@@ -24,9 +24,15 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.JspFragment;
+import javax.servlet.jsp.tagext.JspTag;
 import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.VariableInfo;
 
@@ -35,7 +41,9 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
+import org.apache.tiles.request.jsp.JspRequest;
+import org.apache.tiles.request.scope.ReflectionContextResolver;
+import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,36 +69,48 @@ public class UseAttributeTagTest {
 
     /**
      * Test method for {@link org.apache.tiles.jsp.taglib.UseAttributeTag#execute(org.apache.tiles.request.Request)}.
+     * @throws IOException 
+     * @throws JspException 
      */
-    @SuppressWarnings("unchecked")
     @Test
-    public void testExecute() {
-        Request request = createMock(Request.class);
+    public void testExecute() throws JspException, IOException {
+        JspFragment jspBody = createMock(JspFragment.class);
+        PageContext pageContext = createMock(PageContext.class);
+        JspTag parent = createMock(JspTag.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        Map<String, Object> requestScope = createMock(Map.class);
-        Map<String, Object> scope = createMock(Map.class);
+        HttpServletRequest httpServletRequest = createMock(HttpServletRequest.class);
+        HttpServletResponse httpServletResponse = createMock(HttpServletResponse.class);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> applicationScope = createMock(Map.class);
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Attribute attribute = createMock(Attribute.class);
-
-        expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(request.getContext("request")).andReturn(requestScope);
-        expect(requestScope.get(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
-        expect(container.getAttributeContext(request)).andReturn(attributeContext);
+        expect(pageContext.getAttribute(
+                ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE,
+                PageContext.APPLICATION_SCOPE)).andReturn(applicationContext);
+        expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
+        expect(applicationScope.get(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE)).andReturn(new ReflectionContextResolver()).anyTimes();
+        expect(pageContext.getRequest()).andReturn(httpServletRequest);
+        expect(pageContext.getResponse()).andReturn(httpServletResponse);
+        expect(pageContext.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE)).andReturn(container);
+        expect(container.getAttributeContext(isA(JspRequest.class))).andReturn(attributeContext);
         expect(attributeContext.getAttribute("name")).andReturn(attribute);
-        expect(container.evaluate(attribute, request)).andReturn(new Integer(1));
-        expect(request.getContext("scope")).andReturn(scope);
-        Map<String, Object> toImport = new HashMap<String, Object>();
-        toImport.put("id", new Integer(1));
-        scope.putAll(toImport);
-
-        replay(request, applicationContext, requestScope, container, attributeContext, attribute, scope);
+        expect(container.evaluate(isA(Attribute.class), isA(JspRequest.class))).andReturn(new Integer(1));
+        pageContext.setAttribute("id", new Integer(1), PageContext.PAGE_SCOPE);
+        replay(jspBody, pageContext, parent, 
+               applicationContext, httpServletRequest, httpServletResponse, 
+               applicationScope, container, attributeContext, attribute);
         tag.setName("name");
-        tag.setScope("scope");
+        tag.setScope("page");
         tag.setId("id");
         tag.setIgnore(false);
-        tag.execute(request);
-        verify(request, applicationContext, requestScope, container, attributeContext, attribute, scope);
+        tag.setJspContext(pageContext);
+        tag.setJspBody(jspBody);
+        tag.setParent(parent);
+        tag.doTag();
+        verify(jspBody, pageContext, parent, 
+               applicationContext, httpServletRequest, httpServletResponse, 
+               container, attributeContext, attribute);
     }
 
     /**

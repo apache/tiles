@@ -106,7 +106,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
             propsStream.close();
             TemplateGenerator generator = createTemplateGeneratorFactory(
                     new VelocityEngine(props)).createTemplateGenerator();
-            generator.generate(packageName, suite, getParameters());
+            generator.generate(packageName, suite, getParameters(), getRuntimeClass());
             if (generator.isGeneratingResources()) {
                 Resource resource = new Resource();
                 resource.setDirectory(resourcesOutputDirectory.getAbsolutePath());
@@ -167,4 +167,9 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
         return retValue;
     }
 
+    /**
+     * Name of the Runtime class.
+     * @return The name of the Runtime class.
+     */
+    protected abstract String getRuntimeClass();
 }

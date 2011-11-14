@@ -46,6 +46,7 @@
                 </goals>
                 <configuration>
                     <packageName>org.apache.tiles.velocity.template</packageName>
+                    <velocityRuntime>org.apache.tiles.autotag.velocity.runtime.VelocityAutotagRuntime</velocityRuntime>
                 </configuration>
             </execution>
         </executions>

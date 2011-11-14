@@ -90,6 +90,7 @@
                 <configuration>
                     <taglibURI>http://tiles.apache.org/tags-tiles</taglibURI>
                     <packageName>org.apache.tiles.jsp.taglib</packageName>
+                    <jspRuntime>org.apache.tiles.autotag.jsp.runtime.JspAutotagRuntime</jspRuntime>
                 </configuration>
             </execution>
         </executions>

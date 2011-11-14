@@ -88,7 +88,8 @@ public class FMModelGeneratorTest {
                 "doStuff", "DoStuff", executeMethod);
         clazz.setDocumentation("Documentation of the DoStuff class.");
 
-        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite, clazz, null);
+        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite, clazz, null,
+                           "org.apache.tiles.autotag.freemarker.test.Runtime");
 
         InputStream expected = getClass()
                 .getResourceAsStream(
@@ -122,7 +123,8 @@ public class FMModelGeneratorTest {
 
         suite.addTemplateClass(clazz);
 
-        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite, clazz, null);
+        generator.generate(file, "org.apache.tiles.autotag.freemarker.test", suite, clazz, null,
+                           "org.apache.tiles.autotag.freemarker.test.Runtime");
 
         expected = getClass()
                 .getResourceAsStream(

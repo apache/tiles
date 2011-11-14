@@ -92,7 +92,8 @@ public class TagClassGeneratorTest {
                 "doStuff", "DoStuff", executeMethod);
         clazz.setDocumentation("Documentation of the DoStuff class.");
 
-        generator.generate(file, "org.apache.tiles.autotag.jsp.test", suite, clazz, parameters);
+        generator.generate(file, "org.apache.tiles.autotag.jsp.test", suite, clazz, parameters,
+                           "org.apache.tiles.autotag.jsp.test.Runtime");
 
         InputStream expected = getClass().getResourceAsStream("/org/apache/tiles/autotag/jsp/test/DoStuffTag.java");
         File effectiveFile = new File(file, "/org/apache/tiles/autotag/jsp/test/DoStuffTag.java");
@@ -124,7 +125,8 @@ public class TagClassGeneratorTest {
 
         suite.addTemplateClass(clazz);
 
-        generator.generate(file, "org.apache.tiles.autotag.jsp.test", suite, clazz, parameters);
+        generator.generate(file, "org.apache.tiles.autotag.jsp.test", suite, clazz, parameters,
+                           "org.apache.tiles.autotag.jsp.test.Runtime");
 
         expected = getClass().getResourceAsStream("/org/apache/tiles/autotag/jsp/test/DoStuffNoBodyTag.java");
         effectiveFile = new File(file, "/org/apache/tiles/autotag/jsp/test/DoStuffNoBodyTag.java");

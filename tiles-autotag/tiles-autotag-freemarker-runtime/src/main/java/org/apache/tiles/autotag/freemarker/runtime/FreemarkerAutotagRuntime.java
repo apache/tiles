@@ -20,10 +20,10 @@
  */
 package org.apache.tiles.autotag.freemarker.runtime;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.FreemarkerRequest;
 import org.apache.tiles.request.freemarker.FreemarkerRequestUtil;
@@ -34,30 +34,38 @@ import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateModel;
 
 /**
- * Base directive model for models with a body.
- *
- * @version $Rev$ $Date$
+ * A Runtime for implementing a Freemarker Template Directive.   
  */
-public abstract class BodyFMModel implements TemplateDirectiveModel {
+public class FreemarkerAutotagRuntime implements AutotagRuntime, TemplateDirectiveModel {
 
+    private Environment env;
+    private TemplateDirectiveBody body;
+    private Map<String, TemplateModel> params;
+    
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     @Override
-    public void execute(Environment env, @SuppressWarnings("rawtypes") Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws IOException {
-        Request request = FreemarkerRequest.createServletFreemarkerRequest(
-                FreemarkerRequestUtil.getApplicationContext(env), env);
-        ModelBody modelBody = new FreemarkerModelBody(env.getOut(), body);
-        execute(params, request, modelBody);
+    public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) {
+        this.env = env;
+        this.body = body;
+        this.params = params;
     }
 
-    /**
-     * Executes the model.
-     *
-     * @param parms Parameters.
-     * @param request The request.
-     * @param modelBody The body.
-     * @throws IOException If something goes wrong.
-     */
-    protected abstract void execute(Map<String, TemplateModel> parms,
-            Request request, ModelBody modelBody) throws IOException;
+    /** {@inheritDoc} */
+    @Override
+    public Request createRequest() {
+        return FreemarkerRequest.createServletFreemarkerRequest(FreemarkerRequestUtil.getApplicationContext(env), env);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ModelBody createModelBody() {
+        return new FreemarkerModelBody(env.getOut(), body);
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public Object getParameter(String name, Object defaultValue) {
+        return FreemarkerUtil.getAsObject((TemplateModel)params.get(name), defaultValue);
+    }
 }

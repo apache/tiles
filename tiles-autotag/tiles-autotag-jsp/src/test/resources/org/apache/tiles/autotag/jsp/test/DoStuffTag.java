@@ -2,14 +2,17 @@ package org.apache.tiles.autotag.jsp.test;
 
 import java.io.IOException;
 
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import org.apache.tiles.autotag.core.runtime.ModelBody;
-import org.apache.tiles.autotag.jsp.runtime.BodyTag;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
 
 /**
  * Documentation of the DoStuff class.
  */
-public class DoStuffTag extends BodyTag {
+public class DoStuffTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -93,7 +96,17 @@ public class DoStuffTag extends BodyTag {
 
     /** {@inheritDoc} */
     @Override
-    public void execute(Request request, ModelBody modelBody) throws IOException {
+    public void doTag() throws JspException, IOException {
+        AutotagRuntime runtime = new org.apache.tiles.autotag.jsp.test.Runtime();
+        if (runtime instanceof SimpleTagSupport) {
+            SimpleTagSupport tag = (SimpleTagSupport) runtime;
+            tag.setJspContext(getJspContext());
+            tag.setJspBody(getJspBody());
+            tag.setParent(getParent());
+            tag.doTag();
+        }
+        Request request = runtime.createRequest();        
+        ModelBody modelBody = runtime.createModelBody();
         model.execute(
             one,
             two,

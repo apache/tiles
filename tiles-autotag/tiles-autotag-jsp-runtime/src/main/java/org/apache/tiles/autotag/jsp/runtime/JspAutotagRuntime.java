@@ -20,41 +20,42 @@
  */
 package org.apache.tiles.autotag.jsp.runtime;
 
-import java.io.IOException;
-
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.jsp.JspRequest;
 
 /**
- * Base class for a tag with body.
- *
- * @version $Rev$ $Date$
+ * A Runtime for implementing JSP tag libraries.
  */
-public abstract class BodyTag extends SimpleTagSupport {
-
+public class JspAutotagRuntime extends SimpleTagSupport implements AutotagRuntime {
+    /** {@inheritDoc} */
     @Override
-    public void doTag() throws IOException {
-        JspContext pageContext = getJspContext();
-        Request request = JspRequest.createServletJspRequest(
-                org.apache.tiles.request.jsp.JspUtil
-                        .getApplicationContext(pageContext),
-                (PageContext) pageContext);
-        ModelBody modelBody = new JspModelBody(getJspBody(), pageContext);
-        execute(request, modelBody);
+    public void doTag() {
+        // do nothing like the parent implementation, 
+        // but don't throw exceptions either
     }
 
-    /**
-     * Executes the tag.
-     *
-     * @param request The request.
-     * @param modelBody The body.
-     * @throws IOException If something goes wrong.
-     */
-    protected abstract void execute(Request request, ModelBody modelBody)
-            throws IOException;
+    /** {@inheritDoc} */
+    @Override
+    public Request createRequest() {
+        JspContext pageContext = getJspContext();
+        return JspRequest.createServletJspRequest(org.apache.tiles.request.jsp.JspUtil.getApplicationContext(pageContext),
+                                                  (PageContext) pageContext);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ModelBody createModelBody() {
+        return new JspModelBody(getJspBody(), getJspContext());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Object getParameter(String name, Object defaultValue) {
+        throw new UnsupportedOperationException("the parameters are injected into the tag itself, no need to fetch them");
+    }
 }

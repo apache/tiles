@@ -1,17 +1,19 @@
 package org.apache.tiles.autotag.velocity.test;
 
 import java.io.IOException;
-import java.util.Map;
+import java.io.Writer;
 
 import org.apache.tiles.autotag.core.runtime.ModelBody;
-import org.apache.tiles.autotag.velocity.runtime.BodyDirective;
-import org.apache.tiles.autotag.velocity.runtime.VelocityUtil;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * Documentation of the DoStuff class.
  */
-public class DoStuffDirective extends BodyDirective {
+public class DoStuffDirective extends Directive {
 
     /**
      * The template model.
@@ -26,12 +28,26 @@ public class DoStuffDirective extends BodyDirective {
 
     /** {@inheritDoc} */
     @Override
-    protected void execute(Map<String, Object> params, Request request, ModelBody modelBody) throws IOException {
+    public int getType() {
+        return BLOCK;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+            throws IOException {
+        AutotagRuntime runtime = new org.apache.tiles.autotag.velocity.test.Runtime();
+        if (runtime instanceof Directive) {
+            ((Directive) runtime).render(context, writer, node);
+        }
+        Request request = runtime.createRequest();
+        ModelBody modelBody = runtime.createModelBody();
         model.execute(
-            (java.lang.String) VelocityUtil.getObject(params.get("one"), null),
-            (java.lang.Integer) VelocityUtil.getObject(params.get("two"), 0),
-            (java.lang.Boolean) VelocityUtil.getObject(params.get("three"), false),
+            (java.lang.String) runtime.getParameter("one", null),
+            (java.lang.Integer) runtime.getParameter("two", 0),
+            (java.lang.Boolean) runtime.getParameter("three", false),
             request, modelBody
         );
+        return true;
     }
 }

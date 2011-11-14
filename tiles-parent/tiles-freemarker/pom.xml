@@ -45,6 +45,7 @@
                 </goals>
                 <configuration>
                     <packageName>org.apache.tiles.freemarker.template</packageName>
+                    <freemarkerRuntime>org.apache.tiles.autotag.freemarker.runtime.FreemarkerAutotagRuntime</freemarkerRuntime>
                 </configuration>
             </execution>
         </executions>

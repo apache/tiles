@@ -25,10 +25,13 @@ import java.util.Map;
 #if(${clazz.hasBody()})
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 #end
-import org.apache.tiles.autotag.freemarker.runtime.Body#if(!${clazz.hasBody()})less#{end}FMModel;
-import org.apache.tiles.autotag.freemarker.runtime.FreemarkerUtil;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
 
+import freemarker.core.Environment;
+import freemarker.template.TemplateDirectiveBody;
+import freemarker.template.TemplateDirectiveModel;
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 /**
@@ -36,7 +39,7 @@ import freemarker.template.TemplateModel;
  * ${line}
 #end
  */
-public class ${clazz.tagClassPrefix}FMModel extends Body#if(!${clazz.hasBody()})less#{end}FMModel {
+public class ${clazz.tagClassPrefix}FMModel implements TemplateDirectiveModel {
 
     /**
      * The template model.
@@ -54,11 +57,21 @@ public class ${clazz.tagClassPrefix}FMModel extends Body#if(!${clazz.hasBody()})
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
-    public void execute(Map<String, TemplateModel> parms, Request request#if(${clazz.hasBody()}), ModelBody modelBody#end) throws IOException {
+    public void execute(Environment env, @SuppressWarnings("rawtypes") Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        AutotagRuntime runtime = new ${runtimeClass}();
+        if (runtime instanceof TemplateDirectiveModel) {
+            ((TemplateDirectiveModel) runtime).execute(env, params, loopVars, body);
+        }
+        Request request = runtime.createRequest();
+#if(${clazz.hasBody()})
+        ModelBody modelBody = runtime.createModelBody();
+#end
         model.execute(
 #foreach($parameter in ${clazz.parameters})
-            ($stringTool.getClassToCast(${parameter.type})) FreemarkerUtil.getAsObject(parms.get("${parameter.exportedName}"), $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue})),
+            ($stringTool.getClassToCast(${parameter.type})) runtime.getParameter("${parameter.exportedName}", $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue})),
 #end
                 request#if(${clazz.hasBody()}), modelBody#end
 

@@ -89,7 +89,8 @@ public class VelocityDirectiveGeneratorTest {
                 "doStuff", "DoStuff", executeMethod);
         clazz.setDocumentation("Documentation of the DoStuff class.");
 
-        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, clazz, null);
+        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, clazz, null,
+                           "org.apache.tiles.autotag.velocity.test.Runtime");
 
         InputStream expected = getClass()
                 .getResourceAsStream(
@@ -123,7 +124,8 @@ public class VelocityDirectiveGeneratorTest {
 
         suite.addTemplateClass(clazz);
 
-        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, clazz, null);
+        generator.generate(file, "org.apache.tiles.autotag.velocity.test", suite, clazz, null,
+                           "org.apache.tiles.autotag.velocity.test.Runtime");
 
         expected = getClass()
                 .getResourceAsStream(

@@ -46,19 +46,22 @@ public class TagClassGenerator extends AbstractTemplateClassGenerator {
 
     @Override
     protected String getDirectoryName(File directory, String packageName,
-            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters) {
+            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters,
+            String runtimeClass) {
         return packageName.replaceAll("\\.", "/");
     }
 
     @Override
     protected String getFilename(File directory, String packageName,
-            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters) {
+            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters,
+            String runtimeClass) {
         return clazz.getTagClassPrefix() + "Tag.java";
     }
 
     @Override
     protected String getTemplatePath(File directory, String packageName,
-            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters) {
+            TemplateSuite suite, TemplateClass clazz, Map<String, String> parameters,
+            String runtimeClass) {
         return "/org/apache/tiles/autotag/jsp/bodyTag.vm";
     }
 }

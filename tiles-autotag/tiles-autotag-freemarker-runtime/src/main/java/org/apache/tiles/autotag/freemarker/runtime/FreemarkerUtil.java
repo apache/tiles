@@ -50,9 +50,12 @@ public final class FreemarkerUtil {
      */
     public static Object getAsObject(TemplateModel model, Object defaultValue) {
         try {
-            Object retValue = DeepUnwrap.unwrap(model);
-            if (retValue == null) {
-                retValue = defaultValue;
+            Object retValue = defaultValue;
+            if (model != null) {
+                Object value = DeepUnwrap.unwrap(model);
+                if (value != null) {
+                    retValue = value;
+                }
             }
             return retValue;
         } catch (TemplateModelException e) {

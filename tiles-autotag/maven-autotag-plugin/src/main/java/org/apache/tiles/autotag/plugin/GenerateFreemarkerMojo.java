@@ -37,10 +37,23 @@ import org.apache.velocity.app.VelocityEngine;
  */
 public class GenerateFreemarkerMojo extends AbstractGenerateMojo {
 
+    /**
+     * Name of the Runtime.
+     * @parameter expression="org.apache.tiles.autotag.freemarker.runtime.Runtime"
+     * @required
+     */
+    String freemarkerRuntime;
+
     /** {@inheritDoc} */
     @Override
     protected Map<String, String> getParameters() {
         return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected String getRuntimeClass() {
+        return freemarkerRuntime;
     }
 
     @Override

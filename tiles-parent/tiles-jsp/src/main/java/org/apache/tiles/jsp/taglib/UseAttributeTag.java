@@ -21,11 +21,14 @@
 
 package org.apache.tiles.jsp.taglib;
 
+import java.io.IOException;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
-import org.apache.tiles.autotag.jsp.runtime.BodylessTag;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.template.ImportAttributeModel;
 
@@ -35,7 +38,7 @@ import org.apache.tiles.template.ImportAttributeModel;
  * @since Tiles 1.0
  * @version $Rev$ $Date$
  */
-public class UseAttributeTag extends BodylessTag {
+public class UseAttributeTag extends SimpleTagSupport {
 
     /**
      * The template model.
@@ -173,7 +176,16 @@ public class UseAttributeTag extends BodylessTag {
 
     /** {@inheritDoc} */
     @Override
-    public void execute(Request request) {
+    public void doTag() throws JspException, IOException {
+        AutotagRuntime runtime = new org.apache.tiles.autotag.jsp.runtime.JspAutotagRuntime();
+        if (runtime instanceof SimpleTagSupport) {
+            SimpleTagSupport tag = (SimpleTagSupport) runtime;
+            tag.setJspContext(getJspContext());
+            tag.setJspBody(getJspBody());
+            tag.setParent(getParent());
+            tag.doTag();
+        }
+        Request request = runtime.createRequest();        
         model.execute(name, scopeName, id, ignore, request);
     }
 

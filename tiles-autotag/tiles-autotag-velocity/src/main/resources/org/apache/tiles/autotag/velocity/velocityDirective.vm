@@ -20,21 +20,23 @@ package ${packageName};
  * under the License.
  *#
 import java.io.IOException;
-import java.util.Map;
+import java.io.Writer;
 
 #if(${clazz.hasBody()})
 import org.apache.tiles.autotag.core.runtime.ModelBody;
 #end
-import org.apache.tiles.autotag.velocity.runtime.Body#if(!${clazz.hasBody()})less#{end}Directive;
-import org.apache.tiles.autotag.velocity.runtime.VelocityUtil;
+import org.apache.tiles.autotag.core.runtime.AutotagRuntime;
 import org.apache.tiles.request.Request;
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
 #foreach($line in $stringTool.splitOnNewlines(${clazz.documentation}))
  * ${line}
 #end
  */
-public class ${clazz.tagClassPrefix}Directive extends Body#if(!${clazz.hasBody()})less#{end}Directive {
+public class ${clazz.tagClassPrefix}Directive extends Directive {
 
     /**
      * The template model.
@@ -49,13 +51,29 @@ public class ${clazz.tagClassPrefix}Directive extends Body#if(!${clazz.hasBody()
 
     /** {@inheritDoc} */
     @Override
-    protected void execute(Map<String, Object> params, Request request#if(${clazz.hasBody()}), ModelBody modelBody#end) throws IOException {
+    public int getType() {
+        return #if(${clazz.hasBody()})BLOCK#{else}LINE#{end};
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+            throws IOException {
+        AutotagRuntime runtime = new ${runtimeClass}();
+        if (runtime instanceof Directive) {
+            ((Directive) runtime).render(context, writer, node);
+        }
+        Request request = runtime.createRequest();
+#if(${clazz.hasBody()})
+        ModelBody modelBody = runtime.createModelBody();
+#end
         model.execute(
 #foreach($parameter in ${clazz.parameters})
-            ($stringTool.getClassToCast(${parameter.type})) VelocityUtil.getObject(params.get("${parameter.exportedName}"), $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue})),
+            ($stringTool.getClassToCast(${parameter.type})) runtime.getParameter("${parameter.exportedName}", $stringTool.getDefaultValue(${parameter.type}, ${parameter.defaultValue})),
 #end
             request#if(${clazz.hasBody()}), modelBody#end
 
         );
+        return true;
     }
 }
