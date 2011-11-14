@@ -30,25 +30,21 @@ Tiles Advanced Topics
   [[1]] {{{nesting-extending.html}Nesting and Extending Definitions}}
 
   [[2]] {{{list-attributes.html}List Attributes}}
-        
+
   [[3]] {{{runtime.html}Runtime Composition}}
 
   [[4]] {{{preparer.html}View Preparers}}
-  
+
   [[5]] {{{utils.html}Rendering Utilities}}
-  
+
   [[6]] {{{l10n.html}Tiles Localization}}
-  
-  [[7]] {{{beans.html}Using Beans as attributes}}
-  
-  [[8]] {{{menu.html}Menu-ing support}}
-  
-  [[9]] {{{wildcard.html}Wildcard support}}
-  
-  [[10]] {{{el-support.html}EL support}}
 
-  [[11]] {{{attribute-rendering.html}Attribute rendering}}
+  [[7]] {{{wildcard.html}Wildcard support}}
 
-  [[12]] {{{multiple-containers.html}Using multiple containers}}
+  [[8]] {{{el-support.html}EL support}}
 
-  [[13]] {{{security.html}Security}}
+  [[9]] {{{attribute-rendering.html}Attribute rendering}}
+
+  [[10]] {{{multiple-containers.html}Using multiple containers}}
+
+  [[11]] {{{security.html}Security}}
