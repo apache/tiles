@@ -90,7 +90,7 @@ public final class OptionsRenderer implements TypeDetectingRenderer {
                 if(done){ break; }
             }
             if (!done) {
-              throw new IOException("None of the fallback options existed for " + path);
+              throw new IOException("None of the options existed for " + path);
             }
         } else {
             renderer.render(path, request);
