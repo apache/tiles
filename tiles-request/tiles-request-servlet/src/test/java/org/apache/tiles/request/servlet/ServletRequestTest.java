@@ -36,10 +36,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.collection.AddOnlyMap;
 import org.apache.tiles.request.collection.HeaderValuesMap;
 import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
+import org.apache.tiles.request.servlet.extractor.HeaderExtractor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -223,7 +223,7 @@ public class ServletRequestTest {
      */
     @Test
     public void testGetResponseHeaders() {
-        assertTrue(req.getResponseHeaders() instanceof AddOnlyMap);
+        assertTrue(req.getResponseHeaders() instanceof HeaderExtractor);
     }
 
     /**

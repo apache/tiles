@@ -38,6 +38,7 @@ import java.util.Map;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.attribute.Addable;
 import org.apache.tiles.request.scope.ContextResolver;
 import org.junit.Test;
 
@@ -106,7 +107,7 @@ public class DefaultRequestWrapperTest {
     @Test
     public void testGetResponseHeaders() {
         Request wrappedRequest = createMockRequest();
-        Map<String, String> header = createMock(Map.class);
+        Addable<String> header = createMock(Addable.class);
 
         expect(wrappedRequest.getResponseHeaders()).andReturn(header);
 

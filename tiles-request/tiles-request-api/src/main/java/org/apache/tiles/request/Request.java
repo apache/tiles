@@ -27,6 +27,8 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.tiles.request.attribute.Addable;
+
 
 /**
  * Encapsulation of request information.
@@ -54,11 +56,11 @@ public interface Request {
     Map<String, String[]> getHeaderValues();
 
     /**
-     * Return an unreadable Map that writes headers to the response.
+     * Return an Addable object that can be used to write headers to the response.
      *
-     * @return The header map.
+     * @return An Addable object.
      */
-    Map<String, String> getResponseHeaders();
+    Addable<String> getResponseHeaders();
 
     /**
      * Returns a context map, given the scope name.

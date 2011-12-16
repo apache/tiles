@@ -30,6 +30,7 @@ import java.util.Map;
 import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.DispatchRequest;
+import org.apache.tiles.request.attribute.Addable;
 import org.apache.tiles.request.scope.ContextResolver;
 
 /**
@@ -71,7 +72,7 @@ public class DispatchRequestWrapper extends AbstractRequest implements
     }
 
     /** {@inheritDoc} */
-    public Map<String, String> getResponseHeaders() {
+    public Addable<String> getResponseHeaders() {
         return context.getResponseHeaders();
     }
 

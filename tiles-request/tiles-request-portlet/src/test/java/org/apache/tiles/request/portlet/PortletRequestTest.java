@@ -36,12 +36,12 @@ import javax.portlet.PortletResponse;
 import javax.servlet.ServletOutputStream;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.collection.AddOnlyMap;
 import org.apache.tiles.request.collection.HeaderValuesMap;
 import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
 import org.apache.tiles.request.portlet.delegate.RequestDelegate;
 import org.apache.tiles.request.portlet.delegate.ResponseDelegate;
+import org.apache.tiles.request.portlet.extractor.HeaderExtractor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -244,7 +244,7 @@ public class PortletRequestTest {
      */
     @Test
     public void testGetResponseHeaders() {
-        assertTrue(req.getResponseHeaders() instanceof AddOnlyMap);
+        assertTrue(req.getResponseHeaders() instanceof HeaderExtractor);
     }
 
     /**

@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.attribute.Addable;
 import org.apache.tiles.request.util.DefaultRequestWrapper;
 import org.apache.tiles.request.util.RequestWrapper;
 import org.junit.Before;
@@ -260,7 +261,7 @@ public class ReflectionContextResolverTest {
         }
 
         @Override
-        public Map<String, String> getResponseHeaders() {
+        public Addable<String> getResponseHeaders() {
             return null;
         }
 
