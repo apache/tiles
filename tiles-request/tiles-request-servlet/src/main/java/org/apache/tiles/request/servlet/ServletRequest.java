@@ -66,11 +66,6 @@ public class ServletRequest extends AbstractClientRequest {
     private HttpServletResponse response;
 
     /**
-     * The request objects, lazily initialized.
-     */
-    private Object[] requestObjects;
-
-    /**
      * The response output stream, lazily initialized.
      */
     private OutputStream outputStream;
@@ -279,16 +274,6 @@ public class ServletRequest extends AbstractClientRequest {
     /** {@inheritDoc} */
     public Locale getRequestLocale() {
         return request.getLocale();
-    }
-
-    /** {@inheritDoc} */
-    public Object[] getRequestObjects() {
-        if (requestObjects == null) {
-            requestObjects = new Object[2];
-            requestObjects[0] = request;
-            requestObjects[1] = response;
-        }
-        return requestObjects;
     }
 
     /** {@inheritDoc} */

@@ -260,18 +260,4 @@ public class FreemarkerRequestTest {
         assertNotNull(context.getWriter());
         verify(enclosedRequest);
     }
-    /**
-     * Tests {@link FreemarkerRequest#getRequestObjects()}.
-     */
-    @Test
-    public void testGetRequestObjects() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
-
-        replay(enclosedRequest);
-        context = new FreemarkerRequest(enclosedRequest, env);
-        Object[] requestObjects = context.getRequestObjects();
-        assertEquals(1, requestObjects.length);
-        assertEquals(env, requestObjects[0]);
-        verify(enclosedRequest);
-    }
 }

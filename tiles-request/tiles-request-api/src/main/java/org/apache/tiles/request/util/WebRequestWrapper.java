@@ -148,9 +148,4 @@ public class WebRequestWrapper extends AbstractRequest implements
     public boolean isUserInRole(String role) {
         return context.isUserInRole(role);
     }
-
-    /** {@inheritDoc} */
-    public Object[] getRequestObjects() {
-        return context.getRequestObjects();
-    }
 }

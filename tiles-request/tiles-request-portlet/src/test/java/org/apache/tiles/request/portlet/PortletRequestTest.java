@@ -395,13 +395,6 @@ public class PortletRequestTest {
     /**
      * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getRequestObjects()}.
      */
-    @Test
-    public void testGetRequestObjects() {
-        replay(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
-        assertArrayEquals(new Object[] {request, response}, req.getRequestObjects());
-        verify(applicationContext, request, response, portletContext, requestDelegate, responseDelegate);
-    }
-
     /**
      * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getRequest()}.
      */

@@ -20,11 +20,9 @@
  */
 package org.apache.tiles.request.util;
 
-import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
-import static org.junit.Assert.assertArrayEquals;
 
 import java.io.IOException;
 
@@ -97,21 +95,4 @@ public class WebRequestWrapperTest extends DefaultRequestWrapperTest {
         request.setContentType("text/html");
         verify(wrappedRequest);
     }
-
-    /**
-     * Test method for {@link org.apache.tiles.request.util.WebRequestWrapper#getRequestObjects()}.
-     */
-    @Test
-    public void testGetRequestObjects() {
-        WebRequest wrappedRequest = createMockRequest();
-        String[] param = new String[] {"one", "two", "three"};
-
-        expect(wrappedRequest.getRequestObjects()).andReturn(param);
-
-        replay(wrappedRequest);
-        WebRequestWrapper request = createRequestWrapper(wrappedRequest);
-        assertArrayEquals(param, request.getRequestObjects());
-        verify(wrappedRequest);
-    }
-
 }

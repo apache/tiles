@@ -104,11 +104,6 @@ public class PortletRequest extends AbstractClientRequest {
 
 
     /**
-     * The request objects, lazily initialized.
-     */
-    private Object[] requestObjects;
-
-    /**
      * <p>The lazily instantiated <code>Map</code> of session scope
      * attributes.</p>
      */
@@ -217,16 +212,6 @@ public class PortletRequest extends AbstractClientRequest {
     @Override
     public String[] getNativeScopes() {
         return SCOPES;
-    }
-
-    /** {@inheritDoc} */
-    public Object[] getRequestObjects() {
-        if (requestObjects == null) {
-            requestObjects = new Object[2];
-            requestObjects[0] = request;
-            requestObjects[1] = response;
-        }
-        return requestObjects;
     }
 
     /** {@inheritDoc} */

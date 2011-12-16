@@ -357,16 +357,6 @@ public class ServletRequestTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.servlet.ServletRequest#getRequestObjects()}.
-     */
-    @Test
-    public void testGetRequestObjects() {
-        replay(applicationContext, request, response);
-        assertArrayEquals(new Object[] {request, response}, req.getRequestObjects());
-        verify(applicationContext, request, response);
-    }
-
-    /**
      * Test method for {@link org.apache.tiles.request.servlet.ServletRequest#getRequest()}.
      */
     @Test

@@ -112,16 +112,6 @@ public class JspRequestTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.jsp.JspRequest#getRequestObjects()}.
-     */
-    @Test
-    public void testGetRequestObjects() {
-        replay(context, enclosedRequest);
-        assertArrayEquals(new Object[] { context }, request.getRequestObjects());
-        verify(context, enclosedRequest);
-    }
-
-    /**
      * Test method for {@link org.apache.tiles.request.jsp.JspRequest#doInclude(java.lang.String)}.
      * @throws IOException If something goes wrong.
      * @throws ServletException If something goes wrong.

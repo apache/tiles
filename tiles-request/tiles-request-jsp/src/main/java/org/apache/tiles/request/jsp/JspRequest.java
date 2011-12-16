@@ -58,11 +58,6 @@ public class JspRequest extends AbstractViewRequest {
     private PageContext pageContext;
 
     /**
-     * The request objects, lazily initialized.
-     */
-    private Object[] requestObjects;
-
-    /**
      * <p>The lazily instantiated <code>Map</code> of page scope
      * attributes.</p>
      */
@@ -189,16 +184,6 @@ public class JspRequest extends AbstractViewRequest {
                     PageContext.APPLICATION_SCOPE));
         }
         return (applicationScope);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public Object[] getRequestObjects() {
-        if (requestObjects == null) {
-            requestObjects = new Object[1];
-            requestObjects[0] = pageContext;
-        }
-        return requestObjects;
     }
 
     /**

@@ -55,12 +55,4 @@ public interface WebRequest extends Request {
      * @since 2.2.0
      */
     void setContentType(String contentType);
-
-    /**
-     * Returns the original request objects used to create this request.
-     *
-     * @return The request objects.
-     * @since 2.1.2
-     */
-    Object[] getRequestObjects();
 }

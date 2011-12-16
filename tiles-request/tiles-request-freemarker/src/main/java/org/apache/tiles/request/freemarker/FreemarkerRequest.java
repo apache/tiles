@@ -61,11 +61,6 @@ public class FreemarkerRequest extends AbstractViewRequest {
     private Map<String, Object> pageScope;
 
     /**
-     * The request objects.
-     */
-    private transient Object[] requestObjects;
-
-    /**
      * Creates a new Freemarker request.
      *
      * @param applicationContext The application context.
@@ -144,15 +139,5 @@ public class FreemarkerRequest extends AbstractViewRequest {
     @Override
     public Writer getWriter() {
         return env.getOut();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public Object[] getRequestObjects() {
-        if (requestObjects == null) {
-            requestObjects = new Object[1];
-            requestObjects[0] = env;
-        }
-        return requestObjects;
     }
 }

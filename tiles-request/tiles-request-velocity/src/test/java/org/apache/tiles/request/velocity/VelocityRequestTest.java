@@ -111,7 +111,7 @@ public class VelocityRequestTest {
     @Test
     public void testDoInclude() throws IOException, ServletException {
         String path = "this way";
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        ServletRequest enclosedRequest = createMock(ServletRequest.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         RequestDispatcher dispatcher = createMock(RequestDispatcher.class);
@@ -119,9 +119,9 @@ public class VelocityRequestTest {
         expect(servletRequest.getRequestDispatcher("this way")).andReturn(dispatcher);
         dispatcher.include(eq(servletRequest), isA(ExternalWriterHttpServletResponse.class));
         replay(servletRequest, response, dispatcher);
-        Object[] requestItems = new Object[] {servletRequest, response};
 
-        expect(enclosedRequest.getRequestObjects()).andReturn(requestItems);
+        expect(enclosedRequest.getRequest()).andReturn(servletRequest);
+        expect(enclosedRequest.getResponse()).andReturn(response);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -137,15 +137,15 @@ public class VelocityRequestTest {
     @Test(expected = IOException.class)
     public void testDoIncludeNoRequestDispatcher() throws IOException {
         String path = "this way";
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        ServletRequest enclosedRequest = createMock(ServletRequest.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
 
         expect(servletRequest.getRequestDispatcher("this way")).andReturn(null);
         replay(servletRequest, response);
-        Object[] requestItems = new Object[] {servletRequest, response};
 
-        expect(enclosedRequest.getRequestObjects()).andReturn(requestItems);
+        expect(enclosedRequest.getRequest()).andReturn(servletRequest);
+        expect(enclosedRequest.getResponse()).andReturn(response);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -162,7 +162,7 @@ public class VelocityRequestTest {
     @Test(expected = IOException.class)
     public void testDoIncludeServletException() throws IOException, ServletException {
         String path = "this way";
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        ServletRequest enclosedRequest = createMock(ServletRequest.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         RequestDispatcher dispatcher = createMock(RequestDispatcher.class);
@@ -171,9 +171,9 @@ public class VelocityRequestTest {
         dispatcher.include(eq(servletRequest), isA(ExternalWriterHttpServletResponse.class));
         expectLastCall().andThrow(new ServletException());
         replay(servletRequest, response, dispatcher);
-        Object[] requestItems = new Object[] {servletRequest, response};
 
-        expect(enclosedRequest.getRequestObjects()).andReturn(requestItems);
+        expect(enclosedRequest.getRequest()).andReturn(servletRequest);
+        expect(enclosedRequest.getResponse()).andReturn(response);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -245,48 +245,6 @@ public class VelocityRequestTest {
         context = new VelocityRequest(enclosedRequest, velocityContext, null);
         context.getWriter();
         verify(velocityContext, enclosedRequest);
-    }
-
-    /**
-     * Tests {@link VelocityRequest#getRequestObjects()}.
-     */
-    @Test
-    public void testGetRequestObjects() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
-        HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
-        HttpServletResponse response = createMock(HttpServletResponse.class);
-
-        replay(servletRequest, response);
-        Object[] requestItems = new Object[] {servletRequest, response};
-
-        expect(enclosedRequest.getRequestObjects()).andReturn(requestItems);
-
-        replay(velocityContext, enclosedRequest);
-        context = new VelocityRequest(enclosedRequest, velocityContext, writer);
-        assertArrayEquals(new Object[] { velocityContext, servletRequest,
-                response, writer }, context.getRequestObjects());
-        verify(velocityContext, enclosedRequest, servletRequest, response);
-    }
-
-    /**
-     * Tests {@link VelocityRequest#getRequestObjects()}.
-     */
-    @Test
-    public void testGetRequestObjectsNoWriter() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
-        HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
-        HttpServletResponse response = createMock(HttpServletResponse.class);
-
-        replay(servletRequest, response);
-        Object[] requestItems = new Object[] {servletRequest, response};
-
-        expect(enclosedRequest.getRequestObjects()).andReturn(requestItems);
-
-        replay(velocityContext, enclosedRequest);
-        context = new VelocityRequest(enclosedRequest, velocityContext, null);
-        assertArrayEquals(new Object[] { velocityContext, servletRequest,
-                response}, context.getRequestObjects());
-        verify(velocityContext, enclosedRequest, servletRequest, response);
     }
 
     /**
