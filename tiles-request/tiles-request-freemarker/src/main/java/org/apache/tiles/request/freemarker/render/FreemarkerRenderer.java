@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.FreemarkerRequestException;
 import org.apache.tiles.request.render.CannotRenderException;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
+import org.apache.tiles.request.render.Renderer;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
 
@@ -44,7 +44,7 @@ import org.apache.tiles.request.servlet.ServletRequest;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class FreemarkerRenderer implements TypeDetectingRenderer {
+public class FreemarkerRenderer implements Renderer {
 
     /**
      * The servlet that is used to forward the request to.

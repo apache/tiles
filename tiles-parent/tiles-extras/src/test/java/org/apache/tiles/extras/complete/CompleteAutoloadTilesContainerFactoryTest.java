@@ -56,7 +56,6 @@ import org.apache.tiles.request.render.ChainedDelegateRenderer;
 import org.apache.tiles.request.render.DispatchRenderer;
 import org.apache.tiles.request.render.Renderer;
 import org.apache.tiles.request.render.StringRenderer;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.apache.tiles.request.velocity.render.VelocityRenderer;
 import org.apache.velocity.tools.view.VelocityView;
@@ -174,11 +173,11 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
-        Renderer stringRenderer = createMock(TypeDetectingRenderer.class);
-        Renderer templateRenderer = createMock(TypeDetectingRenderer.class);
-        Renderer definitionRenderer = createMock(TypeDetectingRenderer.class);
-        Renderer velocityRenderer = createMock(TypeDetectingRenderer.class);
-        Renderer freemarkerRenderer = createMock(TypeDetectingRenderer.class);
+        Renderer stringRenderer = createMock(Renderer.class);
+        Renderer templateRenderer = createMock(Renderer.class);
+        Renderer definitionRenderer = createMock(Renderer.class);
+        Renderer velocityRenderer = createMock(Renderer.class);
+        Renderer freemarkerRenderer = createMock(Renderer.class);
 
         expect(rendererFactory.getRenderer("string")).andReturn(stringRenderer);
         expect(rendererFactory.getRenderer("template")).andReturn(templateRenderer);

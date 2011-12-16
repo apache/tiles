@@ -81,7 +81,6 @@ import org.apache.tiles.request.freemarker.servlet.SharedVariableLoaderFreemarke
 import org.apache.tiles.request.render.BasicRendererFactory;
 import org.apache.tiles.request.render.ChainedDelegateRenderer;
 import org.apache.tiles.request.render.Renderer;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.apache.tiles.request.velocity.render.VelocityRenderer;
 import org.apache.tiles.request.velocity.render.VelocityRendererBuilder;
 import org.apache.tiles.util.URLUtil;
@@ -165,16 +164,11 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
         ChainedDelegateRenderer retValue = new ChainedDelegateRenderer();
-        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
-                .getRenderer(DEFINITION_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
-                .getRenderer(VELOCITY_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
-                .getRenderer(FREEMARKER_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
-                .getRenderer(TEMPLATE_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
-                .getRenderer(STRING_RENDERER_NAME));
+        retValue.addAttributeRenderer(rendererFactory.getRenderer(DEFINITION_RENDERER_NAME));
+        retValue.addAttributeRenderer(rendererFactory.getRenderer(VELOCITY_RENDERER_NAME));
+        retValue.addAttributeRenderer(rendererFactory.getRenderer(FREEMARKER_RENDERER_NAME));
+        retValue.addAttributeRenderer(rendererFactory.getRenderer(TEMPLATE_RENDERER_NAME));
+        retValue.addAttributeRenderer(rendererFactory.getRenderer(STRING_RENDERER_NAME));
         return retValue;
     }
 

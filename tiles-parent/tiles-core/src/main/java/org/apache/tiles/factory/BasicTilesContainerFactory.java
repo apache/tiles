@@ -54,7 +54,6 @@ import org.apache.tiles.request.render.DispatchRenderer;
 import org.apache.tiles.request.render.Renderer;
 import org.apache.tiles.request.render.RendererFactory;
 import org.apache.tiles.request.render.StringRenderer;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
 
 /**
  * Factory that builds a standard Tiles container using only Java code.
@@ -298,12 +297,9 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
             TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
         ChainedDelegateRenderer retValue = new ChainedDelegateRenderer();
-        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
-                .getRenderer(DEFINITION_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
-                .getRenderer(TEMPLATE_RENDERER_NAME));
-        retValue.addAttributeRenderer((TypeDetectingRenderer) rendererFactory
-                .getRenderer(STRING_RENDERER_NAME));
+        retValue.addAttributeRenderer(rendererFactory.getRenderer(DEFINITION_RENDERER_NAME));
+        retValue.addAttributeRenderer(rendererFactory.getRenderer(TEMPLATE_RENDERER_NAME));
+        retValue.addAttributeRenderer(rendererFactory.getRenderer(STRING_RENDERER_NAME));
         return retValue;
     }
 

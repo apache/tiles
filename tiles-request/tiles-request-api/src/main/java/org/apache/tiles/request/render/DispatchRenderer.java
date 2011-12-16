@@ -31,7 +31,7 @@ import org.apache.tiles.request.DispatchRequest;
  * @version $Rev$ $Date$
  * @since 3.0.0
  */
-public class DispatchRenderer implements TypeDetectingRenderer {
+public class DispatchRenderer implements Renderer {
 
     /** {@inheritDoc} */
     @Override

@@ -25,7 +25,7 @@ import java.io.IOException;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.render.CannotRenderException;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
+import org.apache.tiles.request.render.Renderer;
 
 /**
  * Renders an attribute that contains a reference to a definition.
@@ -33,7 +33,7 @@ import org.apache.tiles.request.render.TypeDetectingRenderer;
  * @version $Rev$ $Date$
  * @since 3.0.0
  */
-public class DefinitionRenderer implements TypeDetectingRenderer {
+public class DefinitionRenderer implements Renderer {
 
     /**
      * The Tiles container.

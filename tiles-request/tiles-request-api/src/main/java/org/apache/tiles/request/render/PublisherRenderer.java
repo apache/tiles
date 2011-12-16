@@ -33,7 +33,7 @@ import org.apache.tiles.request.Request;
  * @version $Rev: 1035784 $ $Date: 2010-11-16 20:24:12 +0000 (Tue, 16 Nov 2010) $
  * @since 3.0.0
  */
-public class PublisherRenderer implements TypeDetectingRenderer {
+public class PublisherRenderer implements Renderer {
 
     public interface RendererListener{
         /** Called before the delegate's render method is called. */
@@ -44,11 +44,11 @@ public class PublisherRenderer implements TypeDetectingRenderer {
         void handleIOException(IOException ex, Request request) throws IOException;
     }
 
-    private final TypeDetectingRenderer renderer;
+    private final Renderer renderer;
     private final List<RendererListener> listeners = new ArrayList<RendererListener>();
     private final List<RendererListener> listenersReversed = new ArrayList<RendererListener>();
 
-    public PublisherRenderer(TypeDetectingRenderer renderer){
+    public PublisherRenderer(Renderer renderer){
         this.renderer = renderer;
     }
 

@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.render.CannotRenderException;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
+import org.apache.tiles.request.render.Renderer;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.velocity.Template;
@@ -42,7 +42,7 @@ import org.apache.velocity.tools.view.VelocityView;
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
-public class VelocityRenderer implements TypeDetectingRenderer {
+public class VelocityRenderer implements Renderer {
 
     /**
      * The VelocityView object to use.

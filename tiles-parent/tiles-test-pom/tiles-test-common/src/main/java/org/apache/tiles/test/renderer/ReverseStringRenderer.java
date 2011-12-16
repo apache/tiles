@@ -42,4 +42,9 @@ public class ReverseStringRenderer implements Renderer {
         }
         request.getWriter().write(String.valueOf(newArray));
     }
+
+    @Override
+    public boolean isRenderable(String path, Request request) {
+        return true;
+    }
 }

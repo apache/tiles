@@ -13,7 +13,7 @@ import org.apache.tiles.ListAttribute;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
+import org.apache.tiles.request.render.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  * Currently only supports one occurrance of such an "option" pattern in the attribute's value.
  *
  */
-public final class OptionsRenderer implements TypeDetectingRenderer {
+public final class OptionsRenderer implements Renderer {
 
     private static final Pattern OPTIONS_PATTERN
             = Pattern.compile(Pattern.quote("{options[") + "(.+)" + Pattern.quote("]}"));
@@ -53,9 +53,9 @@ public final class OptionsRenderer implements TypeDetectingRenderer {
     private static final Logger LOG = LoggerFactory.getLogger(OptionsRenderer.class);
 
     private final ApplicationContext applicationContext;
-    private final TypeDetectingRenderer renderer;
+    private final Renderer renderer;
 
-    public OptionsRenderer(final ApplicationContext applicationContext, final TypeDetectingRenderer renderer){
+    public OptionsRenderer(final ApplicationContext applicationContext, final Renderer renderer){
         this.applicationContext = applicationContext;
         this.renderer = renderer;
     }

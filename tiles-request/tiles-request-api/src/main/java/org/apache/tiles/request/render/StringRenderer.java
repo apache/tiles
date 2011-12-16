@@ -29,7 +29,7 @@ import org.apache.tiles.request.Request;
  *
  * @version $Rev$ $Date$
  */
-public class StringRenderer implements TypeDetectingRenderer {
+public class StringRenderer implements Renderer {
 
     /** {@inheritDoc} */
     @Override

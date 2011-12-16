@@ -38,7 +38,7 @@ public class ChainedDelegateRenderer implements Renderer {
     /**
      * The list of chained renderers.
      */
-    private List<TypeDetectingRenderer> renderers;
+    private List<Renderer> renderers;
 
     /**
      * Constructor.
@@ -46,7 +46,7 @@ public class ChainedDelegateRenderer implements Renderer {
      * @since 2.2.1
      */
     public ChainedDelegateRenderer() {
-        renderers = new ArrayList<TypeDetectingRenderer>();
+        renderers = new ArrayList<Renderer>();
     }
 
     /**
@@ -55,7 +55,7 @@ public class ChainedDelegateRenderer implements Renderer {
      *
      * @param renderer The renderer to add.
      */
-    public void addAttributeRenderer(TypeDetectingRenderer renderer) {
+    public void addAttributeRenderer(Renderer renderer) {
         renderers.add(renderer);
     }
 
@@ -66,7 +66,7 @@ public class ChainedDelegateRenderer implements Renderer {
             throw new NullPointerException("The attribute value is null");
         }
 
-        for (TypeDetectingRenderer renderer : renderers) {
+        for (Renderer renderer : renderers) {
             if (renderer.isRenderable(value, request)) {
                 renderer.render(value, request);
                 return;
@@ -74,5 +74,15 @@ public class ChainedDelegateRenderer implements Renderer {
         }
 
         throw new CannotRenderException("Cannot renderer value '" + value + "'");
+    }
+
+    /** {@inheritDoc} */
+    public boolean isRenderable(String value, Request request) {
+        for (Renderer renderer : renderers) {
+            if (renderer.isRenderable(value, request)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

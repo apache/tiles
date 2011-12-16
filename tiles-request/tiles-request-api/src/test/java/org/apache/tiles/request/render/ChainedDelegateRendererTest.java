@@ -45,26 +45,26 @@ public class ChainedDelegateRendererTest {
     /**
      * A mock string attribute renderer.
      */
-    private TypeDetectingRenderer stringRenderer;
+    private Renderer stringRenderer;
 
     /**
      * A mock template attribute renderer.
      */
-    private TypeDetectingRenderer templateRenderer;
+    private Renderer templateRenderer;
 
     /**
      * A mock definition attribute renderer.
      */
-    private TypeDetectingRenderer definitionRenderer;
+    private Renderer definitionRenderer;
 
     /**
      * Sets up the test.
      */
     @Before
     public void setUp() {
-        stringRenderer = createMock(TypeDetectingRenderer.class);
-        templateRenderer = createMock(TypeDetectingRenderer.class);
-        definitionRenderer = createMock(TypeDetectingRenderer.class);
+        stringRenderer = createMock(Renderer.class);
+        templateRenderer = createMock(Renderer.class);
+        definitionRenderer = createMock(Renderer.class);
         renderer = new ChainedDelegateRenderer();
         renderer.addAttributeRenderer(definitionRenderer);
         renderer.addAttributeRenderer(templateRenderer);

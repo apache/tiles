@@ -48,7 +48,6 @@ import org.apache.tiles.request.render.DispatchRenderer;
 import org.apache.tiles.request.render.Renderer;
 import org.apache.tiles.request.render.RendererFactory;
 import org.apache.tiles.request.render.StringRenderer;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
 import org.easymock.EasyMock;
 
 /**
@@ -197,9 +196,9 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
-        Renderer stringRenderer = createMock(TypeDetectingRenderer.class);
-        Renderer templateRenderer = createMock(TypeDetectingRenderer.class);
-        Renderer definitionRenderer = createMock(TypeDetectingRenderer.class);
+        Renderer stringRenderer = createMock(Renderer.class);
+        Renderer templateRenderer = createMock(Renderer.class);
+        Renderer definitionRenderer = createMock(Renderer.class);
 
         expect(rendererFactory.getRenderer("string")).andReturn(stringRenderer);
         expect(rendererFactory.getRenderer("template")).andReturn(templateRenderer);

@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.render.CannotRenderException;
-import org.apache.tiles.request.render.TypeDetectingRenderer;
+import org.apache.tiles.request.render.Renderer;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.velocity.Template;
 import org.apache.velocity.tools.view.VelocityView;
@@ -67,7 +67,7 @@ public class VelocityRendererTest {
         view.merge(template, context, writer);
 
         replay(view, request, httpRequest, response, context, template, writer);
-        TypeDetectingRenderer renderer = new VelocityRenderer(view);
+        Renderer renderer = new VelocityRenderer(view);
         renderer.render("/test.vm", request);
         verify(view, request, httpRequest, response, context, template, writer);
     }
@@ -82,7 +82,7 @@ public class VelocityRendererTest {
         ServletRequest request = createMock(ServletRequest.class);
 
         replay(view, request);
-        TypeDetectingRenderer renderer = new VelocityRenderer(view);
+        Renderer renderer = new VelocityRenderer(view);
         try {
             renderer.render(null, request);
         } finally {
@@ -99,7 +99,7 @@ public class VelocityRendererTest {
     public void testIsRenderable() {
         VelocityView view = createMock(VelocityView.class);
         replay(view);
-        TypeDetectingRenderer renderer = new VelocityRenderer(view);
+        Renderer renderer = new VelocityRenderer(view);
         assertTrue(renderer.isRenderable("/my/template.vm", null));
         assertFalse(renderer.isRenderable("my/template.vm", null));
         assertFalse(renderer.isRenderable("/my/template.jsp", null));

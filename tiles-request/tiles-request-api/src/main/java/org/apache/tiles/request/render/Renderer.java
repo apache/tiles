@@ -40,4 +40,14 @@ public interface Renderer {
      * @throws IOException If something goes wrong during rendition.
      */
     void render(String path, Request request) throws IOException;
+
+    /**
+     * Checks if this renderer can render a path. Note that this does not mean
+     * it is the <strong>best</strong> renderer available, but checks only its capability.
+     *
+     * @param path The path to be rendered.
+     * @param request The request context.
+     * @return <code>true</code> if this renderer can render the attribute.
+     */
+    boolean isRenderable(String path, Request request);
 }
