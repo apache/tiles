@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.WebRequest;
+import org.apache.tiles.request.DispatchRequest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,13 +50,13 @@ public class DispatchRendererTest {
 
     /**
      * Tests
-     * {@link DispatchRenderer#render(String, WebRequest)}.
+     * {@link DispatchRenderer#render(String, DispatchRequest)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
     @Test
     public void testWrite() throws IOException {
-        WebRequest requestContext = createMock(WebRequest.class);
+        DispatchRequest requestContext = createMock(DispatchRequest.class);
         requestContext.dispatch("/myTemplate.jsp");
         replay(requestContext);
         renderer.render("/myTemplate.jsp", requestContext);
@@ -65,13 +65,13 @@ public class DispatchRendererTest {
 
     /**
      * Tests
-     * {@link DispatchRenderer#render(String, WebRequest)}.
+     * {@link DispatchRenderer#render(String, DispatchRequest)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
     @Test(expected = CannotRenderException.class)
     public void testWriteNull() throws IOException {
-        WebRequest requestContext = createMock(WebRequest.class);
+        DispatchRequest requestContext = createMock(DispatchRequest.class);
         replay(requestContext);
         renderer.render(null, requestContext);
         verify(requestContext);
@@ -79,11 +79,11 @@ public class DispatchRendererTest {
 
     /**
      * Tests
-     * {@link DispatchRenderer#isRenderable(String, WebRequest)}.
+     * {@link DispatchRenderer#isRenderable(String, DispatchRequest)}.
      */
     @Test
     public void testIsRenderable() {
-        Request requestContext = createMock(WebRequest.class);
+        Request requestContext = createMock(DispatchRequest.class);
         replay(requestContext);
         assertTrue(renderer.isRenderable("/myTemplate.jsp", requestContext));
         assertFalse(renderer.isRenderable(null, requestContext));

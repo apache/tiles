@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.AbstractViewRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.WebRequest;
+import org.apache.tiles.request.DispatchRequest;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.servlet.ServletUtil;
@@ -80,7 +80,7 @@ public class VelocityRequest extends AbstractViewRequest {
     public static VelocityRequest createVelocityRequest(
             ApplicationContext applicationContext, HttpServletRequest request,
             HttpServletResponse response, Context velocityContext, Writer writer) {
-        WebRequest servletRequest = new ServletRequest(
+        DispatchRequest servletRequest = new ServletRequest(
                 applicationContext, request, response);
         VelocityRequest velocityRequest = new VelocityRequest(
                 servletRequest, velocityContext, writer);
@@ -96,7 +96,7 @@ public class VelocityRequest extends AbstractViewRequest {
      * @since 2.2.0
      */
     public VelocityRequest(
-            WebRequest enclosedRequest, Context ctx, Writer writer) {
+            DispatchRequest enclosedRequest, Context ctx, Writer writer) {
         super(enclosedRequest);
         this.ctx = ctx;
         this.writer = writer;

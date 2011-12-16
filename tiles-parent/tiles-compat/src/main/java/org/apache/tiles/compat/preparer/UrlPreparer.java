@@ -27,7 +27,7 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.WebRequest;
+import org.apache.tiles.request.DispatchRequest;
 
 /**
  * Uses a URL that acts as a preparer. When
@@ -58,9 +58,9 @@ public class UrlPreparer implements ViewPreparer {
     public void execute(Request tilesContext,
             AttributeContext attributeContext) {
 
-        if (tilesContext instanceof WebRequest) {
+        if (tilesContext instanceof DispatchRequest) {
             try {
-                ((WebRequest) tilesContext).include(url);
+                ((DispatchRequest) tilesContext).include(url);
             } catch (IOException e) {
                 throw new PreparerException("The inclusion of the URL " + url
                         + " threw an I/O exception", e);

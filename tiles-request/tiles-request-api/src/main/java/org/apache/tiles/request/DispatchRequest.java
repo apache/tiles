@@ -29,7 +29,7 @@ import java.io.IOException;
  * @since 2.0
  * @version $Rev$ $Date$
  */
-public interface WebRequest extends Request {
+public interface DispatchRequest extends Request {
 
     /**
      * Dispatches the request to a specified path.

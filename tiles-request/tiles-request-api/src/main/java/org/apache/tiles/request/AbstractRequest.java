@@ -25,7 +25,7 @@ package org.apache.tiles.request;
  *
  * @version $Rev$ $Date: 2010-11-14 21:32:50 +0100 (dom, 14 nov 2010)$
  */
-public abstract class AbstractRequest implements WebRequest {
+public abstract class AbstractRequest implements DispatchRequest {
 
     /**
      * Name of the attribute used to store the force-include option.

@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.WebRequest;
+import org.apache.tiles.request.DispatchRequest;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.velocity.context.Context;
@@ -95,7 +95,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetNativeScopes() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         replay(enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
         assertArrayEquals(new String[] {"page"}, context.getNativeScopes());
@@ -186,7 +186,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetPrintWriter() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -199,7 +199,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetPrintWriterPrintWriter() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
 
         PrintWriter printWriter = new PrintWriter(writer);
         replay(velocityContext, enclosedRequest);
@@ -213,7 +213,7 @@ public class VelocityRequestTest {
      */
     @Test(expected = IllegalStateException.class)
     public void testGetPrintWriterNoWriter() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, null);
@@ -226,7 +226,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetWriter() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -239,7 +239,7 @@ public class VelocityRequestTest {
      */
     @Test(expected = IllegalStateException.class)
     public void testGetWriterNoWriter() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, null);
@@ -252,7 +252,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetPageScope() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);

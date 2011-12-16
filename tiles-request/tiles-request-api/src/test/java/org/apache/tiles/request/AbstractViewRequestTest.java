@@ -47,7 +47,7 @@ public class AbstractViewRequestTest {
     /**
      * The internal request.
      */
-    private WebRequest wrappedRequest;
+    private DispatchRequest wrappedRequest;
 
     /**
      * The application context.
@@ -69,7 +69,7 @@ public class AbstractViewRequestTest {
      */
     @Before
     public void setUp() {
-        wrappedRequest = createMock(WebRequest.class);
+        wrappedRequest = createMock(DispatchRequest.class);
         request = createMockBuilder(AbstractViewRequest.class).withConstructor(
                 wrappedRequest).createMock();
         applicationContext = createMock(ApplicationContext.class);

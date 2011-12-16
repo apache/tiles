@@ -33,7 +33,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.WebRequest;
+import org.apache.tiles.request.DispatchRequest;
 import org.apache.tiles.request.collection.ScopeMap;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.junit.Before;
@@ -49,7 +49,7 @@ public class JspRequestTest {
     /**
      * The enclosed request.
      */
-    private WebRequest enclosedRequest;
+    private DispatchRequest enclosedRequest;
 
     /**
      * The page context.
@@ -66,7 +66,7 @@ public class JspRequestTest {
      */
     @Before
     public void setUp() {
-        enclosedRequest = createMock(WebRequest.class);
+        enclosedRequest = createMock(DispatchRequest.class);
         context = createMock(PageContext.class);
         request = new JspRequest(enclosedRequest, context);
     }

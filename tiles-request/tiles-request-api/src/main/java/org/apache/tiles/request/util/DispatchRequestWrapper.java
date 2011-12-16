@@ -29,7 +29,7 @@ import java.util.Map;
 
 import org.apache.tiles.request.AbstractRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.WebRequest;
+import org.apache.tiles.request.DispatchRequest;
 import org.apache.tiles.request.scope.ContextResolver;
 
 /**
@@ -38,25 +38,25 @@ import org.apache.tiles.request.scope.ContextResolver;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public class WebRequestWrapper extends AbstractRequest implements
+public class DispatchRequestWrapper extends AbstractRequest implements
         RequestWrapper {
 
     /**
      * The wrapper request context object.
      */
-    private WebRequest context;
+    private DispatchRequest context;
 
     /**
      * Constructor.
      *
      * @param context The request context to wrap.
      */
-    public WebRequestWrapper(WebRequest context) {
+    public DispatchRequestWrapper(DispatchRequest context) {
         this.context = context;
     }
 
     /** {@inheritDoc} */
-    public WebRequest getWrappedRequest() {
+    public DispatchRequest getWrappedRequest() {
         return context;
     }
 

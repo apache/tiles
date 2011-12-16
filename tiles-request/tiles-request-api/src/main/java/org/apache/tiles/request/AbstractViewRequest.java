@@ -22,7 +22,7 @@ package org.apache.tiles.request;
 
 import java.io.IOException;
 
-import org.apache.tiles.request.util.WebRequestWrapper;
+import org.apache.tiles.request.util.DispatchRequestWrapper;
 
 /**
  * Base class for "view" requests, i.e. requests created into view technologies,
@@ -31,14 +31,14 @@ import org.apache.tiles.request.util.WebRequestWrapper;
  *
  * @version $Rev$ $Date$
  */
-public class AbstractViewRequest extends WebRequestWrapper {
+public class AbstractViewRequest extends DispatchRequestWrapper {
 
     /**
      * Constructor.
      *
      * @param request The base request.
      */
-    public AbstractViewRequest(WebRequest request) {
+    public AbstractViewRequest(DispatchRequest request) {
         super(request);
     }
 

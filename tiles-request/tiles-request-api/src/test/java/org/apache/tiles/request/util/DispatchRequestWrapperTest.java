@@ -27,71 +27,71 @@ import static org.easymock.classextension.EasyMock.verify;
 import java.io.IOException;
 
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.WebRequest;
+import org.apache.tiles.request.DispatchRequest;
 import org.junit.Test;
 
 /**
- * Tests {@link WebRequestWrapper}.
+ * Tests {@link DispatchRequestWrapper}.
  *
  * @version $Rev$ $Date$
  */
-public class WebRequestWrapperTest extends DefaultRequestWrapperTest {
+public class DispatchRequestWrapperTest extends DefaultRequestWrapperTest {
 
     @Override
-    protected WebRequest createMockRequest() {
-        WebRequest wrappedRequest = createMock(WebRequest.class);
+    protected DispatchRequest createMockRequest() {
+        DispatchRequest wrappedRequest = createMock(DispatchRequest.class);
         return wrappedRequest;
     }
 
     @Override
-    protected WebRequestWrapper createRequestWrapper(Request wrappedRequest) {
-        WebRequestWrapper request = new WebRequestWrapper((WebRequest) wrappedRequest);
+    protected DispatchRequestWrapper createRequestWrapper(Request wrappedRequest) {
+        DispatchRequestWrapper request = new DispatchRequestWrapper((DispatchRequest) wrappedRequest);
         return request;
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.WebRequestWrapper#dispatch(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.request.util.DispatchRequestWrapper#dispatch(java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
     @Test
     public void testDispatch() throws IOException {
-        WebRequest wrappedRequest = createMockRequest();
+        DispatchRequest wrappedRequest = createMockRequest();
 
         wrappedRequest.dispatch("/my/path.html");
 
         replay(wrappedRequest);
-        WebRequestWrapper request = createRequestWrapper(wrappedRequest);
+        DispatchRequestWrapper request = createRequestWrapper(wrappedRequest);
         request.dispatch("/my/path.html");
         verify(wrappedRequest);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.WebRequestWrapper#include(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.request.util.DispatchRequestWrapper#include(java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
     @Test
     public void testInclude() throws IOException {
-        WebRequest wrappedRequest = createMockRequest();
+        DispatchRequest wrappedRequest = createMockRequest();
 
         wrappedRequest.include("/my/path.html");
 
         replay(wrappedRequest);
-        WebRequestWrapper request = createRequestWrapper(wrappedRequest);
+        DispatchRequestWrapper request = createRequestWrapper(wrappedRequest);
         request.include("/my/path.html");
         verify(wrappedRequest);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.WebRequestWrapper#setContentType(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.request.util.DispatchRequestWrapper#setContentType(java.lang.String)}.
      */
     @Test
     public void testSetContentType() {
-        WebRequest wrappedRequest = createMockRequest();
+        DispatchRequest wrappedRequest = createMockRequest();
 
         wrappedRequest.setContentType("text/html");
 
         replay(wrappedRequest);
-        WebRequestWrapper request = createRequestWrapper(wrappedRequest);
+        DispatchRequestWrapper request = createRequestWrapper(wrappedRequest);
         request.setContentType("text/html");
         verify(wrappedRequest);
     }

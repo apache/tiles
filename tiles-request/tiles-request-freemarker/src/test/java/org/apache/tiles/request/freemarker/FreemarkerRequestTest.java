@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.WebRequest;
+import org.apache.tiles.request.DispatchRequest;
 import org.apache.tiles.request.scope.ContextResolver;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.util.ApplicationAccess;
@@ -133,7 +133,7 @@ public class FreemarkerRequestTest {
     @Test
     public void testDispatch() throws IOException {
         String path = "this way";
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         ContextResolver resolver = createMock(ContextResolver.class);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
@@ -156,7 +156,7 @@ public class FreemarkerRequestTest {
      */
     @Test
     public void testGetPageScope() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertTrue(context.getPageScope() instanceof EnvironmentScopeMap);
@@ -168,7 +168,7 @@ public class FreemarkerRequestTest {
      */
     @Test
     public void testGetNativeScopes() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertArrayEquals(new String[] {"page"}, context.getNativeScopes());
@@ -180,7 +180,7 @@ public class FreemarkerRequestTest {
      */
     @Test
     public void testGetRequestLocale() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertEquals(locale, context.getRequestLocale());
@@ -192,7 +192,7 @@ public class FreemarkerRequestTest {
      */
     @Test
     public void testGetRequest() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertEquals(env, context.getEnvironment());
@@ -204,7 +204,7 @@ public class FreemarkerRequestTest {
      */
     @Test
     public void testGetResponse() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertEquals(env, context.getEnvironment());
@@ -216,7 +216,7 @@ public class FreemarkerRequestTest {
      */
     @Test
     public void testGetPrintWriter() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
 
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
@@ -238,7 +238,7 @@ public class FreemarkerRequestTest {
         Environment env = new Environment(template, model, writer);
         Locale locale = Locale.ITALY;
         env.setLocale(locale);
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
 
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
@@ -252,7 +252,7 @@ public class FreemarkerRequestTest {
      */
     @Test
     public void testGetWriter() {
-        WebRequest enclosedRequest = createMock(WebRequest.class);
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
 
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
