@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.AbstractViewRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
+import org.apache.tiles.request.WebRequest;
 import org.apache.tiles.request.servlet.ServletRequest;
 
 import freemarker.core.Environment;
@@ -78,7 +78,7 @@ public class FreemarkerRequest extends AbstractViewRequest {
                 .getRequestHashModel(env);
         HttpServletRequest request = requestModel.getRequest();
         HttpServletResponse response = requestModel.getResponse();
-        Request enclosedRequest = new ServletRequest(
+        WebRequest enclosedRequest = new ServletRequest(
                 applicationContext, request, response);
         return new FreemarkerRequest(enclosedRequest, env);
     }
@@ -91,7 +91,7 @@ public class FreemarkerRequest extends AbstractViewRequest {
      * @param env
      *            The FreeMarker environment.
      */
-    public FreemarkerRequest(Request enclosedRequest,
+    public FreemarkerRequest(WebRequest enclosedRequest,
             Environment env) {
         super(enclosedRequest);
         this.env = env;

@@ -23,6 +23,7 @@ package org.apache.tiles.request.render;
 import java.io.IOException;
 
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.WebRequest;
 
 /**
  * Renders an attribute that contains a reference to a template.
@@ -38,8 +39,11 @@ public class DispatchRenderer implements TypeDetectingRenderer {
         if (path == null) {
             throw new CannotRenderException("Cannot dispatch a null path");
         }
+        if (!(request instanceof WebRequest)) {
+            throw new CannotRenderException("Cannot dispatch outside of a web environment");
+        }
 
-        request.dispatch(path);
+        ((WebRequest) request).dispatch(path);
     }
 
     /** {@inheritDoc} */

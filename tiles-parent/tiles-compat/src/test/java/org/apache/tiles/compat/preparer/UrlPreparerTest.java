@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.preparer.PreparerException;
-import org.apache.tiles.request.Request;
+import org.apache.tiles.request.WebRequest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,7 +59,7 @@ public class UrlPreparerTest {
      */
     @Test
     public void testExecute() throws IOException {
-        Request requestContext = createMock(Request.class);
+        WebRequest requestContext = createMock(WebRequest.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
 
         requestContext.include("/my/url.do");
@@ -76,7 +76,7 @@ public class UrlPreparerTest {
      */
     @Test(expected = PreparerException.class)
     public void testExecuteException() throws IOException {
-        Request requestContext = createMock(Request.class);
+        WebRequest requestContext = createMock(WebRequest.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
 
         requestContext.include("/my/url.do");

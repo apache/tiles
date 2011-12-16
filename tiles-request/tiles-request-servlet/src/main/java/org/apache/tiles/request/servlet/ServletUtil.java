@@ -29,7 +29,7 @@ import javax.servlet.ServletException;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.util.ApplicationAccess;
-import org.apache.tiles.request.util.RequestWrapper;
+import org.apache.tiles.request.util.WebRequestWrapper;
 
 /**
  * Utilities for Tiles request servlet support.
@@ -100,10 +100,10 @@ public final class ServletUtil {
             if (currentRequest instanceof ServletRequest) {
                 return (ServletRequest) currentRequest;
             }
-            if (!(currentRequest instanceof RequestWrapper)) {
+            if (!(currentRequest instanceof WebRequestWrapper)) {
                 throw new NotAServletEnvironmentException("Not a Servlet environment, not supported");
             }
-            currentRequest = ((RequestWrapper) currentRequest).getWrappedRequest();
+            currentRequest = ((WebRequestWrapper) currentRequest).getWrappedRequest();
         }
     }
 

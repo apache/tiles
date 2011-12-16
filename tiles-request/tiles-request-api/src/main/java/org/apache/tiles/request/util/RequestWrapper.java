@@ -20,17 +20,7 @@
  */
 package org.apache.tiles.request.util;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.util.Locale;
-import java.util.Map;
-
-import org.apache.tiles.request.AbstractRequest;
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.scope.ContextResolver;
 
 /**
  * Delegate for ease of customization.
@@ -38,22 +28,7 @@ import org.apache.tiles.request.scope.ContextResolver;
  * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public class RequestWrapper extends AbstractRequest {
-
-    /**
-     * The wrapper request context object.
-     */
-    private Request context;
-
-
-    /**
-     * Constructor.
-     *
-     * @param context The request context to wrap.
-     */
-    public RequestWrapper(Request context) {
-        this.context = context;
-    }
+public interface RequestWrapper extends Request {
 
     /**
      * Returns the wrapped Tiles request.
@@ -61,99 +36,6 @@ public class RequestWrapper extends AbstractRequest {
      * @return The wrapped Tiles request.
      * @since 2.1.1
      */
-    public Request getWrappedRequest() {
-        return context;
-    }
+    Request getWrappedRequest();
 
-    /** {@inheritDoc} */
-    public Map<String, String> getHeader() {
-        return context.getHeader();
-    }
-
-    /** {@inheritDoc} */
-    public Map<String, String[]> getHeaderValues() {
-        return context.getHeaderValues();
-    }
-
-    @Override
-    public Map<String, Object> getContext(String scope) {
-        ContextResolver resolver = ApplicationAccess.getContextResolver(context.getApplicationContext());
-        return resolver.getContext(this, scope);
-    }
-
-    @Override
-    public String[] getNativeScopes() {
-        return null;
-    }
-
-    @Override
-    public String[] getAvailableScopes() {
-        ContextResolver resolver = ApplicationAccess.getContextResolver(context.getApplicationContext());
-        return resolver.getAvailableScopes(this);
-    }
-
-    /** {@inheritDoc} */
-    public ApplicationContext getApplicationContext() {
-        return context.getApplicationContext();
-    }
-
-    /** {@inheritDoc} */
-    public void dispatch(String path) throws IOException {
-        context.dispatch(path);
-    }
-
-    /** {@inheritDoc} */
-    public void include(String path) throws IOException {
-        context.include(path);
-    }
-
-    /** {@inheritDoc} */
-    public OutputStream getOutputStream() throws IOException {
-        return context.getOutputStream();
-    }
-
-    /** {@inheritDoc} */
-    public Writer getWriter() throws IOException {
-        return context.getWriter();
-    }
-
-    /** {@inheritDoc} */
-    public PrintWriter getPrintWriter() throws IOException {
-        return context.getPrintWriter();
-    }
-
-    /** {@inheritDoc} */
-    public boolean isResponseCommitted() {
-        return context.isResponseCommitted();
-    }
-
-    /** {@inheritDoc} */
-    public void setContentType(String contentType) {
-        context.setContentType(contentType);
-    }
-
-    /** {@inheritDoc} */
-    public Map<String, String> getParam() {
-        return context.getParam();
-    }
-
-    /** {@inheritDoc} */
-    public Map<String, String[]> getParamValues() {
-        return context.getParamValues();
-    }
-
-    /** {@inheritDoc} */
-    public Locale getRequestLocale() {
-        return context.getRequestLocale();
-    }
-
-    /** {@inheritDoc} */
-    public boolean isUserInRole(String role) {
-        return context.isUserInRole(role);
-    }
-
-    /** {@inheritDoc} */
-    public Object[] getRequestObjects() {
-        return context.getRequestObjects();
-    }
 }

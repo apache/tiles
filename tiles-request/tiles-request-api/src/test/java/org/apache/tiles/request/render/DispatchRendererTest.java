@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.WebRequest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,13 +50,13 @@ public class DispatchRendererTest {
 
     /**
      * Tests
-     * {@link DispatchRenderer#render(String, Request)}.
+     * {@link DispatchRenderer#render(String, WebRequest)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
     @Test
     public void testWrite() throws IOException {
-        Request requestContext = createMock(Request.class);
+        WebRequest requestContext = createMock(WebRequest.class);
         requestContext.dispatch("/myTemplate.jsp");
         replay(requestContext);
         renderer.render("/myTemplate.jsp", requestContext);
@@ -64,13 +65,13 @@ public class DispatchRendererTest {
 
     /**
      * Tests
-     * {@link DispatchRenderer#render(String, Request)}.
+     * {@link DispatchRenderer#render(String, WebRequest)}.
      *
      * @throws IOException If something goes wrong during rendition.
      */
     @Test(expected = CannotRenderException.class)
     public void testWriteNull() throws IOException {
-        Request requestContext = createMock(Request.class);
+        WebRequest requestContext = createMock(WebRequest.class);
         replay(requestContext);
         renderer.render(null, requestContext);
         verify(requestContext);
@@ -78,11 +79,11 @@ public class DispatchRendererTest {
 
     /**
      * Tests
-     * {@link DispatchRenderer#isRenderable(String, Request)}.
+     * {@link DispatchRenderer#isRenderable(String, WebRequest)}.
      */
     @Test
     public void testIsRenderable() {
-        Request requestContext = createMock(Request.class);
+        Request requestContext = createMock(WebRequest.class);
         replay(requestContext);
         assertTrue(renderer.isRenderable("/myTemplate.jsp", requestContext));
         assertFalse(renderer.isRenderable(null, requestContext));

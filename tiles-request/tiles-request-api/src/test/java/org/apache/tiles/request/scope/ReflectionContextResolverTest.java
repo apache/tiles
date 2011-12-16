@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.util.DefaultRequestWrapper;
 import org.apache.tiles.request.util.RequestWrapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -101,7 +102,7 @@ public class ReflectionContextResolverTest {
     @Test
     public void testGetContextWrapped() {
         replay(oneScope, twoScope, threeScope);
-        RequestWrapper wrapper = new RequestWrapper(request);
+        RequestWrapper wrapper = new DefaultRequestWrapper(request);
         assertEquals(oneScope, resolver.getContext(wrapper, "one"));
         assertEquals(twoScope, resolver.getContext(wrapper, "two"));
         assertEquals(threeScope, resolver.getContext(wrapper, "three"));
@@ -148,7 +149,7 @@ public class ReflectionContextResolverTest {
     @Test
     public void testGetAvailableScopesWrapped() {
         replay(oneScope, twoScope, threeScope);
-        RequestWrapper wrapper = new RequestWrapper(request);
+        RequestWrapper wrapper = new DefaultRequestWrapper(request);
         assertArrayEquals(SCOPES, resolver.getAvailableScopes(wrapper));
         verify(oneScope, twoScope, threeScope);
     }
@@ -239,11 +240,6 @@ public class ReflectionContextResolverTest {
         }
 
         @Override
-        public void dispatch(String path) {
-            // Does nothing.
-        }
-
-        @Override
         public ApplicationContext getApplicationContext() {
             return null;
         }
@@ -289,18 +285,8 @@ public class ReflectionContextResolverTest {
         }
 
         @Override
-        public Object[] getRequestObjects() {
-            return null;
-        }
-
-        @Override
         public Writer getWriter() {
             return null;
-        }
-
-        @Override
-        public void include(String path) {
-            // Does nothing.
         }
 
         @Override
@@ -311,11 +297,6 @@ public class ReflectionContextResolverTest {
         @Override
         public boolean isUserInRole(String role) {
             return false;
-        }
-
-        @Override
-        public void setContentType(String contentType) {
-            // Does nothing.
         }
     }
 }

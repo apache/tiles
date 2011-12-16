@@ -47,7 +47,7 @@ public class AbstractViewRequestTest {
     /**
      * The internal request.
      */
-    private Request wrappedRequest;
+    private WebRequest wrappedRequest;
 
     /**
      * The application context.
@@ -69,7 +69,7 @@ public class AbstractViewRequestTest {
      */
     @Before
     public void setUp() {
-        wrappedRequest = createMock(Request.class);
+        wrappedRequest = createMock(WebRequest.class);
         request = createMockBuilder(AbstractViewRequest.class).withConstructor(
                 wrappedRequest).createMock();
         applicationContext = createMock(ApplicationContext.class);
@@ -89,7 +89,7 @@ public class AbstractViewRequestTest {
     public void testDispatch() throws IOException {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
-        expect(contextResolver.getContext(request, "request")).andReturn(requestScope);
+        expect(contextResolver.getContext(isA(Request.class), eq("request"))).andReturn(requestScope);
         wrappedRequest.include("/my/path.html");
 
         replay(wrappedRequest, request, applicationContext, contextResolver);
@@ -106,7 +106,7 @@ public class AbstractViewRequestTest {
     public void testInclude() throws IOException {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
-        expect(contextResolver.getContext(request, "request")).andReturn(requestScope);
+        expect(contextResolver.getContext(isA(Request.class), eq("request"))).andReturn(requestScope);
         wrappedRequest.include("/my/path.html");
 
         replay(wrappedRequest, request, applicationContext, contextResolver);

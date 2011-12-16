@@ -32,7 +32,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.tiles.request.AbstractViewRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
+import org.apache.tiles.request.WebRequest;
 import org.apache.tiles.request.collection.ScopeMap;
 import org.apache.tiles.request.jsp.extractor.ScopeExtractor;
 import org.apache.tiles.request.jsp.extractor.SessionScopeExtractor;
@@ -106,7 +106,7 @@ public class JspRequest extends AbstractViewRequest {
      * @param enclosedRequest The request that is wrapped here.
      * @param pageContext The page context to use.
      */
-    public JspRequest(Request enclosedRequest,
+    public JspRequest(WebRequest enclosedRequest,
             PageContext pageContext) {
         super(enclosedRequest);
         this.pageContext = pageContext;

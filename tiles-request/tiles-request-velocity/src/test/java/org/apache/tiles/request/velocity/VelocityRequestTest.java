@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
+import org.apache.tiles.request.WebRequest;
 import org.apache.tiles.request.servlet.ExternalWriterHttpServletResponse;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.velocity.context.Context;
@@ -95,7 +95,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetNativeScopes() {
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
         replay(enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
         assertArrayEquals(new String[] {"page"}, context.getNativeScopes());
@@ -111,7 +111,7 @@ public class VelocityRequestTest {
     @Test
     public void testDoInclude() throws IOException, ServletException {
         String path = "this way";
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         RequestDispatcher dispatcher = createMock(RequestDispatcher.class);
@@ -137,7 +137,7 @@ public class VelocityRequestTest {
     @Test(expected = IOException.class)
     public void testDoIncludeNoRequestDispatcher() throws IOException {
         String path = "this way";
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
 
@@ -162,7 +162,7 @@ public class VelocityRequestTest {
     @Test(expected = IOException.class)
     public void testDoIncludeServletException() throws IOException, ServletException {
         String path = "this way";
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
         RequestDispatcher dispatcher = createMock(RequestDispatcher.class);
@@ -186,7 +186,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetPrintWriter() {
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -199,7 +199,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetPrintWriterPrintWriter() {
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
 
         PrintWriter printWriter = new PrintWriter(writer);
         replay(velocityContext, enclosedRequest);
@@ -213,7 +213,7 @@ public class VelocityRequestTest {
      */
     @Test(expected = IllegalStateException.class)
     public void testGetPrintWriterNoWriter() {
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, null);
@@ -226,7 +226,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetWriter() {
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -239,7 +239,7 @@ public class VelocityRequestTest {
      */
     @Test(expected = IllegalStateException.class)
     public void testGetWriterNoWriter() {
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, null);
@@ -252,7 +252,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetRequestObjects() {
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
 
@@ -273,7 +273,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetRequestObjectsNoWriter() {
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
         HttpServletRequest servletRequest = createMock(HttpServletRequest.class);
         HttpServletResponse response = createMock(HttpServletResponse.class);
 
@@ -294,7 +294,7 @@ public class VelocityRequestTest {
      */
     @Test
     public void testGetPageScope() {
-        Request enclosedRequest = createMock(Request.class);
+        WebRequest enclosedRequest = createMock(WebRequest.class);
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);

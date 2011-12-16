@@ -87,22 +87,6 @@ public interface Request {
     ApplicationContext getApplicationContext();
 
     /**
-     * Dispatches the request to a specified path.
-     *
-     * @param path The path to dispatch to.
-     * @throws IOException If something goes wrong during dispatching.
-     */
-    void dispatch(String path) throws IOException;
-
-    /**
-     * Includes the response from the specified URL in the current response output.
-     *
-     * @param path The path to include.
-     * @throws IOException If something goes wrong during inclusion.
-     */
-    void include(String path) throws IOException;
-
-    /**
      * Returns an output stream to be used to write directly in the response.
      *
      * @return The output stream that writes in the response.
@@ -129,15 +113,6 @@ public interface Request {
      * @since 2.1.2
      */
     PrintWriter getPrintWriter() throws IOException;
-
-    /**
-     * Sets the content type when rendering the result.
-     *
-     * @param contentType The content type. It should follow the specifications
-     * from W3C about content types.
-     * @since 2.2.0
-     */
-    void setContentType(String contentType);
 
     /**
      * Checks if the response has been committed.
@@ -180,11 +155,4 @@ public interface Request {
      */
     boolean isUserInRole(String role);
 
-    /**
-     * Returns the original request objects used to create this request.
-     *
-     * @return The request objects.
-     * @since 2.1.2
-     */
-    Object[] getRequestObjects();
 }
