@@ -26,5 +26,13 @@ package org.apache.tiles.request.attribute;
  * @version $Rev$ $Date$
  * @param <V> The type of the value of the attribute.
  */
-public interface HasAddableKeys<V> extends HasKeys<V>, Addable<V> {
+public interface Addable<V> {
+
+    /**
+     * Sets a value for the given key.
+     *
+     * @param key The key of the attribute.
+     * @param value The value of the attribute.
+     */
+    void setValue(String key, V value);
 }

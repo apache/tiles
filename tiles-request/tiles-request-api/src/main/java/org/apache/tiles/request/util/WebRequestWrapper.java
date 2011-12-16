@@ -71,6 +71,11 @@ public class WebRequestWrapper extends AbstractRequest implements
     }
 
     /** {@inheritDoc} */
+    public Map<String, String> getResponseHeaders() {
+        return context.getResponseHeaders();
+    }
+
+    /** {@inheritDoc} */
     public Map<String, Object> getContext(String scope) {
         ContextResolver resolver = ApplicationAccess.getContextResolver(context
                 .getApplicationContext());

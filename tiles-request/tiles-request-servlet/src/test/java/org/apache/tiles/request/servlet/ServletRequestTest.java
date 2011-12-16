@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.collection.AddableParameterMap;
+import org.apache.tiles.request.collection.AddOnlyMap;
 import org.apache.tiles.request.collection.HeaderValuesMap;
 import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
@@ -215,7 +215,15 @@ public class ServletRequestTest {
      */
     @Test
     public void testGetHeader() {
-        assertTrue(req.getHeader() instanceof AddableParameterMap);
+        assertTrue(req.getHeader() instanceof ReadOnlyEnumerationMap);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.servlet.ServletRequest#getHeader()}.
+     */
+    @Test
+    public void testGetResponseHeaders() {
+        assertTrue(req.getResponseHeaders() instanceof AddOnlyMap);
     }
 
     /**

@@ -71,6 +71,11 @@ public class DefaultRequestWrapper implements RequestWrapper {
     }
 
     /** {@inheritDoc} */
+    public Map<String, String> getResponseHeaders() {
+        return context.getResponseHeaders();
+    }
+
+    /** {@inheritDoc} */
     public ApplicationContext getApplicationContext() {
         return context.getApplicationContext();
     }

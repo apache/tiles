@@ -54,6 +54,13 @@ public interface Request {
     Map<String, String[]> getHeaderValues();
 
     /**
+     * Return an unreadable Map that writes headers to the response.
+     *
+     * @return The header map.
+     */
+    Map<String, String> getResponseHeaders();
+
+    /**
      * Returns a context map, given the scope name.
      *
      * @param scope The name of the scope.

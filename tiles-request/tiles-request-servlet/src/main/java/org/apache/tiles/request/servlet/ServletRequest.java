@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.AbstractClientRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.collection.AddableParameterMap;
+import org.apache.tiles.request.collection.AddOnlyMap;
 import org.apache.tiles.request.collection.HeaderValuesMap;
 import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
@@ -80,6 +80,12 @@ public class ServletRequest extends AbstractClientRequest {
      * combinations (immutable).</p>
      */
     private Map<String, String> header = null;
+
+    /**
+     * <p>The lazily instantiated <code>Map</code> of header name-value
+     * combinations (write-only).</p>
+     */
+    private Map<String, String> responseHeaders = null;
 
 
     /**
@@ -129,12 +135,21 @@ public class ServletRequest extends AbstractClientRequest {
     public Map<String, String> getHeader() {
 
         if ((header == null) && (request != null)) {
-            header = new AddableParameterMap(new HeaderExtractor(request, response));
+            header = new ReadOnlyEnumerationMap<String>(new HeaderExtractor(request, null));
         }
         return (header);
 
     }
 
+    /** {@inheritDoc} */
+    public Map<String, String> getResponseHeaders() {
+
+        if ((responseHeaders == null) && (response != null)) {
+            responseHeaders = new AddOnlyMap<String>(new HeaderExtractor(null, response));
+        }
+        return (responseHeaders);
+
+    }
 
     /** {@inheritDoc} */
     public Map<String, String[]> getHeaderValues() {

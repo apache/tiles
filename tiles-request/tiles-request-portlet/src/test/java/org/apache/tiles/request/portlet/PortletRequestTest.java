@@ -36,8 +36,9 @@ import javax.portlet.PortletResponse;
 import javax.servlet.ServletOutputStream;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.collection.AddableParameterMap;
+import org.apache.tiles.request.collection.AddOnlyMap;
 import org.apache.tiles.request.collection.HeaderValuesMap;
+import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
 import org.apache.tiles.request.portlet.delegate.RequestDelegate;
 import org.apache.tiles.request.portlet.delegate.ResponseDelegate;
@@ -235,7 +236,15 @@ public class PortletRequestTest {
      */
     @Test
     public void testGetHeader() {
-        assertTrue(req.getHeader() instanceof AddableParameterMap);
+        assertTrue(req.getHeader() instanceof ReadOnlyEnumerationMap);
+    }
+
+    /**
+     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getResponseHeaders()}.
+     */
+    @Test
+    public void testGetResponseHeaders() {
+        assertTrue(req.getResponseHeaders() instanceof AddOnlyMap);
     }
 
     /**

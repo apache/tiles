@@ -260,6 +260,11 @@ public class ReflectionContextResolverTest {
         }
 
         @Override
+        public Map<String, String> getResponseHeaders() {
+            return null;
+        }
+
+        @Override
         public OutputStream getOutputStream() {
             return null;
         }

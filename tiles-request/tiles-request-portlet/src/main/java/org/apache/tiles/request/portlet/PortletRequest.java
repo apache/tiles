@@ -35,8 +35,9 @@ import javax.portlet.PortletSession;
 
 import org.apache.tiles.request.AbstractClientRequest;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.collection.AddableParameterMap;
+import org.apache.tiles.request.collection.AddOnlyMap;
 import org.apache.tiles.request.collection.HeaderValuesMap;
+import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
 import org.apache.tiles.request.portlet.delegate.RequestDelegate;
 import org.apache.tiles.request.portlet.delegate.ResponseDelegate;
@@ -61,6 +62,13 @@ public class PortletRequest extends AbstractClientRequest {
      * combinations (immutable).</p>
      */
     private Map<String, String> header = null;
+
+
+    /**
+     * <p>The lazily instantiated <code>Map</code> of header name-value
+     * combinations (write-only).</p>
+     */
+    private Map<String, String> responseHeaders = null;
 
 
     /**
@@ -170,9 +178,17 @@ public class PortletRequest extends AbstractClientRequest {
     /** {@inheritDoc} */
     public Map<String, String> getHeader() {
         if ((header == null) && (request != null)) {
-            header = new AddableParameterMap(new HeaderExtractor(request, response));
+            header = new ReadOnlyEnumerationMap<String>(new HeaderExtractor(request, null));
         }
         return (header);
+    }
+
+    /** {@inheritDoc} */
+    public Map<String, String> getResponseHeaders() {
+        if ((responseHeaders == null) && (request != null)) {
+            responseHeaders = new AddOnlyMap<String>(new HeaderExtractor(null, response));
+        }
+        return (responseHeaders);
     }
 
     /** {@inheritDoc} */

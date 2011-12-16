@@ -100,6 +100,23 @@ public class DefaultRequestWrapperTest {
     }
 
     /**
+     * Test method for {@link org.apache.tiles.request.util.DefaultRequestWrapper#getResponseHeaders()}.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetResponseHeaders() {
+        Request wrappedRequest = createMockRequest();
+        Map<String, String> header = createMock(Map.class);
+
+        expect(wrappedRequest.getResponseHeaders()).andReturn(header);
+
+        replay(wrappedRequest);
+        RequestWrapper request = createRequestWrapper(wrappedRequest);
+        assertEquals(header, request.getResponseHeaders());
+        verify(wrappedRequest);
+    }
+
+    /**
      * Test method for {@link org.apache.tiles.request.util.DefaultRequestWrapper#getHeaderValues()}.
      */
     @SuppressWarnings("unchecked")

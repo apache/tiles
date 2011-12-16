@@ -1,0 +1,796 @@
+diff --git a/tiles-parent/tiles-core/src/test/java/org/apache/tiles/definition/MockOnlyLocaleTilesContext.java b/tiles-parent/tiles-core/src/test/java/org/apache/tiles/definition/MockOnlyLocaleTilesContext.java
+deleted file mode 100644
+index aebd44e..0000000
+--- a/tiles-parent/tiles-core/src/test/java/org/apache/tiles/definition/MockOnlyLocaleTilesContext.java
++++ /dev/null
+@@ -1,159 +0,0 @@
+-/*
+- * $Id$
+- *
+- * Licensed to the Apache Software Foundation (ASF) under one
+- * or more contributor license agreements.  See the NOTICE file
+- * distributed with this work for additional information
+- * regarding copyright ownership.  The ASF licenses this file
+- * to you under the Apache License, Version 2.0 (the
+- * "License"); you may not use this file except in compliance
+- * with the License.  You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing,
+- * software distributed under the License is distributed on an
+- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+- * KIND, either express or implied.  See the License for the
+- * specific language governing permissions and limitations
+- * under the License.
+- */
+-
+-package org.apache.tiles.definition;
+-
+-import java.io.OutputStream;
+-import java.io.PrintWriter;
+-import java.io.Writer;
+-import java.util.Locale;
+-import java.util.Map;
+-
+-import org.apache.tiles.request.ApplicationContext;
+-import org.apache.tiles.request.Request;
+-
+-/**
+- * Creates a TilesApplicationContext that contains only a Locale.
+- *
+- * @version $Rev$ $Date$
+- */
+-public class MockOnlyLocaleTilesContext implements Request {
+-
+-    /**
+-     * The locale object.
+-     */
+-    private Locale locale;
+-
+-    /** Creates a new instance of MockOnlyLocaleTilesContext.
+-     *
+-     * @param locale The locale object to use.
+-     */
+-    public MockOnlyLocaleTilesContext(Locale locale) {
+-        this.locale = locale;
+-    }
+-
+-    /**
+-     * Returns the locale specified in the constructor.
+-     *
+-     * @return The locale of the request.
+-     * @see org.apache.tiles.request.Request#getRequestLocale()
+-     */
+-    public Locale getRequestLocale() {
+-        return locale;
+-    }
+-
+-    // The rest of the implemented methods has a "dummy" behaviour, doing
+-    // nothing or returning null, because they are not needed at all in tests
+-    // that use this class.
+-
+-    /** {@inheritDoc} */
+-    public void dispatch(String path) {
+-    }
+-
+-    /** {@inheritDoc} */
+-    public Map<String, String> getHeader() {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public OutputStream getOutputStream() {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public Writer getWriter() {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public PrintWriter getPrintWriter() {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public boolean isResponseCommitted() {
+-        return false;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public void setContentType(String contentType) {
+-        // Does nothing
+-    }
+-
+-    /** {@inheritDoc} */
+-    public Map<String, String[]> getHeaderValues() {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public Map<String, String> getParam() {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public Map<String, String[]> getParamValues() {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public Map<String, Object> getRequestScope() {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public Map<String, Object> getSessionScope() {
+-        return null;
+-    }
+-
+-    @Override
+-    public Map<String, Object> getContext(String scope) {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public ApplicationContext getApplicationContext() {
+-        return null;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public void include(String path) {
+-    }
+-
+-    /** {@inheritDoc} */
+-    public boolean isUserInRole(String role) {
+-        return false;
+-    }
+-
+-    /** {@inheritDoc} */
+-    public Object[] getRequestObjects() {
+-        return null;
+-    }
+-
+-    @Override
+-    public String[] getAvailableScopes() {
+-        return null;
+-    }
+-
+-    @Override
+-    public String[] getNativeScopes() {
+-        return null;
+-    }
+-}
+diff --git a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/Request.java b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/Request.java
+index f8c4917..1f81425 100644
+--- a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/Request.java
++++ b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/Request.java
+@@ -27,6 +27,13 @@ public interface Request {
+ 	Map<String, String[]> getHeaderValues();
+ 
+ 	/**
++	 * Return an unreadable Map that writes headers to the response.
++	 *
++	 * @return The header map.
++	 */
++	Map<String, String> getResponseHeaders();
++
++	/**
+ 	 * Returns a context map, given the scope name.
+ 	 *
+ 	 * @param scope The name of the scope.
+diff --git a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/attribute/Addable.java b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/attribute/Addable.java
+new file mode 100644
+index 0000000..5e8b9a9
+--- /dev/null
++++ b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/attribute/Addable.java
+@@ -0,0 +1,38 @@
++/*
++ * $Id$
++ *
++ * Licensed to the Apache Software Foundation (ASF) under one
++ * or more contributor license agreements.  See the NOTICE file
++ * distributed with this work for additional information
++ * regarding copyright ownership.  The ASF licenses this file
++ * to you under the Apache License, Version 2.0 (the
++ * "License"); you may not use this file except in compliance
++ * with the License.  You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing,
++ * software distributed under the License is distributed on an
++ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++ * KIND, either express or implied.  See the License for the
++ * specific language governing permissions and limitations
++ * under the License.
++ */
++package org.apache.tiles.request.attribute;
++
++/**
++ * Allows to get and set attributes.
++ *
++ * @version $Rev$ $Date$
++ * @param <V> The type of the value of the attribute.
++ */
++public interface Addable<V> {
++
++    /**
++     * Sets a value for the given key.
++     *
++     * @param key The key of the attribute.
++     * @param value The value of the attribute.
++     */
++    void setValue(String key, V value);
++}
+diff --git a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/attribute/HasAddableKeys.java b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/attribute/HasAddableKeys.java
+index 16dfcab..115fd2b 100644
+--- a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/attribute/HasAddableKeys.java
++++ b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/attribute/HasAddableKeys.java
+@@ -26,13 +26,5 @@ package org.apache.tiles.request.attribute;
+  * @version $Rev$ $Date$
+  * @param <V> The type of the value of the attribute.
+  */
+-public interface HasAddableKeys<V> extends HasKeys<V> {
+-
+-    /**
+-     * Sets a value for the given key.
+-     *
+-     * @param key The key of the attribute.
+-     * @param value The value of the attribute.
+-     */
+-    void setValue(String key, V value);
++public interface HasAddableKeys<V> extends HasKeys<V>, Addable<V> {
+ }
+diff --git a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/collection/AddOnlyMap.java b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/collection/AddOnlyMap.java
+new file mode 100644
+index 0000000..1670024
+--- /dev/null
++++ b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/collection/AddOnlyMap.java
+@@ -0,0 +1,188 @@
++/*
++ * $Id$
++ *
++ * Licensed to the Apache Software Foundation (ASF) under one
++ * or more contributor license agreements.  See the NOTICE file
++ * distributed with this work for additional information
++ * regarding copyright ownership.  The ASF licenses this file
++ * to you under the Apache License, Version 2.0 (the
++ * "License"); you may not use this file except in compliance
++ * with the License.  You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing,
++ * software distributed under the License is distributed on an
++ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++ * KIND, either express or implied.  See the License for the
++ * specific language governing permissions and limitations
++ * under the License.
++ */
++package org.apache.tiles.request.collection;
++
++import java.util.Collection;
++import java.util.Collections;
++import java.util.Iterator;
++import java.util.Map;
++import java.util.Set;
++
++import org.apache.tiles.request.attribute.Addable;
++
++/**
++ * Exposes an {@link Addable} object as a put-only (no remove, no get) map.
++ * This map will appear empty to anyone trying to fetch its content.
++ * 
++ * @version $Rev$ $Date$
++ * @since 3.0.0
++ */
++public class AddOnlyMap<V> implements Map<String, V> {
++	/** The request. */
++	private Addable<V> request;
++
++	/**
++	 * Constructor.
++	 * 
++	 * @param request
++	 *            The request object to use.
++	 */
++	public AddOnlyMap(Addable<V> request) {
++		this.request = request;
++	}
++
++	/** {@inheritDoc} */
++	public int size() {
++		return 0;
++	}
++
++	/** {@inheritDoc} */
++	public boolean isEmpty() {
++		return true;
++	}
++
++	/** {@inheritDoc} */
++	public boolean containsKey(Object key) {
++		return false;
++	}
++
++	/** {@inheritDoc} */
++	public boolean containsValue(Object value) {
++		return false;
++	}
++
++	/** {@inheritDoc} */
++	public V get(Object key) {
++		return null;
++	}
++
++	/** {@inheritDoc} */
++	public V put(String key, V value) {
++		request.setValue(key, value);
++		return null;
++	}
++
++	/** {@inheritDoc} */
++	public V remove(Object key) {
++		return null;
++	}
++
++	/** {@inheritDoc} */
++	public void putAll(Map<? extends String, ? extends V> map) {
++		for (Map.Entry<? extends String, ? extends V> entry : map.entrySet()) {
++			request.setValue(entry.getKey(), entry.getValue());
++		}
++	}
++
++	/** {@inheritDoc} */
++	public void clear() {
++	}
++
++	/** {@inheritDoc} */
++	public Set<String> keySet() {
++		return Collections.<String> emptySet();
++	}
++
++	/** {@inheritDoc} */
++	public Collection<V> values() {
++		return Collections.<V> emptySet();
++	}
++
++	/** {@inheritDoc} */
++	public Set<java.util.Map.Entry<String, V>> entrySet() {
++		return new AddOnlyEntrySet();
++	}
++
++    /**
++     * Entry set implementation for {@link AddableParameterMap}.
++     */
++    private class AddOnlyEntrySet implements Set<Map.Entry<String, V>> {
++
++        @Override
++        public boolean add(java.util.Map.Entry<String, V> e) {
++            request.setValue(e.getKey(), e.getValue());
++            return true;
++        }
++
++        @Override
++        public boolean addAll(
++                Collection<? extends java.util.Map.Entry<String, V>> c) {
++            for (Map.Entry<String, V> entry : c) {
++                request.setValue(entry.getKey(), entry.getValue());
++            }
++            return true;
++        }
++
++		@Override
++		public int size() {
++			return 0;
++		}
++
++		@Override
++		public boolean isEmpty() {
++			return false;
++		}
++
++		@Override
++		public boolean contains(Object o) {
++			return false;
++		}
++
++		@Override
++		public Iterator<java.util.Map.Entry<String, V>> iterator() {
++			return Collections.<java.util.Map.Entry<String, V>>emptySet().iterator();
++		}
++
++		@Override
++		public Object[] toArray() {
++			return new java.util.Map.Entry[0];
++		}
++
++		@Override
++		public <T> T[] toArray(T[] a) {
++			return Collections.<java.util.Map.Entry<String, V>>emptySet().toArray(a);
++		}
++
++		@Override
++		public boolean remove(Object o) {
++			return false;
++		}
++
++		@Override
++		public boolean containsAll(Collection<?> c) {
++			return false;
++		}
++
++		@Override
++		public boolean retainAll(Collection<?> c) {
++			return false;
++		}
++
++		@Override
++		public boolean removeAll(Collection<?> c) {
++			return false;
++		}
++
++		@Override
++		public void clear() {
++		}
++    }
++}
+diff --git a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/util/DefaultRequestWrapper.java b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/util/DefaultRequestWrapper.java
+index d18f0a4..3ea1b5b 100644
+--- a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/util/DefaultRequestWrapper.java
++++ b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/util/DefaultRequestWrapper.java
+@@ -70,6 +70,10 @@ public class DefaultRequestWrapper implements RequestWrapper {
+ 		return context.getHeaderValues();
+ 	}
+ 
++	/** {@inheritDoc} */
++	public Map<String, String> getResponseHeaders() {
++		return context.getResponseHeaders();
++	}
+ 
+ 	/** {@inheritDoc} */
+ 	public ApplicationContext getApplicationContext() {
+diff --git a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/util/WebRequestWrapper.java b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/util/WebRequestWrapper.java
+index e266261..fef8496 100644
+--- a/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/util/WebRequestWrapper.java
++++ b/tiles-request/tiles-request-api/src/main/java/org/apache/tiles/request/util/WebRequestWrapper.java
+@@ -71,6 +71,11 @@ public class WebRequestWrapper extends AbstractRequest implements RequestWrapper
+     }
+ 
+ 	/** {@inheritDoc} */
++	public Map<String, String> getResponseHeaders() {
++		return context.getResponseHeaders();
++	}
++
++	/** {@inheritDoc} */
+     public Map<String, Object> getContext(String scope) {
+         ContextResolver resolver = ApplicationAccess.getContextResolver(context.getApplicationContext());
+         return resolver.getContext(this, scope);
+diff --git a/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/collection/AddOnlyMapTest.java b/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/collection/AddOnlyMapTest.java
+new file mode 100644
+index 0000000..dc0a7e9
+--- /dev/null
++++ b/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/collection/AddOnlyMapTest.java
+@@ -0,0 +1,113 @@
++/*
++ * $Id$
++ *
++ * Licensed to the Apache Software Foundation (ASF) under one
++ * or more contributor license agreements.  See the NOTICE file
++ * distributed with this work for additional information
++ * regarding copyright ownership.  The ASF licenses this file
++ * to you under the Apache License, Version 2.0 (the
++ * "License"); you may not use this file except in compliance
++ * with the License.  You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing,
++ * software distributed under the License is distributed on an
++ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++ * KIND, either express or implied.  See the License for the
++ * specific language governing permissions and limitations
++ * under the License.
++ */
++package org.apache.tiles.request.collection;
++
++import static org.easymock.EasyMock.*;
++import static org.easymock.classextension.EasyMock.*;
++import static org.junit.Assert.*;
++
++import java.util.ArrayList;
++import java.util.HashMap;
++import java.util.List;
++import java.util.Map;
++import java.util.Set;
++
++import org.apache.tiles.request.attribute.Addable;
++import org.junit.Before;
++import org.junit.Test;
++
++/**
++ * Tests {@link AddOnlyMap}.
++ *
++ * @version $Rev$ $Date$
++ */
++public class AddOnlyMapTest {
++
++    /**
++     * The object to test.
++     */
++    private AddOnlyMap<Integer> map;
++
++    /**
++     * The extractor to use.
++     */
++    private Addable<Integer> extractor;
++
++    /**
++     * Sets up the test.
++     */
++    @SuppressWarnings("unchecked")
++    @Before
++    public void setUp() {
++        extractor = createMock(Addable.class);
++        map = new AddOnlyMap<Integer>(extractor);
++    }
++
++    /**
++     * Test method for {@link org.apache.tiles.request.collection.AddableParameterMap#entrySet()}.
++     */
++    @Test
++    public void testEntrySet() {
++        Set<Map.Entry<String, Integer>> entrySet = map.entrySet();
++        MapEntry<String, Integer> entry1 = new MapEntry<String, Integer>("one", 13, false);
++        MapEntry<String, Integer> entry2 = new MapEntry<String, Integer>("two", 42, false);
++        List<Map.Entry<String, Integer>> entries = new ArrayList<Map.Entry<String, Integer>>(2);
++        entries.add(entry1);
++        entries.add(entry2);
++
++        extractor.setValue("one", 13);
++        expectLastCall().times(2);
++        extractor.setValue("two", 42);
++        replay(extractor);
++        entrySet.add(entry1);
++        entrySet.addAll(entries);
++        verify(extractor);
++    }
++
++    /**
++     * Test method for {@link AddableParameterMap#put(String, String)}.
++     */
++    @Test
++    public void testPut() {
++        extractor.setValue("one", 42);
++
++        replay(extractor);
++        assertNull(map.put("one", 42));
++        verify(extractor);
++    }
++
++    /**
++     * Test method for {@link org.apache.tiles.request.collection.AddableParameterMap#putAll(java.util.Map)}.
++     */
++    @Test
++    public void testPutAll() {
++        Map<String, Integer> map = new HashMap<String, Integer>();
++        map.put("one", 13);
++        map.put("two", 42);
++
++        extractor.setValue("one", 13);
++        extractor.setValue("two", 42);
++
++        replay(extractor);
++        this.map.putAll(map);
++        verify(extractor);
++    }
++}
+diff --git a/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/scope/ReflectionContextResolverTest.java b/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/scope/ReflectionContextResolverTest.java
+index ccffed1..12c801b 100644
+--- a/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/scope/ReflectionContextResolverTest.java
++++ b/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/scope/ReflectionContextResolverTest.java
+@@ -260,6 +260,11 @@ public class ReflectionContextResolverTest {
+         }
+ 
+         @Override
++        public Map<String, String> getResponseHeaders() {
++            return null;
++        }
++
++        @Override
+         public OutputStream getOutputStream() {
+             return null;
+         }
+diff --git a/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/util/DefaultRequestWrapperTest.java b/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/util/DefaultRequestWrapperTest.java
+index 89722f5..71f996c 100644
+--- a/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/util/DefaultRequestWrapperTest.java
++++ b/tiles-request/tiles-request-api/src/test/java/org/apache/tiles/request/util/DefaultRequestWrapperTest.java
+@@ -64,6 +64,23 @@ public class DefaultRequestWrapperTest {
+ 	}
+ 
+ 	/**
++	 * Test method for {@link org.apache.tiles.request.util.DefaultRequestWrapper#getResponseHeaders()}.
++	 */
++	@SuppressWarnings("unchecked")
++	@Test
++	public void testGetResponseHeaders() {
++	    Request wrappedRequest = createMockRequest();
++	    Map<String, String> header = createMock(Map.class);
++	
++	    expect(wrappedRequest.getResponseHeaders()).andReturn(header);
++	
++	    replay(wrappedRequest);
++	    RequestWrapper request = createRequestWrapper(wrappedRequest);
++	    assertEquals(header, request.getResponseHeaders());
++	    verify(wrappedRequest);
++	}
++
++	/**
+ 	 * Test method for {@link org.apache.tiles.request.util.DefaultRequestWrapper#getHeaderValues()}.
+ 	 */
+ 	@SuppressWarnings("unchecked")
+diff --git a/tiles-request/tiles-request-portlet/src/main/java/org/apache/tiles/request/portlet/PortletRequest.java b/tiles-request/tiles-request-portlet/src/main/java/org/apache/tiles/request/portlet/PortletRequest.java
+index 0e1eb9d..68a1305 100644
+--- a/tiles-request/tiles-request-portlet/src/main/java/org/apache/tiles/request/portlet/PortletRequest.java
++++ b/tiles-request/tiles-request-portlet/src/main/java/org/apache/tiles/request/portlet/PortletRequest.java
+@@ -35,8 +35,9 @@ import javax.portlet.PortletSession;
+ 
+ import org.apache.tiles.request.AbstractClientRequest;
+ import org.apache.tiles.request.ApplicationContext;
+-import org.apache.tiles.request.collection.AddableParameterMap;
++import org.apache.tiles.request.collection.AddOnlyMap;
+ import org.apache.tiles.request.collection.HeaderValuesMap;
++import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
+ import org.apache.tiles.request.collection.ScopeMap;
+ import org.apache.tiles.request.portlet.delegate.RequestDelegate;
+ import org.apache.tiles.request.portlet.delegate.ResponseDelegate;
+@@ -64,6 +65,13 @@ public class PortletRequest extends AbstractClientRequest {
+ 
+ 
+     /**
++     * <p>The lazily instantiated <code>Map</code> of header name-value
++     * combinations (write-only).</p>
++     */
++    private Map<String, String> responseHeaders = null;
++
++
++    /**
+      * <p>The lazily instantitated <code>Map</code> of header name-values
+      * combinations (immutable).</p>
+      */
+@@ -170,12 +178,20 @@ public class PortletRequest extends AbstractClientRequest {
+     /** {@inheritDoc} */
+     public Map<String, String> getHeader() {
+         if ((header == null) && (request != null)) {
+-            header = new AddableParameterMap(new HeaderExtractor(request, response));
++            header = new ReadOnlyEnumerationMap<String>(new HeaderExtractor(request, null));
+         }
+         return (header);
+     }
+ 
+     /** {@inheritDoc} */
++    public Map<String, String> getResponseHeaders() {
++        if ((responseHeaders == null) && (request != null)) {
++            responseHeaders = new AddOnlyMap<String>(new HeaderExtractor(null, response));
++        }
++        return (responseHeaders);
++    }
++
++    /** {@inheritDoc} */
+     public Map<String, String[]> getHeaderValues() {
+         if ((headerValues == null) && (request != null)) {
+             headerValues = new HeaderValuesMap(new HeaderExtractor(request, response));
+diff --git a/tiles-request/tiles-request-portlet/src/test/java/org/apache/tiles/request/portlet/PortletRequestTest.java b/tiles-request/tiles-request-portlet/src/test/java/org/apache/tiles/request/portlet/PortletRequestTest.java
+index 293eeab..aada7fc 100644
+--- a/tiles-request/tiles-request-portlet/src/test/java/org/apache/tiles/request/portlet/PortletRequestTest.java
++++ b/tiles-request/tiles-request-portlet/src/test/java/org/apache/tiles/request/portlet/PortletRequestTest.java
+@@ -36,8 +36,10 @@ import javax.portlet.PortletResponse;
+ import javax.servlet.ServletOutputStream;
+ 
+ import org.apache.tiles.request.ApplicationContext;
++import org.apache.tiles.request.collection.AddOnlyMap;
+ import org.apache.tiles.request.collection.AddableParameterMap;
+ import org.apache.tiles.request.collection.HeaderValuesMap;
++import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
+ import org.apache.tiles.request.collection.ScopeMap;
+ import org.apache.tiles.request.portlet.delegate.RequestDelegate;
+ import org.apache.tiles.request.portlet.delegate.ResponseDelegate;
+@@ -235,7 +237,15 @@ public class PortletRequestTest {
+      */
+     @Test
+     public void testGetHeader() {
+-        assertTrue(req.getHeader() instanceof AddableParameterMap);
++        assertTrue(req.getHeader() instanceof ReadOnlyEnumerationMap);
++    }
++
++    /**
++     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getResponseHeaders()}.
++     */
++    @Test
++    public void testGetResponseHeaders() {
++        assertTrue(req.getResponseHeaders() instanceof AddOnlyMap);
+     }
+ 
+     /**
+diff --git a/tiles-request/tiles-request-servlet/src/main/java/org/apache/tiles/request/servlet/ServletRequest.java b/tiles-request/tiles-request-servlet/src/main/java/org/apache/tiles/request/servlet/ServletRequest.java
+index dd08938..97824ca 100644
+--- a/tiles-request/tiles-request-servlet/src/main/java/org/apache/tiles/request/servlet/ServletRequest.java
++++ b/tiles-request/tiles-request-servlet/src/main/java/org/apache/tiles/request/servlet/ServletRequest.java
+@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
+ 
+ import org.apache.tiles.request.AbstractClientRequest;
+ import org.apache.tiles.request.ApplicationContext;
+-import org.apache.tiles.request.collection.AddableParameterMap;
++import org.apache.tiles.request.collection.AddOnlyMap;
+ import org.apache.tiles.request.collection.HeaderValuesMap;
+ import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
+ import org.apache.tiles.request.collection.ScopeMap;
+@@ -81,6 +81,12 @@ public class ServletRequest extends AbstractClientRequest {
+      */
+     private Map<String, String> header = null;
+ 
++    /**
++     * <p>The lazily instantiated <code>Map</code> of header name-value
++     * combinations (write-only).</p>
++     */
++    private Map<String, String> responseHeaders = null;
++
+ 
+     /**
+      * <p>The lazily instantitated <code>Map</code> of header name-values
+@@ -129,13 +135,22 @@ public class ServletRequest extends AbstractClientRequest {
+     public Map<String, String> getHeader() {
+ 
+         if ((header == null) && (request != null)) {
+-            header = new AddableParameterMap(new HeaderExtractor(request, response));
++            header = new ReadOnlyEnumerationMap<String>(new HeaderExtractor(request, null));
+         }
+         return (header);
+ 
+     }
+ 
++    /** {@inheritDoc} */
++    public Map<String, String> getResponseHeaders() {
++
++        if ((responseHeaders == null) && (response != null)) {
++        	responseHeaders = new AddOnlyMap<String>(new HeaderExtractor(null, response));
++        }
++        return (responseHeaders);
+ 
++    }
++    
+     /** {@inheritDoc} */
+     public Map<String, String[]> getHeaderValues() {
+ 
+diff --git a/tiles-request/tiles-request-servlet/src/test/java/org/apache/tiles/request/servlet/ServletRequestTest.java b/tiles-request/tiles-request-servlet/src/test/java/org/apache/tiles/request/servlet/ServletRequestTest.java
+index e19fbb9..f597d83 100644
+--- a/tiles-request/tiles-request-servlet/src/test/java/org/apache/tiles/request/servlet/ServletRequestTest.java
++++ b/tiles-request/tiles-request-servlet/src/test/java/org/apache/tiles/request/servlet/ServletRequestTest.java
+@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
+ import javax.servlet.http.HttpServletResponse;
+ 
+ import org.apache.tiles.request.ApplicationContext;
++import org.apache.tiles.request.collection.AddOnlyMap;
+ import org.apache.tiles.request.collection.AddableParameterMap;
+ import org.apache.tiles.request.collection.HeaderValuesMap;
+ import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
+@@ -215,7 +216,15 @@ public class ServletRequestTest {
+      */
+     @Test
+     public void testGetHeader() {
+-        assertTrue(req.getHeader() instanceof AddableParameterMap);
++        assertTrue(req.getHeader() instanceof ReadOnlyEnumerationMap);
++    }
++
++    /**
++     * Test method for {@link org.apache.tiles.request.servlet.ServletRequest#getHeader()}.
++     */
++    @Test
++    public void testGetResponseHeaders() {
++        assertTrue(req.getResponseHeaders() instanceof AddOnlyMap);
+     }
+ 
+     /**
