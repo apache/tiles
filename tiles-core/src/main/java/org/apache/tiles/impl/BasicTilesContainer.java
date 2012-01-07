@@ -612,7 +612,7 @@ public class BasicTilesContainer implements TilesContainer,
     protected void render(TilesRequestContext request, String definitionName) {
 
         if (log.isDebugEnabled()) {
-            log.debug("Render request recieved for definition '" + definitionName + "'");
+            log.debug("Render request received for definition '" + definitionName + "'");
         }
 
         Definition definition = getDefinition(definitionName, request);
