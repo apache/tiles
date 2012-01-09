@@ -22,7 +22,6 @@ package org.apache.tiles.request;
 
 import java.io.IOException;
 
-import org.apache.tiles.request.util.DispatchRequestWrapper;
 
 /**
  * Base class for "view" requests, i.e. requests created into view technologies,

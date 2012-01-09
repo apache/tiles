@@ -81,7 +81,7 @@ public final class FreemarkerRequestUtil {
     /**
      * Returns the application context. It must be
      * first saved creating an {@link ApplicationContext} and using
-     * {@link org.apache.tiles.request.util.ApplicationAccess#register(ApplicationContext)}.
+     * {@link org.apache.tiles.request.ApplicationAccess#register(ApplicationContext)}.
      *
      * @param env The Freemarker environment.
      * @return The

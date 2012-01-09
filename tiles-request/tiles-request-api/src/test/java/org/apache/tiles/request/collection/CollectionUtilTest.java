@@ -18,8 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request.util;
+package org.apache.tiles.request.collection;
 
+import org.apache.tiles.request.collection.CollectionUtil;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
@@ -30,29 +31,29 @@ import org.junit.Test;
 /**
  * Test {@link RequestUtil}.
  *
- * @version $Rev$ $Date$
+ * @version $Rev: 1066446 $ $Date: 2011-02-02 13:38:04 +0100 (Wed, 02 Feb 2011) $
  */
-public class RequestUtilTest {
+public class CollectionUtilTest {
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.RequestUtil#key(java.lang.Object)}.
+     * Test method for {@link org.apache.tiles.request.RequestUtil#key(java.lang.Object)}.
      */
     @Test
     public void testKey() {
-        assertEquals("1", RequestUtil.key(1));
-        assertEquals("hello", RequestUtil.key("hello"));
+        assertEquals("1", CollectionUtil.key(1));
+        assertEquals("hello", CollectionUtil.key("hello"));
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.RequestUtil#key(java.lang.Object)}.
+     * Test method for {@link org.apache.tiles.request.RequestUtil#key(java.lang.Object)}.
      */
     @Test(expected = IllegalArgumentException.class)
     public void testKeyException() {
-        RequestUtil.key(null);
+        CollectionUtil.key(null);
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.RequestUtil#enumerationSize(java.util.Enumeration)}.
+     * Test method for {@link org.apache.tiles.request.RequestUtil#enumerationSize(java.util.Enumeration)}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -66,7 +67,7 @@ public class RequestUtilTest {
         expect(enumeration.hasMoreElements()).andReturn(false);
 
         replay(enumeration);
-        assertEquals(2, RequestUtil.enumerationSize(enumeration));
+        assertEquals(2, CollectionUtil.enumerationSize(enumeration));
         verify(enumeration);
     }
 

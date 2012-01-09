@@ -18,24 +18,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request.util;
+package org.apache.tiles.request;
 
-import org.apache.tiles.request.ApplicationContext;
 
 /**
- * It represents an object that can have a reference to the
- * {@link ApplicationContext}.
+ * Delegate for ease of customization.
  *
- * @version $Rev$ $Date$
- * @since 2.1.0
+ * @since Tiles 2.0
+ * @version $Rev: 1215002 $ $Date: 2011-12-16 01:27:17 +0100 (Fri, 16 Dec 2011) $
  */
-public interface ApplicationContextAware {
+public interface RequestWrapper extends Request {
 
     /**
-     * Sets the Tiles application context.
+     * Returns the wrapped Tiles request.
      *
-     * @param applicationContext The Tiles application context.
-     * @since 2.1.0
+     * @return The wrapped Tiles request.
+     * @since 2.1.1
      */
-    void setApplicationContext(ApplicationContext applicationContext);
+    Request getWrappedRequest();
+
 }

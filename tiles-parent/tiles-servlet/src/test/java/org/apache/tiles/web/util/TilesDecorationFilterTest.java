@@ -34,11 +34,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.servlet.ServletRequest;
-import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

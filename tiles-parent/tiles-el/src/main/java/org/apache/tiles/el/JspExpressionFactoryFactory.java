@@ -26,7 +26,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspFactory;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationContextAware;
+import org.apache.tiles.request.ApplicationContextAware;
 
 /**
  * Uses the JSP 2.1 {@link ExpressionFactory} to be used in Tiles.

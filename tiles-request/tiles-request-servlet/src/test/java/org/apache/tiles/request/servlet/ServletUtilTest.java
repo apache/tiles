@@ -28,8 +28,8 @@ import java.io.IOException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Test;
 
 /**

@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.tiles.request.scope.ContextResolver;
-import org.apache.tiles.request.util.ApplicationAccess;
 
 /**
  * Base class for "client" requests, i.e. requests that come unchanged by the

@@ -18,15 +18,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request.util;
+package org.apache.tiles.request;
 
-import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.scope.ContextResolver;
 
 /**
  * Entry point to get information about the application.
  *
- * @version $Rev$ $Date$
+ * @version $Rev: 1064782 $ $Date: 2011-01-28 18:08:52 +0100 (Fri, 28 Jan 2011) $
  */
 public final class ApplicationAccess {
 

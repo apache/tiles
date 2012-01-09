@@ -40,10 +40,10 @@ import org.apache.tiles.Attribute;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.jsp.JspRequest;
 import org.apache.tiles.request.scope.ReflectionContextResolver;
-import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,8 +69,8 @@ public class UseAttributeTagTest {
 
     /**
      * Test method for {@link org.apache.tiles.jsp.taglib.UseAttributeTag#execute(org.apache.tiles.request.Request)}.
-     * @throws IOException 
-     * @throws JspException 
+     * @throws IOException
+     * @throws JspException
      */
     @Test
     public void testExecute() throws JspException, IOException {
@@ -97,8 +97,8 @@ public class UseAttributeTagTest {
         expect(attributeContext.getAttribute("name")).andReturn(attribute);
         expect(container.evaluate(isA(Attribute.class), isA(JspRequest.class))).andReturn(new Integer(1));
         pageContext.setAttribute("id", new Integer(1), PageContext.PAGE_SCOPE);
-        replay(jspBody, pageContext, parent, 
-               applicationContext, httpServletRequest, httpServletResponse, 
+        replay(jspBody, pageContext, parent,
+               applicationContext, httpServletRequest, httpServletResponse,
                applicationScope, container, attributeContext, attribute);
         tag.setName("name");
         tag.setScope("page");
@@ -108,8 +108,8 @@ public class UseAttributeTagTest {
         tag.setJspBody(jspBody);
         tag.setParent(parent);
         tag.doTag();
-        verify(jspBody, pageContext, parent, 
-               applicationContext, httpServletRequest, httpServletResponse, 
+        verify(jspBody, pageContext, parent,
+               applicationContext, httpServletRequest, httpServletResponse,
                container, attributeContext, attribute);
     }
 

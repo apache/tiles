@@ -18,21 +18,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request.util;
+package org.apache.tiles.request.collection;
 
 import java.util.Enumeration;
 
 /**
  * Utilities for requests.
  *
- * @version $Rev$ $Date$
+ * @version $Rev: 1064782 $ $Date: 2011-01-28 18:08:52 +0100 (Fri, 28 Jan 2011) $
  */
-public final class RequestUtil {
+public final class CollectionUtil {
 
     /**
      * Constructor.
      */
-    private RequestUtil() {
+    private CollectionUtil() {
 
     }
 

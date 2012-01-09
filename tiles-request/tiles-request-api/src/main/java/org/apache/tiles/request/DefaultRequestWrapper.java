@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.request.util;
+package org.apache.tiles.request;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,8 +28,6 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
 import org.apache.tiles.request.attribute.Addable;
 import org.apache.tiles.request.scope.ContextResolver;
 
@@ -37,7 +35,7 @@ import org.apache.tiles.request.scope.ContextResolver;
  * Delegate for ease of customization.
  *
  * @since Tiles 2.0
- * @version $Rev$ $Date$
+ * @version $Rev: 1215009 $ $Date: 2011-12-16 01:32:31 +0100 (Fri, 16 Dec 2011) $
  */
 public class DefaultRequestWrapper implements RequestWrapper {
 

@@ -32,8 +32,8 @@ import java.util.Map;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.attribute.Addable;
-import org.apache.tiles.request.util.DefaultRequestWrapper;
-import org.apache.tiles.request.util.RequestWrapper;
+import org.apache.tiles.request.DefaultRequestWrapper;
+import org.apache.tiles.request.RequestWrapper;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -40,7 +40,7 @@ import org.apache.tiles.request.Request;
 import org.apache.tiles.request.DispatchRequest;
 import org.apache.tiles.request.scope.ContextResolver;
 import org.apache.tiles.request.servlet.ServletRequest;
-import org.apache.tiles.request.util.ApplicationAccess;
+import org.apache.tiles.request.ApplicationAccess;
 import org.junit.Before;
 import org.junit.Test;
 

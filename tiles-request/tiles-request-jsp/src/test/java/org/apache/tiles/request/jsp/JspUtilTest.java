@@ -26,8 +26,8 @@ import static org.junit.Assert.*;
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Test;
 
 /**

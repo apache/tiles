@@ -18,20 +18,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request.util;
+package org.apache.tiles.request;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.ApplicationContext;
 
 /**
  * Delegate for ease of customization.
  *
  * @since Tiles 2.1.1
- * @version $Rev$ $Date$
+ * @version $Rev: 933750 $ $Date: 2010-04-13 21:16:06 +0200 (Tue, 13 Apr 2010) $
  */
 public class ApplicationContextWrapper implements ApplicationContext {
 

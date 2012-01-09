@@ -33,10 +33,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.FreemarkerRequest;
-import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Test;
 import freemarker.core.Environment;
 import freemarker.core.Macro;
@@ -57,7 +57,7 @@ import freemarker.template.TemplateNumberModel;
  * @version $Rev$ $Date$
  */
 public class FreemarkerAutotagRuntimeTest {
-    
+
     @Test
     public void testCreateRequest() throws IOException, TemplateModelException{
         @SuppressWarnings("unchecked")
@@ -103,11 +103,11 @@ public class FreemarkerAutotagRuntimeTest {
         Request request = runtime.createRequest();
         assertTrue(request instanceof FreemarkerRequest);
         verify(servlet, wrapper, servletContext, applicationContext,
-                httpServletRequest, httpServletResponse, 
-                template, rootDataModel, out, 
+                httpServletRequest, httpServletResponse,
+                template, rootDataModel, out,
                 params, body);
     }
-    
+
     @Test
     public void testCreateModelBody() {
         Template template = createMock(Template.class);
@@ -126,7 +126,7 @@ public class FreemarkerAutotagRuntimeTest {
         assertTrue(modelBody instanceof FreemarkerModelBody);
         verify(template, rootDataModel, out, params, body);
     }
-    
+
     @Test
     public void testGetParameter() throws TemplateModelException {
         Template template = createMock(Template.class);
@@ -153,6 +153,6 @@ public class FreemarkerAutotagRuntimeTest {
         assertEquals(null, nullParam);
         assertEquals(42, notnullParamDefault);
         assertEquals(24, nullParamDefault);
-        verify(template, rootDataModel, out, model, params, body);        
+        verify(template, rootDataModel, out, model, params, body);
     }
 }

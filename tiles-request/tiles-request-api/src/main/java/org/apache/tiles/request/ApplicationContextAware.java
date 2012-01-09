@@ -18,7 +18,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.tiles.request;
+
+
 /**
- * Utilities to access requests and application contexts.
+ * It represents an object that can have a reference to the
+ * {@link ApplicationContext}.
+ *
+ * @version $Rev: 893303 $ $Date: 2009-12-22 21:18:35 +0100 (Tue, 22 Dec 2009) $
+ * @since 2.1.0
  */
-package org.apache.tiles.request.util;
+public interface ApplicationContextAware {
+
+    /**
+     * Sets the Tiles application context.
+     *
+     * @param applicationContext The Tiles application context.
+     * @since 2.1.0
+     */
+    void setApplicationContext(ApplicationContext applicationContext);
+}

@@ -24,9 +24,9 @@ package org.apache.tiles.startup;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
+import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.scope.ReflectionContextResolver;
-import org.apache.tiles.request.util.ApplicationAccess;
 
 /**
  * Default Tiles initialization delegate implementation under a servlet

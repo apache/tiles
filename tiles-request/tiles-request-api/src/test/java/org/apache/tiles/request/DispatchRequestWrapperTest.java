@@ -18,8 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request.util;
+package org.apache.tiles.request;
 
+import org.apache.tiles.request.DispatchRequestWrapper;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
@@ -50,7 +51,7 @@ public class DispatchRequestWrapperTest extends DefaultRequestWrapperTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.DispatchRequestWrapper#dispatch(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.request.DispatchRequestWrapper#dispatch(java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -66,7 +67,7 @@ public class DispatchRequestWrapperTest extends DefaultRequestWrapperTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.DispatchRequestWrapper#include(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.request.DispatchRequestWrapper#include(java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -82,7 +83,7 @@ public class DispatchRequestWrapperTest extends DefaultRequestWrapperTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.DispatchRequestWrapper#setContentType(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.request.DispatchRequestWrapper#setContentType(java.lang.String)}.
      */
     @Test
     public void testSetContentType() {

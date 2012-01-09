@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.util.RequestWrapper;
+import org.apache.tiles.request.RequestWrapper;
 
 /**
  * Resolves scopes and contexts by using reflection.

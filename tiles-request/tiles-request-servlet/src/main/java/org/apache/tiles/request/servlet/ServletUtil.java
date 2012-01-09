@@ -27,9 +27,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationAccess;
+import org.apache.tiles.request.DispatchRequestWrapper;
 import org.apache.tiles.request.Request;
-import org.apache.tiles.request.util.ApplicationAccess;
-import org.apache.tiles.request.util.DispatchRequestWrapper;
 
 /**
  * Utilities for Tiles request servlet support.

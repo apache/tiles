@@ -18,8 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request.util;
+package org.apache.tiles.request;
 
+import org.apache.tiles.request.ApplicationContextWrapper;
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
@@ -35,12 +36,12 @@ import org.junit.Test;
 /**
  * Tests {@link ApplicationContextWrapper}.
  *
- * @version $Rev$ $Date$
+ * @version $Rev: 1066446 $ $Date: 2011-02-02 13:38:04 +0100 (Wed, 02 Feb 2011) $
  */
 public class ApplicationContextWrapperTest {
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.ApplicationContextWrapper#getWrappedApplicationContext()}.
+     * Test method for {@link org.apache.tiles.request.ApplicationContextWrapper#getWrappedApplicationContext()}.
      */
     @Test
     public void testGetWrappedApplicationContext() {
@@ -53,7 +54,7 @@ public class ApplicationContextWrapperTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.ApplicationContextWrapper#getApplicationScope()}.
+     * Test method for {@link org.apache.tiles.request.ApplicationContextWrapper#getApplicationScope()}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -70,7 +71,7 @@ public class ApplicationContextWrapperTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.ApplicationContextWrapper#getContext()}.
+     * Test method for {@link org.apache.tiles.request.ApplicationContextWrapper#getContext()}.
      */
     @Test
     public void testGetContext() {
@@ -86,7 +87,7 @@ public class ApplicationContextWrapperTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.ApplicationContextWrapper#getInitParams()}.
+     * Test method for {@link org.apache.tiles.request.ApplicationContextWrapper#getInitParams()}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -103,7 +104,7 @@ public class ApplicationContextWrapperTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.ApplicationContextWrapper#getResource(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.request.ApplicationContextWrapper#getResource(java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
     @Test
@@ -120,7 +121,7 @@ public class ApplicationContextWrapperTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.util.ApplicationContextWrapper#getResources(java.lang.String)}.
+     * Test method for {@link org.apache.tiles.request.ApplicationContextWrapper#getResources(java.lang.String)}.
      * @throws IOException If something goes wrong.
      */
     @SuppressWarnings("unchecked")

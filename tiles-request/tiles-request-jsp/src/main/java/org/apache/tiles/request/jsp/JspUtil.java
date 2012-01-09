@@ -23,8 +23,8 @@ package org.apache.tiles.request.jsp;
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.util.ApplicationAccess;
 
 /**
  * JSP utilities for JSP requests and related.
@@ -42,7 +42,7 @@ public final class JspUtil {
     /**
      * Returns the application context. It must be
      * first saved creating an {@link ApplicationContext} and using
-     * {@link org.apache.tiles.request.util.ApplicationAccess#register(ApplicationContext)}.
+     * {@link org.apache.tiles.request.ApplicationAccess#register(ApplicationContext)}.
      *
      * @param jspContext The JSP context.
      * @return The application context.

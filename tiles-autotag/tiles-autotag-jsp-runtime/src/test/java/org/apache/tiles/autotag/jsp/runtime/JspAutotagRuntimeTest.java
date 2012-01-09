@@ -12,10 +12,10 @@ import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.JspTag;
 
 import org.apache.tiles.autotag.core.runtime.ModelBody;
+import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.jsp.JspRequest;
-import org.apache.tiles.request.util.ApplicationAccess;
 import org.junit.Test;
 
 public class JspAutotagRuntimeTest {

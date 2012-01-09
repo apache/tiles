@@ -20,7 +20,7 @@
  */
 package org.apache.tiles.request.collection;
 
-import static org.apache.tiles.request.util.RequestUtil.*;
+import static org.apache.tiles.request.collection.CollectionUtil.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
