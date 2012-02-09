@@ -22,6 +22,8 @@
 package org.apache.tiles.request.render;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,6 +41,7 @@ import org.apache.tiles.request.Request;
 public final class MustacheRenderer implements Renderer {
 
     private final ResourceLoader loader;
+    private FileFilter fileFilter;
 
     public MustacheRenderer(ResourceLoader loader){
         this.loader = loader;
@@ -62,7 +65,11 @@ public final class MustacheRenderer implements Renderer {
 
     //@Override
     public boolean isRenderable(String path, Request request) {
-        return path != null && path.startsWith("/");
+        return path != null && (fileFilter == null || fileFilter.accept(new File(path)));
+    }
+
+    public void setFileFilter(FileFilter fileFilter) {
+        this.fileFilter = fileFilter;
     }
 
     public interface ResourceLoader{
