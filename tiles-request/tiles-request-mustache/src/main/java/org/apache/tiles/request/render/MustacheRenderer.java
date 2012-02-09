@@ -23,6 +23,7 @@ package org.apache.tiles.request.render;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import com.sampullara.mustache.MustacheBuilder;
@@ -37,6 +38,12 @@ import org.apache.tiles.request.Request;
  */
 public final class MustacheRenderer implements Renderer {
 
+    private final ResourceLoader loader;
+
+    public MustacheRenderer(ResourceLoader loader){
+        this.loader = loader;
+    }
+
     @Override
     public void render(String path, Request request) throws IOException {
         if (path == null) {
@@ -45,7 +52,7 @@ public final class MustacheRenderer implements Renderer {
 
         try{
             new MustacheBuilder()
-                    .build(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path))), path)
+                    .build(new BufferedReader(new InputStreamReader(loader.getResourceAsStream(path))), path)
                     .execute(request.getWriter(), request.getContext("page"));
 
         }catch(MustacheException ex){
@@ -56,5 +63,9 @@ public final class MustacheRenderer implements Renderer {
     //@Override
     public boolean isRenderable(String path, Request request) {
         return path != null && path.startsWith("/");
+    }
+
+    public interface ResourceLoader{
+        InputStream getResourceAsStream(String path);
     }
 }
