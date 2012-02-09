@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 
 import com.sampullara.mustache.MustacheBuilder;
 import com.sampullara.mustache.MustacheException;
+import com.sampullara.mustache.Scope;
 import org.apache.tiles.request.Request;
 
 /**
@@ -56,11 +57,22 @@ public final class MustacheRenderer implements Renderer {
         try{
             new MustacheBuilder()
                     .build(new BufferedReader(new InputStreamReader(loader.getResourceAsStream(path))), path)
-                    .execute(request.getWriter(), request.getContext("page"));
+                    .execute(request.getWriter(), buildScope(request));
 
         }catch(MustacheException ex){
             throw new IOException("failed to MustacheRenderer.render(" + path + ",request)", ex);
         }
+    }
+
+    private static Scope buildScope(Request request){
+        Scope scope = null;
+        String[] availableScopes = request.getAvailableScopes();
+        for(int i = availableScopes.length -1; i >= 0; --i){
+            scope = null == scope
+                    ? new Scope(request.getContext(availableScopes[i]))
+                    : new Scope(request.getContext(availableScopes[i]), scope);
+        }
+        return scope;
     }
 
     //@Override
