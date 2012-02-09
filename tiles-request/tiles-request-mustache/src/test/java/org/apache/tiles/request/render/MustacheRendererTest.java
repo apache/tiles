@@ -21,7 +21,10 @@
 package org.apache.tiles.request.render;
 
 
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.Map;
@@ -49,13 +52,16 @@ public final class MustacheRendererTest {
         Writer writer = createMock(Writer.class);
         Map<String,Object> context = Collections.singletonMap("testKey", (Object)"test value");
 
-        expect(request.getContext("page")).andReturn(context);
+        expect(request.getAvailableScopes()).andReturn(new String[]{"request", "session", "application"});
+        expect(request.getContext("request")).andReturn(context);
+        expect(request.getContext("session")).andReturn(Collections.<String,Object>emptyMap());
+        expect(request.getContext("application")).andReturn(Collections.<String,Object>emptyMap());
         expect(request.getWriter()).andReturn(writer);
         writer.write("test template with test value");
         writer.flush();
 
         replay(request, writer);
-        Renderer renderer = new MustacheRenderer();
+        Renderer renderer = new MustacheRenderer(new ClassResourceLoader());
         renderer.render("/test.html", request);
         verify(request, writer);
     }
@@ -68,7 +74,7 @@ public final class MustacheRendererTest {
     public void testRenderException() throws IOException {
         ServletRequest request = createMock(ServletRequest.class);
         replay(request);
-        Renderer renderer = new MustacheRenderer();
+        Renderer renderer = new MustacheRenderer(new ClassResourceLoader());
         try {
             renderer.render(null, request);
         } finally {
@@ -83,10 +89,23 @@ public final class MustacheRendererTest {
      */
     @Test
     public void testIsRenderable() {
-        Renderer renderer = new MustacheRenderer();
+        MustacheRenderer renderer = new MustacheRenderer(new ClassResourceLoader());
+        renderer.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                return pathname != null && pathname.isAbsolute();
+            }
+        });
         assertTrue(renderer.isRenderable("/my/template.html", null));
         assertTrue(renderer.isRenderable("/my/template.any", null));
         assertFalse(renderer.isRenderable("my/template.html", null));
         assertFalse(renderer.isRenderable(null, null));
+    }
+
+    private static class ClassResourceLoader implements MustacheRenderer.ResourceLoader {
+        @Override
+        public InputStream getResourceAsStream(String path) {
+            return getClass().getResourceAsStream(path);
+        }
     }
 }
