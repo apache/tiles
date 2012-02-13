@@ -21,10 +21,7 @@
 
 package org.apache.tiles.request;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,11 +47,7 @@ public class MustacheRequest extends AbstractViewRequest {
      */
     private static final String[] SCOPES = {"page"};
 
-    /**
-     * The page scope map.
-     */
-    private final Scope pageScope;
-    private Map<String, Object> pageScopeMap = null;
+    private MustacheScopeMap pageScope = null;
 
     /**
      * Creates a new Mustache request.
@@ -64,7 +57,7 @@ public class MustacheRequest extends AbstractViewRequest {
      * @param response The response.
      * @return A new request.
      */
-    public static MustacheRequest createMustacheRequest(
+    public static MustacheRequest createServletMustacheRequest(
             ApplicationContext applicationContext,
             HttpServletRequest request,
             HttpServletResponse response) {
@@ -78,15 +71,12 @@ public class MustacheRequest extends AbstractViewRequest {
                 new Scope(new ScopeMap(new ApplicationScopeExtractor(request.getSession().getServletContext()))))));
     }
 
-    /**
-     * Constructor.
-     *
-     * @param enclosedRequest
-     *            The request that exposes non-Mustache specific properties
-     * @param pageScope
-     *            The page scope.
-     */
-    public MustacheRequest(DispatchRequest enclosedRequest, Scope pageScope) {
+    public MustacheRequest(DispatchRequest enclosedRequest, Scope scope) {
+        super(enclosedRequest);
+        this.pageScope = new MustacheScopeMap(scope);
+    }
+
+    MustacheRequest(DispatchRequest enclosedRequest, MustacheScopeMap pageScope) {
         super(enclosedRequest);
         this.pageScope = pageScope;
     }
@@ -97,14 +87,7 @@ public class MustacheRequest extends AbstractViewRequest {
      * @return The page scope.
      */
     public Map<String, Object> getPageScope() {
-        if(null == pageScopeMap){
-            Map<String,Object> map = new HashMap<String,Object>();
-            for(Entry<Object,Object> entry : pageScope.entrySet()){
-                map.put(entry.getKey().toString(), entry.getValue());
-            }
-            pageScopeMap = Collections.unmodifiableMap(map);
-        }
-        return pageScopeMap;
+        return pageScope;
     }
 
     @Override
