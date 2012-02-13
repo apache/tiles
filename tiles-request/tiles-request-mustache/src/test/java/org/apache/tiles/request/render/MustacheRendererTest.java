@@ -33,7 +33,8 @@ import org.apache.tiles.request.servlet.ServletRequest;
 import org.junit.Test;
 
 import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests {@link MustacheRenderer}.
@@ -41,6 +42,13 @@ import static org.junit.Assert.*;
  * @version $Rev: 1066788 $ $Date: 2011-02-03 11:49:11 +0000 (Thu, 03 Feb 2011) $
  */
 public final class MustacheRendererTest {
+
+    private static final MustacheRenderer.ResourceLoader TEST_LOADER = new MustacheRenderer.ResourceLoader(){
+        @Override
+        public InputStream getResourceAsStream(String path) {
+            return getClass().getResourceAsStream(path);
+        }
+    };
 
     /**
      * Tests {@link MustacheRenderer#render(String, org.apache.tiles.request.Request)}.
@@ -61,7 +69,7 @@ public final class MustacheRendererTest {
         writer.flush();
 
         replay(request, writer);
-        Renderer renderer = new MustacheRenderer(new ClassResourceLoader());
+        Renderer renderer = new MustacheRenderer(TEST_LOADER);
         renderer.render("/test.html", request);
         verify(request, writer);
     }
@@ -74,7 +82,7 @@ public final class MustacheRendererTest {
     public void testRenderException() throws IOException {
         ServletRequest request = createMock(ServletRequest.class);
         replay(request);
-        Renderer renderer = new MustacheRenderer(new ClassResourceLoader());
+        Renderer renderer = new MustacheRenderer(TEST_LOADER);
         try {
             renderer.render(null, request);
         } finally {
@@ -89,7 +97,7 @@ public final class MustacheRendererTest {
      */
     @Test
     public void testIsRenderable() {
-        MustacheRenderer renderer = new MustacheRenderer(new ClassResourceLoader());
+        MustacheRenderer renderer = new MustacheRenderer(TEST_LOADER);
         renderer.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
@@ -100,12 +108,5 @@ public final class MustacheRendererTest {
         assertTrue(renderer.isRenderable("/my/template.any", null));
         assertFalse(renderer.isRenderable("my/template.html", null));
         assertFalse(renderer.isRenderable(null, null));
-    }
-
-    private static class ClassResourceLoader implements MustacheRenderer.ResourceLoader {
-        @Override
-        public InputStream getResourceAsStream(String path) {
-            return getClass().getResourceAsStream(path);
-        }
     }
 }
