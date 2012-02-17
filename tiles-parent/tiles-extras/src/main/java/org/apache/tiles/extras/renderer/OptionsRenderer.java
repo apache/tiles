@@ -130,10 +130,21 @@ public final class OptionsRenderer implements Renderer {
                 = new ConcurrentHashMap<String,Boolean>();
 
         private volatile static long cacheLastCleaned = System.currentTimeMillis();
-        private static final long CACHE_LIFE = 1000 * 60 * 5;
+
+        private static final String CACHE_LIFE_PROPERTY = Cache.class.getName() + ".ttl_ms";
+
+        /** Cache TTL be customised by a system property like
+         *  -Dorg.apache.tiles.extras.renderer.OptionsRenderer.Cache.ttl_ms=0
+         *
+         * The default is 5 minutes.
+         * Setting it to zero disables all caching.
+         */
+        private static final long CACHE_LIFE = null != Long.getLong(CACHE_LIFE_PROPERTY)
+                ? Long.getLong(CACHE_LIFE_PROPERTY)
+                : 1000 * 60 * 5;
 
         static boolean isTemplateMissing(final String template){
-            if(System.currentTimeMillis() > cacheLastCleaned + CACHE_LIFE){
+            if(0 < CACHE_LIFE && System.currentTimeMillis() > cacheLastCleaned + CACHE_LIFE){
                 cacheLastCleaned = System.currentTimeMillis();
                 TEMPLATE_EXISTS.clear();
                 return false;
@@ -143,7 +154,7 @@ public final class OptionsRenderer implements Renderer {
         }
 
         static void setIfAbsentTemplateFound(final String template, final boolean found){
-            if(!TEMPLATE_EXISTS.containsKey(template)){
+            if(0 < CACHE_LIFE && !TEMPLATE_EXISTS.containsKey(template)){
                 TEMPLATE_EXISTS.putIfAbsent(template, found);
             }
         }
