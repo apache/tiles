@@ -82,8 +82,6 @@ public class AbstractTilesInitializerTest {
         expect(context.getApplicationScope()).andReturn(scope).anyTimes();
         expect(scope.put(ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE,
                 context)).andReturn(null);
-        expect(scope.put(eq(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE),
-                isA(ReflectionContextResolver.class))).andReturn(null);
         expect(scope.put(TilesAccess.CONTAINER_ATTRIBUTE, container)).andReturn(null);
         expect(scope.remove(TilesAccess.CONTAINER_ATTRIBUTE)).andReturn(container);
 

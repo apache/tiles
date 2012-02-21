@@ -38,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.DispatchRequest;
-import org.apache.tiles.request.scope.ContextResolver;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.ApplicationAccess;
 import org.junit.Before;
@@ -135,20 +134,14 @@ public class FreemarkerRequestTest {
         String path = "this way";
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        ContextResolver resolver = createMock(ContextResolver.class);
-        Map<String, Object> applicationScope = new HashMap<String, Object>();
         Map<String, Object> requestScope = new HashMap<String, Object>();
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
         enclosedRequest.include(path);
-        expect(enclosedRequest.getApplicationContext()).andReturn(applicationContext);
-        expect(applicationContext.getApplicationScope()).andReturn(applicationScope);
-        replay(enclosedRequest, applicationContext);
         context = new FreemarkerRequest(enclosedRequest, env);
-        expect(resolver.getContext(isA(Request.class), eq("request"))).andReturn(requestScope);
-        replay(resolver);
+        expect(enclosedRequest.getContext("request")).andReturn(requestScope);
+        replay(enclosedRequest, applicationContext);
         context.dispatch(path);
-        verify(enclosedRequest, applicationContext, resolver);
+        verify(enclosedRequest, applicationContext);
     }
 
     /**
@@ -171,7 +164,7 @@ public class FreemarkerRequestTest {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
-        assertArrayEquals(new String[] {"page"}, context.getNativeScopes());
+        assertArrayEquals(new String[] {"page"}, context.getNativeScopes().toArray());
         verify(enclosedRequest);
     }
 

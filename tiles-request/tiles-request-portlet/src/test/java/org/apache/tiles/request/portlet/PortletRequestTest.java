@@ -315,7 +315,7 @@ public class PortletRequestTest {
     @Test
     public void testGetNativeScopes() {
         assertArrayEquals(new String[] { "request", "portletSession",
-                "session", "application" }, req.getNativeScopes());
+                "session", "application" }, req.getNativeScopes().toArray());
     }
 
     /**

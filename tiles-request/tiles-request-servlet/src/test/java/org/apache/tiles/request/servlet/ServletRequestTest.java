@@ -278,7 +278,7 @@ public class ServletRequestTest {
      */
     @Test
     public void testGetNativeScopes() {
-        assertArrayEquals(new String[] {"request", "session", "application"}, req.getNativeScopes());
+        assertArrayEquals(new String[] {"request", "session", "application"}, req.getNativeScopes().toArray());
     }
 
     /**

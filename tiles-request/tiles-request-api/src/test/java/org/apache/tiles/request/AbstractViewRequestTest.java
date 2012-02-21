@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tiles.request.scope.ContextResolver;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,11 +53,6 @@ public class AbstractViewRequestTest {
     private ApplicationContext applicationContext;
 
     /**
-     * The context resolver.
-     */
-    private ContextResolver contextResolver;
-
-    /**
      * The application scope.
      */
     private Map<String, Object> applicationScope;
@@ -73,8 +67,6 @@ public class AbstractViewRequestTest {
                 wrappedRequest).createMock();
         applicationContext = createMock(ApplicationContext.class);
         applicationScope = new HashMap<String, Object>();
-        contextResolver = createMock(ContextResolver.class);
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, contextResolver);
 
         expect(wrappedRequest.getApplicationContext()).andReturn(applicationContext).anyTimes();
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
@@ -88,13 +80,13 @@ public class AbstractViewRequestTest {
     public void testDispatch() throws IOException {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
-        expect(contextResolver.getContext(isA(Request.class), eq("request"))).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
         wrappedRequest.include("/my/path.html");
 
-        replay(wrappedRequest, request, applicationContext, contextResolver);
+        replay(wrappedRequest, request, applicationContext);
         request.dispatch("/my/path.html");
         assertTrue((Boolean) requestScope.get(AbstractRequest.FORCE_INCLUDE_ATTRIBUTE_NAME));
-        verify(wrappedRequest, request, applicationContext, contextResolver);
+        verify(wrappedRequest, request, applicationContext);
     }
 
     /**
@@ -105,13 +97,13 @@ public class AbstractViewRequestTest {
     public void testInclude() throws IOException {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
-        expect(contextResolver.getContext(isA(Request.class), eq("request"))).andReturn(requestScope);
+        expect(request.getContext("request")).andReturn(requestScope);
         wrappedRequest.include("/my/path.html");
 
-        replay(wrappedRequest, request, applicationContext, contextResolver);
+        replay(wrappedRequest, request, applicationContext);
         request.include("/my/path.html");
         assertTrue((Boolean) requestScope.get(AbstractRequest.FORCE_INCLUDE_ATTRIBUTE_NAME));
-        verify(wrappedRequest, request, applicationContext, contextResolver);
+        verify(wrappedRequest, request, applicationContext);
     }
 
     /**
@@ -122,9 +114,9 @@ public class AbstractViewRequestTest {
     public void testDoInclude() throws IOException {
         wrappedRequest.include("/my/path.html");
 
-        replay(wrappedRequest, request, applicationContext, contextResolver);
+        replay(wrappedRequest, request, applicationContext);
         request.doInclude("/my/path.html");
-        verify(wrappedRequest, request, applicationContext, contextResolver);
+        verify(wrappedRequest, request, applicationContext);
     }
 
 }

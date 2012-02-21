@@ -98,7 +98,7 @@ public class VelocityRequestTest {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
         replay(enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
-        assertArrayEquals(new String[] {"page"}, context.getNativeScopes());
+        assertArrayEquals(new String[] {"page"}, context.getNativeScopes().toArray());
         verify(enclosedRequest);
     }
 

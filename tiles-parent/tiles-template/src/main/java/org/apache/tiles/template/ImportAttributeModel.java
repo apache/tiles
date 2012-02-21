@@ -71,7 +71,7 @@ public class ImportAttributeModel {
         Map<String, Object> attributes = getImportedAttributes(
                 name, toName, ignore, request);
         if (scope == null) {
-            scope = request.getAvailableScopes()[0];
+            scope = request.getAvailableScopes().get(0);
         }
         request.getContext(scope).putAll(attributes);
     }

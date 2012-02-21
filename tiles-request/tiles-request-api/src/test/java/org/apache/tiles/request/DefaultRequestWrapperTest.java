@@ -20,9 +20,6 @@
  */
 package org.apache.tiles.request;
 
-import org.apache.tiles.request.RequestWrapper;
-import org.apache.tiles.request.ApplicationAccess;
-import org.apache.tiles.request.DefaultRequestWrapper;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
@@ -36,13 +33,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
 import org.apache.tiles.request.attribute.Addable;
-import org.apache.tiles.request.scope.ContextResolver;
 import org.junit.Test;
 
 /**
@@ -145,20 +140,14 @@ public class DefaultRequestWrapperTest {
     public void testGetContext() {
         Request wrappedRequest = createMockRequest();
         Map<String, Object> context = createMock(Map.class);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        ContextResolver resolver = createMock(ContextResolver.class);
-        Map<String, Object> applicationScope = createMock(Map.class);
 
         RequestWrapper request = createRequestWrapper(wrappedRequest);
 
-        expect(wrappedRequest.getApplicationContext()).andReturn(applicationContext);
-        expect(applicationContext.getApplicationScope()).andReturn(applicationScope);
-        expect(applicationScope.get(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE)).andReturn(resolver);
-        expect(resolver.getContext(request, "one")).andReturn(context);
+        expect(wrappedRequest.getContext("one")).andReturn(context);
 
-        replay(wrappedRequest, context, applicationContext, resolver, applicationScope);
+        replay(wrappedRequest, context);
         assertEquals(context, request.getContext("one"));
-        verify(wrappedRequest, context, applicationContext, resolver, applicationScope);
+        verify(wrappedRequest, context);
     }
 
     /**
@@ -170,7 +159,7 @@ public class DefaultRequestWrapperTest {
 
         replay(wrappedRequest);
         RequestWrapper request = createRequestWrapper(wrappedRequest);
-        assertNull(request.getNativeScopes());
+        assertTrue(0 == request.getNativeScopes().size());
         verify(wrappedRequest);
     }
 
@@ -182,21 +171,15 @@ public class DefaultRequestWrapperTest {
     public void testGetAvailableScopes() {
         Request wrappedRequest = createMockRequest();
         Map<String, Object> context = createMock(Map.class);
-        ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        ContextResolver resolver = createMock(ContextResolver.class);
-        Map<String, Object> applicationScope = createMock(Map.class);
 
         RequestWrapper request = createRequestWrapper(wrappedRequest);
 
-        expect(wrappedRequest.getApplicationContext()).andReturn(applicationContext);
-        expect(applicationContext.getApplicationScope()).andReturn(applicationScope);
-        expect(applicationScope.get(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE)).andReturn(resolver);
         String[] scopes = new String[] {"one", "two", "three"};
-        expect(resolver.getAvailableScopes(request)).andReturn(scopes);
+        expect(wrappedRequest.getAvailableScopes()).andReturn(Arrays.asList(scopes));
 
-        replay(wrappedRequest, context, applicationContext, resolver, applicationScope);
-        assertArrayEquals(scopes, request.getAvailableScopes());
-        verify(wrappedRequest, context, applicationContext, resolver, applicationScope);
+        replay(wrappedRequest, context);
+        assertArrayEquals(scopes, request.getAvailableScopes().toArray());
+        verify(wrappedRequest, context);
     }
 
     /**

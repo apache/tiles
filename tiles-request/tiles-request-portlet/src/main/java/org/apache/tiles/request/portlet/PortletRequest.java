@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -55,7 +58,8 @@ public class PortletRequest extends AbstractClientRequest {
     /**
      * The native available scopes.
      */
-    private static final String[] SCOPES = {"request", "portletSession", "session", "application"};
+    private static final List<String> SCOPES
+            = Collections.unmodifiableList(Arrays.asList("request", "portletSession", "session", "application"));
 
     /**
      * <p>The lazily instantiated <code>Map</code> of header name-value
@@ -226,7 +230,7 @@ public class PortletRequest extends AbstractClientRequest {
     }
 
     @Override
-    public String[] getNativeScopes() {
+    public List<String> getNativeScopes() {
         return SCOPES;
     }
 
@@ -316,5 +320,19 @@ public class PortletRequest extends AbstractClientRequest {
             throw new IOException("PortletException while including path '"
                     + path + "'.", e);
         }
+    }
+
+    @Override
+    public Map<String, Object> getContext(String scope) {
+        if("request".equals(scope)){
+            return getRequestScope();
+        }else if("application".equals(scope)){
+            return getApplicationScope();
+        }else if("portletSession".equals(scope)){
+            return getPortletSessionScope();
+        }else if("application".equals(scope)){
+            return getApplicationScope();
+        }
+        throw new IllegalArgumentException(scope + " does not exist. Call getAvailableScopes() first to check.");
     }
 }

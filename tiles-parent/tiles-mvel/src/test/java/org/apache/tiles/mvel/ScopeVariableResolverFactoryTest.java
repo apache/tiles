@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.mvel;
 
+import java.util.Arrays;
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
@@ -63,8 +64,8 @@ public class ScopeVariableResolverFactoryTest {
     @Before
     public void setUp() {
         request = createMock(Request.class);
-        expect(request.getAvailableScopes()).andReturn(new String[]{"request",
-                "session", "application"}).anyTimes();
+        expect(request.getAvailableScopes()).andReturn(
+                Arrays.asList(new String[]{"request", "session", "application"})).anyTimes();
         TilesRequestContextHolder holder = new TilesRequestContextHolder();
         holder.setTilesRequestContext(request);
         applicationContext = createMock(ApplicationContext.class);

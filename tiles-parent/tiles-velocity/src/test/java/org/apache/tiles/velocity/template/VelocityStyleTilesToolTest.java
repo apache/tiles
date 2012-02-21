@@ -46,7 +46,6 @@ import org.apache.tiles.TilesContainer;
 import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.scope.ContextResolver;
 import org.apache.tiles.request.velocity.VelocityRequest;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -110,15 +109,12 @@ public class VelocityStyleTilesToolTest {
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Attribute attribute = new Attribute("myValue");
-        ContextResolver resolver = createMock(ContextResolver.class);
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityRequest.class),
-                eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
@@ -127,11 +123,11 @@ public class VelocityStyleTilesToolTest {
         expect(attributeContext.getAttribute("myAttribute")).andReturn(attribute);
 
         replay(velocityContext, request, response, servletContext, container,
-                attributeContext, applicationContext, resolver);
+                attributeContext, applicationContext);
         initializeTool();
         assertEquals(attribute, tool.get("myAttribute"));
         verify(velocityContext, request, response, servletContext, container,
-                attributeContext, applicationContext, resolver);
+                attributeContext, applicationContext);
     }
 
     /**
@@ -190,27 +186,25 @@ public class VelocityStyleTilesToolTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         StringWriter writer = new StringWriter();
         Attribute attribute = new Attribute("myValue");
-        ContextResolver resolver = createMock(ContextResolver.class);
+
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityRequest.class),
-                eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
         container.render(eq(attribute), isA(VelocityRequest.class));
 
         replay(velocityContext, request, response, servletContext, container,
-                internalContextAdapter, applicationContext, resolver);
+                internalContextAdapter, applicationContext);
         initializeTool();
         Renderable renderable = tool.render(attribute);
         renderable.render(internalContextAdapter, writer);
         verify(velocityContext, request, response, servletContext, container,
-                internalContextAdapter, applicationContext, resolver);
+                internalContextAdapter, applicationContext);
     }
 
     /**
@@ -224,27 +218,25 @@ public class VelocityStyleTilesToolTest {
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         StringWriter writer = new StringWriter();
-        ContextResolver resolver = createMock(ContextResolver.class);
+
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityRequest.class),
-                eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
         container.render(eq("myDefinition"), isA(VelocityRequest.class));
 
         replay(velocityContext, request, response, servletContext, container,
-                internalContextAdapter, applicationContext, resolver);
+                internalContextAdapter, applicationContext);
         initializeTool();
         Renderable renderable = tool.renderDefinition("myDefinition");
         renderable.render(internalContextAdapter, writer);
         verify(velocityContext, request, response, servletContext, container,
-                internalContextAdapter, applicationContext, resolver);
+                internalContextAdapter, applicationContext);
     }
 
     /**
@@ -257,27 +249,25 @@ public class VelocityStyleTilesToolTest {
         InternalContextAdapter internalContextAdapter = createMock(InternalContextAdapter.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         StringWriter writer = new StringWriter();
-        ContextResolver resolver = createMock(ContextResolver.class);
+
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityRequest.class),
-                eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
         container.renderContext(isA(VelocityRequest.class));
 
         replay(velocityContext, request, response, servletContext, container,
-                internalContextAdapter, applicationContext, resolver);
+                internalContextAdapter, applicationContext);
         initializeTool();
         Renderable renderable = tool.renderAttributeContext();
         renderable.render(internalContextAdapter, writer);
         verify(velocityContext, request, response, servletContext, container,
-                internalContextAdapter, applicationContext, resolver);
+                internalContextAdapter, applicationContext);
     }
 
     /**
@@ -288,15 +278,13 @@ public class VelocityStyleTilesToolTest {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        ContextResolver resolver = createMock(ContextResolver.class);
+
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityRequest.class),
-                eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
@@ -304,11 +292,11 @@ public class VelocityStyleTilesToolTest {
                 .andReturn(attributeContext);
 
         replay(velocityContext, request, response, servletContext, container,
-                attributeContext, applicationContext, resolver);
+                attributeContext, applicationContext);
         initializeTool();
         assertEquals(attributeContext, tool.startAttributeContext());
         verify(velocityContext, request, response, servletContext, container,
-                attributeContext, applicationContext, resolver);
+                attributeContext, applicationContext);
     }
 
     /**
@@ -319,26 +307,24 @@ public class VelocityStyleTilesToolTest {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        ContextResolver resolver = createMock(ContextResolver.class);
+
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityRequest.class),
-                eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
         container.endContext(isA(VelocityRequest.class));
 
         replay(velocityContext, request, response, servletContext, container,
-                attributeContext, applicationContext, resolver);
+                attributeContext, applicationContext);
         initializeTool();
         tool.endAttributeContext();
         verify(velocityContext, request, response, servletContext, container,
-                attributeContext, applicationContext, resolver);
+                attributeContext, applicationContext);
     }
 
     /**
@@ -349,15 +335,13 @@ public class VelocityStyleTilesToolTest {
         TilesContainer container = createMock(TilesContainer.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        ContextResolver resolver = createMock(ContextResolver.class);
+
         Map<String, Object> requestScope = new HashMap<String, Object>();
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityRequest.class),
-                eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
@@ -365,11 +349,11 @@ public class VelocityStyleTilesToolTest {
                 .andReturn(attributeContext);
 
         replay(velocityContext, request, response, servletContext, container,
-                attributeContext, applicationContext, resolver);
+                attributeContext, applicationContext);
         initializeTool();
         assertEquals(attributeContext, tool.getAttributeContext());
         verify(velocityContext, request, response, servletContext, container,
-                attributeContext, applicationContext, resolver);
+                attributeContext, applicationContext);
     }
 
     /**
@@ -382,22 +366,21 @@ public class VelocityStyleTilesToolTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         Map<String, Object> applicationScope = new HashMap<String, Object>();
         applicationScope.put("myKey", container);
-        ContextResolver resolver = createMock(ContextResolver.class);
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        applicationScope.put(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE, resolver);
 
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        requestScope.put(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        request.setAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, container);
+        expect(request.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME)).andReturn(container);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(resolver.getContext(isA(VelocityRequest.class),
-                eq("request"))).andReturn(requestScope).anyTimes();
         expect(servletContext.getAttribute(ApplicationAccess
                 .APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext)
                 .anyTimes();
 
-        replay(velocityContext, request, response, servletContext, container, applicationContext, resolver);
+        replay(velocityContext, request, response, servletContext, container, applicationContext);
         initializeTool();
         assertEquals(tool, tool.setCurrentContainer("myKey"));
         assertEquals(container, requestScope.get(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME));
-        verify(velocityContext, request, response, servletContext, container, applicationContext, resolver);
+        verify(velocityContext, request, response, servletContext, container, applicationContext);
     }
 
     /**

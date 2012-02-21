@@ -37,7 +37,7 @@ import org.apache.tiles.request.RequestWrapper;
  *
  * @version $Rev$ $Date$
  */
-public class ReflectionContextResolver implements ContextResolver {
+public final class ReflectionContextResolver{
 
     /**
      * Maps a request class to all available scopes.
@@ -45,8 +45,6 @@ public class ReflectionContextResolver implements ContextResolver {
     private Map<Class<? extends Request>, Set<String>> class2scopes =
         new HashMap<Class<? extends Request>, Set<String>>();
 
-    @SuppressWarnings("unchecked")
-    @Override
     public Map<String, Object> getContext(Request request, String scope) {
         String methodName = "get" + Character.toUpperCase(scope.charAt(0))
                 + scope.substring(1) + "Scope";
@@ -58,31 +56,30 @@ public class ReflectionContextResolver implements ContextResolver {
                 RequestWrapper wrapper = (RequestWrapper) request;
                 return getContext(wrapper.getWrappedRequest(), scope);
             }
-            throw new NoSuchScopeException("No accessor method for '" + scope
+            throw new IllegalArgumentException("No accessor method for '" + scope
                     + "' scope.", e);
         }
         try {
             return (Map<String, Object>) method.invoke(request);
         } catch (IllegalAccessException e) {
             // Should not ever happen, since method is public.
-            throw new NoSuchScopeException("No accessible method for '" + scope
+            throw new IllegalArgumentException("No accessible method for '" + scope
                     + "' scope.", e);
         } catch (InvocationTargetException e) {
-            throw new NoSuchScopeException(
+            throw new IllegalArgumentException(
                     "Exception during execution of accessor method for '"
                             + scope + "' scope.", e);
         }
     }
 
-    @Override
-    public String[] getAvailableScopes(Request request) {
+    public String[] getAvailableScopes(Request r) {
+        Request request = r;
         Set<String> scopes = new LinkedHashSet<String>();
         boolean finished = false;
         do {
             scopes.addAll(getSpecificScopeSet(request));
             if (request instanceof RequestWrapper) {
-                request = ((RequestWrapper) request)
-                        .getWrappedRequest();
+                request = ((RequestWrapper) request).getWrappedRequest();
             } else {
                 finished = true;
             }
@@ -102,11 +99,8 @@ public class ReflectionContextResolver implements ContextResolver {
         Set<String> scopes = class2scopes.get(request.getClass());
         if (scopes == null) {
             scopes = new LinkedHashSet<String>();
-            String[] nativeScopes = request.getNativeScopes();
-            if (nativeScopes != null) {
-                for (String scopeName : nativeScopes) {
-                    scopes.add(scopeName);
-                }
+            for (String scopeName : request.getNativeScopes()) {
+                scopes.add(scopeName);
             }
             class2scopes.put(request.getClass(), scopes);
         }

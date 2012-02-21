@@ -20,7 +20,6 @@
  */
 package org.apache.tiles.request;
 
-import org.apache.tiles.request.ApplicationContextWrapper;
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
@@ -30,7 +29,6 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tiles.request.ApplicationContext;
 import org.junit.Test;
 
 /**

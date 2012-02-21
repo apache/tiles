@@ -78,7 +78,7 @@ public class JspRequestTest {
     public void testGetNativeScopes() {
         replay(context, enclosedRequest);
         assertArrayEquals(new String[] { "page", "request", "session",
-                "application" }, request.getNativeScopes());
+                "application" }, request.getNativeScopes().toArray());
         verify(context, enclosedRequest);
     }
 

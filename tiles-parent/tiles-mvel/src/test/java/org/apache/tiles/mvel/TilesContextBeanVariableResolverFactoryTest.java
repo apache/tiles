@@ -21,6 +21,7 @@
 
 package org.apache.tiles.mvel;
 
+import java.util.Arrays;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
@@ -93,7 +94,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
         sessionScope.put("three", "three");
         expect(request.getContext("session")).andReturn(sessionScope).anyTimes();
         expect(request.getAvailableScopes()).andReturn(
-                new String[] { "request", "session", "application" })
+                Arrays.asList(new String[] { "request", "session", "application" }))
                 .anyTimes();
         expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
         replay(request, applicationContext);
@@ -127,7 +128,7 @@ public class TilesContextBeanVariableResolverFactoryTest {
         expect(request.getContext("session")).andReturn(sessionScope).times(
                 EXPECTED_SESSION_CALLS);
         expect(request.getAvailableScopes()).andReturn(
-                new String[] { "request", "session", "application" })
+                Arrays.asList(new String[] { "request", "session", "application" }))
                 .anyTimes();
         expect(request.getContext("application")).andReturn(applicationScope).anyTimes();
         replay(request, applicationContext);

@@ -20,15 +20,12 @@
  */
 package org.apache.tiles.request;
 
-import org.apache.tiles.request.DispatchRequestWrapper;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
 import java.io.IOException;
 
-import org.apache.tiles.request.Request;
-import org.apache.tiles.request.DispatchRequest;
 import org.junit.Test;
 
 /**

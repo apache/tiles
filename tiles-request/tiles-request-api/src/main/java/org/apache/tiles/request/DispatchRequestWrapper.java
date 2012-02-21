@@ -24,11 +24,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.tiles.request.attribute.Addable;
-import org.apache.tiles.request.scope.ContextResolver;
 
 /**
  * Delegate for ease of customization.
@@ -75,21 +76,17 @@ public class DispatchRequestWrapper extends AbstractRequest implements
 
     /** {@inheritDoc} */
     public Map<String, Object> getContext(String scope) {
-        ContextResolver resolver = ApplicationAccess.getContextResolver(context
-                .getApplicationContext());
-        return resolver.getContext(this, scope);
+        return context.getContext(scope);
     }
 
     /** {@inheritDoc} */
-    public String[] getNativeScopes() {
-        return null;
+    public List<String> getNativeScopes() {
+        return Collections.<String>emptyList();
     }
 
     /** {@inheritDoc} */
-    public String[] getAvailableScopes() {
-        ContextResolver resolver = ApplicationAccess.getContextResolver(context
-                .getApplicationContext());
-        return resolver.getAvailableScopes(this);
+    public List<String> getAvailableScopes() {
+        return context.getAvailableScopes();
     }
 
     /** {@inheritDoc} */

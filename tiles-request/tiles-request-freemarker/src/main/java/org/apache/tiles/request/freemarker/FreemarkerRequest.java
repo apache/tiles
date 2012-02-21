@@ -23,6 +23,8 @@ package org.apache.tiles.request.freemarker;
 
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -48,7 +50,7 @@ public class FreemarkerRequest extends AbstractViewRequest {
     /**
      * The natively available scopes. In fact, only "page".
      */
-    private static final String[] SCOPES = {"page"};
+    private static final List<String> SCOPES = Collections.singletonList("page");
 
     /**
      * The FreeMarker current environment.
@@ -121,7 +123,7 @@ public class FreemarkerRequest extends AbstractViewRequest {
     }
 
     @Override
-    public String[] getNativeScopes() {
+    public List<String> getNativeScopes() {
         return SCOPES;
     }
 
@@ -140,4 +142,10 @@ public class FreemarkerRequest extends AbstractViewRequest {
     public Writer getWriter() {
         return env.getOut();
     }
+
+    @Override
+    public Map<String, Object> getContext(String scope) {
+        return "page".equals(scope) ? getPageScope() : super.getContext(scope);
+    }
+
 }

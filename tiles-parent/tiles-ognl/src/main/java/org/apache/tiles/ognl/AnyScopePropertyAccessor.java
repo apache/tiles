@@ -66,7 +66,7 @@ public class AnyScopePropertyAccessor implements PropertyAccessor {
             Object index) {
         Request request = (Request) target;
         String attributeName = (String) index;
-        String[] availableScopes = request.getAvailableScopes();
+        String[] availableScopes = request.getAvailableScopes().toArray(new String[0]);
         for (String scopeName : availableScopes) {
             Map<String, Object> scope = request.getContext(scopeName);
             if (scope.containsKey(attributeName)) {
@@ -81,7 +81,7 @@ public class AnyScopePropertyAccessor implements PropertyAccessor {
             Object value) {
         Request request = (Request) target;
         String attributeName = (String) name;
-        String[] availableScopes = request.getAvailableScopes();
+        String[] availableScopes = request.getAvailableScopes().toArray(new String[0]);
         for (String scopeName : availableScopes) {
             Map<String, Object> scope = request.getContext(scopeName);
             if (scope.containsKey(attributeName)) {

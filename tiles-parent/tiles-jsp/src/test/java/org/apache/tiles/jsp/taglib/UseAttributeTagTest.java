@@ -89,7 +89,6 @@ public class UseAttributeTagTest {
                 ApplicationAccess.APPLICATION_CONTEXT_ATTRIBUTE,
                 PageContext.APPLICATION_SCOPE)).andReturn(applicationContext);
         expect(applicationContext.getApplicationScope()).andReturn(applicationScope).anyTimes();
-        expect(applicationScope.get(ApplicationAccess.CONTEXT_RESOLVER_ATTRIBUTE)).andReturn(new ReflectionContextResolver()).anyTimes();
         expect(pageContext.getRequest()).andReturn(httpServletRequest);
         expect(pageContext.getResponse()).andReturn(httpServletResponse);
         expect(pageContext.getAttribute(TilesAccess.CURRENT_CONTAINER_ATTRIBUTE_NAME, PageContext.REQUEST_SCOPE)).andReturn(container);

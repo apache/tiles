@@ -25,6 +25,7 @@ import static org.junit.Assert.*;
 
 import java.beans.FeatureDescriptor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -90,7 +91,7 @@ public class TilesContextBeanELResolverTest {
         expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
         expect(request.getAvailableScopes()).andReturn(
-                new String[] { "request", "session", "application" })
+                Arrays.asList(new String[] { "request", "session", "application" }))
                 .anyTimes();
         replay(request, applicationContext);
 
@@ -151,7 +152,7 @@ public class TilesContextBeanELResolverTest {
         expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
         expect(request.getAvailableScopes()).andReturn(
-                new String[] { "request", "session", "application" })
+                Arrays.asList(new String[] { "request", "session", "application" }))
                 .anyTimes();
         replay(request, applicationContext);
 
@@ -191,7 +192,7 @@ public class TilesContextBeanELResolverTest {
         expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
         expect(request.getAvailableScopes()).andReturn(
-                new String[] { "request", "session", "application" })
+                Arrays.asList(new String[] { "request", "session", "application" }))
                 .anyTimes();
         replay(request, applicationContext);
 
@@ -258,7 +259,7 @@ public class TilesContextBeanELResolverTest {
         expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
         expect(request.getAvailableScopes()).andReturn(
-                new String[] { "request", "session", "application" })
+                Arrays.asList(new String[] { "request", "session", "application" }))
                 .anyTimes();
         replay(request, applicationContext);
 

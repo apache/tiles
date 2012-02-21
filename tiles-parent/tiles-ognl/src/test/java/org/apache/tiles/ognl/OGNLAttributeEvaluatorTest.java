@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.ognl;
 
+import java.util.Arrays;
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
@@ -97,7 +98,7 @@ public class OGNLAttributeEvaluatorTest {
         expect(request.getContext("application")).andReturn(applicationScope)
                 .anyTimes();
         expect(request.getAvailableScopes()).andReturn(
-                new String[] { "request", "session", "application" }).anyTimes();
+                Arrays.asList(new String[] { "request", "session", "application" })).anyTimes();
         applicationContext = createMock(ApplicationContext.class);
         expect(request.getApplicationContext()).andReturn(
                 applicationContext).anyTimes();

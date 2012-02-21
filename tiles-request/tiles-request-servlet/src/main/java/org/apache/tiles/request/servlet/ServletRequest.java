@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -53,7 +56,8 @@ public class ServletRequest extends AbstractClientRequest {
     /**
      * The native available scopes: request, session and application.
      */
-    private static final String[] SCOPES = {"request", "session", "application"};
+    private static final List<String> SCOPES
+            = Collections.unmodifiableList(Arrays.asList("request", "session", "application"));
 
     /**
      * The request object to use.
@@ -179,6 +183,17 @@ public class ServletRequest extends AbstractClientRequest {
         return request.getParameterMap();
     }
 
+    @Override
+    public Map<String, Object> getContext(String scope) {
+        if("request".equals(scope)){
+            return getRequestScope();
+        }else if("session".equals(scope)){
+            return getSessionScope();
+        }else if("application".equals(scope)){
+            return getApplicationScope();
+        }
+        throw new IllegalArgumentException(scope + " does not exist. Call getAvailableScopes() first to check.");
+    }
 
     /** {@inheritDoc} */
     public Map<String, Object> getRequestScope() {
@@ -202,7 +217,7 @@ public class ServletRequest extends AbstractClientRequest {
     }
 
     @Override
-    public String[] getNativeScopes() {
+    public List<String> getNativeScopes() {
         return SCOPES;
     }
 
@@ -291,12 +306,10 @@ public class ServletRequest extends AbstractClientRequest {
         return request.getLocale();
     }
 
-    /** {@inheritDoc} */
     public HttpServletRequest getRequest() {
         return request;
     }
 
-    /** {@inheritDoc} */
     public HttpServletResponse getResponse() {
         return response;
     }

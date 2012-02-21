@@ -155,7 +155,7 @@ public class TilesContextBeanELResolver extends ELResolver {
 
         String prop = property.toString();
 
-        String[] scopes = request.getAvailableScopes();
+        String[] scopes = request.getAvailableScopes().toArray(new String[0]);
         int i = 0;
         do {
             retValue = getObject(request.getContext(scopes[i]), prop);

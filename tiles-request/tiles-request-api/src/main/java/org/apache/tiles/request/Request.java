@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -77,7 +78,7 @@ public interface Request {
      *
      * @return The native scopes.
      */
-    String[] getNativeScopes();
+    List<String> getNativeScopes();
 
     /**
      * Returns all available scopes, that are the ones returned by
@@ -85,7 +86,7 @@ public interface Request {
      *
      * @return All the available scopes.
      */
-    String[] getAvailableScopes();
+    List<String> getAvailableScopes();
 
     /**
      * Returns the associated application context.

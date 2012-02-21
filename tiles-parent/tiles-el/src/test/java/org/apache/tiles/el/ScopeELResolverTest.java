@@ -24,6 +24,7 @@ import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.beans.FeatureDescriptor;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class ScopeELResolverTest {
         Request request = createMock(Request.class);
 
         expect(elContext.getContext(Request.class)).andReturn(request);
-        expect(request.getAvailableScopes()).andReturn(new String[] {"one", "two"});
+        expect(request.getAvailableScopes()).andReturn(Arrays.asList(new String[] {"one", "two"}));
 
         replay(elContext, request);
         assertFalse(resolver.getFeatureDescriptors(elContext, new Integer(1)).hasNext());

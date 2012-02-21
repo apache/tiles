@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.el;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,7 +78,7 @@ public class ELAttributeEvaluatorTest extends TestCase {
         EasyMock.expect(request.getContext("application")).andReturn(
                 applicationScope).anyTimes();
         EasyMock.expect(request.getAvailableScopes()).andReturn(
-                new String[] { "request", "session", "application" }).anyTimes();
+                Arrays.asList(new String[] { "request", "session", "application" })).anyTimes();
         ApplicationContext applicationContext = EasyMock
                 .createMock(ApplicationContext.class);
         EasyMock.expect(request.getApplicationContext()).andReturn(

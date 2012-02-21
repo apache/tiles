@@ -23,6 +23,9 @@ package org.apache.tiles.request.jsp;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -50,7 +53,8 @@ public class JspRequest extends AbstractViewRequest {
     /**
      * The native available scopes.
      */
-    private static final String[] SCOPES = {"page", "request", "session", "application"};
+    private static final List<String> SCOPES
+            = Collections.unmodifiableList(Arrays.asList("page", "request", "session", "application"));
 
     /**
      * The current page context.
@@ -108,7 +112,7 @@ public class JspRequest extends AbstractViewRequest {
     }
 
     @Override
-    public String[] getNativeScopes() {
+    public List<String> getNativeScopes() {
         return SCOPES;
     }
 
@@ -193,5 +197,19 @@ public class JspRequest extends AbstractViewRequest {
      */
     public PageContext getPageContext() {
         return pageContext;
+    }
+
+    @Override
+    public Map<String, Object> getContext(String scope) {
+        if("page".equals(scope)){
+            return getPageScope();
+        }else if("request".equals(scope)){
+            return getRequestScope();
+        }else if("session".equals(scope)){
+            return getSessionScope();
+        }else if("application".equals(scope)){
+            return getApplicationScope();
+        }
+        throw new IllegalArgumentException(scope + " does not exist. Call getAvailableScopes() first to check.");
     }
 }
