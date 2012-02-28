@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.request.velocity.render;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,6 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.collection.IteratorEnumeration;
 import org.apache.tiles.request.servlet.ServletUtil;
 import org.apache.velocity.tools.view.JeeConfig;
 
@@ -72,9 +72,8 @@ public class ApplicationContextJeeConfig implements JeeConfig {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Enumeration getInitParameterNames() {
-        return new IteratorEnumeration(params.keySet().iterator());
+    public Enumeration<String> getInitParameterNames() {
+        return Collections.enumeration(params.keySet());
     }
 
     /** {@inheritDoc} */

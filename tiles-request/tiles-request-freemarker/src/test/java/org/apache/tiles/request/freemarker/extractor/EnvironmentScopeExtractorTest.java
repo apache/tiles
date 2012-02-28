@@ -26,11 +26,12 @@ import static org.junit.Assert.*;
 
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.tiles.request.collection.IteratorEnumeration;
 import org.apache.tiles.request.freemarker.FreemarkerRequestException;
 import org.junit.Test;
 
@@ -80,27 +81,28 @@ public class EnvironmentScopeExtractorTest {
     /**
      * Test method for {@link EnvironmentScopeExtractor#getKeys()}.
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void testGetKeys() {
         Template template = createMock(Template.class);
         TemplateHashModel model = createMock(TemplateHashModel.class);
         TemplateModel valueModel = createMock(TemplateModel.class);
         Configuration configuration = createMock(Configuration.class);
-        Set<String> names = createMock(Set.class);
-        Iterator<String> namesIt = createMock(Iterator.class);
+        Set<String> names = new HashSet<String>();
+        names.add("testGetKeys");
+        
         Writer writer = new StringWriter();
 
         expect(template.getMacros()).andReturn(new HashMap<Object, Object>());
         expect(template.getConfiguration()).andReturn(configuration);
         expect(configuration.getSharedVariableNames()).andReturn(names);
-        expect(names.iterator()).andReturn(namesIt);
 
-        replay(template, model, valueModel, configuration, names, namesIt);
+        replay(template, model, valueModel, configuration);
         Environment env = new Environment(template, model, writer);
         EnvironmentScopeExtractor extractor = new EnvironmentScopeExtractor(env);
-        assertEquals(namesIt, ((IteratorEnumeration<String>) extractor.getKeys()).getIterator());
-        verify(template, model, valueModel, configuration, names, namesIt);
+        Enumeration<String> keys = extractor.getKeys();
+        assertEquals("testGetKeys", keys.nextElement());
+        assertFalse(keys.hasMoreElements());
+        verify(template, model, valueModel, configuration);
     }
 
     /**

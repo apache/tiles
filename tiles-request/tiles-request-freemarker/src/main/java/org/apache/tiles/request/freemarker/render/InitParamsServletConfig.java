@@ -20,6 +20,7 @@
  */
 package org.apache.tiles.request.freemarker.render;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.collection.IteratorEnumeration;
 
 /**
  * Implements {@link ServletConfig} to initialize the internal servlet using parameters
@@ -68,9 +68,8 @@ public class InitParamsServletConfig implements ServletConfig {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Enumeration getInitParameterNames() {
-        return new IteratorEnumeration(params.keySet().iterator());
+    public Enumeration<String> getInitParameterNames() {
+        return Collections.enumeration(params.keySet());
     }
 
     /** {@inheritDoc} */

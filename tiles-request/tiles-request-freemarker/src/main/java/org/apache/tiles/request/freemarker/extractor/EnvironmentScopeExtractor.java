@@ -20,10 +20,10 @@
  */
 package org.apache.tiles.request.freemarker.extractor;
 
+import java.util.Collections;
 import java.util.Enumeration;
 
 import org.apache.tiles.request.attribute.AttributeExtractor;
-import org.apache.tiles.request.collection.IteratorEnumeration;
 import org.apache.tiles.request.freemarker.FreemarkerRequestException;
 
 import freemarker.core.Environment;
@@ -61,11 +61,9 @@ public class EnvironmentScopeExtractor implements AttributeExtractor {
     @Override
     public Enumeration<String> getKeys() {
         try {
-            return new IteratorEnumeration<String>(request
-                    .getKnownVariableNames().iterator());
+            return Collections.<String> enumeration(request.getKnownVariableNames());
         } catch (TemplateModelException e) {
-            throw new FreemarkerRequestException(
-                    "Cannot iterate variable names correctly", e);
+            throw new FreemarkerRequestException("Cannot iterate variable names correctly", e);
         }
     }
 
@@ -78,8 +76,7 @@ public class EnvironmentScopeExtractor implements AttributeExtractor {
             }
             return null;
         } catch (TemplateModelException e) {
-            throw new FreemarkerRequestException(
-                    "Cannot get attribute with name '" + key + "'", e);
+            throw new FreemarkerRequestException("Cannot get attribute with name '" + key + "'", e);
         }
     }
 
@@ -89,9 +86,7 @@ public class EnvironmentScopeExtractor implements AttributeExtractor {
             TemplateModel model = request.getObjectWrapper().wrap(value);
             request.setVariable(key, model);
         } catch (TemplateModelException e) {
-            throw new FreemarkerRequestException(
-                    "Error when wrapping an object setting the '" + key
-                            + "' attribute", e);
+            throw new FreemarkerRequestException("Error when wrapping an object setting the '" + key + "' attribute", e);
         }
     }
 }
