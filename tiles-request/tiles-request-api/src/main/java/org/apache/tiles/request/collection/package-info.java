@@ -19,6 +19,18 @@
  * under the License.
  */
 /**
- * Special collections and maps for attributes.
+ * Special collections and maps for attributes (like HTTP request 
+ * or session attributes).
+ * These can be used to access another object's attributes through 
+ * a Map interface.
+ * <ul>
+ * <li> {@link org.apache.tiles.request.collection.ScopeMap} provides
+ * full get/put/remove access to the attributes.
+ * <li> {@link org.apache.tiles.request.collection.ReadOnlyEnumerationMap}
+ * provides get-only access.
+ * <li> {@link org.apache.tiles.request.collection.HeaderValuesMap}
+ * provides get-only access to a multi-valued map (typically, headers).
+ * </ul>
  */
 package org.apache.tiles.request.collection;
+

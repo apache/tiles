@@ -19,6 +19,17 @@
  * under the License.
  */
 /**
- * Classes to allow rendering of a path in a uniform way.
+ * Classes to allow rendering of a template (described by its path) 
+ * in a uniform way.
+ * 
+ * Besides the top level interface {@link org.apache.tiles.request.render.Renderer},
+ * the package contains:
+ * <ul>
+ * <li>trivial examples: {@link org.apache.tiles.request.render.StringRenderer} 
+ * and {@link org.apache.tiles.request.render.DispatchRenderer}.
+ * <li>usual design patterns: {@link org.apache.tiles.request.render.ChainedDelegateRenderer},
+ * {@link org.apache.tiles.request.render.PublisherRenderer}, and 
+ * {@link org.apache.tiles.request.render.RendererFactory}.
+ * </ul>
  */
 package org.apache.tiles.request.render;

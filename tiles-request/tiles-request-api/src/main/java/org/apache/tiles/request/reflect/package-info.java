@@ -19,6 +19,6 @@
  * under the License.
  */
 /**
- * Classes to manage reflection in a centralized way for Tiles.
+ * Utilities to work with dynamic class loading and instantiation.
  */
 package org.apache.tiles.request.reflect;

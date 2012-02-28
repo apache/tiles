@@ -19,8 +19,28 @@
  * under the License.
  */
 /**
- * This package abstracts the concept of "request" to make it independent
- * to any technology. It collects concepts from servlets, portlets, template technologies
- * in a uniform way.
+ * This package defines the concept of "request" as the event causing a 
+ * document to be generated from a template. The process is also called
+ * "rendering the template". Typical examples are servlet requests or 
+ * portlet requests. 
+ * 
+ * This API is independent of the underlying technology, allowing the user 
+ * to deal with similarities in servlets and portlets, or various template 
+ * technologies, in a uniform way.
+ * 
+ * It is based on 3 main interfaces:
+ * <ul>
+ * <li>{@link org.apache.tiles.request.Request} is the main abstraction, 
+ * encapsulating the parameters of the template (as attributes and scopes)
+ * and the target document (as java.io.OutputStream). 
+ * {@link org.apache.tiles.request.DispatchRequest} holds some features common
+ * to servlets and portlets that are unlikely to be found outside of a JavaEE
+ * web environment.
+ * <li>{@link org.apache.tiles.ApplicationContext} can be used to access
+ * application-wide configuration and resources (typically the files containing
+ * the templates).
+ * <li>{@link org.apache.tiles.request.render.Renderer} is the interface supported
+ * by the engine in charge of rendering the template.
+ * <ul>
  */
 package org.apache.tiles.request;
