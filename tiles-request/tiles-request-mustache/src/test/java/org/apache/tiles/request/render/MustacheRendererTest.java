@@ -24,11 +24,12 @@ package org.apache.tiles.request.render;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Writer;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.junit.Test;
 
@@ -43,13 +44,6 @@ import static org.junit.Assert.assertTrue;
  */
 public final class MustacheRendererTest {
 
-    private static final MustacheRenderer.ResourceLoader TEST_LOADER = new MustacheRenderer.ResourceLoader(){
-        @Override
-        public InputStream getResourceAsStream(String path) {
-            return getClass().getResourceAsStream(path);
-        }
-    };
-
     /**
      * Tests {@link MustacheRenderer#render(String, org.apache.tiles.request.Request)}.
      * @throws IOException If something goes wrong.
@@ -58,8 +52,13 @@ public final class MustacheRendererTest {
     public void testRender() throws IOException {
         ServletRequest request = createMock(ServletRequest.class);
         Writer writer = createMock(Writer.class);
+        ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        URL resource = getClass().getResource("/test.html");
+
         Map<String,Object> context = Collections.singletonMap("testKey", (Object)"test value");
 
+        expect(request.getApplicationContext()).andReturn(applicationContext);
+        expect(applicationContext.getResource(isA(String.class))).andReturn(resource).anyTimes();
         expect(request.getAvailableScopes()).andReturn(new String[]{"request", "session", "application"});
         expect(request.getContext("request")).andReturn(context);
         expect(request.getContext("session")).andReturn(Collections.<String,Object>emptyMap());
@@ -68,10 +67,10 @@ public final class MustacheRendererTest {
         writer.write("test template with test value");
         writer.flush();
 
-        replay(request, writer);
-        Renderer renderer = new MustacheRenderer(TEST_LOADER);
+        replay(request, applicationContext, writer);
+        Renderer renderer = new MustacheRenderer();
         renderer.render("/test.html", request);
-        verify(request, writer);
+        verify(request, applicationContext, writer);
     }
 
     /**
@@ -82,7 +81,7 @@ public final class MustacheRendererTest {
     public void testRenderException() throws IOException {
         ServletRequest request = createMock(ServletRequest.class);
         replay(request);
-        Renderer renderer = new MustacheRenderer(TEST_LOADER);
+        Renderer renderer = new MustacheRenderer();
         try {
             renderer.render(null, request);
         } finally {
@@ -97,7 +96,7 @@ public final class MustacheRendererTest {
      */
     @Test
     public void testIsRenderable() {
-        MustacheRenderer renderer = new MustacheRenderer(TEST_LOADER);
+        MustacheRenderer renderer = new MustacheRenderer();
         renderer.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File pathname) {

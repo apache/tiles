@@ -27,10 +27,12 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 
 import com.sampullara.mustache.MustacheBuilder;
 import com.sampullara.mustache.MustacheException;
 import com.sampullara.mustache.Scope;
+import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
 
 /**
@@ -41,12 +43,7 @@ import org.apache.tiles.request.Request;
  */
 public final class MustacheRenderer implements Renderer {
 
-    private final ResourceLoader loader;
     private FileFilter fileFilter;
-
-    public MustacheRenderer(ResourceLoader loader){
-        this.loader = loader;
-    }
 
     @Override
     public void render(String path, Request request) throws IOException {
@@ -56,12 +53,18 @@ public final class MustacheRenderer implements Renderer {
 
         try{
             new MustacheBuilder()
-                    .build(new BufferedReader(new InputStreamReader(loader.getResourceAsStream(path))), path)
+                    .build(new BufferedReader(new InputStreamReader(getResourceStream(request, path))), path)
                     .execute(request.getWriter(), buildScope(request));
 
         }catch(MustacheException ex){
             throw new IOException("failed to MustacheRenderer.render(" + path + ",request)", ex);
         }
+    }
+
+    private static InputStream getResourceStream(Request request, String path) throws IOException {
+        final ApplicationContext applicationContext = request.getApplicationContext();
+        final URL resource = applicationContext.getResource(path);
+        return resource.openStream();
     }
 
     private static Scope buildScope(Request request){
@@ -82,9 +85,5 @@ public final class MustacheRenderer implements Renderer {
 
     public void setFileFilter(FileFilter fileFilter) {
         this.fileFilter = fileFilter;
-    }
-
-    public interface ResourceLoader{
-        InputStream getResourceAsStream(String path);
     }
 }
