@@ -22,12 +22,12 @@
 package org.apache.tiles.request.render;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sampullara.mustache.MustacheBuilder;
 import com.sampullara.mustache.MustacheException;
@@ -43,7 +43,7 @@ import org.apache.tiles.request.Request;
  */
 public final class MustacheRenderer implements Renderer {
 
-    private FileFilter fileFilter;
+    private Pattern acceptPattern;
 
     @Override
     public void render(String path, Request request) throws IOException {
@@ -80,10 +80,17 @@ public final class MustacheRenderer implements Renderer {
 
     //@Override
     public boolean isRenderable(String path, Request request) {
-        return path != null && (fileFilter == null || fileFilter.accept(new File(path)));
+        if (path == null) {
+            return false;
+        }
+        if (acceptPattern != null) {
+            final Matcher matcher = acceptPattern.matcher(path);
+            return matcher.matches();
+        }
+        return true;
     }
 
-    public void setFileFilter(FileFilter fileFilter) {
-        this.fileFilter = fileFilter;
+    public void setAcceptPattern(Pattern acceptPattern) {
+        this.acceptPattern = acceptPattern;
     }
 }

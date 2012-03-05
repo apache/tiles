@@ -21,13 +21,12 @@
 package org.apache.tiles.request.render;
 
 
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.servlet.ServletRequest;
@@ -97,12 +96,9 @@ public final class MustacheRendererTest {
     @Test
     public void testIsRenderable() {
         MustacheRenderer renderer = new MustacheRenderer();
-        renderer.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File pathname) {
-                return pathname != null && pathname.isAbsolute();
-            }
-        });
+        final Pattern pattern = Pattern.compile("/.*");
+        renderer.setAcceptPattern(pattern);
+
         assertTrue(renderer.isRenderable("/my/template.html", null));
         assertTrue(renderer.isRenderable("/my/template.any", null));
         assertFalse(renderer.isRenderable("my/template.html", null));
