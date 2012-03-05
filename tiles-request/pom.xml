@@ -28,6 +28,7 @@
 		<module>tiles-request-jsp</module>
 		<module>tiles-request-freemarker</module>
 		<module>tiles-request-velocity</module>
+        <module>tiles-request-mustache</module>
 	</modules>
 	<build>
 		<pluginManagement>
