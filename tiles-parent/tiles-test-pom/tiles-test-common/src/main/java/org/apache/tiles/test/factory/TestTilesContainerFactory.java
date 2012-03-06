@@ -20,19 +20,16 @@
  */
 package org.apache.tiles.test.factory;
 
-import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.tiles.TilesContainer;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.evaluator.AttributeEvaluatorFactory;
 import org.apache.tiles.extras.complete.CompleteAutoloadTilesContainerFactory;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.render.BasicRendererFactory;
 import org.apache.tiles.test.renderer.ReverseStringRenderer;
-import org.apache.tiles.util.URLUtil;
 
 
 /**
@@ -57,22 +54,16 @@ public class TestTilesContainerFactory extends CompleteAutoloadTilesContainerFac
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(ApplicationContext applicationContext) {
-        try {
-            List<URL> urls;
-            Set<URL> urlSet = applicationContext
-                    .getResources("/WEB-INF/**/tiles-defs*.xml");
-            urls = URLUtil.getBaseTilesDefinitionURLs(urlSet);
-            urls.add(applicationContext.getResource(
-                    "classpath:/org/apache/tiles/classpath-defs.xml"));
-            urls.add(applicationContext.getResource(
-                    "classpath:/org/apache/tiles/freemarker-classpath-defs.xml"));
-            urls.add(applicationContext.getResource(
-                "classpath:/org/apache/tiles/velocity-classpath-defs.xml"));
-            return urls;
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException(
-                    "Cannot load definition URLs", e);
-        }
+    protected List<ApplicationResource> getSources(ApplicationContext applicationContext) {
+        List<ApplicationResource> urls = new ArrayList<ApplicationResource>();
+        urls.addAll(applicationContext
+                .getResources("/WEB-INF/**/tiles-defs*.xml"));
+        urls.add(applicationContext.getResource(
+                "classpath:/org/apache/tiles/classpath-defs.xml"));
+        urls.add(applicationContext.getResource(
+                "classpath:/org/apache/tiles/freemarker-classpath-defs.xml"));
+        urls.add(applicationContext.getResource(
+            "classpath:/org/apache/tiles/velocity-classpath-defs.xml"));
+        return urls;
     }
 }

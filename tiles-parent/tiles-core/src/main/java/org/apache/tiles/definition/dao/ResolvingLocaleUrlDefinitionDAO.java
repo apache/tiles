@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.request.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,10 +53,14 @@ public class ResolvingLocaleUrlDefinitionDAO extends
      */
     private final Logger log = LoggerFactory.getLogger(ResolvingLocaleUrlDefinitionDAO.class);
 
+    public ResolvingLocaleUrlDefinitionDAO(ApplicationContext applicationContext) {
+        super(applicationContext);
+    }
+
     /** {@inheritDoc} */
     @Override
     protected Map<String, Definition> loadParentDefinitions(Locale parentLocale) {
-        return loadRawDefinitionsFromURLs(parentLocale);
+        return loadRawDefinitionsFromResources(parentLocale);
     }
 
     @Override

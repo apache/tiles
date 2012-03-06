@@ -25,7 +25,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,6 +33,7 @@ import com.sampullara.mustache.MustacheBuilder;
 import com.sampullara.mustache.MustacheException;
 import com.sampullara.mustache.Scope;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.Request;
 
 /**
@@ -64,8 +64,8 @@ public final class MustacheRenderer implements Renderer {
 
     private static InputStream getResourceStream(Request request, String path) throws IOException {
         final ApplicationContext applicationContext = request.getApplicationContext();
-        final URL resource = applicationContext.getResource(path);
-        return resource.openStream();
+        final ApplicationResource resource = applicationContext.getResource(path);
+        return resource.getInputStream();
     }
 
     private static Scope buildScope(Request request){

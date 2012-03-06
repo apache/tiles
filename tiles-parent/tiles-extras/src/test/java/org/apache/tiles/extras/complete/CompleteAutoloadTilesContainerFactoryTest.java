@@ -26,12 +26,12 @@ import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.el.ExpressionFactory;
 import javax.servlet.ServletContext;
@@ -50,6 +50,7 @@ import org.apache.tiles.impl.mgmt.CachingTilesContainer;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
 import org.apache.tiles.request.render.BasicRendererFactory;
 import org.apache.tiles.request.render.ChainedDelegateRenderer;
@@ -93,9 +94,9 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         TilesContainer wrapped = createMock(TilesContainer.class);
 
         replay(applicationContext, wrapped);
-        assertSame(wrapped, ((CachingTilesContainer) factory
-                .createDecoratedContainer(wrapped, applicationContext))
-                .getWrappedContainer());
+        assertSame(wrapped,
+                ((CachingTilesContainer) factory.createDecoratedContainer(wrapped, applicationContext))
+                        .getWrappedContainer());
         verify(applicationContext, wrapped);
     }
 
@@ -115,51 +116,30 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         AttributeEvaluatorFactory attributeEvaluatorFactory = createMock(AttributeEvaluatorFactory.class);
         ServletContext servletContext = createMock(ServletContext.class);
 
-        rendererFactory.registerRenderer(eq("string"),
-                isA(StringRenderer.class));
-        rendererFactory.registerRenderer(eq("template"),
-                isA(DispatchRenderer.class));
-        rendererFactory.registerRenderer(eq("definition"),
-                isA(DefinitionRenderer.class));
-        rendererFactory.registerRenderer(eq("freemarker"),
-                isA(FreemarkerRenderer.class));
-        rendererFactory.registerRenderer(eq("velocity"),
-                isA(VelocityRenderer.class));
+        rendererFactory.registerRenderer(eq("string"), isA(StringRenderer.class));
+        rendererFactory.registerRenderer(eq("template"), isA(DispatchRenderer.class));
+        rendererFactory.registerRenderer(eq("definition"), isA(DefinitionRenderer.class));
+        rendererFactory.registerRenderer(eq("freemarker"), isA(FreemarkerRenderer.class));
+        rendererFactory.registerRenderer(eq("velocity"), isA(VelocityRenderer.class));
 
-        expect(applicationContext.getContext()).andReturn(servletContext)
-                .anyTimes();
-        expect(servletContext.getInitParameter(VelocityView.PROPERTIES_KEY))
-                .andReturn(null);
-        expect(servletContext.getInitParameter(VelocityView.TOOLS_KEY))
-                .andReturn(null);
-        expect(servletContext.getAttribute(VelocityView.TOOLS_KEY)).andReturn(
-                null);
-        expect(
-                servletContext
-                        .getResourceAsStream("/WEB-INF/velocity.properties"))
-                .andReturn(
-                        getClass().getResourceAsStream("/velocity.properties"));
-        expect(
-                servletContext
-                        .getResourceAsStream("/WEB-INF/VM_global_library.vm"))
-                .andReturn(
-                        getClass().getResourceAsStream("/VM_global_library.vm"));
-        expect(servletContext.getResourceAsStream("/WEB-INF/tools.xml"))
-                .andReturn(getClass().getResourceAsStream("/tools.xml"));
-        expect(
-                servletContext
-                        .getResourceAsStream(VelocityView.DEPRECATED_USER_TOOLS_PATH))
-                .andReturn(null);
+        expect(applicationContext.getContext()).andReturn(servletContext).anyTimes();
+        expect(servletContext.getInitParameter(VelocityView.PROPERTIES_KEY)).andReturn(null);
+        expect(servletContext.getInitParameter(VelocityView.TOOLS_KEY)).andReturn(null);
+        expect(servletContext.getAttribute(VelocityView.TOOLS_KEY)).andReturn(null);
+        expect(servletContext.getResourceAsStream("/WEB-INF/velocity.properties")).andReturn(
+                getClass().getResourceAsStream("/velocity.properties"));
+        expect(servletContext.getResourceAsStream("/WEB-INF/VM_global_library.vm")).andReturn(
+                getClass().getResourceAsStream("/VM_global_library.vm"));
+        expect(servletContext.getResourceAsStream("/WEB-INF/tools.xml")).andReturn(
+                getClass().getResourceAsStream("/tools.xml"));
+        expect(servletContext.getResourceAsStream(VelocityView.DEPRECATED_USER_TOOLS_PATH)).andReturn(null);
         servletContext.log((String) anyObject());
         expectLastCall().anyTimes();
         expect(servletContext.getRealPath("/")).andReturn(null);
 
-        replay(rendererFactory, applicationContext, container,
-                attributeEvaluatorFactory, servletContext);
-        factory.registerAttributeRenderers(rendererFactory, applicationContext,
-                container, attributeEvaluatorFactory);
-        verify(rendererFactory, applicationContext, container,
-                attributeEvaluatorFactory, servletContext);
+        replay(rendererFactory, applicationContext, container, attributeEvaluatorFactory, servletContext);
+        factory.registerAttributeRenderers(rendererFactory, applicationContext, container, attributeEvaluatorFactory);
+        verify(rendererFactory, applicationContext, container, attributeEvaluatorFactory, servletContext);
     }
 
     /**
@@ -185,15 +165,11 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         expect(rendererFactory.getRenderer("velocity")).andReturn(velocityRenderer);
         expect(rendererFactory.getRenderer("freemarker")).andReturn(freemarkerRenderer);
 
-        replay(container, attributeEvaluatorFactory, rendererFactory,
-                applicationContext);
-        Renderer renderer = factory.createDefaultAttributeRenderer(
-                rendererFactory, applicationContext, container,
+        replay(container, attributeEvaluatorFactory, rendererFactory, applicationContext);
+        Renderer renderer = factory.createDefaultAttributeRenderer(rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
-        assertTrue("The default renderer class is not correct",
-                renderer instanceof ChainedDelegateRenderer);
-        verify(container, attributeEvaluatorFactory, rendererFactory,
-                applicationContext);
+        assertTrue("The default renderer class is not correct", renderer instanceof ChainedDelegateRenderer);
+        verify(container, attributeEvaluatorFactory, rendererFactory, applicationContext);
     }
 
     /**
@@ -215,18 +191,15 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         expect(jspFactory.getJspApplicationContext(servletContext)).andReturn(jspApplicationContext);
         expect(jspApplicationContext.getExpressionFactory()).andReturn(expressionFactory);
 
-        replay(applicationContext, resolver, servletContext, jspFactory,
-                jspApplicationContext, expressionFactory);
+        replay(applicationContext, resolver, servletContext, jspFactory, jspApplicationContext, expressionFactory);
         JspFactory.setDefaultFactory(jspFactory);
-        AttributeEvaluatorFactory attributeEvaluatorFactory = factory
-                .createAttributeEvaluatorFactory(applicationContext,
-                        resolver);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = factory.createAttributeEvaluatorFactory(
+                applicationContext, resolver);
         assertTrue(attributeEvaluatorFactory instanceof BasicAttributeEvaluatorFactory);
         assertNotNull(attributeEvaluatorFactory.getAttributeEvaluator("EL"));
         assertNotNull(attributeEvaluatorFactory.getAttributeEvaluator("MVEL"));
         assertNotNull(attributeEvaluatorFactory.getAttributeEvaluator("OGNL"));
-        verify(applicationContext, resolver, servletContext, jspFactory,
-                jspApplicationContext, expressionFactory);
+        verify(applicationContext, resolver, servletContext, jspFactory, jspApplicationContext, expressionFactory);
     }
 
     /**
@@ -236,8 +209,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
      */
     @Test
     public void testCreatePatternDefinitionResolver() {
-        PatternDefinitionResolver<Integer> resolver = factory
-                .createPatternDefinitionResolver(Integer.class);
+        PatternDefinitionResolver<Integer> resolver = factory.createPatternDefinitionResolver(Integer.class);
         assertTrue(resolver instanceof PrefixedPatternDefinitionResolver);
         Definition definitionWildcard = new Definition("WILDCARD:blah*", (Attribute) null, null);
         Definition definitionRegexp = new Definition("REGEXP:what(.*)", (Attribute) null, null);
@@ -253,34 +225,37 @@ public class CompleteAutoloadTilesContainerFactoryTest {
 
     /**
      * Test method for
-     * {@link CompleteAutoloadTilesContainerFactory#getSourceURLs(ApplicationContext)}
+     * {@link CompleteAutoloadTilesContainerFactory#getSources(ApplicationContext)}
      * .
      * @throws IOException If something goes wrong.
      */
     @Test
-    public void testGetSourceURLs() throws IOException {
+    public void testGetSources() throws IOException {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        URL url1 = new URL("file:///nonexistent/tiles.xml");
-        URL url2 = new URL("file:///nonexistent/tiles_it.xml");
-        URL url3 = new URL("file:///nonexistent2/tiles.xml");
+        ApplicationResource resource1 = createMock(ApplicationResource.class);
+        expect(resource1.getLocale()).andReturn(Locale.ROOT);
+        ApplicationResource resource2 = createMock(ApplicationResource.class);
+        expect(resource2.getLocale()).andReturn(Locale.ITALY);
+        ApplicationResource resource3 = createMock(ApplicationResource.class);
+        expect(resource3.getLocale()).andReturn(Locale.ROOT);
 
-        Set<URL> urls1 = new HashSet<URL>();
-        urls1.add(url1);
-        urls1.add(url2);
+        Collection<ApplicationResource> resourceSet1 = new HashSet<ApplicationResource>();
+        resourceSet1.add(resource1);
+        resourceSet1.add(resource2);
 
-        Set<URL> urls2 = new HashSet<URL>();
-        urls2.add(url3);
+        Collection<ApplicationResource> resourceSet2 = new HashSet<ApplicationResource>();
+        resourceSet2.add(resource3);
 
-        expect(applicationContext.getResources("/WEB-INF/**/tiles*.xml")).andReturn(urls1);
-        expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(urls2);
+        expect(applicationContext.getResources("/WEB-INF/**/tiles*.xml")).andReturn(resourceSet1);
+        expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(resourceSet2);
 
-        replay(applicationContext);
-        List<URL> urls = factory.getSourceURLs(applicationContext);
+        replay(applicationContext, resource1, resource2, resource3);
+        List<ApplicationResource> urls = factory.getSources(applicationContext);
         assertEquals(2, urls.size());
-        assertTrue(urls.contains(url1));
-        assertTrue(urls.contains(url3));
-        verify(applicationContext);
+        assertTrue(urls.contains(resource1));
+        assertTrue(urls.contains(resource3));
+        verify(applicationContext, resource1, resource2, resource3);
     }
 
     /**
@@ -292,19 +267,20 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     public void testTILES484first() throws IOException {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        URL url3 = new URL("file:///nonexistent2/tiles.xml");
+        ApplicationResource resource = createMock(ApplicationResource.class);
+        expect(resource.getLocale()).andReturn(Locale.ROOT);
 
-        Set<URL> urls2 = new HashSet<URL>();
-        urls2.add(url3);
+        Collection<ApplicationResource> resourceSet = new HashSet<ApplicationResource>();
+        resourceSet.add(resource);
 
         expect(applicationContext.getResources("/WEB-INF/**/tiles*.xml")).andReturn(null);
-        expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(urls2);
+        expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(resourceSet);
 
-        replay(applicationContext);
-        List<URL> urls = factory.getSourceURLs(applicationContext);
-        assertEquals(1, urls.size());
-        assertTrue(urls.contains(url3));
-        verify(applicationContext);
+        replay(applicationContext, resource);
+        List<ApplicationResource> resources = factory.getSources(applicationContext);
+        assertEquals(1, resources.size());
+        assertTrue(resources.contains(resource));
+        verify(applicationContext, resource);
     }
 
     /**
@@ -316,21 +292,23 @@ public class CompleteAutoloadTilesContainerFactoryTest {
     public void testTILES484second() throws IOException {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
-        URL url1 = new URL("file:///nonexistent/tiles.xml");
-        URL url2 = new URL("file:///nonexistent/tiles_it.xml");
+        ApplicationResource resource1 = createMock(ApplicationResource.class);
+        expect(resource1.getLocale()).andReturn(Locale.ROOT);
+        ApplicationResource resource2 = createMock(ApplicationResource.class);
+        expect(resource2.getLocale()).andReturn(Locale.ITALY);
 
-        Set<URL> urls1 = new HashSet<URL>();
-        urls1.add(url1);
-        urls1.add(url2);
+        Collection<ApplicationResource> resourceSet = new HashSet<ApplicationResource>();
+        resourceSet.add(resource1);
+        resourceSet.add(resource2);
 
-        expect(applicationContext.getResources("/WEB-INF/**/tiles*.xml")).andReturn(urls1);
+        expect(applicationContext.getResources("/WEB-INF/**/tiles*.xml")).andReturn(resourceSet);
         expect(applicationContext.getResources("classpath*:META-INF/**/tiles*.xml")).andReturn(null);
 
-        replay(applicationContext);
-        List<URL> urls = factory.getSourceURLs(applicationContext);
-        assertEquals(1, urls.size());
-        assertTrue(urls.contains(url1));
-        verify(applicationContext);
+        replay(applicationContext, resource1, resource2);
+        List<ApplicationResource> resources = factory.getSources(applicationContext);
+        assertEquals(1, resources.size());
+        assertTrue(resources.contains(resource1));
+        verify(applicationContext, resource1, resource2);
     }
 
     /**
@@ -344,8 +322,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
 
         replay(applicationContext);
-        assertTrue(factory.createDefinitionsReader(applicationContext)
-                instanceof CompatibilityDigesterDefinitionsReader);
+        assertTrue(factory.createDefinitionsReader(applicationContext) instanceof CompatibilityDigesterDefinitionsReader);
         verify(applicationContext);
     }
 

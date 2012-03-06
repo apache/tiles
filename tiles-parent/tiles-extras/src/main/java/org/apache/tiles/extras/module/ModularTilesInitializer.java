@@ -21,13 +21,11 @@
 
 package org.apache.tiles.extras.module;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
@@ -35,11 +33,10 @@ import javax.servlet.ServletContext;
 
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.reflect.ClassUtil;
 import org.apache.tiles.request.servlet.wildcard.WildcardServletApplicationContext;
 import org.apache.tiles.startup.TilesInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Loads Tiles modules, initializes them and destroy them at the end.<br>
@@ -52,11 +49,6 @@ import org.slf4j.LoggerFactory;
  * @since 2.2.1
  */
 public class ModularTilesInitializer implements TilesInitializer {
-
-    /**
-     * The logging object.
-     */
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * The initializers to use.
@@ -89,18 +81,14 @@ public class ModularTilesInitializer implements TilesInitializer {
     private void loadInitializers(ApplicationContext applicationContext) {
         initializers = new ArrayList<TilesInitializer>();
         try {
-            Set<URL> urls = applicationContext
+            Collection<ApplicationResource> resources = applicationContext
                     .getResources("classpath*:META-INF/MANIFEST.MF");
-            try {
-                URL mainUrl = applicationContext.getResource("/META-INF/MANIFEST.MF");
-                if (mainUrl != null) {
-                    urls.add(mainUrl);
-                }
-            } catch (FileNotFoundException e) {
-                logger.debug("Cannot find main manifest, ignoring the problem", e);
+            ApplicationResource mainResource = applicationContext.getResource("/META-INF/MANIFEST.MF");
+            if (mainResource != null) {
+                resources.add(mainResource);
             }
-            for (URL url : urls) {
-                InputStream stream = url.openStream();
+            for (ApplicationResource resource : resources) {
+                InputStream stream = resource.getInputStream();
                 try {
                     Manifest manifest = new Manifest(stream);
                     Attributes attributes = manifest.getMainAttributes();

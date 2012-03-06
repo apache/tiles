@@ -21,18 +21,17 @@
 
 package org.apache.tiles.definition.dao;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolverAware;
-import org.apache.tiles.util.LocaleUtil;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
+import org.apache.tiles.request.locale.LocaleUtil;
 
 /**
  * <p>
@@ -86,7 +85,8 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
      *
      * @since 2.1.0
      */
-    public CachingLocaleUrlDefinitionDAO() {
+    public CachingLocaleUrlDefinitionDAO(ApplicationContext applicationContext) {
+        super(applicationContext);
         locale2definitionMap = new HashMap<Locale, Map<String, Definition>>();
     }
 
@@ -100,7 +100,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     public Definition getDefinition(String name, Locale customizationKey) {
         Definition retValue = null;
         if (customizationKey == null) {
-            customizationKey = LocaleUtil.NULL_LOCALE;
+            customizationKey = Locale.ROOT;
         }
         Map<String, Definition> definitions = getDefinitions(customizationKey);
         if (definitions != null) {
@@ -123,7 +123,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     /** {@inheritDoc} */
     public Map<String, Definition> getDefinitions(Locale customizationKey) {
         if (customizationKey == null) {
-            customizationKey = LocaleUtil.NULL_LOCALE;
+            customizationKey = Locale.ROOT;
         }
         Map<String, Definition> retValue = locale2definitionMap
                 .get(customizationKey);
@@ -134,11 +134,11 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     }
 
     /**
-     * Sets the flag to check URL refresh. If not called, the default is
+     * Sets the flag to check source refresh. If not called, the default is
      * <code>false</code>.
      *
      * @param checkRefresh When <code>true</code>, enables automatic checking
-     * of URLs changing.
+     * of sources changing.
      * @since 2.1.0
      */
     public void setCheckRefresh(boolean checkRefresh) {
@@ -159,10 +159,10 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     }
 
     /**
-     * Checks if URLs have changed. If yes, it clears the cache. Then continues
+     * Checks if sources have changed. If yes, it clears the cache. Then continues
      * loading definitions.
      *
-     * @param customizationKey The locale to use when loading URLs.
+     * @param customizationKey The locale to use when loading sources.
      * @return The loaded definitions.
      * @since 2.1.0
      */
@@ -178,7 +178,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     /**
      * Tries to load definitions if necessary.
      *
-     * @param customizationKey The locale to use when loading URLs.
+     * @param customizationKey The locale to use when loading sources.
      * @return The loaded definitions.
      * @since 2.1.0
      */
@@ -189,18 +189,18 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             return localeDefsMap;
         }
 
-        return loadDefinitionsFromURLs(customizationKey);
+        return loadDefinitionsFromResources(customizationKey);
     }
 
     /**
-     * Loads definitions from the URLs.
+     * Loads definitions from the sources.
      *
-     * @param customizationKey The locale to use when loading URLs.
+     * @param customizationKey The locale to use when loading Resources.
      * @return The loaded definitions.
      * @since 2.1.0
      */
-    protected Map<String, Definition> loadDefinitionsFromURLs(Locale customizationKey) {
-        Map<String, Definition> localeDefsMap = loadRawDefinitionsFromURLs(customizationKey);
+    protected Map<String, Definition> loadDefinitionsFromResources(Locale customizationKey) {
+        Map<String, Definition> localeDefsMap = loadRawDefinitionsFromResources(customizationKey);
         Map<String, Definition> defsMap = definitionResolver
                 .storeDefinitionPatterns(copyDefinitionMap(localeDefsMap),
                         customizationKey);
@@ -209,17 +209,16 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
     }
 
     /**
-     * Loads the raw definitions from the URLs associated with a locale.
+     * Loads the raw definitions from the sources associated with a locale.
      *
-     * @param customizationKey The locale to use when loading URLs.
+     * @param customizationKey The locale to use when loading Resources.
      * @return The loaded definitions.
      * @since 2.1.3
      */
-    protected Map<String, Definition> loadRawDefinitionsFromURLs(
+    protected Map<String, Definition> loadRawDefinitionsFromResources(
             Locale customizationKey) {
         Map<String, Definition> localeDefsMap;
 
-        String postfix = LocaleUtil.calculatePostfix(customizationKey);
         Locale parentLocale = LocaleUtil.getParentLocale(customizationKey);
         localeDefsMap = new LinkedHashMap<String, Definition>();
         if (parentLocale != null) {
@@ -228,20 +227,14 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
                 localeDefsMap.putAll(parentDefs);
             }
         }
-        // For each source, the URL must be loaded.
-        for (URL url : sourceURLs) {
-            String path = url.toExternalForm();
-
-            String newPath = LocaleUtil.concatPostfix(path, postfix);
-            try {
-                URL newUrl = new URL(newPath);
-                Map<String, Definition> defsMap = loadDefinitionsFromURL(newUrl);
+        // For each source, the resource must be loaded.
+        for (ApplicationResource resource : sources) {
+            ApplicationResource newResource = applicationContext.getResource(resource, customizationKey);
+            if (newResource != null) {
+                Map<String, Definition> defsMap = loadDefinitionsFromResource(newResource);
                 if (defsMap != null) {
                     localeDefsMap.putAll(defsMap);
                 }
-            } catch (MalformedURLException e) {
-                throw new DefinitionsFactoryException("Error parsing URL "
-                        + newPath, e);
             }
         }
         return localeDefsMap;

@@ -23,13 +23,13 @@ package org.apache.tiles.request.render;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.junit.Test;
 
@@ -53,12 +53,13 @@ public final class MustacheRendererTest {
         ServletRequest request = createMock(ServletRequest.class);
         Writer writer = createMock(Writer.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        URL resource = getClass().getResource("/test.html");
+        ApplicationResource applicationResource = createMock(ApplicationResource.class);
+        expect(applicationResource.getInputStream()).andReturn(getClass().getResource("/test.html").openStream());
 
         Map<String,Object> context = Collections.singletonMap("testKey", (Object)"test value");
 
         expect(request.getApplicationContext()).andReturn(applicationContext);
-        expect(applicationContext.getResource(isA(String.class))).andReturn(resource).anyTimes();
+        expect(applicationContext.getResource(isA(String.class))).andReturn(applicationResource).anyTimes();
         expect(request.getAvailableScopes()).andReturn(Arrays.asList("request", "session", "application"));
         expect(request.getContext("request")).andReturn(context);
         expect(request.getContext("session")).andReturn(Collections.<String,Object>emptyMap());
@@ -67,10 +68,10 @@ public final class MustacheRendererTest {
         writer.write("test template with test value");
         writer.flush();
 
-        replay(request, applicationContext, writer);
+        replay(request, applicationContext, applicationResource, writer);
         Renderer renderer = new MustacheRenderer();
         renderer.render("/test.html", request);
-        verify(request, applicationContext, writer);
+        verify(request, applicationContext, applicationResource, writer);
     }
 
     /**

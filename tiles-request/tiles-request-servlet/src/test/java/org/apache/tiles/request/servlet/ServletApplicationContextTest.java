@@ -26,10 +26,12 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
 import org.junit.Before;
@@ -97,11 +99,25 @@ public class ServletApplicationContextTest {
      */
     @Test
     public void testGetResource() throws IOException {
-        URL url = new URL("http://tiles.apache.org/");
-        expect(servletContext.getResource("/my/path")).andReturn(url);
+        URL url = new URL("file:///servletContext/my/path.html");
+        URL urlFr = new URL("file:///servletContext/my/path_fr.html");
+        expect(servletContext.getResource("/my/path.html")).andReturn(url);
+        expect(servletContext.getResource("/my/path_fr.html")).andReturn(urlFr);
+        expect(servletContext.getResource("/null/path.html")).andReturn(null);
 
         replay(servletContext);
-        assertEquals(url, context.getResource("/my/path"));
+        ApplicationResource resource = context.getResource("/my/path.html");
+        assertNotNull(resource);
+        assertEquals(resource.getLocalePath(), "/my/path.html");
+        assertEquals(resource.getPath(), "/my/path.html");
+        assertEquals(Locale.ROOT, resource.getLocale());
+        ApplicationResource resourceFr = context.getResource(resource, Locale.FRENCH);
+        assertNotNull(resourceFr);
+        assertEquals("/my/path_fr.html", resourceFr.getLocalePath());
+        assertEquals("/my/path.html", resourceFr.getPath());
+        assertEquals(Locale.FRENCH, resourceFr.getLocale());
+        ApplicationResource nullResource = context.getResource("/null/path.html");
+        assertNull(nullResource);
         verify(servletContext);
     }
 
@@ -111,13 +127,13 @@ public class ServletApplicationContextTest {
      */
     @Test
     public void testGetResources() throws IOException {
-        URL url = new URL("http://tiles.apache.org/");
+        URL url = new URL("file:///servletContext/my/path");
         expect(servletContext.getResource("/my/path")).andReturn(url);
 
         replay(servletContext);
-        Set<URL> urls = context.getResources("/my/path");
-        assertEquals(1, urls.size());
-        assertTrue(urls.contains(url));
+        Collection<ApplicationResource> resources = context.getResources("/my/path");
+        assertEquals(1, resources.size());
+        assertEquals(resources.iterator().next().getLocalePath(), "/my/path");
         verify(servletContext);
     }
 }

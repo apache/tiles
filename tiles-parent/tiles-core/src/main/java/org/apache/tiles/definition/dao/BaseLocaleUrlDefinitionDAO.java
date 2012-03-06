@@ -24,8 +24,7 @@ package org.apache.tiles.definition.dao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -36,6 +35,8 @@ import org.apache.tiles.Definition;
 import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.RefreshMonitor;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +48,7 @@ import org.slf4j.LoggerFactory;
  * @since 2.1.0
  */
 public abstract class BaseLocaleUrlDefinitionDAO implements
-        DefinitionDAO<Locale>, RefreshMonitor, URLReader {
+        DefinitionDAO<Locale>, RefreshMonitor {
 
     /**
      * The logging object.
@@ -60,7 +61,7 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
      *
      * @since 2.1.0
      */
-    protected List<URL> sourceURLs;
+    protected List<ApplicationResource> sources;
 
     /**
      * Contains the dates that the URL sources were last modified.
@@ -77,18 +78,31 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
     protected DefinitionsReader reader;
 
     /**
+     * ApplicationContext to locate the source files.
+     * 
+     * @since 3.0.0
+     */
+    protected ApplicationContext applicationContext;
+    
+    /**
      * Constructor.
      */
-    public BaseLocaleUrlDefinitionDAO() {
+    public BaseLocaleUrlDefinitionDAO(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
         lastModifiedDates = new HashMap<String, Long>();
     }
 
-    /**  {@inheritDoc}*/
-    public void setSourceURLs(List<URL> sourceURLs) {
-        this.sourceURLs = sourceURLs;
+    public void setSources(List<ApplicationResource> sources) {
+        // filter out any sources that are already localized
+        ArrayList<ApplicationResource> defaultSources = new ArrayList<ApplicationResource>();
+        for(ApplicationResource source: sources) {
+            if(Locale.ROOT.equals(source.getLocale())) {
+                defaultSources.add(source);
+            }
+        }
+        this.sources = defaultSources;
     }
 
-    /**  {@inheritDoc}*/
     public void setReader(DefinitionsReader reader) {
         this.reader = reader;
     }
@@ -97,15 +111,13 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
     public boolean refreshRequired() {
         boolean status = false;
 
-        Set<String> urls = lastModifiedDates.keySet();
+        Set<String> paths = lastModifiedDates.keySet();
 
         try {
-            for (String urlPath : urls) {
-                Long lastModifiedDate = lastModifiedDates.get(urlPath);
-                URL url = new URL(urlPath);
-                URLConnection connection = url.openConnection();
-                connection.connect();
-                long newModDate = connection.getLastModified();
+            for (String path : paths) {
+                Long lastModifiedDate = lastModifiedDates.get(path);
+                ApplicationResource resource = applicationContext.getResource(path);
+                long newModDate = resource.getLastModified();
                 if (newModDate != lastModifiedDate) {
                     status = true;
                     break;
@@ -121,38 +133,25 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
     /**
      * Loads definitions from an URL without loading from "parent" URLs.
      *
-     * @param url The URL to read.
+     * @param resource The URL to read.
      * @return The definition map that has been read.
      */
-    protected Map<String, Definition> loadDefinitionsFromURL(URL url) {
+    protected Map<String, Definition> loadDefinitionsFromResource(ApplicationResource resource) {
         Map<String, Definition> defsMap = null;
-
-        URLConnection connection = null;
-        try {
-            connection = url.openConnection();
-        } catch (IOException e) {
-            // File not found. continue.
-            if (log.isDebugEnabled()) {
-                log.debug("I/O exception thrown when opening URL connection to "
-                        + url.toString() + ", continue");
-            }
-            return null;
-        }
 
         InputStream stream = null;
         try {
-            connection.connect();
-            lastModifiedDates.put(url.toExternalForm(), connection
+            lastModifiedDates.put(resource.getLocalePath(), resource
                     .getLastModified());
 
             // Definition must be collected, starting from the base
             // source up to the last localized file.
-            stream = connection.getInputStream();
+            stream = resource.getInputStream();
             defsMap = reader.read(stream);
         } catch (FileNotFoundException e) {
             // File not found. continue.
             if (log.isDebugEnabled()) {
-                log.debug("File " + url.toString() + " not found, continue");
+                log.debug("File " + resource.toString() + " not found, continue");
             }
         } catch (IOException e) {
             throw new DefinitionsFactoryException(
@@ -164,7 +163,7 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
                 }
             } catch (IOException e) {
                 throw new DefinitionsFactoryException(
-                        "I/O error closing " + url.toString(), e);
+                        "I/O error closing " + resource.toString(), e);
             }
         }
 

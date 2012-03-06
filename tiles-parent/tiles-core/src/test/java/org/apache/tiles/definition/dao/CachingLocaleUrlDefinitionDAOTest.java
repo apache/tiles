@@ -24,8 +24,8 @@ package org.apache.tiles.definition.dao;
 import static org.easymock.EasyMock.*;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -44,6 +44,8 @@ import org.apache.tiles.definition.pattern.BasicPatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
 import org.apache.tiles.definition.pattern.wildcard.WildcardDefinitionPatternMatcherFactory;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
+import org.apache.tiles.request.locale.URLApplicationResource;
 
 /**
  * Tests {@link CachingLocaleUrlDefinitionDAO}.
@@ -57,11 +59,52 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
      */
     private CachingLocaleUrlDefinitionDAO definitionDao;
 
+    private ApplicationContext applicationContext;
+
+    private ApplicationResource url1;
+
+    private ApplicationResource url2;
+
+    private ApplicationResource url3;
+
+    private ApplicationResource urlWildcard;
+
+    private ApplicationResource url21;
+
+    private ApplicationResource setupUrl(String filename, Locale... locales) throws IOException {
+        ApplicationResource url = new URLApplicationResource("org/apache/tiles/config/" + filename + ".xml", this
+                .getClass().getClassLoader().getResource("org/apache/tiles/config/" + filename + ".xml"));
+        assertNotNull("Could not load " + filename + " file.", url);
+        expect(applicationContext.getResource(url.getLocalePath())).andReturn(url).anyTimes();
+        expect(applicationContext.getResource(url, Locale.ROOT)).andReturn(url).anyTimes();
+        Map<Locale, ApplicationResource> localeResources = new HashMap<Locale, ApplicationResource>();
+        for (Locale locale : locales) {
+            ApplicationResource urlLocale = new URLApplicationResource("org/apache/tiles/config/" + filename + "_"
+                    + locale.toString() + ".xml", this.getClass().getClassLoader()
+                    .getResource("org/apache/tiles/config/" + filename + "_" + locale.toString() + ".xml"));
+            assertNotNull("Could not load " + filename + "_" + locale.toString() + " file.", urlLocale);
+            localeResources.put(locale, urlLocale);
+        }
+        for (Locale locale : new Locale[] { Locale.CANADA_FRENCH, Locale.FRENCH, Locale.US, Locale.ENGLISH,
+                Locale.CHINA, Locale.CHINESE, Locale.ITALY, Locale.ITALIAN }) {
+            ApplicationResource urlLocale = localeResources.get(locale);
+            expect(applicationContext.getResource(url, locale)).andReturn(urlLocale).anyTimes();
+        }
+        return url;
+    }
+
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        definitionDao = new CachingLocaleUrlDefinitionDAO();
+        applicationContext = createMock(ApplicationContext.class);
+        url1 = setupUrl("defs1", Locale.FRENCH, Locale.CANADA_FRENCH, Locale.US);
+        url2 = setupUrl("defs2");
+        url3 = setupUrl("defs3");
+        urlWildcard = setupUrl("defs-wildcard");
+        url21 = setupUrl("tiles-defs-2.1", Locale.ITALIAN);
+        replay(applicationContext);
+        definitionDao = new CachingLocaleUrlDefinitionDAO(applicationContext);
         WildcardDefinitionPatternMatcherFactory definitionPatternMatcherFactory =
             new WildcardDefinitionPatternMatcherFactory();
         PatternDefinitionResolver<Locale> definitionResolver = new BasicPatternDefinitionResolver<Locale>(
@@ -74,22 +117,11 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
      * Tests {@link LocaleUrlDefinitionDAO#getDefinition(String, Locale)}.
      */
     public void testGetDefinition() {
-        // Set up multiple data sources.
-        URL url1 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs1.xml");
-        assertNotNull("Could not load defs1 file.", url1);
-        URL url2 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs2.xml");
-        assertNotNull("Could not load defs2 file.", url2);
-        URL url3 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs3.xml");
-        assertNotNull("Could not load defs3 file.", url3);
-
-        List<URL> sourceURLs = new ArrayList<URL>();
+        List<ApplicationResource> sourceURLs = new ArrayList<ApplicationResource>();
         sourceURLs.add(url1);
         sourceURLs.add(url2);
         sourceURLs.add(url3);
-        definitionDao.setSourceURLs(sourceURLs);
+        definitionDao.setSources(sourceURLs);
         DefinitionsReader reader = new DigesterDefinitionsReader();
         definitionDao.setReader(reader);
 
@@ -155,22 +187,11 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
      * Tests {@link LocaleUrlDefinitionDAO#getDefinitions(Locale)}.
      */
     public void testGetDefinitions() {
-        // Set up multiple data sources.
-        URL url1 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs1.xml");
-        assertNotNull("Could not load defs1 file.", url1);
-        URL url2 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs2.xml");
-        assertNotNull("Could not load defs2 file.", url2);
-        URL url3 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs3.xml");
-        assertNotNull("Could not load defs3 file.", url3);
-
-        List<URL> sourceURLs = new ArrayList<URL>();
+        List<ApplicationResource> sourceURLs = new ArrayList<ApplicationResource>();
         sourceURLs.add(url1);
         sourceURLs.add(url2);
         sourceURLs.add(url3);
-        definitionDao.setSourceURLs(sourceURLs);
+        definitionDao.setSources(sourceURLs);
         DefinitionsReader reader = new DigesterDefinitionsReader();
         definitionDao.setReader(reader);
 
@@ -238,26 +259,16 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
     }
 
     /**
-     * Tests {@link LocaleUrlDefinitionDAO#setSourceURLs(List)}.
+     * Tests {@link LocaleUrlDefinitionDAO#setSources(List)}.
      */
     public void testSetSourceURLs() {
-        // Set up multiple data sources.
-        URL url1 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs1.xml");
-        assertNotNull("Could not load defs1 file.", url1);
-        URL url2 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs2.xml");
-        assertNotNull("Could not load defs2 file.", url2);
-        URL url3 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs3.xml");
-        assertNotNull("Could not load defs3 file.", url3);
-        List<URL> sourceURLs = new ArrayList<URL>();
+        List<ApplicationResource> sourceURLs = new ArrayList<ApplicationResource>();
         sourceURLs.add(url1);
         sourceURLs.add(url2);
         sourceURLs.add(url3);
-        definitionDao.setSourceURLs(sourceURLs);
+        definitionDao.setSources(sourceURLs);
         assertEquals("The source URLs are not set correctly", sourceURLs,
-                definitionDao.sourceURLs);
+                definitionDao.sources);
     }
 
     /**
@@ -276,51 +287,43 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
      * @throws IOException If something goes wrong.
      */
     public void testInit() throws IOException {
-        URL url1 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs1.xml");
-        URL url2 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs2.xml");
-        URL url3 = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs3.xml");
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        Set<URL> urlSet = new HashSet<URL>();
+        Set<ApplicationResource> urlSet = new HashSet<ApplicationResource>();
         urlSet.add(url1);
         expect(applicationContext.getResources("/WEB-INF/tiles.xml"))
                 .andReturn(urlSet);
         replay(applicationContext);
         DefinitionsReader reader = new DigesterDefinitionsReader();
         definitionDao.setReader(reader);
-        List<URL> sourceURLs = new ArrayList<URL>();
+        List<ApplicationResource> sourceURLs = new ArrayList<ApplicationResource>();
         sourceURLs.add(url1);
-        definitionDao.setSourceURLs(sourceURLs);
+        definitionDao.setSources(sourceURLs);
         assertEquals("The reader is not of the correct class",
                 DigesterDefinitionsReader.class, definitionDao.reader
                         .getClass());
         assertEquals("The source URLs are not correct", sourceURLs,
-                definitionDao.sourceURLs);
+                definitionDao.sources);
         reset(applicationContext);
 
         definitionDao.setReader(new MockDefinitionsReader());
         assertEquals("The reader is not of the correct class",
                 MockDefinitionsReader.class, definitionDao.reader.getClass());
-        sourceURLs = new ArrayList<URL>();
+        sourceURLs = new ArrayList<ApplicationResource>();
         sourceURLs.add(url1);
         sourceURLs.add(url2);
         sourceURLs.add(url3);
-        definitionDao.setSourceURLs(sourceURLs);
+        definitionDao.setSources(sourceURLs);
         assertEquals("The source URLs are not correct", sourceURLs,
-                definitionDao.sourceURLs);
+                definitionDao.sources);
     }
 
     /**
      * Tests wildcard mappings.
      */
     public void testWildcardMapping() {
-        URL url = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/defs-wildcard.xml");
-        List<URL> urls = new ArrayList<URL>();
-        urls.add(url);
-        definitionDao.setSourceURLs(urls);
+        List<ApplicationResource> urls = new ArrayList<ApplicationResource>();
+        urls.add(urlWildcard);
+        definitionDao.setSources(urls);
         definitionDao.setReader(new DigesterDefinitionsReader());
 
         Definition definition = definitionDao.getDefinition("test.defName.subLayered", Locale.ITALY);
@@ -360,11 +363,9 @@ public class CachingLocaleUrlDefinitionDAOTest extends TestCase {
      * when loading multiple files for a locale.
      */
     public void testListAttributeLocaleInheritance() {
-        URL url = this.getClass().getClassLoader().getResource(
-                "org/apache/tiles/config/tiles-defs-2.1.xml");
-        List<URL> urls = new ArrayList<URL>();
-        urls.add(url);
-        definitionDao.setSourceURLs(urls);
+        List<ApplicationResource> urls = new ArrayList<ApplicationResource>();
+        urls.add(url21);
+        definitionDao.setSources(urls);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         definitionDao.setReader(new DigesterDefinitionsReader());
         replay(applicationContext);

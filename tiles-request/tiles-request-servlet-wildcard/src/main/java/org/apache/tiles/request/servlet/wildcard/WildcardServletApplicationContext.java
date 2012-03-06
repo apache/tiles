@@ -23,11 +23,15 @@ package org.apache.tiles.request.servlet.wildcard;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 
+import org.apache.tiles.request.ApplicationResource;
+import org.apache.tiles.request.locale.URLApplicationResource;
 import org.apache.tiles.request.servlet.ServletApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -40,8 +44,7 @@ import org.springframework.web.context.support.ServletContextResourcePatternReso
  * @version $Rev$ $Date$
  * @since 2.2.1
  */
-public class WildcardServletApplicationContext extends
-        ServletApplicationContext {
+public class WildcardServletApplicationContext extends ServletApplicationContext {
 
     /**
      * The pattern resolver.
@@ -63,9 +66,9 @@ public class WildcardServletApplicationContext extends
 
     /** {@inheritDoc} */
     @Override
-    public URL getResource(String path) throws IOException {
-        URL retValue = null;
-        Set<URL> urlSet = getResources(path);
+    public ApplicationResource getResource(String localePath) {
+        ApplicationResource retValue = null;
+        Collection<ApplicationResource> urlSet = getResources(localePath);
         if (urlSet != null && !urlSet.isEmpty()) {
             retValue = urlSet.iterator().next();
         }
@@ -74,15 +77,37 @@ public class WildcardServletApplicationContext extends
 
     /** {@inheritDoc} */
     @Override
-    public Set<URL> getResources(String path) throws IOException {
-        Set<URL> urlSet = null;
-        Resource[] resources = resolver.getResources(path);
+    public ApplicationResource getResource(ApplicationResource base, Locale locale) {
+        ApplicationResource retValue = null;
+        Collection<ApplicationResource> urlSet = getResources(base.getLocalePath(locale));
+        if (urlSet != null && !urlSet.isEmpty()) {
+            retValue = urlSet.iterator().next();
+        }
+        return retValue;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Collection<ApplicationResource> getResources(String path) {
+        Resource[] resources;
+        try {
+            resources = resolver.getResources(path);
+        } catch (IOException e) {
+            return Collections.<ApplicationResource> emptyList();
+        }
+        Collection<ApplicationResource> resourceList = new ArrayList<ApplicationResource>();
         if (resources != null && resources.length > 0) {
-            urlSet = new HashSet<URL>();
             for (int i = 0; i < resources.length; i++) {
-                urlSet.add(resources[i].getURL());
+                URL url;
+                try {
+                    url = resources[i].getURL();
+                    resourceList.add(new URLApplicationResource(url.toExternalForm(), url));
+                } catch (IOException e) {
+                    // shouldn't happen with the kind of resources we're using
+                    throw new IllegalArgumentException("no URL for " + resources[i].toString(), e);
+                }
             }
         }
-        return urlSet;
+        return resourceList;
     }
 }

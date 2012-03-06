@@ -31,6 +31,7 @@ import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.locale.URLApplicationResource;
 import org.apache.tiles.request.render.CannotRenderException;
 import org.easymock.EasyMock;
 import org.slf4j.Logger;
@@ -64,14 +65,10 @@ public class BasicTilesContainerTest extends TestCase {
         ApplicationContext context = EasyMock
                 .createMock(ApplicationContext.class);
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
+        URLApplicationResource resource = new URLApplicationResource("/WEB-INF/tiles.xml", url);
 
-        try {
-            EasyMock.expect(context.getResource("/WEB-INF/tiles.xml"))
-                    .andReturn(url);
-        } catch (IOException e) {
-            throw new RuntimeException("Error getting Tiles configuration URL",
-                    e);
-        }
+        EasyMock.expect(context.getResource("/WEB-INF/tiles.xml"))
+                .andReturn(resource);
         EasyMock.replay(context);
         AbstractTilesContainerFactory factory = new BasicTilesContainerFactory();
         container = (BasicTilesContainer) factory.createContainer(context);

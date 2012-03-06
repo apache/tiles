@@ -30,7 +30,7 @@ import java.util.Map;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Definition;
 import org.apache.tiles.definition.dao.DefinitionDAO;
-import org.apache.tiles.util.LocaleUtil;
+import org.apache.tiles.request.locale.LocaleUtil;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 

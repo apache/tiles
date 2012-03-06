@@ -23,7 +23,6 @@ package org.apache.tiles.factory;
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
-import java.net.URL;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -42,6 +41,8 @@ import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
+import org.apache.tiles.request.locale.URLApplicationResource;
 import org.apache.tiles.request.render.BasicRendererFactory;
 import org.apache.tiles.request.render.ChainedDelegateRenderer;
 import org.apache.tiles.request.render.DispatchRenderer;
@@ -68,16 +69,17 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     private ApplicationContext applicationContext;
 
     /**
-     * The URL to load.
+     * The resource to load.
      */
-    private URL url;
+    private ApplicationResource resource;
 
     /** {@inheritDoc} */
     @Override
     protected void setUp() throws Exception {
         applicationContext = EasyMock.createMock(ApplicationContext.class);
-        url = getClass().getResource("/org/apache/tiles/config/tiles-defs.xml");
-        EasyMock.expect(applicationContext.getResource("/WEB-INF/tiles.xml")).andReturn(url);
+        resource = new URLApplicationResource("/org/apache/tiles/config/tiles-defs.xml", getClass().getResource(
+                "/org/apache/tiles/config/tiles-defs.xml"));
+        EasyMock.expect(applicationContext.getResource("/WEB-INF/tiles.xml")).andReturn(resource);
         EasyMock.replay(applicationContext);
         factory = new BasicTilesContainerFactory();
     }
@@ -87,8 +89,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
      */
     public void testCreateContainer() {
         TilesContainer container = factory.createContainer(applicationContext);
-        assertTrue("The class of the container is not correct",
-                container instanceof BasicTilesContainer);
+        assertTrue("The class of the container is not correct", container instanceof BasicTilesContainer);
     }
 
     /**
@@ -97,8 +98,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
      */
     public void testCreateDefinitionsFactory() {
         LocaleResolver resolver = factory.createLocaleResolver(applicationContext);
-        DefinitionsFactory defsFactory = factory.createDefinitionsFactory(
-                applicationContext, resolver);
+        DefinitionsFactory defsFactory = factory.createDefinitionsFactory(applicationContext, resolver);
         assertTrue("The class of the definitions factory is not correct",
                 defsFactory instanceof UnresolvingLocaleDefinitionsFactory);
     }
@@ -109,8 +109,7 @@ public class BasicTilesContainerFactoryTest extends TestCase {
      */
     public void testCreateLocaleResolver() {
         LocaleResolver localeResolver = factory.createLocaleResolver(applicationContext);
-        assertTrue("The class of the locale resolver is not correct",
-                localeResolver instanceof DefaultLocaleResolver);
+        assertTrue("The class of the locale resolver is not correct", localeResolver instanceof DefaultLocaleResolver);
     }
 
     /**
@@ -119,18 +118,17 @@ public class BasicTilesContainerFactoryTest extends TestCase {
      */
     public void testCreateDefinitionsReader() {
         DefinitionsReader reader = factory.createDefinitionsReader(applicationContext);
-        assertTrue("The class of the reader is not correct",
-                reader instanceof DigesterDefinitionsReader);
+        assertTrue("The class of the reader is not correct", reader instanceof DigesterDefinitionsReader);
     }
 
     /**
      * Tests
-     * {@link BasicTilesContainerFactory#getSourceURLs(ApplicationContext)}.
+     * {@link BasicTilesContainerFactory#getSources(ApplicationContext)}.
      */
-    public void testGetSourceURLs() {
-        List<URL> urls = factory.getSourceURLs(applicationContext);
-        assertEquals("The urls list is not one-sized", 1, urls.size());
-        assertEquals("The URL is not correct", url, urls.get(0));
+    public void testGetSources() {
+        List<ApplicationResource> resources = factory.getSources(applicationContext);
+        assertEquals("The urls list is not one-sized", 1, resources.size());
+        assertEquals("The URL is not correct", resource, resources.get(0));
     }
 
     /**
@@ -140,11 +138,9 @@ public class BasicTilesContainerFactoryTest extends TestCase {
      */
     public void testCreateAttributeEvaluatorFactory() {
         LocaleResolver resolver = factory.createLocaleResolver(applicationContext);
-        AttributeEvaluatorFactory attributeEvaluatorFactory = factory
-                .createAttributeEvaluatorFactory(applicationContext,
-                        resolver);
-        assertTrue(
-                "The class of the evaluator is not correct",
+        AttributeEvaluatorFactory attributeEvaluatorFactory = factory.createAttributeEvaluatorFactory(
+                applicationContext, resolver);
+        assertTrue("The class of the evaluator is not correct",
                 attributeEvaluatorFactory.getAttributeEvaluator((String) null) instanceof DirectAttributeEvaluator);
     }
 
@@ -153,10 +149,8 @@ public class BasicTilesContainerFactoryTest extends TestCase {
      * {@link BasicTilesContainerFactory#createPreparerFactory(ApplicationContext)}.
      */
     public void testCreatePreparerFactory() {
-        PreparerFactory preparerFactory = factory.createPreparerFactory(
-                applicationContext);
-        assertTrue("The class of the preparer factory is not correct",
-                preparerFactory instanceof BasicPreparerFactory);
+        PreparerFactory preparerFactory = factory.createPreparerFactory(applicationContext);
+        assertTrue("The class of the preparer factory is not correct", preparerFactory instanceof BasicPreparerFactory);
     }
 
     /**
@@ -166,25 +160,20 @@ public class BasicTilesContainerFactoryTest extends TestCase {
     public void testCreateRendererFactory() {
         TilesContainer container = factory.createContainer(applicationContext);
         LocaleResolver resolver = factory.createLocaleResolver(applicationContext);
-        AttributeEvaluatorFactory attributeEvaluatorFactory = factory
-                .createAttributeEvaluatorFactory(applicationContext,
-                        resolver);
-        RendererFactory rendererFactory = factory.createRendererFactory(
-                applicationContext, container, attributeEvaluatorFactory);
-        assertTrue("The class of the renderer factory is not correct",
-                rendererFactory instanceof BasicRendererFactory);
+        AttributeEvaluatorFactory attributeEvaluatorFactory = factory.createAttributeEvaluatorFactory(
+                applicationContext, resolver);
+        RendererFactory rendererFactory = factory.createRendererFactory(applicationContext, container,
+                attributeEvaluatorFactory);
+        assertTrue("The class of the renderer factory is not correct", rendererFactory instanceof BasicRendererFactory);
         Renderer renderer = rendererFactory.getRenderer("string");
         assertNotNull("The string renderer is null", renderer);
-        assertTrue("The string renderer class is not correct",
-                renderer instanceof StringRenderer);
+        assertTrue("The string renderer class is not correct", renderer instanceof StringRenderer);
         renderer = rendererFactory.getRenderer("template");
         assertNotNull("The template renderer is null", renderer);
-        assertTrue("The template renderer class is not correct",
-                renderer instanceof DispatchRenderer);
+        assertTrue("The template renderer class is not correct", renderer instanceof DispatchRenderer);
         renderer = rendererFactory.getRenderer("definition");
         assertNotNull("The definition renderer is null", renderer);
-        assertTrue("The definition renderer class is not correct",
-                renderer instanceof DefinitionRenderer);
+        assertTrue("The definition renderer class is not correct", renderer instanceof DefinitionRenderer);
     }
 
     /**
@@ -205,11 +194,9 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         expect(rendererFactory.getRenderer("definition")).andReturn(definitionRenderer);
 
         replay(container, attributeEvaluatorFactory, rendererFactory);
-        Renderer renderer = factory.createDefaultAttributeRenderer(
-                rendererFactory, applicationContext, container,
+        Renderer renderer = factory.createDefaultAttributeRenderer(rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
-        assertTrue("The default renderer class is not correct",
-                renderer instanceof ChainedDelegateRenderer);
+        assertTrue("The default renderer class is not correct", renderer instanceof ChainedDelegateRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 
@@ -224,11 +211,9 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
 
         replay(container, attributeEvaluatorFactory, rendererFactory);
-        Renderer renderer = factory.createStringAttributeRenderer(
-                rendererFactory, applicationContext, container,
+        Renderer renderer = factory.createStringAttributeRenderer(rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
-        assertTrue("The renderer class is not correct",
-                renderer instanceof StringRenderer);
+        assertTrue("The renderer class is not correct", renderer instanceof StringRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 
@@ -243,11 +228,9 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
 
         replay(container, attributeEvaluatorFactory, rendererFactory);
-        Renderer renderer = factory.createTemplateAttributeRenderer(
-                rendererFactory, applicationContext, container,
+        Renderer renderer = factory.createTemplateAttributeRenderer(rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
-        assertTrue("The renderer class is not correct",
-                renderer instanceof DispatchRenderer);
+        assertTrue("The renderer class is not correct", renderer instanceof DispatchRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 
@@ -262,11 +245,9 @@ public class BasicTilesContainerFactoryTest extends TestCase {
         BasicRendererFactory rendererFactory = createMock(BasicRendererFactory.class);
 
         replay(container, attributeEvaluatorFactory, rendererFactory);
-        Renderer renderer = factory.createDefinitionAttributeRenderer(
-                rendererFactory, applicationContext, container,
+        Renderer renderer = factory.createDefinitionAttributeRenderer(rendererFactory, applicationContext, container,
                 attributeEvaluatorFactory);
-        assertTrue("The renderer class is not correct",
-                renderer instanceof DefinitionRenderer);
+        assertTrue("The renderer class is not correct", renderer instanceof DefinitionRenderer);
         verify(container, attributeEvaluatorFactory, rendererFactory);
     }
 }

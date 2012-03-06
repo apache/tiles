@@ -20,16 +20,16 @@
  */
 package org.apache.tiles.definition.dao;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.tiles.Definition;
-import org.apache.tiles.definition.DefinitionsFactoryException;
-import org.apache.tiles.util.LocaleUtil;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
+import org.apache.tiles.request.locale.LocaleUtil;
 
 /**
  * A definition DAO that uses {@link Locale} as a customization key and loads
@@ -39,6 +39,10 @@ import org.apache.tiles.util.LocaleUtil;
  * @since 2.1.0
  */
 public class LocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO {
+
+    public LocaleUrlDefinitionDAO(ApplicationContext applicationContext) {
+        super(applicationContext);
+    }
 
     /**
      * <p>
@@ -60,28 +64,42 @@ public class LocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO {
 
     /** {@inheritDoc} */
     public Map<String, Definition> getDefinitions(Locale customizationKey) {
-        List<String> postfixes = LocaleUtil.calculatePostfixes(customizationKey);
+        ArrayList<Locale> postfixes = computeLocales(customizationKey);
         Map<String, Definition> localeDefsMap = new HashMap<String, Definition>();
-        for (Object postfix : postfixes) {
+        // process the postfixes from the root to the most specific
+        for (Locale postfix : postfixes) {
             // For each postfix, all the sources must be loaded.
-            for (URL url : sourceURLs) {
-                String path = url.toExternalForm();
-
-                String newPath = LocaleUtil.concatPostfix(path,
-                        (String) postfix);
-                try {
-                    URL newUrl = new URL(newPath);
-                    Map<String, Definition> defsMap = loadDefinitionsFromURL(newUrl);
+            for (ApplicationResource resource : sources) {
+                ApplicationResource newResource = applicationContext.getResource(resource, postfix);
+                if (newResource != null) {
+                    Map<String, Definition> defsMap = loadDefinitionsFromResource(newResource);
                     if (defsMap != null) {
                         localeDefsMap.putAll(defsMap);
                     }
-                } catch (MalformedURLException e) {
-                    throw new DefinitionsFactoryException("Error parsing URL "
-                        + newPath, e);
                 }
             }
         }
-
         return localeDefsMap;
+    }
+
+    /**
+     * Returns a list of locales from root to the customizationKey.
+     * @param customizationKey the target Locale.
+     * @return the list of its ancestors.
+     */
+    private ArrayList<Locale> computeLocales(Locale customizationKey) {
+        Locale postfix;
+        if(customizationKey == null) {
+            postfix = Locale.ROOT;
+        } else {
+            postfix = customizationKey;
+        }
+        ArrayList<Locale> postfixes = new ArrayList<Locale>();
+        while (postfix != null) {
+            postfixes.add(postfix);
+            postfix = LocaleUtil.getParentLocale(postfix);
+        }
+        Collections.reverse(postfixes);
+        return postfixes;
     }
 }

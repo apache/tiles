@@ -20,10 +20,9 @@
  */
 package org.apache.tiles.request;
 
-import java.io.IOException;
-import java.net.URL;
+import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -73,12 +72,17 @@ public class ApplicationContextWrapper implements ApplicationContext {
     }
 
     /** {@inheritDoc} */
-    public URL getResource(String path) throws IOException {
-        return context.getResource(path);
+    public ApplicationResource getResource(String localePath) {
+        return context.getResource(localePath);
     }
 
     /** {@inheritDoc} */
-    public Set<URL> getResources(String path) throws IOException {
+    public ApplicationResource getResource(ApplicationResource base, Locale locale) {
+        return context.getResource(base, locale);
+    }
+
+    /** {@inheritDoc} */
+    public Collection<ApplicationResource> getResources(String path) {
         return context.getResources(path);
     }
 }

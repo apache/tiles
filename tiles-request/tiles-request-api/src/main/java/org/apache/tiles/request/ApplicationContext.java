@@ -20,10 +20,9 @@
  */
 package org.apache.tiles.request;
 
-import java.net.URL;
+import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-import java.io.IOException;
 
 /**
  * Defines a set of methods which tiles use to communicate to
@@ -60,20 +59,27 @@ public interface ApplicationContext {
     Map<String, String> getInitParams();
 
     /**
-     * Return a URL for the application resource mapped to the specified path.
+     * Return the application resource mapped to the specified path.
      *
-     * @param path to the desired resource.
-     * @return the first located resource which matches the given path.
-     * @throws IOException if the path is malformed
+     * @param localePath path to the desired resource, including the Locale suffix.
+     * @return the first located resource which matches the given path or null if no such resource exists.
      */
-    URL getResource(String path) throws IOException;
+    ApplicationResource getResource(String localePath);
 
     /**
-     * Return a URL for the application resource mapped to the specified path.
+     * Return a localized version of an ApplicationResource.
+     *
+     * @param base the ApplicationResource.
+     * @param locale the desired Locale.
+     * @return the first located resource which matches the given path or null if no such resource exists.
+     */
+    ApplicationResource getResource(ApplicationResource base, Locale locale);
+
+    /**
+     * Return the application resources mapped to the specified path.
      *
      * @param path to the desired resource.
      * @return all resources which match the given path.
-     * @throws IOException if the url is illegal
      */
-    Set<URL> getResources(String path) throws IOException;
+    Collection<ApplicationResource> getResources(String path);
 }

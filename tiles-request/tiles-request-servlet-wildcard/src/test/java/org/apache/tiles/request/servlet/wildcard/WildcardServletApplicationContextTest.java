@@ -22,6 +22,7 @@ package org.apache.tiles.request.servlet.wildcard;
 
 import junit.framework.TestCase;
 
+import org.apache.tiles.request.locale.URLApplicationResource;
 import org.easymock.EasyMock;
 
 import java.io.File;
@@ -88,11 +89,11 @@ public class WildcardServletApplicationContextTest extends TestCase {
      * @throws IOException If something goes wrong.
      */
     public void testGetResources() throws IOException {
-        String url = "test.properties";
+        String url = "/test.properties";
         HashSet<URL> set = new HashSet<URL>();
         URL u = new URL("file://tiles/test.properties");
         set.add(u);
-        EasyMock.expect(servletContext.getResource("/" + url)).andReturn(u)
+        EasyMock.expect(servletContext.getResource(url)).andReturn(u)
                 .anyTimes();
         File dir = new File(".");
         EasyMock.expect(servletContext.getResource("/WEB-INF/")).andReturn(
@@ -105,8 +106,8 @@ public class WildcardServletApplicationContextTest extends TestCase {
         EasyMock.expect(servletContext.getResourcePaths("/WEB-INF/")).andReturn(elementSet);
         EasyMock.replay(servletContext);
 
-        assertEquals(u, context.getResource("/" + url));
-        assertEquals(pomUrl, context.getResource("/WEB-INF/*.xml"));
+        assertEquals(new URLApplicationResource(u.toExternalForm(), u), context.getResource(url));
+        assertEquals(new URLApplicationResource(pomUrl.toExternalForm(), pomUrl), context.getResource("/WEB-INF/*.xml"));
         assertEquals(TEST_PROPERTIES_SIZE, context.getResources(
                 "classpath*:/test.properties").size());
 

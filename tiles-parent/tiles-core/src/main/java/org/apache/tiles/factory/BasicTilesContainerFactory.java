@@ -20,8 +20,6 @@
  */
 package org.apache.tiles.factory;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -48,6 +46,7 @@ import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.PreparerFactory;
 import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.render.BasicRendererFactory;
 import org.apache.tiles.request.render.ChainedDelegateRenderer;
 import org.apache.tiles.request.render.DispatchRenderer;
@@ -163,7 +162,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
      */
     protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(ApplicationContext applicationContext,
             LocaleResolver resolver) {
-        ResolvingLocaleUrlDefinitionDAO dao = new ResolvingLocaleUrlDefinitionDAO();
+        ResolvingLocaleUrlDefinitionDAO dao = new ResolvingLocaleUrlDefinitionDAO(applicationContext);
         return dao;
     }
 
@@ -180,7 +179,7 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
         BaseLocaleUrlDefinitionDAO definitionDao = instantiateLocaleDefinitionDao(
                 applicationContext, resolver);
         definitionDao.setReader(createDefinitionsReader(applicationContext));
-        definitionDao.setSourceURLs(getSourceURLs(applicationContext));
+        definitionDao.setSources(getSources(applicationContext));
         if (definitionDao instanceof PatternDefinitionResolverAware) {
             ((PatternDefinitionResolverAware<Locale>) definitionDao)
                     .setPatternDefinitionResolver(createPatternDefinitionResolver(Locale.class));
@@ -212,20 +211,15 @@ public class BasicTilesContainerFactory extends AbstractTilesContainerFactory {
     }
 
     /**
-     * Returns a list containing the URLs to be parsed. By default, it returns a
-     * list containing the URL point to "/WEB-INF/tiles.xml".
+     * Returns a list containing the resources to be parsed. By default, it returns a
+     * list containing the resource at "/WEB-INF/tiles.xml".
      * @param applicationContext The Tiles application context.
-     * @return The source URLs.
+     * @return The resources.
      * @since 2.1.1
      */
-    protected List<URL> getSourceURLs(ApplicationContext applicationContext) {
-        List<URL> retValue = new ArrayList<URL>(1);
-        try {
-            retValue.add(applicationContext.getResource("/WEB-INF/tiles.xml"));
-        } catch (IOException e) {
-            throw new TilesContainerFactoryException(
-                    "Cannot get URL: /WEB-INF/tiles.xml", e);
-        }
+    protected List<ApplicationResource> getSources(ApplicationContext applicationContext) {
+        List<ApplicationResource> retValue = new ArrayList<ApplicationResource>(1);
+        retValue.add(applicationContext.getResource("/WEB-INF/tiles.xml"));
         return retValue;
     }
 

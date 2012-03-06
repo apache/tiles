@@ -20,17 +20,20 @@
  */
 package org.apache.tiles.request.portlet;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.portlet.PortletContext;
 
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
+import org.apache.tiles.request.locale.URLApplicationResource;
 import org.apache.tiles.request.portlet.extractor.ApplicationScopeExtractor;
 import org.apache.tiles.request.portlet.extractor.InitParameterExtractor;
 
@@ -47,19 +50,16 @@ public class PortletApplicationContext implements ApplicationContext {
      */
     private Map<String, Object> applicationScope = null;
 
-
     /**
      * <p>The <code>PortletContext</code> for this web application.</p>
      */
     protected PortletContext context = null;
-
 
     /**
      * <p>The lazily instantiated <code>Map</code> of context initialization
      * parameters.</p>
      */
     private Map<String, String> initParam = null;
-
 
     /**
      * Creates a new instance of PortletTilesApplicationContext.
@@ -97,12 +97,10 @@ public class PortletApplicationContext implements ApplicationContext {
         return (this.context);
     }
 
-
     /** {@inheritDoc} */
     public Map<String, Object> getApplicationScope() {
         if ((applicationScope == null) && (context != null)) {
-            applicationScope = new ScopeMap(new ApplicationScopeExtractor(
-                    context));
+            applicationScope = new ScopeMap(new ApplicationScopeExtractor(context));
         }
         return (applicationScope);
 
@@ -111,23 +109,44 @@ public class PortletApplicationContext implements ApplicationContext {
     /** {@inheritDoc} */
     public Map<String, String> getInitParams() {
         if ((initParam == null) && (context != null)) {
-            initParam = new ReadOnlyEnumerationMap<String>(
-                    new InitParameterExtractor(context));
+            initParam = new ReadOnlyEnumerationMap<String>(new InitParameterExtractor(context));
         }
         return (initParam);
 
     }
 
-
     /** {@inheritDoc} */
-    public URL getResource(String path) throws IOException {
-        return context.getResource(path);
+    public ApplicationResource getResource(String localePath) {
+        try {
+            URL url = context.getResource(localePath);
+            if (url != null) {
+                return new URLApplicationResource(localePath, url);
+            } else {
+                return null;
+            }
+        } catch (MalformedURLException e) {
+            return null;
+        }
     }
 
     /** {@inheritDoc} */
-    public Set<URL> getResources(String path) throws IOException {
-        HashSet<URL> set = new HashSet<URL>();
-        set.add(getResource(path));
-        return set;
+    public ApplicationResource getResource(ApplicationResource base, Locale locale) {
+        try {
+            URL url = context.getResource(base.getLocalePath(locale));
+            if (url != null) {
+                return new URLApplicationResource(base.getPath(), locale, url);
+            } else {
+                return null;
+            }
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }
+
+    /** {@inheritDoc} */
+    public Collection<ApplicationResource> getResources(String path) {
+        ArrayList<ApplicationResource> resources = new ArrayList<ApplicationResource>();
+        resources.add(getResource(path));
+        return resources;
     }
 }

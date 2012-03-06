@@ -21,11 +21,10 @@
 
 package org.apache.tiles.extras.complete;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+import java.util.Locale;
 
 import javax.el.ArrayELResolver;
 import javax.el.BeanELResolver;
@@ -42,7 +41,6 @@ import ognl.PropertyAccessor;
 import org.apache.tiles.TilesContainer;
 import org.apache.tiles.compat.definition.digester.CompatibilityDigesterDefinitionsReader;
 import org.apache.tiles.context.TilesRequestContextHolder;
-import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.DefinitionsReader;
 import org.apache.tiles.definition.pattern.DefinitionPatternMatcherFactory;
 import org.apache.tiles.definition.pattern.PatternDefinitionResolver;
@@ -74,6 +72,7 @@ import org.apache.tiles.ognl.ScopePropertyAccessor;
 import org.apache.tiles.ognl.TilesApplicationContextNestedObjectExtractor;
 import org.apache.tiles.ognl.TilesContextPropertyAccessorDelegateFactory;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
 import org.apache.tiles.request.freemarker.render.FreemarkerRendererBuilder;
@@ -83,7 +82,6 @@ import org.apache.tiles.request.render.ChainedDelegateRenderer;
 import org.apache.tiles.request.render.Renderer;
 import org.apache.tiles.request.velocity.render.VelocityRenderer;
 import org.apache.tiles.request.velocity.render.VelocityRendererBuilder;
-import org.apache.tiles.util.URLUtil;
 import org.mvel2.integration.VariableResolverFactory;
 
 /**
@@ -116,21 +114,17 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
 
     /** {@inheritDoc} */
     @Override
-    public TilesContainer createDecoratedContainer(
-            TilesContainer originalContainer,
+    public TilesContainer createDecoratedContainer(TilesContainer originalContainer,
             ApplicationContext applicationContext) {
         return new CachingTilesContainer(originalContainer);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void registerAttributeRenderers(
-            BasicRendererFactory rendererFactory,
-            ApplicationContext applicationContext,
-            TilesContainer container,
+    protected void registerAttributeRenderers(BasicRendererFactory rendererFactory,
+            ApplicationContext applicationContext, TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
-        super.registerAttributeRenderers(rendererFactory, applicationContext, container,
-                attributeEvaluatorFactory);
+        super.registerAttributeRenderers(rendererFactory, applicationContext, container, attributeEvaluatorFactory);
 
         FreemarkerRenderer freemarkerRenderer = FreemarkerRendererBuilder
                 .createInstance()
@@ -141,27 +135,19 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
                 .setParameter("template_update_delay", "0")
                 .setParameter("default_encoding", "ISO-8859-1")
                 .setParameter("number_format", "0.##########")
-                .setParameter(
-                        SharedVariableLoaderFreemarkerServlet.CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM,
-                        "tiles," + TilesSharedVariableFactory.class.getName())
-                .build();
+                .setParameter(SharedVariableLoaderFreemarkerServlet.CUSTOM_SHARED_VARIABLE_FACTORIES_INIT_PARAM,
+                        "tiles," + TilesSharedVariableFactory.class.getName()).build();
         rendererFactory.registerRenderer(FREEMARKER_RENDERER_NAME, freemarkerRenderer);
 
-        VelocityRenderer velocityRenderer = VelocityRendererBuilder
-                .createInstance().setApplicationContext(applicationContext)
-                .build();
-        rendererFactory.registerRenderer(VELOCITY_RENDERER_NAME,
-                velocityRenderer);
+        VelocityRenderer velocityRenderer = VelocityRendererBuilder.createInstance()
+                .setApplicationContext(applicationContext).build();
+        rendererFactory.registerRenderer(VELOCITY_RENDERER_NAME, velocityRenderer);
     }
-
-
 
     /** {@inheritDoc} */
     @Override
-    protected Renderer createDefaultAttributeRenderer(
-            BasicRendererFactory rendererFactory,
-            ApplicationContext applicationContext,
-            TilesContainer container,
+    protected Renderer createDefaultAttributeRenderer(BasicRendererFactory rendererFactory,
+            ApplicationContext applicationContext, TilesContainer container,
             AttributeEvaluatorFactory attributeEvaluatorFactory) {
         ChainedDelegateRenderer retValue = new ChainedDelegateRenderer();
         retValue.addAttributeRenderer(rendererFactory.getRenderer(DEFINITION_RENDERER_NAME));
@@ -174,23 +160,19 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
 
     /** {@inheritDoc} */
     @Override
-    protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
-            ApplicationContext applicationContext,
+    protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(ApplicationContext applicationContext,
             LocaleResolver resolver) {
         BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
                 createELEvaluator(applicationContext));
-        attributeEvaluatorFactory.registerAttributeEvaluator("MVEL",
-                createMVELEvaluator());
-        attributeEvaluatorFactory.registerAttributeEvaluator("OGNL",
-                createOGNLEvaluator());
+        attributeEvaluatorFactory.registerAttributeEvaluator("MVEL", createMVELEvaluator());
+        attributeEvaluatorFactory.registerAttributeEvaluator("OGNL", createOGNLEvaluator());
 
         return attributeEvaluatorFactory;
     }
 
     /** {@inheritDoc} */
     @Override
-    protected <T> PatternDefinitionResolver<T> createPatternDefinitionResolver(
-            Class<T> customizationKeyClass) {
+    protected <T> PatternDefinitionResolver<T> createPatternDefinitionResolver(Class<T> customizationKeyClass) {
         DefinitionPatternMatcherFactory wildcardFactory = new WildcardDefinitionPatternMatcherFactory();
         DefinitionPatternMatcherFactory regexpFactory = new RegexpDefinitionPatternMatcherFactory();
         PrefixedPatternDefinitionResolver<T> resolver = new PrefixedPatternDefinitionResolver<T>();
@@ -201,24 +183,27 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(ApplicationContext applicationContext) {
-        try {
-            Set<URL> finalSet = new HashSet<URL>();
-            Set<URL> webINFSet = applicationContext.getResources("/WEB-INF/**/tiles*.xml");
-            Set<URL> metaINFSet = applicationContext.getResources("classpath*:META-INF/**/tiles*.xml");
+    protected List<ApplicationResource> getSources(ApplicationContext applicationContext) {
+        Collection<ApplicationResource> webINFSet = applicationContext.getResources("/WEB-INF/**/tiles*.xml");
+        Collection<ApplicationResource> metaINFSet = applicationContext
+                .getResources("classpath*:META-INF/**/tiles*.xml");
 
-            if (webINFSet != null) {
-                finalSet.addAll(webINFSet);
+        List<ApplicationResource> filteredResources = new ArrayList<ApplicationResource>();
+        if (webINFSet != null) {
+            for (ApplicationResource resource : webINFSet) {
+                if (Locale.ROOT.equals(resource.getLocale())) {
+                    filteredResources.add(resource);
+                }
             }
-            if (metaINFSet != null) {
-                finalSet.addAll(metaINFSet);
-            }
-
-            return URLUtil.getBaseTilesDefinitionURLs(finalSet);
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException(
-                    "Cannot load definition URLs", e);
         }
+        if (metaINFSet != null) {
+            for (ApplicationResource resource : metaINFSet) {
+                if (Locale.ROOT.equals(resource.getLocale())) {
+                    filteredResources.add(resource);
+                }
+            }
+        }
+        return filteredResources;
     }
 
     /** {@inheritDoc} */
@@ -233,8 +218,7 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
      * @param applicationContext The Tiles application context.
      * @return The EL evaluator.
      */
-    private ELAttributeEvaluator createELEvaluator(
-            ApplicationContext applicationContext) {
+    private ELAttributeEvaluator createELEvaluator(ApplicationContext applicationContext) {
         ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
         JspExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();
         efFactory.setApplicationContext(applicationContext);
@@ -263,16 +247,10 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
      */
     private MVELAttributeEvaluator createMVELEvaluator() {
         TilesRequestContextHolder requestHolder = new TilesRequestContextHolder();
-        VariableResolverFactory variableResolverFactory = new ScopeVariableResolverFactory(
-                requestHolder);
-        variableResolverFactory
-                .setNextFactory(new TilesContextVariableResolverFactory(
-                        requestHolder));
-        variableResolverFactory
-                .setNextFactory(new TilesContextBeanVariableResolverFactory(
-                        requestHolder));
-        MVELAttributeEvaluator mvelEvaluator = new MVELAttributeEvaluator(requestHolder,
-                variableResolverFactory);
+        VariableResolverFactory variableResolverFactory = new ScopeVariableResolverFactory(requestHolder);
+        variableResolverFactory.setNextFactory(new TilesContextVariableResolverFactory(requestHolder));
+        variableResolverFactory.setNextFactory(new TilesContextBeanVariableResolverFactory(requestHolder));
+        MVELAttributeEvaluator mvelEvaluator = new MVELAttributeEvaluator(requestHolder, variableResolverFactory);
         return mvelEvaluator;
     }
 
@@ -284,21 +262,18 @@ public class CompleteAutoloadTilesContainerFactory extends BasicTilesContainerFa
     private OGNLAttributeEvaluator createOGNLEvaluator() {
         try {
             PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
-            PropertyAccessor applicationContextPropertyAccessor =
-                new NestedObjectDelegatePropertyAccessor<Request>(
-                    new TilesApplicationContextNestedObjectExtractor(),
-                    objectPropertyAccessor);
+            PropertyAccessor applicationContextPropertyAccessor = new NestedObjectDelegatePropertyAccessor<Request>(
+                    new TilesApplicationContextNestedObjectExtractor(), objectPropertyAccessor);
             PropertyAccessor anyScopePropertyAccessor = new AnyScopePropertyAccessor();
             PropertyAccessor scopePropertyAccessor = new ScopePropertyAccessor();
             PropertyAccessorDelegateFactory<Request> factory = new TilesContextPropertyAccessorDelegateFactory(
-                    objectPropertyAccessor, applicationContextPropertyAccessor,
-                    anyScopePropertyAccessor, scopePropertyAccessor);
+                    objectPropertyAccessor, applicationContextPropertyAccessor, anyScopePropertyAccessor,
+                    scopePropertyAccessor);
             PropertyAccessor tilesRequestAccessor = new DelegatePropertyAccessor<Request>(factory);
             OgnlRuntime.setPropertyAccessor(Request.class, tilesRequestAccessor);
             return new OGNLAttributeEvaluator();
         } catch (OgnlException e) {
-            throw new TilesContainerFactoryException(
-                    "Cannot initialize OGNL evaluator", e);
+            throw new TilesContainerFactoryException("Cannot initialize OGNL evaluator", e);
         }
     }
 }

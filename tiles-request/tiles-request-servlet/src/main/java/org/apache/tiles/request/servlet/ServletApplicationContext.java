@@ -20,17 +20,20 @@
  */
 package org.apache.tiles.request.servlet;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.ServletContext;
 
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.collection.ReadOnlyEnumerationMap;
 import org.apache.tiles.request.collection.ScopeMap;
+import org.apache.tiles.request.locale.URLApplicationResource;
 import org.apache.tiles.request.servlet.extractor.ApplicationScopeExtractor;
 import org.apache.tiles.request.servlet.extractor.InitParameterExtractor;
 
@@ -46,20 +49,17 @@ public class ServletApplicationContext implements ApplicationContext {
      */
     private ServletContext servletContext;
 
-
     /**
      * <p>The lazily instantiated <code>Map</code> of application scope
      * attributes.</p>
      */
     private Map<String, Object> applicationScope = null;
 
-
     /**
      * <p>The lazily instantiated <code>Map</code> of context initialization
      * parameters.</p>
      */
     private Map<String, String> initParam = null;
-
 
     /**
      * Creates a new instance of ServletTilesApplicationContext.
@@ -85,7 +85,6 @@ public class ServletApplicationContext implements ApplicationContext {
 
     }
 
-
     /** {@inheritDoc} */
     public Map<String, String> getInitParams() {
 
@@ -97,14 +96,37 @@ public class ServletApplicationContext implements ApplicationContext {
     }
 
     /** {@inheritDoc} */
-    public URL getResource(String path) throws IOException {
-        return servletContext.getResource(path);
+    public ApplicationResource getResource(String localePath) {
+        try {
+            URL url = servletContext.getResource(localePath);
+            if (url != null) {
+                return new URLApplicationResource(localePath, url);
+            } else {
+                return null;
+            }
+        } catch (MalformedURLException e) {
+            return null;
+        }
     }
 
     /** {@inheritDoc} */
-    public Set<URL> getResources(String path) throws IOException {
-        HashSet<URL> urls = new HashSet<URL>();
-        urls.add(getResource(path));
-        return urls;
+    public ApplicationResource getResource(ApplicationResource base, Locale locale) {
+        try {
+            URL url = servletContext.getResource(base.getLocalePath(locale));
+            if (url != null) {
+                return new URLApplicationResource(base.getPath(), locale, url);
+            } else {
+                return null;
+            }
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }
+
+    /** {@inheritDoc} */
+    public Collection<ApplicationResource> getResources(String path) {
+        ArrayList<ApplicationResource> resources = new ArrayList<ApplicationResource>();
+        resources.add(getResource(path));
+        return resources;
     }
 }

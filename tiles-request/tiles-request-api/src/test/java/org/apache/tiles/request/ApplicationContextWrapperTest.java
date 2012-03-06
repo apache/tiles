@@ -25,9 +25,9 @@ import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.net.URL;
+import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.Test;
 
@@ -108,13 +108,16 @@ public class ApplicationContextWrapperTest {
     @Test
     public void testGetResource() throws IOException {
         ApplicationContext wrappedContext = createMock(ApplicationContext.class);
-        URL obj = new URL("file:///home/neverland/whatever.html");
+        ApplicationResource obj = createMock(ApplicationResource.class);
+        ApplicationResource objFr = createMock(ApplicationResource.class);
 
         expect(wrappedContext.getResource("whatever.html")).andReturn(obj);
+        expect(wrappedContext.getResource(obj, Locale.FRENCH)).andReturn(objFr);
 
         replay(wrappedContext);
         ApplicationContextWrapper wrapper = new ApplicationContextWrapper(wrappedContext);
         assertEquals(obj, wrapper.getResource("whatever.html"));
+        assertEquals(objFr, wrapper.getResource(obj, Locale.FRENCH));
         verify(wrappedContext);
     }
 
@@ -126,7 +129,7 @@ public class ApplicationContextWrapperTest {
     @Test
     public void testGetResources() throws IOException {
         ApplicationContext wrappedContext = createMock(ApplicationContext.class);
-        Set<URL> obj = createMock(Set.class);
+        Collection<ApplicationResource> obj = createMock(Collection.class);
 
         expect(wrappedContext.getResources("whatever.html")).andReturn(obj);
 

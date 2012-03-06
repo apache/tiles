@@ -21,16 +21,14 @@
 
 package org.apache.tiles.test.alt;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tiles.definition.DefinitionsFactoryException;
 import org.apache.tiles.definition.dao.BaseLocaleUrlDefinitionDAO;
 import org.apache.tiles.definition.dao.CachingLocaleUrlDefinitionDAO;
 import org.apache.tiles.locale.LocaleResolver;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.test.factory.TestTilesContainerFactory;
 
 /**
@@ -47,16 +45,11 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
 
     /** {@inheritDoc} */
     @Override
-    protected List<URL> getSourceURLs(ApplicationContext applicationContext) {
-        List<URL> urls = new ArrayList<URL>(URL_COUNT);
-        try {
-            urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-defs.xml"));
-            urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-freemarker-defs.xml"));
-            urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-velocity-defs.xml"));
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException(
-                    "Cannot load definition URLs", e);
-        }
+    protected List<ApplicationResource> getSources(ApplicationContext applicationContext) {
+        List<ApplicationResource> urls = new ArrayList<ApplicationResource>(URL_COUNT);
+        urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-defs.xml"));
+        urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-freemarker-defs.xml"));
+        urls.add(applicationContext.getResource("classpath:/org/apache/tiles/test/alt/defs/tiles-alt-velocity-defs.xml"));
         return urls;
     }
 
@@ -65,6 +58,6 @@ public class TestAlternateTilesContainerFactory extends TestTilesContainerFactor
     protected BaseLocaleUrlDefinitionDAO instantiateLocaleDefinitionDao(
             ApplicationContext applicationContext,
             LocaleResolver resolver) {
-        return new CachingLocaleUrlDefinitionDAO();
+        return new CachingLocaleUrlDefinitionDAO(applicationContext);
     }
 }

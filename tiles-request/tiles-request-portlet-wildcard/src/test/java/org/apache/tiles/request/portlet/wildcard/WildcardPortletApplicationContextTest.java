@@ -33,6 +33,7 @@ import javax.portlet.PortletContext;
 
 import junit.framework.TestCase;
 
+import org.apache.tiles.request.locale.URLApplicationResource;
 import org.easymock.EasyMock;
 
 
@@ -110,8 +111,8 @@ public class WildcardPortletApplicationContextTest extends TestCase {
         EasyMock.expect(portletContext.getResourcePaths("/WEB-INF/")).andReturn(elementSet);
         EasyMock.replay(portletContext);
 
-        assertEquals(u, context.getResource("/" + url));
-        assertEquals(pomUrl, context.getResource("/WEB-INF/*.xml"));
+        assertEquals(new URLApplicationResource(u.toExternalForm(), u), context.getResource("/" + url));
+        assertEquals(new URLApplicationResource(pomUrl.toExternalForm(), pomUrl), context.getResource("/WEB-INF/*.xml"));
         assertEquals(TEST_PROPERTIES_SIZE, context.getResources(
                 "classpath*:/test.properties").size());
 
