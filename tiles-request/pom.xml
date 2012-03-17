@@ -1,139 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>tiles-master</artifactId>
-		<groupId>org.apache.tiles</groupId>
-		<version>3</version>
-	</parent>
-	<groupId>org.apache.tiles</groupId>
-	<artifactId>tiles-request</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>Tiles Request Framework</name>
-	<description>Request abstraction for various request and template technologies</description>
-	<url>http://tiles.apache.org/request/</url>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>tiles-master</artifactId>
+        <groupId>org.apache.tiles</groupId>
+        <version>4-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+    <groupId>org.apache.tiles</groupId>
+    <artifactId>tiles-request</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Tiles Request Framework</name>
+    <description>Request abstraction for various request and template technologies</description>
+    <url>http://tiles.apache.org/request/</url>
     <scm>
         <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-request/</connection>
         <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-request/</developerConnection>
         <url>http://svn.eu.apache.org/viewvc/tiles/framework/trunk/tiles-request/</url>
     </scm>
+    <issueManagement>
+        <system>JIRA</system>
+        <url>https://issues.apache.org/jira/browse/TREQ</url>
+    </issueManagement>
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots</url>
+            <releases><enabled>false</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+    </repositories>
 
-	<modules>
-		<module>tiles-request-api</module>
-		<module>tiles-request-servlet</module>
-		<module>tiles-request-servlet-wildcard</module>
-		<module>tiles-request-portlet</module>
-		<module>tiles-request-portlet-wildcard</module>
-		<module>tiles-request-jsp</module>
-		<module>tiles-request-freemarker</module>
-		<module>tiles-request-velocity</module>
+    <modules>
+        <module>tiles-request-api</module>
+        <module>tiles-request-servlet</module>
+        <module>tiles-request-servlet-wildcard</module>
+        <module>tiles-request-portlet</module>
+        <module>tiles-request-portlet-wildcard</module>
+        <module>tiles-request-jsp</module>
+        <module>tiles-request-freemarker</module>
+        <module>tiles-request-velocity</module>
         <module>tiles-request-mustache</module>
-	</modules>
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+    </modules>
     <distributionManagement>
         <site>
             <id>apache-site</id>
             <url>scp://people.apache.org/www/tiles.apache.org/request</url>
         </site>
     </distributionManagement>
-
     <reporting>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-checkstyle-plugin</artifactId>
+                <artifactId>maven-linkcheck-plugin</artifactId>
+                <version>1.1</version>
                 <configuration>
-                    <configLocation>http://svn.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks_v5.xml
-                    </configLocation>
+                    <excludedLinks>
+                        <excludedLink>**/index.html</excludedLink>
+                        <excludedLink>**/logo.png</excludedLink>
+                    </excludedLinks>
+                    <forceSite>false</forceSite>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jxr-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <configuration>
-                  <targetJdk>1.5</targetJdk>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
-                <reportSets>
-                    <reportSet>
-                        <id>aggregated</id>
-                        <configuration>
-                            <excludePackageNames>org.apache.tiles.test</excludePackageNames>
-                            <links>
-                                <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-                                <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
-                                <link>http://commons.apache.org/chain/apidocs</link>
-                                <link>http://commons.apache.org/digester/commons-digester-1.6/docs/api</link>
-                                <link>http://commons.apache.org/logging/commons-logging-1.1/apidocs</link>
-                            </links>
-                            <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
-                            <docletArtifact>
-                                <groupId>gr.spinellis</groupId>
-                                <artifactId>UmlGraph</artifactId>
-                                <version>4.6</version>
-                            </docletArtifact>
-                            <additionalparam>
-                                -inferrel -inferdep -quiet -hide java.*
-                                -collpackages java.util.* -qualify
-                                -postfixpackage -nodefontsize 9
-                                -nodefontpackagesize 7
-                            </additionalparam>
-                        </configuration>
-                        <reports>
-                            <report>aggregate</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>rat-maven-plugin</artifactId>
-                <version>1.0-alpha-3</version>
-                <configuration>
-                    <includes>
-                        <include>pom.xml</include>
-                        <include>src/**</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/*LICENSE.txt</exclude>
-                        <exclude>**/*MANIFEST.MF</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>emma-maven-plugin</artifactId>
-                <version>1.0-alpha-3</version>
             </plugin>
         </plugins>
     </reporting>
+
 
     <profiles>
         <profile>
@@ -168,122 +120,6 @@
                                         <include>src/**</include>
                                     </includes>
                                 </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>maven-3</id>
-            <activation>
-                <file>
-                    <exists>${basedir}</exists>
-                </file>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-site-plugin</artifactId>
-                            <version>3.0-beta-3</version>
-                            <configuration>
-                                <reportingPlugins>
-                                    <plugin>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-project-info-reports-plugin</artifactId>
-                                    </plugin>
-                                    <plugin>
-                                        <artifactId>maven-surefire-report-plugin</artifactId>
-                                    </plugin>
-                                    <plugin>
-                                        <artifactId>maven-checkstyle-plugin</artifactId>
-                                        <configuration>
-                                            <configLocation>http://svn.eu.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks_v5.xml
-                                            </configLocation>
-                                        </configuration>
-                                    </plugin>
-                                    <plugin>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>jxr-maven-plugin</artifactId>
-                                    </plugin>
-                                    <plugin>
-                                        <artifactId>maven-pmd-plugin</artifactId>
-                                        <configuration>
-                                            <targetJdk>1.5</targetJdk>
-                                        </configuration>
-                                    </plugin>
-                                    <plugin>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-javadoc-plugin</artifactId>
-                                        <version>2.7</version>
-                                        <reports>
-                                            <report>aggregate</report>
-                                        </reports>
-                                        <configuration>
-                                            <excludePackageNames>org.apache.tiles.test</excludePackageNames>
-                                            <links>
-                                                <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-                                                <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
-                                                <link>http://commons.apache.org/chain/apidocs</link>
-                                                <link>http://commons.apache.org/digester/commons-digester-1.6/docs/api</link>
-                                                <link>http://commons.apache.org/logging/commons-logging-1.1/apidocs</link>
-                                            </links>
-                                            <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
-                                            <docletArtifact>
-                                                <groupId>gr.spinellis</groupId>
-                                                <artifactId>UmlGraph</artifactId>
-                                                <version>4.6</version>
-                                            </docletArtifact>
-                                            <additionalparam>
-                                                -inferrel
-                                                -inferdep -quiet
-                                                -hide
-                                                java.*
-                                                -collpackages
-                                                java.util.*
-                                                -qualify
-                                                -postfixpackage
-                                                -nodefontsize 9
-                                                -nodefontpackagesize 7
-                                            </additionalparam>
-                                        </configuration>
-                                    </plugin>
-                                    <plugin>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>rat-maven-plugin</artifactId>
-                                        <version>1.0-alpha-3</version>
-                                        <configuration>
-                                            <includes>
-                                                <include>pom.xml</include>
-                                                <include>src/**</include>
-                                            </includes>
-                                            <excludes>
-                                                <exclude>**/*LICENSE.txt</exclude>
-                                                <exclude>**/*MANIFEST.MF</exclude>
-                                            </excludes>
-                                        </configuration>
-                                    </plugin>
-                                    <plugin>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>emma-maven-plugin</artifactId>
-                                        <version>1.0-alpha-3</version>
-                                    </plugin>
-                                </reportingPlugins>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-descriptor</id>
-                                <goals>
-                                    <goal>attach-descriptor</goal>
-                                </goals>
                             </execution>
                         </executions>
                     </plugin>

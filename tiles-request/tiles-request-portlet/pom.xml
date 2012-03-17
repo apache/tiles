@@ -71,29 +71,16 @@
 
   </build>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>net.sf.dtddoc</groupId>
-        <artifactId>dtddoc-maven-plugin</artifactId>
-        <configuration>
-          <docTitle>Tiles Definition File</docTitle>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-
-
   <dependencies>
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-request-api</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-request-servlet</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>

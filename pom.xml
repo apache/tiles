@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.apache.tiles</groupId>
         <artifactId>tiles-master</artifactId>
-        <version>3</version>
+        <version>4-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -49,7 +49,6 @@
     <modules>
         <module>tiles-request</module>
         <module>tiles-autotag</module>
-        <module>tiles-eval</module>
         <module>tiles-parent</module>
     </modules>
 
