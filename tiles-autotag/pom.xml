@@ -34,7 +34,7 @@ under the License.
     <packaging>pom</packaging>
     <name>Autotags</name>
     <description>Automatic generation of tags.</description>
-    <url>http://tiles.apache.org/autotag/</url>
+    <url>http://tiles.apache.org/tiles-autotag/</url>
     <scm>
         <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-autotag/</connection>
         <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-autotag/</developerConnection>
@@ -67,7 +67,7 @@ under the License.
     <distributionManagement>
         <site>
             <id>apache-site</id>
-            <url>scp://people.apache.org/www/tiles.apache.org/autotag</url>
+            <url>scp://people.apache.org/www/tiles.apache.org/tiles-autotag</url>
         </site>
     </distributionManagement>
     <reporting>

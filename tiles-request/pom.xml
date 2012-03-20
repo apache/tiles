@@ -34,7 +34,7 @@ under the License.
     <packaging>pom</packaging>
     <name>Tiles Request Framework</name>
     <description>Request abstraction for various request and template technologies</description>
-    <url>http://tiles.apache.org/request/</url>
+    <url>http://tiles.apache.org/tiles-request/</url>
     <scm>
         <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-request/</connection>
         <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-request/</developerConnection>
@@ -67,7 +67,7 @@ under the License.
     <distributionManagement>
         <site>
             <id>apache-site</id>
-            <url>scp://people.apache.org/www/tiles.apache.org/request</url>
+            <url>scp://people.apache.org/www/tiles.apache.org/tiles-request</url>
         </site>
     </distributionManagement>
     <reporting>
