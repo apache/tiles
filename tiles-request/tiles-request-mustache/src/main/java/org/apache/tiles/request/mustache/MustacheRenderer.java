@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.request.render;
+package org.apache.tiles.request.mustache;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,6 +35,8 @@ import com.sampullara.mustache.Scope;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.Request;
+import org.apache.tiles.request.render.CannotRenderException;
+import org.apache.tiles.request.render.Renderer;
 
 /**
  * The Mustache-specific renderer.

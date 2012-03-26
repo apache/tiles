@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request.render;
+package org.apache.tiles.request.mustache;
 
 
 import java.io.IOException;
@@ -30,6 +30,9 @@ import java.util.regex.Pattern;
 
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.ApplicationResource;
+import org.apache.tiles.request.mustache.MustacheRenderer;
+import org.apache.tiles.request.render.CannotRenderException;
+import org.apache.tiles.request.render.Renderer;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.junit.Test;
 

@@ -18,13 +18,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.request;
+package org.apache.tiles.request.mustache;
 
 import java.util.Set;
 
 import com.sampullara.mustache.Scope;
 import org.apache.tiles.request.collection.ScopeMap;
-import org.apache.tiles.request.extractor.MustacheScopeExtractor;
 
 
 final class MustacheScopeMap extends ScopeMap {

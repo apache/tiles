@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.apache.tiles.request.extractor;
+package org.apache.tiles.request.mustache;
 
 import java.util.Collections;
 import java.util.Enumeration;
