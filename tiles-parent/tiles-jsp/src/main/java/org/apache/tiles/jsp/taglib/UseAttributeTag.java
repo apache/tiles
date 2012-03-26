@@ -177,7 +177,7 @@ public class UseAttributeTag extends SimpleTagSupport {
     /** {@inheritDoc} */
     @Override
     public void doTag() throws JspException, IOException {
-        AutotagRuntime runtime = new org.apache.tiles.autotag.jsp.runtime.JspAutotagRuntime();
+        AutotagRuntime runtime = new org.apache.tiles.request.jsp.autotag.JspAutotagRuntime();
         if (runtime instanceof SimpleTagSupport) {
             SimpleTagSupport tag = (SimpleTagSupport) runtime;
             tag.setJspContext(getJspContext());
