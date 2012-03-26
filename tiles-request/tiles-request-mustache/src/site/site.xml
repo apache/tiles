@@ -43,27 +43,10 @@
         <menu name="Apache Tiles&#8482;">
             <item
                    name="Tiles Home"
+                   href="../../index.html"/>
+            <item
+                   name="Request Microframework"
                    href="../index.html"/>
-            <item
-                   name="Tiles Request Microframework"
-                   href="./index.html"/>
-        </menu>
-        <menu name="Reference">
-            <item
-                    name="Javadoc"
-                    href="apidocs/index.html"/>
-        </menu>
-
-        <menu name="Developers">
-            <item
-                    name="Building"
-                    href="/dev/building.html"/>
-            <item
-                    name="Snapshots"
-                    href="/dev/snapshots.html"/>
-            <item
-                    name="Release Process"
-                    href="/dev/release.html"/>
         </menu>
 
         <menu ref="modules" />

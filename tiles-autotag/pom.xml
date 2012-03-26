@@ -80,7 +80,6 @@ under the License.
                         <excludedLink>**/index.html</excludedLink>
                         <excludedLink>**/logo.png</excludedLink>
                     </excludedLinks>
-                    <forceSite>false</forceSite>
                 </configuration>
             </plugin>
         </plugins>

@@ -31,8 +31,9 @@
 
         <section name="Apache Request microframework project">
 
+            <p>Tiles has served the purpose of rendering views for the Model-View-Controller pattern in JavaEE for years.</p>
             <p>Tiles-3 introduces a complete standalone and super simple abstraction around request/response objects.
-                <p>We've all seen that the various technologies like Servlet, Portlet, JSP, Velocity, FreeMarker seem to have a different abstraction of a common pattern.
+            <p>We've all seen that the various technologies like Servlet, Portlet, JSP, Velocity, FreeMarker seem to have a different abstraction of a common pattern.
             They all have a concept of:</p>
             <ul>
                 <li>request: the client request, or some sort of it;</li>
@@ -41,9 +42,9 @@
                 <li>scope: places where different attribute maps are stored (request, session, etc.)</li>
             </ul>
             <p>Now all of these scopes are concentrated into "Request" interfaces, that acts as a single point of reference for the developer.
-            In theory, everything can be obtained by an object that implements Request.</p>
+            In theory, everything you need for rendering a view can be obtained by an object that implements Request, and Request implementations can be built that do not rely on an application server environment.</p>
             <p> </p>
-            <p>Currently there are bindings for Servlet, Portlet, JSP, Velocity and FreeMarker.</p></p>
+            <p>Currently there are bindings for Servlet, Portlet, JSP, Mustache, Velocity and FreeMarker.</p></p>
 
         </section>
     </body>
