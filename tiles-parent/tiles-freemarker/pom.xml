@@ -45,7 +45,7 @@
                 </goals>
                 <configuration>
                     <packageName>org.apache.tiles.freemarker.template</packageName>
-                    <freemarkerRuntime>org.apache.tiles.autotag.freemarker.runtime.FreemarkerAutotagRuntime</freemarkerRuntime>
+                    <freemarkerRuntime>org.apache.tiles.request.freemarker.autotag.FreemarkerAutotagRuntime</freemarkerRuntime>
                 </configuration>
             </execution>
         </executions>
@@ -99,11 +99,6 @@
     <dependency>
         <groupId>org.apache.tiles</groupId>
         <artifactId>tiles-request-freemarker</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tiles</groupId>
-        <artifactId>tiles-autotag-freemarker-runtime</artifactId>
         <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>

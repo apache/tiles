@@ -45,10 +45,16 @@
                    name="Tiles Home"
                    href="../index.html"/>
             <item
-                   name="Tiles Autotags"
+                   name="Tiles Autotag"
                    href="./index.html"/>
         </menu>
         <menu name="Reference">
+            <item
+                    name="Creating an generic tag library"
+                    href="./taglib.html"/>
+            <item
+                    name="Building a tag library"
+                    href="./plugin.html"/>
             <item
                     name="Javadoc"
                     href="apidocs/index.html"/>
@@ -64,9 +70,6 @@
             <item
                     name="Release Process"
                     href="/dev/release.html"/>
-            <item
-                    name="Selenium Testing"
-                    href="/selenium.html"/>
         </menu>
 
         <menu ref="modules" />

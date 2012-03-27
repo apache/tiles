@@ -46,7 +46,7 @@
                 </goals>
                 <configuration>
                     <packageName>org.apache.tiles.velocity.template</packageName>
-                    <velocityRuntime>org.apache.tiles.autotag.velocity.runtime.VelocityAutotagRuntime</velocityRuntime>
+                    <velocityRuntime>org.apache.tiles.request.velocity.autotag.VelocityAutotagRuntime</velocityRuntime>
                 </configuration>
             </execution>
         </executions>
@@ -160,11 +160,6 @@
     <dependency>
         <groupId>org.apache.tiles</groupId>
         <artifactId>tiles-request-velocity</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tiles</groupId>
-        <artifactId>tiles-autotag-velocity-runtime</artifactId>
         <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
