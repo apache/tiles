@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.autotag.core.runtime.composition;
+package org.apache.tiles.template;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tiles.request.Request;
+import org.apache.tiles.template.ComposeStackUtil;
 import org.junit.Test;
 
 /**
@@ -51,7 +52,7 @@ public class ComposeStackUtilTest {
     private static final long LONG_VALUE = 2L;
 
     /**
-     * Test method for {@link org.apache.tiles.autotag.core.runtime.composition.ComposeStackUtil
+     * Test method for {@link org.apache.tiles.template.ComposeStackUtil
      * #findAncestorWithClass(java.util.Stack, java.lang.Class)}.
      */
     @Test

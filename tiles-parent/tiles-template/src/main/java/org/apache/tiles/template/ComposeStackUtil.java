@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.autotag.core.runtime.composition;
+package org.apache.tiles.template;
 
 import java.util.Deque;
 import java.util.LinkedList;
