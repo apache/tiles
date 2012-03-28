@@ -29,7 +29,6 @@ import org.apache.tiles.request.DispatchRequest;
  * Renders an attribute that contains a reference to a template.
  *
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public class DispatchRenderer implements Renderer {
 

@@ -27,14 +27,11 @@ package org.apache.tiles.request.servlet;
  * in a servlet environment.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class NotAServletEnvironmentException extends RuntimeException {
 
     /**
      * Constructor.
-     *
-     * @since 2.2.0
      */
     public NotAServletEnvironmentException() {
     }
@@ -43,7 +40,6 @@ public class NotAServletEnvironmentException extends RuntimeException {
      * Constructor.
      *
      * @param message The detail message.
-     * @since 2.2.0
      */
     public NotAServletEnvironmentException(String message) {
         super(message);
@@ -53,7 +49,6 @@ public class NotAServletEnvironmentException extends RuntimeException {
      * Constructor.
      *
      * @param e The exception to be wrapped.
-     * @since 2.2.0
      */
     public NotAServletEnvironmentException(Throwable e) {
         super(e);
@@ -64,7 +59,6 @@ public class NotAServletEnvironmentException extends RuntimeException {
      *
      * @param message The detail message.
      * @param e The exception to be wrapped.
-     * @since 2.2.0
      */
     public NotAServletEnvironmentException(String message, Throwable e) {
         super(message, e);

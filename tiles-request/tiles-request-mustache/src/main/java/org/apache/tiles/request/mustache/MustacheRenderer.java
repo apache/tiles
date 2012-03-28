@@ -42,7 +42,6 @@ import org.apache.tiles.request.render.Renderer;
  * The Mustache-specific renderer.
  *
  * @version $Rev: 1215006 $ $Date: 2011-12-16 01:30:41 +0100 (Fri, 16 Dec 2011) $
- * @since 3.0
  */
 public final class MustacheRenderer implements Renderer {
 

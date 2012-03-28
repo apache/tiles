@@ -43,7 +43,6 @@ public class AttributeValueFreemarkerServlet extends SharedVariableLoaderFreemar
      * Sets the value to use as the template name.
      *
      * @param value The template name.
-     * @since 2.2.0
      */
     public void setValue(String value) {
         valueHolder.set(value);

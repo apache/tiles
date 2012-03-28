@@ -26,7 +26,6 @@ package org.apache.tiles.request;
  * {@link ApplicationContext}.
  *
  * @version $Rev: 893303 $ $Date: 2009-12-22 21:18:35 +0100 (Tue, 22 Dec 2009) $
- * @since 2.1.0
  */
 public interface ApplicationContextAware {
 
@@ -34,7 +33,6 @@ public interface ApplicationContextAware {
      * Sets the Tiles application context.
      *
      * @param applicationContext The Tiles application context.
-     * @since 2.1.0
      */
     void setApplicationContext(ApplicationContext applicationContext);
 }

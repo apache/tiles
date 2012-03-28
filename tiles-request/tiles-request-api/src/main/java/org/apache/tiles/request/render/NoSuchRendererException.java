@@ -25,14 +25,11 @@ package org.apache.tiles.request.render;
  * It is raised when a named renderer has not been found with that name.
  *
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public class NoSuchRendererException extends RenderException {
 
     /**
      * Constructor.
-     *
-     * @since 3.0.0
      */
     public NoSuchRendererException() {
         super();
@@ -43,7 +40,6 @@ public class NoSuchRendererException extends RenderException {
      *
      * @param message The detail message.
      * @param e The exception to be wrapped.
-     * @since 3.0.0
      */
     public NoSuchRendererException(String message, Throwable e) {
         super(message, e);
@@ -53,7 +49,6 @@ public class NoSuchRendererException extends RenderException {
      * Constructor.
      *
      * @param message The detail message.
-     * @since 3.0.0
      */
     public NoSuchRendererException(String message) {
         super(message);
@@ -63,7 +58,6 @@ public class NoSuchRendererException extends RenderException {
      * Constructor.
      *
      * @param e The exception to be wrapped.
-     * @since 3.0.0
      */
     public NoSuchRendererException(Throwable e) {
         super(e);

@@ -47,7 +47,6 @@ public final class FreemarkerRequestUtil {
      *
      * @param env The current FreeMarker environment.
      * @return The request hash model.
-     * @since 2.2.0
      */
     public static HttpRequestHashModel getRequestHashModel(Environment env) {
         try {
@@ -64,7 +63,6 @@ public final class FreemarkerRequestUtil {
      *
      * @param env The current FreeMarker environment.
      * @return The servlet context hash model.
-     * @since 2.2.0
      */
     public static ServletContextHashModel getServletContextHashModel(
             Environment env) {

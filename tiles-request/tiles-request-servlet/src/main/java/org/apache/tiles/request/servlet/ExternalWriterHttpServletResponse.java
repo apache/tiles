@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * Wraps an HTTP response and overrides its print writer.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class ExternalWriterHttpServletResponse extends
         HttpServletResponseWrapper {
@@ -45,7 +44,6 @@ public class ExternalWriterHttpServletResponse extends
      *
      * @param response The response to wrap.
      * @param writer The print writer to use, instead of the response's one.
-     * @since 2.2.0
      */
     public ExternalWriterHttpServletResponse(HttpServletResponse response, PrintWriter writer) {
         super(response);

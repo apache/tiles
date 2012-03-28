@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
  * Utilities to work with dynamic class loading and instantiation.
  *
  * @version $Rev$ $Date$
- * @since 2.0.7
  */
 public final class ClassUtil {
 
@@ -53,7 +52,6 @@ public final class ClassUtil {
      * @param baseClass The base class to subclass to.
      * @return The loaded class.
      * @throws ClassNotFoundException If the class has not been found.
-     * @since 2.1.3
      */
     public static <T> Class<? extends T> getClass(String className,
             Class<T> baseClass) throws ClassNotFoundException {
@@ -74,7 +72,6 @@ public final class ClassUtil {
      * @return The new instance of the class name.
      * @throws CannotInstantiateObjectException If something goes wrong during
      * instantiation.
-     * @since 2.0.7
      */
     public static Object instantiate(String className) {
         return instantiate(className, false);
@@ -90,7 +87,6 @@ public final class ClassUtil {
      * <code>TilesException</code>.
      * @return The new instance of the class name.
      * @throws CannotInstantiateObjectException If something goes wrong during instantiation.
-     * @since 2.0.7
      */
     public static Object instantiate(String className, boolean returnNull) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -124,7 +120,6 @@ public final class ClassUtil {
      * @param clazz The class to be inspected.
      * @param name2descriptor The map in the form: name of the property ->
      * descriptor.
-     * @since 2.2.0
      */
     public static void collectBeanInfo(Class<?> clazz,
             Map<String, PropertyDescriptor> name2descriptor) {

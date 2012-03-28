@@ -35,7 +35,6 @@ import java.util.Locale;
  * A {@link PostfixedApplicationResource} that can be accessed through a URL.
  *
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 
 public class URLApplicationResource extends PostfixedApplicationResource {

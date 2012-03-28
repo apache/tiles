@@ -26,14 +26,12 @@ package org.apache.tiles.request;
  * available.
  *
  * @version $Rev$ $Date$
- * @since 2.1.4
  */
 public class NotAvailableFeatureException extends RequestException {
 
     /**
      * Constructor.
      *
-     * @since 2.1.4
      */
     public NotAvailableFeatureException() {
     }
@@ -42,7 +40,6 @@ public class NotAvailableFeatureException extends RequestException {
      * Constructor.
      *
      * @param message The detail message.
-     * @since 2.1.4
      */
     public NotAvailableFeatureException(String message) {
         super(message);
@@ -52,7 +49,6 @@ public class NotAvailableFeatureException extends RequestException {
      * Constructor.
      *
      * @param e The cause to be wrapped.
-     * @since 2.1.4
      */
     public NotAvailableFeatureException(Throwable e) {
         super(e);
@@ -63,7 +59,6 @@ public class NotAvailableFeatureException extends RequestException {
      *
      * @param message The detail message.
      * @param e The cause to be wrapped.
-     * @since 2.1.4
      */
     public NotAvailableFeatureException(String message, Throwable e) {
         super(message, e);

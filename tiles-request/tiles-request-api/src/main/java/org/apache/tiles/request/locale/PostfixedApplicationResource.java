@@ -40,7 +40,6 @@ import org.apache.tiles.request.ApplicationResource;
  * Two PostfixedApplicationResources are equals if they share the same localized path and the same class.
  * 
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public abstract class PostfixedApplicationResource implements ApplicationResource {
 

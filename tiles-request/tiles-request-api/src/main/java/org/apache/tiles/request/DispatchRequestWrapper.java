@@ -34,7 +34,6 @@ import org.apache.tiles.request.attribute.Addable;
 /**
  * Delegate for ease of customization.
  *
- * @since Tiles 2.0
  * @version $Rev: 1215009 $ $Date: 2011-12-16 01:32:31 +0100 (Fri, 16 Dec 2011) $
  */
 public class DispatchRequestWrapper extends AbstractRequest implements

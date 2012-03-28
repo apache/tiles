@@ -42,7 +42,6 @@ import org.apache.tiles.request.servlet.ServletRequest;
  * parameters that you want to set, and then call {@link #commit()}.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class FreemarkerRenderer implements Renderer {
 

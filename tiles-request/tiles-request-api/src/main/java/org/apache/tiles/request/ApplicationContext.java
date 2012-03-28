@@ -29,7 +29,6 @@ import java.util.Map;
  * the tiles container and runtime environment.  There is only
  * one application context per container.
  *
- * @since 2.0
  * @version $Rev$ $Date$
  */
 public interface ApplicationContext {
@@ -38,7 +37,6 @@ public interface ApplicationContext {
      * Returns the original, technology-dependent, context.
      *
      * @return The original application context.
-     * @since 2.1.0
      */
     Object getContext();
 

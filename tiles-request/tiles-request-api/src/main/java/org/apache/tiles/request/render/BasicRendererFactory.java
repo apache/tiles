@@ -28,28 +28,21 @@ import java.util.Map;
  * Basic renderer factory implementation.
  *
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public class BasicRendererFactory implements RendererFactory {
 
     /**
      * The renderer name/renderer map.
-     *
-     * @since 3.0.0
      */
     protected Map<String, Renderer> renderers;
 
     /**
      * The default renderer.
-     *
-     * @since 3.0.0
      */
     protected Renderer defaultRenderer;
 
     /**
      * Constructor.
-     *
-     * @since 3.0.0
      */
     public BasicRendererFactory() {
         renderers = new HashMap<String, Renderer>();
@@ -74,7 +67,6 @@ public class BasicRendererFactory implements RendererFactory {
      * Sets the default renderer.
      *
      * @param renderer The default renderer.
-     * @since 3.0.0
      */
     public void setDefaultRenderer(Renderer renderer) {
         this.defaultRenderer = renderer;
@@ -85,7 +77,6 @@ public class BasicRendererFactory implements RendererFactory {
      *
      * @param name The name of the renderer.
      * @param renderer The renderer to register.
-     * @since 3.0.0
      */
     public void registerRenderer(String name, Renderer renderer) {
         renderers.put(name, renderer);

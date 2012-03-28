@@ -32,7 +32,6 @@ import org.junit.Test;
  * Tests PostfixedApplicationResource.
  *
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public class PostfixedApplicationResourceTest {
 

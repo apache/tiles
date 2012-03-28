@@ -35,7 +35,6 @@ package org.apache.tiles.request.render;
  * </p>
  *
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public interface RendererFactory {
 
@@ -44,7 +43,6 @@ public interface RendererFactory {
      *
      * @param name The name of the renderer.
      * @return The renderer.
-     * @since 3.0.0
      */
     Renderer getRenderer(String name);
 }

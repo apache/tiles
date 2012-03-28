@@ -26,14 +26,11 @@ import org.apache.tiles.request.RequestException;
  * Indicates that a method cannot be accessed.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
  */
 public class CannotAccessMethodException extends RequestException {
 
     /**
      * Constructor.
-     *
-     * @since 2.1.0
      */
     public CannotAccessMethodException() {
     }
@@ -42,7 +39,6 @@ public class CannotAccessMethodException extends RequestException {
      * Constructor.
      *
      * @param message The detail message.
-     * @since 2.1.0
      */
     public CannotAccessMethodException(String message) {
         super(message);
@@ -52,7 +48,6 @@ public class CannotAccessMethodException extends RequestException {
      * Constructor.
      *
      * @param e The exception to be wrapped.
-     * @since 2.1.0
      */
     public CannotAccessMethodException(Throwable e) {
         super(e);
@@ -63,7 +58,6 @@ public class CannotAccessMethodException extends RequestException {
      *
      * @param message The detail message.
      * @param e The exception to be wrapped.
-     * @since 2.1.0
      */
     public CannotAccessMethodException(String message, Throwable e) {
         super(message, e);

@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
  * Adapts a {@link JspWriter} to a {@link PrintWriter}, swallowing {@link IOException}.
  *
  * @version $Rev$ $Date$
- * @since 2.1.2
  */
 public class JspPrintWriterAdapter extends PrintWriter {
 
@@ -50,7 +49,6 @@ public class JspPrintWriterAdapter extends PrintWriter {
      * Constructor.
      *
      * @param writer The JSP writer.
-     * @since 2.1.2
      */
     public JspPrintWriterAdapter(JspWriter writer) {
         super(writer);
@@ -61,7 +59,6 @@ public class JspPrintWriterAdapter extends PrintWriter {
      * Returns the original JSP writer.
      *
      * @return The JSP writer.
-     * @since 2.1.2
      */
     public JspWriter getJspWriter() {
         return writer;

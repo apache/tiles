@@ -50,7 +50,6 @@ public class ReadOnlyEnumerationMap<V> implements Map<String, V> {
      * Constructor.
      *
      * @param request The request object to use.
-     * @since 2.2.0
      */
     public ReadOnlyEnumerationMap(HasKeys<V> request) {
         this.request = request;

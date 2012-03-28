@@ -31,7 +31,6 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Utilities for Velocity usage in Tiles.
  *
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public final class VelocityUtil {
 
@@ -48,7 +47,6 @@ public final class VelocityUtil {
      * @param context The Velocity context.
      * @param node The node to use.
      * @return The extracted parameters.
-     * @since 3.0.0
      */
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getParameters(InternalContextAdapter context,
@@ -66,7 +64,6 @@ public final class VelocityUtil {
      * @param value The value to return, if it is not null.
      * @param defaultValue The value to return, if <code>value</code> is null.
      * @return The value, defaulted if necessary.
-     * @since 3.0.0
      */
     public static Object getObject(Object value, Object defaultValue) {
         if (value == null) {

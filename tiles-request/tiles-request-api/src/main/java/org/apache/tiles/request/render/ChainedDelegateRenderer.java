@@ -31,7 +31,6 @@ import org.apache.tiles.request.Request;
  * other renderers.
  *
  * @version $Rev$ $Date$
- * @since 2.2.1
  */
 public class ChainedDelegateRenderer implements Renderer {
 
@@ -42,8 +41,6 @@ public class ChainedDelegateRenderer implements Renderer {
 
     /**
      * Constructor.
-     *
-     * @since 2.2.1
      */
     public ChainedDelegateRenderer() {
         renderers = new ArrayList<Renderer>();

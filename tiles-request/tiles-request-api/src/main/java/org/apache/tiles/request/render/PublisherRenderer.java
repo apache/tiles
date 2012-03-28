@@ -31,7 +31,6 @@ import org.apache.tiles.request.Request;
  * Provides a Publisher-Subscriber implementation around the provided renderer to delegate to.
  *
  * @version $Rev: 1035784 $ $Date: 2010-11-16 20:24:12 +0000 (Tue, 16 Nov 2010) $
- * @since 3.0.0
  */
 public class PublisherRenderer implements Renderer {
 

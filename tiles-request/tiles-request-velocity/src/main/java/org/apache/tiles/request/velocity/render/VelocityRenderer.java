@@ -40,7 +40,6 @@ import org.apache.velocity.tools.view.VelocityView;
  * all the parameters that you want to set, and then call {@link #commit()}.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class VelocityRenderer implements Renderer {
 

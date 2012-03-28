@@ -26,14 +26,12 @@ import java.util.Locale;
  * Utilities for locale manipulation.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
  */
 public final class LocaleUtil {
 
     /**
      * The "null" Locale, i.e. a Locale that points to no real locale.
      *
-     * @since 2.1.0
      * @deprecated use Locale.ROOT instead.
      */
     @Deprecated

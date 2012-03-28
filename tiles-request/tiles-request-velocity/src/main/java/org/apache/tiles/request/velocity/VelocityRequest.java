@@ -45,7 +45,6 @@ import org.apache.velocity.context.Context;
  * The implementation of the Tiles request context specific for Velocity.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class VelocityRequest extends AbstractViewRequest {
 
@@ -95,7 +94,6 @@ public class VelocityRequest extends AbstractViewRequest {
      * @param enclosedRequest The request that exposes non-Velocity specific properties
      * @param ctx The Velocity current context.
      * @param writer The writer to use to render the response. It may be null, if not necessary.
-     * @since 2.2.0
      */
     public VelocityRequest(
             DispatchRequest enclosedRequest, Context ctx, Writer writer) {

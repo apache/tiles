@@ -137,7 +137,6 @@ public class PortletRequest extends AbstractClientRequest {
      * @param response The response object to use.
      * @param requestDelegate The request delegate.
      * @param responseDelegate The response delegate.
-     * @since 2.1.1
      */
     public PortletRequest(ApplicationContext applicationContext,
             PortletContext context, javax.portlet.PortletRequest request,

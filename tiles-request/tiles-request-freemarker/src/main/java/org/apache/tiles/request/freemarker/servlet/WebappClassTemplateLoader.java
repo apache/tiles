@@ -36,7 +36,6 @@ import freemarker.cache.WebappTemplateLoader;
  * webapp root and from the classpath root.
  *
  * @version $Rev$ $Date$
- * @since 2.2.1
  */
 public class WebappClassTemplateLoader implements TemplateLoader {
 

@@ -28,7 +28,6 @@ import java.util.Map;
 /**
  * Delegate for ease of customization.
  *
- * @since Tiles 2.1.1
  * @version $Rev: 933750 $ $Date: 2010-04-13 21:16:06 +0200 (Tue, 13 Apr 2010) $
  */
 public class ApplicationContextWrapper implements ApplicationContext {

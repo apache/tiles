@@ -29,7 +29,6 @@ import freemarker.template.utility.DeepUnwrap;
  * Utilities for FreeMarker usage in Tiles.
  *
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public final class FreemarkerUtil {
 
@@ -46,7 +45,6 @@ public final class FreemarkerUtil {
      * @param defaultValue The default value, as specified in the template
      * model, or null if not specified.
      * @return The unwrapped object.
-     * @since 3.0.0
      */
     public static Object getAsObject(TemplateModel model, Object defaultValue) {
         try {

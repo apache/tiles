@@ -35,7 +35,6 @@ import org.apache.tiles.request.Request;
  * Utilities for Tiles request servlet support.
  *
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public final class ServletUtil {
 
@@ -51,7 +50,6 @@ public final class ServletUtil {
      * @param ex The exception to wrap.
      * @param message The message of the exception.
      * @return The wrapped exception.
-     * @since 2.1.1
      */
     public static IOException wrapServletException(ServletException ex,
             String message) {
@@ -88,7 +86,6 @@ public final class ServletUtil {
      * @return The servlet-based request context.
      * @throws NotAServletEnvironmentException If a servlet-based request
      * context could not be found.
-     * @since 2.2.0
      */
     public static ServletRequest getServletRequest(Request request) {
         Request currentRequest = request;
@@ -114,7 +111,6 @@ public final class ServletUtil {
      * @return The servlet context.
      * @throws NotAServletEnvironmentException If the application context is not
      * servlet-based.
-     * @since 2.2.0
      */
     public static ServletContext getServletContext(ApplicationContext applicationContext) {
         if (applicationContext instanceof ServletApplicationContext) {

@@ -35,7 +35,6 @@ import org.apache.tiles.request.ApplicationContext;
  * set through {@link FreemarkerRenderer#setParameter(String, String)}.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class InitParamsServletConfig implements ServletConfig {
 
@@ -46,8 +45,6 @@ public class InitParamsServletConfig implements ServletConfig {
 
     /**
      * The application context.
-     *
-     * @since 3.0.0
      */
     private ApplicationContext applicationContext;
 

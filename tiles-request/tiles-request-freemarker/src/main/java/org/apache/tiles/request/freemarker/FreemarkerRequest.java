@@ -43,7 +43,6 @@ import freemarker.ext.servlet.HttpRequestHashModel;
  * The FreeMarker-specific request context.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class FreemarkerRequest extends AbstractViewRequest {
 
@@ -98,7 +97,6 @@ public class FreemarkerRequest extends AbstractViewRequest {
      * Returns the environment object.
      *
      * @return The environment.
-     * @since 3.0.0
      */
     public Environment getEnvironment() {
         return env;

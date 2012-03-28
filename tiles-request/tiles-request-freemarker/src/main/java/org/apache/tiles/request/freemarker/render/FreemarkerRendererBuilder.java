@@ -42,8 +42,6 @@ public final class FreemarkerRendererBuilder {
 
     /**
      * The application context.
-     *
-     * @since 3.0.0
      */
     private ApplicationContext applicationContext;
 

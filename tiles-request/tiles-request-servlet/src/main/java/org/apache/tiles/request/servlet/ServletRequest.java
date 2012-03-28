@@ -125,7 +125,6 @@ public class ServletRequest extends AbstractClientRequest {
      * @param applicationContext The application context.
      * @param request The request object.
      * @param response The response object.
-     * @since 2.1.1
      */
     public ServletRequest(
             ApplicationContext applicationContext,

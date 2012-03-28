@@ -30,7 +30,6 @@ import java.util.Locale;
  * Typically this is a file inside the web application's war.
  * 
  * @version $Rev$ $Date$
- * @since 3.0.0
  */
 public interface ApplicationResource {
 

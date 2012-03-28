@@ -30,7 +30,6 @@ public abstract class AbstractRequest implements DispatchRequest {
     /**
      * Name of the attribute used to store the force-include option.
      *
-     * @since 2.0.6
      */
     public static final String FORCE_INCLUDE_ATTRIBUTE_NAME = AbstractRequest.class
             .getName() + ".FORCE_INCLUDE";

@@ -26,7 +26,6 @@ import java.io.IOException;
 /**
  * Encapsulation of request information.
  *
- * @since 2.0
  * @version $Rev$ $Date$
  */
 public interface DispatchRequest extends Request {
@@ -52,7 +51,6 @@ public interface DispatchRequest extends Request {
      *
      * @param contentType The content type. It should follow the specifications
      * from W3C about content types.
-     * @since 2.2.0
      */
     void setContentType(String contentType);
 }

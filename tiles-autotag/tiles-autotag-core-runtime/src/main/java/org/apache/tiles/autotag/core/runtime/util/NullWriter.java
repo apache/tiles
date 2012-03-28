@@ -27,7 +27,6 @@ import java.io.Writer;
  * A writer that does not write anything.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class NullWriter extends Writer {
 

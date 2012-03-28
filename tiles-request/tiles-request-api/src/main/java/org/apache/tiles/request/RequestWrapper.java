@@ -24,7 +24,6 @@ package org.apache.tiles.request;
 /**
  * Delegate for ease of customization.
  *
- * @since Tiles 2.0
  * @version $Rev: 1215002 $ $Date: 2011-12-16 01:27:17 +0100 (Fri, 16 Dec 2011) $
  */
 public interface RequestWrapper extends Request {
@@ -33,7 +32,6 @@ public interface RequestWrapper extends Request {
      * Returns the wrapped Tiles request.
      *
      * @return The wrapped Tiles request.
-     * @since 2.1.1
      */
     Request getWrappedRequest();
 

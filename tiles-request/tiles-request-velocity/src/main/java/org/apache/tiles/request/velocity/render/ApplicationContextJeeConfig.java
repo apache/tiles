@@ -36,7 +36,6 @@ import org.apache.velocity.tools.view.JeeConfig;
  * {@link VelocityRenderer#setParameter(String, String)}.
  *
  * @version $Rev$ $Date$
- * @since 2.2.0
  */
 public class ApplicationContextJeeConfig implements JeeConfig {
 

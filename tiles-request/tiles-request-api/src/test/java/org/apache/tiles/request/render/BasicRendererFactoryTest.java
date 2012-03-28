@@ -31,7 +31,6 @@ import org.junit.Test;
  * Basic renderer factory implementation.
  *
  * @version $Rev$ $Date$
- * @since 2.1.0
  */
 public class BasicRendererFactoryTest {
 

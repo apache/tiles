@@ -34,7 +34,6 @@ import org.apache.tiles.request.attribute.Addable;
 /**
  * Encapsulation of request information.
  *
- * @since 2.0
  * @version $Rev$ $Date$
  */
 public interface Request {
@@ -92,7 +91,6 @@ public interface Request {
      * Returns the associated application context.
      *
      * @return The application context associated to this request.
-     * @since 2.1.1
      */
     ApplicationContext getApplicationContext();
 
@@ -101,7 +99,6 @@ public interface Request {
      *
      * @return The output stream that writes in the response.
      * @throws IOException If something goes wrong when getting the output stream.
-     * @since 2.1.2
      */
     OutputStream getOutputStream() throws IOException;
 
@@ -110,7 +107,6 @@ public interface Request {
      *
      * @return The writer that writes in the response.
      * @throws IOException If something goes wrong when getting the writer.
-     * @since 2.1.2
      */
     Writer getWriter() throws IOException;
 
@@ -120,7 +116,6 @@ public interface Request {
      * @return The print writer that writes in the response.
      * @throws IOException If something goes wrong when getting the print
      * writer.
-     * @since 2.1.2
      */
     PrintWriter getPrintWriter() throws IOException;
 
@@ -128,7 +123,6 @@ public interface Request {
      * Checks if the response has been committed.
      *
      * @return <code>true</code> only if the response has been committed.
-     * @since 2.2.0
      */
     boolean isResponseCommitted();
 
