@@ -149,7 +149,7 @@ mvn release:perform
 
 * Close the staging repository
 
-  Login to {{{https://repository.apache.org using} Nexus repository}} your Apache LDAP credentials.
+  Login to {{{https://repository.apache.org} Nexus repository}} using your Apache LDAP credentials.
   Click on "Staging". Then click on "tiles" in the list of repositories.
   In the panel below you should see an open repository that is linked to your username and ip.
   Right click on this repository and select "Close".

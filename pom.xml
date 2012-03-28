@@ -182,7 +182,7 @@
 
     <properties>
         <tiles.osgi.symbolicName>org.apache.${artifactId}</tiles.osgi.symbolicName>
-        <tiles.osgi.export>org.apache.tiles.*;version=${pom.version}</tiles.osgi.export>
+        <tiles.osgi.export>org.apache.tiles.*;version=${project.version}</tiles.osgi.export>
         <tiles.osgi.import>*</tiles.osgi.import>
         <tiles.osgi.dynamicImport />
         <tiles.osgi.private />

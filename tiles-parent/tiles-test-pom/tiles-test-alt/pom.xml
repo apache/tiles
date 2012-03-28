@@ -56,7 +56,7 @@
     <dependency>
        <groupId>${pom.groupId}</groupId>
        <artifactId>tiles-test-common</artifactId>
-       <version>${pom.version}</version>
+       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>

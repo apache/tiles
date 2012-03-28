@@ -101,6 +101,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
+                    <version>2.3.7</version>
                     <inherited>true</inherited>
                 </plugin>
             </plugins>
@@ -154,7 +155,7 @@
 
     <properties>
         <tiles.osgi.symbolicName>org.apache.${artifactId}</tiles.osgi.symbolicName>
-        <tiles.osgi.export>org.apache.tiles.*;version=${pom.version}</tiles.osgi.export>
+        <tiles.osgi.export>org.apache.tiles.*;version=${project.version}</tiles.osgi.export>
         <tiles.osgi.import>*</tiles.osgi.import>
         <tiles.osgi.dynamicImport />
         <tiles.osgi.private />
@@ -163,22 +164,6 @@
     </properties>
 
     <dependencies />
-    <reporting>
-        <plugins>
-            <plugin>
-                <artifactId>maven-linkcheck-plugin</artifactId>
-                <version>1.1</version>
-                <configuration>
-                    <excludedLinks>
-                        <excludedLink>**/index.html</excludedLink>
-                        <excludedLink>**/logo.png</excludedLink>
-                        <excludedLink>**/tiles-jsp/tagreference.html</excludedLink>
-                    </excludedLinks>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
-
 
     <profiles>
         <profile>
@@ -219,6 +204,25 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>linkcheck</id>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-linkcheck-plugin</artifactId>
+                        <version>1.1</version>
+                        <configuration>
+                            <excludedLinks>
+                                <excludedLink>**/index.html</excludedLink>
+                                <excludedLink>**/logo.png</excludedLink>
+                                <excludedLink>**/tiles-jsp/tagreference.html</excludedLink>
+                            </excludedLinks>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+
     </profiles>
 
 </project>

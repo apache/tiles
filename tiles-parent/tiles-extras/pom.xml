@@ -64,7 +64,7 @@
     <dependency>
       <groupId>${pom.groupId}</groupId>
       <artifactId>tiles-core</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
@@ -74,37 +74,37 @@
     <dependency>
       <groupId>${pom.groupId}</groupId>
       <artifactId>tiles-jsp</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
       <artifactId>tiles-freemarker</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
       <artifactId>tiles-velocity</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
       <artifactId>tiles-el</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
       <artifactId>tiles-mvel</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
       <artifactId>tiles-ognl</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
       <artifactId>tiles-compat</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>

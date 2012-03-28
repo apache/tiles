@@ -88,13 +88,13 @@
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-core</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-jsp</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>

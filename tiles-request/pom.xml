@@ -70,21 +70,6 @@ under the License.
             <url>scp://people.apache.org/www/tiles.apache.org/tiles-request</url>
         </site>
     </distributionManagement>
-    <reporting>
-        <plugins>
-            <plugin>
-                <artifactId>maven-linkcheck-plugin</artifactId>
-                <version>1.1</version>
-                <configuration>
-                    <excludedLinks>
-                        <excludedLink>**/index.html</excludedLink>
-                        <excludedLink>**/logo.png</excludedLink>
-                    </excludedLinks>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
-
 
     <profiles>
         <profile>
@@ -124,6 +109,24 @@ under the License.
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>linkcheck</id>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-linkcheck-plugin</artifactId>
+                        <version>1.1</version>
+                        <configuration>
+                            <excludedLinks>
+                                <excludedLink>**/index.html</excludedLink>
+                                <excludedLink>**/logo.png</excludedLink>
+                            </excludedLinks>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
+
         </profile>
     </profiles>
 

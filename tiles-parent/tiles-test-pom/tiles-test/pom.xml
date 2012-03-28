@@ -40,22 +40,22 @@
       <dependency>
          <groupId>${pom.groupId}</groupId>
          <artifactId>tiles-test-common</artifactId>
-         <version>${pom.version}</version>
+         <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>${pom.groupId}</groupId>
          <artifactId>tiles-test-alt</artifactId>
-         <version>${pom.version}</version>
+         <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>${pom.groupId}</groupId>
          <artifactId>tiles-test-db</artifactId>
-         <version>${pom.version}</version>
+         <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>${pom.groupId}</groupId>
          <artifactId>tiles-extras</artifactId>
-         <version>${pom.version}</version>
+         <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>${pom.groupId}</groupId>
@@ -421,9 +421,9 @@
                                     <goal>upload</goal>
                                 </goals>
                                 <configuration>
-                                    <fromDir>${settings.localRepository}/org/apache/tiles/tiles-test/${pom.version}</fromDir>
-                                    <includes>tiles-test-${pom.version}.war*</includes>
-                                    <toDir>${pom.version}</toDir>
+                                    <fromDir>${settings.localRepository}/org/apache/tiles/tiles-test/${project.version}</fromDir>
+                                    <includes>tiles-test-${project.version}.war*</includes>
+                                    <toDir>${project.version}</toDir>
                                     <serverId>tiles.build</serverId>
                                     <url>scp://people.apache.org/www/people.apache.org/builds/tiles</url>
                                 </configuration>

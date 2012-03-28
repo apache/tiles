@@ -108,10 +108,10 @@
                     <mkdir dir="${project.build.directory}/assemblies" />
                     <echo message="Here I am!" />
                     <copy todir="${project.build.directory}/assemblies">
-                      <fileset dir="${settings.localRepository}/org/apache/tiles/tiles-assembly/${pom.version}">
-                        <include name="tiles-assembly-${pom.version}-*.zip*" />
-                        <include name="tiles-assembly-${pom.version}-*.tar.gz*" />
-                        <exclude name="tiles-assembly-${pom.version}-source-release.*"/>
+                      <fileset dir="${settings.localRepository}/org/apache/tiles/tiles-assembly/${project.version}">
+                        <include name="tiles-assembly-${project.version}-*.zip*" />
+                        <include name="tiles-assembly-${project.version}-*.tar.gz*" />
+                        <exclude name="tiles-assembly-${project.version}-source-release.*"/>
                       </fileset>
                       <mapper type="glob" from="tiles-assembly-*" to="tiles-*"/>
                     </copy>
@@ -132,7 +132,7 @@
                 <configuration>
                   <fromDir>${project.build.directory}/assemblies</fromDir>
                   <includes>**</includes>
-                  <toDir>${pom.version}</toDir>
+                  <toDir>${project.version}</toDir>
                   <serverId>tiles.build</serverId>
                   <url>scp://people.apache.org/www/people.apache.org/builds/tiles</url>
                 </configuration>
@@ -150,44 +150,44 @@
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-api</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-core</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-servlet</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-jsp</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-compat</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-test</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
       <type>war</type>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-extras</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
 

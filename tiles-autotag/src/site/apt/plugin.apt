@@ -23,7 +23,7 @@
          
 Building a tag library for Freemarker, JSP or Velocity
 
-  Once you have {{{taglib.html}created a generic tag library}},
+  Once you have {{{./taglib.html}created a generic tag library}},
   Autotag will automatically generate the corresponding library
   for Freemarker, JSP, or Velocity. You just create a maven project 
   and include in <<<pom.xml>>>:
