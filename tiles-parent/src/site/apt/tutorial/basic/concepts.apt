@@ -26,9 +26,9 @@ Tiles concepts
   Tiles is an implementation of the {{{../pattern.html}Composite View pattern}}.
   Tiles adds to this pattern its own concepts to make the pattern concrete. The
   implementation of Tiles around the <Composite View> pattern consists of the
-  {{{concepts.html#Template}Template}}, {{{concepts.html#Attribute}Attribute}}
-  and {{{concepts.html#Definition}Definition}} concepts. The <View Helper>
-  pattern is implemented by the {{{concepts.html#View Preparer}View Preparer}}
+  {{{./concepts.html#Template}Template}}, {{{./concepts.html#Attribute}Attribute}}
+  and {{{./concepts.html#Definition}Definition}} concepts. The <View Helper>
+  pattern is implemented by the {{{./concepts.html#View Preparer}View Preparer}}
   concept. 
 
 * {Template}
@@ -98,7 +98,7 @@ page.
   []
   
   For example, you can create a page using the <classic layout> as seen before,
-  by modifying the {{{pages.html}Tiles configuration file}}.
+  by modifying the {{{./pages.html}Tiles configuration file}}.
   
 ------------------------------------
 <definition name="myapp.homepage" template="/layouts/classic.jsp">

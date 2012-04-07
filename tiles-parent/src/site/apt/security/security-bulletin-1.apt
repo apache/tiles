@@ -39,7 +39,7 @@ Security bulletin 1
 *-------------------------+-----------+
 | Affected Software       | Tiles 2.1.0/2.1.1 (Tiles 2.0.x versions are safe) |
 *-------------------------+-----------+
-| Original JIRA Ticket    | {{{https://issues.apache.org/struts/browse/TILES-351}TILES-351}}       |
+| Original JIRA Ticket    | {{{https://issues.apache.org/jira/browse/TILES-351}TILES-351}}       |
 *-------------------------+-----------+
 | Reporter                | Antonio Petrelli (Tiles PMC member) |
 *-------------------------+-----------+

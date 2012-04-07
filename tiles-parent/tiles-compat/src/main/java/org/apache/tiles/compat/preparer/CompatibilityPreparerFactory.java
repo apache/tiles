@@ -21,8 +21,8 @@
 
 package org.apache.tiles.compat.preparer;
 
-import org.apache.tiles.preparer.BasicPreparerFactory;
 import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.preparer.factory.BasicPreparerFactory;
 
 /**
  * Factory used to instantiate preparers in a Struts 1 / Tiles 2 environment.

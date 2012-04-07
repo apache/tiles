@@ -18,48 +18,36 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.preparer;
+package org.apache.tiles.preparer.factory;
+
+import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.request.Request;
 
 /**
- * Thrown when the named preparerInstance can not be found.
+ * <p>
+ * Factory interface used to create/retrieve instances of
+ * the {@link ViewPreparer} interface.
+ * <p/>
+ *
+ * <p>
+ * This factory provides an extension point into the default
+ * tiles implementation. Implementors wishing to provide
+ * per request initialization of the ViewPreparer (for instance)
+ * may provide a custom prerparer.
+ * </p>
  *
  * @since 2.0
+ *
  * @version $Rev$ $Date$
  */
-public class NoSuchPreparerException extends PreparerException {
+public interface PreparerFactory {
 
     /**
-     * Constructor.
-     */
-    public NoSuchPreparerException() {
-        super();
-    }
-
-    /**
-     * Constructor.
+     * Create the named {link ViewPreparer} for the specified context.
      *
-     * @param message The message to include.
+     * @param name    ViewPreparer name, commonly the qualified classname.
+     * @param context the context within which the preparerInstance will be invoked.
+     * @return instance of the ViewPreparer
      */
-    public NoSuchPreparerException(String message) {
-        super(message);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param e The cause exception.
-     */
-    public NoSuchPreparerException(Throwable e) {
-        super(e);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param message The message to include.
-     * @param e The cause exception.
-     */
-    public NoSuchPreparerException(String message, Throwable e) {
-        super(message, e);
-    }
+    ViewPreparer getPreparer(String name, Request context);
 }

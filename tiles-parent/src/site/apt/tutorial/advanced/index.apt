@@ -27,24 +27,24 @@ Tiles Advanced Topics
   do more complicated tasks, like composing pages one inside another, localize
   your pages, etc.
 
-  [[1]] {{{nesting-extending.html}Nesting and Extending Definitions}}
+  [[1]] {{{./nesting-extending.html}Nesting and Extending Definitions}}
 
-  [[2]] {{{list-attributes.html}List Attributes}}
+  [[2]] {{{./list-attributes.html}List Attributes}}
 
-  [[3]] {{{runtime.html}Runtime Composition}}
+  [[3]] {{{./runtime.html}Runtime Composition}}
 
-  [[4]] {{{preparer.html}View Preparers}}
+  [[4]] {{{./preparer.html}View Preparers}}
 
-  [[5]] {{{utils.html}Rendering Utilities}}
+  [[5]] {{{./utils.html}Rendering Utilities}}
 
-  [[6]] {{{l10n.html}Tiles Localization}}
+  [[6]] {{{./l10n.html}Tiles Localization}}
 
-  [[7]] {{{wildcard.html}Wildcard support}}
+  [[7]] {{{./wildcard.html}Wildcard support}}
 
-  [[8]] {{{el-support.html}EL support}}
+  [[8]] {{{./el-support.html}EL support}}
 
-  [[9]] {{{attribute-rendering.html}Attribute rendering}}
+  [[9]] {{{./attribute-rendering.html}Attribute rendering}}
 
-  [[10]] {{{multiple-containers.html}Using multiple containers}}
+  [[10]] {{{./multiple-containers.html}Using multiple containers}}
 
-  [[11]] {{{security.html}Security}}
+  [[11]] {{{./security.html}Security}}

@@ -67,7 +67,7 @@ page.
   Tiles is a composite view framework: it allows to reuse page pieces across
   the application. But another approach to achieve the same result is using the
   <<Decorator pattern>>. For example,
-  {{{http://www.opensymphony.com/sitemesh/}Sitemesh}} is based on the Decorator
+  {{{http://www.sitemesh.org/}Sitemesh}} is based on the Decorator
   pattern.
   
   Instead of creating a template and organizing the pieces together, the

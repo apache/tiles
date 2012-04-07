@@ -39,8 +39,8 @@ Runtime Composition in JSP pages
   attributes can be put using <<<\<tiles:putAttribute\>>>> and related tags.
 
   Notice that you have all the features present in XML definition files, such as
-  {{{nesting-extending.html#Anonymous_nested_definitions}anonymous nested definitions}}
-  and {{{nesting-extending.html#Cascaded_attributes}cascade attributes}}.
+  {{{./nesting-extending.html#Anonymous_nested_definitions}anonymous nested definitions}}
+  and {{{./nesting-extending.html#Cascaded_attributes}cascade attributes}}.
 
 -----------------------------------
 <tiles:insertTemplate template="/layouts/classic.jsp">
@@ -75,7 +75,7 @@ Runtime Composition in JSP pages
 
   To create definitions at runtime, first of all you need to configure your
   Tiles-based application to use a
-  {{{../../config-reference.html#org.apache.tiles.factory.TilesContainerFactory.MUTABLE}mutable container}}.
+  {{{../../config-reference.html#Feature-Complete_configuration}mutable container}}.
 
   In your JSP page, now you can create definitions. This definition will be
   available during the request, and then it will expire.
@@ -102,45 +102,18 @@ Runtime Composition using APIs
 -------------------------------------
 TilesContainer container = TilesAccess.getContainer(
         request.getSession().getServletContext());
+Request tilesRequest = new ServletRequest(container.getApplicationContext(), request, response);
+container.render("myapp.homepage", tilesRequest);
 -------------------------------------
 
-  If you want to render a template including the values of its attributes, you
-  can use an <<<AttributeContext>>>: this object stores the current values of
-  all the configured attributes.
-
---------------------------------------
-AttributeContext attributeContext = container.getAttributeContext(request,
-        response);
---------------------------------------
-
-  You can create (push) and destroy (pop) a temporary attribute context during
-  your execution, by using the <<startContext>> and <<endContext>> methods of
-  the Tiles container:
-
---------------------------------------
-AttributeContext attributeContext = container.startContext(request, response);
-attributeContext.setAttribute("body", "/tiles/body_customer.jsp");
-container.render("myapp.homepage", request, response);
-container.endContext(request, response);
---------------------------------------
-
-  You can forward/include a template page: if there is an attribute context that
-  contains all of its attributes filled, it will be rendered correctly.
-
---------------------------------------
-AttributeContext attributeContext = container.startContext(request, response);
-attributeContext.setAttribute("body", "/tiles/body_customer.jsp");
-// Put all the other attributes.
-RequestDispatcher rd = request.getRequestDispatcher("/layouts/my_template.jsp");
-rd.forward(request, response);
-container.endContext(request, response);
---------------------------------------
+  <<Warning!>> The direct use of <<<AttributeContext>>> is deprecated. The same purpose can be
+  achieved easier and in a more maintainable way using {{{./el-support.html}Expression Languages}}
 
 * Creating Definitions
 
   To create definitions at runtime, first of all you need to configure your
   Tiles-based application to use a
-  {{{../../config-reference.html#org.apache.tiles.factory.TilesContainerFactory.MUTABLE}mutable container}}.
+  {{{../../config-reference.html#Feature-Complete_configuration}mutable container}}.
 
   This is a snippet to show how to create a definition.
 

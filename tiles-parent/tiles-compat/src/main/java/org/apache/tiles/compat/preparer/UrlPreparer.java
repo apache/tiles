@@ -31,7 +31,7 @@ import org.apache.tiles.request.DispatchRequest;
 
 /**
  * Uses a URL that acts as a preparer. When
- * {@link org.apache.tiles.preparer.ViewPreparer#execute(Request, AttributeContext)}
+ * {@link org.apache.tiles.preparer.factory.factory.ViewPreparer#execute(Request, AttributeContext)}
  * is called, the URL is got, but its response is discarded.
  *
  * @version $Rev$ $Date$

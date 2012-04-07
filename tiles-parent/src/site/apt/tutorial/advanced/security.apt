@@ -49,7 +49,7 @@ Security
 
 ---------------------------------
 <tiles:definition name="test.definition"
-    template="/layout/my-template.jsp" "role="myrole">
+    template="/layout/my-template.jsp" role="myrole">
     ...
 </tiles:definition>
 ---------------------------------
@@ -73,7 +73,7 @@ Security
 <tiles:insertAttribute name="header" role="myrole" />
 ---------------------------------
 
-  * in JSP pages, when putting attributes:ù
+  * in JSP pages, when putting attributes:
 
 ---------------------------------
 <tiles:putAttribute name="header" value="/header.jsp" role="myrole" />

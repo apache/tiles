@@ -20,33 +20,52 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.request.Request;
+import org.apache.tiles.TilesException;
+
 
 /**
  * <p>
- * Factory interface used to create/retrieve instances of
- * the {@link ViewPreparer} interface.
- * <p/>
- *
- * <p>
- * This factory provides an extension point into the default
- * tiles implementation. Implementors wishing to provide
- * per request initialization of the ViewPreparer (for instance)
- * may provide a custom prerparer.
+ * Thrown when an exception occurs while processing
+ * a prepare request.
  * </p>
  *
- * @since 2.0
- *
+ * @since Tiles 2.0
  * @version $Rev$ $Date$
  */
-public interface PreparerFactory {
+public class PreparerException extends TilesException {
 
     /**
-     * Create the named {link ViewPreparer} for the specified context.
-     *
-     * @param name    ViewPreparer name, commonly the qualified classname.
-     * @param context the context within which the preparerInstance will be invoked.
-     * @return instance of the ViewPreparer
+     * Constructor.
      */
-    ViewPreparer getPreparer(String name, Request context);
+    public PreparerException() {
+        super();
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param e The cause exception.
+     */
+    public PreparerException(Throwable e) {
+        super(e);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param message The message to include.
+     */
+    public PreparerException(String message) {
+        super(message);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param message The message to include.
+     * @param e The cause exception.
+     */
+    public PreparerException(String message, Throwable e) {
+        super(message, e);
+    }
 }

@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package org.apache.tiles.preparer;
+package org.apache.tiles.preparer.factory;
 
 import static org.junit.Assert.*;
 

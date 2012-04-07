@@ -31,10 +31,12 @@ import org.apache.tiles.web.util.ServletContextAdapter;
  * Abstract Initialization Servlet. Uses a {@link TilesInitializer}, created by
  * {@link #createTilesInitializer()} to initialize Tiles.
  *
+ * @deprecated use {@link AbstractTilesListener} instead.
  * @see org.apache.tiles.web.startup.TilesListener
  * @version $Rev$ $Date$
  * @since 2.2.0
  */
+@Deprecated
 public abstract class AbstractTilesInitializerServlet extends HttpServlet {
 
     /**

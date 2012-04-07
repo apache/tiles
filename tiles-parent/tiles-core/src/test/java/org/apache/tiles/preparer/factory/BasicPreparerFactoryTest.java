@@ -18,9 +18,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.preparer;
+package org.apache.tiles.preparer.factory;
 
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.request.Request;
 
 import junit.framework.TestCase;

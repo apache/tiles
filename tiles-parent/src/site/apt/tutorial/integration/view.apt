@@ -26,6 +26,6 @@ Integration with other View Technologies
   Currently Apache Tiles\u0099 is not only integrated with JavaServer Pages, but it can be used
   with:
 
-  * {{{freemarker.html}FreeMarker}}.
+  * {{{./freemarker.html}FreeMarker}}.
 
-  * {{{velocity.html}Velocity}}.
+  * {{{./velocity.html}Velocity}}.

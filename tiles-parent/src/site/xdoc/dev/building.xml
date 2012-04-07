@@ -43,43 +43,25 @@
           <subsection name="Building main packages">
             <p>To build Tiles from source you need to:</p>
             <ul>
-            <li><p><a href="../download.html">download</a> the source
+            <li><p><a href="/download.html">download</a> the source
             distribution, or checkout the latest version:</p>
-            <p><source>svn co http://svn.apache.org/repos/asf/tiles/framework/trunk/</source></p></li>
+            <p><source>svn co http://svn.apache.org/repos/asf/tiles/framework/trunk/tiles-parent</source></p></li>
             <li><p>go into the source directory and type:</p>
             <p><source>mvn package</source></p></li>
             </ul>
             <p>You will find the generated JARs under:</p>
             <ul>
-            <li>{tiles-dir}/tiles-api/target/tiles-api-${version}.jar</li>
-            <li>{tiles-dir}/tiles-core/target/tiles-core-${version}.jar</li>
-            <li>{tiles-dir}/tiles-jsp/target/tiles-jsp-${version}.jar</li>
+            <li>{tiles-dir}/tiles-{module}/target/tiles-{module}-${version}.jar</li>
             </ul>
           </subsection>
           <subsection name="Building Tiles Test webapp">
             <p>See <a href="../selenium.html">Selenium testing with Tiles Test
             webapp</a>.</p>
           </subsection>
-          <subsection name="Building Tiles Showcase">
-            <p>To build Tiles Showcase from source you need to:</p>
-            <ul>
-            <li><p><a href="../download.html">download</a> the source
-            distribution, or checkout the latest version:</p>
-            <p><source>svn co http://svn.apache.org/repos/asf/tiles/examples/trunk/tiles-showcase/</source></p></li>
-            <li><p>go into the source directory and type:</p>
-            <p><source>mvn package</source></p></li>
-            </ul>
-            <p>You will find the generated JARs under
-            <code>{tiles-showcase-dir}/target/tiles-showcase-${version}.jar</code>.</p>
-            <p>You can also see the showcase in action by using the Cargo plugin:</p>
-            <source>mvn package cargo:start</source>
-            <p>or</p>
-            <source>mvn package cargo:start -Dcargo.tomcat5x.home=/path/to/tomcat5</source>
-          </subsection>
           <subsection name="Building distributions">
             <p>To build distributions, you need to:</p>
             <ul>
-            <li><p><a href="../download.html">download</a> the source
+            <li><p><a href="/download.html">download</a> the source
             distribution, or checkout the latest version:</p>
             <p><source>svn co http://svn.apache.org/repos/asf/tiles/framework/trunk/</source></p></li>
             <li><p>go into the source directory and type:</p>
@@ -93,8 +75,8 @@
           </subsection>
         </section>
         <section name="Building Tiles websites">
-          <p>There are two Tiles websites: the main website and the framework
-          website.</p>
+          <p>There are four Tiles websites: the main website and the projects
+          websitesi (tiles-request, tiles-autotag, framework).</p>
           <subsection name="Building main website">
             <p>To build the main website:</p>
             <ul>
@@ -106,21 +88,18 @@
             <p>You will find the generated distribution under
             <code>{tiles-site-dir}/target/site</code>.</p>
           </subsection>
-          <subsection name="Building framework website">
+          <subsection name="Building a project's website">
             <p>To build the framework website:</p>
             <ul>
-            <li><p><a href="../download.html">download</a> the source
+            <li><p><a href="/download.html">download</a> the source
             distribution, or checkout the latest version:</p>
-            <p><source>svn co http://svn.apache.org/repos/asf/tiles/framework/trunk/</source></p></li>
+            <p><source>svn co http://svn.apache.org/repos/asf/tiles/framework/trunk/tiles-parent/</source></p></li>
             <li><p>go into the source directory and type:</p>
-            <p><source>mvn site</source></p></li>
+            <p><source>mvn site site:stage</source></p></li>
             </ul>
-            <p>You will find the generated websites under:</p>
+            <p>You will find the generated website under:</p>
             <ul>
-            <li>{tiles-dir}/target/site</li>
-            <li>{tiles-dir}/tiles-api/target/site</li>
-            <li>{tiles-dir}/tiles-core/target/site</li>
-            <li>{tiles-dir}/tiles-jsp/target/site</li>
+            <li>{tiles-dir}/target/staging</li>
             </ul>
           </subsection>
         </section>

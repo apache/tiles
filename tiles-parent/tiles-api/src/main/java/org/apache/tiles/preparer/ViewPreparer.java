@@ -20,8 +20,8 @@
  */
 package org.apache.tiles.preparer;
 
-import org.apache.tiles.request.Request;
 import org.apache.tiles.AttributeContext;
+import org.apache.tiles.request.Request;
 
 /**
  * <p>

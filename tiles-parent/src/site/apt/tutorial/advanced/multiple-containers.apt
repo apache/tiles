@@ -21,19 +21,14 @@
          Using multiple containers
          -----------
 
-  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
-  want to use it, please refer to
-  {{{../../../2.1/framework/tutorial/advanced/multiple-containers.html}2.1 version of this page}}.
-
 Defining multiple containers
 
-  With Tiles 2.1 it is possible to use more that one Tiles container in your
-  application.
+  It is possible to use more that one Tiles container in your application.
 
 * Configuration
 
   To use an alternate container, you need to override the
-  {{{../../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html#getContainerKey(org.apache.tiles.TilesApplicationContext)}getContainerKey}}
+  {{{../../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html#method_summary}getContainerKey}}
   method of <<<AbstractTilesInitializer>>> this way:
 
 ------------------------------------
@@ -71,11 +66,11 @@ Selecting one non-default container
 
   It is possible to use, for the current request, a different container
   stored under another key, by using
-  {{{../../apidocs/org/apache/tiles/servlet/context/ServletUtil.html#setCurrentContainer(javax.servlet.ServletRequest,%20javax.servlet.ServletContext,%20org.apache.tiles.TilesContainer)}<<<setCurrentContainer>>>}}
-  method of ServletUtil class. For example:
+  {{{../../apidocs/org/apache/tiles/access/TilesAccess.html#method_summary}<<<setCurrentContainer>>>}}
+  method of TilesAccess class. For example:
 
 ------------------------------------
-ServletUtil.setCurrentContainer(request, applicationContext, "myContainerKey");
+TilesAccess.setCurrentContainer(request, applicationContext, "myContainerKey");
 ------------------------------------
 
   If the last parameter is <<<null>>>, the default container is selected.

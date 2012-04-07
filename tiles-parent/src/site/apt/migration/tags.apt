@@ -121,12 +121,12 @@ Tags differences
 
    * Previous Migration Pages
 
-     ** {{{index.html}Introduction }}
+     ** {{{./index.html}Introduction }}
 
-     ** {{{configuration.html}Tiles configuration files}}.
+     ** {{{./configuration.html}Tiles configuration files}}.
 
    * Next Migration Pages
 
-     ** {{{apis.html}Java APIs considerations}}.
+     ** {{{./apis.html}Java APIs considerations}}.
 
-     ** {{{extension.html}Tiles extensions}}.
+     ** {{{./extension.html}Tiles extensions}}.

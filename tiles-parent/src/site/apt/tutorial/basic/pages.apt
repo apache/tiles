@@ -21,10 +21,6 @@
          Creating Tiles Pages
          -----------
 
-  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
-  want to use it, please refer to
-  {{{../../../2.1/framework/tutorial/basic/pages.html}2.1 version of this page}}.
-
 Creating and using Tiles pages
 
   After installing and learning some of Tiles concepts, it is time to create
@@ -83,69 +79,20 @@ page.
 
   You can put everything you want in this pages, they are just a test.
 
-* Create Tiles  configuration
-
-  To load the Tiles definition files, override the
-  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#getSourceURLs(org.apache.tiles.TilesApplicationContext, org.apache.tiles.context.TilesRequestContextFactory)}getSourceURLs}}
-  method of <<<BasicTilesContainerFactory>>> this way:
-
-------------------------------------
-public class TestTilesContainerFactory extends BasicTilesContainerFactory {
-
-    @Override
-    protected List<URL> getSourceURLs(TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory) {
-        List<URL> urls = new ArrayList<URL>();
-        try {
-            urls.add(applicationContext.getResource("/WEB-INF/tiles-defs.xml"));
-        } catch (IOException e) {
-            throw new DefinitionsFactoryException(
-                    "Cannot load definition URLs", e);
-        }
-        return urls;
-    }
-}
-------------------------------------
-
-  Create the Tiles listener along with an inner class that represents the initializer:
-
-------------------------------------
-public class TestTilesListener extends AbstractTilesListener {
-
-    @Override
-    protected TilesInitializer createTilesInitializer() {
-        return new TestTilesListenerInitializer();
-    }
-
-    private static class TestTilesListenerInitializer extends AbstractTilesInitializer {
-
-        @Override
-        protected AbstractTilesContainerFactory createContainerFactory(
-                TilesApplicationContext context) {
-            return new TestTilesContainerFactory();
-        }
-    }
-}
-------------------------------------
-
-  Define the listener in <<<web.xml>>>
-
-------------------------------------
-<listener>
-  <listener-class>my.package.TestTilesListener</listener-class>
-</listener>
-------------------------------------
-
-
 * Create a definition
 
-  Create the <<</WEB-INF/tiles-defs.xml>>> file:
+  By default, the definition file is <<</WEB-INF/tiles.xml>>>. If you're using <<<CompleteAutoloadTilesListener>>>,
+  tiles will use any file in the webapp that matches <<</WEB-INF/tiles*.xml>>> or any file in the classpath that matches
+  <<</META-INF/tiles*.xml>>>; if several are found, it will merge them together.  
+  
+  But for now, let's stick to the default and create the <<</WEB-INF/tiles.xml>>> file, with a definition
+  as described in {{{./concepts.html}concepts}}:
 
 ------------------------------------
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
-       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
   <definition name="myapp.homepage" template="/layouts/classic.jsp">
     <put-attribute name="title" value="Tiles tutorial homepage" />
@@ -178,7 +125,9 @@ TilesContainer container = TilesAccess.getContainer(
 container.render("myapp.homepage", request, response);
 -----------------------------------
 
-  * by using {{{../advanced/utils.html}Rendering Utilities}} provided by Tiles.
+  * by using {{{../advanced/utils.html}Rendering Utilities}} provided by Tiles. For instance,
+  if you've configured <<<TilesDispatchServlet>>>, you can render the definition above by
+  requesting <<<http://example.com/webapp/myapp.homepage.tiles>>>.
 
   * by using a supporting framework. See
   {{{../integration/index.html}Integrations}} for a list of supporting

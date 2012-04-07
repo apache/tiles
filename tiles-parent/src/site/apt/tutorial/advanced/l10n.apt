@@ -37,13 +37,13 @@ Localization support
   support: it's simply a matter of appending the locale code at the end of the
   file name (just like <<<.properties>>> files in resource bundles).
 
-  For example, if you have the <<<tiles-defs.xml>>> file and you want to support
+  For example, if you have the <<<tiles.xml>>> file and you want to support
   French and Italian locale, you have to create at least three files:
 
 --------------------------------
-tiles-defs.xml
-tiles-defs_fr.xml
-tiles-defs_it.xml
+tiles.xml
+tiles_fr.xml
+tiles_it.xml
 --------------------------------
 
   You can also distinguish between different languages in different country. So
@@ -51,8 +51,8 @@ tiles-defs_it.xml
   can create these files:
 
 --------------------------------
-tiles-defs_en_GB.xml
-tiles-defs_en_US.xml
+tiles_en_GB.xml
+tiles_en_US.xml
 --------------------------------
 
   and so on.
@@ -65,7 +65,7 @@ tiles-defs_en_US.xml
   default definitions.
 
   For example, suppose that the following definition is declared in
-  <<<tiles-defs.xml>>>:
+  <<<tiles.xml>>>:
 
 ------------------------------------
 <definition name="myapp.homepage" template="/layouts/classic.jsp">
@@ -83,7 +83,7 @@ tiles-defs_en_US.xml
 </definition>
 ------------------------------------
 
-  In <<<tiles-defs_it.xml>>> there is a new declaration of <<<myapp.homepage>>>
+  In <<<tiles_it.xml>>> there is a new declaration of <<<myapp.homepage>>>
   definition:
 
 ------------------------------------
@@ -105,7 +105,7 @@ tiles-defs_en_US.xml
   
   You can also override a <<definition that is extended>>. In this case, when
   resolving inheritance, the overridden definition will be taken as a basis.
-  For example, if in <<<tiles-defs.xml>>> there are the following definitions:
+  For example, if in <<<tiles.xml>>> there are the following definitions:
 
 ------------------------------------
 <definition name="myapp.page.common" template="/layouts/classic.jsp">
@@ -120,7 +120,7 @@ tiles-defs_en_US.xml
 </definition>
 ------------------------------------
 
-  If in <<<tiles-defs_it.xml>>> you define the following definition:
+  If in <<<tiles_it.xml>>> you define the following definition:
 
 ------------------------------------
 <definition name="myapp.page.common" template="/layouts/classic.jsp">

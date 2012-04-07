@@ -18,26 +18,32 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.preparer;
+package org.apache.tiles.preparer.factory;
 
-import org.apache.tiles.TilesException;
+import org.apache.tiles.preparer.PreparerException;
 
 /**
- * <p>
- * Thrown when an exception occurs while processing
- * a prepare request.
- * </p>
+ * Thrown when the named preparerInstance can not be found.
  *
- * @since Tiles 2.0
+ * @since 2.0
  * @version $Rev$ $Date$
  */
-public class PreparerException extends TilesException {
+public class NoSuchPreparerException extends PreparerException {
 
     /**
      * Constructor.
      */
-    public PreparerException() {
+    public NoSuchPreparerException() {
         super();
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param message The message to include.
+     */
+    public NoSuchPreparerException(String message) {
+        super(message);
     }
 
     /**
@@ -45,7 +51,7 @@ public class PreparerException extends TilesException {
      *
      * @param e The cause exception.
      */
-    public PreparerException(Throwable e) {
+    public NoSuchPreparerException(Throwable e) {
         super(e);
     }
 
@@ -53,18 +59,9 @@ public class PreparerException extends TilesException {
      * Constructor.
      *
      * @param message The message to include.
-     */
-    public PreparerException(String message) {
-        super(message);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param message The message to include.
      * @param e The cause exception.
      */
-    public PreparerException(String message, Throwable e) {
+    public NoSuchPreparerException(String message, Throwable e) {
         super(message, e);
     }
 }

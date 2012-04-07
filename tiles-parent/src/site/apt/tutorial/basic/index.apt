@@ -26,7 +26,7 @@ Tiles Basic Usage
   In this part of the tutorial, you will learn the basics of Tiles and its
   simple usage in the most common cases.
   
-  * {{{concepts.html}Tiles concepts}}.
+  * {{{./concepts.html}Tiles concepts}}.
   
-  * {{{pages.html}Building Tiles-enabled pages}}.
+  * {{{./pages.html}Building Tiles-enabled pages}}.
 

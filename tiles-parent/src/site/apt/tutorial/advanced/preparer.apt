@@ -43,13 +43,13 @@ package my.package;
 
 import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.ViewPreparer;
-import org.apache.tiles.context.TilesRequestContext;
+import org.apache.tiles.request.Request;
 import org.apache.tiles.AttributeContext;
 import org.apache.tiles.Attribute;
 
 public class TestViewPreparer implements ViewPreparer {
 
-    public void execute(TilesRequestContext tilesContext, AttributeContext attributeContext)
+    public void execute(Request tilesRequest, AttributeContext attributeContext)
     throws PreparerException {
         attributeContext.putAttribute(
             "body",
@@ -68,13 +68,3 @@ public class TestViewPreparer implements ViewPreparer {
   <put-attribute name="foo" value="/bar/foo.jsp" />
 </definition>
 ----------------------------------------------
-
-* Customizing View Preparer association
-
-  Currently the preparer is associated to a definition using its class name.
-  There will be only <<one>> instance per unique class name. If you want to
-  customize this behaviour, you have to create your own implementation of the
-  <<<PreparerFactory>>> interface.
-
-  For example, the {{{../integration/frameworks.html}Struts 1 - Apache Tiles\u0099 integration}}
-  defines a <<<PreparerFactory>>> that can use a URL as a preparer.

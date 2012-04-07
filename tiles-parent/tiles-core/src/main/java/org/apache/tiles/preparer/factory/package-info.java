@@ -18,26 +18,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-package org.apache.tiles.web.startup.simple;
-
-import org.apache.tiles.startup.DefaultTilesInitializer;
-import org.apache.tiles.startup.TilesInitializer;
-import org.apache.tiles.web.startup.AbstractTilesInitializerServlet;
-
 /**
- * A Tiles listener that loads Tiles in the default way.
- *
- * @deprecated use {@link SimpleTilesListener} instead.
- * @version $Rev$ $Date$
- * @since 2.2.0
+ * "View preparers" are objects that allows the "preparation" of a Tiles artifact
+ * (definition, template or attribute) before it is rendered.<br>
+ * It is useful, for example, when a view item should be built and stored in a
+ * particular context (e.g. a menu) and then rendered.
  */
-@Deprecated
-public class SimpleTilesInitializerServlet extends AbstractTilesInitializerServlet {
+package org.apache.tiles.preparer.factory;
 
-    /** {@inheritDoc} */
-    @Override
-    protected TilesInitializer createTilesInitializer() {
-        return new DefaultTilesInitializer();
-    }
-}

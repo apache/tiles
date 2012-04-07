@@ -25,68 +25,53 @@ Requirements
 
   To use Tiles in your application you need:
 
-  * a Java Runtime Environment following the <<Java SE 5.0>> specifications;
+  * a Java Runtime Environment following the <<Java SE 6.0>> specifications;
+  
+  * implementations for slf4j 1.5.8 (or above) and commons-logging 1.1 (or above);
 
-  * a servlet container that supports <<Servlet 2.4>> (or above) and <<JSP
-  2.0>> (or above).
+  * Optionally, depending on which options and templating engines you configure:
 
+    * a servlet container that supports <<Servlet 2.5>> (or above) and <<JSP
+  2.1>> (or above).
+  
+    * a portlet container that supports <<Portlet 2.0>> (or above).
+
+    * check {{{./dependency-management.html}Dependency management}} for a comprehensive list. 
+  
 Installation
 
-  To install Tiles in your web application:
+  Tiles 3.0 includes a large number of optional jar files and transitive dependencies. We 
+  recommend that you use maven or a compatible dependency manager to retrieve only the files 
+  you really need. 
 
-  * {{{../download.html}download}} a distribution of Tiles;
+  If however you wish to install Tiles in your application by hand:
+
+  * {{{/download.html}download}} a distribution of Tiles;
 
   * if you downloaded the binary distribution, unpack it;
 
-  * copy the <<<tiles-core-VERSION.jar>>>, <<<tiles-api-VERSION.jar>>>,
-  <<<tiles-servlet-VERSION.jar>>> and <<<tiles-jsp-VERSION.jar>>> files
-  in the <<<WEB-INF/lib>>> directory of your web application. It is
-  <<not reccomended>> to put them in a location where they are shared
+  * copy all the jar files into the classpath of your application (for instance
+  in the <<<WEB-INF/lib>>> directory of your web application). In a web environment, 
+  it is <<not recommended>> to put them in a location where they are shared
   across the container;
-
-  * copy the Tiles dependencies JARs:
-
-    ** {{{http://jakarta.apache.org/commons/beanutils/}Jakarta Commons BeanUtils}}
-    1.8.0 or above;
-
-    ** {{{http://jakarta.apache.org/commons/digester/}Jakarta Commons Digester}}
-    2.0 or above;
-
-    ** {{{http://www.slf4j.org/}SLF4J}} (API and an implementation) 1.5.8 or above.
-    You might need "jcl-over-slf4j" too.
-
-  These dependencies are present in the <<<lib>>> directory of the binary
-  distribution;
-
-  * if you need JSP support, copy the <<<tiles-jsp-VERSION.jar>>>
-  and <<<tiles-template-VERSION.jar>>> in the
-  <<<WEB-INF/lib>>> directory of your web application;
-
-  * if you need to load Tiles definition files using wildcards, copy the
-  <<<spring-web-VERSION.jar>>>, <<<spring-core-VERSION.jar>>>,
-  <<<spring-context-VERSION.jar>>>, <<<spring-beans-VERSION.jar>>>,
-  <<<aopalliance-VERSION.jar>>> files under the <<<WEB-INF/lib>>> directory;
-
-  * if you need to load Tiles definition files using wildcards under a
-  <<portlet environment>>, copy the <<<spring-webmvc-portlet-VERSION.jar>>>,
-  <<<spring-core-VERSION.jar>>>, <<<spring-context-VERSION.jar>>>,
-  <<<spring-beans-VERSION.jar>>>, <<<aopalliance-VERSION.jar>>> files under the
-  <<<WEB-INF/lib>>> directory;
 
 Usage
 
   If you are using Tiles for the first time, read the
-  {{{tutorial/index.html}Tutorial}}.
+  {{{./tutorial/index.html}Tutorial}}.
 
   If you are migrating from Struts-Tiles, see the
-  {{{migration/index.html}Migration guide}}.
+  {{{./migration/index.html}Migration guide}}.
+
+  If you're an advanced user, you may find the details you're looking for in 
+  the {{{./index.html}reference documentation}}.
 
 Examples
 
   To see Tiles in action, there are two examples:
 
   * The Tiles test web application, included in <<<examples>>> directory of the
-  binary distribution ({{{../download.html}download it}}).
+  binary distribution ({{{/download.html}download it}}).
 
   * The Tiles showcase, that shows Tiles features and integration with other
   technologies and frameworks (currently only Struts 1).

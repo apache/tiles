@@ -18,11 +18,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tiles.preparer;
+package org.apache.tiles.preparer.factory;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.reflect.ClassUtil;
 import org.slf4j.Logger;

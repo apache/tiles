@@ -21,132 +21,26 @@
          Expression Language (EL) support
          -----------
 
-  <<WARNING!!!>> Configuration with initialization parameters is deprecated! If you still
-  want to use it, please refer to
-  {{{../../../2.1/framework/tutorial/advanced/el-support.html}2.1 version of this page}}.
-
 Expression Language support
 
   With Tiles it is possible to use expression languages not only in JSP pages, but also in XML
   definition files.
 
-  Currently supported languages are EL (as in javax.el), i.e. the language used in JSP code,
-  {{{http://mvel.codehaus.org/}MVEL}} and {{{http://www.opensymphony.com/ognl/}OGNL}}.
+  Currently supported languages are Unified EL (as in javax.el), i.e. the language used in JSP code,
+  {{{http://mvel.codehaus.org/}MVEL}} and {{{http://commons.apache.org/ognl/}OGNL}}.
 
 * Configuration
 
-  To enable the use of expression languages, you are encouraged to use the
-  {{{tutorial/configuration.html#Pure_Java_configuration}Pure Java configuration}}
-  by overriding the
-  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createAttributeEvaluatorFactory(org.apache.tiles.TilesApplicationContext, org.apache.tiles.context.TilesRequestContextFactory, org.apache.tiles.locale.LocaleResolver)} createAttributeEvaluatorFactory}}
-  method of BasicTilesContainerFactory. For example:
+  By default, Tiles does not use an expression language, attribute values are simply used as they are.
+  
+  <<<CompleteAutoloadTilesContainerFactory>>> enables support of Unified EL, MVEL and OGNL as follows:
+  
+  - an attribute expression starting with "MVEL:" or "OGNL:" is interpreted in one of those languages.
+  - otherwise, the parts of the expression between the braces in <<<$\{...\}>>> are interpreted in Unified EL.  
 
-------------------------------------
+* Unified EL support
 
-@Override
-protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
-        TilesApplicationContext applicationContext,
-        TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
-    ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
-    // the rest of the initialization...
-    BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
-            new DirectAttributeEvaluator());
-    attributeEvaluatorFactory.registerAttributeEvaluator("EL", evaluator);
-
-    return attributeEvaluatorFactory;
-}
-
-------------------------------------
-
-* EL support
-
-  The EL language is supported since Tiles 2.1. If you are using Servlet 2.5 or above,
-  you can leverage your container EL support.
-
-------------------------------------
-@Override
-protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
-        TilesApplicationContext applicationContext,
-        TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
-
-    //... Initialization of the factory.
-    ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
-    evaluator.setApplicationContext(applicationContext);
-    JspExpressionFactoryFactory efFactory = new JspExpressionFactoryFactory();
-    efFactory.setApplicationContext(applicationContext);
-    evaluator.setExpressionFactory(efFactory.getExpressionFactory());
-    ELResolver elResolver = new CompositeELResolver() {
-        {
-            add(new TilesContextELResolver());
-            add(new TilesContextBeanELResolver());
-            add(new ArrayELResolver(false));
-            add(new ListELResolver(false));
-            add(new MapELResolver(false));
-            add(new ResourceBundleELResolver());
-            add(new BeanELResolver(false));
-        }
-    };
-    evaluator.setResolver(elResolver);
-
-    // End of the attribute evaluator factory initialization.
-}
-------------------------------------
-
-** Configuration under Servlets 2.4/JSP 2.0
-
-  If you are using Servlets 2.4/JSP 2.0, you still can use Tiles EL support but:
-
-  * You have to put <<<jasper-el-6.0.16.jar>>> (or newer version) and
-  <<<el-api-1.0.jar>>> in your classpath.
-
-  * Inject the <<<ExpressionFactoryImpl>>> from Tomcat into the attribute evaluator,
-  overriding
-  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createAttributeEvaluatorFactory(org.apache.tiles.TilesApplicationContext, org.apache.tiles.context.TilesRequestContextFactory, org.apache.tiles.locale.LocaleResolver)}createAttributeEvaluatorFactory}}
-  of <<<BasicTilesContainerFactory>>> class this way:
-
-------------------------------------
-    @Override
-    protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
-            TilesApplicationContext applicationContext,
-            TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
-        BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
-                createELEvaluator(applicationContext));
-
-        return attributeEvaluatorFactory;
-    }
-
-    /**
-     * Creates the EL evaluator.
-     *
-     * @param applicationContext The Tiles application context.
-     * @return The EL evaluator.
-     */
-    private ELAttributeEvaluator createELEvaluator(
-            TilesApplicationContext applicationContext) {
-        ELAttributeEvaluator evaluator = new ELAttributeEvaluator();
-        evaluator.setApplicationContext(applicationContext);
-
-        // This is the important piece!
-        evaluator.setExpressionFactory(new ExpressionFactoryImpl());
-        // End of the important piece!
-
-        ELResolver elResolver = new CompositeELResolver() {
-            {
-                add(new TilesContextELResolver());
-                add(new TilesContextBeanELResolver());
-                add(new ArrayELResolver(false));
-                add(new ListELResolver(false));
-                add(new MapELResolver(false));
-                add(new ResourceBundleELResolver());
-                add(new BeanELResolver(false));
-            }
-        };
-        evaluator.setResolver(elResolver);
-        return evaluator;
-    }
-------------------------------------
-
-** Usage
+  The EL language is supported since Tiles 2.1.
 
   Let's use this example:
 
@@ -167,33 +61,6 @@ protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
 
 * {MVEL Support}
 
-  To use MVEL support you need to register an instance of
-  {{{../../apidocs/org/apache/tiles/mvel/MVELAttributeEvaluator.html} MVELAttributeEvaluator}}
-  along with other supporting objects.
-
-------------------------------------
-@Override
-protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
-        TilesApplicationContext applicationContext,
-        TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
-    TilesRequestContextHolder requestHolder = new TilesRequestContextHolder();
-    VariableResolverFactory variableResolverFactory = new TilesContextVariableResolverFactory(
-            requestHolder);
-    variableResolverFactory
-            .setNextFactory(new TilesContextBeanVariableResolverFactory(
-                    requestHolder));
-    MVELAttributeEvaluator evaluator = new MVELAttributeEvaluator(requestHolder,
-            variableResolverFactory);
-
-    BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
-            new DirectAttributeEvaluator());
-    attributeEvaluatorFactory.registerAttributeEvaluator("MVEL", evaluator);
-    return attributeEvaluatorFactory;
-}
-------------------------------------
-
-** Usage
-
   Let's use this example:
 
 ------------------------------------
@@ -212,46 +79,6 @@ protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
   * The body will be taken from the "body" attribute in request scope.
 
 * {OGNL Support}
-
-  To use OGNL support you need to register an instance of
-  {{{../../apidocs/org/apache/tiles/ognl/OGNLAttributeEvaluator.html} OGNLAttributeEvaluator}}
-  along with other supporting objects.
-
-------------------------------------
-@Override
-protected AttributeEvaluatorFactory createAttributeEvaluatorFactory(
-        TilesApplicationContext applicationContext,
-    TilesRequestContextFactory contextFactory, LocaleResolver resolver) {
-    try {
-        PropertyAccessor objectPropertyAccessor = OgnlRuntime.getPropertyAccessor(Object.class);
-        PropertyAccessor mapPropertyAccessor = OgnlRuntime.getPropertyAccessor(Map.class);
-        PropertyAccessor applicationContextPropertyAccessor = new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
-                new TilesApplicationContextNestedObjectExtractor(),
-                objectPropertyAccessor);
-        PropertyAccessor requestScopePropertyAccessor = new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
-                new RequestScopeNestedObjectExtractor(), mapPropertyAccessor);
-        PropertyAccessor sessionScopePropertyAccessor = new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
-                new SessionScopeNestedObjectExtractor(), mapPropertyAccessor);
-        PropertyAccessor applicationScopePropertyAccessor = new NestedObjectDelegatePropertyAccessor<TilesRequestContext>(
-                new ApplicationScopeNestedObjectExtractor(), mapPropertyAccessor);
-        PropertyAccessorDelegateFactory<TilesRequestContext> factory = new TilesContextPropertyAccessorDelegateFactory(
-                objectPropertyAccessor, applicationContextPropertyAccessor,
-                requestScopePropertyAccessor, sessionScopePropertyAccessor,
-                applicationScopePropertyAccessor);
-        PropertyAccessor tilesRequestAccessor = new DelegatePropertyAccessor<TilesRequestContext>(factory);
-        OgnlRuntime.setPropertyAccessor(TilesRequestContext.class, tilesRequestAccessor);
-    } catch (OgnlException e) {
-        throw new TilesTestRuntimeException("Cannot initialize OGNL evaluator", e);
-    }
-
-    BasicAttributeEvaluatorFactory attributeEvaluatorFactory = new BasicAttributeEvaluatorFactory(
-            new DirectAttributeEvaluator());
-    attributeEvaluatorFactory.registerAttributeEvaluator("MVEL", new OGNLAttributeEvaluator());
-    return attributeEvaluatorFactory;
-}
-------------------------------------
-
-** Usage
 
   Let's use this example:
 

@@ -89,7 +89,7 @@ Nesting Definitions
 
   Attributes defined into a definition can be cascaded to be available to all
   nested definitions and templates. For example the
-  {{{#Named_subdefinitions}sample definition}} detailed above can be rewritten
+  {{{./nesting-extending.html#Named_subdefinitions}sample definition}} detailed above can be rewritten
   this way:
 
 ------------------------------------

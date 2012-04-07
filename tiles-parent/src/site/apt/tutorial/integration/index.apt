@@ -26,7 +26,7 @@ Tiles integrations
   Tiles can be integrated with various frameworks and view technologies, to
   include Tiles elements into their specific features.
   
-  * {{{frameworks.html}Integration in web frameworks}}.
+  * {{{./frameworks.html}Integration in web frameworks}}.
   
-  * {{{view.html}Integration in view technologies}}.
+  * {{{./view.html}Integration in view technologies}}.
 

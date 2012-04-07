@@ -79,10 +79,10 @@ Class and interfaces new names
 
    * Previous Migration Pages
 
-     ** {{{index.html}Introduction }}
+     ** {{{./index.html}Introduction }}
 
-     ** {{{configuration.html}Tiles configuration files}}.
+     ** {{{./configuration.html}Tiles configuration files}}.
 
-     ** {{{tags.html}Tiles JSP tags}}
+     ** {{{./tags.html}Tiles JSP tags}}
 
-     ** {{{apis.html}Java APIs considerations}}.
+     ** {{{./apis.html}Java APIs considerations}}.

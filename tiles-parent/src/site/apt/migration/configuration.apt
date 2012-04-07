@@ -149,12 +149,12 @@ Tiles configuration files translation
 
    * Previous Migration Pages
 
-     ** {{{index.html}Introduction }}
+     ** {{{./index.html}Introduction }}
 
    * Next Migration Pages
 
-     ** {{{tags.html}Tiles JSP tags}}
+     ** {{{./tags.html}Tiles JSP tags}}
 
-     ** {{{apis.html}Java APIs considerations}}.
+     ** {{{./apis.html}Java APIs considerations}}.
 
-     ** {{{extension.html}Tiles extensions}}.
+     ** {{{./extension.html}Tiles extensions}}.

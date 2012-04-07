@@ -32,7 +32,7 @@
         <subsection name="Snapshots">
 
         <p>Looking for snapshot builds of the latest version of Tiles?
-           Snapshots are occasionally published to Apache's Maven 2 snapshot
+           Snapshots are occasionally published to Apache's Maven snapshot
            repository, which can be accessed with the following configuration:</p>
 
         <source>
@@ -40,7 +40,7 @@
           <repository>
               <id>apache.snapshots</id>
               <name>Apache Maven Snapshot Repository</name>
-              <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+              <url>http://repository.apache.org/snapshots</url>
           </repository>
         ]]>
         </source>
@@ -52,19 +52,13 @@
           <dependency>
               <groupId>org.apache.tiles</groupId>
               <artifactId>tiles-core</artifactId>
-              <version>2.0-SNAPSHOT</version>
+              <version>3.0.0-SNAPSHOT</version>
           </dependency>
         ]]>
         </source>
 
-    <p>If you are not using Maven 2, you can find a recent development
-    snapshot of tiles-core.jar <a
-    href="http://people.apache.org/maven-snapshot-repository/org/apache/struts/tiles/tiles-core/">
-    here</a>, or a nightly build, <a
-    href="http://people.apache.org/builds/struts/nightlies/tiles/">here</a>.</p>
-
    <p>You can see Tiles in action by downloading a snapshot of the 'tiles-test' webapp,
-   <a href="http://people.apache.org/repo/m2-snapshot-repository/org/apache/struts/tiles/tiles-test/2.0-SNAPSHOT/">
+   <a href="http://repository.apache.org/snapshots/org/apache/tiles/tiles-test/3.0.0-SNAPSHOT">
    here</a>.</p>
 
     </subsection>

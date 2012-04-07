@@ -29,19 +29,17 @@ Prerequisites
 
   To create a release you have to install:
 
-  * {{{http://java.sun.com/j2se/1.5.0/}Java 5.0}}. If you are using a newer
+  * {{{http://java.sun.com/javase/6}Java 6.0}}. If you are using a newer
   version of Java, it is suggested to <<change JAVA_HOME environment variable>>
-  when calling Maven, so it points to an instance of Java 5.0;
+  when calling Maven, so it points to an instance of Java 6.0;
 
-  * {{{http://maven.apache.org/}Maven 2}};
+  * {{{http://maven.apache.org/}Maven 2.2 or 3}};
 
   * {{{http://www.gnupg.org/}GnuPG}};
 
   * {{{http://www.openssh.com/}OpenSSH}};
 
-  * {{{http://www.graphviz.org/}GraphViz}}: use version 2.8. See
-  {{{building.html}building Tiles}} for the reason of not using the latest
-  version.
+  * {{{http://www.graphviz.org/}GraphViz}};
 
 One-time operations
 

@@ -23,7 +23,7 @@
 
 Wildcard support
 
-  By default, Tiles 2.2 supports wildcards in definition names. Wilcards help a
+  By default, Tiles supports wildcards in definition names. Wilcards help a
   lot in writing less code to declare your definitions.
 
   There are two styles:
@@ -40,27 +40,8 @@ Wildcard support
 
 * {Using different pattern matching languages}
 
-  In Tiles 2.2 it is possible to use different pattern matching languages
-  at the same time. Tiles supports Wildcard and Regular Expressions natively.
-
-  To configure it, override the
-  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createPatternDefinitionResolver(java.lang.Class)}createPatternDefinitionResolver}}
-  method of <<<BasicTilesContainerFactory>>> this way:
-
--------------------------------------
-@Override
-protected <T> PatternDefinitionResolver<T> createPatternDefinitionResolver(
-        Class<T> customizationKeyClass) {
-    DefinitionPatternMatcherFactory wildcardFactory = new WildcardDefinitionPatternMatcherFactory();
-    DefinitionPatternMatcherFactory regexpFactory = new RegexpDefinitionPatternMatcherFactory();
-    PrefixedPatternDefinitionResolver<T> resolver = new PrefixedPatternDefinitionResolver<T>();
-    resolver.registerDefinitionPatternMatcherFactory("WILDCARD", wildcardFactory);
-    resolver.registerDefinitionPatternMatcherFactory("REGEXP", regexpFactory);
-    return resolver;
-}
--------------------------------------
-
-  Now you can still use Wildcard notation, but remember to add the <<<WILDCARD:>>> prefix:
+  If you're using the <<<CompleteAutoloadTilesContainerFactory>>>, you must use a predix to specify
+  the pattern matching language you're using: either WILDCARD or REGEXP:
 
 ------------------------------------
 <definition name="WILDCARD:test.definition*.message*" template="/layout{1}.jsp">

@@ -27,7 +27,7 @@ Introduction
   in Struts Tiles and Apache Tiles\u0099.
 
   If you are a Tiles extension developer and you want to convert your existing
-  extension, see {{{extension.html}Tiles extensions}} migration guide.
+  extension, see {{{./extension.html}Tiles extensions}} migration guide.
 
 Controllers and View Preparers
 
@@ -50,12 +50,12 @@ Tiles <<<ComponentContext>>>
 
    * Previous Migration Pages
 
-     ** {{{index.html}Introduction }}
+     ** {{{./index.html}Introduction }}
 
-     ** {{{configuration.html}Tiles configuration files}}.
+     ** {{{./configuration.html}Tiles configuration files}}.
 
-     ** {{{tags.html}Tiles JSP tags}}
+     ** {{{./tags.html}Tiles JSP tags}}
 
    * Next Migration Pages
 
-     ** {{{extension.html}Tiles extensions}}.
+     ** {{{./extension.html}Tiles extensions}}.

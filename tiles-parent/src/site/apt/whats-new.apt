@@ -25,100 +25,28 @@ What's new in Tiles 3.0
 
 * New features in Tiles 3.0
 
-  * {{{/request/}Apache Request}}: a framework independent request abstraction. Implementations for Servlet, Portlet, JSP, Velocity and FreeMarker.
+  * {{{/tiles-request/}Apache Request}}: a framework independent request abstraction. Implementations for Servlet, 
+  Portlet, JSP, Velocity, FreeMarker and Mustache.
 
-  * {{{/autotag/}Apache Autotag}}: a project that automatically generates tags (or tag-like) artifact from a common template code for a range of templating languages.
+  * {{{/tiles-autotag/}Apache Autotag}}: a tool that automatically generates tags (or tag-like) artifact from a common template code for a range of templating languages.
   All the Tiles 3 boilerplate code to templating models has been removed and uses the Autotag plugins instead:
   it's a lot of boilerplate, boring code, now generated automatically.
 
 * Deprecations in Tiles 3.0
 
-  ...todo...
+  * Starting Tiles in a web environment using a dummy Servlet. Use a SerlvetContextListener instead.
+  
+  * Don't use the AttributeContext interface to pass attribute values to Tiles. Expression Languages are an easier, more maintainable 
+  way to change the value of attributes on a per-render basis.
 
-What's new in Tiles 2.2
+  * ...
 
-  Tiles 2.2 is a binary-compatible enhancement of Tiles 2.1.x, with some incompatible changes in JSP tags,
-  but, for the user perspective, it is perfectly compatible.
+* Removals in Tiles 3.0
 
-* New features in Tiles 2.2
-
-  Tiles 2.2 has several new features:
-
-  * {{{tutorial/integration/freemarker.html}Native support for FreeMarker}},
-  instead of a support based on JSP.
-
-  * {{{tutorial/integration/velocity.html}Support for Velocity}}.
-
-  * Support for pattern matching using
-  {{{tutorial/advanced/wildcard.html#Using_different_pattern_matching_languages}regular expressions}}.
-
-  * {{{tutorial/advanced/el-support.html#OGNL_Support}OGNL support}}
-  and
-  {{{tutorial/advanced/el-support.html#MVEL_Support}MVEL support}}
-  in Tiles definition files, when specifying attributes and templates.
-
-  * Ready to use {{{tutorial/configuration.html#Ready-made_configuration_classes}configuration classes}} to ease startup with minimal coding.
-
-* Deprecations in Tiles 2.2
-
-  * Startup with initialization parameters is not <<deprecated>>. See the
-  {{{tutorial/configuration.html}configuration}} page to know how to configure
-  Tiles with Java.
-
-* Removals in Tiles 2.2
-
-  * Support of retrotranslated packages to be compatible with Java 1.4. It is possible,
-  though, to retrotranslate the packages manually.
-
-  * Support for Servlets 2.4 and JSP 2.0 when creating <<<ELAttributeEvaluator>>>.
-  {{{tutorial/advanced/el-support.html}It is still possible to use it manually}}.
-
-* New features in Tiles 2.1
-
-  Tiles 2.1 introduces new features, but remaining compatible to Tiles 2.0.x.
-  The new features are:
-
-  * {{{tutorial/advanced/nesting-extending.html#Anonymous_nested_definitions}Anonymous nested definitions}}:
-  now definitions can be put just as an attribute in an enclosing definition,
-  without the necessity to define a new named definition to use only once.
-
-  * <<Wildcard support>>: wildcards are supported:
-
-    ** in {{{tutorial/advanced/wildcard.html}XML definition files}};
-
-    ** when enumerating the {{{tutorial/wildcard-configuration.html}list of Tiles definition files to load}}.
-
-  * {{{tutorial/advanced/el-support.html}EL support}} in Tiles definition files, when specifying attributes and
-  templates.
-
-  * Ability to
-  {{{migration/configuration.html#Reusing_old_Tiles_configuration_files}load Tiles 1.x definition files}}.
-
-  * {{{tutorial/configuration.html#Pure_Java_configuration}Pure Java configuration}},
-  except for the configuration of the Tiles container factory.
-
-  * List attributes can now
-  {{{tutorial/advanced/list-attributes.html#List_attribute_inheritance}inherit members from the extending definition}}.
-
-  * Attribute values can be
-  {{{tutorial/advanced/nesting-extending.html#Cascaded_attributes}cascaded to nested definitions}},
-  so the configuration is easier to write.
-
-  * Ability to
-  {{{tutorial/advanced/runtime.html#Inserting_modified_definitions}override the template when inserting definitions}}.
-
-  * Customize {{{tutorial/advanced/attribute-rendering.html}rendering of attributes}},
-  for example to write integrations with other frameworks.
-
-  * Usage of {{{tutorial/advanced/multiple-containers.html}more than one Tiles container}}.
-
-** Under the hood
-
-  * <<<TilesApplicationContext>>> is now created externally of the Tiles
-  container and {{{tutorial/extension/points.html#Tiles_Application_Context_Factory}must be configured externally}}.
-
-  * Tiles exceptions are all unchecked now: you can now remove all your
-  try-catches.
-
-  * Added the concept of "definition DAO" that allows loading definitions from
-  various sources, for example a DB.
+  * Upgraded from JavaSE 5.0 to JavaSE 6.0.
+  
+  * Upgraded from Servlet 2.4 and JSP 2.0 to Servlet 2.5 and JSP 2.1.
+  
+  * Changed the Java API to adopt the Request API. The XML files and taglibs are compatible with tiles 2.2.
+  
+  * Dropped the parameter based configuration that was deprecated in 2.2.

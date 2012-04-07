@@ -56,9 +56,6 @@
                     name="What's new"
                     href="whats-new.html"/>
             <item
-                    name="Getting Started"
-                    href="getting_started.html"/>
-            <item
                     name="Tutorial"
                     href="tutorial/index.html"
                     collapse="true">
@@ -68,9 +65,6 @@
                 <item
                         name="Configuration"
                         href="tutorial/configuration.html"/>
-                <item
-                        name="Wildcards in configuration files"
-                        href="tutorial/wildcard-configuration.html"/>
                 <item
                         name="Basic Usage"
                         href="tutorial/basic/index.html"
@@ -138,34 +132,18 @@
                                 href="tutorial/integration/velocity.html"/>
                     </item>
                 </item>
-                <item
-                        name="Extensions"
-                        href="tutorial/extension/index.html"
-                        collapse="true">
-                     <item
-                            name="Extension Points"
-                            href="tutorial/extension/points.html"/>
-                     <item
-                            name="Template languages"
-                            href="tutorial/extension/template.html"/>
-                     <item
-                            name="UrlDefinitionsFactory"
-                            href="tutorial/extension/url_definitions_factory.html"/>
-                </item>
+            </item>
             <item
-                    name="Migration from Struts Tiles"
+                    name="Wiki"
+                    href="http://cwiki.apache.org/TILES/"/>
+            <item
+                    name="Migration"
                     href="migration/index.html"/>
-            </item>
-            <item
-                    name="HOW-TOs"
-                    href="how-to/index.html"
-                    collapse="true">
-                <item
-                        name="Loading definitions from a database"
-                        href="how-to/definitions-db.html"/>
-            </item>
         </menu>
         <menu name="Reference">
+            <item
+                    name="Getting Started"
+                    href="getting_started.html"/>
             <item
                     name="Configuration reference"
                     href="config-reference.html"/>

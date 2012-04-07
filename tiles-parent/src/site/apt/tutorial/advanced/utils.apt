@@ -65,7 +65,7 @@ Tiles Rendering Utilities
 ------------------------------------
 <filter>
     <filter-name>Tiles Decoration Filter</filter-name>
-    <filter-class>org.apache.tiles.web.TilesDecorationFilter</filter-class>
+    <filter-class>org.apache.tiles.web.util.TilesDecorationFilter</filter-class>
     <init-param>
         <param-name>definition</param-name>
         <param-value>test.definition</param-value>
