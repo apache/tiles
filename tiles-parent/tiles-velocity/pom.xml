@@ -38,7 +38,7 @@
       <plugin>
         <groupId>org.apache.tiles.autotag.plugin</groupId>
         <artifactId>maven-autotag-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${tiles.autotag.version}</version>
         <executions>
             <execution>
                 <goals>
@@ -57,110 +57,53 @@
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-servlet</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-template</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
-      <version>1.5.8</version>
       <optional>true</optional>
     </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity-tools</artifactId>
-      <version>2.0</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>struts-taglib</artifactId>
-          <groupId>org.apache.struts</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>struts-tiles</artifactId>
-          <groupId>org.apache.struts</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>struts-core</artifactId>
-          <groupId>org.apache.struts</groupId>
-        </exclusion>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-        <exclusion>
-          <artifactId>sslext</artifactId>
-          <groupId>sslext</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-chain</artifactId>
-          <groupId>commons-chain</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-validator</artifactId>
-          <groupId>commons-validator</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-digester</artifactId>
-          <groupId>commons-digester</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-beanutils</artifactId>
-          <groupId>commons-beanutils</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>dom4j</artifactId>
-          <groupId>dom4j</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>commons-digester</groupId>
       <artifactId>commons-digester</artifactId>
-      <version>2.0</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-logging</artifactId>
-          <groupId>commons-logging</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.6</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-      <version>2.5.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymockclassextension</artifactId>
-      <version>2.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>org.apache.tiles</groupId>
         <artifactId>tiles-request-velocity</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${tiles.request.version}</version>
     </dependency>
   </dependencies>
 </project>

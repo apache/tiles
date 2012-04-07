@@ -33,7 +33,7 @@ import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.mustache.MustacheRenderer;
 import org.apache.tiles.request.render.CannotRenderException;
 import org.apache.tiles.request.render.Renderer;
-import org.apache.tiles.request.servlet.ServletRequest;
+import org.apache.tiles.request.Request;
 import org.junit.Test;
 
 import static org.easymock.classextension.EasyMock.*;
@@ -53,7 +53,7 @@ public final class MustacheRendererTest {
      */
     @Test
     public void testRender() throws IOException {
-        ServletRequest request = createMock(ServletRequest.class);
+        Request request = createMock(Request.class);
         Writer writer = createMock(Writer.class);
         ApplicationContext applicationContext = createMock(ApplicationContext.class);
         ApplicationResource applicationResource = createMock(ApplicationResource.class);
@@ -83,7 +83,7 @@ public final class MustacheRendererTest {
      */
     @Test(expected = CannotRenderException.class)
     public void testRenderException() throws IOException {
-        ServletRequest request = createMock(ServletRequest.class);
+        Request request = createMock(Request.class);
         replay(request);
         Renderer renderer = new MustacheRenderer();
         try {

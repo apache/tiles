@@ -35,37 +35,30 @@ under the License.
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-request-api</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>javax.servlet</groupId>
     	<artifactId>servlet-api</artifactId>
-    	<version>2.5</version>
     	<scope>provided</scope>
     </dependency>
     <dependency>
     	<groupId>junit</groupId>
     	<artifactId>junit</artifactId>
-    	<version>4.7</version>
     	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>org.easymock</groupId>
     	<artifactId>easymock</artifactId>
-    	<version>2.5.2</version>
     	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>org.apache.shale</groupId>
     	<artifactId>shale-test</artifactId>
-    	<version>1.0.5</version>
     	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>org.easymock</groupId>
     	<artifactId>easymockclassextension</artifactId>
-    	<version>2.4</version>
     	<scope>test</scope>
     </dependency>
   </dependencies>

@@ -71,6 +71,7 @@
         <module>assembly</module>
         <module>tiles-test-pom</module>
     </modules>
+
     <issueManagement>
         <system>JIRA</system>
         <url>https://issues.apache.org/jira/browse/TILES</url>
@@ -82,6 +83,165 @@
             <url>scp://people.apache.org/www/tiles.apache.org/framework</url>
         </site>
     </distributionManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-servlet</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-template</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-tools</artifactId>
+                <version>2.0</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>struts-taglib</artifactId>
+                        <groupId>org.apache.struts</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>struts-tiles</artifactId>
+                        <groupId>org.apache.struts</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>struts-core</artifactId>
+                        <groupId>org.apache.struts</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>sslext</artifactId>
+                        <groupId>sslext</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-chain</artifactId>
+                        <groupId>commons-chain</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-validator</artifactId>
+                        <groupId>commons-validator</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-digester</artifactId>
+                        <groupId>commons-digester</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-beanutils</artifactId>
+                        <groupId>commons-beanutils</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>dom4j</artifactId>
+                        <groupId>dom4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-digester</groupId>
+                <artifactId>commons-digester</artifactId>
+                <version>2.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>2.3.15</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ognl</groupId>
+                <artifactId>ognl</artifactId>
+                <version>2.7.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mvel</groupId>
+                <artifactId>mvel2</artifactId>
+                <version>2.0.11</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>2.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>el-api</artifactId>
+                <version>1.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.7</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>3.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shale</groupId>
+                <artifactId>shale-test</artifactId>
+                <version>1.0.5</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymockclassextension</artifactId>
+                <version>3.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+            	<groupId>org.slf4j</groupId>
+            	<artifactId>slf4j-jdk14</artifactId>
+            	<version>1.5.8</version>
+            	<optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>1.5.8</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+            	<groupId>org.apache.tiles</groupId>
+            	<artifactId>tiles-request-api</artifactId>
+            	<version>${tiles.request.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>
@@ -154,13 +314,15 @@
     </build>
 
     <properties>
-        <tiles.osgi.symbolicName>org.apache.${artifactId}</tiles.osgi.symbolicName>
+        <tiles.osgi.symbolicName>org.apache.${project.artifactId}</tiles.osgi.symbolicName>
         <tiles.osgi.export>org.apache.tiles.*;version=${project.version}</tiles.osgi.export>
         <tiles.osgi.import>*</tiles.osgi.import>
         <tiles.osgi.dynamicImport />
         <tiles.osgi.private />
         <tiles.manifestfile>target/osgi/MANIFEST.MF</tiles.manifestfile>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tiles.request.version>1.0-SNAPSHOT</tiles.request.version>
+        <tiles.autotag.version>1.0-SNAPSHOT</tiles.autotag.version>
     </properties>
 
     <dependencies />

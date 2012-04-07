@@ -35,52 +35,43 @@ under the License.
   	<dependency>
   		<groupId>org.apache.tiles</groupId>
   		<artifactId>tiles-request-api</artifactId>
-  		<version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.freemarker</groupId>
   		<artifactId>freemarker</artifactId>
-  		<version>2.3.15</version>
   	</dependency>
   	<dependency>
   		<groupId>org.apache.tiles</groupId>
   		<artifactId>tiles-request-servlet</artifactId>
-  		<version>1.0-SNAPSHOT</version>
   	</dependency>
   	<dependency>
   		<groupId>javax.servlet</groupId>
   		<artifactId>servlet-api</artifactId>
-  		<version>2.5</version>
   		<scope>provided</scope>
   	</dependency>
   	<dependency>
   		<groupId>org.slf4j</groupId>
   		<artifactId>slf4j-jdk14</artifactId>
-  		<version>1.5.8</version>
   		<optional>true</optional>
   	</dependency>
   	<dependency>
   		<groupId>junit</groupId>
   		<artifactId>junit</artifactId>
-  		<version>4.7</version>
   		<scope>test</scope>
   	</dependency>
   	<dependency>
   		<groupId>org.easymock</groupId>
   		<artifactId>easymock</artifactId>
-  		<version>3.0</version>
   		<scope>test</scope>
   	</dependency>
   	<dependency>
   		<groupId>org.easymock</groupId>
   		<artifactId>easymockclassextension</artifactId>
-  		<version>2.5.2</version>
   		<scope>test</scope>
   	</dependency>
   	<dependency>
   		<groupId>org.apache.tiles</groupId>
   		<artifactId>tiles-autotag-core-runtime</artifactId>
-  		<version>1.0-SNAPSHOT</version>
   		<optional>true</optional>
   	</dependency>
   </dependencies>

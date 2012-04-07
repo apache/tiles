@@ -35,47 +35,28 @@ under the License.
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-request-api</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-request-servlet</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
         <groupId>com.github.spullara.mustache.java</groupId>
         <artifactId>core</artifactId>
-        <version>0.6.2</version>
     </dependency>
     <dependency>
         <groupId>com.github.spullara.mustache.java</groupId>
         <artifactId>builder</artifactId>
-        <version>0.6.2</version>
-    </dependency>
-    <dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>servlet-api</artifactId>
-    	<version>2.5</version>
-    	<scope>provided</scope>
     </dependency>
     <dependency>
     	<groupId>junit</groupId>
     	<artifactId>junit</artifactId>
-    	<version>4.7</version>
     	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>org.easymock</groupId>
     	<artifactId>easymock</artifactId>
-    	<version>2.5.2</version>
     	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>org.easymock</groupId>
     	<artifactId>easymockclassextension</artifactId>
-    	<version>2.4</version>
     	<scope>test</scope>
     </dependency>
   </dependencies>
