@@ -229,8 +229,8 @@ public class BasicTilesContainer implements TilesContainer,
      */
     public void render(Definition definition, Request request) {
         AttributeContext originalContext = getAttributeContext(request);
-        BasicAttributeContext subContext = new BasicAttributeContext(definition);
-        subContext.inherit(originalContext);
+        BasicAttributeContext subContext = new BasicAttributeContext(originalContext);
+        subContext.inherit(definition);
 
         pushContext(subContext, request);
 
