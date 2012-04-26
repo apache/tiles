@@ -24,15 +24,11 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
-import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.TilesApplicationContext;
 import org.apache.tiles.TilesException;
 import org.apache.tiles.context.ChainedTilesRequestContextFactory;
@@ -158,28 +154,6 @@ public class BasicTilesContainerTest extends TestCase {
         Object value = container.evaluate(attribute, request);
         assertEquals("The attribute has not been evaluated correctly",
                 "This is the value", value);
-    }
-
-    /**
-     * Tests for TILES-544
-     */
-    public void testJiraTiles544() throws IOException {
-        TilesRequestContext request = EasyMock.createMock(TilesRequestContext.class);
-        Map<String, Object> requestScope = new HashMap<String, Object>();
-        EasyMock.expect(request.getRequestScope()).andReturn(requestScope).anyTimes();
-        EasyMock.expect(request.getSessionScope()).andReturn(Collections.<String, Object> emptyMap()).anyTimes();
-        EasyMock.expect(request.getRequestLocale()).andReturn(null).anyTimes();
-        EasyMock.expect(request.getRequestObjects()).andReturn(new Object[] {request}).anyTimes();
-        request.dispatch("/test.jsp");
-        EasyMock.replay(request);
-        Attribute testDef1 = new Attribute("test.def1");
-        testDef1.setRenderer("definition");
-        BasicAttributeContext context = new BasicAttributeContext();
-        context.setTemplateAttribute(testDef1);
-        container.pushContext(context, request);
-        container.render(request, context);
-        container.popContext(request);
-        EasyMock.verify(request);
     }
 
     /**
