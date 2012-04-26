@@ -23,20 +23,25 @@ package org.apache.tiles.impl;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.apache.tiles.Attribute;
+import org.apache.tiles.BasicAttributeContext;
 import org.apache.tiles.factory.AbstractTilesContainerFactory;
 import org.apache.tiles.factory.BasicTilesContainerFactory;
 import org.apache.tiles.request.ApplicationContext;
+import org.apache.tiles.request.DispatchRequest;
 import org.apache.tiles.request.Request;
 import org.apache.tiles.request.locale.URLApplicationResource;
 import org.apache.tiles.request.render.CannotRenderException;
 import org.easymock.EasyMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 /**
  * @version $Rev$ $Date$
@@ -46,8 +51,7 @@ public class BasicTilesContainerTest extends TestCase {
     /**
      * The logging object.
      */
-    private final Logger log = LoggerFactory
-            .getLogger(BasicTilesContainerTest.class);
+    private final Logger log = LoggerFactory.getLogger(BasicTilesContainerTest.class);
 
     /**
      * A sample integer value to check object rendering.
@@ -62,13 +66,12 @@ public class BasicTilesContainerTest extends TestCase {
     /** {@inheritDoc} */
     @Override
     public void setUp() {
-        ApplicationContext context = EasyMock
-                .createMock(ApplicationContext.class);
+        ApplicationContext context = EasyMock.createMock(ApplicationContext.class);
         URL url = getClass().getResource("/org/apache/tiles/factory/test-defs.xml");
         URLApplicationResource resource = new URLApplicationResource("/WEB-INF/tiles.xml", url);
 
-        EasyMock.expect(context.getResource("/WEB-INF/tiles.xml"))
-                .andReturn(resource);
+        EasyMock.expect(context.getResource("/WEB-INF/tiles.xml")).andReturn(resource);
+        EasyMock.expect(context.getResource(resource, Locale.ROOT)).andReturn(resource);
         EasyMock.replay(context);
         AbstractTilesContainerFactory factory = new BasicTilesContainerFactory();
         container = (BasicTilesContainer) factory.createContainer(context);
@@ -103,8 +106,7 @@ public class BasicTilesContainerTest extends TestCase {
             exceptionFound = true;
         }
 
-        assertTrue("An attribute of 'object' type cannot be rendered",
-                exceptionFound);
+        assertTrue("An attribute of 'object' type cannot be rendered", exceptionFound);
     }
 
     /**
@@ -122,8 +124,7 @@ public class BasicTilesContainerTest extends TestCase {
         attribute.setRenderer("string");
         container.render(attribute, request);
         writer.close();
-        assertEquals("The attribute should have been rendered",
-                "This is the value", writer.toString());
+        assertEquals("The attribute should have been rendered", "This is the value", writer.toString());
         EasyMock.reset(request);
         request = EasyMock.createMock(Request.class);
         EasyMock.expect(request.isUserInRole("myrole")).andReturn(Boolean.FALSE);
@@ -131,8 +132,7 @@ public class BasicTilesContainerTest extends TestCase {
         writer = new StringWriter();
         container.render(attribute, request);
         writer.close();
-        assertNotSame("The attribute should have not been rendered",
-                "This is the value", writer);
+        assertNotSame("The attribute should have not been rendered", "This is the value", writer);
     }
 
     /**
@@ -143,7 +143,24 @@ public class BasicTilesContainerTest extends TestCase {
         EasyMock.replay(request);
         Attribute attribute = new Attribute("This is the value");
         Object value = container.evaluate(attribute, request);
-        assertEquals("The attribute has not been evaluated correctly",
-                "This is the value", value);
+        assertEquals("The attribute has not been evaluated correctly", "This is the value", value);
+    }
+
+    public void testJiraTiles544() throws IOException {
+        DispatchRequest request = EasyMock.createMock(DispatchRequest.class);
+        Map<String, Object> requestScope = new HashMap<String, Object>();
+        EasyMock.expect(request.getContext("request")).andReturn(requestScope).anyTimes();
+        EasyMock.expect(request.getContext("session")).andReturn(Collections.<String, Object> emptyMap()).anyTimes();
+        EasyMock.expect(request.getRequestLocale()).andReturn(Locale.ROOT).anyTimes();
+        request.dispatch("/test.jsp");
+        EasyMock.replay(request);
+        Attribute testDef1 = new Attribute("test.def1");
+        testDef1.setRenderer("definition");
+        BasicAttributeContext context = new BasicAttributeContext();
+        context.setTemplateAttribute(testDef1);
+        container.pushContext(context, request);
+        container.render(request, context);
+        container.popContext(request);
+        EasyMock.verify(request);
     }
 }
