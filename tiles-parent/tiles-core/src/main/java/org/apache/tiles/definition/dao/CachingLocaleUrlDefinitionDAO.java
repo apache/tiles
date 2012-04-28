@@ -222,7 +222,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
         Locale parentLocale = LocaleUtil.getParentLocale(customizationKey);
         localeDefsMap = new LinkedHashMap<String, Definition>();
         if (parentLocale != null) {
-            Map<String, Definition> parentDefs = loadParentDefinitions(parentLocale);
+            Map<String, Definition> parentDefs = loadRawDefinitionsFromResources(parentLocale);
             if (parentDefs != null) {
                 localeDefsMap.putAll(parentDefs);
             }
