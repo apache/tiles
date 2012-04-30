@@ -157,18 +157,6 @@ public class FreemarkerRequestTest {
     }
 
     /**
-     * Tests {@link FreemarkerRequest#getNativeScopes()}.
-     */
-    @Test
-    public void testGetNativeScopes() {
-        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
-        replay(enclosedRequest);
-        context = new FreemarkerRequest(enclosedRequest, env);
-        assertArrayEquals(new String[] {"page"}, context.getNativeScopes().toArray());
-        verify(enclosedRequest);
-    }
-
-    /**
      * Tests {@link FreemarkerRequest#getRequestLocale()}.
      */
     @Test

@@ -79,11 +79,6 @@ public class DispatchRequestWrapper extends AbstractRequest implements
     }
 
     /** {@inheritDoc} */
-    public List<String> getNativeScopes() {
-        return Collections.<String>emptyList();
-    }
-
-    /** {@inheritDoc} */
     public List<String> getAvailableScopes() {
         return context.getAvailableScopes();
     }

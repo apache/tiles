@@ -72,17 +72,6 @@ public class JspRequestTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.jsp.JspRequest#getNativeScopes()}.
-     */
-    @Test
-    public void testGetNativeScopes() {
-        replay(context, enclosedRequest);
-        assertArrayEquals(new String[] { "page", "request", "session",
-                "application" }, request.getNativeScopes().toArray());
-        verify(context, enclosedRequest);
-    }
-
-    /**
      * Test method for {@link org.apache.tiles.request.jsp.JspRequest#getWriter()}.
      */
     @Test

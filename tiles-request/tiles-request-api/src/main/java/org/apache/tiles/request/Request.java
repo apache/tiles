@@ -71,15 +71,6 @@ public interface Request {
     Map<String, Object> getContext(String scope);
 
     /**
-     * Returns the native scopes, i.e. scopes that are native to the
-     * implementation of the request itself (request, session and application
-     * for example).
-     *
-     * @return The native scopes.
-     */
-    List<String> getNativeScopes();
-
-    /**
      * Returns all available scopes, that are the ones returned by
      * {@link #getNativeScopes()} plus derivative scopes (e.g. flash scope).
      *

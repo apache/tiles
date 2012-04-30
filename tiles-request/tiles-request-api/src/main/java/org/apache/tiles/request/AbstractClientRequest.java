@@ -69,11 +69,6 @@ public abstract class AbstractClientRequest extends AbstractRequest {
         return applicationContext;
     }
 
-    @Override
-    public List<String> getAvailableScopes() {
-        return getNativeScopes();
-    }
-
     /**
      * Returns the application scope.
      *

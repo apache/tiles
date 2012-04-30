@@ -310,15 +310,6 @@ public class PortletRequestTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getNativeScopes()}.
-     */
-    @Test
-    public void testGetNativeScopes() {
-        assertArrayEquals(new String[] { "request", "portletSession",
-                "session", "application" }, req.getNativeScopes().toArray());
-    }
-
-    /**
      * Test method for {@link org.apache.tiles.request.portlet.PortletRequest#getOutputStream()}.
      * @throws IOException If something goes wrong.
      */

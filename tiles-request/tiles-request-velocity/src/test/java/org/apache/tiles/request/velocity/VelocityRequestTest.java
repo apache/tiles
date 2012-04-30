@@ -91,18 +91,6 @@ public class VelocityRequestTest {
     }
 
     /**
-     * Tests {@link FreemarkerRequest#getNativeScopes()}.
-     */
-    @Test
-    public void testGetNativeScopes() {
-        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
-        replay(enclosedRequest);
-        context = new VelocityRequest(enclosedRequest, velocityContext, writer);
-        assertArrayEquals(new String[] {"page"}, context.getNativeScopes().toArray());
-        verify(enclosedRequest);
-    }
-
-    /**
      * Tests {@link VelocityRequest#doInclude(String)}.
      *
      * @throws IOException If something goes wrong.

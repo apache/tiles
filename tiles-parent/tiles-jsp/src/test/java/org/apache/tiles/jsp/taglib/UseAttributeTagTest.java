@@ -43,7 +43,6 @@ import org.apache.tiles.access.TilesAccess;
 import org.apache.tiles.request.ApplicationAccess;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.jsp.JspRequest;
-import org.apache.tiles.request.scope.ReflectionContextResolver;
 import org.junit.Before;
 import org.junit.Test;
 

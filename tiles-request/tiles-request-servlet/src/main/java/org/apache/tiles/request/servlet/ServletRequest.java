@@ -216,7 +216,7 @@ public class ServletRequest extends AbstractClientRequest {
     }
 
     @Override
-    public List<String> getNativeScopes() {
+    public List<String> getAvailableScopes() {
         return SCOPES;
     }
 

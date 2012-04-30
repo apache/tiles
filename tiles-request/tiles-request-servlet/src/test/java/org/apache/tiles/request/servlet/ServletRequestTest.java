@@ -274,14 +274,6 @@ public class ServletRequestTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.servlet.ServletRequest#getNativeScopes()}.
-     */
-    @Test
-    public void testGetNativeScopes() {
-        assertArrayEquals(new String[] {"request", "session", "application"}, req.getNativeScopes().toArray());
-    }
-
-    /**
      * Test method for {@link org.apache.tiles.request.servlet.ServletRequest#getOutputStream()}.
      * @throws IOException If something goes wrong.
      */

@@ -121,7 +121,7 @@ public class FreemarkerRequest extends AbstractViewRequest {
     }
 
     @Override
-    public List<String> getNativeScopes() {
+    public List<String> getAvailableScopes() {
         return SCOPES;
     }
 

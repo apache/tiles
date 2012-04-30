@@ -151,19 +151,6 @@ public class DefaultRequestWrapperTest {
     }
 
     /**
-     * Test method for {@link org.apache.tiles.request.DefaultRequestWrapper#getNativeScopes()}.
-     */
-    @Test
-    public void testGetNativeScopes() {
-        Request wrappedRequest = createMockRequest();
-
-        replay(wrappedRequest);
-        RequestWrapper request = createRequestWrapper(wrappedRequest);
-        assertTrue(0 == request.getNativeScopes().size());
-        verify(wrappedRequest);
-    }
-
-    /**
      * Test method for {@link org.apache.tiles.request.DefaultRequestWrapper#getAvailableScopes()}.
      */
     @SuppressWarnings("unchecked")

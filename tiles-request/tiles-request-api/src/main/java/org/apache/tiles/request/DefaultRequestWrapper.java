@@ -125,11 +125,6 @@ public class DefaultRequestWrapper implements RequestWrapper {
     }
 
     /** {@inheritDoc} */
-    public List<String> getNativeScopes() {
-        return Collections.<String>emptyList();
-    }
-
-    /** {@inheritDoc} */
     public List<String> getAvailableScopes() {
         return context.getAvailableScopes();
     }
