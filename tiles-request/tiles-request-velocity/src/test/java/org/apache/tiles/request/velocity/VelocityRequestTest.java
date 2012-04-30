@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collections;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -91,6 +92,19 @@ public class VelocityRequestTest {
     }
 
     /**
+      * Tests {@link FreemarkerRequest#getNativeScopes()}.
+      */
+    @Test
+    public void testGetAvailableScopes() {
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
+        replay(enclosedRequest);
+        context = new VelocityRequest(enclosedRequest, velocityContext, writer);
+        assertArrayEquals(new String[] {"parent", "page"}, context.getAvailableScopes().toArray());
+        verify(enclosedRequest);
+    }
+
+    /**
      * Tests {@link VelocityRequest#doInclude(String)}.
      *
      * @throws IOException If something goes wrong.
@@ -110,6 +124,7 @@ public class VelocityRequestTest {
 
         expect(enclosedRequest.getRequest()).andReturn(servletRequest);
         expect(enclosedRequest.getResponse()).andReturn(response);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -134,6 +149,7 @@ public class VelocityRequestTest {
 
         expect(enclosedRequest.getRequest()).andReturn(servletRequest);
         expect(enclosedRequest.getResponse()).andReturn(response);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -162,6 +178,7 @@ public class VelocityRequestTest {
 
         expect(enclosedRequest.getRequest()).andReturn(servletRequest);
         expect(enclosedRequest.getResponse()).andReturn(response);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -175,6 +192,7 @@ public class VelocityRequestTest {
     @Test
     public void testGetPrintWriter() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -188,6 +206,7 @@ public class VelocityRequestTest {
     @Test
     public void testGetPrintWriterPrintWriter() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
 
         PrintWriter printWriter = new PrintWriter(writer);
         replay(velocityContext, enclosedRequest);
@@ -202,6 +221,7 @@ public class VelocityRequestTest {
     @Test(expected = IllegalStateException.class)
     public void testGetPrintWriterNoWriter() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, null);
@@ -215,6 +235,7 @@ public class VelocityRequestTest {
     @Test
     public void testGetWriter() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);
@@ -228,6 +249,7 @@ public class VelocityRequestTest {
     @Test(expected = IllegalStateException.class)
     public void testGetWriterNoWriter() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, null);
@@ -241,6 +263,7 @@ public class VelocityRequestTest {
     @Test
     public void testGetPageScope() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
 
         replay(velocityContext, enclosedRequest);
         context = new VelocityRequest(enclosedRequest, velocityContext, writer);

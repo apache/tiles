@@ -23,6 +23,7 @@ package org.apache.tiles.request.freemarker;
 
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -49,7 +50,7 @@ public class FreemarkerRequest extends AbstractViewRequest {
     /**
      * The natively available scopes. In fact, only "page".
      */
-    private static final List<String> SCOPES = Collections.singletonList("page");
+    private List<String> scopes;
 
     /**
      * The FreeMarker current environment.
@@ -90,6 +91,10 @@ public class FreemarkerRequest extends AbstractViewRequest {
     public FreemarkerRequest(DispatchRequest enclosedRequest,
             Environment env) {
         super(enclosedRequest);
+        List<String> scopes = new ArrayList<String>();
+        scopes.addAll(enclosedRequest.getAvailableScopes());
+        scopes.add("page");
+        this.scopes = Collections.unmodifiableList(scopes);
         this.env = env;
     }
 
@@ -122,7 +127,7 @@ public class FreemarkerRequest extends AbstractViewRequest {
 
     @Override
     public List<String> getAvailableScopes() {
-        return SCOPES;
+        return scopes;
     }
 
     /** {@inheritDoc} */

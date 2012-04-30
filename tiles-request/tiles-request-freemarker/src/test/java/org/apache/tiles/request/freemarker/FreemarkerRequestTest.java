@@ -22,12 +22,12 @@
 package org.apache.tiles.request.freemarker;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -36,10 +36,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
 import org.apache.tiles.request.DispatchRequest;
 import org.apache.tiles.request.servlet.ServletRequest;
-import org.apache.tiles.request.ApplicationAccess;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -137,9 +135,10 @@ public class FreemarkerRequestTest {
         Map<String, Object> requestScope = new HashMap<String, Object>();
 
         enclosedRequest.include(path);
-        context = new FreemarkerRequest(enclosedRequest, env);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
         expect(enclosedRequest.getContext("request")).andReturn(requestScope);
         replay(enclosedRequest, applicationContext);
+        context = new FreemarkerRequest(enclosedRequest, env);
         context.dispatch(path);
         verify(enclosedRequest, applicationContext);
     }
@@ -150,9 +149,24 @@ public class FreemarkerRequestTest {
     @Test
     public void testGetPageScope() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertTrue(context.getPageScope() instanceof EnvironmentScopeMap);
+        verify(enclosedRequest);
+    }
+
+    /**
+     * Tests {@link FreemarkerRequest#getNativeScopes()}.
+     */
+    @Test
+    public void testGetAvailableScopes() {
+        DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
+        replay(enclosedRequest);
+        context = new FreemarkerRequest(enclosedRequest, env);
+        assertArrayEquals(new String[] { "parent", "page" }, //
+                context.getAvailableScopes().toArray());
         verify(enclosedRequest);
     }
 
@@ -162,6 +176,7 @@ public class FreemarkerRequestTest {
     @Test
     public void testGetRequestLocale() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertEquals(locale, context.getRequestLocale());
@@ -174,6 +189,7 @@ public class FreemarkerRequestTest {
     @Test
     public void testGetRequest() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertEquals(env, context.getEnvironment());
@@ -186,6 +202,7 @@ public class FreemarkerRequestTest {
     @Test
     public void testGetResponse() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertEquals(env, context.getEnvironment());
@@ -198,7 +215,7 @@ public class FreemarkerRequestTest {
     @Test
     public void testGetPrintWriter() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
-
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertEquals(env, context.getEnvironment());
@@ -220,7 +237,7 @@ public class FreemarkerRequestTest {
         Locale locale = Locale.ITALY;
         env.setLocale(locale);
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
-
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertSame(writer, context.getPrintWriter());
@@ -234,7 +251,7 @@ public class FreemarkerRequestTest {
     @Test
     public void testGetWriter() {
         DispatchRequest enclosedRequest = createMock(DispatchRequest.class);
-
+        expect(enclosedRequest.getAvailableScopes()).andReturn(Collections.singletonList("parent"));
         replay(enclosedRequest);
         context = new FreemarkerRequest(enclosedRequest, env);
         assertEquals(env, context.getEnvironment());

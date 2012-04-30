@@ -24,6 +24,7 @@ package org.apache.tiles.request.velocity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class VelocityRequest extends AbstractViewRequest {
     /**
      * The native available scopes, in fact only "page".
      */
-    private static final List<String> SCOPES = Collections.singletonList("page");
+    private final List<String> scopes;
 
     /**
      * The Velocity current context.
@@ -98,13 +99,17 @@ public class VelocityRequest extends AbstractViewRequest {
     public VelocityRequest(
             DispatchRequest enclosedRequest, Context ctx, Writer writer) {
         super(enclosedRequest);
+        List<String> scopes = new ArrayList<String>();
+        scopes.addAll(enclosedRequest.getAvailableScopes());
+        scopes.add("page");
+        this.scopes = Collections.unmodifiableList(scopes);
         this.ctx = ctx;
         this.writer = writer;
     }
 
     @Override
     public List<String> getAvailableScopes() {
-        return SCOPES;
+        return scopes;
     }
 
     /** {@inheritDoc} */
