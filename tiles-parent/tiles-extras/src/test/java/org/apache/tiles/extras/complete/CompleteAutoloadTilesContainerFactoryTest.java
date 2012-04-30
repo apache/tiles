@@ -52,6 +52,7 @@ import org.apache.tiles.renderer.DefinitionRenderer;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.ApplicationResource;
 import org.apache.tiles.request.freemarker.render.FreemarkerRenderer;
+import org.apache.tiles.request.mustache.MustacheRenderer;
 import org.apache.tiles.request.render.BasicRendererFactory;
 import org.apache.tiles.request.render.ChainedDelegateRenderer;
 import org.apache.tiles.request.render.DispatchRenderer;
@@ -121,6 +122,7 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         rendererFactory.registerRenderer(eq("definition"), isA(DefinitionRenderer.class));
         rendererFactory.registerRenderer(eq("freemarker"), isA(FreemarkerRenderer.class));
         rendererFactory.registerRenderer(eq("velocity"), isA(VelocityRenderer.class));
+        rendererFactory.registerRenderer(eq("mustache"), isA(MustacheRenderer.class));
 
         expect(applicationContext.getContext()).andReturn(servletContext).anyTimes();
         expect(servletContext.getInitParameter(VelocityView.PROPERTIES_KEY)).andReturn(null);
@@ -158,12 +160,14 @@ public class CompleteAutoloadTilesContainerFactoryTest {
         Renderer definitionRenderer = createMock(Renderer.class);
         Renderer velocityRenderer = createMock(Renderer.class);
         Renderer freemarkerRenderer = createMock(Renderer.class);
+        Renderer mustacheRenderer = createMock(Renderer.class);
 
         expect(rendererFactory.getRenderer("string")).andReturn(stringRenderer);
         expect(rendererFactory.getRenderer("template")).andReturn(templateRenderer);
         expect(rendererFactory.getRenderer("definition")).andReturn(definitionRenderer);
         expect(rendererFactory.getRenderer("velocity")).andReturn(velocityRenderer);
         expect(rendererFactory.getRenderer("freemarker")).andReturn(freemarkerRenderer);
+        expect(rendererFactory.getRenderer("mustache")).andReturn(mustacheRenderer);
 
         replay(container, attributeEvaluatorFactory, rendererFactory, applicationContext);
         Renderer renderer = factory.createDefaultAttributeRenderer(rendererFactory, applicationContext, container,
