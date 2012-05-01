@@ -25,7 +25,7 @@ under the License.
     <parent>
         <artifactId>tiles-master</artifactId>
         <groupId>org.apache.tiles</groupId>
-        <version>4-SNAPSHOT</version>
+        <version>4</version>
         <relativePath/>
     </parent>
     <groupId>org.apache.tiles</groupId>
@@ -44,14 +44,6 @@ under the License.
         <system>JIRA</system>
         <url>https://issues.apache.org/jira/browse/TREQ</url>
     </issueManagement>
-    <repositories>
-        <repository>
-            <id>apache.snapshots</id>
-            <url>https://repository.apache.org/snapshots</url>
-            <releases><enabled>false</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
-    </repositories>
 
     <modules>
         <module>tiles-request-api</module>
@@ -349,6 +341,10 @@ under the License.
                                         <include>pom.xml</include>
                                         <include>src/**</include>
                                     </includes>
+                                    <excludes>
+                                        <exclude>**/*LICENSE.txt</exclude>
+                                        <exclude>**/*MANIFEST.MF</exclude>
+                                    </excludes>
                                 </configuration>
                             </execution>
                         </executions>
