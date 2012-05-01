@@ -60,16 +60,6 @@
       </resource>
     </resources>
 
-    <testResources>
-      <testResource>
-        <directory>src/test/java</directory>
-        <includes>
-          <include>**/*.xml</include>
-          <include>**/*.properties</include>
-        </includes>
-      </testResource>
-    </testResources>
-
   </build>
 
   <dependencies>

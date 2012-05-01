@@ -59,15 +59,6 @@
       </resource>
     </resources>
 
-    <testResources>
-      <testResource>
-        <directory>src/test/java</directory>
-        <includes>
-          <include>**/*.xml</include>
-          <include>**/*.properties</include>
-        </includes>
-      </testResource>
-    </testResources>
     <plugins>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
