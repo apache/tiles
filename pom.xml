@@ -24,33 +24,215 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.apache.tiles</groupId>
         <artifactId>tiles-master</artifactId>
+        <groupId>org.apache.tiles</groupId>
         <version>4</version>
+        <relativePath/>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.tiles</groupId>
-    <artifactId>tiles-reactor</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>tiles-parent</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Tiles Reactor</name>
-    <description>Tiles Reactor</description>
-    <url>http://tiles.apache.org/reactor/</url>
-
+    <name>Tiles 3</name>
+    <description>Tiles 3: A framework for page composition.</description>
+    <url>http://tiles.apache.org/framework/</url>
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/trunk/</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/trunk/</developerConnection>
-        <url>http://svn.apache.org/viewvc/tiles/framework/trunk/</url>
+        <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-parent/</connection>
+        <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-parent/</developerConnection>
+        <url>http://svn.eu.apache.org/viewvc/tiles/framework/trunk/tiles-parent/</url>
     </scm>
 
     <ciManagement />
 
     <modules>
-        <module>tiles-request</module>
-        <module>tiles-autotag</module>
-        <module>tiles-parent</module>
+        <module>tiles-api</module>
+        <module>tiles-core</module>
+        <module>tiles-template</module>
+        <module>tiles-servlet</module>
+        <module>tiles-jsp</module>
+        <module>tiles-freemarker</module>
+        <module>tiles-velocity</module>
+        <module>tiles-el</module>
+        <module>tiles-mvel</module>
+        <module>tiles-ognl</module>
+        <module>tiles-compat</module>
+        <module>tiles-extras</module>
+        <module>assembly</module>
+        <module>tiles-test-pom</module>
     </modules>
+
+    <issueManagement>
+        <system>JIRA</system>
+        <url>https://issues.apache.org/jira/browse/TILES</url>
+    </issueManagement>
+
+    <distributionManagement>
+        <site>
+            <id>apache-site</id>
+            <url>scp://people.apache.org/www/tiles.apache.org/framework</url>
+        </site>
+    </distributionManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-servlet</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-template</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-tools</artifactId>
+                <version>2.0</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>struts-taglib</artifactId>
+                        <groupId>org.apache.struts</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>struts-tiles</artifactId>
+                        <groupId>org.apache.struts</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>struts-core</artifactId>
+                        <groupId>org.apache.struts</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>sslext</artifactId>
+                        <groupId>sslext</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-chain</artifactId>
+                        <groupId>commons-chain</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-validator</artifactId>
+                        <groupId>commons-validator</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-digester</artifactId>
+                        <groupId>commons-digester</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>commons-beanutils</artifactId>
+                        <groupId>commons-beanutils</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>dom4j</artifactId>
+                        <groupId>dom4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-digester</groupId>
+                <artifactId>commons-digester</artifactId>
+                <version>2.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>2.3.15</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ognl</groupId>
+                <artifactId>ognl</artifactId>
+                <version>2.7.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mvel</groupId>
+                <artifactId>mvel2</artifactId>
+                <version>2.0.11</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>2.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>el-api</artifactId>
+                <version>1.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.7</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>3.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shale</groupId>
+                <artifactId>shale-test</artifactId>
+                <version>1.0.5</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymockclassextension</artifactId>
+                <version>3.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+            	<groupId>org.slf4j</groupId>
+            	<artifactId>slf4j-jdk14</artifactId>
+            	<version>1.5.8</version>
+            	<optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>1.5.8</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+            	<groupId>org.apache.tiles</groupId>
+            	<artifactId>tiles-request-api</artifactId>
+            	<version>${tiles.request.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>
@@ -70,7 +252,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>1.4.3</version>
+                    <version>2.3.7</version>
                     <inherited>true</inherited>
                 </plugin>
             </plugins>
@@ -109,77 +291,18 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <releaseProfiles>apache-release</releaseProfiles><!-- xxx tiles still uses "release" instead of "apache-release" -->
+                    <goals>deploy site-deploy</goals>
+                </configuration>
+            </plugin>
         </plugins>
 
         <defaultGoal>install</defaultGoal>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <configLocation>http://svn.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks.xml
-                    </configLocation>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jxr-maven-plugin</artifactId>
-                <version>2.3</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <configuration>
-                  <targetJdk>1.5</targetJdk>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <aggregate>true</aggregate>
-                    <excludePackageNames>org.apache.tiles.test</excludePackageNames>
-                    <links>
-                        <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-                        <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
-                        <link>http://commons.apache.org/chain/apidocs</link>
-                        <link>http://commons.apache.org/digester/commons-digester-1.6/docs/api</link>
-                        <link>http://commons.apache.org/logging/commons-logging-1.1/apidocs</link>
-                    </links>
-                    <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
-                    <docletArtifact>
-                        <groupId>gr.spinellis</groupId>
-                        <artifactId>UmlGraph</artifactId>
-                        <version>4.6</version>
-                    </docletArtifact>
-                    <additionalparam>
-                        -inferrel -inferdep -quiet -hide java.*
-                        -collpackages java.util.* -qualify
-                        -postfixpackage -nodefontsize 9
-                        -nodefontpackagesize 7
-                    </additionalparam>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>rat-maven-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>pom.xml</include>
-                        <include>src/**</include>
-                    </includes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
 
     <properties>
         <tiles.osgi.symbolicName>org.apache.${project.artifactId}</tiles.osgi.symbolicName>
@@ -188,63 +311,28 @@
         <tiles.osgi.dynamicImport />
         <tiles.osgi.private />
         <tiles.manifestfile>target/osgi/MANIFEST.MF</tiles.manifestfile>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tiles.request.version>1.0-SNAPSHOT</tiles.request.version>
+        <tiles.autotag.version>1.0-SNAPSHOT</tiles.autotag.version>
     </properties>
 
     <dependencies />
 
     <profiles>
         <profile>
-            <id>release</id>
-            <activation>
-                <property>
-                    <name>release</name>
-                </property>
-            </activation>
+            <id>apache-release</id>
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.0-alpha-3</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <artifactId>maven-install-plugin</artifactId>
+                        <configuration>
+                            <createChecksum>true</createChecksum>
+                        </configuration>
                     </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-source</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadoc</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- This configuration will be useful when the RAT plugin
-                    will be able to fail when a license header is missing
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>rat-maven-plugin</artifactId>
-                        <version>1.0-alpha-1</version>
+                        <version>1.0-alpha-3</version>
                         <executions>
                             <execution>
                                 <phase>verify</phase>
@@ -253,44 +341,46 @@
                                 </goals>
                                 <configuration>
                                     <addDefaultLicenseMatchers>false</addDefaultLicenseMatchers>
-                                        <licenseMatchers>
+                                    <licenseMatchers>
                                         <classNames>
-                                            <className>rat.license.standard.ApacheSoftwareLicense20</className>
+                                            <className>rat.analysis.license.ApacheSoftwareLicense20</className>
                                         </classNames>
                                     </licenseMatchers>
+                                    <includes>
+                                        <include>pom.xml</include>
+                                        <include>src/**</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/*LICENSE.txt</exclude>
+                                        <exclude>**/*MANIFEST.MF</exclude>
+                                    </excludes>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
-                     -->
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>linkcheck</id>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-linkcheck-plugin</artifactId>
+                        <version>1.1</version>
+                        <configuration>
+                            <excludedLinks>
+                                <excludedLink>/*</excludedLink>
+                                <excludedLink>**/index.html</excludedLink>
+                                <excludedLink>**/logo.png</excludedLink>
+                                <excludedLink>**/tiles-jsp/tagreference.html</excludedLink>
+                            </excludedLinks>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+
     </profiles>
 
-    <!-- Needs to be commented out for releases -->
-    <repositories>
-        <repository>
-            <id>apache.snapshots</id>
-            <url>https://repository.apache.org/content/groups/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache.snapshots</id>
-            <url>https://repository.apache.org/content/groups/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
