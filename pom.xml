@@ -133,6 +133,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jxr-maven-plugin</artifactId>
+                <version>2.3</version>
             </plugin>
             <plugin>
                 <artifactId>maven-pmd-plugin</artifactId>
@@ -181,7 +182,7 @@
     </reporting>
 
     <properties>
-        <tiles.osgi.symbolicName>org.apache.${artifactId}</tiles.osgi.symbolicName>
+        <tiles.osgi.symbolicName>org.apache.${project.artifactId}</tiles.osgi.symbolicName>
         <tiles.osgi.export>org.apache.tiles.*;version=${project.version}</tiles.osgi.export>
         <tiles.osgi.import>*</tiles.osgi.import>
         <tiles.osgi.dynamicImport />

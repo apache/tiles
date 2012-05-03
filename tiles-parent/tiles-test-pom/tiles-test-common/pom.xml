@@ -35,7 +35,7 @@
   <description>Common classes between modules of the test webapp.</description>
   <dependencies>
     <dependency>
-      <groupId>${pom.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>tiles-extras</artifactId>
       <version>${project.version}</version>
     </dependency>

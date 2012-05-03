@@ -33,7 +33,7 @@
   <description>Tiles configuration that uses a database.</description>
   <dependencies>
     <dependency>
-       <groupId>${pom.groupId}</groupId>
+       <groupId>org.apache.tiles</groupId>
        <artifactId>tiles-test-common</artifactId>
        <version>${project.version}</version>
     </dependency>

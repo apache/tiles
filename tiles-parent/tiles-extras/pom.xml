@@ -73,10 +73,10 @@
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-request-mustache</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${tiles.request.version}</version>
     </dependency>
     <dependency>
-      <groupId>${pom.groupId}</groupId>
+      <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-jsp</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -153,11 +153,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-      <id>java_net</id>
-      <url>http://download.java.net/maven/1/</url>
-      <layout>legacy</layout>
-    </repository>
-  </repositories>
 </project>

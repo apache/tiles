@@ -38,29 +38,29 @@
 
    <dependencies>
       <dependency>
-         <groupId>${pom.groupId}</groupId>
+         <groupId>org.apache.tiles</groupId>
          <artifactId>tiles-test-common</artifactId>
          <version>${project.version}</version>
       </dependency>
       <dependency>
-         <groupId>${pom.groupId}</groupId>
+         <groupId>org.apache.tiles</groupId>
          <artifactId>tiles-test-alt</artifactId>
          <version>${project.version}</version>
       </dependency>
       <dependency>
-         <groupId>${pom.groupId}</groupId>
+         <groupId>org.apache.tiles</groupId>
          <artifactId>tiles-test-db</artifactId>
          <version>${project.version}</version>
       </dependency>
       <dependency>
-         <groupId>${pom.groupId}</groupId>
+         <groupId>org.apache.tiles</groupId>
          <artifactId>tiles-extras</artifactId>
          <version>${project.version}</version>
       </dependency>
       <dependency>
-         <groupId>${pom.groupId}</groupId>
+         <groupId>org.apache.tiles</groupId>
          <artifactId>tiles-request-portlet</artifactId>
-         <version>1.0-SNAPSHOT</version>
+         <version>${tiles.request.version}</version>
       </dependency>
 
       <dependency>
@@ -162,7 +162,7 @@
                </configuration>
            </plugin>
        </plugins>
-     <finalName>${pom.artifactId}</finalName>
+     <finalName>${project.artifactId}</finalName>
    </build>
 
     <profiles>
@@ -206,10 +206,10 @@
                                 <phase>process-resources</phase>
                                 <configuration>
                                     <tasks>
-                                        <copy todir="${project.build.directory}/${artifactId}/selenium/core">
+                                        <copy todir="${project.build.directory}/${project.artifactId}/selenium/core">
                                             <fileset dir="${project.build.directory}/selenium/core" />
                                         </copy>
-                                        <copy todir="${project.build.directory}/${artifactId}/selenium/tests">
+                                        <copy todir="${project.build.directory}/${project.artifactId}/selenium/tests">
                                             <fileset dir="src/test/selenium" />
                                         </copy>
                                     </tasks>
@@ -414,6 +414,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>wagon-maven-plugin</artifactId>
+                        <version>1.0-beta-4</version>
                         <executions>
                             <execution>
                                 <phase>deploy</phase>

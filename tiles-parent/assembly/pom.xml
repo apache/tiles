@@ -51,7 +51,7 @@
             <descriptor>src/main/assembly/docs.xml</descriptor>
             <descriptor>src/main/assembly/src.xml</descriptor>
           </descriptors>
-          <finalName>tiles-${version}</finalName>
+          <finalName>tiles-${project.version}</finalName>
           <outputDirectory>target/assembly/out</outputDirectory>
           <workDirectory>target/assembly/work</workDirectory>
           <tarLongFileMode>gnu</tarLongFileMode>
@@ -123,6 +123,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>wagon-maven-plugin</artifactId>
+            <version>1.0-beta-4</version>
             <executions>
               <execution>
                 <phase>deploy</phase>
@@ -200,12 +201,5 @@
     </dependency>
 
   </dependencies>
-  <repositories>
-    <repository>
-      <id>java_net</id>
-      <url>http://download.java.net/maven/1/</url>
-      <layout>legacy</layout>
-    </repository>
-  </repositories>
 
 </project>

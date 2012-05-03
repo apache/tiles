@@ -66,6 +66,7 @@
       <plugin>
         <groupId>net.sf.dtddoc</groupId>
         <artifactId>dtddoc-maven-plugin</artifactId>
+        <version>1.1</version>
         <configuration>
           <docTitle>Tiles Definition File</docTitle>
         </configuration>
@@ -117,18 +118,5 @@
     </dependency>
 
   </dependencies>
-
-  <repositories>
-    <repository>
-      <id>dtddoc</id>
-      <url>http://dtddoc.sf.net/maven2</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>dtddoc</id>
-      <url>http://dtddoc.sf.net/maven2</url>
-    </pluginRepository>
-  </pluginRepositories>
 
 </project>
