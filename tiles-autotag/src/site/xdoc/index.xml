@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * $Id: index.xml 1162124 2011-08-26 14:16:13Z mck $
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+<document>
+
+    <properties>
+        <title>Home</title>
+    </properties>
+
+    <body>
+
+        <section name="Apache Autotag project">
+
+            <p>Tiles-3 introduces a feature complete
+                <a href="http://svn.eu.apache.org/repos/asf/tiles/sandbox/trunk/tiles-autotag/" title="Autotag SVN directory">Autotag project</a>,
+                a project that automatically generates tags (or tag-like) artifact from a common template code for a range of templating languages.
+                Today JSP tags, Freemarker directive models and Velocity directives are generated from a common template models.
+            </p>
+            <p>Such template models must have a single public method, with this signature:</p>
+            <p>
+                <span class="Apple-style-span" style="font-family: monospace; white-space: pre;">public void execute(&lt;parameters&gt;, Request request, ModelBody modelBody);</span>&nbsp;
+            </p>
+            <p>The modelBody parameter is optional: if it is not specified, the template model does not have a body.&nbsp;</p>
+            <p>For more features (required fields, default values, a name different to the one specified in the parameter list) a new annotation @Parameter has been created.</p>
+            <p>A Maven 2 (based on 2.2.1) plugin contains four Mojos:</p>
+            <p>&nbsp;</p>
+            <ul>
+                <li>the first mojo (create-descriptor) reads the template models and produces an XML file containing the description of the read models;</li>
+                <li>the others (generate-jsp, generate-freemarker, generate-velocity) produce boilerplate code.</li>
+            </ul>
+                <p>The projects using the latter mojos must include some runtime dependencies.</p>
+                <p>The boilerplate code has been removed and uses the plugin instead: it's a lot of boilerplate, boring code, now generated automatically.
+                </p>
+        </section>
+    </body>
+
+</document>

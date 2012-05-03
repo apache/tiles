@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>tiles-master</artifactId>
+        <groupId>org.apache.tiles</groupId>
+        <version>4</version>
+        <relativePath/>
+    </parent>
+    <groupId>org.apache.tiles</groupId>
+    <artifactId>tiles-autotag</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Autotags</name>
+    <description>Automatic generation of tags.</description>
+    <url>http://tiles.apache.org/tiles-autotag/</url>
+    <scm>
+        <connection>scm:svn:http://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-autotag/</connection>
+        <developerConnection>scm:svn:https://svn.eu.apache.org/repos/asf/tiles/framework/trunk/tiles-autotag/</developerConnection>
+        <url>http://svn.eu.apache.org/viewvc/tiles/framework/trunk/tiles-autotag/</url>
+    </scm>
+    <issueManagement>
+        <system>JIRA</system>
+        <url>https://issues.apache.org/jira/browse/AUTOTAG</url>
+    </issueManagement>
+
+    <modules>
+        <module>tiles-autotag-core-runtime</module>
+        <module>tiles-autotag-core</module>
+        <module>tiles-autotag-jsp</module>
+        <module>tiles-autotag-freemarker</module>
+        <module>tiles-autotag-velocity</module>
+        <module>maven-autotag-plugin</module>
+    </modules>
+    <distributionManagement>
+        <site>
+            <id>apache-site</id>
+            <url>scp://people.apache.org/www/tiles.apache.org/tiles-autotag</url>
+        </site>
+    </distributionManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.7</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.thoughtworks.qdox</groupId>
+                <artifactId>qdox</artifactId>
+                <version>1.10.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-request-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>3.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-autotag-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-autotag-core-runtime</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>1.6.3</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <profiles>
+        <profile>
+            <id>apache-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-install-plugin</artifactId>
+                        <configuration>
+                            <createChecksum>true</createChecksum>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>rat-maven-plugin</artifactId>
+                        <version>1.0-alpha-3</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <configuration>
+                                    <addDefaultLicenseMatchers>false</addDefaultLicenseMatchers>
+                                    <licenseMatchers>
+                                        <classNames>
+                                            <className>rat.analysis.license.ApacheSoftwareLicense20</className>
+                                        </classNames>
+                                        <classNames>
+                                            <className>rat.analysis.generation.GeneratedLicenseNotRequired</className>
+                                        </classNames>
+                                    </licenseMatchers>
+                                    <includes>
+                                        <include>pom.xml</include>
+                                        <include>src/**</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/*LICENSE.txt</exclude>
+                                        <exclude>**/*MANIFEST.MF</exclude>
+                                    </excludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>linkcheck</id>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-linkcheck-plugin</artifactId>
+                        <version>1.1</version>
+                        <configuration>
+                            <excludedLinks>
+                                <excludedLink>**/index.html</excludedLink>
+                                <excludedLink>**/logo.png</excludedLink>
+                            </excludedLinks>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+
+    </profiles>
+
+</project>

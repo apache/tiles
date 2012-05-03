@@ -1,0 +1,183 @@
+<!--
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+ -->
+<org.apache.tiles.autotag.model.TemplateSuite>
+  <name>test</name>
+  <templateClasses class="linked-hash-map">
+    <entry>
+      <string>org.apache.tiles.autotag.plugin.internal.ExampleExecutableModel</string>
+      <org.apache.tiles.autotag.model.TemplateClass>
+        <name>org.apache.tiles.autotag.plugin.internal.ExampleExecutableModel</name>
+        <tagName>exampleExecutable</tagName>
+        <tagClassPrefix>ExampleExecutable</tagClassPrefix>
+        <documentation>Example executable template.</documentation>
+        <executeMethod>
+          <name>execute</name>
+          <documentation>It executes.</documentation>
+          <parameters class="linked-hash-map">
+            <entry>
+              <string>one</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>one</name>
+                <exportedName>one</exportedName>
+                <documentation>Parameter one.</documentation>
+                <type>java.lang.String</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+            <entry>
+              <string>two</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>two</name>
+                <exportedName>two</exportedName>
+                <documentation>Parameter two.</documentation>
+                <type>int</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+            <entry>
+              <string>request</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>request</name>
+                <exportedName>request</exportedName>
+                <documentation>The request.</documentation>
+                <type>org.apache.tiles.request.Request</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+          </parameters>
+        </executeMethod>
+      </org.apache.tiles.autotag.model.TemplateClass>
+    </entry>
+    <entry>
+      <string>org.apache.tiles.autotag.plugin.internal.ExampleModel</string>
+      <org.apache.tiles.autotag.model.TemplateClass>
+        <name>org.apache.tiles.autotag.plugin.internal.ExampleModel</name>
+        <tagName>example</tagName>
+        <tagClassPrefix>Example</tagClassPrefix>
+        <documentation>Example start/stop template.</documentation>
+        <executeMethod>
+          <name>execute</name>
+          <documentation>It starts.</documentation>
+          <parameters class="linked-hash-map">
+            <entry>
+              <string>one</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>one</name>
+                <exportedName>one</exportedName>
+                <documentation>Parameter one.</documentation>
+                <type>java.lang.String</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+            <entry>
+              <string>two</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>two</name>
+                <exportedName>two</exportedName>
+                <documentation>Parameter two.</documentation>
+                <type>int</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+            <entry>
+              <string>request</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>request</name>
+                <exportedName>request</exportedName>
+                <documentation>The request.</documentation>
+                <type>org.apache.tiles.request.Request</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+            <entry>
+              <string>modelBody</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>modelBody</name>
+                <exportedName>modelBody</exportedName>
+                <documentation>The model body.</documentation>
+                <type>org.apache.tiles.autotag.core.runtime.ModelBody</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+          </parameters>
+        </executeMethod>
+      </org.apache.tiles.autotag.model.TemplateClass>
+    </entry>
+    <entry>
+      <string>org.apache.tiles.autotag.plugin.internal.AnnotatedExampleModel</string>
+      <org.apache.tiles.autotag.model.TemplateClass>
+        <name>org.apache.tiles.autotag.plugin.internal.AnnotatedExampleModel</name>
+        <tagName>annotatedExample</tagName>
+        <tagClassPrefix>AnnotatedExample</tagClassPrefix>
+        <documentation>Example start/stop template.</documentation>
+        <executeMethod>
+          <name>execute</name>
+          <documentation>It starts.</documentation>
+          <parameters class="linked-hash-map">
+            <entry>
+              <string>one</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>one</name>
+                <exportedName>alternateOne</exportedName>
+                <documentation>Parameter one.</documentation>
+                <type>java.lang.String</type>
+                <defaultValue>hello</defaultValue>
+                <required>true</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+            <entry>
+              <string>two</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>two</name>
+                <exportedName>two</exportedName>
+                <documentation>Parameter two.</documentation>
+                <type>int</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+            <entry>
+              <string>request</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>request</name>
+                <exportedName>request</exportedName>
+                <documentation>The request.</documentation>
+                <type>org.apache.tiles.request.Request</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+            <entry>
+              <string>modelBody</string>
+              <org.apache.tiles.autotag.model.TemplateParameter>
+                <name>modelBody</name>
+                <exportedName>modelBody</exportedName>
+                <documentation>The model body.</documentation>
+                <type>org.apache.tiles.autotag.core.runtime.ModelBody</type>
+                <required>false</required>
+              </org.apache.tiles.autotag.model.TemplateParameter>
+            </entry>
+          </parameters>
+        </executeMethod>
+      </org.apache.tiles.autotag.model.TemplateClass>
+    </entry>
+  </templateClasses>
+</org.apache.tiles.autotag.model.TemplateSuite>

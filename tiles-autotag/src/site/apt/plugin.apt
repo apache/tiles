@@ -1,0 +1,105 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Building a tag library for Freemarker, JSP or Velocity
+         -----------
+         
+Building a tag library for Freemarker, JSP or Velocity
+
+  Once you have {{{./taglib.html}created a generic tag library}},
+  Autotag will automatically generate the corresponding library
+  for Freemarker, JSP, or Velocity. You just create a maven project 
+  and include in <<<pom.xml>>>:
+  
+  * The appropriate implementation of tiles-request as a dependency. 
+  For instance to build a JSP taglib:
+
+-----------------
+<dependency>
+  <groupId>org.apache.tiles</groupId>
+  <artifactId>tiles-request-jsp</artifactId>
+  <version>1.0</version>
+</dependency>
+-----------------
+  
+  * Your generic tag library as a dependency. For instance:
+
+-----------------
+<dependency>
+  <groupId>org.example</groupId>
+  <artifactId>my-taglib</artifactId>
+  <version>1.0-SNAPSHOT</version>
+</dependency>
+-----------------
+  
+  * The appropriate configuration of maven-autotag-plugin. For instance:
+  
+-----------------
+<plugin>
+  <groupId>org.apache.tiles.autotag.plugin</groupId>
+  <artifactId>maven-autotag-plugin</artifactId>
+  <version>1.0</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>generate-jsp</goal>
+      </goals>
+      <configuration>
+        <packageName>org.example.mytaglib.jsp</packageName>
+        <jspRuntime>org.apache.tiles.request.jsp.autotag.JspAutotagRuntime</jspRuntime>
+        <taglibURI>http://example.org/mytaglib</taglibURI>
+      </configuration> 
+    </execution>
+  </executions>
+</plugin>
+-----------------
+
+  No further code is required.
+
+Plugin goals
+
+  one or several of the following goals may be used:
+
+  [generate-jsp] generates the files required for a JSP tag library. It can then be included
+  in a JSP using the configured taglibURI.
+  
+  [generate-freemarker] generates the files required for freemarker user-defined directives.
+  The directives can then be made available to freemarker by adding an instance of the 
+  generated class <<<...FMModelRepository>>> to the freemarker template model.
+  
+  [generate-velocity] generates the files required for velocity user directives. The directives
+  can be made available to Velocity by setting the <<<userdirective>>> property, either manually
+  or by using the generated file <<<META-INF/velocity.properties>>>.
+  
+Plugin configuration
+
+  [packageName] the destination package for the generated classes.
+  
+  [freemarkerRuntime] the runtime implementation of TilesRequest to use for freemarker, for 
+  instance <<<org.apache.tiles.request.freemarker.autotag.FreemarkerAutotagRuntime>>>.
+  
+  [jspRuntime] the runtime implementation of TilesRequest to use for JSP, for 
+  instance <<<org.apache.tiles.request.jsp.autotag.JSPAutotagRuntime>>>.
+  
+  [velocityRuntime] the runtime implementation of TilesRequest to use for velocity, for 
+  instance <<<org.apache.tiles.request.velocity.autotag.VelocityAutotagRuntime>>>.
+  
+  [taglibURI] the URI to use for the JSP taglib.
+  

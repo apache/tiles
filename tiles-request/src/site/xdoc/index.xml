@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * $Id: index.xml 1162124 2011-08-26 14:16:13Z mck $
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+<document>
+
+    <properties>
+        <title>Home</title>
+    </properties>
+
+    <body>
+
+        <section name="Apache Request microframework project">
+
+            <p>Tiles has served the purpose of rendering views for the Model-View-Controller pattern in JavaEE for years.</p>
+            <p>Tiles-3 introduces a complete standalone and super simple abstraction around request/response objects.
+            <p>We've all seen that the various technologies like Servlet, Portlet, JSP, Velocity, FreeMarker seem to have a different abstraction of a common pattern.
+            They all have a concept of:</p>
+            <ul>
+                <li>request: the client request, or some sort of it;</li>
+                <li>response: the response to send to the client, or to the caller, with a writer/output stream to write into;</li>
+                <li>attributes: usually maps (or map-like structures) with string keys and object values;</li>
+                <li>scope: places where different attribute maps are stored (request, session, etc.)</li>
+            </ul>
+            <p>Now all of these scopes are concentrated into "Request" interfaces, that acts as a single point of reference for the developer.
+            In theory, everything you need for rendering a view can be obtained by an object that implements Request, and Request implementations can be built that do not rely on an application server environment.</p>
+            <p> </p>
+            <p>Currently there are bindings for Servlet, Portlet, JSP, Mustache, Velocity and FreeMarker.</p></p>
+
+        </section>
+    </body>
+
+</document>

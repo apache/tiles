@@ -1,0 +1,108 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Creating a generic tag library with Autotag
+         -----------
+
+Creating a generic tag library
+
+  A generic tag library is a jar file including the classes that implement
+  the tags and a library descriptor <<<META-INF/template-suite.xml>>>, that can be used by
+  Autotag to build specific tag libraries for Freemarker, JSP, and Velocity.
+  
+  The structure of the library descriptor is rather complex; fortunately 
+  Autotag can generate it for you by parsing the sources.
+
+* The tag class
+
+  A tag in the library can be implemented by any java class that fits the following requirements:
+  
+  * The class name ends with <<<Model>>>.
+  
+  * It has a public, non-static, non-abstract method called <<<execute>>>.
+  
+  * The <<<execute>>> method returns <<<void>>>.
+  
+  * The parameters of the <<<execute>>> method are as follows:
+  
+  ** the first parameters may be anything you want; at runtime they will contain the values 
+  assigned to the attributes of the tag in the template. Those parameters may be annotated with
+  <<<org.apache.tiles.autotag.core.runtime.annotation.Parameter>>> in order to specify the name of
+  the attribute, the default value, or to make the parameter mandatory.
+  
+  ** then, one parameter of type <<<org.apache.tiles.request.Request>>>.
+  
+  ** and finally, one optional parameter of type <<<org.apache.tiles.autotag.core.runtime.ModelBody>>>;
+  at runtime it will contain the contents of the tag in the template.
+  
+  For instance:
+
+----------------
+public class MyTagModel {
+
+    public void execute( 
+        @Parameter(required=true) String mandatoryParam, 
+        String optionalParam, 
+        Request request, 
+        ModelBody body) {
+        ...
+    }
+
+}
+----------------
+  
+* Generating the library descriptor
+
+  the library descriptor can be generated using the create-descriptor goal of maven-autotag-plugin.
+  
+-----------------
+<plugin>
+  <groupId>org.apache.tiles.autotag.plugin</groupId>
+  <artifactId>maven-autotag-plugin</artifactId>
+  <version>1.0</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>create-descriptor</goal>
+      </goals>
+      <configuration>
+        ...
+      </configuration> 
+    </execution>
+  </executions>
+</plugin>
+-----------------
+
+** Configuration reference
+
+  [name] is the name of the tag library (for instance: <<<tiles>>>). It will be used for naming a
+  number of generated files.
+  
+  [documentation] is a documentation that will be included in the library descriptor, and then 
+  later in the appropriate artefacts when generating the taglibs.
+  
+  [includes] specifies what source files should be included, defaults to <<<**/*Model.java>>>.
+  It follows the usual conventions in maven.
+  
+  [excludes] specifies what source files should be included, defaults to nothing.
+  It follows the usual conventions in maven.
+  
+  [outputDirectory] specifies where to put the generated files, defaults to 
+  <<<target/autotag-template-suite>>>.

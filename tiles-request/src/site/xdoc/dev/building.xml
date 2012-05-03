@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+<document>
+
+    <properties>
+        <title>Apache Request Microframework</title>
+    </properties>
+
+    <body>
+        <section name="Building the Request Microframework">
+          <subsection name="Prerequisites">
+            <p>For all the next instructions, we assume that you downloaded and
+            installed <a href="http://maven.apache.org/">Maven</a>.</p>
+            <p>To download packages from the source repository, you need to
+            download and install <a href="http://subversion.tigris.org/">
+            Subversion</a>.</p>
+            <p>If you want to build something including JavaDocs (assemblies,
+            sites and JavaDoc report itself) you need to install
+            <a href="http://www.graphviz.org/">GraphViz</a>, otherwise you will
+            notice missing pictures inside JavaDocs pages.</p>
+          </subsection>
+          <subsection name="Building main packages">
+            <p>To build the Request Microframework from source you need to:</p>
+            <ul>
+            <li><p><a href="../../download.html">download</a> the source
+            distribution, or checkout the latest version:</p>
+            <p><source>svn co http://svn.apache.org/repos/asf/tiles/framework/trunk/tiles-request</source></p></li>
+            <li><p>go into the source directory and type:</p>
+            <p><source>mvn package</source></p></li>
+            </ul>
+            <p>You will find the generated JARs under:</p>
+            <ul>
+            <li>{tiles-dir}/tiles-request-api/target/tiles-request-api-${version}.jar</li>
+            <li>{tiles-dir}/tiles-request-{implementation}/target/tiles-request-{implementation}-${version}.jar</li>
+            </ul>
+          </subsection>
+        </section>
+        <section name="Building the websites">
+          <p>There are four Tiles websites: the main website and the projects
+          websites (tiles-request, tiles-autotag and framework).</p>
+          <subsection name="Building the main website">
+            <p>To build the main website:</p>
+            <ul>
+            <li><p>checkout the site from the source repository:</p>
+            <p><source>svn co http://svn.apache.org/repos/asf/tiles/site/</source></p></li>
+            <li><p>go into the site directory and type:</p>
+            <p><source>mvn site</source></p></li>
+            </ul>
+            <p>You will find the generated distribution under
+            <code>{tiles-site-dir}/target/site</code>.</p>
+          </subsection>
+          <subsection name="Building the tiles-request website">
+            <p>To build a project's website:</p>
+            <ul>
+            <li><p><a href="../download.html">download</a> the source
+            distribution, or checkout the latest version:</p>
+            <p><source>svn co http://svn.apache.org/repos/asf/tiles/framework/trunk/tiles-request</source></p></li>
+            <li><p>go into the source directory and type:</p>
+            <p><source>mvn site site:stage</source></p></li>
+            </ul>
+            <p>You will find the generated website under:</p>
+            <ul>
+            <li>{tiles-request-dir}/target/staging</li>
+            </ul>
+          </subsection>
+        </section>
+    </body>
+
+</document>
