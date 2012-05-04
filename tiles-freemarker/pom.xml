@@ -26,7 +26,7 @@
   <groupId>org.apache.tiles</groupId>
   <artifactId>tiles-freemarker</artifactId>
   <name>Tiles - FreeMarker Support</name>
-  <description>Support for FreeMarker in Apache Tiles&#8482;. For more read http://tiles.apache.org/framework/tutorial/integration/freemarker.html</description>
+  <description>Support for FreeMarker in Apache Tiles. For more read http://tiles.apache.org/framework/tutorial/integration/freemarker.html</description>
   <parent>
       <artifactId>tiles-parent</artifactId>
       <groupId>org.apache.tiles</groupId>
