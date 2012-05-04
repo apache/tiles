@@ -312,8 +312,8 @@
         <tiles.osgi.private />
         <tiles.manifestfile>target/osgi/MANIFEST.MF</tiles.manifestfile>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tiles.request.version>1.0-SNAPSHOT</tiles.request.version>
-        <tiles.autotag.version>1.0-SNAPSHOT</tiles.autotag.version>
+        <tiles.request.version>1.0.0</tiles.request.version>
+        <tiles.autotag.version>1.0.0</tiles.autotag.version>
     </properties>
 
     <dependencies />
