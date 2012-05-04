@@ -30,13 +30,13 @@
   <parent>
     <groupId>org.apache.tiles</groupId>
     <artifactId>tiles-parent</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1-SNAPSHOT</version>
   </parent>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/branches/TILES_3_0_X/assembly</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/branches/TILES_3_0_X/assembly</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi/tiles/framework/branches/TILES_3_0_X/assembly</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/trunk/assembly</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/trunk/assembly</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/tiles/framework/trunk/assembly</url>
   </scm>
 
   <build>
