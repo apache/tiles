@@ -30,7 +30,7 @@
   <parent>
       <artifactId>tiles-parent</artifactId>
       <groupId>org.apache.tiles</groupId>
-      <version>3.0.0-SNAPSHOT</version>
+      <version>3.0.0</version>
   </parent>
   <build>
     <plugins>
