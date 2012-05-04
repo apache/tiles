@@ -27,7 +27,7 @@
         <artifactId>tiles-master</artifactId>
         <groupId>org.apache.tiles</groupId>
         <version>4</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -39,9 +39,9 @@
     <description>Tiles 3: A framework for page composition.</description>
     <url>http://tiles.apache.org/framework/</url>
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/trunk/</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/trunk/</developerConnection>
-        <url>http://svn.apache.org/viewvc/tiles/framework/trunk/</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/branches/TILES_3_0_X</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/branches/TILES_3_0_X</developerConnection>
+        <url>http://svn.apache.org/viewvc/tiles/framework/branches/TILES_3_0_X</url>
     </scm>
 
     <ciManagement />

@@ -34,9 +34,9 @@
   </parent>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/trunk/assembly</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/trunk/assembly</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi/tiles/framework/trunk/assembly</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/branches/TILES_3_0_X/assembly</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/branches/TILES_3_0_X/assembly</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/tiles/framework/branches/TILES_3_0_X/assembly</url>
   </scm>
 
   <build>
@@ -111,9 +111,9 @@
                       <fileset dir="${settings.localRepository}/org/apache/tiles/tiles-assembly/${project.version}">
                         <include name="tiles-assembly-${project.version}-*.zip*" />
                         <include name="tiles-assembly-${project.version}-*.tar.gz*" />
-                        <exclude name="tiles-assembly-${project.version}-source-release.*"/>
+                        <exclude name="tiles-assembly-${project.version}-source-release.*" />
                       </fileset>
-                      <mapper type="glob" from="tiles-assembly-*" to="tiles-*"/>
+                      <mapper type="glob" from="tiles-assembly-*" to="tiles-*" />
                     </copy>
                   </tasks>
                 </configuration>
