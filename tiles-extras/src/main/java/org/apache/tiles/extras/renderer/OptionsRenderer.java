@@ -59,10 +59,13 @@ import org.slf4j.LoggerFactory;
  * will look for content.jsp <br/>
  * first in "/WEB-INF/tiles/fragments/car/" then <br/>
  * second in "/WEB-INF/tiles/fragments/vechile/" and <br/>
- * last in "/WEB-INF/tiles/fragments/advert". 
+ * last in "/WEB-INF/tiles/fragments/advert".
  * <p/>
  * <p/>
  * Currently only supports one occurrance of such an "option" pattern in the attribute's value.
+ *
+ * Limitation: "looking" for templates is implemented using applicationContext.getResource(..)
+ * therefore the option values in the options list need to be visible as applicationResources.
  *
  */
 public final class OptionsRenderer implements Renderer {
@@ -98,9 +101,9 @@ public final class OptionsRenderer implements Renderer {
                     .getAttributeContext(request)
                     .getAttribute(match);
 
-            if (null == fallbacks){
+            if (null == fallbacks) {
                 throw new IllegalStateException("A matching list-attribute name=\"" + match + "\" must be defined.");
-            }else if (fallbacks.getValue().isEmpty()){
+            } else if (fallbacks.getValue().isEmpty()) {
                 throw new IllegalStateException(
                         "list-attribute name=\"" + match + "\" must have minimum one attribute");
             }
@@ -131,7 +134,7 @@ public final class OptionsRenderer implements Renderer {
                 if (ex.getMessage().contains(template)) {
                     // expected outcome. continue loop.
                     LOG.trace(ex.getMessage());
-                }else{
+                } else {
                     // comes from an inner templateAttribute.render(..) so throw on
                     throw ex;
                 }
@@ -165,11 +168,11 @@ public final class OptionsRenderer implements Renderer {
                 : 1000 * 60 * 5;
 
         static boolean isTemplateMissing(final String template) {
-            if (0 < CACHE_LIFE && System.currentTimeMillis() > cacheLastCleaned + CACHE_LIFE){
+            if (0 < CACHE_LIFE && System.currentTimeMillis() > cacheLastCleaned + CACHE_LIFE) {
                 cacheLastCleaned = System.currentTimeMillis();
                 TEMPLATE_EXISTS.clear();
                 return false;
-            }else{
+            } else {
                 return TEMPLATE_EXISTS.containsKey(template) && !TEMPLATE_EXISTS.get(template);
             }
         }
