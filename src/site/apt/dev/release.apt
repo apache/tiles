@@ -136,8 +136,10 @@ mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
 -----------------------------------
 
   The plugin interactively will ask you the version to release, the Subversion
-  tag to use and the next snapshot version. It is reccomended to use the tag:
+  tag to use and the next snapshot version. It is recommended to use the tag:
   <<tiles-X.X.X>>.
+  
+  See also {{{http://www.apache.org/dev/publishing-maven-artifacts.html}the recommendations of the ASF}}.
 
 * Perform the Release
 
@@ -146,6 +148,8 @@ mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
 -----------------------------------
 mvn release:perform
 -----------------------------------
+  
+  It should compile and test everything, build and upload the artifacts and the website for the project. 
 
 * Close the staging repository
 
@@ -168,32 +172,11 @@ mvn release:perform
 
   Note the repository URL, you will need this in your vote email.
 
-* Digest and upload assemblies
+* Verify the uploaded assemblies
 
-  * Go into the release assembly target directory:
-
------------------------------------
-cd target/checkout/assembly/target/assembly/out
------------------------------------
-
-  * Create MD5 and SHA1 files for each files (including ASC files). You can do
-  it with this simple shell script:
-
------------------------------------
-#!/bin/sh
-
-for fileitem in *
-do
-  openssl md5 < $fileitem > $fileitem.md5
-  openssl sha1 < $fileitem > $fileitem.sha1
-done
------------------------------------
-
-  * Upload everything to the build site:
-
------------------------------------
-scp * user@people.apache.org:/www/people.apache.org/builds/tiles/${version}
------------------------------------
+  * go to the destination directory on people.apache.org (cd /www/people.apache.org/builds/tiles/${version}).
+  
+  * check the presence of the 3 distributions (bin, doc and src), and their signature files (*.asc, *.md5, *sha1). 
 
 * Release the JIRA version
 
@@ -334,11 +317,11 @@ http://tiles.apache.org/download.html
 It is also available in the central Maven repository under Group ID
 "org.apache.tiles".
 
-The 2.0.x series of the Apache Tiles framework has a minimum
+The 3.0.x series of the Apache Tiles framework has a minimum
 requirement of the following specification versions:
 
-* Java Servlet 2.4 and JavaServer Pages (JSP) 2.0
-* Java Standard Edition (Java SE) 1.5
+* Java Servlet 2.5 and JavaServer Pages (JSP) 2.1
+* Java Standard Edition (Java SE) 1.6
 
 The release notes are available online at:
 

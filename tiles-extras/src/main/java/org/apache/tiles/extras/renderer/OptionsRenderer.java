@@ -40,29 +40,32 @@ import org.slf4j.LoggerFactory;
 /**
  * Provides a custom "options" syntax for attributes.
  * The first option that can be rendered is.
- * Comes from http://tech.finn.no/the-ultimate-view/<p/>
+ * Comes from <a href="http://tech.finn.no/the-ultimate-view/">The Ultimate View</a> article.<p/>
  *
- * Actual rendering is delegated to the TypeDetectingRenderer that's supplied in the constructor.
+ * Actual rendering is delegated to the TypeDetectingRenderer that's supplied in the constructor.<p/>
  *
  * For example:
  * "/WEB-INF/tiles/fragments/${options[myoptions]}/content.jsp"
  * given the myptions list-attribute is defined like:
  * <pre>
-        <put-list-attribute name="myoptions">
-            <add-list-attribute>
-                <add-attribute value="car"/>
-                <add-attribute value="vechile"/>
-                <add-attribute value="advert"/>
-            </add-list-attribute>
-        </put-list-attribute>
+        &lt;put-list-attribute name="myoptions">
+            &lt;add-list-attribute>
+                &lt;add-attribute value="car"/>
+                &lt;add-attribute value="vechile"/>
+                &lt;add-attribute value="advert"/>
+            &lt;/add-list-attribute>
+        &lt;/put-list-attribute>
    </pre>
- * will look for content.jsp
- * first in "/WEB-INF/tiles/fragments/car/" then
- * second in "/WEB-INF/tiles/fragments/vechile/" and
+ * will look for content.jsp <br/>
+ * first in "/WEB-INF/tiles/fragments/car/" then <br/>
+ * second in "/WEB-INF/tiles/fragments/vechile/" and <br/>
  * last in "/WEB-INF/tiles/fragments/advert".
  * <p/>
  * <p/>
  * Currently only supports one occurrance of such an "option" pattern in the attribute's value.
+ *
+ * Limitation: "looking" for templates is implemented using applicationContext.getResource(..)
+ * therefore the option values in the options list need to be visible as applicationResources.
  *
  */
 public final class OptionsRenderer implements Renderer {
@@ -75,7 +78,7 @@ public final class OptionsRenderer implements Renderer {
     private final ApplicationContext applicationContext;
     private final Renderer renderer;
 
-    public OptionsRenderer(final ApplicationContext applicationContext, final Renderer renderer){
+    public OptionsRenderer(final ApplicationContext applicationContext, final Renderer renderer) {
         this.applicationContext = applicationContext;
         this.renderer = renderer;
     }
@@ -98,16 +101,17 @@ public final class OptionsRenderer implements Renderer {
                     .getAttributeContext(request)
                     .getAttribute(match);
 
-            if(null == fallbacks){
+            if (null == fallbacks) {
                 throw new IllegalStateException("A matching list-attribute name=\"" + match + "\" must be defined.");
-            }else if(fallbacks.getValue().isEmpty()){
-                throw new IllegalStateException("list-attribute name=\"" + match + "\" must have minimum one attribute");
+            } else if (fallbacks.getValue().isEmpty()) {
+                throw new IllegalStateException(
+                        "list-attribute name=\"" + match + "\" must have minimum one attribute");
             }
 
             for (Attribute option : (List<Attribute>) fallbacks.getValue()) {
-                String template = path.replaceFirst(Pattern.quote(matcher.group()), (String)option.getValue());
+                String template = path.replaceFirst(Pattern.quote(matcher.group()), (String) option.getValue());
                 done = renderAttempt(template, request);
-                if(done){ break; }
+                if (done) { break; }
             }
             if (!done) {
               throw new IOException("None of the options existed for " + path);
@@ -117,9 +121,9 @@ public final class OptionsRenderer implements Renderer {
         }
     }
 
-    private boolean renderAttempt(final String template, final Request request) throws IOException{
+    private boolean renderAttempt(final String template, final Request request) throws IOException {
         boolean result = false;
-        if(!Cache.isTemplateMissing(template)){
+        if (!Cache.isTemplateMissing(template)) {
             try {
                 if (null != applicationContext.getResource(template)) { // can throw FileNotFoundException !
                     renderer.render(template, request); // can throw FileNotFoundException !
@@ -127,14 +131,14 @@ public final class OptionsRenderer implements Renderer {
                     Cache.setIfAbsentTemplateFound(template, true);
                 }
             } catch (FileNotFoundException ex) {
-                if(ex.getMessage().contains(template)){
+                if (ex.getMessage().contains(template)) {
                     // expected outcome. continue loop.
                     LOG.trace(ex.getMessage());
-                }else{
+                } else {
                     // comes from an inner templateAttribute.render(..) so throw on
                     throw ex;
                 }
-            } catch(IOException ex){ //xxx ???
+            } catch (IOException ex) { //xxx ???
                 throw ex;
             }
             Cache.setIfAbsentTemplateFound(template, false);
@@ -142,14 +146,14 @@ public final class OptionsRenderer implements Renderer {
         return result;
     }
 
-    private static final class Cache{
+    private static final class Cache {
 
         /** It takes CACHE_LIFE milliseconds for any hot deployments to register.
          */
         private static final ConcurrentMap<String,Boolean> TEMPLATE_EXISTS
                 = new ConcurrentHashMap<String,Boolean>();
 
-        private volatile static long cacheLastCleaned = System.currentTimeMillis();
+        private static volatile long cacheLastCleaned = System.currentTimeMillis();
 
         private static final String CACHE_LIFE_PROPERTY = Cache.class.getName() + ".ttl_ms";
 
@@ -163,22 +167,22 @@ public final class OptionsRenderer implements Renderer {
                 ? Long.getLong(CACHE_LIFE_PROPERTY)
                 : 1000 * 60 * 5;
 
-        static boolean isTemplateMissing(final String template){
-            if(0 < CACHE_LIFE && System.currentTimeMillis() > cacheLastCleaned + CACHE_LIFE){
+        static boolean isTemplateMissing(final String template) {
+            if (0 < CACHE_LIFE && System.currentTimeMillis() > cacheLastCleaned + CACHE_LIFE) {
                 cacheLastCleaned = System.currentTimeMillis();
                 TEMPLATE_EXISTS.clear();
                 return false;
-            }else{
+            } else {
                 return TEMPLATE_EXISTS.containsKey(template) && !TEMPLATE_EXISTS.get(template);
             }
         }
 
-        static void setIfAbsentTemplateFound(final String template, final boolean found){
-            if(0 < CACHE_LIFE && !TEMPLATE_EXISTS.containsKey(template)){
+        static void setIfAbsentTemplateFound(final String template, final boolean found) {
+            if (0 < CACHE_LIFE && !TEMPLATE_EXISTS.containsKey(template)) {
                 TEMPLATE_EXISTS.putIfAbsent(template, found);
             }
         }
 
-        private Cache(){}
+        private Cache() {}
     }
 }
