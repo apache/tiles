@@ -33,7 +33,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.tiles</groupId>
     <artifactId>tiles-parent</artifactId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Tiles 3</name>
     <description>Tiles 3: A framework for page composition.</description>

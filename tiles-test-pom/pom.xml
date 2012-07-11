@@ -26,7 +26,7 @@
   <parent>
     <artifactId>tiles-parent</artifactId>
     <groupId>org.apache.tiles</groupId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>tiles-test-pom</artifactId>
   <packaging>pom</packaging>
