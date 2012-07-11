@@ -22,6 +22,7 @@
 package org.apache.tiles.jsp.taglib;
 
 import java.io.IOException;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.servlet.jsp.tagext.TagData;
@@ -177,7 +178,7 @@ public class UseAttributeTag extends SimpleTagSupport {
     /** {@inheritDoc} */
     @Override
     public void doTag() throws JspException, IOException {
-        AutotagRuntime runtime = new org.apache.tiles.request.jsp.autotag.JspAutotagRuntime();
+        AutotagRuntime<Request> runtime = new org.apache.tiles.request.jsp.autotag.JspAutotagRuntime();
         if (runtime instanceof SimpleTagSupport) {
             SimpleTagSupport tag = (SimpleTagSupport) runtime;
             tag.setJspContext(getJspContext());
