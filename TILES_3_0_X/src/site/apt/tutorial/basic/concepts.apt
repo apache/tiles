@@ -1,0 +1,123 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles Concepts
+         -----------
+
+Tiles concepts
+
+  Tiles is an implementation of the {{{../pattern.html}Composite View pattern}}.
+  Tiles adds to this pattern its own concepts to make the pattern concrete. The
+  implementation of Tiles around the <Composite View> pattern consists of the
+  {{{./concepts.html#Template}Template}}, {{{./concepts.html#Attribute}Attribute}}
+  and {{{./concepts.html#Definition}Definition}} concepts. The <View Helper>
+  pattern is implemented by the {{{./concepts.html#View Preparer}View Preparer}}
+  concept. 
+
+* {Template}
+
+  In Tiles, a <<template>> is the layout part of a page. You can see as a page
+  structure with some gaps, called <<attributes>>, to be filled.
+  
+  For instance, consider the "classic layout" page structure.
+
+[../../images/tiled_page.png] The "classic layout", a typical structure of a web
+page.
+
+  You can replicate this structure by creating a JSP page, as you can see below.
+
+-------------------------------
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<table>
+  <tr>
+    <td colspan="2">
+      <tiles:insertAttribute name="header" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <tiles:insertAttribute name="menu" />
+    </td>
+    <td>
+      <tiles:insertAttribute name="body" />
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <tiles:insertAttribute name="footer" />
+    </td>
+  </tr>
+</table>
+-------------------------------
+  
+  Notice that a template <<can have no attributes>>: in this case it can be used
+  directly.
+
+* {Attribute}
+
+  An <<attribute>> is a gap in a template that needs to be filled in your
+  application. An attribute can be of three types:
+  
+  * <<string>>: it is a string to be directly rendered as it is.
+  
+  * <<template>>: it is a template, with or without attributes. If it has
+  attributes, you have to fill them too to render a page.
+  
+  * <<definition>>: it is a reusable composed page, with all (or some)
+  attributes filled (see below).
+
+* {Definition}
+
+  A <<definition>> is a composition to be rendered to the end user; essentially
+  a definition is composed of a <<template>> and completely or partially
+  <<filled attributes>>.
+  
+  * If <<all>> of its attributes are filled, it can be rendered to the end user.
+  
+  * If <<not all>> of its attributes are filled, it is called an <<abstract
+  definition>>, and it can be used as a base definition for extended
+  definitions, or their missing attributes can be filled at runtime.
+  
+  []
+  
+  For example, you can create a page using the <classic layout> as seen before,
+  by modifying the {{{./pages.html}Tiles configuration file}}.
+  
+------------------------------------
+<definition name="myapp.homepage" template="/layouts/classic.jsp">
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="body" value="/tiles/home_body.jsp" />
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+</definition>
+------------------------------------
+
+* {View Preparer}
+
+  Sometimes a definition, before it is rendered, needs to be "prepared". For
+  example when showing a menu, the menu structure must be created and stored
+  in the request scope.
+  
+  For this reason, a <<View Preparer>> can be used: it is called <<before>> the
+  definition is rendered, so all the things needed to render correctly the
+  definition can be prepared.
+  
+  See the {{{../advanced/preparer.html}Tiles View Preparer configuration}} for
+  more information.

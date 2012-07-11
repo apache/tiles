@@ -1,0 +1,84 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Getting started
+         -----------
+
+Requirements
+
+  To use Tiles in your application you need:
+
+  * a Java Runtime Environment following the <<Java SE 6.0>> specifications;
+  
+  * implementations for slf4j 1.5.8 (or above) and commons-logging 1.1 (or above);
+
+  * Optionally, depending on which options and templating engines you configure:
+
+    * a servlet container that supports <<Servlet 2.5>> (or above) and <<JSP
+  2.1>> (or above).
+  
+    * a portlet container that supports <<Portlet 2.0>> (or above).
+
+    * check {{{./dependency-management.html}Dependency management}} for a comprehensive list. 
+  
+Installation
+
+  Tiles 3.0 includes a large number of optional jar files and transitive dependencies. We 
+  recommend that you use maven or a compatible dependency manager to retrieve only the files 
+  you really need. 
+
+  If however you wish to install Tiles in your application by hand:
+
+  * {{{/download.html}download}} a distribution of Tiles;
+
+  * if you downloaded the binary distribution, unpack it;
+
+  * copy all the jar files into the classpath of your application (for instance
+  in the <<<WEB-INF/lib>>> directory of your web application). In a web environment, 
+  it is <<not recommended>> to put them in a location where they are shared
+  across the container;
+
+Usage
+
+  If you are using Tiles for the first time, read the
+  {{{./tutorial/index.html}Tutorial}}.
+
+  If you are migrating from Struts-Tiles, see the
+  {{{./migration/index.html}Migration guide}}.
+
+  If you're an advanced user, you may find the details you're looking for in 
+  the {{{./index.html}reference documentation}}.
+
+Examples
+
+  To see Tiles in action, there are two examples:
+
+  * The Tiles test web application, included in <<<examples>>> directory of the
+  binary distribution ({{{/download.html}download it}}).
+
+  * The Tiles showcase, that shows Tiles features and integration with other
+  technologies and frameworks (currently only Struts 1).
+
+  Currently it is still under development, and you can access it through its
+  subversion repository:
+
+-----------------------------
+http://svn.apache.org/repos/asf/tiles/examples/trunk/tiles-showcase/
+-----------------------------

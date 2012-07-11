@@ -1,0 +1,98 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Expression Language (EL) support
+         -----------
+
+Expression Language support
+
+  With Tiles it is possible to use expression languages not only in JSP pages, but also in XML
+  definition files.
+
+  Currently supported languages are Unified EL (as in javax.el), i.e. the language used in JSP code,
+  {{{http://mvel.codehaus.org/}MVEL}} and {{{http://commons.apache.org/ognl/}OGNL}}.
+
+* Configuration
+
+  By default, Tiles does not use an expression language, attribute values are simply used as they are.
+  
+  <<<CompleteAutoloadTilesContainerFactory>>> enables support of Unified EL, MVEL and OGNL as follows:
+  
+  - an attribute expression starting with "MVEL:" or "OGNL:" is interpreted in one of those languages.
+  - otherwise, the parts of the expression between the braces in <<<$\{...\}>>> are interpreted in Unified EL.  
+
+* Unified EL support
+
+  The EL language is supported since Tiles 2.1.
+
+  Let's use this example:
+
+------------------------------------
+  <definition name="test.composite.el.definition" templateExpression="${layout}"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   expression="${requestScope.body}"/>
+  </definition>
+------------------------------------
+
+  Before rendering the definition:
+
+  * The template name will be taken from the "layout" attribute, searched in every scope.
+
+  * The body will be taken from the "body" attribute in request scope.
+
+* {MVEL Support}
+
+  Let's use this example:
+
+------------------------------------
+  <definition name="test.composite.mvel.definition" templateExpression="MVEL:layout"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   expression="MVEL:requestScope.body"/>
+  </definition>
+------------------------------------
+
+  Before rendering the definition:
+
+  * The template name will be taken from the "layout" attribute, searched in every scope.
+
+  * The body will be taken from the "body" attribute in request scope.
+
+* {OGNL Support}
+
+  Let's use this example:
+
+------------------------------------
+  <definition name="test.composite.mvel.definition" templateExpression="OGNL:layout"
+        preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+      <put-attribute name="title"  value="This is a configured composite definition."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   expression="OGNL:requestScope.body"/>
+  </definition>
+------------------------------------
+
+  Before rendering the definition:
+
+  * The template name will be taken from the "layout" attribute, searched in every scope.
+
+  * The body will be taken from the "body" attribute in request scope.

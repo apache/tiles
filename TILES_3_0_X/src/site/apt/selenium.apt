@@ -1,0 +1,166 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Selenium Testing
+         -----------
+
+Selenium Testing
+
+ <<{{{http://selenium.openqa.org}Selenium}}>> is a test tool for web
+ applications. Unlike HtmlUnit or HttpUnit tests which <simulate> a browser,
+ Selenium tests run directly in a real browser such as Firefox or Internet
+ Explorer. The Selenium JavaScript code is deployed alongside your running
+ application, and interacts with it just as your users do.
+
+ Apache Tiles\u0099 uses Selenium for functional testing of the example apps.
+ The following example apps include Selenium tests:
+
+  * Tiles Test
+
+* Install
+
+ Selenium is available in OpenQA's Maven repository, so no installation is
+ necessary.
+
+ However, you may want to download the Selenium distribution (which includes
+ the documentation) from
+ {{{http://www.openqa.org/selenium-core/download.action}
+ http://www.openqa.org/selenium-core/download.action}}.
+
+ While you're there, also install the Firefox plugin <<Selenium IDE>> from
+ {{{http://www.openqa.org/selenium-ide/}
+ http://www.openqa.org/selenium-ide/}}.
+
+* Run Selenium tests the easy way
+
+  To run Selenium tests you need to add a configuration parameter in your <<<settings.xml>>> file.
+
+------------------------------
+<settings xmlns="http://maven.apache.org/POM/4.0.0"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+...
+	<profiles>
+	...
+		<profile>
+			<id>run-selenium</id>
+			<properties>
+				<cargo.tomcat6x.home>/tomcat/installation/directory</cargo.tomcat6x.home>
+			</properties>
+    	</profile>
+    ...
+    </profiles>
+</settings>
+------------------------------
+
+  After that, if you have Firefox installed, you can launch Selenium tests in the command line:
+
+------------------------------
+mvn verity -Prun-selenium
+------------------------------
+
+* Package
+
+ <<Package>> the webapp with the 'selenium' profile activated.
+
+ The {{{http://svn.apache.org/viewvc/struts/sandbox/trunk/tiles/tiles-test/pom.xml
+?view=markup}tiles-test pom}} includes a 'selenium' profile that will
+
+  * unpack the Selenium jar under 'target'
+
+  * copy the 'core' directory from the unpacked Selenium jar into the
+  webapp
+
+  * copy any files in 'src/test/selenium' into the webapp
+
+  []
+
++-----+
+mvn package -P selenium
++-----+
+
+  The webapp will contain the following additional directories: 'selenium/core'
+  and 'selenium/tests'.
+
+* Deploy
+
+  <<Deploy>> the webapp to your favorite container. The Cargo plugin is
+  configured to make this easy:
+
++-----+
+mvn package cargo:start -P selenium
+
+   or
+
+mvn package cargo:start -P selenium -Dcargo.tomcat5x.home=/path/to/tomcat5
++-----+
+
+
+* Run
+
+ <<Run>> the tests with the Selenium TestRunner.
+
+ * Visit <<<http://localhost:8080/<appname>/selenium/core/TestRunner.html>>>
+
+ * Click 'go' in the top left frame to load the TestSuite.html page
+
+ * Click 'All' in the top right frame to run the tests
+
+ []
+
+ <<Run>> the tests <automatically>.
+
+ * Check the 'Auto-run' box before clicking 'go' in the top left frame.
+
+ []
+
+ After it runs the tests automatically, Selenium can <<<POST>>> the results to
+ a URL you supply.  If you accept the default, and nothing is there to process
+ the request, you will see a 404 Not Found error page in the bottom frame.
+
+
+* Edit
+
+  <<Edit>> an existing test, or write a new one.
+
+  If you add a new test, remember to add it to src/test/selenium/TestSuite.html
+  so the TestRunner will find it.
+
+** Selenium IDE
+
+  The Selenium IDE Firefox plugin is the easiest way to edit tests. With the
+  example app running, open the HTML file (src/test/selenium/TestSomething.html)
+  from your svn checkout of Apache Tiles\u0099. Use the IDE to edit and run the test, and
+  save your changes.
+
+  <<Note>>: Your changes will not be visible to the TestRunner in the deployed
+  webapp unless you re-package and deploy it.
+
+** HTML Editor
+
+  Selenium tests are written in plain HTML tables, so you may edit them with any
+  text editor.
+
+  If you prefer to edit the tests 'in place' in the running webapp, simply copy
+  the files back to your svn checkout directory and commit the changes (or submit
+  a patch).
+
+

@@ -1,0 +1,135 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles Localization
+         -----------
+
+Localization support
+
+  Customizing pages for different locales in a common practice: in real-world
+  websites you can see different sites for different languages and countries.
+
+  It can be a matter of changing the layout (for example, in Arab countries the
+  menu should stay on the right, instead of the left), or providing alternate
+  content.
+
+* Creating localized definitions
+
+  Localization is immediately available. To use the benefits of localization you
+  have to create different Tiles definition files for each locale you want to
+  support: it's simply a matter of appending the locale code at the end of the
+  file name (just like <<<.properties>>> files in resource bundles).
+
+  For example, if you have the <<<tiles.xml>>> file and you want to support
+  French and Italian locale, you have to create at least three files:
+
+--------------------------------
+tiles.xml
+tiles_fr.xml
+tiles_it.xml
+--------------------------------
+
+  You can also distinguish between different languages in different country. So
+  if you want to distinguish between British English and American English, you
+  can create these files:
+
+--------------------------------
+tiles_en_GB.xml
+tiles_en_US.xml
+--------------------------------
+
+  and so on.
+
+* Inheritance between localizations
+
+  If you want to support different locales, you don't have to rewrite all the
+  definitions, but only those that differ from the main definitions file. In
+  other words, locale-specific definition files contains the "overrides" to the
+  default definitions.
+
+  For example, suppose that the following definition is declared in
+  <<<tiles.xml>>>:
+
+------------------------------------
+<definition name="myapp.homepage" template="/layouts/classic.jsp">
+  <put-attribute name="title" value="Tiles tutorial homepage" />
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="body" value="myapp.homepage.body" />
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+</definition>
+
+<definition name="myapp.homepage.body" template="/layouts/three_rows.jsp">
+  <put-attribute name="one" value="/tiles/headlines.jsp" />
+  <put-attribute name="two" value="/tiles/topics.jsp" />
+  <put-attribute name="one" value="/tiles/comments.jsp" />
+</definition>
+------------------------------------
+
+  In <<<tiles_it.xml>>> there is a new declaration of <<<myapp.homepage>>>
+  definition:
+
+------------------------------------
+<definition name="myapp.homepage" template="/layouts/classic.jsp">
+  <put-attribute name="title" value="Pagina iniziale del tutorial di Tiles" />
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="body" value="myapp.homepage.body" />
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+</definition>
+------------------------------------
+
+  Using "it" locale, the title will be different from the default, while the
+  rest remains the same.
+  
+  Notice that the <<<myapp.homepage.body>>> definition is the one defined in
+  the default definitions file: you still can reference to the default
+  definitions, both when composing and when extending.
+  
+  You can also override a <<definition that is extended>>. In this case, when
+  resolving inheritance, the overridden definition will be taken as a basis.
+  For example, if in <<<tiles.xml>>> there are the following definitions:
+
+------------------------------------
+<definition name="myapp.page.common" template="/layouts/classic.jsp">
+  <put-attribute name="header" value="/tiles/banner.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+  <put-attribute name="footer" value="/tiles/credits.jsp" />
+</definition>
+
+<definition name="myapp.bugs" extends="myapp.page.common">
+  <put-attribute name="title" value="Bugs" />
+  <put-attribute name="body" value="myapp.homepage.body" />
+</definition>
+------------------------------------
+
+  If in <<<tiles_it.xml>>> you define the following definition:
+
+------------------------------------
+<definition name="myapp.page.common" template="/layouts/classic.jsp">
+  <put-attribute name="header" value="/tiles/banner_it.jsp" />
+  <put-attribute name="menu" value="/tiles/common_menu_it.jsp" />
+  <put-attribute name="footer" value="/tiles/credits_it.jsp" />
+</definition>
+------------------------------------
+
+  The <<<myapp.bugs>>> will extend the latter definition, and not the default!
+  This is useful if you want to change an abstract definition for a locale,
+  without redefining all the definitions.

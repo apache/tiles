@@ -1,0 +1,70 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles View Preparers
+         -----------
+
+View Preparers
+
+  Sometimes a definition, before it is rendered, needs to be "prepared". For
+  example when showing a menu, the menu structure must be created and stored
+  in the request scope.
+
+  For this reason, a <<View Preparer>> can be used: it is called <<before>> the
+  definition is rendered, so all the things needed to render correctly the
+  definition can be prepared.
+
+* Creating a view preparer
+
+  A View Preparer is simply a class that implement the <<<ViewPreparer>>>
+  interface. The <<<execute>>> method allows to execute code <<before>> a
+  definition is rendered. You can extend the <<<ViewPreparerSupport>>> class to
+  avoid compiling problems in the case the <<<ViewPreparer>>> interface changes.
+
+----------------------------------------------
+package my.package;
+
+import org.apache.tiles.preparer.PreparerException;
+import org.apache.tiles.preparer.ViewPreparer;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.AttributeContext;
+import org.apache.tiles.Attribute;
+
+public class TestViewPreparer implements ViewPreparer {
+
+    public void execute(Request tilesRequest, AttributeContext attributeContext)
+    throws PreparerException {
+        attributeContext.putAttribute(
+            "body",
+            new Attribute("This is the value added by the ViewPreparer"));
+    }
+}
+----------------------------------------------
+
+* Associating a preparer
+
+  To associate a preparer to a definition, put its complete path name to the
+  <<<preparer>>> attribute of the <<<\<definition\>>>> element:
+
+----------------------------------------------
+<definition name="preparer.definition" preparer="org.apache.tiles.test.preparer.TestViewPreparer">
+  <put-attribute name="foo" value="/bar/foo.jsp" />
+</definition>
+----------------------------------------------

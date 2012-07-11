@@ -1,0 +1,82 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Attribute rendering
+         -----------
+
+Attribute rendering
+
+  Attribute rendering behaviour can be customized. The "type"
+  of an attribute can be still <<<string>>>, <<<definition>>> or <<<template>>>
+  but you can define new types or use a class name directly.
+
+Default behaviour
+
+  The default behaviour of Tiles is compatible with Tiles 2.0 and it applies
+  both to XML definition files and JSP tags. Tiles follows these steps:
+
+  * If the type is not specified:
+
+  ** if the value is a valid definition name, the definition is rendered;
+
+  ** if the value starts with a '/', a template will be rendered;
+
+  ** otherwise, a string will be rendered.
+
+  * If the type is specified:
+
+  ** if the type is <<<string>>>, <<<definition>>> or <<<template>>>, it will
+  be rendered like in Tiles 2.0;
+
+  ** otherwise, Tiles tries to instantiate (only once) a class whose name is
+  specified in the "type" of the attribute. If an error occurs, it pops up as
+  a runtime exception.
+
+Customize attribute rendering
+
+  With Tiles 2.1+ you can customize rendering in three ways:
+
+  * specifying new renderers;
+
+  * overriding the default renderer for untyped attributes;
+
+  * specifying a new renderer factory.
+
+* Custom attribute renderers
+
+  If you don't want to use class names as attribute types, you can use new
+  "named" custom attribute renderers. You can do it by overriding the
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#method_summary}registerAttributeRenderers}}
+  of <<<BasicTilesContainerFactory>>> if you are using Java-based configuration.
+
+* Custom default attribute renderer
+
+  The behaviour of Tiles when the type of an attribute is not specified can also be
+  customized. You can do it by overriding the
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#method_summary}createDefaultAttributeRenderer}}
+  of <<<BasicTilesContainerFactory>>> if you are using Java-based configuration.
+
+* Custom attribute renderer factory
+
+  The attribute renderer factory can be completely customized, leaving to you
+  the maximum freedom of choice in the attribute renderer creation. You can
+  specify the factory's implementation by overriding the
+  {{{../../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#method_summary}createRendererFactory}}
+  of <<<BasicTilesContainerFactory>>> if you are using Java-based configuration.

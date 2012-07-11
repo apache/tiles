@@ -1,0 +1,160 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Migrating Tiles configuration files
+         -----------
+
+{Reusing old Tiles configuration files}
+
+  With Tiles 2.1 and 2.2 it is possible to use old Struts-Tiles definition files, since
+  1.1 version.
+
+  To use this feature it is needed to:
+
+  * include the <<<tiles-compat-xxx.jar>>> package in the classpath;
+
+  * configure the compatibility definitions reader instance, that is able to
+  read old definition files.
+
+* Configuration
+
+  Override the
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#createDefinitionsReader(java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory)}createDefinitionsReader}}
+  method this way:
+
+---------------------------------------
+@Override
+protected DefinitionsReader createDefinitionsReader(Object context,
+        TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory) {
+    return new CompatibilityDigesterDefinitionsReader();
+}
+---------------------------------------
+
+  You need to add a renderer for the "page" attribute type, that is in fact the "template" type.
+  So override the
+  {{{../apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html#registerAttributeRenderers(org.apache.tiles.renderer.impl.BasicRendererFactory,%20java.lang.Object,%20org.apache.tiles.TilesApplicationContext,%20org.apache.tiles.context.TilesRequestContextFactory,%20org.apache.tiles.TilesContainer,%20org.apache.tiles.evaluator.AttributeEvaluator)}registerAttributeRenderers}}
+  method.
+
+---------------------------------------
+@Override
+protected void registerAttributeRenderers(
+        BasicRendererFactory rendererFactory, Object context,
+        TilesApplicationContext applicationContext,
+        TilesRequestContextFactory contextFactory, TilesContainer container,
+        AttributeEvaluator evaluator) {
+    super.registerAttributeRenderers(rendererFactory, context,
+            applicationContext, contextFactory, container, evaluator);
+    TemplateAttributeRenderer templateRenderer = new TemplateAttributeRenderer();
+    templateRenderer.setApplicationContext(applicationContext);
+    templateRenderer.setRequestContextFactory(contextFactory);
+    templateRenderer.setEvaluator(evaluator);
+    rendererFactory.registerRenderer("page", templateRenderer);
+}
+---------------------------------------
+
+  <<WARNING!!!>> Configuration with initialization parameter has been deprecated! If you
+  still want to use it, please refer to the
+  {{{../../2.1/framework/migration/configuration.html}2.1 version of this page}}.
+
+
+Tiles configuration files translation
+
+  A better, and more powerful, choice is to rewrite the definition files, to use
+  the new features of Tiles 2.1.
+
+  Most of XML elements and attributes can be translated one-to-one or
+  many-to-one without losing functionality from the 1.1-1.3 to the 2.1 DTD
+  version.
+
+* Header
+
+  The new header to be put in your Tiles definitions files is:
+
+------------------------------------------------------------
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+------------------------------------------------------------
+
+* Definitions attributes
+
+*---------------------------------+--------------------------------+
+| <<Struts-Tiles>>                | <<Apache Tiles\u0099>>         |
+*---------------------------------+--------------------------------+
+| <<<\<component-definitions\>>>> | <<<\<tiles-definitions\>>>>    |
+| <<<\<tiles-definitions\>>>>     |                                |
+*---------------------------------+--------------------------------+
+| <<<page>>>                      | <<<template>>>                 |
+| <<<path>>>                      |                                |
+| <<<template>>>                  |                                |
+*---------------------------------+--------------------------------+
+| <<<controllerClass>>>           | <<<preparer>>> [1]             |
+| <<<controllerUrl>>>             |                                |
+*---------------------------------+--------------------------------+
+
+  * \[1\] The default behaviour of <<<preparer>>> is to create and use a
+  single instance of the specified class. Anyway it is still possible to use a
+  URL as a preparer under a Struts 1 environment by using the
+  {{{http://svn.apache.org/repos/asf/struts/struts1/trunk/tiles2/}Struts 1 - Apache Tiles\u0099}}
+  integration module, still under development.
+
+
+* Putting and adding attributes values
+
+  The <<<page>>> attribute type has been removed, use <<<template>>> instead.
+
+  The rest of the conversion is in the table below.
+
+*-----------------------+-----------------------------------------------+
+| <<Struts-Tiles>>      | <<Apache Tiles\u0099>>                        |
+*-----------------------+-----------------------------------------------+
+| <<<\<put\>>>>         | <<<\<put-attribute\>>>>                       |
+*-----------------------+-----------------------------------------------+
+| <<<\<putList\>>>>     | <<<\<put-list-attribute\>>>>                  |
+*-----------------------+-----------------------------------------------+
+| <<<\<add\>>>>         | <<<\<add-attribute\>>>>  [2]                  |
+|                       | <<<\<add-list-attribute\>>>>  [3]             |
+*-----------------------+-----------------------------------------------+
+| <<<content>>>         | <<<value>>>                                   |
+| <<<value>>>           |                                               |
+*-----------------------+-----------------------------------------------+
+| <<<direct="true">>>   | <<<type="string">>>                           |
+*-----------------------+-----------------------------------------------+
+
+  * \[2\] <<<\<add-attribute\>>>> is used when it is needed to add a single
+  attribute to a list attribute.
+
+  * \[3\] <<<\<add-list-attribute\>>>> is used when it is needed to a list
+  attribute as an element of another list attribute.
+
+  []
+
+   * Previous Migration Pages
+
+     ** {{{./index.html}Introduction }}
+
+   * Next Migration Pages
+
+     ** {{{./tags.html}Tiles JSP tags}}
+
+     ** {{{./apis.html}Java APIs considerations}}.
+
+     ** {{{./extension.html}Tiles extensions}}.

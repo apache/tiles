@@ -1,0 +1,141 @@
+<!--
+/*
+ * $Id$
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Localization Db Test</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Localization Db Test</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/tiles-test/index.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Test Localization from DB</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>defaultLocaleMessage</td>
+	<td>localeMessage</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>defaultLocaleMessage</td>
+	<td>${localeMessage}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Select another locale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>locale</td>
+	<td>label=American English</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>American English locale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Select another locale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>locale</td>
+	<td>label=British English</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>British English locale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Select another locale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>locale</td>
+	<td>label=French</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>French locale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Select another locale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>locale</td>
+	<td>label=Italian</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Italian locale</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

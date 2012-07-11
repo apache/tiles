@@ -1,0 +1,86 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Using multiple containers
+         -----------
+
+Defining multiple containers
+
+  It is possible to use more that one Tiles container in your application.
+
+* Configuration
+
+  To use an alternate container, you need to override the
+  {{{../../apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html#method_summary}getContainerKey}}
+  method of <<<AbstractTilesInitializer>>> this way:
+
+------------------------------------
+public class TestAlternateTilesListener extends AbstractTilesListener {
+
+    /** {@inheritDoc} */
+    @Override
+    protected TilesInitializer createTilesInitializer() {
+        return new TestAlternateTilesInitializer();
+    }
+
+    /**
+     * Test Tiles initializer for Tiles initialization of the alternate container.
+     */
+    private static class TestAlternateTilesInitializer extends AbstractTilesInitializer {
+
+        // Other customizations go here.
+
+        /** {@inheritDoc} */
+        @Override
+        protected String getContainerKey(
+                TilesApplicationContext applicationContext) {
+            return "myContainerKey";
+        }
+    }
+}
+------------------------------------
+
+Selecting one non-default container
+
+  Once defined, it is possible to select a non-default container through Java
+  or JSP
+
+* Selection through Java
+
+  It is possible to use, for the current request, a different container
+  stored under another key, by using
+  {{{../../apidocs/org/apache/tiles/access/TilesAccess.html#method_summary}<<<setCurrentContainer>>>}}
+  method of TilesAccess class. For example:
+
+------------------------------------
+TilesAccess.setCurrentContainer(request, applicationContext, "myContainerKey");
+------------------------------------
+
+  If the last parameter is <<<null>>>, the default container is selected.
+
+* Selection through JSP
+
+  The current container can be selected also through the use of JSP:
+
+------------------------------------
+<tiles:setCurrentContainer containerKey="myContainerKey" />
+------------------------------------
+
+  If the <<<containerKey>>> attribute is not present, the default container is selected.

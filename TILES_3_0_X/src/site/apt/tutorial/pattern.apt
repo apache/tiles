@@ -1,0 +1,109 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         The Composite View Pattern
+         -----------
+
+The Composite View Pattern
+
+  All websites have something in common: they are made of pages that share
+  similar structures. The pages share the same layout, while each page is made
+  of different independent pieces, but always placed in the same position across
+  all the site.
+
+  The <<Composite View>> pattern formalizes this typical use, by allowing to
+  create pages that have a similar structure, in which each section of the page
+  vary in different situations.
+
+* How the pattern works
+
+  To understand this pattern, let's take an example. In the following picture
+  you can see a typical structure of a web page.
+
+[../images/tiled_page.png] The "classic layout", a typical structure of a web
+page.
+
+  This structure is called "Classic Layout". The template organizes the page
+  according to this layout, putting each "piece" in the needed place, so that
+  the header goes up, the footer down, etc.
+
+  It can happen that, for example clicking on a link, it is needed to change
+  only a part of the page, typically the body.
+
+[../images/page_to_page.png] The body changes, while the rest remains the same.
+
+  As you can see, the pages are different, but their difference is only in the
+  body part. Note that, however, <<the pages are distinct>>, it is not like a
+  refresh of a frame in a frameset!
+  
+  Using the composite view pattern, the other part of the page have been reused,
+  and the layout consistence has been preserved.
+  
+* The role of the View Helper
+
+  Each piece of the composed page can have a "view helper". This pattern allows
+  the preparation of the data to be displayed in a consistent way for the page
+  piece itself, for example to create a menu.
+
+* Composite View vs. Decorator
+
+  Tiles is a composite view framework: it allows to reuse page pieces across
+  the application. But another approach to achieve the same result is using the
+  <<Decorator pattern>>. For example,
+  {{{http://www.sitemesh.org/}Sitemesh}} is based on the Decorator
+  pattern.
+  
+  Instead of creating a template and organizing the pieces together, the
+  Decorator pattern (in this case) takes a simple HTML page, transforms it
+  adding the missing pieces (in our example, adding header, footer and menu) and
+  finally renders it.
+  
+  Here you can find a comparison table between the two patterns.
+  
+*---------------+--------------------------------+-----------------------------+
+| <<Aspect>>    | <<Composite View>>             | <<Decorator>>               |
+*---------------+--------------------------------+-----------------------------+
+| Reusability   | The different parts of the     | Each decorator can be       |
+|               | page (template and pieces) can | reused, but the decoration  |
+|               | be reused across the whole     | itself can be applied to    |
+|               | application.                   | one page at a time.         |
+*---------------+--------------------------------+-----------------------------+
+| Ease of       | Each page must be defined      | The decorator can be        |
+| configuration | explicitly.                    | applied even to the entire  |
+|               |                                | application.                |
+*---------------+--------------------------------+-----------------------------+
+| Runtime       | The pages can be configured    | Since one page is decorated |
+| configuration | and organized at runtime       | at a time, this feature is  |
+|               |                                | not present.                |
+*---------------+--------------------------------+-----------------------------+
+| Performances  | Low overhead for composition.  | The page to be decorated    |
+|               |                                | has to be parsed.           |
+*---------------+--------------------------------+-----------------------------+
+
+
+* References
+
+  You can see the complete description of the Composite View pattern at:
+  
+  * {{{http://java.sun.com/blueprints/corej2eepatterns/Patterns/CompositeView.html}
+  Sun's Core J2EE Patterns}}
+  
+  * {{{http://java.sun.com/blueprints/patterns/CompositeView.html}
+  Sun's Blueprints Patterns}}

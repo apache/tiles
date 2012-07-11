@@ -1,0 +1,15 @@
+   Apache Tiles
+   Copyright 1999-2012 The Apache Software Foundation
+
+   This product includes software developed at
+   The Apache Software Foundation (http://www.apache.org/).
+
+   The binary distribution contains software developed by:
+
+   SpringSource: http://www.springsource.com/
+   Visigoth Software Society (Freemarker): http://freemarker.org/
+   OpenSymphony (OGNL): http://www.opensymphony.com/ognl/
+   Codehaus (MVEL): http://mvel.codehaus.org/
+   JBoss (Javassist): http://jboss.org/javassist/
+   Sam Pullara (Mustache Java): https://github.com/spullara/mustache.java/
+

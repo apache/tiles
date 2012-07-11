@@ -1,0 +1,132 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Translation of JSP tags
+         -----------
+
+Introduction
+
+  Tiles JSP tag library changed a lot, to be clearer and simpler than it was
+  before. This means that you need to change ALL of your JSP pages accordingly.
+
+Tag library inclusion
+
+  To include Tiles tag library, write this row on top of your JSP files:
+
+---------------------------------------------------------------------
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+---------------------------------------------------------------------
+
+Tags differences
+
+  Here is the toughest part: Apache Tiles\u0099 tags differ a lot comparing to Struts
+  Tiles. However, after the change you will notice that the JSP code will be
+  easier to understand.
+
+* The <<<\<tiles:insert\>>>> tag replacement
+
+  The <<<\<tiles:insert\>>>> of Struts-Tiles changed, in the sense that it has
+  been split in different parts and many attributes have been removed. The
+  changes are summarized in the table below.
+
+*---------------------------------+----------------------------------+
+| <<Struts-Tiles>>                | <<Apache Tiles\u0099>>           |
+*---------------------------------+----------------------------------+
+| <<<\<tiles:insert\>>>>          | <<<\<tiles:insertTemplate\>>>>   |
+|                                 | <<<\<tiles:insertAttribute\>>>>  |
+|                                 | <<<\<tiles:insertDefinition\>>>> |
+*---------------------------------+----------------------------------+
+| <<<component="definition_name">>> | Use <<<\<tiles:insertDefinition name="definition_name"\>>>> |
+*---------------------------------+----------------------------------+
+| <<<attribute="attribute_name">>>  | Use <<<\<tiles:insertAttribute name="attribute_name"\>>>>   |
+*---------------------------------+----------------------------------+
+| <<<page>>>                      | <<<template>>>                   |
+| <<<template>>>                  |                                  |
+*---------------------------------+----------------------------------+
+| <<<beanName="bean_name">>>         | <<<value="$\{bean_scopeScope.bean_name.bean_property\}">>> |
+| <<<beanProperty="bean_property">>> |                                                            |
+| <<<beanScope="bean_scope">>>       |                                                            |
+*---------------------------------+----------------------------------+
+| <<<controllerClass>>>           | <<<preparer>>> [1]               |
+| <<<controllerUrl>>>             |                                  |
+*---------------------------------+----------------------------------+
+
+
+  * \[1\] The default behaviour of <<<preparer>>> is to create and use a
+  single instance of the specified class. Anyway it is still possible to use a
+  URL as a preparer under a Struts 1 environment by using the
+  {{{http://svn.apache.org/repos/asf/struts/struts1/trunk/tiles2/}Struts 1 - Apache Tiles\u0099}}
+  integration module, still under development.
+
+* Putting and adding attributes values
+
+  The <<<page>>> attribute type has been removed, use <<<template>>> instead.
+
+  The rest of the conversion is in the table below.
+
+*-------------------------+-----------------------------------------------+
+| <<Struts-Tiles>>        | <<Apache Tiles\u0099>>                        |
+*-------------------------+-----------------------------------------------+
+| <<<\<tiles:put\>>>>     | <<<\<tiles:putAttribute\>>>>                  |
+*-------------------------+-----------------------------------------------+
+| <<<\<tiles:putList\>>>> | <<<\<tiles:putAttributeList\>>>>              |
+*-------------------------+-----------------------------------------------+
+| <<<\<tiles:add\>>>>     | <<<\<tiles:addAttribute\>>>>  [2]             |
+|                         | <<<\<tiles:addListAttribute\>>>>  [3]         |
+*-------------------------+-----------------------------------------------+
+| <<<content>>>           | <<<value>>>                                   |
+| <<<value>>>             |                                               |
+*-------------------------+-----------------------------------------------+
+| <<<direct="true">>>     | <<<type="string">>>                           |
+*-------------------------+-----------------------------------------------+
+| <<<beanName="bean_name">>>         | <<<value="$\{bean_scopeScope.bean_name.bean_property\}">>> |
+| <<<beanProperty="bean_property">>> |                                                            |
+| <<<beanScope="bean_scope">>>       |                                                            |
+*---------------------------------+----------------------------------+
+
+  * \[2\] <<<\<tiles:addAttribute\>>>> is used when it is needed to add a single
+  attribute to a list attribute.
+
+  * \[3\] <<<\<tiles:addListAttribute\>>>> is used when it is needed to a list
+  attribute as an element of another list attribute.
+
+* Other changes
+
+*---------------------------------+--------------------------------------------+
+| <<Struts-Tiles>>                | <<Apache Tiles\u0099>>                     |
+*---------------------------------+--------------------------------------------+
+| <<<\<tiles:get\>>>>             | <<<\<tiles:insertAttribute\>>>>            |
+*---------------------------------+--------------------------------------------+
+| <<<\<tiles:definition scope="scope"\>>>> | Removed, definitions are created in request scope. |
+*---------------------------------+--------------------------------------------+
+| <<<\<tiles:initComponentDefinitions\>>>> | <<<\<tiles:initContainer\>>>>     |
+*---------------------------------+--------------------------------------------+
+
+   * Previous Migration Pages
+
+     ** {{{./index.html}Introduction }}
+
+     ** {{{./configuration.html}Tiles configuration files}}.
+
+   * Next Migration Pages
+
+     ** {{{./apis.html}Java APIs considerations}}.
+
+     ** {{{./extension.html}Tiles extensions}}.

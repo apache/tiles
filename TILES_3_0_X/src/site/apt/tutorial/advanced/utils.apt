@@ -1,0 +1,82 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Rendering Utilities
+         -----------
+
+Tiles Rendering Utilities
+
+  The core package of Tiles contains utilities to render Tiles definitions
+  without the need of a JSP page or a supporting framework.
+
+* <<<TilesDispatchServlet>>>
+
+  The <<<TilesDispatchServlet>>> is a servlet that intercepts the URLs ending
+  with "<<<.tiles>>>" and render the definition whose name is the path name
+  before the "<<<.tiles>>>" part.
+  
+  For example, if you call the <<<testdispatchservlet.tiles>>> path, the
+  rendered definition will be <<<testdispatchservlet>>>.
+
+  You can configure the <<<TilesDispatchServlet>>> this way:
+
+------------------------------------
+<servlet>
+    <servlet-name>Tiles Dispatch Servlet</servlet-name>
+    <servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>
+</servlet>
+...
+<servlet-mapping>
+    <servlet-name>Tiles Dispatch Servlet</servlet-name>
+    <url-pattern>*.tiles</url-pattern>
+</servlet-mapping>
+------------------------------------
+
+  By using the <<<org.apache.tiles.web.util.TilesDispatchServlet.CONTAINER_KEY>>>
+  you can use a different container. The value of this parameter will be used
+  as the key under which the container is stored.
+
+* <<<TilesDecorationFilter>>>
+
+  You can use the <<<TilesDecorationFilter>>> to use Tiles as a <decorator>
+  framework. All the requests intercepted by the filter will be put inside the
+  configured attribute of the configured definition, and then that definition is
+  rendered.
+  
+  You can configure the filter this way:
+
+------------------------------------
+<filter>
+    <filter-name>Tiles Decoration Filter</filter-name>
+    <filter-class>org.apache.tiles.web.util.TilesDecorationFilter</filter-class>
+    <init-param>
+        <param-name>definition</param-name>
+        <param-value>test.definition</param-value>
+    </init-param>
+    <init-param>
+        <param-name>attribute-name</param-name>
+        <param-value>body</param-value>
+    </init-param>
+</filter>
+------------------------------------
+
+  By using the <<<org.apache.tiles.web.util.TilesDecorationFilter.CONTAINER_KEY>>>
+  you can use a different container. The value of this parameter will be used
+  as the key under which the container is stored.

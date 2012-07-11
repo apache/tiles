@@ -1,0 +1,134 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Creating Tiles Pages
+         -----------
+
+Creating and using Tiles pages
+
+  After installing and learning some of Tiles concepts, it is time to create
+  some pages. Here you will find the steps to create reusable Tiles pieces and
+  complete pages.
+
+* Create a template
+
+  Let's take the <<classic layout>> page structure:
+
+[../../images/tiled_page.png] The "classic layout", a typical structure of a web
+page.
+
+  Create a JSP page that acts as this layout and place it under
+  <<</layouts/classic.jsp>>> file.
+
+-------------------------------
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<html>
+  <head>
+    <title><tiles:getAsString name="title"/></title>
+  </head>
+  <body>
+	<table>
+      <tr>
+        <td colspan="2">
+          <tiles:insertAttribute name="header" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <tiles:insertAttribute name="menu" />
+        </td>
+        <td>
+          <tiles:insertAttribute name="body" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <tiles:insertAttribute name="footer" />
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+-------------------------------
+
+  This template has five attributes: <<<title>>> (of <<<string>>> type),
+  <<<header>>>, <<<menu>>>, <<<body>>> and <<<footer>>>.
+
+* Create the composing pages
+
+  In this phase, you have to create four JSP pages, that will take place of
+  <<<header>>>, <<<menu>>>, <<<body>>> and <<<footer>>> attributes in the
+  previously created template.
+
+  You can put everything you want in this pages, they are just a test.
+
+* Create a definition
+
+  By default, the definition file is <<</WEB-INF/tiles.xml>>>. If you're using <<<CompleteAutoloadTilesListener>>>,
+  tiles will use any file in the webapp that matches <<</WEB-INF/tiles*.xml>>> or any file in the classpath that matches
+  <<</META-INF/tiles*.xml>>>; if several are found, it will merge them together.  
+  
+  But for now, let's stick to the default and create the <<</WEB-INF/tiles.xml>>> file, with a definition
+  as described in {{{./concepts.html}concepts}}:
+
+------------------------------------
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+  <definition name="myapp.homepage" template="/layouts/classic.jsp">
+    <put-attribute name="title" value="Tiles tutorial homepage" />
+    <put-attribute name="header" value="/tiles/banner.jsp" />
+    <put-attribute name="menu" value="/tiles/common_menu.jsp" />
+    <put-attribute name="body" value="/tiles/home_body.jsp" />
+    <put-attribute name="footer" value="/tiles/credits.jsp" />
+  </definition>
+</tiles-definitions>
+------------------------------------
+
+* Render the definition
+
+  After creating the definition, you can render it:
+
+  * by using the <<<\<tiles:insertDefinition /\>>>> tag, inserting it in a JSP
+  page:
+
+-------------------------------------
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<tiles:insertDefinition name="myapp.homepage" />
+-------------------------------------
+
+  * in other cases, you can render directly in the response, by using the Tiles
+  container:
+
+-----------------------------------
+TilesContainer container = TilesAccess.getContainer(
+        request.getSession().getServletContext());
+container.render("myapp.homepage", request, response);
+-----------------------------------
+
+  * by using {{{../advanced/utils.html}Rendering Utilities}} provided by Tiles. For instance,
+  if you've configured <<<TilesDispatchServlet>>>, you can render the definition above by
+  requesting <<<http://example.com/webapp/myapp.homepage.tiles>>>.
+
+  * by using a supporting framework. See
+  {{{../integration/index.html}Integrations}} for a list of supporting
+  frameworks.

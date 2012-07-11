@@ -1,0 +1,88 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles extensions migration
+         -----------
+
+Introduction
+
+  Tiles extensions is the part of Tiles where a major effort in refactoring is
+  needed.
+
+  The internal part of Tiles changed completely, not only in classes names, but
+  also in their behaviour.
+
+Writing definitions factories
+
+  Usually, Struts-Tiles extension writing meant writing a
+  <<<DefinitionsFactory>>> or a <<<FactorySet>>> implementation. Here you will
+  find how to convert your definitions factory to work correctly with Apache Tiles\u0099.
+
+* Requests management
+
+  Apache Tiles\u0099 is now technology-independent, that means that Apache Tiles\u0099 is no longer
+  bound to a Servlet environment. That means for you that all references to
+  <<<HttpServletRequest>>> and <<<HttpServletResponse>>> have been removed,
+  replacing them with <<<TilesRequestContext>>>
+
+* Definitions factory implementation
+
+  The most common way to implement a Definitions Factory is extending the
+  <<<UrlDefinitionsFactory>>> class, that contains code to load definitions,
+  resolve Locale-specific definitions, etc.
+
+  If you implemented <<<FactorySet>>>, here comes the bad news: it has been
+  <<removed>>! Getting a "key" to map different definitions factory was an
+  uncommon implementation detail. But it is easily reproducable, since you can
+  take the <<<TilesRequestContext>>> and calculate your "key". This key can be
+  used to map different <<<Definitions>>> instances, or to be given to an
+  instance of a class extending <<<Definitions>>>. Whatever you choose, it's
+  only a question of taste.
+
+Class and interfaces new names
+
+  The following is a conversion table between Struts-Tiles and Apache Tiles\u0099 class
+  names.
+
+*---------------------------------+---------------------------------+
+| <<Struts-Tiles>>                | <<Apache Tiles\u0099>>          |
+*---------------------------------+---------------------------------+
+| <<<ComponentDefinition>>>       | <<<Definition>>>                |
+*---------------------------------+---------------------------------+
+| <<<XmlDefinitionsSet>>>         | <<<Definitions>>>               |
+*---------------------------------+---------------------------------+
+| <<<XmlAttribute>>>              | <<<Attribute>>>                 |
+*---------------------------------+---------------------------------+
+| <<<ComponentListAttribute>>>    | <<<ListAttribute>>>             |
+*---------------------------------+---------------------------------+
+| <<<I18nFactorySet>>>            | <<<UrlDefinitionsFactory>>>     |
+*---------------------------------+---------------------------------+
+| <<<XmlParser>>>                 | <<<DigesterDefinitionsReader>>> |
+*---------------------------------+---------------------------------+
+
+   * Previous Migration Pages
+
+     ** {{{./index.html}Introduction }}
+
+     ** {{{./configuration.html}Tiles configuration files}}.
+
+     ** {{{./tags.html}Tiles JSP tags}}
+
+     ** {{{./apis.html}Java APIs considerations}}.

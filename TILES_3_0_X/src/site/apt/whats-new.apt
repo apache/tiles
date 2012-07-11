@@ -1,0 +1,52 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         What's new in Tiles 3.0
+         -----------
+
+What's new in Tiles 3.0
+
+* New features in Tiles 3.0
+
+  * {{{/tiles-request/}Apache Request}}: a framework independent request abstraction. Implementations for Servlet, 
+  Portlet, JSP, Velocity, FreeMarker and Mustache.
+
+  * {{{/tiles-autotag/}Apache Autotag}}: a tool that automatically generates tags (or tag-like) artifact from a common template code for a range of templating languages.
+  All the Tiles 3 boilerplate code to templating models has been removed and uses the Autotag plugins instead:
+  it's a lot of boilerplate, boring code, now generated automatically.
+
+* Deprecations in Tiles 3.0
+
+  * Starting Tiles in a web environment using a dummy Servlet. Use a SerlvetContextListener instead.
+  
+  * Don't use the AttributeContext interface to pass attribute values to Tiles. Expression Languages are an easier, more maintainable 
+  way to change the value of attributes on a per-render basis.
+
+  * ...
+
+* Removals in Tiles 3.0
+
+  * Upgraded from JavaSE 5.0 to JavaSE 6.0.
+  
+  * Upgraded from Servlet 2.4 and JSP 2.0 to Servlet 2.5 and JSP 2.1.
+  
+  * Changed the Java API to adopt the Request API. The XML files and taglibs are compatible with tiles 2.2.
+  
+  * Dropped the parameter based configuration that was deprecated in 2.2.

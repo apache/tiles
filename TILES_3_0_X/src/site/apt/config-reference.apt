@@ -1,0 +1,250 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Tiles Configuration Reference
+         -----------
+
+Configuring Tiles
+
+  Configuring Tiles means creating the following objects:
+  * an instance of org.apache.tiles.request.ApplicationContext,
+  * an instance of org.apache.tiles.TilesContainer.
+  Usually these are created by an instance of org.apache.tiles.startup.TilesInitializer.
+
+  Several MVC frameworks (struts, spring, shale) provide an easy integration with tiles.
+
+* Starting Tiles in a web application
+
+  Tiles has always been a web application package, usually used in conjunction
+  with Struts. Apache Tiles\u0099 evolved to the point of being technology-independent, but
+  its use in a Servlet-based web application will be the most frequent use case.
+
+  To start Tiles you can extend
+  {{{./apidocs/org/apache/tiles/web/startup/AbstractTilesListener.html}AbstractTilesListener}}
+  and implement the <<<createTilesInitializer>>> method:
+
+--------------------------
+protected TilesInitializer createTilesInitializer() {
+    return new MyCustomTilesInitializer();
+}
+--------------------------
+
+  You can use {{{./apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html}AbstractTilesInitializer}}
+  as a basis.
+
+  Then you can start Tiles by specifing it in your <<<web.xml>>> file:
+
+-------------------------------
+<listener>
+    <listener-class>my.package.MyTilesListener</listener-class>
+</listener>
+-------------------------------
+
+* Starting Tiles in a portlet application
+
+  TBD
+
+{Ready-made configuration classes}
+
+  There are some classes that allows to play with Tiles without writing custom code.
+
+* Simple configuration
+
+  {{{./apidocs/org/apache/tiles/web/startup/simple/SimpleTilesListener.html}SimpleTilesListener}}
+  or
+  {{{./apidocs/org/apache/tiles/startup/DefaultTilesInitializer.html}DefaultTilesInitializer}}
+  are the "simple" way to load Tiles. This was the default for Tiles 2.1 and prior versions.
+
+  This configuration has the following characteristics:
+
+  * loads the "/WEB-INF/tiles.xml" file;
+
+  * allows support for JSP, Servlets and Portlets;
+
+  * no expression language is allowed;
+
+  * wildcard expressions can be used to declare definition names.
+
+* Feature-Complete configuration
+
+  It is possible to startup Tiles turning all the new features on by using
+  {{{./apidocs/org/apache/tiles/extras/complete/CompleteAutoloadTilesListener.html}CompleteAutoloadTilesListener}}
+  or
+  {{{./apidocs/org/apache/tiles/extras/complete/CompleteAutoloadTilesInitializer.html}CompleteAutoloadTilesInitializer}}
+  available in the <<<tiles-extras>>> module. This initializer turns on:
+
+  * {{{./tutorial/integration/freemarker.html}Freemarker}} and {{{./tutorial/integration/velocity.html}Velocity}} support;
+
+  * using EL, OGNL and MVEL as {{{./tutorial/advanced/el-support.html}evaluation languages}};
+
+  * using Wildcards and Regular expression as {{{./tutorial/advanced/wildcard.html}pattern matching languages}};
+
+  * loading {{{./migration/configuration.html#Reusing_old_Tiles_configuration_files}Tiles 1.x definition files}};
+
+  * loads all the files named "tiles*.xml" under /WEB-INF and under every META-INF in any part of the classpath.
+
+  * using a mutable container to create Definitions at runtime.
+
+* Modular initialization
+
+  It is possible to startup Tiles in a <<modular>> way, that is loading
+  modules of independent Tiles configuration.
+
+  To turn it on, you need to use
+  {{{./apidocs/org/apache/tiles/extras/module/ModularTilesListener.html}ModularTilesListener}}
+  or
+  {{{./apidocs/org/apache/tiles/extras/module/ModularTilesInitializer.html}ModularTilesInitializer}}
+  available in the <<<tiles-extras>>> module.
+
+  Add in your manifest file, under the <<<META-INF/MANIFEST.MF>>>
+  path, the <<<Tiles-Initializer>>> property, whose value is the name of the class of the
+  needed initializer. For example:
+
+---------------------------
+Manifest-Version: 1.0
+Tiles-Initializer: org.apache.tiles.extras.module.ModularTilesInitializerTest$TilesInitializer1
+---------------------------
+
+  Every initializer that is found will be loaded and "initialized", and destroyed when the
+  main initializer is destroyed.
+
+Configuring Tiles internals
+
+  The container and the application context must be configured to allow custom behaviour
+  and to load definitions from various sources.
+
+* Custom {ApplicationContext}
+
+  Custom ApplicationContext can be provided by implementing
+  {{{/tiles-request/apidocs/org/apache/tiles/request/ApplicationContext.html}ApplicationContext}}.
+  If you are under a servlet environment, you can override
+  {{{/tiles-request/apidocs/org/apache/tiles/request/servlet/ServletApplicationContext.html}ServletApplicationContext}}.
+
+  To use it, you need to override the
+  {{{./apidocs/org/apache/tiles/startup/AbstractTilesInitializer.html#method_summary}createTilesApplicationContext}}
+  method of AbstractTilesInitializer.
+
+  The reason to use a custom Tiles application context could be:
+
+  * supporting a platform not supported yet;
+
+  * providing custom behaviour, such as loading resources in a different manner.
+
+* Custom {TilesContainerFactory}
+
+  Custom Tiles containers can be created by custom Tiles container factories.
+  You have to create a class that extends
+  {{{./apidocs/org/apache/tiles/factory/AbstractTilesContainerFactory.html}AbstractTilesContainerFactory}}.
+  In particular you can use {{{./apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html}BasicTilesContainerFactory}}
+  as a basis for your extended configuration. <<<BasicTilesContainerFactory>>>
+  is the configuration that replicates the default configuration of Tiles,
+  i.e. the one that assumes when no additional parameter is provided.
+  The
+  {{{./apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html}Javadoc documentation of BasicTilesContainerFactory}}
+  documents all the methods that can be overridden to use your own
+  configuration.
+  
+** Changing the path for the Tiles Definitions file
+
+  The <<<BasicTilesContainerFactory>>> loads the "/WEB-INF/tiles.xml" file; the <<<CompleteAutoloadTilesContainerFactory>>>
+  loads all the files named "tiles*.xml" under /WEB-INF and under every META-INF in any part of the classpath.
+  
+  If this behaviour doesn't suits you, you can override the method <<<getSources>>> and retrieve whatever resource you
+  prefer. Just specify the path for the default locale; Tiles will extrapolate and load the localized files as needed.
+
+* Custom components
+
+  These components can be used by overriding the appropriate <<<create>>> method in a custom TilesContainerFactory.
+  
+** Custom {LocaleResolver}
+  
+  The default implementation is {{{./apidocs/org/apache/tiles/locale/impl/DefaultLocaleResolver.html}DefaultLocaleResolver}}.
+
+** Custom {DefinitionDAO}
+
+  The default implementation is {{{./apidocs/org/apache/tiles/definition/dao/ResolvingLocaleUrlDefinitionDAO.html}ResolvingLocaleUrlDefinitionDAO}}.
+  
+** Custom {AttributeEvaluatorFactory}
+
+  The default implementation is {{{./apidocs/org/apache/tiles/evaluator/BasicAttributeEvaluatorFactory.html}BasicAttributeEvaluatorFactory}}.
+  
+  It can be used with a number of AttributeEvaluators like:
+  
+  * the {{{./apidocs/org/apache/tiles/evaluator/impl/DirectAttributeEvaluator.html}DirectAttributeEvaluator}},
+
+  * the {{{./apidocs/org/apache/tiles/el/ELAttributeEvaluator.html}ELAttributeEvaluator}},
+
+  * the {{{./apidocs/org/apache/tiles/mvel/MVELAttributeEvaluator.html}MVELAttributeEvaluator}},
+
+  * the {{{./apidocs/org/apache/tiles/ognl/OGNLAttributeEvaluator.html}OGNLAttributeEvaluator}}.
+  
+  Please see {{{./xref/org/apache/tiles/extras/complete/CompleteAutoloadTilesContainerFactory.html}CompleteAutoloadTilesContainerFactory}}
+  for an example of how to configure those.
+
+** Custom {PreparerFactory}
+
+  The default implementation is {{{./apidocs/org/apache/tiles/preparer/factory/BasicPreparerFactory.html}BasicPreparerFactory}}.
+
+  Currently the preparer is associated to a definition using its class name.
+  There will be only <<one>> instance per unique class name. If you want to
+  customize this behaviour, you have to create your own implementation of the
+  <<<PreparerFactory>>> interface.
+
+  For example, the {{{./tutorial/integration/frameworks.html}Struts 1 - Apache Tiles\u0099 integration}}
+  defines a <<<PreparerFactory>>> that can use a URL as a preparer.
+
+** Custom {PatternDefinitionResolver}
+
+  The default implementation is {{{./apidocs/org/apache/tiles/definition/pattern/BasicPatternDefinitionResolver.html}BasicPatternDefinitionResolver}},
+  that implements the <wildcard> syntax.
+  
+  <<<CompleteAutoloadTilesContainerFactory>>> defines a <<<PrefixedPatternDefinitionResolver>>> to enable the use of 
+  both the <wildcard> syntax and the <regexp> syntax, with appropriate prefixes.
+
+* Registering {Renderers}
+
+  Custom {{{/tiles-request/apidocs/org/apache/tiles/request/render/Renderer.html}Renderers}} can be registered by overriding the methods
+  <<<registerAttributeRenderers>>> and <<<createDefaultAttributeRenderer>>>.
+  
+  <<<BasicTilesContainerFactory>>> registers 3 renderers: <<<string>>>, <<<template>>>, and <<<definition>>>, in order to
+  render plain strings, JSPs and tiles definitions.
+  
+  <<<CompleteAutoloadTilesContainerFactory>>> registers 5 renderers: <<<string>>>, <<<template>>>, <<<freemarker>>>, 
+  <<<velocity>>> and <<<definition>>>, in order to render plain strings, JSPs, freemarker and velocity templates 
+  and tiles definitions.
+
+* Changing the {definition files}
+
+  The default implementation <<<BasicTilesContainerFactory>>> loads the file named <<</WEB-INF/tiles.xml>>>.
+
+  <<<CompleteAutoloadTilesContainerFactory>>> loads all files named <<</WEB-INF/tiles*.xml>>> in the web application, or <<</META-INF/tiles*.xml>>> on the classpath.
+
+  Those file names can be changed by overriding the method <<<getSources>>>:
+
+-----------
+protected List<ApplicationResource> getSources(ApplicationContext applicationContext) {
+    return applicationContext.getResources("/WEB-INF/my-tiles-definitions-file.xml");
+}
+-----------
+
+  Please note that when using <<<CompleteAutoloadTilesContainerFactory>>>,
+  the <<<ApplicationContext>>> loads the resources via spring, and supports 
+  {{{http://static.springsource.org/spring/docs/2.5.x/reference/resources.html#resources-resource-strings}the spring syntax}} for locating resources.
+
