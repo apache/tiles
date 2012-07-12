@@ -81,6 +81,7 @@
                 <configuration>
                     <taglibURI>http://tiles.apache.org/tags-tiles</taglibURI>
                     <packageName>org.apache.tiles.jsp.taglib</packageName>
+                    <requestClass>org.apache.tiles.request.Request</requestClass>
                     <jspRuntime>org.apache.tiles.request.jsp.autotag.JspAutotagRuntime</jspRuntime>
                 </configuration>
             </execution>
