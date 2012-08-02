@@ -23,11 +23,13 @@ package org.apache.tiles.extras.renderer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.access.TilesAccess;
@@ -63,12 +65,20 @@ import org.slf4j.LoggerFactory;
  * <p/>
  * <p/>
  * Currently only supports one occurrance of such an "option" pattern in the attribute's value.
- *
+ * <p/>
  * Limitation: "looking" for templates is implemented using applicationContext.getResource(..)
  * therefore the option values in the options list need to be visible as applicationResources.
- *
+ * <p/>
+ * The attribute found and rendered is cached so to improve performance on subsequent lookups.
+ * The default cache time-to-live is {@value #DEFAULT_CACHE_LIFE}, specified by {@link #DEFAULT_CACHE_LIFE}.
+ * It can be customised by setting the system property {@value #CACHE_LIFE_PROPERTY}, see {@link #CACHE_LIFE_PROPERTY}.
+ * Setting it to zero will disable the cache.
  */
 public final class OptionsRenderer implements Renderer {
+
+    public static final String CACHE_LIFE_PROPERTY = OptionsRenderer.class.getName() + ".cache_ttl_ms";
+
+    public static final long DEFAULT_CACHE_LIFE = 1000 * 60 * 5;
 
     private static final Pattern OPTIONS_PATTERN
             = Pattern.compile(Pattern.quote("{options[") + "(.+)" + Pattern.quote("]}"));
@@ -114,7 +124,7 @@ public final class OptionsRenderer implements Renderer {
                 if (done) { break; }
             }
             if (!done) {
-              throw new IOException("None of the options existed for " + path);
+                throw new IOException("None of the options existed for " + path);
             }
         } else {
             renderer.render(path, request);
@@ -123,12 +133,11 @@ public final class OptionsRenderer implements Renderer {
 
     private boolean renderAttempt(final String template, final Request request) throws IOException {
         boolean result = false;
-        if (!Cache.isTemplateMissing(template)) {
+        if (Cache.attemptTemplate(template)) {
             try {
                 if (null != applicationContext.getResource(template)) { // can throw FileNotFoundException !
                     renderer.render(template, request); // can throw FileNotFoundException !
                     result = true;
-                    Cache.setIfAbsentTemplateFound(template, true);
                 }
             } catch (FileNotFoundException ex) {
                 if (ex.getMessage().contains(template)) {
@@ -141,46 +150,40 @@ public final class OptionsRenderer implements Renderer {
             } catch (IOException ex) { //xxx ???
                 throw ex;
             }
-            Cache.setIfAbsentTemplateFound(template, false);
+            Cache.update(template, result);
         }
         return result;
     }
 
     private static final class Cache {
 
-        /** It takes CACHE_LIFE milliseconds for any hot deployments to register.
-         */
-        private static final ConcurrentMap<String,Boolean> TEMPLATE_EXISTS
-                = new ConcurrentHashMap<String,Boolean>();
+        private static final long CACHE_LIFE = Long.getLong(CACHE_LIFE_PROPERTY, DEFAULT_CACHE_LIFE);
 
-        private static volatile long cacheLastCleaned = System.currentTimeMillis();
-
-        private static final String CACHE_LIFE_PROPERTY = Cache.class.getName() + ".ttl_ms";
-
-        /** Cache TTL be customised by a system property like
-         *  -Dorg.apache.tiles.extras.renderer.OptionsRenderer.Cache.ttl_ms=0
-         *
-         * The default is 5 minutes.
-         * Setting it to zero disables all caching.
-         */
-        private static final long CACHE_LIFE = null != Long.getLong(CACHE_LIFE_PROPERTY)
-                ? Long.getLong(CACHE_LIFE_PROPERTY)
-                : 1000 * 60 * 5;
-
-        static boolean isTemplateMissing(final String template) {
-            if (0 < CACHE_LIFE && System.currentTimeMillis() > cacheLastCleaned + CACHE_LIFE) {
-                cacheLastCleaned = System.currentTimeMillis();
-                TEMPLATE_EXISTS.clear();
-                return false;
-            } else {
-                return TEMPLATE_EXISTS.containsKey(template) && !TEMPLATE_EXISTS.get(template);
-            }
+        static {
+            LOG.info("cache_ttl_ms=" + CACHE_LIFE);
         }
 
-        static void setIfAbsentTemplateFound(final String template, final boolean found) {
-            if (0 < CACHE_LIFE && !TEMPLATE_EXISTS.containsKey(template)) {
-                TEMPLATE_EXISTS.putIfAbsent(template, found);
-            }
+        /** It takes CACHE_LIFE milliseconds for any hot deployments to register.
+         */
+        private static final ConcurrentMap<String,Boolean> TEMPLATE_EXISTS = CacheBuilder.newBuilder()
+                .expireAfterWrite(CACHE_LIFE, TimeUnit.MILLISECONDS)
+                .build(
+                new CacheLoader<String, Boolean>() {
+                    @Override
+                    public Boolean load(String key) {
+                        throw new UnsupportedOperationException(
+                                "illegal TEMPLATE_EXISTS.get(\"" + key
+                                + "\") before TEMPLATE_EXISTS.containsKey(\"" + key + "\")");
+                    }
+                })
+                .asMap();
+
+        static boolean attemptTemplate(final String template) {
+            return !TEMPLATE_EXISTS.containsKey(template) || TEMPLATE_EXISTS.get(template);
+        }
+
+        static void update(final String template, final boolean found) {
+            TEMPLATE_EXISTS.putIfAbsent(template, found);
         }
 
         private Cache() {}
