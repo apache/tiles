@@ -135,11 +135,11 @@ public final class OptionsRenderer implements Renderer {
         boolean result = false;
         if (Cache.attemptTemplate(template)) {
             try {
-                if (null != applicationContext.getResource(template)) { // can throw FileNotFoundException !
-                    renderer.render(template, request); // can throw FileNotFoundException !
+                if (null != applicationContext.getResource(template)) {
+                    renderer.render(template, request);
                     result = true;
                 }
-            } catch (FileNotFoundException ex) {
+            } catch (IOException ex) {
                 if (ex.getMessage().contains(template)) {
                     // expected outcome. continue loop.
                     LOG.trace(ex.getMessage());
@@ -147,8 +147,14 @@ public final class OptionsRenderer implements Renderer {
                     // comes from an inner templateAttribute.render(..) so throw on
                     throw ex;
                 }
-            } catch (IOException ex) { //xxx ???
-                throw ex;
+            } catch (RuntimeException ex) {
+                if (ex.getMessage().contains(template)) {
+                    // expected outcome. continue loop.
+                    LOG.trace(ex.getMessage());
+                } else {
+                    // comes from an inner templateAttribute.render(..) so throw on
+                    throw ex;
+                }
             }
             Cache.update(template, result);
         }
