@@ -26,9 +26,64 @@ Wildcard support
   By default, Tiles supports wildcards in definition names. Wilcards help a
   lot in writing less code to declare your definitions.
 
-  There are two styles:
+* Default configuration
 
-  * the wildcard-based style (available by default):
+  Note: default configuration only works if you do not use <<<CompleteAutoloadTilesContainerFactory>>>. If you are using this setting, you can move to the next section.
+
+  Let us start with a simple example. When not using wildcards, you might end up with such tiles definitions:
+
+-----------------------------------
+<definition name="bank/user" template="/layout.jsp">
+    <put-attribute name="header" value="/header.jsp"/>
+    <put-attribute name="body"   value="/user.jsp"/>
+</definition>
+
+<definition name="bank/account" template="/layout.jsp">
+    <put-attribute name="header" value="/header.jsp"/>
+    <put-attribute name="body"   value="/account.jsp"/>
+</definition>
+
+<definition name="bank/customer" template="/layout.jsp">
+    <put-attribute name="header" value="/header.jsp"/>
+    <put-attribute name="body"   value="/customer.jsp"/>
+</definition>
+------------------------------------
+
+  The above definitions are pretty verbose as you need to create one definition per JSP that you're adding to your          application.
+  You could use definition inheritance to reduce the number of lines but you would still need one definition per JSP.
+
+
+** Single star '\*'
+
+  Let's see how to improve that using wildcards. You would then have:
+
+------------------------------------
+<definition name="bank/*" template="/layout.jsp">
+    <put-attribute name="header" value="/header.jsp"/>
+    <put-attribute name="body"   value="/{1}.jsp"/>
+</definition>
+
+------------------------------------
+  Calling a view named "bank/user" matches the above definition name. Inside the "body" attributes, \{1\} refers to the star's value which is "user" in that case.
+
+
+** Multiple stars such as in '\*/\*'
+
+  Let's now consider another case. As you can see, the sample below uses 2 stars '\*'.
+
+------------------------------------
+<definition name="bank/*/*" template="/layout.jsp">
+    <put-attribute name="header" value="/header.jsp"/>
+    <put-attribute name="body"   value="/{1}-{2}.jsp"/>
+</definition>
+
+------------------------------------
+
+  Calling a view named "/bank/customer/account" matches the above definition name.
+  Inside the 'body' attribute, \{1\} refers to the first star and \{2\} refers to the second one.
+  The "body" JSP name will be "customer-account.jsp".
+
+  Here is another example which shows that you can use package-style definition names:
 
 ------------------------------------
 <definition name="test.definition*.message*" template="/layout{1}.jsp">
@@ -38,10 +93,40 @@ Wildcard support
 </definition>
 ------------------------------------
 
-* {Using different pattern matching languages}
 
-  If you're using the <<<CompleteAutoloadTilesContainerFactory>>>, you must use a predix to specify
-  the pattern matching language you're using: either WILDCARD or REGEXP:
+* Using prefixes
+
+** Enabling CompleteAutoloadTilesContainerFactory
+
+  As a prerequisite for using prefixes, you need to have CompleteAutoloadTilesContainerFactory enabled.
+
+  If you haven't enabled it yet, here is a quick checklist for you to use.
+
+  The library tiles-extras is required. If you're using Maven, you need to add this dependency to you POM file:
+
+
+------------------------------------
+<dependency>
+	<groupId>org.apache.tiles</groupId>
+	<artifactId>tiles-extras</artifactId>
+	<version>2.2.2</version>
+</dependency>
+------------------------------------
+
+	If you are using Spring, you should add the 'completeAutoload' attribute to your TilesConfigurer bean.
+
+------------------------------------
+<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+	<property name="completeAutoload" value="true"/>
+</bean>
+------------------------------------
+
+** Using prefixes for wildcards and Regular Expressions
+
+
+  When using completeAutoload, you can use wildcard expressions and/or regexp. Each of them should be enabled using the dedicated prefix as follows.
+
+*** WILDCARD
 
 ------------------------------------
 <definition name="WILDCARD:test.definition*.message*" template="/layout{1}.jsp">
@@ -49,9 +134,16 @@ Wildcard support
     <put-attribute name="header" value="/header.jsp"/>
     <put-attribute name="body"   value="/body.jsp"/>
 </definition>
+
+<definition name="WILDCARD:bank/*" template="/layout.jsp">
+    <put-attribute name="header" value="/header.jsp"/>
+    <put-attribute name="body"   value="/{1}.jsp"/>
+</definition>
 ------------------------------------
 
   And, if you want to use Regular Expressions:
+
+*** REGEXP
 
 ------------------------------------
 <definition name="REGEXP:test\.definition(.*)\.message(.*)" template="/layout{1}.jsp">
@@ -60,6 +152,7 @@ Wildcard support
     <put-attribute name="body"   value="/body.jsp"/>
 </definition>
 ------------------------------------
+*** tiles:insertDefinition
 
   In both cases, if you insert a definition that matches the definition, for example:
 
