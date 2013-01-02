@@ -109,24 +109,31 @@ Wildcard support
 <dependency>
 	<groupId>org.apache.tiles</groupId>
 	<artifactId>tiles-extras</artifactId>
-	<version>2.2.2</version>
+	<version>3.0.1</version>
 </dependency>
 ------------------------------------
 
 	If you are using Spring, you should add the 'completeAutoload' attribute to your TilesConfigurer bean.
 
 ------------------------------------
-<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 	<property name="completeAutoload" value="true"/>
 </bean>
 ------------------------------------
 
-** Using prefixes for wildcards and Regular Expressions
+** Using prefixes
 
+	Here is an example of prefix using Regular Expressions:
 
-  When using completeAutoload, you can use wildcard expressions and/or regexp. Each of them should be enabled using the dedicated prefix as follows.
+------------------------------------
+<definition name="REGEXP:test\.definition(.*)\.message(.*)" template="/layout{1}.jsp">
+    <put-attribute name="title"  value="This definition has a message: {2}."/>
+    <put-attribute name="header" value="/header.jsp"/>
+    <put-attribute name="body"   value="/body.jsp"/>
+</definition>
+------------------------------------
 
-*** WILDCARD
+	The below sample uses WILDCARD (this prefix is not needed when using wildcards solely, as shown in the 'Default 	Configuration' section).
 
 ------------------------------------
 <definition name="WILDCARD:test.definition*.message*" template="/layout{1}.jsp">
@@ -141,18 +148,8 @@ Wildcard support
 </definition>
 ------------------------------------
 
-  And, if you want to use Regular Expressions:
 
-*** REGEXP
-
-------------------------------------
-<definition name="REGEXP:test\.definition(.*)\.message(.*)" template="/layout{1}.jsp">
-    <put-attribute name="title"  value="This definition has a message: {2}."/>
-    <put-attribute name="header" value="/header.jsp"/>
-    <put-attribute name="body"   value="/body.jsp"/>
-</definition>
-------------------------------------
-*** tiles:insertDefinition
+* tiles:insertDefinition
 
   In both cases, if you insert a definition that matches the definition, for example:
 
