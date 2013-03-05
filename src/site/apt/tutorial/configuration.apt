@@ -37,7 +37,7 @@ Configuring Tiles in your web application
   
 -------------
 <groupId>org.apache.tiles</groupId>
-<artefactId>tiles-extras</artefactId>
+<artifactId>tiles-extras</artifactId>
 -------------  
   
   If you're not using maven, just {{{/download.html}download}} tiles and copy all the jars
