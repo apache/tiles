@@ -70,7 +70,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class OptionsRenderer implements Renderer {
 
-    private static final Pattern OPTIONS_PATTERN
+    public static final Pattern OPTIONS_PATTERN
             = Pattern.compile(Pattern.quote("{options[") + "(.+)" + Pattern.quote("]}"));
 
     private static final Logger LOG = LoggerFactory.getLogger(OptionsRenderer.class);
@@ -125,7 +125,7 @@ public final class OptionsRenderer implements Renderer {
         boolean result = false;
         if (!Cache.isTemplateMissing(template)) {
             try {
-                if (null != applicationContext.getResource(template)) { // can throw FileNotFoundException !
+                if (null != applicationContext.getResource(template)) {
                     renderer.render(template, request); // can throw FileNotFoundException !
                     result = true;
                     Cache.setIfAbsentTemplateFound(template, true);
