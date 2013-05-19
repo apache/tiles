@@ -20,7 +20,6 @@
  */
 package org.apache.tiles.extras.renderer;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -80,7 +79,7 @@ public final class OptionsRenderer implements Renderer {
 
     public static final long DEFAULT_CACHE_LIFE = 1000 * 60 * 5;
 
-    private static final Pattern OPTIONS_PATTERN
+    public static final Pattern OPTIONS_PATTERN
             = Pattern.compile(Pattern.quote("{options[") + "(.+)" + Pattern.quote("]}"));
 
     private static final Logger LOG = LoggerFactory.getLogger(OptionsRenderer.class);
