@@ -110,6 +110,12 @@
       <artifactId>tiles-compat</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+    <dependency>
+      <artifactId>guava</artifactId>
+      <groupId>com.google.guava</groupId>
+      <version>12.0.1</version>
+    </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>
