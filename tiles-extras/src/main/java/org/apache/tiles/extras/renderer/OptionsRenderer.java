@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.ListAttribute;
 import org.apache.tiles.access.TilesAccess;
@@ -164,24 +165,29 @@ public final class OptionsRenderer implements Renderer {
 
         private static final long CACHE_LIFE = Long.getLong(CACHE_LIFE_PROPERTY, DEFAULT_CACHE_LIFE);
 
-        static {
-            LOG.info("cache_ttl_ms=" + CACHE_LIFE);
-        }
-
         /** It takes CACHE_LIFE milliseconds for any hot deployments to register.
          */
-        private static final ConcurrentMap<String,Boolean> TEMPLATE_EXISTS = CacheBuilder.newBuilder()
-                .expireAfterWrite(CACHE_LIFE, TimeUnit.MILLISECONDS)
-                .build(
-                new CacheLoader<String, Boolean>() {
-                    @Override
-                    public Boolean load(String key) {
-                        throw new UnsupportedOperationException(
-                                "illegal TEMPLATE_EXISTS.get(\"" + key
-                                + "\") before TEMPLATE_EXISTS.containsKey(\"" + key + "\")");
-                    }
-                })
-                .asMap();
+        private static final ConcurrentMap<String,Boolean> TEMPLATE_EXISTS;
+        
+        static {
+            LOG.info("cache_ttl_ms=" + CACHE_LIFE);
+
+            LoadingCache<String,Boolean> builder = CacheBuilder
+                    .newBuilder()
+                    .expireAfterWrite(CACHE_LIFE, TimeUnit.MILLISECONDS)
+                    .build(
+                        new CacheLoader<String, Boolean>() {
+                            @Override
+                            public Boolean load(String key) {
+                                throw new UnsupportedOperationException(
+                                        "illegal TEMPLATE_EXISTS.get(\"" + key
+                                        + "\") before TEMPLATE_EXISTS.containsKey(\"" + key + "\")");
+                            }
+                        });
+
+            TEMPLATE_EXISTS = builder.asMap();
+        }
+
 
         static boolean attemptTemplate(final String template) {
             return !TEMPLATE_EXISTS.containsKey(template) || TEMPLATE_EXISTS.get(template);
