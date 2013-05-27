@@ -50,6 +50,9 @@
             <item
                    name="Security bulletins"
                    href="security/index.html"/>
+            <item
+                   name="Download"
+                   href="http://tiles.apache.org/download.html"/>
         </menu>
         <menu name="Documentation">
             <item
