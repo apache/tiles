@@ -25,15 +25,23 @@ Tiles Release Process
 
   Here you will find the steps to create releases for Tiles.
 
+  Apache's existing documentation should be read
+
+  * {{{http://www.apache.org/dev/release-publishing}Publishing Releases}}
+
+  * {{{http://www.apache.org/dev/publishing-maven-artifacts.html}Publishing Maven Artifacts}}
+
+  * {{{http://www.apache.org/dev/release}Releases Policy}}
+
 Prerequisites
 
   To create a release you have to install:
 
-  * {{{http://java.sun.com/javase/6}Java 6.0}}. If you are using a newer
-  version of Java, it is suggested to <<change JAVA_HOME environment variable>>
-  when calling Maven, so it points to an instance of Java 6.0;
+  * {{{http://www.oracle.com/technetwork/java/javase/overview/index.html}Java 7}}. If you are using a newer
+  version of Java <<change JAVA_HOME environment variable>>
+  when calling Maven, so it points to an instance of Java 7;
 
-  * {{{http://maven.apache.org/}Maven 2.2 or 3}};
+  * {{{http://maven.apache.org/}Maven 3.0.5+}};
 
   * {{{http://www.gnupg.org/}GnuPG}};
 
@@ -84,43 +92,7 @@ ssh user@people.apache.org
 
   Your <<<settings.xml>>> must be modified to allow deployment.
 
-  This is the minimal configuration, obviously if you already have a <<<settings.xml>>> file,
-  you must edit it:
-
----------------------------
-<settings xmlns="http://maven.apache.org/POM/4.0.0"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
-    <servers>
-        <server>
-            <id>apache-site</id>
-            <username>YOUR_APACHE_USERNAME</username>
-            <filePermissions>664</filePermissions>
-            <directoryPermissions>775</directoryPermissions>
-        </server>
-        <server>
-            <id>apache.snapshots.https</id>
-            <username>YOUR_APACHE_USERNAME</username>
-            <password>YOUR_APACHE_PASSWORD</password>
-        </server>
-        <server>
-            <id>apache.releases.https</id>
-            <username>YOUR_APACHE_USERNAME</username>
-            <password>YOUR_APACHE_PASSWORD</password>
-        </server>
-    </servers>
-    <profiles>
-        <profile>
-            <id>release</id>
-            <properties>
-                <gpg.passphrase>YOUR_SECRET_PHRASE</gpg.passphrase>
-            </properties>
-            </profile>
-        </profile>
-    </profiles>
-</settings>
----------------------------
+  See {{{http://www.apache.org/dev/publishing-maven-artifacts.html#dev-env}Publishing Maven Artifacts – Setup your development environment}}
 
 Repeatable operations
 
@@ -132,13 +104,14 @@ Repeatable operations
   you are preparing the release and type:
 
 -----------------------------------
+mvn clean
 mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
 -----------------------------------
 
   The plugin interactively will ask you the version to release, the Subversion
   tag to use and the next snapshot version. It is recommended to use the tag:
   <<tiles-X.X.X>>.
-  
+
   See also {{{http://www.apache.org/dev/publishing-maven-artifacts.html}the recommendations of the ASF}}.
 
 * Perform the Release
@@ -148,17 +121,27 @@ mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
 -----------------------------------
 mvn release:perform
 -----------------------------------
-  
-  It should compile and test everything, build and upload the artifacts and the website for the project. 
+
+  It should compile and test everything, build and upload the artifacts and the website for the project.
+
+  <<Troubleshooting>>: if upload of assemblies fails it can be done manually with
+
+-----------------------------------
+cd target/checkout/assembly/target/assemblies/
+ssh user@people.apache.org mkdir /www/people.apache.org/builds/tiles/${version}/
+scp * user@people.apache.org:/www/people.apache.org/builds/tiles/${version}/
+-----------------------------------
 
 * Close the staging repository
 
   Login to {{{https://repository.apache.org} Nexus repository}} using your Apache LDAP credentials.
   Click on "Staging". Then click on "tiles" in the list of repositories.
+
   In the panel below you should see an open repository that is linked to your username and ip.
   Right click on this repository and select "Close".
   This will close the repository from future deployments and make it available for others to view.
   If you are staging multiple releases together, skip this step until you have staged everything.
+
   Enter the name and version of the artifact being released in the "Description" field and then click "Close".
   This will make it easier to identify it later.
 
@@ -175,8 +158,8 @@ mvn release:perform
 * Verify the uploaded assemblies
 
   * go to the destination directory on people.apache.org (cd /www/people.apache.org/builds/tiles/${version}).
-  
-  * check the presence of the 3 distributions (bin, doc and src), and their signature files (*.asc, *.md5, *sha1). 
+
+  * check the presence of the 3 distributions (bin, doc and src), and their signature files (*.asc, *.md5, *sha1).
 
 * Release the JIRA version
 
@@ -258,28 +241,29 @@ three binding +1s and more +1s than -1s.
   After a vote is finished, and it has been decided that is
   <<at least of alpha quality>>, there is the need of a post-vote process.
 
-** Promote staged artifacts
+** Promote maven staged artifacts
 
-  Once the release is deemed fit for public consumption it can be transfered to a production repository where it will be available to all users.
+  Once the release is deemed fit for public consumption it can be transfered to a
+  production repository where it will be available to all users.
 
   Login to {{{https://repository.apache.org}Nexus repository}} again.
   Click on "Staging" and then on the repository with id "tiles-staging".
-  Find your closed staging repository, right click on it and choose "Promote".
-  Select the "Releases" repository and click "Promote".
+  Find your closed staging repository, right click on it and choose "Release".
 
   Next click on "Repositories", select the "Releases" repository
   and validate that your artifacts exist as you expect them.
 
-** Move assemblies
+** Publish distribution artifacts
 
-  * Move assemblies to the Apache distribution mirrors:
+  * Move assemblies into the Apache {{{http://www.apache.org/dev/release#when-to-archive}dist}} repository:
 
 -------------------------------------------
-ssh user@people.apache.org
-
-cd /www/people.apache.org/builds/tiles/${version}
-mkdir /www/www.apache.org/dist/tiles/v${version}/
-cp * /www/www.apache.org/dist/tiles/v${version}/
+svn co https://dist.apache.org/repos/dist/release/tiles tiles-dist-releases
+mkdir tiles-dist-releases/v${version}
+cd tiles-dist-releases/v${version}
+scp user@people.apache.org:/www/people.apache.org/builds/tiles/${version}/* .
+svn add .
+svn ci
 -------------------------------------------
 
 ** Update the site
@@ -295,8 +279,12 @@ https://svn.apache.org/repos/asf/tiles/site/src/site/apt/download.apt
   Build and publish the site:
 
 --------------------------------------
-mvn site
-mvn site:deploy
+mvn clean site site:stage
+mvn scm-publish:publish-scm
+# check staging website at target/scmpublish-checkout/index.html
+cd <tiles-site-checkout>/publish/framework/
+svn merge ^/tiles/site/staging/framework .
+svn ci
 --------------------------------------
 
 ** Send announcement
@@ -310,7 +298,7 @@ Subject: [ANNOUNCE] Tiles ${version} ${quality} released
 The Apache Tiles team is pleased to announce the release of Tiles ${version}
 ${quality}.
 
-Tiles ${version} is available in a binary and a source distribution.
+Available in binary and source distribution.
 
 http://tiles.apache.org/download.html
 

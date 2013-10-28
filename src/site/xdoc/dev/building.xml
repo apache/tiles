@@ -83,10 +83,10 @@
             <li><p>checkout the site from the source repository:</p>
             <p><source>svn co http://svn.apache.org/repos/asf/tiles/site/</source></p></li>
             <li><p>go into the site directory and type:</p>
-            <p><source>mvn site</source></p></li>
+            <p><source>mvn clean site site:stage</source></p></li>
             </ul>
             <p>You will find the generated distribution under
-            <code>{tiles-site-dir}/target/site</code>.</p>
+            <code>{tiles-site-dir}/target/staging</code>.</p>
           </subsection>
           <subsection name="Building a project's website">
             <p>To build the framework website:</p>
@@ -95,7 +95,7 @@
             distribution, or checkout the latest version:</p>
             <p><source>svn co http://svn.apache.org/repos/asf/tiles/framework/trunk/tiles-parent/</source></p></li>
             <li><p>go into the source directory and type:</p>
-            <p><source>mvn site site:stage</source></p></li>
+            <p><source>mvn clean site site:stage</source></p></li>
             </ul>
             <p>You will find the generated website under:</p>
             <ul>
