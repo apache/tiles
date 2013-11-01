@@ -57,4 +57,11 @@ public interface PatternDefinitionResolver<T> {
      * @since 2.2.0
      */
     Definition resolveDefinition(String name, T customizationKey);
+
+    /**
+     * Used to clear all entries in the localePatternPaths for a specific locale.  Necessary when reloading definition files
+     * to ensure that the list is cleared first
+     * @param customizationKey
+     */
+ 	public void clearPatternPaths(T customizationKey);
 }

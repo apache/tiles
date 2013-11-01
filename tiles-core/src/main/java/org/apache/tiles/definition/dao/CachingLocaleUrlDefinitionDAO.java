@@ -170,6 +170,7 @@ public class CachingLocaleUrlDefinitionDAO extends BaseLocaleUrlDefinitionDAO
             Locale customizationKey) {
         if (checkRefresh && refreshRequired()) {
             locale2definitionMap.clear();
+            definitionResolver.clearPatternPaths(customizationKey);
         }
         loadDefinitions(customizationKey);
         return locale2definitionMap.get(customizationKey);
