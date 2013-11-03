@@ -26,11 +26,11 @@
   <parent>
     <artifactId>tiles-test-pom</artifactId>
     <groupId>org.apache.tiles</groupId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.0.2</version>
   </parent>
   <groupId>org.apache.tiles</groupId>
   <artifactId>tiles-test-common</artifactId>
-  <version>3.0.2-SNAPSHOT</version>
+  <version>3.0.2</version>
   <name>Tiles - Test webapp common classes</name>
   <description>Common classes between modules of the test webapp.</description>
   <dependencies>
