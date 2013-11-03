@@ -29,11 +29,11 @@ Prerequisites
 
   To create a release you have to install:
 
-  * {{{http://java.sun.com/javase/6}Java 6.0}}. If you are using a newer
-  version of Java, it is suggested to <<change JAVA_HOME environment variable>>
-  when calling Maven, so it points to an instance of Java 6.0;
+  * {{{http://www.oracle.com/technetwork/java/javase/overview/index.html}Java 7}}. If you are using a newer
+  version of Java <<change JAVA_HOME environment variable>>
+  when calling Maven, so it points to an instance of Java 7;
 
-  * {{{http://maven.apache.org/}Maven 2.2 or 3}};
+  * {{{http://maven.apache.org/}Maven 3.0.5+}};
 
   * {{{http://www.gnupg.org/}GnuPG}};
 
@@ -138,7 +138,7 @@ mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
   The plugin interactively will ask you the version to release, the Subversion
   tag to use and the next snapshot version. It is recommended to use the tag:
   <<tiles-X.X.X>>.
-  
+
   See also {{{http://www.apache.org/dev/publishing-maven-artifacts.html}the recommendations of the ASF}}.
 
 * Perform the Release
@@ -148,8 +148,8 @@ mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
 -----------------------------------
 mvn release:perform
 -----------------------------------
-  
-  It should compile and test everything, build and upload the artifacts and the website for the project. 
+
+  It should compile and test everything, build and upload the artifacts and the website for the project.
 
 * Close the staging repository
 
@@ -175,8 +175,8 @@ mvn release:perform
 * Verify the uploaded assemblies
 
   * go to the destination directory on people.apache.org (cd /www/people.apache.org/builds/tiles/${version}).
-  
-  * check the presence of the 3 distributions (bin, doc and src), and their signature files (*.asc, *.md5, *sha1). 
+
+  * check the presence of the 3 distributions (bin, doc and src), and their signature files (*.asc, *.md5, *sha1).
 
 * Release the JIRA version
 
