@@ -109,13 +109,14 @@ public abstract class AbstractPatternDefinitionResolver<T> implements
     
     
     /**
-     * Used to clear all entries in the localePatternPaths for a specific locale.  Necessary when reloading definition files
-     * to ensure that the list is cleared first
+     * Used to clear all entries in the localePatternPaths for a specific locale. Necessary when reloading definition
+     * files to ensure that the list is cleared first
+     * 
      * @param customizationKey
      */
     @Override
-	public void clearPatternPaths( T customizationKey ){
-    	if( localePatternPaths != null && localePatternPaths.get(customizationKey) != null )
-    		localePatternPaths.get(customizationKey).clear();
+    public void clearPatternPaths(T customizationKey) {
+        if (localePatternPaths != null && localePatternPaths.get(customizationKey) != null)
+            localePatternPaths.get(customizationKey).clear();
     }
 }
