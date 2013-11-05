@@ -116,7 +116,7 @@ public abstract class AbstractPatternDefinitionResolver<T> implements
      */
     @Override
     public void clearPatternPaths(T customizationKey) {
-        if (localePatternPaths != null && localePatternPaths.get(customizationKey) != null)
+        if (localePatternPaths.get(customizationKey) != null)
             localePatternPaths.get(customizationKey).clear();
     }
 }
