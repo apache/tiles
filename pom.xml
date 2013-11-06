@@ -33,15 +33,15 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.tiles</groupId>
     <artifactId>tiles-parent</artifactId>
-    <version>3.0.3-SNAPSHOT</version>
+    <version>3.0.3</version>
     <packaging>pom</packaging>
     <name>Tiles 3</name>
     <description>Tiles 3: A framework for page composition.</description>
     <url>http://tiles.apache.org/framework/</url>
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/branches/TILES_3_0_X</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/branches/TILES_3_0_X</developerConnection>
-        <url>http://svn.apache.org/viewvc/tiles/framework/branches/TILES_3_0_X</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/framework/tags/tiles-parent-3.0.3</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/framework/tags/tiles-parent-3.0.3</developerConnection>
+        <url>http://svn.apache.org/viewvc/tiles/framework/tags/tiles-parent-3.0.3</url>
     </scm>
 
     <ciManagement />
