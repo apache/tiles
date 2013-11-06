@@ -40,60 +40,70 @@ import org.junit.Test;
  */
 public class AbstractPatternDefinitionResolverTest {
 
+    private DefinitionPatternMatcher firstMatcher;
+    private DefinitionPatternMatcher thirdMatcher;
+
+    private final PatternDefinitionResolver<Integer> resolver = new AbstractPatternDefinitionResolver<Integer>() {
+        @Override
+        protected Map<String, Definition> addDefinitionsAsPatternMatchers(
+                List<DefinitionPatternMatcher> matchers,
+                Map<String, Definition> defsMap) {
+
+            if (defsMap.containsKey("first")) {
+                matchers.add(firstMatcher);
+            }
+            if (defsMap.containsKey("third")) {
+                matchers.add(thirdMatcher);
+            }
+            Map<String, Definition> retValue = new HashMap<String, Definition>(defsMap);
+            retValue.remove("first");
+            retValue.remove("third");
+            return retValue;
+        }
+    };
+
     /**
      * Test method for
      * {@link BasicPatternDefinitionResolver#resolveDefinition(String, Object)}.
      */
     @Test
     public void testResolveDefinition() {
-        final DefinitionPatternMatcher firstMatcher = createMock(DefinitionPatternMatcher.class);
-        final DefinitionPatternMatcher thirdMatcher = createMock(DefinitionPatternMatcher.class);
+        testResolveDefinitionImpl();
+    }
 
-        Definition firstDefinition = new Definition("first", (Attribute) null,
-                null);
-        Definition secondDefinition = new Definition("second",
-                (Attribute) null, null);
-        Definition thirdDefinition = new Definition("third", (Attribute) null,
-                null);
+    /**
+     * Test method for
+     * {@link BasicPatternDefinitionResolver#clearPatternPaths(Object)}.
+     */
+    @Test
+    public void testClearPatternPaths() {
+        testResolveDefinitionImpl();
+        resolver.clearPatternPaths(1);
+        resolver.clearPatternPaths(2);
+        testResolveDefinitionImpl();
+    }
 
-        Definition firstTransformedDefinition = new Definition(
-                "firstTransformed", (Attribute) null, null);
-        Definition thirdTransformedDefinition = new Definition(
-                "thirdTransformed", (Attribute) null, null);
+    private void testResolveDefinitionImpl() {
 
-        expect(firstMatcher.createDefinition("firstTransformed")).andReturn(
-                firstTransformedDefinition);
-        expect(firstMatcher.createDefinition("secondTransformed")).andReturn(
-                null);
-        expect(firstMatcher.createDefinition("thirdTransformed")).andReturn(
-                null);
-        expect(thirdMatcher.createDefinition("thirdTransformed")).andReturn(
-                thirdTransformedDefinition).times(2);
-        expect(thirdMatcher.createDefinition("firstTransformed")).andReturn(
-                null);
-        expect(thirdMatcher.createDefinition("secondTransformed")).andReturn(
-                null).times(2);
+        firstMatcher = createMock(DefinitionPatternMatcher.class);
+        thirdMatcher = createMock(DefinitionPatternMatcher.class);
+
+        Definition firstDefinition = new Definition("first", (Attribute) null, null);
+        Definition secondDefinition = new Definition("second", (Attribute) null, null);
+        Definition thirdDefinition = new Definition("third", (Attribute) null, null);
+
+        Definition firstTransformedDefinition = new Definition("firstTransformed", (Attribute) null, null);
+        Definition thirdTransformedDefinition = new Definition("thirdTransformed", (Attribute) null, null);
+
+        expect(firstMatcher.createDefinition("firstTransformed")).andReturn(firstTransformedDefinition);
+        expect(firstMatcher.createDefinition("secondTransformed")).andReturn(null);
+        expect(firstMatcher.createDefinition("thirdTransformed")).andReturn(null);
+        expect(thirdMatcher.createDefinition("thirdTransformed")).andReturn(thirdTransformedDefinition).times(2);
+        expect(thirdMatcher.createDefinition("firstTransformed")).andReturn(null);
+        expect(thirdMatcher.createDefinition("secondTransformed")).andReturn(null).times(2);
 
         replay(firstMatcher, thirdMatcher);
-        PatternDefinitionResolver<Integer> resolver = new AbstractPatternDefinitionResolver<Integer>() {
 
-            @Override
-            protected Map<String, Definition> addDefinitionsAsPatternMatchers(
-                    List<DefinitionPatternMatcher> matchers,
-                    Map<String, Definition> defsMap) {
-                if (defsMap.containsKey("first")) {
-                    matchers.add(firstMatcher);
-                }
-                if (defsMap.containsKey("third")) {
-                    matchers.add(thirdMatcher);
-                }
-                Map<String, Definition> retValue = new HashMap<String, Definition>(defsMap);
-                retValue.remove("first");
-                retValue.remove("third");
-                return retValue;
-            }
-
-        };
         Map<String, Definition> localeDefsMap = new LinkedHashMap<String, Definition>();
         localeDefsMap.put("first", firstDefinition);
         localeDefsMap.put("second", secondDefinition);
