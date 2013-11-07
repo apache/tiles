@@ -119,7 +119,7 @@ mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
   To perform the release, i.e. creating and deploying Maven artifacts, use:
 
 -----------------------------------
-mvn release:perform -Duser.name=YOUR_PEOPLE_APACHE_SSH_USER
+mvn release:perform -Duser.name=YOUR_PEOPLE_APACHE_SSH_USER -Darguments="-Duser.name=YOUR_PEOPLE_APACHE_SSH_USER"
 -----------------------------------
 
   It should compile and test everything, build and upload the artifacts and the website for the project.
