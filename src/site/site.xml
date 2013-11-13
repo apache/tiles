@@ -54,19 +54,19 @@
         <menu name="Apache Tiles&#8482;">
             <item
                    name="Welcome"
-                   href="/index.html"/>
+                   href="../index.html"/>
             <item
                     name="Tiles 3.0.x"
-                    href="/framework/index.html"/>
+                    href="index.html"/>
             <item
                     name="Autotag 1.0.x"
-                    href="/tiles-autotag/index.html"/>
+                    href="../tiles-autotag/index.html"/>
             <item
                     name="Request 1.0.x"
-                    href="/tiles-request/index.html"/>
+                    href="../tiles-request/index.html"/>
             <item
                    name="Security bulletins"
-                   href="/framework/security/index.html"/>
+                   href="security/index.html"/>
             <item
                    name="Download"
                    href="http://tiles.apache.org/download.html"/>
@@ -184,16 +184,16 @@
         <menu name="Developers">
             <item
                     name="Building"
-                    href="/dev/building.html"/>
+                    href="dev/building.html"/>
             <item
                     name="Snapshots"
-                    href="/dev/snapshots.html"/>
+                    href="dev/snapshots.html"/>
             <item
                     name="Release Process"
-                    href="/dev/release.html"/>
+                    href="dev/release.html"/>
             <item
                     name="Selenium Testing"
-                    href="/selenium.html"/>
+                    href="selenium.html"/>
         </menu>
 
         <menu ref="modules" />
