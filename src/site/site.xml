@@ -22,39 +22,59 @@
  */
 -->
 <project name="Apache Tiles - Framework">
+     <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.3.0</version>
+     </skin>
+     <custom>
+        <fluidoSkin>
+        <topBarEnabled>true</topBarEnabled>
+        <sideBarEnabled>false</sideBarEnabled>
+        <searchEnabled>true</searchEnabled>
+        <gitHub>
+            <projectId>apache/tiles</projectId>
+            <ribbonOrientation>right</ribbonOrientation>
+            <ribbonColor>darkblue</ribbonColor>
+        </gitHub>
+        </fluidoSkin>
+     </custom>
     <bannerLeft>
-        <name>Apache Software Foundation</name>
-        <src>http://www.apache.org/images/asf-logo.gif</src>
-        <href>http://www.apache.org</href>
-    </bannerLeft>
-    <bannerRight>
         <name>Apache Tiles&#8482;</name>
         <src>http://tiles.apache.org/images/logo.png</src>
         <href>http://tiles.apache.org</href>
+    </bannerLeft>
+    <bannerRight>
+        <name>Apache Software Foundation</name>
+        <src>http://struts.apache.org/images/asf-logo.gif</src>
+        <href>http://www.apache.org</href>
     </bannerRight>
     <body>
 
-        <links>
-            <item name="Apache" href="http://www.apache.org" />
-            <item name="Tiles" href="http://tiles.apache.org" />
-        </links>
-
-
         <menu name="Apache Tiles&#8482;">
             <item
-                   name="Home"
+                   name="Welcome"
                    href="../index.html"/>
             <item
-                   name="Tiles project start page"
-                   href="./index.html"/>
+                    name="Tiles 3.0.x"
+                    href="index.html"/>
+            <item
+                    name="Autotag 1.0.x"
+                    href="../tiles-autotag/index.html"/>
+            <item
+                    name="Request 1.0.x"
+                    href="../tiles-request/index.html"/>
             <item
                    name="Security bulletins"
                    href="security/index.html"/>
         </menu>
-        <menu name="Documentation">
+        <menu name="User Documentation">
             <item
                     name="What's new"
                     href="whats-new.html"/>
+            <item
+                    name="Getting Started"
+                    href="getting_started.html"/>
             <item
                     name="Tutorial"
                     href="tutorial/index.html"
@@ -137,13 +157,10 @@
                     name="Wiki"
                     href="http://cwiki.apache.org/TILES/"/>
             <item
-                    name="Migration"
+                    name="Struts Migration"
                     href="migration/index.html"/>
         </menu>
         <menu name="Reference">
-            <item
-                    name="Getting Started"
-                    href="getting_started.html"/>
             <item
                     name="Configuration reference"
                     href="config-reference.html"/>
@@ -164,20 +181,26 @@
         <menu name="Developers">
             <item
                     name="Building"
-                    href="/dev/building.html"/>
+                    href="dev/building.html"/>
             <item
                     name="Snapshots"
-                    href="/dev/snapshots.html"/>
+                    href="dev/snapshots.html"/>
             <item
                     name="Release Process"
-                    href="/dev/release.html"/>
+                    href="dev/release.html"/>
             <item
                     name="Selenium Testing"
-                    href="/selenium.html"/>
+                    href="selenium.html"/>
         </menu>
 
         <menu ref="modules" />
         <menu ref="reports" />
 
+        <footer>
+            <div class="row span12">
+                Apache Tiles, Tiles, Apache, the Apache feather logo, and the Apache Tiles
+                project logos are trademarks of The Apache Software Foundation.
+            </div>
+        </footer>
     </body>
 </project>

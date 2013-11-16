@@ -25,17 +25,19 @@ Integration with other web Frameworks
 
   Tiles can be integrated with other web frameworks. Usually this kind of
   integration is made through extensions/plugins to Tiles.
-  
+
   * {{{http://struts.apache.org/1.x/index.html}Struts 1}}: Currently under
   development. A Struts 1 plugin is available in the SVN trunk, that presumably
   will be released along with Struts 1.4.
-  
-  * {{{http://struts.apache.org/2.x/docs/tiles-plugin.html}Struts 2}}: at the time of this 
+
+  * {{{http://struts.apache.org/development/2.x/struts2-plugins/struts2-tiles-plugin/apidocs/index.html}Struts 2}}: at the time of this
   writing, the Struts 2 Tiles plugin still uses Tiles version 2.
-  
-  * {{{http://static.springsource.org/spring/docs/current/spring-framework-reference/html/view.html#view-tiles}Spring MVC}}: 
-  At the time of this writing, Spring uses Tiles version 2.
-  
-  * {{{http://shale.apache.org/shale-tiles/index.html}Shale}}: An integration
-  layer is provided, but it needs to be updated to the latest released version
-  of Tiles.
+
+  * {{{http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/view.html#view-tiles}Spring MVC}}:
+  Spring-3.2 can integration up to Tiles-2 and Tiles-3.
+
+
+
+  For a closer look at custom integrations the
+  {{{https://github.com/spring-projects/spring-framework/tree/master/spring-webmvc-tiles3/src/main/java/org/springframework/web/servlet/view/tiles3}spring code}}:
+  forms a good example.

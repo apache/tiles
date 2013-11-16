@@ -29,3 +29,5 @@ Integration with other View Technologies
   * {{{./freemarker.html}FreeMarker}}.
 
   * {{{./velocity.html}Velocity}}.
+
+  * Mustache.
