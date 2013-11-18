@@ -22,6 +22,7 @@
 package org.apache.tiles.definition.pattern;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -209,16 +210,21 @@ public final class PatternUtil {
      */
     private static String replace(String st, Object... vars) {
         if (st != null && st.indexOf('{') >= 0) {
-            // remember the invalid "{...}" occurrences
-            Matcher m = INVALID_FORMAT_ELEMENT.matcher(st);
+
             // replace them with markers
-            st = INVALID_FORMAT_ELEMENT.matcher(st).replaceAll("INVALID_FORMAT_ELEMENT");
+            List<String> originals = new ArrayList<String>();
+            for(Matcher m = INVALID_FORMAT_ELEMENT.matcher(st); m.find() ; m = INVALID_FORMAT_ELEMENT.matcher(st)) {
+                originals.add(m.group());
+                st = m.replaceFirst("INVALID_FORMAT_ELEMENT");
+            }
+
             // do the MessageFormat replacement (escaping quote characters)
             st = new MessageFormat(st.replaceAll("'", "'''"), ROOT_LOCALE)
                     .format(vars, new StringBuffer(), null).toString();
+
             // return the markers to their original invalid occurrences
-            while (m.find()) {
-                st = st.replace("INVALID_FORMAT_ELEMENT", m.group());
+            for (String original : originals) {
+                st = st.replaceFirst("INVALID_FORMAT_ELEMENT", original);
             }
         }
         return st;

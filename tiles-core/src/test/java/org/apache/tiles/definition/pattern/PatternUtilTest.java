@@ -185,15 +185,69 @@ public class PatternUtilTest {
      * See TILES-502
      */
     @Test
-    public void testReplacePlaceholdersEL() {
+    public void testReplacePlaceholdersEL_0() {
         Map<String, Attribute> attributes = new HashMap<String, Attribute>();
-        attributes.put("something", new Attribute("some-{1}-${requestScope.someVariable}.jsp"));
-        Definition definition = new Definition("definitionName", new Attribute(
-                "template"), attributes);
-        Definition nudef = PatternUtil.replacePlaceholders(definition, "nudef",
-                "value0", "value1", "value2", "value3");
+        Attribute attribute = new Attribute("some-{1}-${requestScope.someVariable}.jsp");
+        attribute.setExpressionObject(new Expression((String)attribute.getValue()));
+        attributes.put("something", attribute);
+        Definition definition = new Definition("definitionName", new Attribute("template"), attributes);
+        Definition nudef = PatternUtil.replacePlaceholders(definition, "nudef", "value0", "value1", "value2", "value3");
         assertEquals("nudef", nudef.getName());
-        Attribute attribute = nudef.getAttribute("something");
-        assertEquals("some-value1-${requestScope.someVariable}.jsp", attribute.getValue());
+
+        assertEquals(
+                "some-value1-${requestScope.someVariable}.jsp",
+                nudef.getAttribute("something").getValue());
+
+        assertEquals(
+                "some-value1-${requestScope.someVariable}.jsp",
+                nudef.getAttribute("something").getExpressionObject().getExpression());
+    }
+
+    /**
+     * Test method for
+     * {@link PatternUtil#replacePlaceholders(Definition, String, Object[])}.
+     * See TILES-574
+     */
+    @Test
+    public void testReplacePlaceholdersEL_1() {
+        Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+        Attribute attribute = new Attribute("some-{1}-${requestScope.someVariable}-other-{2}.jsp");
+        attribute.setExpressionObject(new Expression((String)attribute.getValue()));
+        attributes.put("something", attribute);
+        Definition definition = new Definition("definitionName", new Attribute("template"), attributes);
+        Definition nudef = PatternUtil.replacePlaceholders(definition, "nudef", "value0", "value1", "value2", "value3");
+        assertEquals("nudef", nudef.getName());
+
+        assertEquals(
+                "some-value1-${requestScope.someVariable}-other-value2.jsp",
+                nudef.getAttribute("something").getValue());
+
+        assertEquals(
+                "some-value1-${requestScope.someVariable}-other-value2.jsp",
+                nudef.getAttribute("something").getExpressionObject().getExpression());
+    }
+
+    /**
+     * Test method for
+     * {@link PatternUtil#replacePlaceholders(Definition, String, Object[])}.
+     * See TILES-574
+     */
+    @Test
+    public void testReplacePlaceholdersEL_2() {
+        Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+        Attribute attribute = new Attribute("some-${requestScope.someVariable}-other-{1}-${requestScope.someOtherVariable}.jsp");
+        attribute.setExpressionObject(new Expression((String)attribute.getValue()));
+        attributes.put("something", attribute);
+        Definition definition = new Definition("definitionName", new Attribute("template"), attributes);
+        Definition nudef = PatternUtil.replacePlaceholders(definition, "nudef", "value0", "value1", "value2", "value3");
+        assertEquals("nudef", nudef.getName());
+
+        assertEquals(
+                "some-${requestScope.someVariable}-other-value1-${requestScope.someOtherVariable}.jsp",
+                nudef.getAttribute("something").getValue());
+
+        assertEquals(
+                "some-${requestScope.someVariable}-other-value1-${requestScope.someOtherVariable}.jsp",
+                nudef.getAttribute("something").getExpressionObject().getExpression());
     }
 }
