@@ -319,4 +319,9 @@ Please feel free to test the distribution and post your comments to
 the user list, or, if appropriate, file a ticket with JIRA.
 --------------------------------------
 
+** Delete old releases
+
+  As described in http://www.apache.org/dev/release.html#when-to-archive
+
+
   <<You have finished!>>
