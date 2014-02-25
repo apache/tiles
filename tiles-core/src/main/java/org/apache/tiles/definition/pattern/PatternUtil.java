@@ -67,12 +67,15 @@ public final class PatternUtil {
      *
      * @param d The definition to replace.
      * @param name The name of the definition to be created.
-     * @param vars The variables to be substituted.
+     * @param varsOrig The variables to be substituted.
      * @return The definition that can be rendered.
      * @since 2.2.0
      */
     public static Definition replacePlaceholders(Definition d, String name,
-            Object... vars) {
+            Object... varsOrig) {
+
+        Object[] vars = replaceNullsWithBlank(varsOrig);
+
         Definition nudef = new Definition();
 
         nudef.setExtends(replace(d.getExtends(), vars));
@@ -228,5 +231,13 @@ public final class PatternUtil {
             }
         }
         return st;
+    }
+
+    private static Object[] replaceNullsWithBlank(Object[] varsOrig) {
+        Object[] vars = new Object[varsOrig.length];
+        for(int i = 0; i < varsOrig.length; ++i) {
+            vars[i] = null != varsOrig[i] ? varsOrig[i] : "";
+        }
+        return vars;
     }
 }
