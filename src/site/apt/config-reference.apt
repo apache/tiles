@@ -143,9 +143,14 @@ Configuring Tiles internals
 
   The reason to use a custom Tiles application context could be:
 
-  * supporting a platform not supported yet;
+   * supporting a platform not supported yet;
 
-  * providing custom behaviour, such as loading resources in a different manner.
+   * providing custom behaviour, such as loading resources in a different manner.
+
+
+  When loading resources (by {{{/tiles-request/apidocs/org/apache/tiles/request/locale/PostfixedApplicationResource.html}default}})
+  an underscore in the name of a file is used to indicate locale information.
+  See the documentation for {{{/framework/tutorial/advanced/l10n.html}localization}}.
 
 * Custom {TilesContainerFactory}
 
@@ -160,41 +165,41 @@ Configuring Tiles internals
   {{{./apidocs/org/apache/tiles/factory/BasicTilesContainerFactory.html}Javadoc documentation of BasicTilesContainerFactory}}
   documents all the methods that can be overridden to use your own
   configuration.
-  
+
 ** Changing the path for the Tiles Definitions file
 
   The <<<BasicTilesContainerFactory>>> loads the "/WEB-INF/tiles.xml" file; the <<<CompleteAutoloadTilesContainerFactory>>>
   loads all the files named "tiles*.xml" under /WEB-INF and under every META-INF in any part of the classpath.
-  
+
   If this behaviour doesn't suits you, you can override the method <<<getSources>>> and retrieve whatever resource you
   prefer. Just specify the path for the default locale; Tiles will extrapolate and load the localized files as needed.
 
 * Custom components
 
   These components can be used by overriding the appropriate <<<create>>> method in a custom TilesContainerFactory.
-  
+
 ** Custom {LocaleResolver}
-  
+
   The default implementation is {{{./apidocs/org/apache/tiles/locale/impl/DefaultLocaleResolver.html}DefaultLocaleResolver}}.
 
 ** Custom {DefinitionDAO}
 
   The default implementation is {{{./apidocs/org/apache/tiles/definition/dao/ResolvingLocaleUrlDefinitionDAO.html}ResolvingLocaleUrlDefinitionDAO}}.
-  
+
 ** Custom {AttributeEvaluatorFactory}
 
   The default implementation is {{{./apidocs/org/apache/tiles/evaluator/BasicAttributeEvaluatorFactory.html}BasicAttributeEvaluatorFactory}}.
-  
+
   It can be used with a number of AttributeEvaluators like:
-  
-  * the {{{./apidocs/org/apache/tiles/evaluator/impl/DirectAttributeEvaluator.html}DirectAttributeEvaluator}},
 
-  * the {{{./apidocs/org/apache/tiles/el/ELAttributeEvaluator.html}ELAttributeEvaluator}},
+   * the {{{./apidocs/org/apache/tiles/evaluator/impl/DirectAttributeEvaluator.html}DirectAttributeEvaluator}},
 
-  * the {{{./apidocs/org/apache/tiles/mvel/MVELAttributeEvaluator.html}MVELAttributeEvaluator}},
+   * the {{{./apidocs/org/apache/tiles/el/ELAttributeEvaluator.html}ELAttributeEvaluator}},
 
-  * the {{{./apidocs/org/apache/tiles/ognl/OGNLAttributeEvaluator.html}OGNLAttributeEvaluator}}.
-  
+   * the {{{./apidocs/org/apache/tiles/mvel/MVELAttributeEvaluator.html}MVELAttributeEvaluator}},
+
+   * the {{{./apidocs/org/apache/tiles/ognl/OGNLAttributeEvaluator.html}OGNLAttributeEvaluator}}.
+
   Please see {{{./xref/org/apache/tiles/extras/complete/CompleteAutoloadTilesContainerFactory.html}CompleteAutoloadTilesContainerFactory}}
   for an example of how to configure those.
 
@@ -214,20 +219,20 @@ Configuring Tiles internals
 
   The default implementation is {{{./apidocs/org/apache/tiles/definition/pattern/BasicPatternDefinitionResolver.html}BasicPatternDefinitionResolver}},
   that implements the <wildcard> syntax.
-  
-  <<<CompleteAutoloadTilesContainerFactory>>> defines a <<<PrefixedPatternDefinitionResolver>>> to enable the use of 
+
+  <<<CompleteAutoloadTilesContainerFactory>>> defines a <<<PrefixedPatternDefinitionResolver>>> to enable the use of
   both the <wildcard> syntax and the <regexp> syntax, with appropriate prefixes.
 
 * Registering {Renderers}
 
   Custom {{{/tiles-request/apidocs/org/apache/tiles/request/render/Renderer.html}Renderers}} can be registered by overriding the methods
   <<<registerAttributeRenderers>>> and <<<createDefaultAttributeRenderer>>>.
-  
+
   <<<BasicTilesContainerFactory>>> registers 3 renderers: <<<string>>>, <<<template>>>, and <<<definition>>>, in order to
   render plain strings, JSPs and tiles definitions.
-  
-  <<<CompleteAutoloadTilesContainerFactory>>> registers 5 renderers: <<<string>>>, <<<template>>>, <<<freemarker>>>, 
-  <<<velocity>>> and <<<definition>>>, in order to render plain strings, JSPs, freemarker and velocity templates 
+
+  <<<CompleteAutoloadTilesContainerFactory>>> registers 5 renderers: <<<string>>>, <<<template>>>, <<<freemarker>>>,
+  <<<velocity>>> and <<<definition>>>, in order to render plain strings, JSPs, freemarker and velocity templates
   and tiles definitions.
 
 * Changing the {definition files}
@@ -245,6 +250,6 @@ protected List<ApplicationResource> getSources(ApplicationContext applicationCon
 -----------
 
   Please note that when using <<<CompleteAutoloadTilesContainerFactory>>>,
-  the <<<ApplicationContext>>> loads the resources via spring, and supports 
+  the <<<ApplicationContext>>> loads the resources via spring, and supports
   {{{http://static.springsource.org/spring/docs/2.5.x/reference/resources.html#resources-resource-strings}the spring syntax}} for locating resources.
 
