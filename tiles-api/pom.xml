@@ -74,16 +74,15 @@
               <groupId>junit</groupId>
               <artifactId>junit</artifactId>
               <scope>test</scope>
-          </dependency>
+         </dependency>
         <dependency>
               <groupId>org.easymock</groupId>
               <artifactId>easymockclassextension</artifactId>
               <scope>test</scope>
-          </dependency>
+         </dependency>
         <dependency>
-        	<groupId>org.slf4j</groupId>
-        	<artifactId>slf4j-jdk14</artifactId>
-        	<optional>true</optional>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
         	<groupId>org.apache.tiles</groupId>

@@ -199,12 +199,9 @@
       <type>jar</type>
     </dependency>
 
-    <!-- Optional dependencies that will be redistributed -->
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-jdk14</artifactId>
-      <version>1.5.8</version>
-      <scope>runtime</scope>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
 
   </dependencies>

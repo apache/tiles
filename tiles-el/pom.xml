@@ -61,17 +61,17 @@
           </archive>
         </configuration>
       </plugin>
-      <plugin> 
-        <groupId>org.apache.felix</groupId> 
-        <artifactId>maven-bundle-plugin</artifactId> 
-        <configuration> 
-          <instructions> 
-            <Import-Package> 
-              org.apache.el; resolution:=optional, 
-              * 
-            </Import-Package> 
-          </instructions> 
-        </configuration> 
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Import-Package>
+              org.apache.el; resolution:=optional,
+              *
+            </Import-Package>
+          </instructions>
+        </configuration>
       </plugin>
     </plugins>
 
@@ -85,8 +85,7 @@
 
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-jdk14</artifactId>
-      <optional>true</optional>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
 
     <dependency>
