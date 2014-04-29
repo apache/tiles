@@ -118,6 +118,11 @@
     <a href="testinsertdefinition_ognl.jsp">Test Insert Configured Definition with OGNL</a><br/>
     <a href="testinsertdefinition_regexp.jsp">Test Insert Configured Definition with Regular Expression</a><br/>
 
+    <h2>Features in Tiles 3.0.x</h2>
+
+    <h3>TILES-571</h3>
+    <a href="testunderscores_nolocale.jsp">Test underscores without localization</a>
+
 	<h1>FreeMarker-based tests</h1>
 
     <h2>Features in Tiles 2.0.x</h2>
@@ -205,6 +210,11 @@
     <a href="freemarker/testinsertdefinition_regexp.ftl">FreeMarker: Test Insert Configured Definition with Regular Expression</a><br/>
     <a href="org/apache/tiles/test/alt/freemarker/testinsertdefinition_alt.ftl">FreeMarker: Test Insert Configured Definition in Module</a><br/>
 
+    <h2>Features in Tiles 3.0.x</h2>
+
+    <h3>TILES-571</h3>
+    <a href="freemarker/testunderscores_nolocale.ftl">FreeMarker: Test underscores without localization</a>
+
     <h1>Velocity-based tests</h1>
 
     <h2>Features in Tiles 2.0.x</h2>
@@ -291,5 +301,10 @@
     <a href="velocity/testinsertdefinition_ognl.vm">Velocity: Test Insert Configured Definition with OGNL</a><br/>
     <a href="velocity/testinsertdefinition_regexp.vm">Velocity: Test Insert Configured Definition with Regular Expression</a><br/>
     <a href="org/apache/tiles/test/alt/velocity/testinsertdefinition_alt.vm">Velocity: Test Insert Configured Definition in Module</a><br/>
+
+    <h2>Features in Tiles 3.0.x</h2>
+
+    <h3>TILES-571</h3>
+    <a href="velocity/testunderscores_nolocale.vm">Velocity: Test underscores without localization</a>
 
 </html>

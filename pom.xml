@@ -217,15 +217,20 @@
             </dependency>
             <dependency>
             	<groupId>org.slf4j</groupId>
+            	<artifactId>slf4j-api</artifactId>
+            	<version>1.7.6</version>
+            </dependency>
+            <dependency>
+            	<groupId>org.slf4j</groupId>
             	<artifactId>slf4j-jdk14</artifactId>
-            	<version>1.5.8</version>
-            	<optional>true</optional>
+            	<version>1.7.6</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>jcl-over-slf4j</artifactId>
-                <version>1.5.8</version>
-                <optional>true</optional>
+                <version>1.7.6</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
             	<groupId>org.apache.tiles</groupId>
@@ -313,7 +318,7 @@
         <tiles.osgi.private />
         <tiles.manifestfile>target/osgi/MANIFEST.MF</tiles.manifestfile>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tiles.request.version>1.0.1</tiles.request.version>
+        <tiles.request.version>1.0.4</tiles.request.version>
         <tiles.autotag.version>1.1.0</tiles.autotag.version>
     </properties>
 
