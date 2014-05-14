@@ -52,7 +52,7 @@ public final class PatternUtil {
 
     /** Pattern to find {.*} occurrences that do not match {[0-9]+} so to prevent MessageFormat from crashing.
      */
-    private static final Pattern INVALID_FORMAT_ELEMENT = Pattern.compile("\\Q{\\E[\\D^}]+\\Q}\\E");
+    private static final Pattern INVALID_FORMAT_ELEMENT = Pattern.compile("\\{[^}0-9]+\\}");
 
     /**
      * Private constructor to avoid instantiation.
