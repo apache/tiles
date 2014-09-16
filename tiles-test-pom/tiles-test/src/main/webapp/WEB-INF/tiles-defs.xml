@@ -47,6 +47,12 @@
       <put-attribute name="body"   value="/body.jsp"/>
   </definition>
 
+  <definition name="test.definition.expr" template="/layout.jsp">
+      <put-attribute name="title"  expression="This is the title."/>
+      <put-attribute name="header" value="/header.jsp"/>
+      <put-attribute name="body"   value="/body.jsp"/>
+  </definition>
+
   <definition name="test.definition.ignore" template="/layout_ignore.jsp">
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="body"   value="/body.jsp"/>
@@ -65,6 +71,7 @@
   </definition>
 
   <definition name="test.definition.exception" template="/layout.jsp">
+      <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="title"  value="This is the title."/>
       <put-attribute name="header" value="/exception.jsp"/>
       <put-attribute name="body"   value="/body.jsp"/>

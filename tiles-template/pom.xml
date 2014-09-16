@@ -45,6 +45,7 @@
                 </goals>
                 <configuration>
                     <name>tiles</name>
+                    <requestClass>org.apache.tiles.request.Request</requestClass>
                 </configuration>
             </execution>
         </executions>

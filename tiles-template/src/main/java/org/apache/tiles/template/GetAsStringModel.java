@@ -174,7 +174,10 @@ public class GetAsStringModel {
             if (attribute == null && ignore) {
                 return;
             }
-            writer.write(attribute.getValue().toString());
+            Object value = container.evaluate(attribute, request);
+            if(value != null) {
+            	writer.write(value.toString());
+            }
         } catch (IOException e) {
             if (!ignore) {
                 throw e;
