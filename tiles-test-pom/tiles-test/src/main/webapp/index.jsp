@@ -36,6 +36,7 @@
 
     <h3>Standard Render/Attribute Tests</h3>
     <a href="testinsertdefinition.jsp">Test Insert Configured Definition</a><br/>
+    <a href="testinsertdefinitionexpr.jsp">Test Insert Configured Definition With Expression</a><br/>
     <a href="testinsertdefinition_ignore.jsp">Test Insert Configured Definition with Ignore</a><br/>
     <a href="testinsertdefinition_flush.jsp">Test Insert Configured Definition with Flush</a><br/>
     <a href="testinsertdefinition_preparer.jsp">Test Insert Configured Definition with Preparer</a><br/>

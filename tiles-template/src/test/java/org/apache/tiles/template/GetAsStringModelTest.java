@@ -77,7 +77,7 @@ public class GetAsStringModelTest {
     @Test
     public void testExecute() throws IOException {
         TilesContainer container = createMock(TilesContainer.class);
-        Attribute attribute = new Attribute("myValue");
+        Attribute attribute = createMock(Attribute.class);
         AttributeContext attributeContext = createMock(AttributeContext.class);
         Request request = createMock(Request.class);
         Writer writer = createMock(Writer.class);
@@ -96,6 +96,7 @@ public class GetAsStringModelTest {
         expect(resolver.computeAttribute(container, attribute, "myName", "myRole", false, "myDefaultValue",
                 "myDefaultValueRole", "myDefaultValueType", request)).andReturn(attribute);
         expect(container.startContext(request)).andReturn(attributeContext);
+        expect(container.evaluate(attribute, request)).andReturn("myValue");
         writer.write("myValue");
         container.endContext(request);
 
