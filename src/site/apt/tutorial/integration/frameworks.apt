@@ -39,5 +39,5 @@ Integration with other web Frameworks
 
 
   For a closer look at custom integrations the
-  {{{https://github.com/spring-projects/spring-framework/tree/master/spring-webmvc-tiles3/src/main/java/org/springframework/web/servlet/view/tiles3}spring code}}:
+  {{{https://github.com/spring-projects/spring-framework/tree/v3.2.0.RELEASE/spring-webmvc-tiles3/src/main/java/org/springframework/web/servlet/view/tiles3}spring code}}:
   forms a good example.
