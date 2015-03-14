@@ -38,6 +38,7 @@ public class RequestSettingViewPreparer implements ViewPreparer {
     public void execute(Request tilesContext,
             AttributeContext attributeContext) {
         Map<String, Object> requestScope = tilesContext.getContext("request");
+        requestScope.put("attribute", "Attribute from request");
         requestScope.put("body", "test.inner.definition");
         requestScope.put("layout", "/layout.jsp");
         requestScope.put("doNotShow", "DO NOT SHOW!!!");

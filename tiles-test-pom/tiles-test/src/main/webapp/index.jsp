@@ -98,6 +98,7 @@
     <a href="testput_cascaded_overridden.jsp">Test Put Tag with Overridden Cascaded Attributes</a><br/>
     <a href="testput_cascaded_template.jsp">Test Put Tag with Cascaded Attributes and Template</a><br/>
     <a href="testput_el_singleeval.jsp">Test Put Tag using EL to test Single Evaluation</a><br/>
+    <a href="testaddattributeel.jsp">Test Add Attribute in a List Attribute with EL</a><br/>
     <a href="testput_reversed.jsp">Test Put Tag with Reversed Attribute</a><br/>
     <a href="testputlist_cascaded.jsp">Test Put List Cascaded Tag</a><br/>
     <a href="testputlist_inherit.jsp">Test Put List Tag with Inherit</a><br/>
@@ -185,6 +186,7 @@
     <a href="freemarker/testput_cascaded_overridden.ftl">FreeMarker: Test Put Tag with Overridden Cascaded Attributes</a><br/>
     <a href="freemarker/testput_cascaded_template.ftl">FreeMarker: Test Put Tag with Cascaded Attributes and Template</a><br/>
     <a href="freemarker/testput_el_singleeval.ftl">FreeMarker: Test Put Tag using EL to test Single Evaluation</a><br/>
+    <a href="freemarker/testaddattributeel.ftl">FreeMarker: Test Add Attribute in a List Attribute with EL</a><br/>
     <a href="freemarker/testput_reversed.ftl">FreeMarker: Test Put Tag with Reversed Attribute</a><br/>
     <a href="freemarker/testputlist_cascaded.ftl">FreeMarker: Test Put List Cascaded Tag</a><br/>
     <a href="freemarker/testputlist_inherit.ftl">FreeMarker: Test Put List Tag with Inherit</a><br/>
@@ -272,6 +274,7 @@
     <a href="velocity/testput_cascaded_overridden.vm">Velocity: Test Put Tag with Overridden Cascaded Attributes</a><br/>
     <a href="velocity/testput_cascaded_template.vm">Velocity: Test Put Tag with Cascaded Attributes and Template</a><br/>
     <a href="velocity/testput_el_singleeval.vm">Velocity: Test Put Tag using EL to test Single Evaluation</a><br/>
+    <a href="velocity/testaddattributeel.vm">Velocity: Test Add Attribute in a List Attribute with EL</a><br/>
     <a href="velocity/testput_reversed.vm">Velocity: Test Put Tag with Reversed Attribute</a><br/>
     <a href="velocity/testputlist_cascaded.vm">Velocity: Test Put List Cascaded Tag</a><br/>
     <a href="velocity/testputlist_inherit.vm">Velocity: Test Put List Tag with Inherit</a><br/>

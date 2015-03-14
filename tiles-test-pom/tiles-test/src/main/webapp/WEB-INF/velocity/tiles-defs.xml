@@ -76,6 +76,14 @@
       <put-attribute name="body"   value="test.inner.definition"/>
   </definition>
 
+ <definition name="velocity.test.addAttribute.el" template="/velocity/putattributeslayout.vm"         preparer="org.apache.tiles.test.preparer.RequestSettingViewPreparer">
+   <put-attribute name="stringTest" value="This is a string" type="string" />
+   <put-list-attribute name="list">
+     <add-attribute value="valueOne" type="string" />
+     <add-attribute expression="${requestScope.attribute}" type="string"/>
+   </put-list-attribute>
+ </definition>
+
   <definition name="velocity.test.putAttributes" template="/velocity/putattributeslayout.vm" templateType="velocity">
     <put-attribute name="stringTest" value="This is a string" type="string" />
     <put-list-attribute name="list">
