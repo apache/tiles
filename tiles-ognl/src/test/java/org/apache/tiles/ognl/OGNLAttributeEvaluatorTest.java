@@ -20,12 +20,14 @@
  */
 package org.apache.tiles.ognl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ognl.OgnlException;
@@ -34,6 +36,8 @@ import ognl.PropertyAccessor;
 
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
+import org.apache.tiles.awareness.ExpressionAware;
+import org.apache.tiles.evaluator.AttributeEvaluator;
 import org.apache.tiles.evaluator.EvaluationException;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.Request;
@@ -183,6 +187,58 @@ public class OGNLAttributeEvaluatorTest {
         expression = "'String literal'";
         assertEquals("The value is not correct", "String literal", evaluator
                 .evaluate(expression, request));
+    }
+
+    public void testEvaluateExpressionAware() {
+        List<Attribute> list = new ArrayList<Attribute>();
+        list.add(new Attribute(new Explosion("${requestScope.object1}")));
+        list.add(new Attribute(new Explosion("${sessionScope.object2}")));
+        list.add(new Attribute(new Explosion("${applicationScope.object3}")));
+        list.add(new Attribute(new Explosion("${object1}")));
+        list.add(new Attribute(new Explosion("${object2}")));
+        list.add(new Attribute(new Explosion("${object3}")));
+        list.add(new Attribute(new Explosion("${paulaBean.paula}")));
+        list.add(new Attribute(new Explosion("String literal")));
+        Attribute attribute = new Attribute(list);
+
+        evaluator.evaluate(attribute, request);
+
+        int i = 0;
+        assertEquals("The value is not correct", "value", ((Explosion)list.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", new Integer(1), ((Explosion)list.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", new Float(2.0), ((Explosion)list.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", "value", ((Explosion)list.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", new Integer(1), ((Explosion)list.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", new Float(2.0), ((Explosion)list.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", "Brillant", ((Explosion)list.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", "String literal", ((Explosion)list.get(i++).getValue()).getValue());
+    }
+
+    private static final class Explosion implements ExpressionAware {
+
+        private final String expression;
+        private transient Object value;
+
+        public Explosion(String expression) {
+            this.expression = expression;
+            this.value = expression;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        @Override
+        public void evaluateExpressions(AttributeEvaluator eval, Request request) {
+            this.value = safeEval(eval, request, expression);
+        }
+
+        private Object safeEval(AttributeEvaluator eval, Request request, String val) {
+            if (val == null || val.length() == 0) {
+                return val;
+            }
+            return eval.evaluate(val, request);
+        }
     }
 
     /**
