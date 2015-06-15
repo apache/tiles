@@ -139,22 +139,31 @@ public class SimpleMenuItem implements MenuItem, Serializable, ExpressionAware {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuffer buff = new StringBuffer("SimpleMenuItem[");
+        StringBuilder buff = new StringBuilder("SimpleMenuItem[");
 
         if (getValue() != null) {
-            buff.append("value=").append(getValue()).append(", ");
+            buff.append("value=").append(getValue());
         }
 
         if (getLink() != null) {
-            buff.append("link=").append(getLink()).append(", ");
+            if (buff.length() > 0) {
+                buff.append(", ");
+            }
+            buff.append("link=").append(getLink());
         }
 
         if (getTooltip() != null) {
-            buff.append("tooltip=").append(getTooltip()).append(", ");
+            if (buff.length() > 0) {
+                buff.append(", ");
+            }
+            buff.append("tooltip=").append(getTooltip());
         }
 
         if (getIcon() != null) {
-            buff.append("icon=").append(getIcon()).append(", ");
+            if (buff.length() > 0) {
+                buff.append(", ");
+            }
+            buff.append("icon=").append(getIcon());
         }
 
         buff.append("]");

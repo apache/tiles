@@ -91,7 +91,7 @@ public class SimpleMenuItemTest {
         item.setTooltip("tooltip");
         item.setValue("value");
         assertEquals(
-                "SimpleMenuItem[value=value, link=link, tooltip=tooltip, icon=icon, ]",
+                "SimpleMenuItem[value=value, link=link, tooltip=tooltip, icon=icon]",
                 item.toString());
     }
 
