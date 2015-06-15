@@ -30,7 +30,7 @@ import org.apache.tiles.request.Request;
  * called which leaves the evaluation up to the object in question.
  *
  * @author  Brett Ryan
- * @since   3.4.1
+ * @since   3.0.6
  */
 public interface ExpressionAware {
 
