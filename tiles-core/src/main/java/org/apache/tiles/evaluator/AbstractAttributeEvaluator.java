@@ -20,6 +20,8 @@
  */
 package org.apache.tiles.evaluator;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
 import org.apache.tiles.awareness.ExpressionAware;
@@ -39,6 +41,7 @@ public abstract class AbstractAttributeEvaluator implements AttributeEvaluator {
     private static final Logger log = LoggerFactory.getLogger(AbstractAttributeEvaluator.class);
 
     /** {@inheritDoc} */
+    @Override
     public Object evaluate(Attribute attribute, Request request) {
         if (attribute == null) {
             throw new IllegalArgumentException("The attribute cannot be null");
@@ -46,29 +49,30 @@ public abstract class AbstractAttributeEvaluator implements AttributeEvaluator {
 
         Object retValue = attribute.getValue();
 
-        log.debug("Evaluating expression: [attribute={},retValue={}]", attribute, retValue);
         if (retValue == null) {
             Expression expression = attribute.getExpressionObject();
             if (expression != null) {
+                log.debug("Evaluating expression: [attribute={},expression={}]", attribute, expression);
                 retValue = evaluate(attribute.getExpressionObject()
                         .getExpression(), request);
             }
-        } else if (retValue instanceof Iterable) {
-            log.debug("Instance is list, evaluating for expression awareness.");
-            Iterable list = (Iterable)retValue;
+        } else if (retValue instanceof List) {
+            log.debug("Evaluating iterable for expressions: [attribute={},retValue={}]", attribute, retValue);
+            List list = (List)retValue;
+            List newList = new ArrayList(list.size());
             for (Object n : list) {
-                log.debug("list instance {} ({})", n, n.getClass());
                 if (n instanceof Attribute) {
-                    log.debug("list instance is an attribute");
-                    evaluate((Attribute) n, request);
-                } else if (n instanceof ExpressionAware) {
-                    log.debug("List instance is expression-aware");
-                    ((ExpressionAware) n).evaluateExpressions(this, request);
+                    Attribute m = (Attribute) n;
+                    if (m.getValue() instanceof ExpressionAware) {
+                        log.debug("Evaluating expression-aware value: [object={}]", n);
+                        m = new Attribute(m);
+                        m.setValue(((ExpressionAware)m.getValue()).evaluateExpressions(this, request));
+                    }
+                    n = m;
                 }
+                newList.add(n);
             }
-        } else if (retValue instanceof ExpressionAware) {
-            log.debug("Instance is expression-aware");
-            ((ExpressionAware) retValue).evaluateExpressions(this, request);
+            retValue = newList;
         }
 
         return retValue;

@@ -64,6 +64,14 @@ public class SimpleMenuItem implements MenuItem, Serializable, ExpressionAware {
         super();
     }
 
+    public SimpleMenuItem(String value, String link, String icon, String tooltip) {
+        super();
+        this.value = value;
+        this.link = link;
+        this.icon = icon;
+        this.tooltip = tooltip;
+    }
+
     /**
      * Sets the value of the item, i.e. what is really visible to the user.
      *
@@ -182,11 +190,11 @@ public class SimpleMenuItem implements MenuItem, Serializable, ExpressionAware {
      *          Request object to evaluate expressions with.
      */
     @Override
-    public void evaluateExpressions(AttributeEvaluator eval, Request request) {
-        value = safeEval(eval, request, value);
-        link = safeEval(eval, request, link);
-        icon = safeEval(eval, request, icon);
-        tooltip = safeEval(eval, request, tooltip);
+    public Object evaluateExpressions(AttributeEvaluator eval, Request request) {
+        return new SimpleMenuItem(safeEval(eval, request, value),
+                                  safeEval(eval, request, link),
+                                  safeEval(eval, request, icon),
+                                  safeEval(eval, request, tooltip));
     }
 
     private String safeEval(AttributeEvaluator eval, Request request, String val) {

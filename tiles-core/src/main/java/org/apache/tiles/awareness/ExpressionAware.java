@@ -37,11 +37,14 @@ public interface ExpressionAware {
     /**
      * Evaluate supported expressions on object.
      *
+     * Implementors may return any type for view rendering.
+     *
      * @param   eval
      *          Evaluator instance used to evaluate expressions.
      * @param   request
      *          Request object to evaluate expressions with.
+     * @return  Model instance with attributes evaluated.
      */
-    void evaluateExpressions(AttributeEvaluator eval, Request request);
+    Object evaluateExpressions(AttributeEvaluator eval, Request request);
 
 }

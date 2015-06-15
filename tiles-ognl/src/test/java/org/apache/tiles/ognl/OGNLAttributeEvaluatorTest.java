@@ -22,6 +22,7 @@ package org.apache.tiles.ognl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
@@ -44,6 +45,9 @@ import org.apache.tiles.request.Request;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.instanceOf;
 
 /**
  * Tests {@link OGNLAttributeEvaluator}.
@@ -201,27 +205,28 @@ public class OGNLAttributeEvaluatorTest {
         list.add(new Attribute(new Explosion("String literal")));
         Attribute attribute = new Attribute(list);
 
-        evaluator.evaluate(attribute, request);
+        Object res = evaluator.evaluate(attribute, request);
 
+        assertThat("Evaluated instance is not a List.", res, instanceOf(List.class));
+
+        List<Attribute> nlist = (List<Attribute>)res;
         int i = 0;
-        assertEquals("The value is not correct", "value", ((Explosion)list.get(i++).getValue()).getValue());
-        assertEquals("The value is not correct", new Integer(1), ((Explosion)list.get(i++).getValue()).getValue());
-        assertEquals("The value is not correct", new Float(2.0), ((Explosion)list.get(i++).getValue()).getValue());
-        assertEquals("The value is not correct", "value", ((Explosion)list.get(i++).getValue()).getValue());
-        assertEquals("The value is not correct", new Integer(1), ((Explosion)list.get(i++).getValue()).getValue());
-        assertEquals("The value is not correct", new Float(2.0), ((Explosion)list.get(i++).getValue()).getValue());
-        assertEquals("The value is not correct", "Brillant", ((Explosion)list.get(i++).getValue()).getValue());
-        assertEquals("The value is not correct", "String literal", ((Explosion)list.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", "value", ((Explosion)nlist.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", new Integer(1), ((Explosion)nlist.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", new Float(2.0), ((Explosion)nlist.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", "value", ((Explosion)nlist.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", new Integer(1), ((Explosion)nlist.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", new Float(2.0), ((Explosion)nlist.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", "Brillant", ((Explosion)nlist.get(i++).getValue()).getValue());
+        assertEquals("The value is not correct", "String literal", ((Explosion)nlist.get(i++).getValue()).getValue());
     }
 
     private static final class Explosion implements ExpressionAware {
 
-        private final String expression;
-        private transient Object value;
+        private final Object value;
 
-        public Explosion(String expression) {
-            this.expression = expression;
-            this.value = expression;
+        public Explosion(Object value) {
+            this.value = value;
         }
 
         public Object getValue() {
@@ -229,15 +234,22 @@ public class OGNLAttributeEvaluatorTest {
         }
 
         @Override
-        public void evaluateExpressions(AttributeEvaluator eval, Request request) {
-            this.value = safeEval(eval, request, expression);
+        public Object evaluateExpressions(AttributeEvaluator eval, Request request) {
+            return new Explosion(safeEval(eval, request, value));
         }
 
-        private Object safeEval(AttributeEvaluator eval, Request request, String val) {
-            if (val == null || val.length() == 0) {
+        private Object safeEval(AttributeEvaluator eval, Request request, Object val) {
+            if (val == null) {
                 return val;
             }
-            return eval.evaluate(val, request);
+            if (val instanceof String) {
+                String n = (String) val;
+                if (n.length() == 0) {
+                    return n;
+                }
+                return eval.evaluate(n, request);
+            }
+            return val;
         }
     }
 
