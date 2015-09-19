@@ -31,7 +31,7 @@ Nesting Definitions
 
 * {Named subdefinitions}
 
-  Tiles supports nesting definitions natively. One way of usng nested definitions
+  Tiles supports nesting definitions natively. One way of using nested definitions
   is creating a named "subdefinition" and using it as an attribute. For example:
 
 ------------------------------------
