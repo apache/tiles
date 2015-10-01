@@ -24,14 +24,14 @@
 Nesting Definitions
 
   Sometimes it is useful to have a structured page with, say, a structured body.
-  Tipically, there is a main layout (for example, the "classic" layout) and the
+  Typically, there is a main layout (for example, the "classic" layout) and the
   body is made of certain number of sections. In this case, nesting a definition
   (the one for the body) inside another definition (the main layout) can be
   useful.
 
 * {Named subdefinitions}
 
-  Tiles supports nesting definitions natively. One way of usng nested definitions
+  Tiles supports nesting definitions natively. One way of using nested definitions
   is creating a named "subdefinition" and using it as an attribute. For example:
 
 ------------------------------------
