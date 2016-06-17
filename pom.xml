@@ -55,6 +55,7 @@
         <module>tiles-freemarker</module>
         <module>tiles-velocity</module>
         <module>tiles-el</module>
+        <module>tiles-elognl</module>
         <module>tiles-mvel</module>
         <module>tiles-ognl</module>
         <module>tiles-compat</module>
