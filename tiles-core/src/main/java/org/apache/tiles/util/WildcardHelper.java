@@ -494,8 +494,8 @@ public class WildcardHelper {
         }
 
         Map.Entry<Integer, String> entry;
-        StringBuffer key = new StringBuffer("{0}");
-        StringBuffer ret = new StringBuffer(val);
+        StringBuilder key = new StringBuilder("{0}");
+        StringBuilder ret = new StringBuilder(val);
         String keyTmp;
         int x;
 
