@@ -26,7 +26,7 @@
   <parent>
     <artifactId>tiles-test-pom</artifactId>
     <groupId>org.apache.tiles</groupId>
-    <version>3.0.6</version>
+    <version>3.0.7-SNAPSHOT</version>
   </parent>
   <artifactId>tiles-test-db</artifactId>
   <name>Tiles - Test webapp database configuration</name>
