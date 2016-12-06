@@ -34,7 +34,7 @@ What's new in Tiles 3.0
 
 * Deprecations in Tiles 3.0
 
-  * Starting Tiles in a web environment using a dummy Servlet. Use a SerlvetContextListener instead.
+  * Starting Tiles in a web environment using a dummy Servlet. Use a ServletContextListener instead.
   
   * Don't use the AttributeContext interface to pass attribute values to Tiles. Expression Languages are an easier, more maintainable 
   way to change the value of attributes on a per-render basis.
