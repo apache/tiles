@@ -26,7 +26,7 @@
   <parent>
     <artifactId>tiles-test-pom</artifactId>
     <groupId>org.apache.tiles</groupId>
-    <version>3.0.8-SNAPSHOT</version>
+    <version>3.0.8</version>
   </parent>
   <artifactId>tiles-test-alt</artifactId>
   <name>Tiles - Test webapp alternate configuration</name>
