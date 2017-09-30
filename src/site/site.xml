@@ -46,8 +46,8 @@
     </bannerLeft>
     <bannerRight>
         <name>Apache Software Foundation</name>
-        <src>http://struts.apache.org/images/asf-logo.gif</src>
         <href>http://www.apache.org</href>
+        <src>https://tiles.apache.org/images/logos/asf_logo_url.svg</src>
     </bannerRight>
     <body>
 

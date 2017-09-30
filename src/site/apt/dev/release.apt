@@ -66,28 +66,6 @@ https://svn.apache.org/repos/asf/tiles/site/KEYS
   Publish your GPG key in a PGP key server, such as
   {{{http://pgp.mit.edu/} MIT Keyserver}}.
 
-* Create and upload yout SSH key
-
-  * Generate your SSH key (in this case we will use DSA encryption):
-
----------------------------------
-ssh-keygen -t rsa
----------------------------------
-
-  * Copy your public key to the server:
-
---------------------------------------
-scp ~/.ssh/id_rsa.pub user@people.apache.org:.ssh/authorized_keys
---------------------------------------
-
-  * Try to login:
-
----------------------------------
-ssh user@people.apache.org
----------------------------------
-
-  If it does not ask you a password, everything is ok.
-
 * Modify <<<settings.xml>>>
 
   Your <<<settings.xml>>> must be modified to allow deployment.
@@ -124,12 +102,15 @@ mvn release:perform -Duser.name=YOUR_PEOPLE_APACHE_SSH_USER -Darguments="-Duser.
 
   It should compile and test everything, build and upload the artifacts and the website for the project.
 
-  <<Troubleshooting>>: if upload of assemblies fails it can be done manually with
+  Upload the assemblies manually with
 
 -----------------------------------
-cd target/checkout/assembly/target/assemblies/
-ssh user@people.apache.org mkdir /www/people.apache.org/builds/tiles/${version}/
-scp * user@people.apache.org:/www/people.apache.org/builds/tiles/${version}/
+cd target/
+svn co https://dist.apache.org/repos/dist/dev/tiles tiles-dist-dev
+mkdir tiles-dist-dev/request/${version}
+cp checkout/assembly/target/assemblies/* tiles-dist-dev/${version}/
+svn add tiles-dist-dev/${version}
+svn ci tiles-dist-dev/${version}
 -----------------------------------
 
 * Close the staging repository
@@ -190,7 +171,7 @@ Release notes:
 
 Distribution:
 
- * http://people.apache.org/builds/tiles/${version}/
+ * https://dist.apache.org/repos/dist/dev/tiles/${version}/
 
 Maven 2 staging repository:
 
@@ -216,7 +197,7 @@ Release notes:
 
 Distribution:
 
- * http://people.apache.org/builds/tiles/${version}/
+ * https://dist.apache.org/repos/dist/dev/tiles/${version}/
 
 Maven 2 staging repository:
 
@@ -258,12 +239,8 @@ three binding +1s and more +1s than -1s.
   * Move assemblies into the Apache {{{http://www.apache.org/dev/release#when-to-archive}dist}} repository:
 
 -------------------------------------------
-svn co https://dist.apache.org/repos/dist/release/tiles tiles-dist-releases
-mkdir tiles-dist-releases/v${version}
-cd tiles-dist-releases/v${version}
-scp user@people.apache.org:/www/people.apache.org/builds/tiles/${version}/* .
-svn add .
-svn ci
+svn mv https://dist.apache.org/repos/dist/dev/tiles/${version} https://dist.apache.org/repos/dist/release/tiles/
+
 -------------------------------------------
 
 ** Update the site
@@ -309,7 +286,7 @@ The 3.0.x series of the Apache Tiles framework has a minimum
 requirement of the following specification versions:
 
 * Java Servlet 2.5 and JavaServer Pages (JSP) 2.1
-* Java Standard Edition (Java SE) 1.6
+* Java Standard Edition (Java SE) 1.7
 
 The release notes are available online at:
 
