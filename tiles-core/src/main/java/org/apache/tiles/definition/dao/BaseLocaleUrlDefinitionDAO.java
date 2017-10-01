@@ -79,11 +79,11 @@ public abstract class BaseLocaleUrlDefinitionDAO implements
 
     /**
      * ApplicationContext to locate the source files.
-     * 
+     *
      * @since 3.0.0
      */
     protected ApplicationContext applicationContext;
-    
+
     /**
      * Constructor.
      */

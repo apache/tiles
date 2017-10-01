@@ -102,7 +102,7 @@ public class BaseLocaleUrlDefinitionDAOTest {
 
     /**
      * Sets up the test.
-     * @throws IOException 
+     * @throws IOException
      */
     @Before
     public void setUp() throws IOException {

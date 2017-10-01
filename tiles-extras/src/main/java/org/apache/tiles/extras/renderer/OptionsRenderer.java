@@ -168,7 +168,7 @@ public final class OptionsRenderer implements Renderer {
         /** It takes CACHE_LIFE milliseconds for any hot deployments to register.
          */
         private static final ConcurrentMap<String,Boolean> TEMPLATE_EXISTS;
-        
+
         static {
             LOG.info("cache_ttl_ms=" + CACHE_LIFE);
 

@@ -186,7 +186,7 @@ public class UseAttributeTag extends SimpleTagSupport {
             tag.setParent(getParent());
             tag.doTag();
         }
-        Request request = runtime.createRequest();        
+        Request request = runtime.createRequest();
         model.execute(name, scopeName, id, ignore, request);
     }
 
