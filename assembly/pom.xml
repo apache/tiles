@@ -74,12 +74,12 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>2.2-beta-4</version>
+            <version>3.1.0</version>
             <executions>
               <execution>
                 <id>make-assembly</id>
                 <goals>
-                  <goal>attached</goal>
+                  <goal>single</goal>
                 </goals>
                 <phase>package</phase>
               </execution>
@@ -99,6 +99,28 @@
             <configuration>
               <skip>true</skip>
             </configuration>
+          </plugin>
+          <plugin>
+            <groupId>net.nicoulaj.maven.plugins</groupId>
+            <artifactId>checksum-maven-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>artifacts</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+                <attachChecksums>true</attachChecksums>
+            </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <configuration>
+                  <ascDirectory>${project.build.directory}/..</ascDirectory>
+              </configuration>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
