@@ -29,11 +29,11 @@ Prerequisites
 
   To create a release you have to install:
 
-  * {{{http://www.oracle.com/technetwork/java/javase/overview/index.html}Java 7}}. If you are using a newer
+  * {{{http://www.oracle.com/technetwork/java/javase/overview/index.html}Java 9}}. If you are using a newer
   version of Java <<change JAVA_HOME environment variable>>
-  when calling Maven, so it points to an instance of Java 7;
+  when calling Maven, so it points to an instance of Java 9;
 
-  * {{{http://maven.apache.org/}Maven 3.0.5+}};
+  * {{{http://maven.apache.org/}Maven 3.2.2+}};
 
   * {{{http://www.gnupg.org/}GnuPG}};
 
@@ -135,7 +135,7 @@ mvn release:perform -Duser.name=YOUR_PEOPLE_APACHE_SSH_USER -Darguments="-Duser.
 cd target/
 svn co https://dist.apache.org/repos/dist/dev/tiles tiles-dist-dev
 mkdir tiles-dist-dev/request/${version}
-cp checkout/assembly/target/assemblies/* tiles-dist-dev/${version}/
+cp checkout/assembly/target/assembly/* tiles-dist-dev/${version}/
 svn add tiles-dist-dev/${version}
 svn ci tiles-dist-dev/${version}
 -----------------------------------
@@ -308,7 +308,7 @@ The 3.0.x series of the Apache Tiles framework has a minimum
 requirement of the following specification versions:
 
 * Java Servlet 2.5 and JavaServer Pages (JSP) 2.1
-* Java Standard Edition (Java SE) 1.7
+* Java Standard Edition (Java SE) 1.8
 
 The release notes are available online at:
 

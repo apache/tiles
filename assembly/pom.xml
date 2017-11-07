@@ -58,13 +58,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh</artifactId>
-        <version>2.5</version>
-      </extension>
-    </extensions>
   </build>
   <profiles>
     <profile>
@@ -74,12 +67,12 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>2.2-beta-4</version>
+            <version>3.1.0</version>
             <executions>
               <execution>
                 <id>make-assembly</id>
                 <goals>
-                  <goal>attached</goal>
+                  <goal>single</goal>
                 </goals>
                 <phase>package</phase>
               </execution>
@@ -101,9 +94,31 @@
             </configuration>
           </plugin>
           <plugin>
+            <groupId>net.nicoulaj.maven.plugins</groupId>
+            <artifactId>checksum-maven-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>artifacts</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+                <attachChecksums>true</attachChecksums>
+            </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <configuration>
+                  <ascDirectory>${project.build.directory}/..</ascDirectory>
+              </configuration>
+          </plugin>
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-            <version>1.3</version>
+            <version>1.8</version>
             <executions>
               <execution>
                 <phase>deploy</phase>
@@ -127,26 +142,6 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>wagon-maven-plugin</artifactId>
-            <version>1.0-beta-4</version>
-            <executions>
-              <execution>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>upload</goal>
-                </goals>
-                <configuration>
-                  <fromDir>${project.build.directory}/assemblies</fromDir>
-                  <includes>**</includes>
-                  <toDir>${project.version}</toDir>
-                  <serverId>tiles.build</serverId>
-                  <url>scp://people.apache.org/www/people.apache.org/builds/tiles</url>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
     </profile>
@@ -158,19 +153,16 @@
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-api</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-core</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tiles</groupId>
       <artifactId>tiles-servlet</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
@@ -203,7 +195,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
-      <version>1.7.6</version>
       <scope>runtime</scope>
     </dependency>
 

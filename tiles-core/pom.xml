@@ -38,6 +38,8 @@
 
   <properties>
       <tiles.osgi.symbolicName>org.apache.tiles.core</tiles.osgi.symbolicName>
+      <!-- decrease this whenever possible -->
+      <checkstyle.maxAllowedViolations>25</checkstyle.maxAllowedViolations>
   </properties>
 
   <build>

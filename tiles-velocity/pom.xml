@@ -33,6 +33,10 @@
   <packaging>jar</packaging>
   <description>Velocity Support in Tiles</description>
   <name>Tiles - Velocity Support</name>
+  <properties>
+      <!-- decrease this whenever possible -->
+      <checkstyle.maxAllowedViolations>1</checkstyle.maxAllowedViolations>
+  </properties>
   <build>
     <plugins>
       <plugin>

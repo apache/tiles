@@ -33,6 +33,10 @@
   <version>3.1-SNAPSHOT</version>
   <name>Tiles - Test webapp common classes</name>
   <description>Common classes between modules of the test webapp.</description>
+  <properties>
+      <!-- decrease this whenever possible -->
+      <checkstyle.maxAllowedViolations>2</checkstyle.maxAllowedViolations>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>

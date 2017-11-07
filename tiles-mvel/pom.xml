@@ -37,6 +37,8 @@
 
   <properties>
       <tiles.osgi.symbolicName>org.apache.tiles.mvel</tiles.osgi.symbolicName>
+      <!-- decrease this whenever possible -->
+      <checkstyle.maxAllowedViolations>4</checkstyle.maxAllowedViolations>
   </properties>
 
   <build>

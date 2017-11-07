@@ -31,6 +31,10 @@
   <artifactId>tiles-test-db</artifactId>
   <name>Tiles - Test webapp database configuration</name>
   <description>Tiles configuration that uses a database.</description>
+  <properties>
+      <!-- decrease this whenever possible -->
+      <checkstyle.maxAllowedViolations>2</checkstyle.maxAllowedViolations>
+  </properties>
   <dependencies>
     <dependency>
        <groupId>org.apache.tiles</groupId>

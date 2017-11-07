@@ -35,6 +35,10 @@
    <name>Tiles - Apps - Test</name>
    <description>Tiles Test web application: tests Tiles functionality.
    </description>
+  <properties>
+      <!-- decrease this whenever possible -->
+      <checkstyle.maxAllowedViolations>8</checkstyle.maxAllowedViolations>
+  </properties>
 
    <dependencies>
       <dependency>

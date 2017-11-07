@@ -32,6 +32,10 @@
     <groupId>org.apache.tiles</groupId>
     <version>3.1-SNAPSHOT</version>
   </parent>
+  <properties>
+      <!-- decrease this whenever possible -->
+      <checkstyle.maxAllowedViolations>2</checkstyle.maxAllowedViolations>
+  </properties>
   <build>
     <plugins>
       <plugin>
