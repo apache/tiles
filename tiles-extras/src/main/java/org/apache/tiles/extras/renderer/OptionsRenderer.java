@@ -190,7 +190,8 @@ public final class OptionsRenderer implements Renderer {
 
 
         static boolean attemptTemplate(final String template) {
-            return !TEMPLATE_EXISTS.containsKey(template) || TEMPLATE_EXISTS.get(template);
+            Boolean found = TEMPLATE_EXISTS.get(template);
+            return found == null || found;
         }
 
         static void update(final String template, final boolean found) {
