@@ -20,8 +20,8 @@
  */
 package org.apache.tiles.preparer.factory;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.request.Request;
@@ -54,7 +54,7 @@ public class BasicPreparerFactory implements PreparerFactory {
      * Constructor.
      */
     public BasicPreparerFactory() {
-        this.preparers = new HashMap<String, ViewPreparer>();
+        this.preparers = new ConcurrentHashMap<String, ViewPreparer>;
     }
 
 
