@@ -254,6 +254,10 @@
                     <version>2.3.7</version>
                     <inherited>true</inherited>
                 </plugin>
+                <plugin>
+                  <artifactId>maven-remote-resources-plugin</artifactId>
+                  <version>1.5</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
