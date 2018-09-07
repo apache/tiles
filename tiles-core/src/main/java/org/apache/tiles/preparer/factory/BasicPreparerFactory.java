@@ -20,8 +20,10 @@
  */
 package org.apache.tiles.preparer.factory;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.request.Request;
@@ -49,12 +51,14 @@ public class BasicPreparerFactory implements PreparerFactory {
      * Maps a preparer name to the instantiated preparer.
      */
     protected Map<String, ViewPreparer> preparers;
+    protected Set<String> knownPreparers;
 
     /**
      * Constructor.
      */
     public BasicPreparerFactory() {
-        this.preparers = new HashMap<String, ViewPreparer>();
+        this.preparers = new ConcurrentHashMap<String, ViewPreparer>();
+        this.knownPreparers = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
     }
 
 
@@ -68,8 +72,12 @@ public class BasicPreparerFactory implements PreparerFactory {
      */
     public ViewPreparer getPreparer(String name, Request context) {
 
-        if (!preparers.containsKey(name)) {
-            preparers.put(name, createPreparer(name));
+        if (!knownPreparers.contains(name)) {
+            knownPreparers.add(name);
+            ViewPreparer preparer = createPreparer(name);
+            if (preparer != null) {
+               preparers.put(name, preparer);
+            }
         }
 
         return preparers.get(name);
