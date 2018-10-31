@@ -21,6 +21,11 @@
 package org.apache.tiles.beans;
 
 import java.io.Serializable;
+import org.apache.tiles.awareness.ExpressionAware;
+import org.apache.tiles.evaluator.AttributeEvaluator;
+import org.apache.tiles.request.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A MenuItem implementation.
@@ -28,7 +33,9 @@ import java.io.Serializable;
  *
  * @version $Rev$ $Date$
  */
-public class SimpleMenuItem implements MenuItem, Serializable {
+public class SimpleMenuItem implements MenuItem, Serializable, ExpressionAware {
+
+    private static final Logger log = LoggerFactory.getLogger(SimpleMenuItem.class);
 
     /**
      * The value of the item, i.e. what is really visible to the user.
@@ -55,6 +62,14 @@ public class SimpleMenuItem implements MenuItem, Serializable {
      */
     public SimpleMenuItem() {
         super();
+    }
+
+    public SimpleMenuItem(String value, String link, String icon, String tooltip) {
+        super();
+        this.value = value;
+        this.link = link;
+        this.icon = icon;
+        this.tooltip = tooltip;
     }
 
     /**
@@ -132,26 +147,67 @@ public class SimpleMenuItem implements MenuItem, Serializable {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuffer buff = new StringBuffer("SimpleMenuItem[");
+        StringBuilder buff = new StringBuilder("SimpleMenuItem[");
 
         if (getValue() != null) {
-            buff.append("value=").append(getValue()).append(", ");
+            buff.append("value=").append(getValue());
         }
 
         if (getLink() != null) {
-            buff.append("link=").append(getLink()).append(", ");
+            if (buff.length() > 0) {
+                buff.append(", ");
+            }
+            buff.append("link=").append(getLink());
         }
 
         if (getTooltip() != null) {
-            buff.append("tooltip=").append(getTooltip()).append(", ");
+            if (buff.length() > 0) {
+                buff.append(", ");
+            }
+            buff.append("tooltip=").append(getTooltip());
         }
 
         if (getIcon() != null) {
-            buff.append("icon=").append(getIcon()).append(", ");
+            if (buff.length() > 0) {
+                buff.append(", ");
+            }
+            buff.append("icon=").append(getIcon());
         }
 
         buff.append("]");
         return buff.toString();
+    }
+
+    /**
+     * Evaluates all values for expressions replacing their contents with the
+     * result of the evaluation.
+     *
+     * In the event of a {@link ClassCastException} the original value is used.
+     *
+     * @param   eval
+     *          Evaluator instance used to evaluate expressions.
+     * @param   request
+     *          Request object to evaluate expressions with.
+     */
+    @Override
+    public Object evaluateExpressions(AttributeEvaluator eval, Request request) {
+        return new SimpleMenuItem(safeEval(eval, request, value),
+                                  safeEval(eval, request, link),
+                                  safeEval(eval, request, icon),
+                                  safeEval(eval, request, tooltip));
+    }
+
+    private String safeEval(AttributeEvaluator eval, Request request, String val) {
+        if (val == null || val.length() == 0) {
+            return val;
+        }
+        try {
+            Object res = eval.evaluate(val, request);
+            return res == null ? null : res.toString();
+        } catch (Exception ex) {
+            log.warn("Could not evaluate expressions for SimpleMenuItem: {}", ex.getMessage(), ex);
+        }
+        return val;
     }
 
 }

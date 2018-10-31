@@ -20,9 +20,14 @@
  */
 package org.apache.tiles.evaluator;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.tiles.Attribute;
 import org.apache.tiles.Expression;
+import org.apache.tiles.awareness.ExpressionAware;
 import org.apache.tiles.request.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract class to link a correct evaluation of an attribute, by evaluating
@@ -33,7 +38,10 @@ import org.apache.tiles.request.Request;
  */
 public abstract class AbstractAttributeEvaluator implements AttributeEvaluator {
 
+    private static final Logger log = LoggerFactory.getLogger(AbstractAttributeEvaluator.class);
+
     /** {@inheritDoc} */
+    @Override
     public Object evaluate(Attribute attribute, Request request) {
         if (attribute == null) {
             throw new IllegalArgumentException("The attribute cannot be null");
@@ -44,9 +52,27 @@ public abstract class AbstractAttributeEvaluator implements AttributeEvaluator {
         if (retValue == null) {
             Expression expression = attribute.getExpressionObject();
             if (expression != null) {
+                log.debug("Evaluating expression: [attribute={},expression={}]", attribute, expression);
                 retValue = evaluate(attribute.getExpressionObject()
                         .getExpression(), request);
             }
+        } else if (retValue instanceof List) {
+            log.debug("Evaluating iterable for expressions: [attribute={},retValue={}]", attribute, retValue);
+            List list = (List)retValue;
+            List newList = new ArrayList(list.size());
+            for (Object n : list) {
+                if (n instanceof Attribute) {
+                    Attribute m = (Attribute) n;
+                    if (m.getValue() instanceof ExpressionAware) {
+                        log.debug("Evaluating expression-aware value: [object={}]", n);
+                        m = new Attribute(m);
+                        m.setValue(((ExpressionAware)m.getValue()).evaluateExpressions(this, request));
+                    }
+                    n = m;
+                }
+                newList.add(n);
+            }
+            retValue = newList;
         }
 
         return retValue;
