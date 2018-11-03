@@ -289,7 +289,7 @@ public class Attribute implements Serializable, Cloneable {
         if (value != null) {
             return value.toString();
         }
-        return null;
+        return "null";
     }
 
     /**

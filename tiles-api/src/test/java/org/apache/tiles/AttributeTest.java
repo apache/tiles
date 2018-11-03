@@ -203,7 +203,7 @@ public class AttributeTest {
         roles.add("role2");
         assertEquals("my.value", attribute.toString());
         attribute.setValue(null);
-        assertNull(attribute.toString());
+        assertEquals(attribute.toString(), "null");
     }
 
     /**
