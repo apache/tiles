@@ -235,7 +235,7 @@
             <repositories>
                 <repository>
                     <id>OpenQA</id>
-                    <url>http://nexus.openqa.org/content/repositories/releases/</url>
+                    <url>https://nexus.openqa.org/content/repositories/releases/</url>
                 </repository>
             </repositories>
         </profile>
@@ -333,7 +333,7 @@
                 <repository>
                     <id>codehaus</id>
                     <name>codehaus</name>
-                    <url>http://repository.codehaus.org</url>
+                    <url>https://repository.codehaus.org</url>
                 </repository>
                 <repository>
                     <id>maven-hostedqa</id>
@@ -346,7 +346,7 @@
                     <releases>
                         <enabled>true</enabled>
                     </releases>
-                    <url>http://maven.hostedqa.com</url>
+                    <url>https://maven.hostedqa.com</url>
                 </repository>
             </repositories>
             <build>
@@ -449,7 +449,7 @@
         <repository>
             <id>codehaus</id>
             <name>codehaus</name>
-            <url>http://repository.codehaus.org</url>
+            <url>https://repository.codehaus.org</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -459,7 +459,7 @@
         <pluginRepository>
             <id>codehaus</id>
             <name>codehaus</name>
-            <url>http://repository.codehaus.org</url>
+            <url>https://repository.codehaus.org</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
