@@ -449,7 +449,7 @@
         <repository>
             <id>codehaus</id>
             <name>codehaus</name>
-            <url>http://repository.codehaus.org</url>
+            <url>https://repository.codehaus.org</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -459,7 +459,7 @@
         <pluginRepository>
             <id>codehaus</id>
             <name>codehaus</name>
-            <url>http://repository.codehaus.org</url>
+            <url>https://repository.codehaus.org</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
